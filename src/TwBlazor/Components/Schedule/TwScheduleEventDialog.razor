@@ -1,0 +1,47 @@
+@namespace TwBlazor.Components
+@typeparam T
+@using TwBlazor.Enums
+@inherits TwBlazorComponentBase
+
+@if (ReadOnly)
+{
+    <TwScheduleEventDialogHeader Name="@WorkingEvent.Name" Color="@WorkingEvent.Color" OnClose="Cancel" />
+    <div class="@fieldsClasses">
+        <div class="@readOnlyFieldClasses">
+            <span class="@readOnlyLabelClasses">Start</span>
+            <p class="@readOnlyValueClasses">@FormatDateTime(WorkingEvent.DateTimeStart)</p>
+        </div>
+        <div class="@readOnlyFieldClasses">
+            <span class="@readOnlyLabelClasses">End</span>
+            <p class="@readOnlyValueClasses">@FormatDateTime(WorkingEvent.DateTimeEnd)</p>
+        </div>
+        @if (ContentTemplate is not null)
+        {
+            @ContentTemplate(WorkingEvent)
+        }
+    </div>
+    <div class="@actionsClasses">
+        <TwButton Label="Close" Variant="ButtonVariant.Text" OnClick="Cancel" />
+    </div>
+}
+else
+{
+    <div class="@fieldsClasses">
+        <TwTextfield T="string" Label="Name" Value="@WorkingEvent.Name" ValueChanged="@((v) => WorkingEvent.Name = v)" AriaLabel="Name" />
+        <TwDateTimePicker SelectedDateTime="GetLocalStart()" SelectedDateTimeChanged="SetLocalStart" Label="Start" />
+        <TwDateTimePicker SelectedDateTime="GetLocalEnd()" SelectedDateTimeChanged="SetLocalEnd" Label="End" />
+        <TwColorPicker Value="@GetColor()" ValueChanged="SetColor" Label="Color" AriaLabel="Event color" />
+        @if (ContentTemplate is not null)
+        {
+            @ContentTemplate(WorkingEvent)
+        }
+    </div>
+    <div class="@actionsClasses">
+        @if (!IsNew)
+        {
+            <TwButton Label="Delete" Color="Color.Danger" Variant="ButtonVariant.Text" OnClick="Delete" />
+        }
+        <TwButton Label="Cancel" Variant="ButtonVariant.Text" OnClick="Cancel" />
+        <TwButton Label="Save" Color="Color.Primary" OnClick="Save" />
+    </div>
+}

@@ -106,16 +106,24 @@ public partial class TwColorPicker : TwPopoverPickerComponentBase
             }
         }
 
-        // Move focus into the color picker dialog whenever it opens. Focuses the first focusable
-        // element within the dialog (falls back to the dialog surface itself). Also (re-)arm the Tab
-        // focus trap and background inert-ing every time the dialog (re)opens.
-        if (isFocused && PendingOpenFocus && PanelRef.Context != null)
+        if (isFocused && PanelRef.Context != null)
         {
-            PendingOpenFocus = false;
-            await JSRuntime.InvokeVoidAsync("twPicker.positionPanel", PanelRef);
+            // (Re-)arm the Tab focus trap, background inert-ing, and panel positioning on every
+            // render the dialog is open for, rather than gating behind a one-shot "just opened" flag
+            // - see the matching remarks on TwDatePicker.OnAfterRenderAsync for why.
+            await RegisterPanelScrollBehaviorAsync(PanelRef);
             await JSRuntime.InvokeVoidAsync("twDialog.trapFocus", PanelRef);
             await JSRuntime.InvokeVoidAsync("twDialog.setBackgroundInert", InputRoot?.RootRef);
-            await JSRuntime.InvokeVoidAsync("twDialog.focusSurface", PanelRef);
+
+            // Unlike the trap/inert/positioning above, moving focus into the dialog must stay a
+            // one-shot action gated on PendingOpenFocus - repeating it on every render would yank
+            // focus back to the first focusable element whenever anything else re-renders this
+            // component while the dialog is open (e.g. while the user is dragging a slider).
+            if (PendingOpenFocus)
+            {
+                PendingOpenFocus = false;
+                await JSRuntime.InvokeVoidAsync("twDialog.focusSurface", PanelRef);
+            }
         }
     }
 

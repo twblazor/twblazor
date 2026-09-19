@@ -14,6 +14,24 @@ public class TwColorPickerTests : TwBlazorTestBase
     private TwInputTheme inputTheme => Theme.Components.Require<TwInputTheme>();
 
     [Fact]
+    public void ClickingSwatch_PositionsPanelAsFixed_NotTheOldAbsolutePositionPanel()
+    {
+        // Regression test: the popover panel must be positioned via twPicker.registerScrollReposition
+        // (which applies twPicker.positionPanelFixed itself - position:fixed, anchored via
+        // JS-computed coordinates) rather than the old twPicker.positionPanel (position:absolute), so
+        // it isn't clipped when the picker is used inside a scrollable ancestor such as a TwDialog's
+        // body.
+        var cut = TestContext.Render<TwColorPicker>();
+
+        cut.Find("button[aria-haspopup='dialog']").Click();
+
+        var invocation = Assert.Single(TestContext.JSInterop.Invocations, i => i.Identifier == "twPicker.registerScrollReposition");
+        Assert.IsType<ElementReference>(invocation.Arguments[0]);
+        Assert.IsType<ElementReference>(invocation.Arguments[1]);
+        Assert.DoesNotContain(TestContext.JSInterop.Invocations, i => i.Identifier == "twPicker.positionPanel");
+    }
+
+    [Fact]
     public void TwColorPicker_Renders_WithDefaultValues()
     {
         // Arrange & Act

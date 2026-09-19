@@ -1,15 +1,25 @@
 // Generic picker (used by datepicker, timepicker, etc.)
 globalThis.twPicker = {
-    // How far (in px) a pointer may travel between down and up and still count as a tap rather
-    // than a scroll/drag. A pointerdown that starts outside the panel looks identical to the
-    // start of a scroll gesture - the same touch that begins scrolling the page also begins
-    // outside the panel - so reacting on pointerdown alone would close the panel the instant a
-    // user tried to scroll to see more of it (a real problem for TwDateRangePicker's tall
-    // two-month panel on mobile, where scrolling to view the rest of it is exactly what a user
-    // needs to do). Waiting for pointerup and checking the distance travelled distinguishes a
-    // genuine tap (closes the panel) from a scroll/drag (does not).
+    // Marks root as already closing (or not) so this and twPicker.registerScrollReposition's
+    // close-on-scroll path - two entirely independent listeners that can both decide to close the
+    // same picker around the same moment (e.g. a scroll gesture that also ends in a pointerup
+    // outside the panel) - never both invoke Close() for the same open. The second call, whichever
+    // it is, would invoke it on a dotnetRef the first call already disposed server-side, throwing
+    // "no tracked object" - checking/setting this first makes sure only one of them ever does.
+    _setClosing: function (root) {
+        if (!root || root.__twPickerClosing) return false;
+        root.__twPickerClosing = true;
+        return true;
+    },
+
+    // Max pointer travel (px) between down/up to still count as a tap, not a scroll/drag.
+    // Reacting on pointerdown alone would close the panel as soon as a touch-scroll begins
+    // outside it (breaks scrolling TwDateRangePicker's tall mobile panel), so we wait for
+    // pointerup and check distance travelled instead.
     registerOutsideClick: function (root, dotnetRef) {
         if (!root) return;
+
+        root.__twPickerClosing = false;
 
         const MOVE_THRESHOLD_PX = 10;
         let downTarget = null;
@@ -32,7 +42,7 @@ globalThis.twPicker = {
             if (dx > MOVE_THRESHOLD_PX || dy > MOVE_THRESHOLD_PX) return;
 
             try {
-                if (!root.contains(target)) {
+                if (!root.contains(target) && globalThis.twPicker._setClosing(root)) {
                     dotnetRef.invokeMethodAsync('Close');
                 }
             } catch (err) {
@@ -71,16 +81,14 @@ globalThis.twPicker = {
         }
     },
 
-    // Small breathing-room gap (px) kept between a clamped panel edge and the viewport edge it's
-    // opening toward - mirrors the 0.5rem gap already applied via marginBottom/mt-1 below.
+    // Gap (px) kept between a clamped panel edge and the viewport edge - mirrors the 0.5rem
+    // margin already used below.
     _panelEdgeGapPx: 8,
 
-    // Flips a just-opened popover panel (date/color picker dialog, etc.) away from whichever
-    // viewport edge it would otherwise overflow, instead of letting it clip off-screen. Panels are
-    // positioned by their own "top-full left-0"-style classes by default; this only overrides that
-    // via inline style, and only on the axis that actually overflows, so panels that already fit
-    // are left completely alone. Call again (it resets first) whenever the panel reopens, since the
-    // available space may have changed (page scroll, trigger moved, viewport resized).
+    // Flips a just-opened popover panel away from whichever viewport edge it would overflow,
+    // instead of clipping off-screen. Only overrides the panel's default "top-full left-0" style
+    // on the axis that actually overflows, so panels that already fit are untouched. Re-run on
+    // every reopen since available space may have changed (scroll, trigger move, resize).
     positionPanel: function (panel) {
         if (!panel) return;
 
@@ -94,12 +102,9 @@ globalThis.twPicker = {
 
         const rect = panel.getBoundingClientRect();
         const viewportWidth = document.documentElement.clientWidth;
-        // Prefer the visual viewport's height when available. clientHeight reports the full layout
-        // viewport, which does not shrink when a mobile on-screen keyboard opens - so on a phone
-        // with the keyboard up, it would report room below the trigger that's actually covered by
-        // the keyboard, and this method would wrongly leave the panel where it clips off-screen.
-        // visualViewport.height tracks the actually-visible area instead. Not available in jsdom
-        // (or older browsers), so this falls back to the previous behavior there.
+        // Prefer visualViewport.height: clientHeight doesn't shrink when a mobile keyboard opens,
+        // which would wrongly report room that's actually covered. Falls back where unavailable
+        // (jsdom, older browsers).
         const viewportHeight = (typeof window !== 'undefined' && window.visualViewport)
             ? window.visualViewport.height
             : document.documentElement.clientHeight;
@@ -109,18 +114,13 @@ globalThis.twPicker = {
             panel.style.right = '0';
         }
 
-        // spaceAbove and spaceBelow are both measured from the panel's un-flipped top edge (rect.top,
-        // which sits just below the trigger), so they're directly comparable. Using rect.bottom here
-        // instead of rect.top for spaceBelow was the bug: rect.bottom grows with the panel's own
-        // height, so a tall panel (e.g. TwDateRangePicker's two-month grid) made that side deeply
-        // negative and the check below concluded "more room above" even when the trigger sat right
-        // under a fixed header with almost no room above it at all - flipping the panel upward and
-        // clipping it off the top of the screen instead of leaving it open downward where it fit.
+        // Both measured from the panel's un-flipped top edge (rect.top) so they're comparable.
+        // Using rect.bottom for spaceBelow was a past bug: it grows with panel height, so a tall
+        // panel could make it deeply negative and wrongly flip upward even with little room above.
         const spaceAbove = rect.top;
         const spaceBelow = viewportHeight - rect.top;
 
-        // Only flip to open upward if doing so would actually fit better - i.e. there's more room
-        // above the trigger than below it - otherwise flipping would just clip the opposite edge.
+        // Only flip upward if that actually fits better, else flipping just clips the other edge.
         const flipUp = rect.bottom > viewportHeight && spaceAbove > spaceBelow;
 
         if (flipUp) {
@@ -130,17 +130,154 @@ globalThis.twPicker = {
             panel.style.marginBottom = '0.5rem';
         }
 
-        // Whichever direction it ends up opening in, the panel must never extend past the edge of
-        // the viewport it's opening toward. A static CSS max-height (e.g. a Tailwind 100vh-based
-        // class) can't know which direction was just picked, and on mobile "100vh" itself doesn't
-        // shrink for an on-screen keyboard the way visualViewport.height does - so without this, a
-        // panel taller than the space actually available can still clip off-screen even after
-        // picking the correct direction. Only applied when it would actually constrain the panel, so
-        // panels that already fit are left completely alone (same principle as the flip above).
+        // Clamp height to whichever direction was picked, since a static CSS max-height can't know
+        // that in advance and mobile "100vh" doesn't shrink for the on-screen keyboard. Only
+        // applied when it would actually constrain the panel.
         const availableSpace = (flipUp ? spaceAbove : spaceBelow) - globalThis.twPicker._panelEdgeGapPx;
         if (availableSpace > 0 && rect.height > availableSpace) {
             panel.style.maxHeight = availableSpace + 'px';
         }
+    },
+
+    // Same flip/clamp job as positionPanel, but for `position: fixed` panels (used by every
+    // popover-style picker). Unlike absolute, fixed has no inherent relationship to its trigger,
+    // so this takes the trigger ("anchor") explicitly and computes coordinates from scratch. Payoff:
+    // a fixed panel isn't clipped by an ancestor's overflow (e.g. TwDialog's scrollable body).
+    //
+    // matchAnchorWidth (TwSelect only) sets the panel's width in px, since `w-full` would resolve
+    // to 100% of the viewport instead of the trigger once the panel is fixed.
+    positionPanelFixed: function (anchor, panel, matchAnchorWidth) {
+        if (!anchor || !panel) return;
+
+        panel.style.position = 'fixed';
+        panel.style.left = '';
+        panel.style.right = '';
+        panel.style.top = '';
+        panel.style.bottom = '';
+        panel.style.maxHeight = '';
+
+        const anchorRect = anchor.getBoundingClientRect();
+        const viewportWidth = document.documentElement.clientWidth;
+        const viewportHeight = (typeof window !== 'undefined' && window.visualViewport)
+            ? window.visualViewport.height
+            : document.documentElement.clientHeight;
+
+        if (matchAnchorWidth) {
+            panel.style.width = anchorRect.width + 'px';
+        }
+
+        // Place provisionally below the anchor's left edge, then measure natural size - a fixed
+        // element has no rendered position to read until one is set.
+        panel.style.top = anchorRect.bottom + 'px';
+        panel.style.left = anchorRect.left + 'px';
+
+        const rect = panel.getBoundingClientRect();
+
+        if (rect.right > viewportWidth) {
+            panel.style.left = 'auto';
+            panel.style.right = Math.max(viewportWidth - anchorRect.right, 0) + 'px';
+        }
+
+        // Measured from the anchor's edges, not the panel's, so a tall panel can't skew which
+        // direction looks like it has more room (same reasoning as positionPanel).
+        const spaceAbove = anchorRect.top;
+        const spaceBelow = viewportHeight - anchorRect.bottom;
+        const flipUp = rect.bottom > viewportHeight && spaceAbove > spaceBelow;
+
+        if (flipUp) {
+            panel.style.top = 'auto';
+            panel.style.bottom = (viewportHeight - anchorRect.top) + 'px';
+        }
+
+        const availableSpace = (flipUp ? spaceAbove : spaceBelow) - globalThis.twPicker._panelEdgeGapPx;
+        if (availableSpace > 0 && rect.height > availableSpace) {
+            panel.style.maxHeight = availableSpace + 'px';
+        }
+    },
+
+    // Positions the panel itself (see positionPanelFixed), then keeps it correct for as long as it
+    // stays open - the specifics of "correct" depend on platform, via the optional dotnetRef:
+    //
+    // - Desktop (dotnetRef supplied, non-touch platform): a page scroll or window resize closes the
+    //   panel instead of chasing the trigger around the viewport. Scrolling the page away from the
+    //   field being edited reads as the user moving on, not as "please keep the panel glued to it".
+    // - Mobile, or no dotnetRef supplied: keeps repositioning the panel on every scroll/resize so it
+    //   stays glued to its trigger - there, a page scroll is how touch users reveal more of a tall
+    //   panel that doesn't fit the viewport (e.g. TwDateRangePicker's two-month day view), not a
+    //   "moved on" signal. Also self-heals if the inline position ever gets cleared out from under
+    //   it (see the MutationObserver below).
+    //
+    // Capture-phase on the scroll listener to catch scrolls on any scrollable ancestor, not just
+    // ones that bubble to window.
+    //
+    // The initial positioning call happens here, as this function's own first action, rather than
+    // as a separate call immediately before it: two distinct JS interop round trips left a gap
+    // between "position it" and "start watching for it being lost" - a Blazor re-render patching
+    // this element in that gap (it doesn't know about a style this module set outside its own
+    // render tree) could wipe the position right back to the panel's unpositioned default, with
+    // nothing yet watching to catch it. Doing it here too closes that gap.
+    registerScrollReposition: function (anchor, panel, matchAnchorWidth, dotnetRef) {
+        if (!anchor || !panel || panel.__twPickerScrollHandler) return;
+
+        globalThis.twPicker.positionPanelFixed(anchor, panel, matchAnchorWidth);
+
+        const closeOnScroll = !!dotnetRef && !globalThis.twDevice.prefersNativePicker();
+
+        if (closeOnScroll) {
+            // A single scroll gesture fires many scroll events in a row, not just one. Removing
+            // both listeners synchronously, before calling into .NET, means only the very first of
+            // those events can ever trigger a close from *this* listener - without this, every
+            // event after the first but before the (also async) unregisterScrollReposition round
+            // trip lands would invoke Close() again on a dotnetRef the first call has already
+            // disposed server-side, throwing "no tracked object" for each one.
+            //
+            // _setClosing(anchor) additionally guards against registerOutsideClick's entirely
+            // separate pointerup listener deciding to close the same picker around the same moment
+            // (e.g. a scroll gesture that also ends in a pointerup outside the panel) - see its
+            // remarks for why both listeners need to share that check.
+            const handler = function () {
+                document.removeEventListener('scroll', handler, true);
+                window.removeEventListener('resize', handler);
+                delete panel.__twPickerScrollHandler;
+                if (!globalThis.twPicker._setClosing(anchor)) return;
+                try {
+                    dotnetRef.invokeMethodAsync('Close');
+                } catch (err) {
+                    console.error('twPicker registerScrollReposition close handler error', err);
+                }
+            };
+            panel.__twPickerScrollHandler = handler;
+            document.addEventListener('scroll', handler, true);
+            window.addEventListener('resize', handler);
+            return;
+        }
+
+        const handler = function () {
+            globalThis.twPicker.positionPanelFixed(anchor, panel, matchAnchorWidth);
+        };
+
+        panel.__twPickerScrollHandler = handler;
+        document.addEventListener('scroll', handler, true);
+        window.addEventListener('resize', handler);
+
+        const styleObserver = new MutationObserver(function () {
+            if (!panel.style.position) {
+                handler();
+            }
+        });
+        styleObserver.observe(panel, { attributes: true, attributeFilter: ['style'] });
+        panel.__twPickerStyleObserver = styleObserver;
+    },
+
+    unregisterScrollReposition: function (panel) {
+        if (!panel?.__twPickerScrollHandler) return;
+
+        document.removeEventListener('scroll', panel.__twPickerScrollHandler, true);
+        window.removeEventListener('resize', panel.__twPickerScrollHandler);
+        delete panel.__twPickerScrollHandler;
+
+        panel.__twPickerStyleObserver?.disconnect();
+        delete panel.__twPickerStyleObserver;
     }
 };
 
@@ -173,8 +310,8 @@ globalThis.twDialog = {
         }
     },
 
-    // Focuses the first focusable element within the dialog surface, falling back to the surface
-    // itself (which carries tabindex="-1" so it can receive programmatic focus).
+    // Focuses the first focusable element in the dialog, falling back to the surface itself
+    // (which carries tabindex="-1" for programmatic focus).
     focusSurface: function (surface) {
         if (!surface) return;
         var focusable = globalThis.twDialog.getFocusableElements(surface);
@@ -222,13 +359,10 @@ globalThis.twDialog = {
         delete surface.__twDialogTrapHandler;
     },
 
-    // Marks everything outside `exceptEl` inert, so background content can't be reached by
-    // keyboard, mouse, or a screen reader's browse mode while a dialog is open. Walks upward from
-    // exceptEl to <body>, inert-ing siblings at every level (not just exceptEl's own siblings) -
-    // this matters because most app hosts (e.g. the WASM/Server templates' single <div id="app">
-    // root) wrap the entire app in one element, so only checking direct children of <body> would
-    // find nothing to inert (the one body child always contains exceptEl). Tags what it touched so
-    // clearBackgroundInert can undo precisely that.
+    // Marks everything outside `exceptEl` inert so it can't be reached while a dialog is open.
+    // Walks up from exceptEl to <body>, inert-ing siblings at every level - needed because most
+    // app hosts wrap everything in one root div, so only checking body's direct children would
+    // find nothing to inert. Tags what it touched so clearBackgroundInert can undo precisely that.
     setBackgroundInert: function (exceptEl) {
         if (!exceptEl || !document.body) return;
         var current = exceptEl;
@@ -252,8 +386,8 @@ globalThis.twDialog = {
         });
     },
 
-    // Records the currently-focused element under an opaque token so it can be refocused later
-    // (Blazor/.NET code can't hold a raw DOM element reference).
+    // Records the focused element under an opaque token for later refocus (.NET can't hold a
+    // raw DOM element reference).
     captureFocus: function () {
         var active = document.activeElement;
         if (!active || active === document.body) return null;
@@ -276,18 +410,19 @@ globalThis.twDialog = {
 
         if (el) {
             delete el.dataset.twFocusToken;
-            if (typeof el.focus === 'function') el.focus();
+            // preventScroll: true - closing on scroll (see twPicker.registerScrollReposition's
+            // desktop close-on-scroll path) restores focus to a trigger the user just deliberately
+            // scrolled away from; a default .focus() would scroll the page right back to it,
+            // undoing the very scroll that closed the panel.
+            if (typeof el.focus === 'function') el.focus({ preventScroll: true });
         }
     }
 };
 
-// Custom role="slider" elements (e.g. TwColorPicker's saturation/lightness square, hue and alpha
-// strips) need Arrow/Home/End to change their value without also triggering the browser's native
-// scroll behavior for those keys. A blanket @onkeydown:preventDefault in Razor would block every
-// key on the element - including Tab - trapping keyboard focus inside the control. This attaches a
-// plain DOM listener that only calls preventDefault for the specific keys the slider handles,
-// leaving Tab (and everything else) completely untouched; it doesn't stop propagation, so Blazor's
-// own delegated keydown handling (and the C# handler bound via @onkeydown) still runs normally.
+// Custom role="slider" elements (e.g. TwColorPicker's strips) need Arrow/Home/End to change value
+// without triggering native scroll. A blanket @onkeydown:preventDefault in Razor would also block
+// Tab, trapping focus. This listener only preventDefaults the specific keys the slider handles,
+// and doesn't stop propagation, so Blazor's own keydown handling still runs normally.
 globalThis.twSlider = {
     _scrollKeys: ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Home', 'End'],
 
@@ -304,13 +439,10 @@ globalThis.twSlider = {
     }
 };
 
-// Tabs: prevents the browser's native scroll behavior for the specific WAI-ARIA APG tablist
-// navigation keys (arrow keys, Home, End) without ever calling preventDefault for any other key -
-// crucially not for Tab, whose default action (moving focus out of the tablist) must be left alone
-// so keyboard users are never trapped inside the tablist. This runs as its own native listener
-// alongside Blazor's own keydown binding (which does the actual tab-switching logic in C#); this
-// listener's only job is the selective preventDefault that a static `@onkeydown:preventDefault="true"`
-// can't safely express, since that directive would apply unconditionally to every key, Tab included.
+// Tabs: prevents native scroll for the WAI-ARIA APG tablist navigation keys (arrows, Home, End)
+// without ever preventDefault-ing Tab, whose default action (moving focus out) must stay intact.
+// Runs alongside Blazor's own keydown binding (which does the actual tab-switching in C#); a
+// static `@onkeydown:preventDefault="true"` can't express this selectivity since it'd hit every key.
 globalThis.twTabs = {
     _navigationKeys: new Set(['ArrowRight', 'ArrowLeft', 'ArrowUp', 'ArrowDown', 'Home', 'End']),
 
@@ -333,6 +465,16 @@ globalThis.twTabs = {
     }
 };
 
+// Schedule: scrolls the Day/Week time grid to a starting position (e.g. 8am) once on mount.
+// Expressed as a fraction of scrollHeight, not a fixed offset, so it stays correct regardless of
+// slot height (TwScheduleTheme.SlotRow can be overridden) or root font size.
+globalThis.twSchedule = {
+    scrollToFraction: function (container, fraction) {
+        if (!container) return;
+        container.scrollTop = container.scrollHeight * fraction;
+    }
+};
+
 // Device detection (used by pickers to defer to the platform's native input UI on mobile).
 globalThis.twDevice = {
     getPlatform: function () {
@@ -341,7 +483,7 @@ globalThis.twDevice = {
         const platform = nav.platform || '';
         const maxTouchPoints = nav.maxTouchPoints || 0;
 
-        // iPadOS 13+ reports a desktop Mac user agent, so touch-capable "MacIntel" is treated as iOS.
+        // iPadOS 13+ reports a desktop Mac UA, so touch-capable "MacIntel" is treated as iOS.
         const isIPadOS = platform === 'MacIntel' && maxTouchPoints > 1;
 
         if (isIPadOS || /iPhone|iPad|iPod/.test(userAgent)) {
@@ -361,10 +503,9 @@ globalThis.twDevice = {
     }
 };
 
-// Sidebar: viewport check used to decide whether the mobile overlay drawer's Tab focus trap and
-// background inert-ing should be armed. Matches Tailwind's default "lg" breakpoint (1024px) - below
-// it the sidebar behaves as a modal drawer over the page; at or above it, it's a persistent panel
-// beside fully-usable page content, so trapping focus there would be wrong.
+// Sidebar: viewport check for whether the mobile drawer's focus trap and background inert-ing
+// should be armed. Matches Tailwind's "lg" breakpoint (1024px) - below it the sidebar is a modal
+// drawer; above it, a persistent panel beside usable page content, where trapping focus is wrong.
 globalThis.twSidebar = {
     isMobileViewport: function () {
         try {
@@ -376,44 +517,36 @@ globalThis.twSidebar = {
     }
 };
 
-// Color picker: touch events (Blazor's TouchEventArgs only exposes each touch point's viewport-
-// relative clientX/clientY, unlike MouseEventArgs which also gives an element-relative offsetX/
-// offsetY) so the saturation/lightness square and hue/alpha strips can translate a touch point into
-// a position relative to the slider element itself, the same way their existing mouse handlers
-// already do via e.OffsetX/e.OffsetY.
+// Color picker: touch events. Blazor's TouchEventArgs only gives viewport-relative clientX/clientY
+// (unlike MouseEventArgs' element-relative offsetX/offsetY), so these helpers translate a touch
+// point the same way the mouse handlers already do via e.OffsetX/e.OffsetY.
 globalThis.twColorPicker = {
     relativePosition: function (el, clientX, clientY) {
         if (!el) return [0, 0];
         var rect = el.getBoundingClientRect();
         return [clientX - rect.left, clientY - rect.top];
     },
-    // Measures an element's actual rendered size, so the saturation/lightness square and hue/alpha
-    // strips can convert a drag position into a percentage using the size they're really laid out
-    // at instead of a hardcoded guess - keeping drag math correct if the picker dialog is resized
-    // (responsive breakpoints, browser zoom, a consumer overriding the dialog's width class).
+    // Measures actual rendered size so drag math uses real layout instead of a hardcoded guess -
+    // stays correct across responsive breakpoints, zoom, or an overridden dialog width.
     getSize: function (el) {
         if (!el) return [0, 0];
         var rect = el.getBoundingClientRect();
         return [rect.width, rect.height];
     },
-    // Feature-detects the EyeDropper API (Chromium-based browsers only, as of this writing) so the
-    // picker can simply omit its pick-from-screen button where it isn't supported, rather than
-    // showing one that would throw when clicked.
+    // Feature-detects the EyeDropper API (Chromium-only) so the pick-from-screen button can be
+    // omitted where unsupported instead of showing one that throws on click.
     supportsEyeDropper: function () {
         return typeof EyeDropper !== 'undefined';
     },
-    // Opens the browser's native eyedropper tool and resolves to the picked color as a 6-digit hex
-    // string, or null if the API isn't available or the user cancelled (Escape/click-away raises
-    // EyeDropper's AbortError, which is a normal cancellation here, not a failure worth surfacing).
+    // Opens the native eyedropper, resolving to the picked hex color or null if unavailable or
+    // cancelled (Escape/click-away raises AbortError, a normal cancellation here).
     openEyeDropper: async function () {
         if (typeof EyeDropper === 'undefined') return null;
         try {
             var result = await new EyeDropper().open();
             return result.sRGBHex;
         } catch (err) {
-            // AbortError means the user cancelled the pick (Escape or clicking away) - expected,
-            // not worth logging. Anything else is unexpected, so surface it like the other catches
-            // in this file do, rather than swallowing it silently.
+            // AbortError = user cancelled, not worth logging; anything else is unexpected.
             if (err?.name !== 'AbortError') {
                 console.error('twColorPicker.openEyeDropper error', err);
             }
@@ -422,18 +555,16 @@ globalThis.twColorPicker = {
     }
 };
 
-// Skeleton: measures the real rendered layout of a TwSkeleton's hidden ChildContent so C# can generate
-// placeholder blocks shaped like it, instead of a single generic box. A ResizeObserver on the container
-// re-measures whenever its layout changes (initial render, responsive breakpoints, images finishing
-// load, window resize) and reports back through dotnetRef - there is no separate "measure once" entry
-// point, since ResizeObserver already fires once immediately upon observe().
+// Skeleton: measures a TwSkeleton's hidden ChildContent so C# can generate placeholder blocks
+// shaped like it, instead of one generic box. A ResizeObserver re-measures on any layout change
+// (render, breakpoints, image load, resize) and reports via dotnetRef; no separate "measure once"
+// entry point is needed since ResizeObserver already fires immediately on observe().
 globalThis.twSkeleton = {
     _observers: new WeakMap(),
 
-    // Elements with no visible element children are the "leaves" a placeholder box is generated for;
-    // elements that do have visible children are only structural wrappers (e.g. a TwCard's container
-    // div) and are walked into instead, so the generated skeleton follows the real content down to its
-    // actual text/image/icon boxes rather than covering an entire nested component with one block.
+    // Elements with no visible element children are "leaves" that get a placeholder box; elements
+    // with visible children are structural wrappers (e.g. TwCard's container div) and are walked
+    // into instead, so the skeleton follows real content down to its actual text/image/icon boxes.
     _isVisible: function (el, rect) {
         var style = getComputedStyle(el);
         if (style.display === 'none' || style.visibility === 'collapse') return false;
@@ -442,16 +573,15 @@ globalThis.twSkeleton = {
     },
 
     _hasVisibleElementChildren: function (el) {
-        // Array.some's callback also receives (index, array) - passing _isVisible directly would leak
-        // the index into its optional "rect" parameter, so it's wrapped to call with just the element.
+        // Wrapped because Array.some's callback also passes (index, array), which would leak into
+        // _isVisible's optional "rect" parameter if passed directly.
         return Array.from(el.children).some(function (child) {
             return globalThis.twSkeleton._isVisible(child);
         });
     },
 
-    // Treats an element as "round" if every corner's border-radius covers at least half of its shorter
-    // side - this catches both an explicit circular avatar and a "rounded-full" icon badge, without
-    // needing to special-case specific classes or tag names.
+    // "Round" means every corner's border-radius covers at least half the shorter side - catches
+    // both a circular avatar and a "rounded-full" badge without special-casing classes or tags.
     _isRound: function (el, rect) {
         var style = getComputedStyle(el);
         var radii = [
@@ -466,8 +596,8 @@ globalThis.twSkeleton = {
         });
     },
 
-    // One skeleton bar per wrapped visual line, rather than one box for the whole paragraph - each text
-    // node's Range.getClientRects() gives exactly that, one rect per line it wraps onto.
+    // One skeleton bar per wrapped visual line, not one box per paragraph - Range.getClientRects()
+    // gives exactly that, one rect per line a text node wraps onto.
     _textLineRects: function (el, containerRect) {
         var rects = [];
         var walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, {
@@ -507,8 +637,8 @@ globalThis.twSkeleton = {
             return;
         }
 
-        // A round leaf (e.g. an avatar showing initials) is always reported as a single circle, even
-        // when it has text content - splitting "JD" into its own tiny text line would misrepresent it.
+        // A round leaf (e.g. an avatar with initials) is always one circle, even with text content -
+        // splitting "JD" into its own text line would misrepresent it.
         if (globalThis.twSkeleton._isRound(el, rect)) {
             out.push({
                 top: rect.top - containerRect.top,

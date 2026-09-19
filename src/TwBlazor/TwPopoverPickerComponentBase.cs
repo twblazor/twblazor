@@ -61,12 +61,19 @@ public abstract class TwPopoverPickerComponentBase : TwBlazorTextInputComponentB
     protected string? FocusReturnToken;
 
     /// <summary>
-    /// Set when the panel opens so the next <c>OnAfterRenderAsync</c> arms the Tab focus trap and
-    /// background inert-ing. Deliberately does not move focus into the panel - the trigger is a
-    /// text-editable combobox (typing a value directly is a first-class input method here, not just a
-    /// fallback), so focus has to stay on the input for that to work. Users move into the panel
-    /// explicitly, same as any combobox-with-popup: Tab, a click, or an arrow key.
+    /// Set when the panel opens so the next <c>OnAfterRenderAsync</c> moves focus into it once
+    /// (<see cref="TwColorPicker"/>, <see cref="TwSelect{T}"/>). Pickers whose trigger stays a
+    /// text-editable combobox (<see cref="TwDatePicker"/>, <see cref="TwTimePicker"/>, and their
+    /// range/date-time variants) don't use this - focus has to stay on the input for typing to work,
+    /// so users move into the panel explicitly (Tab, a click, or an arrow key) instead.
     /// </summary>
+    /// <remarks>
+    /// Not used to gate the Tab focus trap, background inert-ing, or panel positioning - those must
+    /// re-run on every render while the panel is open rather than only once, since a stray render
+    /// triggered by unrelated state (e.g. the previous close's own trailing re-render still in
+    /// flight) could otherwise consume a one-shot flag against a stale <c>PanelRef</c> before the
+    /// render that actually mounts the new panel gets a chance to run it.
+    /// </remarks>
     protected bool PendingOpenFocus;
 
     /// <summary>
@@ -113,14 +120,39 @@ public abstract class TwPopoverPickerComponentBase : TwBlazorTextInputComponentB
     }
 
     /// <summary>
-    /// Releases the Tab focus trap and clears background inert-ing. Must be called (and awaited)
-    /// while the panel is still mounted - i.e. before <see cref="isFocused"/> is set to false -
-    /// since it needs <see cref="PanelRef"/> to still resolve to a live DOM node.
+    /// Releases the Tab focus trap, clears background inert-ing, and unregisters the scroll/resize
+    /// listener that kept the panel glued to its trigger while open (registered, along with the
+    /// panel's initial position, by each derived picker's own <c>OnAfterRenderAsync</c> via
+    /// <c>twPicker.registerScrollReposition</c>; safe to call even for a picker that never
+    /// registered one). Must be called (and awaited) while the
+    /// panel is still mounted - i.e. before <see cref="isFocused"/> is set to false - since it needs
+    /// <see cref="PanelRef"/> to still resolve to a live DOM node.
     /// </summary>
     protected async Task ReleasePanelTrapAsync()
     {
+        await JSRuntime.InvokeVoidAsync("twPicker.unregisterScrollReposition", PanelRef);
         await JSRuntime.InvokeVoidAsync("twDialog.releaseFocusTrap", PanelRef);
         await JSRuntime.InvokeVoidAsync("twDialog.clearBackgroundInert");
+    }
+
+    /// <summary>
+    /// Positions <paramref name="panel"/> against <see cref="InputRoot"/> and keeps it correct for
+    /// as long as it stays open (see <c>twPicker.registerScrollReposition</c>): on desktop, a page
+    /// scroll or window resize closes the panel instead of chasing the trigger around the viewport,
+    /// since scrolling away from the field being edited reads as the user moving on; on mobile, the
+    /// panel keeps repositioning itself to stay glued to the trigger instead, since there a page
+    /// scroll is how touch users reveal more of a panel taller than the viewport. Call once per open
+    /// from <c>OnAfterRenderAsync</c>, alongside the Tab focus trap and background inert-ing.
+    /// </summary>
+    /// <param name="panel">The popover panel element to position and track.</param>
+    /// <param name="matchAnchorWidth">
+    /// Whether the panel's width should be set to match <see cref="InputRoot"/>'s trigger width in
+    /// pixels, rather than keeping its own natural/CSS width - see <see cref="TwSelect{T}"/>.
+    /// </param>
+    protected async Task RegisterPanelScrollBehaviorAsync(ElementReference panel, bool matchAnchorWidth = false)
+    {
+        dotNetRef ??= DotNetObjectReference.Create(this);
+        await JSRuntime.InvokeVoidAsync("twPicker.registerScrollReposition", InputRoot?.RootRef, panel, matchAnchorWidth, dotNetRef);
     }
 
     /// <summary>

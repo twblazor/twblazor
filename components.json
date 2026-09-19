@@ -256,6 +256,14 @@
         "theme": "TwPickListTheme"
       },
       {
+        "id": "schedule-navitem",
+        "display": "Schedule",
+        "name": "TwSchedule",
+        "url": "/schedule",
+        "isNew": true,
+        "theme": "TwScheduleTheme"
+      },
+      {
         "id": "table-navitem",
         "display": "Table",
         "name": "TwTable",

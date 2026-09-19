@@ -162,6 +162,50 @@ describe('twPicker', () => {
             document.body.removeChild(root);
             document.body.removeChild(outside);
         });
+
+        test('a second outside tap does not call Close again once the first has already started closing', () => {
+            // Regression test: invokeMethodAsync('Close') disposes the dotnetRef server-side. A
+            // second qualifying tap arriving before that takes effect (e.g. from a rapid
+            // double-tap) would otherwise invoke it again on an already-disposed object.
+            const root = document.createElement('div');
+            document.body.appendChild(root);
+            const outside = document.createElement('span');
+            document.body.appendChild(outside);
+            const dotnetRef = { invokeMethodAsync: vi.fn() };
+
+            window.twPicker.registerOutsideClick(root, dotnetRef);
+            simulateGesture(root, outside);
+            simulateGesture(root, outside);
+
+            expect(dotnetRef.invokeMethodAsync).toHaveBeenCalledTimes(1);
+
+            window.twPicker.unregisterOutsideClick(root);
+            document.body.removeChild(root);
+            document.body.removeChild(outside);
+        });
+
+        test('registering again (a fresh open) resets the closing guard from a previous open', () => {
+            const root = document.createElement('div');
+            document.body.appendChild(root);
+            const outside = document.createElement('span');
+            document.body.appendChild(outside);
+            const dotnetRef = { invokeMethodAsync: vi.fn() };
+
+            window.twPicker.registerOutsideClick(root, dotnetRef);
+            simulateGesture(root, outside);
+            window.twPicker.unregisterOutsideClick(root);
+
+            // A fresh open re-registers on the same root element - the guard must not still think
+            // it's mid-close from last time.
+            window.twPicker.registerOutsideClick(root, dotnetRef);
+            simulateGesture(root, outside);
+
+            expect(dotnetRef.invokeMethodAsync).toHaveBeenCalledTimes(2);
+
+            window.twPicker.unregisterOutsideClick(root);
+            document.body.removeChild(root);
+            document.body.removeChild(outside);
+        });
     });
 
     describe('positionPanel', () => {
@@ -356,6 +400,458 @@ describe('twPicker', () => {
             // Same case as the "flips upward" test above - confirms the fallback path still works.
             expect(panel.style.top).toBe('auto');
             expect(panel.style.bottom).toBe('100%');
+        });
+    });
+
+    describe('positionPanelFixed', () => {
+        // Anchor and panel are both plain elements with a stubbed getBoundingClientRect - the panel's
+        // "starts" wherever positionPanelFixed itself just placed it (top/left), unlike positionPanel's
+        // mockPanel which is handed a fixed rect up front, since a fixed-position panel has no
+        // pre-existing rendered position to read until this function sets one.
+        function mockElement(rect) {
+            const el = document.createElement('div');
+            el.getBoundingClientRect = () => ({
+                ...rect,
+                width: rect.right - rect.left,
+                height: rect.bottom - rect.top,
+            });
+            return el;
+        }
+
+        function setViewport(width, height) {
+            Object.defineProperty(document.documentElement, 'clientWidth', { value: width, configurable: true });
+            Object.defineProperty(document.documentElement, 'clientHeight', { value: height, configurable: true });
+        }
+
+        afterEach(() => {
+            delete document.documentElement.clientWidth;
+            delete document.documentElement.clientHeight;
+        });
+
+        test('does nothing when anchor is null', () => {
+            const panel = mockElement({ left: 0, right: 100, top: 0, bottom: 50 });
+            expect(() => window.twPicker.positionPanelFixed(null, panel)).not.toThrow();
+        });
+
+        test('does nothing when panel is null', () => {
+            const anchor = mockElement({ left: 0, right: 100, top: 0, bottom: 50 });
+            expect(() => window.twPicker.positionPanelFixed(anchor, null)).not.toThrow();
+        });
+
+        test('sets position:fixed and places the panel directly below the anchor when it fits', () => {
+            setViewport(1000, 800);
+            const anchor = mockElement({ left: 50, right: 250, top: 100, bottom: 130 });
+            // The panel's own natural size (200px wide, 150px tall) once placed at that provisional
+            // position - well within the viewport either way.
+            const panel = mockElement({ left: 50, right: 250, top: 130, bottom: 280 });
+
+            window.twPicker.positionPanelFixed(anchor, panel);
+
+            expect(panel.style.position).toBe('fixed');
+            expect(panel.style.top).toBe('130px');
+            expect(panel.style.left).toBe('50px');
+            expect(panel.style.right).toBe('');
+            expect(panel.style.bottom).toBe('');
+            expect(panel.style.maxHeight).toBe('');
+        });
+
+        test('sets the panel width to match the anchor when matchAnchorWidth is true', () => {
+            setViewport(1000, 800);
+            const anchor = mockElement({ left: 50, right: 350, top: 100, bottom: 130 }); // 300px wide
+            const panel = mockElement({ left: 50, right: 350, top: 130, bottom: 200 });
+
+            window.twPicker.positionPanelFixed(anchor, panel, true);
+
+            expect(panel.style.width).toBe('300px');
+        });
+
+        test('leaves the panel width alone when matchAnchorWidth is not set', () => {
+            setViewport(1000, 800);
+            const anchor = mockElement({ left: 50, right: 350, top: 100, bottom: 130 });
+            const panel = mockElement({ left: 50, right: 350, top: 130, bottom: 200 });
+
+            window.twPicker.positionPanelFixed(anchor, panel);
+
+            expect(panel.style.width).toBe('');
+        });
+
+        test('flips to the right edge when the panel would overflow it', () => {
+            setViewport(1000, 800);
+            const anchor = mockElement({ left: 900, right: 950, top: 100, bottom: 130 });
+            const panel = mockElement({ left: 900, right: 1100, top: 130, bottom: 230 });
+
+            window.twPicker.positionPanelFixed(anchor, panel);
+
+            expect(panel.style.left).toBe('auto');
+            expect(panel.style.right).toBe('50px'); // viewportWidth(1000) - anchorRect.right(950)
+        });
+
+        test('flips upward when overflowing the bottom edge and there is more room above', () => {
+            setViewport(1000, 800);
+            const anchor = mockElement({ left: 10, right: 200, top: 700, bottom: 730 });
+            const panel = mockElement({ left: 10, right: 200, top: 730, bottom: 830 });
+
+            window.twPicker.positionPanelFixed(anchor, panel);
+
+            expect(panel.style.top).toBe('auto');
+            expect(panel.style.bottom).toBe('100px'); // viewportHeight(800) - anchorRect.top(700)
+        });
+
+        test('does not flip upward when there is not more room above than below', () => {
+            setViewport(1000, 800);
+            const anchor = mockElement({ left: 10, right: 200, top: 50, bottom: 80 });
+            // Panel taller than the space below (750px), but there's even less room above (50px).
+            const panel = mockElement({ left: 10, right: 200, top: 80, bottom: 840 });
+
+            window.twPicker.positionPanelFixed(anchor, panel);
+
+            expect(panel.style.top).toBe('80px');
+            expect(panel.style.bottom).toBe('');
+        });
+
+        test('clamps panel height to the room available when it is taller than the space below', () => {
+            setViewport(1000, 800);
+            const anchor = mockElement({ left: 10, right: 200, top: 50, bottom: 80 });
+            const panel = mockElement({ left: 10, right: 200, top: 80, bottom: 840 }); // 760px tall
+
+            window.twPicker.positionPanelFixed(anchor, panel);
+
+            // spaceBelow = 800 - 80 = 720, minus the 8px edge gap.
+            expect(panel.style.maxHeight).toBe('712px');
+        });
+
+        test('uses visualViewport.height instead of clientHeight when available', () => {
+            setViewport(1000, 800);
+            vi.stubGlobal('visualViewport', { height: 400 });
+            const anchor = mockElement({ left: 10, right: 200, top: 350, bottom: 380 });
+            const panel = mockElement({ left: 10, right: 200, top: 380, bottom: 480 });
+
+            window.twPicker.positionPanelFixed(anchor, panel);
+
+            expect(panel.style.top).toBe('auto');
+            expect(panel.style.bottom).toBe('50px'); // 400 - anchorRect.top(350)
+
+            vi.unstubAllGlobals();
+        });
+    });
+
+    describe('registerScrollReposition / unregisterScrollReposition', () => {
+        afterEach(() => {
+            vi.restoreAllMocks();
+        });
+
+        test('does nothing when anchor or panel is null', () => {
+            const addSpy = vi.spyOn(document, 'addEventListener');
+            window.twPicker.registerScrollReposition(null, document.createElement('div'));
+            window.twPicker.registerScrollReposition(document.createElement('div'), null);
+            expect(addSpy).not.toHaveBeenCalled();
+        });
+
+        test('registers a capture-phase scroll listener and a resize listener', () => {
+            const anchor = document.createElement('div');
+            const panel = document.createElement('div');
+            const docAddSpy = vi.spyOn(document, 'addEventListener');
+            const winAddSpy = vi.spyOn(window, 'addEventListener');
+
+            window.twPicker.registerScrollReposition(anchor, panel);
+
+            expect(docAddSpy).toHaveBeenCalledWith('scroll', expect.any(Function), true);
+            expect(winAddSpy).toHaveBeenCalledWith('resize', expect.any(Function));
+            expect(panel.__twPickerScrollHandler).toBeDefined();
+
+            window.twPicker.unregisterScrollReposition(panel);
+        });
+
+        test('is idempotent - registering twice only attaches one set of listeners', () => {
+            const anchor = document.createElement('div');
+            const panel = document.createElement('div');
+            const docAddSpy = vi.spyOn(document, 'addEventListener');
+
+            window.twPicker.registerScrollReposition(anchor, panel);
+            window.twPicker.registerScrollReposition(anchor, panel);
+
+            expect(docAddSpy).toHaveBeenCalledTimes(1);
+
+            window.twPicker.unregisterScrollReposition(panel);
+        });
+
+        test('a scroll event repositions the panel relative to the anchor', () => {
+            Object.defineProperty(document.documentElement, 'clientWidth', { value: 1000, configurable: true });
+            Object.defineProperty(document.documentElement, 'clientHeight', { value: 800, configurable: true });
+            const anchor = document.createElement('div');
+            anchor.getBoundingClientRect = () => ({ left: 20, right: 220, top: 40, bottom: 70, width: 200, height: 30 });
+            const panel = document.createElement('div');
+            panel.getBoundingClientRect = () => ({ left: 20, right: 220, top: 70, bottom: 170, width: 200, height: 100 });
+            document.body.appendChild(panel);
+
+            window.twPicker.registerScrollReposition(anchor, panel);
+            document.dispatchEvent(new Event('scroll'));
+
+            expect(panel.style.top).toBe('70px');
+            expect(panel.style.left).toBe('20px');
+
+            window.twPicker.unregisterScrollReposition(panel);
+            document.body.removeChild(panel);
+            delete document.documentElement.clientWidth;
+            delete document.documentElement.clientHeight;
+        });
+
+        test('unregister removes the listeners and the handler marker', () => {
+            const anchor = document.createElement('div');
+            const panel = document.createElement('div');
+            window.twPicker.registerScrollReposition(anchor, panel);
+
+            const docRemoveSpy = vi.spyOn(document, 'removeEventListener');
+            const winRemoveSpy = vi.spyOn(window, 'removeEventListener');
+
+            window.twPicker.unregisterScrollReposition(panel);
+
+            expect(docRemoveSpy).toHaveBeenCalledWith('scroll', expect.any(Function), true);
+            expect(winRemoveSpy).toHaveBeenCalledWith('resize', expect.any(Function));
+            expect(panel.__twPickerScrollHandler).toBeUndefined();
+        });
+
+        test('unregister on a panel that was never registered does nothing', () => {
+            const panel = document.createElement('div');
+            expect(() => window.twPicker.unregisterScrollReposition(panel)).not.toThrow();
+        });
+
+        test('positions the panel immediately upon registration, before any scroll/resize event', () => {
+            Object.defineProperty(document.documentElement, 'clientWidth', { value: 1000, configurable: true });
+            Object.defineProperty(document.documentElement, 'clientHeight', { value: 800, configurable: true });
+            const anchor = document.createElement('div');
+            anchor.getBoundingClientRect = () => ({ left: 20, right: 220, top: 40, bottom: 70, width: 200, height: 30 });
+            const panel = document.createElement('div');
+            panel.getBoundingClientRect = () => ({ left: 20, right: 220, top: 70, bottom: 170, width: 200, height: 100 });
+            document.body.appendChild(panel);
+
+            window.twPicker.registerScrollReposition(anchor, panel);
+
+            expect(panel.style.top).toBe('70px');
+            expect(panel.style.left).toBe('20px');
+
+            window.twPicker.unregisterScrollReposition(panel);
+            document.body.removeChild(panel);
+            delete document.documentElement.clientWidth;
+            delete document.documentElement.clientHeight;
+        });
+
+        test('reapplies positioning if something else clears the panel\'s inline style', async () => {
+            Object.defineProperty(document.documentElement, 'clientWidth', { value: 1000, configurable: true });
+            Object.defineProperty(document.documentElement, 'clientHeight', { value: 800, configurable: true });
+            const anchor = document.createElement('div');
+            anchor.getBoundingClientRect = () => ({ left: 20, right: 220, top: 40, bottom: 70, width: 200, height: 30 });
+            const panel = document.createElement('div');
+            panel.getBoundingClientRect = () => ({ left: 20, right: 220, top: 70, bottom: 170, width: 200, height: 100 });
+            document.body.appendChild(panel);
+
+            window.twPicker.registerScrollReposition(anchor, panel);
+            expect(panel.style.top).toBe('70px');
+
+            panel.removeAttribute('style');
+            expect(panel.style.top).toBe('');
+
+            await new Promise((resolve) => queueMicrotask(resolve));
+
+            expect(panel.style.top).toBe('70px');
+            expect(panel.style.left).toBe('20px');
+
+            window.twPicker.unregisterScrollReposition(panel);
+            document.body.removeChild(panel);
+            delete document.documentElement.clientWidth;
+            delete document.documentElement.clientHeight;
+        });
+
+        test('unregister disconnects the style observer so a later style clear is left alone', async () => {
+            const anchor = document.createElement('div');
+            anchor.getBoundingClientRect = () => ({ left: 20, right: 220, top: 40, bottom: 70, width: 200, height: 30 });
+            const panel = document.createElement('div');
+            panel.getBoundingClientRect = () => ({ left: 20, right: 220, top: 70, bottom: 170, width: 200, height: 100 });
+            document.body.appendChild(panel);
+
+            window.twPicker.registerScrollReposition(anchor, panel);
+            window.twPicker.unregisterScrollReposition(panel);
+
+            panel.removeAttribute('style');
+            await new Promise((resolve) => queueMicrotask(resolve));
+
+            expect(panel.style.top).toBe('');
+
+            document.body.removeChild(panel);
+        });
+
+        describe('close-on-scroll (desktop, dotnetRef supplied)', () => {
+            test('still positions the panel once on open, same as the reposition path', () => {
+                Object.defineProperty(document.documentElement, 'clientWidth', { value: 1000, configurable: true });
+                Object.defineProperty(document.documentElement, 'clientHeight', { value: 800, configurable: true });
+                vi.spyOn(window.twDevice, 'prefersNativePicker').mockReturnValue(false);
+                const anchor = document.createElement('div');
+                anchor.getBoundingClientRect = () => ({ left: 20, right: 220, top: 40, bottom: 70, width: 200, height: 30 });
+                const panel = document.createElement('div');
+                panel.getBoundingClientRect = () => ({ left: 20, right: 220, top: 70, bottom: 170, width: 200, height: 100 });
+                document.body.appendChild(panel);
+                const dotnetRef = { invokeMethodAsync: vi.fn() };
+
+                window.twPicker.registerScrollReposition(anchor, panel, false, dotnetRef);
+
+                expect(panel.style.top).toBe('70px');
+                expect(panel.style.left).toBe('20px');
+
+                window.twPicker.unregisterScrollReposition(panel);
+                document.body.removeChild(panel);
+                delete document.documentElement.clientWidth;
+                delete document.documentElement.clientHeight;
+            });
+
+            test('a scroll event closes the panel instead of repositioning it, on a non-touch platform', () => {
+                vi.spyOn(window.twDevice, 'prefersNativePicker').mockReturnValue(false);
+                const anchor = document.createElement('div');
+                anchor.getBoundingClientRect = () => ({ left: 20, right: 220, top: 40, bottom: 70, width: 200, height: 30 });
+                const panel = document.createElement('div');
+                panel.getBoundingClientRect = () => ({ left: 20, right: 220, top: 70, bottom: 170, width: 200, height: 100 });
+                document.body.appendChild(panel);
+                const dotnetRef = { invokeMethodAsync: vi.fn() };
+
+                window.twPicker.registerScrollReposition(anchor, panel, false, dotnetRef);
+                const topBeforeScroll = panel.style.top;
+                document.dispatchEvent(new Event('scroll'));
+
+                expect(dotnetRef.invokeMethodAsync).toHaveBeenCalledWith('Close');
+                // Position is left exactly as it was from the initial open - the panel is about to
+                // close, so there's no point recomputing where it should sit.
+                expect(panel.style.top).toBe(topBeforeScroll);
+
+                window.twPicker.unregisterScrollReposition(panel);
+                document.body.removeChild(panel);
+            });
+
+            test('a burst of scroll events (a real scroll gesture fires many) only invokes Close once', () => {
+                // Regression test: invokeMethodAsync('Close') disposes the dotnetRef server-side.
+                // Firing it again for every scroll event in the same gesture, before the (also
+                // async) unregisterScrollReposition round trip has removed the listener, would
+                // invoke it on an already-disposed object and throw "no tracked object" in the
+                // browser console for each extra event.
+                vi.spyOn(window.twDevice, 'prefersNativePicker').mockReturnValue(false);
+                const anchor = document.createElement('div');
+                anchor.getBoundingClientRect = () => ({ left: 20, right: 220, top: 40, bottom: 70, width: 200, height: 30 });
+                const panel = document.createElement('div');
+                panel.getBoundingClientRect = () => ({ left: 20, right: 220, top: 70, bottom: 170, width: 200, height: 100 });
+                document.body.appendChild(panel);
+                const dotnetRef = { invokeMethodAsync: vi.fn() };
+
+                window.twPicker.registerScrollReposition(anchor, panel, false, dotnetRef);
+                document.dispatchEvent(new Event('scroll'));
+                document.dispatchEvent(new Event('scroll'));
+                document.dispatchEvent(new Event('scroll'));
+                window.dispatchEvent(new Event('resize'));
+
+                expect(dotnetRef.invokeMethodAsync).toHaveBeenCalledTimes(1);
+                expect(panel.__twPickerScrollHandler).toBeUndefined();
+
+                document.body.removeChild(panel);
+            });
+
+            test('does not invoke Close if registerOutsideClick already started closing the same picker', () => {
+                // Regression test: a scroll gesture can also end in a pointerup outside the panel
+                // (e.g. dragging a scrollbar), independently triggering registerOutsideClick's own
+                // close path around the same moment. Both listeners share the same anchor/root
+                // element, so whichever fires first must stop the other from also invoking Close()
+                // on a dotnetRef the first call has already disposed server-side.
+                vi.spyOn(window.twDevice, 'prefersNativePicker').mockReturnValue(false);
+                const anchor = document.createElement('div');
+                anchor.getBoundingClientRect = () => ({ left: 20, right: 220, top: 40, bottom: 70, width: 200, height: 30 });
+                const panel = document.createElement('div');
+                panel.getBoundingClientRect = () => ({ left: 20, right: 220, top: 70, bottom: 170, width: 200, height: 100 });
+                document.body.appendChild(panel);
+                const dotnetRef = { invokeMethodAsync: vi.fn() };
+
+                window.twPicker.registerOutsideClick(anchor, dotnetRef);
+                window.twPicker.registerScrollReposition(anchor, panel, false, dotnetRef);
+
+                // registerOutsideClick's own pointerup gesture decides to close first...
+                anchor.__twPickerPointerDown({ target: document.body, clientX: 0, clientY: 0 });
+                anchor.__twPickerPointerUp({ target: document.body, clientX: 0, clientY: 0 });
+                // ...then a scroll event from the same gesture fires the close-on-scroll listener.
+                document.dispatchEvent(new Event('scroll'));
+
+                expect(dotnetRef.invokeMethodAsync).toHaveBeenCalledTimes(1);
+
+                window.twPicker.unregisterOutsideClick(anchor);
+                document.body.removeChild(panel);
+            });
+
+            test('a resize event also closes the panel', () => {
+                vi.spyOn(window.twDevice, 'prefersNativePicker').mockReturnValue(false);
+                const anchor = document.createElement('div');
+                anchor.getBoundingClientRect = () => ({ left: 20, right: 220, top: 40, bottom: 70, width: 200, height: 30 });
+                const panel = document.createElement('div');
+                panel.getBoundingClientRect = () => ({ left: 20, right: 220, top: 70, bottom: 170, width: 200, height: 100 });
+                document.body.appendChild(panel);
+                const dotnetRef = { invokeMethodAsync: vi.fn() };
+
+                window.twPicker.registerScrollReposition(anchor, panel, false, dotnetRef);
+                window.dispatchEvent(new Event('resize'));
+
+                expect(dotnetRef.invokeMethodAsync).toHaveBeenCalledWith('Close');
+
+                window.twPicker.unregisterScrollReposition(panel);
+                document.body.removeChild(panel);
+            });
+
+            test('does not attach a style-clearing self-heal observer, since it is not maintaining a position', () => {
+                vi.spyOn(window.twDevice, 'prefersNativePicker').mockReturnValue(false);
+                const anchor = document.createElement('div');
+                anchor.getBoundingClientRect = () => ({ left: 20, right: 220, top: 40, bottom: 70, width: 200, height: 30 });
+                const panel = document.createElement('div');
+                panel.getBoundingClientRect = () => ({ left: 20, right: 220, top: 70, bottom: 170, width: 200, height: 100 });
+                document.body.appendChild(panel);
+                const dotnetRef = { invokeMethodAsync: vi.fn() };
+
+                window.twPicker.registerScrollReposition(anchor, panel, false, dotnetRef);
+
+                expect(panel.__twPickerStyleObserver).toBeUndefined();
+
+                window.twPicker.unregisterScrollReposition(panel);
+                document.body.removeChild(panel);
+            });
+
+            test('on a touch platform, still repositions on scroll instead of closing even when dotnetRef is supplied', () => {
+                vi.spyOn(window.twDevice, 'prefersNativePicker').mockReturnValue(true);
+                const anchor = document.createElement('div');
+                anchor.getBoundingClientRect = () => ({ left: 20, right: 220, top: 40, bottom: 70, width: 200, height: 30 });
+                const panel = document.createElement('div');
+                panel.getBoundingClientRect = () => ({ left: 20, right: 220, top: 70, bottom: 170, width: 200, height: 100 });
+                document.body.appendChild(panel);
+                const dotnetRef = { invokeMethodAsync: vi.fn() };
+
+                window.twPicker.registerScrollReposition(anchor, panel, false, dotnetRef);
+                document.dispatchEvent(new Event('scroll'));
+
+                expect(dotnetRef.invokeMethodAsync).not.toHaveBeenCalled();
+                expect(panel.__twPickerStyleObserver).toBeDefined();
+
+                window.twPicker.unregisterScrollReposition(panel);
+                document.body.removeChild(panel);
+            });
+
+            test('logs rather than throws if invokeMethodAsync itself throws', () => {
+                vi.spyOn(window.twDevice, 'prefersNativePicker').mockReturnValue(false);
+                vi.spyOn(console, 'error').mockImplementation(() => {});
+                const anchor = document.createElement('div');
+                anchor.getBoundingClientRect = () => ({ left: 20, right: 220, top: 40, bottom: 70, width: 200, height: 30 });
+                const panel = document.createElement('div');
+                panel.getBoundingClientRect = () => ({ left: 20, right: 220, top: 70, bottom: 170, width: 200, height: 100 });
+                document.body.appendChild(panel);
+                const dotnetRef = { invokeMethodAsync: vi.fn(() => { throw new Error('circuit gone'); }) };
+
+                window.twPicker.registerScrollReposition(anchor, panel, false, dotnetRef);
+
+                expect(() => document.dispatchEvent(new Event('scroll'))).not.toThrow();
+                expect(console.error).toHaveBeenCalled();
+
+                window.twPicker.unregisterScrollReposition(panel);
+                document.body.removeChild(panel);
+            });
         });
     });
 
@@ -880,7 +1376,7 @@ describe('twDialog', () => {
             expect(() => window.twDialog.restoreFocus(undefined)).not.toThrow();
         });
 
-        test('restoreFocus focuses the captured element and cleans up its token attribute', () => {
+        test('restoreFocus focuses the captured element (without scrolling it into view) and cleans up its token attribute', () => {
             const button = document.createElement('button');
             document.body.appendChild(button);
             button.focus();
@@ -889,7 +1385,10 @@ describe('twDialog', () => {
 
             window.twDialog.restoreFocus(token);
 
-            expect(focusSpy).toHaveBeenCalled();
+            // preventScroll: true - closing on scroll (see twPicker.registerScrollReposition's
+            // desktop close-on-scroll path) must not yank the page back to reveal the trigger,
+            // undoing the very scroll that closed the panel.
+            expect(focusSpy).toHaveBeenCalledWith({ preventScroll: true });
             expect(button.hasAttribute('data-tw-focus-token')).toBe(false);
         });
 

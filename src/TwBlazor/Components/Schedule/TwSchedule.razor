@@ -1,0 +1,92 @@
+@namespace TwBlazor.Components
+@using TwBlazor.Enums
+@typeparam T
+@inherits TwBlazorComponentBase
+
+<div id="@Id" class="@containerClasses" style="@Style" @attributes="Attributes">
+    <div class="@headerClasses">
+        <div class="@headerDateGroupClasses">
+            <div class="@headerTitleRowClasses">
+                <span class="@headerTitleClasses">@monthYearLabel</span>
+                <TwChip Label="@weekChipLabel" Color="Color.Primary" Variant="ButtonVariant.Outlined" Size="ChipSize.Small" />
+            </div>
+            <div class="@headerSubtitleClasses">@weekRangeLabel</div>
+        </div>
+        <div class="@headerControlsClasses">
+            @if (OnSearch.HasDelegate)
+            {
+                <TwIcon Icon="Icon.Search" OnClick="OnSearchClickedAsync" AriaLabel="Search events" Class="@theme.SearchButton" />
+            }
+            <TwIcon Icon="Icon.Chevron_Left" OnClick="PreviousAsync" AriaLabel="Previous" Class="@GetNavButtonClasses()" />
+            <TwButton Label="Today" Variant="ButtonVariant.Outlined" OnClick="TodayAsync" Class="@theme.TodayButton" />
+            <TwIcon Icon="Icon.Chevron_Right" OnClick="NextAsync" AriaLabel="Next" Class="@GetNavButtonClasses()" />
+            <div class="@viewSwitcherClasses" role="radiogroup" aria-label="Select view">
+                <TwIcon Icon="@(View == TwScheduleView.Day ? Icon.Calendar_Day_Fill : Icon.Calendar_Day)"
+                        Color="@(View == TwScheduleView.Day ? Color.Primary : null)"
+                        OnClick="@(() => SetViewAsync(TwScheduleView.Day))"
+                        AriaLabel="Day view"
+                        Class="@GetViewButtonClasses(TwScheduleView.Day)"
+                        aria-pressed="@(View == TwScheduleView.Day ? "true" : "false")" />
+                <TwIcon Icon="@(View == TwScheduleView.Week ? Icon.Calendar_Week_Fill : Icon.Calendar_Week)"
+                        Color="@(View == TwScheduleView.Week ? Color.Primary : null)"
+                        OnClick="@(() => SetViewAsync(TwScheduleView.Week))"
+                        AriaLabel="Week view"
+                        Class="@GetViewButtonClasses(TwScheduleView.Week)"
+                        aria-pressed="@(View == TwScheduleView.Week ? "true" : "false")" />
+                <TwIcon Icon="@(View == TwScheduleView.Month ? Icon.Calendar_Month_Fill : Icon.Calendar_Month)"
+                        Color="@(View == TwScheduleView.Month ? Color.Primary : null)"
+                        OnClick="@(() => SetViewAsync(TwScheduleView.Month))"
+                        AriaLabel="Month view"
+                        Class="@GetViewButtonClasses(TwScheduleView.Month)"
+                        aria-pressed="@(View == TwScheduleView.Month ? "true" : "false")" />
+            </div>
+            @if (Editable)
+            {
+                <TwButton Label="Add event" StartIcon="Icon.Plus" Color="Color.Primary" Class="@theme.AddButton" OnClick="@(() => StartCreateEventAsync(SelectedDate.Date.AddHours(9)))" />
+            }
+        </div>
+    </div>
+
+    @if (View == TwScheduleView.Day)
+    {
+        <TwScheduleDayView T="T"
+                            Date="SelectedDate"
+                            DateChanged="SetSelectedDateAsync"
+                            Schedules="Schedules"
+                            Editable="Editable"
+                            MaxHeight="@MaxHeight"
+                            ScrollToTime="ScrollToTime"
+                            EventContentTemplate="EventContentTemplate"
+                            OnSlotClick="StartCreateEventAsync"
+                            OnEventClick="OnEventClickedAsync"
+                            OnEventDragStart="OnEventDragStart"
+                            OnEventDrop="OnEventDropAsync" />
+    }
+    else if (View == TwScheduleView.Week)
+    {
+        <TwScheduleWeekView T="T"
+                             Date="SelectedDate"
+                             Schedules="Schedules"
+                             Editable="Editable"
+                             MaxHeight="@MaxHeight"
+                             ScrollToTime="ScrollToTime"
+                             EventContentTemplate="EventContentTemplate"
+                             OnSlotClick="StartCreateEventAsync"
+                             OnEventClick="OnEventClickedAsync"
+                             OnDayHeaderClick="SwitchToDayAsync"
+                             OnEventDragStart="OnEventDragStart"
+                             OnEventDrop="OnEventDropAsync" />
+    }
+    else
+    {
+        <TwScheduleMonthView T="T"
+                              Date="SelectedDate"
+                              Schedules="Schedules"
+                              Editable="Editable"
+                              EventContentTemplate="EventContentTemplate"
+                              OnDayClick="SwitchToDayAsync"
+                              OnEventClick="OnEventClickedAsync"
+                              OnEventDragStart="OnEventDragStart"
+                              OnEventDrop="OnEventDropAsync" />
+    }
+</div>

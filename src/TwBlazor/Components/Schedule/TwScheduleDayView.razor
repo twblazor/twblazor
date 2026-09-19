@@ -1,0 +1,39 @@
+@namespace TwBlazor.Components
+@using TwBlazor.Components.DatePicker
+@typeparam T
+@inherits TwBlazorComponentBase
+
+<div id="@Id" class="@(new TwBlazor.Utilities.ClassBuilder(options.Theme.Display.Flex).AddClass(options.Theme.Flexbox.Col).AddClass("md:flex-row").AddClass(options.Theme.Spacing.Gap.Xl).AddClass(Class).Build())" style="@Style">
+    <div class="@scrollContainerClasses" style="@scrollContainerStyle" @ref="scrollContainerRef">
+        <div class="@gutterClasses">
+            @for (var hour = 0; hour < hoursPerDay; hour++)
+            {
+                <div class="@GetGutterLabelClasses()" style="height:6rem;">@GetHourLabel(hour)</div>
+            }
+            <div class="@theme.NowIndicatorLabel" style="@nowOffsetStyle">@now.ToString("h:mm tt")</div>
+        </div>
+        <div class="@nowLineContainerClasses">
+            <TwScheduleDayColumn T="T"
+                                  Date="Date"
+                                  Events="dayEvents"
+                                  Editable="Editable"
+                                  EventContentTemplate="EventContentTemplate"
+                                  OnSlotClick="OnSlotClick"
+                                  OnEventClick="OnEventClick"
+                                  OnEventDragStart="OnEventDragStart"
+                                  OnEventDrop="OnEventDrop"
+                                  Class="@options.Theme.Flexbox.Flex1" />
+            <div class="@theme.NowIndicatorLine" style="@nowOffsetStyle" aria-hidden="true">
+                <span class="@theme.NowIndicatorDot" style="left:0;"></span>
+            </div>
+        </div>
+    </div>
+    <div class="shrink-0">
+        <TwDatePickerCalendar AnchorDate="miniCalendarAnchor"
+                               AnchorDateChanged="OnMiniCalendarAnchorChanged"
+                               SelectedDate="Date"
+                               View="miniCalendarView"
+                               ViewChanged="@((v) => miniCalendarView = v)"
+                               DaySelected="OnMiniCalendarDaySelectedAsync" />
+    </div>
+</div>

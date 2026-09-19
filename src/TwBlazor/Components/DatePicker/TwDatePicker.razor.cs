@@ -139,9 +139,9 @@ public partial class TwDatePicker : TwPopoverPickerComponentBase
 
     /// <summary>
     /// Set when the panel's view switches (year/month/day) while it's already open, so the next
-    /// <see cref="OnAfterRenderAsync"/> reclaims focus inside the panel. Unlike <see cref="TwPopoverPickerComponentBase.PendingOpenFocus"/>,
-    /// this one does move focus - the button that had it just got torn down by the view switch, so without
-    /// this focus would otherwise fall back to the document body.
+    /// <see cref="OnAfterRenderAsync"/> reclaims focus inside the panel - the button that had it just
+    /// got torn down by the view switch, so without this focus would otherwise fall back to the
+    /// document body.
     /// </summary>
     private bool pendingViewFocus;
 
@@ -225,15 +225,18 @@ public partial class TwDatePicker : TwPopoverPickerComponentBase
 
         if (isFocused && PanelRef.Context != null)
         {
-            // Arm the Tab focus trap and background inert-ing once, when the panel first mounts.
-            // Deliberately does not move focus into the panel - see PendingOpenFocus's remarks.
-            if (PendingOpenFocus)
-            {
-                PendingOpenFocus = false;
-                await JSRuntime.InvokeVoidAsync("twPicker.positionPanel", PanelRef);
-                await JSRuntime.InvokeVoidAsync("twDialog.trapFocus", PanelRef);
-                await JSRuntime.InvokeVoidAsync("twDialog.setBackgroundInert", InputRoot?.RootRef);
-            }
+            // Re-run on every render rather than gating behind a one-shot "just opened" flag: all
+            // three are idempotent on the JS side (each checks its own "already set up" marker), and
+            // a one-shot flag here previously raced with the panel's own mount - a stray render from
+            // unrelated state (e.g. the previous close's own trailing re-render landing late) could
+            // consume the flag against a stale PanelRef before the render that actually mounted the
+            // new panel got a chance to run this, leaving the real panel unpositioned and untrapped.
+            // Deliberately does not move focus into the panel - the trigger is a text-editable
+            // combobox (typing a value directly is a first-class input method here, not just a
+            // fallback), so focus has to stay on the input for that to work.
+            await RegisterPanelScrollBehaviorAsync(PanelRef);
+            await JSRuntime.InvokeVoidAsync("twDialog.trapFocus", PanelRef);
+            await JSRuntime.InvokeVoidAsync("twDialog.setBackgroundInert", InputRoot?.RootRef);
 
             // Reclaim focus inside the panel after a view switch, since the button that had it was
             // just replaced by the new view's grid - see pendingViewFocus's remarks.

@@ -1,0 +1,44 @@
+@namespace TwBlazor.Components
+@typeparam T
+@inherits TwBlazorComponentBase
+
+<div id="@Id" class="@columnClasses" style="@Style" role="grid" aria-label="@Date.ToString("dddd, MMMM d")" @ref="gridRef" @onkeydown="OnGridKeyDownAsync" @attributes="Attributes">
+    @for (var slot = 0; slot < slotsPerDay; slot++)
+    {
+        var slotIndex = slot;
+        var slotTime = Date.Date.AddMinutes(slotIndex * minutesPerSlot);
+        <button type="button"
+                role="gridcell"
+                class="@GetSlotClasses()"
+                style="@($"height:{slotHeightRem.ToString(System.Globalization.CultureInfo.InvariantCulture)}rem;")"
+                tabindex="@(slotIndex == focusedSlot ? "0" : "-1")"
+                aria-label="@slotTime.ToString("h:mm tt")"
+                aria-disabled="@(Editable ? null : "true")"
+                @ref="GetSlotRef(slotIndex).Element"
+                @onclick="@(() => OnSlotClickedAsync(slotIndex))"
+                @onfocus="@(() => OnSlotFocusedAsync(slotIndex))"
+                @ondragover="@(() => { })" @ondragover:preventDefault="Editable"
+                @ondrop="@(() => OnSlotDropAsync(slotIndex))">
+        </button>
+    }
+    @foreach (var slot in layoutSlots)
+    {
+        <button type="button"
+                class="@GetChipClasses(slot.Event)"
+                style="@GetChipStyle(slot)"
+                aria-label="@($"{slot.Event.Name}, {slot.Event.DateTimeStart:h:mm tt} to {slot.Event.DateTimeEnd:h:mm tt}")"
+                draggable="@(IsDraggable(slot.Event) ? "true" : "false")"
+                @ondragstart="@(() => OnChipDragStartAsync(slot.Event))"
+                @onclick="@(() => OnEventClickedAsync(slot.Event))">
+            @if (EventContentTemplate is not null)
+            {
+                @EventContentTemplate(slot.Event)
+            }
+            else
+            {
+                <span class="@chipTitleClasses">@slot.Event.Name</span>
+                <span class="@chipTimeClasses">@GetStartTimeLabel(slot.Event)</span>
+            }
+        </button>
+    }
+</div>

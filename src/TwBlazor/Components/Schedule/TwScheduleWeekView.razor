@@ -1,0 +1,49 @@
+@namespace TwBlazor.Components
+@typeparam T
+@inherits TwBlazorComponentBase
+
+<div id="@Id" class="@(new TwBlazor.Utilities.ClassBuilder(options.Theme.Display.Flex).AddClass(options.Theme.Flexbox.Col).AddClass(Class).Build())" style="@Style" @onkeydown="OnWrapperKeyDownAsync">
+    <div class="@options.Theme.Display.Flex">
+        <div class="@theme.TimeGutter" style="visibility:hidden" aria-hidden="true">&nbsp;</div>
+        @foreach (var day in weekDays)
+        {
+            <button type="button" class="@dayHeaderClasses" @onclick="@(() => OnDayHeaderClickedAsync(day))">
+                @day.ToString("ddd d")
+            </button>
+        }
+    </div>
+    <div class="@scrollContainerClasses" style="@scrollContainerStyle" @ref="scrollContainerRef">
+        <div class="@gutterClasses">
+            @for (var hour = 0; hour < hoursPerDay; hour++)
+            {
+                <div class="@GetGutterLabelClasses()" style="height:6rem;">@GetHourLabel(hour)</div>
+            }
+            <div class="@theme.NowIndicatorLabel" style="@nowOffsetStyle">@now.ToString("h:mm tt")</div>
+        </div>
+        <div class="@nowLineContainerClasses">
+            @for (var i = 0; i < daysPerWeek; i++)
+            {
+                var dayIndex = i;
+                var day = weekDays[dayIndex];
+                <TwScheduleDayColumn T="T"
+                                      @ref="_columnRefs[dayIndex]"
+                                      Date="day"
+                                      Events="GetDayEvents(day)"
+                                      Editable="Editable"
+                                      EventContentTemplate="EventContentTemplate"
+                                      OnSlotClick="OnSlotClick"
+                                      OnEventClick="OnEventClick"
+                                      OnSlotFocused="@((slot) => OnColumnSlotFocused(dayIndex, slot))"
+                                      OnEventDragStart="OnEventDragStart"
+                                      OnEventDrop="OnEventDrop"
+                                      Class="@dayColumnClasses" />
+            }
+            <div class="@theme.NowIndicatorLine" style="@nowOffsetStyle" aria-hidden="true">
+                @if (todayColumnIndex is int todayIndex)
+                {
+                    <span class="@theme.NowIndicatorDot" style="@GetDotOffsetStyle(todayIndex)"></span>
+                }
+            </div>
+        </div>
+    </div>
+</div>

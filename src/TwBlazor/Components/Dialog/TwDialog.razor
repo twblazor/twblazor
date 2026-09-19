@@ -10,9 +10,7 @@
                 <h2 id="@titleId" class="@titleClasses">@Reference.Title</h2>
                 @if (showCloseButton)
                 {
-                    <button type="button" class="@closeButtonClasses" aria-label="Close" @onclick="HandleCloseButtonClickAsync">
-                        <TwIcon Icon="Enums.Icon.X" />
-                    </button>
+                    <TwIcon Icon="Enums.Icon.X_Lg" OnClick="HandleCloseButtonClickAsync" AriaLabel="Close" Class="@closeButtonClasses" />
                 }
             </div>
         }
