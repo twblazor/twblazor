@@ -2,7 +2,7 @@
 @using Microsoft.JSInterop
 @inject IJSRuntime JS
 
-<TwSidebar NavigationItems="_navigationItems" MainContentClass="@(MainContentPadding ? "p-3" : string.Empty)" NavbarClass="justify-between" IsSidebarOpen="true" IsSearchable>
+<TwSidebar NavigationItems="_navigationItems" MainContentClass="@(MainContentPadding ? "p-3" : string.Empty)" NavbarClass="justify-between" @bind-IsSidebarOpen="isSidebarOpen" IsSearchable>
     <NavbarNavigationContent>
         <NavLink href="/" Match="NavLinkMatch.All" class="py-1 px-2 rounded-md text-sm font-medium text-white/80 hover:text-white hover:bg-white/10 transition-colors bg-purple-950/5 [&.active]:bg-purple-950/40 mt-0.5">
            <TwIcon Icon="Icon.House" /> Home
@@ -23,5 +23,6 @@
     </HeaderContent>
     <ChildContent>
         @ChildContent
+        <SiteFooter />
     </ChildContent>
 </TwSidebar>

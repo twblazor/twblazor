@@ -7,12 +7,12 @@
 	<NoWarn>$(NoWarn);1591</NoWarn> <!-- Suppress missing XML comment warnings -->
 
 	<!-- Package Information -->
-	<PackageId>TwBlazor</PackageId>
-	<Authors>TwBlazor</Authors>
-	<Company>TwBlazor</Company>
+	<PackageId>twblazor</PackageId>
+	<Authors>twblazor</Authors>
+	<Company>twblazor</Company>
 	<Description>Professional-grade Tailwind CSS components for modern Blazor development. Ship polished, accessible UI without wrestling with CSS.</Description>
 	<PackageProjectUrl>https://twblazor.com</PackageProjectUrl>
-	<RepositoryUrl>https://github.com/TwBlazor/TwBlazor</RepositoryUrl>
+	<RepositoryUrl>https://github.com/twblazor/twblazor</RepositoryUrl>
 	<RepositoryType>git</RepositoryType>
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	<PackageReadmeFile>README.md</PackageReadmeFile>

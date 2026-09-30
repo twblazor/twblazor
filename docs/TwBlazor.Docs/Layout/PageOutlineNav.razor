@@ -1,0 +1,75 @@
+@using Microsoft.JSInterop
+@implements IAsyncDisposable
+@inject IJSRuntime JS
+
+@if (Outline.Items.Count > 0)
+{
+    <nav aria-labelledby="page-outline-heading" class="sticky top-6 hidden max-h-[calc(100dvh-8rem)] w-56 shrink-0 self-start overflow-y-auto xl:block">
+        <h2 id="page-outline-heading" class="mb-3 text-sm font-semibold text-gray-900 dark:text-white">On this page</h2>
+        <ul class="border-l border-gray-950/10 text-sm dark:border-white/10">
+            @foreach (var item in Outline.Items)
+            {
+                <li>
+                    <a href="@($"{Path}#{item.Id}")" data-outline-id="@item.Id"
+                       class="-ml-px block border-l border-transparent py-1 ps-4 text-gray-600 hover:border-gray-400 hover:text-gray-950 aria-[current=location]:border-gray-950 aria-[current=location]:font-medium aria-[current=location]:text-gray-950 dark:text-gray-400 dark:hover:border-gray-500 dark:hover:text-white dark:aria-[current=location]:border-white dark:aria-[current=location]:text-white">@item.Title</a>
+                </li>
+            }
+        </ul>
+    </nav>
+}
+
+@code {
+    /// <summary>
+    /// The page's sections, as registered by its <see cref="PageCard"/>s.
+    /// </summary>
+    [Parameter, EditorRequired] public PageOutline Outline { get; set; } = null!;
+
+    /// <summary>
+    /// The page's route (e.g. <c>/card</c>). Links are absolute to it so the <c>&lt;base href&gt;</c> can't
+    /// turn a bare <c>#section</c> into a link to the site root.
+    /// </summary>
+    [Parameter, EditorRequired] public string Path { get; set; } = string.Empty;
+
+    private string observedIds = string.Empty;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        var ids = string.Join('\n', Outline.Items.Select(item => item.Id));
+
+        if (ids == observedIds)
+        {
+            return;
+        }
+
+        observedIds = ids;
+
+        try
+        {
+            await JS.InvokeVoidAsync("pageOutline.observe", (object)Outline.Items.Select(item => item.Id).ToArray());
+        }
+        catch (JSDisconnectedException)
+        {
+            // The circuit closed while the page was still rendering, so there is nothing left to highlight.
+        }
+        catch (TaskCanceledException)
+        {
+            // Navigation cancelled the call before it ran.
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        try
+        {
+            await JS.InvokeVoidAsync("pageOutline.dispose");
+        }
+        catch (JSDisconnectedException)
+        {
+            // The circuit is already gone, so the listener went with the page.
+        }
+        catch (InvalidOperationException)
+        {
+            // Disposed during prerendering, where no JS runtime exists to clean up.
+        }
+    }
+}

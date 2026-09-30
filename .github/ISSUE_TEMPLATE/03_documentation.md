@@ -1,8 +1,10 @@
 ---
 name: Documentation
-about: Report a problem with, or suggest an improvement to, the TwBlazor docs (twblazor.com).
+about: Report a problem with, or suggest an improvement to, the twblazor docs (twblazor.com).
 title: "docs: "
+type: Task
 labels: docs
+projects: twblazor/2
 ---
 
 ## What kind of issue is this?

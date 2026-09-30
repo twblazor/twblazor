@@ -1,12 +1,6 @@
 @page "/table"
 
-<PageTitle>TwTable | twblazor</PageTitle>
-<HeadContent>
-    <meta name="description" content="TwTable is a Blazor table component with striped, hoverable, bordered and borderless styles, plus manual pagination." />
-    <link rel="canonical" href="https://twblazor.com/table" />
-</HeadContent>
-
-<PageContainer Title="TwTable" ThemeType="typeof(TwTableTheme)">
+<PageContainer Title="TwTable" Path="/table" Description="TwTable is a Blazor table component with striped, hoverable, bordered and borderless styles, plus manual pagination." ThemeType="typeof(TwTableTheme)">
     <PageCard Title="Basic Table">
         <Description>A simple table component with customizable styling.</Description>
 
@@ -58,24 +52,24 @@
                 <TableHeader>
                     <tr>
                         <th scope="col" class="px-6 py-3">Name</th>
-                        <th scope="col" class="px-6 py-3">Email</th>
+                        <th scope="col" class="px-6 py-3">Department</th>
                         <th scope="col" class="px-6 py-3">Role</th>
                     </tr>
                 </TableHeader>
                 <TableBody>
                     <tr>
                         <td class="px-6 py-4">John Doe</td>
-                        <td class="px-6 py-4">john@example.com</td>
+                        <td class="px-6 py-4">Engineering</td>
                         <td class="px-6 py-4">Developer</td>
                     </tr>
                     <tr>
                         <td class="px-6 py-4">Jane Smith</td>
-                        <td class="px-6 py-4">jane@example.com</td>
+                        <td class="px-6 py-4">Product</td>
                         <td class="px-6 py-4">Designer</td>
                     </tr>
                     <tr>
                         <td class="px-6 py-4">Bob Johnson</td>
-                        <td class="px-6 py-4">bob@example.com</td>
+                        <td class="px-6 py-4">Operations</td>
                         <td class="px-6 py-4">Manager</td>
                     </tr>
                 </TableBody>

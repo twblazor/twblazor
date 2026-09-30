@@ -2,16 +2,11 @@
 @using TwBlazor.Models
 @using TwBlazor.Services
 
-<PageTitle>TwDialog | twblazor</PageTitle>
-<HeadContent>
-    <meta name="description" content="TwDialog is a Blazor dialog component for modal windows. Supports returning data, positioning, sizing, behaviour options and theming." />
-    <link rel="canonical" href="https://twblazor.com/dialog" />
-</HeadContent>
 @* #region CodeExample DialogInject *@
 @inject ITwDialogService DialogService
 @* #endregion *@
 
-<PageContainer Title="TwDialogProvider" ThemeType="typeof(TwDialogTheme)">
+<PageContainer Title="TwDialogProvider" Path="/dialog" Description="TwDialog is a Blazor dialog service for modal windows. Open any component with ITwDialogService.ShowAsync, return data, and set position, size and behaviour." SeoTitle="TwDialog | twblazor - Blazor Dialog Component" ThemeType="typeof(TwDialogTheme)">
     <ThemeContent>
         <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">
             For example, to darken the backdrop further and use fully rounded dialogs by default:

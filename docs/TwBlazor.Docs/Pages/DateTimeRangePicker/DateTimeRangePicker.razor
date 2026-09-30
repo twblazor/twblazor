@@ -1,12 +1,6 @@
 @page "/datetime-range-picker"
 
-<PageTitle>TwDateTimeRangePicker | twblazor</PageTitle>
-<HeadContent>
-    <meta name="description" content="TwDateTimeRangePicker is a Blazor component for picking a start and end date/time pair from a single, mobile-friendly popover, one step at a time." />
-    <link rel="canonical" href="https://twblazor.com/datetime-range-picker" />
-</HeadContent>
-
-<PageContainer Title="TwDateTimeRangePicker" ThemeType="typeof(TwDatePickerTheme)">
+<PageContainer Title="TwDateTimeRangePicker" Path="/datetime-range-picker" Description="TwDateTimeRangePicker is a Blazor component for choosing a start and end date and time from one popover. Bind Value, set MinDate, MaxDate and Format." ThemeType="typeof(TwDatePickerTheme)">
     <PageCard Title="Basic DateTime Range Picker">
         <Description>Bind <code>SelectedRange</code> for a <code>KeyValuePair&lt;DateTime?, DateTime?&gt;</code> value (<code>Key</code> = start, <code>Value</code> = end). Unlike <a href="/date-range-picker" class="underline">TwDateRangePicker</a>'s two-month popover, this shows one month plus a time editor at a time: pick the start date and time first, then the panel automatically moves on to the end - small enough to comfortably use on a phone. Shares its theme (<code>TwDatePickerTheme</code>) with <a href="/date-picker" class="underline">TwDatePicker</a> and <a href="/date-range-picker" class="underline">TwDateRangePicker</a>.</Description>
         <CodeExample Name="DateTimeRangePickerBasic" CSharpName="DateTimeRangePickerBasicCode">
@@ -39,6 +33,13 @@
                 <TwDateTimeRangePicker Id="outlined-variant" @bind-SelectedRange="SelectedRange" Label="Outlined Variant" Variant="InputVariant.Outlined" />
                 <TwDateTimeRangePicker Id="filled-variant" @bind-SelectedRange="SelectedRange" Label="Filled Variant" Variant="InputVariant.Filled" />
             </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Dense DateTime Range Picker">
+        <Description>Set <code>Dense</code> for a more compact input with a smaller height and text size. Every single-line input shares the same dense height, so they line up when used side by side.</Description>
+        <CodeExample Name="DateTimeRangePickerDense" CSharpName="DateTimeRangePickerBasicCode">
+            <TwDateTimeRangePicker Id="dense-datetimerangepicker" @bind-SelectedRange="SelectedRange" Label="Dense DateTime Range Picker" Dense />
         </CodeExample>
     </PageCard>
 

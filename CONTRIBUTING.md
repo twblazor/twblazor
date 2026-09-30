@@ -88,7 +88,8 @@ TwBlazor/
 │       └── Theme.cs
 └── tests/                        # Automated tests
     ├── vitest.config.js          # JS unit test config (see TwBlazor.Tests/js)
-    ├── TwBlazor.Tests/           # Unit tests (bUnit + xunit + JS/vitest)
+    ├── TwBlazor.Tests/           # Component library unit tests (bUnit + xunit + JS/vitest)
+    ├── TwBlazor.Docs.Tests/      # Docs site and build tooling tests (pages, search, sitemap, XML docs)
     └── TwBlazor.A11yTests/       # Accessibility (axe-core/Playwright) tests
 ```
 
@@ -103,7 +104,7 @@ TwBlazor/
 - `/src` → the published component library (`TwBlazor`, `TwBlazor.Theme`)
 - `/build` → build-time tooling (`TwBlazor.BuildTools`, `TwBlazor.Docs.Compiler`)
 - `/docs` → documentation content, site hosts, and docfx config (`TwBlazor.Docs`, `TwBlazor.Server`, `TwBlazor.WASM`, `TwBlazor.WasmHost`, `templates/`, `toc.yml`)
-- `/tests` → automated tests (`TwBlazor.Tests`, `TwBlazor.A11yTests`, `vitest.config.js`)
+- `/tests` → automated tests (`TwBlazor.Tests`, `TwBlazor.Docs.Tests`, `TwBlazor.A11yTests`, `vitest.config.js`)
 
 See [Project Structure](#project-structure) above for the full tree.
 
@@ -133,11 +134,12 @@ This serves the compiled `TwBlazor.Wasm` app via the `TwBlazor.WasmHost` host pr
 
 ```
 dotnet test tests/TwBlazor.Tests
+dotnet test tests/TwBlazor.Docs.Tests
 ```
 
 ### Rebuild the doc examples
 
-Code snippets shown on the documentation site are extracted from real source (docs pages and a few production files) by `TwBlazor.BuildTools`. See [CODE_SNIPPETS.md](CODE_SNIPPETS.md) for how this works. This runs automatically before `TwBlazor.Docs` builds, but you can trigger it manually if generated snippets look stale:
+Code snippets shown on the documentation site are extracted from real source (docs pages and a few production files) by `TwBlazor.BuildTools`. See [CODE_SNIPPETS.md](docs/CODE_SNIPPETS.md) for how this works. This runs automatically before `TwBlazor.Docs` builds, but you can trigger it manually if generated snippets look stale:
 
 ```
 dotnet run --project build/TwBlazor.BuildTools
@@ -359,7 +361,7 @@ A release is just a pull request from `develop` into `main`:
 Merging automatically:
 - Tags the merge commit with the new version (e.g. `v1.2.0`)
 - Publishes the **stable** package to both GitHub Packages and
-  [NuGet.org](https://www.nuget.org/packages/TwBlazor)
+  [NuGet.org](https://www.nuget.org/packages/twblazor)
 - Creates a GitHub Release with the packed `.nupkg` attached
 
 There is nothing further to do on `develop` afterwards. Its next build picks

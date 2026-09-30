@@ -1,13 +1,7 @@
 @page "/textfield"
 @using TwBlazor.Enums
 
-<PageTitle>TwTextfield | twblazor</PageTitle>
-<HeadContent>
-    <meta name="description" content="TwTextfield is a Blazor text input component with outlined and filled variants, several input types, disabled or readonly states, and sync or async validation." />
-    <link rel="canonical" href="https://twblazor.com/textfield" />
-</HeadContent>
-
-<PageContainer Title="TwTextfield" ThemeType="typeof(TwInputTheme)">
+<PageContainer Title="TwTextfield" Path="/textfield" Description="TwTextfield is a Blazor text input component. Bind Value, set InputType, Placeholder and Dense, and validate synchronously or asynchronously with Validator." ThemeType="typeof(TwInputTheme)">
     <PageCard Title="Textfield">
         <Description>Bind <code>Value</code> to a labeled text input with a placeholder.</Description>
         <CodeExample Name="TextfieldBasic">
@@ -26,7 +20,7 @@
     <PageCard Title="Readonly Textfield">
         <Description>Use the <code>ReadOnly</code> property to display a value that can't be edited.</Description>
         <CodeExample Name="TextfieldReadonly">
-            <TwTextfield Label="Email" @bind-Value="Email" Placeholder="user@example.com" AriaLabel="Email textfield" ReadOnly />
+            <TwTextfield Label="Account ID" @bind-Value="AccountId" Placeholder="Account ID" AriaLabel="Account ID textfield" ReadOnly />
         </CodeExample>
     </PageCard>
     <PageCard Title="Outlined Variant">
@@ -51,7 +45,7 @@
         <Description>Use <code>InputType</code> to render native input types such as <code>email</code> and <code>password</code>.</Description>
         <CodeExample Name="TextfieldTypes">
             <div class="md:flex-col flex-row flex gap-2">
-                <TwTextfield Label="Email" @bind-Value="Email" Placeholder="user@example.com" AriaLabel="Email textfield" InputType="email" />
+                <TwTextfield Label="Email" @bind-Value="Email" Placeholder="Enter your email address" AriaLabel="Email textfield" InputType="email" />
                 <TwTextfield Label="Password" @bind-Value="Password" Placeholder="Enter password" AriaLabel="Password textfield" InputType="password" />
             </div>
         </CodeExample>
@@ -59,9 +53,16 @@
     <PageCard Title="Invalid Textfield">
         <Description>Set <code>Invalid</code> and <code>ErrorMessage</code> to mark the textfield as failing validation. The message is rendered below the input and associated with it via <code>aria-describedby</code> so assistive technology announces it alongside the field.</Description>
         <CodeExample Name="TextfieldInvalid">
-            <TwTextfield Label="Email" @bind-Value="InvalidEmail" Placeholder="user@example.com" AriaLabel="Email textfield" Invalid ErrorMessage="Please enter a valid email address." />
+            <TwTextfield Label="Email" @bind-Value="InvalidEmail" Placeholder="Enter your email address" AriaLabel="Email textfield" Invalid ErrorMessage="Please enter a valid email address." />
         </CodeExample>
     </PageCard>
+    <PageCard Title="Dense Textfield">
+        <Description>Set <code>Dense</code> for a more compact input with a smaller height and text size. Every single-line input shares the same dense height, so they line up when used side by side.</Description>
+        <CodeExample Name="TextfieldDense">
+            <TwTextfield Label="Forename" @bind-Value="Forename" Placeholder="Please enter your forename" AriaLabel="Dense forename textfield" Dense />
+        </CodeExample>
+    </PageCard>
+
     <PageCard Title="Validation on Change">
         <Description>Pass a <code>Validator</code> function to have the textfield validate itself whenever its value changes. Return <code>null</code> (or an empty string) when the value is valid, or an error message to automatically mark the field <code>Invalid</code> and display the returned message - no need to manage <code>Invalid</code> or <code>ErrorMessage</code> yourself.</Description>
         <CodeExample Name="TextfieldValidator" CSharpName="TextfieldValidatorCode">
@@ -79,14 +80,15 @@
 @code {
     public string Forename { get; set; } = string.Empty;
     public string Surname { get; set; } = string.Empty;
-    public string Email { get; set; } = "readonly@example.com";
+    public string Email { get; set; } = string.Empty;
+    public string AccountId { get; set; } = "ACC-2049-7731";
     public string Password { get; set; } = string.Empty;
     public string InvalidEmail { get; set; } = "not-an-email";
 
     #region CodeExample TextfieldValidatorCode
     public string Username { get; set; } = string.Empty;
 
-    private Task<string?> ValidateUsername(string value)
+    private static Task<string?> ValidateUsername(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
         {

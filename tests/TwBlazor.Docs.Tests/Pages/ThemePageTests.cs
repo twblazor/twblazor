@@ -2,9 +2,9 @@ using Bunit;
 using TwBlazor.Enums;
 using DocsTheme = TwBlazor.Docs.Pages.Theme;
 
-namespace TwBlazor.Tests.Pages;
+namespace TwBlazor.Docs.Tests.Pages;
 
-public class ThemePageTests : TwBlazorTestBase
+public class ThemePageTests : DocsTestBase
 {
     [Fact]
     public void SwatchWrapper_UsesFixedContrastingBackground_ForLightAndDarkColors()

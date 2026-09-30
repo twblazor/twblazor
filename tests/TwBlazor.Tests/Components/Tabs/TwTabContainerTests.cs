@@ -29,7 +29,7 @@ public class TwTabContainerTests : TwBlazorTestBase
         var tablist = cut.Find("div[role='tablist']");
         Assert.NotNull(tablist);
         Assert.Contains("flex flex-wrap", tablist.GetAttribute("class"));
-        Assert.Contains("border-b-2", tablist.GetAttribute("class"));
+        Assert.Contains("border-b", tablist.GetAttribute("class"));
 
         var tabpanel = cut.Find("div[role='tabpanel']");
         Assert.NotNull(tabpanel);
@@ -468,7 +468,7 @@ public class TwTabContainerTests : TwBlazorTestBase
         Assert.Contains("border-t", tablistClass);
         Assert.Contains("border-l", tablistClass);
         Assert.Contains("border-r", tablistClass);
-        Assert.Contains("border-b-2", tablistClass);
+        Assert.Contains("border-b", tablistClass);
 
         var tabpanel = cut.Find("div[role='tabpanel']");
         var tabpanelClass = tabpanel.GetAttribute("class") ?? string.Empty;

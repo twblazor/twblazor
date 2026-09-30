@@ -1,13 +1,7 @@
 @page "/stepper"
 @using TwBlazor.Enums
 
-<PageTitle>TwStepper | twblazor</PageTitle>
-<HeadContent>
-    <meta name="description" content="TwStepper is a Blazor step-by-step progress indicator for multi-step flows, with horizontal and vertical orientations, linear and non-linear navigation, and a mobile-friendly responsive collapse." />
-    <link rel="canonical" href="https://twblazor.com/stepper" />
-</HeadContent>
-
-<PageContainer Title="TwStepper" ThemeType="typeof(TwStepperTheme)">
+<PageContainer Title="TwStepper" Path="/stepper" Description="TwStepper is a Blazor stepper for multi-step flows. Bind ActiveStepIndex, set Orientation, Linear and Color, and give each step a Label and Description." ThemeType="typeof(TwStepperTheme)">
     <PageCard Title="Basic Stepper">
         <Description>
             Add <code>TwStep</code> children to a <code>TwStepper</code> to declare each step, and bind <code>ActiveStepIndex</code> to control which one is active.
@@ -41,7 +35,7 @@
         <CodeExample Name="StepperValidation" CSharpName="StepperValidationCode">
             <TwStepper @ref="validatedStepper" @bind-ActiveStepIndex="validatedActiveStep" Linear AriaLabel="Signup progress">
                 <TwStep Label="Email">
-                    <TwTextfield Label="Email address" @bind-Value="signupEmail" Placeholder="user@example.com" AriaLabel="Email address" Invalid="@emailInvalid" ErrorMessage="Please enter a valid email address." />
+                    <TwTextfield Label="Email address" @bind-Value="signupEmail" Placeholder="Enter your email address" AriaLabel="Email address" Invalid="@emailInvalid" ErrorMessage="Please enter a valid email address." />
                 </TwStep>
                 <TwStep Label="Done">
                     <p>Thanks, @signupEmail is confirmed!</p>

@@ -881,6 +881,41 @@ public class TwSidebarTests : TwBlazorTestBase
         });
     }
 
+    [Fact]
+    public void ShouldScrollMainContentToTop_OnLocationChanged()
+    {
+        // Arrange
+        var cut = TestContext.Render<TwSidebar>();
+        var navigationManager = TestContext.Services.GetRequiredService<NavigationManager>();
+
+        // Act
+        navigationManager.NavigateTo("/some-other-page");
+
+        // Assert
+        cut.WaitForAssertion(() =>
+            Assert.Single(TestContext.JSInterop.Invocations["twSidebar.scrollToTop"]));
+    }
+
+    [Fact]
+    public void ShouldNotScrollMainContentToTop_OnLocationChanged_WhenNavigatingToFragment()
+    {
+        // Arrange
+        TestContext.JSInterop.Setup<bool>("twSidebar.isMobileViewport").SetResult(false);
+
+        var cut = TestContext.Render<TwSidebar>(p => p
+            .Add(x => x.IsSidebarOpen, true)
+        );
+        var navigationManager = TestContext.Services.GetRequiredService<NavigationManager>();
+
+        // Act
+        navigationManager.NavigateTo("/some-other-page#section");
+
+        // Assert - the location handler has run once its viewport check was invoked
+        cut.WaitForAssertion(() =>
+            Assert.Single(TestContext.JSInterop.Invocations["twSidebar.isMobileViewport"]));
+        Assert.Empty(TestContext.JSInterop.Invocations["twSidebar.scrollToTop"]);
+    }
+
     #endregion
 
     [Fact]

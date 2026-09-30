@@ -1,4 +1,4 @@
-- name: Documentation
+- name: Component Documentation
   href: https://twblazor.com/
-- name: API
+- name: Component API
   href: api/

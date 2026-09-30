@@ -1,12 +1,6 @@
 @page "/date-range-picker"
 
-<PageTitle>TwDateRangePicker | twblazor</PageTitle>
-<HeadContent>
-    <meta name="description" content="TwDateRangePicker is a Blazor date range picker component with a two-month calendar popup, two way binding, min/max date constraints and input variants." />
-    <link rel="canonical" href="https://twblazor.com/date-range-picker" />
-</HeadContent>
-
-<PageContainer Title="TwDateRangePicker" ThemeType="typeof(TwDatePickerTheme)">
+<PageContainer Title="TwDateRangePicker" Path="/date-range-picker" Description="TwDateRangePicker is a Blazor date range picker with a two-month calendar popup. Bind Value or SelectedRange and constrain it with MinDate and MaxDate." ThemeType="typeof(TwDatePickerTheme)">
     <PageCard Title="Basic Date Range Picker">
         <Description>Bind <code>SelectedRange</code> for a <code>KeyValuePair&lt;DateTime?, DateTime?&gt;</code> value (<code>Key</code> = start, <code>Value</code> = end). Select a start date, then an end date - the range highlights across both calendar months and survives month navigation. Shares its theme (<code>TwDatePickerTheme</code>) with <a href="/date-picker" class="underline">TwDatePicker</a>.</Description>
         <CodeExample Name="DateRangePickerBasic" CSharpName="DateRangePickerBasicCode">
@@ -41,6 +35,13 @@
                 <TwDateRangePicker Id="outlined-variant" @bind-SelectedRange="SelectedRange" Label="Outlined Variant" Variant="InputVariant.Outlined" />
                 <TwDateRangePicker Id="filled-variant" @bind-SelectedRange="SelectedRange" Label="Filled Variant" Variant="InputVariant.Filled" />
             </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Dense Date Range Picker">
+        <Description>Set <code>Dense</code> for a more compact input with a smaller height and text size. Every single-line input shares the same dense height, so they line up when used side by side.</Description>
+        <CodeExample Name="DateRangePickerDense" CSharpName="DateRangePickerBasicCode">
+            <TwDateRangePicker Id="dense-daterangepicker" @bind-SelectedRange="SelectedRange" Label="Dense Date Range Picker" Dense />
         </CodeExample>
     </PageCard>
 

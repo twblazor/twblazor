@@ -1,6 +1,6 @@
 using TwBlazor.Docs.Services;
 
-namespace TwBlazor.Tests.Services;
+namespace TwBlazor.Docs.Tests.Services;
 
 public class XmlDocSummaryTests
 {

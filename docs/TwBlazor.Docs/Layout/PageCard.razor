@@ -1,10 +1,20 @@
-﻿@using TwBlazor.Utilities
-<TwCard Id="@Id" Class="@classes">
-    <h3 class="mb-4 text-xl font-semibold">@Title</h3>
+@using TwBlazor.Utilities
+@implements IDisposable
+
+<TwCard Id="@sectionId" Class="@classes">
+    @if (hasTitle)
+    {
+        <h2 id="@headingId" class="mb-4 text-xl font-bold text-gray-950 dark:text-white">@Title</h2>
+    }
     @ChildContent
 </TwCard>
 
 @code {
+    [CascadingParameter] private PageOutline? Outline { get; set; }
+
+    /// <summary>
+    /// The section's DOM id, which the "On this page" list links to. Defaults to a slug of <see cref="Title"/>.
+    /// </summary>
     [Parameter] public string? Id { get; set; }
     [Parameter] public string? Title { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
@@ -12,8 +22,34 @@
     [Parameter] public bool NoMarginTop { get; set; }
     [Parameter] public bool NoMarginBottom { get; set; }
 
+    private string? sectionId;
+    private bool registered;
+    private bool hasTitle => !string.IsNullOrWhiteSpace(Title);
+    private string headingId => $"{sectionId}-heading";
+
     private string classes => new ClassBuilder()
         .AddClass("my-6", !NoMarginBottom && !NoMarginTop)
         .AddClass("mt-6", NoMarginBottom)
         .AddClass("mb-6", NoMarginTop).Build();
+
+    protected override void OnInitialized()
+    {
+        if (Outline is not null && hasTitle)
+        {
+            sectionId = Outline.Register(Title!, Id);
+            registered = true;
+        }
+        else
+        {
+            sectionId = Id ?? (hasTitle ? PageOutline.Slugify(Title!) : null);
+        }
+    }
+
+    public void Dispose()
+    {
+        if (registered)
+        {
+            Outline!.Unregister(sectionId!);
+        }
+    }
 }

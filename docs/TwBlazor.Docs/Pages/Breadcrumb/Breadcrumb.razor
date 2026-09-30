@@ -1,13 +1,7 @@
 ﻿@page "/breadcrumb"
 @using TwBlazor.Models
 
-<PageTitle>TwBreadcrumb | twblazor</PageTitle>
-<HeadContent>
-    <meta name="description" content="TwBreadcrumb is a Blazor breadcrumb component that shows the current page location. Supports automatic, manual and inline breadcrumbs." />
-    <link rel="canonical" href="https://twblazor.com/breadcrumb" />
-</HeadContent>
-
-<PageContainer Title="TwBreadcrumb" ThemeType="typeof(TwBreadcrumbTheme)">
+<PageContainer Title="TwBreadcrumb" Path="/breadcrumb" Description="TwBreadcrumb is a Blazor breadcrumb component that shows the current page location. Build trails automatically with Auto, or manually with Label, Href and Icon." ThemeType="typeof(TwBreadcrumbTheme)">
     <PageCard Title="Breadcrumbs">
         <Description>Usage of breadcrumb is simplified, you can use the component and allow for automatic breadcrumbs based on the current uri structure:</Description>
 
@@ -30,7 +24,7 @@
         <CodeExample Name="BreadcrumbInline">
             <TwBreadcrumb>
                 <TwBreadcrumbItem Label="Home" Href="/" />
-                <TwBreadcrumbItem Label="Docs" Href="/docs" />
+                <TwBreadcrumbItem Label="Docs" Href="/" />
                 <TwBreadcrumbItem Label="Breadcrumb" Href="/breadcrumb" Icon="Icon.Segmented_Nav" AriaCurrent />
             </TwBreadcrumb>
         </CodeExample>
@@ -51,7 +45,7 @@
         {
             Icon = Icon.Wrench,
             Label = "Settings",
-            Href = "/settings"
+            Href = "/"
         }
     };
     #endregion

@@ -62,7 +62,7 @@
       "_appTitle": "twblazor",
       "_appLogoPath": "images/logo.svg",
       "_appFaviconPath": "images/logo.svg",
-      "_appFooter": "<span>twblazor &bullet; Tailwind CSS components for Blazor. <a href=\"https://twblazor.com/\" target=\"_blank\" rel=\"noopener noreferrer\">Documentation</a> &bullet; <a href=\"https://github.com/TwBlazor/TwBlazor\" target=\"_blank\" rel=\"noopener noreferrer\">GitHub</a> &bullet; Built with <a href=\"https://dotnet.github.io/docfx\" target=\"_blank\" rel=\"noopener noreferrer\">docfx</a></span>",
+      "_appFooter": "<span>twblazor &bullet; Tailwind CSS components for Blazor. <a href=\"https://twblazor.com/\" target=\"_blank\" rel=\"noopener noreferrer\">Documentation</a> &bullet; <a href=\"https://github.com/twblazor/twblazor\" target=\"_blank\" rel=\"noopener noreferrer\">GitHub</a> &bullet; Built with <a href=\"https://dotnet.github.io/docfx\" target=\"_blank\" rel=\"noopener noreferrer\">docfx</a></span>",
       "_enableSearch": true,
       "pdf": false
     }

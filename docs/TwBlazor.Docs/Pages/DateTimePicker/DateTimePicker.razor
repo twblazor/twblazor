@@ -1,12 +1,6 @@
 @page "/datetime-picker"
 
-<PageTitle>TwDateTimePicker | twblazor</PageTitle>
-<HeadContent>
-    <meta name="description" content="TwDateTimePicker is a Blazor component for picking a date and a time in one input, with input variants and disabled or readonly states." />
-    <link rel="canonical" href="https://twblazor.com/datetime-picker" />
-</HeadContent>
-
-<PageContainer Title="TwDateTimePicker" ThemeType="typeof(TwDatePickerTheme)">
+<PageContainer Title="TwDateTimePicker" Path="/datetime-picker" Description="TwDateTimePicker is a Blazor component for choosing a date and time in one input. Bind Value, set Format and Placeholder, and use PreferNativePicker on mobile." ThemeType="typeof(TwDatePickerTheme)">
     <PageCard Title="Basic DateTime Picker">
         <Description>Bind <code>SelectedDateTime</code> for a <code>DateTime</code> value, or <code>Value</code> for a plain string.</Description>
         <CodeExample Name="DateTimePickerBasic" CSharpName="DateTimePickerBasicCode">
@@ -29,6 +23,13 @@
             </div>
         </CodeExample>
     </PageCard>
+    <PageCard Title="Dense DateTime Picker">
+        <Description>Set <code>Dense</code> for a more compact input with a smaller height and text size. Every single-line input shares the same dense height, so they line up when used side by side.</Description>
+        <CodeExample Name="DateTimePickerDense" CSharpName="DateTimePickerBasicCode">
+            <TwDateTimePicker @bind-SelectedDateTime="SelectedDateTime" @bind-Value="SelectedDateTimeTextValue" Label="Dense DateTime Picker" Dense />
+        </CodeExample>
+    </PageCard>
+
     <PageCard Title="Disabled and Readonly DateTime Picker">
         <Description>Use the <code>Disabled</code> and <code>ReadOnly</code> properties to restrict interaction with the datetime picker.</Description>
         <CodeExample Name="DateTimePickerReadonlyDisabled" CSharpName="DateTimePickerBasicCode">

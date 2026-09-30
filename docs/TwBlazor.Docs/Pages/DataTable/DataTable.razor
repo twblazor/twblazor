@@ -1,12 +1,6 @@
 @page "/data-table"
 
-<PageTitle>TwDataTable | twblazor</PageTitle>
-<HeadContent>
-    <meta name="description" content="TwDataTable is a Blazor data table component with pagination, search, sortable columns and custom row classes for structured data." />
-    <link rel="canonical" href="https://twblazor.com/data-table" />
-</HeadContent>
-
-<PageContainer Title="TwDataTable" ThemeType="typeof(TwTableTheme)">
+<PageContainer Title="TwDataTable" Path="/data-table" Description="TwDataTable is a Blazor data table component with pagination, search, sortable columns and custom row classes for displaying structured data." ThemeType="typeof(TwTableTheme)">
     <PageCard Title="Basic Data Table with Pagination">
         <Description>A feature-rich data table with pagination and search functionality.</Description>
 
@@ -77,13 +71,13 @@
                 <TableHeader>
                     <tr>
                         <th scope="col" class="px-6 py-3">Name</th>
-                        <th scope="col" class="px-6 py-3">Email</th>
+                        <th scope="col" class="px-6 py-3">Department</th>
                         <th scope="col" class="px-6 py-3">Role</th>
                     </tr>
                 </TableHeader>
                 <TableRow Context="user">
                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">@user.Name</td>
-                    <td class="px-6 py-4">@user.Email</td>
+                    <td class="px-6 py-4">@user.Department</td>
                     <td class="px-6 py-4">@user.Role</td>
                 </TableRow>
             </TwDataTable>
@@ -221,11 +215,11 @@
         // Sample user data
         users = new List<User>
         {
-            new User { Id = 1, Name = "John Doe", Email = "john@example.com", Role = "Developer" },
-            new User { Id = 2, Name = "Jane Smith", Email = "jane@example.com", Role = "Designer" },
-            new User { Id = 3, Name = "Bob Johnson", Email = "bob@example.com", Role = "Manager" },
-            new User { Id = 4, Name = "Alice Williams", Email = "alice@example.com", Role = "Developer" },
-            new User { Id = 5, Name = "Charlie Brown", Email = "charlie@example.com", Role = "QA Engineer" }
+            new User { Id = 1, Name = "John Doe", Department = "Engineering", Role = "Developer" },
+            new User { Id = 2, Name = "Jane Smith", Department = "Product", Role = "Designer" },
+            new User { Id = 3, Name = "Bob Johnson", Department = "Operations", Role = "Manager" },
+            new User { Id = 4, Name = "Alice Williams", Department = "Engineering", Role = "Developer" },
+            new User { Id = 5, Name = "Charlie Brown", Department = "Quality", Role = "QA Engineer" }
         };
     }
 
@@ -245,7 +239,7 @@
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
-        public string Email { get; set; } = string.Empty;
+        public string Department { get; set; } = string.Empty;
         public string Role { get; set; } = string.Empty;
     }
     #endregion

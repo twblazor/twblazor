@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Components;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Docs.Layout;
 
-namespace TwBlazor.Tests.Layout;
+namespace TwBlazor.Docs.Tests.Layout;
 
-public class ThemeConfigurationCardTests : TwBlazorTestBase
+public class ThemeConfigurationCardTests : DocsTestBase
 {
     [Fact]
     public void FriendlyTypeName_CoversPrimitivesNullablesEnumsAndGlobalTokenTypes()

@@ -150,8 +150,15 @@ jobs:
         shell: pwsh
         run: ./scripts/update-readme-version.ps1 -Path docs/TwBlazor.Docs/Pages/GetStarted.razor -Version '${{ steps.version.outputs.version }}'
 
+      # This is the README shown on the NuGet.org package page (packed as
+      # README.md by TwBlazor.csproj), separate from the repository README.md.
+      - name: Point NuGet package readme install command at this release
+        id: pkgreadme
+        shell: pwsh
+        run: ./scripts/update-readme-version.ps1 -Path src/TwBlazor/PackageReadme.md -Version '${{ steps.version.outputs.version }}'
+
       - name: Commit docs version bump
-        if: steps.readme.outputs.changed == 'true' || steps.getstarted.outputs.changed == 'true'
+        if: steps.readme.outputs.changed == 'true' || steps.getstarted.outputs.changed == 'true' || steps.pkgreadme.outputs.changed == 'true'
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
           REPO: ${{ github.repository }}
@@ -179,6 +186,7 @@ jobs:
 
           [ "${{ steps.readme.outputs.changed }}" = "true" ] && add_file "README.md"
           [ "${{ steps.getstarted.outputs.changed }}" = "true" ] && add_file "docs/TwBlazor.Docs/Pages/GetStarted.razor"
+          [ "${{ steps.pkgreadme.outputs.changed }}" = "true" ] && add_file "src/TwBlazor/PackageReadme.md"
 
           HEAD_OID="$(git rev-parse HEAD)"
           QUERY='mutation($repo:String!,$branch:String!,$oid:GitObjectID!,$message:String!,$additions:[FileAddition!]!){
@@ -260,12 +268,12 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          if [ ! -f "./artifacts/TwBlazor.$VERSION.nupkg" ]; then
-            echo "::error::Expected ./artifacts/TwBlazor.$VERSION.nupkg but MinVer produced something else:"
+          if [ ! -f "./artifacts/twblazor.$VERSION.nupkg" ]; then
+            echo "::error::Expected ./artifacts/twblazor.$VERSION.nupkg but MinVer produced something else:"
             ls -1 ./artifacts
             exit 1
           fi
-          echo "Packed TwBlazor $VERSION"
+          echo "Packed twblazor $VERSION"
 
       - name: Publish to GitHub Packages
         env:

@@ -1,4 +1,4 @@
-namespace TwBlazor.Tests.Services;
+namespace TwBlazor.Docs.Tests.Services;
 
 /// <summary>
 /// Property bag whose XML doc comments exercise every branch of <c>XmlDocSummary.BuildSegments</c>:

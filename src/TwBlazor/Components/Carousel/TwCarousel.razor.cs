@@ -28,7 +28,9 @@ public partial class TwCarousel : TwBlazorComponentBase, IAsyncDisposable
 
     private double? touchStartX;
 
-    private bool isPointerActive;
+    private bool isHovered;
+
+    private bool isFocused;
 
     private bool isManuallyPaused;
 
@@ -150,7 +152,16 @@ public partial class TwCarousel : TwBlazorComponentBase, IAsyncDisposable
     /// Gets whether automatic playback is currently paused, either because the user toggled the pause
     /// control, or because the pointer or keyboard focus is currently within the carousel.
     /// </summary>
-    public bool IsAutoPlayPaused => isManuallyPaused || isPointerActive;
+    public bool IsAutoPlayPaused => isManuallyPaused || isHovered || isFocused;
+
+    /// <summary>
+    /// Gets whether the user has paused automatic playback with the pause/play control. Unlike
+    /// <see cref="IsAutoPlayPaused"/>, this ignores the temporary pause while the pointer or keyboard focus
+    /// is within the carousel, so it is the state a pause/play control should display: the pointer is
+    /// always over the carousel when its own button is clicked, and using <see cref="IsAutoPlayPaused"/>
+    /// there would leave the control showing "paused" no matter how often it was toggled.
+    /// </summary>
+    public bool IsAutoPlayManuallyPaused => isManuallyPaused;
 
     private string effectiveAriaLabel => string.IsNullOrEmpty(AriaLabel) && string.IsNullOrEmpty(AriaLabelledBy) ? "Carousel" : AriaLabel ?? string.Empty;
 
@@ -256,13 +267,28 @@ public partial class TwCarousel : TwBlazorComponentBase, IAsyncDisposable
     /// <summary>
     /// Toggles automatic playback between paused and playing. Exposed publicly so custom
     /// <see cref="LeftNavigation"/>, <see cref="RightNavigation"/>, or <see cref="Indicators"/> content can
-    /// include their own play/pause control.
+    /// include their own play/pause control. Resuming also clears the current pointer/focus pause: the
+    /// control is only reachable while the pointer or focus is inside the carousel, so without this the
+    /// slideshow would stay paused after pressing play until the pointer and focus had left and returned.
     /// </summary>
-    public void ToggleAutoPlayPaused() => isManuallyPaused = !isManuallyPaused;
+    public void ToggleAutoPlayPaused()
+    {
+        isManuallyPaused = !isManuallyPaused;
 
-    private void HandlePointerEnter() => isPointerActive = true;
+        if (!isManuallyPaused)
+        {
+            isHovered = false;
+            isFocused = false;
+        }
+    }
 
-    private void HandlePointerLeave() => isPointerActive = false;
+    private void HandlePointerEnter() => isHovered = true;
+
+    private void HandlePointerLeave() => isHovered = false;
+
+    private void HandleFocusIn() => isFocused = true;
+
+    private void HandleFocusOut() => isFocused = false;
 
     private Task HandleKeyDown(KeyboardEventArgs e) => e.Key switch
     {

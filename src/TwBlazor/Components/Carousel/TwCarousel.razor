@@ -2,7 +2,7 @@
 @using TwBlazor.Enums
 @inherits TwBlazorComponentBase
 
-<div id="@Id" class="@containerClasses" style="@Style" @attributes="@Attributes" role="region" aria-roledescription="carousel" aria-label="@effectiveAriaLabel" aria-labelledby="@AriaLabelledBy" @onkeydown="HandleKeyDown" @onfocusin="HandlePointerEnter" @onfocusout="HandlePointerLeave">
+<div id="@Id" class="@containerClasses" style="@Style" @attributes="@Attributes" role="region" aria-roledescription="carousel" aria-label="@effectiveAriaLabel" aria-labelledby="@AriaLabelledBy" @onkeydown="HandleKeyDown" @onfocusin="HandleFocusIn" @onfocusout="HandleFocusOut">
     <div class="@theme.Viewport" @onmouseenter="HandlePointerEnter" @onmouseleave="HandlePointerLeave" @ontouchstart="HandleTouchStart" @ontouchend="HandleTouchEnd">
         <div class="@theme.Slide" aria-live="@(AutoPlay ? "off" : "polite")">
             @if (ActiveItem != null)
@@ -36,7 +36,7 @@
 
         @if (AutoPlay)
         {
-            <TwIcon Id="@($"{Id}-playpause")" Icon="@(IsAutoPlayPaused ? Icon.Play_Fill : Icon.Pause_Fill)" ButtonVariant="ButtonVariant.Filled" Color="ButtonColor" RootClass="@theme.PlayPauseButton" AriaLabel="@(IsAutoPlayPaused ? "Play automatic slideshow" : "Pause automatic slideshow")" OnClick="ToggleAutoPlayPaused" />
+            <TwIcon Id="@($"{Id}-playpause")" Icon="@(IsAutoPlayManuallyPaused ? Icon.Play_Fill : Icon.Pause_Fill)" ButtonVariant="ButtonVariant.Filled" Color="ButtonColor" RootClass="@theme.PlayPauseButton" AriaLabel="@(IsAutoPlayManuallyPaused ?"Play automatic slideshow" : "Pause automatic slideshow")" OnClick="ToggleAutoPlayPaused" />
         }
 
         @if (_items.Count > 1)

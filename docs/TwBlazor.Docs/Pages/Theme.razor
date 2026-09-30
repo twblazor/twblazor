@@ -3,13 +3,7 @@
 @using TwBlazor.Configuration.Color
 @inject TwBlazorOptions Options
 
-<PageTitle>Theme | twblazor</PageTitle>
-<HeadContent>
-    <meta name="description" content="Explore TwBlazor's live theme tokens - semantic colors, neutral surface and text tokens, shadows and border radius - as registered by your app's AddTwBlazor() theme." />
-    <link rel="canonical" href="https://twblazor.com/theme" />
-</HeadContent>
-
-<PageContainer Title="Theme">
+<PageContainer Title="Theme" Path="/theme" Category="Design tokens" Description="Explore the twblazor live theme tokens: semantic colours, neutral surface and text tokens, shadows and border radius, as registered by your app theme." SeoTitle="Theme | twblazor - Colours, Surfaces and Design Tokens for Blazor">
     <PageCard Title="Semantic Colors">
         <Description>
             Every color-aware component accepts a <code>Color</code> from the <code>Color</code> enum: <code>Primary</code>, <code>Accent</code>, <code>Success</code>, <code>Danger</code>, <code>Warning</code>, <code>Info</code>, <code>Light</code> and <code>Dark</code>. Each button below is rendered with that color, so what you see is exactly what your registered theme produces - the border class underneath is read live from <code>TwBlazorTheme.Border.Colors</code>.

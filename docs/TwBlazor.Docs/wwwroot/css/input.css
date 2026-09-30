@@ -13,6 +13,29 @@
 @source not "../../../TwBlazor.Theme/bin/**";
 @source not "../../../TwBlazor.Theme/obj/**";
 
+/* Scrollbars follow the site theme: color-scheme darkens the browser's own controls in dark mode, and the
+   thumb reuses the neutral text tokens from Theme.cs so it reads as part of the surface. */
+:root {
+    color-scheme: light;
+    --scrollbar-thumb: oklch(21% 0.006 285.885 / 0.28);
+    --scrollbar-thumb-hover: oklch(21% 0.006 285.885 / 0.45);
+}
+
+.dark {
+    color-scheme: dark;
+    --scrollbar-thumb: oklch(97.807% 0.029 256.847 / 0.22);
+    --scrollbar-thumb-hover: oklch(97.807% 0.029 256.847 / 0.4);
+}
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) transparent;
+}
+
+*:hover {
+    scrollbar-color: var(--scrollbar-thumb-hover) transparent;
+}
+
 h1, h2, h3, h4, h5, h6 {
     font-family: "Source Sans 3", sans-serif;
     font-optical-sizing: auto;

@@ -86,7 +86,7 @@ public partial class TwIcon : TwBlazorComponentBase
     [Parameter] public string RootClass { get; set; } = string.Empty;
 
     private string iconName => EnumExtensions.GetDescriptionFromName(Icon);
-    private string color => colorBuilder.GetTextColor(Color);
+    private string color => iconColorBuilder.GetIconColor(Color);
 
     /// <summary>
     /// Gets whether the caller has supplied an accessible name for this icon. When false (the common,

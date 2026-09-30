@@ -104,6 +104,7 @@ public partial class TwSelect<T> : TwPopoverPickerComponentBase
     /// shows the border - the two differ only in that.
     /// </summary>
     private string GetBoxClasses(string focusVariant) => new ClassBuilder(theme.SelectBase)
+        .AddClass(inputSizeClasses, !Multiple)
         .AddClass(inputVariantBuilder.GetClasses(effectiveVariant, theme).Replace("focus:", focusVariant, StringComparison.Ordinal))
         .AddClass(theme.SelectDefaultPadding, effectiveVariant == InputVariant.Default)
         // Default/Outlined variants make the field's own background bg-transparent so it blends

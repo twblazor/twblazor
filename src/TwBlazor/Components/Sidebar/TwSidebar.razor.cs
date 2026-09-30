@@ -25,6 +25,8 @@ public partial class TwSidebar : TwBlazorComponentBase, IDisposable
 
     private TwSidebarTheme theme => options.Theme.Components.Require<TwSidebarTheme>();
 
+    private ElementReference mainContentRef;
+
     /// <summary>
     /// Gets or sets a value indicating whether the sidebar is currently open.
     /// </summary>
@@ -188,10 +190,18 @@ public partial class TwSidebar : TwBlazorComponentBase, IDisposable
     // IsSidebarOpen represents a persistent panel (see sidebarClasses, which has no lg: reset), so
     // closing it there on every navigation would hide the sidebar entirely instead of just the
     // transient mobile overlay.
-    private void OnLocationChanged(object? sender, LocationChangedEventArgs e) => _ = HandleLocationChangedAsync();
+    private void OnLocationChanged(object? sender, LocationChangedEventArgs e) => _ = HandleLocationChangedAsync(e.Location.Contains('#'));
 
-    private async Task HandleLocationChangedAsync()
+    // The scrollable region is the main content div rather than the window, so the router's own
+    // scroll-to-top on navigation never reaches it. Fragment navigations are left alone so in-page
+    // anchor links keep scrolling to their target.
+    private async Task HandleLocationChangedAsync(bool hasFragment)
     {
+        if (!hasFragment)
+        {
+            await jsRuntime.InvokeVoidAsync("twSidebar.scrollToTop", mainContentRef);
+        }
+
         if (IsSidebarOpen && await jsRuntime.InvokeAsync<bool>("twSidebar.isMobileViewport"))
         {
             IsSidebarOpen = false;

@@ -45,6 +45,46 @@ public class TwSelectTests : TwBlazorTestBase
     }
 
     [Fact]
+    public void TwSelect_OptsIntoCustomizableSelect_WhereTheBrowserSupportsIt()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(p => p.Values, _threeStringOptions));
+
+        // Assert
+        var selectClass = cut.Find("select").GetAttribute("class");
+        Assert.Contains("supports-[appearance:base-select]:[appearance:base-select]", selectClass);
+        Assert.Contains("[&::picker(select)]:[appearance:base-select]", selectClass);
+        Assert.Contains("appearance-none", selectClass);
+        var optionClass = cut.Find("option").GetAttribute("class");
+        Assert.Contains("supports-[appearance:base-select]:checked:", optionClass);
+        Assert.Contains("supports-[appearance:base-select]:py-2", optionClass);
+    }
+
+    [Fact]
+    public void TwSelect_UsesDefaultSize_WhenNotDense()
+    {
+        var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(p => p.Values, _threeStringOptions));
+
+        var selectClass = cut.Find("select").GetAttribute("class");
+        Assert.Contains(inputTheme.Size, selectClass);
+        Assert.DoesNotContain(inputTheme.DenseSize, selectClass);
+    }
+
+    [Fact]
+    public void TwSelect_UsesDenseSize_WhenDense()
+    {
+        var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(p => p.Values, _threeStringOptions)
+            .Add(p => p.Dense, true));
+
+        var selectClass = cut.Find("select").GetAttribute("class");
+        Assert.Contains(inputTheme.DenseSize, selectClass);
+        Assert.DoesNotContain(inputTheme.Size, selectClass);
+    }
+
+    [Fact]
     public void TwSelect_Renders_WithLabel()
     {
         // Arrange & Act
@@ -879,6 +919,28 @@ public class TwSelectTests : TwBlazorTestBase
         var button = cut.Find("button[aria-haspopup='listbox']");
         var trigger = button.ParentElement!;
         Assert.Contains(inputTheme.SelectBase, trigger.GetAttribute("class"));
+    }
+
+    [Fact]
+    public void TwSelect_Multiple_Custom_PanelOptions_HideCheckboxesAndShowTickForSelectedRows()
+    {
+        // Arrange
+        var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(p => p.Multiple, true)
+            .Add(p => p.PreferNativePicker, false)
+            .Add(p => p.Values, _threeStringOptions)
+            .Add(p => p.SelectedValues, _option1Selected));
+
+        // Act
+        cut.Find("button[aria-haspopup='listbox']").Click();
+
+        // Assert - the checkboxes stay in the DOM (focusable, accessible) but are visually hidden,
+        // and selected rows are marked by a tick and tint rather than a checked box.
+        var surface = cut.Find("div[role='dialog']").FirstElementChild!.GetAttribute("class");
+        Assert.Contains("[&_input]:sr-only", surface);
+        Assert.Contains("[&_label:has(input:checked)::before]:visible", surface);
+        Assert.Contains("[&_label:has(input:checked)]:bg-purple-50", surface);
+        Assert.Equal(3, cut.FindAll("div[role='dialog'] input[type='checkbox']").Count);
     }
 
     [Fact]

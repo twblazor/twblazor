@@ -107,6 +107,13 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
     public int[] RowsPerPageOptions { get; set; } = [5, 10, 25, 50, 100];
 
     /// <summary>
+    /// Whether to render the pagination controls with more comfortable, regular-size buttons instead of the default dense (smaller, more
+    /// compact) buttons. Defaults to <c>false</c>. Only applies when <see cref="Pageable"/> is <c>true</c>.
+    /// </summary>
+    [Parameter]
+    public bool ComfortablePagination { get; set; } = false;
+
+    /// <summary>
     /// Whether to show striped rows.
     /// </summary>
     [Parameter]

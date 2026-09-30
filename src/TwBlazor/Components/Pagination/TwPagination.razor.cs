@@ -47,16 +47,33 @@ public partial class TwPagination : TwBlazorComponentBase
     /// </summary>
     [Parameter] public int[] PageSizeOptions { get; set; } = [5, 10, 25, 50, 100];
 
+    /// <summary>
+    /// Whether to render smaller, more compact buttons.
+    /// </summary>
+    [Parameter] public bool Dense { get; set; }
+
+    private string buttonBaseClasses => new ClassBuilder(theme.Base)
+        .AddClass(Dense ? theme.DenseSize : theme.Size)
+        .Build();
+
     private string rootClasses => new ClassBuilder(options.Theme.Display.Flex)
         .AddClass(options.Theme.Flexbox.Align.Center)
         .AddClass(options.Theme.Spacing.Gap.Lg)
         .AddClass(Class).Build();
 
-    // The active page is distinguished by more than color alone (font-weight + border-width),
-    // so low-vision/color-deficient sighted users have a cue beyond the blue/gray hue difference.
-    private string IsActivePage(int page) =>
-        new ClassBuilder(theme.Base)
+    /// <summary>
+    /// Gets the classes for the joined button group. The group clips its buttons to a single rounded,
+    /// bordered container (the same construction as the table's container) so the buttons themselves
+    /// need no rounding or borders of their own.
+    /// </summary>
+    private string listClasses => new ClassBuilder(theme.List)
         .AddClass(roundedBuilder.GetRounded())
+        .Build();
+
+    // The active page is distinguished by more than color alone (font-weight + background tint),
+    // so low-vision/color-deficient sighted users have a cue beyond the purple/gray hue difference.
+    private string IsActivePage(int page) =>
+        new ClassBuilder(buttonBaseClasses)
         .AddClass(theme.ActiveButton, page == ActivePage)
         .AddClass(theme.Buttons, page != ActivePage)
         .Build();
@@ -71,12 +88,10 @@ public partial class TwPagination : TwBlazorComponentBase
     /// </summary>
     private bool isNextDisabled => ActivePage >= TotalPages;
 
-    private string NavButtonClass(bool disabled, bool isFirst = false, bool isLast = false) =>
-        new ClassBuilder(theme.Base)
-        .AddClass(options.Theme.Spacing.MarginStart.Sm, isLast)
-        .AddClass(options.Theme.Spacing.MarginEnd.Sm, isFirst)
-        .AddClass(roundedBuilder.GetRounded())
+    private string NavButtonClass(bool disabled) =>
+        new ClassBuilder(buttonBaseClasses)
         .AddClass(theme.Buttons, !disabled)
+        .AddClass(options.Theme.Interaction.DisabledOpacity, disabled)
         .Build();
 
     /// <summary>

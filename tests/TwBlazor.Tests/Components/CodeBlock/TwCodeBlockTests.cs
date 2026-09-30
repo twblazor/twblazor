@@ -198,8 +198,61 @@ public class TwCodeBlockTests : TwBlazorTestBase
         // Assert
         var button = cut.Find("button");
         var classes = button.GetAttribute("class");
-        Assert.Contains("absolute", classes);
-        Assert.Contains("right-3", classes);
+        Assert.Contains("hover:text-", classes);
+    }
+
+    [Fact]
+    public void TwCodeBlock_CopyButton_SitsInTheHeaderNotOverTheCode()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwCodeBlock>();
+
+        // Assert
+        var header = cut.Find("div > div");
+        Assert.NotNull(header.QuerySelector("button"));
+        Assert.DoesNotContain("absolute", cut.Find("button").GetAttribute("class"));
+        Assert.Contains("justify-between", header.GetAttribute("class"));
+    }
+
+    [Theory]
+    [InlineData("html", "Razor")]
+    [InlineData("csharp", "C#")]
+    [InlineData("bash", "Terminal")]
+    [InlineData("css", "CSS")]
+    [InlineData("Bash", "Terminal")]
+    [InlineData("razor", "RAZOR")]
+    public void TwCodeBlock_Header_ShowsADisplayNameForTheLanguage(string language, string expected)
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwCodeBlock>(parameters => parameters
+            .Add(p => p.Language, language));
+
+        // Assert
+        Assert.Equal(expected, cut.Find("div > div > span").TextContent);
+    }
+
+    [Fact]
+    public void TwCodeBlock_Header_ShowsTheTitle_WhenOneIsGiven()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwCodeBlock>(parameters => parameters
+            .Add(p => p.Language, "bash")
+            .Add(p => p.Title, "Install"));
+
+        // Assert
+        Assert.Equal("Install", cut.Find("div > div > span").TextContent);
+    }
+
+    [Fact]
+    public void TwCodeBlock_Panel_WrapsTheCodeInAnInsetSurface()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwCodeBlock>();
+
+        // Assert
+        var pre = cut.Find("pre");
+        Assert.Contains("text-sm", pre.GetAttribute("class"));
+        Assert.NotNull(pre.QuerySelector("code"));
     }
 
     [Fact]
@@ -353,18 +406,6 @@ public class TwCodeBlockTests : TwBlazorTestBase
         Assert.Contains(customClass, div.GetAttribute("class"));
         Assert.Contains(content, code.TextContent);
         Assert.Contains($"language-{language}", code.GetAttribute("class"));
-    }
-
-    [Fact]
-    public void TwCodeBlock_CopyButton_IsPositionedAbsolutely()
-    {
-        // Arrange & Act
-        var cut = TestContext.Render<TwCodeBlock>();
-
-        // Assert
-        var button = cut.Find("button");
-        Assert.Contains("absolute", button.GetAttribute("class"));
-        Assert.Contains("right-3", button.GetAttribute("class"));
     }
 
     [Fact]

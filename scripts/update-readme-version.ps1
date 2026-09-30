@@ -1,13 +1,14 @@
-# Rewrites every "dotnet add package TwBlazor --version" install command in the
+# Rewrites every "dotnet add package twblazor --version" install command in the
 # given file so it always names the newest published release exactly:
 #
-#   dotnet add package TwBlazor --version 1.3.2
+#   dotnet add package twblazor --version 1.3.2
 #
-# Every release moves it, patches included, so neither the README nor the
-# Get Started docs page ever names a version older than what is on NuGet.
-# README.md carries exactly one such line; GetStarted.razor carries two (one
-# per hosting-model tab), so the match count is only required to be at least
-# one, not exactly one - either way, every match in the file is rewritten.
+# Every release moves it, patches included, so neither the README, the NuGet
+# package readme nor the Get Started docs page ever names a version older than
+# what is on NuGet. README.md and src/TwBlazor/PackageReadme.md carry exactly
+# one such line; GetStarted.razor carries two (one per hosting-model tab), so
+# the match count is only required to be at least one, not exactly one -
+# either way, every match in the file is rewritten.
 #
 # Versions live only in Git tags, so the release line comes from the newest
 # stable tag through the shared helper - the same lookup the publish workflows
@@ -19,7 +20,8 @@
 #
 # Writes "version" and "changed" to $GITHUB_OUTPUT when running under Actions.
 # Call it once per file when more than one needs updating (see
-# publish-release.yml, which runs it for both README.md and GetStarted.razor).
+# publish-release.yml, which runs it for README.md, PackageReadme.md and
+# GetStarted.razor).
 #
 # Usage:
 #   pwsh ./scripts/update-readme-version.ps1 [-Path README.md] [-TagPrefix v]
@@ -61,7 +63,7 @@ $content = Get-Content -Path $Path -Raw
 
 # Deliberately matches whatever the line carries today - the x.x.x placeholder,
 # a pinned version, or an older floating one - so re-running is a no-op.
-$pattern = '(dotnet add package TwBlazor --version )\S+'
+$pattern = '(dotnet add package twblazor --version )\S+'
 $found = [regex]::Matches($content, $pattern)
 
 # A silent no-op would be worse than failing: if the install command is ever
@@ -69,7 +71,7 @@ $found = [regex]::Matches($content, $pattern)
 # stop maintaining it. At least one match, not exactly one, since
 # GetStarted.razor legitimately carries two (Server and WebAssembly tabs).
 if ($found.Count -lt 1) {
-    throw "Expected at least one 'dotnet add package TwBlazor --version <version>' line in $Path, found none. Update `$pattern in this script if the install command was reworded."
+    throw "Expected at least one 'dotnet add package twblazor --version <version>' line in $Path, found none. Update `$pattern in this script if the install command was reworded."
 }
 
 $updated = [regex]::Replace($content, $pattern, "`${1}$installVersion")

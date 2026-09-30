@@ -52,7 +52,7 @@ jobs:
         run: |
           set -euo pipefail
           RESPONSE=$(curl -sS -u "$SONAR_TOKEN:" \
-            "https://sonarcloud.io/api/qualitygates/project_status?projectKey=TwBlazor_twblazor&branch=develop")
+            "https://sonarcloud.io/api/qualitygates/project_status?projectKey=twblazor_twblazor&branch=develop")
           echo "$RESPONSE"
           STATUS=$(echo "$RESPONSE" | jq -r '.projectStatus.status // "UNKNOWN"')
           if [ "$STATUS" != "OK" ]; then

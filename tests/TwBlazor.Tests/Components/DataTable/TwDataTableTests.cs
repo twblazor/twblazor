@@ -65,6 +65,37 @@ public class TwDataTableTests : TwBlazorTestBase
         Assert.NotNull(paginationNav);
     }
 
+    [Theory]
+    [InlineData(null, true)]
+    [InlineData(false, true)]
+    [InlineData(true, false)]
+    public void TwDataTable_ComfortablePagination_ControlsPaginationDensity(bool? comfortablePagination, bool expectedDense)
+    {
+        // Arrange
+        var paginationTheme = Theme.Components.Require<TwPaginationTheme>();
+        var denseClass = paginationTheme.DenseSize.Split(' ')[0];
+        var regularClass = paginationTheme.Size.Split(' ')[0];
+
+        // Act
+        var cut = TestContext.Render<TwDataTable<TestProduct>>(parameters =>
+        {
+            parameters
+                .Add(p => p.Items, GetManyTestProducts(20))
+                .Add(p => p.Columns, GetTestColumns())
+                .Add(p => p.RowsPerPage, 5);
+
+            if (comfortablePagination.HasValue)
+            {
+                parameters.Add(p => p.ComfortablePagination, comfortablePagination.Value);
+            }
+        });
+
+        // Assert
+        var button = PaginationLinks(cut)[0];
+        Assert.Equal(expectedDense, button.ClassList.Contains(denseClass));
+        Assert.Equal(!expectedDense, button.ClassList.Contains(regularClass));
+    }
+
     [Fact]
     public void TwDataTable_NonPageable_HidesNavigationButtons()
     {

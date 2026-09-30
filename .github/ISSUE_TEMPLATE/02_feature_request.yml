@@ -1,6 +1,9 @@
 name: Feature Request
-description: Suggest a new feature for TwBlazor.
+description: Suggest a new feature for twblazor.
 title: "feat: "
+type: Feature
+projects:
+  - twblazor/2
 labels:
   - feat
 body:
@@ -15,7 +18,7 @@ body:
     id: idea
     attributes:
       label: Describe your idea
-      description: What would you like TwBlazor to do that it doesn't today?
+      description: What would you like twblazor to do that it doesn't today?
     validations:
       required: true
 

@@ -5,7 +5,8 @@ namespace TwBlazor.BuildTools;
 /// <summary>
 /// Build-time tool for TwBlazor that handles code generation and asset management.
 /// Extracts &lt;CodeExample&gt; tags and "#region CodeExample" blocks from the docs pages
-/// (and a handful of real source files) and generates CodeExamples.cs.
+/// (and a handful of real source files) and generates CodeExamples.cs, plus the sitemap and
+/// PageLastModified.cs from the pages' routes and git history.
 /// </summary>
 static class Program
 {
@@ -72,6 +73,42 @@ static class Program
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"ERROR in CodeExample extraction: {ex.Message}");
+                Console.ResetColor();
+                hasErrors = true;
+            }
+
+            Console.WriteLine();
+
+            // Discover pages from their @page directives, then write the sitemap and the last-modified lookup
+            Console.WriteLine("=== Sitemap and Page Metadata ===");
+
+            try
+            {
+                var entries = PageRouteScanner.Scan(Paths.PagesPath)
+                    .Select(route => new PageEntry(route.Route, GitHistory.GetLastModified(solutionDir, route.SourcePath)))
+                    .ToList();
+
+                var sitemapPath = Paths.SitemapPath;
+                File.WriteAllText(sitemapPath, SitemapGenerator.GenerateSitemap(entries));
+                Console.WriteLine($"Generated: {sitemapPath} ({entries.Count} pages)");
+
+                var lastModifiedPath = Path.Combine(Paths.GeneratedPath, "PageLastModified.cs");
+                Directory.CreateDirectory(Paths.GeneratedPath);
+                File.WriteAllText(lastModifiedPath, SitemapGenerator.GeneratePageLastModifiedClass(entries));
+                Console.WriteLine($"Generated: {lastModifiedPath}");
+
+                var undated = entries.Count(static e => e.LastModified is null);
+                if (undated > 0)
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine($"WARNING: {undated} page(s) have no git history, so no lastmod was written for them (shallow clone?)");
+                    Console.ResetColor();
+                }
+            }
+            catch (IOException ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"ERROR generating sitemap: {ex.Message}");
                 Console.ResetColor();
                 hasErrors = true;
             }

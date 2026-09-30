@@ -71,12 +71,12 @@ jobs:
           # newest *reachable* tag, which on develop is the previous release -
           # that still looks like a prerelease while sorting below what has
           # already shipped, so a looser check would wave it through.
-          if [ ! -f "./artifacts/TwBlazor.$VERSION.nupkg" ]; then
-            echo "::error::Expected ./artifacts/TwBlazor.$VERSION.nupkg. Check that -p:MinVerVersionOverride reached both the build and pack steps."
+          if [ ! -f "./artifacts/twblazor.$VERSION.nupkg" ]; then
+            echo "::error::Expected ./artifacts/twblazor.$VERSION.nupkg. Check that -p:MinVerVersionOverride reached both the build and pack steps."
             exit 1
           fi
           case "$VERSION" in
-            *-preview.*) echo "Packed TwBlazor $VERSION" ;;
+            *-preview.*) echo "Packed twblazor $VERSION" ;;
             *) echo "::error::develop computed a stable version ($VERSION); develop must only ever publish previews."; exit 1 ;;
           esac
 

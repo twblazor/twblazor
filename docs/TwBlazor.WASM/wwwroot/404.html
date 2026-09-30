@@ -4,19 +4,22 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>twblazor | Tailwind CSS components for Blazor</title>
-    <meta name="description" content="Professional-grade Tailwind CSS components for Blazor. Accessible, themeable, free and open-source components to help you ship polished .NET UIs faster." />
+    <title>Page not found | twblazor</title>
+    <meta name="robots" content="noindex" />
     <base href="/" />
-    <link rel="stylesheet" href="_content/TwBlazor/icons/bootstrap-icons.min.css">
+    <link rel="icon" href="_content/TwBlazor.Docs/images/logo.ico" sizes="32x32" />
+    <link rel="icon" type="image/svg+xml" href="_content/TwBlazor.Docs/images/logo.svg" />
+    <link rel="stylesheet" href="_content/twblazor/icons/bootstrap-icons.min.css">
     <link rel="stylesheet" href="_content/TwBlazor.Docs/css/output.css" />
+    <style>.docs-loading-text::after { content: "Loading twblazor docs..."; }</style>
 </head>
 
 <body>
     <div id="app" class="overflow-none">
         <div class="flex items-center justify-center h-screen dark:bg-gray-900">
-            <output class="inline-flex flex-col items-center gap-3" aria-label="Loading">
+            <output class="inline-flex flex-col items-center gap-3" aria-label="Loading twblazor docs">
                 <span class="inline-block rounded-full animate-spin size-10 border-5 border-gray-200 dark:border-gray-700 border-t-purple-600 dark:border-t-purple-500" aria-hidden="true"></span>
-                <p class="text-gray-700 dark:text-gray-100">Loading twblazor docs...</p>
+                <p class="docs-loading-text text-gray-700 dark:text-gray-100" aria-hidden="true"></p>
             </output>
         </div>
     </div>
@@ -27,7 +30,7 @@
         <a class="dismiss absolute right-3 top-2 cursor-pointer leading-none">🗙</a>
     </div>
     <script src="_framework/blazor.webassembly.js"></script>
-    <script src="_content/TwBlazor/js/twblazor.js"></script>
+    <script src="_content/twblazor/js/twblazor.js"></script>
     <script src="_content/TwBlazor.Docs/js/themeToggle.js"></script>
     <!-- highlight js -->
     <script src="_content/TwBlazor.Docs/js/highlight.min.js"></script>

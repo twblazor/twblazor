@@ -265,27 +265,7 @@ public partial class TwPickList<TItem> : TwBlazorComponentBase
         }
 
         var list = (isSource ? SourceItems : TargetItems).ToList();
-
-        if (up)
-        {
-            for (var i = 1; i < list.Count; i++)
-            {
-                if (selection.Contains(list[i]) && !selection.Contains(list[i - 1]))
-                {
-                    (list[i - 1], list[i]) = (list[i], list[i - 1]);
-                }
-            }
-        }
-        else
-        {
-            for (var i = list.Count - 2; i >= 0; i--)
-            {
-                if (selection.Contains(list[i]) && !selection.Contains(list[i + 1]))
-                {
-                    (list[i], list[i + 1]) = (list[i + 1], list[i]);
-                }
-            }
-        }
+        ShiftSelected(list, selection, up);
 
         if (isSource)
         {
@@ -296,6 +276,25 @@ public partial class TwPickList<TItem> : TwBlazorComponentBase
         {
             TargetItems = list;
             await TargetItemsChanged.InvokeAsync(TargetItems);
+        }
+    }
+
+    /// <summary>
+    /// Swaps each selected item in place with its nearest unselected neighbor in the move direction.
+    /// Walking away from the direction of travel lets a contiguous block of selected items move together.
+    /// </summary>
+    private static void ShiftSelected(List<TItem> list, HashSet<TItem> selection, bool up)
+    {
+        var step = up ? 1 : -1;
+        var start = up ? 1 : list.Count - 2;
+
+        for (var i = start; i >= 0 && i < list.Count; i += step)
+        {
+            var neighbor = i - step;
+            if (selection.Contains(list[i]) && !selection.Contains(list[neighbor]))
+            {
+                (list[neighbor], list[i]) = (list[i], list[neighbor]);
+            }
         }
     }
 

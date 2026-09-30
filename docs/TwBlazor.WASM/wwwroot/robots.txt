@@ -1,4 +1,21 @@
 User-agent: *
-Disallow: /_content/
+Allow: /
+
+# A crawler with its own group ignores the "*" group above, so each AI crawler is listed explicitly.
+# Training crawlers (GPTBot, Google-Extended, Applebot-Extended, CCBot) are allowed too: the docs are
+# open source and meant to be found by people asking an assistant how to use the components.
+User-agent: GPTBot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: ClaudeBot
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: Google-Extended
+User-agent: Applebot-Extended
+User-agent: CCBot
+User-agent: Meta-ExternalAgent
+Allow: /
 
 Sitemap: https://twblazor.com/sitemap.xml

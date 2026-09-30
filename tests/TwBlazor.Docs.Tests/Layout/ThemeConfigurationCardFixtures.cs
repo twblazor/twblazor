@@ -1,6 +1,6 @@
 using TwBlazor.Configuration.Color;
 
-namespace TwBlazor.Tests.Layout;
+namespace TwBlazor.Docs.Tests.Layout;
 
 /// <summary>
 /// Stand-in "theme" type covering every branch of <c>ThemeConfigurationCard.FriendlyTypeName</c>

@@ -6,7 +6,7 @@
     <TwInputLabel Id="@LabelId" For="@Id" Label="@Label" Class="@LabelClass" @attributes="@LabelAttributes" />
 
     <div class="@options.Theme.Position.Relative">
-        <div class="@theme.IconWrapper" role="button" tabindex="@(Disabled ? "-1" : "0")" aria-label="Open time range picker" aria-disabled="@(Disabled ? "true" : null)" @onclick="OnIconClickAsync" @onkeydown="OnIconKeyDownAsync">
+        <div class="@($"{theme.IconWrapper} {inputSizeClasses}")" role="button" tabindex="@(Disabled ? "-1" : "0")" aria-label="Open time range picker" aria-disabled="@(Disabled ? "true" : null)" @onclick="OnIconClickAsync" @onkeydown="OnIconKeyDownAsync">
             <svg class="@theme.IconGlyph" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
             </svg>
@@ -23,6 +23,7 @@
             ValueChanged="@((e) => OnTextValueChanged(e))"
             ReadOnly="@ReadOnly"
             Variant="@Variant"
+            Dense="@Dense"
             Invalid="@Invalid"
             ErrorMessage="@ErrorMessage"
             Attributes="@triggerAttributes"

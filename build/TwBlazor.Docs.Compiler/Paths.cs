@@ -54,6 +54,7 @@ public static class Paths
     public static string GeneratedPath => CombineDir(DocsProjectPath, "Generated");
     public static string PagesPath => CombineDir(DocsProjectPath, "Pages");
     public static string LayoutPath => CombineDir(DocsProjectPath, "Layout");
+    public static string SitemapPath => Path.Combine(GetSolutionDirectory(), "docs", "TwBlazor.WASM", "wwwroot", "sitemap.xml");
     public static string ThemeCsFilePath => Path.Combine(GetSolutionDirectory(), "src", "TwBlazor.Theme", "Theme.cs");
     public static string ServerProgramCsFilePath => Path.Combine(GetSolutionDirectory(), "docs", "TwBlazor.Server", "Program.cs");
 }

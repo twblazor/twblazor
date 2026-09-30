@@ -5,17 +5,12 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <!-- 1591: most XmlDocSummary fixtures are intentionally undocumented. 1735: ParamAndTypeParamRefs
-         intentionally uses a typeparamref with no matching generic parameter - it's markup being fed
-         to XmlDocSummary, not a real doc comment on a generic member. -->
-    <NoWarn>$(NoWarn);1591;1735</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AngleSharp" Version="1.8.1" />
+    <PackageReference Include="AngleSharp" Version="1.8.2" />
     <PackageReference Include="bunit" Version="2.11.3" />
-    <PackageReference Include="coverlet.MTP" Version="10.0.1" />
+    <PackageReference Include="coverlet.MTP" Version="10.1.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.10.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="4.0.0">
       <PrivateAssets>all</PrivateAssets>
@@ -25,7 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\docs\TwBlazor.Docs\TwBlazor.Docs.csproj" />
     <ProjectReference Include="..\..\src\TwBlazor.Theme\TwBlazor.Theme.csproj" />
     <ProjectReference Include="..\..\src\TwBlazor\TwBlazor.csproj" />
   </ItemGroup>

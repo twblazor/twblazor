@@ -4,9 +4,9 @@ using TwBlazor.Docs.Layout;
 using TwBlazor.Models;
 using TwBlazor.Services;
 
-namespace TwBlazor.Tests.Layout;
+namespace TwBlazor.Docs.Tests.Layout;
 
-public class SearchDisplayTests : TwBlazorTestBase
+public class SearchDisplayTests : DocsTestBase
 {
     [Fact]
     public void NoSearchTerm_ShowsPromptInsteadOfResults()

@@ -1,13 +1,7 @@
 @page "/navbar"
 @using TwBlazor.Models
 
-<PageTitle>TwNavbar | twblazor</PageTitle>
-<HeadContent>
-    <meta name="description" content="TwNavbar is a responsive Blazor navigation bar with slots, data-driven links, and mobile collapse." />
-    <link rel="canonical" href="https://twblazor.com/navbar" />
-</HeadContent>
-
-<PageContainer Title="TwNavbar" ThemeType="typeof(TwSidebarTheme)">
+<PageContainer Title="TwNavbar" Path="/navbar" Description="TwNavbar is a responsive Blazor navbar with BrandContent, NavigationContent and ActionsContent slots, data-driven NavigationItems and keyboard support." ThemeType="typeof(TwSidebarTheme)">
     <PageCard Title="Structured Navbar">
         <Description>
             <code>TwNavbar</code> provides <code>BrandContent</code>, <code>NavigationContent</code>, and <code>ActionsContent</code> slots for hand-written markup. Responsive collapse is enabled by default - shrink the preview to see the mobile toggle appear.
@@ -22,8 +16,8 @@
                 </BrandContent>
                 <NavigationContent>
                     <a href="/" class="px-3 py-2 rounded-md text-sm font-medium text-white/80 hover:text-white hover:bg-white/10 transition-colors">Home</a>
-                    <a href="/products" class="px-3 py-2 rounded-md text-sm font-medium text-white/80 hover:text-white hover:bg-white/10 transition-colors">Products</a>
-                    <a href="/pricing" class="px-3 py-2 rounded-md text-sm font-medium text-white/80 hover:text-white hover:bg-white/10 transition-colors">Pricing</a>
+                    <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-white/80 hover:text-white hover:bg-white/10 transition-colors">Products</a>
+                    <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-white/80 hover:text-white hover:bg-white/10 transition-colors">Pricing</a>
                 </NavigationContent>
                 <ActionsContent>
                     <TwButton Label="Sign in" Variant="ButtonVariant.Text" Color="Color.Light" />
@@ -66,7 +60,7 @@
                 </BrandContent>
                 <NavigationContent>
                     <a href="/" class="px-3 py-2 rounded-md text-sm font-medium text-white/80 hover:text-white hover:bg-white/10 transition-colors">Home</a>
-                    <a href="/products" class="px-3 py-2 rounded-md text-sm font-medium text-white/80 hover:text-white hover:bg-white/10 transition-colors">Products</a>
+                    <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-white/80 hover:text-white hover:bg-white/10 transition-colors">Products</a>
                 </NavigationContent>
                 <ActionsContent>
                     <TwButton Label="Sign in" Variant="ButtonVariant.Text" Color="Color.Light" />
@@ -81,8 +75,8 @@
     private readonly List<NavigationItem> navigationItems =
     [
         new() { Label = "Home", Href = "/", Icon = Icon.House_Door_Fill, IsActive = true },
-        new() { Label = "Products", Href = "/products", Icon = Icon.Box_Seam_Fill },
-        new() { Label = "Pricing", Href = "/pricing", Icon = Icon.Tag_Fill }
+        new() { Label = "Products", Href = "#", Icon = Icon.Box_Seam_Fill },
+        new() { Label = "Pricing", Href = "#", Icon = Icon.Tag_Fill }
     ];
     #endregion
 }

@@ -433,4 +433,19 @@ public class TwIconTests : TwBlazorTestBase
         Assert.NotNull(icon);
         Assert.Contains("bi-info", icon.GetAttribute("class"));
     }
+
+    [Fact]
+    public void ShouldUseIconColorTheme_NotTextColors_WhenColorIsSet()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwIcon>(p => p
+            .Add(x => x.Icon, TwBlazor.Enums.Icon.Star)
+            .Add(x => x.Color, Color.Warning));
+
+        // Assert - yellow-800 (the body text color) rendered as brown; icons use a vivid gold that still clears 3:1 on white.
+        var classes = cut.Find("i").GetAttribute("class");
+        Assert.Contains("text-[oklch(65%_0.15_80)]", classes);
+        Assert.Contains("dark:text-yellow-400", classes);
+        Assert.DoesNotContain("text-yellow-800", classes);
+    }
 }

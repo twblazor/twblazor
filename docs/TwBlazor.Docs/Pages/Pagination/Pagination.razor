@@ -1,12 +1,6 @@
 @page "/pagination"
 
-<PageTitle>TwPagination | twblazor</PageTitle>
-<HeadContent>
-    <meta name="description" content="TwPagination is a Blazor pagination component for splitting content across pages, with page change events and a page size selector." />
-    <link rel="canonical" href="https://twblazor.com/pagination" />
-</HeadContent>
-
-<PageContainer Title="TwPagination" ThemeType="typeof(TwPaginationTheme)">
+<PageContainer Title="TwPagination" Path="/pagination" Description="TwPagination is a Blazor pagination component. Bind ActivePage and PageSize, set TotalPages and ShowPageSize to split content across pages." ThemeType="typeof(TwPaginationTheme)">
     <PageCard Title="Basic Usage">
         <Description>Bind <code>ActivePage</code> to track the current page as the user clicks between pages. <code>TotalPages</code> controls how many pages are available.</Description>
 
@@ -25,6 +19,14 @@
         </CodeExample>
     </PageCard>
 
+    <PageCard Title="Dense">
+        <Description>Set <code>Dense</code> to render smaller, more compact buttons, useful for tight layouts such as beneath a table. The optional page size selector becomes dense too.</Description>
+
+        <CodeExample Name="PaginationDense" CSharpName="PaginationDenseCode">
+            <TwPagination TotalPages="10" Dense="true" @bind-ActivePage="denseActivePage" ShowPageSize="true" @bind-PageSize="densePageSize" AriaLabel="Dense pagination" />
+        </CodeExample>
+    </PageCard>
+
     <PageCard Title="Page Size Selector">
         <Description>Set <code>ShowPageSize</code> to add an optional "items per page" dropdown alongside the pagination controls. Bind <code>PageSize</code> and customize <code>PageSizeOptions</code> to control the available choices.</Description>
 
@@ -38,6 +40,11 @@
 @code {
     #region CodeExample PaginationBasicCode
     private int activePage = 1;
+    #endregion
+
+    #region CodeExample PaginationDenseCode
+    private int denseActivePage = 1;
+    private int densePageSize = 10;
     #endregion
 
     #region CodeExample PaginationPageChangedCode

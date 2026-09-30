@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using System.Diagnostics.CodeAnalysis;
+using TwBlazor.Configuration.Color;
 
 namespace TwBlazor.Configuration.Components;
 
@@ -12,6 +13,15 @@ namespace TwBlazor.Configuration.Components;
 [ExcludeFromCodeCoverage]
 public class TwIconTheme
 {
+    /// <summary>
+    /// Gets or sets the color palette applied to icons that set <see cref="TwBlazor.Components.TwIcon.Color"/>.
+    /// </summary>
+    /// <remarks>
+    /// Each entry carries both its light and <c>dark:</c> mode classes. Icons are graphics, so these only need
+    /// the 3:1 non-text contrast ratio and can be more vivid than the body text colors.
+    /// </remarks>
+    public required TwBlazorPalette Colors { get; set; }
+
     /// <summary>
     /// Gets or sets the hover state-layer classes applied to an icon button (a <see cref="TwBlazor.Components.TwIcon"/>
     /// rendered with an <see cref="TwBlazor.Components.TwIcon.OnClick"/> delegate).

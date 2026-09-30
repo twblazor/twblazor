@@ -17,7 +17,7 @@ public class InputVariantBuilderTests : TwBlazorTestBase
         var result = InputVariantBuilder.GetClasses(InputVariant.Default, inputTheme);
 
         // Assert
-        Assert.Contains("border-b-2", result);
+        Assert.Contains("border-b-1", result);
         Assert.Contains(inputTheme.FilledBorder, result);
         Assert.Contains(inputTheme.FocusBorder, result);
         Assert.Contains("bg-transparent", result);
@@ -31,8 +31,8 @@ public class InputVariantBuilderTests : TwBlazorTestBase
         var result = InputVariantBuilder.GetClasses(InputVariant.Default, inputTheme);
 
         // Assert
-        Assert.Contains("border-b-2", result);
-        Assert.DoesNotContain("border-2 ", result);
+        Assert.Contains("border-b-1", result);
+        Assert.DoesNotContain("border-1 ", result);
     }
 
     #endregion
@@ -46,7 +46,7 @@ public class InputVariantBuilderTests : TwBlazorTestBase
         var result = InputVariantBuilder.GetClasses(InputVariant.Outlined, inputTheme);
 
         // Assert
-        Assert.Contains("border-2", result);
+        Assert.Contains("border-1", result);
         Assert.Contains(inputTheme.OutlinedBorder, result);
         Assert.Contains(inputTheme.FocusBorder, result);
         Assert.Contains("bg-transparent", result);
@@ -61,8 +61,8 @@ public class InputVariantBuilderTests : TwBlazorTestBase
         var result = InputVariantBuilder.GetClasses(InputVariant.Outlined, inputTheme);
 
         // Assert
-        Assert.Contains("border-2", result);
-        Assert.DoesNotContain("border-b-2", result);
+        Assert.Contains("border-1", result);
+        Assert.DoesNotContain("border-b-1", result);
     }
 
     [Fact]
@@ -96,7 +96,7 @@ public class InputVariantBuilderTests : TwBlazorTestBase
         var result = InputVariantBuilder.GetClasses(InputVariant.Filled, inputTheme);
 
         // Assert
-        Assert.Contains("border-b-2", result);
+        Assert.Contains("border-b-1", result);
         Assert.Contains(inputTheme.FilledBorder, result);
         Assert.Contains(inputTheme.FocusBorder, result);
         Assert.Contains(inputTheme.FilledBackgroundColor, result);
@@ -111,8 +111,8 @@ public class InputVariantBuilderTests : TwBlazorTestBase
         var result = InputVariantBuilder.GetClasses(InputVariant.Filled, inputTheme);
 
         // Assert
-        Assert.Contains("border-b-2", result);
-        Assert.DoesNotContain("border-2 ", result);
+        Assert.Contains("border-b-1", result);
+        Assert.DoesNotContain("border-1 ", result);
     }
 
     [Fact]
@@ -131,7 +131,7 @@ public class InputVariantBuilderTests : TwBlazorTestBase
         // Act
         var result = InputVariantBuilder.GetClasses(InputVariant.Filled, inputTheme);
 
-        // Assert — Filled only draws a flat, full-width bottom border (border-b-2), so rounding
+        // Assert — Filled only draws a flat, full-width bottom border (border-b-1), so rounding
         // the bottom corners of the background would make that border cut across the curve
         // instead of following a flat edge. Only the top corners should be rounded.
         Assert.Contains("rounded-t", result);
@@ -209,7 +209,7 @@ public class InputVariantBuilderTests : TwBlazorTestBase
 
         // Assert
         Assert.NotEmpty(result);
-        Assert.Contains("border-b-2", result);
+        Assert.Contains("border-b-1", result);
         Assert.Contains("bg-transparent", result);
     }
 

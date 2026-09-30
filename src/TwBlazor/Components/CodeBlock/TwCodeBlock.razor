@@ -1,18 +1,21 @@
-﻿@namespace TwBlazor.Components
+@namespace TwBlazor.Components
 @using TwBlazor.Enums
 @inherits TwBlazorComponentBase
 
 <div id="@Id" class="@classes" style="@Style" @attributes="Attributes" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy">
-    @if (copied)
-    {
-        <TwIcon OnClick="@Copy" Icon="Icon.Check2" Class="@options.Theme.Spacing.Padding.Lg" RootClass="@theme.CopyButtonWrapper" AriaLabel="Copied" />
-    }
-    else
-    {
-        <TwIcon OnClick="@Copy" Icon="Icon.Copy" Class="@options.Theme.Spacing.Padding.Lg" RootClass="@theme.CopyButtonWrapper" AriaLabel="Copy code" />
-    }
+    <div class="@headerClasses">
+        <span>@headerTitle</span>
+        @if (copied)
+        {
+            <TwIcon OnClick="@Copy" Icon="Icon.Check2" Class="@options.Theme.Spacing.Padding.Md" RootClass="@theme.CopyButtonWrapper" AriaLabel="Copied" />
+        }
+        else
+        {
+            <TwIcon OnClick="@Copy" Icon="Icon.Copy" Class="@options.Theme.Spacing.Padding.Md" RootClass="@theme.CopyButtonWrapper" AriaLabel="Copy code" />
+        }
+    </div>
     <span class="@options.Theme.Display.ScreenReaderOnly" aria-live="polite">@statusMessage</span>
-    <pre>
+    <pre class="@theme.Panel">
         <code class="@($"language-{Language}")" tabindex="0" @ref="codeBlock">
             @Content
         </code>

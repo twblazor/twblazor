@@ -16,6 +16,7 @@ public class TwBlazorComponentBase : ComponentBase, ITwComponent
     [Inject] protected RoundedBuilder roundedBuilder { get; set; } = null!;
     [Inject] protected ShadowBuilder shadowBuilder { get; set; } = null!;
     [Inject] protected ColorBuilder colorBuilder { get; set; } = null!;
+    [Inject] protected IconColorBuilder iconColorBuilder { get; set; } = null!;
     [Inject] protected PopoverBuilder popoverBuilder { get; set; } = null!;
 
     /// <inheritdoc cref="ITwComponent.Id" />

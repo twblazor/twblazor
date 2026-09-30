@@ -11,16 +11,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TwBlazor/TwBlazor.git"
+    "url": "git+https://github.com/twblazor/twblazor.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "module",
   "bugs": {
-    "url": "https://github.com/TwBlazor/TwBlazor/issues"
+    "url": "https://github.com/twblazor/twblazor/issues"
   },
-  "homepage": "https://github.com/TwBlazor/TwBlazor#readme",
+  "homepage": "https://github.com/twblazor/twblazor#readme",
   "devDependencies": {
     "@vitest/coverage-v8": "^5.0.0",
     "jsdom": "^30.0.1",

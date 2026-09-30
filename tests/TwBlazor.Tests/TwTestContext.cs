@@ -24,6 +24,8 @@ public class TwBlazorTestBase
 
     public ColorBuilder ColorBuilder => TestContext.Services.GetRequiredService<ColorBuilder>();
 
+    public IconColorBuilder IconColorBuilder => TestContext.Services.GetRequiredService<IconColorBuilder>();
+
     public ToastBuilder ToastBuilder => TestContext.Services.GetRequiredService<ToastBuilder>();
 
     public InputVariantBuilder InputVariantBuilder => TestContext.Services.GetRequiredService<InputVariantBuilder>();

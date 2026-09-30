@@ -95,13 +95,6 @@ public partial class TwTextfield<T> : TwBlazorTextInputComponentBase
     [Parameter] public string Placeholder { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets or sets a value indicating whether the component uses a dense layout with reduced spacing between elements.
-    /// </summary>
-    /// <remarks>Set this property to <see langword="true"/> to display the component in a more compact form,
-    /// which is useful when screen space is limited.</remarks>
-    [Parameter] public bool Dense { get; set; }
-
-    /// <summary>
     /// Gets the CSS classes applied to the input element.
     /// </summary>
     /// <remarks>
@@ -111,7 +104,7 @@ public partial class TwTextfield<T> : TwBlazorTextInputComponentBase
     private string classes => new ClassBuilder(theme.TextfieldBase)
         .AddClass(inputVariantBuilder.GetClasses(effectiveVariant, theme))
         .AddClass(Disabled ? "opacity-40 cursor-not-allowed" : string.Empty)
-        .AddClass(Dense ? "py-0.5" : "py-2")
+        .AddClass(inputSizeClasses)
         .AddClass(Class)
         .Build();
 

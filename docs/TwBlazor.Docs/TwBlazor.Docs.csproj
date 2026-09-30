@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <InternalsVisibleTo Include="TwBlazor.Tests" />
+    <InternalsVisibleTo Include="TwBlazor.Docs.Tests" />
   </ItemGroup>
 
   <ItemGroup>
@@ -46,7 +46,13 @@
     <Content Update="wwwroot\fonts\source-sans-3-v19-latin-regular.woff2">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="wwwroot\images\logo.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="wwwroot\images\logo.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\images\og-image.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="wwwroot\images\placeholder-1.webp">
@@ -83,6 +89,7 @@
   <ItemGroup>
     <Compile Remove="Generated\**" />
     <Compile Include="Generated\CodeExamples.cs" />
+    <Compile Include="Generated\PageLastModified.cs" />
   </ItemGroup>
 
   <!-- Copy TwBlazor's generated XML doc comments into wwwroot so ThemeConfigurationCard can fetch

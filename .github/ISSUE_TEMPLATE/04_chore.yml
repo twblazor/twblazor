@@ -1,0 +1,46 @@
+name: Chore
+description: Maintenance work that doesn't change behaviour, such as refactoring, dependencies, build or tooling.
+title: "chore: "
+type: Task
+projects:
+  - twblazor/2
+labels:
+  - chore
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This template is for maintenance tasks. Use the
+        [Bug Report](https://github.com/TwBlazor/twblazor/issues/new?template=01_bug_report.yml) or
+        [Feature Request](https://github.com/TwBlazor/twblazor/issues/new?template=02_feature_request.yml)
+        templates if the work fixes a defect or adds functionality.
+
+  - type: textarea
+    id: task
+    attributes:
+      label: What needs doing?
+      description: A clear description of the maintenance task.
+    validations:
+      required: true
+
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Why?
+      description: Optional - what does this improve, or what happens if it isn't done?
+    validations:
+      required: false
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Refactoring
+        - Dependencies
+        - Build or CI
+        - Tests
+        - Tooling
+        - Other
+    validations:
+      required: false

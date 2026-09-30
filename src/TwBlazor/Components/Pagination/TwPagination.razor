@@ -3,9 +3,9 @@
 
 <div class="@rootClasses">
     <nav id="@Id" aria-label="@(AriaLabel ?? "pagination")" aria-labelledby="@AriaLabelledBy" style="@Style" @attributes="@Attributes">
-        <ul class="@theme.List">
+        <ul class="@listClasses">
             <li>
-                <TwIcon Class="@NavButtonClass(isPreviousDisabled, isFirst: true)" aria-disabled="@(isPreviousDisabled ? "true" : null)" Disabled="@isPreviousDisabled" OnClick="() => OnPageClick(ActivePage - 1)" Icon="Enums.Icon.Chevron_Left" AriaLabel="Previous page" />
+                <TwIcon Class="@NavButtonClass(isPreviousDisabled)" Plain aria-disabled="@(isPreviousDisabled ? "true" : null)" Disabled="@isPreviousDisabled" OnClick="() => OnPageClick(ActivePage - 1)" Icon="Enums.Icon.Chevron_Left" AriaLabel="Previous page" />
             </li>
 
             @foreach (var pageNumber in VisiblePages())
@@ -18,7 +18,7 @@
             }
 
             <li>
-                <TwIcon Class="@NavButtonClass(isNextDisabled, isLast: true)" aria-disabled="@(isNextDisabled ? "true" : null)" Disabled="@isNextDisabled" OnClick="() => OnPageClick(ActivePage + 1)" Icon="Enums.Icon.Chevron_Right" AriaLabel="Next page" />
+                <TwIcon Class="@NavButtonClass(isNextDisabled)" Plain aria-disabled="@(isNextDisabled ? "true" : null)" Disabled="@isNextDisabled" OnClick="() => OnPageClick(ActivePage + 1)" Icon="Enums.Icon.Chevron_Right" AriaLabel="Next page" />
             </li>
         </ul>
     </nav>
@@ -32,6 +32,7 @@
             SelectedValue="@PageSize"
             SelectedValueChanged="@OnPageSizeSelected"
             Required="true"
+            Dense="@Dense"
             AriaLabel="Items per page" />
     }
 </div>

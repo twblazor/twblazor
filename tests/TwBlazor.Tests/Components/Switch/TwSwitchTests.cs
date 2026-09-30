@@ -216,11 +216,11 @@ public class TwSwitchTests : TwBlazorTestBase
         Assert.True(spans.Count >= 3); // Container + background track + toggle circle
 
         // Check for track (background)
-        Assert.Contains(spans, s => s.GetAttribute("class")?.Contains("bg-[oklch(95%_0_0)]") == true);
+        Assert.Contains(spans, s => s.GetAttribute("class")?.Contains("bg-gray-300") == true);
         Assert.Contains(spans, s => s.GetAttribute("class")?.Contains("peer-checked:bg-purple-600") == true);
 
         // Check for toggle circle
-        Assert.Contains(spans, s => s.GetAttribute("class")?.Contains("bg-gray-100") == true);
+        Assert.Contains(spans, s => s.GetAttribute("class")?.Contains("bg-white") == true);
         Assert.Contains(spans, s => s.GetAttribute("class")?.Contains("peer-checked:translate-x-full") == true);
     }
 
@@ -780,5 +780,24 @@ public class TwSwitchTests : TwBlazorTestBase
         // Assert
         var input = cut.Find("input");
         Assert.Equal("notify-label", input.GetAttribute("aria-labelledby"));
+    }
+
+    [Fact]
+    public void ShouldOutlineToggleAndTrack_SoTheCheckedKnobEdgeStaysVisible()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwSwitch<bool>>(p => p
+            .Add(x => x.Value, true)
+            .Add(x => x.Color, Color.Primary));
+
+        // Assert - regression: a large soft shadow-lg on the knob smudged its edge against the colored track.
+        var spans = cut.FindAll("span");
+        var toggle = Assert.Single(spans, s => s.GetAttribute("class")?.Contains("peer-checked:translate-x-full") == true);
+        var toggleClasses = toggle.GetAttribute("class")!;
+        Assert.Contains("ring-1", toggleClasses);
+        Assert.DoesNotContain("shadow-lg", toggleClasses);
+
+        var track = Assert.Single(spans, s => s.GetAttribute("class")?.Contains("ring-inset") == true);
+        Assert.Contains("ring-1", track.GetAttribute("class"));
     }
 }

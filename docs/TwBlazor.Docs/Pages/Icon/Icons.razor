@@ -4,15 +4,9 @@
 @using TwBlazor.Enums
 @using TwBlazor.Extensions
 
-<PageTitle>TwIcon | twblazor</PageTitle>
-<HeadContent>
-    <meta name="description" content="TwIcon is a Blazor icon component with configurable sizes and a full icon library you can browse and use inside any component." />
-    <link rel="canonical" href="https://twblazor.com/icon" />
-</HeadContent>
-
-<PageContainer Title="TwIcon">
+<PageContainer Title="TwIcon" Path="/icon" Description="TwIcon is a Blazor icon component for Bootstrap Icons. Pass an Icon enum value, style it with Tailwind classes, or add OnClick to make an icon button.">
     <PageCard Title="Icons">
-        <Description>Use JIcon to display any Bootstrap icon.</Description>
+        <Description>Use TwIcon to display any Bootstrap icon.</Description>
         <CodeExample Name="IconBasic">
             <div class="d-flex gap-3 align-items-center mb-3">
                 <TwIcon Icon="Icon.Heart_Fill" Class="text-4xl p-1 text-red-600 hover:text-red-400" OnClick="LikeIconClicked" AriaLabel="Like" RootClass="inline-block" />

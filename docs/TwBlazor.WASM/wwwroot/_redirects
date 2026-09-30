@@ -1,6 +1,1 @@
-/_framework/* /_framework/:splat 200
-/_content/* /_content/:splat 200
-/robots.txt /robots.txt 200
-/sitemap.xml /sitemap.xml 200
-/404.html /404.html 200
-/* / 200
+/favicon.ico /_content/TwBlazor.Docs/images/logo.ico 200

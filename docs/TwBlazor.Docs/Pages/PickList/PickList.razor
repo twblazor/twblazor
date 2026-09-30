@@ -1,12 +1,6 @@
 @page "/pick-list"
 
-<PageTitle>TwPickList | twblazor</PageTitle>
-<HeadContent>
-    <meta name="description" content="TwPickList is a Blazor dual list-box component for moving items between an available and a selected list, with transfer-all buttons and drag-free keyboard-accessible reordering." />
-    <link rel="canonical" href="https://twblazor.com/pick-list" />
-</HeadContent>
-
-<PageContainer Title="TwPickList" ThemeType="typeof(TwPickListTheme)">
+<PageContainer Title="TwPickList" Path="/pick-list" Description="TwPickList is a Blazor dual list-box component for moving items between SourceItems and TargetItems, with move-all buttons, AllowReorder and keyboard support." ThemeType="typeof(TwPickListTheme)">
     <PageCard Title="Basic Usage">
         <Description>Bind <code>SourceItems</code> and <code>TargetItems</code> to move items between the two lists. Click an item (or press Enter/Space) to select it, then use the chevron buttons to transfer the selection.</Description>
         <CodeExample Name="PickListBasic" CSharpName="PickListBasicCode">

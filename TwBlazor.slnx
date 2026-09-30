@@ -15,6 +15,7 @@
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/TwBlazor.A11yTests/TwBlazor.A11yTests.csproj" />
+    <Project Path="tests/TwBlazor.Docs.Tests/TwBlazor.Docs.Tests.csproj" />
     <Project Path="tests/TwBlazor.Tests/TwBlazor.Tests.csproj" />
   </Folder>
   <Folder Name="/_slnx/">

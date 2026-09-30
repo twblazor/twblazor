@@ -1,6 +1,9 @@
 name: Bug Report
-description: Report a problem with a TwBlazor component.
+description: Report a problem with a twblazor component.
 title: "bug: "
+type: Bug
+projects:
+  - twblazor/2
 labels:
   - bug
 body:
@@ -8,7 +11,7 @@ body:
     attributes:
       value: |
         Thanks for taking the time to report a bug! Please use
-        [GitHub Discussions](https://github.com/TwBlazor/twblazor/discussions) instead
+        [GitHub Discussions](https://github.com/twblazor/twblazor/discussions) instead
         of an issue if you have a question rather than a defect to report.
 
   - type: checkboxes
@@ -18,7 +21,7 @@ body:
       options:
         - label: I have searched existing issues and this hasn't already been reported.
           required: true
-        - label: I have verified this happens on the latest TwBlazor version.
+        - label: I have verified this happens on the latest twblazor version.
           required: true
 
   - type: textarea
@@ -50,7 +53,7 @@ body:
     id: version
     attributes:
       label: TwBlazor version
-      description: The version of the [TwBlazor NuGet package](https://www.nuget.org/packages/TwBlazor) you're using.
+      description: The version of the [twblazor NuGet package](https://www.nuget.org/packages/twblazor) you're using.
       placeholder: 1.9.0
     validations:
       required: true

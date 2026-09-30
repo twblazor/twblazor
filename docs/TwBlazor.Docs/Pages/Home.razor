@@ -2,24 +2,10 @@
 @layout LandingLayout
 @using IconEnum = TwBlazor.Enums.Icon
 
-<PageTitle>twblazor - Tailwind CSS components for Blazor</PageTitle>
-<HeadContent>
-    <meta name="description" content="Professional-grade Tailwind CSS components for Blazor. Accessible, customisable, free and open-source components to help you ship polished .NET UIs faster." />
-    <link rel="canonical" href="https://twblazor.com/" />
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="twblazor" />
-    <meta property="og:title" content="twblazor | Tailwind CSS components for Blazor" />
-    <meta property="og:description" content="Professional-grade Tailwind CSS components for Blazor. Accessible, customisable, free and open-source components to help you ship polished .NET UIs faster." />
-    <meta property="og:url" content="https://twblazor.com/" />
-    <meta property="og:image" content="https://twblazor.com/_content/TwBlazor.Docs/images/logo.svg" />
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="twblazor - Tailwind CSS components for Blazor" />
-    <meta name="twitter:description" content="Professional-grade Tailwind CSS components for Blazor. Accessible, customisable, free and open-source components to help you ship polished .NET UIs faster." />
-    <meta name="twitter:image" content="https://twblazor.com/_content/TwBlazor.Docs/images/logo.svg" />
-</HeadContent>
+<PageSeo Title="twblazor - Tailwind CSS Components for Blazor" Description="twblazor is a free, open-source Blazor component library built on Tailwind CSS. Accessible, themeable components with dark mode for Server and WebAssembly." Path="/" />
 
 <!-- Hero -->
-<section class="relative overflow-hidden px-6 py-20 md:py-28 flex flex-col items-center text-center">
+<section class="relative overflow-hidden px-6 py-20 md:py-28 min-h-full flex flex-col items-center justify-center text-center">
     <div class="pointer-events-none absolute inset-0 overflow-hidden">
         <div class="hero-blob hero-blob-1 absolute -top-22 -left-24 h-72 w-72 rounded-full bg-fuchsia-400/55 dark:bg-fuchsia-500/35 blur-3xl"></div>
         <div class="hero-blob hero-blob-2 absolute -bottom-22 -right-24 h-72 w-72 rounded-full bg-purple-200/55 dark:bg-purple-500/35 blur-3xl"></div>
@@ -49,7 +35,7 @@
 
         <div class="flex flex-col sm:flex-row gap-3 mt-8 w-full sm:w-auto">
             <TwButton Id="get-started" Class="w-full sm:w-auto justify-center" Color="Color.Primary" Label="Get Started" StartIcon="IconEnum.Rocket_Takeoff" Href="/get-started" />
-            <TwButton Id="github" Class="w-full sm:w-auto justify-center" Color="Color.Primary" Variant="ButtonVariant.Outlined" Label="View on GitHub" StartIcon="IconEnum.Github" Href="https://github.com/TwBlazor/TwBlazor" Target="_blank" rel="noopener noreferrer" />
+            <TwButton Id="github" Class="w-full sm:w-auto justify-center" Color="Color.Primary" Variant="ButtonVariant.Outlined" Label="View on GitHub" StartIcon="IconEnum.Github" Href="https://github.com/twblazor/twblazor" Target="_blank" rel="noopener noreferrer" />
         </div>
     </div>
 </section>
@@ -123,7 +109,7 @@
 
             <TwCard Title="Forms">
                 <div class="flex flex-col gap-3 mt-3">
-                    <TwTextfield Label="Email" @bind-Value="email" Placeholder="you@example.com" AriaLabel="Email" />
+                    <TwTextfield Label="Email" @bind-Value="email" Placeholder="Enter your email address" AriaLabel="Email" />
                     <TwSwitch @bind-Value="notificationsEnabled" Label="Email notifications" AriaLabel="Toggle notifications" Color="Color.Primary" />
                 </div>
             </TwCard>
@@ -220,7 +206,7 @@
                 </p>
                 <div class="flex flex-col sm:flex-row justify-center gap-3 mt-6">
                     <TwButton Id="cta-get-started" Class="w-full sm:w-auto justify-center" Color="Color.Primary" Label="Get Started" StartIcon="IconEnum.Rocket_Takeoff" Href="/get-started" />
-                    <TwButton Id="cta-github" Class="w-full sm:w-auto justify-center" Color="Color.Primary" Variant="ButtonVariant.Outlined" Label="Star on GitHub" StartIcon="IconEnum.Github" Href="https://github.com/TwBlazor/TwBlazor" Target="_blank" rel="noopener noreferrer" />
+                    <TwButton Id="cta-github" Class="w-full sm:w-auto justify-center" Color="Color.Primary" Variant="ButtonVariant.Outlined" Label="Star on GitHub" StartIcon="IconEnum.Github" Href="https://github.com/twblazor/twblazor" Target="_blank" rel="noopener noreferrer" />
                 </div>
             </div>
         </TwCard>

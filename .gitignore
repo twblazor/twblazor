@@ -392,3 +392,11 @@ docfx.log
 # Generated copy of TwBlazor's XML doc comments, published as a static asset for
 # ThemeConfigurationCard to fetch under Blazor WebAssembly - see TwBlazor.Docs.csproj.
 /docs/TwBlazor.Docs/wwwroot/TwBlazor.xml
+
+# Generated from the docs pages' routes and git history by TwBlazor.BuildTools, so a commit
+# never has to touch them.
+/docs/TwBlazor.Docs/Generated/PageLastModified.cs
+/docs/TwBlazor.WASM/wwwroot/sitemap.xml
+
+# Cloudflare Wrangler local state and cache
+.wrangler/

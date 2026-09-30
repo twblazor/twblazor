@@ -1559,6 +1559,21 @@ describe('twSidebar', () => {
             expect(consoleErrorSpy).toHaveBeenCalledWith('twSidebar.isMobileViewport error', error);
         });
     });
+
+    describe('scrollToTop', () => {
+        test('resets the element scroll position to the top', () => {
+            const el = document.createElement('div');
+            el.scrollTop = 480;
+
+            window.twSidebar.scrollToTop(el);
+
+            expect(el.scrollTop).toBe(0);
+        });
+
+        test('does nothing and does not throw when the element is null', () => {
+            expect(() => window.twSidebar.scrollToTop(null)).not.toThrow();
+        });
+    });
 });
 
 describe('twColorPicker', () => {

@@ -34,6 +34,30 @@ public abstract class TwBlazorTextInputComponentBase : TwBlazorInputComponentBas
     [Parameter] public InputVariant? Variant { get; set; }
 
     /// <summary>
+    /// Gets or sets whether the input uses a more compact height and text size, useful when screen space
+    /// is limited.
+    /// </summary>
+    /// <remarks>
+    /// The height and text size come from <see cref="TwInputTheme.Size"/> and <see cref="TwInputTheme.DenseSize"/>,
+    /// shared by every single-line input so they all line up. Not applied to a multi-select
+    /// (<see cref="Components.TwSelect{T}.Multiple"/>), whose height is driven by its selected chips.
+    /// </remarks>
+    [Parameter] public bool Dense { get; set; }
+
+    /// <summary>
+    /// Gets the height and text size classes for a single-line input: <see cref="TwInputTheme.DenseSize"/>
+    /// when <see cref="Dense"/> is set, otherwise <see cref="TwInputTheme.Size"/>.
+    /// </summary>
+    protected string inputSizeClasses
+    {
+        get
+        {
+            var theme = options.Theme.Components.Require<TwInputTheme>();
+            return Dense ? theme.DenseSize : theme.Size;
+        }
+    }
+
+    /// <summary>
     /// Gets the effective input variant to use: <see cref="Variant"/> when explicitly set by the
     /// consumer, otherwise the global default configured via <see cref="TwInputTheme.DefaultInputVariant"/>.
     /// </summary>

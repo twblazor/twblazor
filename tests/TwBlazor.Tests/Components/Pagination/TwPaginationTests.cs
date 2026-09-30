@@ -249,43 +249,90 @@ public class TwPaginationTests : TwBlazorTestBase
 
     #endregion
 
+    #region Dense
+
+    [Fact]
+    public void UsesDefaultSize_WhenNotDense()
+    {
+        var cut = TestContext.Render<TwPagination>(parameters => parameters
+            .Add(p => p.TotalPages, 5));
+
+        foreach (var button in cut.FindAll("nav ul li button"))
+        {
+            Assert.Contains("h-10", button.GetAttribute("class"));
+            Assert.DoesNotContain("h-8", button.GetAttribute("class"));
+        }
+    }
+
+    [Fact]
+    public void UsesSmallerSize_ForEveryButton_WhenDense()
+    {
+        var cut = TestContext.Render<TwPagination>(parameters => parameters
+            .Add(p => p.TotalPages, 5)
+            .Add(p => p.Dense, true));
+
+        var buttons = cut.FindAll("nav ul li button");
+        Assert.NotEmpty(buttons);
+
+        foreach (var button in buttons)
+        {
+            Assert.Contains("h-8", button.GetAttribute("class"));
+            Assert.DoesNotContain("h-10", button.GetAttribute("class"));
+        }
+    }
+
+    [Fact]
+    public void PageSizeSelect_IsDense_WhenDense()
+    {
+        var cut = TestContext.Render<TwPagination>(parameters => parameters
+            .Add(p => p.TotalPages, 5)
+            .Add(p => p.ShowPageSize, true)
+            .Add(p => p.Dense, true));
+
+        Assert.Contains("h-8", cut.Find("select").GetAttribute("class"));
+    }
+
+    [Fact]
+    public void PageSizeSelect_IsNotDense_ByDefault()
+    {
+        var cut = TestContext.Render<TwPagination>(parameters => parameters
+            .Add(p => p.TotalPages, 5)
+            .Add(p => p.ShowPageSize, true));
+
+        Assert.Contains("h-10", cut.Find("select").GetAttribute("class"));
+    }
+
+    #endregion
+
     #region Rounded corners
 
     [Fact]
-    public void AppliesRounded_ToPreviousButton()
+    public void AppliesRounded_ToTheButtonGroup_NotEachButton()
     {
-        // Previous/Next no longer get edge-specific (start/end) rounding - every button, boundary
-        // or page number, uses the same uniform rounding - see TwPagination.NavButtonClass/IsActivePage.
+        // The list clips every button to one rounded, bordered container (like the table), so the
+        // rounded builder's class sits on the <ul> and the buttons stay square.
         var cut = TestContext.Render<TwPagination>(parameters => parameters
+            .Add(p => p.ActivePage, 2)
             .Add(p => p.TotalPages, 5));
 
-        var previous = cut.FindAll("nav ul li button")[0];
-        Assert.Contains(RoundedBuilder.GetRounded(), previous.GetAttribute("class"));
-    }
+        Assert.Contains(RoundedBuilder.GetRounded(), cut.Find("nav ul").GetAttribute("class"));
+        Assert.Contains("overflow-hidden", cut.Find("nav ul").GetAttribute("class"));
 
-    [Fact]
-    public void AppliesRounded_ToNextButton()
-    {
-        var cut = TestContext.Render<TwPagination>(parameters => parameters
-            .Add(p => p.TotalPages, 5));
-
-        var next = cut.FindAll("nav ul li button")[^1];
-        Assert.Contains(RoundedBuilder.GetRounded(), next.GetAttribute("class"));
-    }
-
-    [Fact]
-    public void AppliesSameRounded_ToPageNumberLinks()
-    {
-        var cut = TestContext.Render<TwPagination>(parameters => parameters
-            .Add(p => p.ActivePage, 1)
-            .Add(p => p.TotalPages, 5));
-
-        var pageLinks = cut.FindAll("nav ul li button").Skip(1).SkipLast(1);
-
-        foreach (var link in pageLinks)
+        foreach (var button in cut.FindAll("nav ul li button"))
         {
-            Assert.Contains(RoundedBuilder.GetRounded(), link.GetAttribute("class"));
+            Assert.DoesNotContain(RoundedBuilder.GetRounded(), button.GetAttribute("class"));
         }
+    }
+
+    [Fact]
+    public void ButtonGroup_UsesTheTablesBorderAndDividerColors()
+    {
+        var cut = TestContext.Render<TwPagination>(parameters => parameters
+            .Add(p => p.TotalPages, 5));
+
+        var list = cut.Find("nav ul").GetAttribute("class");
+        Assert.Contains("border-[oklch(95%_0_0)]", list);
+        Assert.Contains("divide-x", list);
     }
 
     #endregion
@@ -321,7 +368,7 @@ public class TwPaginationTests : TwBlazorTestBase
         Assert.Null(previous.GetAttribute("aria-disabled"));
         Assert.Null(previous.GetAttribute("tabindex"));
         Assert.DoesNotContain("pointer-events-none", previous.GetAttribute("class"));
-        Assert.Contains("hover:bg-[oklch(98%_0_0)]", previous.GetAttribute("class"));
+        Assert.Contains("hover:bg-purple-50", previous.GetAttribute("class"));
     }
 
     [Fact]
@@ -353,7 +400,7 @@ public class TwPaginationTests : TwBlazorTestBase
         Assert.Null(next.GetAttribute("aria-disabled"));
         Assert.Null(next.GetAttribute("tabindex"));
         Assert.DoesNotContain("pointer-events-none", next.GetAttribute("class"));
-        Assert.Contains("hover:bg-[oklch(98%_0_0)]", next.GetAttribute("class"));
+        Assert.Contains("hover:bg-purple-50", next.GetAttribute("class"));
     }
 
     [Fact]

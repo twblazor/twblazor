@@ -1,12 +1,6 @@
 @page "/select"
 
-<PageTitle>TwSelect | twblazor</PageTitle>
-<HeadContent>
-    <meta name="description" content="TwSelect is a Blazor select component that supports complex objects, numbers, multi-select, required validation and disabled or readonly states." />
-    <link rel="canonical" href="https://twblazor.com/select" />
-</HeadContent>
-
-<PageContainer Title="TwSelect" ThemeType="typeof(TwInputTheme)">
+<PageContainer Title="TwSelect" Path="/select" Description="TwSelect is a Blazor select component for complex objects and numbers. Bind SelectedValue, or SelectedValues with Multiple, and set Placeholder and Required." ThemeType="typeof(TwInputTheme)">
     <PageCard Title="Basic Select">
         <Description>Bind <code>SelectedValue</code> and use <code>Variant</code> to switch between default, filled and outlined styles.</Description>
         <CodeExample Name="SelectBasic" CSharpName="SelectBasicCode">
@@ -63,7 +57,7 @@
             {
                 <div class="mt-3 p-3 rounded border border-gray-200 dark:border-gray-600">
                     <p class="text-sm text-gray-600 dark:text-gray-400">Name: <strong>@selectedPerson.Name</strong></p>
-                    <p class="text-sm text-gray-600 dark:text-gray-400">Email: <strong>@selectedPerson.Email</strong></p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">City: <strong>@selectedPerson.City</strong></p>
                     <p class="text-sm text-gray-600 dark:text-gray-400">Age: <strong>@selectedPerson.Age</strong></p>
                 </div>
             }
@@ -128,6 +122,18 @@
         </CodeExample>
     </PageCard>
 
+    <PageCard Title="Dense Select">
+        <Description>Set <code>Dense</code> for a more compact select with a smaller height and text size, matching the other dense inputs. Multi-select is not affected, as its height follows its selected chips.</Description>
+        <CodeExample Name="SelectDense" CSharpName="SelectDenseCode">
+            <TwSelect T="string"
+                      Label="Country"
+                      Values="@countries"
+                      Dense
+                      @bind-SelectedValue="@denseCountry"
+                      AriaLabel="Dense country select" />
+        </CodeExample>
+    </PageCard>
+
     <PageCard Title="Multi-select">
         <Description>
             Set <code>Multiple</code> and bind <code>SelectedValues</code> (instead of <code>SelectedValue</code>) to let more than
@@ -156,22 +162,26 @@
     private readonly string[] countries = ["USA", "Canada", "UK", "Germany", "France", "Japan", "Australia"];
     #endregion
 
+    #region CodeExample SelectDenseCode
+    private string denseCountry = string.Empty;
+    #endregion
+
     #region CodeExample SelectComplexObjectsCode
     private Person? selectedPerson = null;
 
     private readonly Person[] people =
     [
-        new Person { Id = 1, Name = "John Doe", Email = "john@example.com", Age = 30 },
-        new Person { Id = 2, Name = "Jane Smith", Email = "jane@example.com", Age = 25 },
-        new Person { Id = 3, Name = "Bob Johnson", Email = "bob@example.com", Age = 35 },
-        new Person { Id = 4, Name = "Alice Williams", Email = "alice@example.com", Age = 28 }
+        new Person { Id = 1, Name = "John Doe", City = "London", Age = 30 },
+        new Person { Id = 2, Name = "Jane Smith", City = "Toronto", Age = 25 },
+        new Person { Id = 3, Name = "Bob Johnson", City = "Sydney", Age = 35 },
+        new Person { Id = 4, Name = "Alice Williams", City = "Dublin", Age = 28 }
     ];
 
     private sealed class Person
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
-        public string Email { get; set; } = string.Empty;
+        public string City { get; set; } = string.Empty;
         public int Age { get; set; }
     }
     #endregion

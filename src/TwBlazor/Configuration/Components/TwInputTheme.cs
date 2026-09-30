@@ -34,6 +34,21 @@ public class TwInputTheme
     public required string SelectBase { get; set; }
 
     /// <summary>
+    /// Gets or sets the height and text size shared by every single-line input (text fields, selects, and
+    /// the date, time and color pickers built on a text field), so they all line up.
+    /// </summary>
+    /// <remarks>
+    /// Keep the height in step with any control laid out beside inputs, such as <see cref="TwPaginationTheme.Size"/>.
+    /// </remarks>
+    public required string Size { get; set; }
+
+    /// <summary>
+    /// Gets or sets the height and text size applied instead of <see cref="Size"/> when an input's
+    /// <see cref="TwBlazor.TwBlazorTextInputComponentBase.Dense"/> is enabled.
+    /// </summary>
+    public required string DenseSize { get; set; }
+
+    /// <summary>
     /// Gets or sets the classes applied to each <c>&lt;option&gt;</c> in a select.
     /// </summary>
     public required string SelectOption { get; set; }
@@ -108,16 +123,21 @@ public class TwInputTheme
     public required string SelectPanelSurface { get; set; }
 
     /// <summary>
-    /// Gets or sets a forced text color override for the checkbox labels inside a multi-select popover
-    /// panel.
+    /// Gets or sets the classes that style each option row inside a multi-select popover panel so it
+    /// matches the options of a single <see cref="TwBlazor.Components.TwSelect{T}"/>'s customizable
+    /// dropdown: no visible checkbox, a leading tick and a tinted row when selected, and a hover tint.
     /// </summary>
     /// <remarks>
-    /// <see cref="TwCheckboxTheme.LabelBase"/> uses a muted caption-style color, appropriate for a label
-    /// sitting next to a single checkbox but too low-contrast against <see cref="TwOverlayTheme.PopoverBackground"/>
-    /// in dark mode once it's the primary, repeated content of a whole option list - so this uses an
-    /// arbitrary descendant selector (targeting the label elements <see cref="TwBlazor.Components.TwCheckboxGroup{TValue}"/>
-    /// renders) with <c>!important</c> to win over that shared style, scoped to just this popover rather
-    /// than changing every standalone checkbox's label color.
+    /// <see cref="TwBlazor.Components.TwCheckboxGroup{TValue}"/> is still what renders the options, so
+    /// every checkbox stays a real, keyboard-focusable input; it is only visually hidden (<c>sr-only</c>) and
+    /// the row (its label) shows the selected and focus state instead. These use arbitrary descendant
+    /// selectors targeting the elements the group renders, scoped to just this popover rather than changing
+    /// every standalone checkbox.
+    /// <para>
+    /// The text color uses <c>!important</c> to win over <see cref="TwCheckboxTheme.LabelBase"/>'s muted
+    /// caption-style color, which is too low-contrast against <see cref="TwOverlayTheme.PopoverBackground"/>
+    /// in dark mode once it is the primary, repeated content of a whole option list.
+    /// </para>
     /// </remarks>
     public required string SelectPanelItemText { get; set; }
 

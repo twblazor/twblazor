@@ -557,6 +557,82 @@ public class TwCarouselTests : TwBlazorTestBase
     }
 
     [Fact]
+    public void PlayPauseButton_TogglesWhilePointerIsOverCarousel()
+    {
+        // Arrange - the pointer is always over the carousel when its own button is clicked
+        var cut = TestContext.Render<TwCarousel>(p => p
+            .Add(x => x.AutoPlay, true)
+            .Add(x => x.ChildContent, ThreeSlides()));
+        cut.Find("div[role='region'] > div").MouseEnter();
+
+        // Assert - hovering pauses playback but must not flip the control to "play"
+        Assert.NotNull(cut.Find("button[aria-label='Pause automatic slideshow']"));
+
+        // Act & Assert - pause, then resume
+        cut.Find("button[aria-label='Pause automatic slideshow']").Click();
+        Assert.NotNull(cut.Find("button[aria-label='Play automatic slideshow']"));
+
+        cut.Find("button[aria-label='Play automatic slideshow']").Click();
+        Assert.NotNull(cut.Find("button[aria-label='Pause automatic slideshow']"));
+    }
+
+    [Fact]
+    public void PlayPauseButton_TogglesWhileFocusIsWithinCarousel()
+    {
+        // Arrange - clicking the button leaves keyboard focus on it, inside the carousel
+        var cut = TestContext.Render<TwCarousel>(p => p
+            .Add(x => x.AutoPlay, true)
+            .Add(x => x.ChildContent, ThreeSlides()));
+        cut.Find("div[role='region']").FocusIn();
+
+        // Act & Assert
+        Assert.NotNull(cut.Find("button[aria-label='Pause automatic slideshow']"));
+        cut.Find("button[aria-label='Pause automatic slideshow']").Click();
+        Assert.NotNull(cut.Find("button[aria-label='Play automatic slideshow']"));
+    }
+
+    [Fact]
+    public void IsAutoPlayPaused_IncludesPointerAndFocus_ButManualStateDoesNot()
+    {
+        // Arrange
+        var cut = TestContext.Render<TwCarousel>(p => p
+            .Add(x => x.AutoPlay, true)
+            .Add(x => x.ChildContent, ThreeSlides()));
+
+        // Act & Assert - hover and focus are tracked independently, so leaving one does not clear the other
+        cut.Find("div[role='region'] > div").MouseEnter();
+        cut.Find("div[role='region']").FocusIn();
+        Assert.True(cut.Instance.IsAutoPlayPaused);
+        Assert.False(cut.Instance.IsAutoPlayManuallyPaused);
+
+        cut.Find("div[role='region'] > div").MouseLeave();
+        Assert.True(cut.Instance.IsAutoPlayPaused);
+
+        cut.Find("div[role='region']").FocusOut();
+        Assert.False(cut.Instance.IsAutoPlayPaused);
+    }
+
+    [Fact]
+    public async Task AutoPlay_ResumesAfterPlayIsPressed_WhilePointerIsStillOverCarousel()
+    {
+        // Arrange
+        var cut = TestContext.Render<TwCarousel>(p => p
+            .Add(x => x.AutoPlay, true)
+            .Add(x => x.AutoPlayInterval, TimeSpan.FromMilliseconds(30))
+            .Add(x => x.ChildContent, ThreeSlides()));
+        cut.Find("div[role='region'] > div").MouseEnter();
+
+        // Act - pause, then press play again with the pointer still over the carousel
+        await cut.InvokeAsync(() => cut.Find("button[aria-label='Pause automatic slideshow']").Click());
+        await cut.InvokeAsync(() => cut.Find("button[aria-label='Play automatic slideshow']").Click());
+        var resumedAt = cut.Instance.SelectedIndex;
+
+        // Assert
+        cut.WaitForState(() => cut.Instance.SelectedIndex != resumedAt, TimeSpan.FromSeconds(2));
+        Assert.NotEqual(resumedAt, cut.Instance.SelectedIndex);
+    }
+
+    [Fact]
     public async Task AutoPlay_AdvancesSlidesOnATimer_UnlessPaused()
     {
         // Arrange

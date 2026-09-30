@@ -276,6 +276,34 @@ public class TwPickListTests : TwBlazorTestBase
         Assert.Equal(["Banana", "Apple", "Cherry"], newTarget);
     }
 
+    [Theory]
+    [InlineData("up", new[] { "Banana", "Cherry", "Apple", "Date" }, new[] { 1, 2 })]
+    [InlineData("up", new[] { "Apple", "Banana", "Cherry", "Date" }, new[] { 0, 1 })]
+    [InlineData("down", new[] { "Apple", "Date", "Banana", "Cherry" }, new[] { 1, 2 })]
+    [InlineData("down", new[] { "Apple", "Banana", "Cherry", "Date" }, new[] { 2, 3 })]
+    public void TwPickList_MovesMultiSelectionTogether_AndStopsAtTheEdge(string direction, string[] expected, int[] selectedIndexes)
+    {
+        // Arrange
+        List<string>? newSource = null;
+        var cut = TestContext.Render<TwPickList<string>>(parameters => parameters
+            .Add(p => p.SourceItems, ["Apple", "Banana", "Cherry", "Date"])
+            .Add(p => p.SourceLabel, "Source")
+            .Add(p => p.SourceItemsChanged, EventCallback.Factory.Create<IEnumerable<string>>(
+                this, values => newSource = values.ToList())));
+
+        // Act
+        foreach (var index in selectedIndexes)
+        {
+            cut.FindAll("ul[aria-label='Source'] li[role='option']")[index].Click();
+        }
+
+        cut.Find($"button[aria-label='Move selected Source item {direction}']").Click();
+
+        // Assert - a contiguous block keeps its order and moves as a unit; at the edge nothing shifts
+        Assert.NotNull(newSource);
+        Assert.Equal(expected, newSource);
+    }
+
     [Fact]
     public void TwPickList_DisablesTransferButtons_WhenNoSelection()
     {

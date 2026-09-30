@@ -1,15 +1,40 @@
-﻿<TwCollapse Title="Show code" Class="mt-4">
-    <TwCodeBlock Content="@Razor" Language="html" Class="@(!string.IsNullOrWhiteSpace(CSharp) ? "rounded-b-none rounded-t-none" : "rounded-t-none")" Rounded="null" />
-    @if (!string.IsNullOrWhiteSpace(CSharp))
-    {        
-        <TwCodeBlock Content="@cSharp" Language="csharp" Class="rounded-t-none" Rounded="null" />
-    }
-</TwCollapse>
+@if (isShortHtmlOnly)
+{
+    <TwCodeBlock Content="@Razor" Language="html" Class="mt-4" />
+}
+else if (hasRazor || hasCSharp)
+{
+    <TwCollapse Title="Show code" Class="mt-4">
+        @if (hasRazor)
+        {
+            <TwCodeBlock Content="@Razor" Language="html" Class="@(hasCSharp ? "rounded-b-none rounded-t-none" : "rounded-t-none")" Rounded="null" />
+        }
+        @if (hasCSharp)
+        {
+            <TwCodeBlock Content="@cSharp" Language="csharp" Class="rounded-t-none" Rounded="null" />
+        }
+    </TwCollapse>
+}
 
 @code {
+    /// <summary>
+    /// Snippets of fewer lines than this that have no C# alongside them are shown directly, since
+    /// expanding a panel to reveal a couple of lines costs more than it saves.
+    /// </summary>
+    public const int ShortSnippetLineLimit = 15;
+
     [Parameter] public string Razor { get; set; } = string.Empty;
 
     [Parameter] public string CSharp { get; set; } = string.Empty;
 
     private string cSharp => "@code {\n    " + CSharp.Replace("\n", "\n    ") + "\n}";
+
+    private bool hasRazor => !string.IsNullOrWhiteSpace(Razor);
+
+    private bool hasCSharp => !string.IsNullOrWhiteSpace(CSharp);
+
+    private bool isShortHtmlOnly =>
+        !hasCSharp
+        && hasRazor
+        && Razor.Trim().Split('\n').Length < ShortSnippetLineLimit;
 }

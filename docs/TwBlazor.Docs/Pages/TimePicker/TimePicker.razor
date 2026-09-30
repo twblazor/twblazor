@@ -1,12 +1,6 @@
 @page "/time-picker"
 
-<PageTitle>TwTimePicker | twblazor</PageTitle>
-<HeadContent>
-    <meta name="description" content="TwTimePicker is a Blazor time picker component with 12 hour and 24 hour formats, input variants and disabled or readonly states." />
-    <link rel="canonical" href="https://twblazor.com/time-picker" />
-</HeadContent>
-
-<PageContainer Title="TwTimePicker" ThemeType="typeof(TwTimePickerTheme)">
+<PageContainer Title="TwTimePicker" Path="/time-picker" Description="TwTimePicker is a Blazor time picker component with 12 hour and 24 hour formats. Bind Value or SelectedTime, and set Placeholder and Variant." ThemeType="typeof(TwTimePickerTheme)">
     <PageCard Title="Basic Time Picker">
         <Description>Bind <code>SelectedTime</code> for a <code>TimeOnly</code> value, or <code>Value</code> for a plain string.</Description>
         <CodeExample Name="TimePickerBasic" CSharpName="TimePickerBasicCode">
@@ -36,6 +30,13 @@
         <CodeExample Name="TimePicker12Hr" CSharpName="TimePickerBasicCode">
             <p><b>@@bind-SelectedTime (TimeOnly):</b> @SelectedTime.ToString()</p>
             <TwTimePicker Id="basic-12hr-timepicker" @bind-SelectedTime="SelectedTime" Label="Select a time" Class="mt-3" Is12HourFormat />
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Dense Time Picker">
+        <Description>Set <code>Dense</code> for a more compact input with a smaller height and text size. Every single-line input shares the same dense height, so they line up when used side by side.</Description>
+        <CodeExample Name="TimePickerDense">
+            <TwTimePicker Id="dense-timepicker" @bind-SelectedTime="SelectedTime" Label="Dense Time Picker" Dense />
         </CodeExample>
     </PageCard>
 

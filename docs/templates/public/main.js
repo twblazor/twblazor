@@ -16,7 +16,7 @@ export default {
         },
         {
             icon: 'github',
-            href: 'https://github.com/TwBlazor/TwBlazor',
+            href: 'https://github.com/twblazor/twblazor',
             title: 'GitHub'
         }
     ]

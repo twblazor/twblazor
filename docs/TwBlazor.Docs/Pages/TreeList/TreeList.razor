@@ -5,13 +5,7 @@
 @using TwBlazor.Docs.Pages.Dialog
 @inject ITwDialogService DialogService
 
-<PageTitle>TwTreeList | twblazor</PageTitle>
-<HeadContent>
-    <meta name="description" content="TwTreeList is a Blazor tree view component for rendering recursively nested, expandable/collapsible data, with per-node click handling, checkboxes, custom icons and disabled states." />
-    <link rel="canonical" href="https://twblazor.com/tree-list" />
-</HeadContent>
-
-<PageContainer Title="TwTreeList" ThemeType="typeof(TwTreeListTheme)">
+<PageContainer Title="TwTreeList" Path="/tree-list" Description="TwTreeList is a Blazor tree view for nested, expandable data. Set Label, Icon and Disabled per node, show checkboxes, and bind Checked and Collapsed." ThemeType="typeof(TwTreeListTheme)">
     <PageCard Title="Basic Usage">
         <Description>Build a tree by nesting <code>TwTreeListItem</code> tags inside a <code>TwTreeList</code> - and inside each other, for children. A node with nested items can be expanded or collapsed by clicking it.</Description>
         <CodeExample Name="TreeListBasic">

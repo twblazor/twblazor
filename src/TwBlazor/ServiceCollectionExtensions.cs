@@ -70,6 +70,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ITwToastService, TwToastService>();
         services.AddScoped<ITwDialogService, TwDialogService>();
         services.AddScoped<ColorBuilder>();
+        services.AddScoped<IconColorBuilder>();
         services.AddScoped<ShadowBuilder>();
         services.AddScoped<RoundedBuilder>();
         services.AddScoped<ButtonBuilder>();

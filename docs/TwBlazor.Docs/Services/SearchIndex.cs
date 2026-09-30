@@ -84,7 +84,7 @@ internal static class SearchIndex
     // several entries in principle - each theme is recorded only against its canonical page (the one
     // whose ThemeConfigurationCard shows the full table rather than an "Inherited from" note), so this
     // never actually needs to de-duplicate, but doesn't rely on that either.
-    private static IReadOnlyList<SearchResult> BuildThemes()
+    private static List<SearchResult> BuildThemes()
     {
         var assembly = typeof(TwBlazor.Components.TwCard).Assembly;
         var results = new List<SearchResult>();
@@ -113,7 +113,7 @@ internal static class SearchIndex
     // Only links to types that actually resolve in the TwBlazor assembly - components.json's "name"
     // field is hand-authored, so a typo or a not-yet-documented entry is skipped rather than shipping
     // a dead docfx link.
-    private static IReadOnlyList<SearchResult> BuildDocumentation()
+    private static List<SearchResult> BuildDocumentation()
     {
         var assembly = typeof(TwBlazor.Components.TwCard).Assembly;
         var results = new List<SearchResult>();

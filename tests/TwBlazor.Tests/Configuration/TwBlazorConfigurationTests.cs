@@ -309,6 +309,8 @@ public class TwInputThemeTests
     {
         TextfieldBase = "textfield-base",
         SelectBase = "select-base",
+        Size = "input-size",
+        DenseSize = "input-dense-size",
         LabelBase = "label-base",
         InputLegendBase = "legend-base",
         OutlinedBorder = "outlined-border",
@@ -345,6 +347,8 @@ public class TwInputThemeTests
         Assert.Equal(InputVariant.Outlined, theme.DefaultInputVariant);
         Assert.Equal("textfield-base", theme.TextfieldBase);
         Assert.Equal("select-base", theme.SelectBase);
+        Assert.Equal("input-size", theme.Size);
+        Assert.Equal("input-dense-size", theme.DenseSize);
         Assert.Equal("label-base", theme.LabelBase);
         Assert.Equal("legend-base", theme.InputLegendBase);
         Assert.Equal("outlined-border", theme.OutlinedBorder);

@@ -23,6 +23,18 @@ public class TwPaginationTheme
     public required string Base { get; set; }
 
     /// <summary>
+    /// Gets or sets the sizing classes (height, minimum width, horizontal padding and text size) applied
+    /// to every pagination button by default.
+    /// </summary>
+    public required string Size { get; set; }
+
+    /// <summary>
+    /// Gets or sets the sizing classes applied to every pagination button instead of <see cref="Size"/>
+    /// when <see cref="TwBlazor.Components.TwPagination.Dense"/> is enabled.
+    /// </summary>
+    public required string DenseSize { get; set; }
+
+    /// <summary>
     /// Gets or sets the classes applied to non-active (unselected) page number buttons.
     /// </summary>
     public required string Buttons { get; set; }

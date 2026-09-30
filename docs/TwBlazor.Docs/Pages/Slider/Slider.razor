@@ -1,12 +1,6 @@
 @page "/slider"
 
-<PageTitle>TwSlider | twblazor</PageTitle>
-<HeadContent>
-    <meta name="description" content="TwSlider is a Blazor slider component for choosing a number from a range, with colours, precision, custom ranges and readonly support." />
-    <link rel="canonical" href="https://twblazor.com/slider" />
-</HeadContent>
-
-<PageContainer Title="TwSlider" ThemeType="typeof(TwSliderTheme)">
+<PageContainer Title="TwSlider" Path="/slider" Description="TwSlider is a Blazor slider component for choosing a number in a range. Bind Value and set Min, Max, Step and Color." ThemeType="typeof(TwSliderTheme)">
     <PageCard Title="Basic Usage">
         <Description>A drop-in replacement for <code>&lt;input type="range"&gt;</code> with a fully custom, themeable track and thumb.</Description>
 
@@ -46,7 +40,7 @@
             <div class="space-y-6">
                 <div>
                     <TwSlider T="decimal" Id="price-slider" Min="0m" Max="100m" Step="0.5m" Label="Price" @bind-Value="priceValue" AriaLabel="Price slider" />
-                    <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Selected Price: <strong>$@priceValue.ToString("F2")</strong></p>
+                    <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Selected Price: <strong>@($"${priceValue:F2}")</strong></p>
                 </div>
 
                 <div>

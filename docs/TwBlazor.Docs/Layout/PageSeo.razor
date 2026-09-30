@@ -1,0 +1,47 @@
+@using TwBlazor.Docs.Services
+
+<PageTitle>@Title</PageTitle>
+<HeadContent>
+    <meta name="description" content="@Description" />
+    <link rel="canonical" href="@url" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="@SiteMetadata.SiteName" />
+    <meta property="og:locale" content="@SiteMetadata.Locale" />
+    <meta property="og:title" content="@Title" />
+    <meta property="og:description" content="@Description" />
+    <meta property="og:url" content="@url" />
+    <meta property="og:image" content="@image" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="@SiteMetadata.ImageWidth" />
+    <meta property="og:image:height" content="@SiteMetadata.ImageHeight" />
+    <meta property="og:image:alt" content="@SiteMetadata.ImageAlt" />
+    @if (PageLastModified.TryGet(Path, out var modified))
+    {
+        <meta property="og:updated_time" content="@SiteMetadata.FormatIsoDate(modified)" />
+    }
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="@Title" />
+    <meta name="twitter:description" content="@Description" />
+    <meta name="twitter:image" content="@image" />
+    <meta name="twitter:image:alt" content="@SiteMetadata.ImageAlt" />
+</HeadContent>
+
+@code {
+    /// <summary>
+    /// The full <c>&lt;title&gt;</c> text, also used for the Open Graph and Twitter titles.
+    /// </summary>
+    [Parameter, EditorRequired] public string Title { get; set; } = string.Empty;
+
+    /// <summary>
+    /// The meta description, also used for the Open Graph and Twitter descriptions.
+    /// </summary>
+    [Parameter, EditorRequired] public string Description { get; set; } = string.Empty;
+
+    /// <summary>
+    /// The page's root-relative route (e.g. <c>/card</c>), which becomes its canonical URL.
+    /// </summary>
+    [Parameter, EditorRequired] public string Path { get; set; } = string.Empty;
+
+    private string url => SiteMetadata.AbsoluteUrl(Path);
+    private static string image => SiteMetadata.AbsoluteUrl(SiteMetadata.ImagePath);
+}

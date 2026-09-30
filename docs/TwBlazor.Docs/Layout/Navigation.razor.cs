@@ -17,6 +17,8 @@ public partial class Navigation : IDisposable
 
     private Icon themeIcon = Icon.Moon; // NOSONAR - used in Navigation.razor template
 
+    private bool isSidebarOpen = true; // NOSONAR - bound in Navigation.razor template
+
 #pragma warning disable S1075 // Fixed external documentation link, not environment-specific
     private static readonly string _apiDocumentationUri = "https://twblazor.github.io/twblazor/";
 #pragma warning restore S1075
@@ -62,6 +64,7 @@ public partial class Navigation : IDisposable
                     "themeToggle.isDarkMode",
                     _cts.Token);
                 themeIcon = isDark ? Icon.Sun : Icon.Moon;
+                isSidebarOpen = !await JS.InvokeAsync<bool>("twSidebar.isMobileViewport", _cts.Token);
                 StateHasChanged();
             }
             catch (OperationCanceledException)

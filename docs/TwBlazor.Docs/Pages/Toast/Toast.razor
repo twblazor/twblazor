@@ -2,16 +2,11 @@
 @using TwBlazor.Services
 @using TwBlazor.Models
 
-<PageTitle>TwToast | twblazor</PageTitle>
-<HeadContent>
-    <meta name="description" content="TwToast is a Blazor toast component for notifications, with toast types, colours, duration, persistence and custom toasts." />
-    <link rel="canonical" href="https://twblazor.com/toast" />
-</HeadContent>
 @* #region CodeExample ToastInject *@
 @inject ITwToastService ToastService
 @* #endregion *@
 
-<PageContainer Title="TwToastProvider" ThemeType="typeof(TwToastTheme)">
+<PageContainer Title="TwToastProvider" Path="/toast" Description="TwToast is a Blazor toast notification service. Call ITwToastService.Show with a message, title, Color and icon, with duration, persistence and custom toasts." SeoTitle="TwToast | twblazor - Blazor Toast Component" ThemeType="typeof(TwToastTheme)">
     <ThemeContent>
         <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">
             For example, to move toasts to the top-right and make them fully rounded:
@@ -145,7 +140,7 @@
         {
             options.Theme.Toast.Container = "fixed top-0 right-0 p-4 z-50 flex flex-col gap-2 max-w-md"; // Move to top-right
             options.Theme.Toast.ToastRounded = Rounded.Full; // Make toasts fully rounded
-            options.Theme.Toast.ToastWidth = "max-w-sm"; // Wider toasts
+            options.Theme.Toast.ToastWidth = "w-96 max-w-full"; // Wider toasts
         }, Theme.DefaultTheme);
         """;
 

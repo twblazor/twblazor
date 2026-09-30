@@ -31,6 +31,37 @@ public partial class TwCodeBlock : TwBlazorComponentBase, IAsyncDisposable
     [Parameter] public string? Content { get; set; }
     [Parameter] public string Language { get; set; } = "html";
 
+    /// <summary>
+    /// Gets or sets the label shown in the header bar. Defaults to a display name for <see cref="Language"/>
+    /// (e.g. <c>csharp</c> shows "C#", <c>bash</c> shows "Terminal").
+    /// </summary>
+    [Parameter] public string? Title { get; set; }
+
+    private static readonly Dictionary<string, string> _languageTitles = new(StringComparer.OrdinalIgnoreCase)
+    {
+        ["html"] = "Razor",
+        ["csharp"] = "C#",
+        ["cs"] = "C#",
+        ["css"] = "CSS",
+        ["bash"] = "Terminal",
+        ["shell"] = "Terminal",
+        ["json"] = "JSON",
+        ["xml"] = "XML",
+        ["javascript"] = "JavaScript",
+        ["js"] = "JavaScript",
+        ["text"] = "Text"
+    };
+
+    private string headerTitle => Title
+        ?? (_languageTitles.TryGetValue(Language, out var title) ? title : Language.ToUpperInvariant());
+
+    private string headerClasses =>
+        new ClassBuilder(theme.Header)
+        .AddClass(options.Theme.Display.Flex)
+        .AddClass(options.Theme.Flexbox.Align.Center)
+        .AddClass(options.Theme.Flexbox.Justify.Between)
+        .Build();
+
     private string classes =>
         new ClassBuilder(Class)
         .AddClass(shadowBuilder.GetShadow(effectiveShadow))

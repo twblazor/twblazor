@@ -1,0 +1,12 @@
+# Configures GitHub's generated release notes (see "Create GitHub Release" in
+# publish-release.yml). Every develop -> main release PR carries exactly one
+# release:* label (enforced by pr-release-label.yml), so excluding those labels
+# drops the release PR itself and leaves only the PRs it shipped. Without this,
+# a release PR titled like its feature PR lists the same change twice.
+changelog:
+  exclude:
+    labels:
+      - release:major
+      - release:minor
+      - release:patch
+      - release:none

@@ -46,6 +46,17 @@ public class ToastBuilderTests : TwBlazorTestBase
     }
 
     [Fact]
+    public void GetToastClasses_DefaultWidth_IsFixedSoAllToastsMatch()
+    {
+        // Act
+        var result = ToastBuilder.GetToastClasses().Split(' ');
+
+        // Assert - a fixed width (not just a max-width) keeps toasts the same size regardless of content
+        Assert.Contains("w-[300px]", result);
+        Assert.Contains("max-w-full", result);
+    }
+
+    [Fact]
     public void GetToastClasses_DoesNotApplyWidth_WhenToastWidthIsEmpty()
     {
         // Arrange
