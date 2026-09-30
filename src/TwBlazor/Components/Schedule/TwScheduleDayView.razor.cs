@@ -76,6 +76,32 @@ public partial class TwScheduleDayView<T> : TwBlazorComponentBase, IAsyncDisposa
     [Parameter] public EventCallback<DateTime> OnEventDrop { get; set; }
 
     /// <summary>
+    /// Invoked with the start of the slot a dragged event is hovering. See <see cref="TwScheduleDayColumn{T}.OnEventDragOver"/>.
+    /// </summary>
+    [Parameter] public EventCallback<DateTime> OnEventDragOver { get; set; }
+
+    /// <summary>
+    /// Invoked when a drag ends, whether or not it was dropped on a valid target.
+    /// </summary>
+    [Parameter] public EventCallback OnEventDragEnd { get; set; }
+
+    /// <summary>
+    /// The event being dragged once the drag is live; see <see cref="TwScheduleDayColumn{T}.DraggedEvent"/>.
+    /// </summary>
+    [Parameter] public Schedule<T>? DraggedEvent { get; set; }
+
+    /// <summary>
+    /// Where <see cref="DraggedEvent"/> would land if released now.
+    /// </summary>
+    [Parameter] public DateTime? DropPreview { get; set; }
+
+    /// <summary>
+    /// When <see langword="true"/>, shows the mini-calendar beside the time grid. Defaults to
+    /// <see langword="false"/> - see <see cref="TwSchedule{T}.ShowDayCalendar"/>.
+    /// </summary>
+    [Parameter] public bool ShowCalendar { get; set; }
+
+    /// <summary>
     /// The CSS <c>max-height</c> of the scrollable time grid - see <see cref="TwSchedule{T}.MaxHeight"/>.
     /// </summary>
     [Parameter] public string MaxHeight { get; set; } = "40rem";

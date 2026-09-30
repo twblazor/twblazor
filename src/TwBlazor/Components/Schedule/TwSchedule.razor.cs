@@ -94,6 +94,13 @@ public partial class TwSchedule<T> : TwBlazorComponentBase
     [Parameter] public TimeSpan ScrollToTime { get; set; } = TimeSpan.FromHours(8);
 
     /// <summary>
+    /// When <see langword="true"/>, the Day view shows a mini-calendar beside its time grid for
+    /// quickly jumping to another day. Defaults to <see langword="false"/>. Not used by the Week or
+    /// Month views.
+    /// </summary>
+    [Parameter] public bool ShowDayCalendar { get; set; }
+
+    /// <summary>
     /// When set, shows a search icon button in the header that invokes this callback. No search
     /// logic lives in <see cref="TwSchedule{T}"/> itself - the search UI (and navigating to a found
     /// event via <see cref="SelectedDate"/>/<see cref="View"/>) is left entirely to the caller, since
@@ -128,6 +135,17 @@ public partial class TwSchedule<T> : TwBlazorComponentBase
     private string headerSubtitleClasses => new ClassBuilder(theme.HeaderSubtitle).Build();
 
     private string GetNavButtonClasses() => new ClassBuilder(theme.NavButton).Build();
+
+    private string previousTooltip => $"Previous {viewUnit}";
+
+    private string nextTooltip => $"Next {viewUnit}";
+
+    private string viewUnit => View switch
+    {
+        TwScheduleView.Day => "day",
+        TwScheduleView.Month => "month",
+        _ => "week"
+    };
 
     private string viewSwitcherClasses => new ClassBuilder(options.Theme.Display.Flex)
         .AddClass(options.Theme.Flexbox.Align.Center)
@@ -346,7 +364,57 @@ public partial class TwSchedule<T> : TwBlazorComponentBase
     /// </summary>
     private Schedule<T>? draggedEvent;
 
-    private void OnEventDragStart(Schedule<T> evt) => draggedEvent = evt;
+    /// <summary>
+    /// Whether the drag has been live long enough for the views to switch into drag mode (chips stop
+    /// intercepting pointer events so slots underneath can receive the drop, and the landing
+    /// placeholder is drawn).
+    /// </summary>
+    private bool isDragActive;
+
+    /// <summary>
+    /// Where the dragged event would land if released now: the hovered slot's start in Day/Week view,
+    /// or the hovered day in Month view. <see langword="null"/> until the pointer enters a drop target.
+    /// </summary>
+    private DateTime? dropPreview;
+
+    private Schedule<T>? activeDraggedEvent => isDragActive ? draggedEvent : null;
+
+    private static readonly TimeSpan _dragActivationDelay = TimeSpan.FromMilliseconds(25);
+
+    /// <summary>
+    /// Records the dragged event, then flips into drag mode after a short delay. Re-rendering the
+    /// chips synchronously inside <c>dragstart</c> makes Chrome cancel the drag, so the visual change
+    /// is deferred until the browser has committed to it.
+    /// </summary>
+    private async Task OnEventDragStartAsync(Schedule<T> evt)
+    {
+        draggedEvent = evt;
+        dropPreview = null;
+
+        await Task.Delay(_dragActivationDelay);
+
+        if (draggedEvent == evt)
+        {
+            isDragActive = true;
+        }
+    }
+
+    private void OnEventDragOver(DateTime target)
+    {
+        if (draggedEvent is not null)
+        {
+            dropPreview = target;
+        }
+    }
+
+    private void OnEventDragEnd() => ClearDragState();
+
+    private void ClearDragState()
+    {
+        draggedEvent = null;
+        isDragActive = false;
+        dropPreview = null;
+    }
 
     /// <summary>
     /// Applies a completed drag: Day/Week views report <paramref name="dropTarget"/> as the exact new
@@ -358,7 +426,7 @@ public partial class TwSchedule<T> : TwBlazorComponentBase
     private async Task OnEventDropAsync(DateTime dropTarget)
     {
         var evt = draggedEvent;
-        draggedEvent = null;
+        ClearDragState();
 
         if (evt is null || !Editable || evt.ReadOnly)
         {

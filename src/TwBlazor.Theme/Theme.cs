@@ -585,7 +585,9 @@ public static class Theme
             PopoverBackground = neutralSurface.Overlay,
             PopoverBorder = $"{borderWidth.Thin} {neutralSurface.BorderStrong}",
             TimeRangePopoverSize = $"w-56 {spacing.Padding.Md}",
-            ColorPopoverSize = $"tw-color-picker-dialog w-64 {spacing.Padding.Lg}"
+            ColorPopoverSize = $"tw-color-picker-dialog w-64 {spacing.Padding.Lg}",
+            TooltipWrapper = $"{positioning.Relative} {display.InlineFlex} group",
+            TooltipBubble = $"{positioning.Absolute} bottom-full left-1/2 z-130 mb-2 -translate-x-1/2 px-2 py-1 whitespace-nowrap {typography.Size.Xs} {typography.Weight.Medium} {neutralText.Heading} invisible group-hover:visible group-has-[:focus-visible]:visible"
         };
 
         #endregion
@@ -794,7 +796,7 @@ public static class Theme
                 },
                 new TwDatePickerTheme
                 {
-                    Header = $"{typography.AlignCenter} {typography.Weight.Medium} {overlayTheme.PopoverBackground} {rounded.RoundedTop.Lg} border-b {neutralSurface.BorderStrong}",
+                    Header = $"{typography.AlignCenter} {typography.Weight.Medium} {transparentBackground} {rounded.RoundedTop.Lg} border-b {neutralSurface.BorderStrong}",
                     WeekdaysHeader = $"{display.Flex} {anchor.Center} h-8 {typography.Size.Xs} {typography.Weight.Semibold} tracking-wide {text.Medium.Primary} {darkText.Light.Primary}",
                     Base = $"{positioning.Fixed} z-120 {flexbox.Row} md:flex-row {flexbox.Align.Center} mt-1 px-2 pb-2 {typography.AlignCenter} {typography.Size.Sm} {typography.Weight.Medium} {transition.ColorsFast} {interaction.PointerCursor}",
                     ActiveClass = "bg-purple-50 dark:bg-purple-500/30",
@@ -1196,7 +1198,6 @@ public static class Theme
                     HeaderSubtitle = $"{typography.Size.Xs} {neutralText.Muted}",
                     NavButton = $"{display.Flex} {anchor.Center} size-8 {rounded.Full} {neutralSurface.Hover}",
                     ViewButtonActive = $"{background.Lightest.Primary} {darkBackground.Dark.Primary}",
-                    TodayButton = "shrink-0",
                     AddButton = "shrink-0",
                     SearchButton = neutralText.Subtle,
                     ScrollContainer = "overflow-y-auto",
@@ -1214,6 +1215,7 @@ public static class Theme
                     EventChipTime = $"{typography.Size.Xs} opacity-75",
                     EventChipReadOnly = $"{interaction.ReadonlyCursor} opacity-90",
                     EventChipDraggable = "cursor-grab active:cursor-grabbing",
+                    DropPlaceholder = $"{overflow.Hidden} {rounded.Sm} border-2 border-dashed {borderColors.Primary} {background.Lightest.Primary} {darkBackground.Dark.Primary} {text.Dark.Primary} {darkText.Light.Primary} {typography.Size.Xs} opacity-70 z-10",
                     MonthGrid = $"{sizing.FullWidth} border-collapse table-fixed",
                     MonthCell = $"align-top {spacing.Padding.Sm} border {neutralSurface.BorderSubtle} h-24",
                     MonthCellPrevNext = $"{neutralSurface.BackgroundSubtle} {neutralText.Subtle}",

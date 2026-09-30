@@ -17,9 +17,17 @@
                 @ref="GetSlotRef(slotIndex).Element"
                 @onclick="@(() => OnSlotClickedAsync(slotIndex))"
                 @onfocus="@(() => OnSlotFocusedAsync(slotIndex))"
+                @ondragenter="@(() => OnSlotDragEnterAsync(slotIndex))" @ondragenter:preventDefault="Editable"
                 @ondragover="@(() => { })" @ondragover:preventDefault="Editable"
                 @ondrop="@(() => OnSlotDropAsync(slotIndex))">
         </button>
+    }
+    @if (placeholderStyle is { } dropPlaceholderStyle)
+    {
+        <div class="@placeholderClasses" style="@dropPlaceholderStyle" aria-hidden="true">
+            <span class="@chipTitleClasses">@DraggedEvent!.Name</span>
+            <span class="@chipTimeClasses">@DropPreview!.Value.ToString("h:mm tt")</span>
+        </div>
     }
     @foreach (var slot in layoutSlots)
     {
@@ -29,6 +37,7 @@
                 aria-label="@($"{slot.Event.Name}, {slot.Event.DateTimeStart:h:mm tt} to {slot.Event.DateTimeEnd:h:mm tt}")"
                 draggable="@(IsDraggable(slot.Event) ? "true" : "false")"
                 @ondragstart="@(() => OnChipDragStartAsync(slot.Event))"
+                @ondragend="OnChipDragEndAsync"
                 @onclick="@(() => OnEventClickedAsync(slot.Event))">
             @if (EventContentTemplate is not null)
             {

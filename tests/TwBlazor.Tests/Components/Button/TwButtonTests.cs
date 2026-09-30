@@ -34,6 +34,94 @@ public class TwButtonTests : TwBlazorTestBase
     }
 
     [Fact]
+    public void TwButton_WithoutTooltip_RendersNoTooltipOrWrapper()
+    {
+        var cut = TestContext.Render<TwButton>(parameters => parameters.Add(p => p.Label, "x"));
+
+        Assert.Empty(cut.FindAll("[role='tooltip']"));
+        Assert.Null(cut.Find("button").GetAttribute("aria-describedby"));
+        Assert.Equal("button", cut.Nodes.OfType<AngleSharp.Dom.IElement>().Single().TagName.ToLowerInvariant());
+    }
+
+    [Fact]
+    public void TwButton_WithTooltip_RendersTooltipLinkedByAriaDescribedBy()
+    {
+        var cut = TestContext.Render<TwButton>(parameters => parameters
+            .Add(p => p.Label, "Save")
+            .Add(p => p.Tooltip, "Save your changes"));
+
+        var tooltip = cut.Find("[role='tooltip']");
+        Assert.Equal("Save your changes", tooltip.TextContent);
+        Assert.False(string.IsNullOrEmpty(tooltip.Id));
+        Assert.Equal(tooltip.Id, cut.Find("button").GetAttribute("aria-describedby"));
+    }
+
+    [Fact]
+    public void TwButton_Tooltip_UsesThemeClassesAndPopoverSurface()
+    {
+        var cut = TestContext.Render<TwButton>(parameters => parameters
+            .Add(p => p.Label, "Save")
+            .Add(p => p.Tooltip, "Save your changes"));
+
+        var tooltipClasses = cut.Find("[role='tooltip']").GetAttribute("class")!;
+        Assert.Contains(Theme.Components.Require<TwOverlayTheme>().TooltipBubble, tooltipClasses);
+        Assert.Contains(Theme.Components.Require<TwOverlayTheme>().PopoverBackground, tooltipClasses);
+        Assert.Contains("group", cut.Find("[role='tooltip']").ParentElement!.GetAttribute("class"));
+    }
+
+    [Fact]
+    public void TwButton_Tooltip_CanBeDismissedWithEscape_AndReturnsOnMouseLeave()
+    {
+        var cut = TestContext.Render<TwButton>(parameters => parameters
+            .Add(p => p.Label, "Save")
+            .Add(p => p.Tooltip, "Save your changes"));
+        var wrapper = cut.Find("[role='tooltip']").ParentElement!;
+
+        wrapper.KeyDown(new KeyboardEventArgs { Key = "Escape" });
+        Assert.Contains("hidden", cut.Find("[role='tooltip']").ClassList);
+
+        cut.Find("[role='tooltip']").ParentElement!.MouseLeave();
+        Assert.DoesNotContain("hidden", cut.Find("[role='tooltip']").ClassList);
+    }
+
+    [Fact]
+    public void TwButton_Tooltip_IgnoresNonEscapeKeys()
+    {
+        var cut = TestContext.Render<TwButton>(parameters => parameters
+            .Add(p => p.Label, "Save")
+            .Add(p => p.Tooltip, "Save your changes"));
+
+        cut.Find("[role='tooltip']").ParentElement!.KeyDown(new KeyboardEventArgs { Key = "a" });
+
+        Assert.DoesNotContain("hidden", cut.Find("[role='tooltip']").ClassList);
+    }
+
+    [Fact]
+    public void TwButton_WithTooltip_AsLink_LinksTooltipToAnchor()
+    {
+        var cut = TestContext.Render<TwButton>(parameters => parameters
+            .Add(p => p.Label, "Docs")
+            .Add(p => p.Href, "/docs")
+            .Add(p => p.Tooltip, "Read the docs"));
+
+        var tooltip = cut.Find("[role='tooltip']");
+        Assert.Equal(tooltip.Id, cut.Find("a").GetAttribute("aria-describedby"));
+    }
+
+    [Fact]
+    public void TwButton_Tooltip_StillInvokesOnClick()
+    {
+        var clicked = false;
+        var cut = TestContext.Render<TwButton>(parameters => parameters
+            .Add(p => p.Tooltip, "Tip")
+            .Add(p => p.OnClick, () => clicked = true));
+
+        cut.Find("button").Click();
+
+        Assert.True(clicked);
+    }
+
+    [Fact]
     public void TwButton_Plain_StillInvokesOnClick()
     {
         // Arrange

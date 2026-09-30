@@ -69,6 +69,26 @@ public partial class TwScheduleMonthView<T> : TwBlazorComponentBase, IAsyncDispo
     /// </summary>
     [Parameter] public EventCallback<DateTime> OnEventDrop { get; set; }
 
+    /// <summary>
+    /// Invoked with the hovered day when a dragged event enters one of its cells.
+    /// </summary>
+    [Parameter] public EventCallback<DateTime> OnEventDragOver { get; set; }
+
+    /// <summary>
+    /// Invoked when a drag ends, whether or not it was dropped on a valid target.
+    /// </summary>
+    [Parameter] public EventCallback OnEventDragEnd { get; set; }
+
+    /// <summary>
+    /// The event being dragged once the drag is live; a placeholder for it is drawn in the hovered day.
+    /// </summary>
+    [Parameter] public Schedule<T>? DraggedEvent { get; set; }
+
+    /// <summary>
+    /// The day <see cref="DraggedEvent"/> would land on if released now.
+    /// </summary>
+    [Parameter] public DateTime? DropPreview { get; set; }
+
     private static IReadOnlyList<string> weekdayHeaders
     {
         get
@@ -141,6 +161,22 @@ public partial class TwScheduleMonthView<T> : TwBlazorComponentBase, IAsyncDispo
     private string overflowLabelClasses => new ClassBuilder(theme.MonthOverflowLabel).Build();
 
     private bool IsDraggable(Schedule<T> evt) => Editable && !evt.ReadOnly;
+
+    private string placeholderClasses => new ClassBuilder(theme.DropPlaceholder)
+        .AddClass(options.Theme.Display.Flex)
+        .AddClass(options.Theme.Flexbox.Align.Center)
+        .AddClass(options.Theme.Sizing.FullWidth)
+        .AddClass(options.Theme.Interaction.PointerEventsNone)
+        .AddClass(options.Theme.Spacing.Padding.Sm)
+        .Build();
+
+    private bool IsDropTarget(DateTime day) =>
+        Editable && DraggedEvent is not null && DropPreview is { } preview && preview.Date == day.Date;
+
+    private Task OnChipDragEndAsync() => OnEventDragEnd.InvokeAsync();
+
+    private Task OnDayDragEnterAsync(DateTime day) =>
+        Editable ? OnEventDragOver.InvokeAsync(day) : Task.CompletedTask;
 
     private Task OnDayClickedAsync(DateTime day) => OnDayClick.InvokeAsync(day);
 

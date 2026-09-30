@@ -56,11 +56,6 @@ public class TwScheduleTheme
     public required string ViewButtonActive { get; set; }
 
     /// <summary>
-    /// Gets or sets the classes for the "Today" button.
-    /// </summary>
-    public required string TodayButton { get; set; }
-
-    /// <summary>
     /// Gets or sets the classes for the "add event" button shown when
     /// <see cref="TwBlazor.Components.TwSchedule{T}.Editable"/> is <see langword="true"/>.
     /// </summary>
@@ -160,6 +155,13 @@ public class TwScheduleTheme
     /// and not <see cref="TwBlazor.Components.Schedule{T}.ReadOnly"/>).
     /// </summary>
     public required string EventChipDraggable { get; set; }
+
+    /// <summary>
+    /// Gets or sets the classes for the dashed placeholder shown where a dragged event will land when
+    /// released, in the Day/Week time grid and the Month view's day cells. Positioning and
+    /// <c>pointer-events-none</c> are applied by the views themselves.
+    /// </summary>
+    public required string DropPlaceholder { get; set; }
 
     /// <summary>
     /// Gets or sets the classes for the Month view's <c>&lt;table&gt;</c> grid.

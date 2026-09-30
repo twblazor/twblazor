@@ -126,20 +126,77 @@ public class TwScheduleTests : TwBlazorTestBase
             .Add(x => x.SelectedDate, new DateTime(2020, 1, 1))
             .Add(x => x.SelectedDateChanged, EventCallback.Factory.Create<DateTime>(this, d => result = d)));
 
-        cut.FindAll("button").First(b => b.TextContent.Trim() == "Today").Click();
+        cut.Find("button[aria-label='Today']").Click();
 
         Assert.Equal(DateTime.Today, result);
     }
 
     [Fact]
-    public void TodayButton_IsARealButtonElement_WithVisibleLabel_NotAnIcon()
+    public void TodayButton_IsAnIconButton_WithAccessibleNameAndTooltip()
     {
         var cut = TestContext.Render<TwSchedule<string>>();
 
-        var todayButton = cut.FindAll("button").First(b => b.TextContent.Trim() == "Today");
+        var todayButton = cut.Find("button[aria-label='Today']");
 
-        Assert.Equal("button", todayButton.TagName.ToLowerInvariant());
-        Assert.Empty(todayButton.QuerySelectorAll("i"));
+        Assert.NotEmpty(todayButton.QuerySelectorAll("i"));
+        Assert.Empty(todayButton.TextContent.Trim());
+        Assert.Equal("Today", cut.Find($"#{todayButton.GetAttribute("aria-describedby")}").TextContent);
+    }
+
+    [Theory]
+    [InlineData(TwScheduleView.Day, "day")]
+    [InlineData(TwScheduleView.Week, "week")]
+    [InlineData(TwScheduleView.Month, "month")]
+    public void NavigationButtons_HaveViewSpecificTooltips(TwScheduleView view, string unit)
+    {
+        var cut = TestContext.Render<TwSchedule<string>>(p => p.Add(x => x.View, view));
+
+        Assert.Equal($"Previous {unit}", TooltipFor(cut, "Previous"));
+        Assert.Equal($"Next {unit}", TooltipFor(cut, "Next"));
+    }
+
+    [Theory]
+    [InlineData("Day view")]
+    [InlineData("Week view")]
+    [InlineData("Month view")]
+    public void ViewSwitcherButtons_HaveTooltips(string label)
+    {
+        var cut = TestContext.Render<TwSchedule<string>>();
+
+        Assert.Equal(label, TooltipFor(cut, label));
+    }
+
+    [Fact]
+    public void SearchButton_HasTooltip()
+    {
+        var cut = TestContext.Render<TwSchedule<string>>(p => p
+            .Add(x => x.OnSearch, EventCallback.Factory.Create(this, () => { })));
+
+        Assert.Equal("Search events", TooltipFor(cut, "Search events"));
+    }
+
+    private static string TooltipFor(IRenderedComponent<TwSchedule<string>> cut, string ariaLabel)
+    {
+        var button = cut.Find($"button[aria-label='{ariaLabel}']");
+        return cut.Find($"#{button.GetAttribute("aria-describedby")}").TextContent;
+    }
+
+    [Fact]
+    public void DayCalendar_IsHiddenByDefault_InDayView()
+    {
+        var cut = TestContext.Render<TwSchedule<string>>(p => p.Add(x => x.View, TwScheduleView.Day));
+
+        Assert.Empty(cut.FindComponents<TwBlazor.Components.DatePicker.TwDatePickerCalendar>());
+    }
+
+    [Fact]
+    public void DayCalendar_IsShown_WhenShowDayCalendarIsTrue()
+    {
+        var cut = TestContext.Render<TwSchedule<string>>(p => p
+            .Add(x => x.View, TwScheduleView.Day)
+            .Add(x => x.ShowDayCalendar, true));
+
+        Assert.Single(cut.FindComponents<TwBlazor.Components.DatePicker.TwDatePickerCalendar>());
     }
 
     [Theory]
@@ -334,6 +391,150 @@ public class TwScheduleTests : TwBlazorTestBase
         var moved = Assert.Single(Assert.IsType<List<Schedule<string>>>(updatedList));
         Assert.Equal(new DateTimeOffset(2026, 3, 20, 9, 30, 0, TimeSpan.Zero), moved.DateTimeStart);
         Assert.Equal(new DateTimeOffset(2026, 3, 20, 10, 15, 0, TimeSpan.Zero), moved.DateTimeEnd);
+    }
+
+    /// <summary>
+    /// Starts dragging the named event and waits for the schedule to enter drag mode, which it does a
+    /// moment after dragstart (see TwSchedule's drag activation delay).
+    /// </summary>
+    private static void StartDrag(IRenderedComponent<TwSchedule<string>> cut, string eventName)
+    {
+        cut.Find($"button[aria-label^='{eventName}']").DragStart(new DragEventArgs());
+        cut.WaitForAssertion(() => Assert.Contains("pointer-events-none", cut.Find($"button[aria-label^='{eventName}']").GetAttribute("class")));
+    }
+
+    [Fact]
+    public void DragEvent_InDayView_ShowsPlaceholderAtHoveredSlot_SizedToEventDuration()
+    {
+        var day = new DateTime(2026, 3, 18);
+        var dragged = Event("Design review", day.AddHours(9), day.AddHours(10.5));
+        var other = Event("Existing", day.AddHours(14), day.AddHours(15));
+
+        var cut = TestContext.Render<TwSchedule<string>>(p => p
+            .Add(x => x.SelectedDate, day)
+            .Add(x => x.View, TwScheduleView.Day)
+            .Add(x => x.Editable, true)
+            .Add(x => x.Schedules, [dragged, other]));
+
+        Assert.Empty(cut.FindAll("[aria-hidden='true'][style*='width:100%']"));
+
+        StartDrag(cut, "Design review");
+        cut.Find("button[aria-label='2:00 PM']").DragEnter(new DragEventArgs());
+
+        var placeholder = cut.WaitForElement("div[aria-hidden='true'][style*='width:100%']");
+        var style = placeholder.GetAttribute("style")!;
+        Assert.Contains("top:84rem", style); // 14:00 = slot 28 * 3rem
+        Assert.Contains("height:9rem", style); // 90 minutes = 3 slots * 3rem
+        Assert.Contains("pointer-events-none", placeholder.GetAttribute("class"));
+    }
+
+    [Fact]
+    public void DragEvent_InWeekView_ShowsPlaceholderOnlyInHoveredDayColumn()
+    {
+        var wednesday = new DateTime(2026, 3, 18);
+        var evt = Event("Design review", wednesday.AddHours(9), wednesday.AddHours(10));
+
+        var cut = TestContext.Render<TwSchedule<string>>(p => p
+            .Add(x => x.SelectedDate, wednesday)
+            .Add(x => x.View, TwScheduleView.Week)
+            .Add(x => x.Editable, true)
+            .Add(x => x.Schedules, [evt]));
+
+        StartDrag(cut, "Design review");
+        var columns = cut.FindComponents<TwScheduleDayColumn<string>>();
+        columns[3].Find("button[aria-label='9:00 AM']").DragEnter(new DragEventArgs());
+
+        cut.WaitForAssertion(() =>
+        {
+            columns = cut.FindComponents<TwScheduleDayColumn<string>>();
+            for (var i = 0; i < columns.Count; i++)
+            {
+                var hasPlaceholder = columns[i].FindAll("div[aria-hidden='true']").Count > 0;
+                Assert.Equal(i == 3, hasPlaceholder);
+            }
+        });
+    }
+
+    [Fact]
+    public void DragEvent_InDayView_ChipsIgnorePointerEvents_SoOccupiedSlotsCanReceiveTheDrop()
+    {
+        var day = new DateTime(2026, 3, 18);
+        var dragged = Event("Design review", day.AddHours(13), day.AddHours(14));
+        var other = Event("Existing", day.AddHours(14), day.AddHours(15));
+        List<Schedule<string>>? updatedList = null;
+
+        var cut = TestContext.Render<TwSchedule<string>>(p => p
+            .Add(x => x.SelectedDate, day)
+            .Add(x => x.View, TwScheduleView.Day)
+            .Add(x => x.Editable, true)
+            .Add(x => x.Schedules, [dragged, other])
+            .Add(x => x.SchedulesChanged, EventCallback.Factory.Create<List<Schedule<string>>>(this, list => updatedList = list)));
+
+        Assert.DoesNotContain("pointer-events-none", cut.Find("button[aria-label^='Existing']").GetAttribute("class"));
+
+        StartDrag(cut, "Design review");
+
+        Assert.Contains("pointer-events-none", cut.Find("button[aria-label^='Existing']").GetAttribute("class"));
+
+        cut.Find("button[aria-label='2:00 PM']").Drop(new DragEventArgs());
+
+        cut.WaitForAssertion(() =>
+        {
+            var moved = Assert.Single(Assert.IsType<List<Schedule<string>>>(updatedList), e => e.Name == "Design review");
+            Assert.Equal(new DateTimeOffset(day.AddHours(14)), moved.DateTimeStart);
+            Assert.DoesNotContain("pointer-events-none", cut.Find("button[aria-label^='Existing']").GetAttribute("class"));
+        });
+    }
+
+    [Fact]
+    public void DragEvent_DragEnd_ClearsPlaceholderAndRestoresChips()
+    {
+        var day = new DateTime(2026, 3, 18);
+        var evt = Event("Design review", day.AddHours(9), day.AddHours(10));
+
+        var cut = TestContext.Render<TwSchedule<string>>(p => p
+            .Add(x => x.SelectedDate, day)
+            .Add(x => x.View, TwScheduleView.Day)
+            .Add(x => x.Editable, true)
+            .Add(x => x.Schedules, [evt]));
+
+        StartDrag(cut, "Design review");
+        cut.Find("button[aria-label='11:00 AM']").DragEnter(new DragEventArgs());
+        cut.WaitForElement("div[aria-hidden='true'][style*='width:100%']");
+
+        cut.Find("button[aria-label^='Design review']").DragEnd(new DragEventArgs());
+
+        cut.WaitForAssertion(() =>
+        {
+            Assert.Empty(cut.FindAll("div[aria-hidden='true'][style*='width:100%']"));
+            Assert.DoesNotContain("pointer-events-none", cut.Find("button[aria-label^='Design review']").GetAttribute("class"));
+        });
+    }
+
+    [Fact]
+    public void DragEvent_InMonthView_ShowsPlaceholderInHoveredDay()
+    {
+        var evt = Event("Design review", new DateTime(2026, 3, 10, 9, 30, 0), new DateTime(2026, 3, 10, 10, 15, 0));
+
+        var cut = TestContext.Render<TwSchedule<string>>(p => p
+            .Add(x => x.SelectedDate, new DateTime(2026, 3, 15))
+            .Add(x => x.View, TwScheduleView.Month)
+            .Add(x => x.Editable, true)
+            .Add(x => x.Schedules, [evt]));
+
+        cut.Find("button[aria-label^='Design review']").DragStart(new DragEventArgs());
+
+        // The Month view's chips keep pointer events (drops bubble up to the cell), so there's no chip
+        // class to wait on; re-entering the cell until the drag goes live is idempotent.
+        cut.WaitForAssertion(() =>
+        {
+            cut.FindAll("button").First(b => b.TextContent.Trim() == "20").Closest("td")!.DragEnter(new DragEventArgs());
+
+            var hovered = cut.FindAll("button").First(b => b.TextContent.Trim() == "20").Closest("td")!;
+            var placeholder = Assert.Single(hovered.QuerySelectorAll("div[aria-hidden='true']"));
+            Assert.Contains("Design review", placeholder.TextContent);
+            Assert.Single(cut.FindAll("td div[aria-hidden='true']"));
+        });
     }
 
     [Fact]

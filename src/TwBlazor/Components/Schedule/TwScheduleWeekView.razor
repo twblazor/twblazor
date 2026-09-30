@@ -35,7 +35,11 @@
                                       OnEventClick="OnEventClick"
                                       OnSlotFocused="@((slot) => OnColumnSlotFocused(dayIndex, slot))"
                                       OnEventDragStart="OnEventDragStart"
+                                      OnEventDragOver="OnEventDragOver"
+                                      OnEventDragEnd="OnEventDragEnd"
                                       OnEventDrop="OnEventDrop"
+                                      DraggedEvent="DraggedEvent"
+                                      DropPreview="DropPreview"
                                       Class="@dayColumnClasses" />
             }
             <div class="@theme.NowIndicatorLine" style="@nowOffsetStyle" aria-hidden="true">

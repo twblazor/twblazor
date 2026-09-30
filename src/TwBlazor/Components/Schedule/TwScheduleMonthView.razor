@@ -30,7 +30,7 @@
                     var visibleEvents = dayEvents.Take(maxVisiblePerCell).ToList();
                     var overflowCount = dayEvents.Count - visibleEvents.Count;
 
-                    <td class="@GetCellClasses(day)" role="gridcell" @ondragover="@(() => { })" @ondragover:preventDefault="Editable" @ondrop="@(() => OnDayDropAsync(day))">
+                    <td class="@GetCellClasses(day)" role="gridcell" @ondragenter="@(() => OnDayDragEnterAsync(day))" @ondragenter:preventDefault="Editable" @ondragover="@(() => { })" @ondragover:preventDefault="Editable" @ondrop="@(() => OnDayDropAsync(day))">
                         <button type="button"
                                 class="@GetDayNumberClasses(day)"
                                 tabindex="@(cellIndex == focusedIndex ? "0" : "-1")"
@@ -48,6 +48,7 @@
                                         aria-label="@($"{evt.Name}, {GetStartTimeLabel(evt)}")"
                                         draggable="@(IsDraggable(evt) ? "true" : "false")"
                                         @ondragstart="@(() => OnChipDragStartAsync(evt))"
+                                        @ondragend="OnChipDragEndAsync"
                                         @onclick="@(() => OnEventClickedAsync(evt))">
                                     @if (EventContentTemplate is not null)
                                     {
@@ -59,6 +60,12 @@
                                         <span class="@timeClasses">@GetStartTimeLabel(evt)</span>
                                     }
                                 </button>
+                            }
+                            @if (IsDropTarget(day))
+                            {
+                                <div class="@placeholderClasses" style="height:1.5rem;" aria-hidden="true">
+                                    <span class="@nameClasses">@DraggedEvent!.Name</span>
+                                </div>
                             }
                             @if (overflowCount > 0)
                             {

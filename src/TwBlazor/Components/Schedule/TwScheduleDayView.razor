@@ -21,19 +21,26 @@
                                   OnSlotClick="OnSlotClick"
                                   OnEventClick="OnEventClick"
                                   OnEventDragStart="OnEventDragStart"
+                                  OnEventDragOver="OnEventDragOver"
+                                  OnEventDragEnd="OnEventDragEnd"
                                   OnEventDrop="OnEventDrop"
+                                  DraggedEvent="DraggedEvent"
+                                  DropPreview="DropPreview"
                                   Class="@options.Theme.Flexbox.Flex1" />
             <div class="@theme.NowIndicatorLine" style="@nowOffsetStyle" aria-hidden="true">
                 <span class="@theme.NowIndicatorDot" style="left:0;"></span>
             </div>
         </div>
     </div>
-    <div class="shrink-0">
-        <TwDatePickerCalendar AnchorDate="miniCalendarAnchor"
-                               AnchorDateChanged="OnMiniCalendarAnchorChanged"
-                               SelectedDate="Date"
-                               View="miniCalendarView"
-                               ViewChanged="@((v) => miniCalendarView = v)"
-                               DaySelected="OnMiniCalendarDaySelectedAsync" />
-    </div>
+    @if (ShowCalendar)
+    {
+        <div class="@options.Theme.Flexbox.ShrinkNone">
+            <TwDatePickerCalendar AnchorDate="miniCalendarAnchor"
+                                   AnchorDateChanged="OnMiniCalendarAnchorChanged"
+                                   SelectedDate="Date"
+                                   View="miniCalendarView"
+                                   ViewChanged="@((v) => miniCalendarView = v)"
+                                   DaySelected="OnMiniCalendarDaySelectedAsync" />
+        </div>
+    }
 </div>

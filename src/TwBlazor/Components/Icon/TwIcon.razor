@@ -3,7 +3,7 @@
 
 @if (OnClick.HasDelegate)
 {
-    <TwButton Id="@Id" Type="button" Attributes="Attributes" OnClick="@OnClick" AriaLabel="@AriaLabel" Class="@buttonClasses" IconButton Style="@Style" AriaLabelledBy="@AriaLabelledBy" Variant="@ButtonVariant" Color="@Color" Plain="@Plain" Shadow="@Shadow" Disabled="@Disabled">
+    <TwButton Id="@Id" Type="button" Attributes="Attributes" OnClick="@OnClick" AriaLabel="@AriaLabel" Class="@buttonClasses" IconButton Style="@Style" AriaLabelledBy="@AriaLabelledBy" Variant="@ButtonVariant" Color="@Color" Plain="@Plain" Shadow="@Shadow" Disabled="@Disabled" Tooltip="@Tooltip">
         <i class="@bareIconClasses" aria-hidden="true" @onmouseover="OnMouseOver" />
     </TwButton>
 }

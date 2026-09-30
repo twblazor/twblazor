@@ -25,6 +25,16 @@
         </CodeExample>
     </PageCard>
 
+    <PageCard Title="Day Calendar">
+        <Description>
+            The Day view can show a mini-calendar beside its time grid for jumping to another day. It's
+            off by default - set <code>ShowDayCalendar</code> to turn it on.
+        </Description>
+        <CodeExample Name="ScheduleDayCalendar" CSharpName="ScheduleDayCalendarCode">
+            <TwSchedule T="string" @bind-SelectedDate="dayCalendarSelectedDate" View="TwScheduleView.Day" ShowDayCalendar="true" Schedules="Schedules" />
+        </CodeExample>
+    </PageCard>
+
     <PageCard Title="Adding & Editing Events">
         <Description>
             Set <code>Editable</code> to show the header's "+" button and let events open the
@@ -33,7 +43,9 @@
             <code>Editable</code>, always opening read-only - see "Lunch" below. While
             <code>Editable</code>, non-read-only events can also be dragged to reschedule them: drag
             between time slots (and, in Week view, between days) on the Day/Week views, or between
-            days (keeping the same time) on the Month view. The dialog also includes a
+            days (keeping the same time) on the Month view. A dashed placeholder shows where the
+            event will land when released, including over slots that already hold another event. The
+            dialog also includes a
             <code>TwColorPicker</code> for <code>Schedule&lt;T&gt;.Color</code> - a per-event hex color
             that overrides the chip's default background across all three views; leave it unset to
             fall back to the theme's own color.
@@ -98,6 +110,10 @@
             new() { Name = "Extra sync", DateTimeStart = today.AddDays(3).AddHours(13), DateTimeEnd = today.AddDays(3).AddHours(13.5), Color = "#059669" },
         ];
     }
+    #endregion
+
+    #region CodeExample ScheduleDayCalendarCode
+    private DateTime dayCalendarSelectedDate = DateTime.Today;
     #endregion
 
     #region CodeExample ScheduleEditableCode

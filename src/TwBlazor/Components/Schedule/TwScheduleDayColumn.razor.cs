@@ -88,6 +88,31 @@ public partial class TwScheduleDayColumn<T> : TwBlazorComponentBase, IAsyncDispo
     /// </summary>
     [Parameter] public EventCallback<DateTime> OnEventDrop { get; set; }
 
+    /// <summary>
+    /// Invoked with the start of the slot the dragged event is currently hovering, so the owner can
+    /// track where it would land (see <see cref="DropPreview"/>).
+    /// </summary>
+    [Parameter] public EventCallback<DateTime> OnEventDragOver { get; set; }
+
+    /// <summary>
+    /// Invoked when a drag that started on one of this column's chips ends, whether or not it was
+    /// dropped on a valid target.
+    /// </summary>
+    [Parameter] public EventCallback OnEventDragEnd { get; set; }
+
+    /// <summary>
+    /// The event currently being dragged, once the drag is live; <see langword="null"/> otherwise.
+    /// While set, chips ignore pointer events so the slots beneath them (for example the slot of an
+    /// event already sitting at the target time) can receive the drag and drop.
+    /// </summary>
+    [Parameter] public Schedule<T>? DraggedEvent { get; set; }
+
+    /// <summary>
+    /// Where <see cref="DraggedEvent"/> would land if released now. The placeholder only renders when
+    /// this falls on <see cref="Date"/>.
+    /// </summary>
+    [Parameter] public DateTime? DropPreview { get; set; }
+
     private string columnClasses => new ClassBuilder(options.Theme.Position.Relative)
         .AddClass(options.Theme.Display.Flex)
         .AddClass(options.Theme.Flexbox.Col)
@@ -129,7 +154,37 @@ public partial class TwScheduleDayColumn<T> : TwBlazorComponentBase, IAsyncDispo
     private string GetChipClasses(Schedule<T> evt) => new ClassBuilder(theme.EventChip)
         .AddClass(theme.EventChipReadOnly, evt.ReadOnly || !Editable)
         .AddClass(theme.EventChipDraggable, IsDraggable(evt))
+        .AddClass(options.Theme.Interaction.PointerEventsNone, DraggedEvent is not null)
         .Build();
+
+    private string placeholderClasses => new ClassBuilder(theme.DropPlaceholder)
+        .AddClass(options.Theme.Position.Absolute)
+        .AddClass(options.Theme.Interaction.PointerEventsNone)
+        .AddClass(options.Theme.Spacing.Padding.Sm)
+        .Build();
+
+    /// <summary>
+    /// The inline style positioning the landing placeholder, or <see langword="null"/> when there is
+    /// nothing to show: no live drag, no hover target, or a target on a different day. Sized to the
+    /// dragged event's duration, clipped to the end of the day.
+    /// </summary>
+    private string? placeholderStyle
+    {
+        get
+        {
+            if (!Editable || DraggedEvent is null || DropPreview is not { } preview || preview.Date != Date.Date)
+            {
+                return null;
+            }
+
+            var startMinutes = preview.TimeOfDay.TotalMinutes;
+            var durationMinutes = Math.Min((DraggedEvent.DateTimeEnd - DraggedEvent.DateTimeStart).TotalMinutes, 24 * 60 - startMinutes);
+            var top = TwScheduleTimeGrid.GetOffsetRem(startMinutes);
+            var height = Math.Max((decimal)(durationMinutes / minutesPerSlot) * slotHeightRem, 0.5m);
+
+            return $"top:{top.ToString(System.Globalization.CultureInfo.InvariantCulture)}rem;height:{height.ToString(System.Globalization.CultureInfo.InvariantCulture)}rem;left:0;width:100%;";
+        }
+    }
 
     private string chipTitleClasses => new ClassBuilder(theme.EventChipTitle).Build();
 
@@ -144,6 +199,11 @@ public partial class TwScheduleDayColumn<T> : TwBlazorComponentBase, IAsyncDispo
 
     private Task OnChipDragStartAsync(Schedule<T> evt) =>
         IsDraggable(evt) ? OnEventDragStart.InvokeAsync(evt) : Task.CompletedTask;
+
+    private Task OnChipDragEndAsync() => OnEventDragEnd.InvokeAsync();
+
+    private Task OnSlotDragEnterAsync(int slotIndex) =>
+        Editable ? OnEventDragOver.InvokeAsync(Date.Date.AddMinutes(slotIndex * minutesPerSlot)) : Task.CompletedTask;
 
     private Task OnSlotDropAsync(int slotIndex) =>
         Editable ? OnEventDrop.InvokeAsync(Date.Date.AddMinutes(slotIndex * minutesPerSlot)) : Task.CompletedTask;
