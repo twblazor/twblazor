@@ -71,3 +71,13 @@ code.hljs {
 .hljs-strong {
     font-weight: 700
 }
+
+/* TwBlazor brand: CLI command and its arguments (see the PowerShell extension in highlight.min.js) */
+.hljs-tw-command {
+    color: oklch(71.4% 0.203 305.504);
+    font-weight: 600
+}
+
+.hljs-tw-arg {
+    color: oklch(82.7% 0.119 306.383)
+}

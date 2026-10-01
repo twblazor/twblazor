@@ -285,6 +285,9 @@ globalThis.twPicker = {
 globalThis.twCodeBlock = {
     highlightElement: function (el) {
         hljs.highlightElement(el);
+        // highlightElement bails out before adding this class when the language is unknown, which
+        // would drop the theme's default code padding and background.
+        el.classList.add('hljs');
     }
 };
 
