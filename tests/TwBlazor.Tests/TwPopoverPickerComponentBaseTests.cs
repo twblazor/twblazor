@@ -100,7 +100,7 @@ public class TwPopoverPickerComponentBaseTests : TwBlazorTestBase
         var invocation = Assert.Single(TestContext.JSInterop.Invocations, i => i.Identifier == "twPicker.registerScrollReposition");
         Assert.IsType<ElementReference>(invocation.Arguments[1]);
         Assert.False((bool)invocation.Arguments[2]!);
-        Assert.IsAssignableFrom<DotNetObjectReference<TwPopoverPickerComponentBase>>(invocation.Arguments[3]);
+        Assert.IsType<DotNetObjectReference<TwPopoverPickerComponentBase>>(invocation.Arguments[3], exactMatch: false);
     }
 
     [Fact]

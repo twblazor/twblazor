@@ -51,7 +51,7 @@ globalThis.twPicker = {
                     // on whatever is really there.
                     const upX = e.clientX ?? downX;
                     const upY = e.clientY ?? downY;
-                    Promise.resolve(closing).finally(() => {
+                    void Promise.resolve(closing).finally(() => {
                         if (typeof document.elementFromPoint !== 'function') return;
                         const intended = document.elementFromPoint(upX, upY);
                         if (intended && intended !== target && target.isConnected && target.contains(intended)) {
@@ -331,7 +331,7 @@ globalThis.twDialog = {
     // (which carries tabindex="-1" for programmatic focus).
     focusSurface: function (surface) {
         if (!surface) return;
-        var focusable = globalThis.twDialog.getFocusableElements(surface);
+        const focusable = globalThis.twDialog.getFocusableElements(surface);
         if (focusable.length > 0) {
             focusable[0].focus();
         } else if (typeof surface.focus === 'function') {
@@ -342,19 +342,19 @@ globalThis.twDialog = {
     // Traps Tab/Shift+Tab within the dialog surface so focus can't leave it while open.
     trapFocus: function (surface) {
         if (!surface || surface.__twDialogTrapHandler) return;
-        var handler = function (e) {
+        const handler = function (e) {
             if (e.key !== 'Tab') return;
 
-            var focusable = globalThis.twDialog.getFocusableElements(surface);
+            const focusable = globalThis.twDialog.getFocusableElements(surface);
             if (focusable.length === 0) {
                 e.preventDefault();
                 if (typeof surface.focus === 'function') surface.focus();
                 return;
             }
 
-            var first = focusable[0];
-            var last = focusable.at(-1);
-            var active = document.activeElement;
+            const first = focusable[0];
+            const last = focusable.at(-1);
+            const active = document.activeElement;
 
             if (e.shiftKey) {
                 if (active === first || !surface.contains(active)) {
@@ -382,9 +382,9 @@ globalThis.twDialog = {
     // find nothing to inert. Tags what it touched so clearBackgroundInert can undo precisely that.
     setBackgroundInert: function (exceptEl) {
         if (!exceptEl || !document.body) return;
-        var current = exceptEl;
+        let current = exceptEl;
         while (current && current !== document.body && current.parentElement) {
-            var parent = current.parentElement;
+            const parent = current.parentElement;
             Array.from(parent.children).forEach(function (sibling) {
                 if (sibling === current) return;
                 if (sibling.hasAttribute('inert')) return;
@@ -406,11 +406,11 @@ globalThis.twDialog = {
     // Records the focused element under an opaque token for later refocus (.NET can't hold a
     // raw DOM element reference).
     captureFocus: function () {
-        var active = document.activeElement;
+        const active = document.activeElement;
         if (!active || active === document.body) return null;
 
-        var randomPart = crypto.getRandomValues(new Uint32Array(2)).join('');
-        var token = 'tw-focus-' + Date.now().toString(36) + '-' + randomPart;
+        const randomPart = crypto.getRandomValues(new Uint32Array(2)).join('');
+        const token = 'tw-focus-' + Date.now().toString(36) + '-' + randomPart;
         active.dataset.twFocusToken = token;
         globalThis.twDialog._focusMap.set(token, active);
         return token;
@@ -418,7 +418,7 @@ globalThis.twDialog = {
 
     restoreFocus: function (token) {
         if (!token) return;
-        var el = globalThis.twDialog._focusMap.get(token);
+        let el = globalThis.twDialog._focusMap.get(token);
         if (!el || !document.body.contains(el)) {
             el = document.querySelector('[data-tw-focus-token="' + token + '"]');
         }
@@ -546,14 +546,14 @@ globalThis.twSidebar = {
 globalThis.twColorPicker = {
     relativePosition: function (el, clientX, clientY) {
         if (!el) return [0, 0];
-        var rect = el.getBoundingClientRect();
+        const rect = el.getBoundingClientRect();
         return [clientX - rect.left, clientY - rect.top];
     },
     // Measures actual rendered size so drag math uses real layout instead of a hardcoded guess -
     // stays correct across responsive breakpoints, zoom, or an overridden dialog width.
     getSize: function (el) {
         if (!el) return [0, 0];
-        var rect = el.getBoundingClientRect();
+        const rect = el.getBoundingClientRect();
         return [rect.width, rect.height];
     },
     // Feature-detects the EyeDropper API (Chromium-only) so the pick-from-screen button can be
@@ -566,7 +566,7 @@ globalThis.twColorPicker = {
     openEyeDropper: async function () {
         if (typeof EyeDropper === 'undefined') return null;
         try {
-            var result = await new EyeDropper().open();
+            const result = await new EyeDropper().open();
             return result.sRGBHex;
         } catch (err) {
             // AbortError = user cancelled, not worth logging; anything else is unexpected.
@@ -589,7 +589,7 @@ globalThis.twSkeleton = {
     // with visible children are structural wrappers (e.g. TwCard's container div) and are walked
     // into instead, so the skeleton follows real content down to its actual text/image/icon boxes.
     _isVisible: function (el, rect) {
-        var style = getComputedStyle(el);
+        const style = getComputedStyle(el);
         if (style.display === 'none' || style.visibility === 'collapse') return false;
         rect = rect || el.getBoundingClientRect();
         return rect.width > 0 && rect.height > 0;
@@ -606,14 +606,14 @@ globalThis.twSkeleton = {
     // "Round" means every corner's border-radius covers at least half the shorter side - catches
     // both a circular avatar and a "rounded-full" badge without special-casing classes or tags.
     _isRound: function (el, rect) {
-        var style = getComputedStyle(el);
-        var radii = [
+        const style = getComputedStyle(el);
+        const radii = [
             style.borderTopLeftRadius,
             style.borderTopRightRadius,
             style.borderBottomLeftRadius,
             style.borderBottomRightRadius
         ];
-        var minSide = Math.min(rect.width, rect.height);
+        const minSide = Math.min(rect.width, rect.height);
         return radii.every(function (radius) {
             return Number.parseFloat(radius) >= (minSide / 2) - 1;
         });
@@ -622,19 +622,19 @@ globalThis.twSkeleton = {
     // One skeleton bar per wrapped visual line, not one box per paragraph - Range.getClientRects()
     // gives exactly that, one rect per line a text node wraps onto.
     _textLineRects: function (el, containerRect) {
-        var rects = [];
-        var walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, {
+        const rects = [];
+        const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, {
             acceptNode: function (node) {
                 return node.textContent.trim().length > 0 ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
             }
         });
 
-        var node;
+        let node;
         while ((node = walker.nextNode())) {
-            var range = document.createRange();
+            const range = document.createRange();
             range.selectNodeContents(node);
-            var clientRects = range.getClientRects();
-            for (var lineRect of clientRects) {
+            const clientRects = range.getClientRects();
+            for (const lineRect of clientRects) {
                 if (lineRect.width <= 0 || lineRect.height <= 0) continue;
                 rects.push({
                     top: lineRect.top - containerRect.top,
@@ -650,7 +650,7 @@ globalThis.twSkeleton = {
     },
 
     _walk: function (el, containerRect, out) {
-        var rect = el.getBoundingClientRect();
+        const rect = el.getBoundingClientRect();
         if (!globalThis.twSkeleton._isVisible(el, rect)) return;
 
         if (globalThis.twSkeleton._hasVisibleElementChildren(el)) {
@@ -673,9 +673,9 @@ globalThis.twSkeleton = {
             return;
         }
 
-        var hasText = el.textContent && el.textContent.trim().length > 0;
+        const hasText = el.textContent && el.textContent.trim().length > 0;
         if (hasText) {
-            var lines = globalThis.twSkeleton._textLineRects(el, containerRect);
+            const lines = globalThis.twSkeleton._textLineRects(el, containerRect);
             if (lines.length > 0) {
                 out.push(...lines);
                 return;
@@ -692,8 +692,8 @@ globalThis.twSkeleton = {
     },
 
     _measure: function (container) {
-        var containerRect = container.getBoundingClientRect();
-        var out = [];
+        const containerRect = container.getBoundingClientRect();
+        const out = [];
         Array.from(container.children).forEach(function (child) {
             globalThis.twSkeleton._walk(child, containerRect, out);
         });
@@ -703,7 +703,7 @@ globalThis.twSkeleton = {
     observe: function (container, dotnetRef) {
         if (!container || globalThis.twSkeleton._observers.has(container)) return;
 
-        var emit = function () {
+        const emit = function () {
             try {
                 dotnetRef.invokeMethodAsync('OnRectsMeasured', globalThis.twSkeleton._measure(container));
             } catch (err) {
@@ -711,7 +711,7 @@ globalThis.twSkeleton = {
             }
         };
 
-        var observer = new ResizeObserver(emit);
+        const observer = new ResizeObserver(emit);
         observer.observe(container);
         globalThis.twSkeleton._observers.set(container, observer);
         emit();
@@ -719,7 +719,7 @@ globalThis.twSkeleton = {
 
     unobserve: function (container) {
         if (!container) return;
-        var observer = globalThis.twSkeleton._observers.get(container);
+        const observer = globalThis.twSkeleton._observers.get(container);
         if (observer) {
             observer.disconnect();
             globalThis.twSkeleton._observers.delete(container);

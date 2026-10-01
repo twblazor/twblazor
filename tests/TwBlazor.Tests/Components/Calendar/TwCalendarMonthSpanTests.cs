@@ -171,7 +171,7 @@ public class TwCalendarMonthSpanTests : TwBlazorTestBase
 
         // Thursday still reserves two lanes, though only Second starts earlier, so Second's spacer is lane 1.
         var thursday = CellOf(cut, new DateTime(2026, 3, 12));
-        Assert.Equal(2, thursday.QuerySelectorAll("div[aria-hidden='true'].h-5").Count());
+        Assert.Equal(2, thursday.QuerySelectorAll("div[aria-hidden='true'].h-5").Length);
     }
 
     [Fact]

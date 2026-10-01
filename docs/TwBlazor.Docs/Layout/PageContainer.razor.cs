@@ -59,11 +59,6 @@ public partial class PageContainer : ComponentBase, IDisposable
     /// </summary>
     [Parameter] public bool Beta { get; set; }
 
-    /// <summary>
-    /// Where bugs found in a <see cref="Beta"/> component should be reported.
-    /// </summary>
-    internal const string issuesUrl = "https://github.com/twblazor/twblazor/issues";
-
     private readonly PageOutline _outline = new();
     private DateOnly lastModified;
     private bool hasLastModified;
@@ -89,5 +84,21 @@ public partial class PageContainer : ComponentBase, IDisposable
     private void OnOutlineChanged() => _ = InvokeAsync(StateHasChanged);
 
     /// <inheritdoc />
-    public void Dispose() => _outline.Changed -= OnOutlineChanged;
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    /// <summary>
+    /// Unsubscribes from the page outline.
+    /// </summary>
+    /// <param name="disposing"><see langword="true"/> when called from <see cref="Dispose()"/>.</param>
+    protected virtual void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            _outline.Changed -= OnOutlineChanged;
+        }
+    }
 }

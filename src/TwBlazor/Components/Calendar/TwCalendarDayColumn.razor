@@ -2,13 +2,12 @@
 @typeparam T
 @inherits TwBlazorComponentBase
 
-<div id="@Id" class="@columnClasses" style="@Style" role="grid" aria-label="@Date.ToString("dddd, MMMM d")" @ref="gridRef" @onkeydown="OnGridKeyDownAsync" @attributes="Attributes">
+<div id="@Id" class="@columnClasses" style="@Style" role="group" aria-label="@Date.ToString("dddd, MMMM d")" @ref="gridRef" @onkeydown="OnGridKeyDownAsync" @attributes="Attributes">
     @for (var slot = 0; slot < slotsPerDay; slot++)
     {
         var slotIndex = slot;
         var slotTime = Date.Date.AddMinutes(slotIndex * minutesPerSlot);
         <button type="button"
-                role="gridcell"
                 class="@GetSlotClasses()"
                 style="@($"height:{slotHeightRem.ToString(System.Globalization.CultureInfo.InvariantCulture)}rem;")"
                 tabindex="@(slotIndex == focusedSlot ? "0" : "-1")"

@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using Microsoft.Playwright;
 using TwBlazor.A11yTests.Infrastructure;
 
@@ -8,8 +9,11 @@ namespace TwBlazor.A11yTests;
 /// hit-testing against the <c>inert</c> state a picker panel puts the rest of the page in.
 /// </summary>
 [Collection(A11yCollection.Name)]
-public class CalendarDialogInteractionTests(A11yFixture fixture)
+public partial class CalendarDialogInteractionTests(A11yFixture fixture)
 {
+    [GeneratedRegex("^29/")]
+    private static partial Regex Day29Prefix();
+
     [Fact]
     public async Task Save_WorksOnFirstClick_WhileAPickerPanelIsOpen()
     {
@@ -80,7 +84,7 @@ public class CalendarDialogInteractionTests(A11yFixture fixture)
 
             // Last: the page also holds other calendars' day buttons, and the open panel renders after them.
             await dialog.Locator("button.day", new() { HasTextString = "29" }).Last.ClickAsync();
-            await Assertions.Expect(end).ToHaveValueAsync(new System.Text.RegularExpressions.Regex("^29/"));
+            await Assertions.Expect(end).ToHaveValueAsync(Day29Prefix());
 
             await Assertions.Expect(dialog.Locator("[inert]")).ToHaveCountAsync(0);
             await dialog.GetByRole(AriaRole.Button, new() { Name = "Save", Exact = true }).ClickAsync();

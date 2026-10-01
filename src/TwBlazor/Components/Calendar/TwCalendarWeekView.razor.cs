@@ -23,8 +23,6 @@ public partial class TwCalendarWeekView<T> : TwBlazorComponentBase, IAsyncDispos
     private const int hoursPerDay = 24;
     private const int daysPerWeek = 7;
 
-    private static readonly TimeSpan _nowTickInterval = TimeSpan.FromSeconds(30);
-
     /// <summary>
     /// Any date within the week to display - the week actually shown is the Monday-Sunday range
     /// containing it (see <see cref="DateHelpers.GetStartOfWeek"/>).
@@ -144,7 +142,7 @@ public partial class TwCalendarWeekView<T> : TwBlazorComponentBase, IAsyncDispos
     private static string GetHourLabel(int hour) => DateTime.Today.AddHours(hour).ToString("h tt");
 
     /// <summary>
-    /// The current time, refreshed every <see cref="_nowTickInterval"/> by <see cref="nowTimer"/> while
+    /// The current time, refreshed every <see cref="TwCalendarTimings.nowTickInterval"/> by <see cref="nowTimer"/> while
     /// this view is mounted - drives the gutter label's text and the indicator line/dot's position. The
     /// line always spans the full week (a "what time is it right now" reference bar, shown regardless of
     /// which week is displayed); the dot additionally marks whichever column is <see cref="todayColumnIndex"/>,
@@ -258,7 +256,7 @@ public partial class TwCalendarWeekView<T> : TwBlazorComponentBase, IAsyncDispos
 
         if (firstRender)
         {
-            nowTimer = new System.Threading.Timer(OnNowTick, null, _nowTickInterval, _nowTickInterval);
+            nowTimer = new System.Threading.Timer(OnNowTick, null, TwCalendarTimings.nowTickInterval, TwCalendarTimings.nowTickInterval);
 
             var fraction = Math.Clamp(ScrollToTime.TotalMinutes / (24 * 60), 0, 1);
             try

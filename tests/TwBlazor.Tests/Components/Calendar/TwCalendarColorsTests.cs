@@ -7,8 +7,8 @@ namespace TwBlazor.Tests.Components.Calendar;
 
 public class TwCalendarColorsTests
 {
-    public static readonly TheoryData<string?> InvalidColors = new()
-    {
+    public static readonly TheoryData<string?> InvalidColors =
+    [
         (string?)null,
         "",
         "   ",
@@ -18,7 +18,7 @@ public class TwCalendarColorsTests
         "#12", // too short
         "#1234567", // 7 digits - not a valid RGB/RGBA length
         "#9333ea; } body { display: none", // CSS-injection attempt
-    };
+    ];
 
     [Theory]
     [InlineData("#9333ea", "background-color:#9333ea26;border-left-color:#9333ea;color:#9333ea;")]

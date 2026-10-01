@@ -95,7 +95,7 @@ public partial class TwCalendarMonthView<T> : TwBlazorComponentBase, IAsyncDispo
     /// </summary>
     [Parameter] public DateTime? DropPreview { get; set; }
 
-    private static IReadOnlyList<string> weekdayHeaders
+    private IReadOnlyList<string> weekdayHeaders
     {
         get
         {
@@ -112,9 +112,9 @@ public partial class TwCalendarMonthView<T> : TwBlazorComponentBase, IAsyncDispo
     /// </summary>
     private List<List<DateTime>> GetWeekRows()
     {
-        var firstOfMonth = new DateTime(Date.Year, Date.Month, 1);
+        var firstOfMonth = new DateTime(Date.Year, Date.Month, 1, 0, 0, 0, Date.Kind);
         var daysInMonth = DateTime.DaysInMonth(Date.Year, Date.Month);
-        var lastOfMonth = new DateTime(Date.Year, Date.Month, daysInMonth);
+        var lastOfMonth = new DateTime(Date.Year, Date.Month, daysInMonth, 0, 0, 0, Date.Kind);
 
         var gridStart = DateHelpers.GetStartOfWeek(firstOfMonth);
         var gridEnd = DateHelpers.GetStartOfWeek(lastOfMonth).AddDays(6);
@@ -198,7 +198,7 @@ public partial class TwCalendarMonthView<T> : TwBlazorComponentBase, IAsyncDispo
         .AddClass(theme.MonthCellPrevNext, !IsCurrentMonth(day))
         .Build();
 
-    private string GetDayNumberClasses(DateTime day) => new ClassBuilder(theme.MonthDayNumber)
+    private string dayNumberClasses => new ClassBuilder(theme.MonthDayNumber)
         .AddClass(options.Theme.Interaction.PointerCursor)
         .Build();
 
@@ -284,7 +284,7 @@ public partial class TwCalendarMonthView<T> : TwBlazorComponentBase, IAsyncDispo
         // updates to focusedIndex as the user arrows around within the same month.
         if (Date.Year != trackedMonth.Year || Date.Month != trackedMonth.Month)
         {
-            trackedMonth = new DateTime(Date.Year, Date.Month, 1);
+            trackedMonth = new DateTime(Date.Year, Date.Month, 1, 0, 0, 0, Date.Kind);
             var rows = GetWeekRows();
             var flattened = rows.SelectMany(r => r).ToList();
             focusedIndex = Math.Max(0, flattened.FindIndex(d => d.Date == Date.Date));

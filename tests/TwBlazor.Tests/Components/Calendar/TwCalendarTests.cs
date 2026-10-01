@@ -215,29 +215,31 @@ public class TwCalendarTests : TwBlazorTestBase
     }
 
     [Fact]
-    public void PressingTodayAgain_RestartsTheHighlight_InsteadOfClearingItEarly()
+    public async Task PressingTodayAgain_RestartsTheHighlight_InsteadOfClearingItEarly()
     {
         var cut = TestContext.Render<TwCalendar<string>>(p => p
             .Add(x => x.SelectedDate, DateTime.Today)
             .Add(x => x.View, TwCalendarView.Month));
 
         FindTodayButton(cut).Click();
-        Thread.Sleep(1500);
+        await Task.Delay(1500);
         FindTodayButton(cut).Click();
-        Thread.Sleep(1000); // 2.5s after the first press, 1s after the second
+        await Task.Delay(1000); // 2.5s after the first press, 1s after the second
 
         Assert.Single(cut.FindAll(".animate-pulse"));
         cut.WaitForAssertion(() => Assert.Empty(cut.FindAll(".animate-pulse")), TimeSpan.FromSeconds(5));
     }
 
     [Fact]
-    public void DisposingTheCalendar_WhileHighlighted_DoesNotThrow()
+    public async Task DisposingTheCalendar_WhileHighlighted_DoesNotThrow()
     {
         var cut = TestContext.Render<TwCalendar<string>>(p => p.Add(x => x.View, TwCalendarView.Week));
         FindTodayButton(cut).Click();
 
-        TestContext.Dispose();
-        Thread.Sleep(100);
+        var exception = Record.Exception(() => TestContext.Dispose());
+        await Task.Delay(100);
+
+        Assert.Null(exception);
     }
 
     [Fact]
@@ -246,8 +248,8 @@ public class TwCalendarTests : TwBlazorTestBase
         var cut = TestContext.Render<TwCalendar<string>>();
 
         var header = cut.Find("button[aria-label='Previous']").Closest("div")!.ParentElement!;
-        var lead = header.Children.First();
-        var controls = header.Children.Last();
+        var lead = header.Children[0];
+        var controls = header.Children[^1];
 
         Assert.Contains(lead.QuerySelectorAll("button"), b => b.TextContent.Trim() == "Today");
         Assert.Empty(lead.QuerySelectorAll("button[aria-label='Previous'], button[aria-label='Next']"));
@@ -472,7 +474,7 @@ public class TwCalendarTests : TwBlazorTestBase
 
         var cut = TestContext.Render<TwCalendarDayColumn<string>>(p => p
             .Add(x => x.Date, day)
-            .Add(x => x.Events, new List<Schedule<string>> { evt }));
+            .Add(x => x.Events, [evt]));
 
         var chip = cut.Find($"button[aria-label^='{label}']");
         var style = chip.GetAttribute("style")!;

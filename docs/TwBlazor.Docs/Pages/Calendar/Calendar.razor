@@ -135,7 +135,7 @@
     private DateTime selectedDate = DateTime.Today;
     private TwCalendarView view = TwCalendarView.Week;
 
-    private List<Schedule<EventDetails>> Schedules = BuildSampleSchedules();
+    private readonly List<Schedule<EventDetails>> Schedules = BuildSampleSchedules();
 
     public enum EventPriority
     {

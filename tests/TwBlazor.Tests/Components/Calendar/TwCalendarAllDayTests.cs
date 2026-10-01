@@ -305,7 +305,7 @@ public class TwCalendarAllDayTests : TwBlazorTestBase
             .Add(x => x.SchedulesChanged, EventCallback.Factory.Create<List<Schedule<string>>>(this, l => saved = l)));
 
         StartDrag(cut, "Standup");
-        Strip(cut)!.QuerySelectorAll("div[aria-hidden='true']").First().Drop(new DragEventArgs());
+        Strip(cut)!.QuerySelectorAll("div[aria-hidden='true']")[0].Drop(new DragEventArgs());
 
         Assert.Null(saved);
     }

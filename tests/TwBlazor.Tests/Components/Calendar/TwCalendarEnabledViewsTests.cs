@@ -180,7 +180,8 @@ public class TwCalendarEnabledViewsTests : TwBlazorTestBase
     [Fact]
     public void EnabledViews_CanBeAList()
     {
-        var cut = Render(TwCalendarView.Week, new List<TwCalendarView> { TwCalendarView.Week, TwCalendarView.Month });
+        List<TwCalendarView> enabled = [TwCalendarView.Week, TwCalendarView.Month];
+        var cut = Render(TwCalendarView.Week, enabled);
 
         Assert.Equal(["Week view", "Month view"], ViewButtons(cut));
     }

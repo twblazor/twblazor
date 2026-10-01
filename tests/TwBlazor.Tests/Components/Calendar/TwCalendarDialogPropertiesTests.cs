@@ -196,7 +196,7 @@ public class TwCalendarDialogPropertiesTests : TwBlazorTestBase
     public void NoDialogProperties_ShowsOnlyTheBuiltInFields()
     {
         var provider = RenderProvider();
-        var calendar = RenderCalendar([Event()], dialogProperties: new Dictionary<string, string>());
+        var calendar = RenderCalendar([Event()], dialogProperties: []);
 
         OpenEvent(calendar);
 
@@ -210,7 +210,7 @@ public class TwCalendarDialogPropertiesTests : TwBlazorTestBase
     {
         var original = Event();
         var provider = RenderProvider();
-        var calendar = RenderCalendar([original], dialogProperties: new Dictionary<string, string>());
+        var calendar = RenderCalendar([original], dialogProperties: []);
 
         OpenEvent(calendar);
         DialogButton(provider, "Save").Click();

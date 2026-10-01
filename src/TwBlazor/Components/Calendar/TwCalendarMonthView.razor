@@ -34,7 +34,7 @@
 
                     <td class="@GetCellClasses(day)" role="gridcell" @ondragenter="@(() => OnDayDragEnterAsync(day))" @ondragenter:preventDefault="Editable" @ondragover="@(() => { })" @ondragover:preventDefault="Editable" @ondrop="@(() => OnDayDropAsync(day))">
                         <button type="button"
-                                class="@GetDayNumberClasses(day)"
+                                class="@dayNumberClasses"
                                 tabindex="@(cellIndex == focusedIndex ? "0" : "-1")"
                                 aria-label="@day.ToString("MMMM d, yyyy")"
                                 @ref="GetDayCellRef(cellIndex).Element"

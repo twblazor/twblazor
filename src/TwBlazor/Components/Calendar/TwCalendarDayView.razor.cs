@@ -21,8 +21,6 @@ public partial class TwCalendarDayView<T> : TwBlazorComponentBase, IAsyncDisposa
 
     private const int hoursPerDay = 24;
 
-    private static readonly TimeSpan _nowTickInterval = TimeSpan.FromSeconds(30);
-
     /// <summary>
     /// The day being displayed.
     /// </summary>
@@ -132,7 +130,7 @@ public partial class TwCalendarDayView<T> : TwBlazorComponentBase, IAsyncDisposa
     private static string GetHourLabel(int hour) => DateTime.Today.AddHours(hour).ToString("h tt");
 
     /// <summary>
-    /// The current time, refreshed every <see cref="_nowTickInterval"/> by <see cref="nowTimer"/> while
+    /// The current time, refreshed every <see cref="TwCalendarTimings.nowTickInterval"/> by <see cref="nowTimer"/> while
     /// this view is mounted - drives both the gutter label's text and the indicator line/dot's position.
     /// Shown regardless of which day <see cref="Date"/> is - it's a "what time is it right now" reference
     /// bar rather than something scoped to today specifically.
@@ -164,7 +162,7 @@ public partial class TwCalendarDayView<T> : TwBlazorComponentBase, IAsyncDisposa
 
         if (firstRender)
         {
-            nowTimer = new System.Threading.Timer(OnNowTick, null, _nowTickInterval, _nowTickInterval);
+            nowTimer = new System.Threading.Timer(OnNowTick, null, TwCalendarTimings.nowTickInterval, TwCalendarTimings.nowTickInterval);
 
             var fraction = Math.Clamp(ScrollToTime.TotalMinutes / (24 * 60), 0, 1);
             try

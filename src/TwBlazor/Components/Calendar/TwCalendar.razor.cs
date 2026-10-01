@@ -255,23 +255,21 @@ public partial class TwCalendar<T> : TwBlazorComponentBase, IDisposable
         }
     }
 
-    private static readonly TwCalendarView[] _allViews = [TwCalendarView.Day, TwCalendarView.Week, TwCalendarView.Month];
-
     /// <summary>
     /// The enabled views in switcher order (Day, Week, Month), all of them when <see cref="EnabledViews"/>
     /// is unset or empty.
     /// </summary>
-    private IReadOnlyList<TwCalendarView> enabledViews =>
-        EnabledViews is { Count: > 0 } ? [.. _allViews.Where(EnabledViews.Contains)] : _allViews;
+    private TwCalendarView[] enabledViews =>
+        EnabledViews is { Count: > 0 } ? [.. TwCalendarTimings.allViews.Where(EnabledViews.Contains)] : TwCalendarTimings.allViews;
 
     /// <summary>
     /// The view actually shown: <see cref="View"/>, or the first enabled view when it isn't enabled.
     /// </summary>
-    private TwCalendarView currentView => enabledViews.Count == 0 || enabledViews.Contains(View) ? View : enabledViews[0];
+    private TwCalendarView currentView => enabledViews.Length == 0 || enabledViews.Contains(View) ? View : enabledViews[0];
 
     private bool IsViewEnabled(TwCalendarView view) => enabledViews.Contains(view);
 
-    private bool showViewSwitcher => enabledViews.Count > 1;
+    private bool showViewSwitcher => enabledViews.Length > 1;
 
     private async Task SetViewAsync(TwCalendarView view)
     {
@@ -310,8 +308,6 @@ public partial class TwCalendar<T> : TwBlazorComponentBase, IDisposable
 
     private CancellationTokenSource? highlightCts;
 
-    private static readonly TimeSpan _highlightDuration = TimeSpan.FromSeconds(2);
-
     /// <summary>
     /// Moves to today and pulses today's column (Week view) or cell (Month view) for a couple of seconds
     /// so it's easy to spot, including when today was already on screen and nothing else moved.
@@ -320,8 +316,12 @@ public partial class TwCalendar<T> : TwBlazorComponentBase, IDisposable
     {
         await SetSelectedDateAsync(DateTime.Today);
 
-        highlightCts?.Cancel();
-        highlightCts?.Dispose();
+        if (highlightCts is not null)
+        {
+            await highlightCts.CancelAsync();
+            highlightCts.Dispose();
+        }
+
         highlightCts = new CancellationTokenSource();
         highlightDate = DateTime.Today;
         _ = ClearHighlightAsync(highlightCts.Token);
@@ -331,7 +331,7 @@ public partial class TwCalendar<T> : TwBlazorComponentBase, IDisposable
     {
         try
         {
-            await Task.Delay(_highlightDuration, token);
+            await Task.Delay(TwCalendarTimings.highlightDuration, token);
             highlightDate = null;
             await InvokeAsync(StateHasChanged);
         }
@@ -341,11 +341,24 @@ public partial class TwCalendar<T> : TwBlazorComponentBase, IDisposable
         }
     }
 
+    /// <inheritdoc />
     public void Dispose()
     {
-        highlightCts?.Cancel();
-        highlightCts?.Dispose();
+        Dispose(true);
         GC.SuppressFinalize(this);
+    }
+
+    /// <summary>
+    /// Releases the highlight timer's <see cref="CancellationTokenSource"/>.
+    /// </summary>
+    /// <param name="disposing"><see langword="true"/> when called from <see cref="Dispose()"/>.</param>
+    protected virtual void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            highlightCts?.Cancel();
+            highlightCts?.Dispose();
+        }
     }
 
     private Task OnSearchClickedAsync() => OnSearch.HasDelegate ? OnSearch.InvokeAsync() : Task.CompletedTask;
@@ -400,7 +413,10 @@ public partial class TwCalendar<T> : TwBlazorComponentBase, IDisposable
             return value;
         }
 
+        // MemberwiseClone is the only way to shallow-copy an arbitrary T without requiring ICloneable.
+#pragma warning disable S3011
         var memberwiseClone = typeof(object).GetMethod("MemberwiseClone", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+#pragma warning restore S3011
         return (T?)memberwiseClone?.Invoke(value, null) ?? value;
     }
 
@@ -425,7 +441,19 @@ public partial class TwCalendar<T> : TwBlazorComponentBase, IDisposable
     private async Task OpenEventDialogAsync(Schedule<T> original, Schedule<T> workingEvent, bool isNew)
     {
         var readOnly = !isNew && (original.ReadOnly || !Editable);
-        var title = isNew ? "New event" : (readOnly ? (workingEvent.Name ?? "Event") : "Edit event");
+        string title;
+        if (isNew)
+        {
+            title = "New event";
+        }
+        else if (readOnly)
+        {
+            title = workingEvent.Name ?? "Event";
+        }
+        else
+        {
+            title = "Edit event";
+        }
 
         var parameters = new TwDialogParameters
         {
@@ -524,8 +552,6 @@ public partial class TwCalendar<T> : TwBlazorComponentBase, IDisposable
 
     private Schedule<T>? activeDraggedEvent => isDragActive ? draggedEvent : null;
 
-    private static readonly TimeSpan _dragActivationDelay = TimeSpan.FromMilliseconds(25);
-
     /// <summary>
     /// Records the dragged event, then flips into drag mode after a short delay. Re-rendering the
     /// chips synchronously inside <c>dragstart</c> makes Chrome cancel the drag, so the visual change
@@ -536,7 +562,7 @@ public partial class TwCalendar<T> : TwBlazorComponentBase, IDisposable
         draggedEvent = evt;
         dropPreview = null;
 
-        await Task.Delay(_dragActivationDelay);
+        await Task.Delay(TwCalendarTimings.dragActivationDelay, CancellationToken.None);
 
         if (draggedEvent == evt)
         {

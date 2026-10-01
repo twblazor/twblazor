@@ -32,7 +32,7 @@ public static class DateHelpers
     /// </summary>
     public static int GetWeekOfMonth(DateTime date)
     {
-        var firstOfMonth = new DateTime(date.Year, date.Month, 1);
+        var firstOfMonth = new DateTime(date.Year, date.Month, 1, 0, 0, 0, date.Kind);
         var firstWeekStart = GetStartOfWeek(firstOfMonth);
         return ((date.Date - firstWeekStart).Days / 7) + 1;
     }
