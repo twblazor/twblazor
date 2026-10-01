@@ -12,6 +12,17 @@
             </button>
         }
     </div>
+    <TwCalendarAllDayRow T="T"
+                         Days="weekDays"
+                         Schedules="Schedules"
+                         Editable="Editable"
+                         OnEventClick="OnEventClick"
+                         OnEventDragStart="OnEventDragStart"
+                         OnEventDragOver="OnEventDragOver"
+                         OnEventDragEnd="OnEventDragEnd"
+                         OnEventDrop="OnEventDrop"
+                         DraggedEvent="DraggedEvent"
+                         DropPreview="DropPreview" />
     <div class="@scrollContainerClasses" style="@scrollContainerStyle" @ref="scrollContainerRef">
         <div class="@gutterClasses">
             @for (var hour = 0; hour < hoursPerDay; hour++)

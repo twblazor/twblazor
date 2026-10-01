@@ -111,6 +111,168 @@ public class TwCalendarEventDialogTests : TwBlazorTestBase
         Assert.Equal(expected, TwCalendarEventDialog<string>.FormatRange(start, end));
     }
 
+    [Theory]
+    [InlineData(2026, 10, 1, 2026, 10, 2, "1 Oct 2026 (all day)")]
+    [InlineData(2026, 10, 1, 2026, 10, 4, "1 Oct 2026 - 3 Oct 2026 (all day)")]
+    [InlineData(2026, 12, 30, 2027, 1, 2, "30 Dec 2026 - 1 Jan 2027 (all day)")]
+    public void FormatRange_ForWholeDays_DropsTheTimes_AndEndsOnTheLastDay(int sy, int sm, int sd, int ey, int em, int ed, string expected)
+    {
+        var start = new DateTimeOffset(sy, sm, sd, 0, 0, 0, TimeSpan.Zero);
+        var end = new DateTimeOffset(ey, em, ed, 0, 0, 0, TimeSpan.Zero);
+
+        Assert.Equal(expected, TwCalendarEventDialog<string>.FormatRange(start, end));
+    }
+
+    [Fact]
+    public void ReadOnlyMode_ShowsAllDayEventsWithoutTimes()
+    {
+        var evt = SampleEvent();
+        evt.DateTimeStart = new DateTimeOffset(2026, 3, 18, 0, 0, 0, TimeSpan.Zero);
+        evt.DateTimeEnd = new DateTimeOffset(2026, 3, 20, 0, 0, 0, TimeSpan.Zero);
+
+        var cut = TestContext.Render<TwCalendarEventDialog<string>>(p => p
+            .Add(x => x.WorkingEvent, evt)
+            .Add(x => x.ReadOnly, true));
+
+        Assert.Contains("18 Mar 2026 - 19 Mar 2026 (all day)", cut.Markup);
+    }
+
+    [Fact]
+    public void EditMode_AllDaySwitch_IsOffForATimedEvent_AndOnForAWholeDayEvent()
+    {
+        var timed = TestContext.Render<TwCalendarEventDialog<string>>(p => p.Add(x => x.WorkingEvent, SampleEvent()));
+        Assert.False(AllDaySwitch(timed).HasAttribute("checked"));
+        Assert.Equal(2, timed.FindComponents<TwDateTimePicker>().Count);
+
+        var wholeDay = SampleEvent();
+        wholeDay.DateTimeStart = new DateTimeOffset(2026, 3, 18, 0, 0, 0, TimeSpan.Zero);
+        wholeDay.DateTimeEnd = new DateTimeOffset(2026, 3, 19, 0, 0, 0, TimeSpan.Zero);
+        var allDay = TestContext.Render<TwCalendarEventDialog<string>>(p => p.Add(x => x.WorkingEvent, wholeDay));
+        Assert.True(AllDaySwitch(allDay).HasAttribute("checked"));
+        Assert.Equal(2, allDay.FindComponents<TwDatePicker>().Count);
+        Assert.Empty(allDay.FindComponents<TwDateTimePicker>());
+    }
+
+    [Fact]
+    public void EditMode_TurningAllDayOn_SnapsToMidnightOfTheFirstDay_ThroughTheMidnightAfterTheLast()
+    {
+        var evt = SampleEvent();
+        evt.DateTimeStart = new DateTimeOffset(2026, 3, 18, 10, 0, 0, TimeSpan.Zero);
+        evt.DateTimeEnd = new DateTimeOffset(2026, 3, 20, 15, 30, 0, TimeSpan.Zero);
+        var cut = TestContext.Render<TwCalendarEventDialog<string>>(p => p.Add(x => x.WorkingEvent, evt));
+
+        AllDaySwitch(cut).Change(true);
+
+        Assert.Equal(new DateTimeOffset(2026, 3, 18, 0, 0, 0, TimeSpan.Zero), evt.DateTimeStart);
+        Assert.Equal(new DateTimeOffset(2026, 3, 21, 0, 0, 0, TimeSpan.Zero), evt.DateTimeEnd);
+        Assert.Equal(2, cut.FindComponents<TwDatePicker>().Count);
+    }
+
+    [Fact]
+    public void EditMode_TurningAllDayOff_RestoresAOneHourSlotFromNine()
+    {
+        var evt = SampleEvent();
+        evt.DateTimeStart = new DateTimeOffset(2026, 3, 18, 0, 0, 0, TimeSpan.Zero);
+        evt.DateTimeEnd = new DateTimeOffset(2026, 3, 19, 0, 0, 0, TimeSpan.Zero);
+        var cut = TestContext.Render<TwCalendarEventDialog<string>>(p => p.Add(x => x.WorkingEvent, evt));
+
+        AllDaySwitch(cut).Change(false);
+
+        Assert.Equal(new DateTimeOffset(2026, 3, 18, 9, 0, 0, TimeSpan.Zero), evt.DateTimeStart);
+        Assert.Equal(new DateTimeOffset(2026, 3, 18, 10, 0, 0, TimeSpan.Zero), evt.DateTimeEnd);
+        Assert.Equal(2, cut.FindComponents<TwDateTimePicker>().Count);
+    }
+
+    [Fact]
+    public void EditMode_TurningAllDayOff_ForAMultiDayEvent_EndsAtTenOnTheLastDay()
+    {
+        var evt = SampleEvent();
+        evt.DateTimeStart = new DateTimeOffset(2026, 3, 18, 0, 0, 0, TimeSpan.Zero);
+        evt.DateTimeEnd = new DateTimeOffset(2026, 3, 21, 0, 0, 0, TimeSpan.Zero);
+        var cut = TestContext.Render<TwCalendarEventDialog<string>>(p => p.Add(x => x.WorkingEvent, evt));
+
+        AllDaySwitch(cut).Change(false);
+
+        Assert.Equal(new DateTimeOffset(2026, 3, 18, 9, 0, 0, TimeSpan.Zero), evt.DateTimeStart);
+        Assert.Equal(new DateTimeOffset(2026, 3, 20, 10, 0, 0, TimeSpan.Zero), evt.DateTimeEnd);
+    }
+
+    [Fact]
+    public async Task EditMode_AllDayEndPicker_ShowsTheLastDay_AndSetsTheMidnightAfterIt()
+    {
+        var evt = SampleEvent();
+        evt.DateTimeStart = new DateTimeOffset(2026, 3, 18, 0, 0, 0, TimeSpan.Zero);
+        evt.DateTimeEnd = new DateTimeOffset(2026, 3, 19, 0, 0, 0, TimeSpan.Zero);
+        var cut = TestContext.Render<TwCalendarEventDialog<string>>(p => p.Add(x => x.WorkingEvent, evt));
+        var pickers = cut.FindComponents<TwDatePicker>();
+
+        Assert.Equal(new DateTime(2026, 3, 18), pickers[1].Instance.SelectedDate.Date); // one-day event ends on its first day
+
+        await cut.InvokeAsync(() => pickers[1].Instance.SelectedDateChanged.InvokeAsync(new DateTime(2026, 3, 21)));
+
+        Assert.Equal(new DateTimeOffset(2026, 3, 18, 0, 0, 0, TimeSpan.Zero), evt.DateTimeStart);
+        Assert.Equal(new DateTimeOffset(2026, 3, 22, 0, 0, 0, TimeSpan.Zero), evt.DateTimeEnd);
+    }
+
+    [Fact]
+    public async Task EditMode_AllDayStartPicker_MovesTheStart_AndKeepsTheLastDay()
+    {
+        var evt = SampleEvent();
+        evt.DateTimeStart = new DateTimeOffset(2026, 3, 18, 0, 0, 0, TimeSpan.Zero);
+        evt.DateTimeEnd = new DateTimeOffset(2026, 3, 21, 0, 0, 0, TimeSpan.Zero); // 18th to 20th
+        var cut = TestContext.Render<TwCalendarEventDialog<string>>(p => p.Add(x => x.WorkingEvent, evt));
+
+        await cut.InvokeAsync(() => cut.FindComponents<TwDatePicker>()[0].Instance.SelectedDateChanged.InvokeAsync(new DateTime(2026, 3, 19)));
+
+        Assert.Equal(new DateTimeOffset(2026, 3, 19, 0, 0, 0, TimeSpan.Zero), evt.DateTimeStart);
+        Assert.Equal(new DateTimeOffset(2026, 3, 21, 0, 0, 0, TimeSpan.Zero), evt.DateTimeEnd);
+    }
+
+    [Fact]
+    public async Task EditMode_AllDayStartPicker_PushesTheEndOut_WhenMovedPastIt()
+    {
+        var evt = SampleEvent();
+        evt.DateTimeStart = new DateTimeOffset(2026, 3, 18, 0, 0, 0, TimeSpan.Zero);
+        evt.DateTimeEnd = new DateTimeOffset(2026, 3, 19, 0, 0, 0, TimeSpan.Zero);
+        var cut = TestContext.Render<TwCalendarEventDialog<string>>(p => p.Add(x => x.WorkingEvent, evt));
+
+        await cut.InvokeAsync(() => cut.FindComponents<TwDatePicker>()[0].Instance.SelectedDateChanged.InvokeAsync(new DateTime(2026, 3, 25)));
+
+        Assert.Equal(new DateTimeOffset(2026, 3, 25, 0, 0, 0, TimeSpan.Zero), evt.DateTimeStart);
+        Assert.Equal(new DateTimeOffset(2026, 3, 26, 0, 0, 0, TimeSpan.Zero), evt.DateTimeEnd);
+    }
+
+    [Fact]
+    public async Task EditMode_AllDayEndPicker_NeverEndsBeforeTheStart()
+    {
+        var evt = SampleEvent();
+        evt.DateTimeStart = new DateTimeOffset(2026, 3, 18, 0, 0, 0, TimeSpan.Zero);
+        evt.DateTimeEnd = new DateTimeOffset(2026, 3, 19, 0, 0, 0, TimeSpan.Zero);
+        var cut = TestContext.Render<TwCalendarEventDialog<string>>(p => p.Add(x => x.WorkingEvent, evt));
+
+        await cut.InvokeAsync(() => cut.FindComponents<TwDatePicker>()[1].Instance.SelectedDateChanged.InvokeAsync(new DateTime(2026, 3, 10)));
+
+        Assert.Equal(new DateTimeOffset(2026, 3, 19, 0, 0, 0, TimeSpan.Zero), evt.DateTimeEnd);
+    }
+
+    [Fact]
+    public void EditMode_AllDay_PreservesTheEventsOffset()
+    {
+        var offset = TimeSpan.FromHours(2);
+        var evt = SampleEvent();
+        evt.DateTimeStart = new DateTimeOffset(2026, 3, 18, 10, 0, 0, offset);
+        evt.DateTimeEnd = new DateTimeOffset(2026, 3, 18, 11, 0, 0, offset);
+        var cut = TestContext.Render<TwCalendarEventDialog<string>>(p => p.Add(x => x.WorkingEvent, evt));
+
+        AllDaySwitch(cut).Change(true);
+
+        Assert.Equal(offset, evt.DateTimeStart.Offset);
+        Assert.Equal(offset, evt.DateTimeEnd.Offset);
+    }
+
+    private static AngleSharp.Dom.IElement AllDaySwitch(IRenderedComponent<TwCalendarEventDialog<string>> cut) =>
+        cut.Find("label:has(input[type='checkbox'])").QuerySelector("input")!;
+
     [Fact]
     public void ReadOnlyMode_CloseButton_CancelsDialog()
     {

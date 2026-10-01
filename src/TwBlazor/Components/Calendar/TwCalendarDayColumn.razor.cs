@@ -172,7 +172,7 @@ public partial class TwCalendarDayColumn<T> : TwBlazorComponentBase, IAsyncDispo
     {
         get
         {
-            if (!Editable || DraggedEvent is null || DropPreview is not { } preview || preview.Date != Date.Date)
+            if (!Editable || DraggedEvent is null || TwCalendarSpans.IsBanner(DraggedEvent) || DropPreview is not { } preview || preview.Date != Date.Date)
             {
                 return null;
             }

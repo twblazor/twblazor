@@ -24,6 +24,27 @@
         </CodeExample>
     </PageCard>
 
+    <PageCard Title="All-Day and Multi-Day Events">
+        <Description>
+            An event that runs from midnight to midnight is an all-day event, and anything that lasts a day
+            or longer is treated the same way. In the Day and Week views these sit in an "All day" strip
+            above the time grid, like Microsoft Teams, so they don't cover the hours below. An event that
+            covers several days is one bar across those days. In the Month view every event that covers
+            more than one day is drawn as a bar across its days too, and it breaks at the end of each week
+            and carries on in the next. An event that crosses midnight but lasts less than a day stays in the
+            time grid and shows on both days.
+            <br /><br />
+            To make an event all day, turn on "All day" in the edit dialog, or set it to start and end at
+            midnight yourself. The dialog then asks for dates instead of times, and the end date is the last
+            day you want to cover. You can drag an all-day event onto another day, and it keeps its length.
+            In the example below, "Company holiday", "Product conference" and "Release weekend" are all-day
+            events.
+        </Description>
+        <CodeExample Name="CalendarAllDay" CSharpName="CalendarAllDayCode">
+            <TwCalendar T="EventDetails" @bind-SelectedDate="allDaySelectedDate" @bind-View="allDayView" Editable="true" DialogProperties="dialogProperties" @bind-Schedules="AllDaySchedules" />
+        </CodeExample>
+    </PageCard>
+
     <PageCard Title="Day Calendar">
         <Description>
             The Day view can show a small month calendar next to the time grid, handy for jumping to
@@ -131,8 +152,18 @@
             new() { Name = "Interview", DateTimeStart = today.AddDays(3).AddHours(10), DateTimeEnd = today.AddDays(3).AddHours(10.5), Color = "#7c3aed", Value = new() { Notes = "Frontend candidate, second round. Questions are in the hiring doc.", Location = "Meeting room 1" } },
             new() { Name = "All hands", DateTimeStart = today.AddDays(3).AddHours(11), DateTimeEnd = today.AddDays(3).AddHours(12), Color = "#ea580c", Value = new() { Notes = "Company update and Q&A with the leadership team.", Location = "Main hall", IsOnline = true } },
             new() { Name = "Extra sync", DateTimeStart = today.AddDays(3).AddHours(13), DateTimeEnd = today.AddDays(3).AddHours(13.5), Color = "#059669", Value = new() { Notes = "Follow up on the open questions from the all hands." } },
+            new() { Name = "Company holiday", DateTimeStart = today.AddDays(1), DateTimeEnd = today.AddDays(2), Color = "#f59e0b", Value = new() { Notes = "Offices are closed. Support is on call." } },
+            new() { Name = "Product conference", DateTimeStart = today.AddDays(2), DateTimeEnd = today.AddDays(5), Color = "#be185d", Value = new() { Notes = "Three days of talks. Our slot is on the second morning.", Location = "Convention centre" } },
+            new() { Name = "Release weekend", DateTimeStart = today.AddDays(5), DateTimeEnd = today.AddDays(8), Color = "#0369a1", Value = new() { Notes = "Freeze on Friday night. Roll out on Saturday.", IsOnline = true } },
         ];
     }
+    #endregion
+
+    #region CodeExample CalendarAllDayCode
+    private DateTime allDaySelectedDate = DateTime.Today.AddDays(1);
+    private TwCalendarView allDayView = TwCalendarView.Week;
+
+    private List<Schedule<EventDetails>> AllDaySchedules = BuildSampleSchedules();
     #endregion
 
     #region CodeExample CalendarDayCalendarCode

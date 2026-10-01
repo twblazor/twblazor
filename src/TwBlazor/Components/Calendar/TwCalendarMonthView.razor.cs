@@ -128,8 +128,62 @@ public partial class TwCalendarMonthView<T> : TwBlazorComponentBase, IAsyncDispo
         return rows;
     }
 
+    /// <summary>
+    /// The events that start and end on <paramref name="day"/>, drawn as rows inside its cell. Events that
+    /// cover more than one day are drawn as bars across the days instead - see <see cref="GetRowSegments"/>.
+    /// </summary>
     private List<Schedule<T>> GetDayEvents(DateTime day) =>
-        [.. Schedules.Where(e => e.DateTimeStart.DateTime.Date == day.Date).OrderBy(e => e.DateTimeStart)];
+        [.. Schedules.Where(e => e.DateTimeStart.DateTime.Date == day.Date && !TwCalendarSpans.IsMultiDay(e)).OrderBy(e => e.DateTimeStart)];
+
+    /// <summary>
+    /// The bars for events covering more than one day within one week row, packed into lanes.
+    /// </summary>
+    private IReadOnlyList<TwCalendarSpans.Segment<T>> GetRowSegments(IReadOnlyList<DateTime> week) =>
+        TwCalendarSpans.GetSegments(Schedules.Where(TwCalendarSpans.IsMultiDay), week[0], week.Count);
+
+    /// <summary>
+    /// How many lanes of bars pass through the cell at <paramref name="column"/>: every lane up to the
+    /// highest one used there gets a slot, a bar where one starts and an invisible spacer elsewhere, so
+    /// the cell's own events sit below all of them.
+    /// </summary>
+    private static int GetLaneSlotCount(IReadOnlyList<TwCalendarSpans.Segment<T>> segments, int column)
+    {
+        var lanes = segments.Where(s => s.StartColumn <= column && column < s.StartColumn + s.Span).Select(s => s.Lane + 1);
+        return lanes.DefaultIfEmpty(0).Max();
+    }
+
+    private static TwCalendarSpans.Segment<T>? GetSegmentStartingAt(IReadOnlyList<TwCalendarSpans.Segment<T>> segments, int column, int lane)
+    {
+        foreach (var segment in segments)
+        {
+            if (segment.Lane == lane && segment.StartColumn == column)
+            {
+                return segment;
+            }
+        }
+
+        return null;
+    }
+
+    private string spacerClasses => new ClassBuilder(theme.SegmentSpacer).Build();
+
+    private string GetSegmentClasses(TwCalendarSpans.Segment<T> segment) => new ClassBuilder(theme.MonthEventRow)
+        .AddClass(theme.SegmentSpan)
+        .AddClass(theme.EventChipDraggable, IsDraggable(segment.Event))
+        .AddClass(theme.SegmentContinuesBefore, segment.ContinuesBefore)
+        .AddClass(theme.SegmentContinuesAfter, segment.ContinuesAfter)
+        .Build();
+
+    /// <summary>
+    /// The inline style stretching a bar across the cells it covers: each extra day adds a full cell
+    /// width plus the gap between cells (the cell's horizontal padding, <c>p-1</c> in the default
+    /// theme, plus its 1px border).
+    /// </summary>
+    private static string GetSegmentStyle(TwCalendarSpans.Segment<T> segment) =>
+        $"width:calc({segment.Span * 100}% + {segment.Span - 1} * (0.5rem + 1px));{TwCalendarColors.GetEventCardStyle(segment.Event.Color)}";
+
+    private static string GetSegmentLabel(Schedule<T> evt) =>
+        $"{evt.Name}, {evt.DateTimeStart:d MMM} to {TwCalendarSpans.GetLastDay(evt):d MMM}";
 
     private bool IsCurrentMonth(DateTime day) => day.Month == Date.Month && day.Year == Date.Year;
 
@@ -156,7 +210,8 @@ public partial class TwCalendarMonthView<T> : TwBlazorComponentBase, IAsyncDispo
     /// <summary>
     /// The event's start time (e.g. "9:00 AM"), shown after its name on the row's single truncated line.
     /// </summary>
-    private static string GetStartTimeLabel(Schedule<T> evt) => evt.DateTimeStart.DateTime.ToString("h:mm tt");
+    private static string GetStartTimeLabel(Schedule<T> evt) =>
+        TwCalendarSpans.IsAllDay(evt) ? "All day" : evt.DateTimeStart.DateTime.ToString("h:mm tt");
 
     private string overflowLabelClasses => new ClassBuilder(theme.MonthOverflowLabel).Build();
 

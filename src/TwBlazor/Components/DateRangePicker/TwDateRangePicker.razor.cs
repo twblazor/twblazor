@@ -245,8 +245,7 @@ public partial class TwDateRangePicker : TwPopoverPickerComponentBase
             // Re-run on every render rather than gating behind a one-shot "just opened" flag - see
             // the matching remarks on TwDatePicker.OnAfterRenderAsync for why.
             await RegisterPanelScrollBehaviorAsync(PanelRef);
-            await JSRuntime.InvokeVoidAsync("twDialog.trapFocus", PanelRef);
-            await JSRuntime.InvokeVoidAsync("twDialog.setBackgroundInert", InputRoot?.RootRef);
+            await ApplyPanelTrapAsync(PanelRef);
 
             if (pendingViewFocus)
             {

@@ -52,4 +52,44 @@ public class CalendarDialogInteractionTests(A11yFixture fixture)
             await page.CloseAsync();
         }
     }
+
+    [Fact]
+    public async Task Save_WorksAfterPickingADate_IncludingOneOnAnotherDay()
+    {
+        // Regression test: picking a date closed the picker's panel but left the rest of the dialog
+        // (fields and the Save/Cancel buttons) inert, so nothing in the dialog could be clicked again.
+        var page = await fixture.Browser.NewPageAsync(new BrowserNewPageOptions
+        {
+            ViewportSize = new ViewportSize { Width = 1400, Height = 1100 }
+        });
+
+        try
+        {
+            await page.GotoAsync(new Uri(fixture.BaseAddress, "/calendar").ToString());
+            await page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+
+            var chip = page.Locator("button[aria-label^='Design review']").Nth(3);
+            await chip.ScrollIntoViewIfNeededAsync();
+            await chip.ClickAsync();
+
+            var dialog = page.Locator("[role='dialog']");
+            await dialog.WaitForAsync();
+
+            var end = dialog.Locator("input[placeholder='Select a datetime']").Nth(1);
+            await end.ClickAsync();
+
+            // Last: the page also holds other calendars' day buttons, and the open panel renders after them.
+            await dialog.Locator("button.day", new() { HasTextString = "29" }).Last.ClickAsync();
+            await Assertions.Expect(end).ToHaveValueAsync(new System.Text.RegularExpressions.Regex("^29/"));
+
+            await Assertions.Expect(dialog.Locator("[inert]")).ToHaveCountAsync(0);
+            await dialog.GetByRole(AriaRole.Button, new() { Name = "Save", Exact = true }).ClickAsync();
+
+            await dialog.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Detached });
+        }
+        finally
+        {
+            await page.CloseAsync();
+        }
+    }
 }

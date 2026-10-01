@@ -139,7 +139,19 @@ public partial class TwCalendarDayView<T> : TwBlazorComponentBase, IAsyncDisposa
         }
     }
 
-    private List<Schedule<T>> dayEvents => [.. Schedules.Where(e => e.DateTimeStart.DateTime.Date == Date.Date)];
+    /// <summary>
+    /// The timed events that touch <see cref="Date"/>, including ones that started the day before, which
+    /// the day column clips to midnight. All-day and day-long events go in the strip above instead.
+    /// </summary>
+    private List<Schedule<T>> dayEvents => [.. Schedules.Where(e => !TwCalendarSpans.IsBanner(e) && TwCalendarSpans.OverlapsDay(e, Date))];
+
+    private IReadOnlyList<DateTime> allDayDays => [Date.Date];
+
+    private string gridColumnClasses => new ClassBuilder(options.Theme.Flexbox.Flex1)
+        .AddClass(options.Theme.Display.Flex)
+        .AddClass(options.Theme.Flexbox.Col)
+        .AddClass(options.Theme.Sizing.MinWidthNone)
+        .Build();
 
     // items-start (rather than flexbox's default align-items:stretch) matters here: without it, the
     // gutter/day-column flex children get stretched to the scroll container's own (max-height-clamped)

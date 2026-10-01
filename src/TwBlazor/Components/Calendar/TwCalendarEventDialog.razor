@@ -35,9 +35,18 @@ else
     <div class="@fieldsClasses">
         <div class="@accentClasses" style="@accentBarStyle" aria-hidden="true"></div>
         <TwTextfield T="string" Label="Name" Value="@WorkingEvent.Name" ValueChanged="@((v) => WorkingEvent.Name = v)" AriaLabel="Name" />
+        <TwSwitch T="bool" Label="All day" Value="isAllDay" ValueChanged="SetAllDay" />
         <div class="@dateRowClasses">
-            <TwDateTimePicker SelectedDateTime="GetLocalStart()" SelectedDateTimeChanged="SetLocalStart" Label="Start" />
-            <TwDateTimePicker SelectedDateTime="GetLocalEnd()" SelectedDateTimeChanged="SetLocalEnd" Label="End" />
+            @if (isAllDay)
+            {
+                <TwDatePicker SelectedDate="GetAllDayStart()" SelectedDateChanged="SetAllDayStart" Label="Start" />
+                <TwDatePicker SelectedDate="GetAllDayEnd()" SelectedDateChanged="SetAllDayEnd" Label="End" />
+            }
+            else
+            {
+                <TwDateTimePicker SelectedDateTime="GetLocalStart()" SelectedDateTimeChanged="SetLocalStart" Label="Start" />
+                <TwDateTimePicker SelectedDateTime="GetLocalEnd()" SelectedDateTimeChanged="SetLocalEnd" Label="End" />
+            }
         </div>
         <TwColorPicker Value="@GetColor()" ValueChanged="SetColor" Label="Color" AriaLabel="Event color" />
         @foreach (var field in Fields)

@@ -164,6 +164,54 @@ public class TwCalendarTheme
     public required string DropPlaceholder { get; set; }
 
     /// <summary>
+    /// Gets or sets the classes for the all-day strip above the Day/Week time grid
+    /// (<see cref="TwBlazor.Components.TwCalendarAllDayRow{T}"/>): its bottom divider.
+    /// </summary>
+    public required string AllDayRow { get; set; }
+
+    /// <summary>
+    /// Gets or sets the classes for the strip's "All day" label, which sits in the same left-hand
+    /// column as <see cref="TimeGutter"/> so the strip lines up with the time grid beneath it.
+    /// </summary>
+    public required string AllDayLabel { get; set; }
+
+    /// <summary>
+    /// Gets or sets the classes for the strip's grid of day columns and event bars.
+    /// </summary>
+    public required string AllDayGrid { get; set; }
+
+    /// <summary>
+    /// Gets or sets the classes that inset an all-day bar slightly from its column edges, so bars on
+    /// neighboring days don't touch.
+    /// </summary>
+    public required string AllDayChipInset { get; set; }
+
+    /// <summary>
+    /// Gets or sets the classes layered onto <see cref="MonthEventRow"/> for a bar that spans several
+    /// days (in the all-day strip or the Month view) so it paints above the cells it crosses.
+    /// </summary>
+    public required string SegmentSpan { get; set; }
+
+    /// <summary>
+    /// Gets or sets the classes for a bar that continues from an earlier day than the first one shown
+    /// (for example from the previous week): a square left edge.
+    /// </summary>
+    public required string SegmentContinuesBefore { get; set; }
+
+    /// <summary>
+    /// Gets or sets the classes for a bar that continues past the last day shown (for example into the
+    /// next week): a square right edge.
+    /// </summary>
+    public required string SegmentContinuesAfter { get; set; }
+
+    /// <summary>
+    /// Gets or sets the classes for the invisible placeholder that keeps a Month view cell's own
+    /// events below the multi-day bar passing through it. Its height must match
+    /// <see cref="MonthEventRow"/>'s rendered height.
+    /// </summary>
+    public required string SegmentSpacer { get; set; }
+
+    /// <summary>
     /// Gets or sets the classes for the Month view's <c>&lt;table&gt;</c> grid.
     /// </summary>
     public required string MonthGrid { get; set; }

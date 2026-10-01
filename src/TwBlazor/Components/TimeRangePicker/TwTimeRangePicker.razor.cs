@@ -175,8 +175,7 @@ public partial class TwTimeRangePicker : TwPopoverPickerComponentBase
         if (isFocused && PanelRef.Context != null)
         {
             await RegisterPanelScrollBehaviorAsync(PanelRef);
-            await JSRuntime.InvokeVoidAsync("twDialog.trapFocus", PanelRef);
-            await JSRuntime.InvokeVoidAsync("twDialog.setBackgroundInert", InputRoot?.RootRef);
+            await ApplyPanelTrapAsync(PanelRef);
         }
     }
 

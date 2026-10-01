@@ -472,7 +472,7 @@ public partial class TwCalendar<T> : TwBlazorComponentBase
             return;
         }
 
-        var newStart = View == TwCalendarView.Month
+        var newStart = View == TwCalendarView.Month || TwCalendarSpans.IsBanner(evt)
             ? dropTarget.Date + evt.DateTimeStart.TimeOfDay
             : dropTarget;
 

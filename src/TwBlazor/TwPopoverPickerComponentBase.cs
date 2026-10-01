@@ -136,6 +136,47 @@ public abstract class TwPopoverPickerComponentBase : TwBlazorTextInputComponentB
     }
 
     /// <summary>
+    /// Whether <see cref="ApplyPanelTrapAsync"/> has armed the Tab focus trap and background inert-ing
+    /// since <see cref="OnAfterRenderAsync"/> last confirmed it lifted once the panel closed. Not reset by
+    /// <see cref="ReleasePanelTrapAsync"/> itself, since a render can re-arm the trap while that is still
+    /// awaiting - see <see cref="OnAfterRenderAsync"/>.
+    /// </summary>
+    private bool panelTrapApplied;
+
+    /// <summary>
+    /// Arms the Tab focus trap on <paramref name="panel"/> and makes everything outside it inert.
+    /// Every picker calls this from its own <c>OnAfterRenderAsync</c> whenever its panel is open.
+    /// </summary>
+    protected async Task ApplyPanelTrapAsync(ElementReference panel)
+    {
+        panelTrapApplied = true;
+        await JSRuntime.InvokeVoidAsync("twDialog.trapFocus", panel);
+        await JSRuntime.InvokeVoidAsync("twDialog.setBackgroundInert", InputRoot?.RootRef);
+    }
+
+    /// <summary>
+    /// Lifts the background inert-ing if it is still on after the panel has closed.
+    /// </summary>
+    /// <remarks>
+    /// Picking a value closes the panel through <see cref="ReleasePanelTrapAsync"/>, which awaits
+    /// several JS calls. The component re-renders while those are in flight, still with the panel
+    /// open, and that render's <c>OnAfterRenderAsync</c> arms the trap again after the release has
+    /// already cleared it. Nothing runs after the panel is gone to undo that, so the rest of the page
+    /// (inside a dialog, its Save and Cancel buttons) stayed inert and unclickable. The render that
+    /// removes the panel always follows, so checking here catches it.
+    /// </remarks>
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (!isFocused && panelTrapApplied)
+        {
+            panelTrapApplied = false;
+            await JSRuntime.InvokeVoidAsync("twDialog.clearBackgroundInert");
+        }
+    }
+
+    /// <summary>
     /// Positions <paramref name="panel"/> against <see cref="InputRoot"/> and keeps it correct for
     /// as long as it stays open (see <c>twPicker.registerScrollReposition</c>): on desktop, a page
     /// scroll or window resize closes the panel instead of chasing the trigger around the viewport,

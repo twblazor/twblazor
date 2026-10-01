@@ -235,8 +235,7 @@ public partial class TwDatePicker : TwPopoverPickerComponentBase
             // combobox (typing a value directly is a first-class input method here, not just a
             // fallback), so focus has to stay on the input for that to work.
             await RegisterPanelScrollBehaviorAsync(PanelRef);
-            await JSRuntime.InvokeVoidAsync("twDialog.trapFocus", PanelRef);
-            await JSRuntime.InvokeVoidAsync("twDialog.setBackgroundInert", InputRoot?.RootRef);
+            await ApplyPanelTrapAsync(PanelRef);
 
             // Reclaim focus inside the panel after a view switch, since the button that had it was
             // just replaced by the new view's grid - see pendingViewFocus's remarks.

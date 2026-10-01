@@ -89,6 +89,13 @@ public partial class TwCalendarEventDialog<T> : TwBlazorComponentBase
     /// </summary>
     internal static string FormatRange(DateTimeOffset start, DateTimeOffset end)
     {
+        if (TwCalendarSpans.IsAllDay(start, end))
+        {
+            var first = start.DateTime.Date;
+            var last = TwCalendarSpans.GetLastDay(start, end);
+            return first == last ? $"{first:d MMM yyyy} (all day)" : $"{first:d MMM yyyy} - {last:d MMM yyyy} (all day)";
+        }
+
         var from = start.DateTime;
         var to = end.DateTime;
 
@@ -112,6 +119,59 @@ public partial class TwCalendarEventDialog<T> : TwBlazorComponentBase
         object boxed = value;
         mutation(boxed);
         WorkingEvent.Value = (T)boxed;
+    }
+
+    private bool isAllDay => TwCalendarSpans.IsAllDay(WorkingEvent);
+
+    private static DateTimeOffset At(DateTime local, DateTimeOffset reference) =>
+        new(DateTime.SpecifyKind(local, DateTimeKind.Unspecified), reference.Offset);
+
+    /// <summary>
+    /// Turns the all-day switch on or off. On snaps the event to midnight of its first day through
+    /// midnight after its last day. Off puts it back to a one-hour slot starting at 09:00 on the first
+    /// day (ending 10:00 on the last day for a multi-day event).
+    /// </summary>
+    private void SetAllDay(bool value)
+    {
+        if (value == isAllDay)
+        {
+            return;
+        }
+
+        var first = WorkingEvent.DateTimeStart.DateTime.Date;
+        var last = TwCalendarSpans.GetLastDay(WorkingEvent);
+
+        if (value)
+        {
+            WorkingEvent.DateTimeStart = At(first, WorkingEvent.DateTimeStart);
+            WorkingEvent.DateTimeEnd = At(last.AddDays(1), WorkingEvent.DateTimeEnd);
+        }
+        else
+        {
+            WorkingEvent.DateTimeStart = At(first.AddHours(9), WorkingEvent.DateTimeStart);
+            WorkingEvent.DateTimeEnd = At(last.AddHours(10), WorkingEvent.DateTimeEnd);
+        }
+    }
+
+    private DateTime GetAllDayStart() => WorkingEvent.DateTimeStart.DateTime.Date;
+
+    /// <summary>
+    /// The all-day End picker shows the last day the event covers, not the midnight after it.
+    /// </summary>
+    private DateTime GetAllDayEnd() => TwCalendarSpans.GetLastDay(WorkingEvent);
+
+    private void SetAllDayStart(DateTime value)
+    {
+        var last = TwCalendarSpans.GetLastDay(WorkingEvent);
+        var first = value.Date;
+        WorkingEvent.DateTimeStart = At(first, WorkingEvent.DateTimeStart);
+        WorkingEvent.DateTimeEnd = At((last < first ? first : last).AddDays(1), WorkingEvent.DateTimeEnd);
+    }
+
+    private void SetAllDayEnd(DateTime value)
+    {
+        var first = WorkingEvent.DateTimeStart.DateTime.Date;
+        WorkingEvent.DateTimeEnd = At((value.Date < first ? first : value.Date).AddDays(1), WorkingEvent.DateTimeEnd);
     }
 
     private string GetColor() => WorkingEvent.Color ?? defaultEventColor;

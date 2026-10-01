@@ -4,6 +4,18 @@
 @inherits TwBlazorComponentBase
 
 <div id="@Id" class="@(new TwBlazor.Utilities.ClassBuilder(options.Theme.Display.Flex).AddClass(options.Theme.Flexbox.Col).AddClass("md:flex-row").AddClass(options.Theme.Spacing.Gap.Xl).AddClass(Class).Build())" style="@Style">
+    <div class="@gridColumnClasses">
+    <TwCalendarAllDayRow T="T"
+                         Days="@allDayDays"
+                         Schedules="Schedules"
+                         Editable="Editable"
+                         OnEventClick="OnEventClick"
+                         OnEventDragStart="OnEventDragStart"
+                         OnEventDragOver="OnEventDragOver"
+                         OnEventDragEnd="OnEventDragEnd"
+                         OnEventDrop="OnEventDrop"
+                         DraggedEvent="DraggedEvent"
+                         DropPreview="DropPreview" />
     <div class="@scrollContainerClasses" style="@scrollContainerStyle" @ref="scrollContainerRef">
         <div class="@gutterClasses">
             @for (var hour = 0; hour < hoursPerDay; hour++)
@@ -31,6 +43,7 @@
                 <span class="@theme.NowIndicatorDot" style="left:0;"></span>
             </div>
         </div>
+    </div>
     </div>
     @if (ShowCalendar)
     {

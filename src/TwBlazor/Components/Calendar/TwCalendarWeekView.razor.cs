@@ -114,8 +114,12 @@ public partial class TwCalendarWeekView<T> : TwBlazorComponentBase, IAsyncDispos
 
     private IReadOnlyList<DateTime> weekDays => [.. Enumerable.Range(0, daysPerWeek).Select(i => weekStart.AddDays(i))];
 
+    /// <summary>
+    /// The timed events that touch <paramref name="day"/>, including ones that started the day before,
+    /// which the day column clips to midnight. All-day and day-long events go in the strip above instead.
+    /// </summary>
     private List<Schedule<T>> GetDayEvents(DateTime day) =>
-        [.. Schedules.Where(e => e.DateTimeStart.DateTime.Date == day.Date)];
+        [.. Schedules.Where(e => !TwCalendarSpans.IsBanner(e) && TwCalendarSpans.OverlapsDay(e, day))];
 
     // items-start matters here for the same reason as TwCalendarDayView's identical property - without
     // it, flexbox's default align-items:stretch resizes the gutter/day columns to the (max-height-
