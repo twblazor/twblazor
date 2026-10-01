@@ -43,7 +43,21 @@ globalThis.twPicker = {
 
             try {
                 if (!root.contains(target) && globalThis.twPicker._setClosing(root)) {
-                    dotnetRef.invokeMethodAsync('Close');
+                    const closing = dotnetRef.invokeMethodAsync('Close');
+                    // While a panel is open everything outside it is inert, so the browser hit-tests
+                    // this tap onto a non-inert ancestor and the control actually under the pointer
+                    // (e.g. a dialog's Save button) never receives the click: the first tap would
+                    // only close the panel. Once Close has lifted the inert state, replay the tap
+                    // on whatever is really there.
+                    const upX = e.clientX ?? downX;
+                    const upY = e.clientY ?? downY;
+                    Promise.resolve(closing).finally(() => {
+                        if (typeof document.elementFromPoint !== 'function') return;
+                        const intended = document.elementFromPoint(upX, upY);
+                        if (intended && intended !== target && target.isConnected && target.contains(intended)) {
+                            intended.click();
+                        }
+                    });
                 }
             } catch (err) {
                 console.error('twPicker handler error', err);

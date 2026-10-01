@@ -65,6 +65,108 @@ describe('twPicker', () => {
             document.body.removeChild(outside);
         });
 
+        describe('replaying a tap that landed on an inert ancestor', () => {
+            const flush = () => new Promise((resolve) => setTimeout(resolve, 0));
+
+            // jsdom has no layout, so elementFromPoint is stubbed to return whatever the test says is
+            // "really under the pointer" once the panel has closed and the inert state is lifted.
+            function setup(elementUnderPointer) {
+                const root = document.createElement('div');
+                const container = document.createElement('div'); // what the browser hit-tests while inert
+                const saveButton = document.createElement('button');
+                container.appendChild(saveButton);
+                document.body.append(root, container);
+
+                document.elementFromPoint = vi.fn(() => elementUnderPointer(container, saveButton));
+                const clickSpy = vi.spyOn(saveButton, 'click');
+                const dotnetRef = { invokeMethodAsync: vi.fn(() => Promise.resolve()) };
+
+                window.twPicker.registerOutsideClick(root, dotnetRef);
+                return { root, container, saveButton, clickSpy, dotnetRef };
+            }
+
+            function teardown({ root, container }) {
+                window.twPicker.unregisterOutsideClick(root);
+                root.remove();
+                container.remove();
+                delete document.elementFromPoint;
+            }
+
+            test('clicks the control under the pointer once Close has finished', async () => {
+                const ctx = setup((_container, saveButton) => saveButton);
+
+                simulateGesture(ctx.root, ctx.container);
+                expect(ctx.clickSpy).not.toHaveBeenCalled(); // not before Close resolves
+                await flush();
+
+                expect(ctx.dotnetRef.invokeMethodAsync).toHaveBeenCalledWith('Close');
+                expect(ctx.clickSpy).toHaveBeenCalledTimes(1);
+                teardown(ctx);
+            });
+
+            test('still clicks it when Close rejects, so a failed close never eats the tap', async () => {
+                const ctx = setup((_container, saveButton) => saveButton);
+                ctx.dotnetRef.invokeMethodAsync = vi.fn(() => Promise.reject(new Error('closed')));
+                const unhandled = vi.fn();
+                process.on('unhandledRejection', unhandled);
+
+                simulateGesture(ctx.root, ctx.container);
+                await flush();
+
+                expect(ctx.clickSpy).toHaveBeenCalledTimes(1);
+                process.off('unhandledRejection', unhandled);
+                teardown(ctx);
+            });
+
+            test('does not click again when the pointer was already over the element that received the tap', async () => {
+                const ctx = setup((container) => container);
+
+                simulateGesture(ctx.root, ctx.container);
+                await flush();
+
+                expect(ctx.clickSpy).not.toHaveBeenCalled();
+                teardown(ctx);
+            });
+
+            test('does not click an element outside the one that received the tap', async () => {
+                const stranger = document.createElement('button');
+                document.body.appendChild(stranger);
+                const strangerClick = vi.spyOn(stranger, 'click');
+                const ctx = setup(() => stranger);
+
+                simulateGesture(ctx.root, ctx.container);
+                await flush();
+
+                expect(strangerClick).not.toHaveBeenCalled();
+                stranger.remove();
+                teardown(ctx);
+            });
+
+            test('does nothing when the environment cannot hit-test (no elementFromPoint)', async () => {
+                const ctx = setup(() => null);
+                delete document.elementFromPoint;
+
+                expect(() => simulateGesture(ctx.root, ctx.container)).not.toThrow();
+                await flush();
+
+                expect(ctx.clickSpy).not.toHaveBeenCalled();
+                teardown(ctx);
+            });
+
+            test('does not replay when the tap landed inside the panel itself', async () => {
+                const ctx = setup((_container, saveButton) => saveButton);
+                const inner = document.createElement('span');
+                ctx.root.appendChild(inner);
+
+                simulateGesture(ctx.root, inner);
+                await flush();
+
+                expect(ctx.dotnetRef.invokeMethodAsync).not.toHaveBeenCalled();
+                expect(ctx.clickSpy).not.toHaveBeenCalled();
+                teardown(ctx);
+            });
+        });
+
         test('does not call Close when the tap is inside root', () => {
             const root = document.createElement('div');
             const inner = document.createElement('span');
