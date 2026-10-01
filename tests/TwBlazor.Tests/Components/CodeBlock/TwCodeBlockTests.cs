@@ -9,7 +9,7 @@ public class TwCodeBlockTests : TwBlazorTestBase
 {
     public TwCodeBlockTests()
     {
-        TestContext.JSInterop.SetupVoid("twCodeBlock.highlightElement", _ => true);
+        TestContext.JSInterop.SetupVoid("twCodeBlock.highlightElement", _ => true).SetVoidResult();
     }
 
     [Fact]
@@ -215,13 +215,10 @@ public class TwCodeBlockTests : TwBlazorTestBase
     }
 
     [Theory]
-    [InlineData("html", "Razor")]
-    [InlineData("csharp", "C#")]
-    [InlineData("bash", "Terminal")]
-    [InlineData("css", "CSS")]
-    [InlineData("Bash", "Terminal")]
-    [InlineData("razor", "RAZOR")]
-    public void TwCodeBlock_Header_ShowsADisplayNameForTheLanguage(string language, string expected)
+    [InlineData("html", "HTML")]
+    [InlineData("csharp", "CSHARP")]
+    [InlineData("Bash", "BASH")]
+    public void TwCodeBlock_Header_ShowsUpperCasedLanguage_WhenTitleIsNotSet(string language, string expected)
     {
         // Arrange & Act
         var cut = TestContext.Render<TwCodeBlock>(parameters => parameters
@@ -229,6 +226,94 @@ public class TwCodeBlockTests : TwBlazorTestBase
 
         // Assert
         Assert.Equal(expected, cut.Find("div > div > span").TextContent);
+    }
+
+    [Fact]
+    public void TwCodeBlock_HideTitle_DefaultsToFalse_AndRendersHeader()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwCodeBlock>();
+
+        // Assert
+        Assert.False(cut.Instance.HideTitle);
+        Assert.NotEmpty(cut.FindAll("div > div"));
+    }
+
+    [Fact]
+    public void TwCodeBlock_HideTitle_RemovesHeaderAndTitle()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwCodeBlock>(parameters => parameters
+            .Add(p => p.HideTitle, true)
+            .Add(p => p.Title, "Install"));
+
+        // Assert
+        Assert.Empty(cut.FindAll("div > div"));
+        Assert.DoesNotContain("Install", cut.Markup);
+    }
+
+    [Fact]
+    public void TwCodeBlock_HideTitle_OverlaysCopyButtonOnTheCodePanel()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwCodeBlock>(parameters => parameters
+            .Add(p => p.HideTitle, true));
+
+        // Assert
+        var button = cut.Find("button");
+        var classes = button.GetAttribute("class");
+        Assert.Contains("absolute", classes);
+        Assert.Contains("top-0", classes);
+        Assert.Contains("end-0", classes);
+        Assert.Equal("Copy code", button.GetAttribute("aria-label"));
+    }
+
+    [Fact]
+    public void TwCodeBlock_HideTitle_KeepsContainerBorderStyling()
+    {
+        // Arrange
+        var visible = TestContext.Render<TwCodeBlock>();
+
+        // Act
+        var hidden = TestContext.Render<TwCodeBlock>(parameters => parameters
+            .Add(p => p.HideTitle, true));
+
+        // Assert
+        Assert.Equal(visible.Find("div").GetAttribute("class"), hidden.Find("div").GetAttribute("class"));
+    }
+
+    [Fact]
+    public void TwCodeBlock_CopyButton_IsNotOverlaid_WhenTitleIsVisible()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwCodeBlock>();
+
+        // Assert
+        var classes = cut.Find("button").GetAttribute("class");
+        Assert.DoesNotContain("absolute", classes);
+        Assert.DoesNotContain("top-0", classes);
+    }
+
+    [Fact]
+    public async Task TwCodeBlock_Copy_SwitchesToCheckIconAndCopiedLabel()
+    {
+        // Arrange
+        TestContext.JSInterop.SetupVoid("navigator.clipboard.writeText", _ => true).SetVoidResult();
+        var cut = TestContext.Render<TwCodeBlock>(parameters => parameters
+            .Add(p => p.Content, "x")
+            .Add(p => p.HideTitle, true));
+
+        // Act
+        var clickTask = cut.Find("button").ClickAsync(new MouseEventArgs());
+
+        // Assert
+        cut.WaitForAssertion(() =>
+        {
+            Assert.Equal("Copied", cut.Find("button").GetAttribute("aria-label"));
+            Assert.NotNull(cut.Find("i.bi-check2"));
+        });
+        await clickTask;
+        cut.WaitForAssertion(() => Assert.Equal("Copy code", cut.Find("button").GetAttribute("aria-label")));
     }
 
     [Fact]
@@ -241,6 +326,20 @@ public class TwCodeBlockTests : TwBlazorTestBase
 
         // Assert
         Assert.Equal("Install", cut.Find("div > div > span").TextContent);
+    }
+
+    [Fact]
+    public void TwCodeBlock_PanelClass_IsAppliedToThePanelOnly()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwCodeBlock>(parameters => parameters
+            .Add(p => p.PanelClass, "p-8"));
+
+        // Assert
+        var pre = cut.Find("pre").GetAttribute("class");
+        Assert.Contains("p-8", pre);
+        Assert.Contains("text-sm", pre);
+        Assert.DoesNotContain("p-8", cut.Find("div").GetAttribute("class"));
     }
 
     [Fact]

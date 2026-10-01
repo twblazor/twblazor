@@ -27,33 +27,53 @@ public partial class TwCodeBlock : TwBlazorComponentBase, IAsyncDisposable
     /// </summary>
     private bool statusMessageMarker;
 
+    /// <summary>
+    /// Gets or sets a value that has no effect on rendering. Retained for backwards compatibility.
+    /// </summary>
     [Parameter] public bool Inline { get; set; }
+
+    /// <summary>
+    /// Gets or sets the code displayed in the block, and the text written to the clipboard by the copy button.
+    /// </summary>
     [Parameter] public string? Content { get; set; }
+
+    /// <summary>
+    /// Gets or sets the highlight.js language identifier applied to the code element as a <c>language-*</c> class.
+    /// Defaults to <c>html</c>.
+    /// </summary>
     [Parameter] public string Language { get; set; } = "html";
 
     /// <summary>
-    /// Gets or sets the label shown in the header bar. Defaults to a display name for <see cref="Language"/>
-    /// (e.g. <c>csharp</c> shows "C#", <c>bash</c> shows "Terminal").
+    /// Gets or sets the text shown in the header bar. When <see langword="null"/> the <see cref="Language"/>
+    /// is shown in upper case instead (e.g. <c>CSHARP</c>).
     /// </summary>
     [Parameter] public string? Title { get; set; }
 
-    private static readonly Dictionary<string, string> _languageTitles = new(StringComparer.OrdinalIgnoreCase)
-    {
-        ["html"] = "Razor",
-        ["csharp"] = "C#",
-        ["cs"] = "C#",
-        ["css"] = "CSS",
-        ["bash"] = "Terminal",
-        ["shell"] = "Terminal",
-        ["json"] = "JSON",
-        ["xml"] = "XML",
-        ["javascript"] = "JavaScript",
-        ["js"] = "JavaScript",
-        ["text"] = "Text"
-    };
+    private string headerTitle => Title ?? Language.ToUpperInvariant();
 
-    private string headerTitle => Title
-        ?? (_languageTitles.TryGetValue(Language, out var title) ? title : Language.ToUpperInvariant());
+    /// <summary>
+    /// Gets or sets a value indicating whether the header bar is removed. When <see langword="true"/> the
+    /// copy button is overlaid on the top end corner of the code panel instead, and <see cref="Title"/> is ignored.
+    /// </summary>
+    [Parameter] public bool HideTitle { get; set; }
+
+    /// <summary>
+    /// Gets or sets additional CSS classes applied to the inset panel (the <c>pre</c> element) that holds the code,
+    /// e.g. to adjust its padding. The container's <see cref="TwBlazorComponentBase.Class"/> is unaffected.
+    /// </summary>
+    [Parameter] public string? PanelClass { get; set; }
+
+    private string panelClasses =>
+        new ClassBuilder(theme.Panel)
+        .AddClass(PanelClass ?? string.Empty)
+        .Build();
+
+    private string copyButtonClasses =>
+        new ClassBuilder(theme.CopyButtonWrapper)
+        .AddClass(options.Theme.Position.Absolute, HideTitle)
+        .AddClass(options.Theme.Inset.Top, HideTitle)
+        .AddClass(options.Theme.Inset.End, HideTitle)
+        .Build();
 
     private string headerClasses =>
         new ClassBuilder(theme.Header)
@@ -73,6 +93,11 @@ public partial class TwCodeBlock : TwBlazorComponentBase, IAsyncDisposable
 
     private ElementReference codeBlock { get; set; }
 
+    /// <summary>
+    /// Highlights the code element on first render. Interop failures are suppressed so rendering never fails.
+    /// </summary>
+    /// <param name="firstRender">Whether this is the first time the component has rendered.</param>
+    /// <returns>A task that completes once highlighting has finished or been abandoned.</returns>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (!firstRender)
@@ -98,6 +123,10 @@ public partial class TwCodeBlock : TwBlazorComponentBase, IAsyncDisposable
         }
     }
 
+    /// <summary>
+    /// Writes <see cref="Content"/> to the clipboard, shows the copied state for one second and announces the result.
+    /// </summary>
+    /// <returns>A task that completes when the copied state has been reset or the operation has failed or been cancelled.</returns>
     private async Task Copy()
     {
         cancellationTokenSource ??= new CancellationTokenSource();
@@ -157,6 +186,10 @@ public partial class TwCodeBlock : TwBlazorComponentBase, IAsyncDisposable
         StateHasChanged();
     }
 
+    /// <summary>
+    /// Cancels any pending highlight or copy operation and releases the cancellation token source.
+    /// </summary>
+    /// <returns>A task that completes once disposal has finished.</returns>
     public async ValueTask DisposeAsync()
     {
         if (cancellationTokenSource is not null)

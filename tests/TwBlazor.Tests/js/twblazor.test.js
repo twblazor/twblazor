@@ -557,6 +557,14 @@ describe('twCodeBlock', () => {
 
         expect(window.hljs.highlightElement).toHaveBeenCalledWith(el);
     });
+
+    test('highlightElement adds the hljs class even when hljs skips an unknown language', () => {
+        const el = document.createElement('code');
+
+        window.twCodeBlock.highlightElement(el);
+
+        expect(el.classList.contains('hljs')).toBe(true);
+    });
 });
 
 // jsdom doesn't run layout, so a real element's getClientRects() is always empty. twDialog's

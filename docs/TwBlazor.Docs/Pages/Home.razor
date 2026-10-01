@@ -37,6 +37,9 @@
             <TwButton Id="get-started" Class="w-full sm:w-auto justify-center" Color="Color.Primary" Label="Get Started" StartIcon="IconEnum.Rocket_Takeoff" Href="/get-started" />
             <TwButton Id="github" Class="w-full sm:w-auto justify-center" Color="Color.Primary" Variant="ButtonVariant.Outlined" Label="View on GitHub" StartIcon="IconEnum.Github" Href="https://github.com/twblazor/twblazor" Target="_blank" rel="noopener noreferrer" />
         </div>
+        
+        <TwCodeBlock Language="pwsh" Content="@quickStartInstall" Class="w-full mt-8 text-left" />
+        
     </div>
 </section>
 
@@ -226,6 +229,9 @@
 @code {
     private string email = string.Empty;
     private bool notificationsEnabled = true;
+
+    private const string quickStartInstall =
+        "dotnet add package twblazor";
 
     private const string quickStartSnippet =
         "<TwButton Label=\"Get Started\" Color=\"Color.Primary\" />\n" +
