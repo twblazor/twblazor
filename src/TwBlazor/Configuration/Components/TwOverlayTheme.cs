@@ -95,4 +95,19 @@ public class TwOverlayTheme
     /// tests select on) for <see cref="TwBlazor.Components.TwColorPicker"/>'s popover surface.
     /// </summary>
     public required string ColorPopoverSize { get; set; }
+
+    /// <summary>
+    /// Gets or sets the classes for the wrapper rendered around any control that has a tooltip (for
+    /// example <see cref="TwBlazor.Components.TwButton.Tooltip"/>). Must establish a positioning context
+    /// and the <c>group</c> hook that <see cref="TooltipBubble"/>'s hover/focus variants key off.
+    /// </summary>
+    public required string TooltipWrapper { get; set; }
+
+    /// <summary>
+    /// Gets or sets the layout, typography and visibility classes for a tooltip bubble: positioned above
+    /// its control, hidden until the <see cref="TooltipWrapper"/> is hovered or the control is
+    /// keyboard-focused. The surface (background, border, rounded corners, shadow) comes from the popover
+    /// properties above via <c>PopoverBuilder.GetTooltipClasses</c>.
+    /// </summary>
+    public required string TooltipBubble { get; set; }
 }

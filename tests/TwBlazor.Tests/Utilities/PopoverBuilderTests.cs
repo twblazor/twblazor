@@ -115,4 +115,55 @@ public class PopoverBuilderTests : TwBlazorTestBase
         // Assert
         Assert.DoesNotContain("  ", result.Trim());
     }
+
+    [Fact]
+    public void GetTooltipWrapperClasses_ReturnsThemeWrapper_WithGroupHook()
+    {
+        var result = popoverBuilder.GetTooltipWrapperClasses();
+
+        Assert.Equal(overlayTheme.TooltipWrapper, result);
+        Assert.Contains("group", result.Split(' '));
+    }
+
+    [Fact]
+    public void GetTooltipClasses_IncludesThemeBubbleAndPopoverSurface()
+    {
+        var result = popoverBuilder.GetTooltipClasses(false);
+
+        Assert.Contains(overlayTheme.TooltipBubble, result);
+        Assert.Contains(popoverBuilder.GetSurfaceClasses(null, null), result);
+    }
+
+    [Fact]
+    public void GetTooltipClasses_RevealsOnHoverAndKeyboardFocusOnly()
+    {
+        var classes = popoverBuilder.GetTooltipClasses(false).Split(' ');
+
+        Assert.Contains("invisible", classes);
+        Assert.Contains("group-hover:visible", classes);
+        Assert.Contains("group-has-[:focus-visible]:visible", classes);
+    }
+
+    [Fact]
+    public void GetTooltipClasses_AddsHidden_OnlyWhenDismissed()
+    {
+        Assert.DoesNotContain(Theme.Display.Hidden, popoverBuilder.GetTooltipClasses(false).Split(' '));
+        Assert.Contains(Theme.Display.Hidden, popoverBuilder.GetTooltipClasses(true).Split(' '));
+    }
+
+    [Fact]
+    public void GetTooltipClasses_FollowsThemeOverrides()
+    {
+        overlayTheme.TooltipBubble = "custom-bubble";
+
+        Assert.Contains("custom-bubble", popoverBuilder.GetTooltipClasses(false));
+    }
+
+    [Fact]
+    public void GetTooltipClasses_FollowsPopoverSurfaceOverrides()
+    {
+        overlayTheme.PopoverBackground = "custom-popover-bg";
+
+        Assert.Contains("custom-popover-bg", popoverBuilder.GetTooltipClasses(false));
+    }
 }

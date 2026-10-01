@@ -1,0 +1,52 @@
+@namespace TwBlazor.Components
+@typeparam T
+@inherits TwBlazorComponentBase
+
+<div id="@Id" class="@columnClasses" style="@Style" role="group" aria-label="@Date.ToString("dddd, MMMM d")" @ref="gridRef" @onkeydown="OnGridKeyDownAsync" @attributes="Attributes">
+    @for (var slot = 0; slot < slotsPerDay; slot++)
+    {
+        var slotIndex = slot;
+        var slotTime = Date.Date.AddMinutes(slotIndex * minutesPerSlot);
+        <button type="button"
+                class="@GetSlotClasses()"
+                style="@($"height:{slotHeightRem.ToString(System.Globalization.CultureInfo.InvariantCulture)}rem;")"
+                tabindex="@(slotIndex == focusedSlot ? "0" : "-1")"
+                aria-label="@slotTime.ToString("h:mm tt")"
+                aria-disabled="@(Editable ? null : "true")"
+                @ref="GetSlotRef(slotIndex).Element"
+                @onclick="@(() => OnSlotClickedAsync(slotIndex))"
+                @onfocus="@(() => OnSlotFocusedAsync(slotIndex))"
+                @ondragenter="@(() => OnSlotDragEnterAsync(slotIndex))" @ondragenter:preventDefault="Editable"
+                @ondragover="@(() => { })" @ondragover:preventDefault="Editable"
+                @ondrop="@(() => OnSlotDropAsync(slotIndex))">
+        </button>
+    }
+    @if (placeholderStyle is { } dropPlaceholderStyle)
+    {
+        <div class="@placeholderClasses" style="@dropPlaceholderStyle" aria-hidden="true">
+            <span class="@chipTitleClasses">@DraggedEvent!.Name</span>
+            <span class="@chipTimeClasses">@DropPreview!.Value.ToString("h:mm tt")</span>
+        </div>
+    }
+    @foreach (var slot in layoutSlots)
+    {
+        <button type="button"
+                class="@GetChipClasses(slot.Event)"
+                style="@GetChipStyle(slot)"
+                aria-label="@($"{slot.Event.Name}, {slot.Event.DateTimeStart:h:mm tt} to {slot.Event.DateTimeEnd:h:mm tt}")"
+                draggable="@(IsDraggable(slot.Event) ? "true" : "false")"
+                @ondragstart="@(() => OnChipDragStartAsync(slot.Event))"
+                @ondragend="OnChipDragEndAsync"
+                @onclick="@(() => OnEventClickedAsync(slot.Event))">
+            @if (EventContentTemplate is not null)
+            {
+                @EventContentTemplate(slot.Event)
+            }
+            else
+            {
+                <span class="@chipTitleClasses">@slot.Event.Name</span>
+                <span class="@chipTimeClasses">@GetStartTimeLabel(slot.Event)</span>
+            }
+        </button>
+    }
+</div>

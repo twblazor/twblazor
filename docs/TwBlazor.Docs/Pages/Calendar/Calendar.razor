@@ -1,0 +1,279 @@
+@page "/calendar"
+@using TwBlazor.Models
+@using TwBlazor.Services
+
+@inject ITwDialogService DialogService
+
+<PageContainer Title="TwCalendar" Beta
+    ThemeType="typeof(TwCalendarTheme)"
+    Path="/calendar"
+    Description="TwCalendar is a Blazor Day, Week and Month calendar with drag and drop, all-day events, a built-in create and edit dialog, and configurable event details.">
+    <PageCard Title="Views">
+        <Description>
+            Bind <code>SelectedDate</code> and <code>View</code> to switch between Day, Week and Month.
+            The header names what you're looking at: the day, the week or the month. "Today" is on the
+            left and the previous and next buttons are on the right. Events that overlap in time sit side
+            by side. The Day and Week grids scroll once they pass <code>MaxHeight</code> (<code>40rem</code>
+            by default), and you can pass any CSS length, such as <code>"30rem"</code> or <code>"600px"</code>.
+            They open scrolled to <code>ScrollToTime</code>, 8am by default, so you land on the working day
+            instead of midnight.
+            <br /><br />
+            Click an event to see its details. This calendar isn't editable, so every event opens read-only,
+            and the extra details come from <code>DialogProperties</code> (see "Event Details in the Dialog"
+            below).
+        </Description>
+        <CodeExample Name="CalendarBasic" CSharpName="CalendarBasicCode">
+            <TwCalendar T="EventDetails" @bind-SelectedDate="selectedDate" @bind-View="view" Schedules="Schedules" DialogProperties="dialogProperties" />
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Choosing Which Views to Offer">
+        <Description>
+            All three views are available by default. Pass <code>EnabledViews</code> an array of
+            <code>TwCalendarView</code> values to offer only some of them. The switcher in the header only
+            shows the views you list, always in the order Day, Week, Month. With a single view the switcher
+            disappears, and the calendar just shows that view. If <code>View</code> isn't in the list, the
+            first enabled view is shown instead. When the Day view is turned off, clicking a day in the Week
+            or Month view only selects the date. This example offers just Week and Month.
+        </Description>
+        <CodeExample Name="CalendarEnabledViews" CSharpName="CalendarEnabledViewsCode">
+            <TwCalendar T="EventDetails" @bind-SelectedDate="enabledViewsSelectedDate" @bind-View="enabledViewsView" EnabledViews="enabledViews" Schedules="Schedules" DialogProperties="dialogProperties" />
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="All-Day and Multi-Day Events">
+        <Description>
+            An event that runs from midnight to midnight is an all-day event, and anything that lasts a day
+            or longer is treated the same way. In the Day and Week views these sit in an "All day" strip
+            above the time grid, like Microsoft Teams, so they don't cover the hours below. An event that
+            covers several days is one bar across those days. In the Month view every event that covers
+            more than one day is drawn as a bar across its days too, and it breaks at the end of each week
+            and carries on in the next. An event that crosses midnight but lasts less than a day stays in the
+            time grid and shows on both days.
+            <br /><br />
+            To make an event all day, turn on "All day" in the edit dialog, or set it to start and end at
+            midnight yourself. The dialog then asks for dates instead of times, and the end date is the last
+            day you want to cover. You can drag an all-day event onto another day, and it keeps its length.
+            In the example below, "Company holiday", "Product conference" and "Release weekend" are all-day
+            events.
+        </Description>
+        <CodeExample Name="CalendarAllDay" CSharpName="CalendarAllDayCode">
+            <TwCalendar T="EventDetails" @bind-SelectedDate="allDaySelectedDate" @bind-View="allDayView" Editable="true" DialogProperties="dialogProperties" @bind-Schedules="AllDaySchedules" />
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Adding & Editing Events">
+        <Description>
+            Set <code>Editable</code> to get the "+" button in the header and let people open events in an
+            edit dialog. Click an empty time slot to create an event there, or click an existing event to
+            change it. An event with <code>ReadOnly</code> set always opens read-only, like "Lunch" and
+            "Payroll run" below, even when <code>Editable</code> is on. Editable events can also be dragged.
+            Move them between time slots (and between days in Week view), or between days in Month view,
+            where the time of day stays the same. A dashed placeholder shows where the event will land, even
+            over a slot that already has an event. The dialog's color picker sets
+            <code>Schedule&lt;T&gt;.Color</code>, which tints the event in every view. Leave it empty to use
+            the theme color.
+        </Description>
+        <CodeExample Name="CalendarEditable" CSharpName="CalendarEditableCode">
+            <TwCalendar T="EventDetails" @bind-SelectedDate="editableSelectedDate" @bind-View="editableView" Editable="true" DialogProperties="dialogProperties" @bind-Schedules="EditableSchedules" />
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Event Details in the Dialog">
+        <Description>
+            Your own data lives in <code>Schedule&lt;T&gt;.Value</code>. To show it in the dialog, pass
+            <code>DialogProperties</code>: a dictionary that maps a property name on your type to the label
+            you want. The read-only dialog lists each value that isn't empty. The edit dialog gives each
+            property an editor that fits its type: a text field for strings, a number field for numbers, a
+            switch for <code>bool</code>, a date and time picker for dates, and a select for enums. A
+            property with no public setter shows as plain text. Names that don't match a property are
+            skipped, and an empty label turns <code>OrderNumber</code> into "Order number". The properties
+            appear in the order you list them, after Name, Start, End and Color.
+            <br /><br />
+            The dialog finds properties with reflection. Your type needs a public parameterless constructor
+            so new events have something to edit, and the dialog works on a shallow copy of
+            <code>Value</code>, so cancelling never changes the original. If you need something this can't
+            express, such as a field that depends on another, use <code>EventDialogContent</code> to add
+            your own markup. In this example, the empty label for <code>Priority</code> falls back to
+            "Priority" and <code>Attendees</code> is relabeled "Guests".
+        </Description>
+        <CodeExample Name="CalendarDialogProperties" CSharpName="CalendarDialogPropertiesCode">
+            <TwCalendar T="EventDetails" @bind-SelectedDate="detailsSelectedDate" @bind-View="detailsView" Editable="true" DialogProperties="detailsDialogProperties" @bind-Schedules="DetailsSchedules" />
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Custom Event Content">
+        <Description>
+            Use <code>EventContentTemplate</code> to change how each event looks in all three views.
+        </Description>
+        <CodeExample Name="CalendarCustomContent" CSharpName="CalendarCustomContentCode">
+            <TwCalendar T="EventDetails" @bind-SelectedDate="customContentSelectedDate" @bind-View="customContentView" Schedules="Schedules" DialogProperties="dialogProperties">
+                <EventContentTemplate>
+                    <span class="text-xs font-semibold">@context.Name</span>
+                    <span class="block text-xs opacity-80">@context.DateTimeStart.ToString("h:mm tt")</span>
+                </EventContentTemplate>
+            </TwCalendar>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Search Events">
+        <Description>
+            <code>TwCalendar</code> has no search of its own. Set <code>OnSearch</code> and the header shows
+            a search icon that calls your handler. This example opens a small dialog, built like any other
+            <code>TwDialog</code> content, that filters <code>Schedules</code> by name. When you pick a
+            result, it jumps to that event by setting <code>@@bind-SelectedDate</code> and
+            <code>@@bind-View</code> on the calendar.
+        </Description>
+        <CodeExample Name="CalendarSearch" CSharpName="CalendarSearchCode">
+            <TwCalendar T="EventDetails" @bind-SelectedDate="searchSelectedDate" @bind-View="searchView" Schedules="Schedules" DialogProperties="dialogProperties" OnSearch="OnSearchAsync" />
+        </CodeExample>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample CalendarBasicCode
+    private DateTime selectedDate = DateTime.Today;
+    private TwCalendarView view = TwCalendarView.Week;
+
+    private readonly List<Schedule<EventDetails>> Schedules = BuildSampleSchedules();
+
+    public enum EventPriority
+    {
+        Low,
+        Medium,
+        High
+    }
+
+    public class EventDetails
+    {
+        public string? Notes { get; set; }
+        public string? Location { get; set; }
+        public string? Organizer { get; set; }
+        public int Attendees { get; set; }
+        public EventPriority Priority { get; set; }
+        public bool IsOnline { get; set; }
+    }
+
+    private readonly Dictionary<string, string> dialogProperties = new()
+    {
+        [nameof(EventDetails.Notes)] = "Notes",
+        [nameof(EventDetails.Location)] = "Location",
+        [nameof(EventDetails.Organizer)] = "Organizer",
+        [nameof(EventDetails.Attendees)] = "Attendees",
+        [nameof(EventDetails.Priority)] = "Priority",
+        [nameof(EventDetails.IsOnline)] = "Online meeting"
+    };
+
+    private static Schedule<EventDetails> Event(string name, int dayOffset, double startHour, double hours, string color, EventDetails details, bool readOnly = false)
+    {
+        var start = DateTime.Today.AddDays(dayOffset).AddHours(startHour);
+        return new() { Name = name, DateTimeStart = start, DateTimeEnd = start.AddHours(hours), Color = color, ReadOnly = readOnly, Value = details };
+    }
+
+    private static Schedule<EventDetails> AllDay(string name, int firstDayOffset, int days, string color, EventDetails details)
+    {
+        var start = DateTime.Today.AddDays(firstDayOffset);
+        return new() { Name = name, DateTimeStart = start, DateTimeEnd = start.AddDays(days), Color = color, Value = details };
+    }
+
+    private static List<Schedule<EventDetails>> BuildSampleSchedules() =>
+    [
+        Event("Team standup", 0, 9, 0.5, "#2563eb", new() { Notes = "Quick round of blockers. Keep it to 15 minutes.", Location = "Meeting room 2", Organizer = "Priya Shah", Attendees = 8, Priority = EventPriority.Medium }),
+        Event("Design review", 0, 10, 1, "#9333ea", new() { Notes = "Walk through the new dashboard mockups and collect feedback.", Location = "Studio", Organizer = "Marcus Lee", Attendees = 6, Priority = EventPriority.High, IsOnline = true }),
+        Event("1:1 with Sam", 0, 10.5, 0.75, "#db2777", new() { Notes = "Talk about the Q4 goals and the conference talk.", Organizer = "Jordan Ellis", Attendees = 2, Priority = EventPriority.Medium, IsOnline = true }),
+        Event("Lunch", 0, 12, 1, "#f59e0b", new() { Notes = "Team lunch. Booked under Shuter.", Location = "The Corner Cafe", Organizer = "Office team", Attendees = 12, Priority = EventPriority.Low }, readOnly: true),
+        Event("Customer demo", 0, 15, 1, "#0d9488", new() { Notes = "Show the new reporting module to the Hartley account team.", Location = "Meeting room 1", Organizer = "Aisha Khan", Attendees = 5, Priority = EventPriority.High, IsOnline = true }),
+        Event("Code review", 0, 16.5, 0.5, "#4f46e5", new() { Notes = "Pairing session on the payments refactor.", Organizer = "Tom Becker", Attendees = 3, Priority = EventPriority.Low, IsOnline = true }),
+
+        Event("OKR workshop", 1, 10, 2, "#7c3aed", new() { Notes = "Draft next quarter's objectives. Bring your team's draft key results.", Location = "Main hall", Organizer = "Priya Shah", Attendees = 24, Priority = EventPriority.High }),
+        Event("Sprint planning", 1, 14, 1.5, "#16a34a", new() { Notes = "Bring estimates for the top ten backlog items.", Location = "Meeting room 1", Organizer = "Marcus Lee", Attendees = 9, Priority = EventPriority.Medium }),
+        AllDay("Company holiday", 1, 1, "#f59e0b", new() { Notes = "Offices are closed. Support is on call.", Organizer = "People team", Attendees = 120, Priority = EventPriority.Low }),
+
+        Event("Client call", 2, 9, 0.75, "#0d9488", new() { Notes = "Share the revised timeline and ask about the sign-off date.", Organizer = "Aisha Khan", Attendees = 4, Priority = EventPriority.High, IsOnline = true }),
+        Event("Workshop prep", 2, 13, 1, "#be185d", new() { Notes = "Print the handouts and test the projector.", Location = "Meeting room 2", Organizer = "Jordan Ellis", Attendees = 2, Priority = EventPriority.Low }),
+        AllDay("Product conference", 2, 3, "#be185d", new() { Notes = "Three days of talks. Our slot is on the second morning.", Location = "Convention centre", Organizer = "Events team", Attendees = 40, Priority = EventPriority.High }),
+
+        Event("Budget review", 3, 9, 0.5, "#0891b2", new() { Notes = "Check spend against the quarterly forecast.", Location = "Finance office", Organizer = "Rhea Patel", Attendees = 5, Priority = EventPriority.Medium }),
+        Event("Interview", 3, 10, 0.5, "#7c3aed", new() { Notes = "Frontend candidate, second round. Questions are in the hiring doc.", Location = "Meeting room 1", Organizer = "Tom Becker", Attendees = 3, Priority = EventPriority.Medium }),
+        Event("All hands", 3, 11, 1, "#ea580c", new() { Notes = "Company update and Q&A with the leadership team.", Location = "Main hall", Organizer = "Leadership team", Attendees = 120, Priority = EventPriority.High, IsOnline = true }),
+        Event("Extra sync", 3, 13, 0.5, "#059669", new() { Notes = "Follow up on the open questions from the all hands.", Organizer = "Priya Shah", Attendees = 4, Priority = EventPriority.Low }),
+        Event("Interview debrief", 3, 14, 0.5, "#7c3aed", new() { Notes = "Share feedback while it's fresh and decide on next steps.", Location = "Meeting room 1", Organizer = "Tom Becker", Attendees = 3, Priority = EventPriority.Medium }),
+
+        Event("Hiring sync", 4, 11, 1, "#0369a1", new() { Notes = "Review the pipeline for the two open engineering roles.", Location = "Meeting room 2", Organizer = "People team", Attendees = 5, Priority = EventPriority.Medium }),
+        Event("Retro", 4, 16, 1, "#4f46e5", new() { Notes = "What went well, what didn't, and one thing to try next sprint.", Location = "Meeting room 2", Organizer = "Marcus Lee", Attendees = 9, Priority = EventPriority.Medium }),
+        AllDay("Release weekend", 5, 3, "#0369a1", new() { Notes = "Freeze on Friday night. Roll out on Saturday.", Organizer = "Release manager", Attendees = 14, Priority = EventPriority.High, IsOnline = true }),
+        Event("Payroll run", 6, 9, 1, "#64748b", new() { Notes = "Runs automatically. Finance checks the totals afterwards.", Organizer = "Finance", Attendees = 2, Priority = EventPriority.Low, IsOnline = true }, readOnly: true),
+
+        Event("Launch", -2, 9, 1, "#dc2626", new() { Notes = "Version 2.0 goes live. Support is on standby.", Organizer = "Release manager", Attendees = 30, Priority = EventPriority.High, IsOnline = true }),
+        Event("Security training", -1, 14, 1.5, "#0891b2", new() { Notes = "Yearly refresher on phishing and password hygiene.", Location = "Main hall", Organizer = "IT security", Attendees = 60, Priority = EventPriority.Medium }),
+        Event("Support handover", -1, 17, 0.5, "#16a34a", new() { Notes = "Pass open tickets to the evening rota.", Organizer = "Aisha Khan", Attendees = 4, Priority = EventPriority.Low, IsOnline = true }),
+        AllDay("Planning offsite", -5, 2, "#7c3aed", new() { Notes = "Two days away from the desks to plan the year.", Location = "Lakeside lodge", Organizer = "Leadership team", Attendees = 18, Priority = EventPriority.High }),
+
+        Event("Board meeting", 9, 10, 2, "#9333ea", new() { Notes = "Quarterly results and the hiring plan.", Location = "Boardroom", Organizer = "Leadership team", Attendees = 8, Priority = EventPriority.High }),
+        Event("Roadmap review", 10, 14, 1, "#2563eb", new() { Notes = "Check the next two quarters against customer requests.", Location = "Meeting room 1", Organizer = "Priya Shah", Attendees = 10, Priority = EventPriority.Medium }),
+        AllDay("Customer onsite", 12, 3, "#ea580c", new() { Notes = "The Hartley team visits for training and a product tour.", Location = "Head office", Organizer = "Aisha Khan", Attendees = 16, Priority = EventPriority.High }),
+    ];
+    #endregion
+
+    #region CodeExample CalendarEnabledViewsCode
+    private DateTime enabledViewsSelectedDate = DateTime.Today;
+    private TwCalendarView enabledViewsView = TwCalendarView.Week;
+
+    private readonly TwCalendarView[] enabledViews = [TwCalendarView.Week, TwCalendarView.Month];
+    #endregion
+
+    #region CodeExample CalendarAllDayCode
+    private DateTime allDaySelectedDate = DateTime.Today.AddDays(1);
+    private TwCalendarView allDayView = TwCalendarView.Week;
+
+    private List<Schedule<EventDetails>> AllDaySchedules = BuildSampleSchedules();
+    #endregion
+
+    #region CodeExample CalendarEditableCode
+    private DateTime editableSelectedDate = DateTime.Today;
+    private TwCalendarView editableView = TwCalendarView.Day;
+
+    private List<Schedule<EventDetails>> EditableSchedules = BuildSampleSchedules();
+    #endregion
+
+    #region CodeExample CalendarDialogPropertiesCode
+    private DateTime detailsSelectedDate = DateTime.Today;
+    private TwCalendarView detailsView = TwCalendarView.Day;
+
+    private List<Schedule<EventDetails>> DetailsSchedules = BuildSampleSchedules();
+
+    private readonly Dictionary<string, string> detailsDialogProperties = new()
+    {
+        [nameof(EventDetails.Notes)] = "Notes",
+        [nameof(EventDetails.Location)] = "Location",
+        [nameof(EventDetails.Attendees)] = "Guests",
+        [nameof(EventDetails.Priority)] = "",
+        [nameof(EventDetails.IsOnline)] = "Online meeting"
+    };
+    #endregion
+
+    #region CodeExample CalendarCustomContentCode
+    private DateTime customContentSelectedDate = DateTime.Today;
+    private TwCalendarView customContentView = TwCalendarView.Week;
+    #endregion
+
+    #region CodeExample CalendarSearchCode
+    private DateTime searchSelectedDate = DateTime.Today;
+    private TwCalendarView searchView = TwCalendarView.Week;
+
+    private async Task OnSearchAsync()
+    {
+        var reference = await DialogService.ShowAsync<CalendarSearchDialog<EventDetails>>("Search events", new TwDialogParameters
+        {
+            ["Schedules"] = Schedules
+        });
+
+        var selected = await reference.GetReturnValueAsync<Schedule<EventDetails>>();
+        if (selected is not null)
+        {
+            searchSelectedDate = selected.DateTimeStart.Date;
+            searchView = TwCalendarView.Day;
+        }
+    }
+    #endregion
+}

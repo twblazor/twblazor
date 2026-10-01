@@ -1,0 +1,45 @@
+@namespace TwBlazor.Components
+@typeparam T
+@inherits TwBlazorComponentBase
+
+<div id="@Id" class="@containerClasses" style="@Style">
+    <TwCalendarAllDayRow T="T"
+                         Days="@allDayDays"
+                         Schedules="Schedules"
+                         Editable="Editable"
+                         OnEventClick="OnEventClick"
+                         OnEventDragStart="OnEventDragStart"
+                         OnEventDragOver="OnEventDragOver"
+                         OnEventDragEnd="OnEventDragEnd"
+                         OnEventDrop="OnEventDrop"
+                         DraggedEvent="DraggedEvent"
+                         DropPreview="DropPreview" />
+    <div class="@scrollContainerClasses" style="@scrollContainerStyle" @ref="scrollContainerRef">
+        <div class="@gutterClasses">
+            @for (var hour = 0; hour < hoursPerDay; hour++)
+            {
+                <div class="@GetGutterLabelClasses()" style="height:6rem;">@GetHourLabel(hour)</div>
+            }
+            <div class="@theme.NowIndicatorLabel" style="@nowOffsetStyle">@now.ToString("h:mm tt")</div>
+        </div>
+        <div class="@nowLineContainerClasses">
+            <TwCalendarDayColumn T="T"
+                                  Date="Date"
+                                  Events="dayEvents"
+                                  Editable="Editable"
+                                  EventContentTemplate="EventContentTemplate"
+                                  OnSlotClick="OnSlotClick"
+                                  OnEventClick="OnEventClick"
+                                  OnEventDragStart="OnEventDragStart"
+                                  OnEventDragOver="OnEventDragOver"
+                                  OnEventDragEnd="OnEventDragEnd"
+                                  OnEventDrop="OnEventDrop"
+                                  DraggedEvent="DraggedEvent"
+                                  DropPreview="DropPreview"
+                                  Class="@options.Theme.Flexbox.Flex1" />
+            <div class="@theme.NowIndicatorLine" style="@nowOffsetStyle" aria-hidden="true">
+                <span class="@theme.NowIndicatorDot" style="left:0;"></span>
+            </div>
+        </div>
+    </div>
+</div>

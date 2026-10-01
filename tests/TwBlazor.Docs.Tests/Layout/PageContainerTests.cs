@@ -7,8 +7,9 @@ namespace TwBlazor.Docs.Tests.Layout;
 
 public class PageContainerTests : DocsTestBase
 {
-    private IRenderedComponent<PageContainer> Render(string path = "/no-such-page", string? seoTitle = null) =>
+    private IRenderedComponent<PageContainer> Render(string path = "/no-such-page", string? seoTitle = null, bool beta = false) =>
         TestContext.Render<PageContainer>(parameters => parameters
+            .Add(p => p.Beta, beta)
             .Add(p => p.Title, "TwCard")
             .Add(p => p.Path, path)
             .Add(p => p.Description, "TwCard is a Blazor card component.")
@@ -63,6 +64,49 @@ public class PageContainerTests : DocsTestBase
         // Assert
         Assert.DoesNotContain("Last updated", cut.Markup);
         Assert.Empty(cut.FindAll("time"));
+    }
+
+    [Fact]
+    public void Render_ShowsNoBetaAlert_ByDefault()
+    {
+        var cut = Render();
+
+        Assert.Empty(cut.FindAll("[role='alert']"));
+        Assert.DoesNotContain("may have bugs", cut.Markup);
+    }
+
+    [Fact]
+    public void Render_ShowsABetaWarning_WithALinkToTheIssueTracker()
+    {
+        var cut = Render(beta: true);
+
+        var alert = cut.Find("[role='alert']");
+        Assert.Contains("This component is new and may have bugs.", alert.TextContent);
+        Assert.Contains("Please report any bugs at", alert.TextContent);
+
+        var link = alert.QuerySelector("a")!;
+        Assert.Equal("https://github.com/twblazor/twblazor/issues", link.GetAttribute("href"));
+        Assert.Equal("https://github.com/twblazor/twblazor/issues", link.TextContent);
+        Assert.Equal("_blank", link.GetAttribute("target"));
+        Assert.Contains("noopener", link.GetAttribute("rel"));
+    }
+
+    [Fact]
+    public void Render_PlacesTheBetaAlertAboveTheContent_AndBelowTheIntro()
+    {
+        var cut = Render(beta: true);
+
+        var markup = cut.Markup;
+        Assert.True(markup.IndexOf("TwCard is a Blazor card component.", StringComparison.Ordinal) < markup.IndexOf("may have bugs", StringComparison.Ordinal));
+        Assert.True(markup.IndexOf("may have bugs", StringComparison.Ordinal) < markup.IndexOf("id=\"body\"", StringComparison.Ordinal));
+    }
+
+    [Fact]
+    public void Render_StillRendersTheContent_WhenBeta()
+    {
+        var cut = Render(beta: true);
+
+        Assert.Equal("Body", cut.Find("#body").TextContent);
     }
 
     [Fact]

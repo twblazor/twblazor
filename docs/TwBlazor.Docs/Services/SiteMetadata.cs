@@ -17,6 +17,16 @@ internal static partial class SiteMetadata
     public const string BaseUrl = "https://twblazor.com";
 #pragma warning restore S1075
 
+    /// <summary>
+    /// Where bugs found in a beta component should be reported.
+    /// </summary>
+#pragma warning disable S1075 // The project's fixed issue tracker, not environment-specific
+    public const string IssuesUrl = "https://github.com/twblazor/twblazor/issues";
+#pragma warning restore S1075
+
+    /// <summary>
+    /// The site name.
+    /// </summary>
     public const string SiteName = "twblazor";
 
     public const string Locale = "en_GB";

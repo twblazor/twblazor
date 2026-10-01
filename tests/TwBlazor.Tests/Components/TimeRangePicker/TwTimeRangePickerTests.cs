@@ -25,6 +25,19 @@ public class TwTimeRangePickerTests : TwBlazorTestBase
         cut.FindAll("button[role='tab']").First(b => b.TextContent.Trim() == label).GetAttribute("aria-selected") == "true";
 
     [Fact]
+    public void FocusingInput_PositionsPanelAsFixed_AnchoredToTheInputRoot()
+    {
+        // Regression test - see the identical test on TwTimePickerTests for the full rationale.
+        var cut = TestContext.Render<TwTimeRangePicker>();
+
+        cut.Find("input").Focus();
+
+        var invocation = Assert.Single(TestContext.JSInterop.Invocations, i => i.Identifier == "twPicker.registerScrollReposition");
+        Assert.IsType<ElementReference>(invocation.Arguments[0]);
+        Assert.IsType<ElementReference>(invocation.Arguments[1]);
+    }
+
+    [Fact]
     public void RendersOneMergedInput()
     {
         // Arrange & Act

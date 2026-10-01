@@ -1,62 +1,82 @@
-﻿@namespace TwBlazor.Components
+@namespace TwBlazor.Components
 @inherits TwBlazorComponentBase
 
-@if (!string.IsNullOrWhiteSpace(Href))
+@{
+    RenderFragment control = @<text>
+    @if (!string.IsNullOrWhiteSpace(Href))
+    {
+        <TwLink Id="@Id"
+                Href="@Href"
+                Target="@Target"
+                Class="@classes"
+                Style="@Style"
+                Attributes="@linkAttributes"
+                AriaLabel="@AriaLabel"
+                AriaLabelledBy="@AriaLabelledBy">
+            @if (StartIcon.HasValue)
+            {
+                <TwIcon Icon="@StartIcon.Value" Class="@startIconClasses" />
+            }
+            @if (ChildContent != null)
+            {
+                @ChildContent
+            }
+            else
+            {
+                @Label
+            }
+            @if (EndIcon.HasValue)
+            {
+                <TwIcon Icon="@EndIcon.Value" Class="@endIconClasses" />
+            }
+        </TwLink>
+    }
+    else
+    {
+        <button type="@Type"
+                id="@Id"
+                @ref="element"
+                @onclick="OnClickAsync"
+                class="@classes"
+                style="@Style"
+                disabled="@Disabled"
+                aria-disabled="@(Readonly && !Disabled ? "true" : null)"
+                aria-describedby="@(hasTooltip ? tooltipId : null)"
+                @attributes="@Attributes"
+                aria-label="@AriaLabel"
+                aria-labelledby="@AriaLabelledBy">
+            @if (StartIcon.HasValue)
+            {
+                <TwIcon Icon="@StartIcon.Value" Class="@startIconClasses" />
+            }
+            @if (ChildContent != null)
+            {
+                @ChildContent
+            }
+            else
+            {
+                @Label
+            }
+            @if (EndIcon.HasValue)
+            {
+                <TwIcon Icon="@EndIcon.Value" Class="@endIconClasses" />
+            }
+        </button>
+    }
+    </text>;
+}
+
+@if (hasTooltip)
 {
-    <TwLink Id="@Id" 
-            Href="@Href" 
-            Target="@Target" 
-            Class="@classes" 
-            Style="@Style"
-            Attributes="@Attributes" 
-            AriaLabel="@AriaLabel"
-            AriaLabelledBy="@AriaLabelledBy">
-        @if (StartIcon.HasValue)
-        {
-            <TwIcon Icon="@StartIcon.Value" Class="@startIconClasses" />
-        }
-        @if (ChildContent != null)
-        {
-            @ChildContent
-        }
-        else
-        {
-            @Label
-        }
-        @if (EndIcon.HasValue)
-        {
-            <TwIcon Icon="@EndIcon.Value" Class="@endIconClasses" />
-        }
-    </TwLink>
+    <span class="@tooltipWrapperClasses"
+          @onkeydown="OnTooltipKeyDown"
+          @onmouseleave="ResetTooltipDismissal"
+          @onfocusout="ResetTooltipDismissal">
+        @control
+        <span id="@tooltipId" role="tooltip" class="@tooltipClasses">@Tooltip</span>
+    </span>
 }
 else
 {
-    <button type="@Type"
-            id="@Id"
-            @ref="element"
-            @onclick="OnClickAsync"
-            class="@classes"
-            style="@Style"
-            disabled="@Disabled"
-            aria-disabled="@(Readonly && !Disabled ? "true" : null)"
-            @attributes="@Attributes"
-            aria-label="@AriaLabel"
-            aria-labelledby="@AriaLabelledBy">
-        @if (StartIcon.HasValue)
-        {
-            <TwIcon Icon="@StartIcon.Value" Class="@startIconClasses" />
-        }
-        @if (ChildContent != null)
-        {
-            @ChildContent
-        }
-        else
-        {
-            @Label
-        }
-        @if (EndIcon.HasValue)
-        {
-            <TwIcon Icon="@EndIcon.Value" Class="@endIconClasses" />
-        }
-    </button>
+    @control
 }

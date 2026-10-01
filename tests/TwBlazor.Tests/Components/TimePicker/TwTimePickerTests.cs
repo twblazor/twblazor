@@ -20,6 +20,23 @@ public class TwTimePickerTests : TwBlazorTestBase
     }
 
     [Fact]
+    public void FocusingInput_PositionsPanelAsFixed_AnchoredToTheInputRoot()
+    {
+        // Regression test: the popover panel must be positioned via twPicker.registerScrollReposition
+        // (which applies twPicker.positionPanelFixed itself - position:fixed, anchored via
+        // JS-computed coordinates), so it isn't clipped when the picker is used inside a scrollable
+        // ancestor such as a TwDialog's body - previously this panel had no dynamic positioning at
+        // all, just static CSS.
+        var cut = TestContext.Render<TwTimePicker>();
+
+        cut.Find("input[type='text']").Focus();
+
+        var invocation = Assert.Single(TestContext.JSInterop.Invocations, i => i.Identifier == "twPicker.registerScrollReposition");
+        Assert.IsType<ElementReference>(invocation.Arguments[0]);
+        Assert.IsType<ElementReference>(invocation.Arguments[1]);
+    }
+
+    [Fact]
     public void TwTimePicker_RendersWithDefaultValues()
     {
         // Act

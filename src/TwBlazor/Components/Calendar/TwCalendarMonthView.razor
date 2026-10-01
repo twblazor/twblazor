@@ -1,0 +1,111 @@
+@namespace TwBlazor.Components
+@typeparam T
+@inherits TwBlazorComponentBase
+
+@{ var weekRows = GetWeekRows(); }
+<table id="@Id" class="@(new TwBlazor.Utilities.ClassBuilder(theme.MonthGrid).AddClass(Class).Build())" style="@Style" role="grid" aria-label="@Date.ToString("MMMM yyyy")" @ref="gridRef" @onkeydown="OnGridKeyDownAsync">
+    <colgroup>
+        @for (var col = 0; col < 7; col++)
+        {
+            <col style="width:14.2857%" />
+        }
+    </colgroup>
+    <thead>
+        <tr role="row">
+            @foreach (var header in TwBlazor.Utilities.DateHelpers.GetWeekdayHeaders())
+            {
+                <th scope="col" role="columnheader" class="@theme.DayColumnHeader">@header</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @for (var row = 0; row < weekRows.Count; row++)
+        {
+            var rowSegments = GetRowSegments(weekRows[row]);
+            <tr role="row">
+                @for (var col = 0; col < 7; col++)
+                {
+                    var day = weekRows[row][col];
+                    var cellIndex = row * 7 + col;
+                    var laneSlots = GetLaneSlotCount(rowSegments, col);
+                    var dayEvents = GetDayEvents(day);
+                    var visibleEvents = dayEvents.Take(Math.Max(0, maxVisiblePerCell - laneSlots)).ToList();
+                    var overflowCount = dayEvents.Count - visibleEvents.Count;
+
+                    <td class="@GetCellClasses(day)" role="gridcell" @ondragenter="@(() => OnDayDragEnterAsync(day))" @ondragenter:preventDefault="Editable" @ondragover="@(() => { })" @ondragover:preventDefault="Editable" @ondrop="@(() => OnDayDropAsync(day))">
+                        <button type="button"
+                                class="@dayNumberClasses"
+                                tabindex="@(cellIndex == focusedIndex ? "0" : "-1")"
+                                aria-label="@day.ToString("MMMM d, yyyy")"
+                                @ref="GetDayCellRef(cellIndex).Element"
+                                @onclick="@(() => OnDayClickedAsync(day))">
+                            @day.Day
+                        </button>
+                        <div class="@eventListClasses">
+                            @for (var lane = 0; lane < laneSlots; lane++)
+                            {
+                                var spanning = GetSegmentStartingAt(rowSegments, col, lane);
+                                if (spanning is not { } segment)
+                                {
+                                    <div class="@spacerClasses" aria-hidden="true"></div>
+                                    continue;
+                                }
+
+                                <button type="button"
+                                        class="@GetSegmentClasses(segment)"
+                                        style="@GetSegmentStyle(segment)"
+                                        aria-label="@GetSegmentLabel(segment.Event)"
+                                        draggable="@(IsDraggable(segment.Event) ? "true" : "false")"
+                                        @ondragstart="@(() => OnChipDragStartAsync(segment.Event))"
+                                        @ondragend="OnChipDragEndAsync"
+                                        @onclick="@(() => OnEventClickedAsync(segment.Event))">
+                                    @if (EventContentTemplate is not null)
+                                    {
+                                        @EventContentTemplate(segment.Event)
+                                    }
+                                    else
+                                    {
+                                        <span class="@nameClasses">@segment.Event.Name</span>
+                                    }
+                                </button>
+                            }
+                            @foreach (var evt in visibleEvents)
+                            {
+                                <button type="button"
+                                        class="@GetEventRowClasses(evt)"
+                                        style="@GetEventRowStyle(evt)"
+                                        aria-label="@($"{evt.Name}, {GetStartTimeLabel(evt)}")"
+                                        draggable="@(IsDraggable(evt) ? "true" : "false")"
+                                        @ondragstart="@(() => OnChipDragStartAsync(evt))"
+                                        @ondragend="OnChipDragEndAsync"
+                                        @onclick="@(() => OnEventClickedAsync(evt))">
+                                    @if (EventContentTemplate is not null)
+                                    {
+                                        @EventContentTemplate(evt)
+                                    }
+                                    else
+                                    {
+                                        <span class="@nameClasses">@evt.Name</span>
+                                        <span class="@timeClasses">@GetStartTimeLabel(evt)</span>
+                                    }
+                                </button>
+                            }
+                            @if (IsDropTarget(day))
+                            {
+                                <div class="@placeholderClasses" style="height:1.5rem;" aria-hidden="true">
+                                    <span class="@nameClasses">@DraggedEvent!.Name</span>
+                                </div>
+                            }
+                            @if (overflowCount > 0)
+                            {
+                                <button type="button" class="@overflowLabelClasses" @onclick="@(() => OnDayClickedAsync(day))">
+                                    +@overflowCount more
+                                </button>
+                            }
+                        </div>
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>

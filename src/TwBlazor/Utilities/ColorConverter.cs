@@ -1,12 +1,14 @@
 // Copyright (c) 2025 Jack Shuter @ TwBlazor - twblazor.com
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
+using System.Text.RegularExpressions;
+
 namespace TwBlazor.Utilities;
 
 /// <summary>
 /// Provides utility methods for converting between different color format representations (Hex, RGB, HSL).
 /// </summary>
-public static class ColorConverter
+public static partial class ColorConverter
 {
     private const string defaultRgb = "rgb(0, 0, 0)";
     private const string defaultHsl = "hsl(0, 0%, 0%)";
@@ -314,4 +316,98 @@ public static class ColorConverter
         if (t < 2.0 / 3.0) return p + (q - p) * (2.0 / 3.0 - t) * 6;
         return p;
     }
+
+    /// <summary>
+    /// Whether <paramref name="color"/> is a well-formed 3, 6 or 8 digit hex color with a leading <c>#</c>.
+    /// </summary>
+    /// <param name="color">The value to check.</param>
+    /// <returns><see langword="true"/> when the value is a valid hex color.</returns>
+    internal static bool IsValidHex(string? color) =>
+        !string.IsNullOrWhiteSpace(color) && HexColorRegex().IsMatch(color);
+
+    /// <summary>
+    /// Expands a 3 digit hex color (e.g. <c>#abc</c>) to 6 digits (<c>#aabbcc</c>); other lengths are returned unchanged.
+    /// </summary>
+    /// <param name="hex">A valid hex color.</param>
+    /// <returns>The hex color with shorthand expanded.</returns>
+    internal static string ExpandShortHex(string hex) =>
+        hex.Length == 4 ? $"#{hex[1]}{hex[1]}{hex[2]}{hex[2]}{hex[3]}{hex[3]}" : hex;
+
+    /// <summary>
+    /// Lays <paramref name="top"/> over <paramref name="bottom"/> at <paramref name="amount"/> (0-1), per channel.
+    /// </summary>
+    /// <param name="bottom">The underlying RGB color (0-255 per channel).</param>
+    /// <param name="top">The overlaid RGB color (0-255 per channel).</param>
+    /// <param name="amount">How much of <paramref name="top"/> shows through, from 0 to 1.</param>
+    /// <returns>The blended color.</returns>
+    internal static (double R, double G, double B) Mix((double R, double G, double B) bottom, (double R, double G, double B) top, double amount) =>
+        (bottom.R + ((top.R - bottom.R) * amount), bottom.G + ((top.G - bottom.G) * amount), bottom.B + ((top.B - bottom.B) * amount));
+
+    /// <summary>
+    /// The WCAG contrast ratio (1 to 21) between two RGB colors.
+    /// </summary>
+    /// <param name="a">The first RGB color (0-255 per channel).</param>
+    /// <param name="b">The second RGB color (0-255 per channel).</param>
+    /// <returns>The contrast ratio, the same in either order.</returns>
+    internal static double GetContrastRatio((double R, double G, double B) a, (double R, double G, double B) b)
+    {
+        var la = GetRelativeLuminance(a);
+        var lb = GetRelativeLuminance(b);
+        return (Math.Max(la, lb) + 0.05) / (Math.Min(la, lb) + 0.05);
+    }
+
+    /// <summary>
+    /// The WCAG relative luminance (0 to 1) of an RGB color.
+    /// </summary>
+    /// <param name="color">The RGB color (0-255 per channel).</param>
+    /// <returns>The relative luminance.</returns>
+    internal static double GetRelativeLuminance((double R, double G, double B) color)
+    {
+        static double Channel(double value)
+        {
+            var v = value / 255d;
+            return v <= 0.03928 ? v / 12.92 : Math.Pow((v + 0.055) / 1.055, 2.4);
+        }
+
+        return (0.2126 * Channel(color.R)) + (0.7152 * Channel(color.G)) + (0.0722 * Channel(color.B));
+    }
+
+    /// <summary>
+    /// Finds text for a tinted background: the least-shifted blend of <paramref name="color"/> towards
+    /// <paramref name="target"/> that, shown at <paramref name="textOpacity"/>, still reaches
+    /// <paramref name="minContrast"/> against <paramref name="color"/> tinted over <paramref name="surface"/>.
+    /// </summary>
+    /// <param name="color">The base RGB color (0-255 per channel).</param>
+    /// <param name="tintAlpha">The opacity (0-1) the base color is laid over the surface at to make the background.</param>
+    /// <param name="surface">The RGB color behind the tint.</param>
+    /// <param name="target">The RGB color to shift towards: black for a light surface, white for a dark one.</param>
+    /// <param name="textOpacity">The opacity (0-1) the text is finally rendered at.</param>
+    /// <param name="minContrast">The contrast ratio to reach.</param>
+    /// <returns>The text color as a lowercase 6 digit hex string.</returns>
+    internal static string GetReadableTextHex(
+        (double R, double G, double B) color,
+        double tintAlpha,
+        (double R, double G, double B) surface,
+        (double R, double G, double B) target,
+        double textOpacity,
+        double minContrast)
+    {
+        var background = Mix(surface, color, tintAlpha);
+        var text = color;
+
+        for (var step = 0; step <= 40; step++)
+        {
+            text = Mix(color, target, step / 40d);
+
+            if (GetContrastRatio(Mix(background, text, textOpacity), background) >= minContrast)
+            {
+                break;
+            }
+        }
+
+        return $"#{(int)Math.Round(text.R):x2}{(int)Math.Round(text.G):x2}{(int)Math.Round(text.B):x2}";
+    }
+
+    [GeneratedRegex("^#[0-9A-Fa-f]{3}([0-9A-Fa-f]{3}([0-9A-Fa-f]{2})?)?$")]
+    private static partial Regex HexColorRegex();
 }

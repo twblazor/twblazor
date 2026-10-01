@@ -59,6 +59,37 @@ public class TwDatePickerTests : TwBlazorTestBase
     }
 
     [Fact]
+    public void FocusingInput_PositionsPanelAsFixed_AnchoredToTheInputRoot()
+    {
+        // Regression test: the popover panel must be positioned via twPicker.registerScrollReposition
+        // (which applies twPicker.positionPanelFixed itself - position:fixed, anchored to the input
+        // root via JS-computed coordinates) rather than the old twPicker.positionPanel
+        // (position:absolute), so it isn't clipped when the picker is used inside a scrollable
+        // ancestor such as a TwDialog's body.
+        var cut = TestContext.Render<TwDatePicker>(p => p
+            .Add(x => x.SelectedDate, new DateTime(2025, 11, 1)));
+
+        cut.Find("input").Focus();
+
+        var invocation = Assert.Single(TestContext.JSInterop.Invocations, i => i.Identifier == "twPicker.registerScrollReposition");
+        Assert.IsType<ElementReference>(invocation.Arguments[0]);
+        Assert.IsType<ElementReference>(invocation.Arguments[1]);
+        Assert.DoesNotContain(TestContext.JSInterop.Invocations, i => i.Identifier == "twPicker.positionPanel");
+    }
+
+    [Fact]
+    public async Task Closing_UnregistersScrollReposition()
+    {
+        var cut = TestContext.Render<TwDatePicker>(p => p
+            .Add(x => x.SelectedDate, new DateTime(2025, 11, 1)));
+
+        cut.Find("input").Focus();
+        await cut.Instance.Close();
+
+        Assert.Contains(TestContext.JSInterop.Invocations, i => i.Identifier == "twPicker.unregisterScrollReposition");
+    }
+
+    [Fact]
     public void ClickingDay_SelectsDate_And_InvokesCallbacks()
     {
         // Arrange

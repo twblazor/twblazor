@@ -28,6 +28,22 @@
         </CodeExample>
     </PageCard>
 
+    <PageCard Title="Icon Button Tooltips">
+        <Description>
+            Set <code>Tooltip</code> on an icon button to explain what it does on hover and keyboard focus.
+            The tooltip is a <code>role="tooltip"</code> element linked via <code>aria-describedby</code>, and
+            can be dismissed with <kbd>Escape</kbd>. Keep providing an <code>AriaLabel</code>, since the tooltip
+            only supplements the button's accessible name. It has no effect on a non-interactive icon (no
+            <code>OnClick</code>), which can't receive focus.
+        </Description>
+        <CodeExample Name="IconTooltips">
+            <div class="d-flex gap-3 align-items-center mb-3">
+                <TwIcon Icon="Icon.Trash" Class="text-xl p-2" OnClick="DeleteIconClicked" AriaLabel="Delete" Tooltip="Delete item" />
+                <TwIcon Icon="Icon.Share" Class="text-xl p-2" OnClick="ShareIconClicked" AriaLabel="Share" Tooltip="Share with others" />
+            </div>
+        </CodeExample>
+    </PageCard>
+
     <PageCard Title="Icon Size">
         <Description>You can control icon sizes using <a href="https://tailwindcss.com/docs/font-size" target="_blank">Tailwind CSS font size</a> classes or passing in your owm.</Description>
         <CodeExample Name="IconSize">

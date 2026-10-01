@@ -1,0 +1,122 @@
+@namespace TwBlazor.Components
+@using TwBlazor.Enums
+@typeparam T
+@inherits TwBlazorComponentBase
+
+<div id="@Id" class="@containerClasses" style="@Style" @attributes="Attributes">
+    <div class="@headerClasses">
+        <div class="@headerLeadClasses">
+            <div class="@headerDateGroupClasses">
+                <div class="@headerTitleRowClasses">
+                    <span class="@headerTitleClasses">@headerTitle</span>
+                    <TwChip Label="@weekChipLabel" Color="Color.Primary" Variant="ButtonVariant.Outlined" Size="ChipSize.Small" />
+                </div>
+                <div class="@headerSubtitleClasses">@headerSubtitle</div>
+            </div>
+            <TwButton Label="Today" Color="Color.Primary" Dense StartIcon="Icon.Pin" OnClick="TodayAsync" />
+        </div>
+        <div class="@headerControlsClasses">
+            @if (OnSearch.HasDelegate)
+            {
+                <TwIcon Icon="Icon.Search" OnClick="OnSearchClickedAsync" AriaLabel="Search events" Tooltip="Search events" Class="@theme.SearchButton" />
+            }
+            <TwIcon Icon="Icon.Chevron_Left" OnClick="PreviousAsync" AriaLabel="Previous" Tooltip="@previousTooltip" Class="@GetNavButtonClasses()" />
+            <TwIcon Icon="Icon.Chevron_Right" OnClick="NextAsync" AriaLabel="Next" Tooltip="@nextTooltip" Class="@GetNavButtonClasses()" />
+            @if (showViewSwitcher)
+            {
+            <div class="@viewSwitcherClasses" role="radiogroup" aria-label="Select view">
+                @if (IsViewEnabled(TwCalendarView.Day))
+                {
+                <TwIcon Icon="@(currentView == TwCalendarView.Day ? Icon.Calendar_Day_Fill : Icon.Calendar_Day)"
+                        Color="@(currentView == TwCalendarView.Day ? Color.Primary : null)"
+                        OnClick="@(() => SetViewAsync(TwCalendarView.Day))"
+                        AriaLabel="Day view"
+                        Tooltip="Day view"
+                        Class="@GetViewButtonClasses(TwCalendarView.Day)"
+                        aria-pressed="@(currentView == TwCalendarView.Day ? "true" : "false")" />
+                }
+                @if (IsViewEnabled(TwCalendarView.Week))
+                {
+                <TwIcon Icon="@(currentView == TwCalendarView.Week ? Icon.Calendar_Week_Fill : Icon.Calendar_Week)"
+                        Color="@(currentView == TwCalendarView.Week ? Color.Primary : null)"
+                        OnClick="@(() => SetViewAsync(TwCalendarView.Week))"
+                        AriaLabel="Week view"
+                        Tooltip="Week view"
+                        Class="@GetViewButtonClasses(TwCalendarView.Week)"
+                        aria-pressed="@(currentView == TwCalendarView.Week ? "true" : "false")" />
+                }
+                @if (IsViewEnabled(TwCalendarView.Month))
+                {
+                <TwIcon Icon="@(currentView == TwCalendarView.Month ? Icon.Calendar_Month_Fill : Icon.Calendar_Month)"
+                        Color="@(currentView == TwCalendarView.Month ? Color.Primary : null)"
+                        OnClick="@(() => SetViewAsync(TwCalendarView.Month))"
+                        AriaLabel="Month view"
+                        Tooltip="Month view"
+                        Class="@GetViewButtonClasses(TwCalendarView.Month)"
+                        aria-pressed="@(currentView == TwCalendarView.Month ? "true" : "false")" />
+                }
+            </div>
+            }
+            @if (Editable)
+            {
+                <TwButton Label="Add event" StartIcon="Icon.Plus" Color="Color.Primary" Class="@theme.AddButton" OnClick="@(() => StartCreateEventAsync(SelectedDate.Date.AddHours(9)))" />
+            }
+        </div>
+    </div>
+
+    @if (currentView == TwCalendarView.Day)
+    {
+        <TwCalendarDayView T="T"
+                            Date="SelectedDate"
+                            Schedules="Schedules"
+                            Editable="Editable"
+                            MaxHeight="@MaxHeight"
+                            ScrollToTime="ScrollToTime"
+                            EventContentTemplate="EventContentTemplate"
+                            OnSlotClick="StartCreateEventAsync"
+                            OnEventClick="OnEventClickedAsync"
+                            OnEventDragStart="OnEventDragStartAsync"
+                            OnEventDragOver="OnEventDragOver"
+                            OnEventDragEnd="OnEventDragEnd"
+                            OnEventDrop="OnEventDropAsync"
+                            DraggedEvent="activeDraggedEvent"
+                            DropPreview="dropPreview" />
+    }
+    else if (currentView == TwCalendarView.Week)
+    {
+        <TwCalendarWeekView T="T"
+                             Date="SelectedDate"
+                             Schedules="Schedules"
+                             Editable="Editable"
+                             MaxHeight="@MaxHeight"
+                             ScrollToTime="ScrollToTime"
+                             EventContentTemplate="EventContentTemplate"
+                             OnSlotClick="StartCreateEventAsync"
+                             OnEventClick="OnEventClickedAsync"
+                             HighlightDate="highlightDate"
+                             OnDayHeaderClick="SwitchToDayAsync"
+                             OnEventDragStart="OnEventDragStartAsync"
+                             OnEventDragOver="OnEventDragOver"
+                             OnEventDragEnd="OnEventDragEnd"
+                             OnEventDrop="OnEventDropAsync"
+                             DraggedEvent="activeDraggedEvent"
+                             DropPreview="dropPreview" />
+    }
+    else
+    {
+        <TwCalendarMonthView T="T"
+                              Date="SelectedDate"
+                              Schedules="Schedules"
+                              Editable="Editable"
+                              HighlightDate="highlightDate"
+                              EventContentTemplate="EventContentTemplate"
+                              OnDayClick="SwitchToDayAsync"
+                              OnEventClick="OnEventClickedAsync"
+                              OnEventDragStart="OnEventDragStartAsync"
+                              OnEventDragOver="OnEventDragOver"
+                              OnEventDragEnd="OnEventDragEnd"
+                              OnEventDrop="OnEventDropAsync"
+                              DraggedEvent="activeDraggedEvent"
+                              DropPreview="dropPreview" />
+    }
+</div>

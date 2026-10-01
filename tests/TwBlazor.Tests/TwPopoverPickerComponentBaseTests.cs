@@ -1,6 +1,7 @@
 using Bunit;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
+using Microsoft.JSInterop;
 using TwBlazor.Components;
 
 namespace TwBlazor.Tests;
@@ -69,6 +70,126 @@ public class TwPopoverPickerComponentBaseTests : TwBlazorTestBase
         // Assert
         Assert.DoesNotContain(TestContext.JSInterop.Invocations, i => i.Identifier == "twDialog.focusSurface");
     }
+
+    [Fact]
+    public async Task ReleasePanelTrapAsync_UnregistersScrollReposition_ForEveryDerivedPicker()
+    {
+        // Regression test: this is the one shared cleanup path every popover picker (date, date
+        // range, date-time range, time, time range, select, color) closes through, so unregistering
+        // the scroll/resize listener registered alongside twPicker.positionPanelFixed belongs here
+        // once rather than being duplicated per picker.
+        var cut = TestContext.Render<TestPopoverPickerComponent>();
+
+        await cut.Instance.ReleaseTrapAsync();
+
+        Assert.Contains(TestContext.JSInterop.Invocations, i => i.Identifier == "twPicker.unregisterScrollReposition");
+    }
+
+    [Fact]
+    public async Task RegisterPanelScrollBehaviorAsync_PassesADotNetObjectReference_SoJsCanCloseOnScroll()
+    {
+        // Regression test: twPicker.registerScrollReposition's desktop close-on-scroll path needs a
+        // callable reference back to this component to invoke its JSInvokable Close() method - this
+        // is the one shared place (used by every popover picker) that supplies it, so it belongs
+        // here once rather than being duplicated per picker.
+        var cut = TestContext.Render<TestPopoverPickerComponent>();
+        var panel = new ElementReference();
+
+        await cut.Instance.RegisterScrollBehaviorAsync(panel);
+
+        var invocation = Assert.Single(TestContext.JSInterop.Invocations, i => i.Identifier == "twPicker.registerScrollReposition");
+        Assert.IsType<ElementReference>(invocation.Arguments[1]);
+        Assert.False((bool)invocation.Arguments[2]!);
+        Assert.IsType<DotNetObjectReference<TwPopoverPickerComponentBase>>(invocation.Arguments[3], exactMatch: false);
+    }
+
+    [Fact]
+    public async Task RegisterPanelScrollBehaviorAsync_ForwardsMatchAnchorWidth()
+    {
+        // TwSelect's options panel needs matchAnchorWidth=true so it spans the trigger's width -
+        // see the remarks on TwInputTheme.SelectPanelPosition.
+        var cut = TestContext.Render<TestPopoverPickerComponent>();
+        var panel = new ElementReference();
+
+        await cut.Instance.RegisterScrollBehaviorAsync(panel, matchAnchorWidth: true);
+
+        var invocation = Assert.Single(TestContext.JSInterop.Invocations, i => i.Identifier == "twPicker.registerScrollReposition");
+        Assert.True((bool)invocation.Arguments[2]!);
+    }
+
+    private static IEnumerable<string> InertCalls(BunitContext context) => context.JSInterop.Invocations
+        .Select(i => i.Identifier)
+        .Where(id => id is "twDialog.setBackgroundInert" or "twDialog.clearBackgroundInert");
+
+    [Fact]
+    public async Task ApplyPanelTrapAsync_TrapsFocusInPanel_ThenMakesBackgroundInert()
+    {
+        var cut = TestContext.Render<TestPopoverPickerComponent>();
+
+        await cut.Instance.ApplyTrapAsync(new ElementReference());
+
+        var identifiers = TestContext.JSInterop.Invocations.Select(i => i.Identifier).ToList();
+        Assert.True(identifiers.IndexOf("twDialog.trapFocus") < identifiers.IndexOf("twDialog.setBackgroundInert"));
+        Assert.Contains("twDialog.trapFocus", identifiers);
+    }
+
+    [Fact]
+    public async Task ClosedPanel_WhoseTrapWasReArmedDuringRelease_HasInertLiftedOnTheNextRender()
+    {
+        // Regression test: picking a date releases the trap (several awaited JS calls) while the
+        // component re-renders with the panel still open, and that render re-armed the trap after the
+        // release had cleared it. Nothing then lifted it, leaving a dialog's Save/Cancel buttons inert.
+        var cut = TestContext.Render<TestPopoverPickerComponent>();
+        var panel = new ElementReference();
+        cut.Instance.SetOpen(true);
+        await cut.Instance.ApplyTrapAsync(panel);
+
+        await cut.Instance.ReleaseTrapAsync();
+        await cut.Instance.ApplyTrapAsync(panel); // the interleaved render's late re-arm
+        cut.Instance.SetOpen(false);
+        await cut.Instance.RerenderAsync();
+
+        Assert.Equal("twDialog.clearBackgroundInert", InertCalls(TestContext).Last());
+    }
+
+    [Fact]
+    public async Task OpenPanel_IsNotClearedByARender()
+    {
+        var cut = TestContext.Render<TestPopoverPickerComponent>();
+        cut.Instance.SetOpen(true);
+        await cut.Instance.ApplyTrapAsync(new ElementReference());
+        var before = InertCalls(TestContext).Count();
+
+        await cut.Instance.RerenderAsync();
+
+        Assert.DoesNotContain("twDialog.clearBackgroundInert", InertCalls(TestContext).Skip(before));
+    }
+
+    [Fact]
+    public async Task ClosedPanel_NeverArmed_DoesNotTouchInert()
+    {
+        var cut = TestContext.Render<TestPopoverPickerComponent>();
+        var before = InertCalls(TestContext).Count();
+
+        await cut.Instance.RerenderAsync();
+
+        Assert.Empty(InertCalls(TestContext).Skip(before));
+    }
+
+    [Fact]
+    public async Task ClosedPanel_HasInertLiftedOnce_NotOnEveryLaterRender()
+    {
+        var cut = TestContext.Render<TestPopoverPickerComponent>();
+        cut.Instance.SetOpen(true);
+        await cut.Instance.ApplyTrapAsync(new ElementReference());
+        cut.Instance.SetOpen(false);
+        await cut.Instance.RerenderAsync();
+        var before = InertCalls(TestContext).Count();
+
+        await cut.Instance.RerenderAsync();
+
+        Assert.Empty(InertCalls(TestContext).Skip(before));
+    }
 }
 
 /// <summary>
@@ -83,6 +204,17 @@ public class TestPopoverPickerComponent : TwPopoverPickerComponentBase
     public ElementReference? TriggerInputRef => triggerInputRef;
 
     public Task ClickIconAsync() => OnIconClickAsync();
+
+    public Task ReleaseTrapAsync() => ReleasePanelTrapAsync();
+
+    public Task ApplyTrapAsync(ElementReference panel) => ApplyPanelTrapAsync(panel);
+
+    public void SetOpen(bool open) => isFocused = open;
+
+    public Task RerenderAsync() => InvokeAsync(StateHasChanged);
+
+    public Task RegisterScrollBehaviorAsync(ElementReference panel, bool matchAnchorWidth = false) =>
+        RegisterPanelScrollBehaviorAsync(panel, matchAnchorWidth);
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {

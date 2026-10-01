@@ -3,7 +3,10 @@
 @using TwBlazor.Components
 @using TwBlazor.Enums
 
-<PageContainer Title="TwButton" Path="/button" Description="TwButton is a Blazor button component. Use Variant, Color, StartIcon, EndIcon, Href, Disabled and IconButton, or group buttons horizontally or vertically." ThemeType="typeof(TwButtonTheme)">
+<PageContainer Title="TwButton" 
+    Path="/button" 
+    Description="TwButton is a Blazor button component. Use Variant, Color, StartIcon, EndIcon, Href, Disabled and IconButton, or group buttons horizontally or vertically." 
+    ThemeType="typeof(TwButtonTheme)">
     <PageCard Title="Buttons">
         <Description>Usage of the button component is simple, you can use it to trigger actions. Below are some common actions:</Description>
 
@@ -21,6 +24,25 @@
         <CodeExample Name="ButtonIconOnly" CSharpName="ButtonIconOnlyCode">
             <TwButtonGroup>
                 <TwIcon Icon="@(darkMode ? Icon.Sun : Icon.Moon)" AriaLabel="Set light mode" OnClick="ToggleMode" Color="@(darkMode ? Color.Dark : Color.Light)" ButtonVariant="ButtonVariant.Filled" />
+            </TwButtonGroup>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Tooltips">
+        <Description>
+            Set <code>Tooltip</code> to show a short description when the button is hovered or
+            keyboard-focused. It renders a <code>role="tooltip"</code> element linked to the button with
+            <code>aria-describedby</code>, stays visible while the pointer moves onto it, and can be
+            dismissed with <kbd>Escape</kbd>. A tooltip only supplements the accessible name, so icon-only
+            buttons still need an <code>AriaLabel</code>. The same <code>Tooltip</code> property works on an
+            icon button (<code>TwIcon</code> with <code>OnClick</code>).
+        </Description>
+
+        <CodeExample Name="ButtonTooltip">
+            <TwButtonGroup>
+                <TwButton Label="Save" Color="Color.Primary" StartIcon="Icon.Save" Tooltip="Save your changes" />
+                <TwButton Label="Delete" Variant="ButtonVariant.Outlined" Color="Color.Danger" Tooltip="This cannot be undone" />
+                <TwIcon Icon="Icon.Question_Circle" AriaLabel="Help" Tooltip="Open the help centre" OnClick="@(() => { /* your action */ })" />
             </TwButtonGroup>
         </CodeExample>
     </PageCard>
