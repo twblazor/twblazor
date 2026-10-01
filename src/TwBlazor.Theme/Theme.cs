@@ -796,7 +796,7 @@ public static class Theme
                 },
                 new TwDatePickerTheme
                 {
-                    Header = $"{typography.AlignCenter} {typography.Weight.Medium} {transparentBackground} {rounded.RoundedTop.Lg} border-b {neutralSurface.BorderStrong}",
+                    Header = $"{typography.AlignCenter} {typography.Weight.Medium} {overlayTheme.PopoverBackground} {rounded.RoundedTop.Lg} border-b {neutralSurface.BorderStrong}",
                     WeekdaysHeader = $"{display.Flex} {anchor.Center} h-8 {typography.Size.Xs} {typography.Weight.Semibold} tracking-wide {text.Medium.Primary} {darkText.Light.Primary}",
                     Base = $"{positioning.Fixed} z-120 {flexbox.Row} md:flex-row {flexbox.Align.Center} mt-1 px-2 pb-2 {typography.AlignCenter} {typography.Size.Sm} {typography.Weight.Medium} {transition.ColorsFast} {interaction.PointerCursor}",
                     ActiveClass = "bg-purple-50 dark:bg-purple-500/30",
@@ -1216,6 +1216,7 @@ public static class Theme
                     EventChipReadOnly = $"{interaction.ReadonlyCursor} opacity-90",
                     EventChipDraggable = "cursor-grab active:cursor-grabbing",
                     DropPlaceholder = $"{overflow.Hidden} {rounded.Sm} border-2 border-dashed {borderColors.Primary} {background.Lightest.Primary} {darkBackground.Dark.Primary} {text.Dark.Primary} {darkText.Light.Primary} {typography.Size.Xs} opacity-70 z-10",
+                    TodayHighlight = $"animate-pulse [animation-iteration-count:1] {background.Light.Primary} dark:bg-purple-500/50",
                     AllDayRow = $"border-b {neutralSurface.Border}",
                     AllDayLabel = $"{flexbox.ShrinkNone} w-16 {spacing.Padding.Sm} text-right {typography.Size.Xs} {neutralText.Subtle}",
                     AllDayGrid = "gap-y-1 py-1",
@@ -1233,7 +1234,7 @@ public static class Theme
                     MonthEventName = $"{typography.Size.Xs} {typography.Weight.Semibold} truncate",
                     MonthEventTime = $"{typography.Size.Xs} opacity-75 {flexbox.ShrinkNone}",
                     MonthOverflowLabel = $"{typography.Size.Xs} {neutralText.Subtle} {interaction.PointerCursor}",
-                    EventDialogFields = $"{display.Flex} {flexbox.Col} {spacing.Gap.Xl}",
+                    EventDialogFields = $"{display.Flex} {flexbox.Col} {spacing.Gap.Xl} -mt-3",
                     EventDialogActions = $"{display.Flex} {flexbox.Justify.End} {spacing.Gap.Md} {spacing.MarginTop.Xl}",
                     EventDialogAccent = $"h-1 {sizing.FullWidth} {rounded.Full} {background.Medium.Primary}",
                     EventDialogDateRow = $"{display.Grid} grid-cols-1 sm:grid-cols-2 {spacing.Gap.Xl}",

@@ -79,6 +79,12 @@ public partial class TwCalendarWeekView<T> : TwBlazorComponentBase, IAsyncDispos
     [Parameter] public EventCallback<DateTime> OnEventDrop { get; set; }
 
     /// <summary>
+    /// A day whose column pulses, used to draw the eye to today after "Today" is pressed. Leave
+    /// <see langword="null"/> for no highlight.
+    /// </summary>
+    [Parameter] public DateTime? HighlightDate { get; set; }
+
+    /// <summary>
     /// Invoked with the start of the slot a dragged event is hovering. See <see cref="TwCalendarDayColumn{T}.OnEventDragOver"/>.
     /// </summary>
     [Parameter] public EventCallback<DateTime> OnEventDragOver { get; set; }
@@ -182,8 +188,9 @@ public partial class TwCalendarWeekView<T> : TwBlazorComponentBase, IAsyncDispos
         .AddClass(options.Theme.Interaction.PointerCursor, OnDayHeaderClick.HasDelegate)
         .Build();
 
-    private string dayColumnClasses => new ClassBuilder(options.Theme.Flexbox.Flex1)
+    private string GetDayColumnClasses(DateTime day) => new ClassBuilder(options.Theme.Flexbox.Flex1)
         .AddClass(theme.DayColumnDivider)
+        .AddClass(theme.TodayHighlight, HighlightDate?.Date == day.Date)
         .Build();
 
     private Task OnDayHeaderClickedAsync(DateTime day) => OnDayHeaderClick.InvokeAsync(day);

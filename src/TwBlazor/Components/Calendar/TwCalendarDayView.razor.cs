@@ -3,7 +3,6 @@
 
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using TwBlazor.Components.DatePicker;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Utilities;
 
@@ -11,10 +10,7 @@ namespace TwBlazor.Components;
 
 /// <summary>
 /// Renders a single day's time-slot grid (via <see cref="TwCalendarDayColumn{T}"/>) with an hourly
-/// time-label gutter on the left, plus a <see cref="TwDatePickerCalendar"/> mini-calendar on the right
-/// for quickly jumping to a different day - this is where the original spike's reuse of
-/// <see cref="TwDatePickerCalendar"/> ends up living once <see cref="TwCalendar{T}"/> grew its own
-/// Day/Week/Month views.
+/// time-label gutter on the left, under an all-day strip (<see cref="TwCalendarAllDayRow{T}"/>).
 /// </summary>
 /// <typeparam name="T">The type of <see cref="Schedule{T}.Value"/> for the events shown.</typeparam>
 public partial class TwCalendarDayView<T> : TwBlazorComponentBase, IAsyncDisposable
@@ -31,11 +27,6 @@ public partial class TwCalendarDayView<T> : TwBlazorComponentBase, IAsyncDisposa
     /// The day being displayed.
     /// </summary>
     [Parameter, EditorRequired] public DateTime Date { get; set; }
-
-    /// <summary>
-    /// The bound <see cref="Date"/> value; invoked when the mini-calendar picks a different day.
-    /// </summary>
-    [Parameter] public EventCallback<DateTime> DateChanged { get; set; }
 
     /// <summary>
     /// The full event list; filtered down to <see cref="Date"/> before being passed to the
@@ -96,12 +87,6 @@ public partial class TwCalendarDayView<T> : TwBlazorComponentBase, IAsyncDisposa
     [Parameter] public DateTime? DropPreview { get; set; }
 
     /// <summary>
-    /// When <see langword="true"/>, shows the mini-calendar beside the time grid. Defaults to
-    /// <see langword="false"/> - see <see cref="TwCalendar{T}.ShowDayCalendar"/>.
-    /// </summary>
-    [Parameter] public bool ShowCalendar { get; set; }
-
-    /// <summary>
     /// The CSS <c>max-height</c> of the scrollable time grid - see <see cref="TwCalendar{T}.MaxHeight"/>.
     /// </summary>
     [Parameter] public string MaxHeight { get; set; } = "40rem";
@@ -113,32 +98,6 @@ public partial class TwCalendarDayView<T> : TwBlazorComponentBase, IAsyncDisposa
 
     private ElementReference scrollContainerRef;
 
-    private DatePickerCalendarView miniCalendarView;
-
-    /// <summary>
-    /// The mini-calendar's own browsing position, kept separate from <see cref="Date"/> so navigating
-    /// its Previous/Next month controls doesn't jump the main day view until a day is actually
-    /// clicked - the same reasoning <see cref="TwDatePicker"/> documents for its own internal
-    /// anchor/selection split.
-    /// </summary>
-    private DateTime miniCalendarAnchor;
-
-    private DateTime trackedDate = DateTime.MinValue;
-
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-
-        // Re-seed the mini-calendar's anchor whenever Date changes from outside (including on first
-        // render), so browsing abandoned without picking a day doesn't linger the next time Date
-        // changes again from elsewhere (e.g. the header's Previous/Next/Today controls).
-        if (Date.Date != trackedDate)
-        {
-            trackedDate = Date.Date;
-            miniCalendarAnchor = Date;
-        }
-    }
-
     /// <summary>
     /// The timed events that touch <see cref="Date"/>, including ones that started the day before, which
     /// the day column clips to midnight. All-day and day-long events go in the strip above instead.
@@ -147,10 +106,9 @@ public partial class TwCalendarDayView<T> : TwBlazorComponentBase, IAsyncDisposa
 
     private IReadOnlyList<DateTime> allDayDays => [Date.Date];
 
-    private string gridColumnClasses => new ClassBuilder(options.Theme.Flexbox.Flex1)
-        .AddClass(options.Theme.Display.Flex)
+    private string containerClasses => new ClassBuilder(options.Theme.Display.Flex)
         .AddClass(options.Theme.Flexbox.Col)
-        .AddClass(options.Theme.Sizing.MinWidthNone)
+        .AddClass(Class)
         .Build();
 
     // items-start (rather than flexbox's default align-items:stretch) matters here: without it, the
@@ -193,20 +151,6 @@ public partial class TwCalendarDayView<T> : TwBlazorComponentBase, IAsyncDisposa
     {
         now = DateTime.Now;
         _ = InvokeAsync(StateHasChanged);
-    }
-
-    private void OnMiniCalendarAnchorChanged(DateTime date) => miniCalendarAnchor = date;
-
-    private Task OnMiniCalendarDaySelectedAsync(DateTime date) => SetDateAsync(date);
-
-    private async Task SetDateAsync(DateTime date)
-    {
-        Date = date;
-        miniCalendarAnchor = date;
-        if (DateChanged.HasDelegate)
-        {
-            await DateChanged.InvokeAsync(date);
-        }
     }
 
     /// <summary>

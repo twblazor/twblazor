@@ -51,7 +51,7 @@
                                       OnEventDrop="OnEventDrop"
                                       DraggedEvent="DraggedEvent"
                                       DropPreview="DropPreview"
-                                      Class="@dayColumnClasses" />
+                                      Class="@GetDayColumnClasses(day)" />
             }
             <div class="@theme.NowIndicatorLine" style="@nowOffsetStyle" aria-hidden="true">
                 @if (todayColumnIndex is int todayIndex)

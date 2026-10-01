@@ -1,10 +1,8 @@
 @namespace TwBlazor.Components
-@using TwBlazor.Components.DatePicker
 @typeparam T
 @inherits TwBlazorComponentBase
 
-<div id="@Id" class="@(new TwBlazor.Utilities.ClassBuilder(options.Theme.Display.Flex).AddClass(options.Theme.Flexbox.Col).AddClass("md:flex-row").AddClass(options.Theme.Spacing.Gap.Xl).AddClass(Class).Build())" style="@Style">
-    <div class="@gridColumnClasses">
+<div id="@Id" class="@containerClasses" style="@Style">
     <TwCalendarAllDayRow T="T"
                          Days="@allDayDays"
                          Schedules="Schedules"
@@ -44,16 +42,4 @@
             </div>
         </div>
     </div>
-    </div>
-    @if (ShowCalendar)
-    {
-        <div class="@options.Theme.Flexbox.ShrinkNone">
-            <TwDatePickerCalendar AnchorDate="miniCalendarAnchor"
-                                   AnchorDateChanged="OnMiniCalendarAnchorChanged"
-                                   SelectedDate="Date"
-                                   View="miniCalendarView"
-                                   ViewChanged="@((v) => miniCalendarView = v)"
-                                   DaySelected="OnMiniCalendarDaySelectedAsync" />
-        </div>
-    }
 </div>

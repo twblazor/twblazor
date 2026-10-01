@@ -16,7 +16,8 @@ public class TwCalendarTests : TwBlazorTestBase
         var selectedDate = new DateTime(2026, 3, 18); // Wednesday, 4th Monday-start week of March 2026
 
         var cut = TestContext.Render<TwCalendar<string>>(p => p
-            .Add(x => x.SelectedDate, selectedDate));
+            .Add(x => x.SelectedDate, selectedDate)
+            .Add(x => x.View, TwCalendarView.Month));
 
         Assert.Contains("March 2026", cut.Markup); // title
         Assert.Contains("Week 4", cut.Markup); // week-number chip
@@ -126,21 +127,230 @@ public class TwCalendarTests : TwBlazorTestBase
             .Add(x => x.SelectedDate, new DateTime(2020, 1, 1))
             .Add(x => x.SelectedDateChanged, EventCallback.Factory.Create<DateTime>(this, d => result = d)));
 
-        cut.Find("button[aria-label='Today']").Click();
+        FindTodayButton(cut).Click();
 
         Assert.Equal(DateTime.Today, result);
     }
 
+    private static AngleSharp.Dom.IElement FindTodayButton(IRenderedComponent<TwCalendar<string>> cut) =>
+        cut.FindAll("button").Single(b => b.TextContent.Trim() == "Today");
+
     [Fact]
-    public void TodayButton_IsAnIconButton_WithAccessibleNameAndTooltip()
+    public void TodayButton_IsAFilledPrimaryTextButton()
     {
         var cut = TestContext.Render<TwCalendar<string>>();
 
-        var todayButton = cut.Find("button[aria-label='Today']");
+        var today = FindTodayButton(cut);
 
-        Assert.NotEmpty(todayButton.QuerySelectorAll("i"));
-        Assert.Empty(todayButton.TextContent.Trim());
-        Assert.Equal("Today", cut.Find($"#{todayButton.GetAttribute("aria-describedby")}").TextContent);
+        Assert.Contains("bg-purple-600", today.GetAttribute("class")); // filled primary, not outlined
+        Assert.DoesNotContain("border", today.GetAttribute("class")!.Split(' ')); // not outlined
+        Assert.Null(today.GetAttribute("aria-describedby")); // its visible label needs no tooltip
+    }
+
+    [Fact]
+    public void TodayButton_IsDense_HasAPinIcon_AndFollowsTheTitle()
+    {
+        var cut = TestContext.Render<TwCalendar<string>>();
+
+        var today = FindTodayButton(cut);
+
+        Assert.Contains(Theme.Components.Require<TwBlazor.Configuration.Components.TwButtonTheme>().DensePadding, today.GetAttribute("class"));
+        Assert.NotNull(today.QuerySelector("i.bi-pin"));
+
+        var lead = today.ParentElement!;
+        var children = lead.Children.ToList();
+        Assert.True(children.IndexOf(today) > children.IndexOf(lead.QuerySelector("span.font-semibold")!.ParentElement!.ParentElement!));
+        Assert.Equal(today, children.Last());
+    }
+
+    [Theory]
+    [InlineData(TwCalendarView.Week)]
+    [InlineData(TwCalendarView.Month)]
+    public void PressingToday_PulsesTodaysColumnOrCell_AndOnlyThat(TwCalendarView view)
+    {
+        var cut = TestContext.Render<TwCalendar<string>>(p => p
+            .Add(x => x.SelectedDate, new DateTime(2020, 1, 1))
+            .Add(x => x.View, view));
+        Assert.Empty(cut.FindAll(".animate-pulse"));
+
+        FindTodayButton(cut).Click();
+
+        var pulsing = cut.FindAll(".animate-pulse");
+        var element = Assert.Single(pulsing);
+        var expectedDay = DateTime.Today.ToString("MMMM d, yyyy");
+        if (view == TwCalendarView.Month)
+        {
+            Assert.Equal("td", element.TagName.ToLowerInvariant());
+            Assert.NotNull(element.QuerySelector($"button[aria-label='{expectedDay}']"));
+        }
+        else
+        {
+            Assert.Equal(DateTime.Today.ToString("dddd, MMMM d"), element.GetAttribute("aria-label"));
+        }
+    }
+
+    [Fact]
+    public void PressingToday_InDayView_DoesNotPulseAnything()
+    {
+        var cut = TestContext.Render<TwCalendar<string>>(p => p
+            .Add(x => x.SelectedDate, new DateTime(2020, 1, 1))
+            .Add(x => x.View, TwCalendarView.Day));
+
+        FindTodayButton(cut).Click();
+
+        Assert.Empty(cut.FindAll(".animate-pulse"));
+    }
+
+    [Fact]
+    public void TodayHighlight_ClearsItselfAfterAFewSeconds()
+    {
+        var cut = TestContext.Render<TwCalendar<string>>(p => p
+            .Add(x => x.SelectedDate, DateTime.Today)
+            .Add(x => x.View, TwCalendarView.Week));
+
+        FindTodayButton(cut).Click();
+        Assert.Single(cut.FindAll(".animate-pulse"));
+
+        cut.WaitForAssertion(() => Assert.Empty(cut.FindAll(".animate-pulse")), TimeSpan.FromSeconds(5));
+    }
+
+    [Fact]
+    public void PressingTodayAgain_RestartsTheHighlight_InsteadOfClearingItEarly()
+    {
+        var cut = TestContext.Render<TwCalendar<string>>(p => p
+            .Add(x => x.SelectedDate, DateTime.Today)
+            .Add(x => x.View, TwCalendarView.Month));
+
+        FindTodayButton(cut).Click();
+        Thread.Sleep(1500);
+        FindTodayButton(cut).Click();
+        Thread.Sleep(1000); // 2.5s after the first press, 1s after the second
+
+        Assert.Single(cut.FindAll(".animate-pulse"));
+        cut.WaitForAssertion(() => Assert.Empty(cut.FindAll(".animate-pulse")), TimeSpan.FromSeconds(5));
+    }
+
+    [Fact]
+    public void DisposingTheCalendar_WhileHighlighted_DoesNotThrow()
+    {
+        var cut = TestContext.Render<TwCalendar<string>>(p => p.Add(x => x.View, TwCalendarView.Week));
+        FindTodayButton(cut).Click();
+
+        TestContext.Dispose();
+        Thread.Sleep(100);
+    }
+
+    [Fact]
+    public void TodayButton_SitsOnTheLeft_AndPreviousNextOnTheRight()
+    {
+        var cut = TestContext.Render<TwCalendar<string>>();
+
+        var header = cut.Find("button[aria-label='Previous']").Closest("div")!.ParentElement!;
+        var lead = header.Children.First();
+        var controls = header.Children.Last();
+
+        Assert.Contains(lead.QuerySelectorAll("button"), b => b.TextContent.Trim() == "Today");
+        Assert.Empty(lead.QuerySelectorAll("button[aria-label='Previous'], button[aria-label='Next']"));
+        Assert.NotNull(controls.QuerySelector("button[aria-label='Previous']"));
+        Assert.NotNull(controls.QuerySelector("button[aria-label='Next']"));
+        Assert.DoesNotContain(controls.QuerySelectorAll("button"), b => b.TextContent.Trim() == "Today");
+    }
+
+    [Fact]
+    public void PreviousAndNext_AreAdjacent_AheadOfTheViewSwitcher()
+    {
+        var cut = TestContext.Render<TwCalendar<string>>();
+
+        var labels = cut.Find("button[aria-label='Previous']").Closest("div")!.QuerySelectorAll("button")
+            .Select(b => b.GetAttribute("aria-label") ?? b.TextContent.Trim()).ToList();
+
+        Assert.True(labels.IndexOf("Previous") + 1 == labels.IndexOf("Next"));
+        Assert.True(labels.IndexOf("Next") < labels.IndexOf("Day view"));
+    }
+
+    [Theory]
+    [InlineData(TwCalendarView.Day, "Wed 18 March 2026")]
+    [InlineData(TwCalendarView.Week, "16 Mar 2026 - 22 Mar 2026")]
+    [InlineData(TwCalendarView.Month, "March 2026")]
+    public void HeaderTitle_NamesWhatTheViewShows(TwCalendarView view, string expected)
+    {
+        var cut = TestContext.Render<TwCalendar<string>>(p => p
+            .Add(x => x.SelectedDate, new DateTime(2026, 3, 18))
+            .Add(x => x.View, view));
+
+        Assert.Equal(expected, cut.Find("span.font-semibold").TextContent.Trim());
+    }
+
+    [Fact]
+    public void HeaderTitle_ZeroPadsDayNumbers()
+    {
+        var day = TestContext.Render<TwCalendar<string>>(p => p
+            .Add(x => x.SelectedDate, new DateTime(2026, 12, 3))
+            .Add(x => x.View, TwCalendarView.Day));
+        var week = TestContext.Render<TwCalendar<string>>(p => p
+            .Add(x => x.SelectedDate, new DateTime(2026, 12, 3))
+            .Add(x => x.View, TwCalendarView.Week));
+
+        Assert.Equal("Thu 03 December 2026", day.Find("span.font-semibold").TextContent.Trim());
+        Assert.Equal("30 Nov 2026 - 06 Dec 2026", week.Find("span.font-semibold").TextContent.Trim());
+    }
+
+    [Theory]
+    [InlineData(TwCalendarView.Day, "16 Mar 2026 - 22 Mar 2026")]
+    [InlineData(TwCalendarView.Week, "March 2026")]
+    [InlineData(TwCalendarView.Month, "16 Mar 2026 - 22 Mar 2026")]
+    public void HeaderSubtitle_IsTheWeekRange_ExceptInWeekViewWhichShowsTheMonth(TwCalendarView view, string expected)
+    {
+        var cut = TestContext.Render<TwCalendar<string>>(p => p
+            .Add(x => x.SelectedDate, new DateTime(2026, 3, 18))
+            .Add(x => x.View, view));
+
+        Assert.Equal(expected, HeaderSubtitle(cut));
+    }
+
+    [Theory]
+    [InlineData(2026, 10, 1, "September - October 2026")] // week of 28 Sep - 4 Oct
+    [InlineData(2026, 12, 30, "December 2026 - January 2027")] // week of 28 Dec - 3 Jan
+    [InlineData(2026, 3, 18, "March 2026")]
+    public void WeekViewSubtitle_NamesEveryMonthTheWeekTouches(int year, int month, int day, string expected)
+    {
+        var cut = TestContext.Render<TwCalendar<string>>(p => p
+            .Add(x => x.SelectedDate, new DateTime(year, month, day))
+            .Add(x => x.View, TwCalendarView.Week));
+
+        Assert.Equal(expected, HeaderSubtitle(cut));
+    }
+
+    [Theory]
+    [InlineData(TwCalendarView.Day)]
+    [InlineData(TwCalendarView.Week)]
+    [InlineData(TwCalendarView.Month)]
+    public void Header_HasATitleAndASubtitle_InEveryView_SoItsHeightNeverChanges(TwCalendarView view)
+    {
+        var cut = TestContext.Render<TwCalendar<string>>(p => p
+            .Add(x => x.SelectedDate, new DateTime(2026, 3, 18))
+            .Add(x => x.View, view));
+
+        var group = cut.Find("span.font-semibold").Closest("div")!.ParentElement!;
+
+        Assert.Equal(2, group.Children.Length); // title row + subtitle
+        Assert.False(string.IsNullOrWhiteSpace(group.Children[1].TextContent));
+    }
+
+    private static string HeaderSubtitle(IRenderedComponent<TwCalendar<string>> cut) =>
+        cut.Find("span.font-semibold").Closest("div")!.ParentElement!.Children[1].TextContent.Trim();
+
+    [Theory]
+    [InlineData(TwCalendarView.Day)]
+    [InlineData(TwCalendarView.Week)]
+    [InlineData(TwCalendarView.Month)]
+    public void WeekChip_IsShownInEveryView(TwCalendarView view)
+    {
+        var cut = TestContext.Render<TwCalendar<string>>(p => p
+            .Add(x => x.SelectedDate, new DateTime(2026, 3, 18))
+            .Add(x => x.View, view));
+
+        Assert.Contains("Week 4", cut.Markup);
     }
 
     [Theory]
@@ -181,22 +391,15 @@ public class TwCalendarTests : TwBlazorTestBase
         return cut.Find($"#{button.GetAttribute("aria-describedby")}").TextContent;
     }
 
-    [Fact]
-    public void DayCalendar_IsHiddenByDefault_InDayView()
+    [Theory]
+    [InlineData(TwCalendarView.Day)]
+    [InlineData(TwCalendarView.Week)]
+    [InlineData(TwCalendarView.Month)]
+    public void NoView_RendersASideCalendar(TwCalendarView view)
     {
-        var cut = TestContext.Render<TwCalendar<string>>(p => p.Add(x => x.View, TwCalendarView.Day));
+        var cut = TestContext.Render<TwCalendar<string>>(p => p.Add(x => x.View, view));
 
         Assert.Empty(cut.FindComponents<TwBlazor.Components.DatePicker.TwDatePickerCalendar>());
-    }
-
-    [Fact]
-    public void DayCalendar_IsShown_WhenShowDayCalendarIsTrue()
-    {
-        var cut = TestContext.Render<TwCalendar<string>>(p => p
-            .Add(x => x.View, TwCalendarView.Day)
-            .Add(x => x.ShowDayCalendar, true));
-
-        Assert.Single(cut.FindComponents<TwBlazor.Components.DatePicker.TwDatePickerCalendar>());
     }
 
     [Theory]
@@ -338,6 +541,7 @@ public class TwCalendarTests : TwBlazorTestBase
         cut.Find("button[aria-label^='Design review']").DragStart(new DragEventArgs());
         cut.Find("button[aria-label='11:00 AM']").Drop(new DragEventArgs());
 
+        cut.WaitForAssertion(() => Assert.NotNull(updatedList)); // the drop handler finishes asynchronously
         var moved = Assert.Single(Assert.IsType<List<Schedule<string>>>(updatedList));
         Assert.Equal(new DateTimeOffset(day.AddHours(11)), moved.DateTimeStart);
         Assert.Equal(new DateTimeOffset(day.AddHours(12)), moved.DateTimeEnd);
@@ -363,6 +567,7 @@ public class TwCalendarTests : TwBlazorTestBase
         var thursdayColumn = cut.FindComponents<TwCalendarDayColumn<string>>()[3];
         thursdayColumn.Find("button[aria-label='9:00 AM']").Drop(new DragEventArgs());
 
+        cut.WaitForAssertion(() => Assert.NotNull(updatedList)); // the drop handler finishes asynchronously
         var moved = Assert.Single(Assert.IsType<List<Schedule<string>>>(updatedList));
         Assert.Equal(new DateTimeOffset(wednesday.AddDays(1).AddHours(9)), moved.DateTimeStart);
         Assert.Equal(new DateTimeOffset(wednesday.AddDays(1).AddHours(10)), moved.DateTimeEnd);
@@ -388,6 +593,7 @@ public class TwCalendarTests : TwBlazorTestBase
         Assert.NotNull(cell);
         cell!.Drop(new DragEventArgs());
 
+        cut.WaitForAssertion(() => Assert.NotNull(updatedList)); // the drop handler finishes asynchronously
         var moved = Assert.Single(Assert.IsType<List<Schedule<string>>>(updatedList));
         Assert.Equal(new DateTimeOffset(2026, 3, 20, 9, 30, 0, TimeSpan.Zero), moved.DateTimeStart);
         Assert.Equal(new DateTimeOffset(2026, 3, 20, 10, 15, 0, TimeSpan.Zero), moved.DateTimeEnd);

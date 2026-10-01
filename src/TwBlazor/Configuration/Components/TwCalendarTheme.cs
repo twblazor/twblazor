@@ -164,6 +164,12 @@ public class TwCalendarTheme
     public required string DropPlaceholder { get; set; }
 
     /// <summary>
+    /// Gets or sets the classes layered onto today's Week view column or Month view cell for a couple of
+    /// seconds after "Today" is pressed: a tint plus a pulse animation to draw the eye to it.
+    /// </summary>
+    public required string TodayHighlight { get; set; }
+
+    /// <summary>
     /// Gets or sets the classes for the all-day strip above the Day/Week time grid
     /// (<see cref="TwBlazor.Components.TwCalendarAllDayRow{T}"/>): its bottom divider.
     /// </summary>

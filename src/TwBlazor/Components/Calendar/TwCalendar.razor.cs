@@ -17,7 +17,7 @@ namespace TwBlazor.Components;
 /// events.
 /// </summary>
 /// <typeparam name="T">The type of <see cref="Schedule{T}.Value"/> for the events shown.</typeparam>
-public partial class TwCalendar<T> : TwBlazorComponentBase
+public partial class TwCalendar<T> : TwBlazorComponentBase, IDisposable
 {
     [Inject] private ITwDialogService dialogService { get; set; } = null!;
 
@@ -31,7 +31,7 @@ public partial class TwCalendar<T> : TwBlazorComponentBase
 
     /// <summary>
     /// The bound <see cref="SelectedDate"/> value; invoked whenever navigation (Previous/Today/Next,
-    /// a day click in Week/Month view, or the Day view's mini-calendar) moves it.
+    /// or a day click in Week/Month view) moves it.
     /// </summary>
     [Parameter] public EventCallback<DateTime> SelectedDateChanged { get; set; }
 
@@ -39,6 +39,13 @@ public partial class TwCalendar<T> : TwBlazorComponentBase
     /// The currently displayed view.
     /// </summary>
     [Parameter] public TwCalendarView View { get; set; } = TwCalendarView.Week;
+
+    /// <summary>
+    /// The views the user can switch between, shown as buttons in the header. <see langword="null"/> or
+    /// empty (the default) enables all three. With one view enabled the switcher is hidden. If
+    /// <see cref="View"/> isn't in the list, the calendar shows the first enabled view instead.
+    /// </summary>
+    [Parameter] public IReadOnlyCollection<TwCalendarView>? EnabledViews { get; set; }
 
     /// <summary>
     /// The bound <see cref="View"/> value; invoked whenever the view switcher, or a day click that
@@ -95,13 +102,6 @@ public partial class TwCalendar<T> : TwBlazorComponentBase
     [Parameter] public TimeSpan ScrollToTime { get; set; } = TimeSpan.FromHours(8);
 
     /// <summary>
-    /// When <see langword="true"/>, the Day view shows a mini-calendar beside its time grid for
-    /// quickly jumping to another day. Defaults to <see langword="false"/>. Not used by the Week or
-    /// Month views.
-    /// </summary>
-    [Parameter] public bool ShowDayCalendar { get; set; }
-
-    /// <summary>
     /// When set, shows a search icon button in the header that invokes this callback. No search
     /// logic lives in <see cref="TwCalendar{T}"/> itself - the search UI (and navigating to a found
     /// event via <see cref="SelectedDate"/>/<see cref="View"/>) is left entirely to the caller, since
@@ -156,7 +156,7 @@ public partial class TwCalendar<T> : TwBlazorComponentBase
 
     private string nextTooltip => $"Next {viewUnit}";
 
-    private string viewUnit => View switch
+    private string viewUnit => currentView switch
     {
         TwCalendarView.Day => "day",
         TwCalendarView.Month => "month",
@@ -169,7 +169,7 @@ public partial class TwCalendar<T> : TwBlazorComponentBase
         .Build();
 
     private string GetViewButtonClasses(TwCalendarView view) => new ClassBuilder(theme.NavButton)
-        .AddClass(theme.ViewButtonActive, View == view)
+        .AddClass(theme.ViewButtonActive, currentView == view)
         .Build();
 
     private string headerControlsClasses => new ClassBuilder(options.Theme.Display.Flex)
@@ -178,12 +178,52 @@ public partial class TwCalendar<T> : TwBlazorComponentBase
         .AddClass(options.Theme.Spacing.Gap.Md)
         .Build();
 
+    private string headerLeadClasses => new ClassBuilder(options.Theme.Display.Flex)
+        .AddClass(options.Theme.Flexbox.Align.Center)
+        .AddClass(options.Theme.Flexbox.Wrap)
+        .AddClass(options.Theme.Spacing.Gap.Xl)
+        .Build();
+
     /// <summary>
-    /// The header's title: the full month name and year (e.g. "September 2026"). Shown the same way
-    /// across all three views - see <see cref="weekRangeLabel"/>'s remarks for why the week it names
-    /// is always meaningful regardless of which view is active.
+    /// The header's title, which names what the view is showing: the day for Day view
+    /// (<c>Thu 03 December 2026</c>), the Monday-Sunday range for Week view
+    /// (<c>30 Nov 2026 - 06 Dec 2026</c>) and the month for Month view (<c>December 2026</c>).
     /// </summary>
-    private string monthYearLabel => SelectedDate.ToString("MMMM yyyy");
+    private string headerTitle => currentView switch
+    {
+        TwCalendarView.Day => SelectedDate.ToString("ddd dd MMMM yyyy"),
+        TwCalendarView.Week => weekRangeLabel,
+        _ => SelectedDate.ToString("MMMM yyyy")
+    };
+
+    /// <summary>
+    /// The line under the title. Every view has one so the header keeps the same height and the Today
+    /// button doesn't move when switching view: the week range for Day/Month view, and for Week view
+    /// (whose title already is the range) the month or months the week falls in.
+    /// </summary>
+    private string headerSubtitle => currentView == TwCalendarView.Week ? monthRangeLabel : weekRangeLabel;
+
+    /// <summary>
+    /// The month(s) the displayed week falls in, for example "October 2026", "September - October 2026"
+    /// or "December 2026 - January 2027".
+    /// </summary>
+    private string monthRangeLabel
+    {
+        get
+        {
+            var start = DateHelpers.GetStartOfWeek(SelectedDate);
+            var end = start.AddDays(6);
+
+            if (start.Month == end.Month && start.Year == end.Year)
+            {
+                return start.ToString("MMMM yyyy");
+            }
+
+            return start.Year == end.Year
+                ? $"{start:MMMM} - {end:MMMM yyyy}"
+                : $"{start:MMMM yyyy} - {end:MMMM yyyy}";
+        }
+    }
 
     /// <summary>
     /// The label for the header's week-number <see cref="TwChip"/> (e.g. "Week 3").
@@ -191,9 +231,9 @@ public partial class TwCalendar<T> : TwBlazorComponentBase
     private string weekChipLabel => $"Week {DateHelpers.GetWeekOfMonth(SelectedDate)}";
 
     /// <summary>
-    /// The header's subtitle: the Monday-Sunday date range containing <see cref="SelectedDate"/> (e.g.
-    /// "14 Sep 2026 - 20 Sep 2026"). Shown regardless of the active view - even in Day/Month view,
-    /// <see cref="SelectedDate"/> still belongs to exactly one week, so the range (and the week-number
+    /// The Monday-Sunday date range containing <see cref="SelectedDate"/> (e.g.
+    /// "14 Sep 2026 - 20 Sep 2026"): Week view's title, and the subtitle in Day/Month view, where
+    /// <see cref="SelectedDate"/> still belongs to exactly one week so the range (and the week-number
     /// chip beside the title) stays meaningful.
     /// </summary>
     private string weekRangeLabel
@@ -202,7 +242,7 @@ public partial class TwCalendar<T> : TwBlazorComponentBase
         {
             var start = DateHelpers.GetStartOfWeek(SelectedDate);
             var end = start.AddDays(6);
-            return $"{start:d MMM yyyy} - {end:d MMM yyyy}";
+            return $"{start:dd MMM yyyy} - {end:dd MMM yyyy}";
         }
     }
 
@@ -215,8 +255,31 @@ public partial class TwCalendar<T> : TwBlazorComponentBase
         }
     }
 
+    private static readonly TwCalendarView[] _allViews = [TwCalendarView.Day, TwCalendarView.Week, TwCalendarView.Month];
+
+    /// <summary>
+    /// The enabled views in switcher order (Day, Week, Month), all of them when <see cref="EnabledViews"/>
+    /// is unset or empty.
+    /// </summary>
+    private IReadOnlyList<TwCalendarView> enabledViews =>
+        EnabledViews is { Count: > 0 } ? [.. _allViews.Where(EnabledViews.Contains)] : _allViews;
+
+    /// <summary>
+    /// The view actually shown: <see cref="View"/>, or the first enabled view when it isn't enabled.
+    /// </summary>
+    private TwCalendarView currentView => enabledViews.Count == 0 || enabledViews.Contains(View) ? View : enabledViews[0];
+
+    private bool IsViewEnabled(TwCalendarView view) => enabledViews.Contains(view);
+
+    private bool showViewSwitcher => enabledViews.Count > 1;
+
     private async Task SetViewAsync(TwCalendarView view)
     {
+        if (!IsViewEnabled(view))
+        {
+            return;
+        }
+
         View = view;
         if (ViewChanged.HasDelegate)
         {
@@ -224,7 +287,7 @@ public partial class TwCalendar<T> : TwBlazorComponentBase
         }
     }
 
-    private Task PreviousAsync() => SetSelectedDateAsync(View switch
+    private Task PreviousAsync() => SetSelectedDateAsync(currentView switch
     {
         TwCalendarView.Day => SelectedDate.AddDays(-1),
         TwCalendarView.Week => SelectedDate.AddDays(-7),
@@ -232,7 +295,7 @@ public partial class TwCalendar<T> : TwBlazorComponentBase
         _ => SelectedDate
     });
 
-    private Task NextAsync() => SetSelectedDateAsync(View switch
+    private Task NextAsync() => SetSelectedDateAsync(currentView switch
     {
         TwCalendarView.Day => SelectedDate.AddDays(1),
         TwCalendarView.Week => SelectedDate.AddDays(7),
@@ -240,7 +303,50 @@ public partial class TwCalendar<T> : TwBlazorComponentBase
         _ => SelectedDate
     });
 
-    private Task TodayAsync() => SetSelectedDateAsync(DateTime.Today);
+    /// <summary>
+    /// The day the Week/Month view is pulsing after "Today" was pressed, or <see langword="null"/>.
+    /// </summary>
+    private DateTime? highlightDate;
+
+    private CancellationTokenSource? highlightCts;
+
+    private static readonly TimeSpan _highlightDuration = TimeSpan.FromSeconds(2);
+
+    /// <summary>
+    /// Moves to today and pulses today's column (Week view) or cell (Month view) for a couple of seconds
+    /// so it's easy to spot, including when today was already on screen and nothing else moved.
+    /// </summary>
+    private async Task TodayAsync()
+    {
+        await SetSelectedDateAsync(DateTime.Today);
+
+        highlightCts?.Cancel();
+        highlightCts?.Dispose();
+        highlightCts = new CancellationTokenSource();
+        highlightDate = DateTime.Today;
+        _ = ClearHighlightAsync(highlightCts.Token);
+    }
+
+    private async Task ClearHighlightAsync(CancellationToken token)
+    {
+        try
+        {
+            await Task.Delay(_highlightDuration, token);
+            highlightDate = null;
+            await InvokeAsync(StateHasChanged);
+        }
+        catch (OperationCanceledException)
+        {
+            // A newer press of "Today" restarted the highlight, or the component was disposed.
+        }
+    }
+
+    public void Dispose()
+    {
+        highlightCts?.Cancel();
+        highlightCts?.Dispose();
+        GC.SuppressFinalize(this);
+    }
 
     private Task OnSearchClickedAsync() => OnSearch.HasDelegate ? OnSearch.InvokeAsync() : Task.CompletedTask;
 
@@ -251,7 +357,7 @@ public partial class TwCalendar<T> : TwBlazorComponentBase
     private async Task SwitchToDayAsync(DateTime day)
     {
         await SetSelectedDateAsync(day);
-        await SetViewAsync(TwCalendarView.Day);
+        await SetViewAsync(TwCalendarView.Day); // no-op when the Day view isn't enabled
     }
 
     private Task StartCreateEventAsync(DateTime start)
@@ -472,7 +578,7 @@ public partial class TwCalendar<T> : TwBlazorComponentBase
             return;
         }
 
-        var newStart = View == TwCalendarView.Month || TwCalendarSpans.IsBanner(evt)
+        var newStart = currentView == TwCalendarView.Month || TwCalendarSpans.IsBanner(evt)
             ? dropTarget.Date + evt.DateTimeStart.TimeOfDay
             : dropTarget;
 
@@ -496,7 +602,7 @@ public partial class TwCalendar<T> : TwBlazorComponentBase
 public enum TwCalendarView
 {
     /// <summary>
-    /// A single day's 24-hour time-slot grid, with a mini-calendar for quickly jumping to another day.
+    /// A single day's 24-hour time-slot grid.
     /// </summary>
     Day,
 

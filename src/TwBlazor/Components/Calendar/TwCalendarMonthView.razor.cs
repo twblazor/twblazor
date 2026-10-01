@@ -70,6 +70,12 @@ public partial class TwCalendarMonthView<T> : TwBlazorComponentBase, IAsyncDispo
     [Parameter] public EventCallback<DateTime> OnEventDrop { get; set; }
 
     /// <summary>
+    /// A day whose cell pulses, used to draw the eye to today after "Today" is pressed. Leave
+    /// <see langword="null"/> for no highlight.
+    /// </summary>
+    [Parameter] public DateTime? HighlightDate { get; set; }
+
+    /// <summary>
     /// Invoked with the hovered day when a dragged event enters one of its cells.
     /// </summary>
     [Parameter] public EventCallback<DateTime> OnEventDragOver { get; set; }
@@ -188,6 +194,7 @@ public partial class TwCalendarMonthView<T> : TwBlazorComponentBase, IAsyncDispo
     private bool IsCurrentMonth(DateTime day) => day.Month == Date.Month && day.Year == Date.Year;
 
     private string GetCellClasses(DateTime day) => new ClassBuilder(theme.MonthCell)
+        .AddClass(theme.TodayHighlight, HighlightDate?.Date == day.Date)
         .AddClass(theme.MonthCellPrevNext, !IsCurrentMonth(day))
         .Build();
 

@@ -2,25 +2,42 @@
 @using TwBlazor.Models
 @using TwBlazor.Services
 
-<PageTitle>TwCalendar | twblazor</PageTitle>
-<HeadContent>
-    <meta name="description" content="TwCalendar is a Blazor Day, Week and Month calendar with drag and drop, a built-in create and edit dialog, and configurable event details." />
-    <link rel="canonical" href="https://twblazor.com/calendar" />
-</HeadContent>
-
 @inject ITwDialogService DialogService
 
-<PageContainer Title="TwCalendar" ThemeType="typeof(TwCalendarTheme)">
+<PageContainer Title="TwCalendar"
+    ThemeType="typeof(TwCalendarTheme)"
+    Path="/calendar"
+    Description="TwCalendar is a Blazor Day, Week and Month calendar with drag and drop, all-day events, a built-in create and edit dialog, and configurable event details.">
     <PageCard Title="Views">
         <Description>
             Bind <code>SelectedDate</code> and <code>View</code> to switch between Day, Week and Month.
-            Events that overlap in time sit side by side. The Day and Week grids scroll once they pass
-            <code>MaxHeight</code> (<code>40rem</code> by default), and you can pass any CSS length, such
-            as <code>"30rem"</code> or <code>"600px"</code>. They open scrolled to <code>ScrollToTime</code>,
-            8am by default, so you land on the working day instead of midnight.
+            The header names what you're looking at: the day, the week or the month. "Today" is on the
+            left and the previous and next buttons are on the right. Events that overlap in time sit side
+            by side. The Day and Week grids scroll once they pass <code>MaxHeight</code> (<code>40rem</code>
+            by default), and you can pass any CSS length, such as <code>"30rem"</code> or <code>"600px"</code>.
+            They open scrolled to <code>ScrollToTime</code>, 8am by default, so you land on the working day
+            instead of midnight.
+            <br /><br />
+            Click an event to see its details. This calendar isn't editable, so every event opens read-only,
+            and the extra details come from <code>DialogProperties</code> (see "Event Details in the Dialog"
+            below).
         </Description>
         <CodeExample Name="CalendarBasic" CSharpName="CalendarBasicCode">
-            <TwCalendar T="EventDetails" @bind-SelectedDate="selectedDate" @bind-View="view" Schedules="Schedules" />
+            <TwCalendar T="EventDetails" @bind-SelectedDate="selectedDate" @bind-View="view" Schedules="Schedules" DialogProperties="dialogProperties" />
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Choosing Which Views to Offer">
+        <Description>
+            All three views are available by default. Pass <code>EnabledViews</code> an array of
+            <code>TwCalendarView</code> values to offer only some of them. The switcher in the header only
+            shows the views you list, always in the order Day, Week, Month. With a single view the switcher
+            disappears, and the calendar just shows that view. If <code>View</code> isn't in the list, the
+            first enabled view is shown instead. When the Day view is turned off, clicking a day in the Week
+            or Month view only selects the date. This example offers just Week and Month.
+        </Description>
+        <CodeExample Name="CalendarEnabledViews" CSharpName="CalendarEnabledViewsCode">
+            <TwCalendar T="EventDetails" @bind-SelectedDate="enabledViewsSelectedDate" @bind-View="enabledViewsView" EnabledViews="enabledViews" Schedules="Schedules" DialogProperties="dialogProperties" />
         </CodeExample>
     </PageCard>
 
@@ -45,29 +62,20 @@
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Day Calendar">
-        <Description>
-            The Day view can show a small month calendar next to the time grid, handy for jumping to
-            another date. It's hidden by default. Set <code>ShowDayCalendar</code> to show it.
-        </Description>
-        <CodeExample Name="CalendarDayCalendar" CSharpName="CalendarDayCalendarCode">
-            <TwCalendar T="EventDetails" @bind-SelectedDate="dayCalendarSelectedDate" View="TwCalendarView.Day" ShowDayCalendar="true" Schedules="Schedules" />
-        </CodeExample>
-    </PageCard>
-
     <PageCard Title="Adding & Editing Events">
         <Description>
             Set <code>Editable</code> to get the "+" button in the header and let people open events in an
             edit dialog. Click an empty time slot to create an event there, or click an existing event to
-            change it. An event with <code>ReadOnly</code> set always opens read-only, like "Lunch" below,
-            even when <code>Editable</code> is on. Editable events can also be dragged. Move them between
-            time slots (and between days in Week view), or between days in Month view, where the time of
-            day stays the same. A dashed placeholder shows where the event will land, even over a slot
-            that already has an event. The dialog's color picker sets <code>Schedule&lt;T&gt;.Color</code>,
-            which tints the event in every view. Leave it empty to use the theme color.
+            change it. An event with <code>ReadOnly</code> set always opens read-only, like "Lunch" and
+            "Payroll run" below, even when <code>Editable</code> is on. Editable events can also be dragged.
+            Move them between time slots (and between days in Week view), or between days in Month view,
+            where the time of day stays the same. A dashed placeholder shows where the event will land, even
+            over a slot that already has an event. The dialog's color picker sets
+            <code>Schedule&lt;T&gt;.Color</code>, which tints the event in every view. Leave it empty to use
+            the theme color.
         </Description>
         <CodeExample Name="CalendarEditable" CSharpName="CalendarEditableCode">
-            <TwCalendar T="EventDetails" @bind-SelectedDate="editableSelectedDate" @bind-View="editableView" Editable="true" @bind-Schedules="EditableSchedules" />
+            <TwCalendar T="EventDetails" @bind-SelectedDate="editableSelectedDate" @bind-View="editableView" Editable="true" DialogProperties="dialogProperties" @bind-Schedules="EditableSchedules" />
         </CodeExample>
     </PageCard>
 
@@ -86,10 +94,11 @@
             so new events have something to edit, and the dialog works on a shallow copy of
             <code>Value</code>, so cancelling never changes the original. If you need something this can't
             express, such as a field that depends on another, use <code>EventDialogContent</code> to add
-            your own markup.
+            your own markup. In this example, the empty label for <code>Priority</code> falls back to
+            "Priority" and <code>Attendees</code> is relabeled "Guests".
         </Description>
         <CodeExample Name="CalendarDialogProperties" CSharpName="CalendarDialogPropertiesCode">
-            <TwCalendar T="EventDetails" @bind-SelectedDate="detailsSelectedDate" @bind-View="detailsView" Editable="true" DialogProperties="dialogProperties" @bind-Schedules="DetailsSchedules" />
+            <TwCalendar T="EventDetails" @bind-SelectedDate="detailsSelectedDate" @bind-View="detailsView" Editable="true" DialogProperties="detailsDialogProperties" @bind-Schedules="DetailsSchedules" />
         </CodeExample>
     </PageCard>
 
@@ -98,7 +107,7 @@
             Use <code>EventContentTemplate</code> to change how each event looks in all three views.
         </Description>
         <CodeExample Name="CalendarCustomContent" CSharpName="CalendarCustomContentCode">
-            <TwCalendar T="EventDetails" @bind-SelectedDate="customContentSelectedDate" @bind-View="customContentView" Schedules="Schedules">
+            <TwCalendar T="EventDetails" @bind-SelectedDate="customContentSelectedDate" @bind-View="customContentView" Schedules="Schedules" DialogProperties="dialogProperties">
                 <EventContentTemplate>
                     <span class="text-xs font-semibold">@context.Name</span>
                     <span class="block text-xs opacity-80">@context.DateTimeStart.ToString("h:mm tt")</span>
@@ -116,7 +125,7 @@
             <code>@@bind-View</code> on the calendar.
         </Description>
         <CodeExample Name="CalendarSearch" CSharpName="CalendarSearchCode">
-            <TwCalendar T="EventDetails" @bind-SelectedDate="searchSelectedDate" @bind-View="searchView" Schedules="Schedules" OnSearch="OnSearchAsync" />
+            <TwCalendar T="EventDetails" @bind-SelectedDate="searchSelectedDate" @bind-View="searchView" Schedules="Schedules" DialogProperties="dialogProperties" OnSearch="OnSearchAsync" />
         </CodeExample>
     </PageCard>
 </PageContainer>
@@ -128,35 +137,89 @@
 
     private List<Schedule<EventDetails>> Schedules = BuildSampleSchedules();
 
+    public enum EventPriority
+    {
+        Low,
+        Medium,
+        High
+    }
+
     public class EventDetails
     {
         public string? Notes { get; set; }
         public string? Location { get; set; }
+        public string? Organizer { get; set; }
+        public int Attendees { get; set; }
+        public EventPriority Priority { get; set; }
         public bool IsOnline { get; set; }
     }
 
-    private static List<Schedule<EventDetails>> BuildSampleSchedules()
+    private readonly Dictionary<string, string> dialogProperties = new()
     {
-        var today = DateTime.Today;
-        return
-        [
-            new() { Name = "Team standup", DateTimeStart = today.AddHours(9), DateTimeEnd = today.AddHours(9.5), Color = "#2563eb", Value = new() { Notes = "Quick round of blockers. Keep it to 15 minutes.", Location = "Meeting room 2" } },
-            new() { Name = "Design review", DateTimeStart = today.AddHours(10), DateTimeEnd = today.AddHours(11), Color = "#9333ea", Value = new() { Notes = "Walk through the new dashboard mockups and collect feedback.", Location = "Studio", IsOnline = true } },
-            new() { Name = "1:1 with Sam", DateTimeStart = today.AddHours(10.5), DateTimeEnd = today.AddHours(11.25), Color = "#db2777", Value = new() { Notes = "Talk about the Q4 goals and the conference talk.", IsOnline = true } },
-            new() { Name = "Lunch", DateTimeStart = today.AddHours(12), DateTimeEnd = today.AddHours(13), ReadOnly = true, Color = "#f59e0b", Value = new() { Notes = "Team lunch. Booked under Shuter.", Location = "The Corner Cafe" } },
-            new() { Name = "Sprint planning", DateTimeStart = today.AddDays(1).AddHours(14), DateTimeEnd = today.AddDays(1).AddHours(15.5), Color = "#16a34a", Value = new() { Notes = "Bring estimates for the top ten backlog items.", Location = "Meeting room 1" } },
-            new() { Name = "Client call", DateTimeStart = today.AddDays(2).AddHours(9), DateTimeEnd = today.AddDays(2).AddHours(9.75), Color = "#0d9488", Value = new() { Notes = "Share the revised timeline and ask about the sign-off date.", IsOnline = true } },
-            new() { Name = "Retro", DateTimeStart = today.AddDays(4).AddHours(16), DateTimeEnd = today.AddDays(4).AddHours(17), Color = "#4f46e5", Value = new() { Notes = "What went well, what didn't, and one thing to try next sprint.", Location = "Meeting room 2" } },
-            new() { Name = "Launch", DateTimeStart = today.AddDays(-2).AddHours(9), DateTimeEnd = today.AddDays(-2).AddHours(10), Color = "#dc2626", Value = new() { Notes = "Version 2.0 goes live. Support is on standby.", IsOnline = true } },
-            new() { Name = "Budget review", DateTimeStart = today.AddDays(3).AddHours(9), DateTimeEnd = today.AddDays(3).AddHours(9.5), Color = "#0891b2", Value = new() { Notes = "Check spend against the quarterly forecast.", Location = "Finance office" } },
-            new() { Name = "Interview", DateTimeStart = today.AddDays(3).AddHours(10), DateTimeEnd = today.AddDays(3).AddHours(10.5), Color = "#7c3aed", Value = new() { Notes = "Frontend candidate, second round. Questions are in the hiring doc.", Location = "Meeting room 1" } },
-            new() { Name = "All hands", DateTimeStart = today.AddDays(3).AddHours(11), DateTimeEnd = today.AddDays(3).AddHours(12), Color = "#ea580c", Value = new() { Notes = "Company update and Q&A with the leadership team.", Location = "Main hall", IsOnline = true } },
-            new() { Name = "Extra sync", DateTimeStart = today.AddDays(3).AddHours(13), DateTimeEnd = today.AddDays(3).AddHours(13.5), Color = "#059669", Value = new() { Notes = "Follow up on the open questions from the all hands." } },
-            new() { Name = "Company holiday", DateTimeStart = today.AddDays(1), DateTimeEnd = today.AddDays(2), Color = "#f59e0b", Value = new() { Notes = "Offices are closed. Support is on call." } },
-            new() { Name = "Product conference", DateTimeStart = today.AddDays(2), DateTimeEnd = today.AddDays(5), Color = "#be185d", Value = new() { Notes = "Three days of talks. Our slot is on the second morning.", Location = "Convention centre" } },
-            new() { Name = "Release weekend", DateTimeStart = today.AddDays(5), DateTimeEnd = today.AddDays(8), Color = "#0369a1", Value = new() { Notes = "Freeze on Friday night. Roll out on Saturday.", IsOnline = true } },
-        ];
+        [nameof(EventDetails.Notes)] = "Notes",
+        [nameof(EventDetails.Location)] = "Location",
+        [nameof(EventDetails.Organizer)] = "Organizer",
+        [nameof(EventDetails.Attendees)] = "Attendees",
+        [nameof(EventDetails.Priority)] = "Priority",
+        [nameof(EventDetails.IsOnline)] = "Online meeting"
+    };
+
+    private static Schedule<EventDetails> Event(string name, int dayOffset, double startHour, double hours, string color, EventDetails details, bool readOnly = false)
+    {
+        var start = DateTime.Today.AddDays(dayOffset).AddHours(startHour);
+        return new() { Name = name, DateTimeStart = start, DateTimeEnd = start.AddHours(hours), Color = color, ReadOnly = readOnly, Value = details };
     }
+
+    private static Schedule<EventDetails> AllDay(string name, int firstDayOffset, int days, string color, EventDetails details)
+    {
+        var start = DateTime.Today.AddDays(firstDayOffset);
+        return new() { Name = name, DateTimeStart = start, DateTimeEnd = start.AddDays(days), Color = color, Value = details };
+    }
+
+    private static List<Schedule<EventDetails>> BuildSampleSchedules() =>
+    [
+        Event("Team standup", 0, 9, 0.5, "#2563eb", new() { Notes = "Quick round of blockers. Keep it to 15 minutes.", Location = "Meeting room 2", Organizer = "Priya Shah", Attendees = 8, Priority = EventPriority.Medium }),
+        Event("Design review", 0, 10, 1, "#9333ea", new() { Notes = "Walk through the new dashboard mockups and collect feedback.", Location = "Studio", Organizer = "Marcus Lee", Attendees = 6, Priority = EventPriority.High, IsOnline = true }),
+        Event("1:1 with Sam", 0, 10.5, 0.75, "#db2777", new() { Notes = "Talk about the Q4 goals and the conference talk.", Organizer = "Jordan Ellis", Attendees = 2, Priority = EventPriority.Medium, IsOnline = true }),
+        Event("Lunch", 0, 12, 1, "#f59e0b", new() { Notes = "Team lunch. Booked under Shuter.", Location = "The Corner Cafe", Organizer = "Office team", Attendees = 12, Priority = EventPriority.Low }, readOnly: true),
+        Event("Customer demo", 0, 15, 1, "#0d9488", new() { Notes = "Show the new reporting module to the Hartley account team.", Location = "Meeting room 1", Organizer = "Aisha Khan", Attendees = 5, Priority = EventPriority.High, IsOnline = true }),
+        Event("Code review", 0, 16.5, 0.5, "#4f46e5", new() { Notes = "Pairing session on the payments refactor.", Organizer = "Tom Becker", Attendees = 3, Priority = EventPriority.Low, IsOnline = true }),
+
+        Event("OKR workshop", 1, 10, 2, "#7c3aed", new() { Notes = "Draft next quarter's objectives. Bring your team's draft key results.", Location = "Main hall", Organizer = "Priya Shah", Attendees = 24, Priority = EventPriority.High }),
+        Event("Sprint planning", 1, 14, 1.5, "#16a34a", new() { Notes = "Bring estimates for the top ten backlog items.", Location = "Meeting room 1", Organizer = "Marcus Lee", Attendees = 9, Priority = EventPriority.Medium }),
+        AllDay("Company holiday", 1, 1, "#f59e0b", new() { Notes = "Offices are closed. Support is on call.", Organizer = "People team", Attendees = 120, Priority = EventPriority.Low }),
+
+        Event("Client call", 2, 9, 0.75, "#0d9488", new() { Notes = "Share the revised timeline and ask about the sign-off date.", Organizer = "Aisha Khan", Attendees = 4, Priority = EventPriority.High, IsOnline = true }),
+        Event("Workshop prep", 2, 13, 1, "#be185d", new() { Notes = "Print the handouts and test the projector.", Location = "Meeting room 2", Organizer = "Jordan Ellis", Attendees = 2, Priority = EventPriority.Low }),
+        AllDay("Product conference", 2, 3, "#be185d", new() { Notes = "Three days of talks. Our slot is on the second morning.", Location = "Convention centre", Organizer = "Events team", Attendees = 40, Priority = EventPriority.High }),
+
+        Event("Budget review", 3, 9, 0.5, "#0891b2", new() { Notes = "Check spend against the quarterly forecast.", Location = "Finance office", Organizer = "Rhea Patel", Attendees = 5, Priority = EventPriority.Medium }),
+        Event("Interview", 3, 10, 0.5, "#7c3aed", new() { Notes = "Frontend candidate, second round. Questions are in the hiring doc.", Location = "Meeting room 1", Organizer = "Tom Becker", Attendees = 3, Priority = EventPriority.Medium }),
+        Event("All hands", 3, 11, 1, "#ea580c", new() { Notes = "Company update and Q&A with the leadership team.", Location = "Main hall", Organizer = "Leadership team", Attendees = 120, Priority = EventPriority.High, IsOnline = true }),
+        Event("Extra sync", 3, 13, 0.5, "#059669", new() { Notes = "Follow up on the open questions from the all hands.", Organizer = "Priya Shah", Attendees = 4, Priority = EventPriority.Low }),
+        Event("Interview debrief", 3, 14, 0.5, "#7c3aed", new() { Notes = "Share feedback while it's fresh and decide on next steps.", Location = "Meeting room 1", Organizer = "Tom Becker", Attendees = 3, Priority = EventPriority.Medium }),
+
+        Event("Hiring sync", 4, 11, 1, "#0369a1", new() { Notes = "Review the pipeline for the two open engineering roles.", Location = "Meeting room 2", Organizer = "People team", Attendees = 5, Priority = EventPriority.Medium }),
+        Event("Retro", 4, 16, 1, "#4f46e5", new() { Notes = "What went well, what didn't, and one thing to try next sprint.", Location = "Meeting room 2", Organizer = "Marcus Lee", Attendees = 9, Priority = EventPriority.Medium }),
+        AllDay("Release weekend", 5, 3, "#0369a1", new() { Notes = "Freeze on Friday night. Roll out on Saturday.", Organizer = "Release manager", Attendees = 14, Priority = EventPriority.High, IsOnline = true }),
+        Event("Payroll run", 6, 9, 1, "#64748b", new() { Notes = "Runs automatically. Finance checks the totals afterwards.", Organizer = "Finance", Attendees = 2, Priority = EventPriority.Low, IsOnline = true }, readOnly: true),
+
+        Event("Launch", -2, 9, 1, "#dc2626", new() { Notes = "Version 2.0 goes live. Support is on standby.", Organizer = "Release manager", Attendees = 30, Priority = EventPriority.High, IsOnline = true }),
+        Event("Security training", -1, 14, 1.5, "#0891b2", new() { Notes = "Yearly refresher on phishing and password hygiene.", Location = "Main hall", Organizer = "IT security", Attendees = 60, Priority = EventPriority.Medium }),
+        Event("Support handover", -1, 17, 0.5, "#16a34a", new() { Notes = "Pass open tickets to the evening rota.", Organizer = "Aisha Khan", Attendees = 4, Priority = EventPriority.Low, IsOnline = true }),
+        AllDay("Planning offsite", -5, 2, "#7c3aed", new() { Notes = "Two days away from the desks to plan the year.", Location = "Lakeside lodge", Organizer = "Leadership team", Attendees = 18, Priority = EventPriority.High }),
+
+        Event("Board meeting", 9, 10, 2, "#9333ea", new() { Notes = "Quarterly results and the hiring plan.", Location = "Boardroom", Organizer = "Leadership team", Attendees = 8, Priority = EventPriority.High }),
+        Event("Roadmap review", 10, 14, 1, "#2563eb", new() { Notes = "Check the next two quarters against customer requests.", Location = "Meeting room 1", Organizer = "Priya Shah", Attendees = 10, Priority = EventPriority.Medium }),
+        AllDay("Customer onsite", 12, 3, "#ea580c", new() { Notes = "The Hartley team visits for training and a product tour.", Location = "Head office", Organizer = "Aisha Khan", Attendees = 16, Priority = EventPriority.High }),
+    ];
+    #endregion
+
+    #region CodeExample CalendarEnabledViewsCode
+    private DateTime enabledViewsSelectedDate = DateTime.Today;
+    private TwCalendarView enabledViewsView = TwCalendarView.Week;
+
+    private readonly TwCalendarView[] enabledViews = [TwCalendarView.Week, TwCalendarView.Month];
     #endregion
 
     #region CodeExample CalendarAllDayCode
@@ -164,10 +227,6 @@
     private TwCalendarView allDayView = TwCalendarView.Week;
 
     private List<Schedule<EventDetails>> AllDaySchedules = BuildSampleSchedules();
-    #endregion
-
-    #region CodeExample CalendarDayCalendarCode
-    private DateTime dayCalendarSelectedDate = DateTime.Today;
     #endregion
 
     #region CodeExample CalendarEditableCode
@@ -183,10 +242,12 @@
 
     private List<Schedule<EventDetails>> DetailsSchedules = BuildSampleSchedules();
 
-    private readonly Dictionary<string, string> dialogProperties = new()
+    private readonly Dictionary<string, string> detailsDialogProperties = new()
     {
         [nameof(EventDetails.Notes)] = "Notes",
         [nameof(EventDetails.Location)] = "Location",
+        [nameof(EventDetails.Attendees)] = "Guests",
+        [nameof(EventDetails.Priority)] = "",
         [nameof(EventDetails.IsOnline)] = "Online meeting"
     };
     #endregion
