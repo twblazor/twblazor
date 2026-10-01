@@ -16,6 +16,16 @@ public static class DateHelpers
     public static int GetWeekOfYear(DateTime date) => ISOWeek.GetWeekOfYear(date);
 
     /// <summary>
+    /// Gets the short weekday names for the current culture, Monday first to match
+    /// <see cref="GetStartOfWeek"/>.
+    /// </summary>
+    public static IReadOnlyList<string> GetWeekdayHeaders()
+    {
+        var format = CultureInfo.CurrentCulture.DateTimeFormat;
+        return [.. Enumerable.Range(1, 7).Select(i => format.ShortestDayNames[i % 7])];
+    }
+
+    /// <summary>
     /// Gets the Monday that starts the week containing <paramref name="date"/>.
     /// </summary>
     public static DateTime GetStartOfWeek(DateTime date)

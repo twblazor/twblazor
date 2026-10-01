@@ -95,16 +95,6 @@ public partial class TwCalendarMonthView<T> : TwBlazorComponentBase, IAsyncDispo
     /// </summary>
     [Parameter] public DateTime? DropPreview { get; set; }
 
-    private IReadOnlyList<string> weekdayHeaders
-    {
-        get
-        {
-            var format = CultureInfo.CurrentCulture.DateTimeFormat;
-            // Monday-first, matching DateHelpers.GetStartOfWeek's convention throughout TwCalendar.
-            return [.. Enumerable.Range(1, 7).Select(i => format.ShortestDayNames[i % 7])];
-        }
-    }
-
     /// <summary>
     /// Splits the visible grid (the Monday-Sunday weeks spanning the displayed month - 5 or 6 rows
     /// depending on the month, never a hardcoded count) into rows of 7 real dates, including the

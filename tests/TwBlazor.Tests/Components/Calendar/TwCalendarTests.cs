@@ -222,9 +222,9 @@ public class TwCalendarTests : TwBlazorTestBase
             .Add(x => x.View, TwCalendarView.Month));
 
         FindTodayButton(cut).Click();
-        await Task.Delay(1500);
+        await Task.Delay(1500, Xunit.TestContext.Current.CancellationToken);
         FindTodayButton(cut).Click();
-        await Task.Delay(1000); // 2.5s after the first press, 1s after the second
+        await Task.Delay(1000, Xunit.TestContext.Current.CancellationToken); // 2.5s after the first press, 1s after the second
 
         Assert.Single(cut.FindAll(".animate-pulse"));
         cut.WaitForAssertion(() => Assert.Empty(cut.FindAll(".animate-pulse")), TimeSpan.FromSeconds(5));
@@ -237,7 +237,7 @@ public class TwCalendarTests : TwBlazorTestBase
         FindTodayButton(cut).Click();
 
         var exception = Record.Exception(() => TestContext.Dispose());
-        await Task.Delay(100);
+        await Task.Delay(100, Xunit.TestContext.Current.CancellationToken);
 
         Assert.Null(exception);
     }

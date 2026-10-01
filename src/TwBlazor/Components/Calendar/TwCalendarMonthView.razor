@@ -12,7 +12,7 @@
     </colgroup>
     <thead>
         <tr role="row">
-            @foreach (var header in weekdayHeaders)
+            @foreach (var header in TwBlazor.Utilities.DateHelpers.GetWeekdayHeaders())
             {
                 <th scope="col" role="columnheader" class="@theme.DayColumnHeader">@header</th>
             }
