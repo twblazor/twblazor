@@ -256,12 +256,12 @@
         "theme": "TwPickListTheme"
       },
       {
-        "id": "schedule-navitem",
-        "display": "Schedule",
-        "name": "TwSchedule",
-        "url": "/schedule",
+        "id": "calendar-navitem",
+        "display": "Calendar",
+        "name": "TwCalendar",
+        "url": "/calendar",
         "isNew": true,
-        "theme": "TwScheduleTheme"
+        "theme": "TwCalendarTheme"
       },
       {
         "id": "table-navitem",

@@ -10,15 +10,15 @@ using TwBlazor.Utilities;
 namespace TwBlazor.Components;
 
 /// <summary>
-/// Renders a Monday-Sunday week of <see cref="TwScheduleDayColumn{T}"/>s side by side, with a single
+/// Renders a Monday-Sunday week of <see cref="TwCalendarDayColumn{T}"/>s side by side, with a single
 /// shared hourly time-label gutter and a row of day headers (e.g. "Mon 16").
 /// </summary>
 /// <typeparam name="T">The type of <see cref="Schedule{T}.Value"/> for the events shown.</typeparam>
-public partial class TwScheduleWeekView<T> : TwBlazorComponentBase, IAsyncDisposable
+public partial class TwCalendarWeekView<T> : TwBlazorComponentBase, IAsyncDisposable
 {
     [Inject] public IJSRuntime JSRuntime { get; set; } = default!;
 
-    private TwScheduleTheme theme => options.Theme.Components.Require<TwScheduleTheme>();
+    private TwCalendarTheme theme => options.Theme.Components.Require<TwCalendarTheme>();
 
     private const int hoursPerDay = 24;
     private const int daysPerWeek = 7;
@@ -33,7 +33,7 @@ public partial class TwScheduleWeekView<T> : TwBlazorComponentBase, IAsyncDispos
 
     /// <summary>
     /// The full event list; filtered per day before being passed to each day's
-    /// <see cref="TwScheduleDayColumn{T}"/>.
+    /// <see cref="TwCalendarDayColumn{T}"/>.
     /// </summary>
     [Parameter] public List<Schedule<T>> Schedules { get; set; } = [];
 
@@ -60,12 +60,12 @@ public partial class TwScheduleWeekView<T> : TwBlazorComponentBase, IAsyncDispos
 
     /// <summary>
     /// Invoked with a day's date when its header is clicked - typically wired up by
-    /// <see cref="TwSchedule{T}"/> to switch to the Day view for that date.
+    /// <see cref="TwCalendar{T}"/> to switch to the Day view for that date.
     /// </summary>
     [Parameter] public EventCallback<DateTime> OnDayHeaderClick { get; set; }
 
     /// <summary>
-    /// Invoked with an event when dragging it starts. See <see cref="TwSchedule{T}"/>'s
+    /// Invoked with an event when dragging it starts. See <see cref="TwCalendar{T}"/>'s
     /// <c>OnEventDragStart</c>/<c>OnEventDrop</c> remarks.
     /// </summary>
     [Parameter] public EventCallback<Schedule<T>> OnEventDragStart { get; set; }
@@ -73,13 +73,13 @@ public partial class TwScheduleWeekView<T> : TwBlazorComponentBase, IAsyncDispos
     /// <summary>
     /// Invoked with a slot's start date/time when a dragged event is dropped there. Which day it
     /// lands on falls naturally out of which column the drop happened in - see
-    /// <see cref="TwScheduleDayColumn{T}"/>, which each column instance already scopes to its own
-    /// <see cref="TwScheduleDayColumn{T}.Date"/> - so this view doesn't need any extra cross-day logic.
+    /// <see cref="TwCalendarDayColumn{T}"/>, which each column instance already scopes to its own
+    /// <see cref="TwCalendarDayColumn{T}.Date"/> - so this view doesn't need any extra cross-day logic.
     /// </summary>
     [Parameter] public EventCallback<DateTime> OnEventDrop { get; set; }
 
     /// <summary>
-    /// Invoked with the start of the slot a dragged event is hovering. See <see cref="TwScheduleDayColumn{T}.OnEventDragOver"/>.
+    /// Invoked with the start of the slot a dragged event is hovering. See <see cref="TwCalendarDayColumn{T}.OnEventDragOver"/>.
     /// </summary>
     [Parameter] public EventCallback<DateTime> OnEventDragOver { get; set; }
 
@@ -89,7 +89,7 @@ public partial class TwScheduleWeekView<T> : TwBlazorComponentBase, IAsyncDispos
     [Parameter] public EventCallback OnEventDragEnd { get; set; }
 
     /// <summary>
-    /// The event being dragged once the drag is live; see <see cref="TwScheduleDayColumn{T}.DraggedEvent"/>.
+    /// The event being dragged once the drag is live; see <see cref="TwCalendarDayColumn{T}.DraggedEvent"/>.
     /// </summary>
     [Parameter] public Schedule<T>? DraggedEvent { get; set; }
 
@@ -99,12 +99,12 @@ public partial class TwScheduleWeekView<T> : TwBlazorComponentBase, IAsyncDispos
     [Parameter] public DateTime? DropPreview { get; set; }
 
     /// <summary>
-    /// The CSS <c>max-height</c> of the scrollable time grid - see <see cref="TwSchedule{T}.MaxHeight"/>.
+    /// The CSS <c>max-height</c> of the scrollable time grid - see <see cref="TwCalendar{T}.MaxHeight"/>.
     /// </summary>
     [Parameter] public string MaxHeight { get; set; } = "40rem";
 
     /// <summary>
-    /// The time of day scrolled to when this view first mounts - see <see cref="TwSchedule{T}.ScrollToTime"/>.
+    /// The time of day scrolled to when this view first mounts - see <see cref="TwCalendar{T}.ScrollToTime"/>.
     /// </summary>
     [Parameter] public TimeSpan ScrollToTime { get; set; } = TimeSpan.FromHours(8);
 
@@ -117,7 +117,7 @@ public partial class TwScheduleWeekView<T> : TwBlazorComponentBase, IAsyncDispos
     private List<Schedule<T>> GetDayEvents(DateTime day) =>
         [.. Schedules.Where(e => e.DateTimeStart.DateTime.Date == day.Date)];
 
-    // items-start matters here for the same reason as TwScheduleDayView's identical property - without
+    // items-start matters here for the same reason as TwCalendarDayView's identical property - without
     // it, flexbox's default align-items:stretch resizes the gutter/day columns to the (max-height-
     // clamped) scroll container's cross size instead of letting them keep their full content height.
     private string scrollContainerClasses => new ClassBuilder(options.Theme.Display.Flex)
@@ -149,7 +149,7 @@ public partial class TwScheduleWeekView<T> : TwBlazorComponentBase, IAsyncDispos
         .AddClass(options.Theme.Flexbox.Flex1)
         .Build();
 
-    private string nowOffsetStyle => $"top:{TwScheduleTimeGrid.GetOffsetRem(now.TimeOfDay.TotalMinutes).ToString(System.Globalization.CultureInfo.InvariantCulture)}rem;";
+    private string nowOffsetStyle => $"top:{TwCalendarTimeGrid.GetOffsetRem(now.TimeOfDay.TotalMinutes).ToString(System.Globalization.CultureInfo.InvariantCulture)}rem;";
 
     /// <summary>
     /// The 0-based (Monday = 0) index of today's column within <see cref="weekDays"/>, or
@@ -185,18 +185,18 @@ public partial class TwScheduleWeekView<T> : TwBlazorComponentBase, IAsyncDispos
     private Task OnDayHeaderClickedAsync(DateTime day) => OnDayHeaderClick.InvokeAsync(day);
 
     /// <summary>
-    /// Component references to each of the week's seven <see cref="TwScheduleDayColumn{T}"/> instances,
+    /// Component references to each of the week's seven <see cref="TwCalendarDayColumn{T}"/> instances,
     /// indexed 0 (Monday) to 6 (Sunday), so <see cref="OnWrapperKeyDownAsync"/> can move focus into a
     /// neighboring column.
     /// </summary>
-    private readonly TwScheduleDayColumn<T>?[] _columnRefs = new TwScheduleDayColumn<T>?[daysPerWeek];
+    private readonly TwCalendarDayColumn<T>?[] _columnRefs = new TwCalendarDayColumn<T>?[daysPerWeek];
 
     private int focusedColumn;
     private int focusedRow;
 
     /// <summary>
     /// Tracks which column/row currently holds keyboard focus, reported by each day column's own
-    /// <see cref="TwScheduleDayColumn{T}.OnSlotFocused"/>.
+    /// <see cref="TwCalendarDayColumn{T}.OnSlotFocused"/>.
     /// </summary>
     private void OnColumnSlotFocused(int columnIndex, int slotIndex)
     {
@@ -205,7 +205,7 @@ public partial class TwScheduleWeekView<T> : TwBlazorComponentBase, IAsyncDispos
     }
 
     /// <summary>
-    /// Continues ArrowLeft/ArrowRight movement (which each <see cref="TwScheduleDayColumn{T}"/>
+    /// Continues ArrowLeft/ArrowRight movement (which each <see cref="TwCalendarDayColumn{T}"/>
     /// deliberately leaves unhandled - see its own remarks) across the week's day columns, moving
     /// focus to the neighboring column at the same time row.
     /// </summary>
@@ -239,7 +239,7 @@ public partial class TwScheduleWeekView<T> : TwBlazorComponentBase, IAsyncDispos
 
     /// <summary>
     /// Scrolls to <see cref="ScrollToTime"/> once, the first time this view mounts - see the identical
-    /// reasoning on <see cref="TwScheduleDayView{T}.OnAfterRenderAsync"/>.
+    /// reasoning on <see cref="TwCalendarDayView{T}.OnAfterRenderAsync"/>.
     /// </summary>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -252,7 +252,7 @@ public partial class TwScheduleWeekView<T> : TwBlazorComponentBase, IAsyncDispos
             var fraction = Math.Clamp(ScrollToTime.TotalMinutes / (24 * 60), 0, 1);
             try
             {
-                await JSRuntime.InvokeVoidAsync("twSchedule.scrollToFraction", scrollContainerRef, fraction);
+                await JSRuntime.InvokeVoidAsync("twCalendar.scrollToFraction", scrollContainerRef, fraction);
             }
             catch (JSDisconnectedException)
             {

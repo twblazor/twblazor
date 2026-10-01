@@ -468,10 +468,10 @@ globalThis.twTabs = {
     }
 };
 
-// Schedule: scrolls the Day/Week time grid to a starting position (e.g. 8am) once on mount.
+// Calendar: scrolls the Day/Week time grid to a starting position (e.g. 8am) once on mount.
 // Expressed as a fraction of scrollHeight, not a fixed offset, so it stays correct regardless of
-// slot height (TwScheduleTheme.SlotRow can be overridden) or root font size.
-globalThis.twSchedule = {
+// slot height (TwCalendarTheme.SlotRow can be overridden) or root font size.
+globalThis.twCalendar = {
     scrollToFraction: function (container, fraction) {
         if (!container) return;
         container.scrollTop = container.scrollHeight * fraction;

@@ -6,16 +6,16 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using TwBlazor.Components;
 
-namespace TwBlazor.Tests.Components.Schedule;
+namespace TwBlazor.Tests.Components.Calendar;
 
-public class TwScheduleTests : TwBlazorTestBase
+public class TwCalendarTests : TwBlazorTestBase
 {
     [Fact]
     public void RendersHeaderDateLabels_ForSelectedDate()
     {
         var selectedDate = new DateTime(2026, 3, 18); // Wednesday, 4th Monday-start week of March 2026
 
-        var cut = TestContext.Render<TwSchedule<string>>(p => p
+        var cut = TestContext.Render<TwCalendar<string>>(p => p
             .Add(x => x.SelectedDate, selectedDate));
 
         Assert.Contains("March 2026", cut.Markup); // title
@@ -27,52 +27,52 @@ public class TwScheduleTests : TwBlazorTestBase
     [Fact]
     public void RootContainer_SpansFullWidth()
     {
-        var cut = TestContext.Render<TwSchedule<string>>();
+        var cut = TestContext.Render<TwCalendar<string>>();
 
         Assert.Contains("w-full", cut.Find($"#{cut.Instance.Id}").GetAttribute("class"));
     }
 
     [Theory]
-    [InlineData(TwScheduleView.Day)]
-    [InlineData(TwScheduleView.Week)]
-    public void ScrollToTime_DefaultsToEightAm_AndScrollsOnFirstRenderOnly(TwScheduleView view)
+    [InlineData(TwCalendarView.Day)]
+    [InlineData(TwCalendarView.Week)]
+    public void ScrollToTime_DefaultsToEightAm_AndScrollsOnFirstRenderOnly(TwCalendarView view)
     {
-        var cut = TestContext.Render<TwSchedule<string>>(p => p.Add(x => x.View, view));
+        var cut = TestContext.Render<TwCalendar<string>>(p => p.Add(x => x.View, view));
 
-        var invocation = Assert.Single(TestContext.JSInterop.Invocations, i => i.Identifier == "twSchedule.scrollToFraction");
+        var invocation = Assert.Single(TestContext.JSInterop.Invocations, i => i.Identifier == "twCalendar.scrollToFraction");
         var fraction = Assert.IsType<double>(invocation.Arguments[1]);
         Assert.Equal(8.0 * 60 / (24 * 60), fraction, precision: 6);
 
         // Navigating within the same view (Previous/Next) shouldn't re-trigger the scroll - the
         // component instance persists, so OnAfterRenderAsync's firstRender only fires once.
         cut.Find("[aria-label='Next']").Click();
-        Assert.Single(TestContext.JSInterop.Invocations, i => i.Identifier == "twSchedule.scrollToFraction");
+        Assert.Single(TestContext.JSInterop.Invocations, i => i.Identifier == "twCalendar.scrollToFraction");
     }
 
     [Theory]
-    [InlineData(TwScheduleView.Day)]
-    [InlineData(TwScheduleView.Week)]
-    public void ScrollToTime_CanBeCustomized(TwScheduleView view)
+    [InlineData(TwCalendarView.Day)]
+    [InlineData(TwCalendarView.Week)]
+    public void ScrollToTime_CanBeCustomized(TwCalendarView view)
     {
-        var cut = TestContext.Render<TwSchedule<string>>(p => p
+        var cut = TestContext.Render<TwCalendar<string>>(p => p
             .Add(x => x.View, view)
             .Add(x => x.ScrollToTime, TimeSpan.FromHours(13.5)));
 
-        var invocation = Assert.Single(TestContext.JSInterop.Invocations, i => i.Identifier == "twSchedule.scrollToFraction");
+        var invocation = Assert.Single(TestContext.JSInterop.Invocations, i => i.Identifier == "twCalendar.scrollToFraction");
         var fraction = Assert.IsType<double>(invocation.Arguments[1]);
         Assert.Equal(13.5 * 60 / (24 * 60), fraction, precision: 6);
     }
 
     [Theory]
-    [InlineData(TwScheduleView.Day, -1, 0, 0)]
-    [InlineData(TwScheduleView.Week, 0, -7, 0)]
-    [InlineData(TwScheduleView.Month, 0, 0, -1)]
-    public void PreviousButton_StepsByViewsUnit(TwScheduleView view, int expectedDayDelta, int expectedWeekDayDelta, int expectedMonthDelta)
+    [InlineData(TwCalendarView.Day, -1, 0, 0)]
+    [InlineData(TwCalendarView.Week, 0, -7, 0)]
+    [InlineData(TwCalendarView.Month, 0, 0, -1)]
+    public void PreviousButton_StepsByViewsUnit(TwCalendarView view, int expectedDayDelta, int expectedWeekDayDelta, int expectedMonthDelta)
     {
         var selectedDate = new DateTime(2026, 3, 18);
         DateTime? result = null;
 
-        var cut = TestContext.Render<TwSchedule<string>>(p => p
+        var cut = TestContext.Render<TwCalendar<string>>(p => p
             .Add(x => x.SelectedDate, selectedDate)
             .Add(x => x.View, view)
             .Add(x => x.SelectedDateChanged, EventCallback.Factory.Create<DateTime>(this, d => result = d)));
@@ -81,9 +81,9 @@ public class TwScheduleTests : TwBlazorTestBase
 
         var expected = view switch
         {
-            TwScheduleView.Day => selectedDate.AddDays(expectedDayDelta),
-            TwScheduleView.Week => selectedDate.AddDays(expectedWeekDayDelta),
-            TwScheduleView.Month => selectedDate.AddMonths(expectedMonthDelta),
+            TwCalendarView.Day => selectedDate.AddDays(expectedDayDelta),
+            TwCalendarView.Week => selectedDate.AddDays(expectedWeekDayDelta),
+            TwCalendarView.Month => selectedDate.AddMonths(expectedMonthDelta),
             _ => selectedDate
         };
 
@@ -91,15 +91,15 @@ public class TwScheduleTests : TwBlazorTestBase
     }
 
     [Theory]
-    [InlineData(TwScheduleView.Day)]
-    [InlineData(TwScheduleView.Week)]
-    [InlineData(TwScheduleView.Month)]
-    public void NextButton_StepsByViewsUnit(TwScheduleView view)
+    [InlineData(TwCalendarView.Day)]
+    [InlineData(TwCalendarView.Week)]
+    [InlineData(TwCalendarView.Month)]
+    public void NextButton_StepsByViewsUnit(TwCalendarView view)
     {
         var selectedDate = new DateTime(2026, 3, 18);
         DateTime? result = null;
 
-        var cut = TestContext.Render<TwSchedule<string>>(p => p
+        var cut = TestContext.Render<TwCalendar<string>>(p => p
             .Add(x => x.SelectedDate, selectedDate)
             .Add(x => x.View, view)
             .Add(x => x.SelectedDateChanged, EventCallback.Factory.Create<DateTime>(this, d => result = d)));
@@ -108,9 +108,9 @@ public class TwScheduleTests : TwBlazorTestBase
 
         var expected = view switch
         {
-            TwScheduleView.Day => selectedDate.AddDays(1),
-            TwScheduleView.Week => selectedDate.AddDays(7),
-            TwScheduleView.Month => selectedDate.AddMonths(1),
+            TwCalendarView.Day => selectedDate.AddDays(1),
+            TwCalendarView.Week => selectedDate.AddDays(7),
+            TwCalendarView.Month => selectedDate.AddMonths(1),
             _ => selectedDate
         };
 
@@ -122,7 +122,7 @@ public class TwScheduleTests : TwBlazorTestBase
     {
         DateTime? result = null;
 
-        var cut = TestContext.Render<TwSchedule<string>>(p => p
+        var cut = TestContext.Render<TwCalendar<string>>(p => p
             .Add(x => x.SelectedDate, new DateTime(2020, 1, 1))
             .Add(x => x.SelectedDateChanged, EventCallback.Factory.Create<DateTime>(this, d => result = d)));
 
@@ -134,7 +134,7 @@ public class TwScheduleTests : TwBlazorTestBase
     [Fact]
     public void TodayButton_IsAnIconButton_WithAccessibleNameAndTooltip()
     {
-        var cut = TestContext.Render<TwSchedule<string>>();
+        var cut = TestContext.Render<TwCalendar<string>>();
 
         var todayButton = cut.Find("button[aria-label='Today']");
 
@@ -144,12 +144,12 @@ public class TwScheduleTests : TwBlazorTestBase
     }
 
     [Theory]
-    [InlineData(TwScheduleView.Day, "day")]
-    [InlineData(TwScheduleView.Week, "week")]
-    [InlineData(TwScheduleView.Month, "month")]
-    public void NavigationButtons_HaveViewSpecificTooltips(TwScheduleView view, string unit)
+    [InlineData(TwCalendarView.Day, "day")]
+    [InlineData(TwCalendarView.Week, "week")]
+    [InlineData(TwCalendarView.Month, "month")]
+    public void NavigationButtons_HaveViewSpecificTooltips(TwCalendarView view, string unit)
     {
-        var cut = TestContext.Render<TwSchedule<string>>(p => p.Add(x => x.View, view));
+        var cut = TestContext.Render<TwCalendar<string>>(p => p.Add(x => x.View, view));
 
         Assert.Equal($"Previous {unit}", TooltipFor(cut, "Previous"));
         Assert.Equal($"Next {unit}", TooltipFor(cut, "Next"));
@@ -161,7 +161,7 @@ public class TwScheduleTests : TwBlazorTestBase
     [InlineData("Month view")]
     public void ViewSwitcherButtons_HaveTooltips(string label)
     {
-        var cut = TestContext.Render<TwSchedule<string>>();
+        var cut = TestContext.Render<TwCalendar<string>>();
 
         Assert.Equal(label, TooltipFor(cut, label));
     }
@@ -169,13 +169,13 @@ public class TwScheduleTests : TwBlazorTestBase
     [Fact]
     public void SearchButton_HasTooltip()
     {
-        var cut = TestContext.Render<TwSchedule<string>>(p => p
+        var cut = TestContext.Render<TwCalendar<string>>(p => p
             .Add(x => x.OnSearch, EventCallback.Factory.Create(this, () => { })));
 
         Assert.Equal("Search events", TooltipFor(cut, "Search events"));
     }
 
-    private static string TooltipFor(IRenderedComponent<TwSchedule<string>> cut, string ariaLabel)
+    private static string TooltipFor(IRenderedComponent<TwCalendar<string>> cut, string ariaLabel)
     {
         var button = cut.Find($"button[aria-label='{ariaLabel}']");
         return cut.Find($"#{button.GetAttribute("aria-describedby")}").TextContent;
@@ -184,7 +184,7 @@ public class TwScheduleTests : TwBlazorTestBase
     [Fact]
     public void DayCalendar_IsHiddenByDefault_InDayView()
     {
-        var cut = TestContext.Render<TwSchedule<string>>(p => p.Add(x => x.View, TwScheduleView.Day));
+        var cut = TestContext.Render<TwCalendar<string>>(p => p.Add(x => x.View, TwCalendarView.Day));
 
         Assert.Empty(cut.FindComponents<TwBlazor.Components.DatePicker.TwDatePickerCalendar>());
     }
@@ -192,8 +192,8 @@ public class TwScheduleTests : TwBlazorTestBase
     [Fact]
     public void DayCalendar_IsShown_WhenShowDayCalendarIsTrue()
     {
-        var cut = TestContext.Render<TwSchedule<string>>(p => p
-            .Add(x => x.View, TwScheduleView.Day)
+        var cut = TestContext.Render<TwCalendar<string>>(p => p
+            .Add(x => x.View, TwCalendarView.Day)
             .Add(x => x.ShowDayCalendar, true));
 
         Assert.Single(cut.FindComponents<TwBlazor.Components.DatePicker.TwDatePickerCalendar>());
@@ -205,9 +205,9 @@ public class TwScheduleTests : TwBlazorTestBase
     [InlineData("600px", "600px")]
     public void MaxHeight_AppliesToScrollableTimeGrid_InDayView(string? maxHeight, string expected)
     {
-        var cut = TestContext.Render<TwSchedule<string>>(p =>
+        var cut = TestContext.Render<TwCalendar<string>>(p =>
         {
-            p.Add(x => x.View, TwScheduleView.Day);
+            p.Add(x => x.View, TwCalendarView.Day);
             if (maxHeight is not null)
             {
                 p.Add(x => x.MaxHeight, maxHeight);
@@ -223,9 +223,9 @@ public class TwScheduleTests : TwBlazorTestBase
     [InlineData("20rem", "20rem")]
     public void MaxHeight_AppliesToScrollableTimeGrid_InWeekView(string? maxHeight, string expected)
     {
-        var cut = TestContext.Render<TwSchedule<string>>(p =>
+        var cut = TestContext.Render<TwCalendar<string>>(p =>
         {
-            p.Add(x => x.View, TwScheduleView.Week);
+            p.Add(x => x.View, TwCalendarView.Week);
             if (maxHeight is not null)
             {
                 p.Add(x => x.MaxHeight, maxHeight);
@@ -237,9 +237,9 @@ public class TwScheduleTests : TwBlazorTestBase
     }
 
     [Theory]
-    [InlineData(TwScheduleView.Day)]
-    [InlineData(TwScheduleView.Week)]
-    public void ScrollContainer_UsesItemsStart_NotDefaultStretch(TwScheduleView view)
+    [InlineData(TwCalendarView.Day)]
+    [InlineData(TwCalendarView.Week)]
+    public void ScrollContainer_UsesItemsStart_NotDefaultStretch(TwCalendarView view)
     {
         // Regression test: flexbox's default align-items:stretch resizes the gutter/day-column flex
         // children to the (max-height-clamped) scroll container's cross size instead of their full
@@ -247,7 +247,7 @@ public class TwScheduleTests : TwBlazorTestBase
         // absolute "top" measured from the day column's own top edge) down to wherever that shrunk
         // box ends up, which visually reads as events clustering near the bottom of the day regardless
         // of their real time. items-start keeps the children at their natural (144rem) height instead.
-        var cut = TestContext.Render<TwSchedule<string>>(p => p.Add(x => x.View, view));
+        var cut = TestContext.Render<TwCalendar<string>>(p => p.Add(x => x.View, view));
 
         var scrollContainer = cut.Find("div.overflow-y-auto");
 
@@ -267,7 +267,7 @@ public class TwScheduleTests : TwBlazorTestBase
         var start = day.AddHours(hour).AddMinutes(minute);
         var evt = new Schedule<string> { Name = label, DateTimeStart = start, DateTimeEnd = start.AddMinutes(30) };
 
-        var cut = TestContext.Render<TwScheduleDayColumn<string>>(p => p
+        var cut = TestContext.Render<TwCalendarDayColumn<string>>(p => p
             .Add(x => x.Date, day)
             .Add(x => x.Events, new List<Schedule<string>> { evt }));
 
@@ -284,9 +284,9 @@ public class TwScheduleTests : TwBlazorTestBase
         var day = new DateTime(2026, 3, 18);
         var evt = new Schedule<string> { Name = "Design review", DateTimeStart = day.AddHours(9), DateTimeEnd = day.AddHours(10), Color = "#2563eb" };
 
-        var cut = TestContext.Render<TwSchedule<string>>(p => p
+        var cut = TestContext.Render<TwCalendar<string>>(p => p
             .Add(x => x.SelectedDate, day)
-            .Add(x => x.View, TwScheduleView.Day)
+            .Add(x => x.View, TwCalendarView.Day)
             .Add(x => x.Schedules, [evt]));
 
         var chip = cut.Find("button[aria-label^='Design review']");
@@ -303,9 +303,9 @@ public class TwScheduleTests : TwBlazorTestBase
         var day = new DateTime(2026, 3, 18);
         var evt = new Schedule<string> { Name = "Design review", DateTimeStart = day.AddHours(9), DateTimeEnd = day.AddHours(10) };
 
-        var cut = TestContext.Render<TwSchedule<string>>(p => p
+        var cut = TestContext.Render<TwCalendar<string>>(p => p
             .Add(x => x.SelectedDate, day)
-            .Add(x => x.View, TwScheduleView.Day)
+            .Add(x => x.View, TwCalendarView.Day)
             .Add(x => x.Schedules, [evt]));
 
         var chip = cut.Find("button[aria-label^='Design review']");
@@ -328,9 +328,9 @@ public class TwScheduleTests : TwBlazorTestBase
         var evt = Event("Design review", day.AddHours(9), day.AddHours(10));
         List<Schedule<string>>? updatedList = null;
 
-        var cut = TestContext.Render<TwSchedule<string>>(p => p
+        var cut = TestContext.Render<TwCalendar<string>>(p => p
             .Add(x => x.SelectedDate, day)
-            .Add(x => x.View, TwScheduleView.Day)
+            .Add(x => x.View, TwCalendarView.Day)
             .Add(x => x.Editable, true)
             .Add(x => x.Schedules, [evt])
             .Add(x => x.SchedulesChanged, EventCallback.Factory.Create<List<Schedule<string>>>(this, list => updatedList = list)));
@@ -350,9 +350,9 @@ public class TwScheduleTests : TwBlazorTestBase
         var evt = Event("Design review", wednesday.AddHours(9), wednesday.AddHours(10));
         List<Schedule<string>>? updatedList = null;
 
-        var cut = TestContext.Render<TwSchedule<string>>(p => p
+        var cut = TestContext.Render<TwCalendar<string>>(p => p
             .Add(x => x.SelectedDate, wednesday)
-            .Add(x => x.View, TwScheduleView.Week)
+            .Add(x => x.View, TwCalendarView.Week)
             .Add(x => x.Editable, true)
             .Add(x => x.Schedules, [evt])
             .Add(x => x.SchedulesChanged, EventCallback.Factory.Create<List<Schedule<string>>>(this, list => updatedList = list)));
@@ -360,7 +360,7 @@ public class TwScheduleTests : TwBlazorTestBase
         cut.Find("button[aria-label^='Design review']").DragStart(new DragEventArgs());
 
         // Columns render Monday(0)..Sunday(6); Wednesday is index 2, Thursday index 3.
-        var thursdayColumn = cut.FindComponents<TwScheduleDayColumn<string>>()[3];
+        var thursdayColumn = cut.FindComponents<TwCalendarDayColumn<string>>()[3];
         thursdayColumn.Find("button[aria-label='9:00 AM']").Drop(new DragEventArgs());
 
         var moved = Assert.Single(Assert.IsType<List<Schedule<string>>>(updatedList));
@@ -374,9 +374,9 @@ public class TwScheduleTests : TwBlazorTestBase
         var evt = Event("Design review", new DateTime(2026, 3, 10, 9, 30, 0), new DateTime(2026, 3, 10, 10, 15, 0));
         List<Schedule<string>>? updatedList = null;
 
-        var cut = TestContext.Render<TwSchedule<string>>(p => p
+        var cut = TestContext.Render<TwCalendar<string>>(p => p
             .Add(x => x.SelectedDate, new DateTime(2026, 3, 15))
-            .Add(x => x.View, TwScheduleView.Month)
+            .Add(x => x.View, TwCalendarView.Month)
             .Add(x => x.Editable, true)
             .Add(x => x.Schedules, [evt])
             .Add(x => x.SchedulesChanged, EventCallback.Factory.Create<List<Schedule<string>>>(this, list => updatedList = list)));
@@ -395,9 +395,9 @@ public class TwScheduleTests : TwBlazorTestBase
 
     /// <summary>
     /// Starts dragging the named event and waits for the schedule to enter drag mode, which it does a
-    /// moment after dragstart (see TwSchedule's drag activation delay).
+    /// moment after dragstart (see TwCalendar's drag activation delay).
     /// </summary>
-    private static void StartDrag(IRenderedComponent<TwSchedule<string>> cut, string eventName)
+    private static void StartDrag(IRenderedComponent<TwCalendar<string>> cut, string eventName)
     {
         cut.Find($"button[aria-label^='{eventName}']").DragStart(new DragEventArgs());
         cut.WaitForAssertion(() => Assert.Contains("pointer-events-none", cut.Find($"button[aria-label^='{eventName}']").GetAttribute("class")));
@@ -410,9 +410,9 @@ public class TwScheduleTests : TwBlazorTestBase
         var dragged = Event("Design review", day.AddHours(9), day.AddHours(10.5));
         var other = Event("Existing", day.AddHours(14), day.AddHours(15));
 
-        var cut = TestContext.Render<TwSchedule<string>>(p => p
+        var cut = TestContext.Render<TwCalendar<string>>(p => p
             .Add(x => x.SelectedDate, day)
-            .Add(x => x.View, TwScheduleView.Day)
+            .Add(x => x.View, TwCalendarView.Day)
             .Add(x => x.Editable, true)
             .Add(x => x.Schedules, [dragged, other]));
 
@@ -434,19 +434,19 @@ public class TwScheduleTests : TwBlazorTestBase
         var wednesday = new DateTime(2026, 3, 18);
         var evt = Event("Design review", wednesday.AddHours(9), wednesday.AddHours(10));
 
-        var cut = TestContext.Render<TwSchedule<string>>(p => p
+        var cut = TestContext.Render<TwCalendar<string>>(p => p
             .Add(x => x.SelectedDate, wednesday)
-            .Add(x => x.View, TwScheduleView.Week)
+            .Add(x => x.View, TwCalendarView.Week)
             .Add(x => x.Editable, true)
             .Add(x => x.Schedules, [evt]));
 
         StartDrag(cut, "Design review");
-        var columns = cut.FindComponents<TwScheduleDayColumn<string>>();
+        var columns = cut.FindComponents<TwCalendarDayColumn<string>>();
         columns[3].Find("button[aria-label='9:00 AM']").DragEnter(new DragEventArgs());
 
         cut.WaitForAssertion(() =>
         {
-            columns = cut.FindComponents<TwScheduleDayColumn<string>>();
+            columns = cut.FindComponents<TwCalendarDayColumn<string>>();
             for (var i = 0; i < columns.Count; i++)
             {
                 var hasPlaceholder = columns[i].FindAll("div[aria-hidden='true']").Count > 0;
@@ -463,9 +463,9 @@ public class TwScheduleTests : TwBlazorTestBase
         var other = Event("Existing", day.AddHours(14), day.AddHours(15));
         List<Schedule<string>>? updatedList = null;
 
-        var cut = TestContext.Render<TwSchedule<string>>(p => p
+        var cut = TestContext.Render<TwCalendar<string>>(p => p
             .Add(x => x.SelectedDate, day)
-            .Add(x => x.View, TwScheduleView.Day)
+            .Add(x => x.View, TwCalendarView.Day)
             .Add(x => x.Editable, true)
             .Add(x => x.Schedules, [dragged, other])
             .Add(x => x.SchedulesChanged, EventCallback.Factory.Create<List<Schedule<string>>>(this, list => updatedList = list)));
@@ -492,9 +492,9 @@ public class TwScheduleTests : TwBlazorTestBase
         var day = new DateTime(2026, 3, 18);
         var evt = Event("Design review", day.AddHours(9), day.AddHours(10));
 
-        var cut = TestContext.Render<TwSchedule<string>>(p => p
+        var cut = TestContext.Render<TwCalendar<string>>(p => p
             .Add(x => x.SelectedDate, day)
-            .Add(x => x.View, TwScheduleView.Day)
+            .Add(x => x.View, TwCalendarView.Day)
             .Add(x => x.Editable, true)
             .Add(x => x.Schedules, [evt]));
 
@@ -516,9 +516,9 @@ public class TwScheduleTests : TwBlazorTestBase
     {
         var evt = Event("Design review", new DateTime(2026, 3, 10, 9, 30, 0), new DateTime(2026, 3, 10, 10, 15, 0));
 
-        var cut = TestContext.Render<TwSchedule<string>>(p => p
+        var cut = TestContext.Render<TwCalendar<string>>(p => p
             .Add(x => x.SelectedDate, new DateTime(2026, 3, 15))
-            .Add(x => x.View, TwScheduleView.Month)
+            .Add(x => x.View, TwCalendarView.Month)
             .Add(x => x.Editable, true)
             .Add(x => x.Schedules, [evt]));
 
@@ -543,9 +543,9 @@ public class TwScheduleTests : TwBlazorTestBase
         var day = new DateTime(2026, 3, 18);
         var evt = Event("Locked", day.AddHours(9), day.AddHours(10), readOnly: true);
 
-        var cut = TestContext.Render<TwSchedule<string>>(p => p
+        var cut = TestContext.Render<TwCalendar<string>>(p => p
             .Add(x => x.SelectedDate, day)
-            .Add(x => x.View, TwScheduleView.Day)
+            .Add(x => x.View, TwCalendarView.Day)
             .Add(x => x.Editable, true)
             .Add(x => x.Schedules, [evt]));
 
@@ -560,9 +560,9 @@ public class TwScheduleTests : TwBlazorTestBase
         var day = new DateTime(2026, 3, 18);
         var evt = Event("Design review", day.AddHours(9), day.AddHours(10));
 
-        var cut = TestContext.Render<TwSchedule<string>>(p => p
+        var cut = TestContext.Render<TwCalendar<string>>(p => p
             .Add(x => x.SelectedDate, day)
-            .Add(x => x.View, TwScheduleView.Day)
+            .Add(x => x.View, TwCalendarView.Day)
             .Add(x => x.Editable, false)
             .Add(x => x.Schedules, [evt]));
 
@@ -574,24 +574,24 @@ public class TwScheduleTests : TwBlazorTestBase
     [Fact]
     public void ViewSwitch_InvokesViewChanged_AndSwapsRenderedViewComponent()
     {
-        TwScheduleView? result = null;
+        TwCalendarView? result = null;
 
-        var cut = TestContext.Render<TwSchedule<string>>(p => p
-            .Add(x => x.View, TwScheduleView.Week)
-            .Add(x => x.ViewChanged, EventCallback.Factory.Create<TwScheduleView>(this, v => result = v)));
+        var cut = TestContext.Render<TwCalendar<string>>(p => p
+            .Add(x => x.View, TwCalendarView.Week)
+            .Add(x => x.ViewChanged, EventCallback.Factory.Create<TwCalendarView>(this, v => result = v)));
 
-        Assert.NotNull(cut.FindComponent<TwScheduleWeekView<string>>());
+        Assert.NotNull(cut.FindComponent<TwCalendarWeekView<string>>());
 
         cut.Find("[aria-label='Month view']").Click();
 
-        Assert.Equal(TwScheduleView.Month, result);
+        Assert.Equal(TwCalendarView.Month, result);
     }
 
     [Fact]
     public void ViewSwitcher_MarksActiveViewButton_WithAriaPressed()
     {
-        var cut = TestContext.Render<TwSchedule<string>>(p => p
-            .Add(x => x.View, TwScheduleView.Week));
+        var cut = TestContext.Render<TwCalendar<string>>(p => p
+            .Add(x => x.View, TwCalendarView.Week));
 
         Assert.Equal("false", cut.Find("[aria-label='Day view']").GetAttribute("aria-pressed"));
         Assert.Equal("true", cut.Find("[aria-label='Week view']").GetAttribute("aria-pressed"));
@@ -601,25 +601,25 @@ public class TwScheduleTests : TwBlazorTestBase
     [Fact]
     public void RendersDayView_WhenViewIsDay()
     {
-        var cut = TestContext.Render<TwSchedule<string>>(p => p
-            .Add(x => x.View, TwScheduleView.Day));
+        var cut = TestContext.Render<TwCalendar<string>>(p => p
+            .Add(x => x.View, TwCalendarView.Day));
 
-        Assert.NotNull(cut.FindComponent<TwScheduleDayView<string>>());
+        Assert.NotNull(cut.FindComponent<TwCalendarDayView<string>>());
     }
 
     [Fact]
     public void RendersMonthView_WhenViewIsMonth()
     {
-        var cut = TestContext.Render<TwSchedule<string>>(p => p
-            .Add(x => x.View, TwScheduleView.Month));
+        var cut = TestContext.Render<TwCalendar<string>>(p => p
+            .Add(x => x.View, TwCalendarView.Month));
 
-        Assert.NotNull(cut.FindComponent<TwScheduleMonthView<string>>());
+        Assert.NotNull(cut.FindComponent<TwCalendarMonthView<string>>());
     }
 
     [Fact]
     public void AddEventButton_HiddenByDefault_ShownWhenEditable()
     {
-        var cut = TestContext.Render<TwSchedule<string>>();
+        var cut = TestContext.Render<TwCalendar<string>>();
 
         Assert.DoesNotContain("Add event", cut.Markup);
 
@@ -631,7 +631,7 @@ public class TwScheduleTests : TwBlazorTestBase
     [Fact]
     public void SearchButton_HiddenByDefault_ShownWhenOnSearchHasDelegate()
     {
-        var cut = TestContext.Render<TwSchedule<string>>();
+        var cut = TestContext.Render<TwCalendar<string>>();
 
         Assert.Empty(cut.FindAll("[aria-label='Search events']"));
 
@@ -644,14 +644,14 @@ public class TwScheduleTests : TwBlazorTestBase
     #region Now indicator
 
     [Theory]
-    [InlineData(TwScheduleView.Day)]
-    [InlineData(TwScheduleView.Week)]
-    public void NowIndicator_RendersLineAndGutterLabel_RegardlessOfViewedDate(TwScheduleView view)
+    [InlineData(TwCalendarView.Day)]
+    [InlineData(TwCalendarView.Week)]
+    public void NowIndicator_RendersLineAndGutterLabel_RegardlessOfViewedDate(TwCalendarView view)
     {
         // The indicator is a "what time is it right now" reference bar, not scoped to today - it must
         // still render even when browsing a date far from today.
         var before = DateTime.Now;
-        var cut = TestContext.Render<TwSchedule<string>>(p => p
+        var cut = TestContext.Render<TwCalendar<string>>(p => p
             .Add(x => x.SelectedDate, DateTime.Today.AddDays(30))
             .Add(x => x.View, view));
         var after = DateTime.Now;
@@ -659,8 +659,8 @@ public class TwScheduleTests : TwBlazorTestBase
         var line = cut.Find("div.border-t-2");
         var label = cut.Find("div.right-2");
 
-        var minTop = TwScheduleTimeGrid.GetOffsetRem(before.TimeOfDay.TotalMinutes);
-        var maxTop = TwScheduleTimeGrid.GetOffsetRem(after.TimeOfDay.TotalMinutes);
+        var minTop = TwCalendarTimeGrid.GetOffsetRem(before.TimeOfDay.TotalMinutes);
+        var maxTop = TwCalendarTimeGrid.GetOffsetRem(after.TimeOfDay.TotalMinutes);
         var lineStyle = line.GetAttribute("style")!;
         var actualTop = decimal.Parse(lineStyle.Split("top:")[1].Split("rem")[0], System.Globalization.CultureInfo.InvariantCulture);
 
@@ -671,9 +671,9 @@ public class TwScheduleTests : TwBlazorTestBase
     [Fact]
     public void NowIndicator_Dot_AlwaysPresent_AtLeftEdge_InDayView()
     {
-        var cut = TestContext.Render<TwSchedule<string>>(p => p
+        var cut = TestContext.Render<TwCalendar<string>>(p => p
             .Add(x => x.SelectedDate, DateTime.Today.AddDays(30))
-            .Add(x => x.View, TwScheduleView.Day));
+            .Add(x => x.View, TwCalendarView.Day));
 
         var dot = cut.Find("div.border-t-2").QuerySelector("span");
 
@@ -684,9 +684,9 @@ public class TwScheduleTests : TwBlazorTestBase
     [Fact]
     public void NowIndicator_Dot_Present_InWeekView_WhenTodayIsInTheDisplayedWeek()
     {
-        var cut = TestContext.Render<TwSchedule<string>>(p => p
+        var cut = TestContext.Render<TwCalendar<string>>(p => p
             .Add(x => x.SelectedDate, DateTime.Today)
-            .Add(x => x.View, TwScheduleView.Week));
+            .Add(x => x.View, TwCalendarView.Week));
 
         var dot = cut.Find("div.border-t-2").QuerySelector("span");
         var weekStart = TwBlazor.Utilities.DateHelpers.GetStartOfWeek(DateTime.Today);
@@ -699,9 +699,9 @@ public class TwScheduleTests : TwBlazorTestBase
     [Fact]
     public void NowIndicator_Dot_Absent_InWeekView_WhenTodayIsNotInTheDisplayedWeek()
     {
-        var cut = TestContext.Render<TwSchedule<string>>(p => p
+        var cut = TestContext.Render<TwCalendar<string>>(p => p
             .Add(x => x.SelectedDate, DateTime.Today.AddDays(30))
-            .Add(x => x.View, TwScheduleView.Week));
+            .Add(x => x.View, TwCalendarView.Week));
 
         var dot = cut.Find("div.border-t-2").QuerySelector("span");
 

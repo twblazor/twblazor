@@ -5,11 +5,11 @@ namespace TwBlazor.Components;
 
 /// <summary>
 /// Computes a side-by-side column layout for a set of same-day <see cref="Schedule{T}"/> events, the
-/// way Google Calendar/MS Teams lay out overlapping meetings, so <see cref="TwScheduleDayColumn{T}"/>
+/// way Google Calendar/MS Teams lay out overlapping meetings, so <see cref="TwCalendarDayColumn{T}"/>
 /// can position each event with a <c>left</c>/<c>width</c> percentage instead of stacking overlapping
 /// events directly on top of each other.
 /// </summary>
-public static class TwScheduleEventLayout
+public static class TwCalendarEventLayout
 {
     /// <summary>
     /// One event's position within its overlap cluster: <see cref="Column"/> (0-based) of

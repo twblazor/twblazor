@@ -5,9 +5,9 @@ using Bunit;
 using Microsoft.AspNetCore.Components;
 using TwBlazor.Components;
 
-namespace TwBlazor.Tests.Components.Schedule;
+namespace TwBlazor.Tests.Components.Calendar;
 
-public class TwScheduleMonthViewTests : TwBlazorTestBase
+public class TwCalendarMonthViewTests : TwBlazorTestBase
 {
     private static Schedule<string> Event(string name, DateTime day, int startHour, int endHour) => new()
     {
@@ -20,7 +20,7 @@ public class TwScheduleMonthViewTests : TwBlazorTestBase
     public void RendersSixWeekRows_ForAMonthThatSpansSixWeeks()
     {
         // March 2026: 1st is a Sunday and the 31st is a Tuesday, so the Monday-start grid needs 6 rows.
-        var cut = TestContext.Render<TwScheduleMonthView<string>>(p => p
+        var cut = TestContext.Render<TwCalendarMonthView<string>>(p => p
             .Add(x => x.Date, new DateTime(2026, 3, 15)));
 
         var rows = cut.FindAll("tbody tr[role='row']");
@@ -32,7 +32,7 @@ public class TwScheduleMonthViewTests : TwBlazorTestBase
     public void RendersFiveWeekRows_ForAMonthThatSpansFiveWeeks()
     {
         // April 2026: 1st is a Wednesday and the 30th is a Thursday, so the Monday-start grid fits 5 rows.
-        var cut = TestContext.Render<TwScheduleMonthView<string>>(p => p
+        var cut = TestContext.Render<TwCalendarMonthView<string>>(p => p
             .Add(x => x.Date, new DateTime(2026, 4, 15)));
 
         var rows = cut.FindAll("tbody tr[role='row']");
@@ -48,7 +48,7 @@ public class TwScheduleMonthViewTests : TwBlazorTestBase
         // that happens to hold more/longer event chips in a later week renders wider than the rest -
         // an explicit equal-width <col> per column is what keeps every column the same width
         // regardless of how much content lands in it.
-        var cut = TestContext.Render<TwScheduleMonthView<string>>(p => p
+        var cut = TestContext.Render<TwCalendarMonthView<string>>(p => p
             .Add(x => x.Date, new DateTime(2026, 3, 15)));
 
         var cols = cut.FindAll("colgroup col");
@@ -62,7 +62,7 @@ public class TwScheduleMonthViewTests : TwBlazorTestBase
     [Fact]
     public void EveryRow_HasSevenDayCells()
     {
-        var cut = TestContext.Render<TwScheduleMonthView<string>>(p => p
+        var cut = TestContext.Render<TwCalendarMonthView<string>>(p => p
             .Add(x => x.Date, new DateTime(2026, 3, 15)));
 
         foreach (var row in cut.FindAll("tbody tr[role='row']"))
@@ -78,7 +78,7 @@ public class TwScheduleMonthViewTests : TwBlazorTestBase
         var evt = Event("Design review", day, 10, 11);
         evt.Color = "#2563eb";
 
-        var cut = TestContext.Render<TwScheduleMonthView<string>>(p => p
+        var cut = TestContext.Render<TwCalendarMonthView<string>>(p => p
             .Add(x => x.Date, new DateTime(2026, 3, 15))
             .Add(x => x.Schedules, [evt]));
 
@@ -96,7 +96,7 @@ public class TwScheduleMonthViewTests : TwBlazorTestBase
         var day = new DateTime(2026, 3, 10);
         var evt = Event("Design review", day, 10, 11);
 
-        var cut = TestContext.Render<TwScheduleMonthView<string>>(p => p
+        var cut = TestContext.Render<TwCalendarMonthView<string>>(p => p
             .Add(x => x.Date, new DateTime(2026, 3, 15))
             .Add(x => x.Schedules, [evt]));
 
@@ -107,7 +107,7 @@ public class TwScheduleMonthViewTests : TwBlazorTestBase
     public void ClickingDayNumber_InvokesOnDayClickWithThatDate()
     {
         DateTime? clicked = null;
-        var cut = TestContext.Render<TwScheduleMonthView<string>>(p => p
+        var cut = TestContext.Render<TwCalendarMonthView<string>>(p => p
             .Add(x => x.Date, new DateTime(2026, 3, 15))
             .Add(x => x.OnDayClick, EventCallback.Factory.Create<DateTime>(this, d => clicked = d)));
 
@@ -127,7 +127,7 @@ public class TwScheduleMonthViewTests : TwBlazorTestBase
         var day = new DateTime(2026, 3, 10);
         var evt = Event("Design review", day, 10, 11);
 
-        var cut = TestContext.Render<TwScheduleMonthView<string>>(p => p
+        var cut = TestContext.Render<TwCalendarMonthView<string>>(p => p
             .Add(x => x.Date, new DateTime(2026, 3, 15))
             .Add(x => x.Schedules, [evt])
             .Add(x => x.OnDayClick, EventCallback.Factory.Create<DateTime>(this, d => dayClicked = d))
@@ -151,7 +151,7 @@ public class TwScheduleMonthViewTests : TwBlazorTestBase
             Event("Event 4", day, 12, 13)
         };
 
-        var cut = TestContext.Render<TwScheduleMonthView<string>>(p => p
+        var cut = TestContext.Render<TwCalendarMonthView<string>>(p => p
             .Add(x => x.Date, new DateTime(2026, 3, 15))
             .Add(x => x.Schedules, events));
 
@@ -169,7 +169,7 @@ public class TwScheduleMonthViewTests : TwBlazorTestBase
             Event("Event 3", day, 11, 12)
         };
 
-        var cut = TestContext.Render<TwScheduleMonthView<string>>(p => p
+        var cut = TestContext.Render<TwCalendarMonthView<string>>(p => p
             .Add(x => x.Date, new DateTime(2026, 3, 15))
             .Add(x => x.Schedules, events));
 

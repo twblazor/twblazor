@@ -3,9 +3,9 @@
 
 using TwBlazor.Components;
 
-namespace TwBlazor.Tests.Components.Schedule;
+namespace TwBlazor.Tests.Components.Calendar;
 
-public class TwScheduleEventLayoutTests
+public class TwCalendarEventLayoutTests
 {
     private static Schedule<string> Event(string name, int startHour, int startMinute, int endHour, int endMinute) => new()
     {
@@ -20,7 +20,7 @@ public class TwScheduleEventLayoutTests
         var a = Event("A", 9, 0, 10, 0);
         var b = Event("B", 11, 0, 12, 0);
 
-        var slots = TwScheduleEventLayout.LayoutEvents(new[] { a, b });
+        var slots = TwCalendarEventLayout.LayoutEvents(new[] { a, b });
 
         Assert.Equal(2, slots.Count);
         Assert.All(slots, slot => Assert.Equal(1, slot.ColumnCount));
@@ -33,7 +33,7 @@ public class TwScheduleEventLayoutTests
         var a = Event("A", 9, 0, 10, 0);
         var b = Event("B", 9, 30, 10, 30);
 
-        var slots = TwScheduleEventLayout.LayoutEvents(new[] { a, b });
+        var slots = TwCalendarEventLayout.LayoutEvents(new[] { a, b });
 
         var slotA = Assert.Single(slots, s => s.Event == a);
         var slotB = Assert.Single(slots, s => s.Event == b);
@@ -50,7 +50,7 @@ public class TwScheduleEventLayoutTests
         var a = Event("A", 9, 0, 10, 0);
         var b = Event("B", 10, 0, 11, 0);
 
-        var slots = TwScheduleEventLayout.LayoutEvents(new[] { a, b });
+        var slots = TwCalendarEventLayout.LayoutEvents(new[] { a, b });
 
         Assert.All(slots, slot => Assert.Equal(0, slot.Column));
         Assert.All(slots, slot => Assert.Equal(1, slot.ColumnCount));
@@ -68,7 +68,7 @@ public class TwScheduleEventLayoutTests
         var b = Event("B", 9, 30, 10, 30);
         var c = Event("C", 10, 15, 11, 0);
 
-        var slots = TwScheduleEventLayout.LayoutEvents(new[] { a, b, c });
+        var slots = TwCalendarEventLayout.LayoutEvents(new[] { a, b, c });
 
         Assert.All(slots, slot => Assert.Equal(2, slot.ColumnCount));
 
@@ -88,7 +88,7 @@ public class TwScheduleEventLayoutTests
         // C starts well after both A and B have ended - a fresh cluster starting back at column 0.
         var c = Event("C", 14, 0, 15, 0);
 
-        var slots = TwScheduleEventLayout.LayoutEvents(new[] { a, b, c });
+        var slots = TwCalendarEventLayout.LayoutEvents(new[] { a, b, c });
 
         var slotC = Assert.Single(slots, s => s.Event == c);
         Assert.Equal(0, slotC.Column);
@@ -102,7 +102,7 @@ public class TwScheduleEventLayoutTests
         var b = Event("B", 9, 0, 11, 0);
         var c = Event("C", 9, 0, 11, 0);
 
-        var slots = TwScheduleEventLayout.LayoutEvents(new[] { a, b, c });
+        var slots = TwCalendarEventLayout.LayoutEvents(new[] { a, b, c });
 
         Assert.All(slots, slot => Assert.Equal(3, slot.ColumnCount));
         Assert.Equal(3, slots.Select(s => s.Column).Distinct().Count());
@@ -111,7 +111,7 @@ public class TwScheduleEventLayoutTests
     [Fact]
     public void LayoutEvents_EmptyInput_ReturnsEmpty()
     {
-        var slots = TwScheduleEventLayout.LayoutEvents(Array.Empty<Schedule<string>>());
+        var slots = TwCalendarEventLayout.LayoutEvents(Array.Empty<Schedule<string>>());
 
         Assert.Empty(slots);
     }

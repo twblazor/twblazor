@@ -21,27 +21,27 @@
             <TwIcon Icon="Icon.Calendar_Check" OnClick="TodayAsync" AriaLabel="Today" Tooltip="Today" Class="@GetNavButtonClasses()" />
             <TwIcon Icon="Icon.Chevron_Right" OnClick="NextAsync" AriaLabel="Next" Tooltip="@nextTooltip" Class="@GetNavButtonClasses()" />
             <div class="@viewSwitcherClasses" role="radiogroup" aria-label="Select view">
-                <TwIcon Icon="@(View == TwScheduleView.Day ? Icon.Calendar_Day_Fill : Icon.Calendar_Day)"
-                        Color="@(View == TwScheduleView.Day ? Color.Primary : null)"
-                        OnClick="@(() => SetViewAsync(TwScheduleView.Day))"
+                <TwIcon Icon="@(View == TwCalendarView.Day ? Icon.Calendar_Day_Fill : Icon.Calendar_Day)"
+                        Color="@(View == TwCalendarView.Day ? Color.Primary : null)"
+                        OnClick="@(() => SetViewAsync(TwCalendarView.Day))"
                         AriaLabel="Day view"
                         Tooltip="Day view"
-                        Class="@GetViewButtonClasses(TwScheduleView.Day)"
-                        aria-pressed="@(View == TwScheduleView.Day ? "true" : "false")" />
-                <TwIcon Icon="@(View == TwScheduleView.Week ? Icon.Calendar_Week_Fill : Icon.Calendar_Week)"
-                        Color="@(View == TwScheduleView.Week ? Color.Primary : null)"
-                        OnClick="@(() => SetViewAsync(TwScheduleView.Week))"
+                        Class="@GetViewButtonClasses(TwCalendarView.Day)"
+                        aria-pressed="@(View == TwCalendarView.Day ? "true" : "false")" />
+                <TwIcon Icon="@(View == TwCalendarView.Week ? Icon.Calendar_Week_Fill : Icon.Calendar_Week)"
+                        Color="@(View == TwCalendarView.Week ? Color.Primary : null)"
+                        OnClick="@(() => SetViewAsync(TwCalendarView.Week))"
                         AriaLabel="Week view"
                         Tooltip="Week view"
-                        Class="@GetViewButtonClasses(TwScheduleView.Week)"
-                        aria-pressed="@(View == TwScheduleView.Week ? "true" : "false")" />
-                <TwIcon Icon="@(View == TwScheduleView.Month ? Icon.Calendar_Month_Fill : Icon.Calendar_Month)"
-                        Color="@(View == TwScheduleView.Month ? Color.Primary : null)"
-                        OnClick="@(() => SetViewAsync(TwScheduleView.Month))"
+                        Class="@GetViewButtonClasses(TwCalendarView.Week)"
+                        aria-pressed="@(View == TwCalendarView.Week ? "true" : "false")" />
+                <TwIcon Icon="@(View == TwCalendarView.Month ? Icon.Calendar_Month_Fill : Icon.Calendar_Month)"
+                        Color="@(View == TwCalendarView.Month ? Color.Primary : null)"
+                        OnClick="@(() => SetViewAsync(TwCalendarView.Month))"
                         AriaLabel="Month view"
                         Tooltip="Month view"
-                        Class="@GetViewButtonClasses(TwScheduleView.Month)"
-                        aria-pressed="@(View == TwScheduleView.Month ? "true" : "false")" />
+                        Class="@GetViewButtonClasses(TwCalendarView.Month)"
+                        aria-pressed="@(View == TwCalendarView.Month ? "true" : "false")" />
             </div>
             @if (Editable)
             {
@@ -50,9 +50,9 @@
         </div>
     </div>
 
-    @if (View == TwScheduleView.Day)
+    @if (View == TwCalendarView.Day)
     {
-        <TwScheduleDayView T="T"
+        <TwCalendarDayView T="T"
                             Date="SelectedDate"
                             DateChanged="SetSelectedDateAsync"
                             Schedules="Schedules"
@@ -70,9 +70,9 @@
                             DraggedEvent="activeDraggedEvent"
                             DropPreview="dropPreview" />
     }
-    else if (View == TwScheduleView.Week)
+    else if (View == TwCalendarView.Week)
     {
-        <TwScheduleWeekView T="T"
+        <TwCalendarWeekView T="T"
                              Date="SelectedDate"
                              Schedules="Schedules"
                              Editable="Editable"
@@ -91,7 +91,7 @@
     }
     else
     {
-        <TwScheduleMonthView T="T"
+        <TwCalendarMonthView T="T"
                               Date="SelectedDate"
                               Schedules="Schedules"
                               Editable="Editable"

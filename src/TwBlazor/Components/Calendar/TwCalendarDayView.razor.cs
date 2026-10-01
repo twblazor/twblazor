@@ -10,18 +10,18 @@ using TwBlazor.Utilities;
 namespace TwBlazor.Components;
 
 /// <summary>
-/// Renders a single day's time-slot grid (via <see cref="TwScheduleDayColumn{T}"/>) with an hourly
+/// Renders a single day's time-slot grid (via <see cref="TwCalendarDayColumn{T}"/>) with an hourly
 /// time-label gutter on the left, plus a <see cref="TwDatePickerCalendar"/> mini-calendar on the right
 /// for quickly jumping to a different day - this is where the original spike's reuse of
-/// <see cref="TwDatePickerCalendar"/> ends up living once <see cref="TwSchedule{T}"/> grew its own
+/// <see cref="TwDatePickerCalendar"/> ends up living once <see cref="TwCalendar{T}"/> grew its own
 /// Day/Week/Month views.
 /// </summary>
 /// <typeparam name="T">The type of <see cref="Schedule{T}.Value"/> for the events shown.</typeparam>
-public partial class TwScheduleDayView<T> : TwBlazorComponentBase, IAsyncDisposable
+public partial class TwCalendarDayView<T> : TwBlazorComponentBase, IAsyncDisposable
 {
     [Inject] public IJSRuntime JSRuntime { get; set; } = default!;
 
-    private TwScheduleTheme theme => options.Theme.Components.Require<TwScheduleTheme>();
+    private TwCalendarTheme theme => options.Theme.Components.Require<TwCalendarTheme>();
 
     private const int hoursPerDay = 24;
 
@@ -39,7 +39,7 @@ public partial class TwScheduleDayView<T> : TwBlazorComponentBase, IAsyncDisposa
 
     /// <summary>
     /// The full event list; filtered down to <see cref="Date"/> before being passed to the
-    /// underlying <see cref="TwScheduleDayColumn{T}"/>.
+    /// underlying <see cref="TwCalendarDayColumn{T}"/>.
     /// </summary>
     [Parameter] public List<Schedule<T>> Schedules { get; set; } = [];
 
@@ -65,7 +65,7 @@ public partial class TwScheduleDayView<T> : TwBlazorComponentBase, IAsyncDisposa
     [Parameter] public EventCallback<Schedule<T>> OnEventClick { get; set; }
 
     /// <summary>
-    /// Invoked with an event when dragging it starts. See <see cref="TwSchedule{T}"/>'s
+    /// Invoked with an event when dragging it starts. See <see cref="TwCalendar{T}"/>'s
     /// <c>OnEventDragStart</c>/<c>OnEventDrop</c> remarks.
     /// </summary>
     [Parameter] public EventCallback<Schedule<T>> OnEventDragStart { get; set; }
@@ -76,7 +76,7 @@ public partial class TwScheduleDayView<T> : TwBlazorComponentBase, IAsyncDisposa
     [Parameter] public EventCallback<DateTime> OnEventDrop { get; set; }
 
     /// <summary>
-    /// Invoked with the start of the slot a dragged event is hovering. See <see cref="TwScheduleDayColumn{T}.OnEventDragOver"/>.
+    /// Invoked with the start of the slot a dragged event is hovering. See <see cref="TwCalendarDayColumn{T}.OnEventDragOver"/>.
     /// </summary>
     [Parameter] public EventCallback<DateTime> OnEventDragOver { get; set; }
 
@@ -86,7 +86,7 @@ public partial class TwScheduleDayView<T> : TwBlazorComponentBase, IAsyncDisposa
     [Parameter] public EventCallback OnEventDragEnd { get; set; }
 
     /// <summary>
-    /// The event being dragged once the drag is live; see <see cref="TwScheduleDayColumn{T}.DraggedEvent"/>.
+    /// The event being dragged once the drag is live; see <see cref="TwCalendarDayColumn{T}.DraggedEvent"/>.
     /// </summary>
     [Parameter] public Schedule<T>? DraggedEvent { get; set; }
 
@@ -97,17 +97,17 @@ public partial class TwScheduleDayView<T> : TwBlazorComponentBase, IAsyncDisposa
 
     /// <summary>
     /// When <see langword="true"/>, shows the mini-calendar beside the time grid. Defaults to
-    /// <see langword="false"/> - see <see cref="TwSchedule{T}.ShowDayCalendar"/>.
+    /// <see langword="false"/> - see <see cref="TwCalendar{T}.ShowDayCalendar"/>.
     /// </summary>
     [Parameter] public bool ShowCalendar { get; set; }
 
     /// <summary>
-    /// The CSS <c>max-height</c> of the scrollable time grid - see <see cref="TwSchedule{T}.MaxHeight"/>.
+    /// The CSS <c>max-height</c> of the scrollable time grid - see <see cref="TwCalendar{T}.MaxHeight"/>.
     /// </summary>
     [Parameter] public string MaxHeight { get; set; } = "40rem";
 
     /// <summary>
-    /// The time of day scrolled to when this view first mounts - see <see cref="TwSchedule{T}.ScrollToTime"/>.
+    /// The time of day scrolled to when this view first mounts - see <see cref="TwCalendar{T}.ScrollToTime"/>.
     /// </summary>
     [Parameter] public TimeSpan ScrollToTime { get; set; } = TimeSpan.FromHours(8);
 
@@ -175,7 +175,7 @@ public partial class TwScheduleDayView<T> : TwBlazorComponentBase, IAsyncDisposa
         .AddClass(options.Theme.Flexbox.Flex1)
         .Build();
 
-    private string nowOffsetStyle => $"top:{TwScheduleTimeGrid.GetOffsetRem(now.TimeOfDay.TotalMinutes).ToString(System.Globalization.CultureInfo.InvariantCulture)}rem;";
+    private string nowOffsetStyle => $"top:{TwCalendarTimeGrid.GetOffsetRem(now.TimeOfDay.TotalMinutes).ToString(System.Globalization.CultureInfo.InvariantCulture)}rem;";
 
     private void OnNowTick(object? state)
     {
@@ -213,7 +213,7 @@ public partial class TwScheduleDayView<T> : TwBlazorComponentBase, IAsyncDisposa
             var fraction = Math.Clamp(ScrollToTime.TotalMinutes / (24 * 60), 0, 1);
             try
             {
-                await JSRuntime.InvokeVoidAsync("twSchedule.scrollToFraction", scrollContainerRef, fraction);
+                await JSRuntime.InvokeVoidAsync("twCalendar.scrollToFraction", scrollContainerRef, fraction);
             }
             catch (JSDisconnectedException)
             {

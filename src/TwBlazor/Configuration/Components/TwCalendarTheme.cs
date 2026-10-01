@@ -6,11 +6,11 @@ using System.Diagnostics.CodeAnalysis;
 namespace TwBlazor.Configuration.Components;
 
 /// <summary>
-/// Theme configuration for the schedule/agenda component (<see cref="TwBlazor.Components.TwSchedule{T}"/>).
+/// Theme configuration for the schedule/agenda component (<see cref="TwBlazor.Components.TwCalendar{T}"/>).
 /// Override any property to customize schedule styles globally.
 /// </summary>
 [ExcludeFromCodeCoverage]
-public class TwScheduleTheme
+public class TwCalendarTheme
 {
     /// <summary>
     /// Gets or sets the classes for the root container.
@@ -57,19 +57,19 @@ public class TwScheduleTheme
 
     /// <summary>
     /// Gets or sets the classes for the "add event" button shown when
-    /// <see cref="TwBlazor.Components.TwSchedule{T}.Editable"/> is <see langword="true"/>.
+    /// <see cref="TwBlazor.Components.TwCalendar{T}.Editable"/> is <see langword="true"/>.
     /// </summary>
     public required string AddButton { get; set; }
 
     /// <summary>
     /// Gets or sets the classes for the search icon button shown when
-    /// <see cref="TwBlazor.Components.TwSchedule{T}.OnSearch"/> has a delegate.
+    /// <see cref="TwBlazor.Components.TwCalendar{T}.OnSearch"/> has a delegate.
     /// </summary>
     public required string SearchButton { get; set; }
 
     /// <summary>
     /// Gets or sets the classes for the Day/Week view's scrollable time-grid area. Combined with an
-    /// inline <c>max-height</c> derived from <see cref="TwBlazor.Components.TwSchedule{T}.MaxHeight"/>,
+    /// inline <c>max-height</c> derived from <see cref="TwBlazor.Components.TwCalendar{T}.MaxHeight"/>,
     /// so this should only carry the scroll behavior itself (e.g. <c>overflow-y-auto</c>), not a
     /// fixed height.
     /// </summary>
@@ -88,7 +88,7 @@ public class TwScheduleTheme
     /// <summary>
     /// Gets or sets the classes for the current-time label overlaid on <see cref="TimeGutter"/> (e.g.
     /// "4:09 pm") when today falls within the displayed Day/Week view - see
-    /// <see cref="TwBlazor.Components.TwScheduleDayView{T}"/>/<see cref="TwBlazor.Components.TwScheduleWeekView{T}"/>.
+    /// <see cref="TwBlazor.Components.TwCalendarDayView{T}"/>/<see cref="TwBlazor.Components.TwCalendarWeekView{T}"/>.
     /// </summary>
     public required string NowIndicatorLabel { get; set; }
 
@@ -112,7 +112,7 @@ public class TwScheduleTheme
 
     /// <summary>
     /// Gets or sets the classes added to a slot row on hover/focus when it's clickable (i.e.
-    /// <see cref="TwBlazor.Components.TwSchedule{T}.Editable"/> is <see langword="true"/>).
+    /// <see cref="TwBlazor.Components.TwCalendar{T}.Editable"/> is <see langword="true"/>).
     /// </summary>
     public required string SlotRowHover { get; set; }
 
@@ -130,7 +130,7 @@ public class TwScheduleTheme
     /// Gets or sets the classes for an event card rendered in the Day/Week time grid - a rounded,
     /// left-accent-bordered, top-left-aligned card (default styling; overridden per-event via inline
     /// style when <see cref="TwBlazor.Components.Schedule{T}.Color"/> is set - see
-    /// <see cref="TwBlazor.Components.TwScheduleColors"/>).
+    /// <see cref="TwBlazor.Components.TwCalendarColors"/>).
     /// </summary>
     public required string EventChip { get; set; }
 
@@ -151,7 +151,7 @@ public class TwScheduleTheme
 
     /// <summary>
     /// Gets or sets the classes layered onto <see cref="EventChip"/>/<see cref="MonthEventRow"/> for
-    /// an event that can be dragged to reschedule it (<see cref="TwBlazor.Components.TwSchedule{T}.Editable"/>
+    /// an event that can be dragged to reschedule it (<see cref="TwBlazor.Components.TwCalendar{T}.Editable"/>
     /// and not <see cref="TwBlazor.Components.Schedule{T}.ReadOnly"/>).
     /// </summary>
     public required string EventChipDraggable { get; set; }
@@ -196,7 +196,7 @@ public class TwScheduleTheme
     /// rounded, left-accent-bordered, tinted card (matching <see cref="EventChip"/>'s default
     /// styling; overridden per-event via inline style when
     /// <see cref="TwBlazor.Components.Schedule{T}.Color"/> is set - see
-    /// <see cref="TwBlazor.Components.TwScheduleColors"/>) holding the event's name and start time
+    /// <see cref="TwBlazor.Components.TwCalendarColors"/>) holding the event's name and start time
     /// on one truncated line.
     /// </summary>
     public required string MonthEventRow { get; set; }
@@ -218,7 +218,7 @@ public class TwScheduleTheme
 
     /// <summary>
     /// Gets or sets the classes for the field stack in the built-in event create/edit/view dialog
-    /// (<see cref="TwBlazor.Components.TwScheduleEventDialog{T}"/>).
+    /// (<see cref="TwBlazor.Components.TwCalendarEventDialog{T}"/>).
     /// </summary>
     public required string EventDialogFields { get; set; }
 
@@ -228,23 +228,29 @@ public class TwScheduleTheme
     public required string EventDialogActions { get; set; }
 
     /// <summary>
-    /// Gets or sets the classes for the read-only event dialog's own header (event color and name),
-    /// shown instead of <see cref="TwBlazor.Components.TwDialog"/>'s default title bar - a rounded,
-    /// left-accent-bordered, tinted card matching <see cref="EventChip"/>'s default styling;
-    /// overridden per-event via inline style when <see cref="TwBlazor.Components.Schedule{T}.Color"/>
-    /// is set.
+    /// Gets or sets the classes for the thin accent bar at the top of the edit dialog's form. Its
+    /// background switches to the event's own <see cref="TwBlazor.Components.Schedule{T}.Color"/> via
+    /// inline style as the user picks one, so this only needs to carry the fallback color.
     /// </summary>
-    public required string EventDialogHeader { get; set; }
+    public required string EventDialogAccent { get; set; }
 
     /// <summary>
-    /// Gets or sets the classes for the read-only event dialog header's event-name title text.
+    /// Gets or sets the classes for the Start/End row in the edit dialog: one column on narrow
+    /// screens, two side by side from the <c>sm</c> breakpoint.
     /// </summary>
-    public required string EventDialogHeaderTitle { get; set; }
+    public required string EventDialogDateRow { get; set; }
 
     /// <summary>
-    /// Gets or sets the classes for the read-only event dialog header's close icon button.
+    /// Gets or sets the classes for the read-only dialog's highlight card holding the event's date and
+    /// time: a rounded, left-accent-bordered, tinted block (tinted with the event's color via inline
+    /// style when one is set).
     /// </summary>
-    public required string EventDialogHeaderClose { get; set; }
+    public required string EventDialogSummary { get; set; }
+
+    /// <summary>
+    /// Gets or sets the classes for the calendar icon inside <see cref="EventDialogSummary"/>.
+    /// </summary>
+    public required string EventDialogSummaryIcon { get; set; }
 
     /// <summary>
     /// Gets or sets the classes for one label/value pair (e.g. "Start") in the read-only event

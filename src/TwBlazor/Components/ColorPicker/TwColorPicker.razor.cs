@@ -65,6 +65,10 @@ public partial class TwColorPicker : TwPopoverPickerComponentBase
     private string inputContainerClasses => new ClassBuilder(colorPickerTheme.InputContainer)
         .Build();
 
+    private string textfieldWrapperClasses => new ClassBuilder(options.Theme.Flexbox.Flex1)
+        .AddClass(options.Theme.Sizing.MinWidthNone)
+        .Build();
+
     private string previewClasses => new ClassBuilder(colorPickerTheme.Swatch)
         .AddClass(roundedBuilder.GetRounded(effectiveRounded))
         .AddClass(Disabled ? colorPickerTheme.SwatchDisabled : colorPickerTheme.SwatchHover)

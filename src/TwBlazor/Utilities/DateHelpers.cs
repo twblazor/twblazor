@@ -6,7 +6,7 @@ using System.Globalization;
 namespace TwBlazor.Utilities;
 
 /// <summary>
-/// Shared date/time calculations used by calendar-style components (e.g. <see cref="TwBlazor.Components.TwSchedule{T}"/>).
+/// Shared date/time calculations used by calendar-style components (e.g. <see cref="TwBlazor.Components.TwCalendar{T}"/>).
 /// </summary>
 public static class DateHelpers
 {

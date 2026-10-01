@@ -17,11 +17,11 @@ namespace TwBlazor.Components;
 /// <see cref="TwBlazor.Components.DatePicker.TwDatePickerDayView"/>.
 /// </summary>
 /// <typeparam name="T">The type of <see cref="Schedule{T}.Value"/> for the events shown.</typeparam>
-public partial class TwScheduleMonthView<T> : TwBlazorComponentBase, IAsyncDisposable
+public partial class TwCalendarMonthView<T> : TwBlazorComponentBase, IAsyncDisposable
 {
     [Inject] public IJSRuntime JSRuntime { get; set; } = default!;
 
-    private TwScheduleTheme theme => options.Theme.Components.Require<TwScheduleTheme>();
+    private TwCalendarTheme theme => options.Theme.Components.Require<TwCalendarTheme>();
 
     private const int maxVisiblePerCell = 3;
 
@@ -48,7 +48,7 @@ public partial class TwScheduleMonthView<T> : TwBlazorComponentBase, IAsyncDispo
 
     /// <summary>
     /// Invoked with a day's date when its day number or "+N more" overflow label is clicked -
-    /// typically wired up by <see cref="TwSchedule{T}"/> to switch to the Day view for that date.
+    /// typically wired up by <see cref="TwCalendar{T}"/> to switch to the Day view for that date.
     /// </summary>
     [Parameter] public EventCallback<DateTime> OnDayClick { get; set; }
 
@@ -58,13 +58,13 @@ public partial class TwScheduleMonthView<T> : TwBlazorComponentBase, IAsyncDispo
     [Parameter] public EventCallback<Schedule<T>> OnEventClick { get; set; }
 
     /// <summary>
-    /// Invoked with an event when dragging it starts. See <see cref="TwSchedule{T}"/>'s
+    /// Invoked with an event when dragging it starts. See <see cref="TwCalendar{T}"/>'s
     /// <c>OnEventDragStart</c>/<c>OnEventDrop</c> remarks.
     /// </summary>
     [Parameter] public EventCallback<Schedule<T>> OnEventDragStart { get; set; }
 
     /// <summary>
-    /// Invoked with a day's date (time-of-day irrelevant - <see cref="TwSchedule{T}"/> keeps the
+    /// Invoked with a day's date (time-of-day irrelevant - <see cref="TwCalendar{T}"/> keeps the
     /// dragged event's original time-of-day) when it's dropped on that day's cell.
     /// </summary>
     [Parameter] public EventCallback<DateTime> OnEventDrop { get; set; }
@@ -94,7 +94,7 @@ public partial class TwScheduleMonthView<T> : TwBlazorComponentBase, IAsyncDispo
         get
         {
             var format = CultureInfo.CurrentCulture.DateTimeFormat;
-            // Monday-first, matching DateHelpers.GetStartOfWeek's convention throughout TwSchedule.
+            // Monday-first, matching DateHelpers.GetStartOfWeek's convention throughout TwCalendar.
             return [.. Enumerable.Range(1, 7).Select(i => format.ShortestDayNames[i % 7])];
         }
     }
@@ -147,7 +147,7 @@ public partial class TwScheduleMonthView<T> : TwBlazorComponentBase, IAsyncDispo
         .AddClass(theme.EventChipDraggable, IsDraggable(evt))
         .Build();
 
-    private static string GetEventRowStyle(Schedule<T> evt) => TwScheduleColors.GetEventCardStyle(evt.Color);
+    private static string GetEventRowStyle(Schedule<T> evt) => TwCalendarColors.GetEventCardStyle(evt.Color);
 
     private string nameClasses => new ClassBuilder(theme.MonthEventName).Build();
 

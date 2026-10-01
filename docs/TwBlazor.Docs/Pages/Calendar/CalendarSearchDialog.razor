@@ -1,3 +1,4 @@
+@typeparam T
 @using TwBlazor.Services
 
 <TwTextfield T="string" Label="Search events" Value="@query" ValueChanged="@((v) => query = v ?? string.Empty)" BindEvent="oninput" AriaLabel="Search events" Class="mb-4" />
@@ -19,15 +20,15 @@
 </ul>
 
 @code {
-    [Parameter] public List<Schedule<string>> Schedules { get; set; } = [];
+    [Parameter] public List<Schedule<T>> Schedules { get; set; } = [];
 
     [CascadingParameter] private TwDialogInstance? DialogInstance { get; set; }
 
     private string query = string.Empty;
 
-    private List<Schedule<string>> matches => [.. string.IsNullOrWhiteSpace(query)
+    private List<Schedule<T>> matches => [.. string.IsNullOrWhiteSpace(query)
         ? Schedules.OrderBy(e => e.DateTimeStart)
         : Schedules.Where(e => e.Name?.Contains(query, StringComparison.OrdinalIgnoreCase) == true).OrderBy(e => e.DateTimeStart)];
 
-    private void Select(Schedule<string> evt) => DialogInstance?.Close(evt);
+    private void Select(Schedule<T> evt) => DialogInstance?.Close(evt);
 }

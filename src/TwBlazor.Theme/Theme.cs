@@ -1188,7 +1188,7 @@ public static class Theme
                     Timestamp = $"{typography.Size.Xs} opacity-70",
                     CloseButton = $"{flexbox.ShrinkNone} {spacing.Padding.Sm} hover:bg-[oklch(21%_0.006_285.885)]/10 dark:hover:bg-[oklch(97.807%_0.029_256.847)]/10 {rounded.Full} focus:ring-2 focus:ring-offset-1 focus:ring-offset-transparent focus:ring-current/40 {transition.Colors} {interaction.FocusOutlineNone}"
                 },
-                new TwScheduleTheme
+                new TwCalendarTheme
                 {
                     Container = $"{display.Flex} {flexbox.Col} {sizing.FullWidth} {spacing.Gap.Lg}",
                     Header = $"{display.Flex} {flexbox.Align.Center} {flexbox.Justify.Between} {flexbox.Wrap} {spacing.Gap.Lg} pb-4 border-b {neutralSurface.Border}",
@@ -1227,12 +1227,13 @@ public static class Theme
                     MonthOverflowLabel = $"{typography.Size.Xs} {neutralText.Subtle} {interaction.PointerCursor}",
                     EventDialogFields = $"{display.Flex} {flexbox.Col} {spacing.Gap.Xl}",
                     EventDialogActions = $"{display.Flex} {flexbox.Justify.End} {spacing.Gap.Md} {spacing.MarginTop.Xl}",
-                    EventDialogHeader = $"{display.Flex} {flexbox.Align.Center} {flexbox.Justify.Between} {spacing.Gap.Md} {rounded.Lg} {borderWidth.AccentEdge} {borderColors.Primary} {background.Lightest.Primary} {darkBackground.Dark.Primary} {text.Dark.Primary} {darkText.Light.Primary} {spacing.Padding.Lg}",
-                    EventDialogHeaderTitle = $"{typography.Size.Lg} {typography.Weight.Semibold} {typography.WrapBreakWord}",
-                    EventDialogHeaderClose = $"{flexbox.ShrinkNone} {spacing.Padding.Sm} hover:bg-[oklch(21%_0.006_285.885)]/10 dark:hover:bg-[oklch(97.807%_0.029_256.847)]/10 {rounded.Full} focus:ring-2 focus:ring-offset-1 focus:ring-offset-transparent focus:ring-current/40 {transition.ColorsFast} {interaction.FocusOutlineNone}",
+                    EventDialogAccent = $"h-1 {sizing.FullWidth} {rounded.Full} {background.Medium.Primary}",
+                    EventDialogDateRow = $"{display.Grid} grid-cols-1 sm:grid-cols-2 {spacing.Gap.Xl}",
+                    EventDialogSummary = $"{display.Flex} {flexbox.Align.Center} {spacing.Gap.Lg} {rounded.Md} {borderWidth.AccentEdge} {borderColors.Primary} {background.Lightest.Primary} {darkBackground.Dark.Primary} {neutralText.Heading} {spacing.Padding.Lg} {typography.Size.Sm}",
+                    EventDialogSummaryIcon = $"{flexbox.ShrinkNone} {text.Medium.Primary} {darkText.Light.Primary}",
                     EventDialogReadOnlyField = $"{display.Flex} {flexbox.Col} {spacing.Gap.Sm}",
                     EventDialogReadOnlyLabel = $"{typography.Size.Xs} font-normal tracking-wide {neutralText.Muted}",
-                    EventDialogReadOnlyValue = $"{typography.Size.Base} {neutralText.Heading}"
+                    EventDialogReadOnlyValue = $"{typography.Size.Base} {neutralText.Heading} whitespace-pre-line"
                 }
             ]
         };
