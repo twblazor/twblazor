@@ -403,3 +403,6 @@ docfx.log
 
 # Cloudflare Wrangler local state and cache
 .wrangler/
+
+# Local publish output used to inspect a deployment.
+/output/

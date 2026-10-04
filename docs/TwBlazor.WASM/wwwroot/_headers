@@ -1,2 +1,2 @@
-/*
-  Cache-Control: public, max-age=14400, must-revalidate
+/_framework/*.wasm
+  Cache-Control: public, max-age=14400, immutable

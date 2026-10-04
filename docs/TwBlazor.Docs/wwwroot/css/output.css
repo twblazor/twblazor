@@ -546,9 +546,6 @@
   .ms-4 {
     margin-inline-start: calc(var(--spacing) * 4);
   }
-  .ms-6 {
-    margin-inline-start: calc(var(--spacing) * 6);
-  }
   .me-1 {
     margin-inline-end: var(--spacing);
   }
@@ -1537,9 +1534,6 @@
     @supports (color: color-mix(in lab, red, red)) {
       border-color: color-mix(in oklab, var(--color-white) 25%, transparent);
     }
-  }
-  .border-yellow-600 {
-    border-color: var(--color-yellow-600);
   }
   .border-yellow-700 {
     border-color: var(--color-yellow-700);
@@ -2737,9 +2731,6 @@
   .checked\:border-red-600:checked {
     border-color: var(--color-red-600);
   }
-  .checked\:border-yellow-600:checked {
-    border-color: var(--color-yellow-600);
-  }
   .checked\:border-yellow-700:checked {
     border-color: var(--color-yellow-700);
   }
@@ -2763,9 +2754,6 @@
   }
   .checked\:bg-white:checked {
     background-color: var(--color-white);
-  }
-  .checked\:bg-yellow-600:checked {
-    background-color: var(--color-yellow-600);
   }
   .checked\:bg-yellow-700:checked {
     background-color: var(--color-yellow-700);
@@ -3320,9 +3308,6 @@
     .xl\:block {
       display: block;
     }
-    .xl\:grid-cols-4 {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-    }
   }
   @container (width >= 28rem) {
     .\@md\:grid-cols-2 {
@@ -3331,11 +3316,6 @@
   }
   @container (width >= 32rem) {
     .\@lg\:grid-cols-2 {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-  }
-  @container (width >= 36rem) {
-    .\@xl\:grid-cols-2 {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
