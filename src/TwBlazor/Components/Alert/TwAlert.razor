@@ -5,7 +5,7 @@
 <div id="@Id" @attributes="Attributes" class="@classes" style="@Style" role="alert" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy">
     @if (StartIcon is not null)
     {
-        <TwIcon Icon="@((Icon)StartIcon)" />
+        <TwIcon Icon="@((Icon)StartIcon)" Class="@startIconClasses" />
     }
     <span class="@theme.TextWrapper">
         @if (ChildContent is not null)
@@ -19,7 +19,7 @@
     </span>
     @if (EndIcon is not null)
     {
-        <TwIcon Icon="@((Icon)EndIcon)" Class="@options.Theme.Spacing.PushEnd" />
+        <TwIcon Icon="@((Icon)EndIcon)" Class="@endIconClasses" />
     }
     @if (Dismissible || OnDismiss.HasDelegate)
     {

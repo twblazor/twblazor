@@ -687,6 +687,8 @@ public static class Theme
                     TextWrapper = $"{flexbox.Flex1} {sizing.MinWidthNone} {typography.WrapBreakWord}",
                     Padding = "py-4 px-6",
                     DensePadding = "py-2 px-3",
+                    StartIconPadding = "pr-2",
+                    EndIconPadding = "pl-2",
                     Transition = transition.ColorsSlow,
                     DismissButtonSize = $"{sizing.Icon.Xl} {rounded.Full}",
                     DismissButtonSpacingWithEndIcon = "ml-2",

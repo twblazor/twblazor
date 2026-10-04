@@ -1,11 +1,12 @@
 // Copyright (c) 2025 Jack Shuter @ TwBlazor - twblazor.com
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
+using System.Text.RegularExpressions;
 using TwBlazor.Components;
 
 namespace TwBlazor.Tests.Components.Calendar;
 
-public class TwCalendarColorsTests
+public partial class TwCalendarColorsTests
 {
     public static readonly TheoryData<string?> InvalidColors =
     [
@@ -40,7 +41,7 @@ public class TwCalendarColorsTests
     public void GetEventCardStyle_TextColor_IsReadableOnTheTintInLightAndDarkMode(string color)
     {
         var style = TwCalendarColors.GetEventCardStyle(color);
-        var match = System.Text.RegularExpressions.Regex.Match(style, @"light-dark\((#[0-9a-f]{6}),(#[0-9a-f]{6})\)");
+        var match = LightDarkTextColorRegex().Match(style);
         Assert.True(match.Success, style);
 
         var rgb = Channels(color);
@@ -50,6 +51,10 @@ public class TwCalendarColorsTests
         Assert.True(Contrast(Channels(match.Groups[1].Value), light) >= 4.5);
         Assert.True(Contrast(Channels(match.Groups[2].Value), dark) >= 4.5);
     }
+
+    /// <summary>Matches the light and dark text colors in a <c>light-dark(#rrggbb,#rrggbb)</c> declaration.</summary>
+    [GeneratedRegex(@"light-dark\((#[0-9a-f]{6}),(#[0-9a-f]{6})\)")]
+    private static partial Regex LightDarkTextColorRegex();
 
     private static double[] Channels(string hex) =>
         [Convert.ToInt32(hex[1..3], 16), Convert.ToInt32(hex[3..5], 16), Convert.ToInt32(hex[5..7], 16)];
