@@ -98,7 +98,7 @@ public class TwCalendarEventDialogFieldsTests : TwBlazorTestBase
         var value = new EventDetailsStub { Deadline = new DateTime(2026, 4, 1, 9, 30, 0) };
         var cut = Render(SampleEvent(value), fields: Fields("Deadline"));
 
-        var picker = cut.FindComponents<TwDateTimePicker>().Last();
+        var picker = cut.FindComponents<TwDateTimePicker>()[^1];
         cut.InvokeAsync(() => picker.Instance.SelectedDateTimeChanged.InvokeAsync(new DateTime(2026, 5, 2, 8, 0, 0)));
 
         Assert.Equal(new DateTime(2026, 5, 2, 8, 0, 0), value.Deadline);
@@ -110,7 +110,7 @@ public class TwCalendarEventDialogFieldsTests : TwBlazorTestBase
         var value = new EventDetailsStub { IsOnline = false };
         var cut = Render(SampleEvent(value), fields: Fields("IsOnline"));
 
-        var toggle = cut.FindComponents<TwSwitch<bool>>().Last();
+        var toggle = cut.FindComponents<TwSwitch<bool>>()[^1];
         cut.InvokeAsync(() => toggle.Instance.ValueChanged.InvokeAsync(true));
 
         Assert.True(value.IsOnline);
