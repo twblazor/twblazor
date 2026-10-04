@@ -81,7 +81,7 @@ public class PageContainerTests : DocsTestBase
         var cut = Render(beta: true);
 
         var alert = cut.Find("[role='alert']");
-        Assert.Contains("This component is new and may have bugs.", alert.TextContent);
+        Assert.Contains("Please be aware this component is new, may have bugs and/or be subject to change.", alert.TextContent);
         Assert.Contains("Please report any bugs at", alert.TextContent);
 
         var link = alert.QuerySelector("a")!;
