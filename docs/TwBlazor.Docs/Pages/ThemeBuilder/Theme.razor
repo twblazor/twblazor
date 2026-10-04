@@ -163,7 +163,7 @@
 
     <PageCard Title="Your Theme.cs">
         <Description>
-            Replace the <code>Theme.cs</code> from <a href="/get-started" class="underline">Get Started</a> with this file. It updates as you change colors or components, and the colors are written as Tailwind arbitrary values so your own Tailwind build compiles them straight from this file.
+            Replace the <code>Theme.cs</code> from <a href="/get-started" class="underline">Get Started</a> with this file, and register it with <code>Theme.CreateTheme</code> instead of <code>Theme.CreateDefaultTheme</code>. It updates as you change colors or components, and the colors are written as Tailwind arbitrary values so your own Tailwind build compiles them straight from this file.
         </Description>
 
         <TwCodeBlock @key="codeVersion" Content="@generatedCode" Language="csharp" Class="max-h-150 overflow-y-scroll" />

@@ -44,7 +44,7 @@ internal static partial class ThemeCodeGenerator
         foreach (var @using in template.Usings)
             sb.Append("using ").Append(@using).Append(";\n");
 
-        sb.Append("\npublic static class Theme\n{\n    public static TwBlazorTheme CreateDefaultTheme()\n    {\n");
+        sb.Append("\npublic static class Theme\n{\n    public static TwBlazorTheme CreateTheme()\n    {\n");
         sb.Append(string.Join("\n\n", statements.Select(s => ApplyDefaults(s.Text, defaults)))).Append("\n\n");
         sb.Append(body).Append("\n    }\n}\n");
 

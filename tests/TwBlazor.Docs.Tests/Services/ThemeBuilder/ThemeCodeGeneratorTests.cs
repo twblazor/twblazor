@@ -5,7 +5,7 @@ namespace TwBlazor.Docs.Tests.Services.ThemeBuilder;
 
 public class ThemeCodeGeneratorTests
 {
-    private static readonly ThemeTemplate Template = new(
+    private static readonly ThemeTemplate _template = new(
         ["TwBlazor.Configuration"],
         [
             new ThemeStatement("display", "        var display = new TwBlazorDisplay { Block = \"block\" };"),
@@ -26,17 +26,17 @@ public class ThemeCodeGeneratorTests
             ["TwAlert"] = ["TwAlertTheme"],
         });
 
-    private static readonly IReadOnlyDictionary<string, string> NoColors = new Dictionary<string, string>();
+    private static readonly IReadOnlyDictionary<string, string> _noColors = new Dictionary<string, string>();
 
     private static string Generate(string[] themeTypes, IReadOnlyDictionary<string, string>? colors = null) =>
-        ThemeCodeGenerator.Generate(Template, themeTypes.ToHashSet(), colors ?? NoColors);
+        ThemeCodeGenerator.Generate(_template, themeTypes.ToHashSet(), colors ?? _noColors);
 
     [Fact]
     public void Generate_WrapsTheBodyInACompilableThemeClass()
     {
         var code = Generate(["TwCardTheme"]);
 
-        Assert.StartsWith("using TwBlazor.Configuration;\n\npublic static class Theme\n{\n    public static TwBlazorTheme CreateDefaultTheme()\n    {\n", code);
+        Assert.StartsWith("using TwBlazor.Configuration;\n\npublic static class Theme\n{\n    public static TwBlazorTheme CreateTheme()\n    {\n", code);
         Assert.EndsWith("            ]\n        };\n    }\n}\n", code);
     }
 
@@ -139,7 +139,7 @@ public class ThemeCodeGeneratorTests
     [Fact]
     public void ResolveThemeTypes_UnionsEachComponentsThemes_AndIgnoresUnknownOnes()
     {
-        var types = Template.ResolveThemeTypes(["TwCard", "TwAlert", "TwNope"]);
+        var types = _template.ResolveThemeTypes(["TwCard", "TwAlert", "TwNope"]);
 
         Assert.Equal(["TwAlertTheme", "TwCardTheme"], types.Order());
     }
@@ -160,7 +160,7 @@ public class ThemeCodeGeneratorTests
         var template = ThemeTemplate.Default;
         var all = template.Blocks.Select(b => b.TypeName).ToHashSet();
 
-        var code = ThemeCodeGenerator.Generate(template, all, NoColors);
+        var code = ThemeCodeGenerator.Generate(template, all, _noColors);
 
         Assert.All(template.Blocks, block => Assert.Contains(block.Text, code));
         Assert.DoesNotContain("#region", code);
@@ -170,16 +170,16 @@ public class ThemeCodeGeneratorTests
     public void DefaultTemplate_OneComponent_ProducesAMuchSmallerFileThanEverything()
     {
         var template = ThemeTemplate.Default;
-        var everything = ThemeCodeGenerator.Generate(template, template.Blocks.Select(b => b.TypeName).ToHashSet(), NoColors);
+        var everything = ThemeCodeGenerator.Generate(template, template.Blocks.Select(b => b.TypeName).ToHashSet(), _noColors);
 
-        var slider = ThemeCodeGenerator.Generate(template, template.ResolveThemeTypes(["TwSlider"]), NoColors);
+        var slider = ThemeCodeGenerator.Generate(template, template.ResolveThemeTypes(["TwSlider"]), _noColors);
 
         Assert.True(slider.Length < everything.Length / 2);
         Assert.Contains("new TwSliderTheme", slider);
         Assert.DoesNotContain("new TwCalendarTheme", slider);
     }
 
-    private static readonly ThemeTemplate DefaultsTemplate = new(
+    private static readonly ThemeTemplate _defaultsTemplate = new(
         ["TwBlazor.Configuration"],
         [new ThemeStatement("rounded", "        var rounded = new TwBlazorRounded { DefaultRounded = Rounded.Md };")],
         "        return new TwBlazorTheme\n        {\n            Rounded = rounded,\n            Shadows = new TwBlazorShadow { DefaultShadow = Shadow.Sm },\n            Components =\n            [",
@@ -190,15 +190,15 @@ public class ThemeCodeGeneratorTests
         "            ]\n        };",
         new Dictionary<string, IReadOnlyList<string>>());
 
-    private static readonly HashSet<string> DefaultsThemeTypes = ["TwInputTheme", "TwButtonTheme"];
+    private static readonly HashSet<string> _defaultsThemeTypes = ["TwInputTheme", "TwButtonTheme"];
 
     private static string WithDefaults(ThemeDefaults defaults) =>
-        ThemeCodeGenerator.Generate(DefaultsTemplate, DefaultsThemeTypes, NoColors, defaults);
+        ThemeCodeGenerator.Generate(_defaultsTemplate, _defaultsThemeTypes, _noColors, defaults);
 
     [Fact]
     public void Generate_WithTheDefaultDefaults_ChangesNothing()
     {
-        Assert.Equal(ThemeCodeGenerator.Generate(DefaultsTemplate, DefaultsThemeTypes, NoColors), WithDefaults(ThemeDefaults.Default));
+        Assert.Equal(ThemeCodeGenerator.Generate(_defaultsTemplate, _defaultsThemeTypes, _noColors), WithDefaults(ThemeDefaults.Default));
     }
 
     [Fact]
@@ -239,9 +239,9 @@ public class ThemeCodeGeneratorTests
     {
         var template = ThemeTemplate.Default;
         var all = template.Blocks.Select(b => b.TypeName).ToHashSet();
-        var baseline = ThemeCodeGenerator.Generate(template, all, NoColors).Split('\n');
+        var baseline = ThemeCodeGenerator.Generate(template, all, _noColors).Split('\n');
 
-        var changed = ThemeCodeGenerator.Generate(template, all, NoColors, new ThemeDefaults(Rounded.None, Shadow.None, InputVariant.Outlined, ButtonVariant.Text)).Split('\n');
+        var changed = ThemeCodeGenerator.Generate(template, all, _noColors, new ThemeDefaults(Rounded.None, Shadow.None, InputVariant.Outlined, ButtonVariant.Text)).Split('\n');
 
         var added = changed.Except(baseline).Select(l => l.Trim()).Order().ToList();
         Assert.Equal(["DefaultInputVariant = InputVariant.Outlined,", "DefaultRounded = Rounded.None,", "DefaultShadow = Shadow.None", "DefaultVariant = ButtonVariant.Text,"], added);
