@@ -116,9 +116,9 @@ public partial class Theme
 
     private int presetPage = 1;
 
-    private static int PresetPageCount => (int)Math.Ceiling(ThemePreset.All.Count / (double)presetsPerPage);
+    private static int PresetPageCount => (int)Math.Ceiling(ThemePreset._all.Count / (double)presetsPerPage);
 
-    private IEnumerable<ThemePreset> VisiblePresets => ThemePreset.All.Skip((presetPage - 1) * presetsPerPage).Take(presetsPerPage);
+    private IEnumerable<ThemePreset> VisiblePresets => ThemePreset._all.Skip((presetPage - 1) * presetsPerPage).Take(presetsPerPage);
 
     private bool IsActive(ThemePreset preset) =>
         preset.Matches(colors, defaults) && onColors.Values.All(mode => mode == OnColorMode.Auto);

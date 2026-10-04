@@ -14,7 +14,7 @@ internal sealed record ThemePreset(string Name, string Description, IReadOnlyDic
     /// <summary>
     /// The example themes, with the default (purple) theme first.
     /// </summary>
-    public static readonly IReadOnlyList<ThemePreset> All =
+    public static readonly IReadOnlyList<ThemePreset> _all =
     [
         new("Purple", "The default theme", ThemeColorFamily.All.ToDictionary(f => f.Name, f => f.DefaultHex), ThemeDefaults.Default),
 
@@ -51,8 +51,7 @@ internal sealed record ThemePreset(string Name, string Description, IReadOnlyDic
         Create("Bubblegum", "Playful pink", "#be185d", "#7c3aed", "#15803d", "#dc2626", "#ca8a04", "#0284c7", Rounded.Lg, Shadow.Md, InputVariant.Filled, ButtonVariant.Filled),
         Create("Coral", "Burnt orange, elevated buttons", "#c2410c", "#be185d", "#15803d", "#b91c1c", "#ca8a04", "#0e7490", Rounded.Lg, Shadow.Md, InputVariant.Filled, ButtonVariant.Elevated),
         Create("Volcano", "Molten red and orange", "#b91c1c", "#c2410c", "#15803d", "#7f1d1d", "#b45309", "#1d4ed8", Rounded.Sm, Shadow.Lg, InputVariant.Filled, ButtonVariant.Elevated),
-
-        // Earth tones
+ 
         Create("Amber", "Golden brown, flat", "#b45309", "#a21caf", "#15803d", "#b91c1c", "#ca8a04", "#1d4ed8", Rounded.Sm, Shadow.None, InputVariant.Default, ButtonVariant.Filled),
         Create("Terracotta", "Baked clay and sage", "#9a3412", "#a16207", "#3f6212", "#991b1b", "#b45309", "#155e75", Rounded.Sm, Shadow.Md, InputVariant.Filled, ButtonVariant.Filled),
         Create("Espresso", "Dark roast, no shadows", "#78350f", "#a16207", "#3f6212", "#991b1b", "#b45309", "#155e75", Rounded.Sm, Shadow.None, InputVariant.Default, ButtonVariant.Filled),

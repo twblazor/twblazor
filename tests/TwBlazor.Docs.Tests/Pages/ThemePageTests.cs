@@ -248,7 +248,7 @@ public class ThemePageTests : DocsTestBase
 
         var presets = cut.FindAll("button[id^='theme-preset-']");
 
-        Assert.Equal(ThemePreset.All.Take(8).Select(p => $"theme-preset-{p.Name.ToLowerInvariant()}"), presets.Select(p => p.Id));
+        Assert.Equal(ThemePreset._all.Take(8).Select(p => $"theme-preset-{p.Name.ToLowerInvariant()}"), presets.Select(p => p.Id));
         Assert.Equal("true", cut.Find("#theme-preset-purple").GetAttribute("aria-pressed"));
         Assert.Equal("false", cut.Find("#theme-preset-ocean").GetAttribute("aria-pressed"));
         Assert.True(cut.Markup.IndexOf("theme-preset-purple", StringComparison.Ordinal) < cut.Markup.IndexOf("theme-color-primary", StringComparison.Ordinal));
@@ -263,7 +263,7 @@ public class ThemePageTests : DocsTestBase
         var cut = Render();
 
         Assert.Equal(8, cut.FindAll("button[id^='theme-preset-']").Count);
-        Assert.Equal((int)Math.Ceiling(ThemePreset.All.Count / 8d), cut.FindComponent<TwPagination>().Instance.TotalPages);
+        Assert.Equal((int)Math.Ceiling(ThemePreset._all.Count / 8d), cut.FindComponent<TwPagination>().Instance.TotalPages);
         Assert.True(cut.Markup.IndexOf("theme-preset-purple", StringComparison.Ordinal) < cut.Markup.IndexOf("Example themes pages", StringComparison.Ordinal));
     }
 
@@ -279,14 +279,14 @@ public class ThemePageTests : DocsTestBase
             seen.AddRange(cut.FindAll("button[id^='theme-preset-']").Select(b => b.Id));
         }
 
-        Assert.Equal(ThemePreset.All.Select(p => $"theme-preset-{p.Name.ToLowerInvariant()}"), seen);
+        Assert.Equal(ThemePreset._all.Select(p => $"theme-preset-{p.Name.ToLowerInvariant()}"), seen);
     }
 
     [Fact]
     public async Task AnExampleThemeOnALaterPage_CanBeChosen_AndStaysSelected()
     {
         var cut = Render();
-        var last = ThemePreset.All[^1];
+        var last = ThemePreset._all[^1];
         await GoToPresetPageAsync(cut, cut.FindComponent<TwPagination>().Instance.TotalPages);
 
         cut.Find($"#theme-preset-{last.Name.ToLowerInvariant()}").Click();
@@ -299,7 +299,7 @@ public class ThemePageTests : DocsTestBase
     public void ChoosingAnExampleTheme_AppliesItsColorsAndDefaults_AndSelectsIt()
     {
         var cut = Render();
-        var ocean = ThemePreset.All.Single(p => p.Name == "Ocean");
+        var ocean = ThemePreset._all.Single(p => p.Name == "Ocean");
 
         cut.Find("#theme-preset-ocean").Click();
 

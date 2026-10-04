@@ -7,7 +7,7 @@ public class ThemePresetTests
     [Fact]
     public void PurpleIsFirst_AndIsExactlyTheDefaultTheme()
     {
-        var purple = ThemePreset.All[0];
+        var purple = ThemePreset._all[0];
 
         Assert.Equal("Purple", purple.Name);
         Assert.Equal(ThemeDefaults.Default, purple.Defaults);
@@ -17,15 +17,15 @@ public class ThemePresetTests
     [Fact]
     public void ThereAreManyNamedVariantsBesidesPurple_WithUniqueNames()
     {
-        Assert.True(ThemePreset.All.Count - 1 >= 25);
-        Assert.Equal(ThemePreset.All.Count, ThemePreset.All.Select(p => p.Name).Distinct(StringComparer.OrdinalIgnoreCase).Count());
-        Assert.All(ThemePreset.All, p => Assert.Matches("^[A-Za-z]+$", p.Name));
+        Assert.True(ThemePreset._all.Count - 1 >= 25);
+        Assert.Equal(ThemePreset._all.Count, ThemePreset._all.Select(p => p.Name).Distinct(StringComparer.OrdinalIgnoreCase).Count());
+        Assert.All(ThemePreset._all, p => Assert.Matches("^[A-Za-z]+$", p.Name));
     }
 
     [Fact]
     public void NoTwoPresets_AreTheSameTheme()
     {
-        var keys = ThemePreset.All.Select(p => string.Join(",", p.Colors.Values) + p.Defaults).ToList();
+        var keys = ThemePreset._all.Select(p => string.Join(",", p.Colors.Values) + p.Defaults).ToList();
 
         Assert.Equal(keys.Count, keys.Distinct().Count());
     }
@@ -33,16 +33,16 @@ public class ThemePresetTests
     [Fact]
     public void ThePresetsVaryTheDefaultsToo_NotJustTheColors()
     {
-        Assert.True(ThemePreset.All.Select(p => p.Defaults.Rounded).Distinct().Count() >= 4);
-        Assert.True(ThemePreset.All.Select(p => p.Defaults.Shadow).Distinct().Count() >= 3);
-        Assert.True(ThemePreset.All.Select(p => p.Defaults.InputVariant).Distinct().Count() == 3);
-        Assert.True(ThemePreset.All.Select(p => p.Defaults.ButtonVariant).Distinct().Count() >= 3);
+        Assert.True(ThemePreset._all.Select(p => p.Defaults.Rounded).Distinct().Count() >= 4);
+        Assert.True(ThemePreset._all.Select(p => p.Defaults.Shadow).Distinct().Count() >= 3);
+        Assert.True(ThemePreset._all.Select(p => p.Defaults.InputVariant).Distinct().Count() == 3);
+        Assert.True(ThemePreset._all.Select(p => p.Defaults.ButtonVariant).Distinct().Count() >= 3);
     }
 
     [Fact]
     public void EveryPreset_DefinesAValidColorForEverySemanticColor()
     {
-        foreach (var preset in ThemePreset.All)
+        foreach (var preset in ThemePreset._all)
         {
             Assert.All(ThemeColorFamily.All, f =>
             {
@@ -55,7 +55,7 @@ public class ThemePresetTests
     [Fact]
     public void EveryPreset_HasReadableTextOnEveryFilledColor()
     {
-        foreach (var preset in ThemePreset.All)
+        foreach (var preset in ThemePreset._all)
         {
             foreach (var family in ThemeColorFamily.All)
             {
@@ -69,7 +69,7 @@ public class ThemePresetTests
     [Fact]
     public void EveryPreset_HasNoFaintBorderOnWhite_AtItsForegroundShade()
     {
-        foreach (var preset in ThemePreset.All.Skip(1))
+        foreach (var preset in ThemePreset._all.Skip(1))
         {
             foreach (var family in ThemeColorFamily.All)
             {
@@ -83,7 +83,7 @@ public class ThemePresetTests
     [Fact]
     public void Matches_IsTrueForItself_FalseAfterAChange_AndIgnoresHexCase()
     {
-        var ocean = ThemePreset.All.Single(p => p.Name == "Ocean");
+        var ocean = ThemePreset._all.Single(p => p.Name == "Ocean");
         var colors = ocean.Colors.ToDictionary(c => c.Key, c => c.Value.ToUpperInvariant());
 
         Assert.True(ocean.Matches(colors, ocean.Defaults));
@@ -100,7 +100,7 @@ public class ThemePresetTests
         var all = template.Blocks.Select(b => b.TypeName).ToHashSet();
         var baseline = ThemeCodeGenerator.Generate(template, all, new Dictionary<string, string>());
 
-        foreach (var preset in ThemePreset.All)
+        foreach (var preset in ThemePreset._all)
         {
             var code = ThemeCodeGenerator.Generate(template, all, preset.Colors, preset.Defaults);
 

@@ -71,7 +71,13 @@
         <div class="flex flex-col gap-4">
             <TwProgress T="int" Label="Progress" Value="60" Max="100" Color="Color.Primary" />
             <TwSlider T="int" Name="@($"preview-slider-{ModeId}")" @bind-Value="sliderValue" Min="0" Max="100" Step="1" Color="Color.Success" />
-            <TwSpinner Color="Color.Danger" />
+            <div class="inline">
+                <TwSpinner Color="Color.Primary" />
+                <TwSpinner Color="Color.Accent" />
+                <TwSpinner Color="Color.Success" />
+                <TwSpinner Color="Color.Warning" />
+                <TwSpinner Color="Color.Danger" />
+            </div>
         </div>
     </div>
 </section>
