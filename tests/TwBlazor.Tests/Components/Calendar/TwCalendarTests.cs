@@ -540,7 +540,7 @@ public class TwCalendarTests : TwBlazorTestBase
             .Add(x => x.Schedules, [evt])
             .Add(x => x.SchedulesChanged, EventCallback.Factory.Create<List<Schedule<string>>>(this, list => updatedList = list)));
 
-        cut.Find("button[aria-label^='Design review']").DragStart(new DragEventArgs());
+        StartDrag(cut, "Design review");
         cut.Find("button[aria-label='11:00 AM']").Drop(new DragEventArgs());
 
         cut.WaitForAssertion(() => Assert.NotNull(updatedList)); // the drop handler finishes asynchronously
@@ -563,7 +563,7 @@ public class TwCalendarTests : TwBlazorTestBase
             .Add(x => x.Schedules, [evt])
             .Add(x => x.SchedulesChanged, EventCallback.Factory.Create<List<Schedule<string>>>(this, list => updatedList = list)));
 
-        cut.Find("button[aria-label^='Design review']").DragStart(new DragEventArgs());
+        StartDrag(cut, "Design review");
 
         // Columns render Monday(0)..Sunday(6); Wednesday is index 2, Thursday index 3.
         var thursdayColumn = cut.FindComponents<TwCalendarDayColumn<string>>()[3];

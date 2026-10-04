@@ -1,5 +1,6 @@
 ﻿@import "tailwindcss";
-@custom-variant dark (&:where(.dark, .dark *));
+/* .theme-light opts a subtree out of dark mode, so the theme builder can show a light and a dark preview side by side. */
+@custom-variant dark (&:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)));
 
 @source "../../**/*.razor";
 @source "../../**/*.cs";

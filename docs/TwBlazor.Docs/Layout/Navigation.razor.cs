@@ -32,6 +32,7 @@ public partial class Navigation : IDisposable
         [
             new() { Id = "home", Label = "Home", Href = "/" },
             new() { Id = "get-started", Label = "Get started", Href = "/get-started" },
+            new() { Id = "theme", Label = "Theme", Href = "/theme" },
         ];
 
         foreach (var category in ComponentCatalog.LoadCategories())

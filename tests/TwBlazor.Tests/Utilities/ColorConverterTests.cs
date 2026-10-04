@@ -880,4 +880,124 @@ public class ColorConverterTests
     }
 
     #endregion
+
+    #region TryHexToRgb Tests
+
+    [Theory]
+    [InlineData("#ff5733", 255, 87, 51)]
+    [InlineData("#F00", 255, 0, 0)]
+    [InlineData("#ff573380", 255, 87, 51)]
+    public void TryHexToRgb_ParsesValidHex_IgnoringAlpha(string hex, int r, int g, int b)
+    {
+        Assert.True(ColorConverter.TryHexToRgb(hex, out var rgb));
+        Assert.Equal((r, g, b), rgb);
+    }
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    [InlineData("ff5733")]
+    [InlineData("#ff57")]
+    [InlineData("#gggggg")]
+    public void TryHexToRgb_RejectsInvalidHex(string? hex)
+    {
+        Assert.False(ColorConverter.TryHexToRgb(hex, out _));
+    }
+
+    #endregion
+
+    #region OKLCH Tests
+
+    [Fact]
+    public void RgbToOklch_MatchesTailwindsPurple600()
+    {
+        // Tailwind v4 defines purple-600 as oklch(55.8% 0.288 302.321).
+        var (l, c, h) = ColorConverter.RgbToOklch(0x98, 0x10, 0xfa);
+
+        Assert.Equal(0.558, l, 2);
+        Assert.Equal(0.288, c, 2);
+        Assert.Equal(302.3, h, 0);
+    }
+
+    [Theory]
+    [InlineData(0, 0, 0, 0.0)]
+    [InlineData(255, 255, 255, 1.0)]
+    public void RgbToOklch_GivesGreysNoChromaAndHue(int r, int g, int b, double lightness)
+    {
+        var (l, c, h) = ColorConverter.RgbToOklch(r, g, b);
+
+        Assert.Equal(lightness, l, 2);
+        Assert.Equal(0, c, 2);
+        Assert.Equal(0, h);
+    }
+
+    [Theory]
+    [InlineData(255, 87, 51)]
+    [InlineData(21, 93, 252)]
+    [InlineData(0, 166, 62)]
+    [InlineData(200, 200, 200)]
+    public void OklchToRgb_RoundTripsRgbToOklch(int r, int g, int b)
+    {
+        var (l, c, h) = ColorConverter.RgbToOklch(r, g, b);
+
+        var rgb = ColorConverter.OklchToRgb(l, c, h);
+
+        Assert.Equal(r, rgb.R, 0);
+        Assert.Equal(g, rgb.G, 0);
+        Assert.Equal(b, rgb.B, 0);
+    }
+
+    [Fact]
+    public void OklchToRgb_ClampsOutOfGamutColorsToTheEdge()
+    {
+        var rgb = ColorConverter.OklchToRgb(0.7, 0.4, 150);
+
+        Assert.InRange(rgb.R, 0, 255);
+        Assert.InRange(rgb.G, 0, 255);
+        Assert.InRange(rgb.B, 0, 255);
+    }
+
+    #endregion
+
+    #region Contrast Tests
+
+    [Fact]
+    public void GetContrastRatio_IsTwentyOneForBlackOnWhite_InEitherOrder()
+    {
+        Assert.Equal(21, ColorConverter.GetContrastRatio((0, 0, 0), (255, 255, 255)), 1);
+        Assert.Equal(21, ColorConverter.GetContrastRatio((255, 255, 255), (0, 0, 0)), 1);
+    }
+
+    [Fact]
+    public void GetContrastRatio_IsOneForIdenticalColors()
+    {
+        Assert.Equal(1, ColorConverter.GetContrastRatio((120, 40, 200), (120, 40, 200)), 3);
+    }
+
+    [Fact]
+    public void GetRelativeLuminance_SpansZeroToOne()
+    {
+        Assert.Equal(0, ColorConverter.GetRelativeLuminance((0, 0, 0)), 3);
+        Assert.Equal(1, ColorConverter.GetRelativeLuminance((255, 255, 255)), 3);
+    }
+
+    [Theory]
+    [InlineData("#fff", true)]
+    [InlineData("#ffffff", true)]
+    [InlineData("#ffffff80", true)]
+    [InlineData("ffffff", false)]
+    [InlineData("#ff", false)]
+    public void IsValidHex_AcceptsThreeSixAndEightDigitHex(string hex, bool expected)
+    {
+        Assert.Equal(expected, ColorConverter.IsValidHex(hex));
+    }
+
+    [Fact]
+    public void ExpandShortHex_ExpandsThreeDigitsAndLeavesOthersAlone()
+    {
+        Assert.Equal("#aabbcc", ColorConverter.ExpandShortHex("#abc"));
+        Assert.Equal("#aabbcc", ColorConverter.ExpandShortHex("#aabbcc"));
+    }
+
+    #endregion
 }

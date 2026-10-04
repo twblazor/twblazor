@@ -157,7 +157,7 @@ public static class Theme
             Accent = "border-fuchsia-600 dark:border-fuchsia-400",
             Success = "border-green-600 dark:border-green-400",
             Danger = "border-red-600 dark:border-red-400",
-            Warning = "border-yellow-600 dark:border-yellow-400",
+            Warning = "border-yellow-700 dark:border-yellow-400",
             Info = "border-blue-600 dark:border-blue-400",
             Light = "border-gray-100 dark:border-gray-700",
             Dark = "border-gray-900 dark:border-gray-700"
@@ -295,7 +295,7 @@ public static class Theme
             Accent = "checked:bg-fuchsia-600 checked:border-fuchsia-600 dark:checked:bg-fuchsia-500 dark:checked:border-fuchsia-500",
             Success = "checked:bg-green-600 checked:border-green-600 dark:checked:bg-green-500 dark:checked:border-green-500",
             Danger = "checked:bg-red-600 checked:border-red-600 dark:checked:bg-red-500 dark:checked:border-red-500",
-            Warning = "checked:bg-yellow-600 checked:border-yellow-600 dark:checked:bg-yellow-500 dark:checked:border-yellow-500",
+            Warning = "checked:bg-yellow-700 checked:border-yellow-700 dark:checked:bg-yellow-500 dark:checked:border-yellow-500",
             Info = "checked:bg-blue-600 checked:border-blue-600 dark:checked:bg-blue-500 dark:checked:border-blue-500",
             Light = "checked:bg-white checked:border-gray-900 dark:checked:bg-white dark:checked:border-gray-500",
             Dark = "checked:bg-gray-900 checked:border-gray-900 dark:checked:bg-gray-900 dark:checked:border-gray-900"

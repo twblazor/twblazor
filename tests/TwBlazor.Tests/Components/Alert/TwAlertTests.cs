@@ -78,7 +78,7 @@ public class TwAlertTests : TwBlazorTestBase
     [InlineData(Color.Danger, "bg-red-200", "border-red-600", "text-red-900")]
     [InlineData(Color.Primary, "bg-purple-200", "border-purple-600", "text-purple-900")]
     [InlineData(Color.Success, "bg-green-200", "border-green-600", "text-green-900")]
-    [InlineData(Color.Warning, "bg-yellow-200", "border-yellow-600", "text-yellow-900")]
+    [InlineData(Color.Warning, "bg-yellow-200", "border-yellow-700", "text-yellow-900")]
     [InlineData(Color.Accent, "bg-fuchsia-200", "border-fuchsia-600", "text-fuchsia-900")]
     [InlineData(Color.Info, "bg-blue-200", "border-blue-600", "text-blue-900")]
     public void TwAlert_Renders_WithCorrectColorClasses(Color color, string bgClass, string borderClass, string textClass)
