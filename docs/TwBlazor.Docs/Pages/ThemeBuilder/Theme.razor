@@ -1,0 +1,118 @@
+@page "/theme"
+@using TwBlazor.Docs.Services.ThemeBuilder
+
+<PageContainer Title="Theme" Path="/theme" Category="Design tokens" HideOutline Description="Build your own TwBlazor Theme.cs: pick your brand colors, choose which components to include and copy the generated theme file." SeoTitle="Theme | twblazor - Generate a Custom Blazor Theme and Design Tokens">
+    <PageCard Title="Colors" NoMarginTop>
+        <Description>
+            Pick the semantic colors your app uses. Each picked color becomes the 600 shade of a full 50 to 950 ramp, so every component that uses that color follows it. The text on filled buttons and chips is chosen for contrast automatically, so a light color gets dark text, and you can force light or dark text per color. The neutral surface colors (black, gray and white) always stay as the default theme defines them.
+        </Description>
+
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            @foreach (var family in ThemeColorFamily.All)
+            {
+                var name = family.Name;
+                <div class="flex flex-col gap-2">
+                    <TwColorPicker Id="@($"theme-color-{name.ToLowerInvariant()}")"
+                                   Label="@name"
+                                   Value="@colors[name]"
+                                   ValueChanged="@((string value) => SetColor(name, value))" />
+                    <TwSelect T="OnColorMode"
+                              Id="@($"theme-oncolor-{name.ToLowerInvariant()}")"
+                              Label="@($"Text on {name}")"
+                              Values="@(Enum.GetValues<OnColorMode>())"
+                              SelectedValue="@onColors[name]"
+                              SelectedValueChanged="@((OnColorMode value) => SetOnColor(name, value))"
+                              AriaLabel="@($"Text color on {name}")" />
+                    <p class="text-xs text-gray-700 dark:text-gray-300" data-testid="@($"theme-contrast-{name.ToLowerInvariant()}")" aria-live="polite">@FilledContrast(family)</p>
+                    @if (ForegroundWarning(family) is { } warning)
+                    {
+                        <p class="text-xs text-amber-700 dark:text-amber-400">@warning</p>
+                    }
+                </div>
+            }
+        </div>
+
+        <div class="mt-4">
+            <TwButton Label="Reset colors" Variant="ButtonVariant.Outlined" Color="Color.Primary" OnClick="ResetColors" />
+        </div>
+    </PageCard>
+
+    <PageCard Title="Defaults">
+        <Description>
+            The values every component falls back to when you don't set them on that component. Each one is written into your theme, and the preview below uses them.
+        </Description>
+
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <TwSelect T="Rounded" Id="theme-default-rounded" Label="Rounding" Values="@(Enum.GetValues<Rounded>())" SelectedValue="@defaults.Rounded" SelectedValueChanged="@((Rounded value) => SetDefaults(defaults with { Rounded = value }))" AriaLabel="Default rounding" />
+            <TwSelect T="Shadow" Id="theme-default-shadow" Label="Shadow" Values="@(Enum.GetValues<Shadow>())" SelectedValue="@defaults.Shadow" SelectedValueChanged="@((Shadow value) => SetDefaults(defaults with { Shadow = value }))" AriaLabel="Default shadow" />
+            <TwSelect T="InputVariant" Id="theme-default-input" Label="Input style" Values="@(Enum.GetValues<InputVariant>())" SelectedValue="@defaults.InputVariant" SelectedValueChanged="@((InputVariant value) => SetDefaults(defaults with { InputVariant = value }))" AriaLabel="Default input style" />
+            <TwSelect T="ButtonVariant" Id="theme-default-button" Label="Button style" Values="@(Enum.GetValues<ButtonVariant>())" SelectedValue="@defaults.ButtonVariant" SelectedValueChanged="@((ButtonVariant value) => SetDefaults(defaults with { ButtonVariant = value }))" AriaLabel="Default button style" />
+        </div>
+
+        <div class="mt-4">
+            <TwButton Label="Reset defaults" Variant="ButtonVariant.Outlined" Color="Color.Primary" OnClick="ResetDefaults" />
+        </div>
+    </PageCard>
+
+    <PageCard Title="Preview">
+        <Description>
+            A live sample of the components using your colors and defaults, in light and dark mode side by side. It only shows some of the library, and it always shows the same set whichever components you include below.
+        </Description>
+
+        <div class="@previewContainerClass">
+            <div class="@previewGridClass">
+                <ThemeBuilderPreview Colors="@colors" OnColors="@onColors" Defaults="@defaults" />
+                <ThemeBuilderPreview Colors="@colors" OnColors="@onColors" Defaults="@defaults" Dark />
+            </div>
+        </div>
+    </PageCard>
+
+    <PageCard Title="Components">
+        <Description>
+            Choose the components your app uses and the theme file will only contain what they need. Ticking a group includes all of its components. Components that render other components (a date picker uses buttons and textfields, for example) automatically pull in those themes too, so nothing throws for a missing theme at runtime.
+        </Description>
+
+        <div class="mb-4 flex flex-wrap gap-2">
+            <TwButton Label="Select all" Variant="ButtonVariant.Outlined" Color="Color.Primary" OnClick="SelectAll" />
+            <TwButton Label="Clear all" Variant="ButtonVariant.Outlined" Color="Color.Primary" OnClick="ClearAll" />
+        </div>
+
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            @foreach (var group in groups)
+            {
+                var current = group;
+                <fieldset class="flex flex-col gap-2" aria-label="@($"{current.Label} components")">
+                    <TwCheckbox T="bool?"
+                                Id="@($"theme-group-{current.Label.ToLowerInvariant()}")"
+                                Label="@current.Label"
+                                Color="Color.Primary"
+                                Value="@GroupState(current)"
+                                ValueChanged="@((bool? _) => ToggleGroup(current))" />
+                    <div class="ms-6 flex flex-col gap-2">
+                        @foreach (var component in current.Components)
+                        {
+                            var name = component.Name;
+                            <TwCheckbox Id="@($"theme-component-{name.ToLowerInvariant()}")"
+                                        Label="@component.Display"
+                                        Color="Color.Primary"
+                                        Value="@selected.Contains(name)"
+                                        ValueChanged="@((bool _) => ToggleComponent(name))" />
+                        }
+                    </div>
+                </fieldset>
+            }
+        </div>
+
+        <p class="mt-4 text-sm text-gray-700 dark:text-gray-300" aria-live="polite">
+            @selected.Count of @totalComponents components selected, including @includedThemeCount component themes in total.
+        </p>
+    </PageCard>
+
+    <PageCard Title="Your Theme.cs">
+        <Description>
+            Replace the <code>Theme.cs</code> from <a href="/get-started" class="underline">Get Started</a> with this file. It updates as you change colors or components, and the colors are written as Tailwind arbitrary values so your own Tailwind build compiles them straight from this file.
+        </Description>
+
+        <TwCodeBlock @key="codeVersion" Content="@generatedCode" Language="csharp" Class="max-h-150 overflow-y-scroll" />
+    </PageCard>
+</PageContainer>

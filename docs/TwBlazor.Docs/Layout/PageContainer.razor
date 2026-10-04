@@ -3,7 +3,7 @@
 <PageSeo Title="@(SeoTitle ?? SiteMetadata.ComponentTitle(Title ?? string.Empty))" Description="@Description" Path="@Path" />
 
 <CascadingValue Value="_outline" IsFixed>
-    <div class="mx-auto flex max-w-6xl items-start gap-10 p-6 text-sm text-gray-900 dark:text-gray-200">
+    <div class="@containerClass">
         <div class="min-w-0 flex-1">
             @if (!string.IsNullOrWhiteSpace(category))
             {
@@ -32,6 +32,9 @@
             }
         </div>
 
-        <PageOutlineNav Outline="_outline" Path="@Path" />
+        @if (!HideOutline)
+        {
+            <PageOutlineNav Outline="_outline" Path="@Path" />
+        }
     </div>
 </CascadingValue>

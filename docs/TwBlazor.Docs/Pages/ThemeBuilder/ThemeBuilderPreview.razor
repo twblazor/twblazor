@@ -1,0 +1,133 @@
+@using TwBlazor.Docs.Services.ThemeBuilder
+@using TwBlazor.Models
+@inject TwBlazorOptions Options
+
+<section aria-labelledby="@headingId" class="@paneClass" style="@PreviewStyle" data-testid="@($"theme-preview-{ModeId}")">
+    <h3 id="@headingId" class="text-sm font-semibold @Options.Theme.Colors.NeutralText.Heading">@Label mode</h3>
+
+    <div class="flex flex-wrap gap-2">
+        @foreach (var family in ThemeColorFamily.All)
+        {
+            <TwButton Label="@family.Name" Color="@ToColor(family)" Variant="@Defaults.ButtonVariant" Rounded="@Defaults.Rounded" Shadow="@Defaults.Shadow" Style="@FilledStyle(family, Defaults.ButtonVariant == ButtonVariant.Filled)" />
+        }
+    </div>
+
+    <div class="flex flex-wrap gap-2">
+        @foreach (var family in ThemeColorFamily.All)
+        {
+            <TwButton Label="@family.Name" Color="@ToColor(family)" Variant="ButtonVariant.Outlined" Rounded="@Defaults.Rounded" />
+        }
+    </div>
+
+    <div class="flex flex-wrap gap-2">
+        @foreach (var family in ThemeColorFamily.All)
+        {
+            <TwChip Label="@family.Name" Color="@ToColor(family)" Rounded="@Defaults.Rounded" Style="@FilledStyle(family, true)" />
+        }
+    </div>
+
+    <div class="flex flex-col gap-3">
+        <TwAlert Color="Color.Primary" Text="Primary alert" Rounded="@Defaults.Rounded" Shadow="@Defaults.Shadow" />
+        <TwAlert Color="Color.Success" Text="Success alert" Rounded="@Defaults.Rounded" Shadow="@Defaults.Shadow" />
+        <TwAlert Color="Color.Warning" Text="Warning alert" Rounded="@Defaults.Rounded" Shadow="@Defaults.Shadow" />
+        <TwAlert Color="Color.Danger" Text="Danger alert" Rounded="@Defaults.Rounded" Shadow="@Defaults.Shadow" />
+    </div>
+
+    <div class="@twoColumnClass">
+        <TwTextfield Label="Textfield" @bind-Value="text" Placeholder="Type here" Variant="@Defaults.InputVariant" Rounded="@Defaults.Rounded" AriaLabel="@($"{Label} textfield")" />
+        <TwSelect T="string" Label="Select" Values="@fruits" @bind-SelectedValue="fruit" Variant="@Defaults.InputVariant" Rounded="@Defaults.Rounded" AriaLabel="@($"{Label} select")" />
+    </div>
+
+    <TwCard Title="Card" Rounded="@Defaults.Rounded" Shadow="@Defaults.Shadow">
+        <p class="text-sm @Options.Theme.Colors.NeutralText.Secondary">Cards, dialogs and popovers follow the default rounding and shadow.</p>
+    </TwCard>
+
+    <TwTabContainer TabColor="Color.Primary">
+        <TwTab Label="First tab">
+            <p class="text-sm @Options.Theme.Colors.NeutralText.Secondary">Content of the first tab.</p>
+        </TwTab>
+        <TwTab Label="Second tab">
+            <p class="text-sm @Options.Theme.Colors.NeutralText.Secondary">Content of the second tab.</p>
+        </TwTab>
+    </TwTabContainer>
+
+    <TwBreadcrumb Breadcrumbs="@breadcrumbs" />
+
+    <TwPagination TotalPages="8" @bind-ActivePage="page" AriaLabel="@($"{Label} pagination")" />
+
+    <TwStepper @bind-ActiveStepIndex="step" Color="Color.Primary" AriaLabel="@($"{Label} stepper")">
+        <TwStep Label="Account" Description="Create your login"><p class="text-sm">Account step.</p></TwStep>
+        <TwStep Label="Address" Description="Where to ship"><p class="text-sm">Address step.</p></TwStep>
+        <TwStep Label="Review" Description="Confirm"><p class="text-sm">Review step.</p></TwStep>
+    </TwStepper>
+
+    <div class="@twoColumnClass">
+        <div class="flex flex-col gap-2">
+            <TwSwitch @bind-Value="switchOn" Label="Switch" Color="Color.Primary" />
+            <TwCheckbox @bind-Value="checkboxOn" Label="Checkbox" Color="Color.Accent" />
+            <TwRadioButton T="string" Name="@($"preview-radio-{ModeId}")" Value="@("a")" @bind-SelectedValue="radioValue" Label="Radio A" Color="Color.Info" />
+            <TwRadioButton T="string" Name="@($"preview-radio-{ModeId}")" Value="@("b")" @bind-SelectedValue="radioValue" Label="Radio B" Color="Color.Info" />
+        </div>
+        <div class="flex flex-col gap-4">
+            <TwProgress T="int" Label="Progress" Value="60" Max="100" Color="Color.Primary" />
+            <TwSlider T="int" Name="@($"preview-slider-{ModeId}")" @bind-Value="sliderValue" Min="0" Max="100" Step="1" Color="Color.Success" />
+            <TwSpinner Color="Color.Danger" />
+        </div>
+    </div>
+</section>
+
+@code {
+    /// <summary>
+    /// Picked hex color per semantic color name, as held by the theme builder page.
+    /// </summary>
+    [Parameter, EditorRequired] public IReadOnlyDictionary<string, string> Colors { get; set; } = new Dictionary<string, string>();
+
+    /// <summary>
+    /// The text mode on each filled color, per semantic color name.
+    /// </summary>
+    [Parameter, EditorRequired] public IReadOnlyDictionary<string, OnColorMode> OnColors { get; set; } = new Dictionary<string, OnColorMode>();
+
+    private string? FilledStyle(ThemeColorFamily family, bool isFilled) =>
+        isFilled ? ThemePreviewStyle.FilledText(family, Colors, OnColors) : null;
+
+    /// <summary>
+    /// The enum defaults to show. They are passed to each sample as explicit parameters, since the preview
+    /// runs on the docs site's own registered theme rather than a generated one.
+    /// </summary>
+    [Parameter, EditorRequired] public ThemeDefaults Defaults { get; set; } = ThemeDefaults.Default;
+
+    /// <summary>
+    /// Whether this pane shows dark mode. A light pane opts out of the site's dark mode with <c>theme-light</c>.
+    /// </summary>
+    [Parameter] public bool Dark { get; set; }
+
+    private string Label => Dark ? "Dark" : "Light";
+    private string ModeId => Label.ToLowerInvariant();
+    private string headingId => $"theme-preview-{ModeId}-heading";
+    private string PreviewStyle => ThemePreviewStyle.Build(Colors);
+
+    // Container queries, so the layout follows the pane's own width rather than the viewport's.
+    private const string twoColumnClass = "grid grid-cols-1 gap-4 @md:grid-cols-2";
+
+    private string paneClass =>
+        $"@container flex flex-col gap-6 rounded-lg border p-4 {(Dark ? "dark" : "theme-light")} {Options.Theme.Colors.NeutralSurface.Background} {Options.Theme.Colors.NeutralSurface.Border}";
+
+    private static readonly string[] fruits = ["Apple", "Banana", "Cherry"];
+    private readonly List<BreadcrumbItem> breadcrumbs =
+    [
+        new() { Label = "Home", Href = "/" },
+        new() { Label = "Library", Href = "/" },
+        new() { Label = "Theme" },
+    ];
+
+    private string text = string.Empty;
+    private string fruit = "Apple";
+    private bool switchOn = true;
+    private bool checkboxOn = true;
+    private string? radioValue = "a";
+    private int sliderValue = 40;
+    private int page = 3;
+    private int step = 1;
+
+    private static Color ToColor(ThemeColorFamily family) => Enum.Parse<Color>(family.Name);
+}

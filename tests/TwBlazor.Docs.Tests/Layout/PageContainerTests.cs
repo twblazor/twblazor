@@ -195,6 +195,27 @@ public class PageContainerTests : DocsTestBase
     }
 
     [Fact]
+    public void Render_OmitsTheOutline_AndWidensTheContent_WhenHideOutlineIsSet()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<PageContainer>(parameters => parameters
+            .Add(p => p.HideOutline, true)
+            .Add(p => p.Title, "Theme")
+            .Add(p => p.Path, "/theme")
+            .Add(p => p.Description, "Build a theme.")
+            .Add(p => p.ChildContent, builder =>
+            {
+                builder.OpenComponent<PageCard>(0);
+                builder.AddAttribute(1, nameof(PageCard.Title), "Colors");
+                builder.CloseComponent();
+            }));
+
+        // Assert
+        Assert.Empty(cut.FindAll("nav"));
+        Assert.Contains("max-w-7xl", cut.Find("h1").ParentElement!.ParentElement!.ClassList);
+    }
+
+    [Fact]
     public void Render_ShowsNoOutline_WhenThePageHasNoCards()
     {
         // Arrange & Act

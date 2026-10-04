@@ -59,6 +59,15 @@ public partial class PageContainer : ComponentBase, IDisposable
     /// </summary>
     [Parameter] public bool Beta { get; set; }
 
+    /// <summary>
+    /// Hides the sticky "On this page" list and lets the content use its width, for pages that need the room
+    /// (e.g. side by side previews).
+    /// </summary>
+    [Parameter] public bool HideOutline { get; set; }
+
+    private string containerClass =>
+        $"mx-auto flex {(HideOutline ? "max-w-7xl" : "max-w-6xl")} items-start gap-10 p-6 text-sm text-gray-900 dark:text-gray-200";
+
     private readonly PageOutline _outline = new();
     private DateOnly lastModified;
     private bool hasLastModified;

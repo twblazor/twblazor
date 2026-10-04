@@ -79,6 +79,31 @@ static class Program
 
             Console.WriteLine();
 
+            // Split Theme.cs and map each component to the themes it needs, for the docs' theme builder
+            Console.WriteLine("=== Theme Builder Template ===");
+
+            try
+            {
+                var template = ThemeTemplateExtractor.ExtractFile(Paths.ThemeCsFilePath);
+                var componentNames = ComponentThemeDependencyScanner.ReadComponentNames(Paths.ComponentsJsonPath);
+                var componentThemes = ComponentThemeDependencyScanner.Scan(Paths.LibrarySourcePath, componentNames);
+
+                Directory.CreateDirectory(Paths.GeneratedPath);
+                var templateOutputPath = Path.Combine(Paths.GeneratedPath, "ThemeTemplateData.cs");
+                File.WriteAllText(templateOutputPath, CodeGenerator.GenerateThemeTemplateClass(template, componentThemes));
+
+                Console.WriteLine($"Generated: {templateOutputPath} ({template.Blocks.Count} component themes, {componentThemes.Count} components)");
+            }
+            catch (Exception ex) when (ex is IOException or InvalidOperationException)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"ERROR generating theme template: {ex.Message}");
+                Console.ResetColor();
+                hasErrors = true;
+            }
+
+            Console.WriteLine();
+
             // Discover pages from their @page directives, then write the sitemap and the last-modified lookup
             Console.WriteLine("=== Sitemap and Page Metadata ===");
 
