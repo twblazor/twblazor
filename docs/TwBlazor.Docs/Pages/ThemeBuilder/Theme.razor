@@ -7,8 +7,8 @@
             Start from one of these and adjust it below. Each sets the six colors and the defaults, and the purple one is the default theme.
         </Description>
 
-        <div class="grid grid-cols-2 gap-3 md:grid-cols-4" role="group" aria-label="@($"Example themes, page {presetPage} of {PresetPageCount}")">
-            @foreach (var preset in VisiblePresets)
+        <div class="grid grid-cols-2 gap-3 md:grid-cols-4" role="group" aria-label="@($"Example themes, page {presetPage} of {presetPageCount}")">
+            @foreach (var preset in visiblePresets)
             {
                 var current = preset;
                 var active = IsActive(current);
@@ -30,13 +30,13 @@
         </div>
 
         <div class="mt-4 flex justify-center">
-            <TwPagination TotalPages="@PresetPageCount" ActivePage="@presetPage" ActivePageChanged="@((int page) => presetPage = page)" AriaLabel="Example themes pages" />
+            <TwPagination TotalPages="@presetPageCount" ActivePage="@presetPage" ActivePageChanged="@((int page) => presetPage = page)" AriaLabel="Example themes pages" />
         </div>
     </PageCard>
 
     <PageCard Title="Customize your theme">
         <div class="flex flex-col gap-3">
-            <TwCollapse Id="theme-section-colors" Title="Colors" IsOpen="false" Class="@collapseClass">
+            <TwCollapse Id="theme-section-colors" Title="Colors" @bind-IsOpen="colorsOpen" Class="@collapseClass">
                 <div class="p-4">
                     <Description>
                         Pick the semantic colors your app uses. Each picked color becomes the 600 shade of a full 50 to 950 ramp, so every component that uses that color follows it. The text on filled buttons and chips is chosen for contrast automatically, so a light color gets dark text, and you can force light or dark text per color. The neutral surface colors (black, gray and white) always stay as the default theme defines them.
@@ -49,13 +49,13 @@
                             <div class="flex flex-col gap-2">
                                 <TwColorPicker Id="@($"theme-color-{name.ToLowerInvariant()}")"
                                                Label="@name"
-                                               Value="@colors[name]"
+                                               Value="@_colors[name]"
                                                ValueChanged="@((string value) => SetColor(name, value))" />
                                 <TwSelect T="OnColorMode"
                                           Id="@($"theme-oncolor-{name.ToLowerInvariant()}")"
                                           Label="@($"Text on {name}")"
                                           Values="@(Enum.GetValues<OnColorMode>())"
-                                          SelectedValue="@onColors[name]"
+                                          SelectedValue="@_onColors[name]"
                                           SelectedValueChanged="@((OnColorMode value) => SetOnColor(name, value))"
                                           AriaLabel="@($"Text color on {name}")" />
                                 <p class="text-xs text-gray-700 dark:text-gray-300" data-testid="@($"theme-contrast-{name.ToLowerInvariant()}")" aria-live="polite">@FilledContrast(family)</p>
@@ -73,7 +73,7 @@
                 </div>
             </TwCollapse>
 
-            <TwCollapse Id="theme-section-defaults" Title="Defaults" IsOpen="false" Class="@collapseClass">
+            <TwCollapse Id="theme-section-defaults" Title="Defaults" @bind-IsOpen="defaultsOpen" Class="@collapseClass">
                 <div class="p-4">
                     <Description>
                         The values every component falls back to when you don't set them on that component. Each one is written into your theme, and the preview below uses them.
@@ -92,11 +92,11 @@
                 </div>
             </TwCollapse>
 
-            <TwCollapse Id="theme-section-components" Class="@collapseClass" IsOpen="false">
+            <TwCollapse Id="theme-section-components" Class="@collapseClass" @bind-IsOpen="componentsOpen">
                 <HeaderContent>
                     <span class="flex flex-wrap items-baseline gap-x-3">
                         <span>Components</span>
-                        <span class="text-xs font-normal text-gray-600 dark:text-gray-400">@selected.Count of @totalComponents selected</span>
+                        <span class="text-xs font-normal text-gray-600 dark:text-gray-400">@_selected.Count of @totalComponents selected</span>
                     </span>
                 </HeaderContent>
                 <ChildContent>
@@ -111,7 +111,7 @@
                         </div>
 
                         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                            @foreach (var group in groups)
+                            @foreach (var group in _groups)
                             {
                                 var current = group;
                                 <fieldset class="overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700" aria-label="@($"{current.Label} components")">
@@ -131,7 +131,7 @@
                                             <TwCheckbox Id="@($"theme-component-{name.ToLowerInvariant()}")"
                                                         Label="@component.Display"
                                                         Color="Color.Primary"
-                                                        Value="@selected.Contains(name)"
+                                                        Value="@_selected.Contains(name)"
                                                         ValueChanged="@((bool _) => ToggleComponent(name))" />
                                         }
                                     </div>
@@ -140,7 +140,7 @@
                         </div>
 
                         <p class="mt-4 text-sm text-gray-700 dark:text-gray-300" aria-live="polite">
-                            @selected.Count of @totalComponents components selected, including @includedThemeCount component themes in total.
+                            @_selected.Count of @totalComponents components selected, including @includedThemeCount component themes in total.
                         </p>
                     </div>
                 </ChildContent>
@@ -155,8 +155,8 @@
 
         <div class="@previewContainerClass">
             <div class="@previewGridClass">
-                <ThemeBuilderPreview Colors="@colors" OnColors="@onColors" Defaults="@defaults" />
-                <ThemeBuilderPreview Colors="@colors" OnColors="@onColors" Defaults="@defaults" Dark />
+                <ThemeBuilderPreview Colors="@_colors" OnColors="@_onColors" Defaults="@defaults" />
+                <ThemeBuilderPreview Colors="@_colors" OnColors="@_onColors" Defaults="@defaults" Dark />
             </div>
         </div>
     </PageCard>

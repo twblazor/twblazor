@@ -28,13 +28,17 @@ public partial class Theme
     private const string previewContainerClass = "@container";
     private const string previewGridClass = "grid grid-cols-1 gap-4 @lg:grid-cols-2";
 
-    private static readonly ThemeTemplate template = ThemeTemplate.Default;
+    private static readonly ThemeTemplate _template = ThemeTemplate.Default;
 
-    private readonly Dictionary<string, string> colors = ThemeColorFamily.All.ToDictionary(f => f.Name, f => f.DefaultHex);
-    private readonly List<ComponentGroup> groups = BuildGroups();
-    private readonly HashSet<string> selected = [];
+    private readonly Dictionary<string, string> _colors = ThemeColorFamily.All.ToDictionary(f => f.Name, f => f.DefaultHex);
+    private readonly List<ComponentGroup> _groups = BuildGroups();
+    private readonly HashSet<string> _selected = [];
 
-    private readonly Dictionary<string, OnColorMode> onColors = ThemeColorFamily.All.ToDictionary(f => f.Name, _ => OnColorMode.Auto);
+    private readonly Dictionary<string, OnColorMode> _onColors = ThemeColorFamily.All.ToDictionary(f => f.Name, _ => OnColorMode.Auto);
+
+    private bool colorsOpen;
+    private bool defaultsOpen;
+    private bool componentsOpen;
 
     private ThemeDefaults defaults = ThemeDefaults.Default;
 
@@ -46,7 +50,7 @@ public partial class Theme
     /// <inheritdoc />
     protected override void OnInitialized()
     {
-        totalComponents = groups.Sum(g => g.Components.Count);
+        totalComponents = _groups.Sum(g => g.Components.Count);
         SelectAll();
     }
 
@@ -61,11 +65,11 @@ public partial class Theme
     // The collapse content clips its overflow, which would cut off the color picker and select popups inside it.
     private const string collapseClass = "[&>[role=region]]:overflow-visible";
 
-    private int GroupSelectedCount(ComponentGroup group) => group.Components.Count(c => selected.Contains(c.Name));
+    private int GroupSelectedCount(ComponentGroup group) => group.Components.Count(c => _selected.Contains(c.Name));
 
     private bool? GroupState(ComponentGroup group)
     {
-        var count = group.Components.Count(c => selected.Contains(c.Name));
+        var count = group.Components.Count(c => _selected.Contains(c.Name));
         return count == 0 ? false : count == group.Components.Count ? true : null;
     }
 
@@ -77,9 +81,9 @@ public partial class Theme
         foreach (var component in group.Components)
         {
             if (select)
-                selected.Add(component.Name);
+                _selected.Add(component.Name);
             else
-                selected.Remove(component.Name);
+                _selected.Remove(component.Name);
         }
 
         Regenerate();
@@ -87,27 +91,27 @@ public partial class Theme
 
     private void ToggleComponent(string name)
     {
-        if (!selected.Remove(name))
-            selected.Add(name);
+        if (!_selected.Remove(name))
+            _selected.Add(name);
 
         Regenerate();
     }
 
     private void SelectAll()
     {
-        selected.UnionWith(groups.SelectMany(g => g.Components).Select(c => c.Name));
+        _selected.UnionWith(_groups.SelectMany(g => g.Components).Select(c => c.Name));
         Regenerate();
     }
 
     private void ClearAll()
     {
-        selected.Clear();
+        _selected.Clear();
         Regenerate();
     }
 
     private void SetColor(string name, string value)
     {
-        colors[name] = value;
+        _colors[name] = value;
         Regenerate();
     }
 
@@ -116,12 +120,12 @@ public partial class Theme
 
     private int presetPage = 1;
 
-    private static int PresetPageCount => (int)Math.Ceiling(ThemePreset._all.Count / (double)presetsPerPage);
+    private static int presetPageCount => (int)Math.Ceiling(ThemePreset._all.Count / (double)presetsPerPage);
 
-    private IEnumerable<ThemePreset> VisiblePresets => ThemePreset._all.Skip((presetPage - 1) * presetsPerPage).Take(presetsPerPage);
+    private IEnumerable<ThemePreset> visiblePresets => ThemePreset._all.Skip((presetPage - 1) * presetsPerPage).Take(presetsPerPage);
 
     private bool IsActive(ThemePreset preset) =>
-        preset.Matches(colors, defaults) && onColors.Values.All(mode => mode == OnColorMode.Auto);
+        preset.Matches(_colors, defaults) && _onColors.Values.All(mode => mode == OnColorMode.Auto);
 
     private static string PresetClass(bool active) =>
         "flex w-full flex-col items-start gap-1 rounded-lg border px-4 py-3 text-start text-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600 "
@@ -133,8 +137,8 @@ public partial class Theme
     {
         foreach (var family in ThemeColorFamily.All)
         {
-            colors[family.Name] = preset.Colors[family.Name];
-            onColors[family.Name] = OnColorMode.Auto;
+            _colors[family.Name] = preset.Colors[family.Name];
+            _onColors[family.Name] = OnColorMode.Auto;
         }
 
         defaults = preset.Defaults;
@@ -143,7 +147,7 @@ public partial class Theme
 
     private void SetOnColor(string name, OnColorMode value)
     {
-        onColors[name] = value;
+        _onColors[name] = value;
         Regenerate();
     }
 
@@ -151,8 +155,8 @@ public partial class Theme
     {
         foreach (var family in ThemeColorFamily.All)
         {
-            colors[family.Name] = family.DefaultHex;
-            onColors[family.Name] = OnColorMode.Auto;
+            _colors[family.Name] = family.DefaultHex;
+            _onColors[family.Name] = OnColorMode.Auto;
         }
 
         Regenerate();
@@ -163,10 +167,10 @@ public partial class Theme
     /// </summary>
     private string FilledContrast(ThemeColorFamily family)
     {
-        if (family.FilledBackground(colors[family.Name]) is not { } background)
+        if (family.FilledBackground(_colors[family.Name]) is not { } background)
             return "Enter a valid hex color.";
 
-        var resolved = ThemeOnColor.Resolve(onColors[family.Name], background);
+        var resolved = ThemeOnColor.Resolve(_onColors[family.Name], background);
         var ratio = ThemeOnColor.Contrast(resolved, background);
         var grade = ratio switch
         {
@@ -185,7 +189,7 @@ public partial class Theme
     /// </summary>
     private string? ForegroundWarning(ThemeColorFamily family)
     {
-        if (!family.IsCustomized(colors[family.Name]) || ThemeColorRamp.Generate(colors[family.Name]) is not { } ramp)
+        if (!family.IsCustomized(_colors[family.Name]) || ThemeColorRamp.Generate(_colors[family.Name]) is not { } ramp)
             return null;
 
         var ratio = ramp[family.ForegroundShade].ContrastWith((255, 255, 255));
@@ -205,10 +209,10 @@ public partial class Theme
 
     private void Regenerate()
     {
-        var themeTypes = template.ResolveThemeTypes(selected);
+        var themeTypes = _template.ResolveThemeTypes(_selected);
 
-        generatedCode = ThemeCodeGenerator.Generate(template, themeTypes, colors, defaults, onColors);
-        includedThemeCount = template.Blocks.Count(b => themeTypes.Contains(b.TypeName));
+        generatedCode = ThemeCodeGenerator.Generate(_template, themeTypes, _colors, defaults, _onColors);
+        includedThemeCount = _template.Blocks.Count(b => themeTypes.Contains(b.TypeName));
 
         // The code block highlights only on first render, so a new key makes it render (and highlight) afresh.
         codeVersion++;

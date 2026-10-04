@@ -347,13 +347,23 @@ public class ThemePageTests : DocsTestBase
     }
 
     [Fact]
-    public void ColorsAndDefaultsStartOpen_AndComponentsStartClosed()
+    public void AllSectionsStartClosed()
     {
         var cut = Render();
 
-        Assert.Equal("true", cut.Find("#theme-section-colors-trigger").GetAttribute("aria-expanded"));
-        Assert.Equal("true", cut.Find("#theme-section-defaults-trigger").GetAttribute("aria-expanded"));
-        Assert.Equal("false", cut.Find("#theme-section-components-trigger").GetAttribute("aria-expanded"));
+        foreach (var id in new[] { "colors", "defaults", "components" })
+            Assert.Equal("false", cut.Find($"#theme-section-{id}-trigger").GetAttribute("aria-expanded"));
+    }
+
+    [Fact]
+    public void AnOpenSection_StaysOpen_WhenAnEditRerendersThePage()
+    {
+        var cut = Render();
+
+        cut.Find("#theme-section-components-trigger").Click();
+        cut.Find("button:contains('Clear all')").Click();
+
+        Assert.Equal("true", cut.Find("#theme-section-components-trigger").GetAttribute("aria-expanded"));
     }
 
     [Fact]
