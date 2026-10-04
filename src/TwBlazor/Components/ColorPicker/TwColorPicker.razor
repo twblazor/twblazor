@@ -33,6 +33,7 @@
             }
         </div>
 
+        <div class="@textfieldWrapperClasses">
         <TwTextfield T="string"
                      @bind-Value="@displayValue"
                      @bind-Value:after="@HandleTextInputChangeAsync"
@@ -48,6 +49,7 @@
                      Attributes="@Attributes"
                      AriaLabel="@AriaLabel"
                      AriaLabelledBy="@AriaLabelledBy" />
+        </div>
 
         @if (isFocused)
         {

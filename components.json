@@ -21,7 +21,6 @@
         "display": "Carousel",
         "name": "TwCarousel",
         "url": "/carousel",
-        "isNew": true,
         "theme": "TwCarouselTheme"
       },
       {
@@ -49,7 +48,6 @@
         "display": "Stepper",
         "name": "TwStepper",
         "url": "/stepper",
-        "isNew": true,
         "theme": "TwStepperTheme"
       },
       {
@@ -64,7 +62,6 @@
         "display": "Tree List",
         "name": "TwTreeList",
         "url": "/tree-list",
-        "isNew": true,
         "theme": "TwTreeListTheme"
       }
     ]
@@ -91,7 +88,6 @@
         "display": "Color Picker",
         "name": "TwColorPicker",
         "url": "/color-picker",
-        "isNew": true,
         "theme": "TwColorPickerTheme"
       },
       {
@@ -109,8 +105,7 @@
             "id": "date-range-picker-navitem",
             "display": "Date Range",
             "name": "TwDateRangePicker",
-            "url": "/date-range-picker",
-            "isNew": true
+            "url": "/date-range-picker"
           },
           {
             "id": "datetime-picker-navitem",
@@ -122,8 +117,7 @@
             "id": "datetime-range-picker-navitem",
             "display": "Datetime Range",
             "name": "TwDateTimeRangePicker",
-            "url": "/datetime-range-picker",
-            "isNew": true
+            "url": "/datetime-range-picker"
           },
           {
             "id": "time-picker-navitem",
@@ -136,8 +130,7 @@
             "id": "time-range-picker-navitem",
             "display": "Time Range",
             "name": "TwTimeRangePicker",
-            "url": "/time-range-picker",
-            "isNew": true
+            "url": "/time-range-picker"
           }
         ]
       },
@@ -226,7 +219,6 @@
         "display": "Spinner",
         "name": "TwSpinner",
         "url": "/spinner",
-        "isNew": true,
         "theme": "TwSpinnerTheme"
       }
     ]
@@ -254,6 +246,14 @@
         "url": "/pick-list",
         "isNew": true,
         "theme": "TwPickListTheme"
+      },
+      {
+        "id": "calendar-navitem",
+        "display": "Calendar",
+        "name": "TwCalendar",
+        "url": "/calendar",
+        "isNew": true,
+        "theme": "TwCalendarTheme"
       },
       {
         "id": "table-navitem",

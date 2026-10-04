@@ -1,5 +1,5 @@
-using System.Reflection;
 using Microsoft.AspNetCore.Components;
+using System.Reflection;
 using TwBlazor.Configuration;
 using TwBlazor.Configuration.Color;
 using TwBlazor.Configuration.Components;

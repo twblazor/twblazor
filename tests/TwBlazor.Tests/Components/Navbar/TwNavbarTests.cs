@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 using TwBlazor.Components;
 using TwBlazor.Configuration.Components;
-using TwBlazor.Models;
 
 namespace TwBlazor.Tests.Components.Navbar;
 

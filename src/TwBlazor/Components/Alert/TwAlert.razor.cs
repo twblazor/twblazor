@@ -41,6 +41,18 @@ public partial class TwAlert : TwBlazorComponentBase
     [Parameter] public Icon? EndIcon { get; set; }
 
     /// <summary>
+    /// Gets or sets the Tailwind padding classes between the start icon and the text.
+    /// Defaults to the theme's small padding when not set.
+    /// </summary>
+    [Parameter] public string? StartIconPadding { get; set; }
+
+    /// <summary>
+    /// Gets or sets the Tailwind padding classes between the text and the end icon.
+    /// Defaults to the theme's small padding when not set.
+    /// </summary>
+    [Parameter] public string? EndIconPadding { get; set; }
+
+    /// <summary>
     /// Gets or sets the callback that is invoked when the alert is dismissed.
     /// </summary>
     [Parameter] public EventCallback OnDismiss { get; set; }
@@ -94,6 +106,13 @@ public partial class TwAlert : TwBlazorComponentBase
         .AddClass(options.Theme.Spacing.Gap.Sm, !Dismissed)
         .AddClass(theme.Transition, !Dismissed)
         .AddClass(Class)
+        .Build();
+
+    private string startIconClasses => StartIconPadding ?? theme.StartIconPadding;
+
+    private string endIconClasses =>
+        new ClassBuilder(options.Theme.Spacing.PushEnd)
+        .AddClass(EndIconPadding ?? theme.EndIconPadding)
         .Build();
 
     private string dismissButtonClasses =>

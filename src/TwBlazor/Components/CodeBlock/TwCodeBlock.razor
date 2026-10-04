@@ -3,21 +3,29 @@
 @inherits TwBlazorComponentBase
 
 <div id="@Id" class="@classes" style="@Style" @attributes="Attributes" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy">
-    <div class="@headerClasses">
-        <span>@headerTitle</span>
-        @if (copied)
-        {
-            <TwIcon OnClick="@Copy" Icon="Icon.Check2" Class="@options.Theme.Spacing.Padding.Md" RootClass="@theme.CopyButtonWrapper" AriaLabel="Copied" />
-        }
-        else
-        {
-            <TwIcon OnClick="@Copy" Icon="Icon.Copy" Class="@options.Theme.Spacing.Padding.Md" RootClass="@theme.CopyButtonWrapper" AriaLabel="Copy code" />
-        }
-    </div>
+    @if (HideTitle)
+    {
+        @copyButton
+    }
+    else
+    {
+        <div class="@headerClasses">
+            <span>@headerTitle</span>
+            @copyButton
+        </div>
+    }
     <span class="@options.Theme.Display.ScreenReaderOnly" aria-live="polite">@statusMessage</span>
-    <pre class="@theme.Panel">
+    <pre class="@panelClasses">
         <code class="@($"language-{Language}")" tabindex="0" @ref="codeBlock">
             @Content
         </code>
     </pre>
 </div>
+
+@code {
+    private RenderFragment copyButton => @<TwIcon OnClick="@Copy"
+        Icon="@(copied ? Icon.Check2 : Icon.Copy)"
+        Class="@options.Theme.Spacing.Padding.Md"
+        RootClass="@copyButtonClasses"
+        AriaLabel="@(copied ? "Copied" : "Copy code")" />;
+}

@@ -109,6 +109,44 @@ public class TwAlertTests : TwBlazorTestBase
     }
 
     [Fact]
+    public void TwAlert_StartIcon_UsesDefaultPadding()
+    {
+        var cut = TestContext.Render<TwAlert>(parameters => parameters
+            .Add(p => p.StartIcon, Icons.Info_Circle)
+            .Add(p => p.Text, "Alert"));
+
+        Assert.Contains("pr-2", cut.FindComponents<TwIcon>()[0].Find("*").GetAttribute("class"));
+    }
+
+    [Fact]
+    public void TwAlert_StartIcon_UsesCustomPadding()
+    {
+        var cut = TestContext.Render<TwAlert>(parameters => parameters
+            .Add(p => p.StartIcon, Icons.Info_Circle)
+            .Add(p => p.StartIconPadding, "pr-4")
+            .Add(p => p.Text, "Alert"));
+
+        var classes = cut.FindComponents<TwIcon>()[0].Find("*").GetAttribute("class");
+        Assert.Contains("pr-4", classes);
+        Assert.DoesNotContain("pr-2", classes);
+    }
+
+    [Fact]
+    public void TwAlert_EndIcon_UsesDefaultAndCustomPadding()
+    {
+        var defaultCut = TestContext.Render<TwAlert>(parameters => parameters
+            .Add(p => p.EndIcon, Icons.Arrow_Right)
+            .Add(p => p.Text, "Alert"));
+        var customCut = TestContext.Render<TwAlert>(parameters => parameters
+            .Add(p => p.EndIcon, Icons.Arrow_Right)
+            .Add(p => p.EndIconPadding, "pl-4")
+            .Add(p => p.Text, "Alert"));
+
+        Assert.Contains("pl-2", defaultCut.FindComponents<TwIcon>()[0].Find("*").GetAttribute("class"));
+        Assert.Contains("pl-4", customCut.FindComponents<TwIcon>()[0].Find("*").GetAttribute("class"));
+    }
+
+    [Fact]
     public void TwAlert_Renders_WithEndIcon()
     {
         // Arrange & Act

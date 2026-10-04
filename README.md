@@ -44,6 +44,15 @@ $ dotnet add package twblazor --version 1.11.5
 ```
 2. Head to the [Get Started guide](https://twblazor.com/get-started) for the rest of the setup - stylesheets, imports, providers, theming and dependency injection - covering both Interactive Server and WebAssembly Blazor Web Apps step by step.
 
+## Supported Versions
+
+Security fixes are provided for the three most recent minor release lines. twblazor targets .NET 10 only. See the [security policy](https://github.com/TwBlazor/twblazor/blob/develop/SECURITY.md) for how to report a vulnerability.
+
+| Version  | Supported          | .NET    |
+| -------- | ------------------ | ------- |
+| 1.10.x+   | :white_check_mark: | .NET 10 |
+| < 1.9    | :x:                | .NET 10 |
+
 ## Dependencies 
 
 - [Tailwind CSS](https://tailwindcss.com/) - A utility-first CSS framework for styling components.

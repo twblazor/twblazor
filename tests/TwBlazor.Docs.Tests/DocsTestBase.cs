@@ -1,5 +1,4 @@
 using Bunit;
-using Microsoft.Extensions.DependencyInjection;
 using TwBlazor.Configuration;
 using ThemeBase = TwBlazor.Theme.Theme;
 

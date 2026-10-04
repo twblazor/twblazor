@@ -1017,6 +1017,27 @@ public class TwSelectTests : TwBlazorTestBase
     }
 
     [Fact]
+    public void OpeningPanel_PositionsItAsFixed_MatchingTheTriggersWidth()
+    {
+        // Regression test: the options panel must be positioned via twPicker.registerScrollReposition
+        // with matchAnchorWidth=true (which applies twPicker.positionPanelFixed itself -
+        // position:fixed, sized/anchored via JS-computed coordinates), so it spans the trigger's
+        // actual width and isn't clipped inside a scrollable ancestor such as a TwDialog's body - the
+        // old CSS-only "absolute top-full left-0 w-full" never handled either.
+        var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(p => p.Multiple, true)
+            .Add(p => p.PreferNativePicker, false)
+            .Add(p => p.Values, _threeStringOptions));
+
+        cut.Find("button[aria-haspopup='listbox']").Click();
+
+        var invocation = Assert.Single(TestContext.JSInterop.Invocations, i => i.Identifier == "twPicker.registerScrollReposition");
+        Assert.IsType<ElementReference>(invocation.Arguments[0]);
+        Assert.IsType<ElementReference>(invocation.Arguments[1]);
+        Assert.True((bool)invocation.Arguments[2]!);
+    }
+
+    [Fact]
     public void TwSelect_Multiple_Custom_OpensPanel_OnTriggerClick_WhenAlreadyHasSelectedValues()
     {
         // Arrange - regression test: once at least one option is selected the open button has no text

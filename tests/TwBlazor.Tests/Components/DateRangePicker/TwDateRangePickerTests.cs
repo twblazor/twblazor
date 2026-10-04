@@ -18,6 +18,20 @@ public class TwDateRangePickerTests : TwBlazorTestBase
         EventCallback.Factory.Create<KeyValuePair<DateTime?, DateTime?>>(owner, _ => { });
 
     [Fact]
+    public void FocusingInput_PositionsPanelAsFixed_AnchoredToTheInputRoot()
+    {
+        // Regression test - see the identical test on TwDatePickerTests for the full rationale.
+        var cut = TestContext.Render<TwDateRangePicker>();
+
+        cut.Find("input").Focus();
+
+        var invocation = Assert.Single(TestContext.JSInterop.Invocations, i => i.Identifier == "twPicker.registerScrollReposition");
+        Assert.IsType<ElementReference>(invocation.Arguments[0]);
+        Assert.IsType<ElementReference>(invocation.Arguments[1]);
+        Assert.DoesNotContain(TestContext.JSInterop.Invocations, i => i.Identifier == "twPicker.positionPanel");
+    }
+
+    [Fact]
     public void ClickingTwoDays_SelectsRange_AndInvokesCallbacks()
     {
         // Arrange

@@ -1,10 +1,8 @@
-@using TwBlazor.Docs.Generated
 @using TwBlazor.Docs.Services
-@implements IDisposable
 
 <PageSeo Title="@(SeoTitle ?? SiteMetadata.ComponentTitle(Title ?? string.Empty))" Description="@Description" Path="@Path" />
 
-<CascadingValue Value="outline" IsFixed>
+<CascadingValue Value="_outline" IsFixed>
     <div class="mx-auto flex max-w-6xl items-start gap-10 p-6 text-sm text-gray-900 dark:text-gray-200">
         <div class="min-w-0 flex-1">
             @if (!string.IsNullOrWhiteSpace(category))
@@ -18,6 +16,14 @@
                 <p class="mb-6 text-xs text-gray-600 dark:text-gray-400">Last updated <time datetime="@SiteMetadata.FormatIsoDate(lastModified)">@SiteMetadata.FormatDate(lastModified)</time></p>
             }
 
+            @if (Beta)
+            {
+                <TwAlert Color="TwBlazor.Enums.Color.Warning" StartIcon="TwBlazor.Enums.Icon.Exclamation_Triangle" Class="mb-6 ps-3">
+                    Please be aware this component is new, may have bugs and/or be subject to change. Please report any bugs at
+                    <a href="@SiteMetadata.IssuesUrl" target="_blank" rel="noopener noreferrer" class="font-medium underline">@SiteMetadata.IssuesUrl</a>.
+                </TwAlert>
+            }
+
             @ChildContent
 
             @if (ThemeType is not null)
@@ -26,75 +32,6 @@
             }
         </div>
 
-        <PageOutlineNav Outline="outline" Path="@Path" />
+        <PageOutlineNav Outline="_outline" Path="@Path" />
     </div>
 </CascadingValue>
-
-@code {
-    [Parameter] public string? Title { get; set; }
-
-    /// <summary>
-    /// The page's route (e.g. <c>/card</c>), used for its canonical URL and its "last updated" date.
-    /// </summary>
-    [Parameter, EditorRequired] public string Path { get; set; } = string.Empty;
-
-    /// <summary>
-    /// One or two sentences saying what the page documents. Shown under the heading and reused as the
-    /// meta, Open Graph and Twitter description, so what a search result quotes matches what the page says.
-    /// </summary>
-    [Parameter, EditorRequired] public string Description { get; set; } = string.Empty;
-
-    /// <summary>
-    /// The full <c>&lt;title&gt;</c> text, in the <c>{name} | twblazor - {summary}</c> shape. Defaults to
-    /// <see cref="SiteMetadata.ComponentTitle"/> built from <see cref="Title"/>; set it explicitly for pages
-    /// whose heading isn't the name people search for (e.g. "Get Started").
-    /// </summary>
-    [Parameter] public string? SeoTitle { get; set; }
-
-    [Parameter] public RenderFragment? ChildContent { get; set; }
-
-    /// <summary>
-    /// The component's theme class (e.g. <c>typeof(TwDialogTheme)</c>). When set, a "Theme Configuration"
-    /// card is appended automatically, reflecting the type's public properties into a table instead of
-    /// requiring every page to hand-write (and keep in sync) its own. Set explicitly per page rather than
-    /// derived from <see cref="Title"/>, since a handful of theme classes don't share the page's name
-    /// (e.g. the "TwDialogProvider" page's theme is <c>TwDialogTheme</c>).
-    /// </summary>
-    [Parameter] public Type? ThemeType { get; set; }
-
-    /// <summary>
-    /// Optional content rendered below the reflected property table - e.g. a worked example of
-    /// overriding a couple of the theme's properties.
-    /// </summary>
-    [Parameter] public RenderFragment? ThemeContent { get; set; }
-
-    /// <summary>
-    /// The small label above the heading. Defaults to the component's category in <c>components.json</c>
-    /// (e.g. "Forms"), so only pages outside that catalog (e.g. Get Started) need to set it.
-    /// </summary>
-    [Parameter] public string? Category { get; set; }
-
-    private readonly PageOutline outline = new();
-    private DateOnly lastModified;
-    private bool hasLastModified;
-    private string? category;
-
-    protected override void OnInitialized() => outline.Changed += OnOutlineChanged;
-
-    protected override void OnParametersSet()
-    {
-        hasLastModified = PageLastModified.TryGet(Path, out lastModified);
-        category = Category ?? ComponentCatalog.LoadLeafEntries()
-            .Where(leaf => leaf.Entry.Url == Path)
-            .Select(leaf => leaf.Category)
-            .FirstOrDefault();
-    }
-
-    /// <summary>
-    /// Re-renders when a section appears or disappears. Cards nested in a child component (e.g. a tab
-    /// panel) register after this page has rendered its outline list, so they need the extra render.
-    /// </summary>
-    private void OnOutlineChanged() => _ = InvokeAsync(StateHasChanged);
-
-    public void Dispose() => outline.Changed -= OnOutlineChanged;
-}

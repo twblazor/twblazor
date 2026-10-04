@@ -13,7 +13,7 @@ namespace TwBlazor.Builders;
 /// panel (date/time/color picker panels) from <see cref="TwOverlayTheme"/>. Mirrors
 /// <see cref="DialogBuilder.GetSurfaceClasses"/>'s instance-override/theme-default/global-default
 /// resolution, so popovers and the modal dialog behave the same way instead of the popover family
-/// having no such override tier at all.
+/// having no such override tier at all. Also builds tooltip classes, since a tooltip is a small popover.
 /// </summary>
 public class PopoverBuilder(TwBlazorOptions options, RoundedBuilder roundedBuilder, ShadowBuilder shadowBuilder)
 {
@@ -37,4 +37,21 @@ public class PopoverBuilder(TwBlazorOptions options, RoundedBuilder roundedBuild
             .AddClass(customClass ?? string.Empty, !string.IsNullOrWhiteSpace(customClass))
             .Build();
     }
+
+    /// <summary>
+    /// Gets the classes for the element wrapping a control and its tooltip bubble.
+    /// </summary>
+    public string GetTooltipWrapperClasses() => theme.TooltipWrapper;
+
+    /// <summary>
+    /// Gets the classes for a tooltip bubble: the shared tooltip layout/visibility classes on top of the
+    /// popover surface from <see cref="GetSurfaceClasses"/>, so tooltips match popover panels.
+    /// </summary>
+    /// <param name="dismissed">Whether the user has dismissed the tooltip (Escape), which hides it
+    /// regardless of hover or focus until they leave the control.</param>
+    public string GetTooltipClasses(bool dismissed) =>
+        new ClassBuilder(theme.TooltipBubble)
+            .AddClass(GetSurfaceClasses(null, null))
+            .AddClass(options.Theme.Display.Hidden, dismissed)
+            .Build();
 }
