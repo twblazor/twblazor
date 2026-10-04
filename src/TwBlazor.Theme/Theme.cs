@@ -14,7 +14,7 @@ public static class Theme
     public static TwBlazorTheme CreateDefaultTheme()
     {
         #region utility classes
-        
+
         var flexbox = new TwBlazorFlexbox
         {
             Row = "flex-row",
@@ -422,7 +422,7 @@ public static class Theme
 
         var sizing = new TwBlazorSizing
         {
-            
+
             FullWidth = "w-full",
             FullHeight = "h-full",
             Full = "w-full h-full",

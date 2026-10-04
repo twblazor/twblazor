@@ -79,12 +79,12 @@ public class PageCardTests : DocsTestBase
         // Act
         TestContext.Render<CascadingValue<PageOutline>>(parameters => parameters
             .Add(p => p.Value, outline)
-            .Add(p => p.ChildContent, (RenderFragment)(builder =>
+            .Add(p => p.ChildContent, builder =>
             {
                 builder.OpenComponent<PageCard>(0);
                 builder.AddAttribute(1, nameof(PageCard.Title), "Colors");
                 builder.CloseComponent();
-            })));
+            }));
 
         // Assert
         var item = Assert.Single(outline.Items);
@@ -99,17 +99,17 @@ public class PageCardTests : DocsTestBase
         var outline = new PageOutline();
         var host = TestContext.Render<CascadingValue<PageOutline>>(parameters => parameters
             .Add(p => p.Value, outline)
-            .Add(p => p.ChildContent, (RenderFragment)(builder =>
+            .Add(p => p.ChildContent, builder =>
             {
                 builder.OpenComponent<PageCard>(0);
                 builder.AddAttribute(1, nameof(PageCard.Title), "Colors");
                 builder.CloseComponent();
-            })));
+            }));
 
         // Act
         host.Render(parameters => parameters
             .Add(p => p.Value, outline)
-            .Add(p => p.ChildContent, (RenderFragment)(_ => { })));
+            .Add(p => p.ChildContent, _ => { }));
 
         // Assert
         Assert.Empty(outline.Items);

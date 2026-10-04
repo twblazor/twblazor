@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Components;
-using System.Linq;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Enums;
 using TwBlazor.Extensions;

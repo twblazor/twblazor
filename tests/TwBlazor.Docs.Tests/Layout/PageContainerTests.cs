@@ -1,5 +1,4 @@
 using Bunit;
-using Microsoft.AspNetCore.Components;
 using TwBlazor.Docs.Layout;
 using TwBlazor.Docs.Services;
 
@@ -14,7 +13,7 @@ public class PageContainerTests : DocsTestBase
             .Add(p => p.Path, path)
             .Add(p => p.Description, "TwCard is a Blazor card component.")
             .Add(p => p.SeoTitle, seoTitle)
-            .Add(p => p.ChildContent, (RenderFragment)(builder => builder.AddMarkupContent(0, "<p id=\"body\">Body</p>"))));
+            .Add(p => p.ChildContent, builder => builder.AddMarkupContent(0, "<p id=\"body\">Body</p>")));
 
     [Fact]
     public void Render_ShowsTheDescriptionAsTheIntroUnderTheHeading()
@@ -179,7 +178,7 @@ public class PageContainerTests : DocsTestBase
             .Add(p => p.Title, "TwCard")
             .Add(p => p.Path, "/card")
             .Add(p => p.Description, "TwCard is a Blazor card component.")
-            .Add(p => p.ChildContent, (RenderFragment)(builder =>
+            .Add(p => p.ChildContent, builder =>
             {
                 foreach (var title in _cardTitles)
                 {
@@ -187,7 +186,7 @@ public class PageContainerTests : DocsTestBase
                     builder.AddAttribute(1, nameof(PageCard.Title), title);
                     builder.CloseComponent();
                 }
-            })));
+            }));
 
         // Assert
         var links = cut.FindAll("nav a");

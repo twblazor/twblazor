@@ -4,7 +4,6 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
-using System.Globalization;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Utilities;
 

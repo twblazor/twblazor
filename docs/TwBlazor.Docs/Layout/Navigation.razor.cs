@@ -12,7 +12,7 @@ public partial class Navigation : IDisposable
     [Parameter] public RenderFragment? ChildContent { get; set; }
 
     [Parameter] public bool MainContentPadding { get; set; }
-    
+
     [Inject] private ITwDialogService dialogService { get; set; } = null!;
 
     private Icon themeIcon = Icon.Moon; // NOSONAR - used in Navigation.razor template

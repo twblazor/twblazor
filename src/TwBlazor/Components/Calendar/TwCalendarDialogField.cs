@@ -176,7 +176,7 @@ public sealed class TwCalendarDialogField
 
         try
         {
-            object? parsed = Kind == TwCalendarDialogFieldKind.Enum
+            var parsed = Kind == TwCalendarDialogFieldKind.Enum
                 ? System.Enum.Parse(_underlyingType, text)
                 : Convert.ChangeType(text, _underlyingType, CultureInfo.InvariantCulture);
             _property.SetValue(target, parsed);
