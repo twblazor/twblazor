@@ -58,6 +58,11 @@ public partial class Theme
             .Select(g => new ComponentGroup(g.Key, [.. g.Select(leaf => new ComponentOption(leaf.Entry.Name, leaf.Entry.Display))]))
     ];
 
+    // The collapse content clips its overflow, which would cut off the color picker and select popups inside it.
+    private const string collapseClass = "[&>[role=region]]:overflow-visible";
+
+    private int GroupSelectedCount(ComponentGroup group) => group.Components.Count(c => selected.Contains(c.Name));
+
     private bool? GroupState(ComponentGroup group)
     {
         var count = group.Components.Count(c => selected.Contains(c.Name));
@@ -103,6 +108,36 @@ public partial class Theme
     private void SetColor(string name, string value)
     {
         colors[name] = value;
+        Regenerate();
+    }
+
+    // Two rows of four on a wide screen.
+    private const int presetsPerPage = 8;
+
+    private int presetPage = 1;
+
+    private static int PresetPageCount => (int)Math.Ceiling(ThemePreset.All.Count / (double)presetsPerPage);
+
+    private IEnumerable<ThemePreset> VisiblePresets => ThemePreset.All.Skip((presetPage - 1) * presetsPerPage).Take(presetsPerPage);
+
+    private bool IsActive(ThemePreset preset) =>
+        preset.Matches(colors, defaults) && onColors.Values.All(mode => mode == OnColorMode.Auto);
+
+    private static string PresetClass(bool active) =>
+        "flex w-full flex-col items-start gap-1 rounded-lg border px-4 py-3 text-start text-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600 "
+        + (active
+            ? "border-purple-600 bg-purple-50 dark:border-purple-400 dark:bg-purple-950"
+            : "border-gray-200 hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-800");
+
+    private void ApplyPreset(ThemePreset preset)
+    {
+        foreach (var family in ThemeColorFamily.All)
+        {
+            colors[family.Name] = preset.Colors[family.Name];
+            onColors[family.Name] = OnColorMode.Auto;
+        }
+
+        defaults = preset.Defaults;
         Regenerate();
     }
 
@@ -153,7 +188,7 @@ public partial class Theme
         if (!family.IsCustomized(colors[family.Name]) || ThemeColorRamp.Generate(colors[family.Name]) is not { } ramp)
             return null;
 
-        var ratio = ramp[ThemeColorRamp.AnchorShade].ContrastWith((255, 255, 255));
+        var ratio = ramp[family.ForegroundShade].ContrastWith((255, 255, 255));
 
         return ratio < 3
             ? string.Create(System.Globalization.CultureInfo.InvariantCulture, $"Only {ratio:0.0}:1 against white, so outlined and text buttons in light mode will be hard to see.")

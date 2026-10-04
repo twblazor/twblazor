@@ -140,6 +140,38 @@ public class ThemeOnColorTests
     }
 
     [Fact]
+    public void TheForegroundShadeConstants_MatchTheRealDefaultThemesLightBorders()
+    {
+        TwBlazorTheme theme = ThemeBase.CreateDefaultTheme();
+
+        foreach (var family in ThemeColorFamily.All)
+        {
+            var border = family.Name switch
+            {
+                "Primary" => theme.Border.Colors.Primary,
+                "Accent" => theme.Border.Colors.Accent,
+                "Success" => theme.Border.Colors.Success,
+                "Danger" => theme.Border.Colors.Danger,
+                "Warning" => theme.Border.Colors.Warning,
+                _ => theme.Border.Colors.Info,
+            };
+
+            Assert.Matches($@"(?<![:\w-])border-{family.TailwindName}-{family.ForegroundShade}\b", border);
+        }
+    }
+
+    [Fact]
+    public void EveryDefaultColor_ReadsAsAVisibleBorderOnWhite_AtItsForegroundShade()
+    {
+        foreach (var family in ThemeColorFamily.All)
+        {
+            var ramp = ThemeColorRamp.Generate(family.DefaultHex)!;
+
+            Assert.True(ramp[family.ForegroundShade].ContrastWith((255, 255, 255)) >= 3, family.Name);
+        }
+    }
+
+    [Fact]
     public void PreviewText_FollowsTheSameDecision_AsTheGeneratedTheme()
     {
         var family = ThemeColorFamily.All.Single(f => f.Name == "Accent");

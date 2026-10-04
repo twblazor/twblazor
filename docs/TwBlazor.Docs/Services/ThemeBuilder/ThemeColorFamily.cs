@@ -7,7 +7,8 @@ namespace TwBlazor.Docs.Services.ThemeBuilder;
 /// <param name="TailwindName">The Tailwind palette the default theme uses for it, e.g. <c>purple</c>.</param>
 /// <param name="DefaultHex">That palette's 600 shade as hex, the color the picker starts on.</param>
 /// <param name="FilledShade">The shade the default theme fills buttons and chips of this color with.</param>
-internal sealed record ThemeColorFamily(string Name, string TailwindName, string DefaultHex, int FilledShade)
+/// <param name="ForegroundShade">The shade the default theme draws this color as a border on a light page, as outlined buttons do.</param>
+internal sealed record ThemeColorFamily(string Name, string TailwindName, string DefaultHex, int FilledShade, int ForegroundShade)
 {
     /// <summary>
     /// The customizable colors. The neutral surface colors (black, gray and white) are deliberately absent:
@@ -15,12 +16,12 @@ internal sealed record ThemeColorFamily(string Name, string TailwindName, string
     /// </summary>
     public static readonly IReadOnlyList<ThemeColorFamily> All =
     [
-        new("Primary", "purple", "#9810fa", 600),
-        new("Accent", "fuchsia", "#c800de", 700),
-        new("Success", "green", "#00a63e", 700),
-        new("Danger", "red", "#e7000b", 700),
-        new("Warning", "yellow", "#d08700", 600),
-        new("Info", "blue", "#155dfc", 600),
+        new("Primary", "purple", "#9810fa", 600, 600),
+        new("Accent", "fuchsia", "#c800de", 700, 600),
+        new("Success", "green", "#00a63e", 700, 600),
+        new("Danger", "red", "#e7000b", 700, 600),
+        new("Warning", "yellow", "#d08700", 600, 700),
+        new("Info", "blue", "#155dfc", 600, 600),
     ];
 
     /// <summary>

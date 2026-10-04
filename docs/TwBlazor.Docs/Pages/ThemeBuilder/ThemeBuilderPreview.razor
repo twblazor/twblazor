@@ -110,7 +110,7 @@
     private const string twoColumnClass = "grid grid-cols-1 gap-4 @md:grid-cols-2";
 
     private string paneClass =>
-        $"@container flex flex-col gap-6 rounded-lg border p-4 {(Dark ? "dark" : "theme-light")} {Options.Theme.Colors.NeutralSurface.Background} {Options.Theme.Colors.NeutralSurface.Border}";
+        $"@container flex flex-col gap-6 rounded-lg border p-4 {(Dark ? "dark" : "theme-light")} {Options.Theme.Colors.NeutralSurface.Background} {Options.Theme.Colors.NeutralSurface.Border} {Options.Theme.Colors.NeutralText.Heading}";
 
     private static readonly string[] fruits = ["Apple", "Banana", "Cherry"];
     private readonly List<BreadcrumbItem> breadcrumbs =
