@@ -8,6 +8,8 @@ namespace TwBlazor.Docs.Tests.Pages;
 
 public class ThemePageTests : DocsTestBase
 {
+    private static readonly string[] _colorIds = ["primary", "accent", "success", "danger", "warning", "info"];
+
     private IRenderedComponent<ThemePage> Render() => TestContext.Render<ThemePage>();
 
     private static string Code(IRenderedComponent<ThemePage> cut) => cut.Find("pre code").TextContent;
@@ -236,7 +238,7 @@ public class ThemePageTests : DocsTestBase
     {
         var cut = Render();
 
-        Assert.All(new[] { "primary", "accent", "success", "danger", "warning", "info" },
+        Assert.All(_colorIds,
             name => Assert.Contains("AA", cut.Find($"[data-testid='theme-contrast-{name}']").TextContent));
         Assert.DoesNotContain("hard to see", cut.Markup);
     }
@@ -276,7 +278,7 @@ public class ThemePageTests : DocsTestBase
         for (var page = 1; page <= cut.FindComponent<TwPagination>().Instance.TotalPages; page++)
         {
             await GoToPresetPageAsync(cut, page);
-            seen.AddRange(cut.FindAll("button[id^='theme-preset-']").Select(b => b.Id));
+            seen.AddRange(cut.FindAll("button[id^='theme-preset-']").Select(b => b.Id!));
         }
 
         Assert.Equal(ThemePreset._all.Select(p => $"theme-preset-{p.Name.ToLowerInvariant()}"), seen);

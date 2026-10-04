@@ -55,7 +55,6 @@ internal sealed record ThemeColorFamily(string Name, string TailwindName, string
 
     private static string Normalize(string? hex)
     {
-        OklchColor.TryParseHex(hex, out var color);
-        return color.ToCss();
+        return OklchColor.TryParseHex(hex, out var color) ? color.ToCss() : string.Empty;
     }
 }

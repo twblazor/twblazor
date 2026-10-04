@@ -70,7 +70,11 @@ public partial class Theme
     private bool? GroupState(ComponentGroup group)
     {
         var count = group.Components.Count(c => _selected.Contains(c.Name));
-        return count == 0 ? false : count == group.Components.Count ? true : null;
+
+        if (count == 0)
+            return false;
+
+        return count == group.Components.Count ? true : null;
     }
 
     private void ToggleGroup(ComponentGroup group)
@@ -78,12 +82,12 @@ public partial class Theme
         // A mixed group resolves to fully selected, matching how a native tri-state checkbox behaves.
         var select = GroupState(group) != true;
 
-        foreach (var component in group.Components)
+        foreach (var name in group.Components.Select(c => c.Name))
         {
             if (select)
-                _selected.Add(component.Name);
+                _selected.Add(name);
             else
-                _selected.Remove(component.Name);
+                _selected.Remove(name);
         }
 
         Regenerate();
@@ -135,10 +139,10 @@ public partial class Theme
 
     private void ApplyPreset(ThemePreset preset)
     {
-        foreach (var family in ThemeColorFamily.All)
+        foreach (var name in ThemeColorFamily.All.Select(f => f.Name))
         {
-            _colors[family.Name] = preset.Colors[family.Name];
-            _onColors[family.Name] = OnColorMode.Auto;
+            _colors[name] = preset.Colors[name];
+            _onColors[name] = OnColorMode.Auto;
         }
 
         defaults = preset.Defaults;

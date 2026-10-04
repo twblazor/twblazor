@@ -57,7 +57,7 @@ public class ThemeColorTests
     [Fact]
     public void Ramp_CoversEveryShade_WithThePickedColorAsShade600()
     {
-        OklchColor.TryParseHex("#2563eb", out var picked);
+        Assert.True(OklchColor.TryParseHex("#2563eb", out var picked));
 
         var ramp = ThemeColorRamp.Generate("#2563eb")!;
 
@@ -73,7 +73,7 @@ public class ThemeColorTests
     [InlineData("#fef08a")]
     public void Ramp_GetsDarkerFromShade50To950_AndKeepsTheHue(string hex)
     {
-        OklchColor.TryParseHex(hex, out var picked);
+        Assert.True(OklchColor.TryParseHex(hex, out var picked));
 
         var ramp = ThemeColorRamp.Generate(hex)!;
         var lightness = ThemeColorRamp.Shades.Select(s => ramp[s].Lightness).ToList();

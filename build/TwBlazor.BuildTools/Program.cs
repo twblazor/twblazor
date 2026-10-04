@@ -94,7 +94,7 @@ static class Program
 
                 Console.WriteLine($"Generated: {templateOutputPath} ({template.Blocks.Count} component themes, {componentThemes.Count} components)");
             }
-            catch (Exception ex) when (ex is IOException or InvalidOperationException)
+            catch (Exception ex) when (ex is IOException or InvalidOperationException or System.Text.Json.JsonException)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"ERROR generating theme template: {ex.Message}");

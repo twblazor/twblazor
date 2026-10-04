@@ -5,22 +5,25 @@ using ThemeBase = TwBlazor.Theme.Theme;
 
 namespace TwBlazor.Docs.Tests.Services.ThemeBuilder;
 
-public class ThemeOnColorTests
+public partial class ThemeOnColorTests
 {
     private static readonly IReadOnlySet<string> AllThemes = ThemeTemplate.Default.Blocks.Select(b => b.TypeName).ToHashSet();
 
-    private static OklchColor Parse(string hex)
-    {
-        OklchColor.TryParseHex(hex, out var color);
-        return color;
-    }
+    [GeneratedRegex(@"Filled = new\(\)\s*\{.*?\n\s*\},", RegexOptions.Singleline)]
+    private static partial Regex FilledBlockRegex();
+
+    [GeneratedRegex(@"\s+")]
+    private static partial Regex WhitespaceRegex();
+
+    private static OklchColor Parse(string hex) =>
+        OklchColor.TryParseHex(hex, out var color) ? color : throw new ArgumentException($"Not a color: {hex}", nameof(hex));
 
     private static string Generate(Dictionary<string, string> colors, Dictionary<string, OnColorMode>? onColors = null) =>
         ThemeCodeGenerator.Generate(ThemeTemplate.Default, AllThemes, colors, onColors: onColors);
 
     private static string FilledLine(string code, string name)
     {
-        var filled = Regex.Match(code, @"Filled = new\(\)\s*\{.*?\n\s*\},", RegexOptions.Singleline).Value;
+        var filled = FilledBlockRegex().Match(code).Value;
         return filled.Split('\n').Single(l => l.TrimStart().StartsWith($"{name} = ", StringComparison.Ordinal));
     }
 
@@ -96,7 +99,7 @@ public class ThemeOnColorTests
     {
         var code = Generate(new() { ["Accent"] = "#ffffff" });
 
-        Assert.Equal(Regex.Replace(FilledLine(Generate([]), "Danger"), @"\s+", " "), Regex.Replace(FilledLine(code, "Danger"), @"\s+", " "));
+        Assert.Equal(WhitespaceRegex().Replace(FilledLine(Generate([]), "Danger"), " "), WhitespaceRegex().Replace(FilledLine(code, "Danger"), " "));
     }
 
     [Fact]

@@ -1,9 +1,13 @@
+using System.Text.RegularExpressions;
 using TwBlazor.Docs.Compiler;
 
 namespace TwBlazor.Docs.Tests.Build;
 
-public class ThemeTemplateExtractorTests
+public partial class ThemeTemplateExtractorTests
 {
+    [GeneratedRegex(@"^                new (Tw\w+Theme)\b", RegexOptions.Multiline)]
+    private static partial Regex ComponentListEntryRegex();
+
     private const string Source = """
         using System.Reflection.Metadata;
         using TwBlazor.Configuration;
@@ -153,7 +157,7 @@ public class ThemeTemplateExtractorTests
         var theme = File.ReadAllText(Paths.ThemeCsFilePath);
         var template = ThemeTemplateExtractor.ExtractFile(Paths.ThemeCsFilePath);
 
-        var inList = System.Text.RegularExpressions.Regex.Matches(theme, @"^                new (Tw\w+Theme)\b", System.Text.RegularExpressions.RegexOptions.Multiline)
+        var inList = ComponentListEntryRegex().Matches(theme)
             .Select(m => m.Groups[1].Value);
 
         Assert.All(inList, type => Assert.Contains(template.Blocks, b => b.TypeName == type));

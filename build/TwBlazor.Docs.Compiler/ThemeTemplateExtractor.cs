@@ -50,7 +50,7 @@ public static partial class ThemeTemplateExtractor
     private const string blockIndent = "                ";
 
     // Only needed for the hot reload attribute at the top of the docs' own Theme.cs.
-    private static readonly string[] excludedUsings = ["System.Reflection.Metadata"];
+    private static readonly string[] _excludedUsings = ["System.Reflection.Metadata"];
 
     [GeneratedRegex(@"^using\s+([\w.]+);", RegexOptions.None, matchTimeoutMilliseconds: 5000)]
     private static partial Regex UsingRegex();
@@ -75,7 +75,7 @@ public static partial class ThemeTemplateExtractor
 
         var usings = lines
             .Select(l => UsingRegex().Match(l))
-            .Where(m => m.Success && !excludedUsings.Contains(m.Groups[1].Value))
+            .Where(m => m.Success && !_excludedUsings.Contains(m.Groups[1].Value))
             .Select(m => m.Groups[1].Value)
             .ToList();
 
@@ -120,52 +120,56 @@ public static partial class ThemeTemplateExtractor
     {
         var statements = new List<(string Name, List<string> Lines)>();
         var pending = new List<string>();
-        (string Name, List<string> Lines)? current = null;
+        List<string>? current = null;
 
         foreach (var line in region)
         {
             var trimmed = line.Trim();
-            var atStatementLevel = line.StartsWith(statementIndent, StringComparison.Ordinal)
-                && !line.StartsWith(statementIndent + " ", StringComparison.Ordinal);
 
-            if (atStatementLevel && trimmed.StartsWith("//", StringComparison.Ordinal))
+            if (!IsStatementLevel(line))
+            {
+                if (!string.IsNullOrWhiteSpace(line))
+                    current?.Add(line);
+                else if (pending.Count > 0)
+                    pending.Add(line);
+
+                continue;
+            }
+
+            if (trimmed.StartsWith("//", StringComparison.Ordinal))
             {
                 pending.Add(line);
-                continue;
             }
-
-            if (atStatementLevel && DeclarationRegex().Match(trimmed) is { Success: true } declaration)
+            else if (DeclarationRegex().Match(trimmed) is { Success: true } declaration)
             {
-                current = (declaration.Groups[1].Value, [.. pending, line]);
-                statements.Add(current.Value);
+                current = [.. pending, line];
+                statements.Add((declaration.Groups[1].Value, current));
                 pending.Clear();
-                continue;
             }
-
-            if (atStatementLevel && FollowUpAssignmentRegex().Match(trimmed) is { Success: true } assignment)
+            else if (FollowUpAssignmentRegex().Match(trimmed) is { Success: true } assignment)
             {
-                var target = statements.FindLast(s => s.Name == assignment.Groups[1].Value);
-                if (target.Lines is null)
-                    throw new InvalidOperationException($"Assignment to undeclared variable '{assignment.Groups[1].Value}'.");
-
-                target.Lines.AddRange(pending);
-                target.Lines.Add(line);
+                current = FindDeclaration(statements, assignment.Groups[1].Value);
+                current.AddRange(pending);
+                current.Add(line);
                 pending.Clear();
-                current = target;
-                continue;
             }
-
-            if (string.IsNullOrWhiteSpace(line))
+            else if (!string.IsNullOrWhiteSpace(line))
             {
-                if (pending.Count > 0)
-                    pending.Add(line);
-                continue;
+                current?.Add(line);
             }
-
-            current?.Lines.Add(line);
         }
 
         return [.. statements.Select(s => new ThemeStatement(s.Name, string.Join('\n', s.Lines)))];
+    }
+
+    private static bool IsStatementLevel(string line) =>
+        line.StartsWith(statementIndent, StringComparison.Ordinal)
+        && !line.StartsWith(statementIndent + " ", StringComparison.Ordinal);
+
+    private static List<string> FindDeclaration(List<(string Name, List<string> Lines)> statements, string name)
+    {
+        var target = statements.FindLast(s => s.Name == name);
+        return target.Lines ?? throw new InvalidOperationException($"Assignment to undeclared variable '{name}'.");
     }
 
     private static List<ThemeBlock> ParseBlocks(string[] list, List<ThemeStatement> statements)

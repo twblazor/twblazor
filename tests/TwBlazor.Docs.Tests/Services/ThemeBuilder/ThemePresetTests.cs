@@ -35,7 +35,7 @@ public class ThemePresetTests
     {
         Assert.True(ThemePreset._all.Select(p => p.Defaults.Rounded).Distinct().Count() >= 4);
         Assert.True(ThemePreset._all.Select(p => p.Defaults.Shadow).Distinct().Count() >= 3);
-        Assert.True(ThemePreset._all.Select(p => p.Defaults.InputVariant).Distinct().Count() == 3);
+        Assert.Equal(3, ThemePreset._all.Select(p => p.Defaults.InputVariant).Distinct().Count());
         Assert.True(ThemePreset._all.Select(p => p.Defaults.ButtonVariant).Distinct().Count() >= 3);
     }
 
