@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
 using System.Globalization;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Utilities;
@@ -120,16 +119,17 @@ public partial class TwTimePicker : TwPopoverPickerComponentBase
             }
         }
 
-        // Arm the Tab focus trap and background inert-ing when the panel opens. Deliberately does
-        // not move focus into the panel - the trigger is a text-editable combobox (typing a time
-        // directly is a first-class input method here, not just a fallback), so focus has to stay
-        // on the input for that to work. Users move into the panel explicitly, same as any
-        // combobox-with-popup: Tab, a click, or an arrow key.
-        if (isFocused && PendingOpenFocus && PanelRef.Context != null)
+        // Arm the Tab focus trap and background inert-ing whenever the panel is open. Re-run on
+        // every render rather than gating behind a one-shot "just opened" flag - see the matching
+        // remarks on TwDatePicker.OnAfterRenderAsync for why. Deliberately does not move focus into
+        // the panel - the trigger is a text-editable combobox (typing a time directly is a
+        // first-class input method here, not just a fallback), so focus has to stay on the input for
+        // that to work. Users move into the panel explicitly, same as any combobox-with-popup: Tab,
+        // a click, or an arrow key.
+        if (isFocused && PanelRef.Context != null)
         {
-            PendingOpenFocus = false;
-            await JSRuntime.InvokeVoidAsync("twDialog.trapFocus", PanelRef);
-            await JSRuntime.InvokeVoidAsync("twDialog.setBackgroundInert", InputRoot?.RootRef);
+            await RegisterPanelScrollBehaviorAsync(PanelRef);
+            await ApplyPanelTrapAsync(PanelRef);
         }
     }
 

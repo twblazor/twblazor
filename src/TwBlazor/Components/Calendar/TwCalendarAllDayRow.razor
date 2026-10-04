@@ -1,0 +1,41 @@
+@namespace TwBlazor.Components
+@typeparam T
+@inherits TwBlazorComponentBase
+
+@if (segments.Count > 0)
+{
+    <div id="@Id" class="@rowClasses" style="@Style" @attributes="Attributes">
+        <div class="@labelClasses">All day</div>
+        <div class="@gridClasses" style="@gridStyle" role="group" aria-label="All day events">
+            @for (var i = 0; i < Days.Count; i++)
+            {
+                var day = Days[i].Date;
+                <div class="@cellClasses"
+                     style="@($"grid-column:{i + 1};grid-row:1 / span {laneCount};")"
+                     aria-hidden="true"
+                     @ondragenter="@(() => OnCellDragEnterAsync(day))" @ondragenter:preventDefault="canDrop"
+                     @ondragover="@(() => { })" @ondragover:preventDefault="canDrop"
+                     @ondrop="@(() => OnCellDropAsync(day))"></div>
+            }
+            @foreach (var segment in segments)
+            {
+                <button type="button"
+                        class="@GetChipClasses(segment)"
+                        style="@GetChipStyle(segment)"
+                        aria-label="@GetChipLabel(segment.Event)"
+                        draggable="@(IsDraggable(segment.Event) ? "true" : "false")"
+                        @ondragstart="@(() => OnChipDragStartAsync(segment.Event))"
+                        @ondragend="OnChipDragEndAsync"
+                        @onclick="@(() => OnEventClick.InvokeAsync(segment.Event))">
+                    <span class="@nameClasses">@segment.Event.Name</span>
+                </button>
+            }
+            @if (placeholderStyle is { } dropPlaceholderStyle)
+            {
+                <div class="@placeholderClasses" style="@dropPlaceholderStyle" aria-hidden="true">
+                    <span class="@nameClasses">@DraggedEvent!.Name</span>
+                </div>
+            }
+        </div>
+    </div>
+}

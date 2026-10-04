@@ -694,7 +694,7 @@ public class TwBlazorIconSize
 [ExcludeFromCodeCoverage]
 public class TwBlazorSizing
 {
-    
+
 
     /// <summary>
     /// Gets or sets the "w-full" (100% width) class.

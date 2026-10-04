@@ -35,6 +35,16 @@ public class TwAlertTheme
     public required string DensePadding { get; set; }
 
     /// <summary>
+    /// Gets or sets the default padding between the start icon and the alert text.
+    /// </summary>
+    public required string StartIconPadding { get; set; }
+
+    /// <summary>
+    /// Gets or sets the default padding between the alert text and the end icon.
+    /// </summary>
+    public required string EndIconPadding { get; set; }
+
+    /// <summary>
     /// Gets or sets the transition classes applied while the alert is visible.
     /// </summary>
     public required string Transition { get; set; }

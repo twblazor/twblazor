@@ -38,10 +38,10 @@ public class XmlDocSummaryTests
         var segments = await GetSummaryAsync(nameof(XmlDocSummaryFixtures.LinkToTwBlazorType));
 
         Assert.Equal(3, segments.Count);
-        Assert.Equal(("Links to ", (string?)null), (segments[0].Text, segments[0].Url));
+        Assert.Equal(("Links to ", null), (segments[0].Text, segments[0].Url));
         Assert.Equal("Color", segments[1].Text);
         Assert.Equal($"{XmlDocSummary.ApiBaseUrl}api/TwBlazor.Enums.Color.html", segments[1].Url);
-        Assert.Equal((", a type this docs site actually publishes.", (string?)null), (segments[2].Text, segments[2].Url));
+        Assert.Equal((", a type this docs site actually publishes.", null), (segments[2].Text, segments[2].Url));
     }
 
     [Fact]

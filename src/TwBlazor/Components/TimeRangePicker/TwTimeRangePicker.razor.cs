@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
 using System.Globalization;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Utilities;
@@ -170,11 +169,12 @@ public partial class TwTimeRangePicker : TwPopoverPickerComponentBase
     {
         await base.OnAfterRenderAsync(firstRender);
 
-        if (isFocused && PendingOpenFocus && PanelRef.Context != null)
+        // Re-run on every render rather than gating behind a one-shot "just opened" flag - see the
+        // matching remarks on TwDatePicker.OnAfterRenderAsync for why.
+        if (isFocused && PanelRef.Context != null)
         {
-            PendingOpenFocus = false;
-            await JSRuntime.InvokeVoidAsync("twDialog.trapFocus", PanelRef);
-            await JSRuntime.InvokeVoidAsync("twDialog.setBackgroundInert", InputRoot?.RootRef);
+            await RegisterPanelScrollBehaviorAsync(PanelRef);
+            await ApplyPanelTrapAsync(PanelRef);
         }
     }
 

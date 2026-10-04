@@ -1,0 +1,101 @@
+@namespace TwBlazor.Components
+@typeparam T
+@using TwBlazor.Enums
+@inherits TwBlazorComponentBase
+
+@if (ReadOnly)
+{
+    <div class="@fieldsClasses">
+        <div class="@summaryClasses" style="@accentCardStyle">
+            <TwIcon Icon="Icon.Calendar_Event" Class="@summaryIconClasses" Style="@accentIconStyle" />
+            <span>@FormatRange(WorkingEvent.DateTimeStart, WorkingEvent.DateTimeEnd)</span>
+        </div>
+        @foreach (var field in Fields)
+        {
+            var text = field.GetDisplayText(WorkingEvent.Value);
+            if (!string.IsNullOrWhiteSpace(text))
+            {
+                <div class="@readOnlyFieldClasses">
+                    <span class="@readOnlyLabelClasses">@field.Label</span>
+                    <p class="@readOnlyValueClasses">@text</p>
+                </div>
+            }
+        }
+        @if (ContentTemplate is not null)
+        {
+            @ContentTemplate(WorkingEvent)
+        }
+    </div>
+    <div class="@actionsClasses">
+        <TwButton Label="Close" Variant="ButtonVariant.Text" OnClick="Cancel" />
+    </div>
+}
+else
+{
+    <div class="@fieldsClasses">
+        <div class="@accentClasses" style="@accentBarStyle" aria-hidden="true"></div>
+        <TwTextfield T="string" Label="Name" Value="@WorkingEvent.Name" ValueChanged="@((v) => WorkingEvent.Name = v)" AriaLabel="Name" />
+        <TwSwitch T="bool" Label="All day" Value="isAllDay" ValueChanged="SetAllDay" />
+        <div class="@dateRowClasses">
+            @if (isAllDay)
+            {
+                <TwDatePicker SelectedDate="GetAllDayStart()" SelectedDateChanged="SetAllDayStart" Label="Start" />
+                <TwDatePicker SelectedDate="GetAllDayEnd()" SelectedDateChanged="SetAllDayEnd" Label="End" />
+            }
+            else
+            {
+                <TwDateTimePicker SelectedDateTime="GetLocalStart()" SelectedDateTimeChanged="SetLocalStart" Label="Start" />
+                <TwDateTimePicker SelectedDateTime="GetLocalEnd()" SelectedDateTimeChanged="SetLocalEnd" Label="End" />
+            }
+        </div>
+        <TwColorPicker Value="@GetColor()" ValueChanged="SetColor" Label="Color" AriaLabel="Event color" />
+        @foreach (var field in Fields)
+        {
+            var current = field;
+            if (WorkingEvent.Value is null)
+            {
+                continue;
+            }
+
+            if (!current.CanEdit)
+            {
+                <div class="@readOnlyFieldClasses">
+                    <span class="@readOnlyLabelClasses">@current.Label</span>
+                    <p class="@readOnlyValueClasses">@current.GetDisplayText(WorkingEvent.Value)</p>
+                </div>
+            }
+            else if (current.Kind == TwCalendarDialogFieldKind.Boolean)
+            {
+                <TwSwitch T="bool" Label="@current.Label" Value="@current.GetBool(WorkingEvent.Value)" ValueChanged="@((v) => Mutate(target => current.SetBool(target, v)))" />
+            }
+            else if (current.Kind == TwCalendarDialogFieldKind.DateTime)
+            {
+                <TwDateTimePicker Label="@current.Label" SelectedDateTime="@current.GetDateTime(WorkingEvent.Value, WorkingEvent.DateTimeStart.DateTime)" SelectedDateTimeChanged="@((v) => Mutate(target => current.SetDateTime(target, v)))" />
+            }
+            else if (current.Kind == TwCalendarDialogFieldKind.Enum)
+            {
+                <TwSelect T="string" Label="@current.Label" Required Values="@current.EnumNames" SelectedValue="@current.GetEditText(WorkingEvent.Value)" SelectedValueChanged="@((v) => Mutate(target => current.SetFromText(target, v)))" />
+            }
+            else if (current.Kind == TwCalendarDialogFieldKind.Number)
+            {
+                <TwTextfield T="string" Label="@current.Label" InputType="number" step="any" Value="@current.GetEditText(WorkingEvent.Value)" ValueChanged="@((v) => Mutate(target => current.SetFromText(target, v)))" />
+            }
+            else
+            {
+                <TwTextfield T="string" Label="@current.Label" Value="@current.GetEditText(WorkingEvent.Value)" ValueChanged="@((v) => Mutate(target => current.SetFromText(target, v)))" />
+            }
+        }
+        @if (ContentTemplate is not null)
+        {
+            @ContentTemplate(WorkingEvent)
+        }
+    </div>
+    <div class="@actionsClasses">
+        @if (!IsNew)
+        {
+            <TwButton Label="Delete" Color="Color.Danger" Variant="ButtonVariant.Text" OnClick="Delete" />
+        }
+        <TwButton Label="Cancel" Variant="ButtonVariant.Text" OnClick="Cancel" />
+        <TwButton Label="Save" Color="Color.Primary" OnClick="Save" />
+    </div>
+}

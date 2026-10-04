@@ -41,6 +41,41 @@ public class TwIconTests : TwBlazorTestBase
     }
 
     [Fact]
+    public void TwIcon_IconButton_WithTooltip_RendersTooltipLinkedToButton()
+    {
+        var cut = TestContext.Render<TwIcon>(parameters => parameters
+            .Add(p => p.Icon, Icons.Trash)
+            .Add(p => p.AriaLabel, "Delete")
+            .Add(p => p.Tooltip, "Delete item")
+            .Add(p => p.OnClick, () => { }));
+
+        var tooltip = cut.Find("[role='tooltip']");
+        Assert.Equal("Delete item", tooltip.TextContent);
+        var button = cut.Find("button");
+        Assert.Equal("Delete", button.GetAttribute("aria-label"));
+        Assert.Equal(tooltip.Id, button.GetAttribute("aria-describedby"));
+    }
+
+    [Fact]
+    public void TwIcon_IconButton_WithoutTooltip_RendersNoTooltip()
+    {
+        var cut = TestContext.Render<TwIcon>(parameters => parameters
+            .Add(p => p.AriaLabel, "Delete")
+            .Add(p => p.OnClick, () => { }));
+
+        Assert.Empty(cut.FindAll("[role='tooltip']"));
+    }
+
+    [Fact]
+    public void TwIcon_NonInteractive_IgnoresTooltip()
+    {
+        var cut = TestContext.Render<TwIcon>(parameters => parameters
+            .Add(p => p.Tooltip, "Ignored"));
+
+        Assert.Empty(cut.FindAll("[role='tooltip']"));
+    }
+
+    [Fact]
     public void TwIcon_Renders_WithSpecificIcon()
     {
         // Arrange & Act

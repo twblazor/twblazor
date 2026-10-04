@@ -337,6 +337,19 @@ public class TwDialogTests : TwBlazorTestBase
     }
 
     [Fact]
+    public void TwDialog_AppliesDefaultRounded_FromTheme_WhenNoOverrideSet()
+    {
+        // Regression test: the surface's rounded class must come from RoundedBuilder/the theme's
+        // DefaultRounded (via DialogBuilder.GetSurfaceClasses), not be hardcoded or omitted, when
+        // neither TwDialogOptions.Rounded nor TwOverlayTheme.DialogRounded is set.
+        var reference = CreateReference();
+
+        var cut = TestContext.Render<TwDialog>(p => p.Add(x => x.Reference, reference));
+
+        Assert.Contains(Theme.Rounded.Md, cut.Find("div[role='dialog']").GetAttribute("class"));
+    }
+
+    [Fact]
     public void TwDialog_AppliesRoundedOverride_FromOptions()
     {
         // Arrange

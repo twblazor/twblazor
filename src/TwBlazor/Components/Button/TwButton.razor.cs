@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using TwBlazor.Builders;
 using TwBlazor.Configuration;
 using TwBlazor.Configuration.Components;
@@ -128,6 +129,17 @@ public partial class TwButton : TwBlazorComponentBase
     [Parameter] public bool Plain { get; set; }
 
     /// <summary>
+    /// Gets or sets the text of a tooltip shown when the button is hovered or keyboard-focused.
+    /// </summary>
+    /// <remarks>
+    /// The tooltip is rendered as a <c>role="tooltip"</c> element linked to the button via
+    /// <c>aria-describedby</c>, and can be dismissed with Escape without moving focus. Because it only
+    /// supplements the button's accessible name, icon-only buttons still need an
+    /// <see cref="TwBlazorComponentBase.AriaLabel"/>. Leave unset (the default) to render no tooltip.
+    /// </remarks>
+    [Parameter] public string? Tooltip { get; set; }
+
+    /// <summary>
     /// Gets a reference to the rendered <c>&lt;button&gt;</c> element, when this instance renders as a button
     /// rather than a link (i.e. <see cref="Href"/> is not set). Used internally by components (such as
     /// <see cref="TwTabContainer"/>) that need to move keyboard focus programmatically, e.g. for roving-tabindex
@@ -169,6 +181,48 @@ public partial class TwButton : TwBlazorComponentBase
             .AddClass(shadowBuilder.GetButtonShadow(theme, Shadow))
             .AddClass(Class)
             .Build();
+
+    private bool hasTooltip => !string.IsNullOrWhiteSpace(Tooltip);
+
+    private string tooltipId => $"{Id}-tooltip";
+
+    /// <summary>
+    /// Set when the user presses Escape while the tooltip is showing, hiding it until the pointer
+    /// leaves or focus moves away (WCAG 1.4.13 "dismissible").
+    /// </summary>
+    private bool tooltipDismissed;
+
+    private string tooltipWrapperClasses => popoverBuilder.GetTooltipWrapperClasses();
+
+    private string tooltipClasses => popoverBuilder.GetTooltipClasses(tooltipDismissed);
+
+    /// <summary>
+    /// Attributes forwarded to the inner <see cref="TwLink"/> when <see cref="Href"/> is set, with the
+    /// tooltip's <c>aria-describedby</c> link added.
+    /// </summary>
+    private Dictionary<string, object> linkAttributes
+    {
+        get
+        {
+            var attributes = new Dictionary<string, object>(Attributes);
+            if (hasTooltip)
+            {
+                attributes["aria-describedby"] = tooltipId;
+            }
+
+            return attributes;
+        }
+    }
+
+    private void OnTooltipKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Escape")
+        {
+            tooltipDismissed = true;
+        }
+    }
+
+    private void ResetTooltipDismissal() => tooltipDismissed = false;
 
     private string startIconClasses => new ClassBuilder(theme.IconTypography)
         .AddClass(options.Theme.Spacing.MarginEnd.Md).Build();

@@ -1,0 +1,43 @@
+@typeparam T
+@using TwBlazor.Services
+
+<TwTextfield T="string" Label="Search events" Value="@query" ValueChanged="@((v) => query = v ?? string.Empty)" BindEvent="oninput" AriaLabel="Search events" Class="mb-4" />
+
+<ul class="flex flex-col gap-1 max-h-80 overflow-y-auto">
+    @foreach (var evt in matches)
+    {
+        <li>
+            <TwButton Plain Class="flex items-center gap-3 w-full text-left px-3 py-2 rounded hover:bg-purple-50 dark:hover:bg-purple-900/20" OnClick="@(() => Select(evt))">
+                <span class="size-2.5 shrink-0 rounded-full bg-purple-600" style="@GetDotStyle(evt)" aria-hidden="true"></span>
+                <span class="min-w-0">
+                    <span class="block font-medium">@evt.Name</span>
+                    <span class="block text-xs text-gray-500 dark:text-gray-400">@evt.DateTimeStart.ToString("MMM d, h:mm tt")</span>
+                </span>
+            </TwButton>
+        </li>
+    }
+    @if (matches.Count == 0)
+    {
+        <li class="text-sm text-gray-500 dark:text-gray-400 px-3 py-2">No matching events</li>
+    }
+</ul>
+
+@code {
+    [Parameter] public List<Schedule<T>> Schedules { get; set; } = [];
+
+    [CascadingParameter] private TwDialogInstance? DialogInstance { get; set; }
+
+    private string query = string.Empty;
+
+    private List<Schedule<T>> matches => [.. string.IsNullOrWhiteSpace(query)
+        ? Schedules.OrderBy(e => e.DateTimeStart)
+        : Schedules.Where(e => e.Name?.Contains(query, StringComparison.OrdinalIgnoreCase) == true).OrderBy(e => e.DateTimeStart)];
+
+    /// <summary>
+    /// The dot takes the event's color; events without one keep the purple used for the default event color.
+    /// </summary>
+    private static string? GetDotStyle(Schedule<T> evt) =>
+        string.IsNullOrWhiteSpace(evt.Color) ? null : $"background-color:{evt.Color}";
+
+    private void Select(Schedule<T> evt) => DialogInstance?.Close(evt);
+}

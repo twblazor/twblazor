@@ -238,12 +238,24 @@ public partial class TwSelect<T> : TwPopoverPickerComponentBase
             }
         }
 
-        if (isFocused && PendingOpenFocus && PanelRef.Context != null)
+        if (isFocused && PanelRef.Context != null)
         {
-            PendingOpenFocus = false;
-            await JSRuntime.InvokeVoidAsync("twDialog.trapFocus", PanelRef);
-            await JSRuntime.InvokeVoidAsync("twDialog.setBackgroundInert", InputRoot?.RootRef);
-            await JSRuntime.InvokeVoidAsync("twDialog.focusSurface", PanelRef);
+            // Re-run on every render rather than gating behind a one-shot "just opened" flag - see
+            // the matching remarks on TwDatePicker.OnAfterRenderAsync for why these three specifically
+            // need to. matchAnchorWidth: true - the options panel should span exactly the trigger's
+            // width, not its own natural content width (see the remarks on TwInputTheme.SelectPanelPosition).
+            await RegisterPanelScrollBehaviorAsync(PanelRef, matchAnchorWidth: true);
+            await ApplyPanelTrapAsync(PanelRef);
+
+            // Unlike the trap/inert/positioning above, moving focus into the panel must stay a
+            // one-shot action gated on PendingOpenFocus - repeating it on every render would yank
+            // focus back to the first option whenever anything else re-renders this component while
+            // the panel is open (e.g. while the user is navigating options with the keyboard).
+            if (PendingOpenFocus)
+            {
+                PendingOpenFocus = false;
+                await JSRuntime.InvokeVoidAsync("twDialog.focusSurface", PanelRef);
+            }
         }
     }
 

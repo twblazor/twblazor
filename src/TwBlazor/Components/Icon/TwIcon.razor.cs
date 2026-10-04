@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Components;
-using System.Linq;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Enums;
 using TwBlazor.Extensions;
@@ -38,6 +37,15 @@ public partial class TwIcon : TwBlazorComponentBase
     /// with a pointer cursor and proper accessibility attributes.
     /// </remarks>
     [Parameter] public bool Disabled { get; set; }
+
+    /// <summary>
+    /// Gets or sets the text of a tooltip shown when the icon button is hovered or keyboard-focused.
+    /// </summary>
+    /// <remarks>
+    /// Only applied when <see cref="OnClick"/> is set, since a purely decorative icon is not focusable.
+    /// See <see cref="TwButton.Tooltip"/> for the accessibility behavior.
+    /// </remarks>
+    [Parameter] public string? Tooltip { get; set; }
 
     /// <summary>
     /// Gets or sets the callback that is invoked when the mouse hovers over the icon.
