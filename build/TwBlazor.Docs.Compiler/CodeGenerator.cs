@@ -66,30 +66,53 @@ public static class CodeGenerator
         sb.AppendLine("{");
         sb.AppendLine($"    public static readonly string[] Usings = [{string.Join(", ", template.Usings.Select(Literal))}];");
         sb.AppendLine();
-        sb.AppendLine("    public static readonly (string Name, string Text)[] Statements =");
-        sb.AppendLine("    [");
-        foreach (var statement in template.Statements)
-            sb.AppendLine($"        ({Literal(statement.Name)}, {Literal(statement.Text)}),");
-        sb.AppendLine("    ];");
+        AppendArray(
+            sb,
+            "(string Name, string Text)[] Statements",
+            template.Statements.Select(s => $"({Literal(s.Name)}, {Literal(s.Text)})"));
         sb.AppendLine();
+
         sb.AppendLine($"    public const string ReturnPrefix = {Literal(template.ReturnPrefix)};");
         sb.AppendLine();
-        sb.AppendLine("    public static readonly (string TypeName, string Text)[] Blocks =");
-        sb.AppendLine("    [");
-        foreach (var block in template.Blocks)
-            sb.AppendLine($"        ({Literal(block.TypeName)}, {Literal(block.Text)}),");
-        sb.AppendLine("    ];");
+
+        AppendArray(
+            sb,
+            "(string TypeName, string Text)[] Blocks",
+            template.Blocks.Select(b => $"({Literal(b.TypeName)}, {Literal(b.Text)})"));
         sb.AppendLine();
+
         sb.AppendLine($"    public const string ReturnSuffix = {Literal(template.ReturnSuffix)};");
         sb.AppendLine();
-        sb.AppendLine("    public static readonly (string Component, string[] Themes)[] ComponentThemes =");
-        sb.AppendLine("    [");
-        foreach (var kvp in componentThemes.OrderBy(c => c.Key, StringComparer.Ordinal))
-            sb.AppendLine($"        ({Literal(kvp.Key)}, [{string.Join(", ", kvp.Value.Select(Literal))}]),");
-        sb.AppendLine("    ];");
+
+        AppendArray(
+            sb,
+            "(string Component, string[] Themes)[] ComponentThemes",
+            componentThemes
+                .OrderBy(c => c.Key, StringComparer.Ordinal)
+                .Select(c => $"({Literal(c.Key)}, [{string.Join(", ", c.Value.Select(Literal))}])"));
+
         sb.AppendLine("}");
 
         return sb.ToString();
+    }
+
+    /// <summary>
+    /// Appends a <c>public static readonly</c> collection-expression array with one element per line.
+    /// </summary>
+    /// <param name="sb">The builder to append to.</param>
+    /// <param name="declaration">The array's type and name, e.g. <c>(string A, string B)[] Items</c>.</param>
+    /// <param name="elements">The already-formatted C# source for each element.</param>
+    private static void AppendArray(StringBuilder sb, string declaration, IEnumerable<string> elements)
+    {
+        sb.AppendLine($"    public static readonly {declaration} =");
+        sb.AppendLine("    [");
+
+        foreach (var element in elements)
+        {
+            sb.AppendLine($"        {element},");
+        }
+
+        sb.AppendLine("    ];");
     }
 
     private static string Literal(string value) => $"@\"{EscapeString(value)}\"";
