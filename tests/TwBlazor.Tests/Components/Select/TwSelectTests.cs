@@ -1952,4 +1952,59 @@ public class TwSelectTests : TwBlazorTestBase
         Assert.Empty(cut.FindAll("select"));
         Assert.NotEmpty(cut.FindAll("[role='combobox']"));
     }
+
+    // --- Coverage: selecting without a bound callback, and the defensive release path ---
+
+    [Fact]
+    public async Task TwSelect_SelectOption_WorksWithoutABoundCallback()
+    {
+        var cut = RenderSingle();
+
+        await cut.InvokeAsync(() => cut.Instance.SelectOptionAsync(2));
+
+        Assert.Equal("UK", cut.Find("[role='combobox']").TextContent.Trim());
+    }
+
+    [Fact]
+    public async Task TwSelect_SelectOption_Placeholder_WhenAlreadyOnThePlaceholder_ChangesNothing()
+    {
+        var calls = 0;
+        var cut = RenderSingle(p => p
+            .Add(x => x.Placeholder, "None")
+            .Add(x => x.SelectedValueChanged, EventCallback.Factory.Create<string>(this, _ => calls++)), required: false);
+
+        await cut.InvokeAsync(() => cut.Instance.SelectOptionAsync(0));
+
+        Assert.Equal(0, calls);
+        Assert.Equal("None", cut.Find("[role='combobox']").TextContent.Trim());
+    }
+
+    [Fact]
+    public async Task TwSelect_ToggleOption_WorksWithoutABoundCallback()
+    {
+        var cut = TestContext.Render<TwSelect<string>>(p => p
+            .Add(x => x.Multiple, true)
+            .Add(x => x.PreferNativePicker, false)
+            .Add(x => x.Values, _threeStringOptions));
+
+        await cut.InvokeAsync(() => cut.Instance.ToggleOptionAsync(2));
+
+        Assert.Contains("Option2", cut.Find("button[aria-haspopup='listbox']").ParentElement!.TextContent);
+    }
+
+    [Fact]
+    public async Task TwSelect_Dispose_ToleratesTheOutsideClickHandleAlreadyBeingGone()
+    {
+        // The release path is defensive about the handle being null (for example if a close raced a
+        // dispose), so it must neither throw nor skip clearing the registered flag.
+        var cut = RenderSingle();
+        cut.Find("[role='combobox']").Click();
+        typeof(TwPopoverPickerComponentBase)
+            .GetField("dotNetRef", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!
+            .SetValue(cut.Instance, null);
+
+        var exception = await Record.ExceptionAsync(async () => await cut.Instance.DisposeAsync());
+
+        Assert.Null(exception);
+    }
 }
