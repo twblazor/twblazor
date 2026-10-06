@@ -602,30 +602,18 @@ public class TwCalendarTests : TwBlazorTestBase
     }
 
     /// <summary>
+    /// Drops onto a slot, finding it and dispatching the event in a single renderer-synchronized step. The
+    /// calendar re-renders on its own (drag activation, the "now" indicator's timer), so on a slow runner a
+    /// render can otherwise replace the slot's handler between <c>Find</c> and <c>Drop</c>, leaving the
+    /// handler id stale.
+    /// </summary>
+    private static void DropOnSlot(IRenderedComponent<TwCalendar<string>> cut, string slotLabel) =>
+        cut.InvokeAsync(() => cut.Find($"button[aria-label='{slotLabel}']").DropAsync(new DragEventArgs())).GetAwaiter().GetResult();
+
+    /// <summary>
     /// Starts dragging the named event and waits for the schedule to enter drag mode, which it does a
     /// moment after dragstart (see TwCalendar's drag activation delay).
     /// </summary>
-    /// <summary>
-    /// Drops onto a slot, re-finding it and retrying if a render replaced its handler between finding the
-    /// element and dispatching the event. The calendar re-renders on its own (drag activation, the "now"
-    /// indicator's timer), so a handler id captured by <c>Find</c> can be stale by the time it is used.
-    /// </summary>
-    private static void DropOnSlot(IRenderedComponent<TwCalendar<string>> cut, string slotLabel)
-    {
-        for (var attempt = 0; ; attempt++)
-        {
-            try
-            {
-                cut.Find($"button[aria-label='{slotLabel}']").Drop(new DragEventArgs());
-                return;
-            }
-            catch (Bunit.Rendering.UnknownEventHandlerIdException) when (attempt < 4)
-            {
-                // The render tree changed under us; look the element up again and retry.
-            }
-        }
-    }
-
     private static void StartDrag(IRenderedComponent<TwCalendar<string>> cut, string eventName)
     {
         cut.Find($"button[aria-label^='{eventName}']").DragStart(new DragEventArgs());
