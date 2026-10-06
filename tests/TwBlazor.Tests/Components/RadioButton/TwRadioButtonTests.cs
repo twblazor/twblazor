@@ -338,6 +338,18 @@ public class TwRadioButtonTests : TwBlazorTestBase
     }
 
     [Fact]
+    public void TwRadioButton_DefaultsToPrimaryColor_WhenNoColorIsSet()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwRadioButton<string>>(parameters => parameters
+            .Add(p => p.Value, "option1")
+            .Add(p => p.SelectedValue, "option1"));
+
+        // Assert
+        Assert.Contains("checked:bg-purple-600", cut.Find("input").ClassName);
+    }
+
+    [Fact]
     public void TwRadioButton_AppliesPurpleColor_WhenColorIsPrimary()
     {
         // Arrange & Act
