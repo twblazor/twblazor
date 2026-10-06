@@ -107,6 +107,15 @@ public class ColorBuilder(TwBlazorOptions options)
     }
 
     /// <summary>
+    /// Generates the focus ring classes for a visible element that follows a visually hidden focusable input
+    /// (the <c>peer</c> pattern), so the ring shows when the hidden input receives keyboard focus.
+    /// </summary>
+    /// <param name="color">The color used to determine the focus ring style. If null or not recognized, the primary ring is used.</param>
+    /// <returns>The base and color classes of the peer focus ring.</returns>
+    public string GetPeerFocusRing(Color? color) =>
+        $"{options.Theme.Colors.PeerFocusRingBase} {GetPaletteColor(color, options.Theme.Colors.PeerFocusColors, options.Theme.Colors.PeerFocusColors.Primary)}";
+
+    /// <summary>
     /// Gets the outlined variant color associated with the specified color.
     /// </summary>
     /// <remarks>This method uses a switch expression to map predefined colors to their corresponding outlined

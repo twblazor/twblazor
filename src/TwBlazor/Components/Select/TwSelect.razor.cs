@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using TwBlazor.Builders;
 using TwBlazor.Configuration.Components;
@@ -52,7 +53,7 @@ public partial class TwSelect<T> : TwPopoverPickerComponentBase
     /// own native picker (see <see cref="TwPopoverPickerComponentBase.PreferNativePicker"/>), tapping it
     /// opens a real, invisible <c>&lt;select multiple&gt;</c> layered on top - so the platform's own
     /// multi-select UI (e.g. iOS/Android's full-screen sheet) still handles the interaction. Everywhere
-    /// else, it opens a custom checkbox-list popover instead, since a native multi-select can't render as
+    /// else, it opens a listbox popover (the same rows and keyboard handling as the single select) instead, since a native multi-select can't render as
     /// a closed, single-row trigger the way a single-select can. Bind
     /// <see cref="SelectedValues"/>/<see cref="SelectedValuesChanged"/> rather than
     /// <see cref="SelectedValue"/>/<see cref="SelectedValueChanged"/> when this is <see langword="true"/>.
@@ -92,6 +93,22 @@ public partial class TwSelect<T> : TwPopoverPickerComponentBase
     /// </remarks>
     [Parameter] public string PropertyName { get; set; } = string.Empty;
 
+    /// <summary>
+    /// Reference to the custom single-select listbox, handed to <c>twSelect.attachListbox</c> for
+    /// keyboard navigation.
+    /// </summary>
+    private ElementReference listboxRef;
+
+    private DotNetObjectReference<TwSelect<T>>? listboxDotNetRef;
+
+    private string listboxId => $"{Id}-listbox";
+
+    private string OptionId(int key) => $"{Id}-option-{key}";
+
+    private bool hasSelection => parsedValues.ContainsKey(selectedValueId);
+
+    private string selectedDisplayText => hasSelection ? GetDisplayText(parsedValues[selectedValueId]) : string.Empty;
+
     private Dictionary<int, T> parsedValues { get; set; } = [];
 
     private int selectedValueId;
@@ -103,7 +120,7 @@ public partial class TwSelect<T> : TwPopoverPickerComponentBase
     /// both <see cref="classes"/> and <see cref="triggerClasses"/>, parameterized on which "focus" variant
     /// shows the border - the two differ only in that.
     /// </summary>
-    private string GetBoxClasses(string focusVariant) => new ClassBuilder(theme.SelectBase)
+    private string GetBoxClasses(string focusVariant, string? baseClasses = null) => new ClassBuilder(baseClasses ?? theme.SelectBase)
         .AddClass(inputSizeClasses, !Multiple)
         .AddClass(inputVariantBuilder.GetClasses(effectiveVariant, theme).Replace("focus:", focusVariant, StringComparison.Ordinal))
         .AddClass(theme.SelectDefaultPadding, effectiveVariant == InputVariant.Default)
@@ -129,6 +146,32 @@ public partial class TwSelect<T> : TwPopoverPickerComponentBase
         .Build();
 
     /// <summary>
+    /// Gets the classes for the single select's custom trigger button (desktop): the same box look as the
+    /// native <c>&lt;select&gt;</c>, minus the native appearance and background chevron.
+    /// </summary>
+    private string customTriggerClasses => new ClassBuilder(theme.SelectCustomTrigger)
+        .AddClass(inputSizeClasses)
+        .AddClass(inputVariantBuilder.GetClasses(effectiveVariant, theme).Replace("focus:", "focus-visible:", StringComparison.Ordinal))
+        .AddClass(theme.SelectDefaultPadding, effectiveVariant == InputVariant.Default)
+        .AddClass(Disabled ? $"{options.Theme.Interaction.DisabledOpacity} {options.Theme.Interaction.DisabledCursor}" : string.Empty)
+        .AddClass(ReadOnly && !Disabled ? options.Theme.Interaction.PointerEventsNone : string.Empty)
+        .AddClass(Class)
+        .Build();
+
+    private string chevronClasses => new ClassBuilder(theme.SelectCustomChevron)
+        .AddClass(theme.SelectCustomChevronOpen, isFocused)
+        .Build();
+
+    private string multiChevronClasses => new ClassBuilder(theme.SelectMultiChevron)
+        .AddClass(theme.SelectCustomChevronOpen, isFocused)
+        .Build();
+
+    /// <summary>
+    /// Gets the surface classes for the custom single-select listbox panel.
+    /// </summary>
+    private string customPanelSurfaceClasses => popoverBuilder.GetSurfaceClasses(Rounded, Shadow, theme.SelectPanelSurface);
+
+    /// <summary>
     /// Gets the classes for <see cref="Multiple"/>'s decorative closed trigger (the div shown behind the
     /// invisible native overlay select, or holding the custom-popover's chips/open button) - the same box
     /// look as <see cref="classes"/>, plus the flex-wrap layout needed for a row of chips.
@@ -140,8 +183,9 @@ public partial class TwSelect<T> : TwPopoverPickerComponentBase
     /// shows whenever a descendant has focus, the same way a real &lt;select&gt;'s border shows when it
     /// itself is focused.
     /// </remarks>
-    private string triggerClasses => new ClassBuilder(GetBoxClasses("focus-within:"))
+    private string triggerClasses => new ClassBuilder(GetBoxClasses("focus-within:", theme.SelectMultiTriggerBase))
         .AddClass(theme.SelectMultiTriggerLayout)
+        .AddClass(theme.SelectMultiChipsPadding, selectedValueIds.Count > 0)
         .AddClass(Class)
         .Build();
 
@@ -160,33 +204,15 @@ public partial class TwSelect<T> : TwPopoverPickerComponentBase
         .Build();
 
     /// <summary>
-    /// Gets the positioning classes for the custom checkbox-list popover panel's outer wrapper.
+    /// Gets the positioning classes for the custom listbox popover panel's outer wrapper.
     /// </summary>
     private string panelPositionClasses => new ClassBuilder(theme.SelectPanelPosition).Build();
-
-    /// <summary>
-    /// Gets the surface (background/border/rounded/shadow) classes for the custom checkbox-list popover
-    /// panel, plus its own padding/scroll behavior and the label text color override documented on
-    /// <see cref="TwInputTheme.SelectPanelItemText"/>.
-    /// </summary>
-    private string panelSurfaceClasses => new ClassBuilder(popoverBuilder.GetSurfaceClasses(Rounded, Shadow, theme.SelectPanelSurface))
-        .AddClass(theme.SelectPanelItemText)
-        .Build();
 
     /// <summary>
     /// Gets the currently selected option ids in <see cref="Values"/> order, for rendering one chip per
     /// selected option on <see cref="Multiple"/>'s closed trigger.
     /// </summary>
     private IEnumerable<int> orderedSelectedValueIds => selectedValueIds.OrderBy(id => id);
-
-    /// <summary>
-    /// Gets the items shown in <see cref="Multiple"/>'s custom checkbox-list popover, rebuilt from
-    /// <see cref="parsedValues"/> each render - cheap for the option counts a select realistically has,
-    /// and <see cref="TwCheckboxGroup{TValue}"/> resyncs each item's checked state from
-    /// <see cref="SelectedValues"/> every render regardless of whether this list instance changed.
-    /// </summary>
-    private List<CheckboxGroupItem<T>> checkboxItems =>
-        [.. parsedValues.Select(kv => new CheckboxGroupItem<T> { Label = GetDisplayText(kv.Value), Value = kv.Value })];
 
     protected override void OnParametersSet()
     {
@@ -223,13 +249,13 @@ public partial class TwSelect<T> : TwPopoverPickerComponentBase
     /// <summary>
     /// Determines, via <see cref="TwPopoverPickerComponentBase.PreferNativePicker"/> or JS-based device
     /// detection, whether <see cref="Multiple"/>'s closed trigger should hand taps/clicks to a real
-    /// invisible native <c>&lt;select multiple&gt;</c> instead of opening the custom checkbox popover.
+    /// invisible native <c>&lt;select multiple&gt;</c> instead of opening the custom listbox popover.
     /// </summary>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
 
-        if (firstRender && Multiple)
+        if (firstRender && !UseNativePicker)
         {
             UseNativePicker = PreferNativePicker ?? await DeviceDetector.PrefersNativePickerAsync(JSRuntime);
             if (UseNativePicker)
@@ -254,9 +280,110 @@ public partial class TwSelect<T> : TwPopoverPickerComponentBase
             if (PendingOpenFocus)
             {
                 PendingOpenFocus = false;
-                await JSRuntime.InvokeVoidAsync("twDialog.focusSurface", PanelRef);
+
+                listboxDotNetRef ??= DotNetObjectReference.Create(this);
+                var initialOptionId = OptionId(Multiple ? orderedSelectedValueIds.FirstOrDefault() : selectedValueId);
+                await JSRuntime.InvokeVoidAsync("twSelect.attachListbox", listboxRef, listboxDotNetRef, initialOptionId, Multiple ? "ToggleOption" : "SelectOption");
             }
         }
+    }
+
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        // An explicit preference is known up front, so a native picker never flashes the custom trigger first.
+        UseNativePicker = PreferNativePicker == true;
+    }
+
+    /// <summary>
+    /// Opens the single select's listbox from the keyboard when ArrowUp or ArrowDown is pressed on the
+    /// trigger; Enter and Space already open it through the button's click.
+    /// </summary>
+    private async Task OnTriggerKeyDownAsync(KeyboardEventArgs e)
+    {
+        if (!isFocused && e.Key is "ArrowDown" or "ArrowUp")
+        {
+            await ToggleOrOpenPanelAsync();
+        }
+    }
+
+    /// <summary>
+    /// Commits an option chosen in the custom listbox, by click or by the keyboard handling in
+    /// <c>twSelect.attachListbox</c>, then closes it and returns focus to the trigger.
+    /// </summary>
+    /// <param name="id">The option's id in <see cref="parsedValues"/>, or 0 for the placeholder.</param>
+    [JSInvokable("SelectOption")]
+    public async Task SelectOptionAsync(int id)
+    {
+        if (Disabled || ReadOnly || (id != 0 && !parsedValues.ContainsKey(id)))
+            return;
+
+        var changed = id != selectedValueId;
+        selectedValueId = id;
+
+        if (changed && id != 0)
+        {
+            SelectedValue = parsedValues[id];
+            if (SelectedValueChanged.HasDelegate)
+            {
+                await SelectedValueChanged.InvokeAsync(SelectedValue);
+            }
+        }
+
+        await Close();
+    }
+
+    /// <summary>
+    /// Toggles one option in the multi-select's listbox, by click or by the keyboard handling in
+    /// <c>twSelect.attachListbox</c>. The listbox stays open so several options can be picked in a row.
+    /// </summary>
+    /// <param name="id">The option's id in <see cref="parsedValues"/>.</param>
+    [JSInvokable("ToggleOption")]
+    public async Task ToggleOptionAsync(int id)
+    {
+        if (Disabled || ReadOnly || !parsedValues.ContainsKey(id))
+            return;
+
+        var newIds = new HashSet<int>(selectedValueIds);
+        if (!newIds.Remove(id))
+        {
+            newIds.Add(id);
+        }
+
+        selectedValueIds = newIds;
+        SelectedValues = [.. orderedSelectedValueIds.Select(x => parsedValues[x])];
+
+        if (SelectedValuesChanged.HasDelegate)
+        {
+            await SelectedValuesChanged.InvokeAsync(SelectedValues);
+        }
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+    /// <inheritdoc />
+    /// <remarks>
+    /// Re-declares <see cref="JSInvokableAttribute"/>: JS interop resolves invokable methods on the runtime
+    /// type, and an override does not inherit the attribute from the base method.
+    /// </remarks>
+    [JSInvokable("Close")]
+    public override async Task Close()
+    {
+        await base.Close();
+
+        listboxDotNetRef?.Dispose();
+        listboxDotNetRef = null;
+    }
+
+    /// <inheritdoc />
+    public override async ValueTask DisposeAsync()
+    {
+        listboxDotNetRef?.Dispose();
+        listboxDotNetRef = null;
+
+        await base.DisposeAsync();
     }
 
     private void PopulateValues()
@@ -313,7 +440,7 @@ public partial class TwSelect<T> : TwPopoverPickerComponentBase
     }
 
     /// <summary>
-    /// Opens or closes the custom checkbox-list popover from a click on <see cref="Multiple"/>'s
+    /// Opens or closes the custom listbox popover from a click on <see cref="Multiple"/>'s
     /// decorative trigger button. Unlike the text-editable combobox pickers (<see cref="TwDatePicker"/>/
     /// <see cref="TwTimePicker"/>), this is a plain button rather than a focusable trigger textfield, so
     /// it drives the shared <c>isFocused</c>/<c>PendingOpenFocus</c> state directly - the same approach
@@ -352,31 +479,6 @@ public partial class TwSelect<T> : TwPopoverPickerComponentBase
 
         selectedValueIds = newIds;
         SelectedValues = [.. orderedSelectedValueIds.Select(x => parsedValues[x])];
-
-        if (SelectedValuesChanged.HasDelegate)
-        {
-            await SelectedValuesChanged.InvokeAsync(SelectedValues);
-        }
-    }
-
-    /// <summary>
-    /// Handles a selection change from the custom checkbox-list popover's <see cref="TwCheckboxGroup{TValue}"/>.
-    /// </summary>
-    private async Task HandleCheckboxGroupChanged(IEnumerable<T> newValues)
-    {
-        var newValuesSet = new HashSet<T>(newValues, EqualityComparer<T>.Default);
-        var newIds = new HashSet<int>();
-
-        foreach (var (key, value) in parsedValues)
-        {
-            if (newValuesSet.Contains(value))
-            {
-                newIds.Add(key);
-            }
-        }
-
-        selectedValueIds = newIds;
-        SelectedValues = newValues;
 
         if (SelectedValuesChanged.HasDelegate)
         {

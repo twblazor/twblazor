@@ -1,16 +1,16 @@
 @if (ownProperties.Count > 0 || globalProperties.Count > 0)
 {
-    <PageCard Id="@AnchorId" Title="Theme Configuration">
+    <PageCard Id="@AnchorId" Title="Theme configuration">
         <Description>
             Styling is controlled by <code>TwBlazorTheme.Components</code> (a <code>@ThemeType.Name</code>), configured via the
-            <code>AddTwBlazor()</code> options callback described on the <a href="/get-started" class="underline">Get Started</a> page.
+            <code>AddTwBlazor()</code> options callback described on the <a href="/get-started" class="underline text-purple-700 dark:text-purple-300">Get Started</a> page.
             Every property is a set of Tailwind classes, so changes are picked up by your own Tailwind build.
         </Description>
 
         @if (inheritedFrom is { } inherited)
         {
             <p class="text-xs text-gray-500 dark:text-gray-500 mb-3">
-                Inherited from <a href="@inherited.Route" class="underline">@inherited.Title</a> - this component reuses that theme rather than defining its own.
+                Inherited from <a href="@inherited.Route" class="underline text-purple-700 dark:text-purple-300">@inherited.Title</a> - this component reuses that theme rather than defining its own.
             </p>
         }
 
@@ -29,7 +29,7 @@
                     {
                         <tr>
                             <td class="px-4 py-3">
-                                <a href="@property.DocsUrl" target="_blank" rel="noopener noreferrer" class="underline">
+                                <a href="@property.DocsUrl" target="_blank" rel="noopener noreferrer" class="underline text-purple-700 dark:text-purple-300">
                                     <code class="text-xs">@property.Name</code>
                                 </a>
                             </td>
@@ -39,7 +39,7 @@
                                 {
                                     if (segment.Url is not null)
                                     {
-                                        <a href="@segment.Url" target="_blank" rel="noopener noreferrer" class="underline">@segment.Text</a>
+                                        <a href="@segment.Url" target="_blank" rel="noopener noreferrer" class="underline text-purple-700 dark:text-purple-300">@segment.Text</a>
                                     }
                                     else
                                     {
@@ -73,7 +73,7 @@
                     {
                         <tr>
                             <td class="px-4 py-3">
-                                <a href="@property.DocsUrl" target="_blank" rel="noopener noreferrer" class="underline">
+                                <a href="@property.DocsUrl" target="_blank" rel="noopener noreferrer" class="underline text-purple-700 dark:text-purple-300">
                                     <code class="text-xs">@property.Name</code>
                                 </a>
                             </td>
@@ -83,7 +83,7 @@
                                 {
                                     if (segment.Url is not null)
                                     {
-                                        <a href="@segment.Url" target="_blank" rel="noopener noreferrer" class="underline">@segment.Text</a>
+                                        <a href="@segment.Url" target="_blank" rel="noopener noreferrer" class="underline text-purple-700 dark:text-purple-300">@segment.Text</a>
                                     }
                                     else
                                     {
@@ -100,7 +100,7 @@
         @ChildContent
 
         <p class="text-xs text-gray-500 dark:text-gray-500 mt-4">
-            Full reference: <a href="@apiUrl" target="_blank" rel="noopener noreferrer" class="underline">@ThemeType.Name on the API docs</a>.
+            Full reference: <a href="@apiUrl" target="_blank" rel="noopener noreferrer" class="underline text-purple-700 dark:text-purple-300">@ThemeType.Name on the API docs</a>.
         </p>
     </PageCard>
 }

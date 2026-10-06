@@ -2,28 +2,28 @@
 @using TwBlazor.Enums
 
 <PageContainer Title="TwColorPicker" Path="/color-picker" Description="TwColorPicker is a Blazor colour picker component. Bind Value, choose an OutputFormat, and toggle ShowAlpha and ShowModeSwitch. Supports input variants." ThemeType="typeof(TwColorPickerTheme)">
-    <PageCard Title="Basic Color Picker">
+    <PageCard Title="Basic color picker">
         <Description>Bind <code>Value</code> to let users pick a color from a labeled color picker input.</Description>
         <CodeExample Name="ColorPickerBasic" CSharpName="ColorPickerBasicCode">
             <TwColorPicker Label="Choose Color" @bind-Value="SelectedColor" />
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="With Mode Switch">
+    <PageCard Title="With mode switch">
         <Description>Set <code>ShowModeSwitch</code> to let users toggle between color input modes (e.g. hex and RGB).</Description>
         <CodeExample Name="ColorPickerMode" CSharpName="ColorPickerModeCode">
             <TwColorPicker Label="Primary Color" @bind-Value="PrimaryColor" ShowModeSwitch />
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="With Alpha Channel">
+    <PageCard Title="With alpha channel">
         <Description>Set <code>ShowAlpha</code> to add an alpha channel slider for transparency.</Description>
         <CodeExample Name="ColorPickerAlpha" CSharpName="ColorPickerAlphaCode">
             <TwColorPicker Label="Overlay Color" @bind-Value="OverlayColor" ShowAlpha ShowModeSwitch />
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Input Variants">
+    <PageCard Title="Input variants">
         <Description>Use the <code>Variant</code> property to switch between default, outlined and filled input styles.</Description>
         <CodeExample Name="ColorPickerVariants" CSharpName="ColorPickerVariantsCode">
             <div class="grid gap-4">
@@ -34,21 +34,21 @@
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Dense Color Picker">
+    <PageCard Title="Dense color picker">
         <Description>Set <code>Dense</code> for a more compact input with a smaller height and text size. Every single-line input shares the same dense height, so they line up when used side by side.</Description>
         <CodeExample Name="ColorPickerDense">
             <TwColorPicker Label="Dense Color" @bind-Value="PrimaryColor" Dense />
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Disabled State">
+    <PageCard Title="Disabled state">
         <Description>Use the <code>Disabled</code> property to prevent interaction with the color picker.</Description>
         <CodeExample Name="ColorPickerDisabled">
             <TwColorPicker Label="Disabled Color" Value="#cccccc" Disabled />
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Output Format">
+    <PageCard Title="Output format">
         <Description>Use <code>OutputFormat</code> to control whether the bound value is emitted as hex or RGB, regardless of the input format.</Description>
         <CodeExample Name="ColorPickerOutput" CSharpName="ColorPickerOutputCode">
             <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

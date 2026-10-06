@@ -29,7 +29,7 @@ public class TwTabContainerTests : TwBlazorTestBase
         var tablist = cut.Find("div[role='tablist']");
         Assert.NotNull(tablist);
         Assert.Contains("flex flex-wrap", tablist.GetAttribute("class"));
-        Assert.Contains("border-b", tablist.GetAttribute("class"));
+        Assert.Contains("flex flex-wrap border", tablist.GetAttribute("class"));
 
         var tabpanel = cut.Find("div[role='tabpanel']");
         Assert.NotNull(tabpanel);
@@ -465,15 +465,11 @@ public class TwTabContainerTests : TwBlazorTestBase
         // so the outline is visible even when the container background matches the page background.
         var tablist = cut.Find("div[role='tablist']");
         var tablistClass = tablist.GetAttribute("class") ?? string.Empty;
-        Assert.Contains("border-t", tablistClass);
-        Assert.Contains("border-l", tablistClass);
-        Assert.Contains("border-r", tablistClass);
-        Assert.Contains("border-b", tablistClass);
+        Assert.Contains(" border ", $" {tablistClass} ");
 
         var tabpanel = cut.Find("div[role='tabpanel']");
         var tabpanelClass = tabpanel.GetAttribute("class") ?? string.Empty;
-        Assert.Contains("border-l", tabpanelClass);
-        Assert.Contains("border-r", tabpanelClass);
+        Assert.Contains("border-x", tabpanelClass);
         Assert.Contains("border-b", tabpanelClass);
     }
 
@@ -517,13 +513,13 @@ public class TwTabContainerTests : TwBlazorTestBase
         var tablistClass = tablist.GetAttribute("class") ?? string.Empty;
         Assert.DoesNotContain("bg-white", tablistClass);
         Assert.DoesNotContain("dark:bg-gray-800", tablistClass);
-        Assert.Contains("border-[oklch(95%_0_0)]", tablistClass);
+        Assert.Contains("border-[oklch(92%_0_0)]", tablistClass);
 
         var tabpanel = cut.Find("div[role='tabpanel']");
         var tabpanelClass = tabpanel.GetAttribute("class") ?? string.Empty;
         Assert.DoesNotContain("bg-white", tabpanelClass);
         Assert.DoesNotContain("dark:bg-gray-800", tabpanelClass);
-        Assert.Contains("border-[oklch(95%_0_0)]", tabpanelClass);
+        Assert.Contains("border-[oklch(92%_0_0)]", tabpanelClass);
     }
 
     private static RenderFragment ThreeTabs(bool disableSecond = false) => builder =>

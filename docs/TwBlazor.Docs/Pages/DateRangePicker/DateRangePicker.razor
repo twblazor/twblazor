@@ -1,7 +1,7 @@
 @page "/date-range-picker"
 
 <PageContainer Title="TwDateRangePicker" Path="/date-range-picker" Description="TwDateRangePicker is a Blazor date range picker with a two-month calendar popup. Bind Value or SelectedRange and constrain it with MinDate and MaxDate." ThemeType="typeof(TwDatePickerTheme)">
-    <PageCard Title="Basic Date Range Picker">
+    <PageCard Title="Basic date range picker">
         <Description>Bind <code>SelectedRange</code> for a <code>KeyValuePair&lt;DateTime?, DateTime?&gt;</code> value (<code>Key</code> = start, <code>Value</code> = end). Select a start date, then an end date - the range highlights across both calendar months and survives month navigation. Shares its theme (<code>TwDatePickerTheme</code>) with <a href="/date-picker" class="underline">TwDatePicker</a>.</Description>
         <CodeExample Name="DateRangePickerBasic" CSharpName="DateRangePickerBasicCode">
             <div class="space-y-4">
@@ -11,7 +11,7 @@
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Custom Format">
+    <PageCard Title="Custom format">
         <Description><code>Format</code> is a plain .NET custom date format string applied identically to both the start and end date - the same parameter <a href="/date-picker" class="underline">TwDatePicker</a> uses. The separator between the two dates defaults to <code>" - "</code> and is configurable via <code>RangeSeparator</code>.</Description>
         <CodeExample Name="DateRangePickerCustomFormat" CSharpName="DateRangePickerBasicCode">
             <div class="space-y-4">
@@ -20,14 +20,14 @@
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Min and Max Date">
+    <PageCard Title="Min and max date">
         <Description>Use the <code>MinDate</code> and <code>MaxDate</code> properties to restrict the selectable range. Out-of-bounds days render disabled and the month navigation arrows stop at the boundary.</Description>
         <CodeExample Name="DateRangePickerMinMax" CSharpName="DateRangePickerMinMaxCode">
             <TwDateRangePicker Id="bounded-daterangepicker" @bind-SelectedRange="BoundedRange" MinDate="MinDate" MaxDate="MaxDate" Label="Select within the next 30 days" Class="mt-3" />
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Input Variants">
+    <PageCard Title="Input variants">
         <Description>The date range picker supports the same visual variants as the other text inputs.</Description>
         <CodeExample Name="DateRangePickerVariants" CSharpName="DateRangePickerBasicCode">
             <div class="space-y-4">
@@ -38,14 +38,14 @@
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Dense Date Range Picker">
+    <PageCard Title="Dense date range picker">
         <Description>Set <code>Dense</code> for a more compact input with a smaller height and text size. Every single-line input shares the same dense height, so they line up when used side by side.</Description>
         <CodeExample Name="DateRangePickerDense" CSharpName="DateRangePickerBasicCode">
             <TwDateRangePicker Id="dense-daterangepicker" @bind-SelectedRange="SelectedRange" Label="Dense Date Range Picker" Dense />
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Disabled and Readonly Date Range Picker">
+    <PageCard Title="Disabled and readonly date range picker">
         <Description>Use the <code>Disabled</code> and <code>ReadOnly</code> properties to restrict interaction with the date range picker.</Description>
         <CodeExample Name="DateRangePickerReadonlyDisabled" CSharpName="DateRangePickerBasicCode">
             <TwDateRangePicker Id="disabled-daterangepicker" @bind-SelectedRange="SelectedRange" Label="Disabled Date Range Picker" Disabled Class="mt-3" />

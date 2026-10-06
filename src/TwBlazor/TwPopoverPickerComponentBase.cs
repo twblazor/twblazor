@@ -355,9 +355,21 @@ public abstract class TwPopoverPickerComponentBase : TwBlazorTextInputComponentB
     /// disposed, even if the component is removed from the DOM without <see cref="Close"/> being called.
     /// This prevents memory leaks and orphaned event listeners.
     /// </remarks>
-    public async ValueTask DisposeAsync()
+    public virtual async ValueTask DisposeAsync()
     {
-        await UnregisterOutsideClickAsync();
+        try
+        {
+            await UnregisterOutsideClickAsync();
+        }
+        catch (JSDisconnectedException)
+        {
+            // The circuit is already gone, so there is nothing left on the client to unregister;
+            // release what is held here instead of letting disposal throw.
+            dotNetRef?.Dispose();
+            dotNetRef = null;
+            registeredOutsideHandler = false;
+        }
+
         GC.SuppressFinalize(this);
     }
 }

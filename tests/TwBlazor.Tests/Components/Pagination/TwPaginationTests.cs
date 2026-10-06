@@ -7,6 +7,13 @@ namespace TwBlazor.Tests.Components.Pagination;
 
 public class TwPaginationTests : TwBlazorTestBase
 {
+    // The page-size select is a custom listbox on desktop; these tests drive the native <select> it
+    // falls back to on iOS and Android.
+    public TwPaginationTests()
+    {
+        TestContext.JSInterop.Setup<bool>("twDevice.prefersNativePicker").SetResult(true);
+    }
+
     // Page number buttons contain a "page " screen-reader-only prefix (<span class="sr-only">page </span>)
     // ahead of the visible digits, so strip it to compare against the visible label alone.
     // Pagination controls render as <button> elements (not <a>) since they perform an in-page
@@ -214,8 +221,8 @@ public class TwPaginationTests : TwBlazorTestBase
         var links = cut.FindAll("nav ul li button");
         var activeLink = links.Single(a => LinkText(a) == "5");
 
-        Assert.Contains("text-purple-600", activeLink.GetAttribute("class"));
-        Assert.Contains("bg-purple-200", activeLink.GetAttribute("class"));
+        Assert.Contains("text-purple-700", activeLink.GetAttribute("class"));
+        Assert.Contains("bg-purple-50", activeLink.GetAttribute("class"));
     }
 
     [Fact]
@@ -228,8 +235,8 @@ public class TwPaginationTests : TwBlazorTestBase
         var links = cut.FindAll("nav ul li button");
         var inactiveLink = links.Single(a => LinkText(a) == "4");
 
-        Assert.Contains("text-[oklch(50%_0.006_285.885)]", inactiveLink.GetAttribute("class"));
-        Assert.DoesNotContain("text-purple-600", inactiveLink.GetAttribute("class"));
+        Assert.Contains("text-[oklch(40%_0.006_285.885)]", inactiveLink.GetAttribute("class"));
+        Assert.DoesNotContain("text-purple-700", inactiveLink.GetAttribute("class"));
     }
 
     [Fact]
@@ -307,32 +314,20 @@ public class TwPaginationTests : TwBlazorTestBase
     #region Rounded corners
 
     [Fact]
-    public void AppliesRounded_ToTheButtonGroup_NotEachButton()
+    public void AppliesRounded_ToEachButton_NotTheList()
     {
-        // The list clips every button to one rounded, bordered container (like the table), so the
-        // rounded builder's class sits on the <ul> and the buttons stay square.
+        // Buttons are spaced and rounded individually, so the rounded builder's class sits on each
+        // <button> and the <ul> is only a spacing container.
         var cut = TestContext.Render<TwPagination>(parameters => parameters
             .Add(p => p.ActivePage, 2)
             .Add(p => p.TotalPages, 5));
 
-        Assert.Contains(RoundedBuilder.GetRounded(), cut.Find("nav ul").GetAttribute("class"));
-        Assert.Contains("overflow-hidden", cut.Find("nav ul").GetAttribute("class"));
+        Assert.DoesNotContain(RoundedBuilder.GetRounded(), cut.Find("nav ul").GetAttribute("class"));
 
         foreach (var button in cut.FindAll("nav ul li button"))
         {
-            Assert.DoesNotContain(RoundedBuilder.GetRounded(), button.GetAttribute("class"));
+            Assert.Contains(RoundedBuilder.GetRounded(), button.GetAttribute("class"));
         }
-    }
-
-    [Fact]
-    public void ButtonGroup_UsesTheTablesBorderAndDividerColors()
-    {
-        var cut = TestContext.Render<TwPagination>(parameters => parameters
-            .Add(p => p.TotalPages, 5));
-
-        var list = cut.Find("nav ul").GetAttribute("class");
-        Assert.Contains("border-[oklch(95%_0_0)]", list);
-        Assert.Contains("divide-x", list);
     }
 
     #endregion
@@ -368,7 +363,7 @@ public class TwPaginationTests : TwBlazorTestBase
         Assert.Null(previous.GetAttribute("aria-disabled"));
         Assert.Null(previous.GetAttribute("tabindex"));
         Assert.DoesNotContain("pointer-events-none", previous.GetAttribute("class"));
-        Assert.Contains("hover:bg-purple-50", previous.GetAttribute("class"));
+        Assert.Contains("hover:bg-[oklch(21%_0.006_285.885)]/10", previous.GetAttribute("class"));
     }
 
     [Fact]
@@ -400,7 +395,7 @@ public class TwPaginationTests : TwBlazorTestBase
         Assert.Null(next.GetAttribute("aria-disabled"));
         Assert.Null(next.GetAttribute("tabindex"));
         Assert.DoesNotContain("pointer-events-none", next.GetAttribute("class"));
-        Assert.Contains("hover:bg-purple-50", next.GetAttribute("class"));
+        Assert.Contains("hover:bg-[oklch(21%_0.006_285.885)]/10", next.GetAttribute("class"));
     }
 
     [Fact]

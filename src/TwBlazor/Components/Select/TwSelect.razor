@@ -9,7 +9,7 @@
         <TwInputLabel Id="@LabelId" For="@Id" Label="@Label" Class="@LabelClasses" @attributes="@LabelAttributes" />
     }
 
-    @if (!Multiple)
+    @if (!Multiple && UseNativePicker)
     {
         <select id="@Id"
                 class="@classes"
@@ -34,13 +34,69 @@
             }
         </select>
     }
+    else if (!Multiple)
+    {
+        <div class="@options.Theme.Position.Relative">
+            <button type="button"
+                    id="@Id"
+                    class="@customTriggerClasses"
+                    role="combobox"
+                    aria-haspopup="listbox"
+                    aria-expanded="@(isFocused ? "true" : "false")"
+                    aria-controls="@(isFocused ? listboxId : null)"
+                    aria-required="@(Required ? "true" : null)"
+                    aria-readonly="@(ReadOnly ? "true" : null)"
+                    aria-invalid="@(Invalid ? "true" : null)"
+                    aria-describedby="@errorId"
+                    aria-label="@AriaLabel"
+                    aria-labelledby="@AriaLabelledBy"
+                    disabled="@Disabled"
+                    @attributes="@Attributes"
+                    @onclick="@ToggleOrOpenPanelAsync"
+                    @onkeydown="@OnTriggerKeyDownAsync">
+                <span class="@(hasSelection ? "truncate" : $"truncate {theme.SelectCustomPlaceholder}")">@(hasSelection ? selectedDisplayText : Placeholder)</span>
+                <TwIcon Icon="Icon.Chevron_Down" Plain Class="@chevronClasses" aria-hidden="true" />
+            </button>
+
+            @if (isFocused)
+            {
+                <div class="@panelPositionClasses" tabindex="-1" @ref="PanelRef" @onkeydown="@OnPanelKeyDownAsync">
+                    <div class="@customPanelSurfaceClasses">
+                        <div id="@listboxId" class="@theme.SelectCustomListbox" role="listbox" tabindex="0" @ref="listboxRef"
+                             aria-label="@(string.IsNullOrWhiteSpace(Label) ? AriaLabel ?? "Options" : Label)">
+                            @if (!Required)
+                            {
+                                <div id="@OptionId(0)" role="option" class="@theme.SelectCustomOption" data-value="0"
+                                     aria-selected="@(selectedValueId == 0 ? "true" : "false")"
+                                     @onclick="@(() => SelectOptionAsync(0))">
+                                    <span class="@($"truncate {theme.SelectCustomPlaceholder}")">@Placeholder</span>
+                                </div>
+                            }
+                            @foreach (var (key, value) in parsedValues)
+                            {
+                                <div id="@OptionId(key)" role="option" class="@theme.SelectCustomOption" data-value="@key"
+                                     aria-selected="@(key == selectedValueId ? "true" : "false")"
+                                     @onclick="@(() => SelectOptionAsync(key))">
+                                    <span class="truncate">@GetDisplayText(value)</span>
+                                    @if (key == selectedValueId)
+                                    {
+                                        <TwIcon Icon="Icon.Check2" Plain Class="@theme.SelectCustomCheck" aria-hidden="true" />
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
     else if (UseNativePicker)
     {
         <div class="@options.Theme.Position.Relative">
             <div class="@triggerClasses" aria-hidden="true">
                 @if (selectedValueIds.Count == 0)
                 {
-                    @Placeholder
+                    <span class="@theme.SelectCustomPlaceholder">@Placeholder</span>
                 }
                 else
                 {
@@ -49,6 +105,7 @@
                         <TwChip Label="@GetDisplayText(parsedValues[id])" Size="ChipSize.Large" Variant="ButtonVariant.Outlined" />
                     }
                 }
+                <TwIcon Icon="Icon.Chevron_Down" Plain Class="@theme.SelectMultiChevron" />
             </div>
 
             <select id="@Id"
@@ -75,7 +132,7 @@
     else
     {
         <div class="@options.Theme.Position.Relative">
-            <div class="@triggerClasses">
+            <div class="@triggerClasses" @onclick="@ToggleOrOpenPanelAsync">
                 @foreach (var id in orderedSelectedValueIds)
                 {
                     <span @onclick:stopPropagation="true">
@@ -85,22 +142,39 @@
                 <button type="button"
                         id="@Id"
                         class="@theme.SelectMultiOpenButton"
+                        role="combobox"
                         aria-haspopup="listbox"
                         aria-expanded="@(isFocused ? "true" : "false")"
+                        aria-controls="@(isFocused ? listboxId : null)"
                         aria-readonly="@(ReadOnly ? "true" : null)"
                         aria-label="@AriaLabel"
                         aria-labelledby="@AriaLabelledBy"
                         @attributes="@Attributes"
-                        @onclick="@ToggleOrOpenPanelAsync">
+                        @onkeydown="@OnTriggerKeyDownAsync">
                     @(selectedValueIds.Count == 0 ? Placeholder : null)
                 </button>
+                <TwIcon Icon="Icon.Chevron_Down" Plain Class="@multiChevronClasses" aria-hidden="true" />
             </div>
 
             @if (isFocused)
             {
-                <div class="@panelPositionClasses" role="dialog" aria-label="@(string.IsNullOrWhiteSpace(Label) ? "Select options" : Label)" tabindex="-1" @ref="PanelRef" @onkeydown="@OnPanelKeyDownAsync">
-                    <div class="@panelSurfaceClasses">
-                        <TwCheckboxGroup TValue="T" Items="@checkboxItems" SelectedValues="@SelectedValues" SelectedValuesChanged="@HandleCheckboxGroupChanged" />
+                <div class="@panelPositionClasses" tabindex="-1" @ref="PanelRef" @onkeydown="@OnPanelKeyDownAsync">
+                    <div class="@customPanelSurfaceClasses">
+                        <div id="@listboxId" class="@theme.SelectCustomListbox" role="listbox" aria-multiselectable="true" tabindex="0" @ref="listboxRef"
+                             aria-label="@(string.IsNullOrWhiteSpace(Label) ? AriaLabel ?? "Options" : Label)">
+                            @foreach (var (key, value) in parsedValues)
+                            {
+                                <div id="@OptionId(key)" role="option" class="@theme.SelectCustomOption" data-value="@key"
+                                     aria-selected="@(selectedValueIds.Contains(key) ? "true" : "false")"
+                                     @onclick="@(() => ToggleOptionAsync(key))">
+                                    <span class="truncate">@GetDisplayText(value)</span>
+                                    @if (selectedValueIds.Contains(key))
+                                    {
+                                        <TwIcon Icon="Icon.Check2" Plain Class="@theme.SelectCustomCheck" aria-hidden="true" />
+                                    }
+                                </div>
+                            }
+                        </div>
                     </div>
                 </div>
             }

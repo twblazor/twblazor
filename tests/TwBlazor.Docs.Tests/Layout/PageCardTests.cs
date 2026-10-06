@@ -24,7 +24,7 @@ public class PageCardTests : DocsTestBase
     }
 
     [Fact]
-    public void Render_IsARoundedShadowedSurface()
+    public void Render_IsAFlatRoundedSurface()
     {
         // Arrange & Act
         var cut = TestContext.Render<PageCard>(parameters => parameters
@@ -32,7 +32,7 @@ public class PageCardTests : DocsTestBase
 
         // Assert
         var classes = cut.Find("div").GetAttribute("class")!;
-        Assert.Contains("shadow-sm", classes);
+        Assert.Contains("shadow-none", classes);
         Assert.Contains("rounded", classes);
     }
 

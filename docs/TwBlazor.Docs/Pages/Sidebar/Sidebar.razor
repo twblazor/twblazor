@@ -1,7 +1,7 @@
 ﻿@page "/sidebar"
 
 <PageContainer Title="TwSidebar" Path="/sidebar" Description="TwSidebar is a Blazor sidebar for navigation. Build it from SidebarContent markup or data-driven NavigationItems, with IsSearchable and a collapsible layout." ThemeType="typeof(TwSidebarTheme)">
-    <PageCard Title="Basic Sidebar">
+    <PageCard Title="Basic sidebar">
         <Description>
             <code>TwSidebar</code> has all the functionality you'd want in a single component for a sidebar. You can customise the sidebar using both tailwind classes and additional TwBlazor Theme styling.
         </Description>
@@ -9,7 +9,7 @@
         <ExampleCodeBlock Razor="@CodeExamples.Get("SidebarBasic")" />
     </PageCard>
 
-    <PageCard Title="Data-Driven Navigation (Programmatic)">
+    <PageCard Title="Data-driven navigation (programmatic)">
         <Description>
             Instead of hand-writing <code>SidebarContent</code> markup, pass a <code>List&lt;NavigationItem&gt;</code> to <code>NavigationItems</code> and TwSidebar renders the links, nested groups, and (with <code>IsSearchable</code>) a search box for you - this is exactly how this documentation site's own sidebar is built, see <code>Navigation.razor.cs</code>.
         </Description>

@@ -47,92 +47,16 @@ h1, h2, h3, h4, h5, h6 {
     overflow-wrap: anywhere;
 }
 
+/* Inline code in descriptions and prose reads as a quiet, tinted chip. Code inside a <pre> is styled
+   by highlight.js instead, so it is left alone here. */
+:not(pre) > code {
+    @apply rounded-md border border-gray-200 bg-gray-100 px-1.5 py-0.5 font-mono text-[0.875em] font-medium text-purple-700 dark:border-white/10 dark:bg-white/10 dark:text-purple-300;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+}
+
 html, body {
     overflow-x: hidden;
-}
-
-.hero-blob {
-    will-change: transform;
-}
-
-.hero-blob-1 {
-    animation: hero-blob-float-1 24s ease-in-out infinite;
-}
-
-.hero-blob-2 {
-    animation: hero-blob-float-2 29s ease-in-out infinite;
-    animation-delay: -13s;
-}
-
-.hero-blob-3 {
-    animation: hero-blob-float-3 21s ease-in-out infinite;
-    animation-delay: -6s;
-}
-
-.hero-blob-4 {
-    animation: hero-blob-float-4 31s ease-in-out infinite;
-    animation-delay: -19s;
-}
-
-.hero-blob-5 {
-    animation: hero-blob-float-5 17s ease-in-out infinite;
-    animation-delay: -9s;
-}
-
-.hero-blob-6 {
-    animation: hero-blob-float-6 33s ease-in-out infinite;
-    animation-delay: -2s;
-}
-
-@keyframes hero-blob-float-1 {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    18% { transform: translate(120%, 45%) scale(1.15); }
-    47% { transform: translate(85%, 160%) scale(0.9); }
-    74% { transform: translate(-35%, 90%) scale(1.05); }
-}
-
-@keyframes hero-blob-float-2 {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    30% { transform: translate(-100%, -55%) scale(0.88); }
-    58% { transform: translate(-160%, -20%) scale(1.2); }
-    83% { transform: translate(-45%, 30%) scale(0.97); }
-}
-
-@keyframes hero-blob-float-3 {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    15% { transform: translate(-90%, 55%) scale(1.08); }
-    40% { transform: translate(-150%, 15%) scale(0.85); }
-    80% { transform: translate(30%, 100%) scale(1.12); }
-}
-
-@keyframes hero-blob-float-4 {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    35% { transform: translate(110%, -60%) scale(0.92); }
-    60% { transform: translate(170%, -10%) scale(1.18); }
-}
-
-@keyframes hero-blob-float-5 {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    25% { transform: translate(55%, 95%) scale(0.9); }
-    55% { transform: translate(-70%, 130%) scale(1.1); }
-    85% { transform: translate(-110%, 40%) scale(0.95); }
-}
-
-@keyframes hero-blob-float-6 {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    40% { transform: translate(-60%, -100%) scale(1.15); }
-    75% { transform: translate(75%, -130%) scale(0.88); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .hero-blob-1,
-    .hero-blob-2,
-    .hero-blob-3,
-    .hero-blob-4,
-    .hero-blob-5,
-    .hero-blob-6 {
-        animation: none;
-    }
 }
 
 /* source-sans-3-regular - latin */

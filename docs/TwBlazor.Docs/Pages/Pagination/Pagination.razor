@@ -1,7 +1,7 @@
 @page "/pagination"
 
 <PageContainer Title="TwPagination" Path="/pagination" Description="TwPagination is a Blazor pagination component. Bind ActivePage and PageSize, set TotalPages and ShowPageSize to split content across pages." ThemeType="typeof(TwPaginationTheme)">
-    <PageCard Title="Basic Usage">
+    <PageCard Title="Basic usage">
         <Description>Bind <code>ActivePage</code> to track the current page as the user clicks between pages. <code>TotalPages</code> controls how many pages are available.</Description>
 
         <CodeExample Name="PaginationBasic" CSharpName="PaginationBasicCode">
@@ -10,7 +10,7 @@
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Responding to Page Changes">
+    <PageCard Title="Responding to page changes">
         <Description>Use <code>ActivePageChanged</code> instead of two-way binding when you need to run logic - such as loading new data - whenever the page changes.</Description>
 
         <CodeExample Name="PaginationPageChanged" CSharpName="PaginationPageChangedCode">
@@ -27,7 +27,7 @@
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Page Size Selector">
+    <PageCard Title="Page size selector">
         <Description>Set <code>ShowPageSize</code> to add an optional "items per page" dropdown alongside the pagination controls. Bind <code>PageSize</code> and customize <code>PageSizeOptions</code> to control the available choices.</Description>
 
         <CodeExample Name="PaginationPageSize" CSharpName="PaginationPageSizeCode">

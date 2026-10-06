@@ -237,7 +237,7 @@ public class TwTabTests : TwBlazorTestBase
         Assert.Contains("font-medium", classAttribute);
         Assert.Contains("text-sm", classAttribute);
         Assert.Contains("transition-colors", classAttribute);
-        Assert.Contains("duration-300", classAttribute);
+        Assert.Contains("duration-200", classAttribute);
     }
 
     [Fact]
@@ -265,7 +265,7 @@ public class TwTabTests : TwBlazorTestBase
         Assert.Contains("after:h-0.5", classAttribute);
         Assert.Contains("after:bg-current", classAttribute);
         Assert.Contains("after:transition-transform", classAttribute);
-        Assert.Contains("after:duration-300", classAttribute);
+        Assert.Contains("after:duration-200", classAttribute);
     }
 
     [Fact]

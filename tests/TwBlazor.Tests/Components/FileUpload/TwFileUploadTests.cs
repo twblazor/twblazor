@@ -140,7 +140,7 @@ public class TwFileUploadTests : TwBlazorTestBase
 
         // Assert
         Assert.Null(received);
-        Assert.Empty(cut.FindAll(".text-sm.text-gray-600 > *"));
+        Assert.Empty(cut.FindAll(".text-sm[class*=\"oklch(40%\"] > *"));
     }
 
     [Fact]
@@ -158,7 +158,7 @@ public class TwFileUploadTests : TwBlazorTestBase
 
         // Assert
         Assert.Null(received);
-        Assert.Empty(cut.FindAll(".text-sm.text-gray-600 > *"));
+        Assert.Empty(cut.FindAll(".text-sm[class*=\"oklch(40%\"] > *"));
     }
 
     [Fact]
@@ -259,7 +259,7 @@ public class TwFileUploadTests : TwBlazorTestBase
         inputFile.UploadFiles(InputFileContent.CreateFromText("hello", "single.txt"));
 
         // Assert
-        var chip = cut.Find(".text-sm.text-gray-600");
+        var chip = cut.Find(".text-sm[class*=\"oklch(40%\"]");
         Assert.Contains("single.txt", chip.TextContent);
     }
 
@@ -275,7 +275,7 @@ public class TwFileUploadTests : TwBlazorTestBase
         inputFile.UploadFiles(InputFileContent.CreateFromText("hello", "only.txt"));
 
         // Assert
-        var chip = cut.Find(".text-sm.text-gray-600");
+        var chip = cut.Find(".text-sm[class*=\"oklch(40%\"]");
         Assert.Contains("only.txt", chip.TextContent);
         Assert.DoesNotContain(",", chip.TextContent);
     }
@@ -294,7 +294,7 @@ public class TwFileUploadTests : TwBlazorTestBase
             InputFileContent.CreateFromText("b", "second.txt"));
 
         // Assert
-        var chips = cut.FindAll(".text-sm.text-gray-600 > *");
+        var chips = cut.FindAll(".text-sm[class*=\"oklch(40%\"] > *");
         var chipText = string.Join(" ", chips.Select(c => c.TextContent));
         Assert.Contains("first.txt", chipText);
         Assert.Contains("second.txt", chipText);
@@ -346,7 +346,7 @@ public class TwFileUploadTests : TwBlazorTestBase
             .Add(p => p.Files, files));
 
         // Assert
-        var chip = cut.Find(".text-sm.text-gray-600");
+        var chip = cut.Find(".text-sm[class*=\"oklch(40%\"]");
         Assert.Contains("existing.txt", chip.TextContent);
     }
 
@@ -365,7 +365,7 @@ public class TwFileUploadTests : TwBlazorTestBase
         closeButton.Click();
 
         // Assert
-        Assert.Throws<ElementNotFoundException>(() => cut.Find(".text-sm.text-gray-600"));
+        Assert.Throws<ElementNotFoundException>(() => cut.Find(".text-sm[class*=\"oklch(40%\"]"));
         Assert.NotNull(received);
         Assert.Empty(received!);
     }
@@ -378,7 +378,7 @@ public class TwFileUploadTests : TwBlazorTestBase
 
         // Act & Assert (should not throw)
         await cut.InvokeAsync(() => cut.Instance.RemoveFile(new TestBrowserFile("missing.txt")));
-        Assert.Throws<ElementNotFoundException>(() => cut.Find(".text-sm.text-gray-600"));
+        Assert.Throws<ElementNotFoundException>(() => cut.Find(".text-sm[class*=\"oklch(40%\"]"));
     }
 
     [Fact]
@@ -388,7 +388,7 @@ public class TwFileUploadTests : TwBlazorTestBase
         var cut = TestContext.Render<TwFileUpload>();
 
         // Assert
-        Assert.Throws<ElementNotFoundException>(() => cut.Find(".text-sm.text-gray-600"));
+        Assert.Throws<ElementNotFoundException>(() => cut.Find(".text-sm[class*=\"oklch(40%\"]"));
     }
 
     private sealed class TestBrowserFile(string name) : IBrowserFile

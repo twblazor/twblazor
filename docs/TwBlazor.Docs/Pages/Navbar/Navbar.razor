@@ -2,7 +2,7 @@
 @using TwBlazor.Models
 
 <PageContainer Title="TwNavbar" Path="/navbar" Description="TwNavbar is a responsive Blazor navbar with BrandContent, NavigationContent and ActionsContent slots, data-driven NavigationItems and keyboard support." ThemeType="typeof(TwSidebarTheme)">
-    <PageCard Title="Structured Navbar">
+    <PageCard Title="Structured navbar">
         <Description>
             <code>TwNavbar</code> provides <code>BrandContent</code>, <code>NavigationContent</code>, and <code>ActionsContent</code> slots for hand-written markup. Responsive collapse is enabled by default - shrink the preview to see the mobile toggle appear.
         </Description>
@@ -20,14 +20,14 @@
                     <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-white/80 hover:text-white hover:bg-white/10 transition-colors">Pricing</a>
                 </NavigationContent>
                 <ActionsContent>
-                    <TwButton Label="Sign in" Variant="ButtonVariant.Text" Color="Color.Light" />
+                    <TwButton Label="Sign in" Variant="ButtonVariant.Text" Color="Color.Dark" />
                     <TwButton Label="Get started" Variant="ButtonVariant.Filled" Color="Color.Accent" />
                 </ActionsContent>
             </TwNavbar>
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Data-Driven Links">
+    <PageCard Title="Data-driven links">
         <Description>
             Pass <code>NavigationItems</code> instead of hand-written <code>NavigationContent</code> to render links (with optional icons) from a <code>List&lt;NavigationItem&gt;</code>, and mark one active with <code>IsActive</code>. Other slots such as <code>BrandContent</code> and <code>ActionsContent</code> still work alongside it.
         </Description>
@@ -40,13 +40,13 @@
                     </a>
                 </BrandContent>
                 <ActionsContent>
-                    <TwButton Label="Sign in" Variant="ButtonVariant.Text" Color="Color.Light" />
+                    <TwButton Label="Sign in" Variant="ButtonVariant.Text" Color="Color.Dark" />
                 </ActionsContent>
             </TwNavbar>
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Disable Responsive Collapse">
+    <PageCard Title="Disable responsive collapse">
         <Description>
             Set <code>DisableResponsiveCollapse</code> to keep the navigation and actions slots always visible with no mobile toggle - useful when a parent layout, such as <code>TwSidebar</code>, already owns a mobile toggle. <code>TwSidebar</code> sets this on its embedded navbar for exactly that reason.
         </Description>
@@ -63,7 +63,7 @@
                     <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-white/80 hover:text-white hover:bg-white/10 transition-colors">Products</a>
                 </NavigationContent>
                 <ActionsContent>
-                    <TwButton Label="Sign in" Variant="ButtonVariant.Text" Color="Color.Light" />
+                    <TwButton Label="Sign in" Variant="ButtonVariant.Text" Color="Color.Dark" />
                 </ActionsContent>
             </TwNavbar>
         </CodeExample>

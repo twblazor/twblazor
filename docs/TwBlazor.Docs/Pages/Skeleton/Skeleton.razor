@@ -1,7 +1,7 @@
 @page "/skeleton"
 
 <PageContainer Title="TwSkeleton" Path="/skeleton" Beta Description="TwSkeleton is a Blazor loading placeholder. Choose a SkeletonType and Animation, set Width and Height, or generate one from ChildContent while Loading." ThemeType="typeof(TwSkeletonTheme)">
-    <PageCard Title="Basic Usage">
+    <PageCard Title="Basic usage">
         <Description>With no <code>ChildContent</code>, <code>TwSkeleton</code> renders a single full-width text line placeholder by default.</Description>
 
         <CodeExample Name="SkeletonBasic">
@@ -33,7 +33,7 @@
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Auto-Generated from Content">
+    <PageCard Title="Auto-generated from content">
         <Description>Wrap real markup in <code>ChildContent</code> and toggle <code>Loading</code> - while loading, <code>TwSkeleton</code> measures the actual rendered layout of that content (via a <code>ResizeObserver</code>) and generates matching placeholder blocks automatically, instead of a single generic box.</Description>
 
         <CodeExample Name="SkeletonAutoGenerate" CSharpName="SkeletonAutoGenerateCode">

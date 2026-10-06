@@ -138,8 +138,66 @@ public class TwInputTheme
     /// caption-style color, which is too low-contrast against <see cref="TwOverlayTheme.PopoverBackground"/>
     /// in dark mode once it is the primary, repeated content of a whole option list.
     /// </para>
+    /// <para>
+    /// No longer applied: the multi-select's options are now a listbox styled by
+    /// <see cref="SelectCustomOption"/>, not a checkbox group. The property remains so existing themes still compile.
+    /// </para>
     /// </remarks>
     public required string SelectPanelItemText { get; set; }
+
+    /// <summary>
+    /// Gets or sets the layout classes for the single select's custom trigger button, shown on desktop
+    /// where a popover listbox replaces the native <c>&lt;select&gt;</c>.
+    /// </summary>
+    public string SelectCustomTrigger { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes for the custom trigger's text while no option is selected.
+    /// </summary>
+    public string SelectCustomPlaceholder { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes for the custom trigger's chevron.
+    /// </summary>
+    public string SelectCustomChevron { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes added to the chevron while the listbox is open.
+    /// </summary>
+    public string SelectCustomChevronOpen { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes for the custom listbox that holds the options.
+    /// </summary>
+    public string SelectCustomListbox { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes for one option in the custom listbox, including its highlighted
+    /// (<c>data-active</c>) and selected (<c>aria-selected</c>) states.
+    /// </summary>
+    public string SelectCustomOption { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes for the check mark shown beside the selected option.
+    /// </summary>
+    public string SelectCustomCheck { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the base classes for the multi-select's closed trigger box, used for both the desktop
+    /// popover trigger and the native overlay trigger so they look identical.
+    /// </summary>
+    public string SelectMultiTriggerBase { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes for the chevron drawn at the end of the multi-select's trigger.
+    /// </summary>
+    public string SelectMultiChevron { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the start padding applied to the multi-select's trigger while it shows chips, so the
+    /// first chip sits the same distance from the start edge as it does from the top and bottom.
+    /// </summary>
+    public string SelectMultiChipsPadding { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets or sets the base classes for input labels.

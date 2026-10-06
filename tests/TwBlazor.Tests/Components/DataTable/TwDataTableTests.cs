@@ -8,6 +8,13 @@ namespace TwBlazor.Tests.Components.DataTable;
 
 public class TwDataTableTests : TwBlazorTestBase
 {
+    // The page-size select is a custom listbox on desktop; these tests drive the native <select> it
+    // falls back to on iOS and Android.
+    public TwDataTableTests()
+    {
+        TestContext.JSInterop.Setup<bool>("twDevice.prefersNativePicker").SetResult(true);
+    }
+
     private TwTableTheme tableTheme => Theme.Components.Require<TwTableTheme>();
 
     private static readonly int[] _rowsPerPageOptions = [5, 10, 25];

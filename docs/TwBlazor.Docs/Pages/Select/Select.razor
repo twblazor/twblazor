@@ -1,7 +1,7 @@
 @page "/select"
 
 <PageContainer Title="TwSelect" Path="/select" Description="TwSelect is a Blazor select component for complex objects and numbers. Bind SelectedValue, or SelectedValues with Multiple, and set Placeholder and Required." ThemeType="typeof(TwInputTheme)">
-    <PageCard Title="Basic Select">
+    <PageCard Title="Basic select">
         <Description>Bind <code>SelectedValue</code> and use <code>Variant</code> to switch between default, filled and outlined styles.</Description>
         <CodeExample Name="SelectBasic" CSharpName="SelectBasicCode">
             <div class="w-full flex flex-row">
@@ -42,7 +42,15 @@
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Select with Complex Objects">
+    <PageCard Title="Desktop and mobile behavior">
+        <Description>
+            On desktop, a single select opens an accessible listbox popover that you can drive with the arrow keys, <code>Home</code>, <code>End</code>, type-ahead and <code>Enter</code>.
+            On iOS and Android it renders the browser's native <code>&lt;select&gt;</code> instead, so people get the platform's own picker.
+            Set <code>PreferNativePicker</code> to <code>true</code> or <code>false</code> to override the detection.
+        </Description>
+    </PageCard>
+
+    <PageCard Title="Select with complex objects">
         <Description>Use <code>PropertyName</code> to display a specific property when binding to a list of complex objects.</Description>
         <CodeExample Name="SelectComplexObjects" CSharpName="SelectComplexObjectsCode">
             <TwSelect T="Person"
@@ -64,7 +72,7 @@
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Required Select">
+    <PageCard Title="Required select">
         <Description>Set the <code>Required</code> property to mark the select as a required field.</Description>
         <CodeExample Name="SelectRequired">
             <TwSelect T="string"
@@ -81,7 +89,7 @@
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Disabled and Readonly Select">
+    <PageCard Title="Disabled and readonly select">
         <Description>Use the <code>Disabled</code> and <code>ReadOnly</code> properties to restrict interaction with the select.</Description>
         <CodeExample Name="SelectReadonlyDisabled">
             <div class="flex flex-col gap-3">
@@ -104,7 +112,7 @@
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Select with Numbers">
+    <PageCard Title="Select with numbers">
         <Description>TwSelect works with numeric types as well as strings and objects.</Description>
         <CodeExample Name="SelectNumeric">
             <TwSelect T="int"
@@ -122,7 +130,7 @@
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Dense Select">
+    <PageCard Title="Dense select">
         <Description>Set <code>Dense</code> for a more compact select with a smaller height and text size, matching the other dense inputs. Multi-select is not affected, as its height follows its selected chips.</Description>
         <CodeExample Name="SelectDense" CSharpName="SelectDenseCode">
             <TwSelect T="string"
@@ -137,7 +145,7 @@
     <PageCard Title="Multi-select">
         <Description>
             Set <code>Multiple</code> and bind <code>SelectedValues</code> (instead of <code>SelectedValue</code>) to let more than
-            one option be selected at once. It renders as a native <code>&lt;select multiple&gt;</code>, so mobile/touch browsers
+            one option be selected at once. On desktop it opens the same listbox as a single select, with a tick beside each chosen option, and picking an option leaves the list open. It falls back to a native <code>&lt;select multiple&gt;</code> on iOS and Android, so mobile/touch browsers
             still get their own platform multi-select UI rather than a bespoke one.
         </Description>
         <CodeExample Name="SelectMultiple">

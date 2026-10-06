@@ -184,7 +184,7 @@ public class ThemeCodeGeneratorTests
         [new ThemeStatement("rounded", "        var rounded = new TwBlazorRounded { DefaultRounded = Rounded.Md };")],
         "        return new TwBlazorTheme\n        {\n            Rounded = rounded,\n            Shadows = new TwBlazorShadow { DefaultShadow = Shadow.Sm },\n            Components =\n            [",
         [
-            new ThemeBlock("TwInputTheme", "                new TwInputTheme\n                {\n                    DefaultInputVariant = InputVariant.Filled,\n                    Base = \"x\"\n                }"),
+            new ThemeBlock("TwInputTheme", "                new TwInputTheme\n                {\n                    DefaultInputVariant = InputVariant.Outlined,\n                    Base = \"x\"\n                }"),
             new ThemeBlock("TwButtonTheme", "                new TwButtonTheme\n                {\n                    Base = \"y\"\n                }"),
         ],
         "            ]\n        };",
@@ -214,10 +214,10 @@ public class ThemeCodeGeneratorTests
     [Fact]
     public void Generate_ReplacesTheInputVariantDefault()
     {
-        var code = WithDefaults(ThemeDefaults.Default with { InputVariant = InputVariant.Outlined });
+        var code = WithDefaults(ThemeDefaults.Default with { InputVariant = InputVariant.Filled });
 
-        Assert.Contains("DefaultInputVariant = InputVariant.Outlined", code);
-        Assert.DoesNotContain("InputVariant.Filled", code);
+        Assert.Contains("DefaultInputVariant = InputVariant.Filled", code);
+        Assert.DoesNotContain("InputVariant.Outlined", code);
     }
 
     [Fact]
@@ -241,10 +241,10 @@ public class ThemeCodeGeneratorTests
         var all = template.Blocks.Select(b => b.TypeName).ToHashSet();
         var baseline = ThemeCodeGenerator.Generate(template, all, _noColors).Split('\n');
 
-        var changed = ThemeCodeGenerator.Generate(template, all, _noColors, new ThemeDefaults(Rounded.None, Shadow.None, InputVariant.Outlined, ButtonVariant.Text)).Split('\n');
+        var changed = ThemeCodeGenerator.Generate(template, all, _noColors, new ThemeDefaults(Rounded.None, Shadow.None, InputVariant.Filled, ButtonVariant.Text)).Split('\n');
 
         var added = changed.Except(baseline).Select(l => l.Trim()).Order().ToList();
-        Assert.Equal(["DefaultInputVariant = InputVariant.Outlined,", "DefaultRounded = Rounded.None,", "DefaultShadow = Shadow.None", "DefaultVariant = ButtonVariant.Text,"], added);
+        Assert.Equal(["DefaultInputVariant = InputVariant.Filled,", "DefaultRounded = Rounded.None,", "DefaultShadow = Shadow.None", "DefaultVariant = ButtonVariant.Text,"], added);
         Assert.Equal(changed.Length - 1, baseline.Length);
     }
 
