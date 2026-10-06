@@ -28,13 +28,13 @@
 
 ## Why twblazor?
 
-With years of working with Blazor, I've come accross and used a lot of component frameworks, but never one that has ever let me customise it my way without fighting against the library and its built in CSS. That's why I decided to build twblazor; every component is styled with Tailwind CSS classes instead of it's own theming layer, so customising it feels the same as customising your own markup.
+Most Blazor component libraries make you fight their built-in CSS the moment you want something to look different. We built twblazor so customising a component feels like customising your own markup: every component is styled with plain Tailwind CSS classes, all gathered in one typed theme file.
 
-Combined with Tailwind's using hot reload, you can fine-tune a button, switch, checkbox, or dropdown down to the exact color, spacing, and radius, and see the change immediately. It all lives in one typed theme file, so there's no hunting through component internals to find what to change.
+Change a color, spacing or radius, and with Tailwind + hot reload you see it straight away. There is no digging through component internals to find what to change.
 
-twblazor is, and always will be, open source under the MIT license, free for personal and commercial projects alike. I welcome contributions, issues, and feedback from anyone using it. The project is actively maintained. New components, accessibility fixes, and documentation land regularly. I have lots of components I plan to add.
+twblazor is open source under the MIT license, free for personal and commercial projects. It is actively maintained, with new components, accessibility fixes and documentation landing regularly, and we welcome contributions, issues and feedback from everyone using it.
 
-Are you using twblazor in your own project? Share it [here](https://github.com/TwBlazor/twblazor/discussions/81) - we would love to see what you're building!
+Using twblazor in your own project? Share it [here](https://github.com/TwBlazor/twblazor/discussions/81). We would love to see what you're building!
 
 ## Setup
 
@@ -46,12 +46,10 @@ $ dotnet add package twblazor --version 1.11.6
 
 ## Supported Versions
 
-Security fixes are provided for the three most recent minor release lines. twblazor targets .NET 10 only. See the [security policy](https://github.com/TwBlazor/twblazor/blob/develop/SECURITY.md) for how to report a vulnerability.
-
-| Version  | Supported          | .NET    |
-| -------- | ------------------ | ------- |
-| 1.10.x+   | :white_check_mark: | .NET 10 |
-| < 1.9    | :x:                | .NET 10 |
+| Version      | Supported          | .NET    |
+| ------------ | ------------------ | ------- |
+| 1.9 - 1.10+  | :white_check_mark: | .NET 10 |
+| < 1.9        | :x:                | .NET 10 |
 
 ## Dependencies 
 
