@@ -1742,4 +1742,214 @@ public class TwSelectTests : TwBlazorTestBase
         Assert.DoesNotContain(inputTheme.SelectMultiChipsPadding, empty.Find("button[aria-haspopup='listbox']").ParentElement!.GetAttribute("class"));
         Assert.Contains(inputTheme.SelectMultiChipsPadding, withChips.Find("button[aria-haspopup='listbox']").ParentElement!.GetAttribute("class"));
     }
+
+    // --- Coverage: guards, keyboard and detection paths of the desktop listbox ---
+
+    private IRenderedComponent<TwSelect<string>> RenderSingle(Action<ComponentParameterCollectionBuilder<TwSelect<string>>>? configure = null, bool required = true) =>
+        TestContext.Render<TwSelect<string>>(p =>
+        {
+            p.Add(x => x.PreferNativePicker, false)
+             .Add(x => x.Required, required)
+             .Add(x => x.Values, _countryOptions);
+            configure?.Invoke(p);
+        });
+
+    [Fact]
+    public async Task TwSelect_SelectOption_IgnoresAnUnknownId()
+    {
+        var calls = 0;
+        var cut = RenderSingle(p => p.Add(x => x.SelectedValueChanged, EventCallback.Factory.Create<string>(this, _ => calls++)));
+
+        await cut.InvokeAsync(() => cut.Instance.SelectOptionAsync(99));
+
+        Assert.Equal(0, calls);
+    }
+
+    [Fact]
+    public async Task TwSelect_SelectOption_Placeholder_ClearsTheDisplayWithoutInvokingTheCallback()
+    {
+        var calls = 0;
+        var cut = RenderSingle(p => p
+            .Add(x => x.Placeholder, "None")
+            .Add(x => x.SelectedValue, "UK")
+            .Add(x => x.SelectedValueChanged, EventCallback.Factory.Create<string>(this, _ => calls++)), required: false);
+        Assert.Equal("UK", cut.Find("[role='combobox']").TextContent.Trim());
+
+        await cut.InvokeAsync(() => cut.Instance.SelectOptionAsync(0));
+
+        Assert.Equal(0, calls);
+        Assert.Equal("None", cut.Find("[role='combobox']").TextContent.Trim());
+    }
+
+    [Theory]
+    [InlineData(true, false)]
+    [InlineData(false, true)]
+    public async Task TwSelect_SelectOption_IsIgnored_WhenDisabledOrReadOnly(bool disabled, bool readOnly)
+    {
+        var calls = 0;
+        var cut = RenderSingle(p => p
+            .Add(x => x.Disabled, disabled)
+            .Add(x => x.ReadOnly, readOnly)
+            .Add(x => x.SelectedValueChanged, EventCallback.Factory.Create<string>(this, _ => calls++)));
+
+        await cut.InvokeAsync(() => cut.Instance.SelectOptionAsync(2));
+
+        Assert.Equal(0, calls);
+    }
+
+    [Theory]
+    [InlineData("ArrowUp", true)]
+    [InlineData("ArrowDown", true)]
+    [InlineData("a", false)]
+    [InlineData("Enter", false)]
+    public void TwSelect_Single_TriggerKeyDown_OpensOnlyForArrowKeys(string key, bool opens)
+    {
+        var cut = RenderSingle();
+
+        cut.Find("[role='combobox']").KeyDown(new Microsoft.AspNetCore.Components.Web.KeyboardEventArgs { Key = key });
+
+        Assert.Equal(opens, cut.FindAll("[role='listbox']").Count == 1);
+    }
+
+    [Fact]
+    public void TwSelect_Single_ArrowKey_DoesNotReopenOrCloseAnOpenListbox()
+    {
+        var cut = RenderSingle();
+        cut.Find("[role='combobox']").Click();
+
+        cut.Find("[role='combobox']").KeyDown(new Microsoft.AspNetCore.Components.Web.KeyboardEventArgs { Key = "ArrowDown" });
+
+        Assert.Single(cut.FindAll("[role='listbox']"));
+    }
+
+    [Fact]
+    public async Task TwSelect_Close_ClosesAnOpenListbox_AndCanBeCalledAgain()
+    {
+        var cut = RenderSingle();
+        cut.Find("[role='combobox']").Click();
+
+        await cut.InvokeAsync(() => cut.Instance.Close());
+        await cut.InvokeAsync(() => cut.Instance.Close());
+
+        Assert.Empty(cut.FindAll("[role='listbox']"));
+    }
+
+    [Fact]
+    public async Task TwSelect_Dispose_WhileOpen_DoesNotThrow()
+    {
+        var cut = RenderSingle();
+        cut.Find("[role='combobox']").Click();
+
+        var exception = await Record.ExceptionAsync(async () => await cut.Instance.DisposeAsync());
+
+        Assert.Null(exception);
+    }
+
+    [Fact]
+    public void TwSelect_Single_OpeningAttachesTheListbox_WithTheSelectedOptionAndSelectCommit()
+    {
+        var cut = RenderSingle(p => p.Add(x => x.SelectedValue, "UK"));
+
+        cut.Find("[role='combobox']").Click();
+
+        var attach = Assert.Single(TestContext.JSInterop.Invocations, i => i.Identifier == "twSelect.attachListbox");
+        Assert.EndsWith("-option-2", (string)attach.Arguments[2]!);
+        Assert.Equal("SelectOption", attach.Arguments[3]);
+    }
+
+    [Fact]
+    public void TwSelect_Multiple_OpeningAttachesTheListbox_WithTheFirstSelectedOptionAndToggleCommit()
+    {
+        var cut = TestContext.Render<TwSelect<string>>(p => p
+            .Add(x => x.Multiple, true)
+            .Add(x => x.PreferNativePicker, false)
+            .Add(x => x.Values, _threeStringOptions)
+            .Add(x => x.SelectedValues, _option1AndOption3Selected));
+
+        cut.Find("[role='combobox']").Click();
+
+        var attach = Assert.Single(TestContext.JSInterop.Invocations, i => i.Identifier == "twSelect.attachListbox");
+        Assert.EndsWith("-option-1", (string)attach.Arguments[2]!);
+        Assert.Equal("ToggleOption", attach.Arguments[3]);
+    }
+
+    [Fact]
+    public void TwSelect_Multiple_ArrowDown_OpensTheListbox()
+    {
+        var cut = TestContext.Render<TwSelect<string>>(p => p
+            .Add(x => x.Multiple, true)
+            .Add(x => x.PreferNativePicker, false)
+            .Add(x => x.Values, _threeStringOptions));
+
+        cut.Find("[role='combobox']").KeyDown(new Microsoft.AspNetCore.Components.Web.KeyboardEventArgs { Key = "ArrowDown" });
+
+        Assert.Single(cut.FindAll("[role='listbox']"));
+    }
+
+    [Fact]
+    public async Task TwSelect_ToggleOption_SelectsThenDeselects_AndReportsEachChange()
+    {
+        var reported = new List<string[]>();
+        var cut = TestContext.Render<TwSelect<string>>(p => p
+            .Add(x => x.Multiple, true)
+            .Add(x => x.PreferNativePicker, false)
+            .Add(x => x.Values, _threeStringOptions)
+            .Add(x => x.SelectedValuesChanged, EventCallback.Factory.Create<IEnumerable<string>>(this, v => reported.Add([.. v]))));
+
+        await cut.InvokeAsync(() => cut.Instance.ToggleOptionAsync(3));
+        await cut.InvokeAsync(() => cut.Instance.ToggleOptionAsync(1));
+        await cut.InvokeAsync(() => cut.Instance.ToggleOptionAsync(3));
+
+        Assert.Equal(["Option3"], reported[0]);
+        Assert.Equal(["Option1", "Option3"], reported[1]);
+        Assert.Equal(["Option1"], reported[2]);
+    }
+
+    [Fact]
+    public async Task TwSelect_ToggleOption_IgnoresUnknownIds_AndDisabledOrReadOnly()
+    {
+        var calls = 0;
+        EventCallback<IEnumerable<string>> callback = EventCallback.Factory.Create<IEnumerable<string>>(this, _ => calls++);
+        var enabled = TestContext.Render<TwSelect<string>>(p => p
+            .Add(x => x.Multiple, true).Add(x => x.PreferNativePicker, false)
+            .Add(x => x.Values, _threeStringOptions).Add(x => x.SelectedValuesChanged, callback));
+        var disabled = TestContext.Render<TwSelect<string>>(p => p
+            .Add(x => x.Multiple, true).Add(x => x.PreferNativePicker, false).Add(x => x.Disabled, true)
+            .Add(x => x.Values, _threeStringOptions).Add(x => x.SelectedValuesChanged, callback));
+        var readOnly = TestContext.Render<TwSelect<string>>(p => p
+            .Add(x => x.Multiple, true).Add(x => x.PreferNativePicker, false).Add(x => x.ReadOnly, true)
+            .Add(x => x.Values, _threeStringOptions).Add(x => x.SelectedValuesChanged, callback));
+
+        await enabled.InvokeAsync(() => enabled.Instance.ToggleOptionAsync(42));
+        await disabled.InvokeAsync(() => disabled.Instance.ToggleOptionAsync(1));
+        await readOnly.InvokeAsync(() => readOnly.Instance.ToggleOptionAsync(1));
+
+        Assert.Equal(0, calls);
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public void TwSelect_UsesTheNativePicker_WhenTheDeviceReportsAMobilePlatform(bool multiple)
+    {
+        TestContext.JSInterop.Setup<bool>("twDevice.prefersNativePicker").SetResult(true);
+
+        var cut = TestContext.Render<TwSelect<string>>(p => p
+            .Add(x => x.Multiple, multiple)
+            .Add(x => x.Values, _countryOptions));
+
+        Assert.NotEmpty(cut.FindAll("select"));
+        Assert.Empty(cut.FindAll("[role='combobox']"));
+    }
+
+    [Fact]
+    public void TwSelect_UsesTheListbox_WhenTheDeviceReportsADesktopPlatform()
+    {
+        TestContext.JSInterop.Setup<bool>("twDevice.prefersNativePicker").SetResult(false);
+
+        var cut = TestContext.Render<TwSelect<string>>(p => p.Add(x => x.Values, _countryOptions));
+
+        Assert.Empty(cut.FindAll("select"));
+        Assert.NotEmpty(cut.FindAll("[role='combobox']"));
+    }
 }

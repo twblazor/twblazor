@@ -337,7 +337,6 @@ public static class Theme
         // A recessed track that stays visible on a white card: progress and slider tracks carry the value, so
         // they need more contrast than the page-chrome fill above.
         var neutralTrackStrong = "bg-[oklch(91%_0_0)] dark:bg-[oklch(32%_0.016_253)]";
-        var neutralDivide = "divide-[oklch(95%_0_0)] dark:divide-[oklch(21.15%_0.012_254.09)]";
         var neutralHoverText = "hover:text-[oklch(21%_0.006_285.885)] dark:hover:text-[oklch(97.807%_0.029_256.847)]";
         var neutralRowHover = "hover:bg-[oklch(21%_0.006_285.885)]/5 dark:hover:bg-[oklch(97.807%_0.029_256.847)]/8";
         var neutralHoverFill = "hover:bg-[oklch(21%_0.006_285.885)]/10 dark:hover:bg-[oklch(97.807%_0.029_256.847)]/10";

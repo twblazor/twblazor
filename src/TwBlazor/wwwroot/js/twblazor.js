@@ -568,24 +568,24 @@ globalThis.twSelect = {
         };
 
         const setActive = function (option) {
-            options().forEach(function (o) { o.removeAttribute('data-active'); });
+            options().forEach(function (o) { delete o.dataset.active; });
             if (!option) {
                 listbox.removeAttribute('aria-activedescendant');
                 return;
             }
-            option.setAttribute('data-active', 'true');
+            option.dataset.active = 'true';
             listbox.setAttribute('aria-activedescendant', option.id);
             option.scrollIntoView({ block: 'nearest' });
         };
 
         const activeIndex = function () {
-            return options().findIndex(function (o) { return o.getAttribute('data-active') === 'true'; });
+            return options().findIndex(function (o) { return o.dataset.active === 'true'; });
         };
 
         const commit = function (option) {
             if (!option) return;
             try {
-                dotnetRef.invokeMethodAsync(commitMethod || 'SelectOption', parseInt(option.getAttribute('data-value'), 10));
+                dotnetRef.invokeMethodAsync(commitMethod || 'SelectOption', Number.parseInt(option.dataset.value, 10));
             } catch (err) {
                 console.error('twSelect commit error', err);
             }
@@ -610,7 +610,7 @@ globalThis.twSelect = {
                     setActive(all[0]);
                     break;
                 case 'End':
-                    setActive(all[all.length - 1]);
+                    setActive(all.at(-1));
                     break;
                 case 'Enter':
                 case ' ':
@@ -636,7 +636,7 @@ globalThis.twSelect = {
 
         listbox.addEventListener('pointermove', function (e) {
             const option = e.target.closest('[role="option"]');
-            if (option && option.getAttribute('data-active') !== 'true') {
+            if (option && option.dataset.active !== 'true') {
                 setActive(option);
             }
         });

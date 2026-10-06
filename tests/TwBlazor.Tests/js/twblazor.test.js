@@ -2002,3 +2002,118 @@ describe('twSelect', () => {
         expect(() => window.twSelect.attachListbox(null, {}, null)).not.toThrow();
     });
 });
+
+describe('twPicker scroll ownership and twSelect edge cases', () => {
+    describe('_isScrollWithinPanel', () => {
+        test('is false when there is no event', () => {
+            expect(window.twPicker._isScrollWithinPanel(document.createElement('div'), undefined)).toBe(false);
+        });
+
+        test('is false for a resize, whose target is the window rather than a node', () => {
+            expect(window.twPicker._isScrollWithinPanel(document.createElement('div'), { target: window })).toBe(false);
+        });
+
+        test('is true for the panel and for anything inside it, false for anything else', () => {
+            const panel = document.createElement('div');
+            const inside = document.createElement('div');
+            const outside = document.createElement('div');
+            panel.appendChild(inside);
+
+            expect(window.twPicker._isScrollWithinPanel(panel, { target: panel })).toBe(true);
+            expect(window.twPicker._isScrollWithinPanel(panel, { target: inside })).toBe(true);
+            expect(window.twPicker._isScrollWithinPanel(panel, { target: outside })).toBe(false);
+        });
+    });
+
+    describe('twSelect listbox', () => {
+        let listbox;
+        let dotnetRef;
+
+        function build(texts) {
+            listbox = document.createElement('div');
+            listbox.tabIndex = 0;
+            texts.forEach((text, i) => {
+                const option = document.createElement('div');
+                option.id = `cov-${i}`;
+                option.setAttribute('role', 'option');
+                option.setAttribute('data-value', String(i + 1));
+                option.textContent = text;
+                option.scrollIntoView = vi.fn();
+                listbox.appendChild(option);
+            });
+            document.body.appendChild(listbox);
+            dotnetRef = { invokeMethodAsync: vi.fn() };
+            window.twSelect.attachListbox(listbox, dotnetRef, null);
+        }
+
+        const press = (key, init = {}) => {
+            const e = new KeyboardEvent('keydown', { key, bubbles: true, cancelable: true, ...init });
+            listbox.dispatchEvent(e);
+            return e;
+        };
+
+        afterEach(() => {
+            listbox?.remove();
+            vi.restoreAllMocks();
+        });
+
+        test('keys do nothing when the listbox has no options', () => {
+            build([]);
+
+            expect(press('ArrowDown').defaultPrevented).toBe(false);
+            expect(listbox.hasAttribute('aria-activedescendant')).toBe(false);
+        });
+
+        test('modified keys are never treated as type-ahead', () => {
+            build(['Apple', 'Banana']);
+
+            const e = press('b', { ctrlKey: true });
+
+            expect(e.defaultPrevented).toBe(false);
+            expect(listbox.getAttribute('aria-activedescendant')).toBe('cov-0');
+        });
+
+        test('type-ahead with no match leaves the highlight where it is', () => {
+            build(['Apple', 'Banana']);
+
+            press('z');
+
+            expect(listbox.getAttribute('aria-activedescendant')).toBe('cov-0');
+        });
+
+        test('pointer movement over something that is not an option changes nothing', () => {
+            build(['Apple', 'Banana']);
+
+            listbox.dispatchEvent(new Event('pointermove', { bubbles: true }));
+
+            expect(listbox.getAttribute('aria-activedescendant')).toBe('cov-0');
+        });
+
+        test('pointer movement over the already highlighted option does nothing', () => {
+            build(['Apple', 'Banana']);
+            const first = document.getElementById('cov-0');
+            first.dispatchEvent(new Event('pointermove', { bubbles: true }));
+
+            expect(listbox.getAttribute('aria-activedescendant')).toBe('cov-0');
+            expect(listbox.querySelectorAll('[data-active="true"]').length).toBe(1);
+        });
+
+        test('Enter before anything is highlighted commits nothing', () => {
+            build(['Apple']);
+            document.getElementById('cov-0').removeAttribute('data-active');
+
+            press('Enter');
+
+            expect(dotnetRef.invokeMethodAsync).not.toHaveBeenCalled();
+        });
+
+        test('a failing commit is logged rather than thrown', () => {
+            build(['Apple']);
+            dotnetRef.invokeMethodAsync.mockImplementation(() => { throw new Error('disposed'); });
+            const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
+
+            expect(() => press('Enter')).not.toThrow();
+            expect(spy).toHaveBeenCalledWith('twSelect commit error', expect.any(Error));
+        });
+    });
+});

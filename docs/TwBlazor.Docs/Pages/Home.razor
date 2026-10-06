@@ -108,8 +108,8 @@
                         </TwStep>
                     </TwStepper>
                     <div class="mt-4 flex gap-2">
-                        <TwButton Label="Back" Variant="ButtonVariant.Outlined" Color="Color.Primary" Disabled="@(checkoutStep <= 0)" OnClick="@(() => checkoutStepper?.PreviousStep())" />
-                        <TwButton Label="Next" Variant="ButtonVariant.Filled" Color="Color.Primary" Disabled="@(checkoutStep >= 2)" OnClick="@(() => checkoutStepper?.NextStep())" />
+                        <TwButton Label="Back" Variant="ButtonVariant.Outlined" Color="Color.Primary" Disabled="@(checkoutStep <= 0)" OnClick="@(async () => { if (checkoutStepper is not null) await checkoutStepper.PreviousStep(); })" />
+                        <TwButton Label="Next" Variant="ButtonVariant.Filled" Color="Color.Primary" Disabled="@(checkoutStep >= 2)" OnClick="@(async () => { if (checkoutStepper is not null) await checkoutStepper.NextStep(); })" />
                     </div>
                 </div>
             </TwCard>

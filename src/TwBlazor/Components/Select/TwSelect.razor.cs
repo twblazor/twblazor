@@ -384,6 +384,8 @@ public partial class TwSelect<T> : TwPopoverPickerComponentBase
         listboxDotNetRef = null;
 
         await base.DisposeAsync();
+
+        GC.SuppressFinalize(this);
     }
 
     private void PopulateValues()
