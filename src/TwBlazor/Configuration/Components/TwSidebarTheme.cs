@@ -134,6 +134,13 @@ public class TwSidebarTheme
     public required string NavigationItemActive { get; set; }
 
     /// <summary>
+    /// Gets or sets the classes for a parent item's label: always applied to a top-level parent, and to a
+    /// nested parent only while it is expanded. Leaf links never receive it, so only the items that open
+    /// sections stand out from the page links beneath them.
+    /// </summary>
+    public string NavigationItemParent { get; set; } = string.Empty;
+
+    /// <summary>
     /// Gets or sets the classes for the dropdown container that holds a navigation item's nested items.
     /// </summary>
     public required string NavigationDropdownContainer { get; set; }

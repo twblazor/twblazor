@@ -6,7 +6,7 @@
 @inject ITwDialogService DialogService
 
 <PageContainer Title="TwTreeList" Path="/tree-list" Description="TwTreeList is a Blazor tree view for nested, expandable data. Set Label, Icon and Disabled per node, show checkboxes, and bind Checked and Collapsed." ThemeType="typeof(TwTreeListTheme)">
-    <PageCard Title="Basic Usage">
+    <PageCard Title="Basic usage">
         <Description>Build a tree by nesting <code>TwTreeListItem</code> tags inside a <code>TwTreeList</code> - and inside each other, for children. A node with nested items can be expanded or collapsed by clicking it.</Description>
         <CodeExample Name="TreeListBasic">
             <TwTreeList AriaLabel="File explorer">
@@ -23,7 +23,7 @@
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Default Expanded">
+    <PageCard Title="Default expanded">
         <Description>Set <code>Collapsed="false"</code> on a node so its children are already visible on first render.</Description>
         <CodeExample Name="TreeListExpanded">
             <TwTreeList AriaLabel="Project structure">
@@ -39,7 +39,7 @@
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Selecting a Node">
+    <PageCard Title="Selecting a node">
         <Description>Assign <code>OnClick</code> on a node to react when it's activated by click or keyboard (Enter/Space).</Description>
         <CodeExample Name="TreeListSelection" CSharpName="TreeListSelectionCode">
             <TwTreeList AriaLabel="Select a file">
@@ -69,7 +69,7 @@
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Disabled Nodes">
+    <PageCard Title="Disabled nodes">
         <Description>Set <code>Disabled</code> on a node to prevent it from expanding or raising <code>OnClick</code>.</Description>
         <CodeExample Name="TreeListDisabled">
             <TwTreeList AriaLabel="File explorer with a locked folder">
@@ -83,7 +83,7 @@
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Custom Icons">
+    <PageCard Title="Custom icons">
         <Description>Every node shows a folder or file icon by default. Set <code>Icon</code> on a node to override it.</Description>
         <CodeExample Name="TreeListCustomIcons">
             <TwTreeList AriaLabel="Mixed content types">
@@ -94,7 +94,7 @@
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Hiding Icons">
+    <PageCard Title="Hiding icons">
         <Description>Set <code>HideIcons</code> on the tree for a plainer look with just labels and the expand/collapse chevron.</Description>
         <CodeExample Name="TreeListHideIcons">
             <TwTreeList HideIcons AriaLabel="File explorer without icons">
@@ -106,7 +106,7 @@
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Building From Your Own Data">
+    <PageCard Title="Building from your own data">
         <Description>A node is just a component, so a tree built from your own data is a normal <code>@@foreach</code> - no separate model type to learn. <code>OnClick</code> works the same regardless of how a node was created, so clicking a team here calls into <code>ITwDialogService</code> to show its members.</Description>
         <CodeExample Name="TreeListFromData" CSharpName="TreeListFromDataCode">
             <TwTreeList AriaLabel="Departments">

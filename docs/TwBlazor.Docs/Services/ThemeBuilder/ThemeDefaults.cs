@@ -14,5 +14,5 @@ public sealed record ThemeDefaults(Rounded Rounded, Shadow Shadow, InputVariant 
     /// <summary>
     /// What the default theme sets, and so what the generated file contains when nothing is changed.
     /// </summary>
-    public static ThemeDefaults Default { get; } = new(Rounded.Md, Shadow.Sm, InputVariant.Filled, ButtonVariant.Filled);
+    public static ThemeDefaults Default { get; } = new(Rounded.Md, Shadow.Sm, InputVariant.Outlined, ButtonVariant.Filled);
 }

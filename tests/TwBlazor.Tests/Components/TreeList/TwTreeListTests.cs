@@ -104,7 +104,7 @@ public class TwTreeListTests : TwBlazorTestBase
         var icons = cut.FindAll("i");
         Assert.DoesNotContain(icons, i => HasIconClass(i, "bi-folder2-open"));
         Assert.DoesNotContain(icons, i => HasIconClass(i, "bi-file-earmark"));
-        Assert.Contains(icons, i => HasIconClass(i, "bi-chevron-down"));
+        Assert.Contains(icons, i => HasIconClass(i, "bi-chevron-right"));
     }
 
     [Fact]
@@ -145,5 +145,32 @@ public class TwTreeListTests : TwBlazorTestBase
         var icons = cut.FindAll("i");
         Assert.DoesNotContain(icons, i => HasIconClass(i, "bi-file-earmark"));
         Assert.DoesNotContain(icons, i => HasIconClass(i, "bi-folder2-open"));
+    }
+
+    [Fact]
+    public void ToggleChevron_PointsRight_AndRotatesWhenOpen()
+    {
+        var closed = TestContext.Render<TwTreeList>(parameters => parameters
+            .Add(p => p.ChildContent, SrcFolder(collapsed: true)));
+        var open = TestContext.Render<TwTreeList>(parameters => parameters
+            .Add(p => p.ChildContent, SrcFolder(collapsed: false)));
+
+        var closedChevron = closed.FindAll("i").First(i => HasIconClass(i, "bi-chevron-right"));
+        var openChevron = open.FindAll("i").First(i => HasIconClass(i, "bi-chevron-right"));
+
+        Assert.DoesNotContain("rotate-90", closedChevron.GetAttribute("class"));
+        Assert.Contains("rotate-90", openChevron.GetAttribute("class"));
+    }
+
+    [Fact]
+    public void ToggleChevron_HasACircularHoverTarget_SoItReadsAsInteractive()
+    {
+        var cut = TestContext.Render<TwTreeList>(parameters => parameters
+            .Add(p => p.ChildContent, SrcFolder(collapsed: true)));
+
+        var chevron = cut.FindAll("i").First(i => HasIconClass(i, "bi-chevron-right"));
+
+        Assert.Contains("rounded-full", chevron.GetAttribute("class"));
+        Assert.Contains("hover:bg-", chevron.GetAttribute("class"));
     }
 }

@@ -1,7 +1,7 @@
 @page "/collapse"
 
 <PageContainer Title="TwCollapse" Path="/collapse" Description="TwCollapse is a Blazor collapse component that expands and hides content. Bind IsOpen, set Title or HeaderContent, and react to OnToggle." ThemeType="typeof(TwCollapseTheme)">
-    <PageCard Title="Basic Collapse">
+    <PageCard Title="Basic collapse">
         <Description>The <code>TwCollapse</code> component provides a collapsible drawer panel that expands and collapses when the trigger button is clicked.</Description>
         <CodeExample Name="CollapseBasic">
             <TwCollapse Title="What is TwBlazor?" Class="mt-4">
@@ -10,7 +10,7 @@
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Default Open">
+    <PageCard Title="Default open">
         <Description>Set <code>IsOpen="true"</code> to have the panel expanded on first render.</Description>
         <CodeExample Name="CollapseOpen">
             <TwCollapse Title="Getting started" IsOpen Class="mt-4">
@@ -19,7 +19,7 @@
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Two-way Binding">
+    <PageCard Title="Two-way binding">
         <Description>Use <code>@("@bind-IsOpen")</code> to control the panel state from a parent component.</Description>
         <CodeExample Name="CollapseBinding">
             <div class="flex items-center gap-3 mt-4 mb-4">
@@ -32,7 +32,7 @@
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Custom Header">
+    <PageCard Title="Custom header">
         <Description>Use the <code>HeaderContent</code> parameter to replace the plain title with fully custom markup.</Description>
         <CodeExample Name="CollapseHeader">
             <TwCollapse Class="mt-4">

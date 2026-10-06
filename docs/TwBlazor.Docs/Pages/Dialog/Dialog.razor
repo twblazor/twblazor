@@ -48,7 +48,7 @@
         </div>
     </PageCard>
 
-    <PageCard Title="Basic Usage">
+    <PageCard Title="Basic usage">
         <Description>
             Dialog content is a normal Blazor component. Show it with <code>ShowAsync&lt;TComponent&gt;()</code>, passing a title and any
             <code>TwDialogParameters</code> the content needs. Inside the content component, a cascaded <code>TwDialogInstance</code>
@@ -64,7 +64,7 @@
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Returning Data">
+    <PageCard Title="Returning data">
         <Description>
             A dialog can return more than a boolean. Call <code>DialogInstance.Close(data)</code> with any value, then read it back with
             <code>reference.GetReturnValueAsync&lt;T&gt;()</code>.
@@ -110,7 +110,7 @@
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Behavior Options">
+    <PageCard Title="Behavior options">
         <Description>
             <code>NoHeader</code> hides the title bar entirely, and combining <code>BackdropClick</code>, <code>CloseOnEscapeKey</code>,
             and <code>CloseButton</code> (all set to <code>false</code>) produces a dialog that can only be closed by its own content.

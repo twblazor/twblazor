@@ -349,7 +349,7 @@ public class TwCheckboxTests : TwBlazorTestBase
         Assert.Contains("appearance-none", classes);
         Assert.Contains("rounded", classes);
         Assert.Contains("border", classes);
-        Assert.Contains("border-[oklch(95%_0_0)]", classes);
+        Assert.Contains("border-[oklch(21%_0.006_285.885)]/25", classes);
     }
 
     [Fact]

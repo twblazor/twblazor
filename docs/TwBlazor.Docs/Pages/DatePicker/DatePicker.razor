@@ -1,7 +1,7 @@
 @page "/date-picker"
 
 <PageContainer Title="TwDatePicker" Path="/date-picker" Description="TwDatePicker is a Blazor date picker component with a calendar popup. Bind Value, set MinDate, MaxDate, Format and Placeholder, or use the native input." ThemeType="typeof(TwDatePickerTheme)">
-    <PageCard Title="Basic Date Picker">
+    <PageCard Title="Basic date picker">
         <Description>Bind <code>SelectedDate</code> for a <code>DateTime</code> value, or <code>Value</code> for a plain string.</Description>
         <CodeExample Name="DatePickerBasic" CSharpName="DatePickerBasicCode">
             <div class="space-y-4">
@@ -13,7 +13,7 @@
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Custom Format">
+    <PageCard Title="Custom format">
         <Description><code>Format</code> accepts any .NET custom date format string and is used for both display and for parsing what's typed - the placeholder updates to match automatically. Use it for US-style month-first dates, dash-separated dates, or any other pattern your locale needs.</Description>
         <CodeExample Name="DatePickerCustomFormat" CSharpName="DatePickerBasicCode">
             <div class="space-y-4">
@@ -23,7 +23,7 @@
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Input Variants">
+    <PageCard Title="Input variants">
         <Description>The DatePicker supports different visual variants for the input field.</Description>
 
         <CodeExample Name="DatePickerVariants" CSharpName="DatePickerBasicCode">
@@ -35,14 +35,14 @@
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Dense Date Picker">
+    <PageCard Title="Dense date picker">
         <Description>Set <code>Dense</code> for a more compact input with a smaller height and text size. Every single-line input shares the same dense height, so they line up when used side by side.</Description>
         <CodeExample Name="DatePickerDense" CSharpName="DatePickerBasicCode">
             <TwDatePicker Id="dense-datepicker" @bind-SelectedDate="SelectedDate" Label="Dense Date Picker" Dense />
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Disabled and Readonly Date Picker">
+    <PageCard Title="Disabled and readonly date picker">
         <Description>Use the <code>Disabled</code> and <code>ReadOnly</code> properties to restrict interaction with the date picker.</Description>
         <CodeExample Name="DatePickerReadonlyDisabled" CSharpName="DatePickerBasicCode">
             <TwDatePicker Id="disabled-datepicker" @bind-SelectedDate="SelectedDate" Label="Disabled Date Picker" Disabled Class="mt-3" />

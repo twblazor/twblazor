@@ -1,7 +1,7 @@
 @using TwBlazor.Utilities
 @implements IDisposable
 
-<TwCard Id="@sectionId" Class="@classes">
+<TwCard Id="@sectionId" Class="@classes" Shadow="TwBlazor.Enums.Shadow.None">
     @if (hasTitle)
     {
         <h2 id="@headingId" class="mb-4 text-xl font-bold text-gray-950 dark:text-white">@Title</h2>

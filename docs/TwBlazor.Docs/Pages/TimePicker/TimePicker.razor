@@ -1,7 +1,7 @@
 @page "/time-picker"
 
 <PageContainer Title="TwTimePicker" Path="/time-picker" Description="TwTimePicker is a Blazor time picker component with 12 hour and 24 hour formats. Bind Value or SelectedTime, and set Placeholder and Variant." ThemeType="typeof(TwTimePickerTheme)">
-    <PageCard Title="Basic Time Picker">
+    <PageCard Title="Basic time picker">
         <Description>Bind <code>SelectedTime</code> for a <code>TimeOnly</code> value, or <code>Value</code> for a plain string.</Description>
         <CodeExample Name="TimePickerBasic" CSharpName="TimePickerBasicCode">
             <div class="space-y-4">
@@ -13,7 +13,7 @@
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Input Variants">
+    <PageCard Title="Input variants">
         <Description>The DatePicker supports different visual variants for the input field.</Description>
 
         <CodeExample Name="TimePickerVariants" CSharpName="TimePickerBasicCode">
@@ -25,7 +25,7 @@
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="12hr Time Picker">
+    <PageCard Title="12hr time picker">
         <Description>Set <code>Is12HourFormat</code> to display and enter time in a 12-hour format.</Description>
         <CodeExample Name="TimePicker12Hr" CSharpName="TimePickerBasicCode">
             <p><b>@@bind-SelectedTime (TimeOnly):</b> @SelectedTime.ToString()</p>
@@ -33,14 +33,14 @@
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Dense Time Picker">
+    <PageCard Title="Dense time picker">
         <Description>Set <code>Dense</code> for a more compact input with a smaller height and text size. Every single-line input shares the same dense height, so they line up when used side by side.</Description>
         <CodeExample Name="TimePickerDense">
             <TwTimePicker Id="dense-timepicker" @bind-SelectedTime="SelectedTime" Label="Dense Time Picker" Dense />
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Disabled and Readonly Time Picker">
+    <PageCard Title="Disabled and readonly time picker">
         <Description>Use the <code>Disabled</code> and <code>ReadOnly</code> properties to restrict interaction with the time picker.</Description>
         <CodeExample Name="TimePickerReadonlyDisabled">
             <TwTimePicker Id="disabled-timepicker" @bind-SelectedTime="SelectedTime" Label="Disabled Time Picker" Disabled Class="mt-3" />

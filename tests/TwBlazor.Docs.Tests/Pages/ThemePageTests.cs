@@ -179,7 +179,7 @@ public class ThemePageTests : DocsTestBase
 
         Assert.Contains("DefaultRounded = Rounded.Md", Code(cut));
         Assert.Contains("DefaultShadow = Shadow.Sm", Code(cut));
-        Assert.Contains("DefaultInputVariant = InputVariant.Filled", Code(cut));
+        Assert.Contains("DefaultInputVariant = InputVariant.Outlined", Code(cut));
         Assert.DoesNotContain("DefaultVariant = ButtonVariant", Code(cut));
     }
 

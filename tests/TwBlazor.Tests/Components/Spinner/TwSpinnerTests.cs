@@ -176,7 +176,7 @@ public class TwSpinnerTests : TwBlazorTestBase
 
         // Assert
         var classes = cut.Find("span[aria-hidden='true']").GetAttribute("class");
-        Assert.Contains("border-[oklch(95%_0_0)]", classes);
+        Assert.Contains("border-[oklch(92%_0_0)]", classes);
         Assert.DoesNotContain("border-white/25", classes);
         Assert.DoesNotContain("border-gray-900/15", classes);
     }

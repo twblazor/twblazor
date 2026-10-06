@@ -415,4 +415,33 @@ public class TwPickListTests : TwBlazorTestBase
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
     }
+
+    [Fact]
+    public void TwPickList_TransferButtons_UseTheThemedTransferStyle()
+    {
+        var cut = TestContext.Render<TwPickList<string>>(parameters => parameters
+            .Add(p => p.SourceItems, ["Apple"])
+            .Add(p => p.ShowMoveAllButtons, true));
+
+        var transferButtons = cut.FindAll("button")
+            .Where(b => b.GetAttribute("aria-label")!.StartsWith("Move", StringComparison.Ordinal) && b.GetAttribute("aria-label")!.Contains(" items to ", StringComparison.Ordinal))
+            .ToList();
+
+        Assert.Equal(4, transferButtons.Count);
+        Assert.All(transferButtons, button => Assert.Contains("border", button.GetAttribute("class")));
+    }
+
+    [Fact]
+    public void TwPickList_SelectedItem_IsMarkedWithAriaSelected_ForTheThemedHighlight()
+    {
+        var cut = TestContext.Render<TwPickList<string>>(parameters => parameters
+            .Add(p => p.SourceItems, ["Apple", "Banana"]));
+
+        var apple = cut.FindAll("li[role='option']").First(i => i.TextContent.Trim() == "Apple");
+        apple.Click();
+
+        apple = cut.FindAll("li[role='option']").First(i => i.TextContent.Trim() == "Apple");
+        Assert.Equal("true", apple.GetAttribute("aria-selected"));
+        Assert.Contains("aria-selected:bg-purple-50", apple.GetAttribute("class"));
+    }
 }

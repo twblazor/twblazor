@@ -60,18 +60,11 @@ public partial class TwSwitch<T> : TwBlazorInputComponentBase
     private string trackClasses =>
         new ClassBuilder(theme.Track)
         .AddClass(GetSwitchColor(Color))
-        .AddClass(ToPeerFocusVisible(colorBuilder.GetFocusRing(Color)))
+        .AddClass(colorBuilder.GetPeerFocusRing(Color))
         .Build();
 
     private string GetSwitchColor(Color? color) => ColorBuilder.GetPaletteColor(color, theme.Colors, theme.Colors.Primary);
 
-    /// <summary>
-    /// Rewrites a "focus:"-prefixed class string (as returned by <see cref="Builders.ColorBuilder.GetFocusRing"/>)
-    /// into "peer-focus-visible:" variants, so the same themed focus ring styling can be applied to the visible
-    /// track instead of the sr-only native input that actually receives focus.
-    /// </summary>
-    private static string ToPeerFocusVisible(string focusClasses) =>
-        focusClasses.Replace("focus:", "peer-focus-visible:", StringComparison.Ordinal);
 
     private bool isChecked => Value is bool boolValue && boolValue;
 

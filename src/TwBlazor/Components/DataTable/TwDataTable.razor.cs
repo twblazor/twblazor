@@ -213,8 +213,7 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
         .AddClass(options.Theme.Flexbox.Align.Center)
         .AddClass(options.Theme.Spacing.Gap.Sm).Build();
 
-    private string sortIconClasses => new ClassBuilder(theme.SortIcon)
-        .AddClass(options.Theme.Spacing.PushEnd).Build();
+    private string sortIconClasses => theme.SortIcon;
 
     private string paginationClasses => new ClassBuilder(options.Theme.Spacing.MarginTop.Xl)
         .AddClass(options.Theme.Sizing.FullWidth)

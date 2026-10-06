@@ -1,7 +1,7 @@
 @page "/pick-list"
 
 <PageContainer Title="TwPickList" Path="/pick-list" Beta Description="TwPickList is a Blazor dual list-box component for moving items between SourceItems and TargetItems, with move-all buttons, AllowReorder and keyboard support." ThemeType="typeof(TwPickListTheme)">
-    <PageCard Title="Basic Usage">
+    <PageCard Title="Basic usage">
         <Description>Bind <code>SourceItems</code> and <code>TargetItems</code> to move items between the two lists. Click an item (or press Enter/Space) to select it, then use the chevron buttons to transfer the selection.</Description>
         <CodeExample Name="PickListBasic" CSharpName="PickListBasicCode">
             <TwPickList TItem="string"
@@ -13,7 +13,7 @@
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Complex Objects">
+    <PageCard Title="Complex objects">
         <Description>Use <code>TextField</code> to display a specific property when binding to a list of complex objects, matching <code>TwSelect</code>'s <code>PropertyName</code>.</Description>
         <CodeExample Name="PickListComplexObjects" CSharpName="PickListComplexObjectsCode">
             <TwPickList TItem="Employee"
@@ -26,7 +26,7 @@
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Without Reordering or Move-All">
+    <PageCard Title="Without reordering or move-all">
         <Description>Set <code>AllowReorder="false"</code> to hide the up/down buttons, or <code>ShowMoveAllButtons="false"</code> to hide the double-chevron transfer-all buttons.</Description>
         <CodeExample Name="PickListMinimal">
             <TwPickList TItem="string"

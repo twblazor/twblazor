@@ -35,6 +35,7 @@ public class TwSelectTests : TwBlazorTestBase
     {
         // Arrange & Act
         var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
             .Add(p => p.Values, _threeStringOptions));
 
         // Assert
@@ -49,6 +50,7 @@ public class TwSelectTests : TwBlazorTestBase
     {
         // Arrange & Act
         var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
             .Add(p => p.Values, _threeStringOptions));
 
         // Assert
@@ -65,6 +67,7 @@ public class TwSelectTests : TwBlazorTestBase
     public void TwSelect_UsesDefaultSize_WhenNotDense()
     {
         var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
             .Add(p => p.Values, _threeStringOptions));
 
         var selectClass = cut.Find("select").GetAttribute("class");
@@ -76,6 +79,7 @@ public class TwSelectTests : TwBlazorTestBase
     public void TwSelect_UsesDenseSize_WhenDense()
     {
         var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
             .Add(p => p.Values, _threeStringOptions)
             .Add(p => p.Dense, true));
 
@@ -89,6 +93,7 @@ public class TwSelectTests : TwBlazorTestBase
     {
         // Arrange & Act
         var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
             .Add(p => p.Label, "Choose an option")
             .Add(p => p.Values, _twoStringOptions));
 
@@ -104,6 +109,7 @@ public class TwSelectTests : TwBlazorTestBase
     {
         // Arrange & Act
         var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
             .Add(p => p.Label, string.Empty)
             .Add(p => p.Values, _twoStringOptions));
 
@@ -116,6 +122,7 @@ public class TwSelectTests : TwBlazorTestBase
     {
         // Arrange & Act
         var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
             .Add(p => p.Placeholder, "Select a value...")
             .Add(p => p.Values, _twoStringOptions));
 
@@ -130,6 +137,7 @@ public class TwSelectTests : TwBlazorTestBase
     {
         // Arrange & Act
         var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
             .Add(p => p.Required, true)
             .Add(p => p.Values, _twoStringOptions));
 
@@ -145,6 +153,7 @@ public class TwSelectTests : TwBlazorTestBase
 
         // Act
         var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
             .Add(p => p.Values, values));
 
         // Assert
@@ -163,6 +172,7 @@ public class TwSelectTests : TwBlazorTestBase
 
         // Act
         var cut = TestContext.Render<TwSelect<int>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
             .Add(p => p.Values, values));
 
         // Assert
@@ -186,6 +196,7 @@ public class TwSelectTests : TwBlazorTestBase
 
         // Act
         var cut = TestContext.Render<TwSelect<TestModel>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
             .Add(p => p.Values, values)
             .Add(p => p.PropertyName, "Name"));
 
@@ -210,6 +221,7 @@ public class TwSelectTests : TwBlazorTestBase
 
         // Act
         var cut = TestContext.Render<TwSelect<TestModel>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
             .Add(p => p.Values, values)
             .Add(p => p.PropertyName, "Description"));
 
@@ -228,6 +240,7 @@ public class TwSelectTests : TwBlazorTestBase
 
         // Act
         var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
             .Add(p => p.Values, values)
             .Add(p => p.SelectedValue, "Option2"));
 
@@ -245,6 +258,7 @@ public class TwSelectTests : TwBlazorTestBase
         // any SelectedValue equal to default(T) as unselectable, even when that value was
         // present in Values. 0 is both a legitimate option and default(int).
         var cut = TestContext.Render<TwSelect<int>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
             .Add(p => p.Values, _zeroOneTwoIntOptions)
             .Add(p => p.SelectedValue, 0));
 
@@ -263,6 +277,7 @@ public class TwSelectTests : TwBlazorTestBase
         string? selectedValue = null;
 
         var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
             .Add(p => p.Values, values)
             .Add(p => p.SelectedValueChanged, EventCallback.Factory.Create<string>(this, v => selectedValue = v)));
 
@@ -287,6 +302,7 @@ public class TwSelectTests : TwBlazorTestBase
         TestModel? selectedModel = null;
 
         var cut = TestContext.Render<TwSelect<TestModel>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
             .Add(p => p.Values, values)
             .Add(p => p.PropertyName, "Name")
             .Add(p => p.SelectedValueChanged, EventCallback.Factory.Create<TestModel>(this, v => selectedModel = v)));
@@ -306,6 +322,7 @@ public class TwSelectTests : TwBlazorTestBase
     {
         // Arrange & Act
         var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
             .Add(p => p.Id, "custom-select-id")
             .Add(p => p.Values, _twoStringOptions));
 
@@ -319,6 +336,7 @@ public class TwSelectTests : TwBlazorTestBase
     {
         // Arrange & Act
         var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
             .Add(p => p.Id, "country-select")
             .Add(p => p.Label, "Country")
             .Add(p => p.Values, _countryOptions));
@@ -335,6 +353,7 @@ public class TwSelectTests : TwBlazorTestBase
     {
         // Arrange & Act
         var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
             .Add(p => p.Class, "custom-select-class")
             .Add(p => p.Values, _twoStringOptions));
 
@@ -349,6 +368,7 @@ public class TwSelectTests : TwBlazorTestBase
     {
         // Arrange & Act
         var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
             .Add(p => p.Label, "Select")
             .Add(p => p.LabelClass, "text-blue-600")
             .Add(p => p.Values, _twoStringOptions));
@@ -364,6 +384,7 @@ public class TwSelectTests : TwBlazorTestBase
     {
         // Arrange & Act
         var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
             .Add(p => p.Values, _twoStringOptions));
 
         // Assert
@@ -386,6 +407,7 @@ public class TwSelectTests : TwBlazorTestBase
 
         // Act
         var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
             .Add(p => p.Values, _twoStringOptions));
 
         // Assert
@@ -403,6 +425,7 @@ public class TwSelectTests : TwBlazorTestBase
 
         // Act
         var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
             .Add(p => p.Values, _twoStringOptions)
             .Add(p => p.Variant, InputVariant.Filled));
 
@@ -418,6 +441,7 @@ public class TwSelectTests : TwBlazorTestBase
     {
         // Arrange & Act
         var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
             .Add(p => p.Values, _twoStringOptions));
 
         // Assert
@@ -431,6 +455,7 @@ public class TwSelectTests : TwBlazorTestBase
     {
         // Arrange & Act
         var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
             .Add(p => p.Values, _twoStringOptions));
 
         // Assert - Verify the custom SVG background is applied via SelectBaseClasses
@@ -444,6 +469,7 @@ public class TwSelectTests : TwBlazorTestBase
     {
         // Arrange & Act
         var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
             .Add(p => p.ReadOnly, true)
             .Add(p => p.Values, _twoStringOptions));
 
@@ -458,6 +484,7 @@ public class TwSelectTests : TwBlazorTestBase
     {
         // Arrange & Act
         var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
             .Add(p => p.ReadOnly, false)
             .Add(p => p.Values, _twoStringOptions));
 
@@ -473,6 +500,7 @@ public class TwSelectTests : TwBlazorTestBase
     {
         // Arrange & Act
         var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
             .Add(p => p.Disabled, true)
             .Add(p => p.Values, _twoStringOptions));
 
@@ -490,6 +518,7 @@ public class TwSelectTests : TwBlazorTestBase
     {
         // Arrange & Act
         var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
             .Add(p => p.RootId, "root-container")
             .Add(p => p.Values, _twoStringOptions));
 
@@ -503,6 +532,7 @@ public class TwSelectTests : TwBlazorTestBase
     {
         // Arrange & Act
         var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
             .Add(p => p.Values, _twoStringOptions));
 
         // Assert
@@ -517,6 +547,7 @@ public class TwSelectTests : TwBlazorTestBase
     {
         // Arrange & Act
         var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
             .Add(p => p.RootClass, "custom-root-class")
             .Add(p => p.Values, _twoStringOptions));
 
@@ -530,6 +561,7 @@ public class TwSelectTests : TwBlazorTestBase
     {
         // Arrange & Act
         var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
             .Add(p => p.Disabled, true)
             .Add(p => p.Values, _twoStringOptions));
 
@@ -545,6 +577,7 @@ public class TwSelectTests : TwBlazorTestBase
     {
         // Arrange & Act
         var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
             .Add(p => p.ReadOnly, true)
             .Add(p => p.Values, _twoStringOptions));
 
@@ -567,6 +600,7 @@ public class TwSelectTests : TwBlazorTestBase
         // Arrange
         string? selectedValue = null;
         var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
             .Add(p => p.ReadOnly, true)
             .Add(p => p.Values, _twoStringOptions)
             .Add(p => p.SelectedValueChanged, EventCallback.Factory.Create<string>(this, v => selectedValue = v)));
@@ -585,6 +619,7 @@ public class TwSelectTests : TwBlazorTestBase
         // Arrange
         string? selectedValue = null;
         var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
             .Add(p => p.Disabled, true)
             .Add(p => p.Values, _twoStringOptions)
             .Add(p => p.SelectedValueChanged, EventCallback.Factory.Create<string>(this, v => selectedValue = v)));
@@ -602,6 +637,7 @@ public class TwSelectTests : TwBlazorTestBase
     {
         // Arrange & Act
         var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
             .Add(p => p.Attributes, new Dictionary<string, object>
             {
                 { "data-test", "test-value" }
@@ -622,6 +658,7 @@ public class TwSelectTests : TwBlazorTestBase
     {
         // Arrange & Act
         var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
             .Add(p => p.Values, Array.Empty<string>()));
 
         // Assert
@@ -634,6 +671,7 @@ public class TwSelectTests : TwBlazorTestBase
     {
         // Arrange & Act
         var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
             .Add(p => p.Label, "Test Label")
             .Add(p => p.LabelAttributes, new Dictionary<string, object>
             {
@@ -654,6 +692,7 @@ public class TwSelectTests : TwBlazorTestBase
         string? selectedValue = null;
 
         var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
             .Add(p => p.Values, values)
             .Add(p => p.SelectedValueChanged, EventCallback.Factory.Create<string>(this, v => selectedValue = v)));
 
@@ -684,6 +723,7 @@ public class TwSelectTests : TwBlazorTestBase
 
         // Act - PropertyName is null or empty, should use ToString()
         var cut = TestContext.Render<TwSelect<TestModel>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
             .Add(p => p.Values, values)
             .Add(p => p.PropertyName, string.Empty));
 
@@ -699,6 +739,7 @@ public class TwSelectTests : TwBlazorTestBase
     {
         // Arrange & Act
         var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
             .Add(p => p.Id, "full-example")
             .Add(p => p.Label, "Select Country")
             .Add(p => p.Placeholder, "Choose a country...")
@@ -728,6 +769,7 @@ public class TwSelectTests : TwBlazorTestBase
     {
         // Arrange & Act
         var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
             .Add(p => p.ReadOnly, true)
             .Add(p => p.Values, _twoStringOptions)
             .Add(p => p.SelectedValue, "Option1"));
@@ -750,6 +792,7 @@ public class TwSelectTests : TwBlazorTestBase
         var callbackInvoked = false;
 
         var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
             .Add(p => p.ReadOnly, true)
             .Add(p => p.Values, _threeStringOptions)
             .Add(p => p.SelectedValue, initialValue)
@@ -777,6 +820,7 @@ public class TwSelectTests : TwBlazorTestBase
         var callbackInvoked = false;
 
         var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
             .Add(p => p.Disabled, true)
             .Add(p => p.Values, _threeStringOptions)
             .Add(p => p.SelectedValue, initialValue)
@@ -800,6 +844,7 @@ public class TwSelectTests : TwBlazorTestBase
     {
         // Arrange & Act
         var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
             .Add(p => p.ReadOnly, true)
             .Add(p => p.Disabled, true)
             .Add(p => p.Values, _twoStringOptions));
@@ -818,6 +863,7 @@ public class TwSelectTests : TwBlazorTestBase
         // equal to default(T), including 0, which is a legitimate value for a non-nullable
         // value type like int (not an "absent" value the way null is).
         var cut = TestContext.Render<TwSelect<int>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
             .Add(p => p.Values, _zeroOneTwoIntOptions));
 
         // Assert
@@ -831,6 +877,7 @@ public class TwSelectTests : TwBlazorTestBase
     {
         // Arrange & Act - GetDisplayText still returns string.Empty for a genuinely null value.
         var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
             .Add(p => p.Values, new[] { null!, "Option1" }));
 
         // Assert
@@ -848,6 +895,7 @@ public class TwSelectTests : TwBlazorTestBase
         // Act - PropertyName doesn't match any property on TestModel, so GetProperty
         // returns null and display text falls back to value.ToString().
         var cut = TestContext.Render<TwSelect<TestModel>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
             .Add(p => p.Values, values)
             .Add(p => p.PropertyName, "NoSuchProperty"));
 
@@ -862,6 +910,7 @@ public class TwSelectTests : TwBlazorTestBase
         // Arrange
         var callbackInvoked = false;
         var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
             .Add(p => p.Values, _twoStringOptions)
             .Add(p => p.SelectedValueChanged, EventCallback.Factory.Create<string>(this, _ => callbackInvoked = true)));
 
@@ -879,6 +928,7 @@ public class TwSelectTests : TwBlazorTestBase
         // Arrange
         var callbackInvoked = false;
         var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
             .Add(p => p.Values, _twoStringOptions)
             .Add(p => p.SelectedValueChanged, EventCallback.Factory.Create<string>(this, _ => callbackInvoked = true)));
 
@@ -895,6 +945,7 @@ public class TwSelectTests : TwBlazorTestBase
     {
         // Arrange & Act
         var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
             .Add(p => p.Values, _threeStringOptions));
 
         // Assert
@@ -918,11 +969,11 @@ public class TwSelectTests : TwBlazorTestBase
         Assert.Throws<ElementNotFoundException>(() => cut.Find("select"));
         var button = cut.Find("button[aria-haspopup='listbox']");
         var trigger = button.ParentElement!;
-        Assert.Contains(inputTheme.SelectBase, trigger.GetAttribute("class"));
+        Assert.Contains(inputTheme.SelectMultiTriggerBase, trigger.GetAttribute("class"));
     }
 
     [Fact]
-    public void TwSelect_Multiple_Custom_PanelOptions_HideCheckboxesAndShowTickForSelectedRows()
+    public void TwSelect_Multiple_Custom_PanelOptions_ShowTickForSelectedRows()
     {
         // Arrange
         var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
@@ -934,13 +985,16 @@ public class TwSelectTests : TwBlazorTestBase
         // Act
         cut.Find("button[aria-haspopup='listbox']").Click();
 
-        // Assert - the checkboxes stay in the DOM (focusable, accessible) but are visually hidden,
-        // and selected rows are marked by a tick and tint rather than a checked box.
-        var surface = cut.Find("div[role='dialog']").FirstElementChild!.GetAttribute("class");
-        Assert.Contains("[&_input]:sr-only", surface);
-        Assert.Contains("[&_label:has(input:checked)::before]:visible", surface);
-        Assert.Contains("[&_label:has(input:checked)]:bg-purple-50", surface);
-        Assert.Equal(3, cut.FindAll("div[role='dialog'] input[type='checkbox']").Count);
+        // Assert - the same listbox rows as the single select, with a tick on the selected one
+        var listbox = cut.Find("[role='listbox']");
+        Assert.Equal("true", listbox.GetAttribute("aria-multiselectable"));
+        var options = listbox.QuerySelectorAll("[role='option']");
+        Assert.Equal(3, options.Length);
+        Assert.Equal("true", options[0].GetAttribute("aria-selected"));
+        Assert.Equal("false", options[1].GetAttribute("aria-selected"));
+        Assert.NotNull(options[0].QuerySelector("i"));
+        Assert.Null(options[1].QuerySelector("i"));
+        Assert.Contains(inputTheme.SelectCustomOption, options[0].GetAttribute("class"));
     }
 
     [Fact]
@@ -1012,8 +1066,8 @@ public class TwSelectTests : TwBlazorTestBase
         cut.Find("button[aria-haspopup='listbox']").Click();
 
         // Assert - one checkbox per option, inside a dialog-role popover panel
-        var panel = cut.Find("div[role='dialog']");
-        Assert.Equal(3, panel.QuerySelectorAll("input[type='checkbox']").Length);
+        var panel = cut.Find("[role='listbox']");
+        Assert.Equal(3, panel.QuerySelectorAll("[role='option']").Length);
     }
 
     [Fact]
@@ -1053,27 +1107,85 @@ public class TwSelectTests : TwBlazorTestBase
         cut.Find("button[aria-haspopup='listbox']").Click();
 
         // Assert
-        var panel = cut.Find("div[role='dialog']");
-        Assert.Equal(3, panel.QuerySelectorAll("input[type='checkbox']").Length);
+        var panel = cut.Find("[role='listbox']");
+        Assert.Equal(3, panel.QuerySelectorAll("[role='option']").Length);
     }
 
     [Fact]
-    public void TwSelect_Multiple_Custom_PanelForcesReadableLabelTextColor()
+    public void TwSelect_Multiple_Custom_UsesTheSameOptionStyleAsTheSingleSelect()
     {
-        // Arrange & Act - TwCheckboxTheme.LabelBase uses a muted caption color that's too low-contrast
-        // in dark mode once it's a whole option list's primary text, so the panel surface forces it via
-        // SelectPanelItemText (see TwInputTheme.SelectPanelItemText for why).
+        // Arrange - one shared option style keeps the two controls looking identical.
+        var single = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(p => p.PreferNativePicker, false)
+            .Add(p => p.Required, true)
+            .Add(p => p.Values, _threeStringOptions));
+        var multiple = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(p => p.Multiple, true)
+            .Add(p => p.PreferNativePicker, false)
+            .Add(p => p.Values, _threeStringOptions));
+        single.Find("[role='combobox']").Click();
+        multiple.Find("[role='combobox']").Click();
+
+        // Assert
+        var singleClass = single.Find("[role='option']").GetAttribute("class");
+        var multipleClass = multiple.Find("[role='option']").GetAttribute("class");
+        Assert.Equal(singleClass, multipleClass);
+    }
+
+    [Fact]
+    public void TwSelect_Multiple_Custom_ClickingAnOption_TogglesItAndKeepsTheListboxOpen()
+    {
+        // Arrange
         var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
             .Add(p => p.Multiple, true)
             .Add(p => p.PreferNativePicker, false)
             .Add(p => p.Values, _threeStringOptions));
         cut.Find("button[aria-haspopup='listbox']").Click();
 
+        // Act
+        cut.FindAll("[role='option']")[1].Click();
+        cut.FindAll("[role='option']")[2].Click();
+        cut.FindAll("[role='option']")[1].Click();
+
         // Assert
-        var panel = cut.Find("div[role='dialog']");
-        var surface = panel.QuerySelector("div");
-        Assert.NotNull(surface);
-        Assert.Contains(inputTheme.SelectPanelItemText, surface.GetAttribute("class"));
+        Assert.NotEmpty(cut.FindAll("[role='listbox']"));
+        Assert.Equal("false", cut.FindAll("[role='option']")[1].GetAttribute("aria-selected"));
+        Assert.Equal("true", cut.FindAll("[role='option']")[2].GetAttribute("aria-selected"));
+    }
+
+    [Fact]
+    public void TwSelect_Multiple_Custom_TriggerShowsAChevron_LikeTheSingleSelect()
+    {
+        var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(p => p.Multiple, true)
+            .Add(p => p.PreferNativePicker, false)
+            .Add(p => p.Values, _threeStringOptions));
+
+        var trigger = cut.Find("button[aria-haspopup='listbox']").ParentElement!;
+
+        Assert.NotNull(trigger.QuerySelector("i.bi-chevron-down"));
+    }
+
+    [Fact]
+    public void TwSelect_Multiple_Native_TriggerMatchesTheDesktopTrigger()
+    {
+        // Arrange - on iOS and Android the decorative trigger is what people see behind the native overlay.
+        var native = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(p => p.Multiple, true)
+            .Add(p => p.PreferNativePicker, true)
+            .Add(p => p.Values, _threeStringOptions));
+        var desktop = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(p => p.Multiple, true)
+            .Add(p => p.PreferNativePicker, false)
+            .Add(p => p.Values, _threeStringOptions));
+
+        // Assert
+        var nativeTrigger = native.Find("div[aria-hidden='true']");
+        Assert.Contains(inputTheme.SelectMultiTriggerBase, nativeTrigger.GetAttribute("class"));
+        Assert.NotNull(nativeTrigger.QuerySelector("i.bi-chevron-down"));
+        Assert.Equal(
+            desktop.Find("button[aria-haspopup='listbox']").ParentElement!.GetAttribute("class"),
+            nativeTrigger.GetAttribute("class"));
     }
 
     [Fact]
@@ -1087,10 +1199,10 @@ public class TwSelectTests : TwBlazorTestBase
             .Add(p => p.Values, _threeStringOptions));
 
         // Act
-        cut.Find("button[aria-haspopup='listbox']").Click();
+        cut.Find("button[aria-haspopup='listbox']").ParentElement!.Click();
 
         // Assert
-        Assert.Throws<ElementNotFoundException>(() => cut.Find("div[role='dialog']"));
+        Assert.Throws<ElementNotFoundException>(() => cut.Find("[role='listbox']"));
     }
 
     [Fact]
@@ -1107,11 +1219,11 @@ public class TwSelectTests : TwBlazorTestBase
         cut.Find("button[aria-haspopup='listbox']").Click();
 
         // Assert
-        Assert.Throws<ElementNotFoundException>(() => cut.Find("div[role='dialog']"));
+        Assert.Throws<ElementNotFoundException>(() => cut.Find("[role='listbox']"));
     }
 
     [Fact]
-    public void TwSelect_Multiple_Custom_TogglingCheckbox_InvokesSelectedValuesChanged()
+    public void TwSelect_Multiple_Custom_TogglingAnOption_InvokesSelectedValuesChanged()
     {
         // Arrange
         IEnumerable<string>? selectedValues = null;
@@ -1123,7 +1235,7 @@ public class TwSelectTests : TwBlazorTestBase
         cut.Find("button[aria-haspopup='listbox']").Click();
 
         // Act - checks the first checkbox (Option1)
-        cut.FindAll("input[type='checkbox']")[0].Change(true);
+        cut.FindAll("[role='option']")[0].Click();
 
         // Assert
         Assert.NotNull(selectedValues);
@@ -1151,7 +1263,7 @@ public class TwSelectTests : TwBlazorTestBase
     }
 
     [Fact]
-    public void TwSelect_Multiple_Custom_WithComplexObjects_TogglingCheckbox_InvokesSelectedValuesChanged()
+    public void TwSelect_Multiple_Custom_WithComplexObjects_TogglingAnOption_InvokesSelectedValuesChanged()
     {
         // Arrange
         var values = new[]
@@ -1171,7 +1283,7 @@ public class TwSelectTests : TwBlazorTestBase
         cut.Find("button[aria-haspopup='listbox']").Click();
 
         // Act
-        cut.FindAll("input[type='checkbox']")[1].Change(true);
+        cut.FindAll("[role='option']")[1].Click();
 
         // Assert
         Assert.NotNull(selectedModels);
@@ -1387,5 +1499,512 @@ public class TwSelectTests : TwBlazorTestBase
         // Assert
         Assert.NotNull(selectedModels);
         Assert.Equal(["First", "Second"], selectedModels.Select(m => m.Name));
+    }
+
+    // --- Single: custom listbox (desktop) ---
+
+    [Fact]
+    public void TwSelect_Single_RendersCustomCombobox_OnDesktop()
+    {
+        var cut = TestContext.Render<TwSelect<string>>(p => p
+            .Add(x => x.PreferNativePicker, false)
+            .Add(x => x.Id, "country")
+            .Add(x => x.Values, _countryOptions)
+            .Add(x => x.Placeholder, "Pick a country"));
+
+        Assert.Empty(cut.FindAll("select"));
+        var trigger = cut.Find("button#country");
+        Assert.Equal("combobox", trigger.GetAttribute("role"));
+        Assert.Equal("listbox", trigger.GetAttribute("aria-haspopup"));
+        Assert.Equal("false", trigger.GetAttribute("aria-expanded"));
+        Assert.Contains("Pick a country", trigger.TextContent);
+    }
+
+    [Fact]
+    public void TwSelect_Single_RendersNativeSelect_WhenNativePickerPreferred()
+    {
+        var cut = TestContext.Render<TwSelect<string>>(p => p
+            .Add(x => x.PreferNativePicker, true)
+            .Add(x => x.Values, _countryOptions));
+
+        Assert.NotNull(cut.Find("select"));
+        Assert.Empty(cut.FindAll("[role='combobox']"));
+    }
+
+    [Fact]
+    public void TwSelect_Single_ShowsSelectedValue_OnTrigger()
+    {
+        var cut = TestContext.Render<TwSelect<string>>(p => p
+            .Add(x => x.PreferNativePicker, false)
+            .Add(x => x.Values, _countryOptions)
+            .Add(x => x.SelectedValue, "UK"));
+
+        Assert.Equal("UK", cut.Find("[role='combobox']").TextContent.Trim());
+    }
+
+    [Fact]
+    public void TwSelect_Single_OpensListboxWithOptions_OnClick()
+    {
+        var cut = TestContext.Render<TwSelect<string>>(p => p
+            .Add(x => x.PreferNativePicker, false)
+            .Add(x => x.Id, "country")
+            .Add(x => x.Required, true)
+            .Add(x => x.Values, _countryOptions)
+            .Add(x => x.SelectedValue, "UK"));
+
+        cut.Find("[role='combobox']").Click();
+
+        Assert.Equal("true", cut.Find("[role='combobox']").GetAttribute("aria-expanded"));
+        var options = cut.FindAll("[role='listbox'] [role='option']");
+        Assert.Equal(["USA", "UK", "Canada"], options.Select(o => o.TextContent.Trim()));
+        Assert.Equal("true", options[1].GetAttribute("aria-selected"));
+        Assert.Equal("false", options[0].GetAttribute("aria-selected"));
+    }
+
+    [Fact]
+    public void TwSelect_Single_OffersThePlaceholderAsAnOption_WhenNotRequired()
+    {
+        var cut = TestContext.Render<TwSelect<string>>(p => p
+            .Add(x => x.PreferNativePicker, false)
+            .Add(x => x.Placeholder, "None")
+            .Add(x => x.Values, _countryOptions));
+
+        cut.Find("[role='combobox']").Click();
+
+        var options = cut.FindAll("[role='option']");
+        Assert.Equal(4, options.Count);
+        Assert.Equal("None", options[0].TextContent.Trim());
+    }
+
+    [Fact]
+    public void TwSelect_Single_ClickingAnOption_SelectsItAndClosesTheListbox()
+    {
+        string? selected = null;
+        var cut = TestContext.Render<TwSelect<string>>(p => p
+            .Add(x => x.PreferNativePicker, false)
+            .Add(x => x.Required, true)
+            .Add(x => x.Values, _countryOptions)
+            .Add(x => x.SelectedValueChanged, EventCallback.Factory.Create<string>(this, v => selected = v)));
+
+        cut.Find("[role='combobox']").Click();
+        cut.FindAll("[role='option']")[2].Click();
+
+        Assert.Equal("Canada", selected);
+        Assert.Empty(cut.FindAll("[role='listbox']"));
+        Assert.Equal("Canada", cut.Find("[role='combobox']").TextContent.Trim());
+        Assert.Equal("false", cut.Find("[role='combobox']").GetAttribute("aria-expanded"));
+    }
+
+    [Fact]
+    public void TwSelect_Single_ClickingTheSelectedOption_DoesNotInvokeCallback()
+    {
+        var calls = 0;
+        var cut = TestContext.Render<TwSelect<string>>(p => p
+            .Add(x => x.PreferNativePicker, false)
+            .Add(x => x.Required, true)
+            .Add(x => x.Values, _countryOptions)
+            .Add(x => x.SelectedValue, "USA")
+            .Add(x => x.SelectedValueChanged, EventCallback.Factory.Create<string>(this, _ => calls++)));
+
+        cut.Find("[role='combobox']").Click();
+        cut.FindAll("[role='option']")[0].Click();
+
+        Assert.Equal(0, calls);
+    }
+
+    [Fact]
+    public void TwSelect_Single_ArrowDown_OpensTheListbox()
+    {
+        var cut = TestContext.Render<TwSelect<string>>(p => p
+            .Add(x => x.PreferNativePicker, false)
+            .Add(x => x.Values, _countryOptions));
+
+        cut.Find("[role='combobox']").KeyDown(new Microsoft.AspNetCore.Components.Web.KeyboardEventArgs { Key = "ArrowDown" });
+
+        Assert.NotEmpty(cut.FindAll("[role='listbox']"));
+    }
+
+    [Fact]
+    public void TwSelect_Single_Escape_ClosesTheListbox()
+    {
+        var cut = TestContext.Render<TwSelect<string>>(p => p
+            .Add(x => x.PreferNativePicker, false)
+            .Add(x => x.Values, _countryOptions));
+
+        cut.Find("[role='combobox']").Click();
+        cut.Find("[role='listbox']").ParentElement!.ParentElement!.KeyDown(new Microsoft.AspNetCore.Components.Web.KeyboardEventArgs { Key = "Escape" });
+
+        Assert.Empty(cut.FindAll("[role='listbox']"));
+    }
+
+    [Fact]
+    public void TwSelect_Single_Disabled_DisablesTheTrigger_AndDoesNotOpen()
+    {
+        var cut = TestContext.Render<TwSelect<string>>(p => p
+            .Add(x => x.PreferNativePicker, false)
+            .Add(x => x.Disabled, true)
+            .Add(x => x.Values, _countryOptions));
+
+        Assert.True(cut.Find("[role='combobox']").HasAttribute("disabled"));
+    }
+
+    [Fact]
+    public void TwSelect_Single_ReadOnly_DoesNotOpen()
+    {
+        var cut = TestContext.Render<TwSelect<string>>(p => p
+            .Add(x => x.PreferNativePicker, false)
+            .Add(x => x.ReadOnly, true)
+            .Add(x => x.Values, _countryOptions));
+
+        cut.Find("[role='combobox']").Click();
+
+        Assert.Empty(cut.FindAll("[role='listbox']"));
+        Assert.Equal("true", cut.Find("[role='combobox']").GetAttribute("aria-readonly"));
+    }
+
+    [Fact]
+    public void TwSelect_Single_UsesPropertyName_ForOptionText()
+    {
+        var values = new[] { new TestModel { Id = 1, Name = "First" }, new TestModel { Id = 2, Name = "Second" } };
+        var cut = TestContext.Render<TwSelect<TestModel>>(p => p
+            .Add(x => x.PreferNativePicker, false)
+            .Add(x => x.Required, true)
+            .Add(x => x.Values, values)
+            .Add(x => x.PropertyName, "Name"));
+
+        cut.Find("[role='combobox']").Click();
+
+        Assert.Equal(["First", "Second"], cut.FindAll("[role='option']").Select(o => o.TextContent.Trim()));
+    }
+
+    [Fact]
+    public void TwSelect_Close_IsInvokableFromJavaScript()
+    {
+        // JS interop resolves [JSInvokable] methods on the runtime type, so the override must carry the
+        // attribute itself; without it a scroll or outside click throws instead of closing the listbox.
+        var method = typeof(TwSelect<string>).GetMethod(nameof(TwSelect<string>.Close), System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.DeclaredOnly);
+
+        Assert.NotNull(method);
+        var attribute = method.GetCustomAttributes(typeof(Microsoft.JSInterop.JSInvokableAttribute), inherit: false).Cast<Microsoft.JSInterop.JSInvokableAttribute>().Single();
+        Assert.Equal("Close", attribute.Identifier);
+    }
+
+    [Fact]
+    public void TwSelect_SelectOption_IsInvokableFromJavaScript()
+    {
+        var method = typeof(TwSelect<string>).GetMethod(nameof(TwSelect<string>.SelectOptionAsync));
+
+        var attribute = method!.GetCustomAttributes(typeof(Microsoft.JSInterop.JSInvokableAttribute), inherit: false).Cast<Microsoft.JSInterop.JSInvokableAttribute>().Single();
+        Assert.Equal("SelectOption", attribute.Identifier);
+    }
+
+    [Fact]
+    public async Task TwSelect_Dispose_DoesNotThrow_WhenTheCircuitHasDisconnected()
+    {
+        TestContext.JSInterop.SetupVoid("twPicker.unregisterOutsideClick", _ => true)
+            .SetException(new Microsoft.JSInterop.JSDisconnectedException("circuit gone"));
+        var cut = TestContext.Render<TwSelect<string>>(p => p
+            .Add(x => x.PreferNativePicker, false)
+            .Add(x => x.Values, _countryOptions));
+        cut.Find("[role='combobox']").Click();
+
+        var exception = await Record.ExceptionAsync(async () => await cut.Instance.DisposeAsync());
+
+        Assert.Null(exception);
+    }
+
+    [Fact]
+    public async Task TwSelect_Dispose_DoesNotThrow_WhenNeverOpened()
+    {
+        var cut = TestContext.Render<TwSelect<string>>(p => p
+            .Add(x => x.PreferNativePicker, false)
+            .Add(x => x.Values, _countryOptions));
+
+        var exception = await Record.ExceptionAsync(async () => await cut.Instance.DisposeAsync());
+
+        Assert.Null(exception);
+    }
+
+    [Fact]
+    public void TwSelect_Multiple_Custom_TightensStartPadding_OnlyWhileShowingChips()
+    {
+        var empty = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(p => p.Multiple, true)
+            .Add(p => p.PreferNativePicker, false)
+            .Add(p => p.Values, _threeStringOptions));
+        var withChips = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(p => p.Multiple, true)
+            .Add(p => p.PreferNativePicker, false)
+            .Add(p => p.Values, _threeStringOptions)
+            .Add(p => p.SelectedValues, _option1Selected));
+
+        // The first chip should sit as far from the start edge as from the top and bottom.
+        Assert.DoesNotContain(inputTheme.SelectMultiChipsPadding, empty.Find("button[aria-haspopup='listbox']").ParentElement!.GetAttribute("class"));
+        Assert.Contains(inputTheme.SelectMultiChipsPadding, withChips.Find("button[aria-haspopup='listbox']").ParentElement!.GetAttribute("class"));
+    }
+
+    // --- Coverage: guards, keyboard and detection paths of the desktop listbox ---
+
+    private IRenderedComponent<TwSelect<string>> RenderSingle(Action<ComponentParameterCollectionBuilder<TwSelect<string>>>? configure = null, bool required = true) =>
+        TestContext.Render<TwSelect<string>>(p =>
+        {
+            p.Add(x => x.PreferNativePicker, false)
+             .Add(x => x.Required, required)
+             .Add(x => x.Values, _countryOptions);
+            configure?.Invoke(p);
+        });
+
+    [Fact]
+    public async Task TwSelect_SelectOption_IgnoresAnUnknownId()
+    {
+        var calls = 0;
+        var cut = RenderSingle(p => p.Add(x => x.SelectedValueChanged, EventCallback.Factory.Create<string>(this, _ => calls++)));
+
+        await cut.InvokeAsync(() => cut.Instance.SelectOptionAsync(99));
+
+        Assert.Equal(0, calls);
+    }
+
+    [Fact]
+    public async Task TwSelect_SelectOption_Placeholder_ClearsTheDisplayWithoutInvokingTheCallback()
+    {
+        var calls = 0;
+        var cut = RenderSingle(p => p
+            .Add(x => x.Placeholder, "None")
+            .Add(x => x.SelectedValue, "UK")
+            .Add(x => x.SelectedValueChanged, EventCallback.Factory.Create<string>(this, _ => calls++)), required: false);
+        Assert.Equal("UK", cut.Find("[role='combobox']").TextContent.Trim());
+
+        await cut.InvokeAsync(() => cut.Instance.SelectOptionAsync(0));
+
+        Assert.Equal(0, calls);
+        Assert.Equal("None", cut.Find("[role='combobox']").TextContent.Trim());
+    }
+
+    [Theory]
+    [InlineData(true, false)]
+    [InlineData(false, true)]
+    public async Task TwSelect_SelectOption_IsIgnored_WhenDisabledOrReadOnly(bool disabled, bool readOnly)
+    {
+        var calls = 0;
+        var cut = RenderSingle(p => p
+            .Add(x => x.Disabled, disabled)
+            .Add(x => x.ReadOnly, readOnly)
+            .Add(x => x.SelectedValueChanged, EventCallback.Factory.Create<string>(this, _ => calls++)));
+
+        await cut.InvokeAsync(() => cut.Instance.SelectOptionAsync(2));
+
+        Assert.Equal(0, calls);
+    }
+
+    [Theory]
+    [InlineData("ArrowUp", true)]
+    [InlineData("ArrowDown", true)]
+    [InlineData("a", false)]
+    [InlineData("Enter", false)]
+    public void TwSelect_Single_TriggerKeyDown_OpensOnlyForArrowKeys(string key, bool opens)
+    {
+        var cut = RenderSingle();
+
+        cut.Find("[role='combobox']").KeyDown(new Microsoft.AspNetCore.Components.Web.KeyboardEventArgs { Key = key });
+
+        Assert.Equal(opens, cut.FindAll("[role='listbox']").Count == 1);
+    }
+
+    [Fact]
+    public void TwSelect_Single_ArrowKey_DoesNotReopenOrCloseAnOpenListbox()
+    {
+        var cut = RenderSingle();
+        cut.Find("[role='combobox']").Click();
+
+        cut.Find("[role='combobox']").KeyDown(new Microsoft.AspNetCore.Components.Web.KeyboardEventArgs { Key = "ArrowDown" });
+
+        Assert.Single(cut.FindAll("[role='listbox']"));
+    }
+
+    [Fact]
+    public async Task TwSelect_Close_ClosesAnOpenListbox_AndCanBeCalledAgain()
+    {
+        var cut = RenderSingle();
+        cut.Find("[role='combobox']").Click();
+
+        await cut.InvokeAsync(() => cut.Instance.Close());
+        await cut.InvokeAsync(() => cut.Instance.Close());
+
+        Assert.Empty(cut.FindAll("[role='listbox']"));
+    }
+
+    [Fact]
+    public async Task TwSelect_Dispose_WhileOpen_DoesNotThrow()
+    {
+        var cut = RenderSingle();
+        cut.Find("[role='combobox']").Click();
+
+        var exception = await Record.ExceptionAsync(async () => await cut.Instance.DisposeAsync());
+
+        Assert.Null(exception);
+    }
+
+    [Fact]
+    public void TwSelect_Single_OpeningAttachesTheListbox_WithTheSelectedOptionAndSelectCommit()
+    {
+        var cut = RenderSingle(p => p.Add(x => x.SelectedValue, "UK"));
+
+        cut.Find("[role='combobox']").Click();
+
+        var attach = Assert.Single(TestContext.JSInterop.Invocations, i => i.Identifier == "twSelect.attachListbox");
+        Assert.EndsWith("-option-2", (string)attach.Arguments[2]!);
+        Assert.Equal("SelectOption", attach.Arguments[3]);
+    }
+
+    [Fact]
+    public void TwSelect_Multiple_OpeningAttachesTheListbox_WithTheFirstSelectedOptionAndToggleCommit()
+    {
+        var cut = TestContext.Render<TwSelect<string>>(p => p
+            .Add(x => x.Multiple, true)
+            .Add(x => x.PreferNativePicker, false)
+            .Add(x => x.Values, _threeStringOptions)
+            .Add(x => x.SelectedValues, _option1AndOption3Selected));
+
+        cut.Find("[role='combobox']").Click();
+
+        var attach = Assert.Single(TestContext.JSInterop.Invocations, i => i.Identifier == "twSelect.attachListbox");
+        Assert.EndsWith("-option-1", (string)attach.Arguments[2]!);
+        Assert.Equal("ToggleOption", attach.Arguments[3]);
+    }
+
+    [Fact]
+    public void TwSelect_Multiple_ArrowDown_OpensTheListbox()
+    {
+        var cut = TestContext.Render<TwSelect<string>>(p => p
+            .Add(x => x.Multiple, true)
+            .Add(x => x.PreferNativePicker, false)
+            .Add(x => x.Values, _threeStringOptions));
+
+        cut.Find("[role='combobox']").KeyDown(new Microsoft.AspNetCore.Components.Web.KeyboardEventArgs { Key = "ArrowDown" });
+
+        Assert.Single(cut.FindAll("[role='listbox']"));
+    }
+
+    [Fact]
+    public async Task TwSelect_ToggleOption_SelectsThenDeselects_AndReportsEachChange()
+    {
+        var reported = new List<string[]>();
+        var cut = TestContext.Render<TwSelect<string>>(p => p
+            .Add(x => x.Multiple, true)
+            .Add(x => x.PreferNativePicker, false)
+            .Add(x => x.Values, _threeStringOptions)
+            .Add(x => x.SelectedValuesChanged, EventCallback.Factory.Create<IEnumerable<string>>(this, v => reported.Add([.. v]))));
+
+        await cut.InvokeAsync(() => cut.Instance.ToggleOptionAsync(3));
+        await cut.InvokeAsync(() => cut.Instance.ToggleOptionAsync(1));
+        await cut.InvokeAsync(() => cut.Instance.ToggleOptionAsync(3));
+
+        Assert.Equal(["Option3"], reported[0]);
+        Assert.Equal(["Option1", "Option3"], reported[1]);
+        Assert.Equal(["Option1"], reported[2]);
+    }
+
+    [Fact]
+    public async Task TwSelect_ToggleOption_IgnoresUnknownIds_AndDisabledOrReadOnly()
+    {
+        var calls = 0;
+        EventCallback<IEnumerable<string>> callback = EventCallback.Factory.Create<IEnumerable<string>>(this, _ => calls++);
+        var enabled = TestContext.Render<TwSelect<string>>(p => p
+            .Add(x => x.Multiple, true).Add(x => x.PreferNativePicker, false)
+            .Add(x => x.Values, _threeStringOptions).Add(x => x.SelectedValuesChanged, callback));
+        var disabled = TestContext.Render<TwSelect<string>>(p => p
+            .Add(x => x.Multiple, true).Add(x => x.PreferNativePicker, false).Add(x => x.Disabled, true)
+            .Add(x => x.Values, _threeStringOptions).Add(x => x.SelectedValuesChanged, callback));
+        var readOnly = TestContext.Render<TwSelect<string>>(p => p
+            .Add(x => x.Multiple, true).Add(x => x.PreferNativePicker, false).Add(x => x.ReadOnly, true)
+            .Add(x => x.Values, _threeStringOptions).Add(x => x.SelectedValuesChanged, callback));
+
+        await enabled.InvokeAsync(() => enabled.Instance.ToggleOptionAsync(42));
+        await disabled.InvokeAsync(() => disabled.Instance.ToggleOptionAsync(1));
+        await readOnly.InvokeAsync(() => readOnly.Instance.ToggleOptionAsync(1));
+
+        Assert.Equal(0, calls);
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public void TwSelect_UsesTheNativePicker_WhenTheDeviceReportsAMobilePlatform(bool multiple)
+    {
+        TestContext.JSInterop.Setup<bool>("twDevice.prefersNativePicker").SetResult(true);
+
+        var cut = TestContext.Render<TwSelect<string>>(p => p
+            .Add(x => x.Multiple, multiple)
+            .Add(x => x.Values, _countryOptions));
+
+        Assert.NotEmpty(cut.FindAll("select"));
+        Assert.Empty(cut.FindAll("[role='combobox']"));
+    }
+
+    [Fact]
+    public void TwSelect_UsesTheListbox_WhenTheDeviceReportsADesktopPlatform()
+    {
+        TestContext.JSInterop.Setup<bool>("twDevice.prefersNativePicker").SetResult(false);
+
+        var cut = TestContext.Render<TwSelect<string>>(p => p.Add(x => x.Values, _countryOptions));
+
+        Assert.Empty(cut.FindAll("select"));
+        Assert.NotEmpty(cut.FindAll("[role='combobox']"));
+    }
+
+    // --- Coverage: selecting without a bound callback, and the defensive release path ---
+
+    [Fact]
+    public async Task TwSelect_SelectOption_WorksWithoutABoundCallback()
+    {
+        var cut = RenderSingle();
+
+        await cut.InvokeAsync(() => cut.Instance.SelectOptionAsync(2));
+
+        Assert.Equal("UK", cut.Find("[role='combobox']").TextContent.Trim());
+    }
+
+    [Fact]
+    public async Task TwSelect_SelectOption_Placeholder_WhenAlreadyOnThePlaceholder_ChangesNothing()
+    {
+        var calls = 0;
+        var cut = RenderSingle(p => p
+            .Add(x => x.Placeholder, "None")
+            .Add(x => x.SelectedValueChanged, EventCallback.Factory.Create<string>(this, _ => calls++)), required: false);
+
+        await cut.InvokeAsync(() => cut.Instance.SelectOptionAsync(0));
+
+        Assert.Equal(0, calls);
+        Assert.Equal("None", cut.Find("[role='combobox']").TextContent.Trim());
+    }
+
+    [Fact]
+    public async Task TwSelect_ToggleOption_WorksWithoutABoundCallback()
+    {
+        var cut = TestContext.Render<TwSelect<string>>(p => p
+            .Add(x => x.Multiple, true)
+            .Add(x => x.PreferNativePicker, false)
+            .Add(x => x.Values, _threeStringOptions));
+
+        await cut.InvokeAsync(() => cut.Instance.ToggleOptionAsync(2));
+
+        Assert.Contains("Option2", cut.Find("button[aria-haspopup='listbox']").ParentElement!.TextContent);
+    }
+
+    [Fact]
+    public async Task TwSelect_Dispose_ToleratesTheOutsideClickHandleAlreadyBeingGone()
+    {
+        // The release path is defensive about the handle being null (for example if a close raced a
+        // dispose), so it must neither throw nor skip clearing the registered flag.
+        var cut = RenderSingle();
+        cut.Find("[role='combobox']").Click();
+        typeof(TwPopoverPickerComponentBase)
+            .GetField("dotNetRef", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!
+            .SetValue(cut.Instance, null);
+
+        var exception = await Record.ExceptionAsync(async () => await cut.Instance.DisposeAsync());
+
+        Assert.Null(exception);
     }
 }

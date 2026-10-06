@@ -4,20 +4,20 @@
 
 <TwSidebar NavigationItems="_navigationItems" MainContentClass="@(MainContentPadding ? "p-3" : string.Empty)" NavbarClass="justify-between" @bind-IsSidebarOpen="isSidebarOpen" IsSearchable>
     <NavbarNavigationContent>
-        <NavLink href="/" Match="NavLinkMatch.All" class="py-1 px-2 rounded-md text-sm font-medium text-white/80 hover:text-white hover:bg-white/10 transition-colors bg-purple-950/5 [&.active]:bg-purple-950/40 mt-0.5">
+        <NavLink href="/" Match="NavLinkMatch.All" class="@navLinkClasses">
            <TwIcon Icon="Icon.House" /> Home
         </NavLink>
-        <NavLink href="/get-started" Match="NavLinkMatch.All" class="py-1 px-2 rounded-md text-sm font-medium text-white/80 hover:text-white hover:bg-white/10 transition-colors bg-purple-950/5 [&.active]:bg-purple-950/40 mt-0.5">
+        <NavLink href="/get-started" Match="NavLinkMatch.All" class="@navLinkClasses">
             <TwIcon Icon="Icon.Question_Circle" /> Get Started
         </NavLink>
     </NavbarNavigationContent>
     <NavbarActionsContent>
-        <TwIcon Id="search-dialog-toggle" Icon="Icon.Search" AriaLabel="Open search dialog" OnClick="SearchDialog" Class="text-white" />
-        <TwIcon Id="theme-toggle" Icon="@themeIcon" AriaLabel="Toggle theme" OnClick="ToggleTheme" Class="text-white" />
+        <TwIcon Id="search-dialog-toggle" Icon="Icon.Search" AriaLabel="Open search dialog" OnClick="SearchDialog" Class="@navIconClasses" />
+        <TwIcon Id="theme-toggle" Icon="@themeIcon" AriaLabel="Toggle theme" OnClick="ToggleTheme" Class="@navIconClasses" />
     </NavbarActionsContent>
     <HeaderContent>
-        <a href="#" class="ml-2 w-fit text-2xl font-bold text-purple-950 dark:text-purple-200 inline-flex">
-            <img src="_content/TwBlazor.Docs/images/logo.svg" alt="twblazor Logo" class="h-10 me-2" />
+        <a href="#" class="ml-1 w-fit inline-flex items-center text-xl font-bold tracking-tight text-purple-700 dark:text-white">
+            <img src="_content/TwBlazor.Docs/images/logo.svg" alt="twblazor Logo" class="h-8 me-2" />
             twblazor
         </a>
     </HeaderContent>

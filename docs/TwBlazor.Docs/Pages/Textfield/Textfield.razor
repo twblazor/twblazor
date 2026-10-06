@@ -11,19 +11,19 @@
             </div>
         </CodeExample>
     </PageCard>
-    <PageCard Title="Disabled Textfield">
+    <PageCard Title="Disabled textfield">
         <Description>Use the <code>Disabled</code> property to prevent interaction with the textfield.</Description>
         <CodeExample Name="TextfieldDisabled">
             <TwTextfield Label="Forename" @bind-Value="Forename" Placeholder="Please enter your forename" AriaLabel="Forename textfield" Disabled />
         </CodeExample>
     </PageCard>
-    <PageCard Title="Readonly Textfield">
+    <PageCard Title="Readonly textfield">
         <Description>Use the <code>ReadOnly</code> property to display a value that can't be edited.</Description>
         <CodeExample Name="TextfieldReadonly">
             <TwTextfield Label="Account ID" @bind-Value="AccountId" Placeholder="Account ID" AriaLabel="Account ID textfield" ReadOnly />
         </CodeExample>
     </PageCard>
-    <PageCard Title="Outlined Variant">
+    <PageCard Title="Outlined variant">
         <Description>Set <code>Variant="InputVariant.Outlined"</code> for an outlined textfield style.</Description>
         <CodeExample Name="TextfieldOutlined">
             <div class="md:flex-col flex-row flex gap-2">
@@ -32,7 +32,7 @@
             </div>
         </CodeExample>
     </PageCard>
-    <PageCard Title="Filled Variant">
+    <PageCard Title="Filled variant">
         <Description>Set <code>Variant="InputVariant.Filled"</code> for a filled textfield style.</Description>
         <CodeExample Name="TextfieldFilled">
             <div class="md:flex-col flex-row flex gap-2">
@@ -41,7 +41,7 @@
             </div>
         </CodeExample>
     </PageCard>
-    <PageCard Title="Different Input Types">
+    <PageCard Title="Different input types">
         <Description>Use <code>InputType</code> to render native input types such as <code>email</code> and <code>password</code>.</Description>
         <CodeExample Name="TextfieldTypes">
             <div class="md:flex-col flex-row flex gap-2">
@@ -50,26 +50,26 @@
             </div>
         </CodeExample>
     </PageCard>
-    <PageCard Title="Invalid Textfield">
+    <PageCard Title="Invalid textfield">
         <Description>Set <code>Invalid</code> and <code>ErrorMessage</code> to mark the textfield as failing validation. The message is rendered below the input and associated with it via <code>aria-describedby</code> so assistive technology announces it alongside the field.</Description>
         <CodeExample Name="TextfieldInvalid">
             <TwTextfield Label="Email" @bind-Value="InvalidEmail" Placeholder="Enter your email address" AriaLabel="Email textfield" Invalid ErrorMessage="Please enter a valid email address." />
         </CodeExample>
     </PageCard>
-    <PageCard Title="Dense Textfield">
+    <PageCard Title="Dense textfield">
         <Description>Set <code>Dense</code> for a more compact input with a smaller height and text size. Every single-line input shares the same dense height, so they line up when used side by side.</Description>
         <CodeExample Name="TextfieldDense">
             <TwTextfield Label="Forename" @bind-Value="Forename" Placeholder="Please enter your forename" AriaLabel="Dense forename textfield" Dense />
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Validation on Change">
+    <PageCard Title="Validation on change">
         <Description>Pass a <code>Validator</code> function to have the textfield validate itself whenever its value changes. Return <code>null</code> (or an empty string) when the value is valid, or an error message to automatically mark the field <code>Invalid</code> and display the returned message - no need to manage <code>Invalid</code> or <code>ErrorMessage</code> yourself.</Description>
         <CodeExample Name="TextfieldValidator" CSharpName="TextfieldValidatorCode">
             <TwTextfield Label="Username" @bind-Value="Username" Placeholder="Enter a username" AriaLabel="Username textfield" Validator="ValidateUsername" />
         </CodeExample>
     </PageCard>
-    <PageCard Title="Asynchronous Validation">
+    <PageCard Title="Asynchronous validation">
         <Description><code>Validator</code> returns a <code>Task&lt;string?&gt;</code>, so it can perform asynchronous work such as an API call without blocking the UI. This example simulates checking username availability against a server.</Description>
         <CodeExample Name="TextfieldAsyncValidator" CSharpName="TextfieldAsyncValidatorCode">
             <TwTextfield Label="New Username" @bind-Value="NewUsername" Placeholder="Enter a username" AriaLabel="New username textfield" Validator="ValidateUsernameAvailabilityAsync" />

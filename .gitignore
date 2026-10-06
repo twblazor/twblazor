@@ -406,3 +406,8 @@ docfx.log
 
 # Local publish output used to inspect a deployment.
 /output/
+
+# AI agent skills installed locally (npx skills add); not part of the repository.
+/.agents/
+/.claude/skills/
+/skills-lock.json

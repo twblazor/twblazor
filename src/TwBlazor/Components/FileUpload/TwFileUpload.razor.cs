@@ -79,7 +79,7 @@ public partial class TwFileUpload : TwBlazorInputComponentBase
         .AddClass(roundedBuilder.GetRounded())
         .AddClass(buttonBuilder.GetVariantClasses(Variant, Color, Disabled))
         .AddClass(shadowBuilder.GetButtonShadow(theme))
-        .AddClass(ToPeerFocusVisible(colorBuilder.GetFocusRing(Color)))
+        .AddClass(colorBuilder.GetPeerFocusRing(Color))
         .AddClass(options.Theme.Spacing.Padding.Lg).Build();
 
     private string inputClasses =>
@@ -97,13 +97,6 @@ public partial class TwFileUpload : TwBlazorInputComponentBase
         .AddClass(options.Theme.Spacing.MarginBottom.Md)
         .AddClass(fileUploadTheme.ChipTextColor).Build();
 
-    /// <summary>
-    /// Rewrites a "focus:"-prefixed class string (as returned by <see cref="ColorBuilder.GetFocusRing"/>)
-    /// into "peer-focus-visible:" variants, so the same themed focus ring can be applied to the visible
-    /// label instead of the sr-only native input that actually receives focus.
-    /// </summary>
-    private static string ToPeerFocusVisible(string focusClasses) =>
-        focusClasses.Replace("focus:", "peer-focus-visible:", StringComparison.Ordinal);
 
     /// <summary>
     /// When files are selected, store both the display names and the actual IBrowserFile objects

@@ -149,6 +149,7 @@ public partial class TwSidebarItem : TwBlazorComponentBase
     private string parentClasses =>
         new ClassBuilder(theme.NavigationItemBase)
         .AddClass(theme.NavigationItemActive, !IsCollapsed)
+        .AddClass(theme.NavigationItemParent, Depth == 0 || !IsCollapsed)
         .AddClass(theme.NavigationItemActiveLevelDeep, !IsCollapsed && Depth >= 2)
         .AddClass(roundedBuilder.GetRounded(effectiveRounded), IsCollapsed)
         .AddClass(roundedBuilder.GetRoundedTop(effectiveRounded), !IsCollapsed)
