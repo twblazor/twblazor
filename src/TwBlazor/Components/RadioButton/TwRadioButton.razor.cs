@@ -82,7 +82,7 @@ public partial class TwRadioButton<T> : TwBlazorInputComponentBase
 
     private bool isChecked => EqualityComparer<T>.Default.Equals(Value, SelectedValue);
 
-    private string GetRadioButtonColor(Color? color) => ColorBuilder.GetPaletteColor(color, theme.Colors, string.Empty);
+    private string GetRadioButtonColor(Color? color) => ColorBuilder.GetPaletteColor(color, theme.Colors, theme.Colors.Primary);
 
     private async Task HandleChange(ChangeEventArgs e)
     {
