@@ -40,6 +40,16 @@ public class TwPickListTheme
     public required string ReorderButtons { get; set; }
 
     /// <summary>
+    /// Gets or sets the classes for a move-up or move-down button in a column header.
+    /// </summary>
+    public string ReorderButton { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes for a button that moves items between the two lists.
+    /// </summary>
+    public string TransferButton { get; set; } = string.Empty;
+
+    /// <summary>
     /// Gets or sets the classes for the wrapper around the transfer (chevron) buttons between the
     /// two columns.
     /// </summary>

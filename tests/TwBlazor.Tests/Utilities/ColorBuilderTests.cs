@@ -60,7 +60,7 @@ public class ColorBuilderTests : TwBlazorTestBase
     [InlineData(Color.Accent, "border-fuchsia-600")]
     [InlineData(Color.Success, "border-green-600")]
     [InlineData(Color.Danger, "border-red-600")]
-    [InlineData(Color.Warning, "border-yellow-600")]
+    [InlineData(Color.Warning, "border-yellow-700")]
     [InlineData(Color.Info, "border-blue-600")]
     [InlineData(Color.Light, "border-gray-100")]
     [InlineData(Color.Dark, "border-gray-900")]
@@ -88,14 +88,14 @@ public class ColorBuilderTests : TwBlazorTestBase
     #region GetFocusRing Tests
 
     [Theory]
-    [InlineData(Color.Primary, "focus:ring-purple-500/20")]
-    [InlineData(Color.Accent, "focus:ring-fuchsia-500/20")]
-    [InlineData(Color.Success, "focus:ring-green-500/20")]
-    [InlineData(Color.Danger, "focus:ring-red-500/20")]
-    [InlineData(Color.Warning, "focus:ring-yellow-500/20")]
-    [InlineData(Color.Info, "focus:ring-blue-500/20")]
-    [InlineData(Color.Light, "focus:ring-white/20")]
-    [InlineData(Color.Dark, "focus:ring-gray-900/20")]
+    [InlineData(Color.Primary, "focus-visible:ring-purple-500")]
+    [InlineData(Color.Accent, "focus-visible:ring-fuchsia-500")]
+    [InlineData(Color.Success, "focus-visible:ring-green-600")]
+    [InlineData(Color.Danger, "focus-visible:ring-red-500")]
+    [InlineData(Color.Warning, "focus-visible:ring-yellow-500")]
+    [InlineData(Color.Info, "focus-visible:ring-blue-500")]
+    [InlineData(Color.Light, "focus-visible:ring-gray-400")]
+    [InlineData(Color.Dark, "focus-visible:ring-gray-700")]
     public void GetFocusRing_ReturnsCorrectClasses_ForEachColor(Color color, string expectedRing)
     {
         // Act
@@ -115,8 +115,23 @@ public class ColorBuilderTests : TwBlazorTestBase
         var result = ColorBuilder.GetFocusRing(null);
 
         // Assert
-        Assert.Contains("focus:ring-purple-500/20", result);
+        Assert.Contains("focus-visible:ring-purple-500", result);
         Assert.NotEqual(string.Empty, result);
+    }
+
+    [Theory]
+    [InlineData(Color.Primary, "peer-focus-visible:ring-purple-500")]
+    [InlineData(Color.Danger, "peer-focus-visible:ring-red-500")]
+    [InlineData(Color.Dark, "peer-focus-visible:ring-gray-700")]
+    [InlineData(null, "peer-focus-visible:ring-purple-500")]
+    public void GetPeerFocusRing_ReturnsRingWidthAndColor_ForEachColor(Color? color, string expectedRing)
+    {
+        // Act
+        var result = ColorBuilder.GetPeerFocusRing(color);
+
+        // Assert
+        Assert.Contains("peer-focus-visible:ring-2", result);
+        Assert.Contains(expectedRing, result);
     }
 
     [Fact]
@@ -142,10 +157,10 @@ public class ColorBuilderTests : TwBlazorTestBase
     [InlineData(Color.Accent, "border-fuchsia-600", "text-fuchsia-600")]
     [InlineData(Color.Success, "border-green-600", "text-green-800")]
     [InlineData(Color.Danger, "border-red-600", "text-red-700")]
-    [InlineData(Color.Warning, "border-yellow-600", "text-yellow-800")]
+    [InlineData(Color.Warning, "border-yellow-700", "text-yellow-800")]
     [InlineData(Color.Info, "border-blue-600", "text-blue-600")]
     [InlineData(Color.Light, "border-gray-100", "text-gray-200")]
-    [InlineData(Color.Dark, "border-gray-900", "text-gray-950")]
+    [InlineData(Color.Dark, "border-[oklch(21%_0.006_285.885)]/25", "text-gray-950")]
     public void GetOutlinedVariantColor_ReturnsCorrectClasses_ForEachColor(Color color, string expectedBorder, string expectedText)
     {
         // Act

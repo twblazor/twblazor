@@ -114,7 +114,7 @@ public partial class TwSlider<T> : TwBlazorInputComponentBase
     /// </summary>
     private string thumbClasses => new ClassBuilder(theme.Thumb)
         .AddClass(colorBuilder.GetBorderColor(Color))
-        .AddClass(ToPeerFocusVisible(colorBuilder.GetFocusRing(Color ?? TwBlazor.Enums.Color.Primary)))
+        .AddClass(colorBuilder.GetPeerFocusRing(Color))
         .AddClass(Disabled ? "opacity-40" : string.Empty)
         .Build();
 
@@ -127,13 +127,6 @@ public partial class TwSlider<T> : TwBlazorInputComponentBase
     /// </remarks>
     private string bubbleClasses => theme.Bubble;
 
-    /// <summary>
-    /// Rewrites a "focus:"-prefixed class string (as returned by <see cref="Builders.ColorBuilder.GetFocusRing"/>)
-    /// into "peer-focus-visible:" variants, so the same themed focus ring styling can be applied to a sibling
-    /// visual element (the thumb) instead of the invisible native input that actually receives focus.
-    /// </summary>
-    private static string ToPeerFocusVisible(string focusClasses) =>
-        focusClasses.Replace("focus:", "peer-focus-visible:", StringComparison.Ordinal);
 
     private string GetSliderColor(Color? color) => ColorBuilder.GetPaletteColor(color, theme.Colors, theme.Colors.Primary);
 

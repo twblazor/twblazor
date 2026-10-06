@@ -1,7 +1,7 @@
 @page "/datetime-picker"
 
 <PageContainer Title="TwDateTimePicker" Path="/datetime-picker" Description="TwDateTimePicker is a Blazor component for choosing a date and time in one input. Bind Value, set Format and Placeholder, and use PreferNativePicker on mobile." ThemeType="typeof(TwDatePickerTheme)">
-    <PageCard Title="Basic DateTime Picker">
+    <PageCard Title="Basic DateTime picker">
         <Description>Bind <code>SelectedDateTime</code> for a <code>DateTime</code> value, or <code>Value</code> for a plain string.</Description>
         <CodeExample Name="DateTimePickerBasic" CSharpName="DateTimePickerBasicCode">
             <div class="space-y-4">
@@ -12,7 +12,7 @@
             </div>
         </CodeExample>
     </PageCard>
-    <PageCard Title="Input Variants">
+    <PageCard Title="Input variants">
         <Description>The DatePicker supports different visual variants for the input field.</Description>
 
         <CodeExample Name="DateTimePickerVariants" CSharpName="DateTimePickerBasicCode">
@@ -23,14 +23,14 @@
             </div>
         </CodeExample>
     </PageCard>
-    <PageCard Title="Dense DateTime Picker">
+    <PageCard Title="Dense DateTime picker">
         <Description>Set <code>Dense</code> for a more compact input with a smaller height and text size. Every single-line input shares the same dense height, so they line up when used side by side.</Description>
         <CodeExample Name="DateTimePickerDense" CSharpName="DateTimePickerBasicCode">
             <TwDateTimePicker @bind-SelectedDateTime="SelectedDateTime" @bind-Value="SelectedDateTimeTextValue" Label="Dense DateTime Picker" Dense />
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Disabled and Readonly DateTime Picker">
+    <PageCard Title="Disabled and readonly DateTime picker">
         <Description>Use the <code>Disabled</code> and <code>ReadOnly</code> properties to restrict interaction with the datetime picker.</Description>
         <CodeExample Name="DateTimePickerReadonlyDisabled" CSharpName="DateTimePickerBasicCode">
             <TwDateTimePicker @bind-SelectedDateTime="SelectedDateTime" @bind-Value="SelectedDateTimeTextValue" Label="Disabled DateTime Picker" Disabled Class="mt-3" />

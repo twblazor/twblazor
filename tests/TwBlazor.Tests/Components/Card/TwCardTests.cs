@@ -19,7 +19,7 @@ public class TwCardTests : TwBlazorTestBase
         var classes = card.GetAttribute("class");
         Assert.Contains("rounded", classes);
         Assert.Contains("shadow-sm", classes);
-        Assert.Contains("border-[oklch(95%_0_0)]", classes);
+        Assert.Contains("border-[oklch(92%_0_0)]", classes);
     }
 
     [Fact]
@@ -168,7 +168,7 @@ public class TwCardTests : TwBlazorTestBase
 
         // Assert
         var card = cut.Find("div");
-        Assert.Contains("border-[oklch(95%_0_0)]", card.GetAttribute("class"));
+        Assert.Contains("border-[oklch(92%_0_0)]", card.GetAttribute("class"));
     }
 
     [Fact]

@@ -318,11 +318,90 @@ public static partial class ColorConverter
     }
 
     /// <summary>
+    /// Parses a hex color (<c>#rgb</c>, <c>#rrggbb</c> or <c>#rrggbbaa</c>, with the leading <c>#</c>) into RGB.
+    /// </summary>
+    /// <param name="hex">The hex color.</param>
+    /// <param name="rgb">The red, green and blue values (0-255) when this returns <see langword="true"/>; any alpha is ignored.</param>
+    /// <returns><see langword="true"/> when <paramref name="hex"/> is a valid hex color.</returns>
+    public static bool TryHexToRgb(string? hex, out (int R, int G, int B) rgb)
+    {
+        rgb = default;
+
+        if (!IsValidHex(hex))
+            return false;
+
+        var expanded = ExpandShortHex(hex!);
+        rgb = (Convert.ToInt32(expanded[1..3], 16), Convert.ToInt32(expanded[3..5], 16), Convert.ToInt32(expanded[5..7], 16));
+        return true;
+    }
+
+    /// <summary>
+    /// Converts sRGB to OKLCH, the perceptual space Tailwind's own palette is defined in.
+    /// </summary>
+    /// <param name="r">The red value (0-255).</param>
+    /// <param name="g">The green value (0-255).</param>
+    /// <param name="b">The blue value (0-255).</param>
+    /// <returns>Lightness (0-1), chroma (about 0-0.4) and hue in degrees (0-360; 0 for greys).</returns>
+    public static (double L, double C, double H) RgbToOklch(int r, int g, int b)
+    {
+        static double ToLinear(int channel)
+        {
+            var v = channel / 255d;
+            return v <= 0.04045 ? v / 12.92 : Math.Pow((v + 0.055) / 1.055, 2.4);
+        }
+
+        double lr = ToLinear(r), lg = ToLinear(g), lb = ToLinear(b);
+
+        var l = Math.Cbrt((0.4122214708 * lr) + (0.5363325363 * lg) + (0.0514459929 * lb));
+        var m = Math.Cbrt((0.2119034982 * lr) + (0.6806995451 * lg) + (0.1073969566 * lb));
+        var s = Math.Cbrt((0.0883024619 * lr) + (0.2817188376 * lg) + (0.6299787005 * lb));
+
+        var lightness = (0.2104542553 * l) + (0.7936177850 * m) - (0.0040720468 * s);
+        var a = (1.9779984951 * l) - (2.4285922050 * m) + (0.4505937099 * s);
+        var bAxis = (0.0259040371 * l) + (0.7827717662 * m) - (0.8086757660 * s);
+
+        var chroma = Math.Sqrt((a * a) + (bAxis * bAxis));
+        var hue = chroma < 1e-4 ? 0 : Math.Atan2(bAxis, a) * 180 / Math.PI;
+
+        return (lightness, chroma, (hue + 360) % 360);
+    }
+
+    /// <summary>
+    /// Converts OKLCH to sRGB, clamping colors outside the sRGB gamut to its edge.
+    /// </summary>
+    /// <param name="lightness">Lightness (0-1).</param>
+    /// <param name="chroma">Chroma (about 0-0.4).</param>
+    /// <param name="hue">Hue in degrees.</param>
+    /// <returns>The red, green and blue values (0-255, not rounded).</returns>
+    public static (double R, double G, double B) OklchToRgb(double lightness, double chroma, double hue)
+    {
+        var radians = hue * Math.PI / 180;
+        var a = chroma * Math.Cos(radians);
+        var b = chroma * Math.Sin(radians);
+
+        var l = Math.Pow(lightness + (0.3963377774 * a) + (0.2158037573 * b), 3);
+        var m = Math.Pow(lightness - (0.1055613458 * a) - (0.0638541728 * b), 3);
+        var s = Math.Pow(lightness - (0.0894841775 * a) - (1.2914855480 * b), 3);
+
+        static double Encode(double linear)
+        {
+            linear = Math.Clamp(linear, 0, 1);
+            var v = linear <= 0.0031308 ? linear * 12.92 : (1.055 * Math.Pow(linear, 1 / 2.4)) - 0.055;
+            return v * 255;
+        }
+
+        return (
+            Encode((4.0767416621 * l) - (3.3077115913 * m) + (0.2309699292 * s)),
+            Encode((-1.2684380046 * l) + (2.6097574011 * m) - (0.3413193965 * s)),
+            Encode((-0.0041960863 * l) - (0.7034186147 * m) + (1.7076147010 * s)));
+    }
+
+    /// <summary>
     /// Whether <paramref name="color"/> is a well-formed 3, 6 or 8 digit hex color with a leading <c>#</c>.
     /// </summary>
     /// <param name="color">The value to check.</param>
     /// <returns><see langword="true"/> when the value is a valid hex color.</returns>
-    internal static bool IsValidHex(string? color) =>
+    public static bool IsValidHex(string? color) =>
         !string.IsNullOrWhiteSpace(color) && HexColorRegex().IsMatch(color);
 
     /// <summary>
@@ -330,7 +409,7 @@ public static partial class ColorConverter
     /// </summary>
     /// <param name="hex">A valid hex color.</param>
     /// <returns>The hex color with shorthand expanded.</returns>
-    internal static string ExpandShortHex(string hex) =>
+    public static string ExpandShortHex(string hex) =>
         hex.Length == 4 ? $"#{hex[1]}{hex[1]}{hex[2]}{hex[2]}{hex[3]}{hex[3]}" : hex;
 
     /// <summary>
@@ -349,7 +428,7 @@ public static partial class ColorConverter
     /// <param name="a">The first RGB color (0-255 per channel).</param>
     /// <param name="b">The second RGB color (0-255 per channel).</param>
     /// <returns>The contrast ratio, the same in either order.</returns>
-    internal static double GetContrastRatio((double R, double G, double B) a, (double R, double G, double B) b)
+    public static double GetContrastRatio((double R, double G, double B) a, (double R, double G, double B) b)
     {
         var la = GetRelativeLuminance(a);
         var lb = GetRelativeLuminance(b);
@@ -361,7 +440,7 @@ public static partial class ColorConverter
     /// </summary>
     /// <param name="color">The RGB color (0-255 per channel).</param>
     /// <returns>The relative luminance.</returns>
-    internal static double GetRelativeLuminance((double R, double G, double B) color)
+    public static double GetRelativeLuminance((double R, double G, double B) color)
     {
         static double Channel(double value)
         {

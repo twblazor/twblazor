@@ -1,9 +1,12 @@
 @page "/get-started"
 
 <PageContainer Title="Get Started" Path="/get-started" Category="Introduction" Description="Install twblazor in a Blazor Server or WebAssembly app: add the NuGet package, imports, providers and a theme, register AddTwBlazor and build your Tailwind CSS." SeoTitle="Get Started | twblazor - Install Tailwind CSS Components for Blazor">
-    <p Class="mb-3">
-        TwBlazor works the same way in an Interactive Server Blazor Web App or a WebAssembly Blazor Web App. The steps below are identical in spirit for both, but a handful of files end up in a different project depending on which hosting model you pick. Choose a tab and follow its steps in order.
-    </p>
+    <TwAlert Color="TwBlazor.Enums.Color.Primary" StartIcon="TwBlazor.Enums.Icon.Brush" Class="mb-6 ps-3">
+        <p class="font-semibold">Make it match your brand</p>
+        <p>
+            TwBlazor is fully themeable. Use the <a href="/theme" class="font-semibold underline">Theme builder</a> to pick your brand colors, choose only the components you need and copy a ready-made <code>Theme.cs</code> to use in step 6.
+        </p>
+    </TwAlert>
 
     <TwTabContainer ContainerClass="p-0! border-0!">
         <TwTab Label="Blazor Server">
@@ -55,6 +58,9 @@
                     TwBlazor requires you to set up a few simple configuration classes for theming. Since Tailwind CSS cannot compile classes from .DLLs, you configure the classes in your own project, where your own Tailwind build can see them. Create a <code>Theme.cs</code> file at the root of the <code>{YourProjectName}</code> project.
                 </p>
                 <TwCodeBlock Content="@CodeExamples.Get("GetStartedTheme")" Language="csharp" Class="max-h-100 overflow-y-scroll" />
+                <TwAlert Color="TwBlazor.Enums.Color.Primary" StartIcon="TwBlazor.Enums.Icon.Brush" Class="mt-3 ps-3">
+                    This is the default theme. To use your own brand colors or only the components you use, <a href="/theme" class="font-semibold underline">build your own Theme.cs</a> instead, and register it with <code>Theme.CreateTheme</code> in step 7.
+                </TwAlert>
             </PageCard>
 
             <PageCard Title="7. Register TwBlazor services">
@@ -139,6 +145,9 @@
                     Since Tailwind CSS cannot compile classes from .DLLs, you configure the theme's classes in your own project. Create a <code>Theme.cs</code> file at the root of the <code>{YourProjectName}.Client</code> project - not <code>{YourProjectName}</code> - since that's where the components using this theme are compiled.
                 </p>
                 <TwCodeBlock Content="@CodeExamples.Get("GetStartedTheme")" Language="csharp" Class="max-h-100 overflow-y-scroll" />
+                <TwAlert Color="TwBlazor.Enums.Color.Primary" StartIcon="TwBlazor.Enums.Icon.Brush" Class="mt-3 ps-3">
+                    This is the default theme. To use your own brand colors or only the components you use, <a href="/theme" class="font-semibold underline">build your own Theme.cs</a> instead, and register it with <code>Theme.CreateTheme</code> in step 7.
+                </TwAlert>
             </PageCard>
 
             <PageCard Title="7. Register TwBlazor services">

@@ -54,6 +54,7 @@ public partial class TwPagination : TwBlazorComponentBase
 
     private string buttonBaseClasses => new ClassBuilder(theme.Base)
         .AddClass(Dense ? theme.DenseSize : theme.Size)
+        .AddClass(roundedBuilder.GetRounded())
         .Build();
 
     private string rootClasses => new ClassBuilder(options.Theme.Display.Flex)
@@ -62,13 +63,9 @@ public partial class TwPagination : TwBlazorComponentBase
         .AddClass(Class).Build();
 
     /// <summary>
-    /// Gets the classes for the joined button group. The group clips its buttons to a single rounded,
-    /// bordered container (the same construction as the table's container) so the buttons themselves
-    /// need no rounding or borders of their own.
+    /// Gets the classes for the list holding the page buttons, which are spaced and rounded individually.
     /// </summary>
-    private string listClasses => new ClassBuilder(theme.List)
-        .AddClass(roundedBuilder.GetRounded())
-        .Build();
+    private string listClasses => theme.List;
 
     // The active page is distinguished by more than color alone (font-weight + background tint),
     // so low-vision/color-deficient sighted users have a cue beyond the purple/gray hue difference.

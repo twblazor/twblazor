@@ -4,7 +4,7 @@
 @using TwBlazor.Models
 
 <PageContainer Title="TwCheckbox" Path="/checkbox" Description="TwCheckbox is a Blazor checkbox component. Bind Value or SelectedValues, set Color, Size, Disabled and Horizontal, or generate a group from Items." ThemeType="typeof(TwCheckboxTheme)">
-    <PageCard Title="Basic Usage">
+    <PageCard Title="Basic usage">
         <Description>Group checkboxes with <code>TwCheckboxGroup</code> and bind individual values with <code>@@bind-Value</code>.</Description>
 
         <CodeExample Name="CheckboxBasic" CSharpName="CheckboxBasicCode">
@@ -29,7 +29,7 @@
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Indeterminate State">
+    <PageCard Title="Indeterminate state">
         <Description>Bind a <code>TwCheckbox&lt;bool?&gt;</code> and pass <code>null</code> to render it indeterminate - useful for a "select all" checkbox that reflects a partially-selected list below it. Clicking an indeterminate checkbox always resolves it to fully checked or unchecked; there's no click gesture that produces the indeterminate state itself.</Description>
 
         <CodeExample Name="CheckboxIndeterminate" CSharpName="CheckboxIndeterminateCode">
@@ -68,7 +68,7 @@
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Data-Driven (Automatic)">
+    <PageCard Title="Data-driven (automatic)">
         <Description>Use <code>Items</code> and <code>@@bind-SelectedValues</code> to generate checkboxes from a list.</Description>
 
         <CodeExample Name="CheckboxDataDriven" CSharpName="CheckboxDataDrivenCode">
@@ -101,7 +101,7 @@
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Horizontal Layout & Custom Spacing">
+    <PageCard Title="Horizontal layout & custom spacing">
         <Description>Use <code>Horizontal</code> to arrange checkboxes side-by-side, or <code>Spacing="4"</code> for custom spacing.</Description>
 
         <CodeExample Name="CheckboxHorizontalSpacing" CSharpName="CheckboxHorizontalSpacingCode">
@@ -123,7 +123,7 @@
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Disabled State">
+    <PageCard Title="Disabled state">
         <Description>Disable the entire group with the <code>Disabled</code> property.</Description>
 
         <CodeExample Name="CheckboxDisabled">
@@ -135,7 +135,7 @@
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Programmatic Control">
+    <PageCard Title="Programmatic control">
         <Description>Change selections programmatically by updating the bound collection.</Description>
 
         <CodeExample Name="CheckboxProgrammatic" CSharpName="CheckboxProgrammaticCode">

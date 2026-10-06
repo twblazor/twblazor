@@ -145,6 +145,21 @@ public class TwBlazorColor
     public TwBlazorPalette FocusColors { get; set; } = new();
 
     /// <summary>
+    /// Gets or sets the base classes for the focus ring drawn on a visible sibling of a visually hidden
+    /// focusable input (the <c>peer</c> pattern used by switches, sliders and file uploads).
+    /// </summary>
+    /// <remarks>
+    /// Declared in full, rather than derived from <see cref="FocusRingBase"/> at runtime, so Tailwind can
+    /// see and compile the <c>peer-focus-visible:</c> classes.
+    /// </remarks>
+    public string PeerFocusRingBase { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the color palette applied to the peer focus ring for both light and dark modes.
+    /// </summary>
+    public TwBlazorPalette PeerFocusColors { get; set; } = new();
+
+    /// <summary>
     /// Gets or sets the shared "bg-transparent" class, reused anywhere a transparent background is needed
     /// (e.g. outlined/text button and surface variants) instead of retyping the literal class.
     /// </summary>

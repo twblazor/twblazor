@@ -95,6 +95,13 @@ globalThis.twPicker = {
         }
     },
 
+    // Whether a scroll event came from the panel or something inside it. Resize events target the window,
+    // which is not a Node, so they are never "within" the panel.
+    _isScrollWithinPanel: function (panel, e) {
+        const target = e?.target;
+        return target instanceof Node && panel.contains(target);
+    },
+
     // Gap (px) kept between a clamped panel edge and the viewport edge - mirrors the 0.5rem
     // margin already used below.
     _panelEdgeGapPx: 8,
@@ -249,7 +256,11 @@ globalThis.twPicker = {
             // separate pointerup listener deciding to close the same picker around the same moment
             // (e.g. a scroll gesture that also ends in a pointerup outside the panel) - see its
             // remarks for why both listeners need to share that check.
-            const handler = function () {
+            const handler = function (e) {
+                // A scroll inside the panel itself (a long list or a tall day view) is the user working
+                // with it, not the page moving away from the field, so it must neither close the panel
+                // nor drop this listener.
+                if (globalThis.twPicker._isScrollWithinPanel(panel, e)) return;
                 document.removeEventListener('scroll', handler, true);
                 window.removeEventListener('resize', handler);
                 delete panel.__twPickerScrollHandler;
@@ -266,7 +277,8 @@ globalThis.twPicker = {
             return;
         }
 
-        const handler = function () {
+        const handler = function (e) {
+            if (globalThis.twPicker._isScrollWithinPanel(panel, e)) return;
             globalThis.twPicker.positionPanelFixed(anchor, panel, matchAnchorWidth);
         };
 
@@ -537,6 +549,101 @@ globalThis.twSidebar = {
         if (el) {
             el.scrollTop = 0;
         }
+    }
+};
+
+// Select: keyboard navigation and highlighting for the desktop single-select listbox. Focus stays on
+// the listbox itself and the highlighted option is exposed through aria-activedescendant (the ARIA
+// listbox pattern), so this runs entirely client-side - a server round trip per arrow key would lag -
+// and only calls back into .NET (SelectOption) once an option is committed.
+globalThis.twSelect = {
+    _typeaheadResetMs: 500,
+
+    attachListbox: function (listbox, dotnetRef, selectedOptionId, commitMethod) {
+        if (!listbox || listbox.__twSelectAttached) return;
+        listbox.__twSelectAttached = true;
+
+        const options = function () {
+            return Array.from(listbox.querySelectorAll('[role="option"]'));
+        };
+
+        const setActive = function (option) {
+            options().forEach(function (o) { delete o.dataset.active; });
+            if (!option) {
+                listbox.removeAttribute('aria-activedescendant');
+                return;
+            }
+            option.dataset.active = 'true';
+            listbox.setAttribute('aria-activedescendant', option.id);
+            option.scrollIntoView({ block: 'nearest' });
+        };
+
+        const activeIndex = function () {
+            return options().findIndex(function (o) { return o.dataset.active === 'true'; });
+        };
+
+        const commit = function (option) {
+            if (!option) return;
+            try {
+                dotnetRef.invokeMethodAsync(commitMethod || 'SelectOption', Number.parseInt(option.dataset.value, 10));
+            } catch (err) {
+                console.error('twSelect commit error', err);
+            }
+        };
+
+        let typeahead = '';
+        let typeaheadTimer;
+
+        listbox.addEventListener('keydown', function (e) {
+            const all = options();
+            if (all.length === 0) return;
+            const current = activeIndex();
+
+            switch (e.key) {
+                case 'ArrowDown':
+                    setActive(all[Math.min(current + 1, all.length - 1)]);
+                    break;
+                case 'ArrowUp':
+                    setActive(all[Math.max(current - 1, 0)]);
+                    break;
+                case 'Home':
+                    setActive(all[0]);
+                    break;
+                case 'End':
+                    setActive(all.at(-1));
+                    break;
+                case 'Enter':
+                case ' ':
+                    commit(all[current]);
+                    break;
+                default: {
+                    if (e.key.length !== 1 || e.ctrlKey || e.metaKey || e.altKey) return;
+                    typeahead += e.key.toLowerCase();
+                    clearTimeout(typeaheadTimer);
+                    typeaheadTimer = setTimeout(function () { typeahead = ''; }, globalThis.twSelect._typeaheadResetMs);
+                    // Searching from just after the current option lets repeated presses of one letter cycle.
+                    const ordered = all.slice(current + 1).concat(all.slice(0, current + 1));
+                    const match = ordered.find(function (o) {
+                        return o.textContent.trim().toLowerCase().startsWith(typeahead);
+                    });
+                    if (match) setActive(match);
+                    return;
+                }
+            }
+
+            e.preventDefault();
+        });
+
+        listbox.addEventListener('pointermove', function (e) {
+            const option = e.target.closest('[role="option"]');
+            if (option && option.dataset.active !== 'true') {
+                setActive(option);
+            }
+        });
+
+        const initial = (selectedOptionId && document.getElementById(selectedOptionId)) || options()[0];
+        setActive(initial);
+        listbox.focus({ preventScroll: true });
     }
 };
 

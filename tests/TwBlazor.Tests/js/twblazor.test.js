@@ -782,6 +782,25 @@ describe('twPicker', () => {
             document.body.removeChild(panel);
         });
 
+        test('does not reposition the panel when the panel itself scrolls (mobile path)', () => {
+            vi.spyOn(window.twDevice, 'prefersNativePicker').mockReturnValue(true);
+            const anchor = document.createElement('div');
+            anchor.getBoundingClientRect = () => ({ left: 20, right: 220, top: 40, bottom: 70, width: 200, height: 30 });
+            const panel = document.createElement('div');
+            panel.getBoundingClientRect = () => ({ left: 20, right: 220, top: 70, bottom: 170, width: 200, height: 100 });
+            document.body.appendChild(panel);
+            const dotnetRef = { invokeMethodAsync: vi.fn() };
+
+            window.twPicker.registerScrollReposition(anchor, panel, false, dotnetRef);
+            const spy = vi.spyOn(window.twPicker, 'positionPanelFixed');
+            panel.dispatchEvent(new Event('scroll'));
+
+            expect(spy).not.toHaveBeenCalled();
+
+            window.twPicker.unregisterScrollReposition(panel);
+            document.body.removeChild(panel);
+        });
+
         describe('close-on-scroll (desktop, dotnetRef supplied)', () => {
             test('still positions the panel once on open, same as the reposition path', () => {
                 Object.defineProperty(document.documentElement, 'clientWidth', { value: 1000, configurable: true });
@@ -825,6 +844,53 @@ describe('twPicker', () => {
 
                 window.twPicker.unregisterScrollReposition(panel);
                 document.body.removeChild(panel);
+            });
+
+            test('scrolling inside the panel does not close it, and the listener stays armed', () => {
+                // Regression test: the scroll listener is capture-phase on the document, so a scroll in the
+                // panel's own overflowing list would otherwise count as the page scrolling away.
+                vi.spyOn(window.twDevice, 'prefersNativePicker').mockReturnValue(false);
+                const anchor = document.createElement('div');
+                anchor.getBoundingClientRect = () => ({ left: 20, right: 220, top: 40, bottom: 70, width: 200, height: 30 });
+                const panel = document.createElement('div');
+                panel.getBoundingClientRect = () => ({ left: 20, right: 220, top: 70, bottom: 170, width: 200, height: 100 });
+                const list = document.createElement('div');
+                panel.appendChild(list);
+                document.body.appendChild(panel);
+                const dotnetRef = { invokeMethodAsync: vi.fn() };
+
+                window.twPicker.registerScrollReposition(anchor, panel, false, dotnetRef);
+                list.dispatchEvent(new Event('scroll'));
+                panel.dispatchEvent(new Event('scroll'));
+
+                expect(dotnetRef.invokeMethodAsync).not.toHaveBeenCalled();
+                expect(panel.__twPickerScrollHandler).toBeDefined();
+
+                document.dispatchEvent(new Event('scroll'));
+
+                expect(dotnetRef.invokeMethodAsync).toHaveBeenCalledWith('Close');
+
+                document.body.removeChild(panel);
+            });
+
+            test('a scroll elsewhere on the page still closes the panel', () => {
+                vi.spyOn(window.twDevice, 'prefersNativePicker').mockReturnValue(false);
+                const anchor = document.createElement('div');
+                anchor.getBoundingClientRect = () => ({ left: 20, right: 220, top: 40, bottom: 70, width: 200, height: 30 });
+                const panel = document.createElement('div');
+                panel.getBoundingClientRect = () => ({ left: 20, right: 220, top: 70, bottom: 170, width: 200, height: 100 });
+                const sibling = document.createElement('div');
+                document.body.append(panel, sibling);
+                const dotnetRef = { invokeMethodAsync: vi.fn() };
+
+                window.twPicker.registerScrollReposition(anchor, panel, false, dotnetRef);
+                sibling.dispatchEvent(new Event('scroll', { bubbles: false }));
+                document.dispatchEvent(new Event('scroll'));
+
+                expect(dotnetRef.invokeMethodAsync).toHaveBeenCalledTimes(1);
+
+                document.body.removeChild(panel);
+                document.body.removeChild(sibling);
             });
 
             test('a burst of scroll events (a real scroll gesture fires many) only invokes Close once', () => {
@@ -1776,6 +1842,278 @@ describe('twColorPicker', () => {
 
             await expect(window.twColorPicker.openEyeDropper()).resolves.toBeNull();
             expect(consoleErrorSpy).toHaveBeenCalledWith('twColorPicker.openEyeDropper error', error);
+        });
+    });
+});
+
+describe('twSelect', () => {
+    let listbox;
+    let dotnetRef;
+
+    function build(optionTexts, selectedIndex) {
+        listbox = document.createElement('div');
+        listbox.setAttribute('role', 'listbox');
+        listbox.tabIndex = 0;
+        optionTexts.forEach((text, i) => {
+            const option = document.createElement('div');
+            option.id = `opt-${i}`;
+            option.setAttribute('role', 'option');
+            option.setAttribute('data-value', String(i + 1));
+            option.textContent = text;
+            option.scrollIntoView = vi.fn();
+            listbox.appendChild(option);
+        });
+        document.body.appendChild(listbox);
+        dotnetRef = { invokeMethodAsync: vi.fn() };
+        window.twSelect.attachListbox(listbox, dotnetRef, selectedIndex === undefined ? null : `opt-${selectedIndex}`);
+    }
+
+    function press(key) {
+        const e = new KeyboardEvent('keydown', { key, bubbles: true, cancelable: true });
+        listbox.dispatchEvent(e);
+        return e;
+    }
+
+    const activeId = () => listbox.getAttribute('aria-activedescendant');
+
+    afterEach(() => {
+        listbox?.remove();
+        vi.useRealTimers();
+    });
+
+    test('highlights the selected option and focuses the listbox on attach', () => {
+        build(['USA', 'UK', 'Canada'], 1);
+
+        expect(activeId()).toBe('opt-1');
+        expect(document.getElementById('opt-1').getAttribute('data-active')).toBe('true');
+        expect(document.activeElement).toBe(listbox);
+    });
+
+    test('highlights the first option when nothing is selected', () => {
+        build(['USA', 'UK'], undefined);
+
+        expect(activeId()).toBe('opt-0');
+    });
+
+    test('ArrowDown and ArrowUp move the highlight and stop at the ends', () => {
+        build(['USA', 'UK', 'Canada'], 0);
+
+        expect(press('ArrowDown').defaultPrevented).toBe(true);
+        expect(activeId()).toBe('opt-1');
+        press('ArrowDown');
+        press('ArrowDown');
+        expect(activeId()).toBe('opt-2');
+        press('ArrowUp');
+        expect(activeId()).toBe('opt-1');
+        press('ArrowUp');
+        press('ArrowUp');
+        expect(activeId()).toBe('opt-0');
+    });
+
+    test('Home and End jump to the first and last option', () => {
+        build(['USA', 'UK', 'Canada'], 1);
+
+        press('End');
+        expect(activeId()).toBe('opt-2');
+        press('Home');
+        expect(activeId()).toBe('opt-0');
+    });
+
+    test('only one option is highlighted at a time', () => {
+        build(['USA', 'UK', 'Canada'], 0);
+
+        press('ArrowDown');
+
+        expect(listbox.querySelectorAll('[data-active="true"]').length).toBe(1);
+    });
+
+    test('Enter and Space commit the highlighted option', () => {
+        build(['USA', 'UK', 'Canada'], 1);
+
+        press('Enter');
+        press(' ');
+
+        expect(dotnetRef.invokeMethodAsync).toHaveBeenCalledTimes(2);
+        expect(dotnetRef.invokeMethodAsync).toHaveBeenCalledWith('SelectOption', 2);
+    });
+
+    test('commits through the supplied method, so a multi-select can toggle instead of select', () => {
+        build(['USA', 'UK', 'Canada'], 0);
+        listbox.remove();
+        listbox = undefined;
+        const multi = document.createElement('div');
+        multi.tabIndex = 0;
+        const option = document.createElement('div');
+        option.id = 'm-0';
+        option.setAttribute('role', 'option');
+        option.setAttribute('data-value', '3');
+        option.scrollIntoView = vi.fn();
+        multi.appendChild(option);
+        document.body.appendChild(multi);
+        const ref = { invokeMethodAsync: vi.fn() };
+        window.twSelect.attachListbox(multi, ref, 'm-0', 'ToggleOption');
+
+        multi.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true }));
+        multi.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true, cancelable: true }));
+
+        expect(ref.invokeMethodAsync).toHaveBeenCalledTimes(2);
+        expect(ref.invokeMethodAsync).toHaveBeenCalledWith('ToggleOption', 3);
+        expect(multi.getAttribute('aria-activedescendant')).toBe('m-0');
+        multi.remove();
+    });
+
+    test('typing a letter highlights the next option starting with it, cycling on repeats', () => {
+        build(['Apple', 'Banana', 'Blueberry', 'Cherry'], 0);
+
+        press('b');
+        expect(activeId()).toBe('opt-1');
+        vi.useFakeTimers();
+        press('x');
+        vi.advanceTimersByTime(window.twSelect._typeaheadResetMs + 1);
+        press('b');
+        expect(activeId()).toBe('opt-2');
+    });
+
+    test('keys it does not handle are left alone', () => {
+        build(['USA', 'UK'], 0);
+
+        expect(press('Tab').defaultPrevented).toBe(false);
+        expect(press('Escape').defaultPrevented).toBe(false);
+    });
+
+    test('pointer movement highlights the hovered option', () => {
+        build(['USA', 'UK', 'Canada'], 0);
+
+        document.getElementById('opt-2').dispatchEvent(new Event('pointermove', { bubbles: true }));
+
+        expect(activeId()).toBe('opt-2');
+    });
+
+    test('attaching twice does not register duplicate handlers', () => {
+        build(['USA', 'UK', 'Canada'], 0);
+        window.twSelect.attachListbox(listbox, dotnetRef, 'opt-0');
+
+        press('ArrowDown');
+
+        expect(activeId()).toBe('opt-1');
+    });
+
+    test('does nothing for a missing listbox', () => {
+        expect(() => window.twSelect.attachListbox(null, {}, null)).not.toThrow();
+    });
+});
+
+describe('twPicker scroll ownership and twSelect edge cases', () => {
+    describe('_isScrollWithinPanel', () => {
+        test('is false when there is no event', () => {
+            expect(window.twPicker._isScrollWithinPanel(document.createElement('div'), undefined)).toBe(false);
+        });
+
+        test('is false for a resize, whose target is the window rather than a node', () => {
+            expect(window.twPicker._isScrollWithinPanel(document.createElement('div'), { target: window })).toBe(false);
+        });
+
+        test('is true for the panel and for anything inside it, false for anything else', () => {
+            const panel = document.createElement('div');
+            const inside = document.createElement('div');
+            const outside = document.createElement('div');
+            panel.appendChild(inside);
+
+            expect(window.twPicker._isScrollWithinPanel(panel, { target: panel })).toBe(true);
+            expect(window.twPicker._isScrollWithinPanel(panel, { target: inside })).toBe(true);
+            expect(window.twPicker._isScrollWithinPanel(panel, { target: outside })).toBe(false);
+        });
+    });
+
+    describe('twSelect listbox', () => {
+        let listbox;
+        let dotnetRef;
+
+        function build(texts) {
+            listbox = document.createElement('div');
+            listbox.tabIndex = 0;
+            texts.forEach((text, i) => {
+                const option = document.createElement('div');
+                option.id = `cov-${i}`;
+                option.setAttribute('role', 'option');
+                option.setAttribute('data-value', String(i + 1));
+                option.textContent = text;
+                option.scrollIntoView = vi.fn();
+                listbox.appendChild(option);
+            });
+            document.body.appendChild(listbox);
+            dotnetRef = { invokeMethodAsync: vi.fn() };
+            window.twSelect.attachListbox(listbox, dotnetRef, null);
+        }
+
+        const press = (key, init = {}) => {
+            const e = new KeyboardEvent('keydown', { key, bubbles: true, cancelable: true, ...init });
+            listbox.dispatchEvent(e);
+            return e;
+        };
+
+        afterEach(() => {
+            listbox?.remove();
+            vi.restoreAllMocks();
+        });
+
+        test('keys do nothing when the listbox has no options', () => {
+            build([]);
+
+            expect(press('ArrowDown').defaultPrevented).toBe(false);
+            expect(listbox.hasAttribute('aria-activedescendant')).toBe(false);
+        });
+
+        test('modified keys are never treated as type-ahead', () => {
+            build(['Apple', 'Banana']);
+
+            const e = press('b', { ctrlKey: true });
+
+            expect(e.defaultPrevented).toBe(false);
+            expect(listbox.getAttribute('aria-activedescendant')).toBe('cov-0');
+        });
+
+        test('type-ahead with no match leaves the highlight where it is', () => {
+            build(['Apple', 'Banana']);
+
+            press('z');
+
+            expect(listbox.getAttribute('aria-activedescendant')).toBe('cov-0');
+        });
+
+        test('pointer movement over something that is not an option changes nothing', () => {
+            build(['Apple', 'Banana']);
+
+            listbox.dispatchEvent(new Event('pointermove', { bubbles: true }));
+
+            expect(listbox.getAttribute('aria-activedescendant')).toBe('cov-0');
+        });
+
+        test('pointer movement over the already highlighted option does nothing', () => {
+            build(['Apple', 'Banana']);
+            const first = document.getElementById('cov-0');
+            first.dispatchEvent(new Event('pointermove', { bubbles: true }));
+
+            expect(listbox.getAttribute('aria-activedescendant')).toBe('cov-0');
+            expect(listbox.querySelectorAll('[data-active="true"]').length).toBe(1);
+        });
+
+        test('Enter before anything is highlighted commits nothing', () => {
+            build(['Apple']);
+            document.getElementById('cov-0').removeAttribute('data-active');
+
+            press('Enter');
+
+            expect(dotnetRef.invokeMethodAsync).not.toHaveBeenCalled();
+        });
+
+        test('a failing commit is logged rather than thrown', () => {
+            build(['Apple']);
+            dotnetRef.invokeMethodAsync.mockImplementation(() => { throw new Error('disposed'); });
+            const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
+
+            expect(() => press('Enter')).not.toThrow();
+            expect(spy).toHaveBeenCalledWith('twSelect commit error', expect.any(Error));
         });
     });
 });

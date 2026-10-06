@@ -216,7 +216,7 @@ public class TwSwitchTests : TwBlazorTestBase
         Assert.True(spans.Count >= 3); // Container + background track + toggle circle
 
         // Check for track (background)
-        Assert.Contains(spans, s => s.GetAttribute("class")?.Contains("bg-gray-300") == true);
+        Assert.Contains(spans, s => s.GetAttribute("class")?.Contains("bg-[oklch(88%_0_0)]") == true);
         Assert.Contains(spans, s => s.GetAttribute("class")?.Contains("peer-checked:bg-purple-600") == true);
 
         // Check for toggle circle
@@ -234,7 +234,7 @@ public class TwSwitchTests : TwBlazorTestBase
 
         // Assert
         var markup = cut.Markup;
-        Assert.Contains("dark:bg-[oklch(21.15%_0.012_254.09)]", markup); // Track background
+        Assert.Contains("dark:bg-[oklch(34%_0.018_253)]", markup); // Track background
         Assert.Contains("dark:peer-checked:bg-purple-500", markup); // Checked state color
     }
 

@@ -349,7 +349,7 @@ public class TwCheckboxTests : TwBlazorTestBase
         Assert.Contains("appearance-none", classes);
         Assert.Contains("rounded", classes);
         Assert.Contains("border", classes);
-        Assert.Contains("border-[oklch(95%_0_0)]", classes);
+        Assert.Contains("border-[oklch(21%_0.006_285.885)]/25", classes);
     }
 
     [Fact]
@@ -540,13 +540,13 @@ public class TwCheckboxTests : TwBlazorTestBase
     }
 
     [Theory]
-    [InlineData(Color.Primary, "purple")]
-    [InlineData(Color.Success, "green")]
-    [InlineData(Color.Danger, "red")]
-    [InlineData(Color.Accent, "fuchsia")]
-    [InlineData(Color.Warning, "yellow")]
-    [InlineData(Color.Info, "blue")]
-    public void TwCheckbox_AppliesCorrectColor_ForEachColorEnum(Color color, string colorName)
+    [InlineData(Color.Primary, "purple", 600)]
+    [InlineData(Color.Success, "green", 600)]
+    [InlineData(Color.Danger, "red", 600)]
+    [InlineData(Color.Accent, "fuchsia", 600)]
+    [InlineData(Color.Warning, "yellow", 700)]
+    [InlineData(Color.Info, "blue", 600)]
+    public void TwCheckbox_AppliesCorrectColor_ForEachColorEnum(Color color, string colorName, int shade)
     {
         // Arrange & Act
         var cut = TestContext.Render<TwCheckbox<bool>>(parameters => parameters
@@ -555,7 +555,7 @@ public class TwCheckboxTests : TwBlazorTestBase
 
         // Assert
         var markup = cut.Markup;
-        Assert.Contains($"checked:bg-{colorName}-600", markup);
+        Assert.Contains($"checked:bg-{colorName}-{shade}", markup);
     }
 
     [Fact]

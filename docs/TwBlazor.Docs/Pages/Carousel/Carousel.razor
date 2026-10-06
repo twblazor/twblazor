@@ -1,7 +1,7 @@
 @page "/carousel"
 
 <PageContainer Title="TwCarousel" Path="/carousel" Description="TwCarousel is a Blazor carousel component. Bind SelectedIndex and configure AutoPlay, AutoPlayInterval, Loop, ShowArrows, ShowIndicators and swipe gestures." ThemeType="typeof(TwCarouselTheme)">
-    <PageCard Title="Basic Carousel">
+    <PageCard Title="Basic carousel">
         <Description>Use <code>TwCarousel</code> and <code>TwCarouselItem</code> to cycle through a set of slides. Only the active slide is rendered.</Description>
         <CodeExample Name="CarouselBasic">
             <TwCarousel Style="height:240px;">
@@ -18,7 +18,7 @@
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Images: Object Fit">
+    <PageCard Title="Images: object fit">
         <Description>When a slide's content (e.g. an <code>&lt;img&gt;</code>) doesn't match the carousel's aspect ratio, use Tailwind's <code>object-fit</code> utilities to control how it fills the slide's <code>h-full w-full</code> space.</Description>
         <CodeExample Name="CarouselObjectFit" CSharpName="CarouselObjectFitCode">
             <div class="flex flex-wrap gap-2 mb-4">
@@ -61,7 +61,7 @@
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Indicator Color">
+    <PageCard Title="Indicator color">
         <Description>Set <code>Color</code> to customize the active slide indicator's color.</Description>
         <CodeExample Name="CarouselColor">
             <TwCarousel Style="height:240px;" Color="Color.Success">
@@ -78,7 +78,7 @@
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Without Arrows or Indicators">
+    <PageCard Title="Without arrows or indicators">
         <Description>Set <code>ShowArrows</code> and <code>ShowIndicators</code> to <code>false</code> to rely on swipe gestures or programmatic navigation only.</Description>
         <CodeExample Name="CarouselNoControls">
             <TwCarousel Style="height:240px;" ShowArrows="false" ShowIndicators="false">
@@ -92,7 +92,7 @@
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Non-Looping">
+    <PageCard Title="Non-looping">
         <Description>Set <code>Loop</code> to <code>false</code> to disable the arrow buttons at the first and last slide instead of wrapping around.</Description>
         <CodeExample Name="CarouselNoLoop">
             <TwCarousel Style="height:240px;" Loop="false">
@@ -109,7 +109,7 @@
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Bound Selected Index">
+    <PageCard Title="Bound selected index">
         <Description>Bind <code>SelectedIndex</code> to control or observe the active slide from outside the carousel.</Description>
         <CodeExample Name="CarouselBoundIndex">
             <p class="mb-2">Selected slide: @(selectedIndex + 1)</p>
@@ -127,7 +127,7 @@
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Custom Previous/Next Controls">
+    <PageCard Title="Custom previous/next controls">
         <Description>Set <code>LeftNavigation</code> and <code>RightNavigation</code> to render your own previous/next controls instead of the default arrow buttons. Each is a <code>RenderFragment&lt;TwCarousel&gt;</code>, so its <code>context</code> exposes the carousel's public API (<code>PreviousSlide</code>, <code>NextSlide</code>, <code>GoToSlide</code>, <code>ToggleAutoPlayPaused</code>, and more) for your own markup to call.</Description>
         <CodeExample Name="CarouselCustomNavigation">
             <TwCarousel Style="height:240px;">
@@ -156,7 +156,7 @@
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Custom Indicators">
+    <PageCard Title="Custom indicators">
         <Description>Set <code>Indicators</code> to render your own slide-picker controls instead of the default dots. Its <code>context</code> exposes <code>SelectedIndex</code> and <code>GoToSlide</code> so your markup can both reflect and drive the active slide.</Description>
         <CodeExample Name="CarouselCustomIndicators">
             <TwCarousel Style="height:240px;">

@@ -322,6 +322,14 @@ public abstract class TwPopoverPickerComponentBase : TwBlazorTextInputComponentB
     {
         if (!registeredOutsideHandler) return;
         await JSRuntime.InvokeVoidAsync("twPicker.unregisterOutsideClick", InputRoot?.RootRef);
+        ReleaseOutsideClickHandle();
+    }
+
+    /// <summary>
+    /// Releases the .NET reference handed to JavaScript and marks the outside click handler as unregistered.
+    /// </summary>
+    private void ReleaseOutsideClickHandle()
+    {
         dotNetRef?.Dispose();
         dotNetRef = null;
         registeredOutsideHandler = false;
@@ -355,9 +363,19 @@ public abstract class TwPopoverPickerComponentBase : TwBlazorTextInputComponentB
     /// disposed, even if the component is removed from the DOM without <see cref="Close"/> being called.
     /// This prevents memory leaks and orphaned event listeners.
     /// </remarks>
-    public async ValueTask DisposeAsync()
+    public virtual async ValueTask DisposeAsync()
     {
-        await UnregisterOutsideClickAsync();
+        try
+        {
+            await UnregisterOutsideClickAsync();
+        }
+        catch (JSDisconnectedException)
+        {
+            // The circuit is already gone, so there is nothing left on the client to unregister;
+            // release what is held here instead of letting disposal throw.
+            ReleaseOutsideClickHandle();
+        }
+
         GC.SuppressFinalize(this);
     }
 }

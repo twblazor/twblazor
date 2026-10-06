@@ -426,10 +426,10 @@ public class ButtonBuilderTests : TwBlazorTestBase
     [InlineData(Color.Accent, "border-fuchsia-600", "text-fuchsia-600")]
     [InlineData(Color.Success, "border-green-600", "text-green-800")]
     [InlineData(Color.Danger, "border-red-600", "text-red-700")]
-    [InlineData(Color.Warning, "border-yellow-600", "text-yellow-800")]
+    [InlineData(Color.Warning, "border-yellow-700", "text-yellow-800")]
     [InlineData(Color.Info, "border-blue-600", "text-blue-600")]
     [InlineData(Color.Light, "border-gray-100", "text-gray-200")]
-    [InlineData(Color.Dark, "border-gray-900", "text-gray-950")]
+    [InlineData(Color.Dark, "border-[oklch(21%_0.006_285.885)]/25", "text-gray-950")]
     public void GetVariantClasses_ReturnsCorrectOutlinedClasses_ForEachColor(Color color, string expectedBorder, string expectedText)
     {
         // Act

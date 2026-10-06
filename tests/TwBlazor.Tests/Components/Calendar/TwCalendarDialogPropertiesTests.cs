@@ -112,6 +112,7 @@ public class TwCalendarDialogPropertiesTests : TwBlazorTestBase
     [Fact]
     public void EditDialog_ShowsAnEditorForEachConfiguredProperty()
     {
+        TestContext.JSInterop.Setup<bool>("twDevice.prefersNativePicker").SetResult(true);
         var provider = RenderProvider();
         var calendar = RenderCalendar([Event()]);
 
@@ -133,6 +134,7 @@ public class TwCalendarDialogPropertiesTests : TwBlazorTestBase
     [Fact]
     public void EditDialog_Save_AppliesPropertyEditsToTheEvent()
     {
+        TestContext.JSInterop.Setup<bool>("twDevice.prefersNativePicker").SetResult(true);
         List<Schedule<EventDetailsStub>>? saved = null;
         var provider = RenderProvider();
         var calendar = RenderCalendar([Event()], onChanged: list => saved = list);

@@ -2,7 +2,7 @@
 @using TwBlazor.Enums
 
 <PageContainer Title="TwStepper" Path="/stepper" Description="TwStepper is a Blazor stepper for multi-step flows. Bind ActiveStepIndex, set Orientation, Linear and Color, and give each step a Label and Description." ThemeType="typeof(TwStepperTheme)">
-    <PageCard Title="Basic Stepper">
+    <PageCard Title="Basic stepper">
         <Description>
             Add <code>TwStep</code> children to a <code>TwStepper</code> to declare each step, and bind <code>ActiveStepIndex</code> to control which one is active.
             Wire your own "Back"/"Next" buttons to a component reference's <code>PreviousStep()</code> and <code>NextStep()</code> methods, as shown below.
@@ -28,7 +28,7 @@
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Validating a Step">
+    <PageCard Title="Validating a step">
         <Description>
             Pass your own validation <code>Task</code> to a "Next" button's click handler and only call <code>NextStep</code> when it passes - the stepper doesn't need to know anything about your validation logic.
         </Description>
@@ -49,7 +49,7 @@
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Non-Linear Stepper">
+    <PageCard Title="Non-linear stepper">
         <Description>Set <code>Linear="false"</code> to let users jump straight to any non-disabled step by clicking it, instead of only being able to reach steps they've already visited.</Description>
         <CodeExample Name="StepperNonLinear">
             <TwStepper @bind-ActiveStepIndex="nonLinearActiveStep" Linear="false" AriaLabel="Non-linear progress">
@@ -61,7 +61,7 @@
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Disabled Step">
+    <PageCard Title="Disabled step">
         <Description>Set <code>Disabled</code> on a <code>TwStep</code> to prevent it from being navigated to, whether by clicking or via <code>NextStep</code>/<code>PreviousStep</code> (which both skip over it).</Description>
         <CodeExample Name="StepperDisabled">
             <TwStepper @bind-ActiveStepIndex="disabledActiveStep" Linear="false" AriaLabel="Progress with a disabled step">
@@ -72,7 +72,7 @@
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Vertical Stepper">
+    <PageCard Title="Vertical stepper">
         <Description>Set <code>Orientation="StepperOrientation.Vertical"</code> to stack steps top-to-bottom, with each step's content shown inline beneath its label while it's active.</Description>
         <CodeExample Name="StepperVertical" CSharpName="StepperVerticalCode">
             <TwStepper @ref="verticalStepper" @bind-ActiveStepIndex="verticalActiveStep" Orientation="StepperOrientation.Vertical" AriaLabel="Onboarding progress">
@@ -94,7 +94,7 @@
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Colored Stepper">
+    <PageCard Title="Colored stepper">
         <Description>Set <code>Color</code> to change the accent used for the active and completed step indicators and connectors.</Description>
         <CodeExample Name="StepperColor">
             <TwStepper @bind-ActiveStepIndex="coloredActiveStep" Linear="false" Color="Color.Success" AriaLabel="Success-colored progress">
