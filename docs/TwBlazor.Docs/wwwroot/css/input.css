@@ -1,4 +1,21 @@
 ﻿@import "tailwindcss";
+
+/* Slow ambient drift for the landing hero glow. Transform and opacity only, so it stays on the compositor,
+   and every use pairs it with motion-reduce:animate-none. */
+@theme {
+    --animate-glow-drift: glow-drift 14s ease-in-out infinite alternate;
+    --animate-glow-drift-alt: glow-drift-alt 18s ease-in-out infinite alternate;
+
+    @keyframes glow-drift {
+        from { transform: translate3d(-18%, -6%, 0) scale(0.9); opacity: 0.55; }
+        to { transform: translate3d(18%, 14%, 0) scale(1.25); opacity: 1; }
+    }
+
+    @keyframes glow-drift-alt {
+        from { transform: translate3d(10%, 8%, 0) scale(1.15); opacity: 0.5; }
+        to { transform: translate3d(-35%, -20%, 0) scale(0.85); opacity: 1; }
+    }
+}
 /* .theme-light opts a subtree out of dark mode, so the theme builder can show a light and a dark preview side by side. */
 @custom-variant dark (&:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)));
 

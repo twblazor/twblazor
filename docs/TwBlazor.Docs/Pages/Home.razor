@@ -7,9 +7,14 @@
 <!-- Hero -->
 <section class="relative isolate overflow-hidden border-b border-purple-200/60 bg-white dark:border-white/10 dark:bg-gray-950">
     <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10 bg-[linear-gradient(to_right,rgb(168_85_247/0.12)_1px,transparent_1px),linear-gradient(to_bottom,rgb(168_85_247/0.12)_1px,transparent_1px)] bg-[size:3rem_3rem] [mask-image:radial-gradient(ellipse_70%_60%_at_50%_0%,black,transparent)] dark:bg-[linear-gradient(to_right,rgb(168_85_247/0.18)_1px,transparent_1px),linear-gradient(to_bottom,rgb(168_85_247/0.18)_1px,transparent_1px)]"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute left-1/2 top-0 -z-10 h-80 w-[56rem] max-w-full -translate-x-1/2 rounded-full bg-linear-to-r from-purple-500/30 via-fuchsia-500/30 to-pink-400/30 blur-3xl dark:from-purple-600/30 dark:via-fuchsia-600/25 dark:to-pink-500/20"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute left-1/2 top-0 -z-10 h-80 w-[56rem] max-w-full -translate-x-1/2">
+        <div class="size-full animate-glow-drift rounded-full bg-linear-to-r from-purple-500/30 via-fuchsia-500/30 to-pink-400/30 blur-3xl motion-reduce:animate-none dark:from-purple-600/30 dark:via-fuchsia-600/25 dark:to-pink-500/20"></div>
+    </div>
+    <div aria-hidden="true" class="pointer-events-none absolute -right-24 top-24 -z-10 size-72 md:size-96">
+        <div class="size-full animate-glow-drift-alt rounded-full bg-fuchsia-400/20 blur-3xl motion-reduce:animate-none dark:bg-fuchsia-600/15"></div>
+    </div>
 
-    <div class="mx-auto max-w-6xl px-6 pb-14 pt-14 md:pb-20 md:pt-20">
+    <div class="mx-auto max-w-6xl px-6 pb-16 pt-16 md:pb-24 md:pt-24">
         <div class="mx-auto flex max-w-3xl flex-col items-center text-center">
             <a href="/get-started" class="inline-flex items-center gap-2 rounded-full border border-purple-200 bg-white/80 px-3 py-1 text-sm font-medium text-purple-800 shadow-xs transition-colors hover:border-fuchsia-400 hover:text-fuchsia-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600 dark:border-purple-500/30 dark:bg-purple-500/10 dark:text-purple-200 dark:hover:border-fuchsia-400">
                 <span class="size-1.5 rounded-full bg-fuchsia-500" aria-hidden="true"></span>
@@ -29,23 +34,6 @@
             </div>
 
             <TwCodeBlock Language="pwsh" Content="@quickStartInstall" Class="mt-8 w-full max-w-md text-left" Title="Install" />
-        </div>
-
-        <div class="relative mx-auto mt-14 max-w-4xl">
-            <div aria-hidden="true" class="absolute -inset-x-4 -inset-y-4 -z-10 rounded-3xl bg-linear-to-br from-purple-500/25 via-fuchsia-500/20 to-pink-400/25 blur-2xl"></div>
-            <div class="rounded-2xl border border-purple-200/80 bg-white/70 p-2 shadow-2xl shadow-purple-900/10 dark:border-white/10 dark:bg-white/5">
-                <TwCard Title="Components" Shadow="Shadow.None" Class="rounded-xl">
-                    <div class="mt-3">
-                        <TwDataTable TItem="ComponentInfo" Items="catalog" Columns="catalogColumns" Searchable Pageable RowsPerPage="5" SearchPlaceholder="Search components…">
-                            <EmptyContent>
-                                <div class="py-8 text-center">
-                                    <p class="text-gray-500 dark:text-gray-400">No components found.</p>
-                                </div>
-                            </EmptyContent>
-                        </TwDataTable>
-                    </div>
-                </TwCard>
-            </div>
         </div>
     </div>
 </section>
@@ -345,34 +333,6 @@
     private string signInEmail = string.Empty;
     private string signInPassword = string.Empty;
     private bool rememberMe = true;
-
-    private readonly List<ComponentInfo> catalog =
-    [
-        new() { Name = "Button", Category = "Inputs", Status = "Stable" },
-        new() { Name = "Data table", Category = "Data display", Status = "Stable" },
-        new() { Name = "Date picker", Category = "Inputs", Status = "Stable" },
-        new() { Name = "Dialog", Category = "Overlays", Status = "Stable" },
-        new() { Name = "Stepper", Category = "Navigation", Status = "Stable" },
-        new() { Name = "Carousel", Category = "Data display", Status = "New" },
-        new() { Name = "Pick list", Category = "Inputs", Status = "New" }
-    ];
-
-    private readonly List<TwDataTableColumn<ComponentInfo>> catalogColumns =
-    [
-        new() { Name = "name", Title = "Component", PropertySelector = c => c.Name, IsSortable = true },
-        new() { Name = "category", Title = "Category", PropertySelector = c => c.Category, IsSortable = true },
-        new() { Name = "status", Title = "Status", PropertySelector = c => c.Status, IsSortable = true }
-    ];
-
-    /// <summary>
-    /// A sample component entry shown in the landing page data table.
-    /// </summary>
-    public class ComponentInfo
-    {
-        public string Name { get; set; } = string.Empty;
-        public string Category { get; set; } = string.Empty;
-        public string Status { get; set; } = string.Empty;
-    }
 
     private sealed record Figure(string Label, string Value);
 
