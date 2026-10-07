@@ -602,28 +602,32 @@ public class TwCalendarTests : TwBlazorTestBase
     }
 
     /// <summary>
-    /// Drops onto a slot, finding it and dispatching the event in a single renderer-synchronized step. The
-    /// calendar re-renders on its own (drag activation, the "now" indicator's timer), so on a slow runner a
-    /// render can otherwise replace the slot's handler between <c>Find</c> and <c>Drop</c>, leaving the
-    /// handler id stale.
+    /// Finds an element and raises a drag event on it in one renderer-synchronized step, retrying if the
+    /// calendar re-renders in between. The calendar re-renders on its own (drag activation, the "now"
+    /// indicator's timer), so on a slow runner a render can replace the element's handler between
+    /// <c>Find</c> and the dispatch, leaving the handler id stale. A stale id throws before anything is
+    /// dispatched, so retrying can never raise the event twice.
+    /// </summary>
+    private static void Dispatch(IRenderedComponent<TwCalendar<string>> cut, Func<Task> action) =>
+        cut.WaitForAssertion(() => cut.InvokeAsync(action).GetAwaiter().GetResult());
+
+    /// <summary>
+    /// Drops onto the slot with the given label.
     /// </summary>
     private static void DropOnSlot(IRenderedComponent<TwCalendar<string>> cut, string slotLabel) =>
-        cut.InvokeAsync(() => cut.Find($"button[aria-label='{slotLabel}']").DropAsync(new DragEventArgs())).GetAwaiter().GetResult();
+        Dispatch(cut, () => cut.Find($"button[aria-label='{slotLabel}']").DropAsync(new DragEventArgs()));
 
     /// <summary>
-    /// Raises dragenter on the element matching the selector. The element is found inside the render
-    /// dispatcher so a re-render from the preceding drag step can't swap its event handler between the
-    /// lookup and the trigger.
+    /// Raises dragenter on the element matching the selector.
     /// </summary>
     private static void DragEnterOn(IRenderedComponent<TwCalendar<string>> cut, string selector) =>
-        cut.InvokeAsync(() => cut.Find(selector).DragEnterAsync(new DragEventArgs())).GetAwaiter().GetResult();
+        Dispatch(cut, () => cut.Find(selector).DragEnterAsync(new DragEventArgs()));
 
     /// <summary>
-    /// Raises dragend on the element matching the selector, found inside the render dispatcher for the
-    /// same reason as <see cref="DragEnterOn"/>.
+    /// Raises dragend on the element matching the selector.
     /// </summary>
     private static void DragEndOn(IRenderedComponent<TwCalendar<string>> cut, string selector) =>
-        cut.InvokeAsync(() => cut.Find(selector).DragEndAsync(new DragEventArgs())).GetAwaiter().GetResult();
+        Dispatch(cut, () => cut.Find(selector).DragEndAsync(new DragEventArgs()));
 
     /// <summary>
     /// Starts dragging the named event and waits for the schedule to enter drag mode, which it does a
@@ -631,7 +635,7 @@ public class TwCalendarTests : TwBlazorTestBase
     /// </summary>
     private static void StartDrag(IRenderedComponent<TwCalendar<string>> cut, string eventName)
     {
-        cut.Find($"button[aria-label^='{eventName}']").DragStart(new DragEventArgs());
+        Dispatch(cut, () => cut.Find($"button[aria-label^='{eventName}']").DragStartAsync(new DragEventArgs()));
         cut.WaitForAssertion(() => Assert.Contains("pointer-events-none", cut.Find($"button[aria-label^='{eventName}']").GetAttribute("class")));
     }
 
