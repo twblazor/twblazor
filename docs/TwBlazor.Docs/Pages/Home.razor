@@ -5,92 +5,122 @@
 <PageSeo Title="twblazor | Tailwind Blazor Component Library" Description="twblazor is a free, open-source Blazor components library built on Tailwind CSS. Accessible, themeable, with dark mode, for Server and WebAssembly." Path="/" JsonLd="_jsonLd" />
 
 <!-- Hero -->
-<section class="relative isolate overflow-hidden border-b border-gray-200 dark:border-gray-800">
-    <div class="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(70%_60%_at_20%_0%,var(--color-purple-100),transparent)] dark:bg-[radial-gradient(70%_60%_at_20%_0%,color-mix(in_oklab,var(--color-purple-500)_22%,transparent),transparent)]"></div>
+<section class="relative isolate overflow-hidden border-b border-purple-200/60 bg-white dark:border-white/10 dark:bg-gray-950">
+    <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10 bg-[linear-gradient(to_right,rgb(168_85_247/0.12)_1px,transparent_1px),linear-gradient(to_bottom,rgb(168_85_247/0.12)_1px,transparent_1px)] bg-[size:3rem_3rem] [mask-image:radial-gradient(ellipse_70%_60%_at_50%_0%,black,transparent)] dark:bg-[linear-gradient(to_right,rgb(168_85_247/0.18)_1px,transparent_1px),linear-gradient(to_bottom,rgb(168_85_247/0.18)_1px,transparent_1px)]"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute left-1/2 top-0 -z-10 h-80 w-[56rem] max-w-full -translate-x-1/2 rounded-full bg-linear-to-r from-purple-500/30 via-fuchsia-500/30 to-pink-400/30 blur-3xl dark:from-purple-600/30 dark:via-fuchsia-600/25 dark:to-pink-500/20"></div>
 
-    <div class="mx-auto grid max-w-6xl items-center gap-10 px-6 py-14 md:py-20 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:gap-14">
-        <div>
-            <h1 class="text-4xl font-bold leading-[1.05] tracking-tight text-purple-700 md:text-5xl dark:text-white">
+    <div class="mx-auto max-w-6xl px-6 pb-14 pt-14 md:pb-20 md:pt-20">
+        <div class="mx-auto flex max-w-3xl flex-col items-center text-center">
+            <a href="/get-started" class="inline-flex items-center gap-2 rounded-full border border-purple-200 bg-white/80 px-3 py-1 text-sm font-medium text-purple-800 shadow-xs transition-colors hover:border-fuchsia-400 hover:text-fuchsia-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600 dark:border-purple-500/30 dark:bg-purple-500/10 dark:text-purple-200 dark:hover:border-fuchsia-400">
+                <span class="size-1.5 rounded-full bg-fuchsia-500" aria-hidden="true"></span>
+                Free, open source and MIT licensed
+            </a>
+            <h1 class="mt-6 text-4xl font-bold leading-[1.05] tracking-tight text-balance text-gray-950 sm:text-5xl md:text-6xl dark:text-white">
                 The Tailwind CSS component library for Blazor
             </h1>
-            <p class="mt-5 max-w-lg text-lg/7 text-gray-600 dark:text-gray-300">
-                Professional-grade components for modern Blazor development.
-                Ship polished, accessible UI without wrestling with CSS.
+            <p class="mt-5 max-w-xl text-lg/7 text-gray-600 text-pretty dark:text-gray-300">
+                Accessible, themeable components for Blazor Server and WebAssembly.
+                Ship polished UI without wrestling with CSS.
             </p>
 
-            <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+            <div class="mt-8 flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row">
                 <TwButton Id="get-started" Class="w-full justify-center sm:w-auto" Color="Color.Primary" Label="Get started" StartIcon="IconEnum.Rocket_Takeoff" Href="/get-started" />
                 <TwButton Id="github" Class="w-full justify-center sm:w-auto" Color="Color.Accent" Variant="ButtonVariant.Outlined" Label="View on GitHub" StartIcon="IconEnum.Github" Href="https://github.com/twblazor/twblazor" Target="_blank" rel="noopener noreferrer" />
             </div>
 
-            <TwCodeBlock Language="pwsh" Content="@quickStartInstall" Class="mt-8 max-w-lg text-left" Title="Install" />
+            <TwCodeBlock Language="pwsh" Content="@quickStartInstall" Class="mt-8 w-full max-w-md text-left" Title="Install" />
         </div>
 
-        <div class="min-w-0">
-            <TwCard Title="Orders" Class="shadow-lg">
-                <div class="mt-3">
-                    <TwDataTable TItem="Order" Items="orders" Columns="orderColumns" Searchable Pageable RowsPerPage="5" SearchPlaceholder="Search orders...">
-                        <EmptyContent>
-                            <div class="py-8 text-center">
-                                <p class="text-gray-500 dark:text-gray-400">No orders found.</p>
-                            </div>
-                        </EmptyContent>
-                    </TwDataTable>
-                </div>
-            </TwCard>
+        <div class="relative mx-auto mt-14 max-w-4xl">
+            <div aria-hidden="true" class="absolute -inset-x-4 -inset-y-4 -z-10 rounded-3xl bg-linear-to-br from-purple-500/25 via-fuchsia-500/20 to-pink-400/25 blur-2xl"></div>
+            <div class="rounded-2xl border border-purple-200/80 bg-white/70 p-2 shadow-2xl shadow-purple-900/10 backdrop-blur dark:border-white/10 dark:bg-white/5">
+                <TwCard Title="Components" Shadow="Shadow.None" Class="rounded-xl">
+                    <div class="mt-3">
+                        <TwDataTable TItem="ComponentInfo" Items="catalog" Columns="catalogColumns" Searchable Pageable RowsPerPage="5" SearchPlaceholder="Search components…">
+                            <EmptyContent>
+                                <div class="py-8 text-center">
+                                    <p class="text-gray-500 dark:text-gray-400">No components found.</p>
+                                </div>
+                            </EmptyContent>
+                        </TwDataTable>
+                    </div>
+                </TwCard>
+            </div>
         </div>
     </div>
 </section>
 
-<div class="mx-auto max-w-6xl px-6 text-gray-950 dark:text-white">
+<div class="text-gray-950 dark:text-white">
 
     <!-- Features -->
-    <section class="mt-14 md:mt-20" aria-labelledby="features-heading">
-        <h2 id="features-heading" class="text-2xl font-bold tracking-tight text-purple-700 md:text-3xl dark:text-white">Why twblazor?</h2>
-        <p class="mt-2 max-w-xl text-gray-600 dark:text-gray-400">
-            Everything you need to build clean, consistent interfaces.
-        </p>
+    <section class="bg-linear-to-b from-purple-50 to-fuchsia-50/60 dark:from-purple-950/30 dark:to-fuchsia-950/20" aria-labelledby="features-heading">
+        <div class="mx-auto max-w-6xl px-6 py-14 md:py-20">
+            <h2 id="features-heading" class="text-2xl font-bold tracking-tight text-purple-900 md:text-3xl dark:text-white">Why twblazor?</h2>
+            <p class="mt-2 max-w-xl text-gray-700 dark:text-gray-400">
+                Everything you need to build clean, consistent interfaces.
+            </p>
 
-        <div class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <TwCard Shadow="Shadow.None">
-                <span class="inline-flex size-10 items-center justify-center rounded-lg bg-purple-50 text-xl text-purple-700 dark:bg-purple-500/15 dark:text-purple-300"><TwIcon Icon="IconEnum.Lightning_Charge_Fill" Plain /></span>
-                <h3 class="mt-4 text-lg font-semibold text-purple-700 dark:text-white">Fast to build</h3>
+            <div class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <TwCard Shadow="Shadow.None" Class="border border-purple-200/70 transition-colors hover:border-fuchsia-400 dark:border-white/10">
+                <span class="inline-flex size-11 shrink-0 items-center justify-center rounded-xl bg-linear-to-br from-purple-600 to-purple-500 text-xl text-white shadow-lg shadow-purple-500/30"><TwIcon Icon="IconEnum.Lightning_Charge_Fill" Plain /></span>
+                <h3 class="mt-4 text-lg font-semibold text-purple-900 dark:text-white">Fast to build</h3>
                 <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">25+ ready-made components mean you're shipping features, not fighting CSS.</p>
             </TwCard>
-            <TwCard Shadow="Shadow.None">
-                <span class="inline-flex size-10 items-center justify-center rounded-lg bg-purple-50 text-xl text-purple-700 dark:bg-purple-500/15 dark:text-purple-300"><TwIcon Icon="IconEnum.Palette_Fill" Plain /></span>
-                <h3 class="mt-4 text-lg font-semibold text-purple-700 dark:text-white">Fully customisable</h3>
+            <TwCard Shadow="Shadow.None" Class="border border-purple-200/70 transition-colors hover:border-fuchsia-400 dark:border-white/10">
+                <span class="inline-flex size-11 shrink-0 items-center justify-center rounded-xl bg-linear-to-br from-fuchsia-600 to-pink-500 text-xl text-white shadow-lg shadow-fuchsia-500/30"><TwIcon Icon="IconEnum.Palette_Fill" Plain /></span>
+                <h3 class="mt-4 text-lg font-semibold text-purple-900 dark:text-white">Fully customisable</h3>
                 <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Tailwind-powered styling that adapts to your brand, in light and dark mode.</p>
             </TwCard>
-            <TwCard Shadow="Shadow.None">
-                <span class="inline-flex size-10 items-center justify-center rounded-lg bg-purple-50 text-xl text-purple-700 dark:bg-purple-500/15 dark:text-purple-300"><TwIcon Icon="IconEnum.Puzzle_Fill" Plain /></span>
-                <h3 class="mt-4 text-lg font-semibold text-purple-700 dark:text-white">Composable</h3>
+            <TwCard Shadow="Shadow.None" Class="border border-purple-200/70 transition-colors hover:border-fuchsia-400 dark:border-white/10">
+                <span class="inline-flex size-11 shrink-0 items-center justify-center rounded-xl bg-linear-to-br from-indigo-600 to-purple-500 text-xl text-white shadow-lg shadow-indigo-500/30"><TwIcon Icon="IconEnum.Puzzle_Fill" Plain /></span>
+                <h3 class="mt-4 text-lg font-semibold text-purple-900 dark:text-white">Composable</h3>
                 <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Simple, parameter-driven APIs that feel natural if you already know Blazor.</p>
             </TwCard>
-            <TwCard Shadow="Shadow.None">
-                <span class="inline-flex size-10 items-center justify-center rounded-lg bg-purple-50 text-xl text-purple-700 dark:bg-purple-500/15 dark:text-purple-300"><TwIcon Icon="IconEnum.Shield_Check" Plain /></span>
-                <h3 class="mt-4 text-lg font-semibold text-purple-700 dark:text-white">Accessible by default</h3>
+            <TwCard Shadow="Shadow.None" Class="border border-purple-200/70 transition-colors hover:border-fuchsia-400 dark:border-white/10">
+                <span class="inline-flex size-11 shrink-0 items-center justify-center rounded-xl bg-linear-to-br from-pink-600 to-fuchsia-500 text-xl text-white shadow-lg shadow-pink-500/30"><TwIcon Icon="IconEnum.Shield_Check" Plain /></span>
+                <h3 class="mt-4 text-lg font-semibold text-purple-900 dark:text-white">Accessible by default</h3>
                 <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Sensible ARIA attributes and keyboard support baked into every component.</p>
             </TwCard>
+            </div>
         </div>
     </section>
 
     <!-- Guides -->
-    <section class="mt-14 md:mt-20" aria-labelledby="guides-heading">
-        <h2 id="guides-heading" class="text-2xl font-bold tracking-tight text-purple-700 md:text-3xl dark:text-white">Tailwind and Blazor, working together</h2>
-        <p class="mt-2 max-w-2xl text-gray-600 dark:text-gray-400">
-            twblazor is a Blazor components library for teams who already use Tailwind CSS. Read how
-            <a href="/tailwind-blazor" class="font-semibold underline hover:no-underline">Tailwind CSS works with Blazor</a>,
-            see how it stacks up in our
-            <a href="/blazor-component-library-comparison" class="font-semibold underline hover:no-underline">Blazor component library comparison</a>,
-            or jump straight to the <a href="/get-started" class="font-semibold underline hover:no-underline">install guide</a>.
+    <section class="mx-auto max-w-6xl px-6 pt-14 md:pt-20" aria-labelledby="guides-heading">
+        <h2 id="guides-heading" class="text-2xl font-bold tracking-tight text-purple-900 md:text-3xl dark:text-white">Tailwind and Blazor, working together</h2>
+        <p class="mt-2 max-w-2xl text-gray-700 dark:text-gray-400">
+            twblazor is a Blazor components library for teams who already use Tailwind CSS.
         </p>
+
+        <div class="mt-8 grid grid-cols-1 gap-4 md:grid-cols-3">
+            <a href="/tailwind-blazor" class="flex items-start gap-4 rounded-xl border border-purple-200 bg-white p-5 transition-colors hover:border-purple-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600 dark:border-purple-900 dark:bg-gray-900 dark:hover:border-purple-400">
+                <span class="inline-flex size-10 shrink-0 items-center justify-center rounded-lg bg-purple-100 text-xl text-purple-700 dark:bg-purple-500/15 dark:text-purple-300"><TwIcon Icon="IconEnum.Wind" Plain /></span>
+                <span>
+                    <span class="block font-semibold text-purple-900 dark:text-white">Tailwind CSS with Blazor</span>
+                    <span class="mt-1 block text-sm text-gray-600 dark:text-gray-400">How Tailwind finds your classes and how twblazor themes them.</span>
+                </span>
+            </a>
+            <a href="/blazor-component-library-comparison" class="flex items-start gap-4 rounded-xl border border-fuchsia-200 bg-white p-5 transition-colors hover:border-fuchsia-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fuchsia-600 dark:border-fuchsia-900 dark:bg-gray-900 dark:hover:border-fuchsia-400">
+                <span class="inline-flex size-10 shrink-0 items-center justify-center rounded-lg bg-fuchsia-100 text-xl text-fuchsia-700 dark:bg-fuchsia-500/15 dark:text-fuchsia-300"><TwIcon Icon="IconEnum.Layers_Fill" Plain /></span>
+                <span>
+                    <span class="block font-semibold text-purple-900 dark:text-white">Blazor component library comparison</span>
+                    <span class="mt-1 block text-sm text-gray-600 dark:text-gray-400">See how twblazor compares with MudBlazor, Radzen and others.</span>
+                </span>
+            </a>
+            <a href="/get-started" class="flex items-start gap-4 rounded-xl border border-purple-200 bg-white p-5 transition-colors hover:border-purple-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600 dark:border-purple-900 dark:bg-gray-900 dark:hover:border-purple-400">
+                <span class="inline-flex size-10 shrink-0 items-center justify-center rounded-lg bg-purple-100 text-xl text-purple-700 dark:bg-purple-500/15 dark:text-purple-300"><TwIcon Icon="IconEnum.Rocket_Takeoff" Plain /></span>
+                <span>
+                    <span class="block font-semibold text-purple-900 dark:text-white">Install guide</span>
+                    <span class="mt-1 block text-sm text-gray-600 dark:text-gray-400">Add the package to a Server or WebAssembly app in nine steps.</span>
+                </span>
+            </a>
+        </div>
     </section>
 
     <!-- Showcase -->
-    <section class="mt-16 md:mt-24" aria-labelledby="examples-heading">
-        <h2 id="examples-heading" class="text-2xl font-bold tracking-tight text-purple-700 md:text-3xl dark:text-white">Real components. Ready for your app.</h2>
-        <p class="mt-2 max-w-xl text-gray-600 dark:text-gray-400">
+    <section class="mx-auto max-w-6xl px-6 pt-16 md:pt-24" aria-labelledby="examples-heading">
+        <h2 id="examples-heading" class="text-2xl font-bold tracking-tight text-purple-900 md:text-3xl dark:text-white">Real components. Ready for your app.</h2>
+        <p class="mt-2 max-w-xl text-gray-700 dark:text-gray-400">
             Go ahead and try them. Every example here is a live twblazor component.
         </p>
 
@@ -211,56 +241,61 @@
     </section>
 
     <!-- Theming -->
-    <section class="mt-16 md:mt-24" aria-labelledby="theming-heading">
-        <h2 id="theming-heading" class="max-w-2xl text-2xl font-bold tracking-tight text-purple-700 md:text-3xl dark:text-white">The deepest Tailwind theming of any Blazor library</h2>
-        <p class="mt-2 max-w-2xl text-gray-600 dark:text-gray-400">
-            twblazor is the first and only Tailwind CSS component library for Blazor built
-            around full, typed, component-level theming. Every visual detail of every component is a
-            plain Tailwind class you own and can override, not a black box baked into a compiled DLL.
-        </p>
+    <section class="mt-16 bg-purple-950 text-white md:mt-24" aria-labelledby="theming-heading">
+        <div class="relative isolate overflow-hidden">
+            <div aria-hidden="true" class="pointer-events-none absolute -right-32 -top-32 -z-10 size-[30rem] rounded-full bg-fuchsia-600/25 blur-3xl"></div>
+            <div class="mx-auto max-w-6xl px-6 py-14 md:py-20">
+                <h2 id="theming-heading" class="max-w-2xl text-2xl font-bold tracking-tight text-white text-balance md:text-3xl">The deepest Tailwind theming of any Blazor library</h2>
+                <p class="mt-2 max-w-2xl text-purple-200">
+                    twblazor is the first and only Tailwind CSS component library for Blazor built
+                    around full, typed, component-level theming. Every visual detail of every component is a
+                    plain Tailwind class you own and can override, not a black box baked into a compiled DLL.
+                </p>
 
-        <div class="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-2">
-            <dl class="flex flex-col justify-between gap-4">
+                <div class="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-2">
+                    <dl class="flex flex-col justify-between gap-4">
                 <div class="flex items-start gap-4">
-                    <span class="inline-flex size-10 shrink-0 items-center justify-center rounded-lg bg-purple-50 text-xl text-purple-700 dark:bg-purple-500/15 dark:text-purple-300"><TwIcon Icon="IconEnum.Braces" Plain /></span>
+                    <span class="inline-flex size-11 shrink-0 items-center justify-center rounded-xl bg-linear-to-br from-fuchsia-500 to-purple-500 text-xl text-white shadow-lg shadow-fuchsia-500/20"><TwIcon Icon="IconEnum.Braces" Plain /></span>
                     <div>
-                        <dt class="font-semibold text-purple-700 dark:text-white">Every class, typed and overridable</dt>
-                        <dd class="mt-1 text-sm text-gray-600 dark:text-gray-400">Each component has its own C# theme class, like <code>TwButtonTheme</code>, with every class exposed as a named property.</dd>
+                        <dt class="font-semibold text-white">Every class, typed and overridable</dt>
+                        <dd class="mt-1 text-sm text-purple-200">Each component has its own C# theme class, like <code>TwButtonTheme</code>, with every class exposed as a named property.</dd>
                     </div>
                 </div>
                 <div class="flex items-start gap-4">
-                    <span class="inline-flex size-10 shrink-0 items-center justify-center rounded-lg bg-purple-50 text-xl text-purple-700 dark:bg-purple-500/15 dark:text-purple-300"><TwIcon Icon="IconEnum.Layers_Fill" Plain /></span>
+                    <span class="inline-flex size-11 shrink-0 items-center justify-center rounded-xl bg-linear-to-br from-fuchsia-500 to-purple-500 text-xl text-white shadow-lg shadow-fuchsia-500/20"><TwIcon Icon="IconEnum.Layers_Fill" Plain /></span>
                     <div>
-                        <dt class="font-semibold text-purple-700 dark:text-white">Reusable design tokens</dt>
-                        <dd class="mt-1 text-sm text-gray-600 dark:text-gray-400">Set a color or shade once and every component stays in sync.</dd>
+                        <dt class="font-semibold text-white">Reusable design tokens</dt>
+                        <dd class="mt-1 text-sm text-purple-200">Set a color or shade once and every component stays in sync.</dd>
                     </div>
                 </div>
                 <div class="flex items-start gap-4">
-                    <span class="inline-flex size-10 shrink-0 items-center justify-center rounded-lg bg-purple-50 text-xl text-purple-700 dark:bg-purple-500/15 dark:text-purple-300"><TwIcon Icon="IconEnum.Sliders" Plain /></span>
+                    <span class="inline-flex size-11 shrink-0 items-center justify-center rounded-xl bg-linear-to-br from-fuchsia-500 to-purple-500 text-xl text-white shadow-lg shadow-fuchsia-500/20"><TwIcon Icon="IconEnum.Sliders" Plain /></span>
                     <div>
-                        <dt class="font-semibold text-purple-700 dark:text-white">Global defaults, local overrides</dt>
-                        <dd class="mt-1 text-sm text-gray-600 dark:text-gray-400">Set a default once, and any single instance can still override it.</dd>
+                        <dt class="font-semibold text-white">Global defaults, local overrides</dt>
+                        <dd class="mt-1 text-sm text-purple-200">Set a default once, and any single instance can still override it.</dd>
                     </div>
                 </div>
                 <div class="flex items-start gap-4">
-                    <span class="inline-flex size-10 shrink-0 items-center justify-center rounded-lg bg-purple-50 text-xl text-purple-700 dark:bg-purple-500/15 dark:text-purple-300"><TwIcon Icon="IconEnum.Wind" Plain /></span>
+                    <span class="inline-flex size-11 shrink-0 items-center justify-center rounded-xl bg-linear-to-br from-fuchsia-500 to-purple-500 text-xl text-white shadow-lg shadow-fuchsia-500/20"><TwIcon Icon="IconEnum.Wind" Plain /></span>
                     <div>
-                        <dt class="font-semibold text-purple-700 dark:text-white">Real Tailwind, real JIT</dt>
-                        <dd class="mt-1 text-sm text-gray-600 dark:text-gray-400">Themes are plain C# string literals, so Tailwind always sees them. No safelists or build workarounds.</dd>
+                        <dt class="font-semibold text-white">Real Tailwind, real JIT</dt>
+                        <dd class="mt-1 text-sm text-purple-200">Themes are plain C# string literals, so Tailwind always sees them. No safelists or build workarounds.</dd>
                     </div>
                 </div>
-            </dl>
+                    </dl>
 
-            <div class="min-w-0">
-                <TwCodeBlock Language="csharp" Content="@themingSnippet" />
+                    <div class="min-w-0">
+                        <TwCodeBlock Language="csharp" Content="@themingSnippet" />
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Quick start -->
-    <section class="mt-16 md:mt-24" aria-labelledby="quickstart-heading">
-        <h2 id="quickstart-heading" class="text-2xl font-bold tracking-tight text-purple-700 md:text-3xl dark:text-white">Up and running in minutes</h2>
-        <p class="mt-2 max-w-xl text-gray-600 dark:text-gray-400">
+    <section class="mx-auto max-w-6xl px-6 pt-16 md:pt-24" aria-labelledby="quickstart-heading">
+        <h2 id="quickstart-heading" class="text-2xl font-bold tracking-tight text-purple-900 md:text-3xl dark:text-white">Up and running in minutes</h2>
+        <p class="mt-2 max-w-xl text-gray-700 dark:text-gray-400">
             Install the package, register the services, start dropping in components.
         </p>
 
@@ -270,26 +305,27 @@
     </section>
 
     <!-- CTA -->
-    <section class="mb-8 mt-16 md:mt-24">
-        <TwCard Shadow="Shadow.None">
-            <div class="flex flex-col items-start justify-between gap-6 py-4 md:flex-row md:items-center">
+    <section class="mx-auto max-w-6xl px-6 pt-16 md:pt-24">
+        <div class="relative isolate overflow-hidden rounded-2xl bg-linear-to-r from-purple-700 via-purple-600 to-fuchsia-600 px-6 py-10 text-white shadow-xl shadow-purple-900/20 md:px-10">
+            <div aria-hidden="true" class="pointer-events-none absolute -right-16 -top-24 -z-10 size-72 rounded-full bg-white/10 blur-2xl"></div>
+            <div class="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
                 <div>
-                    <h2 class="text-2xl font-bold tracking-tight text-purple-700 dark:text-white">Ready to build something great?</h2>
-                    <p class="mt-1 max-w-xl text-gray-600 dark:text-gray-400">
+                    <h2 class="text-2xl font-bold tracking-tight text-white">Ready to build something great?</h2>
+                    <p class="mt-1 max-w-xl text-white">
                         Jump into the docs and start assembling your UI with twblazor components.
                     </p>
                 </div>
                 <div class="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
-                    <TwButton Id="cta-get-started" Class="w-full justify-center sm:w-auto" Color="Color.Primary" Label="Get started" StartIcon="IconEnum.Rocket_Takeoff" Href="/get-started" />
-                    <TwButton Id="cta-github" Class="w-full justify-center sm:w-auto" Color="Color.Accent" Variant="ButtonVariant.Outlined" Label="Star on GitHub" StartIcon="IconEnum.Github" Href="https://github.com/twblazor/twblazor" Target="_blank" rel="noopener noreferrer" />
+                    <a id="cta-get-started" href="/get-started" class="inline-flex w-full items-center justify-center gap-2 rounded-md bg-white px-5 py-2.5 font-semibold text-purple-900 transition-colors hover:bg-purple-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:w-auto"><TwIcon Icon="IconEnum.Rocket_Takeoff" Plain /> Get started</a>
+                    <a id="cta-github" href="https://github.com/twblazor/twblazor" target="_blank" rel="noopener noreferrer" class="inline-flex w-full items-center justify-center gap-2 rounded-md border border-white/70 px-5 py-2.5 font-semibold text-white transition-colors hover:bg-white/15 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:w-auto"><TwIcon Icon="IconEnum.Github" Plain /> Star on GitHub<span class="sr-only"> (opens in a new tab)</span></a>
                 </div>
             </div>
-        </TwCard>
+        </div>
     </section>
 
     <!-- Open source commitment -->
-    <section class="mb-12 max-w-2xl">
-        <p class="text-sm text-gray-600 md:text-base dark:text-gray-400">
+    <section class="mx-auto max-w-6xl px-6 pb-12 pt-8">
+        <p class="max-w-2xl text-sm text-gray-700 md:text-base dark:text-gray-400">
             twblazor is and always will be free and open source. We believe great tooling
             should be accessible to every developer, so the library is released under the MIT
             license and built in the open, with contributions from the community.
@@ -310,34 +346,32 @@
     private string signInPassword = string.Empty;
     private bool rememberMe = true;
 
-    private readonly List<Order> orders =
+    private readonly List<ComponentInfo> catalog =
     [
-        new() { Number = "#1042", Customer = "Ava Thompson", Status = "Shipped", Total = 249.00m },
-        new() { Number = "#1043", Customer = "Noah Patel", Status = "Pending", Total = 89.50m },
-        new() { Number = "#1044", Customer = "Mia Garcia", Status = "Delivered", Total = 1299.00m },
-        new() { Number = "#1045", Customer = "Liam Chen", Status = "Shipped", Total = 59.99m },
-        new() { Number = "#1046", Customer = "Sofia Rossi", Status = "Refunded", Total = 399.00m },
-        new() { Number = "#1047", Customer = "Ethan Brown", Status = "Pending", Total = 749.25m },
-        new() { Number = "#1048", Customer = "Isla Wright", Status = "Delivered", Total = 24.00m }
+        new() { Name = "Button", Category = "Inputs", Status = "Stable" },
+        new() { Name = "Data table", Category = "Data display", Status = "Stable" },
+        new() { Name = "Date picker", Category = "Inputs", Status = "Stable" },
+        new() { Name = "Dialog", Category = "Overlays", Status = "Stable" },
+        new() { Name = "Stepper", Category = "Navigation", Status = "Stable" },
+        new() { Name = "Carousel", Category = "Data display", Status = "New" },
+        new() { Name = "Pick list", Category = "Inputs", Status = "New" }
     ];
 
-    private readonly List<TwDataTableColumn<Order>> orderColumns =
+    private readonly List<TwDataTableColumn<ComponentInfo>> catalogColumns =
     [
-        new() { Name = "number", Title = "Order", PropertySelector = o => o.Number, IsSortable = true },
-        new() { Name = "customer", Title = "Customer", PropertySelector = o => o.Customer, IsSortable = true },
-        new() { Name = "status", Title = "Status", PropertySelector = o => o.Status },
-        new() { Name = "total", Title = "Total", PropertySelector = o => o.Total, IsSortable = true, CellFormatter = o => $"£{o.Total:N2}" }
+        new() { Name = "name", Title = "Component", PropertySelector = c => c.Name, IsSortable = true },
+        new() { Name = "category", Title = "Category", PropertySelector = c => c.Category, IsSortable = true },
+        new() { Name = "status", Title = "Status", PropertySelector = c => c.Status, IsSortable = true }
     ];
 
     /// <summary>
-    /// A sample order shown in the landing page data table.
+    /// A sample component entry shown in the landing page data table.
     /// </summary>
-    public class Order
+    public class ComponentInfo
     {
-        public string Number { get; set; } = string.Empty;
-        public string Customer { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
+        public string Category { get; set; } = string.Empty;
         public string Status { get; set; } = string.Empty;
-        public decimal Total { get; set; }
     }
 
     private sealed record Figure(string Label, string Value);

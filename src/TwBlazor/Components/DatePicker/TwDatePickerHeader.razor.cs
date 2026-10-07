@@ -68,6 +68,6 @@ public partial class TwDatePickerHeader : TwBlazorComponentBase
     /// otherwise renders with no Color/Variant and so has no hover affordance of its own.
     /// </summary>
     private string titleButtonClasses => new ClassBuilder("view-switch")
-        .AddClass(options.Theme.Colors.HoverColors.Primary)
+        .AddClass(theme.HoverClass)
         .Build();
 }

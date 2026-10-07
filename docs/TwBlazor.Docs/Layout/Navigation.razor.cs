@@ -23,13 +23,13 @@ public partial class Navigation : IDisposable
     /// Classes for the top-bar links. Neutral by default, with the current page marked by a filled pill.
     /// </summary>
     private const string navLinkClasses =
-        "inline-flex items-center gap-2 rounded px-3 py-1.5 text-sm font-medium text-gray-600 transition-colors duration-200 hover:bg-gray-100 hover:text-gray-950 [&.active]:bg-gray-100 [&.active]:text-gray-950 dark:text-gray-300 dark:hover:bg-white/10 dark:hover:text-white dark:[&.active]:bg-white/10 dark:[&.active]:text-white";
+        "inline-flex items-center gap-2 rounded px-3 py-1.5 text-sm font-medium text-gray-600 transition-colors duration-200 hover:bg-purple-50 hover:text-purple-900 [&.active]:bg-purple-100 [&.active]:text-purple-900 dark:text-gray-300 dark:hover:bg-purple-500/15 dark:hover:text-white dark:[&.active]:bg-purple-500/20 dark:[&.active]:text-white";
 
     /// <summary>
     /// Classes for the icon buttons on the right of the top bar.
     /// </summary>
     private const string navIconClasses =
-        "text-gray-600 hover:text-gray-950 dark:text-gray-300 dark:hover:text-white";
+        "text-gray-600 hover:text-fuchsia-600 dark:text-gray-300 dark:hover:text-fuchsia-300";
 
 #pragma warning disable S1075 // Fixed external documentation link, not environment-specific
     private static readonly string _apiDocumentationUri = "https://twblazor.github.io/twblazor/";
