@@ -1198,7 +1198,7 @@ public static class Theme
                 },
                 new TwTableTheme
                 {
-                    Wrapper = "overflow-auto",
+                    Wrapper = $"{positioning.Relative} overflow-auto",
                     ContainerClip = overflow.Hidden,
                     Base = $"{sizing.FullWidth} {typography.Size.Sm} text-left rtl:text-right {neutralText.Heading}",
                     Bordered = $"{borderWidth.Thin} {neutralSurface.Border}",
