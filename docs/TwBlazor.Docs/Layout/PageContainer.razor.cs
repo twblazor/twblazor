@@ -65,6 +65,12 @@ public partial class PageContainer : ComponentBase, IDisposable
     /// </summary>
     [Parameter] public bool HideOutline { get; set; }
 
+    /// <summary>
+    /// Questions people ask about the page's subject. Shown in a "Frequently asked questions" card after the
+    /// content, and emitted as FAQPage JSON-LD.
+    /// </summary>
+    [Parameter] public IReadOnlyList<FaqItem>? Faq { get; set; }
+
     private string containerClass =>
         $"mx-auto flex {(HideOutline ? "max-w-7xl" : "max-w-6xl")} items-start gap-10 p-6 text-sm text-gray-900 dark:text-gray-200";
 
@@ -72,6 +78,7 @@ public partial class PageContainer : ComponentBase, IDisposable
     private DateOnly lastModified;
     private bool hasLastModified;
     private string? category;
+    private IReadOnlyList<string> jsonLd = [];
 
     /// <inheritdoc />
     protected override void OnInitialized() => _outline.Changed += OnOutlineChanged;
@@ -84,6 +91,9 @@ public partial class PageContainer : ComponentBase, IDisposable
             .Where(leaf => leaf.Entry.Url == Path)
             .Select(leaf => leaf.Category)
             .FirstOrDefault();
+        jsonLd = Faq is { Count: > 0 }
+            ? [SiteMetadata.BreadcrumbJsonLd(Title ?? Path.TrimStart('/'), Path), SiteMetadata.FaqJsonLd(Faq.Select(item => (item.Question, item.Answer)))]
+            : [SiteMetadata.BreadcrumbJsonLd(Title ?? Path.TrimStart('/'), Path)];
     }
 
     /// <summary>

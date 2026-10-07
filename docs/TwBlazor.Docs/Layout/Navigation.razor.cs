@@ -43,7 +43,18 @@ public partial class Navigation : IDisposable
         List<NavigationItem> items =
         [
             new() { Id = "home", Label = "Home", Href = "/" },
-            new() { Id = "get-started", Label = "Get started", Href = "/get-started" },
+            new()
+            {
+                Id = "get-started-group",
+                Label = "Get Started",
+                Collapsed = false,
+                NavigationItems =
+                [
+                    new() { Id = "get-started", Label = "Get started", Href = "/get-started" },
+                    new() { Id = "tailwind-blazor", Label = "Tailwind with Blazor", Href = "/tailwind-blazor" },
+                    new() { Id = "library-comparison", Label = "Library comparison", Href = "/blazor-component-library-comparison" },
+                ],
+            },
             new() { Id = "theme", Label = "Theme", Href = "/theme" },
         ];
 

@@ -1,0 +1,107 @@
+@page "/blazor-component-library-comparison"
+@using TwBlazor.Docs.Services
+
+<PageContainer Title="Blazor component library comparison" Path="/blazor-component-library-comparison" Category="Guides" Faq="_faq" Description="Compare Blazor component libraries: MudBlazor, Radzen, Fluent UI, Blazorise, commercial suites and twblazor, and choose by styling approach, licence and fit." SeoTitle="Blazor Components Library Comparison | twblazor">
+    <PageCard Title="How to choose a Blazor components library">
+        <p class="mb-3">
+            Most Blazor component libraries cover the same basics: buttons, forms, tables, dialogs and navigation. The choice usually comes down to four things.
+        </p>
+        <ul class="list-disc space-y-2 ps-5">
+            <li><strong>Styling approach.</strong> Does the library bring its own design system, or does it fit the CSS framework you already use?</li>
+            <li><strong>Licence and cost.</strong> Is everything free and open source, or are some components paid?</li>
+            <li><strong>Component coverage.</strong> Do you need advanced pieces such as charts, schedulers or report designers?</li>
+            <li><strong>Customisation.</strong> How easily can you match your brand without fighting the library's CSS?</li>
+        </ul>
+    </PageCard>
+
+    <PageCard Title="The main options">
+        <p class="mb-3">
+            This is a short orientation, not a benchmark. Libraries change quickly, so check each project's own documentation for current features and licensing.
+        </p>
+        <TwTable Id="library-comparison" Hoverable>
+            <Caption>Blazor component libraries, the styling approach each one takes and where to find its official documentation</Caption>
+            <TableHeader>
+                <tr>
+                    <th scope="col" class="px-6 py-3">Library</th>
+                    <th scope="col" class="px-6 py-3">Styling approach</th>
+                    <th scope="col" class="px-6 py-3">Good fit when</th>
+                    <th scope="col" class="px-6 py-3">Official docs</th>
+                </tr>
+            </TableHeader>
+            <TableBody>
+                @foreach (var option in _options)
+                {
+                    <tr>
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white">@option.Name</th>
+                        <td class="px-6 py-4">@option.Styling</td>
+                        <td class="px-6 py-4">@option.GoodFit</td>
+                        <td class="px-6 py-4">
+                            <ul class="space-y-1">
+                                @foreach (var link in option.Links)
+                                {
+                                    <li>
+                                        @if (link.Url.StartsWith('/'))
+                                        {
+                                            <a href="@link.Url" class="font-semibold underline hover:no-underline">@link.Label</a>
+                                        }
+                                        else
+                                        {
+                                            <a href="@link.Url" target="_blank" rel="noopener noreferrer" class="font-semibold underline hover:no-underline">@link.Label<span class="sr-only"> (opens in a new tab)</span></a>
+                                        }
+                                    </li>
+                                }
+                            </ul>
+                        </td>
+                    </tr>
+                }
+            </TableBody>
+        </TwTable>
+    </PageCard>
+
+    <PageCard Title="Where twblazor fits">
+        <p class="mb-3">
+            twblazor is a Tailwind CSS component library for Blazor. Its components are styled with Tailwind utility classes that live in a <code>Theme.cs</code> file in your own project, so your Tailwind build compiles them and you can change any component's look by editing a C# string.
+        </p>
+        <ul class="list-disc space-y-2 ps-5">
+            <li>Free and open source under the MIT licence, with no paid tier.</li>
+            <li>Works with Blazor Server and Blazor WebAssembly.</li>
+            <li>Dark mode, accessible markup and keyboard support in every component.</li>
+            <li>A <a href="/theme" class="font-semibold underline">Theme builder</a> for brand colors and picking only the components you use.</li>
+        </ul>
+        <p class="mt-3">
+            It is also newer and smaller than the established libraries, and some components are marked as beta. If you need a charting or scheduling suite today, a larger library may suit you better. If you already use Tailwind and want components that follow your design, twblazor is built for that.
+        </p>
+    </PageCard>
+
+    <PageCard Title="Next steps">
+        <ul class="list-disc space-y-2 ps-5">
+            <li>Learn <a href="/tailwind-blazor" class="font-semibold underline">how Tailwind CSS works with Blazor</a>.</li>
+            <li>Try the live examples, starting with the <a href="/button" class="font-semibold underline">button</a> and <a href="/data-table" class="font-semibold underline">data table</a> pages.</li>
+            <li>Follow the <a href="/get-started" class="font-semibold underline">Get started</a> guide to install twblazor.</li>
+        </ul>
+    </PageCard>
+</PageContainer>
+
+@code {
+    private sealed record DocsLink(string Label, string Url);
+
+    private sealed record LibraryOption(string Name, string Styling, string GoodFit, DocsLink[] Links);
+
+    private static readonly LibraryOption[] _options =
+    [
+        new("twblazor", "Tailwind CSS utility classes, configured in your own Theme.cs", "You use Tailwind and want to own the look of every component", [new("twblazor docs", "/get-started")]),
+        new("MudBlazor", "Material Design", "You want a Material look and a large, established open-source community", [new("mudblazor.com", "https://mudblazor.com")]),
+        new("Radzen Blazor Components", "Its own themes, with optional Radzen tooling", "You want a broad free component set, including data grids and charts", [new("blazor.radzen.com", "https://blazor.radzen.com")]),
+        new("Fluent UI Blazor", "Microsoft Fluent design", "You are building apps that should feel like Microsoft products", [new("fluentui-blazor.net", "https://www.fluentui-blazor.net")]),
+        new("Blazorise", "Adapts to several CSS frameworks through providers", "You want one component API over Bootstrap, Tailwind or other frameworks", [new("blazorise.com", "https://blazorise.com")]),
+        new("Commercial suites (Telerik, Syncfusion, DevExpress)", "Their own themes and design tooling", "You need advanced controls and vendor support, and a paid licence is acceptable", [new("Telerik UI for Blazor", "https://www.telerik.com/blazor-ui"), new("Syncfusion Blazor", "https://www.syncfusion.com/blazor-components"), new("DevExpress Blazor", "https://www.devexpress.com/blazor/")]),
+    ];
+
+    private static readonly IReadOnlyList<FaqItem> _faq =
+    [
+        new("What is the best Blazor components library?", "It depends on your styling approach and licence needs. MudBlazor, Radzen and Fluent UI are widely used free options, commercial suites add advanced controls and support, and twblazor targets teams who use Tailwind CSS."),
+        new("Is there a Tailwind CSS component library for Blazor?", "Yes. twblazor is a free, open-source Blazor component library built on Tailwind CSS. Blazorise also offers a Tailwind provider as one of several supported CSS frameworks."),
+        new("Is twblazor free?", "Yes. twblazor is MIT licensed, free to use in commercial and personal projects, and has no paid tier."),
+        new("Does twblazor work with Blazor Server and WebAssembly?", "Yes. The Get started guide covers installation for both hosting models."),
+    ];
+}

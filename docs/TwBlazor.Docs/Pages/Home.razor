@@ -2,7 +2,7 @@
 @layout LandingLayout
 @using IconEnum = TwBlazor.Enums.Icon
 
-<PageSeo Title="twblazor - Tailwind CSS Components for Blazor" Description="twblazor is a free, open-source Blazor component library built on Tailwind CSS. Accessible, themeable components with dark mode for Server and WebAssembly." Path="/" />
+<PageSeo Title="twblazor | Tailwind Blazor Component Library" Description="twblazor is a free, open-source Blazor components library built on Tailwind CSS. Accessible, themeable, with dark mode, for Server and WebAssembly." Path="/" JsonLd="_jsonLd" />
 
 <!-- Hero -->
 <section class="relative isolate overflow-hidden border-b border-gray-200 dark:border-gray-800">
@@ -11,7 +11,7 @@
     <div class="mx-auto grid max-w-6xl items-center gap-10 px-6 py-14 md:py-20 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:gap-14">
         <div>
             <h1 class="text-4xl font-bold leading-[1.05] tracking-tight text-purple-700 md:text-5xl dark:text-white">
-                Accessible Blazor components, styled with Tailwind
+                The Tailwind CSS component library for Blazor
             </h1>
             <p class="mt-5 max-w-lg text-lg/7 text-gray-600 dark:text-gray-300">
                 Professional-grade components for modern Blazor development.
@@ -73,6 +73,18 @@
                 <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Sensible ARIA attributes and keyboard support baked into every component.</p>
             </TwCard>
         </div>
+    </section>
+
+    <!-- Guides -->
+    <section class="mt-14 md:mt-20" aria-labelledby="guides-heading">
+        <h2 id="guides-heading" class="text-2xl font-bold tracking-tight text-purple-700 md:text-3xl dark:text-white">Tailwind and Blazor, working together</h2>
+        <p class="mt-2 max-w-2xl text-gray-600 dark:text-gray-400">
+            twblazor is a Blazor components library for teams who already use Tailwind CSS. Read how
+            <a href="/tailwind-blazor" class="font-semibold underline hover:no-underline">Tailwind CSS works with Blazor</a>,
+            see how it stacks up in our
+            <a href="/blazor-component-library-comparison" class="font-semibold underline hover:no-underline">Blazor component library comparison</a>,
+            or jump straight to the <a href="/get-started" class="font-semibold underline hover:no-underline">install guide</a>.
+        </p>
     </section>
 
     <!-- Showcase -->
@@ -207,37 +219,35 @@
             plain Tailwind class you own and can override, not a black box baked into a compiled DLL.
         </p>
 
-        <div class="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-2 lg:items-start">
-            <dl class="grid grid-cols-1 gap-6">
-                <div>
-                    <dt class="font-semibold text-purple-700 dark:text-white">Every class, typed and overridable</dt>
-                    <dd class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                        Each component ships a dedicated C# theme class, TwButtonTheme, TwCardTheme,
-                        TwInputTheme and more, exposing every background, border, hover and
-                        disabled-state class as a named, IntelliSense-discoverable property.
-                    </dd>
+        <div class="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-2">
+            <dl class="flex flex-col justify-between gap-4">
+                <div class="flex items-start gap-4">
+                    <span class="inline-flex size-10 shrink-0 items-center justify-center rounded-lg bg-purple-50 text-xl text-purple-700 dark:bg-purple-500/15 dark:text-purple-300"><TwIcon Icon="IconEnum.Braces" Plain /></span>
+                    <div>
+                        <dt class="font-semibold text-purple-700 dark:text-white">Every class, typed and overridable</dt>
+                        <dd class="mt-1 text-sm text-gray-600 dark:text-gray-400">Each component has its own C# theme class, like <code>TwButtonTheme</code>, with every class exposed as a named property.</dd>
+                    </div>
                 </div>
-                <div>
-                    <dt class="font-semibold text-purple-700 dark:text-white">Reusable design tokens</dt>
-                    <dd class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                        Shared palettes for surfaces, borders, hover states and text tones mean you set a
-                        colour or shade once and every component stays in sync, with no hunting down the
-                        same class scattered across the theme.
-                    </dd>
+                <div class="flex items-start gap-4">
+                    <span class="inline-flex size-10 shrink-0 items-center justify-center rounded-lg bg-purple-50 text-xl text-purple-700 dark:bg-purple-500/15 dark:text-purple-300"><TwIcon Icon="IconEnum.Layers_Fill" Plain /></span>
+                    <div>
+                        <dt class="font-semibold text-purple-700 dark:text-white">Reusable design tokens</dt>
+                        <dd class="mt-1 text-sm text-gray-600 dark:text-gray-400">Set a color or shade once and every component stays in sync.</dd>
+                    </div>
                 </div>
-                <div>
-                    <dt class="font-semibold text-purple-700 dark:text-white">Global defaults, local overrides</dt>
-                    <dd class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                        Set a default once like your app's input style and every component
-                        picks it up automatically, while any single instance can still opt out and override it.
-                    </dd>
+                <div class="flex items-start gap-4">
+                    <span class="inline-flex size-10 shrink-0 items-center justify-center rounded-lg bg-purple-50 text-xl text-purple-700 dark:bg-purple-500/15 dark:text-purple-300"><TwIcon Icon="IconEnum.Sliders" Plain /></span>
+                    <div>
+                        <dt class="font-semibold text-purple-700 dark:text-white">Global defaults, local overrides</dt>
+                        <dd class="mt-1 text-sm text-gray-600 dark:text-gray-400">Set a default once, and any single instance can still override it.</dd>
+                    </div>
                 </div>
-                <div>
-                    <dt class="font-semibold text-purple-700 dark:text-white">Real Tailwind, real JIT</dt>
-                    <dd class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                        Themes are plain C# string literals, not classes assembled at runtime, so Tailwind's
-                        compiler can always see them, with no purge lists, safelists, or build workarounds.
-                    </dd>
+                <div class="flex items-start gap-4">
+                    <span class="inline-flex size-10 shrink-0 items-center justify-center rounded-lg bg-purple-50 text-xl text-purple-700 dark:bg-purple-500/15 dark:text-purple-300"><TwIcon Icon="IconEnum.Wind" Plain /></span>
+                    <div>
+                        <dt class="font-semibold text-purple-700 dark:text-white">Real Tailwind, real JIT</dt>
+                        <dd class="mt-1 text-sm text-gray-600 dark:text-gray-400">Themes are plain C# string literals, so Tailwind always sees them. No safelists or build workarounds.</dd>
+                    </div>
                 </div>
             </dl>
 
@@ -288,6 +298,8 @@
 </div>
 
 @code {
+    private static readonly IReadOnlyList<string> _jsonLd = [TwBlazor.Docs.Services.SiteMetadata.HomeJsonLd()];
+
     private string email = string.Empty;
     private bool notificationsEnabled = true;
 

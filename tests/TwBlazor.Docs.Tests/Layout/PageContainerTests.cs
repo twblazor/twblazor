@@ -55,6 +55,55 @@ public class PageContainerTests : DocsTestBase
     }
 
     [Fact]
+    public void Render_EmitsBreadcrumbJsonLd()
+    {
+        // Arrange
+        var head = TestContext.Render<Microsoft.AspNetCore.Components.Web.HeadOutlet>();
+
+        // Act
+        Render("/card");
+        head.WaitForState(() => head.Markup.Contains("ld+json"));
+
+        // Assert
+        var scripts = head.FindAll("script[type='application/ld+json']");
+        Assert.Single(scripts);
+        Assert.Contains("BreadcrumbList", scripts[0].TextContent);
+        Assert.Contains("https://twblazor.com/card", scripts[0].TextContent);
+    }
+
+    [Fact]
+    public void Render_ShowsTheFaqAndEmitsFaqJsonLd_WhenQuestionsAreGiven()
+    {
+        // Arrange
+        var head = TestContext.Render<Microsoft.AspNetCore.Components.Web.HeadOutlet>();
+
+        // Act
+        var cut = TestContext.Render<PageContainer>(parameters => parameters
+            .Add(p => p.Title, "TwCard")
+            .Add(p => p.Path, "/card")
+            .Add(p => p.Description, "TwCard is a Blazor card component.")
+            .Add(p => p.Faq, [new FaqItem("Is it free?", "Yes.")]));
+        head.WaitForState(() => head.Markup.Contains("FAQPage"));
+
+        // Assert
+        Assert.Equal("Is it free?", cut.Find("button[aria-expanded]").TextContent.Trim());
+        Assert.Equal("Yes.", cut.Find("[role='region']").TextContent.Trim());
+        Assert.Equal("Frequently asked questions", cut.Find("h2").TextContent);
+        Assert.Equal(2, head.FindAll("script[type='application/ld+json']").Count);
+    }
+
+    [Fact]
+    public void Render_ShowsNoFaq_WhenNoQuestionsAreGiven()
+    {
+        // Arrange & Act
+        var cut = Render();
+
+        // Assert
+        Assert.Empty(cut.FindAll("button[aria-expanded]"));
+        Assert.DoesNotContain("Frequently asked questions", cut.Markup);
+    }
+
+    [Fact]
     public void Render_ShowsNoLastUpdatedLine_WhenNoDateIsKnown()
     {
         // Arrange & Act

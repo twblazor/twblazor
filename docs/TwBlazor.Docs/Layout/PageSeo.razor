@@ -24,6 +24,13 @@
     <meta name="twitter:description" content="@Description" />
     <meta name="twitter:image" content="@image" />
     <meta name="twitter:image:alt" content="@SiteMetadata.ImageAlt" />
+    @if (JsonLd is not null)
+    {
+        foreach (var json in JsonLd)
+        {
+            <script type="application/ld+json">@((MarkupString)json)</script>
+        }
+    }
 </HeadContent>
 
 @code {
@@ -41,6 +48,11 @@
     /// The page's root-relative route (e.g. <c>/card</c>), which becomes its canonical URL.
     /// </summary>
     [Parameter, EditorRequired] public string Path { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Serialized schema.org JSON-LD documents, each emitted in its own <c>script</c> element.
+    /// </summary>
+    [Parameter] public IReadOnlyList<string>? JsonLd { get; set; }
 
     private string url => SiteMetadata.AbsoluteUrl(Path);
     private static string image => SiteMetadata.AbsoluteUrl(SiteMetadata.ImagePath);
