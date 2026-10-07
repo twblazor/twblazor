@@ -66,9 +66,9 @@ public class PageContainerTests : DocsTestBase
 
         // Assert
         var scripts = head.FindAll("script[type='application/ld+json']");
-        Assert.Single(scripts);
-        Assert.Contains("BreadcrumbList", scripts[0].TextContent);
-        Assert.Contains("https://twblazor.com/card", scripts[0].TextContent);
+        var script = Assert.Single(scripts);
+        Assert.Contains("BreadcrumbList", script.TextContent);
+        Assert.Contains("https://twblazor.com/card", script.TextContent);
     }
 
     [Fact]

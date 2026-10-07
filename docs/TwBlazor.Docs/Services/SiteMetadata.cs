@@ -11,6 +11,11 @@ namespace TwBlazor.Docs.Services;
 internal static partial class SiteMetadata
 {
     /// <summary>
+    /// The JSON-LD key that names a node's schema.org type.
+    /// </summary>
+    private const string JsonLdType = "@type";
+
+    /// <summary>
     /// The public origin of the docs site. Must match <c>SitemapGenerator.DefaultBaseUrl</c> in the build
     /// tools, which writes the sitemap entries the canonical URLs have to agree with.
     /// </summary>
@@ -113,7 +118,7 @@ internal static partial class SiteMetadata
         {
             new Dictionary<string, object>
             {
-                ["@type"] = "WebSite",
+                [JsonLdType] = "WebSite",
                 ["@id"] = AbsoluteUrl("/#website"),
                 ["name"] = SiteName,
                 ["url"] = AbsoluteUrl("/"),
@@ -121,7 +126,7 @@ internal static partial class SiteMetadata
             },
             new Dictionary<string, object>
             {
-                ["@type"] = "SoftwareSourceCode",
+                [JsonLdType] = "SoftwareSourceCode",
                 ["@id"] = AbsoluteUrl("/#library"),
                 ["name"] = "twblazor",
                 ["alternateName"] = "twblazor Tailwind CSS Blazor component library",
@@ -145,11 +150,11 @@ internal static partial class SiteMetadata
     public static string BreadcrumbJsonLd(string name, string path) => Serialize(new Dictionary<string, object>
     {
         ["@context"] = "https://schema.org",
-        ["@type"] = "BreadcrumbList",
+        [JsonLdType] = "BreadcrumbList",
         ["itemListElement"] = new object[]
         {
-            new Dictionary<string, object> { ["@type"] = "ListItem", ["position"] = 1, ["name"] = SiteName, ["item"] = AbsoluteUrl("/") },
-            new Dictionary<string, object> { ["@type"] = "ListItem", ["position"] = 2, ["name"] = name, ["item"] = AbsoluteUrl(path) },
+            new Dictionary<string, object> { [JsonLdType] = "ListItem", ["position"] = 1, ["name"] = SiteName, ["item"] = AbsoluteUrl("/") },
+            new Dictionary<string, object> { [JsonLdType] = "ListItem", ["position"] = 2, ["name"] = name, ["item"] = AbsoluteUrl(path) },
         },
     });
 
@@ -161,12 +166,12 @@ internal static partial class SiteMetadata
     public static string FaqJsonLd(IEnumerable<(string Question, string Answer)> items) => Serialize(new Dictionary<string, object>
     {
         ["@context"] = "https://schema.org",
-        ["@type"] = "FAQPage",
+        [JsonLdType] = "FAQPage",
         ["mainEntity"] = items.Select(item => new Dictionary<string, object>
         {
-            ["@type"] = "Question",
+            [JsonLdType] = "Question",
             ["name"] = item.Question,
-            ["acceptedAnswer"] = new Dictionary<string, object> { ["@type"] = "Answer", ["text"] = item.Answer },
+            ["acceptedAnswer"] = new Dictionary<string, object> { [JsonLdType] = "Answer", ["text"] = item.Answer },
         }).ToArray(),
     });
 

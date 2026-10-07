@@ -283,7 +283,7 @@ globalThis.twPicker = {
                 // .NET reference, so there is nothing left to close.
                 if (!panel.isConnected) return;
                 if (!globalThis.twPicker._setClosing(anchor)) return;
-                globalThis.twPicker._invokeSafely(dotnetRef, 'Close');
+                void globalThis.twPicker._invokeSafely(dotnetRef, 'Close');
             };
             panel.__twPickerScrollHandler = handler;
             document.addEventListener('scroll', handler, true);
@@ -598,7 +598,7 @@ globalThis.twSelect = {
 
         const commit = function (option) {
             if (!option) return;
-            globalThis.twPicker._invokeSafely(dotnetRef, commitMethod || 'SelectOption', Number.parseInt(option.dataset.value, 10));
+            void globalThis.twPicker._invokeSafely(dotnetRef, commitMethod || 'SelectOption', Number.parseInt(option.dataset.value, 10));
         };
 
         let typeahead = '';

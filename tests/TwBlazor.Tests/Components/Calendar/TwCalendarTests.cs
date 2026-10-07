@@ -611,6 +611,21 @@ public class TwCalendarTests : TwBlazorTestBase
         cut.InvokeAsync(() => cut.Find($"button[aria-label='{slotLabel}']").DropAsync(new DragEventArgs())).GetAwaiter().GetResult();
 
     /// <summary>
+    /// Raises dragenter on the element matching the selector. The element is found inside the render
+    /// dispatcher so a re-render from the preceding drag step can't swap its event handler between the
+    /// lookup and the trigger.
+    /// </summary>
+    private static void DragEnterOn(IRenderedComponent<TwCalendar<string>> cut, string selector) =>
+        cut.InvokeAsync(() => cut.Find(selector).DragEnterAsync(new DragEventArgs())).GetAwaiter().GetResult();
+
+    /// <summary>
+    /// Raises dragend on the element matching the selector, found inside the render dispatcher for the
+    /// same reason as <see cref="DragEnterOn"/>.
+    /// </summary>
+    private static void DragEndOn(IRenderedComponent<TwCalendar<string>> cut, string selector) =>
+        cut.InvokeAsync(() => cut.Find(selector).DragEndAsync(new DragEventArgs())).GetAwaiter().GetResult();
+
+    /// <summary>
     /// Starts dragging the named event and waits for the schedule to enter drag mode, which it does a
     /// moment after dragstart (see TwCalendar's drag activation delay).
     /// </summary>
@@ -636,7 +651,7 @@ public class TwCalendarTests : TwBlazorTestBase
         Assert.Empty(cut.FindAll("[aria-hidden='true'][style*='width:100%']"));
 
         StartDrag(cut, "Design review");
-        cut.Find("button[aria-label='2:00 PM']").DragEnter(new DragEventArgs());
+        DragEnterOn(cut, "button[aria-label='2:00 PM']");
 
         var placeholder = cut.WaitForElement("div[aria-hidden='true'][style*='width:100%']");
         var style = placeholder.GetAttribute("style")!;
@@ -716,10 +731,10 @@ public class TwCalendarTests : TwBlazorTestBase
             .Add(x => x.Schedules, [evt]));
 
         StartDrag(cut, "Design review");
-        cut.Find("button[aria-label='11:00 AM']").DragEnter(new DragEventArgs());
+        DragEnterOn(cut, "button[aria-label='11:00 AM']");
         cut.WaitForElement("div[aria-hidden='true'][style*='width:100%']");
 
-        cut.Find("button[aria-label^='Design review']").DragEnd(new DragEventArgs());
+        DragEndOn(cut, "button[aria-label^='Design review']");
 
         cut.WaitForAssertion(() =>
         {
