@@ -12,6 +12,21 @@ globalThis.twPicker = {
         return true;
     },
 
+    // Calls back into .NET without letting a stale reference surface as an unhandled rejection. The
+    // server may already have disposed the DotNetObjectReference (the panel closed by another path
+    // while this listener was still queued), in which case invokeMethodAsync rejects asynchronously
+    // and a surrounding try/catch would never see it.
+    _invokeSafely: function (dotnetRef, method, ...args) {
+        try {
+            return Promise.resolve(dotnetRef.invokeMethodAsync(method, ...args)).catch(function (err) {
+                console.debug('twPicker .NET callback skipped (reference already released)', method, err);
+            });
+        } catch (err) {
+            console.error('twPicker .NET callback error', err);
+            return Promise.resolve();
+        }
+    },
+
     // Max pointer travel (px) between down/up to still count as a tap, not a scroll/drag.
     // Reacting on pointerdown alone would close the panel as soon as a touch-scroll begins
     // outside it (breaks scrolling TwDateRangePicker's tall mobile panel), so we wait for
@@ -43,7 +58,7 @@ globalThis.twPicker = {
 
             try {
                 if (!root.contains(target) && globalThis.twPicker._setClosing(root)) {
-                    const closing = dotnetRef.invokeMethodAsync('Close');
+                    const closing = globalThis.twPicker._invokeSafely(dotnetRef, 'Close');
                     // While a panel is open everything outside it is inert, so the browser hit-tests
                     // this tap onto a non-inert ancestor and the control actually under the pointer
                     // (e.g. a dialog's Save button) never receives the click: the first tap would
@@ -260,16 +275,15 @@ globalThis.twPicker = {
                 // A scroll inside the panel itself (a long list or a tall day view) is the user working
                 // with it, not the page moving away from the field, so it must neither close the panel
                 // nor drop this listener.
-                if (globalThis.twPicker._isScrollWithinPanel(panel, e)) return;
+                if (panel.isConnected && globalThis.twPicker._isScrollWithinPanel(panel, e)) return;
                 document.removeEventListener('scroll', handler, true);
                 window.removeEventListener('resize', handler);
                 delete panel.__twPickerScrollHandler;
+                // A panel that is already gone was closed by another path, which has released the
+                // .NET reference, so there is nothing left to close.
+                if (!panel.isConnected) return;
                 if (!globalThis.twPicker._setClosing(anchor)) return;
-                try {
-                    dotnetRef.invokeMethodAsync('Close');
-                } catch (err) {
-                    console.error('twPicker registerScrollReposition close handler error', err);
-                }
+                globalThis.twPicker._invokeSafely(dotnetRef, 'Close');
             };
             panel.__twPickerScrollHandler = handler;
             document.addEventListener('scroll', handler, true);
@@ -584,11 +598,7 @@ globalThis.twSelect = {
 
         const commit = function (option) {
             if (!option) return;
-            try {
-                dotnetRef.invokeMethodAsync(commitMethod || 'SelectOption', Number.parseInt(option.dataset.value, 10));
-            } catch (err) {
-                console.error('twSelect commit error', err);
-            }
+            globalThis.twPicker._invokeSafely(dotnetRef, commitMethod || 'SelectOption', Number.parseInt(option.dataset.value, 10));
         };
 
         let typeahead = '';

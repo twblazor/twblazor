@@ -258,7 +258,7 @@ describe('twPicker', () => {
             window.twPicker.registerOutsideClick(root, dotnetRef);
 
             expect(() => simulateGesture(root, outside)).not.toThrow();
-            expect(consoleErrorSpy).toHaveBeenCalledWith('twPicker handler error', error);
+            expect(consoleErrorSpy).toHaveBeenCalledWith('twPicker .NET callback error', error);
 
             window.twPicker.unregisterOutsideClick(root);
             document.body.removeChild(root);
@@ -822,6 +822,45 @@ describe('twPicker', () => {
                 document.body.removeChild(panel);
                 delete document.documentElement.clientWidth;
                 delete document.documentElement.clientHeight;
+            });
+
+            test('a Close call rejected because the .NET reference was already released is swallowed', async () => {
+                vi.spyOn(window.twDevice, 'prefersNativePicker').mockReturnValue(false);
+                const unhandled = vi.fn();
+                process.on('unhandledRejection', unhandled);
+                const anchor = document.createElement('div');
+                anchor.getBoundingClientRect = () => ({ left: 20, right: 220, top: 40, bottom: 70, width: 200, height: 30 });
+                const panel = document.createElement('div');
+                panel.getBoundingClientRect = () => ({ left: 20, right: 220, top: 70, bottom: 170, width: 200, height: 100 });
+                document.body.appendChild(panel);
+                const dotnetRef = { invokeMethodAsync: vi.fn().mockRejectedValue(new Error('no tracked object')) };
+
+                window.twPicker.registerScrollReposition(anchor, panel, false, dotnetRef);
+                document.dispatchEvent(new Event('scroll'));
+                await new Promise(resolve => setTimeout(resolve, 0));
+
+                expect(dotnetRef.invokeMethodAsync).toHaveBeenCalledWith('Close');
+                expect(unhandled).not.toHaveBeenCalled();
+
+                process.off('unhandledRejection', unhandled);
+                document.body.removeChild(panel);
+            });
+
+            test('a scroll after the panel has left the DOM drops the listener without calling .NET', () => {
+                vi.spyOn(window.twDevice, 'prefersNativePicker').mockReturnValue(false);
+                const anchor = document.createElement('div');
+                anchor.getBoundingClientRect = () => ({ left: 20, right: 220, top: 40, bottom: 70, width: 200, height: 30 });
+                const panel = document.createElement('div');
+                panel.getBoundingClientRect = () => ({ left: 20, right: 220, top: 70, bottom: 170, width: 200, height: 100 });
+                document.body.appendChild(panel);
+                const dotnetRef = { invokeMethodAsync: vi.fn() };
+
+                window.twPicker.registerScrollReposition(anchor, panel, false, dotnetRef);
+                document.body.removeChild(panel);
+                document.dispatchEvent(new Event('scroll'));
+
+                expect(dotnetRef.invokeMethodAsync).not.toHaveBeenCalled();
+                expect(panel.__twPickerScrollHandler).toBeUndefined();
             });
 
             test('a scroll event closes the panel instead of repositioning it, on a non-touch platform', () => {
@@ -2113,7 +2152,7 @@ describe('twPicker scroll ownership and twSelect edge cases', () => {
             const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
             expect(() => press('Enter')).not.toThrow();
-            expect(spy).toHaveBeenCalledWith('twSelect commit error', expect.any(Error));
+            expect(spy).toHaveBeenCalledWith('twPicker .NET callback error', expect.any(Error));
         });
     });
 });
