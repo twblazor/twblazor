@@ -59,23 +59,17 @@ public class GuidePageTests : DocsTestBase
     }
 
     [Fact]
-    public void BlazorComponentLibraryComparison_LinksEachLibraryToItsOfficialDocsSafely()
+    public void BlazorComponentLibraryComparison_HighlightsTwBlazorAsMitAndTailwindNative()
     {
         // Arrange & Act
         var (page, _) = Render<BlazorComponentLibraryComparison>();
 
         // Assert
-        var external = page.FindAll("tbody a[target]");
-        Assert.Contains(external, a => a.GetAttribute("href") == "https://mudblazor.com");
-        Assert.Contains(external, a => a.GetAttribute("href") == "https://blazor.radzen.com");
-        Assert.All(external, a =>
-        {
-            Assert.Equal("_blank", a.GetAttribute("target"));
-            Assert.Equal("noopener noreferrer", a.GetAttribute("rel"));
-            Assert.Contains("opens in a new tab", a.TextContent);
-        });
-        var rows = page.FindAll("tbody tr");
-        Assert.All(rows, row => Assert.NotNull(row.QuerySelector("td:last-child a")));
+        var cells = page.FindAll("#library-features tbody tr")
+            .First(r => r.QuerySelector("th")!.TextContent == "twblazor")
+            .QuerySelectorAll("td");
+        Assert.Equal("MIT", cells[0].TextContent);
+        Assert.All(cells.Skip(1), c => Assert.Contains("Yes", c.QuerySelector(".sr-only")!.TextContent));
     }
 
     [Fact]

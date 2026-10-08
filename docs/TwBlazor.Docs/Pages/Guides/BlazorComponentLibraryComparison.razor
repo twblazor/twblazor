@@ -14,56 +14,45 @@
         </ul>
     </PageCard>
 
-    <PageCard Title="The main options">
+    <PageCard Title="At a glance">
         <p class="mb-3">
-            This is a short orientation, not a benchmark. Libraries change quickly, so check each project's own documentation for current features and licensing.
+            If you want a permissive licence and styling you fully control, twblazor is a brilliant option, it's MIT licensed, free of any paid tier and built on Tailwind CSS with the styles living in your own project.
         </p>
-        <TwTable Id="library-comparison" Hoverable>
-            <Caption>Blazor component libraries, the styling approach each one takes and where to find its official documentation</Caption>
+        <TwTable Id="library-features" Hoverable>
+            <Caption>Licence, cost and styling model of each Blazor component library. Radzen is MIT with optional paid tooling, and the commercial suites are Telerik, Syncfusion and DevExpress</Caption>
             <TableHeader>
                 <tr>
-                    <th scope="col" class="px-6 py-3">Library</th>
-                    <th scope="col" class="px-6 py-3">Styling approach</th>
-                    <th scope="col" class="px-6 py-3">Good fit when</th>
-                    <th scope="col" class="px-6 py-3">Official docs</th>
+                    <th scope="col" class="px-6 py-3 whitespace-nowrap">Library</th>
+                    <th scope="col" class="px-6 py-3 whitespace-nowrap">Licence</th>
+                    <th scope="col" class="px-6 py-3 whitespace-nowrap">Commercial use</th>
+                    <th scope="col" class="px-6 py-3 whitespace-nowrap">Tailwind</th>
+                    <th scope="col" class="px-6 py-3 whitespace-nowrap">Your styles</th>
+                    <th scope="col" class="px-6 py-3 whitespace-nowrap">Fully free</th>
                 </tr>
             </TableHeader>
             <TableBody>
-                @foreach (var option in _options)
+                @foreach (var row in _features)
                 {
-                    <tr>
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white">@option.Name</th>
-                        <td class="px-6 py-4">@option.Styling</td>
-                        <td class="px-6 py-4">@option.GoodFit</td>
-                        <td class="px-6 py-4">
-                            <ul class="space-y-1">
-                                @foreach (var link in option.Links)
-                                {
-                                    <li>
-                                        @if (link.Url.StartsWith('/'))
-                                        {
-                                            <a href="@link.Url" class="font-semibold underline hover:no-underline">@link.Label</a>
-                                        }
-                                        else
-                                        {
-                                            <a href="@link.Url" target="_blank" rel="noopener noreferrer" class="font-semibold underline hover:no-underline">@link.Label<span class="sr-only"> (opens in a new tab)</span></a>
-                                        }
-                                    </li>
-                                }
-                            </ul>
-                        </td>
+                    <tr class="@(row.Highlight ? "bg-purple-500/20 dark:bg-purple-500/25" : null)">
+                        <th scope="row" class="@(row.Highlight ? "px-6 py-4 whitespace-nowrap font-bold text-purple-900 dark:text-purple-200" : "px-6 py-4 whitespace-nowrap font-medium text-gray-900 dark:text-white")">@row.Name</th>
+                        <td class="@(row.Highlight ? "px-6 py-4 whitespace-nowrap font-semibold text-purple-900 dark:text-purple-200" : "px-6 py-4 whitespace-nowrap")">@row.Licence</td>
+                        <td class="@CellClass(row.FreeCommercial, row.Highlight)">@Mark(row.FreeCommercial)</td>
+                        <td class="@CellClass(row.Tailwind, row.Highlight)">@Mark(row.Tailwind)</td>
+                        <td class="@CellClass(row.OwnedStyles, row.Highlight)">@Mark(row.OwnedStyles)</td>
+                        <td class="@CellClass(row.NoPaidTier, row.Highlight)">@Mark(row.NoPaidTier)</td>
                     </tr>
                 }
             </TableBody>
         </TwTable>
     </PageCard>
 
-    <PageCard Title="Where twblazor fits">
+    <PageCard Title="Why choose twblazor">
         <p class="mb-3">
-            twblazor is a Tailwind CSS component library for Blazor. Its components are styled with Tailwind utility classes that live in a <code>Theme.cs</code> file in your own project, so your Tailwind build compiles them and you can change any component's look by editing a C# string.
+            twblazor is a Tailwind CSS component library for Blazor. Its components are styled with Tailwind utility classes that live in a <code>Theme.cs</code> file in your own project, so your Tailwind build compiles them and you can change any component's look by editing a C# string. There is no theme override layer to fight and no design system to work around.
         </p>
         <ul class="list-disc space-y-2 ps-5">
-            <li>Free and open source under the MIT licence, with no paid tier.</li>
+            <li><strong>MIT licence, no paid tier.</strong> Free and open source for commercial and personal projects, with nothing held back behind a subscription.</li>
+            <li><strong>You own the styling.</strong> Classes sit in your repository, so your brand, your Tailwind config and your dark mode apply directly.</li>
             <li>Works with Blazor Server and Blazor WebAssembly.</li>
             <li>Dark mode, accessible markup and keyboard support in every component.</li>
             <li>A <a href="/theme" class="font-semibold underline">Theme builder</a> for brand colors and picking only the components you use.</li>
@@ -83,19 +72,49 @@
 </PageContainer>
 
 @code {
-    private sealed record DocsLink(string Label, string Url);
+    private enum Support { Yes, Partial, No }
 
-    private sealed record LibraryOption(string Name, string Styling, string GoodFit, DocsLink[] Links);
+    private sealed record FeatureRow(string Name, string Licence, Support FreeCommercial, Support Tailwind, Support OwnedStyles, Support NoPaidTier, bool Highlight = false);
 
-    private static readonly LibraryOption[] _options =
+    private static readonly FeatureRow[] _features =
     [
-        new("twblazor", "Tailwind CSS utility classes, configured in your own Theme.cs", "You use Tailwind and want to own the look of every component", [new("twblazor docs", "/get-started")]),
-        new("MudBlazor", "Material Design", "You want a Material look and a large, established open-source community", [new("mudblazor.com", "https://mudblazor.com")]),
-        new("Radzen Blazor Components", "Its own themes, with optional Radzen tooling", "You want a broad free component set, including data grids and charts", [new("blazor.radzen.com", "https://blazor.radzen.com")]),
-        new("Fluent UI Blazor", "Microsoft Fluent design", "You are building apps that should feel like Microsoft products", [new("fluentui-blazor.net", "https://www.fluentui-blazor.net")]),
-        new("Blazorise", "Adapts to several CSS frameworks through providers", "You want one component API over Bootstrap, Tailwind or other frameworks", [new("blazorise.com", "https://blazorise.com")]),
-        new("Commercial suites (Telerik, Syncfusion, DevExpress)", "Their own themes and design tooling", "You need advanced controls and vendor support, and a paid licence is acceptable", [new("Telerik UI for Blazor", "https://www.telerik.com/blazor-ui"), new("Syncfusion Blazor", "https://www.syncfusion.com/blazor-components"), new("DevExpress Blazor", "https://www.devexpress.com/blazor/")]),
+        new("twblazor", "MIT", Support.Yes, Support.Yes, Support.Yes, Support.Yes, Highlight: true),
+        new("MudBlazor", "MIT", Support.Yes, Support.No, Support.No, Support.Yes),
+        new("Radzen", "MIT", Support.Yes, Support.No, Support.No, Support.Partial),
+        new("Fluent UI Blazor", "MIT", Support.Yes, Support.No, Support.No, Support.Yes),
+        new("Blazorise", "Free + paid", Support.Partial, Support.Partial, Support.No, Support.No),
+        new("Commercial suites", "Proprietary", Support.No, Support.No, Support.No, Support.No),
     ];
+
+    private static string CellClass(Support support, bool highlight)
+    {
+        var tint = support switch
+        {
+            Support.Yes => "bg-green-500/10 dark:bg-green-400/10",
+            Support.Partial => "bg-amber-500/10 dark:bg-amber-400/10",
+            _ => "bg-red-500/10 dark:bg-red-400/10",
+        };
+        return $"px-6 py-4 whitespace-nowrap text-center {(highlight ? "" : tint)}";
+    }
+
+    private static RenderFragment Mark(Support support) => builder =>
+    {
+        var (symbol, text, css) = support switch
+        {
+            Support.Yes => ("✓", "Yes", "font-bold text-green-600 dark:text-green-400"),
+            Support.Partial => ("~", "Partly", "font-bold text-amber-600 dark:text-amber-400"),
+            _ => ("✗", "No", "font-bold text-red-600 dark:text-red-400"),
+        };
+        builder.OpenElement(0, "span");
+        builder.AddAttribute(1, "class", "font-bold");
+        builder.AddAttribute(2, "aria-hidden", "true");
+        builder.AddContent(3, symbol);
+        builder.CloseElement();
+        builder.OpenElement(4, "span");
+        builder.AddAttribute(5, "class", "sr-only");
+        builder.AddContent(6, text);
+        builder.CloseElement();
+    };
 
     private static readonly IReadOnlyList<FaqItem> _faq =
     [
