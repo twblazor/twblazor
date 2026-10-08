@@ -235,6 +235,14 @@
     "category": "Data",
     "items": [
       {
+        "id": "chart-navitem",
+        "display": "Chart",
+        "name": "TwChart",
+        "url": "/chart",
+        "isNew": true,
+        "theme": "TwChartTheme"
+      },
+      {
         "id": "data-table-navitem",
         "display": "Data Table",
         "name": "TwDataTable",
