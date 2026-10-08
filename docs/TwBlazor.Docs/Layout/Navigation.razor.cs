@@ -52,7 +52,7 @@ public partial class Navigation : IDisposable
                 [
                     new() { Id = "get-started", Label = "Get started", Href = "/get-started" },
                     new() { Id = "tailwind-blazor", Label = "Tailwind with Blazor", Href = "/tailwind-blazor" },
-                    new() { Id = "library-comparison", Label = "Library comparison", Href = "/blazor-component-library-comparison" },
+                    new() { Id = "why-twblazor", Label = "Why twblazor?", Href = "/why-twblazor" },
                 ],
             },
             new() { Id = "theme", Label = "Theme", Href = "/theme" },

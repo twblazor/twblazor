@@ -51,6 +51,6 @@ public class HomePageTests : DocsTestBase
         // Assert
         var hrefs = page.FindAll("a").Select(a => a.GetAttribute("href")).ToList();
         Assert.Contains("/tailwind-blazor", hrefs);
-        Assert.Contains("/blazor-component-library-comparison", hrefs);
+        Assert.Contains("/why-twblazor", hrefs);
     }
 }

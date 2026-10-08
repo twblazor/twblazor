@@ -32,24 +32,24 @@ public class GuidePageTests : DocsTestBase
     }
 
     [Fact]
-    public void BlazorComponentLibraryComparison_TargetsTheComponentsLibrarySearchTerm()
+    public void WhyTwBlazor_TargetsTheTailwindBlazorComponentsSearchTerm()
     {
         // Arrange & Act
-        var (page, head) = Render<BlazorComponentLibraryComparison>();
+        var (page, head) = Render<WhyTwBlazor>();
 
         // Assert
         var title = head.Find("title").TextContent;
-        Assert.Contains("Blazor Components Library", title);
+        Assert.Contains("Tailwind CSS Blazor Components", title);
         Assert.True(title.Length <= SiteMetadata.MaxTitleLength, title);
-        Assert.Equal("https://twblazor.com/blazor-component-library-comparison", head.Find("link[rel='canonical']").GetAttribute("href"));
-        Assert.Equal("Blazor component library comparison", page.Find("h1").TextContent);
+        Assert.Equal("https://twblazor.com/why-twblazor", head.Find("link[rel='canonical']").GetAttribute("href"));
+        Assert.Equal("Why twblazor?", page.Find("h1").TextContent);
     }
 
     [Fact]
-    public void BlazorComponentLibraryComparison_ListsTheLibrariesInAnAccessibleTable()
+    public void WhyTwBlazor_ListsTheLibrariesInAnAccessibleTable()
     {
         // Arrange & Act
-        var (page, _) = Render<BlazorComponentLibraryComparison>();
+        var (page, _) = Render<WhyTwBlazor>();
 
         // Assert
         Assert.NotEmpty(page.Find("table caption").TextContent);
@@ -59,10 +59,10 @@ public class GuidePageTests : DocsTestBase
     }
 
     [Fact]
-    public void BlazorComponentLibraryComparison_HighlightsTwBlazorAsMitAndTailwindNative()
+    public void WhyTwBlazor_HighlightsTwBlazorAsMitAndTailwindNative()
     {
         // Arrange & Act
-        var (page, _) = Render<BlazorComponentLibraryComparison>();
+        var (page, _) = Render<WhyTwBlazor>();
 
         // Assert
         var cells = page.FindAll("#library-features tbody tr")
@@ -70,19 +70,6 @@ public class GuidePageTests : DocsTestBase
             .QuerySelectorAll("td");
         Assert.Equal("MIT", cells[0].TextContent);
         Assert.All(cells.Skip(1), c => Assert.Contains("Yes", c.QuerySelector(".sr-only")!.TextContent));
-    }
-
-    [Fact]
-    public void BlazorComponentLibraryComparison_ShowsEachFaqAsACollapsedSection()
-    {
-        // Arrange & Act
-        var (page, _) = Render<BlazorComponentLibraryComparison>();
-
-        // Assert
-        var triggers = page.FindAll("button[aria-expanded]");
-        Assert.NotEmpty(triggers);
-        Assert.All(triggers, t => Assert.Equal("false", t.GetAttribute("aria-expanded")));
-        Assert.Contains(triggers, t => t.TextContent.Contains("What is the best Blazor components library?"));
     }
 
     [Fact]
@@ -97,13 +84,12 @@ public class GuidePageTests : DocsTestBase
     }
 
     [Fact]
-    public void BlazorComponentLibraryComparison_EmitsFaqJsonLdAndLinksToGetStarted()
+    public void WhyTwBlazor_LinksToGetStarted()
     {
         // Arrange & Act
-        var (page, head) = Render<BlazorComponentLibraryComparison>();
+        var (page, _) = Render<WhyTwBlazor>();
 
         // Assert
-        Assert.Contains(head.FindAll("script[type='application/ld+json']"), s => s.TextContent.Contains("FAQPage"));
         Assert.Contains(page.FindAll("a"), a => a.GetAttribute("href") == "/get-started");
     }
 }

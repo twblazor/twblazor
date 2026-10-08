@@ -10,8 +10,8 @@ public partial class SiteFooter
     /// <summary>Gets the route of the Tailwind with Blazor guide.</summary>
     public const string TailwindGuidePath = "/tailwind-blazor";
 
-    /// <summary>Gets the route of the Blazor component library comparison.</summary>
-    public const string ComparisonPath = "/blazor-component-library-comparison";
+    /// <summary>Gets the route of the Why twblazor page.</summary>
+    public const string ComparisonPath = "/why-twblazor";
 
     /// <summary>Gets the URL of the GitHub project.</summary>
     public const string GitHubUrl = "https://github.com/TwBlazor/twblazor";

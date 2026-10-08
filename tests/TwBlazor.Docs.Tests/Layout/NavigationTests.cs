@@ -33,12 +33,12 @@ public class NavigationTests : DocsTestBase
 
         var panel = cut.Find("#" + toggle.GetAttribute("aria-controls"));
         Assert.Equal(
-            ["/get-started", "/tailwind-blazor", "/blazor-component-library-comparison"],
+            ["/get-started", "/tailwind-blazor", "/why-twblazor"],
             panel.QuerySelectorAll("a").Select(a => a.GetAttribute("href")));
     }
 
     [Fact]
-    public void Sidebar_LinksToTheTailwindAndComparisonGuides_BeforeTheComponents()
+    public void Sidebar_LinksToTheTailwindAndWhyTwBlazorGuides_BeforeTheComponents()
     {
         // Arrange & Act
         var cut = TestContext.Render<Navigation>();
@@ -47,8 +47,8 @@ public class NavigationTests : DocsTestBase
         var hrefs = cut.FindAll("a").Select(a => a.GetAttribute("href")).ToList();
         var firstComponent = hrefs.IndexOf("/breadcrumb");
         Assert.True(hrefs.IndexOf("/tailwind-blazor") >= 0);
-        Assert.True(hrefs.IndexOf("/blazor-component-library-comparison") >= 0);
-        Assert.True(firstComponent < 0 || hrefs.IndexOf("/blazor-component-library-comparison") < firstComponent);
+        Assert.True(hrefs.IndexOf("/why-twblazor") >= 0);
+        Assert.True(firstComponent < 0 || hrefs.IndexOf("/why-twblazor") < firstComponent);
     }
 
     [Fact]

@@ -51,7 +51,7 @@ public class SiteFooterTests : DocsTestBase
 
         // Assert
         var guides = cut.FindAll("footer a").Where(a => a.GetAttribute("href")!.StartsWith('/')).ToList();
-        Assert.Equal(["Tailwind Blazor guide", "Blazor component library comparison"], guides.Select(a => a.TextContent));
+        Assert.Equal(["Tailwind Blazor guide", "Why twblazor?"], guides.Select(a => a.TextContent));
         Assert.All(guides, a => Assert.Null(a.GetAttribute("target")));
     }
 
