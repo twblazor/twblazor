@@ -1,0 +1,45 @@
+@page "/chart/bump"
+@using TwBlazor.Models
+
+<PageContainer Title="TwBumpChart" Path="/chart/bump" Beta Description="TwBumpChart is a Blazor bump chart that tracks how series rank against each other across categories, with the highest value ranked first.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwBumpChart</code> plots rank instead of value: in each category the series with the highest value is ranked first. Lines cross where one series overtakes another. Each line is labelled at its end, and tooltips give both the rank and the value.</Description>
+
+        <CodeExample Name="BumpChartBasic" CSharpName="BumpChartData">
+            <TwChart Title="Channel ranking by month">
+                <TwBumpChart Categories="@months" Series="@visitors" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Labels">
+        <Description><code>RankLabel</code> renames the rank in tooltips.</Description>
+
+        <CodeExample Name="BumpChartLabel">
+            <TwChart Title="Channel ranking by month">
+                <TwBumpChart Categories="@months" Series="@visitors" RankLabel="Position" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="When to use">
+        <Description>A bump chart hides how far apart the values are. When the size of the lead matters, use <TwLink Href="/chart/line" Class="underline">TwLineChart</TwLink>.</Description>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart" Class="underline">TwChart</TwLink> for those options.</Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample BumpChartData
+    private readonly string[] months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
+
+    private readonly ChartSeries[] visitors =
+    [
+        new("Organic", [42, 48, 30, 61, 58, 70]),
+        new("Paid", [30, 34, 51, 45, 62, 49]),
+        new("Referral", [12, 40, 41, 19, 26, 55])
+    ];
+    #endregion
+}

@@ -1,0 +1,31 @@
+@namespace TwBlazor.Components
+@inherits TwBlazorComponentBase
+@using TwBlazor.Enums
+
+<figure id="@Id" class="@classes" style="@Style" aria-label="@AriaLabel" aria-labelledby="@(AriaLabelledBy ?? titleId)" @attributes="Attributes">
+    @if (titleId != null || !string.IsNullOrWhiteSpace(Description))
+    {
+        <figcaption class="@theme.Header">
+            @if (titleId != null)
+            {
+                <span id="@titleId" class="@theme.Title">@Title</span>
+            }
+            @if (!string.IsNullOrWhiteSpace(Description))
+            {
+                <span class="@theme.Description">@Description</span>
+            }
+        </figcaption>
+    }
+    <div class="@theme.Body" aria-busy="@(Loading ? "true" : null)">
+        @if (Loading)
+        {
+            <TwSkeleton SkeletonType="SkeletonType.Rectangle" Height="@skeletonHeight" AriaLabel="@LoadingLabel" />
+        }
+        else
+        {
+            <CascadingValue Value="this" IsFixed="true">
+                @ChildContent
+            </CascadingValue>
+        }
+    </div>
+</figure>

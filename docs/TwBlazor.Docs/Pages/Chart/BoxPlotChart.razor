@@ -1,0 +1,43 @@
+@page "/chart/box-plot"
+@using TwBlazor.Models
+
+<PageContainer Title="TwBoxPlotChart" Path="/chart/box-plot" Beta Description="TwBoxPlotChart is a Blazor box plot that summarises groups of raw values by median, quartiles, whiskers and outliers.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwBoxPlotChart</code> summarises each <code>ChartSample</code> of raw observations. The box spans the middle half of the values with a line at the median. Whiskers reach the furthest values within 1.5 times the length of the box, and anything beyond is drawn as an outlier dot.</Description>
+
+        <CodeExample Name="BoxPlotChartBasic" CSharpName="BoxPlotChartData">
+            <TwChart Title="Response times by service" Description="Milliseconds">
+                <TwBoxPlotChart Samples="@services" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Horizontal">
+        <Description>Set <code>Horizontal</code> to list the groups down the side, which suits long labels and many groups.</Description>
+
+        <CodeExample Name="BoxPlotChartHorizontal">
+            <TwChart Title="Response times by service">
+                <TwBoxPlotChart Samples="@services" Horizontal="true" Height="ChartHeight.Small" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Summary">
+        <Description>Tooltips and the table view give the count, minimum, lower quartile, median, upper quartile and maximum of each group.</Description>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart" Class="underline">TwChart</TwLink> for those options.</Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample BoxPlotChartData
+    private readonly ChartSample[] services =
+    [
+        new("Search", [112, 120, 131, 135, 138, 142, 144, 149, 151, 153, 290]),
+        new("Checkout", [156, 158, 160, 163, 167, 170, 172, 176, 181, 185]),
+        new("Reports", [190, 196, 204, 215, 228, 240, 262, 150, 310])
+    ];
+    #endregion
+}

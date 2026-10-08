@@ -1,0 +1,48 @@
+@page "/chart/histogram"
+@using TwBlazor.Models
+
+<PageContainer Title="TwHistogramChart" Path="/chart/histogram" Beta Description="TwHistogramChart is a Blazor histogram that groups raw values into equal-width bins to reveal the shape of a distribution.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwHistogramChart</code> takes raw <code>Values</code>, groups them into equal-width bins and draws a column per bin showing how many values fall in it. You pass the observations; the chart does the counting.</Description>
+
+        <CodeExample Name="HistogramChartBasic" CSharpName="HistogramChartData">
+            <TwChart Title="Response times" Description="Milliseconds">
+                <TwHistogramChart Values="@responseTimes" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Bin count">
+        <Description>The number of bins follows Sturges' rule unless you set <code>BinCount</code>. Fewer bins show the overall shape; more show detail.</Description>
+
+        <CodeExample Name="HistogramChartBins">
+            <TwChart Title="Response times">
+                <TwHistogramChart Values="@responseTimes" BinCount="12" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Labels">
+        <Description><code>RangeLabel</code> and <code>CountLabel</code> name the two columns of the table view, and <code>CountLabel</code> also titles the axis.</Description>
+
+        <CodeExample Name="HistogramChartLabels">
+            <TwChart Title="Response times">
+                <TwHistogramChart Values="@responseTimes" BinCount="6" RangeLabel="Milliseconds" CountLabel="Requests" Height="ChartHeight.Small" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart" Class="underline">TwChart</TwLink> for those options.</Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample HistogramChartData
+    private readonly double[] responseTimes =
+    [
+        112, 120, 131, 135, 138, 142, 144, 149, 151, 153, 156, 158, 160, 163, 167,
+        170, 172, 176, 181, 185, 190, 196, 204, 215, 228, 240, 262, 290
+    ];
+    #endregion
+}

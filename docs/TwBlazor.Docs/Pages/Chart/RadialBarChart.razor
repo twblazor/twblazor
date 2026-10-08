@@ -1,0 +1,55 @@
+@page "/chart/radial-bar"
+@using TwBlazor.Models
+
+<PageContainer Title="TwRadialBarChart" Path="/chart/radial-bar" Beta Description="TwRadialBarChart is a Blazor radial bar chart: bars bent around a circle, one ring per value, each sweeping further for larger values.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwRadialBarChart</code> bends each bar around a circle, one ring per value, over a track that shows the full scale. Labels sit at the start of each ring.</Description>
+
+        <CodeExample Name="RadialBarChartBasic" CSharpName="RadialBarChartData">
+            <TwChart Title="Traffic by source">
+                <TwRadialBarChart Data="@sources" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Progress towards a goal">
+        <Description>With values on a common scale, such as percentages, the rings read as progress.</Description>
+
+        <CodeExample Name="RadialBarChartProgress" CSharpName="RadialBarChartProgressData">
+            <TwChart Title="Course completion">
+                <TwRadialBarChart Data="@progress" ValueFormat="0\%" LabelHeader="Module" ValueHeader="Complete" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="When to use">
+        <Description>Outer rings are longer than inner rings for the same value, so read the angle swept, not the length. For precise comparison use <TwLink Href="/chart/bar" Class="underline">TwBarChart</TwLink>.</Description>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart" Class="underline">TwChart</TwLink> for those options.</Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample RadialBarChartData
+    private readonly ChartValue[] sources =
+    [
+        new("Search", 430),
+        new("Direct", 260),
+        new("Social", 170),
+        new("Email", 90),
+        new("Referral", 50)
+    ];
+    #endregion
+
+    #region CodeExample RadialBarChartProgressData
+    private readonly ChartValue[] progress =
+    [
+        new("Basics", 100),
+        new("Layouts", 80),
+        new("Forms", 55),
+        new("Testing", 20)
+    ];
+    #endregion
+}

@@ -1,0 +1,53 @@
+@page "/chart/waffle"
+@using TwBlazor.Models
+
+<PageContainer Title="TwWaffleChart" Path="/chart/waffle" Beta Description="TwWaffleChart is a Blazor waffle chart: a ten by ten grid of squares, each worth one percent, colored by each value's share.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwWaffleChart</code> shows parts of a whole as a ten by ten grid where each square is one percent. Counting squares is easier than judging angles, so small differences read more reliably than on a pie.</Description>
+
+        <CodeExample Name="WaffleChartBasic" CSharpName="WaffleChartData">
+            <TwChart Title="Traffic by source">
+                <TwWaffleChart Data="@sources" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Two parts">
+        <Description>It is at its clearest for a single share against the rest.</Description>
+
+        <CodeExample Name="WaffleChartTwo" CSharpName="WaffleChartTwoData">
+            <TwChart Title="Survey response rate">
+                <TwWaffleChart Data="@responses" Height="ChartHeight.Small" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Rounding">
+        <Description>Squares are shared out so the grid is always full, even when the shares do not round to whole percentages. The legend states each exact share.</Description>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart" Class="underline">TwChart</TwLink> for those options.</Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample WaffleChartData
+    private readonly ChartValue[] sources =
+    [
+        new("Search", 430),
+        new("Direct", 260),
+        new("Social", 170),
+        new("Email", 90),
+        new("Referral", 50)
+    ];
+    #endregion
+
+    #region CodeExample WaffleChartTwoData
+    private readonly ChartValue[] responses =
+    [
+        new("Responded", 62),
+        new("No response", 38)
+    ];
+    #endregion
+}
