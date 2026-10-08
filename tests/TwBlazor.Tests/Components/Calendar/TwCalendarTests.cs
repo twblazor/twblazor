@@ -690,7 +690,7 @@ public class TwCalendarTests : TwBlazorTestBase
     {
         var wednesday = new DateTime(2026, 3, 18);
         var evt = Event("Design review", wednesday.AddHours(9), wednesday.AddHours(10));
- 
+
         var cut = TestContext.Render<TwCalendar<string>>(p => p
             .Add(x => x.SelectedDate, wednesday)
             .Add(x => x.View, TwCalendarView.Week)

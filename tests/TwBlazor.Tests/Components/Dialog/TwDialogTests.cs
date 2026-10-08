@@ -13,7 +13,7 @@ namespace TwBlazor.Tests.Components.Dialog;
 
 public class TwDialogTests : TwBlazorTestBase
 {
-    private TwDialogTheme dialogTheme => Theme.Components.Require<TwDialogTheme>();
+    private TwDialogTheme dialogTheme => Theme.Components.Require<TwOverlayTheme>().Dialog;
 
     private ITwDialogReference CreateReference(TwDialogOptions? options = null, string? title = "Test Title", string message = "Dialog body")
     {

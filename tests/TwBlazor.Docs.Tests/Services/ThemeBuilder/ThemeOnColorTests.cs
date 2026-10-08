@@ -1,5 +1,4 @@
 using System.Text.RegularExpressions;
-using TwBlazor.Configuration;
 using TwBlazor.Docs.Services.ThemeBuilder;
 using ThemeBase = TwBlazor.Theme.Theme;
 
@@ -124,7 +123,7 @@ public partial class ThemeOnColorTests
     [Fact]
     public void TheFilledShadeConstants_MatchTheRealDefaultTheme()
     {
-        TwBlazorTheme theme = ThemeBase.CreateDefaultTheme();
+        var theme = ThemeBase.CreateDefaultTheme();
 
         foreach (var family in ThemeColorFamily.All)
         {
@@ -145,7 +144,7 @@ public partial class ThemeOnColorTests
     [Fact]
     public void TheForegroundShadeConstants_MatchTheRealDefaultThemesLightBorders()
     {
-        TwBlazorTheme theme = ThemeBase.CreateDefaultTheme();
+        var theme = ThemeBase.CreateDefaultTheme();
 
         foreach (var family in ThemeColorFamily.All)
         {

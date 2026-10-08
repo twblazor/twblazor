@@ -144,8 +144,6 @@
     --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     --default-font-family: var(--font-sans);
     --default-mono-font-family: var(--font-mono);
-    --animate-glow-drift: glow-drift 14s ease-in-out infinite alternate;
-    --animate-glow-drift-alt: glow-drift-alt 18s ease-in-out infinite alternate;
   }
 }
 @layer base {
@@ -1012,12 +1010,6 @@
   }
   .transform {
     transform: var(--tw-rotate-x,) var(--tw-rotate-y,) var(--tw-rotate-z,) var(--tw-skew-x,) var(--tw-skew-y,);
-  }
-  .animate-glow-drift {
-    animation: var(--animate-glow-drift);
-  }
-  .animate-glow-drift-alt {
-    animation: var(--animate-glow-drift-alt);
   }
   .animate-pulse {
     animation: var(--animate-pulse);
@@ -3629,352 +3621,352 @@
   .rtl\:text-right:where(:dir(rtl), [dir="rtl"], [dir="rtl"] *) {
     text-align: right;
   }
-  :where(.dark\:divide-\[oklch\(21\.15\%_0\.012_254\.09\)\]:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) > :not(:last-child)) {
+  :where(.dark\:divide-\[oklch\(21\.15\%_0\.012_254\.09\)\]:where(.dark, .dark *) > :not(:last-child)) {
     border-color: oklch(21.15% 0.012 254.09);
   }
-  :where(.dark\:divide-gray-800:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) > :not(:last-child)) {
+  :where(.dark\:divide-gray-800:where(.dark, .dark *) > :not(:last-child)) {
     border-color: var(--color-gray-800);
   }
-  .dark\:border-\[oklch\(21\.15\%_0\.012_254\.09\)\]:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:border-\[oklch\(21\.15\%_0\.012_254\.09\)\]:where(.dark, .dark *) {
     border-color: oklch(21.15% 0.012 254.09);
   }
-  .dark\:border-\[oklch\(23\.26\%_0\.014_253\.1\)\]:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:border-\[oklch\(23\.26\%_0\.014_253\.1\)\]:where(.dark, .dark *) {
     border-color: oklch(23.26% 0.014 253.1);
   }
-  .dark\:border-\[oklch\(97\.807\%_0\.029_256\.847\)\]\/15:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:border-\[oklch\(97\.807\%_0\.029_256\.847\)\]\/15:where(.dark, .dark *) {
     border-color: color-mix(in oklab, oklch(97.807% 0.029 256.847) 15%, transparent);
   }
-  .dark\:border-\[oklch\(97\.807\%_0\.029_256\.847\)\]\/20:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:border-\[oklch\(97\.807\%_0\.029_256\.847\)\]\/20:where(.dark, .dark *) {
     border-color: color-mix(in oklab, oklch(97.807% 0.029 256.847) 20%, transparent);
   }
-  .dark\:border-blue-400:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:border-blue-400:where(.dark, .dark *) {
     border-color: var(--color-blue-400);
   }
-  .dark\:border-fuchsia-400:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:border-fuchsia-400:where(.dark, .dark *) {
     border-color: var(--color-fuchsia-400);
   }
-  .dark\:border-fuchsia-900:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:border-fuchsia-900:where(.dark, .dark *) {
     border-color: var(--color-fuchsia-900);
   }
-  .dark\:border-gray-500:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:border-gray-500:where(.dark, .dark *) {
     border-color: var(--color-gray-500);
   }
-  .dark\:border-gray-600:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:border-gray-600:where(.dark, .dark *) {
     border-color: var(--color-gray-600);
   }
-  .dark\:border-gray-700:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:border-gray-700:where(.dark, .dark *) {
     border-color: var(--color-gray-700);
   }
-  .dark\:border-gray-800:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:border-gray-800:where(.dark, .dark *) {
     border-color: var(--color-gray-800);
   }
-  .dark\:border-green-400:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:border-green-400:where(.dark, .dark *) {
     border-color: var(--color-green-400);
   }
-  .dark\:border-purple-400:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:border-purple-400:where(.dark, .dark *) {
     border-color: var(--color-purple-400);
   }
-  .dark\:border-purple-500:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:border-purple-500:where(.dark, .dark *) {
     border-color: var(--color-purple-500);
   }
-  .dark\:border-purple-500\/30:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:border-purple-500\/30:where(.dark, .dark *) {
     border-color: color-mix(in srgb, oklch(62.7% 0.265 303.9) 30%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
       border-color: color-mix(in oklab, var(--color-purple-500) 30%, transparent);
     }
   }
-  .dark\:border-purple-900:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:border-purple-900:where(.dark, .dark *) {
     border-color: var(--color-purple-900);
   }
-  .dark\:border-purple-900\/60:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:border-purple-900\/60:where(.dark, .dark *) {
     border-color: color-mix(in srgb, oklch(38.1% 0.176 304.987) 60%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
       border-color: color-mix(in oklab, var(--color-purple-900) 60%, transparent);
     }
   }
-  .dark\:border-red-400:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:border-red-400:where(.dark, .dark *) {
     border-color: var(--color-red-400);
   }
-  .dark\:border-white\/10:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:border-white\/10:where(.dark, .dark *) {
     border-color: color-mix(in srgb, #fff 10%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
       border-color: color-mix(in oklab, var(--color-white) 10%, transparent);
     }
   }
-  .dark\:border-yellow-400:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:border-yellow-400:where(.dark, .dark *) {
     border-color: var(--color-yellow-400);
   }
-  .dark\:border-t-blue-500:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:border-t-blue-500:where(.dark, .dark *) {
     border-top-color: var(--color-blue-500);
   }
-  .dark\:border-t-fuchsia-500:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:border-t-fuchsia-500:where(.dark, .dark *) {
     border-top-color: var(--color-fuchsia-500);
   }
-  .dark\:border-t-green-500:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:border-t-green-500:where(.dark, .dark *) {
     border-top-color: var(--color-green-500);
   }
-  .dark\:border-t-purple-500:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:border-t-purple-500:where(.dark, .dark *) {
     border-top-color: var(--color-purple-500);
   }
-  .dark\:border-t-red-500:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:border-t-red-500:where(.dark, .dark *) {
     border-top-color: var(--color-red-500);
   }
-  .dark\:border-t-yellow-500:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:border-t-yellow-500:where(.dark, .dark *) {
     border-top-color: var(--color-yellow-500);
   }
-  .dark\:\!bg-gray-800:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:\!bg-gray-800:where(.dark, .dark *) {
     background-color: var(--color-gray-800) !important;
   }
-  .dark\:bg-\[oklch\(21\.15\%_0\.012_254\.09\)\]:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-\[oklch\(21\.15\%_0\.012_254\.09\)\]:where(.dark, .dark *) {
     background-color: oklch(21.15% 0.012 254.09);
   }
-  .dark\:bg-\[oklch\(23\.26\%_0\.014_253\.1\)\]:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-\[oklch\(23\.26\%_0\.014_253\.1\)\]:where(.dark, .dark *) {
     background-color: oklch(23.26% 0.014 253.1);
   }
-  .dark\:bg-\[oklch\(25\.33\%_0\.016_252\.42\)\]:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-\[oklch\(25\.33\%_0\.016_252\.42\)\]:where(.dark, .dark *) {
     background-color: oklch(25.33% 0.016 252.42);
   }
-  .dark\:bg-\[oklch\(32\%_0\.016_253\)\]:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-\[oklch\(32\%_0\.016_253\)\]:where(.dark, .dark *) {
     background-color: oklch(32% 0.016 253);
   }
-  .dark\:bg-\[oklch\(34\%_0\.018_253\)\]:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-\[oklch\(34\%_0\.018_253\)\]:where(.dark, .dark *) {
     background-color: oklch(34% 0.018 253);
   }
-  .dark\:bg-\[oklch\(40\%_0\.016_253\)\]:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-\[oklch\(40\%_0\.016_253\)\]:where(.dark, .dark *) {
     background-color: oklch(40% 0.016 253);
   }
-  .dark\:bg-\[oklch\(97\.807\%_0\.029_256\.847\)\]\/15:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-\[oklch\(97\.807\%_0\.029_256\.847\)\]\/15:where(.dark, .dark *) {
     background-color: color-mix(in oklab, oklch(97.807% 0.029 256.847) 15%, transparent);
   }
-  .dark\:bg-\[oklch\(97\.807\%_0\.029_256\.847\)\]\/25:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-\[oklch\(97\.807\%_0\.029_256\.847\)\]\/25:where(.dark, .dark *) {
     background-color: color-mix(in oklab, oklch(97.807% 0.029 256.847) 25%, transparent);
   }
-  .dark\:bg-amber-400\/10:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-amber-400\/10:where(.dark, .dark *) {
     background-color: color-mix(in srgb, oklch(82.8% 0.189 84.429) 10%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
       background-color: color-mix(in oklab, var(--color-amber-400) 10%, transparent);
     }
   }
-  .dark\:bg-black:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-black:where(.dark, .dark *) {
     background-color: var(--color-black);
   }
-  .dark\:bg-black\/60:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-black\/60:where(.dark, .dark *) {
     background-color: color-mix(in srgb, #000 60%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
       background-color: color-mix(in oklab, var(--color-black) 60%, transparent);
     }
   }
-  .dark\:bg-blue-50:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-blue-50:where(.dark, .dark *) {
     background-color: var(--color-blue-50);
   }
-  .dark\:bg-blue-200:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-blue-200:where(.dark, .dark *) {
     background-color: var(--color-blue-200);
   }
-  .dark\:bg-blue-600:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-blue-600:where(.dark, .dark *) {
     background-color: var(--color-blue-600);
   }
-  .dark\:bg-blue-900:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-blue-900:where(.dark, .dark *) {
     background-color: var(--color-blue-900);
   }
-  .dark\:bg-blue-900\/30:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-blue-900\/30:where(.dark, .dark *) {
     background-color: color-mix(in srgb, oklch(37.9% 0.146 265.522) 30%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
       background-color: color-mix(in oklab, var(--color-blue-900) 30%, transparent);
     }
   }
-  .dark\:bg-blue-950:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-blue-950:where(.dark, .dark *) {
     background-color: var(--color-blue-950);
   }
-  .dark\:bg-fuchsia-50:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-fuchsia-50:where(.dark, .dark *) {
     background-color: var(--color-fuchsia-50);
   }
-  .dark\:bg-fuchsia-200:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-fuchsia-200:where(.dark, .dark *) {
     background-color: var(--color-fuchsia-200);
   }
-  .dark\:bg-fuchsia-500\/15:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-fuchsia-500\/15:where(.dark, .dark *) {
     background-color: color-mix(in srgb, oklch(66.7% 0.295 322.15) 15%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
       background-color: color-mix(in oklab, var(--color-fuchsia-500) 15%, transparent);
     }
   }
-  .dark\:bg-fuchsia-600:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-fuchsia-600:where(.dark, .dark *) {
     background-color: var(--color-fuchsia-600);
   }
-  .dark\:bg-fuchsia-600\/15:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-fuchsia-600\/15:where(.dark, .dark *) {
     background-color: color-mix(in srgb, oklch(59.1% 0.293 322.896) 15%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
       background-color: color-mix(in oklab, var(--color-fuchsia-600) 15%, transparent);
     }
   }
-  .dark\:bg-fuchsia-900:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-fuchsia-900:where(.dark, .dark *) {
     background-color: var(--color-fuchsia-900);
   }
-  .dark\:bg-fuchsia-950:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-fuchsia-950:where(.dark, .dark *) {
     background-color: var(--color-fuchsia-950);
   }
-  .dark\:bg-gray-50:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-gray-50:where(.dark, .dark *) {
     background-color: var(--color-gray-50);
   }
-  .dark\:bg-gray-100:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-gray-100:where(.dark, .dark *) {
     background-color: var(--color-gray-100);
   }
-  .dark\:bg-gray-200:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-gray-200:where(.dark, .dark *) {
     background-color: var(--color-gray-200);
   }
-  .dark\:bg-gray-600:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-gray-600:where(.dark, .dark *) {
     background-color: var(--color-gray-600);
   }
-  .dark\:bg-gray-700:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-gray-700:where(.dark, .dark *) {
     background-color: var(--color-gray-700);
   }
-  .dark\:bg-gray-800:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-gray-800:where(.dark, .dark *) {
     background-color: var(--color-gray-800);
   }
-  .dark\:bg-gray-900:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-gray-900:where(.dark, .dark *) {
     background-color: var(--color-gray-900);
   }
-  .dark\:bg-gray-950:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-gray-950:where(.dark, .dark *) {
     background-color: var(--color-gray-950);
   }
-  .dark\:bg-green-50:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-green-50:where(.dark, .dark *) {
     background-color: var(--color-green-50);
   }
-  .dark\:bg-green-200:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-green-200:where(.dark, .dark *) {
     background-color: var(--color-green-200);
   }
-  .dark\:bg-green-400\/10:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-green-400\/10:where(.dark, .dark *) {
     background-color: color-mix(in srgb, oklch(79.2% 0.209 151.711) 10%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
       background-color: color-mix(in oklab, var(--color-green-400) 10%, transparent);
     }
   }
-  .dark\:bg-green-600:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-green-600:where(.dark, .dark *) {
     background-color: var(--color-green-600);
   }
-  .dark\:bg-green-900:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-green-900:where(.dark, .dark *) {
     background-color: var(--color-green-900);
   }
-  .dark\:bg-green-950:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-green-950:where(.dark, .dark *) {
     background-color: var(--color-green-950);
   }
-  .dark\:bg-neutral-800:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-neutral-800:where(.dark, .dark *) {
     background-color: var(--color-neutral-800);
   }
-  .dark\:bg-purple-50:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-purple-50:where(.dark, .dark *) {
     background-color: var(--color-purple-50);
   }
-  .dark\:bg-purple-200:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-purple-200:where(.dark, .dark *) {
     background-color: var(--color-purple-200);
   }
-  .dark\:bg-purple-500:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-purple-500:where(.dark, .dark *) {
     background-color: var(--color-purple-500);
   }
-  .dark\:bg-purple-500\/10:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-purple-500\/10:where(.dark, .dark *) {
     background-color: color-mix(in srgb, oklch(62.7% 0.265 303.9) 10%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
       background-color: color-mix(in oklab, var(--color-purple-500) 10%, transparent);
     }
   }
-  .dark\:bg-purple-500\/15:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-purple-500\/15:where(.dark, .dark *) {
     background-color: color-mix(in srgb, oklch(62.7% 0.265 303.9) 15%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
       background-color: color-mix(in oklab, var(--color-purple-500) 15%, transparent);
     }
   }
-  .dark\:bg-purple-500\/20:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-purple-500\/20:where(.dark, .dark *) {
     background-color: color-mix(in srgb, oklch(62.7% 0.265 303.9) 20%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
       background-color: color-mix(in oklab, var(--color-purple-500) 20%, transparent);
     }
   }
-  .dark\:bg-purple-500\/25:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-purple-500\/25:where(.dark, .dark *) {
     background-color: color-mix(in srgb, oklch(62.7% 0.265 303.9) 25%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
       background-color: color-mix(in oklab, var(--color-purple-500) 25%, transparent);
     }
   }
-  .dark\:bg-purple-500\/50:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-purple-500\/50:where(.dark, .dark *) {
     background-color: color-mix(in srgb, oklch(62.7% 0.265 303.9) 50%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
       background-color: color-mix(in oklab, var(--color-purple-500) 50%, transparent);
     }
   }
-  .dark\:bg-purple-600:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-purple-600:where(.dark, .dark *) {
     background-color: var(--color-purple-600);
   }
-  .dark\:bg-purple-900:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-purple-900:where(.dark, .dark *) {
     background-color: var(--color-purple-900);
   }
-  .dark\:bg-purple-950:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-purple-950:where(.dark, .dark *) {
     background-color: var(--color-purple-950);
   }
-  .dark\:bg-red-50:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-red-50:where(.dark, .dark *) {
     background-color: var(--color-red-50);
   }
-  .dark\:bg-red-200:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-red-200:where(.dark, .dark *) {
     background-color: var(--color-red-200);
   }
-  .dark\:bg-red-400\/10:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-red-400\/10:where(.dark, .dark *) {
     background-color: color-mix(in srgb, oklch(70.4% 0.191 22.216) 10%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
       background-color: color-mix(in oklab, var(--color-red-400) 10%, transparent);
     }
   }
-  .dark\:bg-red-600:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-red-600:where(.dark, .dark *) {
     background-color: var(--color-red-600);
   }
-  .dark\:bg-red-900:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-red-900:where(.dark, .dark *) {
     background-color: var(--color-red-900);
   }
-  .dark\:bg-red-900\/20:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-red-900\/20:where(.dark, .dark *) {
     background-color: color-mix(in srgb, oklch(39.6% 0.141 25.723) 20%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
       background-color: color-mix(in oklab, var(--color-red-900) 20%, transparent);
     }
   }
-  .dark\:bg-red-950:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-red-950:where(.dark, .dark *) {
     background-color: var(--color-red-950);
   }
-  .dark\:bg-white:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-white:where(.dark, .dark *) {
     background-color: var(--color-white);
   }
-  .dark\:bg-yellow-50:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-yellow-50:where(.dark, .dark *) {
     background-color: var(--color-yellow-50);
   }
-  .dark\:bg-yellow-200:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-yellow-200:where(.dark, .dark *) {
     background-color: var(--color-yellow-200);
   }
-  .dark\:bg-yellow-600:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-yellow-600:where(.dark, .dark *) {
     background-color: var(--color-yellow-600);
   }
-  .dark\:bg-yellow-900:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-yellow-900:where(.dark, .dark *) {
     background-color: var(--color-yellow-900);
   }
-  .dark\:bg-yellow-950:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-yellow-950:where(.dark, .dark *) {
     background-color: var(--color-yellow-950);
   }
-  .dark\:bg-\[linear-gradient\(to_right\,rgb\(168_85_247\/0\.18\)_1px\,transparent_1px\)\,linear-gradient\(to_bottom\,rgb\(168_85_247\/0\.18\)_1px\,transparent_1px\)\]:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:bg-\[linear-gradient\(to_right\,rgb\(168_85_247\/0\.18\)_1px\,transparent_1px\)\,linear-gradient\(to_bottom\,rgb\(168_85_247\/0\.18\)_1px\,transparent_1px\)\]:where(.dark, .dark *) {
     background-image: linear-gradient(to right,rgb(168 85 247/0.18) 1px,transparent 1px),linear-gradient(to bottom,rgb(168 85 247/0.18) 1px,transparent 1px);
   }
-  .dark\:from-purple-300:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:from-purple-300:where(.dark, .dark *) {
     --tw-gradient-from: var(--color-purple-300);
     --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
   }
-  .dark\:from-purple-600\/30:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:from-purple-600\/30:where(.dark, .dark *) {
     --tw-gradient-from: color-mix(in srgb, oklch(55.8% 0.288 302.321) 30%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
       --tw-gradient-from: color-mix(in oklab, var(--color-purple-600) 30%, transparent);
     }
     --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
   }
-  .dark\:from-purple-950\/30:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:from-purple-950\/30:where(.dark, .dark *) {
     --tw-gradient-from: color-mix(in srgb, oklch(29.1% 0.149 302.717) 30%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
       --tw-gradient-from: color-mix(in oklab, var(--color-purple-950) 30%, transparent);
     }
     --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
   }
-  .dark\:via-fuchsia-600\/25:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:via-fuchsia-600\/25:where(.dark, .dark *) {
     --tw-gradient-via: color-mix(in srgb, oklch(59.1% 0.293 322.896) 25%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
       --tw-gradient-via: color-mix(in oklab, var(--color-fuchsia-600) 25%, transparent);
@@ -3982,497 +3974,497 @@
     --tw-gradient-via-stops: var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-via) var(--tw-gradient-via-position), var(--tw-gradient-to) var(--tw-gradient-to-position);
     --tw-gradient-stops: var(--tw-gradient-via-stops);
   }
-  .dark\:to-fuchsia-300:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:to-fuchsia-300:where(.dark, .dark *) {
     --tw-gradient-to: var(--color-fuchsia-300);
     --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
   }
-  .dark\:to-fuchsia-950\/20:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:to-fuchsia-950\/20:where(.dark, .dark *) {
     --tw-gradient-to: color-mix(in srgb, oklch(29.3% 0.136 325.661) 20%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
       --tw-gradient-to: color-mix(in oklab, var(--color-fuchsia-950) 20%, transparent);
     }
     --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
   }
-  .dark\:to-pink-500\/20:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:to-pink-500\/20:where(.dark, .dark *) {
     --tw-gradient-to: color-mix(in srgb, oklch(65.6% 0.241 354.308) 20%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
       --tw-gradient-to: color-mix(in oklab, var(--color-pink-500) 20%, transparent);
     }
     --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
   }
-  .dark\:to-purple-950\/30:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:to-purple-950\/30:where(.dark, .dark *) {
     --tw-gradient-to: color-mix(in srgb, oklch(29.1% 0.149 302.717) 30%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
       --tw-gradient-to: color-mix(in oklab, var(--color-purple-950) 30%, transparent);
     }
     --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
   }
-  .dark\:text-\[oklch\(68\%_0\.02_256\.847\)\]:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:text-\[oklch\(68\%_0\.02_256\.847\)\]:where(.dark, .dark *) {
     color: oklch(68% 0.02 256.847);
   }
-  .dark\:text-\[oklch\(78\%_0\.02_256\.847\)\]:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:text-\[oklch\(78\%_0\.02_256\.847\)\]:where(.dark, .dark *) {
     color: oklch(78% 0.02 256.847);
   }
-  .dark\:text-\[oklch\(88\%_0\.02_256\.847\)\]:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:text-\[oklch\(88\%_0\.02_256\.847\)\]:where(.dark, .dark *) {
     color: oklch(88% 0.02 256.847);
   }
-  .dark\:text-\[oklch\(97\.807\%_0\.029_256\.847\)\]:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:text-\[oklch\(97\.807\%_0\.029_256\.847\)\]:where(.dark, .dark *) {
     color: oklch(97.807% 0.029 256.847);
   }
-  .dark\:text-\[oklch\(97\.807\%_0\.029_256\.847\)\]\/40:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:text-\[oklch\(97\.807\%_0\.029_256\.847\)\]\/40:where(.dark, .dark *) {
     color: color-mix(in oklab, oklch(97.807% 0.029 256.847) 40%, transparent);
   }
-  .dark\:text-amber-400:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:text-amber-400:where(.dark, .dark *) {
     color: var(--color-amber-400);
   }
-  .dark\:text-blue-200:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:text-blue-200:where(.dark, .dark *) {
     color: var(--color-blue-200);
   }
-  .dark\:text-blue-400:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:text-blue-400:where(.dark, .dark *) {
     color: var(--color-blue-400);
   }
-  .dark\:text-blue-600:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:text-blue-600:where(.dark, .dark *) {
     color: var(--color-blue-600);
   }
-  .dark\:text-blue-900:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:text-blue-900:where(.dark, .dark *) {
     color: var(--color-blue-900);
   }
-  .dark\:text-fuchsia-200:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:text-fuchsia-200:where(.dark, .dark *) {
     color: var(--color-fuchsia-200);
   }
-  .dark\:text-fuchsia-300:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:text-fuchsia-300:where(.dark, .dark *) {
     color: var(--color-fuchsia-300);
   }
-  .dark\:text-fuchsia-400:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:text-fuchsia-400:where(.dark, .dark *) {
     color: var(--color-fuchsia-400);
   }
-  .dark\:text-fuchsia-600:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:text-fuchsia-600:where(.dark, .dark *) {
     color: var(--color-fuchsia-600);
   }
-  .dark\:text-fuchsia-900:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:text-fuchsia-900:where(.dark, .dark *) {
     color: var(--color-fuchsia-900);
   }
-  .dark\:text-gray-100:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:text-gray-100:where(.dark, .dark *) {
     color: var(--color-gray-100);
   }
-  .dark\:text-gray-200:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:text-gray-200:where(.dark, .dark *) {
     color: var(--color-gray-200);
   }
-  .dark\:text-gray-300:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:text-gray-300:where(.dark, .dark *) {
     color: var(--color-gray-300);
   }
-  .dark\:text-gray-400:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:text-gray-400:where(.dark, .dark *) {
     color: var(--color-gray-400);
   }
-  .dark\:text-gray-500:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:text-gray-500:where(.dark, .dark *) {
     color: var(--color-gray-500);
   }
-  .dark\:text-gray-900:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:text-gray-900:where(.dark, .dark *) {
     color: var(--color-gray-900);
   }
-  .dark\:text-gray-950:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:text-gray-950:where(.dark, .dark *) {
     color: var(--color-gray-950);
   }
-  .dark\:text-green-200:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:text-green-200:where(.dark, .dark *) {
     color: var(--color-green-200);
   }
-  .dark\:text-green-400:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:text-green-400:where(.dark, .dark *) {
     color: var(--color-green-400);
   }
-  .dark\:text-green-600:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:text-green-600:where(.dark, .dark *) {
     color: var(--color-green-600);
   }
-  .dark\:text-green-900:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:text-green-900:where(.dark, .dark *) {
     color: var(--color-green-900);
   }
-  .dark\:text-neutral-100:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:text-neutral-100:where(.dark, .dark *) {
     color: var(--color-neutral-100);
   }
-  .dark\:text-purple-100:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:text-purple-100:where(.dark, .dark *) {
     color: var(--color-purple-100);
   }
-  .dark\:text-purple-200:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:text-purple-200:where(.dark, .dark *) {
     color: var(--color-purple-200);
   }
-  .dark\:text-purple-300:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:text-purple-300:where(.dark, .dark *) {
     color: var(--color-purple-300);
   }
-  .dark\:text-purple-300\/60:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:text-purple-300\/60:where(.dark, .dark *) {
     color: color-mix(in srgb, oklch(82.7% 0.119 306.383) 60%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
       color: color-mix(in oklab, var(--color-purple-300) 60%, transparent);
     }
   }
-  .dark\:text-purple-400:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:text-purple-400:where(.dark, .dark *) {
     color: var(--color-purple-400);
   }
-  .dark\:text-purple-500:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:text-purple-500:where(.dark, .dark *) {
     color: var(--color-purple-500);
   }
-  .dark\:text-purple-600:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:text-purple-600:where(.dark, .dark *) {
     color: var(--color-purple-600);
   }
-  .dark\:text-purple-700:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:text-purple-700:where(.dark, .dark *) {
     color: var(--color-purple-700);
   }
-  .dark\:text-purple-900:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:text-purple-900:where(.dark, .dark *) {
     color: var(--color-purple-900);
   }
-  .dark\:text-red-200:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:text-red-200:where(.dark, .dark *) {
     color: var(--color-red-200);
   }
-  .dark\:text-red-400:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:text-red-400:where(.dark, .dark *) {
     color: var(--color-red-400);
   }
-  .dark\:text-red-600:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:text-red-600:where(.dark, .dark *) {
     color: var(--color-red-600);
   }
-  .dark\:text-red-900:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:text-red-900:where(.dark, .dark *) {
     color: var(--color-red-900);
   }
-  .dark\:text-white:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:text-white:where(.dark, .dark *) {
     color: var(--color-white);
   }
-  .dark\:text-yellow-200:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:text-yellow-200:where(.dark, .dark *) {
     color: var(--color-yellow-200);
   }
-  .dark\:text-yellow-400:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:text-yellow-400:where(.dark, .dark *) {
     color: var(--color-yellow-400);
   }
-  .dark\:text-yellow-600:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:text-yellow-600:where(.dark, .dark *) {
     color: var(--color-yellow-600);
   }
-  .dark\:text-yellow-900:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:text-yellow-900:where(.dark, .dark *) {
     color: var(--color-yellow-900);
   }
-  .dark\:ring-\[oklch\(97\.807\%_0\.029_256\.847\)\]\/15:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:ring-\[oklch\(97\.807\%_0\.029_256\.847\)\]\/15:where(.dark, .dark *) {
     --tw-ring-color: color-mix(in oklab, oklch(97.807% 0.029 256.847) 15%, transparent);
   }
-  .dark\:ring-purple-400\/30:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .dark\:ring-purple-400\/30:where(.dark, .dark *) {
     --tw-ring-color: color-mix(in srgb, oklch(71.4% 0.203 305.504) 30%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
       --tw-ring-color: color-mix(in oklab, var(--color-purple-400) 30%, transparent);
     }
   }
-  .dark\:group-focus-visible\:ring-purple-400:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):is(:where(.group):focus-visible *) {
+  .dark\:group-focus-visible\:ring-purple-400:where(.dark, .dark *):is(:where(.group):focus-visible *) {
     --tw-ring-color: var(--color-purple-400);
   }
-  .dark\:peer-checked\:bg-blue-500:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):is(:where(.peer):checked ~ *) {
+  .dark\:peer-checked\:bg-blue-500:where(.dark, .dark *):is(:where(.peer):checked ~ *) {
     background-color: var(--color-blue-500);
   }
-  .dark\:peer-checked\:bg-fuchsia-500:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):is(:where(.peer):checked ~ *) {
+  .dark\:peer-checked\:bg-fuchsia-500:where(.dark, .dark *):is(:where(.peer):checked ~ *) {
     background-color: var(--color-fuchsia-500);
   }
-  .dark\:peer-checked\:bg-gray-300:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):is(:where(.peer):checked ~ *) {
+  .dark\:peer-checked\:bg-gray-300:where(.dark, .dark *):is(:where(.peer):checked ~ *) {
     background-color: var(--color-gray-300);
   }
-  .dark\:peer-checked\:bg-gray-800:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):is(:where(.peer):checked ~ *) {
+  .dark\:peer-checked\:bg-gray-800:where(.dark, .dark *):is(:where(.peer):checked ~ *) {
     background-color: var(--color-gray-800);
   }
-  .dark\:peer-checked\:bg-green-500:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):is(:where(.peer):checked ~ *) {
+  .dark\:peer-checked\:bg-green-500:where(.dark, .dark *):is(:where(.peer):checked ~ *) {
     background-color: var(--color-green-500);
   }
-  .dark\:peer-checked\:bg-purple-500:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):is(:where(.peer):checked ~ *) {
+  .dark\:peer-checked\:bg-purple-500:where(.dark, .dark *):is(:where(.peer):checked ~ *) {
     background-color: var(--color-purple-500);
   }
-  .dark\:peer-checked\:bg-red-500:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):is(:where(.peer):checked ~ *) {
+  .dark\:peer-checked\:bg-red-500:where(.dark, .dark *):is(:where(.peer):checked ~ *) {
     background-color: var(--color-red-500);
   }
-  .dark\:peer-checked\:bg-yellow-500:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):is(:where(.peer):checked ~ *) {
+  .dark\:peer-checked\:bg-yellow-500:where(.dark, .dark *):is(:where(.peer):checked ~ *) {
     background-color: var(--color-yellow-500);
   }
-  .dark\:peer-focus-visible\:ring-blue-400:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):is(:where(.peer):focus-visible ~ *) {
+  .dark\:peer-focus-visible\:ring-blue-400:where(.dark, .dark *):is(:where(.peer):focus-visible ~ *) {
     --tw-ring-color: var(--color-blue-400);
   }
-  .dark\:peer-focus-visible\:ring-fuchsia-400:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):is(:where(.peer):focus-visible ~ *) {
+  .dark\:peer-focus-visible\:ring-fuchsia-400:where(.dark, .dark *):is(:where(.peer):focus-visible ~ *) {
     --tw-ring-color: var(--color-fuchsia-400);
   }
-  .dark\:peer-focus-visible\:ring-gray-300:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):is(:where(.peer):focus-visible ~ *) {
+  .dark\:peer-focus-visible\:ring-gray-300:where(.dark, .dark *):is(:where(.peer):focus-visible ~ *) {
     --tw-ring-color: var(--color-gray-300);
   }
-  .dark\:peer-focus-visible\:ring-green-400:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):is(:where(.peer):focus-visible ~ *) {
+  .dark\:peer-focus-visible\:ring-green-400:where(.dark, .dark *):is(:where(.peer):focus-visible ~ *) {
     --tw-ring-color: var(--color-green-400);
   }
-  .dark\:peer-focus-visible\:ring-purple-400:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):is(:where(.peer):focus-visible ~ *) {
+  .dark\:peer-focus-visible\:ring-purple-400:where(.dark, .dark *):is(:where(.peer):focus-visible ~ *) {
     --tw-ring-color: var(--color-purple-400);
   }
-  .dark\:peer-focus-visible\:ring-red-400:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):is(:where(.peer):focus-visible ~ *) {
+  .dark\:peer-focus-visible\:ring-red-400:where(.dark, .dark *):is(:where(.peer):focus-visible ~ *) {
     --tw-ring-color: var(--color-red-400);
   }
-  .dark\:peer-focus-visible\:ring-yellow-400:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):is(:where(.peer):focus-visible ~ *) {
+  .dark\:peer-focus-visible\:ring-yellow-400:where(.dark, .dark *):is(:where(.peer):focus-visible ~ *) {
     --tw-ring-color: var(--color-yellow-400);
   }
-  .dark\:placeholder\:text-\[oklch\(97\.807\%_0\.029_256\.847\)\]\/50:where(.dark, .dark *):not(:where(.theme-light, .theme-light *))::placeholder {
+  .dark\:placeholder\:text-\[oklch\(97\.807\%_0\.029_256\.847\)\]\/50:where(.dark, .dark *)::placeholder {
     color: color-mix(in oklab, oklch(97.807% 0.029 256.847) 50%, transparent);
   }
-  .dark\:checked\:border-blue-500:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):checked {
+  .dark\:checked\:border-blue-500:where(.dark, .dark *):checked {
     border-color: var(--color-blue-500);
   }
-  .dark\:checked\:border-fuchsia-500:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):checked {
+  .dark\:checked\:border-fuchsia-500:where(.dark, .dark *):checked {
     border-color: var(--color-fuchsia-500);
   }
-  .dark\:checked\:border-gray-500:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):checked {
+  .dark\:checked\:border-gray-500:where(.dark, .dark *):checked {
     border-color: var(--color-gray-500);
   }
-  .dark\:checked\:border-gray-900:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):checked {
+  .dark\:checked\:border-gray-900:where(.dark, .dark *):checked {
     border-color: var(--color-gray-900);
   }
-  .dark\:checked\:border-green-500:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):checked {
+  .dark\:checked\:border-green-500:where(.dark, .dark *):checked {
     border-color: var(--color-green-500);
   }
-  .dark\:checked\:border-purple-500:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):checked {
+  .dark\:checked\:border-purple-500:where(.dark, .dark *):checked {
     border-color: var(--color-purple-500);
   }
-  .dark\:checked\:border-red-500:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):checked {
+  .dark\:checked\:border-red-500:where(.dark, .dark *):checked {
     border-color: var(--color-red-500);
   }
-  .dark\:checked\:border-yellow-500:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):checked {
+  .dark\:checked\:border-yellow-500:where(.dark, .dark *):checked {
     border-color: var(--color-yellow-500);
   }
-  .dark\:checked\:bg-blue-500:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):checked {
+  .dark\:checked\:bg-blue-500:where(.dark, .dark *):checked {
     background-color: var(--color-blue-500);
   }
-  .dark\:checked\:bg-fuchsia-500:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):checked {
+  .dark\:checked\:bg-fuchsia-500:where(.dark, .dark *):checked {
     background-color: var(--color-fuchsia-500);
   }
-  .dark\:checked\:bg-gray-900:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):checked {
+  .dark\:checked\:bg-gray-900:where(.dark, .dark *):checked {
     background-color: var(--color-gray-900);
   }
-  .dark\:checked\:bg-green-500:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):checked {
+  .dark\:checked\:bg-green-500:where(.dark, .dark *):checked {
     background-color: var(--color-green-500);
   }
-  .dark\:checked\:bg-purple-500:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):checked {
+  .dark\:checked\:bg-purple-500:where(.dark, .dark *):checked {
     background-color: var(--color-purple-500);
   }
-  .dark\:checked\:bg-red-500:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):checked {
+  .dark\:checked\:bg-red-500:where(.dark, .dark *):checked {
     background-color: var(--color-red-500);
   }
-  .dark\:checked\:bg-white:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):checked {
+  .dark\:checked\:bg-white:where(.dark, .dark *):checked {
     background-color: var(--color-white);
   }
-  .dark\:checked\:bg-yellow-500:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):checked {
+  .dark\:checked\:bg-yellow-500:where(.dark, .dark *):checked {
     background-color: var(--color-yellow-500);
   }
   @media (hover: hover) {
-    .dark\:hover\:border-\[oklch\(97\.807\%_0\.029_256\.847\)\]\/40:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):hover {
+    .dark\:hover\:border-\[oklch\(97\.807\%_0\.029_256\.847\)\]\/40:where(.dark, .dark *):hover {
       border-color: color-mix(in oklab, oklch(97.807% 0.029 256.847) 40%, transparent);
     }
-    .dark\:hover\:border-fuchsia-400:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):hover {
+    .dark\:hover\:border-fuchsia-400:where(.dark, .dark *):hover {
       border-color: var(--color-fuchsia-400);
     }
-    .dark\:hover\:border-gray-500:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):hover {
+    .dark\:hover\:border-gray-500:where(.dark, .dark *):hover {
       border-color: var(--color-gray-500);
     }
-    .dark\:hover\:border-purple-400:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):hover {
+    .dark\:hover\:border-purple-400:where(.dark, .dark *):hover {
       border-color: var(--color-purple-400);
     }
-    .dark\:hover\:border-purple-500:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):hover {
+    .dark\:hover\:border-purple-500:where(.dark, .dark *):hover {
       border-color: var(--color-purple-500);
     }
-    .dark\:hover\:bg-\[oklch\(23\.26\%_0\.014_253\.1\)\]:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):hover {
+    .dark\:hover\:bg-\[oklch\(23\.26\%_0\.014_253\.1\)\]:where(.dark, .dark *):hover {
       background-color: oklch(23.26% 0.014 253.1);
     }
-    .dark\:hover\:bg-\[oklch\(97\.807\%_0\.029_256\.847\)\]\/8:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):hover {
+    .dark\:hover\:bg-\[oklch\(97\.807\%_0\.029_256\.847\)\]\/8:where(.dark, .dark *):hover {
       background-color: color-mix(in oklab, oklch(97.807% 0.029 256.847) 8%, transparent);
     }
-    .dark\:hover\:bg-\[oklch\(97\.807\%_0\.029_256\.847\)\]\/10:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):hover {
+    .dark\:hover\:bg-\[oklch\(97\.807\%_0\.029_256\.847\)\]\/10:where(.dark, .dark *):hover {
       background-color: color-mix(in oklab, oklch(97.807% 0.029 256.847) 10%, transparent);
     }
-    .dark\:hover\:bg-\[oklch\(97\.807\%_0\.029_256\.847\)\]\/40:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):hover {
+    .dark\:hover\:bg-\[oklch\(97\.807\%_0\.029_256\.847\)\]\/40:where(.dark, .dark *):hover {
       background-color: color-mix(in oklab, oklch(97.807% 0.029 256.847) 40%, transparent);
     }
-    .dark\:hover\:bg-blue-900\/20:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):hover {
+    .dark\:hover\:bg-blue-900\/20:where(.dark, .dark *):hover {
       background-color: color-mix(in srgb, oklch(37.9% 0.146 265.522) 20%, transparent);
     }
     @supports (color: color-mix(in lab, red, red)) {
-      .dark\:hover\:bg-blue-900\/20:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):hover {
+      .dark\:hover\:bg-blue-900\/20:where(.dark, .dark *):hover {
         background-color: color-mix(in oklab, var(--color-blue-900) 20%, transparent);
       }
     }
-    .dark\:hover\:bg-current\/15:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):hover {
+    .dark\:hover\:bg-current\/15:where(.dark, .dark *):hover {
       background-color: currentcolor;
     }
     @supports (color: color-mix(in lab, red, red)) {
-      .dark\:hover\:bg-current\/15:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):hover {
+      .dark\:hover\:bg-current\/15:where(.dark, .dark *):hover {
         background-color: color-mix(in oklab, currentcolor 15%, transparent);
       }
     }
-    .dark\:hover\:bg-fuchsia-900\/20:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):hover {
+    .dark\:hover\:bg-fuchsia-900\/20:where(.dark, .dark *):hover {
       background-color: color-mix(in srgb, oklch(40.1% 0.17 325.612) 20%, transparent);
     }
     @supports (color: color-mix(in lab, red, red)) {
-      .dark\:hover\:bg-fuchsia-900\/20:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):hover {
+      .dark\:hover\:bg-fuchsia-900\/20:where(.dark, .dark *):hover {
         background-color: color-mix(in oklab, var(--color-fuchsia-900) 20%, transparent);
       }
     }
-    .dark\:hover\:bg-gray-600:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):hover {
+    .dark\:hover\:bg-gray-600:where(.dark, .dark *):hover {
       background-color: var(--color-gray-600);
     }
-    .dark\:hover\:bg-gray-700:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):hover {
+    .dark\:hover\:bg-gray-700:where(.dark, .dark *):hover {
       background-color: var(--color-gray-700);
     }
-    .dark\:hover\:bg-gray-700\/50:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):hover {
+    .dark\:hover\:bg-gray-700\/50:where(.dark, .dark *):hover {
       background-color: color-mix(in srgb, oklch(37.3% 0.034 259.733) 50%, transparent);
     }
     @supports (color: color-mix(in lab, red, red)) {
-      .dark\:hover\:bg-gray-700\/50:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):hover {
+      .dark\:hover\:bg-gray-700\/50:where(.dark, .dark *):hover {
         background-color: color-mix(in oklab, var(--color-gray-700) 50%, transparent);
       }
     }
-    .dark\:hover\:bg-gray-800:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):hover {
+    .dark\:hover\:bg-gray-800:where(.dark, .dark *):hover {
       background-color: var(--color-gray-800);
     }
-    .dark\:hover\:bg-green-900\/20:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):hover {
+    .dark\:hover\:bg-green-900\/20:where(.dark, .dark *):hover {
       background-color: color-mix(in srgb, oklch(39.3% 0.095 152.535) 20%, transparent);
     }
     @supports (color: color-mix(in lab, red, red)) {
-      .dark\:hover\:bg-green-900\/20:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):hover {
+      .dark\:hover\:bg-green-900\/20:where(.dark, .dark *):hover {
         background-color: color-mix(in oklab, var(--color-green-900) 20%, transparent);
       }
     }
-    .dark\:hover\:bg-purple-500\/15:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):hover {
+    .dark\:hover\:bg-purple-500\/15:where(.dark, .dark *):hover {
       background-color: color-mix(in srgb, oklch(62.7% 0.265 303.9) 15%, transparent);
     }
     @supports (color: color-mix(in lab, red, red)) {
-      .dark\:hover\:bg-purple-500\/15:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):hover {
+      .dark\:hover\:bg-purple-500\/15:where(.dark, .dark *):hover {
         background-color: color-mix(in oklab, var(--color-purple-500) 15%, transparent);
       }
     }
-    .dark\:hover\:bg-purple-900\/20:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):hover {
+    .dark\:hover\:bg-purple-900\/20:where(.dark, .dark *):hover {
       background-color: color-mix(in srgb, oklch(38.1% 0.176 304.987) 20%, transparent);
     }
     @supports (color: color-mix(in lab, red, red)) {
-      .dark\:hover\:bg-purple-900\/20:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):hover {
+      .dark\:hover\:bg-purple-900\/20:where(.dark, .dark *):hover {
         background-color: color-mix(in oklab, var(--color-purple-900) 20%, transparent);
       }
     }
-    .dark\:hover\:bg-purple-900\/40:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):hover {
+    .dark\:hover\:bg-purple-900\/40:where(.dark, .dark *):hover {
       background-color: color-mix(in srgb, oklch(38.1% 0.176 304.987) 40%, transparent);
     }
     @supports (color: color-mix(in lab, red, red)) {
-      .dark\:hover\:bg-purple-900\/40:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):hover {
+      .dark\:hover\:bg-purple-900\/40:where(.dark, .dark *):hover {
         background-color: color-mix(in oklab, var(--color-purple-900) 40%, transparent);
       }
     }
-    .dark\:hover\:bg-red-900\/20:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):hover {
+    .dark\:hover\:bg-red-900\/20:where(.dark, .dark *):hover {
       background-color: color-mix(in srgb, oklch(39.6% 0.141 25.723) 20%, transparent);
     }
     @supports (color: color-mix(in lab, red, red)) {
-      .dark\:hover\:bg-red-900\/20:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):hover {
+      .dark\:hover\:bg-red-900\/20:where(.dark, .dark *):hover {
         background-color: color-mix(in oklab, var(--color-red-900) 20%, transparent);
       }
     }
-    .dark\:hover\:bg-white\/10:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):hover {
+    .dark\:hover\:bg-white\/10:where(.dark, .dark *):hover {
       background-color: color-mix(in srgb, #fff 10%, transparent);
     }
     @supports (color: color-mix(in lab, red, red)) {
-      .dark\:hover\:bg-white\/10:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):hover {
+      .dark\:hover\:bg-white\/10:where(.dark, .dark *):hover {
         background-color: color-mix(in oklab, var(--color-white) 10%, transparent);
       }
     }
-    .dark\:hover\:bg-yellow-900\/20:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):hover {
+    .dark\:hover\:bg-yellow-900\/20:where(.dark, .dark *):hover {
       background-color: color-mix(in srgb, oklch(42.1% 0.095 57.708) 20%, transparent);
     }
     @supports (color: color-mix(in lab, red, red)) {
-      .dark\:hover\:bg-yellow-900\/20:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):hover {
+      .dark\:hover\:bg-yellow-900\/20:where(.dark, .dark *):hover {
         background-color: color-mix(in oklab, var(--color-yellow-900) 20%, transparent);
       }
     }
-    .dark\:hover\:text-\[oklch\(97\.807\%_0\.029_256\.847\)\]:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):hover {
+    .dark\:hover\:text-\[oklch\(97\.807\%_0\.029_256\.847\)\]:where(.dark, .dark *):hover {
       color: oklch(97.807% 0.029 256.847);
     }
-    .dark\:hover\:text-fuchsia-300:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):hover {
+    .dark\:hover\:text-fuchsia-300:where(.dark, .dark *):hover {
       color: var(--color-fuchsia-300);
     }
-    .dark\:hover\:text-purple-100:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):hover {
+    .dark\:hover\:text-purple-100:where(.dark, .dark *):hover {
       color: var(--color-purple-100);
     }
-    .dark\:hover\:text-purple-400:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):hover {
+    .dark\:hover\:text-purple-400:where(.dark, .dark *):hover {
       color: var(--color-purple-400);
     }
-    .dark\:hover\:text-white:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):hover {
+    .dark\:hover\:text-white:where(.dark, .dark *):hover {
       color: var(--color-white);
     }
-    .dark\:hover\:ring-\[oklch\(97\.807\%_0\.029_256\.847\)\]\/25:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):hover {
+    .dark\:hover\:ring-\[oklch\(97\.807\%_0\.029_256\.847\)\]\/25:where(.dark, .dark *):hover {
       --tw-ring-color: color-mix(in oklab, oklch(97.807% 0.029 256.847) 25%, transparent);
     }
   }
-  .dark\:focus\:border-purple-400:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):focus {
+  .dark\:focus\:border-purple-400:where(.dark, .dark *):focus {
     border-color: var(--color-purple-400);
   }
-  .dark\:focus\:bg-\[oklch\(40\%_0\.016_253\)\]:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):focus {
+  .dark\:focus\:bg-\[oklch\(40\%_0\.016_253\)\]:where(.dark, .dark *):focus {
     background-color: oklch(40% 0.016 253);
   }
-  .dark\:focus\:text-\[oklch\(97\.807\%_0\.029_256\.847\)\]:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):focus {
+  .dark\:focus\:text-\[oklch\(97\.807\%_0\.029_256\.847\)\]:where(.dark, .dark *):focus {
     color: oklch(97.807% 0.029 256.847);
   }
-  .dark\:focus-visible\:ring-blue-400:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):focus-visible {
+  .dark\:focus-visible\:ring-blue-400:where(.dark, .dark *):focus-visible {
     --tw-ring-color: var(--color-blue-400);
   }
-  .dark\:focus-visible\:ring-fuchsia-400:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):focus-visible {
+  .dark\:focus-visible\:ring-fuchsia-400:where(.dark, .dark *):focus-visible {
     --tw-ring-color: var(--color-fuchsia-400);
   }
-  .dark\:focus-visible\:ring-gray-300:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):focus-visible {
+  .dark\:focus-visible\:ring-gray-300:where(.dark, .dark *):focus-visible {
     --tw-ring-color: var(--color-gray-300);
   }
-  .dark\:focus-visible\:ring-green-400:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):focus-visible {
+  .dark\:focus-visible\:ring-green-400:where(.dark, .dark *):focus-visible {
     --tw-ring-color: var(--color-green-400);
   }
-  .dark\:focus-visible\:ring-purple-400:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):focus-visible {
+  .dark\:focus-visible\:ring-purple-400:where(.dark, .dark *):focus-visible {
     --tw-ring-color: var(--color-purple-400);
   }
-  .dark\:focus-visible\:ring-red-400:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):focus-visible {
+  .dark\:focus-visible\:ring-red-400:where(.dark, .dark *):focus-visible {
     --tw-ring-color: var(--color-red-400);
   }
-  .dark\:focus-visible\:ring-yellow-400:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):focus-visible {
+  .dark\:focus-visible\:ring-yellow-400:where(.dark, .dark *):focus-visible {
     --tw-ring-color: var(--color-yellow-400);
   }
-  .dark\:focus-visible\:outline-purple-400:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):focus-visible {
+  .dark\:focus-visible\:outline-purple-400:where(.dark, .dark *):focus-visible {
     outline-color: var(--color-purple-400);
   }
-  .dark\:aria-selected\:bg-purple-500\/20:where(.dark, .dark *):not(:where(.theme-light, .theme-light *))[aria-selected="true"] {
+  .dark\:aria-selected\:bg-purple-500\/20:where(.dark, .dark *)[aria-selected="true"] {
     background-color: color-mix(in srgb, oklch(62.7% 0.265 303.9) 20%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
       background-color: color-mix(in oklab, var(--color-purple-500) 20%, transparent);
     }
   }
-  .dark\:aria-selected\:text-purple-300:where(.dark, .dark *):not(:where(.theme-light, .theme-light *))[aria-selected="true"] {
+  .dark\:aria-selected\:text-purple-300:where(.dark, .dark *)[aria-selected="true"] {
     color: var(--color-purple-300);
   }
   @media (hover: hover) {
-    .dark\:aria-selected\:hover\:bg-purple-500\/30:where(.dark, .dark *):not(:where(.theme-light, .theme-light *))[aria-selected="true"]:hover {
+    .dark\:aria-selected\:hover\:bg-purple-500\/30:where(.dark, .dark *)[aria-selected="true"]:hover {
       background-color: color-mix(in srgb, oklch(62.7% 0.265 303.9) 30%, transparent);
     }
     @supports (color: color-mix(in lab, red, red)) {
-      .dark\:aria-selected\:hover\:bg-purple-500\/30:where(.dark, .dark *):not(:where(.theme-light, .theme-light *))[aria-selected="true"]:hover {
+      .dark\:aria-selected\:hover\:bg-purple-500\/30:where(.dark, .dark *)[aria-selected="true"]:hover {
         background-color: color-mix(in oklab, var(--color-purple-500) 30%, transparent);
       }
     }
   }
-  .dark\:aria-\[current\=location\]\:border-white:where(.dark, .dark *):not(:where(.theme-light, .theme-light *))[aria-current="location"] {
+  .dark\:aria-\[current\=location\]\:border-white:where(.dark, .dark *)[aria-current="location"] {
     border-color: var(--color-white);
   }
-  .dark\:aria-\[current\=location\]\:text-white:where(.dark, .dark *):not(:where(.theme-light, .theme-light *))[aria-current="location"] {
+  .dark\:aria-\[current\=location\]\:text-white:where(.dark, .dark *)[aria-current="location"] {
     color: var(--color-white);
   }
-  .dark\:data-\[active\=true\]\:bg-\[oklch\(48\%_0\.016_253\)\]:where(.dark, .dark *):not(:where(.theme-light, .theme-light *))[data-active="true"] {
+  .dark\:data-\[active\=true\]\:bg-\[oklch\(48\%_0\.016_253\)\]:where(.dark, .dark *)[data-active="true"] {
     background-color: oklch(48% 0.016 253);
   }
   @supports (appearance:base-select) {
-    .dark\:supports-\[appearance\:base-select\]\:bg-transparent:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+    .dark\:supports-\[appearance\:base-select\]\:bg-transparent:where(.dark, .dark *) {
       background-color: transparent;
     }
-    .dark\:supports-\[appearance\:base-select\]\:checked\:bg-purple-500\/20:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):checked {
+    .dark\:supports-\[appearance\:base-select\]\:checked\:bg-purple-500\/20:where(.dark, .dark *):checked {
       background-color: color-mix(in srgb, oklch(62.7% 0.265 303.9) 20%, transparent);
       @supports (color: color-mix(in lab, red, red)) {
         background-color: color-mix(in oklab, var(--color-purple-500) 20%, transparent);
       }
     }
-    .dark\:supports-\[appearance\:base-select\]\:checked\:text-purple-300:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):checked {
+    .dark\:supports-\[appearance\:base-select\]\:checked\:text-purple-300:where(.dark, .dark *):checked {
       color: var(--color-purple-300);
     }
     @media (hover: hover) {
-      .dark\:supports-\[appearance\:base-select\]\:hover\:bg-\[oklch\(34\%_0\.018_253\)\]:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):hover {
+      .dark\:supports-\[appearance\:base-select\]\:hover\:bg-\[oklch\(34\%_0\.018_253\)\]:where(.dark, .dark *):hover {
         background-color: oklch(34% 0.018 253);
       }
     }
@@ -4510,7 +4502,7 @@
   .\[\&_label\]\:\!text-\[oklch\(21\%_0\.006_285\.885\)\] label {
     color: oklch(21% 0.006 285.885) !important;
   }
-  .dark\:\[\&_label\]\:\!text-\[oklch\(97\.807\%_0\.029_256\.847\)\]:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) label {
+  .dark\:\[\&_label\]\:\!text-\[oklch\(97\.807\%_0\.029_256\.847\)\]:where(.dark, .dark *) label {
     color: oklch(97.807% 0.029 256.847) !important;
   }
   .\[\&_label\:\:before\]\:invisible label::before {
@@ -4535,13 +4527,13 @@
   .\[\&_label\:has\(input\:checked\)\]\:\!text-purple-700 label:has(input:checked) {
     color: var(--color-purple-700) !important;
   }
-  .dark\:\[\&_label\:has\(input\:checked\)\]\:bg-purple-500\/20:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) label:has(input:checked) {
+  .dark\:\[\&_label\:has\(input\:checked\)\]\:bg-purple-500\/20:where(.dark, .dark *) label:has(input:checked) {
     background-color: color-mix(in srgb, oklch(62.7% 0.265 303.9) 20%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
       background-color: color-mix(in oklab, var(--color-purple-500) 20%, transparent);
     }
   }
-  .dark\:\[\&_label\:has\(input\:checked\)\]\:\!text-purple-300:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) label:has(input:checked) {
+  .dark\:\[\&_label\:has\(input\:checked\)\]\:\!text-purple-300:where(.dark, .dark *) label:has(input:checked) {
     color: var(--color-purple-300) !important;
   }
   .\[\&_label\:has\(input\:checked\)\:\:before\]\:visible label:has(input:checked)::before {
@@ -4557,13 +4549,13 @@
   .\[\&_label\:has\(input\:focus-visible\)\]\:ring-inset label:has(input:focus-visible) {
     --tw-ring-inset: inset;
   }
-  .dark\:\[\&_label\:has\(input\:focus-visible\)\]\:ring-purple-400:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) label:has(input:focus-visible) {
+  .dark\:\[\&_label\:has\(input\:focus-visible\)\]\:ring-purple-400:where(.dark, .dark *) label:has(input:focus-visible) {
     --tw-ring-color: var(--color-purple-400);
   }
   .\[\&_label\:hover\]\:bg-\[oklch\(97\%_0_0\)\] label:hover {
     background-color: oklch(97% 0 0);
   }
-  .dark\:\[\&_label\:hover\]\:bg-\[oklch\(34\%_0\.018_253\)\]:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) label:hover {
+  .dark\:\[\&_label\:hover\]\:bg-\[oklch\(34\%_0\.018_253\)\]:where(.dark, .dark *) label:hover {
     background-color: oklch(34% 0.018 253);
   }
   .\[\&_label\>span\]\:hidden label > span {
@@ -4575,13 +4567,13 @@
   .\[\&\.active\]\:text-purple-900.active {
     color: var(--color-purple-900);
   }
-  .dark\:\[\&\.active\]\:bg-purple-500\/20:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)).active {
+  .dark\:\[\&\.active\]\:bg-purple-500\/20:where(.dark, .dark *).active {
     background-color: color-mix(in srgb, oklch(62.7% 0.265 303.9) 20%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
       background-color: color-mix(in oklab, var(--color-purple-500) 20%, transparent);
     }
   }
-  .dark\:\[\&\.active\]\:text-white:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)).active {
+  .dark\:\[\&\.active\]\:text-white:where(.dark, .dark *).active {
     color: var(--color-white);
   }
   .\[\&\:\:-moz-progress-bar\]\:rounded-full::-moz-progress-bar {
@@ -4616,28 +4608,28 @@
     transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
     transition-duration: var(--tw-duration, var(--default-transition-duration));
   }
-  .dark\:\[\&\:\:-moz-progress-bar\]\:bg-blue-500:where(.dark, .dark *):not(:where(.theme-light, .theme-light *))::-moz-progress-bar {
+  .dark\:\[\&\:\:-moz-progress-bar\]\:bg-blue-500:where(.dark, .dark *)::-moz-progress-bar {
     background-color: var(--color-blue-500);
   }
-  .dark\:\[\&\:\:-moz-progress-bar\]\:bg-fuchsia-500:where(.dark, .dark *):not(:where(.theme-light, .theme-light *))::-moz-progress-bar {
+  .dark\:\[\&\:\:-moz-progress-bar\]\:bg-fuchsia-500:where(.dark, .dark *)::-moz-progress-bar {
     background-color: var(--color-fuchsia-500);
   }
-  .dark\:\[\&\:\:-moz-progress-bar\]\:bg-gray-100:where(.dark, .dark *):not(:where(.theme-light, .theme-light *))::-moz-progress-bar {
+  .dark\:\[\&\:\:-moz-progress-bar\]\:bg-gray-100:where(.dark, .dark *)::-moz-progress-bar {
     background-color: var(--color-gray-100);
   }
-  .dark\:\[\&\:\:-moz-progress-bar\]\:bg-gray-300:where(.dark, .dark *):not(:where(.theme-light, .theme-light *))::-moz-progress-bar {
+  .dark\:\[\&\:\:-moz-progress-bar\]\:bg-gray-300:where(.dark, .dark *)::-moz-progress-bar {
     background-color: var(--color-gray-300);
   }
-  .dark\:\[\&\:\:-moz-progress-bar\]\:bg-green-500:where(.dark, .dark *):not(:where(.theme-light, .theme-light *))::-moz-progress-bar {
+  .dark\:\[\&\:\:-moz-progress-bar\]\:bg-green-500:where(.dark, .dark *)::-moz-progress-bar {
     background-color: var(--color-green-500);
   }
-  .dark\:\[\&\:\:-moz-progress-bar\]\:bg-purple-500:where(.dark, .dark *):not(:where(.theme-light, .theme-light *))::-moz-progress-bar {
+  .dark\:\[\&\:\:-moz-progress-bar\]\:bg-purple-500:where(.dark, .dark *)::-moz-progress-bar {
     background-color: var(--color-purple-500);
   }
-  .dark\:\[\&\:\:-moz-progress-bar\]\:bg-red-500:where(.dark, .dark *):not(:where(.theme-light, .theme-light *))::-moz-progress-bar {
+  .dark\:\[\&\:\:-moz-progress-bar\]\:bg-red-500:where(.dark, .dark *)::-moz-progress-bar {
     background-color: var(--color-red-500);
   }
-  .dark\:\[\&\:\:-moz-progress-bar\]\:bg-yellow-400:where(.dark, .dark *):not(:where(.theme-light, .theme-light *))::-moz-progress-bar {
+  .dark\:\[\&\:\:-moz-progress-bar\]\:bg-yellow-400:where(.dark, .dark *)::-moz-progress-bar {
     background-color: var(--color-yellow-400);
   }
   .\[\&\:\:-webkit-date-and-time-value\]\:min-h-0::-webkit-date-and-time-value {
@@ -4687,28 +4679,28 @@
     transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
     transition-duration: var(--tw-duration, var(--default-transition-duration));
   }
-  .dark\:\[\&\:\:-webkit-progress-value\]\:bg-blue-500:where(.dark, .dark *):not(:where(.theme-light, .theme-light *))::-webkit-progress-value {
+  .dark\:\[\&\:\:-webkit-progress-value\]\:bg-blue-500:where(.dark, .dark *)::-webkit-progress-value {
     background-color: var(--color-blue-500);
   }
-  .dark\:\[\&\:\:-webkit-progress-value\]\:bg-fuchsia-500:where(.dark, .dark *):not(:where(.theme-light, .theme-light *))::-webkit-progress-value {
+  .dark\:\[\&\:\:-webkit-progress-value\]\:bg-fuchsia-500:where(.dark, .dark *)::-webkit-progress-value {
     background-color: var(--color-fuchsia-500);
   }
-  .dark\:\[\&\:\:-webkit-progress-value\]\:bg-gray-100:where(.dark, .dark *):not(:where(.theme-light, .theme-light *))::-webkit-progress-value {
+  .dark\:\[\&\:\:-webkit-progress-value\]\:bg-gray-100:where(.dark, .dark *)::-webkit-progress-value {
     background-color: var(--color-gray-100);
   }
-  .dark\:\[\&\:\:-webkit-progress-value\]\:bg-gray-300:where(.dark, .dark *):not(:where(.theme-light, .theme-light *))::-webkit-progress-value {
+  .dark\:\[\&\:\:-webkit-progress-value\]\:bg-gray-300:where(.dark, .dark *)::-webkit-progress-value {
     background-color: var(--color-gray-300);
   }
-  .dark\:\[\&\:\:-webkit-progress-value\]\:bg-green-500:where(.dark, .dark *):not(:where(.theme-light, .theme-light *))::-webkit-progress-value {
+  .dark\:\[\&\:\:-webkit-progress-value\]\:bg-green-500:where(.dark, .dark *)::-webkit-progress-value {
     background-color: var(--color-green-500);
   }
-  .dark\:\[\&\:\:-webkit-progress-value\]\:bg-purple-500:where(.dark, .dark *):not(:where(.theme-light, .theme-light *))::-webkit-progress-value {
+  .dark\:\[\&\:\:-webkit-progress-value\]\:bg-purple-500:where(.dark, .dark *)::-webkit-progress-value {
     background-color: var(--color-purple-500);
   }
-  .dark\:\[\&\:\:-webkit-progress-value\]\:bg-red-500:where(.dark, .dark *):not(:where(.theme-light, .theme-light *))::-webkit-progress-value {
+  .dark\:\[\&\:\:-webkit-progress-value\]\:bg-red-500:where(.dark, .dark *)::-webkit-progress-value {
     background-color: var(--color-red-500);
   }
-  .dark\:\[\&\:\:-webkit-progress-value\]\:bg-yellow-400:where(.dark, .dark *):not(:where(.theme-light, .theme-light *))::-webkit-progress-value {
+  .dark\:\[\&\:\:-webkit-progress-value\]\:bg-yellow-400:where(.dark, .dark *)::-webkit-progress-value {
     background-color: var(--color-yellow-400);
   }
   .\[\&\:\:picker\(select\)\]\:\[appearance\:base-select\]::picker(select) {
@@ -4720,10 +4712,10 @@
   .\[\&\:\:picker\(select\)\]\:bg-\[oklch\(100\%_0_0\)\]::picker(select) {
     background-color: oklch(100% 0 0);
   }
-  .dark\:\[\&\:\:picker\(select\)\]\:border-\[oklch\(97\.807\%_0\.029_256\.847\)\]\/20:where(.dark, .dark *):not(:where(.theme-light, .theme-light *))::picker(select) {
+  .dark\:\[\&\:\:picker\(select\)\]\:border-\[oklch\(97\.807\%_0\.029_256\.847\)\]\/20:where(.dark, .dark *)::picker(select) {
     border-color: color-mix(in oklab, oklch(97.807% 0.029 256.847) 20%, transparent);
   }
-  .dark\:\[\&\:\:picker\(select\)\]\:bg-\[oklch\(40\%_0\.016_253\)\]:where(.dark, .dark *):not(:where(.theme-light, .theme-light *))::picker(select) {
+  .dark\:\[\&\:\:picker\(select\)\]\:bg-\[oklch\(40\%_0\.016_253\)\]:where(.dark, .dark *)::picker(select) {
     background-color: oklch(40% 0.016 253);
   }
   .\[\&\:\:picker-icon\]\:hidden::picker-icon {
@@ -4752,99 +4744,15 @@
   .\[\&\>tr\:hover\]\:\!bg-\[oklch\(95\%_0_0\)\] > tr:hover {
     background-color: oklch(95% 0 0) !important;
   }
-  .\[\&\>tr\:hover\]\:dark\:\!bg-\[oklch\(21\.15\%_0\.012_254\.09\)\] > tr:hover:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .\[\&\>tr\:hover\]\:dark\:\!bg-\[oklch\(21\.15\%_0\.012_254\.09\)\] > tr:hover:where(.dark, .dark *) {
     background-color: oklch(21.15% 0.012 254.09) !important;
   }
   .\[\&\>tr\:nth-child\(even\)\]\:bg-\[oklch\(98\%_0_0\)\] > tr:nth-child(even) {
     background-color: oklch(98% 0 0);
   }
-  .\[\&\>tr\:nth-child\(even\)\]\:dark\:bg-\[oklch\(23\.26\%_0\.014_253\.1\)\] > tr:nth-child(even):where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+  .\[\&\>tr\:nth-child\(even\)\]\:dark\:bg-\[oklch\(23\.26\%_0\.014_253\.1\)\] > tr:nth-child(even):where(.dark, .dark *) {
     background-color: oklch(23.26% 0.014 253.1);
   }
-}
-:root {
-  color-scheme: light;
-  --scrollbar-thumb: oklch(21% 0.006 285.885 / 0.28);
-  --scrollbar-thumb-hover: oklch(21% 0.006 285.885 / 0.45);
-}
-.dark {
-  color-scheme: dark;
-  --scrollbar-thumb: oklch(97.807% 0.029 256.847 / 0.22);
-  --scrollbar-thumb-hover: oklch(97.807% 0.029 256.847 / 0.4);
-}
-* {
-  scrollbar-width: thin;
-  scrollbar-color: var(--scrollbar-thumb) transparent;
-}
-*:hover {
-  scrollbar-color: var(--scrollbar-thumb-hover) transparent;
-}
-h1, h2, h3, h4, h5, h6 {
-  font-family: "Source Sans 3", sans-serif;
-  font-optical-sizing: auto;
-  font-style: normal;
-}
-.docs-card p, .docs-card .docs-text {
-  font-size: 1rem;
-  line-height: 1.5;
-}
-:where(code):not(pre code) {
-  overflow-wrap: anywhere;
-}
-:not(pre) > code {
-  border-radius: var(--radius-md);
-  border-style: var(--tw-border-style);
-  border-width: 1px;
-  border-color: var(--color-gray-200);
-  background-color: var(--color-gray-100);
-  padding-inline: calc(var(--spacing) * 1.5);
-  padding-block: calc(var(--spacing) * 0.5);
-  font-family: var(--font-mono);
-  font-size: 0.875em;
-  --tw-font-weight: var(--font-weight-medium);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-purple-700);
-  &:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
-    border-color: color-mix(in srgb, #fff 10%, transparent);
-    @supports (color: color-mix(in lab, red, red)) {
-      border-color: color-mix(in oklab, var(--color-white) 10%, transparent);
-    }
-  }
-  &:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
-    background-color: color-mix(in srgb, #fff 10%, transparent);
-    @supports (color: color-mix(in lab, red, red)) {
-      background-color: color-mix(in oklab, var(--color-white) 10%, transparent);
-    }
-  }
-  &:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
-    color: var(--color-purple-300);
-  }
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
-}
-html, body {
-  overflow-x: hidden;
-}
-@font-face {
-  font-display: swap;
-  font-family: 'Source Sans 3';
-  font-style: normal;
-  font-weight: 400;
-  src: url('../fonts/source-sans-3-v19-latin-regular.woff2') format('woff2');
-}
-@font-face {
-  font-display: swap;
-  font-family: 'Source Sans 3';
-  font-style: normal;
-  font-weight: 700;
-  src: url('../fonts/source-sans-3-v19-latin-700.woff2') format('woff2');
-}
-@font-face {
-  font-display: swap;
-  font-family: 'Source Sans 3';
-  font-style: normal;
-  font-weight: 900;
-  src: url('../fonts/source-sans-3-v19-latin-900.woff2') format('woff2');
 }
 @keyframes tw-skeleton-wave {
   0% {
@@ -5210,26 +5118,6 @@ html, body {
 @keyframes pulse {
   50% {
     opacity: 0.5;
-  }
-}
-@keyframes glow-drift {
-  from {
-    transform: translate3d(-18%, -6%, 0) scale(0.9);
-    opacity: 0.55;
-  }
-  to {
-    transform: translate3d(18%, 14%, 0) scale(1.25);
-    opacity: 1;
-  }
-}
-@keyframes glow-drift-alt {
-  from {
-    transform: translate3d(10%, 8%, 0) scale(1.15);
-    opacity: 0.5;
-  }
-  to {
-    transform: translate3d(-35%, -20%, 0) scale(0.85);
-    opacity: 1;
   }
 }
 @layer properties {

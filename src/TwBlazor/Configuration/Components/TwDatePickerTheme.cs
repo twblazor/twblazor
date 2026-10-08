@@ -16,7 +16,7 @@ public class TwDatePickerTheme
 {
     /// <summary>
     /// Gets or sets the classes for the header that displays navigation between days, months, and
-    /// decades. Its background comes from the shared <see cref="TwOverlayTheme.PopoverBackground"/>.
+    /// decades. Its background comes from the shared <see cref="TwPopoverTheme.Background"/>.
     /// </summary>
     public required string Header { get; set; }
 
