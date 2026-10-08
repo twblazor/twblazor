@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 Jack Shuter @ TwBlazor - twblazor.com
+// Copyright (c) 2025 Jack Shuter @ TwBlazor - twblazor.com
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using System.Diagnostics.CodeAnalysis;
@@ -139,6 +139,12 @@ public class TwSidebarTheme
     /// sections stand out from the page links beneath them.
     /// </summary>
     public string NavigationItemParent { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes for the wrapper around the content rendered after a navigation item's label
+    /// (see <see cref="TwBlazor.Components.TwSidebar.NavigationItemContent"/>), pushing it to the end of the row.
+    /// </summary>
+    public string NavigationItemContent { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets or sets the classes for the dropdown container that holds a navigation item's nested items.

@@ -1,4 +1,4 @@
-﻿@namespace TwBlazor.Components
+@namespace TwBlazor.Components
 @using TwBlazor.Enums
 @inherits TwBlazorComponentBase
 
@@ -23,7 +23,7 @@
         }
 
         <div class="@navigationListClasses">
-            <TwSidebarNavigationList Items="displayedNavigationItems" />
+            <TwSidebarNavigationList Items="displayedNavigationItems" ItemContent="NavigationItemContent" />
 
             @SidebarContent
         </div>

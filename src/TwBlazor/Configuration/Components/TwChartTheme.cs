@@ -314,6 +314,18 @@ public class TwChartTheme
     public required string HitWrapper { get; set; }
 
     /// <summary>
+    /// Gets or sets the classes added to the wrapper of a data point that has its own outline, such as a pie
+    /// slice. They stop the wrapper's rectangle taking the pointer, so only <see cref="HitShape"/> does.
+    /// </summary>
+    public string HitWrapperShaped { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes for the element cut to the outline of a shaped data point. It is the only part
+    /// of the data point that takes the pointer, so hovering or tapping anywhere on the shape shows its tooltip.
+    /// </summary>
+    public string HitShape { get; set; } = string.Empty;
+
+    /// <summary>
     /// Gets or sets the classes for the focusable element inside each data point.
     /// </summary>
     public required string Hit { get; set; }

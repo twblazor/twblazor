@@ -1,0 +1,76 @@
+@page "/sidebar/preview-item-content"
+@layout EmptyLayout
+@using TwBlazor.Docs.Layout
+@using TwBlazor.Models
+@inject NavigationManager NavigationManager
+@implements IDisposable
+
+<PageTitle>TwSidebar item content preview</PageTitle>
+<HeadContent>
+    <meta name="color-scheme" content="light" />
+    <meta name="robots" content="noindex" />
+</HeadContent>
+
+@* #region CodeExample SidebarItemContent *@
+<TwSidebar IsSidebarOpen="true" NavigationItems="_navigationItems" Style="background-color: #ffffff;">
+    <NavigationItemContent Context="item">
+        @if (_badges.TryGetValue(item.Id ?? string.Empty, out var badge))
+        {
+            <TwChip Label="@badge" Color="Color.Info" Variant="ButtonVariant.Outlined" Size="ChipSize.Small" />
+        }
+    </NavigationItemContent>
+    <ChildContent>
+        <div class="p-6 max-w-2xl">
+            <h2 class="text-lg font-semibold text-gray-900 mb-2">Item content</h2>
+            <p class="text-sm text-gray-600 leading-relaxed">
+                The badges beside "Inbox", "Content" and "Media" are rendered by one template, on link items and parent items alike.
+            </p>
+        </div>
+    </ChildContent>
+</TwSidebar>
+@* #endregion *@
+
+@code {
+    private IDisposable? _navigationHandler;
+
+    #region CodeExample SidebarItemContentCode
+    private readonly List<NavigationItem> _navigationItems =
+    [
+        new() { Id = "dashboard", Label = "Dashboard", Href = "/dashboard" },
+        new() { Id = "inbox", Label = "Inbox", Href = "/inbox" },
+        new()
+        {
+            Id = "content",
+            Label = "Content",
+            Collapsed = false,
+            NavigationItems =
+            [
+                new() { Id = "posts", Label = "Posts", Href = "/posts" },
+                new() { Id = "media", Label = "Media", Href = "/media" },
+            ]
+        },
+    ];
+
+    // Keyed by NavigationItem.Id, so the lookup still works while the sidebar is being searched.
+    private readonly Dictionary<string, string> _badges = new()
+    {
+        ["inbox"] = "12",
+        ["content"] = "New",
+        ["media"] = "Beta",
+    };
+    #endregion
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _navigationHandler = NavigationManager.RegisterLocationChangingHandler(ctx =>
+            {
+                ctx.PreventNavigation();
+                return ValueTask.CompletedTask;
+            });
+        }
+    }
+
+    public void Dispose() => _navigationHandler?.Dispose();
+}

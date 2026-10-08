@@ -363,3 +363,99 @@ public class ChartSceneBuilderTests
         Assert.Equal(ChartColorRole.Axis, ChartColor.Axis.Role);
     }
 }
+
+public class ChartSectorDatumTests
+{
+    private static ChartDatum Sector(double innerRadius, double outerRadius, double startAngle, double endAngle)
+    {
+        var builder = new ChartSceneBuilder();
+        builder.SectorDatum(50, 50, innerRadius, outerRadius, startAngle, endAngle, "Slice", []);
+        return Assert.Single(builder.Build().Datums);
+    }
+
+    private static string[] Points(ChartDatum datum) => datum.Clip!["polygon(".Length..^1].Split(", ");
+
+    [Fact]
+    public void SectorDatum_Wedge_IsBoxedAroundTheWedge_AndTracedBackToTheCenter()
+    {
+        // The top-right quarter of a circle of radius 40 centered on 50,50.
+        var datum = Sector(0, 40, 0, 90);
+
+        Assert.Equal(70, datum.X, 3);
+        Assert.Equal(30, datum.Y, 3);
+        Assert.Equal(40, datum.Width, 3);
+        Assert.Equal(40, datum.Height, 3);
+        Assert.Equal(ChartHover.None, datum.Hover);
+
+        var points = Points(datum);
+        Assert.Equal("0% 0%", points[0]);
+        Assert.Contains("100% 100%", points);
+        Assert.Equal("0% 100%", points[^1]);
+    }
+
+    [Fact]
+    public void SectorDatum_RingSegment_LeavesOutTheHole()
+    {
+        var points = Points(Sector(20, 40, 0, 90));
+
+        Assert.DoesNotContain("0% 100%", points);
+        Assert.Equal("0% 50%", points[^1]);
+        Assert.Contains("50% 100%", points);
+    }
+
+    [Fact]
+    public void SectorDatum_FullCircle_CoversTheWholeCircle()
+    {
+        var datum = Sector(0, 48, 0, 360);
+
+        Assert.Equal(50, datum.X, 3);
+        Assert.Equal(50, datum.Y, 3);
+        Assert.Equal(96, datum.Width, 3);
+        Assert.Equal(96, datum.Height, 3);
+    }
+
+    [Fact]
+    public void SectorDatum_WritesNumbersInvariantly()
+    {
+        var culture = System.Globalization.CultureInfo.CurrentCulture;
+        try
+        {
+            System.Globalization.CultureInfo.CurrentCulture = new System.Globalization.CultureInfo("de-DE");
+            Assert.DoesNotContain(Points(Sector(0, 40, 0, 50)), point => point.Contains(','));
+        }
+        finally
+        {
+            System.Globalization.CultureInfo.CurrentCulture = culture;
+        }
+    }
+
+    [Fact]
+    public void SectorDatum_Wedge_PointsItsTooltipPartWayOutAlongItsMiddle()
+    {
+        // Straight right of center (90 degrees), 65% of the way out on a radius of 40.
+        var datum = Sector(0, 40, 0, 180);
+
+        Assert.Equal(76, datum.AnchorX!.Value, 3);
+        Assert.Equal(50, datum.AnchorY!.Value, 3);
+    }
+
+    [Fact]
+    public void SectorDatum_RingSegment_PointsItsTooltipAtTheMiddleOfTheRing()
+    {
+        var datum = Sector(20, 40, 0, 180);
+
+        Assert.Equal(80, datum.AnchorX!.Value, 3);
+        Assert.Equal(50, datum.AnchorY!.Value, 3);
+    }
+
+    [Fact]
+    public void SectorDatum_AnchorAngle_MovesTheTooltipRoundTheSegment()
+    {
+        var builder = new ChartSceneBuilder();
+        builder.SectorDatum(50, 50, 20, 40, 0, 270, "Ring", [], anchorAngle: 180);
+
+        var datum = Assert.Single(builder.Build().Datums);
+        Assert.Equal(50, datum.AnchorX!.Value, 3);
+        Assert.Equal(80, datum.AnchorY!.Value, 3);
+    }
+}

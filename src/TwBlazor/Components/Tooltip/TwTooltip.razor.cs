@@ -10,7 +10,7 @@ namespace TwBlazor.Components;
 
 /// <summary>
 /// Wraps any content and shows a short description in a popover-styled bubble when that content is
-/// hovered or keyboard-focused.
+/// hovered or keyboard-focused. On a touch screen a tap shows it and a tap anywhere else hides it.
 /// </summary>
 /// <remarks>
 /// The bubble is a <c>role="tooltip"</c> element linked to the wrapper via <c>aria-describedby</c>. It stays
@@ -79,6 +79,12 @@ public partial class TwTooltip : TwBlazorComponentBase
     /// which is applied to the wrapper).
     /// </summary>
     [Parameter] public string? TooltipClass { get; set; }
+
+    /// <summary>
+    /// Gets or sets inline styles applied to the tooltip bubble (as opposed to <see cref="TwBlazorComponentBase.Style"/>,
+    /// which is applied to the wrapper), for example to place the bubble somewhere other than the middle of the content.
+    /// </summary>
+    [Parameter] public string? TooltipStyle { get; set; }
 
     /// <summary>
     /// Set when the user presses Escape while the tooltip is showing, hiding it until the pointer

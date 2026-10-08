@@ -65,6 +65,7 @@ public class PopoverBuilder(TwBlazorOptions options, RoundedBuilder roundedBuild
             .AddClass(GetPlacementClasses(placement))
             .AddClass(GetSurfaceClasses(rounded, shadow, customClass))
             .AddClass(options.Theme.Display.Hidden, dismissed)
+            .AddClass(tooltipTheme.Dismissed, dismissed)
             .Build();
 
     /// <summary>

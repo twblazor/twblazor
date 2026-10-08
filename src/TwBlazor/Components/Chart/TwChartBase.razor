@@ -141,7 +141,7 @@
                     {
                         var index = i;
                         var datum = scene.Datums[index];
-                        <TwTooltip Class="@theme.HitWrapper" Style="@GetDatumStyle(datum)" Focusable="false" Arrow="true">
+                        <TwTooltip Class="@GetHitWrapperClasses(datum)" Style="@GetDatumStyle(datum)" TooltipStyle="@GetTooltipStyle(datum)" Focusable="false" Arrow="true">
                             <TooltipContent>
                                 <span class="@theme.TooltipTitle">@datum.Title</span>
                                 @foreach (var row in datum.Rows)
@@ -158,6 +158,10 @@
                             </TooltipContent>
                             <ChildContent>
                                 <div @ref="hitRefs[index]" class="@theme.Hit" role="img" aria-label="@datum.AriaLabel" tabindex="@(index == activeIndex ? 0 : -1)" data-chart-datum="@index" @onfocus="() => activeIndex = index">
+                                    @if (datum.Clip != null)
+                                    {
+                                        <span class="@theme.HitShape" style="@($"clip-path:{datum.Clip}")"></span>
+                                    }
                                     @if (datum.Hover == ChartHover.Crosshair)
                                     {
                                         <span class="@theme.Crosshair"></span>

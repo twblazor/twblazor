@@ -69,7 +69,7 @@ public class TwPieChart : TwValueChartBase
                 builder.Add(new ChartText(middle.X, middle.Y, share, Tone: ChartTextTone.Inverse, Strong: true));
             }
 
-            builder.Datum(middle.X, middle.Y, 0, 0, item.Label, [new ChartDatumRow(ValueHeader, FormatValue(item.Value), color), new ChartDatumRow("Share", share)], ChartHover.None);
+            builder.SectorDatum(50, centerY, radius * hole, radius, angle, angle + span, item.Label, [new ChartDatumRow(ValueHeader, FormatValue(item.Value), color), new ChartDatumRow("Share", share)]);
             angle += span;
         }
 
@@ -107,10 +107,9 @@ public class TwNightingaleChart : TwValueChartBase
             var item = data[i];
             var color = ChartColor.Series(i);
             var radius = 46 * Math.Sqrt(item.Value / max);
-            var middle = ChartGeometry.Polar(50, 50, radius * 0.6, span * (i + 0.5));
             builder.Path(ChartGeometry.Sector(50, 50, 0, radius, span * i, span * (i + 1)), color, filled: true, outline: true, title: $"{item.Label}: {FormatValue(item.Value)}");
             builder.Legend(item.Label, color);
-            builder.Datum(middle.X, middle.Y, 0, 0, item.Label, [new ChartDatumRow(ValueHeader, FormatValue(item.Value), color)], ChartHover.None);
+            builder.SectorDatum(50, 50, 0, radius, span * i, span * (i + 1), item.Label, [new ChartDatumRow(ValueHeader, FormatValue(item.Value), color)]);
         }
     }
 }
@@ -141,7 +140,6 @@ public class TwRadialBarChart : TwValueChartBase
             var outer = 48 - step * i;
             var inner = outer - thickness;
             var sweep = maxSweep * Math.Clamp(scale.Map(item.Value) / 100, 0, 1);
-            var end = ChartGeometry.Polar(50, 50, (inner + outer) / 2, sweep);
 
             builder.Path(ChartGeometry.Sector(50, 50, inner, outer, 0, maxSweep), ChartColor.Track, filled: true);
 
@@ -151,7 +149,7 @@ public class TwRadialBarChart : TwValueChartBase
             }
 
             builder.Add(new ChartText(50, 50 - (inner + outer) / 2, item.Label, ChartAnchor.End, OffsetX: -8));
-            builder.Datum(end.X, end.Y, 0, 0, item.Label, [new ChartDatumRow(ValueHeader, FormatValue(item.Value), color)], ChartHover.None);
+            builder.SectorDatum(50, 50, inner, outer, 0, maxSweep, item.Label, [new ChartDatumRow(ValueHeader, FormatValue(item.Value), color)], anchorAngle: sweep);
         }
     }
 }

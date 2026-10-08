@@ -26,7 +26,17 @@ public class TwTooltipTheme
     /// <see cref="Wrapper"/> is hovered or the control is keyboard-focused. Where the bubble sits comes from
     /// <see cref="Top"/>, <see cref="Bottom"/>, <see cref="Left"/> or <see cref="Right"/>.
     /// </summary>
+    /// <remarks>
+    /// Hide the bubble with <c>display</c> rather than <c>visibility</c>: an invisible bubble still takes up
+    /// layout space, so one near the edge of the screen makes the page scroll sideways.
+    /// </remarks>
     public required string Bubble { get; set; }
+
+    /// <summary>
+    /// Gets or sets the classes added to a bubble the user has dismissed with Escape. They must win over the
+    /// hover and focus variants in <see cref="Bubble"/>, so the bubble stays hidden until the user leaves the control.
+    /// </summary>
+    public string Dismissed { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets or sets the offset classes that place a tooltip bubble above its control

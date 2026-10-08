@@ -414,7 +414,39 @@ public class TwChartTests : TwBlazorTestBase
         Assert.Contains(theme.Crosshair, line.Find("[role='img'] span").GetAttribute("class"));
 
         var pie = TestContext.Render<TwPieChart>(p => p.Add(x => x.Data, [new ChartValue("A", 1)]));
-        Assert.Empty(pie.FindAll("[role='img'] span"));
+        Assert.Equal(theme.HitShape, pie.Find("[role='img'] span").GetAttribute("class"));
+    }
+
+    [Fact]
+    public void Chart_ShapedDataPoint_TakesThePointerOnItsOutlineOnly()
+    {
+        var pie = TestContext.Render<TwPieChart>(p => p.Add(x => x.Data, [new ChartValue("A", 3), new ChartValue("B", 1)]));
+
+        var wrappers = pie.FindAll("[data-tw-tooltip]");
+        Assert.Equal(2, wrappers.Count);
+        Assert.All(wrappers, wrapper => Assert.Contains(theme.HitWrapperShaped, wrapper.ClassList));
+        Assert.All(pie.FindAll("[role='img'] span"), shape => Assert.StartsWith("clip-path:polygon(", shape.GetAttribute("style")));
+    }
+
+    [Fact]
+    public void Chart_ShapedDataPoint_PointsItsTooltipAtTheSlice_NotTheTopOfItsBox()
+    {
+        // One slice is the whole pie, a box from 2 to 98. Its tooltip points 65% of the way down from the center.
+        var pie = TestContext.Render<TwPieChart>(p => p.Add(x => x.Data, [new ChartValue("A", 1)]));
+
+        Assert.Equal("left:50%;bottom:17.5%", pie.Find("[role='tooltip']").GetAttribute("style"));
+    }
+
+    [Fact]
+    public void Chart_RectangularDataPoint_HasNoShape()
+    {
+        var cut = RenderColumns();
+
+        Assert.All(cut.FindAll("[role='tooltip']"), bubble => Assert.Null(bubble.GetAttribute("style")));
+
+        Assert.NotEmpty(cut.FindAll("[data-tw-tooltip]"));
+        Assert.All(cut.FindAll("[data-tw-tooltip]"), wrapper => Assert.DoesNotContain(theme.HitWrapperShaped, wrapper.ClassList));
+        Assert.Empty(cut.FindAll("[role='img'] span[style*='clip-path']"));
     }
 
     #endregion

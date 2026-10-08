@@ -1,4 +1,4 @@
-﻿using Bunit;
+using Bunit;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 using TwBlazor.Components;
@@ -941,5 +941,87 @@ public class TwSidebarTests : TwBlazorTestBase
         var anchors = cut.FindAll("a[href]").Where(a => !a.ClassName!.Contains("sr-only")).ToList();
         var anchor = Assert.Single(anchors);
         Assert.Equal("/home", anchor.GetAttribute("href"));
+    }
+
+    private static List<NavigationItem> BuildItemContentNavigationItems() =>
+    [
+        new() { Id = "home", Label = "Home", Href = "/home" },
+        new()
+        {
+            Id = "charts",
+            Label = "Charts",
+            NavigationItems =
+            [
+                new() { Id = "bar", Label = "Bar", Href = "/bar" },
+                new()
+                {
+                    Id = "radial",
+                    Label = "Radial",
+                    NavigationItems = [new() { Id = "pie", Label = "Pie", Href = "/pie" }]
+                },
+            ]
+        },
+    ];
+
+    [Fact]
+    public void NavigationItemContent_IsRendered_ForLinkAndParentItems_AtEveryDepth()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwSidebar>(p => p
+            .Add(x => x.NavigationItems, BuildItemContentNavigationItems())
+            .Add(x => x.NavigationItemContent, item => $"<em class=\"badge\">{item.Id}</em>")
+        );
+
+        // Assert
+        Assert.Equal("home", cut.Find("a[href='/home'] em.badge").TextContent);
+        Assert.Equal("charts", cut.Find("button#charts em.badge").TextContent);
+        Assert.Equal("bar", cut.Find("a[href='/bar'] em.badge").TextContent);
+        Assert.Equal("radial", cut.Find("button#radial em.badge").TextContent);
+        Assert.Equal("pie", cut.Find("a[href='/pie'] em.badge").TextContent);
+    }
+
+    [Fact]
+    public void NavigationItemContent_IsWrapped_InTheThemedContentElement()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwSidebar>(p => p
+            .Add(x => x.NavigationItems, BuildItemContentNavigationItems())
+            .Add(x => x.NavigationItemContent, item => "<em class=\"badge\">New</em>")
+        );
+
+        // Assert
+        Assert.NotEmpty(sidebarTheme.NavigationItemContent);
+        Assert.Equal(sidebarTheme.NavigationItemContent, cut.Find("button#charts em.badge").ParentElement!.GetAttribute("class"));
+        Assert.Equal(sidebarTheme.NavigationItemContent, cut.Find("a[href='/home'] em.badge").ParentElement!.GetAttribute("class"));
+    }
+
+    [Fact]
+    public void NavigationItemContent_AddsNothing_WhenNotSupplied()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwSidebar>(p => p.Add(x => x.NavigationItems, BuildItemContentNavigationItems()));
+
+        // Assert
+        Assert.Single(cut.FindAll("a[href='/home'] > span"));
+        Assert.Single(cut.FindAll("button#charts > span"));
+    }
+
+    [Fact]
+    public void NavigationItemContent_StillReceivesTheItemId_WhileSearching()
+    {
+        // Arrange
+        var cut = TestContext.Render<TwSidebar>(p => p
+            .Add(x => x.IsSearchable, true)
+            .Add(x => x.NavigationItems, BuildItemContentNavigationItems())
+            .Add(x => x.NavigationItemContent, item => $"<em class=\"badge\">{item.Id}</em>")
+        );
+
+        // Act
+        cut.Find("input").Input("Pie");
+
+        // Assert
+        Assert.Equal("charts", cut.Find("button#charts em.badge").TextContent);
+        Assert.Equal("pie", cut.Find("a[href='/pie'] em.badge").TextContent);
+        Assert.Empty(cut.FindAll("a[href='/home']"));
     }
 }

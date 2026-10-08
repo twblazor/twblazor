@@ -61,4 +61,30 @@ public class NavigationTests : DocsTestBase
         Assert.DoesNotContain(cut.FindAll("a"), a => a.GetAttribute("href") == "/theme-builder");
         Assert.DoesNotContain("Theme customisation", cut.Markup);
     }
+
+    [Fact]
+    public void Sidebar_ShowsOneNewBadge_OnTheChartsSection_AndNoneOnItsCharts()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<Navigation>();
+
+        // Assert
+        var toggle = cut.Find("nav[aria-label='sidebar navigation'] button#charts");
+        Assert.Single(toggle.QuerySelectorAll("[aria-label='New']"));
+
+        var panel = cut.Find("#" + toggle.GetAttribute("aria-controls"));
+        Assert.NotEmpty(panel.QuerySelectorAll("a"));
+        Assert.Empty(panel.QuerySelectorAll("[aria-label='New']"));
+    }
+
+    [Fact]
+    public void Sidebar_ShowsANewBadge_OnANewComponentOutsideANewSection()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<Navigation>();
+
+        // Assert
+        Assert.Single(cut.FindAll("a[href='/skeleton'] [aria-label='New']"));
+        Assert.Empty(cut.FindAll("a[href='/card'] [aria-label='New']"));
+    }
 }

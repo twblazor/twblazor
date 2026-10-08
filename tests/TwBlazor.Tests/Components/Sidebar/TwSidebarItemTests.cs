@@ -127,4 +127,49 @@ public class TwSidebarItemTests : TwBlazorTestBase
         Assert.Equal("/nav-item", anchor.GetAttribute("href"));
         Assert.Contains("Nav Item Label", anchor.TextContent);
     }
+
+    [Fact]
+    public void ShouldRender_EndContent_InsideTheLink_AfterTheLabel()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwSidebarItem>(p => p
+            .Add(x => x.Label, "Inbox")
+            .Add(x => x.Href, "/inbox")
+            .Add(x => x.EndContent, "<em class=\"badge\">12</em>")
+        );
+
+        // Assert
+        var anchor = cut.Find("a");
+        Assert.Equal("12", anchor.QuerySelector("em.badge")!.TextContent);
+        Assert.True(anchor.InnerHtml.IndexOf("Inbox", StringComparison.Ordinal) < anchor.InnerHtml.IndexOf("badge", StringComparison.Ordinal));
+    }
+
+    [Fact]
+    public void ShouldRender_EndContent_InsideTheParentButton_BetweenLabelAndChevron()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwSidebarItem>(p => p
+            .Add(x => x.IsParent, true)
+            .Add(x => x.Label, "Charts")
+            .Add(x => x.EndContent, "<em class=\"badge\">New</em>")
+        );
+
+        // Assert
+        var html = cut.Find("button").InnerHtml;
+        var badge = html.IndexOf("badge", StringComparison.Ordinal);
+        Assert.True(html.IndexOf("Charts", StringComparison.Ordinal) < badge);
+        Assert.True(badge < html.IndexOf("<svg", StringComparison.Ordinal));
+    }
+
+    [Fact]
+    public void ShouldNotRender_EndContentWrapper_WhenNoEndContent()
+    {
+        // Arrange & Act
+        var link = TestContext.Render<TwSidebarItem>(p => p.Add(x => x.Label, "Inbox").Add(x => x.Href, "/inbox"));
+        var parent = TestContext.Render<TwSidebarItem>(p => p.Add(x => x.IsParent, true).Add(x => x.Label, "Charts"));
+
+        // Assert
+        Assert.Single(link.FindAll("a > span"));
+        Assert.Single(parent.FindAll("button > span"));
+    }
 }

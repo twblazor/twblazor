@@ -1,6 +1,7 @@
 // Copyright (c) 2025 Jack Shuter @ TwBlazor - twblazor.com
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
+using System.Globalization;
 using TwBlazor.Enums;
 
 namespace TwBlazor.Charting;
@@ -52,6 +53,12 @@ public sealed class ChartScene
 public sealed class ChartSceneBuilder
 {
     private const int maxBandLabels = 12;
+
+    // How finely a sector's arc is traced for its hit area. Six degrees is indistinguishable from the drawn arc.
+    private const double sectorStepDegrees = 6;
+
+    // How far out along a wedge its tooltip points, as a fraction of the radius.
+    private const double sectorAnchorFraction = 0.65;
 
     private readonly List<IChartMark> _marks = [];
     private readonly List<ChartDatum> _datums = [];
@@ -110,6 +117,41 @@ public sealed class ChartSceneBuilder
     /// <summary>Adds an interactive data point, positioned by its center.</summary>
     public void Datum(double x, double y, double width, double height, string title, IReadOnlyList<ChartDatumRow> rows, ChartHover hover = ChartHover.Highlight) =>
         _datums.Add(new ChartDatum(x, y, width, height, title, rows, hover));
+
+    /// <summary>
+    /// Adds an interactive data point that covers a ring segment (or a pie wedge when
+    /// <paramref name="innerRadius"/> is zero), so the pointer triggers it anywhere on the segment.
+    /// Angles are in degrees, clockwise from 12 o'clock. Use it on a <see cref="ChartShape.Square"/> plot.
+    /// </summary>
+    /// <remarks>
+    /// The tooltip points at the middle of the segment's thickness (65% of the way out on a wedge), at
+    /// <paramref name="anchorAngle"/> or halfway round the segment when that is not given.
+    /// </remarks>
+    public void SectorDatum(double centerX, double centerY, double innerRadius, double outerRadius, double startAngle, double endAngle, string title, IReadOnlyList<ChartDatumRow> rows, double? anchorAngle = null)
+    {
+        endAngle = Math.Min(endAngle, startAngle + 360);
+        var steps = Math.Max(1, (int)Math.Ceiling((endAngle - startAngle) / sectorStepDegrees));
+        var angles = Enumerable.Range(0, steps + 1).Select(step => startAngle + (endAngle - startAngle) * step / steps).ToList();
+
+        List<(double X, double Y)> outline = [.. angles.Select(angle => ChartGeometry.Polar(centerX, centerY, outerRadius, angle))];
+        if (innerRadius <= 0)
+        {
+            outline.Add((centerX, centerY));
+        }
+        else
+        {
+            outline.AddRange(Enumerable.Reverse(angles).Select(angle => ChartGeometry.Polar(centerX, centerY, innerRadius, angle)));
+        }
+
+        var left = outline.Min(point => point.X);
+        var top = outline.Min(point => point.Y);
+        var width = Math.Max(outline.Max(point => point.X) - left, double.Epsilon);
+        var height = Math.Max(outline.Max(point => point.Y) - top, double.Epsilon);
+
+        var clip = string.Join(", ", outline.Select(point => string.Create(CultureInfo.InvariantCulture, $"{(point.X - left) / width * 100:0.##}% {(point.Y - top) / height * 100:0.##}%")));
+        var anchor = ChartGeometry.Polar(centerX, centerY, innerRadius > 0 ? (innerRadius + outerRadius) / 2 : outerRadius * sectorAnchorFraction, anchorAngle ?? (startAngle + endAngle) / 2);
+        _datums.Add(new ChartDatum(left + width / 2, top + height / 2, width, height, title, rows, ChartHover.None, $"polygon({clip})", anchor.X, anchor.Y));
+    }
 
     /// <summary>Adds a legend entry.</summary>
     public void Legend(string label, ChartColor color, int? seriesIndex = null, bool hidden = false) =>

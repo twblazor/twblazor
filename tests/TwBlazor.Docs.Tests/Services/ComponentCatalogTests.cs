@@ -59,4 +59,16 @@ public class ComponentCatalogTests
         var select = Assert.Single(entries, e => e.Entry.Name == "TwSelect");
         Assert.Empty(select.Entry.Theme);
     }
+
+    [Fact]
+    public void LoadLeafEntries_TreatsEveryEntryOfANewCategoryAsNew()
+    {
+        // "Charts" is flagged isNew once, on the category, rather than on each chart.
+        var categories = ComponentCatalog.LoadCategories();
+        var entries = ComponentCatalog.LoadLeafEntries().ToList();
+
+        Assert.True(Assert.Single(categories, c => c.Category == "Charts").IsNew);
+        Assert.All(entries.Where(e => e.Category == "Charts"), e => Assert.True(e.Entry.IsNew));
+        Assert.False(Assert.Single(entries, e => e.Entry.Name == "TwCard").Entry.IsNew);
+    }
 }
