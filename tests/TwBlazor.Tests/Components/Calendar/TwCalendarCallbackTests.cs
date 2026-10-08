@@ -14,7 +14,7 @@ namespace TwBlazor.Tests.Components.Calendar;
 /// </summary>
 public class TwCalendarCallbackTests : TwBlazorTestBase
 {
-    private static readonly DateTime day = new(2026, 3, 18);
+    private static readonly DateTime _day = new(2026, 3, 18);
 
     private static Schedule<string> Event(string name, DateTime start, DateTime end) => new()
     {
@@ -44,7 +44,7 @@ public class TwCalendarCallbackTests : TwBlazorTestBase
         Schedule<string>? created = null;
         var provider = TestContext.Render<TwDialogProvider>();
         var cut = TestContext.Render<TwCalendar<string>>(p => p
-            .Add(x => x.SelectedDate, day)
+            .Add(x => x.SelectedDate, _day)
             .Add(x => x.View, TwCalendarView.Day)
             .Add(x => x.Editable, true)
             .Add(x => x.OnEventCreated, EventCallback.Factory.Create<Schedule<string>>(this, e => created = e)));
@@ -53,18 +53,18 @@ public class TwCalendarCallbackTests : TwBlazorTestBase
         DialogButton(provider, "Save").Click();
 
         provider.WaitForAssertion(() => Assert.NotNull(created));
-        Assert.Equal(new DateTimeOffset(day.AddHours(9)), created!.DateTimeStart);
-        Assert.Equal(new DateTimeOffset(day.AddHours(9).AddMinutes(30)), created.DateTimeEnd);
+        Assert.Equal(new DateTimeOffset(_day.AddHours(9)), created!.DateTimeStart);
+        Assert.Equal(new DateTimeOffset(_day.AddHours(9).AddMinutes(30)), created.DateTimeEnd);
     }
 
     [Fact]
     public void SavingAnEditedEvent_RaisesOnEventUpdated()
     {
-        var evt = Event("Design review", day.AddHours(10), day.AddHours(11));
+        var evt = Event("Design review", _day.AddHours(10), _day.AddHours(11));
         Schedule<string>? updated = null;
         var provider = TestContext.Render<TwDialogProvider>();
         var cut = TestContext.Render<TwCalendar<string>>(p => p
-            .Add(x => x.SelectedDate, day)
+            .Add(x => x.SelectedDate, _day)
             .Add(x => x.View, TwCalendarView.Day)
             .Add(x => x.Editable, true)
             .Add(x => x.Schedules, [evt])
@@ -80,12 +80,12 @@ public class TwCalendarCallbackTests : TwBlazorTestBase
     [Fact]
     public void DeletingAnEvent_RemovesItAndRaisesOnEventDeleted()
     {
-        var evt = Event("Design review", day.AddHours(10), day.AddHours(11));
+        var evt = Event("Design review", _day.AddHours(10), _day.AddHours(11));
         var schedules = new List<Schedule<string>> { evt };
         Schedule<string>? deleted = null;
         var provider = TestContext.Render<TwDialogProvider>();
         var cut = TestContext.Render<TwCalendar<string>>(p => p
-            .Add(x => x.SelectedDate, day)
+            .Add(x => x.SelectedDate, _day)
             .Add(x => x.View, TwCalendarView.Day)
             .Add(x => x.Editable, true)
             .Add(x => x.Schedules, schedules)
@@ -99,13 +99,13 @@ public class TwCalendarCallbackTests : TwBlazorTestBase
     }
 
     [Fact]
-    public void DroppingAnEventOnItsOwnSlot_ChangesNothing()
+    public async Task DroppingAnEventOnItsOwnSlot_ChangesNothing()
     {
-        var evt = Event("Design review", day.AddHours(13), day.AddHours(14));
+        var evt = Event("Design review", _day.AddHours(13), _day.AddHours(14));
         List<Schedule<string>>? changed = null;
         Schedule<string>? updated = null;
         var cut = TestContext.Render<TwCalendar<string>>(p => p
-            .Add(x => x.SelectedDate, day)
+            .Add(x => x.SelectedDate, _day)
             .Add(x => x.View, TwCalendarView.Day)
             .Add(x => x.Editable, true)
             .Add(x => x.Schedules, [evt])
@@ -114,21 +114,24 @@ public class TwCalendarCallbackTests : TwBlazorTestBase
 
         cut.Find("button[aria-label^='Design review']").DragStart(new DragEventArgs());
         cut.WaitForAssertion(() => Assert.Contains("pointer-events-none", cut.Find("button[aria-label^='Design review']").GetAttribute("class")));
-        cut.Find("button[aria-label='1:00 PM']").Drop(new DragEventArgs());
+
+        // The drag start re-renders the column twice, a moment apart, and each render replaces the slot's drop
+        // handler. Finding and dropping on the renderer's own thread stops a render landing between the two.
+        await cut.InvokeAsync(() => cut.Find("button[aria-label='1:00 PM']").Drop(new DragEventArgs()));
 
         cut.WaitForAssertion(() => Assert.DoesNotContain("pointer-events-none", cut.Find("button[aria-label^='Design review']").GetAttribute("class")));
         Assert.Null(changed);
         Assert.Null(updated);
-        Assert.Equal(new DateTimeOffset(day.AddHours(13)), evt.DateTimeStart);
+        Assert.Equal(new DateTimeOffset(_day.AddHours(13)), evt.DateTimeStart);
     }
 
     [Fact]
     public void DroppingAnEventOnAnotherDayInMonthView_KeepsItsTimeOfDay_AndRaisesOnEventUpdated()
     {
-        var evt = Event("Design review", day.AddHours(13), day.AddHours(14));
+        var evt = Event("Design review", _day.AddHours(13), _day.AddHours(14));
         Schedule<string>? updated = null;
         var cut = TestContext.Render<TwCalendar<string>>(p => p
-            .Add(x => x.SelectedDate, day)
+            .Add(x => x.SelectedDate, _day)
             .Add(x => x.View, TwCalendarView.Month)
             .Add(x => x.Editable, true)
             .Add(x => x.Schedules, [evt])
@@ -138,17 +141,17 @@ public class TwCalendarCallbackTests : TwBlazorTestBase
         cut.Find("button[aria-label='March 20, 2026']").ParentElement!.Drop(new DragEventArgs());
 
         cut.WaitForAssertion(() => Assert.NotNull(updated));
-        Assert.Equal(new DateTimeOffset(day.AddDays(2).AddHours(13)), updated!.DateTimeStart);
-        Assert.Equal(new DateTimeOffset(day.AddDays(2).AddHours(14)), updated.DateTimeEnd);
+        Assert.Equal(new DateTimeOffset(_day.AddDays(2).AddHours(13)), updated!.DateTimeStart);
+        Assert.Equal(new DateTimeOffset(_day.AddDays(2).AddHours(14)), updated.DateTimeEnd);
     }
 
     [Fact]
     public void ClickingAnEvent_WhenNotEditable_OpensAReadOnlyDialog()
     {
-        var evt = Event("Design review", day.AddHours(10), day.AddHours(11));
+        var evt = Event("Design review", _day.AddHours(10), _day.AddHours(11));
         var provider = TestContext.Render<TwDialogProvider>();
         var cut = TestContext.Render<TwCalendar<string>>(p => p
-            .Add(x => x.SelectedDate, day)
+            .Add(x => x.SelectedDate, _day)
             .Add(x => x.View, TwCalendarView.Day)
             .Add(x => x.Schedules, [evt]));
 
@@ -161,13 +164,13 @@ public class TwCalendarCallbackTests : TwBlazorTestBase
     [Fact]
     public void AllDayRow_DropPreviewOutsideItsDays_ShowsNoPlaceholder()
     {
-        var banner = Event("Holiday", day, day.AddDays(1));
+        var banner = Event("Holiday", _day, _day.AddDays(1));
         var cut = TestContext.Render<TwCalendarAllDayRow<string>>(p => p
-            .Add(x => x.Days, [day])
+            .Add(x => x.Days, [_day])
             .Add(x => x.Schedules, [banner])
             .Add(x => x.Editable, true)
             .Add(x => x.DraggedEvent, banner)
-            .Add(x => x.DropPreview, day.AddDays(5)));
+            .Add(x => x.DropPreview, _day.AddDays(5)));
 
         Assert.Empty(cut.FindAll("div[aria-hidden='true'][style*='grid-column:1 / span']"));
     }
@@ -175,13 +178,13 @@ public class TwCalendarCallbackTests : TwBlazorTestBase
     [Fact]
     public void AllDayRow_DropPreviewInsideItsDays_ShowsAPlaceholderSpanningTheEvent()
     {
-        var banner = Event("Trip", day, day.AddDays(2));
+        var banner = Event("Trip", _day, _day.AddDays(2));
         var cut = TestContext.Render<TwCalendarAllDayRow<string>>(p => p
-            .Add(x => x.Days, [day, day.AddDays(1), day.AddDays(2)])
+            .Add(x => x.Days, [_day, _day.AddDays(1), _day.AddDays(2)])
             .Add(x => x.Schedules, [banner])
             .Add(x => x.Editable, true)
             .Add(x => x.DraggedEvent, banner)
-            .Add(x => x.DropPreview, day.AddDays(1)));
+            .Add(x => x.DropPreview, _day.AddDays(1)));
 
         Assert.Single(cut.FindAll("div[aria-hidden='true'][style='grid-column:2 / span 2;grid-row:1;']"));
     }
