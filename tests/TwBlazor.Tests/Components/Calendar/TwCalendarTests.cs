@@ -608,8 +608,29 @@ public class TwCalendarTests : TwBlazorTestBase
     /// <c>Find</c> and the dispatch, leaving the handler id stale. A stale id throws before anything is
     /// dispatched, so retrying can never raise the event twice.
     /// </summary>
-    private static void Dispatch(IRenderedComponent<TwCalendar<string>> cut, Func<Task> action) =>
-        cut.WaitForAssertion(() => cut.InvokeAsync(action).GetAwaiter().GetResult());
+    private static void Dispatch(IRenderedComponent<TwCalendar<string>> cut, Func<Task> action)
+    {
+        // Deliberately not WaitForAssertion: bUnit runs its check on the renderer dispatcher, and blocking
+        // that dispatcher on InvokeAsync while the handler awaits would deadlock the whole test run.
+        var timeout = TimeSpan.FromSeconds(5);
+        var deadline = DateTime.UtcNow + timeout;
+        while (true)
+        {
+            try
+            {
+                if (!cut.InvokeAsync(action).Wait(timeout))
+                {
+                    throw new TimeoutException("Drag event handler did not complete.");
+                }
+
+                return;
+            }
+            catch (Exception ex) when (ex is not TimeoutException && DateTime.UtcNow < deadline)
+            {
+                Thread.Sleep(20);
+            }
+        }
+    }
 
     /// <summary>
     /// Drops onto the slot with the given label.
@@ -669,7 +690,7 @@ public class TwCalendarTests : TwBlazorTestBase
     {
         var wednesday = new DateTime(2026, 3, 18);
         var evt = Event("Design review", wednesday.AddHours(9), wednesday.AddHours(10));
-
+ 
         var cut = TestContext.Render<TwCalendar<string>>(p => p
             .Add(x => x.SelectedDate, wednesday)
             .Add(x => x.View, TwCalendarView.Week)
