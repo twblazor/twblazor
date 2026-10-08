@@ -18,8 +18,6 @@ public class DialogBuilder(TwBlazorOptions options, RoundedBuilder roundedBuilde
 {
     private TwDialogTheme theme => options.Theme.Components.Require<TwOverlayTheme>().Dialog;
 
-    private TwOverlayTheme overlayTheme => options.Theme.Components.Require<TwOverlayTheme>();
-
     /// <summary>
     /// Gets the classes for the fixed backdrop/positioning overlay that hosts a dialog.
     /// </summary>
