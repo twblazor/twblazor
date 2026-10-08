@@ -35,7 +35,7 @@ public class TwTreemapChart : TwValueChartBase
 
             if (width > 14 && height > 14)
             {
-                builder.Text(x, y, item.Label, ChartAnchor.Start, ChartBaseline.Top, ChartTextTone.Inverse, 8, 8, strong: true);
+                builder.Add(new ChartText(x, y, item.Label, ChartAnchor.Start, ChartBaseline.Top, ChartTextTone.Inverse, 8, 8, Strong: true));
             }
 
             builder.Datum(x + width / 2, y + height / 2, width, height, item.Label,

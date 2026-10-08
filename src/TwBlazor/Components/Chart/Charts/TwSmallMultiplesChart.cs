@@ -37,63 +37,78 @@ public class TwSmallMultiplesChart : TwCategoryChartBase
     protected override void BuildMarks(ChartSceneBuilder builder, IReadOnlyList<ChartSeriesSlot> series)
     {
         var perRow = Math.Clamp(Columns ?? 3, 1, series.Count);
-        var rowCount = (int)Math.Ceiling(series.Count / (double)perRow);
         var cellWidth = 100.0 / perRow;
-        var cellHeight = 100.0 / rowCount;
+        var cellHeight = 100.0 / Math.Ceiling(series.Count / (double)perRow);
         var scale = ChartScale.Nice(GetValues(series), includeZero: Kind != SmallMultipleKind.Line);
-        var floor = scale.Map(Math.Clamp(0, scale.Min, scale.Max));
-        var color = ChartColor.Series(0);
 
-        for (var panel = 0; panel < series.Count; panel++)
+        for (var index = 0; index < series.Count; index++)
         {
-            var slot = series[panel];
-            var left = cellWidth * (panel % perRow) + gutter / 2;
-            var top = cellHeight * (panel / perRow);
-            var width = cellWidth - gutter;
-            var plotTop = top + cellHeight * titleSpace;
-            var plotHeight = cellHeight * (1 - titleSpace - labelSpace);
-            var band = new ChartBand(Categories.Count, left, left + width);
-            double Y(double value) => plotTop + plotHeight * (1 - scale.Map(value) / 100);
-
-            builder.Text(left, top + 1, slot.Series.Name, ChartAnchor.Start, ChartBaseline.Top, ChartTextTone.Primary, strong: true);
-            builder.Line(left, plotTop + plotHeight * (1 - floor / 100), left + width, plotTop + plotHeight * (1 - floor / 100), ChartColor.Axis);
-            builder.Text(left, plotTop + plotHeight, Categories[0], ChartAnchor.Start, ChartBaseline.Top, offsetY: 4);
-
-            if (Categories.Count > 1)
-            {
-                builder.Text(left + width, plotTop + plotHeight, Categories[^1], ChartAnchor.End, ChartBaseline.Top, offsetY: 4);
-            }
-
-            List<(double X, double Y)> points = [];
-            for (var i = 0; i < Categories.Count; i++)
-            {
-                if (slot.Value(i) is not { } value)
-                {
-                    continue;
-                }
-
-                points.Add((band.Center(i), Y(value)));
-
-                if (Kind == SmallMultipleKind.Column)
-                {
-                    var zero = plotTop + plotHeight * (1 - floor / 100);
-                    builder.Rect(band.Center(i) - band.Step * 0.35, Math.Min(zero, Y(value)), band.Step * 0.7, Math.Abs(zero - Y(value)), color, value >= 0 ? ChartCorner.Top : ChartCorner.Bottom);
-                }
-
-                builder.Datum(band.Center(i), plotTop + plotHeight / 2, band.Step, plotHeight, $"{slot.Series.Name}, {Categories[i]}", [new ChartDatumRow(slot.Series.Name, FormatValue(value), color)]);
-            }
-
-            if (Kind != SmallMultipleKind.Column && points.Count > 0)
-            {
-                if (Kind == SmallMultipleKind.Area && points.Count > 1)
-                {
-                    var zero = plotTop + plotHeight * (1 - floor / 100);
-                    var area = new ChartPathBuilder().MoveTo(points[0].X, points[0].Y).Through(points, ChartCurve.Linear).LineTo(points[^1].X, zero).LineTo(points[0].X, zero).Close();
-                    builder.Path(area.ToString(), color, filled: true, opacity: 0.12);
-                }
-
-                builder.Path(ChartGeometry.Line(points), color);
-            }
+            var top = cellHeight * (index / perRow);
+            var panel = new Panel(scale, cellWidth * (index % perRow) + gutter / 2, top, cellWidth - gutter, top + cellHeight * titleSpace, cellHeight * (1 - titleSpace - labelSpace));
+            BuildFrame(builder, panel, series[index].Series.Name);
+            BuildPanel(builder, panel, series[index]);
         }
+    }
+
+    private void BuildFrame(ChartSceneBuilder builder, Panel panel, string title)
+    {
+        builder.Add(new ChartText(panel.Left, panel.Top + 1, title, ChartAnchor.Start, ChartBaseline.Top, ChartTextTone.Primary, Strong: true));
+        builder.Line(panel.Left, panel.Zero, panel.Left + panel.Width, panel.Zero, ChartColor.Axis);
+        builder.Add(new ChartText(panel.Left, panel.PlotTop + panel.PlotHeight, Categories[0], ChartAnchor.Start, ChartBaseline.Top, OffsetY: 4));
+
+        if (Categories.Count > 1)
+        {
+            builder.Add(new ChartText(panel.Left + panel.Width, panel.PlotTop + panel.PlotHeight, Categories[^1], ChartAnchor.End, ChartBaseline.Top, OffsetY: 4));
+        }
+    }
+
+    private void BuildPanel(ChartSceneBuilder builder, Panel panel, ChartSeriesSlot slot)
+    {
+        var color = ChartColor.Series(0);
+        var band = new ChartBand(Categories.Count, panel.Left, panel.Left + panel.Width);
+        List<(double X, double Y)> points = [];
+
+        for (var i = 0; i < Categories.Count; i++)
+        {
+            if (slot.Value(i) is not { } value)
+            {
+                continue;
+            }
+
+            var y = panel.Y(value);
+            points.Add((band.Center(i), y));
+
+            if (Kind == SmallMultipleKind.Column)
+            {
+                builder.Rect(band.Center(i) - band.Step * 0.35, Math.Min(panel.Zero, y), band.Step * 0.7, Math.Abs(panel.Zero - y), color, value >= 0 ? ChartCorner.Top : ChartCorner.Bottom);
+            }
+
+            builder.Datum(band.Center(i), panel.PlotTop + panel.PlotHeight / 2, band.Step, panel.PlotHeight, $"{slot.Series.Name}, {Categories[i]}", [new ChartDatumRow(slot.Series.Name, FormatValue(value), color)]);
+        }
+
+        if (Kind == SmallMultipleKind.Column || points.Count == 0)
+        {
+            return;
+        }
+
+        if (Kind == SmallMultipleKind.Area && points.Count > 1)
+        {
+            var area = new ChartPathBuilder().MoveTo(points[0].X, points[0].Y).Through(points, ChartCurve.Linear).LineTo(points[^1].X, panel.Zero).LineTo(points[0].X, panel.Zero).Close();
+            builder.Path(area.ToString(), color, filled: true, opacity: 0.12);
+        }
+
+        builder.Path(ChartGeometry.Line(points), color);
+    }
+
+    /// <summary>
+    /// The position of one panel in the plot, and the scale its values are drawn on.
+    /// </summary>
+    private readonly record struct Panel(ChartScale Scale, double Left, double Top, double Width, double PlotTop, double PlotHeight)
+    {
+        /// <summary>Gets the vertical position of the baseline.</summary>
+        public double Zero => Y(Math.Clamp(0, Scale.Min, Scale.Max));
+
+        /// <summary>Gets the vertical position of a value.</summary>
+        public double Y(double value) => PlotTop + PlotHeight * (1 - Scale.Map(value) / 100);
     }
 }

@@ -39,9 +39,9 @@
 
 @code {
     #region CodeExample HeatmapChartData
-    private string[] days = ["Mon", "Tue", "Wed", "Thu", "Fri"];
+    private readonly string[] days = ["Mon", "Tue", "Wed", "Thu", "Fri"];
 
-    private ChartSeries[] shifts =
+    private readonly ChartSeries[] shifts =
     [
         new("Morning", [34, 28, 31, 25, 40]),
         new("Afternoon", [52, 47, 58, 49, 61]),

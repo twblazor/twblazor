@@ -49,13 +49,13 @@
 
 @code {
     #region CodeExample AreaChartData
-    private string[] months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
+    private readonly string[] months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
 
-    private ChartSeries[] organic = [new("Organic", [42, 48, 55, 61, 58, 70])];
+    private readonly ChartSeries[] organic = [new("Organic", [42, 48, 55, 61, 58, 70])];
     #endregion
 
     #region CodeExample AreaChartStackedData
-    private ChartSeries[] visitors =
+    private readonly ChartSeries[] visitors =
     [
         new("Organic", [42, 48, 55, 61, 58, 70]),
         new("Paid", [30, 34, 31, 45, 52, 49]),

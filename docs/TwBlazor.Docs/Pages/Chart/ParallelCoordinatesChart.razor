@@ -33,9 +33,9 @@
 
 @code {
     #region CodeExample ParallelCoordinatesChartData
-    private string[] attributes = ["Battery", "Display", "Speed", "Weight", "Price"];
+    private readonly string[] attributes = ["Battery", "Display", "Speed", "Weight", "Price"];
 
-    private ChartSeries[] laptops =
+    private readonly ChartSeries[] laptops =
     [
         new("Aero 13", [9, 7, 6, 9, 5]),
         new("Titan 16", [5, 9, 9, 4, 6])
@@ -43,9 +43,9 @@
     #endregion
 
     #region CodeExample ParallelCoordinatesChartUnitsData
-    private string[] specs = ["Price (£k)", "Range (miles)", "0-60 (s)", "Boot (litres)"];
+    private readonly string[] specs = ["Price (£k)", "Range (miles)", "0-60 (s)", "Boot (litres)"];
 
-    private ChartSeries[] cars =
+    private readonly ChartSeries[] cars =
     [
         new("Volt", [32, 250, 7.9, 380]),
         new("Halo", [45, 330, 5.6, 420]),

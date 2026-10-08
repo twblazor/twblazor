@@ -54,7 +54,7 @@ public class TwFunnelChart : TwValueChartBase
                 .LineTo(50 + farWidth / 2, bottom).LineTo(50 - farWidth / 2, bottom).Close();
 
             builder.Path(path.ToString(), color, filled: true, opacity: Data.Count == 1 ? 1 : 1 - 0.55 * i / (Data.Count - 1));
-            builder.Text(50 + Math.Max(nearWidth, farWidth) / 2, band.Center(row), FormatValue(Data[i].Value), ChartAnchor.Start, tone: ChartTextTone.Primary, offsetX: 8);
+            builder.Add(new ChartText(50 + Math.Max(nearWidth, farWidth) / 2, band.Center(row), FormatValue(Data[i].Value), ChartAnchor.Start, Tone: ChartTextTone.Primary, OffsetX: 8));
             builder.Datum(50, band.Center(row), 100, band.Step, Data[i].Label,
             [
                 new ChartDatumRow(ValueHeader, FormatValue(Data[i].Value), color),

@@ -66,7 +66,7 @@ public class TwPieChart : TwValueChartBase
 
             if (ShowPercentages && item.Value / total >= 0.07)
             {
-                builder.Text(middle.X, middle.Y, share, tone: ChartTextTone.Inverse, strong: true);
+                builder.Add(new ChartText(middle.X, middle.Y, share, Tone: ChartTextTone.Inverse, Strong: true));
             }
 
             builder.Datum(middle.X, middle.Y, 0, 0, item.Label, [new ChartDatumRow(ValueHeader, FormatValue(item.Value), color), new ChartDatumRow("Share", share)], ChartHover.None);
@@ -75,7 +75,7 @@ public class TwPieChart : TwValueChartBase
 
         if (hole > 0 && !string.IsNullOrWhiteSpace(CenterText))
         {
-            builder.Text(50, centerY, CenterText, baseline: Semicircle ? ChartBaseline.Bottom : ChartBaseline.Middle, tone: ChartTextTone.Primary, strong: true, large: true);
+            builder.Add(new ChartText(50, centerY, CenterText, Baseline: Semicircle ? ChartBaseline.Bottom : ChartBaseline.Middle, Tone: ChartTextTone.Primary, Strong: true, Large: true));
         }
     }
 }
@@ -150,7 +150,7 @@ public class TwRadialBarChart : TwValueChartBase
                 builder.Path(ChartGeometry.Sector(50, 50, inner, outer, 0, sweep), color, filled: true, title: $"{item.Label}: {FormatValue(item.Value)}");
             }
 
-            builder.Text(50, 50 - (inner + outer) / 2, item.Label, ChartAnchor.End, offsetX: -8);
+            builder.Add(new ChartText(50, 50 - (inner + outer) / 2, item.Label, ChartAnchor.End, OffsetX: -8));
             builder.Datum(end.X, end.Y, 0, 0, item.Label, [new ChartDatumRow(ValueHeader, FormatValue(item.Value), color)], ChartHover.None);
         }
     }

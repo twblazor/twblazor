@@ -106,25 +106,25 @@ public enum ChartShape
 /// A visual primitive in a <see cref="ChartScene"/>. All positions and sizes are percentages (0 to 100) of the plot
 /// area, measured from its top-left corner, so a scene scales to any width without script.
 /// </summary>
-public abstract record ChartMark;
+public interface IChartMark;
 
 /// <summary>A filled rectangle.</summary>
-public sealed record ChartRect(double X, double Y, double Width, double Height, ChartColor Color, ChartCorner Corner = ChartCorner.None, double Opacity = 1, bool Gap = true, string? Title = null) : ChartMark;
+public sealed record ChartRect(double X, double Y, double Width, double Height, ChartColor Color, ChartCorner Corner = ChartCorner.None, double Opacity = 1, bool Gap = true, string? Title = null) : IChartMark;
 
 /// <summary>A filled circle centered on a point. <paramref name="Diameter"/> is in pixels so dots stay round and legible at any width.</summary>
-public sealed record ChartDot(double X, double Y, ChartColor Color, double Diameter = 10, double Opacity = 1, string? Title = null) : ChartMark;
+public sealed record ChartDot(double X, double Y, ChartColor Color, double Diameter = 10, double Opacity = 1, string? Title = null) : IChartMark;
 
 /// <summary>A straight stroked line.</summary>
-public sealed record ChartLine(double X1, double Y1, double X2, double Y2, ChartColor Color, ChartStroke Stroke = ChartStroke.Hairline) : ChartMark;
+public sealed record ChartLine(double X1, double Y1, double X2, double Y2, ChartColor Color, ChartStroke Stroke = ChartStroke.Hairline) : IChartMark;
 
 /// <summary>An SVG path, either stroked or filled. <paramref name="Outline"/> adds a surface-colored gap around a filled shape.</summary>
-public sealed record ChartPath(string Data, ChartColor Color, bool Filled = false, double Opacity = 1, ChartStroke Stroke = ChartStroke.Normal, bool Outline = false, string? Title = null) : ChartMark;
+public sealed record ChartPath(string Data, ChartColor Color, bool Filled = false, double Opacity = 1, ChartStroke Stroke = ChartStroke.Normal, bool Outline = false, string? Title = null) : IChartMark;
 
 /// <summary>A text label. Offsets are in pixels.</summary>
-public sealed record ChartText(double X, double Y, string Text, ChartAnchor Anchor = ChartAnchor.Middle, ChartBaseline Baseline = ChartBaseline.Middle, ChartTextTone Tone = ChartTextTone.Muted, double OffsetX = 0, double OffsetY = 0, bool Strong = false, bool Large = false) : ChartMark;
+public sealed record ChartText(double X, double Y, string Text, ChartAnchor Anchor = ChartAnchor.Middle, ChartBaseline Baseline = ChartBaseline.Middle, ChartTextTone Tone = ChartTextTone.Muted, double OffsetX = 0, double OffsetY = 0, bool Strong = false, bool Large = false) : IChartMark;
 
 /// <summary>An icon centered on a point. <paramref name="Size"/> is in pixels.</summary>
-public sealed record ChartGlyph(double X, double Y, Icon Icon, ChartColor Color, double Size = 20) : ChartMark;
+public sealed record ChartGlyph(double X, double Y, Icon Icon, ChartColor Color, double Size = 20) : IChartMark;
 
 /// <summary>One line of a tooltip: a label, its formatted value and an optional color key.</summary>
 public sealed record ChartDatumRow(string Label, string Value, ChartColor? Color = null);

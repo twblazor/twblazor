@@ -29,8 +29,8 @@ public class TwParallelCoordinatesChart : TwCategoryChartBase
         {
             var x = band.Center(i);
             builder.Line(x, 0, x, 100, ChartColor.Axis);
-            builder.Text(x, 0, FormatValue(scales[i].Max), ChartAnchor.Start, ChartBaseline.Top, offsetX: 4);
-            builder.Text(x, 100, FormatValue(scales[i].Min), ChartAnchor.Start, ChartBaseline.Bottom, offsetX: 4);
+            builder.Add(new ChartText(x, 0, FormatValue(scales[i].Max), ChartAnchor.Start, ChartBaseline.Top, OffsetX: 4));
+            builder.Add(new ChartText(x, 100, FormatValue(scales[i].Min), ChartAnchor.Start, ChartBaseline.Bottom, OffsetX: 4));
         }
 
         foreach (var slot in series)

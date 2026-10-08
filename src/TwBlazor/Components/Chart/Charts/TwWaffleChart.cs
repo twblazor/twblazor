@@ -42,7 +42,7 @@ public class TwWaffleChart : TwValueChartBase
 
             for (var k = 0; k < cells[i]; k++, cell++)
             {
-                builder.Rect(cell % side * side + 0.7, cell / side * side + 0.7, side - 1.4, side - 1.4, color, ChartCorner.All, gap: false, title: $"{data[i].Label}: {share}");
+                builder.Add(new ChartRect(cell % side * side + 0.7, cell / side * side + 0.7, side - 1.4, side - 1.4, color, ChartCorner.All, Gap: false, Title: $"{data[i].Label}: {share}"));
             }
         }
     }

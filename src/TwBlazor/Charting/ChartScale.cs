@@ -92,8 +92,14 @@ public sealed class ChartScale
         }
 
         var magnitude = Math.Pow(10, Math.Floor(Math.Log10(raw)));
-        var fraction = raw / magnitude;
-        var nice = fraction <= 1 ? 1 : fraction <= 2 ? 2 : fraction <= 5 ? 5 : 10;
+        var nice = (raw / magnitude) switch
+        {
+            <= 1 => 1,
+            <= 2 => 2,
+            <= 5 => 5,
+            _ => 10
+        };
+
         return nice * magnitude;
     }
 }

@@ -174,11 +174,11 @@
 
 @code {
     #region CodeExample ChartData
-    private string[] regions = ["North", "South", "East", "West"];
+    private readonly string[] regions = ["North", "South", "East", "West"];
 
-    private ChartSeries[] revenue = [new("Revenue", [420, 310, 275, 380])];
+    private readonly ChartSeries[] revenue = [new("Revenue", [420, 310, 275, 380])];
 
-    private ChartSeries[] yearly =
+    private readonly ChartSeries[] yearly =
     [
         new("2024", [360, 290, 240, 330]),
         new("2025", [420, 310, 275, 380])
@@ -189,16 +189,16 @@
     private static string FormatThousands(double value) => $"£{value:0}k";
     #endregion
 
-    private string[] months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
+    private readonly string[] months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
 
-    private ChartSeries[] visitors =
+    private readonly ChartSeries[] visitors =
     [
         new("Organic", [42, 48, 55, 61, 58, 70]),
         new("Paid", [30, 34, 31, 45, 52, 49]),
         new("Referral", [12, 15, 21, 19, 26, 33])
     ];
 
-    private ChartValue[] onboarding = [new("Profile", 100), new("Billing", 60), new("Team invites", 25)];
+    private readonly ChartValue[] onboarding = [new("Profile", 100), new("Billing", 60), new("Team invites", 25)];
 
     private static readonly (string Purpose, (string Name, string Url)[] Charts)[] chartTypes =
     [

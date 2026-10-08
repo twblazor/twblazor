@@ -39,11 +39,11 @@
 
 @code {
     #region CodeExample LollipopChartData
-    private string[] regions = ["North", "South", "East", "West"];
+    private readonly string[] regions = ["North", "South", "East", "West"];
 
-    private ChartSeries[] revenue = [new("Revenue", [420, 310, 275, 380])];
+    private readonly ChartSeries[] revenue = [new("Revenue", [420, 310, 275, 380])];
 
-    private ChartSeries[] yearly =
+    private readonly ChartSeries[] yearly =
     [
         new("2024", [360, 290, 240, 330]),
         new("2025", [420, 310, 275, 380])

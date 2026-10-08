@@ -39,7 +39,7 @@
 
 @code {
     #region CodeExample BulletChartData
-    private ChartBullet[] targets =
+    private readonly ChartBullet[] targets =
     [
         new("Revenue", 270, 250),
         new("Profit", 22, 26),
@@ -48,7 +48,7 @@
     #endregion
 
     #region CodeExample BulletChartRangesData
-    private ChartBullet[] bullets =
+    private readonly ChartBullet[] bullets =
     [
         new("Revenue", 270, 250, [150, 225, 300]),
         new("Profit", 22, 26, [15, 22, 30]),

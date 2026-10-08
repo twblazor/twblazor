@@ -39,9 +39,9 @@
 
 @code {
     #region CodeExample SlopeChartData
-    private string[] years = ["2020", "2025"];
+    private readonly string[] years = ["2020", "2025"];
 
-    private ChartSeries[] share =
+    private readonly ChartSeries[] share =
     [
         new("Aster", [34, 41]),
         new("Birch", [28, 19]),
@@ -50,9 +50,9 @@
     #endregion
 
     #region CodeExample SlopeChartThreeData
-    private string[] threeYears = ["2015", "2020", "2025"];
+    private readonly string[] threeYears = ["2015", "2020", "2025"];
 
-    private ChartSeries[] shareByYear =
+    private readonly ChartSeries[] shareByYear =
     [
         new("Aster", [22, 34, 41]),
         new("Birch", [37, 28, 19]),

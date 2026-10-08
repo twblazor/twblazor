@@ -64,9 +64,6 @@ public class TwScatterChart : TwChartBase
             return;
         }
 
-        var hasSize = Series.Any(series => series.Points.Any(point => point.Size.HasValue));
-        var visible = Series.Select((series, index) => (Series: series, Slot: index)).Where(item => !IsSeriesHidden(item.Slot)).ToList();
-
         if (Series.Count > 1)
         {
             for (var i = 0; i < Series.Count; i++)
@@ -75,11 +72,9 @@ public class TwScatterChart : TwChartBase
             }
         }
 
-        builder.Table = new ChartTable(
-            ["Series", "Label", XTitle, YTitle, .. hasSize ? [SizeTitle] : Array.Empty<string>()],
-            [.. Series.SelectMany(series => series.Points.Select(point => (IReadOnlyList<string>)
-                [series.Name, point.Label ?? string.Empty, FormatValue(point.X), FormatValue(point.Y), .. hasSize ? [point.Size.HasValue ? FormatValue(point.Size.Value) : string.Empty] : Array.Empty<string>()]))]);
+        builder.Table = BuildTable();
 
+        var visible = Series.Select((series, index) => (Series: series, Slot: index)).Where(item => !IsSeriesHidden(item.Slot)).ToList();
         var points = visible.SelectMany(item => item.Series.Points).ToList();
         if (points.Count == 0)
         {
@@ -105,24 +100,51 @@ public class TwScatterChart : TwChartBase
 
             for (var i = 0; i < series.Points.Count; i++)
             {
-                var point = series.Points[i];
-                var diameter = point.Size is { } size && maxSize > 0 ? 10 + 30 * Math.Sqrt(Math.Max(0, size) / maxSize) : 10;
-                builder.Dot(positions[i].X, positions[i].Y, color, diameter, point.Size.HasValue ? 0.75 : 1);
-
-                if (ShowLabels && point.Label != null)
-                {
-                    builder.Text(positions[i].X, positions[i].Y, point.Label, baseline: ChartBaseline.Bottom, tone: ChartTextTone.Primary, offsetY: -(diameter / 2 + 4));
-                }
-
-                List<ChartDatumRow> rows = [new(XTitle, FormatValue(point.X)), new(YTitle, FormatValue(point.Y))];
-                if (point.Size.HasValue)
-                {
-                    rows.Add(new ChartDatumRow(SizeTitle, FormatValue(point.Size.Value)));
-                }
-
-                builder.Datum(positions[i].X, positions[i].Y, 0, 0, point.Label ?? series.Name, rows, ChartHover.None);
+                BuildPoint(builder, series.Points[i], positions[i], color, series.Name, maxSize);
             }
         }
+    }
+
+    private ChartTable BuildTable()
+    {
+        var hasSize = Series.Any(series => series.Points.Any(point => point.Size.HasValue));
+        List<string> headers = ["Series", "Label", XTitle, YTitle];
+        if (hasSize)
+        {
+            headers.Add(SizeTitle);
+        }
+
+        return new ChartTable(headers, [.. Series.SelectMany(series => series.Points.Select(point => GetTableRow(series.Name, point, hasSize)))]);
+    }
+
+    private IReadOnlyList<string> GetTableRow(string seriesName, ChartPoint point, bool hasSize)
+    {
+        List<string> row = [seriesName, point.Label ?? string.Empty, FormatValue(point.X), FormatValue(point.Y)];
+        if (hasSize)
+        {
+            row.Add(point.Size is { } size ? FormatValue(size) : string.Empty);
+        }
+
+        return row;
+    }
+
+    private void BuildPoint(ChartSceneBuilder builder, ChartPoint point, (double X, double Y) position, ChartColor color, string seriesName, double maxSize)
+    {
+        var diameter = point.Size is { } size && maxSize > 0 ? 10 + 30 * Math.Sqrt(Math.Max(0, size) / maxSize) : 10;
+        builder.Dot(position.X, position.Y, color, diameter, point.Size.HasValue ? 0.75 : 1);
+
+        if (ShowLabels && point.Label != null)
+        {
+            builder.Add(new ChartText(position.X, position.Y, point.Label, Baseline: ChartBaseline.Bottom, Tone: ChartTextTone.Primary, OffsetY: -(diameter / 2 + 4)));
+        }
+
+        List<ChartDatumRow> rows = [new(XTitle, FormatValue(point.X)), new(YTitle, FormatValue(point.Y))];
+        if (point.Size is { } bubble)
+        {
+            rows.Add(new ChartDatumRow(SizeTitle, FormatValue(bubble)));
+        }
+
+        builder.Datum(position.X, position.Y, 0, 0, point.Label ?? seriesName, rows, ChartHover.None);
     }
 }
 
@@ -192,7 +214,7 @@ public class TwQuadrantChart : TwScatterChart
     {
         if (!string.IsNullOrWhiteSpace(label))
         {
-            builder.Text(x, y, label, anchor, baseline, offsetX: anchor == ChartAnchor.Start ? 6 : -6, offsetY: baseline == ChartBaseline.Top ? 6 : -6, strong: true);
+            builder.Add(new ChartText(x, y, label, anchor, baseline, OffsetX: anchor == ChartAnchor.Start ? 6 : -6, OffsetY: baseline == ChartBaseline.Top ? 6 : -6, Strong: true));
         }
     }
 }

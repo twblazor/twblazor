@@ -17,45 +17,53 @@ public class TwSlopeChart : TwCategoryChartBase
     protected override void BuildMarks(ChartSceneBuilder builder, IReadOnlyList<ChartSeriesSlot> series)
     {
         var scale = ChartScale.Nice(GetValues(series), includeZero: false);
-        var band = Categories.Count == 1 ? new ChartBand(1) : new ChartBand(Categories.Count - 1, 25, 75);
-        double Column(int index) => Categories.Count == 1 ? 50 : band.Start + band.Step * index;
-
-        builder.XAxis = new ChartAxis([.. Categories.Select((category, index) => new ChartTick(Column(index), category))]);
+        builder.XAxis = new ChartAxis([.. Categories.Select((category, index) => new ChartTick(GetColumn(index), category))]);
 
         for (var i = 0; i < Categories.Count; i++)
         {
-            builder.Line(Column(i), 0, Column(i), 100, ChartColor.Grid);
+            builder.Line(GetColumn(i), 0, GetColumn(i), 100, ChartColor.Grid);
         }
 
         foreach (var slot in series)
         {
-            List<(double X, double Y)> points = [];
-            for (var i = 0; i < Categories.Count; i++)
+            BuildLine(builder, scale, slot);
+        }
+    }
+
+    /// <summary>
+    /// Gets the horizontal position of a category, inset from both edges to leave room for the end labels.
+    /// </summary>
+    private double GetColumn(int index) => Categories.Count == 1 ? 50 : 25 + 50.0 / (Categories.Count - 1) * index;
+
+    private void BuildLine(ChartSceneBuilder builder, ChartScale scale, ChartSeriesSlot slot)
+    {
+        List<(double X, double Y)> points = [];
+        for (var i = 0; i < Categories.Count; i++)
+        {
+            if (slot.Value(i) is not { } value)
             {
-                if (slot.Value(i) is not { } value)
-                {
-                    continue;
-                }
-
-                var point = (X: Column(i), Y: 100 - scale.Map(value));
-                points.Add(point);
-                builder.Datum(point.X, point.Y, 0, 0, slot.Series.Name, [new ChartDatumRow(Categories[i], FormatValue(value), slot.Color)], ChartHover.None);
-
-                if (i == 0)
-                {
-                    builder.Text(point.X, point.Y, $"{slot.Series.Name} {FormatValue(value)}", ChartAnchor.End, tone: ChartTextTone.Primary, offsetX: -10);
-                }
-                else if (i == Categories.Count - 1)
-                {
-                    builder.Text(point.X, point.Y, FormatValue(value), ChartAnchor.Start, tone: ChartTextTone.Primary, offsetX: 10);
-                }
+                continue;
             }
 
-            builder.Path(ChartGeometry.Line(points), slot.Color);
-            foreach (var point in points)
-            {
-                builder.Dot(point.X, point.Y, slot.Color);
-            }
+            var point = (X: GetColumn(i), Y: 100 - scale.Map(value));
+            points.Add(point);
+            builder.Datum(point.X, point.Y, 0, 0, slot.Series.Name, [new ChartDatumRow(Categories[i], FormatValue(value), slot.Color)], ChartHover.None);
+            BuildEndLabel(builder, point, i, slot.Series.Name, FormatValue(value));
+        }
+
+        builder.Path(ChartGeometry.Line(points), slot.Color);
+        points.ForEach(point => builder.Dot(point.X, point.Y, slot.Color));
+    }
+
+    private void BuildEndLabel(ChartSceneBuilder builder, (double X, double Y) point, int category, string name, string value)
+    {
+        if (category == 0)
+        {
+            builder.Add(new ChartText(point.X, point.Y, $"{name} {value}", ChartAnchor.End, Tone: ChartTextTone.Primary, OffsetX: -10));
+        }
+        else if (category == Categories.Count - 1)
+        {
+            builder.Add(new ChartText(point.X, point.Y, value, ChartAnchor.Start, Tone: ChartTextTone.Primary, OffsetX: 10));
         }
     }
 }
@@ -108,7 +116,7 @@ public class TwBumpChart : TwCategoryChartBase
 
             if (line.Count > 0)
             {
-                builder.Text(line[^1].X, line[^1].Y, slot.Series.Name, ChartAnchor.Start, tone: ChartTextTone.Primary, offsetX: 12);
+                builder.Add(new ChartText(line[^1].X, line[^1].Y, slot.Series.Name, ChartAnchor.Start, Tone: ChartTextTone.Primary, OffsetX: 12));
             }
         }
     }

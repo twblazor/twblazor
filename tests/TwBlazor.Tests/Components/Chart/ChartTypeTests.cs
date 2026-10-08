@@ -36,7 +36,7 @@ public class ChartTypeTests : TwBlazorTestBase
             configure?.Invoke(p);
         });
 
-    private static List<T> Marks<T>(ChartScene scene) where T : ChartMark => [.. scene.Marks.OfType<T>()];
+    private static List<T> Marks<T>(ChartScene scene) where T : IChartMark => [.. scene.Marks.OfType<T>()];
 
     private static List<ChartRect> Bars(ChartScene scene, int slot) => [.. scene.Marks.OfType<ChartRect>().Where(rect => rect.Color == ChartColor.Series(slot))];
 

@@ -53,7 +53,7 @@
 
 @code {
     #region CodeExample ScatterChartData
-    private ChartPointSeries[] products =
+    private readonly ChartPointSeries[] products =
     [
         new("Audio", [new(49, 4.1, "Buds"), new(129, 4.6, "Studio"), new(79, 3.8, "Sport")]),
         new("Wearables", [new(199, 4.4, "Pulse"), new(99, 3.6, "Band"), new(249, 4.7, "Pro")])
@@ -61,7 +61,7 @@
     #endregion
 
     #region CodeExample ScatterChartBubbleData
-    private ChartPointSeries[] bubbles =
+    private readonly ChartPointSeries[] bubbles =
     [
         new("Audio", [new(49, 4.1, "Buds", 320), new(129, 4.6, "Studio", 180), new(79, 3.8, "Sport", 240)]),
         new("Wearables", [new(199, 4.4, "Pulse", 150), new(99, 3.6, "Band", 410), new(249, 4.7, "Pro", 90)])
@@ -69,7 +69,7 @@
     #endregion
 
     #region CodeExample ScatterChartConnectedData
-    private ChartPointSeries[] economy =
+    private readonly ChartPointSeries[] economy =
     [
         new("Economy", [new(4.1, 2.0, "2021"), new(3.8, 6.2, "2022"), new(4.3, 7.4, "2023"), new(4.6, 3.1, "2024"), new(4.4, 2.4, "2025")])
     ];

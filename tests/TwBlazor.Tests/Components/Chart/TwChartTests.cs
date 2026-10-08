@@ -305,7 +305,7 @@ public class TwChartTests : TwBlazorTestBase
         Assert.Equal("false", button.GetAttribute("aria-pressed"));
         Assert.Contains(theme.LegendItemHidden, button.GetAttribute("class"));
         Assert.Equal("North: 2025 15", cut.Find("[role='img']").GetAttribute("aria-label"));
-        Assert.Empty(cut.FindAll("div").Where(e => e.ClassList.Contains("bg-purple-600") && e.HasAttribute("style")));
+        Assert.DoesNotContain(cut.FindAll("div"), e => e.ClassList.Contains("bg-purple-600") && e.HasAttribute("style"));
         Assert.Equal(3, cut.FindAll("div").Count(e => e.ClassList.Contains("bg-orange-600")));
     }
 

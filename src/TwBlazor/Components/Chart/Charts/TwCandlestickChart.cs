@@ -73,7 +73,7 @@ public class TwCandlestickChart : TwChartBase
             else
             {
                 // A period that opens and closes level still needs a visible body.
-                var flat = item.Open == item.Close ? 0.4 : 0;
+                var flat = Math.Abs(item.Open - item.Close) < double.Epsilon ? 0.4 : 0;
                 builder.Bar(center, thickness, scale.Map(item.Open) - flat, scale.Map(item.Close) + flat, color, ChartCorner.None);
             }
 

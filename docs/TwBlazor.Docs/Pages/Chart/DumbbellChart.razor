@@ -39,9 +39,9 @@
 
 @code {
     #region CodeExample DumbbellChartData
-    private string[] regions = ["North", "South", "East", "West"];
+    private readonly string[] regions = ["North", "South", "East", "West"];
 
-    private ChartSeries[] yearly =
+    private readonly ChartSeries[] yearly =
     [
         new("2024", [360, 290, 240, 330]),
         new("2025", [420, 310, 275, 380])
@@ -49,9 +49,9 @@
     #endregion
 
     #region CodeExample DumbbellChartTrendData
-    private string[] months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
+    private readonly string[] months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
 
-    private ChartSeries[] visitors =
+    private readonly ChartSeries[] visitors =
     [
         new("Organic", [42, 48, 55, 61, 58, 70]),
         new("Paid", [30, 34, 31, 45, 52, 49]),

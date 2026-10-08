@@ -21,7 +21,7 @@ public sealed class ChartScene
     public ChartShape Shape { get; init; }
 
     /// <summary>Gets the marks, in drawing order.</summary>
-    public IReadOnlyList<ChartMark> Marks { get; init; } = [];
+    public IReadOnlyList<IChartMark> Marks { get; init; } = [];
 
     /// <summary>Gets the interactive data points, in keyboard navigation order.</summary>
     public IReadOnlyList<ChartDatum> Datums { get; init; } = [];
@@ -53,7 +53,7 @@ public sealed class ChartSceneBuilder
 {
     private const int maxBandLabels = 12;
 
-    private readonly List<ChartMark> _marks = [];
+    private readonly List<IChartMark> _marks = [];
     private readonly List<ChartDatum> _datums = [];
     private readonly List<ChartLegendItem> _legend = [];
 
@@ -76,11 +76,11 @@ public sealed class ChartSceneBuilder
     public ChartTable? Table { get; set; }
 
     /// <summary>Adds any mark.</summary>
-    public void Add(ChartMark mark) => _marks.Add(mark);
+    public void Add(IChartMark mark) => _marks.Add(mark);
 
-    /// <summary>Adds a filled rectangle.</summary>
-    public void Rect(double x, double y, double width, double height, ChartColor color, ChartCorner corner = ChartCorner.None, double opacity = 1, bool gap = true, string? title = null) =>
-        _marks.Add(new ChartRect(x, y, width, height, color, corner, opacity, gap, title));
+    /// <summary>Adds a filled rectangle. For the less common options, pass a <see cref="ChartRect"/> to <see cref="Add"/>.</summary>
+    public void Rect(double x, double y, double width, double height, ChartColor color, ChartCorner corner = ChartCorner.None, double opacity = 1) =>
+        _marks.Add(new ChartRect(x, y, width, height, color, corner, opacity));
 
     /// <summary>Adds a dot. <paramref name="diameter"/> is in pixels.</summary>
     public void Dot(double x, double y, ChartColor color, double diameter = 10, double opacity = 1, string? title = null) =>
@@ -99,9 +99,9 @@ public sealed class ChartSceneBuilder
         }
     }
 
-    /// <summary>Adds a text label. Offsets are in pixels.</summary>
-    public void Text(double x, double y, string text, ChartAnchor anchor = ChartAnchor.Middle, ChartBaseline baseline = ChartBaseline.Middle, ChartTextTone tone = ChartTextTone.Muted, double offsetX = 0, double offsetY = 0, bool strong = false, bool large = false) =>
-        _marks.Add(new ChartText(x, y, text, anchor, baseline, tone, offsetX, offsetY, strong, large));
+    /// <summary>Adds a text label. For pixel offsets and emphasis, pass a <see cref="ChartText"/> to <see cref="Add"/>.</summary>
+    public void Text(double x, double y, string text, ChartAnchor anchor = ChartAnchor.Middle, ChartBaseline baseline = ChartBaseline.Middle, ChartTextTone tone = ChartTextTone.Muted) =>
+        _marks.Add(new ChartText(x, y, text, anchor, baseline, tone));
 
     /// <summary>Adds an icon. <paramref name="size"/> is in pixels.</summary>
     public void Glyph(double x, double y, Icon icon, ChartColor color, double size = 20) =>
@@ -123,8 +123,9 @@ public sealed class ChartSceneBuilder
     /// <summary>
     /// Adds a bar across the category axis at <paramref name="band"/>, spanning <paramref name="from"/> to
     /// <paramref name="to"/> on the value axis. Unless <paramref name="corner"/> is given, only the data end is rounded.
+    /// Set <paramref name="gap"/> to <see langword="false"/> for a bar layered over another, which needs no separating gap.
     /// </summary>
-    public void Bar(double band, double thickness, double from, double to, ChartColor color, ChartCorner? corner = null, double opacity = 1, bool gap = true, string? title = null)
+    public void Bar(double band, double thickness, double from, double to, ChartColor color, ChartCorner? corner = null, bool gap = true)
     {
         var low = Math.Min(from, to);
         var size = Math.Abs(to - from);
@@ -132,11 +133,11 @@ public sealed class ChartSceneBuilder
 
         if (Horizontal)
         {
-            Rect(low, band - thickness / 2, size, thickness, color, corner ?? (rising ? ChartCorner.Right : ChartCorner.Left), opacity, gap, title);
+            Add(new ChartRect(low, band - thickness / 2, size, thickness, color, corner ?? (rising ? ChartCorner.Right : ChartCorner.Left), Gap: gap));
         }
         else
         {
-            Rect(band - thickness / 2, 100 - low - size, thickness, size, color, corner ?? (rising ? ChartCorner.Top : ChartCorner.Bottom), opacity, gap, title);
+            Add(new ChartRect(band - thickness / 2, 100 - low - size, thickness, size, color, corner ?? (rising ? ChartCorner.Top : ChartCorner.Bottom), Gap: gap));
         }
     }
 
@@ -195,12 +196,8 @@ public sealed class ChartSceneBuilder
     /// </summary>
     public void BandAxis(IReadOnlyList<string> labels, ChartBand band, string? title = null)
     {
-        var every = Horizontal ? 1 : (int)Math.Ceiling(labels.Count / (double)maxBandLabels);
-        List<ChartTick> ticks = [];
-        for (var i = 0; i < labels.Count; i += Math.Max(1, every))
-        {
-            ticks.Add(new ChartTick(band.Center(i), labels[i]));
-        }
+        var every = Horizontal ? 1 : Math.Max(1, (int)Math.Ceiling(labels.Count / (double)maxBandLabels));
+        ChartTick[] ticks = [.. Enumerable.Range(0, labels.Count).Where(index => index % every == 0).Select(index => new ChartTick(band.Center(index), labels[index]))];
 
         if (Horizontal)
         {
@@ -221,11 +218,11 @@ public sealed class ChartSceneBuilder
         var point = Point(band, value);
         if (Horizontal)
         {
-            Text(point.X, point.Y, text, rising ? ChartAnchor.Start : ChartAnchor.End, ChartBaseline.Middle, ChartTextTone.Primary, rising ? 6 : -6);
+            Add(new ChartText(point.X, point.Y, text, rising ? ChartAnchor.Start : ChartAnchor.End, ChartBaseline.Middle, ChartTextTone.Primary, rising ? 6 : -6));
         }
         else
         {
-            Text(point.X, point.Y, text, ChartAnchor.Middle, rising ? ChartBaseline.Bottom : ChartBaseline.Top, ChartTextTone.Primary, 0, rising ? -4 : 4);
+            Add(new ChartText(point.X, point.Y, text, ChartAnchor.Middle, rising ? ChartBaseline.Bottom : ChartBaseline.Top, ChartTextTone.Primary, 0, rising ? -4 : 4));
         }
     }
 

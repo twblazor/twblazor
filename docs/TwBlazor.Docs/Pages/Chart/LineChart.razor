@@ -59,9 +59,9 @@
 
 @code {
     #region CodeExample LineChartData
-    private string[] months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
+    private readonly string[] months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
 
-    private ChartSeries[] visitors =
+    private readonly ChartSeries[] visitors =
     [
         new("Organic", [42, 48, 55, 61, 58, 70]),
         new("Paid", [30, 34, 31, 45, 52, 49]),
@@ -70,10 +70,10 @@
     #endregion
 
     #region CodeExample LineChartStepData
-    private ChartSeries[] price = [new("Price", [20, 20, 25, 25, 25, 30])];
+    private readonly ChartSeries[] price = [new("Price", [20, 20, 25, 25, 25, 30])];
     #endregion
 
     #region CodeExample LineChartGapData
-    private ChartSeries[] readings = [new("Temperature", [18, 21, null, null, 24, 22])];
+    private readonly ChartSeries[] readings = [new("Temperature", [18, 21, null, null, 24, 22])];
     #endregion
 }

@@ -64,7 +64,7 @@ public class TwBulletChart : TwChartBase
             for (var k = 0; k < limits.Count; k++)
             {
                 var opacity = limits.Count == 1 ? 1 : 0.45 + 0.55 * k / (limits.Count - 1);
-                builder.Bar(center, thickness, 0, scale.Map(limits[k]), ChartColor.Track, ChartCorner.None, opacity, gap: false);
+                builder.Add(new ChartRect(0, center - thickness / 2, scale.Map(limits[k]), thickness, ChartColor.Track, Opacity: opacity, Gap: false));
             }
 
             builder.Bar(center, thickness * 0.36, 0, scale.Map(item.Value), ChartColor.Series(0));

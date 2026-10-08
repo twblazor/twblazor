@@ -56,10 +56,10 @@ public class TwGaugeChart : TwChartBase
             builder.Path(ChartGeometry.Sector(50, 50, 36, 48, startAngle, startAngle + sweep * fraction), color, filled: true);
         }
 
-        builder.Text(50, 50, FormatValue(Value), tone: ChartTextTone.Primary, strong: true, large: true);
-        builder.Text(50, 50, Label, baseline: ChartBaseline.Top, offsetY: 22);
-        builder.Text(start.X, start.Y, FormatValue(Min), baseline: ChartBaseline.Top, offsetY: 12);
-        builder.Text(end.X, end.Y, FormatValue(Max), baseline: ChartBaseline.Top, offsetY: 12);
+        builder.Add(new ChartText(50, 50, FormatValue(Value), Tone: ChartTextTone.Primary, Strong: true, Large: true));
+        builder.Add(new ChartText(50, 50, Label, Baseline: ChartBaseline.Top, OffsetY: 22));
+        builder.Add(new ChartText(start.X, start.Y, FormatValue(Min), Baseline: ChartBaseline.Top, OffsetY: 12));
+        builder.Add(new ChartText(end.X, end.Y, FormatValue(Max), Baseline: ChartBaseline.Top, OffsetY: 12));
         builder.Datum(50, 50, 40, 30, Label, [new ChartDatumRow(Label, FormatValue(Value), color), new ChartDatumRow("Range", $"{FormatValue(Min)} to {FormatValue(Max)}")], ChartHover.None);
         builder.Table = new ChartTable(["Measure", "Value", "Minimum", "Maximum"], [[Label, FormatValue(Value), FormatValue(Min), FormatValue(Max)]]);
     }

@@ -33,9 +33,9 @@
 
 @code {
     #region CodeExample BumpChartData
-    private string[] months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
+    private readonly string[] months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
 
-    private ChartSeries[] visitors =
+    private readonly ChartSeries[] visitors =
     [
         new("Organic", [42, 48, 30, 61, 58, 70]),
         new("Paid", [30, 34, 51, 45, 62, 49]),

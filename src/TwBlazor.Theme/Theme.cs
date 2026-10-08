@@ -874,9 +874,6 @@ public static class Theme
                     TooltipValue = $"{spacing.PushEnd} ps-3 {typography.Weight.Semibold} tabular-nums",
                     Empty = $"py-8 {typography.AlignCenter} {typography.Size.Sm} {neutralText.Muted}",
                     TableRowHeader = typography.Weight.Medium,
-
-                    // The order is the color-blind safety mechanism: it was checked so every neighboring pair stays
-                    // distinguishable under protanopia and deuteranopia, in both modes. Re-check before reordering.
                     Series =
                     [
                         new() { Background = "bg-purple-600 dark:bg-purple-500", Fill = "fill-purple-600 dark:fill-purple-500", Stroke = "stroke-purple-600 dark:stroke-purple-500", Text = "text-purple-600 dark:text-purple-500" },

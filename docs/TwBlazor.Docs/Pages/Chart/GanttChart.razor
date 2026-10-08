@@ -39,12 +39,12 @@
 
 @code {
     #region CodeExample GanttChartData
-    private ChartTask[] tasks =
+    private readonly ChartTask[] tasks =
     [
-        new("Research", new DateTime(2026, 1, 5), new DateTime(2026, 1, 23)),
-        new("Design", new DateTime(2026, 1, 19), new DateTime(2026, 2, 13)),
-        new("Build", new DateTime(2026, 2, 9), new DateTime(2026, 3, 20)),
-        new("Test", new DateTime(2026, 3, 9), new DateTime(2026, 3, 31))
+        new("Research", new DateTime(2026, 1, 5, 0, 0, 0, DateTimeKind.Local), new DateTime(2026, 1, 23, 0, 0, 0, DateTimeKind.Local)),
+        new("Design", new DateTime(2026, 1, 19, 0, 0, 0, DateTimeKind.Local), new DateTime(2026, 2, 13, 0, 0, 0, DateTimeKind.Local)),
+        new("Build", new DateTime(2026, 2, 9, 0, 0, 0, DateTimeKind.Local), new DateTime(2026, 3, 20, 0, 0, 0, DateTimeKind.Local)),
+        new("Test", new DateTime(2026, 3, 9, 0, 0, 0, DateTimeKind.Local), new DateTime(2026, 3, 31, 0, 0, 0, DateTimeKind.Local))
     ];
     #endregion
 }

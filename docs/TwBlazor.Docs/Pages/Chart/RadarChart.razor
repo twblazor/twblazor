@@ -43,9 +43,9 @@
 
 @code {
     #region CodeExample RadarChartData
-    private string[] attributes = ["Battery", "Display", "Speed", "Weight", "Price"];
+    private readonly string[] attributes = ["Battery", "Display", "Speed", "Weight", "Price"];
 
-    private ChartSeries[] laptops =
+    private readonly ChartSeries[] laptops =
     [
         new("Aero 13", [9, 7, 6, 9, 5]),
         new("Titan 16", [5, 9, 9, 4, 6])
@@ -53,6 +53,6 @@
     #endregion
 
     #region CodeExample RadarChartSingleData
-    private ChartSeries[] aero = [new("Aero 13", [9, 7, 6, 9, 5])];
+    private readonly ChartSeries[] aero = [new("Aero 13", [9, 7, 6, 9, 5])];
     #endregion
 }
