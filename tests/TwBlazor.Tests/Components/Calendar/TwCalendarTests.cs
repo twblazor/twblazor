@@ -602,13 +602,53 @@ public class TwCalendarTests : TwBlazorTestBase
     }
 
     /// <summary>
-    /// Drops onto a slot, finding it and dispatching the event in a single renderer-synchronized step. The
-    /// calendar re-renders on its own (drag activation, the "now" indicator's timer), so on a slow runner a
-    /// render can otherwise replace the slot's handler between <c>Find</c> and <c>Drop</c>, leaving the
-    /// handler id stale.
+    /// Finds an element and raises a drag event on it in one renderer-synchronized step, retrying if the
+    /// calendar re-renders in between. The calendar re-renders on its own (drag activation, the "now"
+    /// indicator's timer), so on a slow runner a render can replace the element's handler between
+    /// <c>Find</c> and the dispatch, leaving the handler id stale. A stale id throws before anything is
+    /// dispatched, so retrying can never raise the event twice.
+    /// </summary>
+    private static void Dispatch(IRenderedComponent<TwCalendar<string>> cut, Func<Task> action)
+    {
+        // Deliberately not WaitForAssertion: bUnit runs its check on the renderer dispatcher, and blocking
+        // that dispatcher on InvokeAsync while the handler awaits would deadlock the whole test run.
+        var timeout = TimeSpan.FromSeconds(5);
+        var deadline = DateTime.UtcNow + timeout;
+        while (true)
+        {
+            try
+            {
+                if (!cut.InvokeAsync(action).Wait(timeout))
+                {
+                    throw new TimeoutException("Drag event handler did not complete.");
+                }
+
+                return;
+            }
+            catch (Exception ex) when (ex is not TimeoutException && DateTime.UtcNow < deadline)
+            {
+                Thread.Sleep(20);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Drops onto the slot with the given label.
     /// </summary>
     private static void DropOnSlot(IRenderedComponent<TwCalendar<string>> cut, string slotLabel) =>
-        cut.InvokeAsync(() => cut.Find($"button[aria-label='{slotLabel}']").DropAsync(new DragEventArgs())).GetAwaiter().GetResult();
+        Dispatch(cut, () => cut.Find($"button[aria-label='{slotLabel}']").DropAsync(new DragEventArgs()));
+
+    /// <summary>
+    /// Raises dragenter on the element matching the selector.
+    /// </summary>
+    private static void DragEnterOn(IRenderedComponent<TwCalendar<string>> cut, string selector) =>
+        Dispatch(cut, () => cut.Find(selector).DragEnterAsync(new DragEventArgs()));
+
+    /// <summary>
+    /// Raises dragend on the element matching the selector.
+    /// </summary>
+    private static void DragEndOn(IRenderedComponent<TwCalendar<string>> cut, string selector) =>
+        Dispatch(cut, () => cut.Find(selector).DragEndAsync(new DragEventArgs()));
 
     /// <summary>
     /// Starts dragging the named event and waits for the schedule to enter drag mode, which it does a
@@ -616,7 +656,7 @@ public class TwCalendarTests : TwBlazorTestBase
     /// </summary>
     private static void StartDrag(IRenderedComponent<TwCalendar<string>> cut, string eventName)
     {
-        cut.Find($"button[aria-label^='{eventName}']").DragStart(new DragEventArgs());
+        Dispatch(cut, () => cut.Find($"button[aria-label^='{eventName}']").DragStartAsync(new DragEventArgs()));
         cut.WaitForAssertion(() => Assert.Contains("pointer-events-none", cut.Find($"button[aria-label^='{eventName}']").GetAttribute("class")));
     }
 
@@ -636,7 +676,7 @@ public class TwCalendarTests : TwBlazorTestBase
         Assert.Empty(cut.FindAll("[aria-hidden='true'][style*='width:100%']"));
 
         StartDrag(cut, "Design review");
-        cut.Find("button[aria-label='2:00 PM']").DragEnter(new DragEventArgs());
+        DragEnterOn(cut, "button[aria-label='2:00 PM']");
 
         var placeholder = cut.WaitForElement("div[aria-hidden='true'][style*='width:100%']");
         var style = placeholder.GetAttribute("style")!;
@@ -650,7 +690,7 @@ public class TwCalendarTests : TwBlazorTestBase
     {
         var wednesday = new DateTime(2026, 3, 18);
         var evt = Event("Design review", wednesday.AddHours(9), wednesday.AddHours(10));
-
+ 
         var cut = TestContext.Render<TwCalendar<string>>(p => p
             .Add(x => x.SelectedDate, wednesday)
             .Add(x => x.View, TwCalendarView.Week)
@@ -716,10 +756,10 @@ public class TwCalendarTests : TwBlazorTestBase
             .Add(x => x.Schedules, [evt]));
 
         StartDrag(cut, "Design review");
-        cut.Find("button[aria-label='11:00 AM']").DragEnter(new DragEventArgs());
+        DragEnterOn(cut, "button[aria-label='11:00 AM']");
         cut.WaitForElement("div[aria-hidden='true'][style*='width:100%']");
 
-        cut.Find("button[aria-label^='Design review']").DragEnd(new DragEventArgs());
+        DragEndOn(cut, "button[aria-label^='Design review']");
 
         cut.WaitForAssertion(() =>
         {

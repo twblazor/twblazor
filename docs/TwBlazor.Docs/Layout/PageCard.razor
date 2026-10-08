@@ -27,7 +27,7 @@
     private bool hasTitle => !string.IsNullOrWhiteSpace(Title);
     private string headingId => $"{sectionId}-heading";
 
-    private string classes => new ClassBuilder()
+    private string classes => new ClassBuilder("docs-card")
         .AddClass("my-6", !NoMarginBottom && !NoMarginTop)
         .AddClass("mt-6", NoMarginBottom)
         .AddClass("mb-6", NoMarginTop).Build();

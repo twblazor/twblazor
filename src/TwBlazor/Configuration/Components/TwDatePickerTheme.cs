@@ -38,6 +38,21 @@ public class TwDatePickerTheme
     public required string ActiveClass { get; set; }
 
     /// <summary>
+    /// Gets or sets the classes for a selected day, month, or year (and the start and end of a range).
+    /// </summary>
+    public required string SelectedClass { get; set; }
+
+    /// <summary>
+    /// Gets or sets the hover classes for an unselected day, month, year, or step tab.
+    /// </summary>
+    public required string HoverClass { get; set; }
+
+    /// <summary>
+    /// Gets or sets the classes for the active Start/End step tab.
+    /// </summary>
+    public required string StageTabActive { get; set; }
+
+    /// <summary>
     /// Gets or sets the classes for the day, month, and year selection buttons.
     /// </summary>
     public required string ButtonClass { get; set; }

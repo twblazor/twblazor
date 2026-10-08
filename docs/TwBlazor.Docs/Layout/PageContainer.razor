@@ -1,6 +1,6 @@
 @using TwBlazor.Docs.Services
 
-<PageSeo Title="@(SeoTitle ?? SiteMetadata.ComponentTitle(Title ?? string.Empty))" Description="@Description" Path="@Path" />
+<PageSeo Title="@(SeoTitle ?? SiteMetadata.ComponentTitle(Title ?? string.Empty))" Description="@Description" Path="@Path" JsonLd="jsonLd" />
 
 <CascadingValue Value="_outline" IsFixed>
     <div class="@containerClass">
@@ -25,6 +25,20 @@
             }
 
             @ChildContent
+
+            @if (Faq is { Count: > 0 })
+            {
+                <PageCard Title="Frequently asked questions">
+                    <div class="space-y-2">
+                        @foreach (var item in Faq)
+                        {
+                            <TwCollapse Title="@item.Question">
+                                <p class="p-4 text-gray-600 dark:text-gray-400">@item.Answer</p>
+                            </TwCollapse>
+                        }
+                    </div>
+                </PageCard>
+            }
 
             @if (ThemeType is not null)
             {

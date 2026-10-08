@@ -147,12 +147,9 @@ public partial class TwDatePickerCalendar : TwBlazorComponentBase
         new ClassBuilder($"{name} cursor-pointer")
         .AddClass(roundedBuilder.GetRounded())
         .AddClass(theme.ButtonClass)
-        .AddClass(options.Theme.Colors.HoverColors.Primary)
-        .AddClass($"{theme.ActiveClass} {options.Theme.Colors.TextColors.Medium.Primary} {options.Theme.Colors.DarkTextColors.Light.Primary}", isToday && !isSelected)
-        .AddClass(options.Theme.Colors.LightBackground.Light.Primary, isSelected)
-        .AddClass(options.Theme.Colors.DarkBackground.Light.Primary, isSelected)
-        .AddClass(options.Theme.Colors.TextColors.Medium.Primary, isSelected)
-        .AddClass(options.Theme.Colors.DarkTextColors.Medium.Primary, isSelected)
+        .AddClass(theme.HoverClass, !isSelected)
+        .AddClass(theme.ActiveClass, isToday && !isSelected)
+        .AddClass(theme.SelectedClass, isSelected)
         .Build();
 
     private async Task SetAnchorDateAsync(DateTime date)

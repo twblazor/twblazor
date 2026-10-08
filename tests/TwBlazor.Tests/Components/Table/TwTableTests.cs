@@ -24,6 +24,19 @@ public class TwTableTests : TwBlazorTestBase
     }
 
     [Fact]
+    public void TwTable_ScrollWrapper_IsAPositioningContext_SoAbsoluteContentCannotWidenThePage()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwTable>();
+
+        // Assert - an absolutely positioned child (e.g. a sr-only "opens in a new tab" span) is only
+        // clipped by the scroll wrapper when the wrapper is its containing block.
+        var wrapper = cut.Find("table").ParentElement!;
+        Assert.Contains("relative", wrapper.GetAttribute("class"));
+        Assert.Contains("overflow-auto", wrapper.GetAttribute("class"));
+    }
+
+    [Fact]
     public void TwTable_Renders_WithTableHeader()
     {
         // Arrange

@@ -249,8 +249,8 @@ public class TwDatePickerDayViewTests : TwBlazorTestBase
     [Fact]
     public void SelectedDay_ThatIsNotToday_StillReceivesHighlightClasses()
     {
-        // Arrange — a selected-but-not-today date must get its own highlight (the solid
-        // LightBackground/DarkBackground classes) rather than depending on also being today.
+        // Arrange — a selected-but-not-today date must get its own highlight (the theme's
+        // SelectedClass) rather than depending on also being today.
         // A today-but-not-selected date instead gets the theme's (lighter) ActiveClass treatment,
         // and an unrelated day gets neither - the three states are each visually distinct.
         var today = DateTime.Today;
@@ -275,17 +275,37 @@ public class TwDatePickerDayViewTests : TwBlazorTestBase
         // Assert
         Assert.Equal("true", selectedButton.GetAttribute("aria-pressed"));
         Assert.Null(selectedButton.GetAttribute("aria-current"));
-        Assert.Contains(Theme.Colors.LightBackground.Light.Primary, selectedButton.GetAttribute("class"));
-        Assert.Contains(Theme.Colors.DarkBackground.Light.Primary, selectedButton.GetAttribute("class"));
+        Assert.Contains(Theme.Components.Require<TwBlazor.Configuration.Components.TwDatePickerTheme>().SelectedClass, selectedButton.GetAttribute("class"));
 
         Assert.Equal("date", todayButton.GetAttribute("aria-current"));
         Assert.Contains(datePickerTheme.ActiveClass, todayButton.GetAttribute("class"));
-        Assert.DoesNotContain(Theme.Colors.LightBackground.Light.Primary, todayButton.GetAttribute("class"));
-        Assert.DoesNotContain(Theme.Colors.DarkBackground.Light.Primary, todayButton.GetAttribute("class"));
+        Assert.DoesNotContain(Theme.Components.Require<TwBlazor.Configuration.Components.TwDatePickerTheme>().SelectedClass, todayButton.GetAttribute("class"));
 
-        Assert.DoesNotContain(Theme.Colors.LightBackground.Light.Primary, neutralButton.GetAttribute("class"));
-        Assert.DoesNotContain(Theme.Colors.DarkBackground.Light.Primary, neutralButton.GetAttribute("class"));
+        Assert.DoesNotContain(Theme.Components.Require<TwBlazor.Configuration.Components.TwDatePickerTheme>().SelectedClass, neutralButton.GetAttribute("class"));
         Assert.DoesNotContain(datePickerTheme.ActiveClass, neutralButton.GetAttribute("class"));
+    }
+
+    [Fact]
+    public void DayButtons_HaveVisibleFocusRing_AndOnlyUnselectedDaysGetHoverFill()
+    {
+        // Arrange
+        var value = new DateTime(2026, 8, 14, 0, 0, 0, DateTimeKind.Unspecified);
+        var cut = TestContext.Render<TwDatePickerDayView>(p => p
+            .Add(x => x.Value, value)
+            .Add(x => x.SelectedDate, value)
+            .Add(x => x.ValueChanged, NoOpCallback(this))
+        );
+        var datePickerTheme = Theme.Components.Require<TwBlazor.Configuration.Components.TwDatePickerTheme>();
+
+        // Act
+        var selectedButton = cut.FindAll("button.day").First(b => b.TextContent.Trim() == "14");
+        var otherButton = cut.FindAll("button.day").First(b => b.TextContent.Trim() == "20");
+
+        // Assert
+        Assert.Contains("focus-visible:ring-2", selectedButton.GetAttribute("class"));
+        Assert.Contains("focus-visible:ring-2", otherButton.GetAttribute("class"));
+        Assert.Contains(datePickerTheme.HoverClass, otherButton.GetAttribute("class"));
+        Assert.DoesNotContain(datePickerTheme.HoverClass, selectedButton.GetAttribute("class"));
     }
 
     [Fact]
@@ -390,11 +410,11 @@ public class TwDatePickerDayViewTests : TwBlazorTestBase
         var endButton = cut.FindAll("button.day").First(b => b.TextContent.Trim() == "20");
 
         // Assert
-        Assert.Contains(Theme.Colors.LightBackground.Light.Primary, startButton.GetAttribute("class"));
+        Assert.Contains(Theme.Components.Require<TwBlazor.Configuration.Components.TwDatePickerTheme>().SelectedClass, startButton.GetAttribute("class"));
         Assert.Equal("Start of selected range, November 10, 2025", startButton.GetAttribute("aria-label"));
         Assert.Equal("true", startButton.GetAttribute("aria-pressed"));
 
-        Assert.Contains(Theme.Colors.LightBackground.Light.Primary, endButton.GetAttribute("class"));
+        Assert.Contains(Theme.Components.Require<TwBlazor.Configuration.Components.TwDatePickerTheme>().SelectedClass, endButton.GetAttribute("class"));
         Assert.Equal("End of selected range, November 20, 2025", endButton.GetAttribute("aria-label"));
         Assert.Equal("true", endButton.GetAttribute("aria-pressed"));
     }
@@ -419,7 +439,7 @@ public class TwDatePickerDayViewTests : TwBlazorTestBase
         // Assert
         Assert.Contains(datePickerTheme.RangeClass, midButton.GetAttribute("class"));
         Assert.Equal("In selected range, November 15, 2025", midButton.GetAttribute("aria-label"));
-        Assert.DoesNotContain(Theme.Colors.LightBackground.Light.Primary, midButton.GetAttribute("class"));
+        Assert.DoesNotContain(Theme.Components.Require<TwBlazor.Configuration.Components.TwDatePickerTheme>().SelectedClass, midButton.GetAttribute("class"));
     }
 
     [Fact]

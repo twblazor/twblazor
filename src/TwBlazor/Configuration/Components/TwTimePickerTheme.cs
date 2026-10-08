@@ -61,6 +61,16 @@ public class TwTimePickerTheme
     public required string RangeStageTabInactive { get; set; }
 
     /// <summary>
+    /// Gets or sets the classes for the active Start/End step tab.
+    /// </summary>
+    public required string StageTabActive { get; set; }
+
+    /// <summary>
+    /// Gets or sets the hover classes for an inactive Start/End step tab.
+    /// </summary>
+    public required string StageTabHover { get; set; }
+
+    /// <summary>
     /// Gets or sets the base classes for a Start/End step tab button.
     /// </summary>
     public required string StageTabBase { get; set; }
