@@ -298,16 +298,18 @@ feature/my-feature  →  develop  →  main
 Every PR title is checked by an automated **Lint PR** check and must follow
 [Conventional Commits](https://www.conventionalcommits.org/) format:
 
-`<type>(<optional scope>): <subject>.`
+`<type>(<optional scope>)<optional !>: <subject>.`
 
 - **Valid types:** `feat`, `fix`, `bug`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`
 - The subject (the part after `type:`) must be **10 to 100 characters**
 - The subject must **end with a full stop**
+- Add `!` before the colon to mark a breaking change
 
 **Examples:**
 - `feat(button): add outlined variant.`
 - `fix(modal): resolve close event not firing.`
 - `chore: update dependencies.`
+- `feat(tooltip)!: added new TwTooltip component.`
 
 > ⚠️ PRs with titles that don't follow this format will **fail** the automated `Lint PR` check.
 
