@@ -45,7 +45,7 @@ public class TwTimePickerTheme
     /// trigger. Background/border/rounded/shadow/sizing are no longer baked in here - they come from
     /// the shared <see cref="TwOverlayTheme"/> via <see cref="Builders.PopoverBuilder"/>, applied to
     /// the panel's own surface element (<see cref="BodySurface"/> for the single picker,
-    /// <see cref="TwOverlayTheme.TimeRangePopoverSize"/> for <see cref="TwBlazor.Components.TwTimeRangePicker"/>)
+    /// <see cref="TwPopoverTheme.TimeRangeSize"/> for <see cref="TwBlazor.Components.TwTimeRangePicker"/>)
     /// instead of this wrapper.
     /// </summary>
     public required string PanelWrapper { get; set; }

@@ -16,7 +16,7 @@ namespace TwBlazor.Builders;
 /// </summary>
 public class DialogBuilder(TwBlazorOptions options, RoundedBuilder roundedBuilder, ShadowBuilder shadowBuilder)
 {
-    private TwDialogTheme theme => options.Theme.Components.Require<TwDialogTheme>();
+    private TwDialogTheme theme => options.Theme.Components.Require<TwOverlayTheme>().Dialog;
 
     private TwOverlayTheme overlayTheme => options.Theme.Components.Require<TwOverlayTheme>();
 
@@ -44,7 +44,7 @@ public class DialogBuilder(TwBlazorOptions options, RoundedBuilder roundedBuilde
     /// <param name="customClass">Additional custom classes to append.</param>
     public string GetSurfaceClasses(DialogMaxWidth? maxWidth, bool fullWidth, bool fullScreen, Rounded? rounded, Shadow? shadow, string? customClass = null)
     {
-        var effectiveShadow = shadow ?? overlayTheme.DialogShadow ?? options.Theme.Shadows.DefaultShadow;
+        var effectiveShadow = shadow ?? theme.Shadow ?? options.Theme.Shadows.DefaultShadow;
 
         var builder = new ClassBuilder(theme.Surface)
             .AddClass(shadowBuilder.GetShadow(effectiveShadow))
@@ -56,7 +56,7 @@ public class DialogBuilder(TwBlazorOptions options, RoundedBuilder roundedBuilde
         }
         else
         {
-            var effectiveRounded = rounded ?? overlayTheme.DialogRounded ?? options.Theme.Rounded.DefaultRounded;
+            var effectiveRounded = rounded ?? theme.Rounded ?? options.Theme.Rounded.DefaultRounded;
             builder = builder
                 .AddClass(roundedBuilder.GetRounded(effectiveRounded))
                 .AddClass(GetMaxWidthClasses(maxWidth))

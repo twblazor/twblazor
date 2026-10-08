@@ -43,7 +43,7 @@ public partial class ThemeTemplateExtractorTests
 
                 var overlayTheme = new TwOverlayTheme
                 {
-                    DialogBackground = "bg-white"
+                    Popover = new TwPopoverTheme { Background = "bg-white", Border = "border", TimeRangeSize = "w-56", ColorSize = "w-64" }
                 };
 
                 #endregion

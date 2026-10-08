@@ -30,7 +30,7 @@ public partial class TwDialog : TwBlazorComponentBase, IAsyncDisposable
 
     [Inject] private IJSRuntime jSRuntime { get; set; } = null!;
 
-    private TwDialogTheme theme => options.Theme.Components.Require<TwDialogTheme>();
+    private TwDialogTheme theme => options.Theme.Components.Require<TwOverlayTheme>().Dialog;
 
     private ElementReference surfaceRef;
     private bool hasFocused;

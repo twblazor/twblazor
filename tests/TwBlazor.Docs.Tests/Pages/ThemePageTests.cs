@@ -401,7 +401,7 @@ public class ThemePageTests : DocsTestBase
 
         cut.Find("#theme-component-twchip").Change(false);
 
-        Assert.Matches(@"5 / 6", cut.Find("fieldset[aria-label='Feedback components']").TextContent);
+        Assert.Matches(@"6 / 7", cut.Find("fieldset[aria-label='Feedback components']").TextContent);
     }
 
     [Fact]

@@ -58,9 +58,9 @@ public partial class TwColorPickerBody : TwBlazorComponentBase
 
     private TwColorPickerTheme theme => options.Theme.Components.Require<TwColorPickerTheme>();
 
-    private TwOverlayTheme overlayTheme => options.Theme.Components.Require<TwOverlayTheme>();
+    private TwPopoverTheme popoverTheme => options.Theme.Components.Require<TwOverlayTheme>().Popover;
 
-    private string dialogClasses => new ClassBuilder(popoverBuilder.GetSurfaceClasses(Rounded, Shadow, overlayTheme.ColorPopoverSize))
+    private string dialogClasses => new ClassBuilder(popoverBuilder.GetSurfaceClasses(Rounded, Shadow, popoverTheme.ColorSize))
         .AddClass(Class)
         .Build();
 

@@ -9,7 +9,9 @@ public class PopoverBuilderTests : TwBlazorTestBase
 {
     private PopoverBuilder popoverBuilder => TestContext.Services.GetRequiredService<PopoverBuilder>();
 
-    private TwOverlayTheme overlayTheme => Theme.Components.Require<TwOverlayTheme>();
+    private TwPopoverTheme popoverTheme => Theme.Components.Require<TwOverlayTheme>().Popover;
+
+    private TwTooltipTheme tooltipTheme => Theme.Components.Require<TwOverlayTheme>().Tooltip;
 
     [Fact]
     public void GetSurfaceClasses_IncludesThemeBackgroundAndBorder()
@@ -18,8 +20,8 @@ public class PopoverBuilderTests : TwBlazorTestBase
         var result = popoverBuilder.GetSurfaceClasses(null, null);
 
         // Assert
-        Assert.Contains(overlayTheme.PopoverBackground, result);
-        Assert.Contains(overlayTheme.PopoverBorder, result);
+        Assert.Contains(popoverTheme.Background, result);
+        Assert.Contains(popoverTheme.Border, result);
     }
 
     [Fact]
@@ -36,7 +38,7 @@ public class PopoverBuilderTests : TwBlazorTestBase
     public void GetSurfaceClasses_UsesThemePopoverRounded_WhenComponentRoundedNotProvided()
     {
         // Arrange
-        overlayTheme.PopoverRounded = Rounded.Md;
+        popoverTheme.Rounded = Rounded.Md;
 
         // Act
         var result = popoverBuilder.GetSurfaceClasses(null, null);
@@ -49,7 +51,7 @@ public class PopoverBuilderTests : TwBlazorTestBase
     public void GetSurfaceClasses_FallsBackToGlobalDefaultRounded_WhenNoOverridesSet()
     {
         // Arrange
-        overlayTheme.PopoverRounded = null;
+        popoverTheme.Rounded = null;
         Theme.Rounded.DefaultRounded = Rounded.Sm;
 
         // Act
@@ -73,7 +75,7 @@ public class PopoverBuilderTests : TwBlazorTestBase
     public void GetSurfaceClasses_UsesThemePopoverShadow_WhenComponentShadowNotProvided()
     {
         // Arrange
-        overlayTheme.PopoverShadow = Shadow.Md;
+        popoverTheme.Shadow = Shadow.Md;
 
         // Act
         var result = popoverBuilder.GetSurfaceClasses(null, null);
@@ -86,7 +88,7 @@ public class PopoverBuilderTests : TwBlazorTestBase
     public void GetSurfaceClasses_FallsBackToGlobalDefaultShadow_WhenNoOverridesSet()
     {
         // Arrange
-        overlayTheme.PopoverShadow = null;
+        popoverTheme.Shadow = null;
         Theme.Shadows.DefaultShadow = Shadow.Lg;
 
         // Act
@@ -121,7 +123,7 @@ public class PopoverBuilderTests : TwBlazorTestBase
     {
         var result = popoverBuilder.GetTooltipWrapperClasses();
 
-        Assert.Equal(overlayTheme.TooltipWrapper, result);
+        Assert.Equal(tooltipTheme.Wrapper, result);
         Assert.Contains("group", result.Split(' '));
     }
 
@@ -130,7 +132,7 @@ public class PopoverBuilderTests : TwBlazorTestBase
     {
         var result = popoverBuilder.GetTooltipClasses(false);
 
-        Assert.Contains(overlayTheme.TooltipBubble, result);
+        Assert.Contains(tooltipTheme.Bubble, result);
         Assert.Contains(popoverBuilder.GetSurfaceClasses(null, null), result);
     }
 
@@ -151,10 +153,49 @@ public class PopoverBuilderTests : TwBlazorTestBase
         Assert.Contains(Theme.Display.Hidden, popoverBuilder.GetTooltipClasses(true).Split(' '));
     }
 
+    [Theory]
+    [InlineData(TooltipPlacement.Top)]
+    [InlineData(TooltipPlacement.Bottom)]
+    [InlineData(TooltipPlacement.Left)]
+    [InlineData(TooltipPlacement.Right)]
+    public void GetTooltipClasses_AddsOnlyTheRequestedPlacement(TooltipPlacement placement)
+    {
+        var placements = new Dictionary<TooltipPlacement, string>
+        {
+            [TooltipPlacement.Top] = tooltipTheme.Top,
+            [TooltipPlacement.Bottom] = tooltipTheme.Bottom,
+            [TooltipPlacement.Left] = tooltipTheme.Left,
+            [TooltipPlacement.Right] = tooltipTheme.Right
+        };
+
+        var result = popoverBuilder.GetTooltipClasses(false, placement);
+
+        foreach (var (key, classes) in placements)
+        {
+            Assert.Equal(key == placement, result.Contains(classes));
+        }
+    }
+
+    [Fact]
+    public void GetTooltipClasses_DefaultsToTopPlacement()
+    {
+        Assert.Contains(tooltipTheme.Top, popoverBuilder.GetTooltipClasses(false));
+    }
+
+    [Fact]
+    public void GetTooltipClasses_UsesRoundedShadowAndCustomClassOverrides()
+    {
+        var result = popoverBuilder.GetTooltipClasses(false, TooltipPlacement.Top, Rounded.Full, Shadow.Lg, "my-bubble");
+
+        Assert.Contains(Theme.Rounded.Full, result);
+        Assert.Contains(Theme.Shadows.Lg, result);
+        Assert.Contains("my-bubble", result);
+    }
+
     [Fact]
     public void GetTooltipClasses_FollowsThemeOverrides()
     {
-        overlayTheme.TooltipBubble = "custom-bubble";
+        tooltipTheme.Bubble = "custom-bubble";
 
         Assert.Contains("custom-bubble", popoverBuilder.GetTooltipClasses(false));
     }
@@ -162,7 +203,7 @@ public class PopoverBuilderTests : TwBlazorTestBase
     [Fact]
     public void GetTooltipClasses_FollowsPopoverSurfaceOverrides()
     {
-        overlayTheme.PopoverBackground = "custom-popover-bg";
+        popoverTheme.Background = "custom-popover-bg";
 
         Assert.Contains("custom-popover-bg", popoverBuilder.GetTooltipClasses(false));
     }

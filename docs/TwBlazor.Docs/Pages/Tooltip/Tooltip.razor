@@ -1,0 +1,75 @@
+@page "/tooltip"
+
+<PageContainer Title="TwTooltip" Path="/tooltip" Beta Description="TwTooltip is a Blazor tooltip that wraps any content and shows an accessible bubble on hover and focus. Set Text or TooltipContent and a Placement." ThemeType="typeof(TwTooltipTheme)">
+    <PageCard Title="Basic usage">
+        <Description>
+            Wrap any content in <code>TwTooltip</code> and set <code>Text</code>. The bubble appears when the
+            content is hovered or keyboard-focused, and is linked to it with <code>aria-describedby</code>.
+        </Description>
+
+        <CodeExample Name="TooltipBasic">
+            <TwTooltip Text="Tooltips add detail without cluttering the page.">
+                <p>A paragraph with a tooltip</p>
+            </TwTooltip>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Placement">
+        <Description>Use <code>Placement</code> to show the bubble above (default), below, left or right of the content.</Description>
+
+        <CodeExample Name="TooltipPlacement">
+            <div class="flex flex-wrap items-center justify-center gap-16 py-10">
+                <TwTooltip Text="Shown above" Placement="TooltipPlacement.Top">Top</TwTooltip>
+                <TwTooltip Text="Shown below" Placement="TooltipPlacement.Bottom">Bottom</TwTooltip>
+                <TwTooltip Text="Shown to the left" Placement="TooltipPlacement.Left">Left</TwTooltip>
+                <TwTooltip Text="Shown to the right" Placement="TooltipPlacement.Right">Right</TwTooltip>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Rich content">
+        <Description>
+            Use <code>TooltipContent</code> for formatted text instead of <code>Text</code>. Keep it
+            non-interactive: a tooltip cannot be tabbed into, so links or buttons inside it would be unreachable.
+        </Description>
+
+        <CodeExample Name="TooltipRich">
+            <TwTooltip>
+                <TooltipContent>
+                    <strong>Keyboard shortcut</strong>
+                    <br />
+                    Press <kbd>Ctrl</kbd> + <kbd>S</kbd> to save.
+                </TooltipContent>
+                <ChildContent>
+                    <span class="underline decoration-dotted">Save shortcut</span>
+                </ChildContent>
+            </TwTooltip>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Wrapping interactive content">
+        <Description>
+            By default the wrapper joins the tab order so keyboard users can reveal the tooltip on content such
+            as a paragraph. When the content already contains a focusable control, set <code>Focusable</code> to
+            <code>false</code> to avoid a duplicate tab stop; the tooltip still appears when that control is
+            focused. For buttons and icon buttons, the <code>Tooltip</code> parameter on <code>TwButton</code>
+            or <code>TwIcon</code> links the tooltip to the control itself.
+        </Description>
+
+        <CodeExample Name="TooltipFocusable">
+            <TwTooltip Text="Opens the account menu" Focusable="false">
+                <TwButton Label="Account" Color="Color.Primary" />
+            </TwTooltip>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Disabled">
+        <Description>Set <code>Disabled</code> to render the content without a bubble or tab stop, for example while an action is unavailable.</Description>
+
+        <CodeExample Name="TooltipDisabled">
+            <TwTooltip Text="You will not see this" Disabled="true">
+                <p>No tooltip here</p>
+            </TwTooltip>
+        </CodeExample>
+    </PageCard>
+</PageContainer>

@@ -598,13 +598,37 @@ public static class Theme
 
         var overlayTheme = new TwOverlayTheme
         {
-            DialogBackground = neutralSurface.Background,
-            PopoverBackground = neutralSurface.Overlay,
-            PopoverBorder = $"{borderWidth.Thin} {neutralSurface.BorderStrong}",
-            TimeRangePopoverSize = $"w-56 {spacing.Padding.Md}",
-            ColorPopoverSize = $"tw-color-picker-dialog w-64 {spacing.Padding.Lg}",
-            TooltipWrapper = $"{positioning.Relative} {display.InlineFlex} group",
-            TooltipBubble = $"{positioning.Absolute} bottom-full left-1/2 z-130 mb-2 -translate-x-1/2 px-2 py-1 whitespace-nowrap {typography.Size.Xs} {typography.Weight.Medium} {neutralText.Heading} invisible group-hover:visible group-has-[:focus-visible]:visible"
+            Popover = new TwPopoverTheme
+            {
+                Background = neutralSurface.Overlay,
+                Border = $"{borderWidth.Thin} {neutralSurface.BorderStrong}",
+                TimeRangeSize = $"w-56 {spacing.Padding.Md}",
+                ColorSize = $"tw-color-picker-dialog w-64 {spacing.Padding.Lg}"
+            },
+            Dialog = new TwDialogTheme
+            {
+                Background = neutralSurface.Background,
+                Backdrop = $"{positioning.Fixed} inset-0 z-110 {display.Flex} overflow-y-auto overscroll-contain {spacing.Padding.Xl} bg-black/50",
+                Surface = $"{positioning.Relative} {display.Flex} {flexbox.Col} {sizing.FullWidth} max-h-[calc(100vh-2rem)] {neutralText.Heading} {neutralSurface.Background}",
+                Header = $"{display.Flex} {flexbox.Align.Center} {flexbox.Justify.Between} {spacing.Gap.Xl} {flexbox.ShrinkNone} {spacing.InteractiveRowPadding} {neutralSurface.Border}",
+                Title = $"{typography.Size.Lg} {typography.Weight.Semibold}",
+                CloseButton = string.Empty,
+                Content = $"overflow-y-auto {spacing.InteractiveRowPadding}",
+                FullScreen = $"{sizing.Full} max-w-none",
+                FullWidth = sizing.FullWidth,
+                SmallWidth = "sm:max-w-lg",
+                MediumWidth = "sm:max-w-xl",
+                LargeWidth = "sm:max-w-3xl"
+            },
+            Tooltip = new TwTooltipTheme
+            {
+                Wrapper = $"{positioning.Relative} {display.InlineFlex} group",
+                Bubble = $"{positioning.Absolute} z-130 w-max max-w-xs px-2 py-1 {typography.Size.Xs} {typography.Weight.Medium} {neutralText.Heading} invisible group-hover:visible group-focus-visible:visible group-has-[:focus-visible]:visible",
+                Top = "bottom-full left-1/2 mb-2 -translate-x-1/2",
+                Bottom = "top-full left-1/2 mt-2 -translate-x-1/2",
+                Left = "right-full top-1/2 mr-2 -translate-y-1/2",
+                Right = "left-full top-1/2 ml-2 -translate-y-1/2"
+            }
         };
 
         #endregion
@@ -827,7 +851,7 @@ public static class Theme
                 },
                 new TwDatePickerTheme
                 {
-                    Header = $"{typography.AlignCenter} {typography.Weight.Medium} {overlayTheme.PopoverBackground} {rounded.RoundedTop.Lg} border-b {neutralSurface.BorderStrong}",
+                    Header = $"{typography.AlignCenter} {typography.Weight.Medium} {overlayTheme.Popover.Background} {rounded.RoundedTop.Lg} border-b {neutralSurface.BorderStrong}",
                     WeekdaysHeader = $"{display.Flex} {anchor.Center} h-8 {typography.Size.Xs} font-normal {neutralText.Muted}",
                     Base = $"{positioning.Fixed} z-120 {flexbox.Row} md:flex-row {flexbox.Align.Center} mt-1 px-2 pb-2 {typography.AlignCenter} {typography.Size.Sm} {typography.Weight.Medium} {transition.ColorsFast} {interaction.PointerCursor}",
                     ActiveClass = $"{neutralTrack} {neutralText.Heading} {typography.Weight.Semibold}",
@@ -907,20 +931,6 @@ public static class Theme
                     ChipGroupAlignStart = flexbox.Justify.Start,
                     ChipGroupAlignCenter = flexbox.Justify.Center,
                     ChipGroupAlignEnd = flexbox.Justify.End
-                },
-                new TwDialogTheme
-                {
-                    Backdrop = $"{positioning.Fixed} inset-0 z-110 {display.Flex} overflow-y-auto overscroll-contain {spacing.Padding.Xl} bg-black/50",
-                    Surface = $"{positioning.Relative} {display.Flex} {flexbox.Col} {sizing.FullWidth} max-h-[calc(100vh-2rem)] {neutralText.Heading} {overlayTheme.DialogBackground}",
-                    Header = $"{display.Flex} {flexbox.Align.Center} {flexbox.Justify.Between} {spacing.Gap.Xl} {flexbox.ShrinkNone} {spacing.InteractiveRowPadding} {neutralSurface.Border}",
-                    Title = $"{typography.Size.Lg} {typography.Weight.Semibold}",
-                    CloseButton = string.Empty,
-                    Content = $"overflow-y-auto {spacing.InteractiveRowPadding}",
-                    FullScreen = $"{sizing.Full} max-w-none",
-                    FullWidth = sizing.FullWidth,
-                    SmallWidth = "sm:max-w-lg",
-                    MediumWidth = "sm:max-w-xl",
-                    LargeWidth = "sm:max-w-3xl"
                 },
                 new TwInputTheme
                 {
@@ -1043,7 +1053,7 @@ public static class Theme
                     NavbarToggleIcon = $"text-xl {neutralText.Secondary} {neutralHoverText} {transition.ColorsFast}",
                     NavbarLink = $"{display.InlineFlex} {flexbox.Align.Center} {spacing.Gap.Md} px-3 py-1.5 {typography.Size.Sm} {typography.Weight.Medium} {neutralText.Secondary} {neutralHoverFill} {neutralHoverText} {rounded.Md} {transition.ColorsFast} {focusRing} {interaction.FocusOutlineNone}",
                     NavbarLinkActive = $"{neutralTrack} {neutralText.Heading}",
-                    NavbarMobileMenu = $"{spacing.Padding.Lg} {overlayTheme.PopoverBackground} border-b {neutralSurface.Border} {shadows.Lg}",
+                    NavbarMobileMenu = $"{spacing.Padding.Lg} {overlayTheme.Popover.Background} border-b {neutralSurface.Border} {shadows.Lg}",
                     Sidebar = $"z-100 overflow-auto overscroll-contain {flexbox.ShrinkNone} h-dvh w-64 {spacing.Padding.Xl} {neutralSurface.Background} border-e {neutralSurface.Border} {transition.TransformFast} {transition.EaseInOut}",
                     NavigationItemBase = $"{display.Flex} {flexbox.Align.Center} {spacing.Gap.Md} {sizing.MinWidthNone} px-3 py-2 {typography.Size.Sm} {neutralText.Secondary} {neutralSurface.Hover} {focusRingInset} {transition.ColorsFast} {interaction.FocusOutlineNone} {interaction.PointerCursor}",
                     NavigationItemActive = $"{neutralTrack} {neutralText.Heading}",
@@ -1099,7 +1109,7 @@ public static class Theme
                     Track = $"{positioning.Absolute} inset-x-0 top-1/2 {overflow.Hidden} h-1.5 {neutralTrackStrong} {rounded.Full} -translate-y-1/2 {interaction.PointerEventsNone}",
                     Fill = sizing.FullHeight,
                     Thumb = $"{positioning.Absolute} top-1/2 z-10 {sizing.Icon.Md} bg-white dark:bg-gray-100 {rounded.Full} {borderWidth.Thick} -translate-x-1/2 -translate-y-1/2 {shadows.Md} ring-1 ring-black/5 peer-hover:scale-110 peer-active:scale-95 {transition.TransformFast} {transition.EaseInOut} {interaction.PointerEventsNone}",
-                    Bubble = $"{positioning.Absolute} bottom-full z-10 mb-2 px-2 py-1 whitespace-nowrap {typography.Size.Xs} {typography.Weight.Medium} tabular-nums {overlayTheme.PopoverBackground} {neutralText.Heading} {overlayTheme.PopoverBorder} {rounded.Md} -translate-x-1/2 {shadows.Lg} opacity-0 scale-95 peer-hover:opacity-100 peer-hover:scale-100 peer-focus-visible:opacity-100 peer-focus-visible:scale-100 transition-[opacity,transform] {transition.DurationFast} motion-reduce:transition-none {transition.EaseInOut} {interaction.PointerEventsNone}"
+                    Bubble = $"{positioning.Absolute} bottom-full z-10 mb-2 px-2 py-1 whitespace-nowrap {typography.Size.Xs} {typography.Weight.Medium} tabular-nums {overlayTheme.Popover.Background} {neutralText.Heading} {overlayTheme.Popover.Border} {rounded.Md} -translate-x-1/2 {shadows.Lg} opacity-0 scale-95 peer-hover:opacity-100 peer-hover:scale-100 peer-focus-visible:opacity-100 peer-focus-visible:scale-100 transition-[opacity,transform] {transition.DurationFast} motion-reduce:transition-none {transition.EaseInOut} {interaction.PointerEventsNone}"
                 },
                 new TwStepperTheme
                 {

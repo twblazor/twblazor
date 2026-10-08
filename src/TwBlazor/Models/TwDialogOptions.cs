@@ -70,13 +70,13 @@ public record TwDialogOptions
     /// <summary>
     /// Gets or sets the border radius override for this dialog instance.
     /// </summary>
-    /// <remarks>If not set, falls back to <see cref="TwOverlayTheme.DialogRounded"/>, then the global default.</remarks>
+    /// <remarks>If not set, falls back to <see cref="TwDialogTheme.Rounded"/>, then the global default.</remarks>
     public Rounded? Rounded { get; init; }
 
     /// <summary>
     /// Gets or sets the shadow override for this dialog instance.
     /// </summary>
-    /// <remarks>If not set, falls back to <see cref="TwOverlayTheme.DialogShadow"/>, then the global default.</remarks>
+    /// <remarks>If not set, falls back to <see cref="TwDialogTheme.Shadow"/>, then the global default.</remarks>
     public Shadow? Shadow { get; init; }
 
     /// <summary>
