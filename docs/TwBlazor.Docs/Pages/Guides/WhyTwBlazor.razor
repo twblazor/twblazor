@@ -98,11 +98,11 @@
 
     private static RenderFragment Mark(Support support) => builder =>
     {
-        var (symbol, text, css) = support switch
+        var (symbol, text) = support switch
         {
-            Support.Yes => ("✓", "Yes", "font-bold text-green-600 dark:text-green-400"),
-            Support.Partial => ("~", "Partly", "font-bold text-amber-600 dark:text-amber-400"),
-            _ => ("✗", "No", "font-bold text-red-600 dark:text-red-400"),
+            Support.Yes => ("✓", "Yes"),
+            Support.Partial => ("~", "Partly"),
+            _ => ("✗", "No"),
         };
         builder.OpenElement(0, "span");
         builder.AddAttribute(1, "class", "font-bold");

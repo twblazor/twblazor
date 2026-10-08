@@ -176,9 +176,9 @@ public sealed class ChartSceneBuilder
     /// <summary>Adds value axis labels and gridlines at the given positions along the value axis.</summary>
     public void ValueAxis(IReadOnlyList<ChartTick> ticks, string? title = null)
     {
-        foreach (var tick in ticks)
+        foreach (var position in ticks.Select(tick => tick.Position))
         {
-            Segment(0, tick.Position, 100, tick.Position, ChartColor.Grid, ChartStroke.Hairline);
+            Segment(0, position, 100, position, ChartColor.Grid, ChartStroke.Hairline);
         }
 
         if (Horizontal)

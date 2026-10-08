@@ -38,7 +38,7 @@ public abstract class TwLineChartBase : TwCategoryChartBase
     {
         var band = new ChartBand(Categories.Count);
         var scale = isStacked
-            ? ChartScale.Nice(0, Enumerable.Range(0, Categories.Count).Max(category => series.Sum(slot => GetStackValue(slot, category))))
+            ? ChartScale.Nice(0, Enumerable.Range(0, Categories.Count).Max(category => GetStackTotal(series, category)))
             : ChartScale.Nice(GetValues(series), includeZero: isArea);
 
         builder.ValueAxis(scale, FormatValue);
@@ -60,6 +60,17 @@ public abstract class TwLineChartBase : TwCategoryChartBase
     }
 
     private static double GetStackValue(ChartSeriesSlot slot, int category) => Math.Max(0, slot.Value(category) ?? 0);
+
+    private static double GetStackTotal(IReadOnlyList<ChartSeriesSlot> series, int category)
+    {
+        double total = 0;
+        foreach (var slot in series)
+        {
+            total += GetStackValue(slot, category);
+        }
+
+        return total;
+    }
 
     /// <summary>
     /// Splits a series into unbroken runs of points. A missing value breaks the line, so each run is drawn as its own piece.

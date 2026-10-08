@@ -117,7 +117,7 @@ public class TwScatterChart : TwChartBase
         return new ChartTable(headers, [.. Series.SelectMany(series => series.Points.Select(point => GetTableRow(series.Name, point, hasSize)))]);
     }
 
-    private IReadOnlyList<string> GetTableRow(string seriesName, ChartPoint point, bool hasSize)
+    private List<string> GetTableRow(string seriesName, ChartPoint point, bool hasSize)
     {
         List<string> row = [seriesName, point.Label ?? string.Empty, FormatValue(point.X), FormatValue(point.Y)];
         if (hasSize)
