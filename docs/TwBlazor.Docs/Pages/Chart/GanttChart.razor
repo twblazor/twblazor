@@ -1,0 +1,50 @@
+@page "/chart/gantt"
+@using TwBlazor.Models
+
+<PageContainer Title="TwGanttChart" Path="/chart/gantt" Beta Description="TwGanttChart is a Blazor Gantt chart: a horizontal bar per task from its start date to its end date, showing a schedule and overlaps.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwGanttChart</code> draws a bar per <code>ChartTask</code> from its start date to its end date, in the order given, so the schedule and any overlaps are visible.</Description>
+
+        <CodeExample Name="GanttChartBasic" CSharpName="GanttChartData">
+            <TwChart Title="Release plan">
+                <TwGanttChart Tasks="@tasks" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Date format">
+        <Description><code>DateFormat</code> takes any .NET date format string and applies to the axis, tooltips and table view.</Description>
+
+        <CodeExample Name="GanttChartFormat">
+            <TwChart Title="Release plan">
+                <TwGanttChart Tasks="@tasks" DateFormat="MMM yyyy" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Labels">
+        <Description><code>StartLabel</code>, <code>EndLabel</code> and <code>LabelHeader</code> rename the values in tooltips and the table view.</Description>
+
+        <CodeExample Name="GanttChartLabels">
+            <TwChart Title="Release plan">
+                <TwGanttChart Tasks="@tasks" StartLabel="Begins" EndLabel="Due" LabelHeader="Phase" Height="ChartHeight.Small" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart" Class="underline">TwChart</TwLink> for those options.</Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample GanttChartData
+    private readonly ChartTask[] tasks =
+    [
+        new("Research", new DateTime(2026, 1, 5, 0, 0, 0, DateTimeKind.Local), new DateTime(2026, 1, 23, 0, 0, 0, DateTimeKind.Local)),
+        new("Design", new DateTime(2026, 1, 19, 0, 0, 0, DateTimeKind.Local), new DateTime(2026, 2, 13, 0, 0, 0, DateTimeKind.Local)),
+        new("Build", new DateTime(2026, 2, 9, 0, 0, 0, DateTimeKind.Local), new DateTime(2026, 3, 20, 0, 0, 0, DateTimeKind.Local)),
+        new("Test", new DateTime(2026, 3, 9, 0, 0, 0, DateTimeKind.Local), new DateTime(2026, 3, 31, 0, 0, 0, DateTimeKind.Local))
+    ];
+    #endregion
+}

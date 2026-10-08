@@ -1,0 +1,55 @@
+@page "/chart/parallel-coordinates"
+@using TwBlazor.Models
+
+<PageContainer Title="TwParallelCoordinatesChart" Path="/chart/parallel-coordinates" Beta Description="TwParallelCoordinatesChart is a Blazor parallel coordinates chart: one axis per variable and a line per item, each axis on its own scale.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwParallelCoordinatesChart</code> draws one vertical axis per variable and a line per item crossing each axis at its value. <code>Categories</code> are the variables and each series is one item.</Description>
+
+        <CodeExample Name="ParallelCoordinatesChartBasic" CSharpName="ParallelCoordinatesChartData">
+            <TwChart Title="Laptop comparison" Description="Score out of 10">
+                <TwParallelCoordinatesChart Categories="@attributes" Series="@laptops" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Different units">
+        <Description>Every axis has its own scale, labelled with its lowest and highest value, so variables in different units can sit side by side.</Description>
+
+        <CodeExample Name="ParallelCoordinatesChartUnits" CSharpName="ParallelCoordinatesChartUnitsData">
+            <TwChart Title="Car comparison">
+                <TwParallelCoordinatesChart Categories="@specs" Series="@cars" CategoryHeader="Specification" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Reading it">
+        <Description>Lines that run in parallel between two axes mean the variables rise together. Lines that cross mean one rises as the other falls.</Description>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart" Class="underline">TwChart</TwLink> for those options.</Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample ParallelCoordinatesChartData
+    private readonly string[] attributes = ["Battery", "Display", "Speed", "Weight", "Price"];
+
+    private readonly ChartSeries[] laptops =
+    [
+        new("Aero 13", [9, 7, 6, 9, 5]),
+        new("Titan 16", [5, 9, 9, 4, 6])
+    ];
+    #endregion
+
+    #region CodeExample ParallelCoordinatesChartUnitsData
+    private readonly string[] specs = ["Price (£k)", "Range (miles)", "0-60 (s)", "Boot (litres)"];
+
+    private readonly ChartSeries[] cars =
+    [
+        new("Volt", [32, 250, 7.9, 380]),
+        new("Halo", [45, 330, 5.6, 420]),
+        new("Dash", [27, 190, 9.4, 310])
+    ];
+    #endregion
+}

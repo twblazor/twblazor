@@ -1,0 +1,51 @@
+@page "/chart/candlestick"
+@using TwBlazor.Models
+
+<PageContainer Title="TwCandlestickChart" Path="/chart/candlestick" Beta Description="TwCandlestickChart is a Blazor candlestick chart showing the open, high, low and close of each period. Also draws OHLC charts.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwCandlestickChart</code> draws, for each <code>ChartOhlc</code> period, a body between the open and the close and a wick reaching the high and the low. Rising and falling periods differ by color, and the legend and tooltips name the direction.</Description>
+
+        <CodeExample Name="CandlestickChartBasic" CSharpName="CandlestickChartData">
+            <TwChart Title="Share price" Description="Pounds">
+                <TwCandlestickChart Items="@prices" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="OHLC">
+        <Description>Set <code>Kind</code> to <code>CandlestickStyle.Ohlc</code> to draw a tick for the open on the left and the close on the right instead of a body.</Description>
+
+        <CodeExample Name="CandlestickChartOhlc">
+            <TwChart Title="Share price">
+                <TwCandlestickChart Items="@prices" Kind="CandlestickStyle.Ohlc" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Labels and format">
+        <Description><code>RisingLabel</code> and <code>FallingLabel</code> rename the directions, and <code>ValueFormat</code> formats the prices.</Description>
+
+        <CodeExample Name="CandlestickChartLabels">
+            <TwChart Title="Share price">
+                <TwCandlestickChart Items="@prices" RisingLabel="Up" FallingLabel="Down" ValueFormat="C2" LabelHeader="Day" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart" Class="underline">TwChart</TwLink> for those options.</Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample CandlestickChartData
+    private readonly ChartOhlc[] prices =
+    [
+        new("Mon", 102, 108, 100, 106),
+        new("Tue", 106, 111, 104, 109),
+        new("Wed", 109, 110, 101, 103),
+        new("Thu", 103, 107, 99, 105),
+        new("Fri", 105, 114, 104, 112)
+    ];
+    #endregion
+}

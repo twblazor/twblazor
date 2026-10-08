@@ -1,0 +1,58 @@
+@page "/chart/bullet"
+@using TwBlazor.Models
+
+<PageContainer Title="TwBulletChart" Path="/chart/bullet" Beta Description="TwBulletChart is a Blazor bullet chart that benchmarks an actual value against a target, with shaded bands for qualitative ranges.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwBulletChart</code> shows, for each measure, a bar for the actual value and a marker for the target. Pass a list of <code>ChartBullet</code> with a label, a value and a target. Each measure has its own scale, so revenue in thousands and a percentage can share one chart.</Description>
+
+        <CodeExample Name="BulletChartBasic" CSharpName="BulletChartData">
+            <TwChart Title="Quarterly targets">
+                <TwBulletChart Items="@targets" Height="ChartHeight.Small" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Qualitative ranges">
+        <Description>Give a bullet a list of <code>Ranges</code> to shade bands behind the bar, for example the limits of poor, fair and good. The darkest band is the lowest range.</Description>
+
+        <CodeExample Name="BulletChartRanges" CSharpName="BulletChartRangesData">
+            <TwChart Title="Quarterly targets">
+                <TwBulletChart Items="@bullets" Height="ChartHeight.Small" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Labels">
+        <Description><code>ValueLabel</code> and <code>TargetLabel</code> rename the two values in the legend, tooltips and table view.</Description>
+
+        <CodeExample Name="BulletChartLabels">
+            <TwChart Title="Quarterly targets">
+                <TwBulletChart Items="@bullets" ValueLabel="This quarter" TargetLabel="Plan" Height="ChartHeight.Small" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart" Class="underline">TwChart</TwLink> for those options.</Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample BulletChartData
+    private readonly ChartBullet[] targets =
+    [
+        new("Revenue", 270, 250),
+        new("Profit", 22, 26),
+        new("New customers", 1650, 1500)
+    ];
+    #endregion
+
+    #region CodeExample BulletChartRangesData
+    private readonly ChartBullet[] bullets =
+    [
+        new("Revenue", 270, 250, [150, 225, 300]),
+        new("Profit", 22, 26, [15, 22, 30]),
+        new("New customers", 1650, 1500, [1000, 1400, 2000])
+    ];
+    #endregion
+}

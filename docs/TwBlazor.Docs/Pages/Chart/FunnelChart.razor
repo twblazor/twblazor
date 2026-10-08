@@ -1,0 +1,60 @@
+@page "/chart/funnel"
+@using TwBlazor.Models
+
+<PageContainer Title="TwFunnelChart" Path="/chart/funnel" Beta Description="TwFunnelChart is a Blazor funnel chart showing how much remains at each stage of a process. Invert it to draw a pyramid chart.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwFunnelChart</code> stacks the stages of a process, each as wide as its value, so the drop between stages is visible. Tooltips give each stage as a share of the first. The stages are an ordered sequence, so they share one hue that fades from first to last.</Description>
+
+        <CodeExample Name="FunnelChartBasic" CSharpName="FunnelChartData">
+            <TwChart Title="Checkout funnel">
+                <TwFunnelChart Data="@funnel" LabelHeader="Stage" ValueHeader="Visitors" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Pyramid">
+        <Description>Set <code>Inverted</code> to draw the stages from the bottom up, which turns the funnel into a pyramid.</Description>
+
+        <CodeExample Name="FunnelChartPyramid" CSharpName="FunnelChartPyramidData">
+            <TwChart Title="Support tiers">
+                <TwFunnelChart Data="@tiers" Inverted="true" LabelHeader="Tier" ValueHeader="Tickets" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Labels">
+        <Description><code>ShareLabel</code> renames the share of the first stage in tooltips.</Description>
+
+        <CodeExample Name="FunnelChartLabels">
+            <TwChart Title="Checkout funnel">
+                <TwFunnelChart Data="@funnel" ShareLabel="Conversion" Height="ChartHeight.Small" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart" Class="underline">TwChart</TwLink> for those options.</Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample FunnelChartData
+    private readonly ChartValue[] funnel =
+    [
+        new("Visited", 12000),
+        new("Added to basket", 5400),
+        new("Started checkout", 3100),
+        new("Paid", 2200)
+    ];
+    #endregion
+
+    #region CodeExample FunnelChartPyramidData
+    private readonly ChartValue[] tiers =
+    [
+        new("Self service", 900),
+        new("Front line", 520),
+        new("Specialists", 210),
+        new("Engineering", 60)
+    ];
+    #endregion
+}

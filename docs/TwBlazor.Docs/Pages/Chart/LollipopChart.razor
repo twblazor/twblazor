@@ -1,0 +1,52 @@
+@page "/chart/lollipop"
+@using TwBlazor.Models
+
+<PageContainer Title="TwLollipopChart" Path="/chart/lollipop" Beta Description="TwLollipopChart is a Blazor lollipop chart: a thin stem and a dot per value. A lighter alternative to bars when there are many categories.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwLollipopChart</code> draws a thin stem ending in a dot for each value. It reads like a column chart with far less ink, which keeps a chart with many similar values from turning into a wall of color.</Description>
+
+        <CodeExample Name="LollipopChartBasic" CSharpName="LollipopChartData">
+            <TwChart Title="Revenue by region" Description="Thousands of pounds">
+                <TwLollipopChart Categories="@regions" Series="@revenue" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Horizontal">
+        <Description>Set <code>Horizontal</code> to run the stems left to right with the categories listed down the side, which gives long labels room.</Description>
+
+        <CodeExample Name="LollipopChartHorizontal">
+            <TwChart Title="Revenue by region">
+                <TwLollipopChart Categories="@regions" Series="@revenue" Horizontal="true" ShowValues="true" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Several series">
+        <Description>With more than one series, each category shows a lollipop per series side by side.</Description>
+
+        <CodeExample Name="LollipopChartGrouped">
+            <TwChart Title="Revenue by region and year">
+                <TwLollipopChart Categories="@regions" Series="@yearly" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart" Class="underline">TwChart</TwLink> for those options.</Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample LollipopChartData
+    private readonly string[] regions = ["North", "South", "East", "West"];
+
+    private readonly ChartSeries[] revenue = [new("Revenue", [420, 310, 275, 380])];
+
+    private readonly ChartSeries[] yearly =
+    [
+        new("2024", [360, 290, 240, 330]),
+        new("2025", [420, 310, 275, 380])
+    ];
+    #endregion
+}

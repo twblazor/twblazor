@@ -2,7 +2,7 @@
 @using TwBlazor.Docs.Services
 @using TwBlazor.Enums
 
-<PageContainer Faq="_faq" Title="TwColorPicker" Path="/color-picker" Description="TwColorPicker is a Blazor colour picker component. Bind Value, choose an OutputFormat, and toggle ShowAlpha and ShowModeSwitch. Supports input variants." ThemeType="typeof(TwColorPickerTheme)">
+<PageContainer Title="TwColorPicker" Path="/color-picker" Description="TwColorPicker is a Blazor colour picker component. Bind Value, choose an OutputFormat, and toggle ShowAlpha and ShowModeSwitch. Supports input variants." ThemeType="typeof(TwColorPickerTheme)">
     <PageCard Title="Basic color picker">
         <Description>Bind <code>Value</code> to let users pick a color from a labeled color picker input.</Description>
         <CodeExample Name="ColorPickerBasic" CSharpName="ColorPickerBasicCode">
@@ -81,14 +81,6 @@
 </PageContainer>
 
 @code {
-    private static readonly IReadOnlyList<FaqItem> _faq =
-    [
-        new("How do I add a color picker to a Blazor app?", "Add TwColorPicker and bind Value, for example <TwColorPicker Label=\"Choose Color\" @bind-Value=\"color\" />. It works in Blazor Server and WebAssembly and is styled with Tailwind CSS."),
-        new("Can a Blazor color picker return hex, RGB or HSL values?", "Yes. Set OutputFormat to choose the format of the bound value, and set ShowModeSwitch to let users switch between color input modes."),
-        new("Does the Blazor color picker support transparency?", "Yes. Set ShowAlpha to add an alpha channel slider so users can pick semi-transparent colors."),
-        new("Is TwColorPicker free?", "Yes. TwColorPicker is part of twblazor, a free, open-source Blazor component library released under the MIT licence."),
-    ];
-
     #region CodeExample ColorPickerBasicCode
     private string SelectedColor { get; set; } = "#3b82f6";
     #endregion

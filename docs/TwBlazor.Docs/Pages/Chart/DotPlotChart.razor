@@ -1,0 +1,44 @@
+@page "/chart/dot-plot"
+@using TwBlazor.Models
+
+<PageContainer Title="TwDotPlotChart" Path="/chart/dot-plot" Beta Description="TwDotPlotChart is a Blazor dot plot that compares series by position on a shared line per category. The scale does not need to start at zero.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwDotPlotChart</code> places one dot per series on a shared line for each category, so values are compared by position rather than length. Because nothing is measured from a baseline, the scale can zoom in on the range the data occupies, which makes small differences visible.</Description>
+
+        <CodeExample Name="DotPlotChartBasic" CSharpName="DotPlotChartData">
+            <TwChart Title="Revenue by region and year" Description="Thousands of pounds">
+                <TwDotPlotChart Categories="@regions" Series="@yearly" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Vertical">
+        <Description>Set <code>Vertical</code> to place the categories along the bottom with values running upwards.</Description>
+
+        <CodeExample Name="DotPlotChartVertical">
+            <TwChart Title="Revenue by region and year">
+                <TwDotPlotChart Categories="@regions" Series="@yearly" Vertical="true" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Related charts">
+        <Description>To draw attention to the gap between the dots, use <TwLink Href="/chart/dumbbell" Class="underline">TwDumbbellChart</TwLink>, which joins them with a bar. To show every raw observation in a group, use <TwLink Href="/chart/strip-plot" Class="underline">TwStripPlotChart</TwLink>.</Description>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart" Class="underline">TwChart</TwLink> for those options.</Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample DotPlotChartData
+    private readonly string[] regions = ["North", "South", "East", "West"];
+
+    private readonly ChartSeries[] yearly =
+    [
+        new("2024", [360, 290, 240, 330]),
+        new("2025", [420, 310, 275, 380])
+    ];
+    #endregion
+}

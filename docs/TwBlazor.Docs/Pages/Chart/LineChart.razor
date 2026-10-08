@@ -1,0 +1,79 @@
+@page "/chart/line"
+@using TwBlazor.Models
+
+<PageContainer Title="TwLineChart" Path="/chart/line" Beta Description="TwLineChart is a Blazor line chart for trends. Supports straight, smooth (spline) and step lines, markers and gaps for missing values.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwLineChart</code> joins values in category order to show a trend. Hover or focus anywhere in a category and one tooltip lists every series at that point, so the pointer never has to land on a line.</Description>
+
+        <CodeExample Name="LineChartBasic" CSharpName="LineChartData">
+            <TwChart Title="Monthly visitors" Description="Thousands">
+                <TwLineChart Categories="@months" Series="@visitors" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Spline">
+        <Description>Set <code>Curve</code> to <code>ChartCurve.Smooth</code> for a smooth curve through the points. The curve never overshoots the data, so it cannot suggest a peak that is not there.</Description>
+
+        <CodeExample Name="LineChartSmooth">
+            <TwChart Title="Monthly visitors">
+                <TwLineChart Categories="@months" Series="@visitors" Curve="ChartCurve.Smooth" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Step line">
+        <Description><code>ChartCurve.Step</code> holds each value until the next one, which suits values that change at discrete moments such as a price or a stock level.</Description>
+
+        <CodeExample Name="LineChartStep" CSharpName="LineChartStepData">
+            <TwChart Title="Plan price">
+                <TwLineChart Categories="@months" Series="@price" Curve="ChartCurve.Step" ValueFormat="C0" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Markers">
+        <Description>A dot is drawn at each point when there are twelve categories or fewer. Set <code>ShowMarkers</code> to force them on or off.</Description>
+
+        <CodeExample Name="LineChartMarkers">
+            <TwChart Title="Monthly visitors">
+                <TwLineChart Categories="@months" Series="@visitors" ShowMarkers="false" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Missing values">
+        <Description>A <code>null</code> value breaks the line instead of dropping to zero, so a gap in the data looks like a gap.</Description>
+
+        <CodeExample Name="LineChartGaps" CSharpName="LineChartGapData">
+            <TwChart Title="Sensor readings">
+                <TwLineChart Categories="@months" Series="@readings" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart" Class="underline">TwChart</TwLink> for those options.</Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample LineChartData
+    private readonly string[] months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
+
+    private readonly ChartSeries[] visitors =
+    [
+        new("Organic", [42, 48, 55, 61, 58, 70]),
+        new("Paid", [30, 34, 31, 45, 52, 49]),
+        new("Referral", [12, 15, 21, 19, 26, 33])
+    ];
+    #endregion
+
+    #region CodeExample LineChartStepData
+    private readonly ChartSeries[] price = [new("Price", [20, 20, 25, 25, 25, 30])];
+    #endregion
+
+    #region CodeExample LineChartGapData
+    private readonly ChartSeries[] readings = [new("Temperature", [18, 21, null, null, 24, 22])];
+    #endregion
+}

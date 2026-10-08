@@ -1,0 +1,73 @@
+@page "/chart/pie"
+@using TwBlazor.Models
+
+<PageContainer Title="TwPieChart" Path="/chart/pie" Beta Description="TwPieChart is a Blazor pie chart for parts of a whole. Set an inner radius for a donut chart, or draw it as a semicircle.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwPieChart</code> sizes each slice by its share of the whole. Pass a list of <code>ChartValue</code>. Slices large enough to hold a label show their share, and the legend names every slice.</Description>
+
+        <CodeExample Name="PieChartBasic" CSharpName="PieChartData">
+            <TwChart Title="Traffic by source">
+                <TwPieChart Data="@sources" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Donut">
+        <Description>Set <code>InnerRadius</code> between 0 and 0.9 to open a hole in the middle, and <code>CenterText</code> to put a headline figure in it.</Description>
+
+        <CodeExample Name="PieChartDonut">
+            <TwChart Title="Traffic by source">
+                <TwPieChart Data="@sources" InnerRadius="0.6" CenterText="1,000" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Semicircle">
+        <Description>Set <code>Semicircle</code> for a half donut, which takes less vertical space.</Description>
+
+        <CodeExample Name="PieChartSemicircle">
+            <TwChart Title="Traffic by source">
+                <TwPieChart Data="@sources" InnerRadius="0.6" Semicircle="true" CenterText="1,000" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Many values">
+        <Description>A pie works for a handful of parts. Past eight values, the smallest are folded into one slice named by <code>OtherLabel</code> so a color is never reused. The table view still lists every value.</Description>
+
+        <CodeExample Name="PieChartOther" CSharpName="PieChartOtherData">
+            <TwChart Title="Visits by country">
+                <TwPieChart Data="@countries" OtherLabel="Rest of world" ShowPercentages="false" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Labels">
+        <Description><code>ShowPercentages</code> turns the share labels off. <code>LabelHeader</code> and <code>ValueHeader</code> name the table columns, and <code>ValueHeader</code> also names the value in tooltips.</Description>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart" Class="underline">TwChart</TwLink> for those options.</Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample PieChartData
+    private readonly ChartValue[] sources =
+    [
+        new("Search", 430),
+        new("Direct", 260),
+        new("Social", 170),
+        new("Email", 90),
+        new("Referral", 50)
+    ];
+    #endregion
+
+    #region CodeExample PieChartOtherData
+    private readonly ChartValue[] countries =
+    [
+        new("United Kingdom", 320), new("United States", 280), new("Germany", 150), new("France", 120),
+        new("Spain", 90), new("Italy", 70), new("Canada", 60), new("Japan", 40), new("Brazil", 30), new("India", 20)
+    ];
+    #endregion
+}
