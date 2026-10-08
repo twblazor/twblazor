@@ -1,0 +1,194 @@
+@namespace TwBlazor.Components
+@inherits TwBlazorComponentBase
+@using TwBlazor.Enums
+@using TwBlazor.Charting
+
+<div id="@Id" class="@rootClasses" style="@Style" role="group" aria-label="@effectiveAriaLabel" aria-labelledby="@effectiveAriaLabelledBy" @attributes="Attributes">
+    @if (scene.IsEmpty)
+    {
+        <p class="@theme.Empty">@EmptyText</p>
+    }
+    else
+    {
+        @if (hasToolbar)
+        {
+            <div class="@theme.Toolbar">
+                @if (hasLegend)
+                {
+                    <ul class="@theme.Legend" aria-label="@LegendLabel">
+                        @foreach (var item in scene.Legend)
+                        {
+                            <li>
+                                @if (item.SeriesIndex is { } seriesIndex && InteractiveLegend)
+                                {
+                                    <button type="button" class="@GetLegendItemClasses(item, true)" aria-pressed="@(item.Hidden ? "false" : "true")" @onclick="() => ToggleSeries(seriesIndex)">
+                                        <span class="@GetSwatchClasses(item.Color)" aria-hidden="true"></span>
+                                        @item.Label
+                                    </button>
+                                }
+                                else
+                                {
+                                    <span class="@GetLegendItemClasses(item, false)">
+                                        <span class="@GetSwatchClasses(item.Color)" aria-hidden="true"></span>
+                                        @item.Label
+                                    </span>
+                                }
+                            </li>
+                        }
+                    </ul>
+                }
+                @if (hasTableToggle)
+                {
+                    <TwButton Class="@theme.TableToggle" Label="@(showTable ? ChartViewLabel : TableViewLabel)" Variant="ButtonVariant.Text" Dense="true" StartIcon="@(showTable ? null : Icon.Table)" OnClick="ToggleTable" />
+                }
+            </div>
+        }
+
+        @if (isTableVisible && scene.Table is { } table)
+        {
+            <TwTable AriaLabel="@TableLabel">
+                <TableHeader>
+                    <tr>
+                        @foreach (var header in table.Headers)
+                        {
+                            <th scope="col" class="@tableTheme.HeaderCellPadding">@header</th>
+                        }
+                    </tr>
+                </TableHeader>
+                <TableBody>
+                    @foreach (var row in table.Rows)
+                    {
+                        <tr>
+                            @for (var column = 0; column < row.Count; column++)
+                            {
+                                if (column == 0)
+                                {
+                                    <th scope="row" class="@rowHeaderClasses">@row[column]</th>
+                                }
+                                else
+                                {
+                                    <td class="@tableTheme.BodyCellPadding">@row[column]</td>
+                                }
+                            }
+                        </tr>
+                    }
+                </TableBody>
+            </TwTable>
+        }
+        else
+        {
+            @if (scene.YAxis?.Title is { } yTitle)
+            {
+                <div class="@theme.AxisTitle" aria-hidden="true">@yTitle</div>
+            }
+            <div class="@(scene.YAxis != null ? theme.FrameWithYAxis : theme.Frame)">
+                @if (scene.YAxis is { } yAxis)
+                {
+                    <div class="@theme.YAxis" aria-hidden="true">
+                        <div class="@theme.AxisSizer">
+                            @foreach (var tick in yAxis.Ticks)
+                            {
+                                <span class="@theme.Tick">@tick.Label</span>
+                            }
+                        </div>
+                        @foreach (var tick in yAxis.Ticks)
+                        {
+                            <span class="@yTickClasses" style="@($"top:{Number(tick.Position)}%;transform:translateY(-50%)")">@tick.Label</span>
+                        }
+                    </div>
+                }
+                <div class="@plotClasses" @ref="plotRef" @onkeydown="OnPlotKeyDown">
+                    <svg class="@theme.Canvas" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                        @foreach (var mark in scene.Marks)
+                        {
+                            switch (mark)
+                            {
+                                case ChartLine line:
+                                    <line x1="@Number(line.X1)" y1="@Number(line.Y1)" x2="@Number(line.X2)" y2="@Number(line.Y2)" class="@GetLineClasses(line)" vector-effect="non-scaling-stroke" />
+                                    break;
+                                case ChartPath path:
+                                    <path d="@path.Data" class="@GetPathClasses(path)" style="@GetOpacityStyle(path.Opacity)" vector-effect="non-scaling-stroke" stroke-linejoin="round" stroke-linecap="round">
+                                        @if (path.Title != null)
+                                        {
+                                            <title>@path.Title</title>
+                                        }
+                                    </path>
+                                    break;
+                            }
+                        }
+                    </svg>
+                    @foreach (var mark in scene.Marks)
+                    {
+                        switch (mark)
+                        {
+                            case ChartRect rect:
+                                <div class="@GetRectClasses(rect)" style="@GetRectStyle(rect)" title="@rect.Title" aria-hidden="true"></div>
+                                break;
+                            case ChartDot dot:
+                                <div class="@GetDotClasses(dot)" style="@GetDotStyle(dot)" title="@dot.Title" aria-hidden="true"></div>
+                                break;
+                            case ChartGlyph glyph:
+                                <span class="@theme.Glyph" style="@GetGlyphStyle(glyph)" aria-hidden="true">
+                                    <TwIcon Icon="@glyph.Icon" Class="@GetColor(glyph.Color).Text" />
+                                </span>
+                                break;
+                            case ChartText text:
+                                <span class="@GetTextClasses(text)" style="@GetTextStyle(text)" aria-hidden="true">@text.Text</span>
+                                break;
+                        }
+                    }
+                    @for (var i = 0; i < scene.Datums.Count; i++)
+                    {
+                        var index = i;
+                        var datum = scene.Datums[index];
+                        <TwTooltip Class="@theme.HitWrapper" Style="@GetDatumStyle(datum)" Focusable="false" Arrow="true">
+                            <TooltipContent>
+                                <span class="@theme.TooltipTitle">@datum.Title</span>
+                                @foreach (var row in datum.Rows)
+                                {
+                                    <span class="@theme.TooltipRow">
+                                        @if (row.Color is { } rowColor)
+                                        {
+                                            <span class="@GetTooltipKeyClasses(rowColor)" aria-hidden="true"></span>
+                                        }
+                                        <span class="@theme.TooltipLabel">@row.Label</span>
+                                        <span class="@theme.TooltipValue">@row.Value</span>
+                                    </span>
+                                }
+                            </TooltipContent>
+                            <ChildContent>
+                                <div @ref="hitRefs[index]" class="@theme.Hit" role="img" aria-label="@datum.AriaLabel" tabindex="@(index == activeIndex ? 0 : -1)" data-chart-datum="@index" @onfocus="() => activeIndex = index">
+                                    @if (datum.Hover == ChartHover.Crosshair)
+                                    {
+                                        <span class="@theme.Crosshair"></span>
+                                    }
+                                    else if (datum.Hover == ChartHover.Highlight)
+                                    {
+                                        <span class="@theme.HitHighlight"></span>
+                                    }
+                                </div>
+                            </ChildContent>
+                        </TwTooltip>
+                    }
+                </div>
+                @if (scene.XAxis is { } xAxis)
+                {
+                    @if (scene.YAxis != null)
+                    {
+                        <div></div>
+                    }
+                    <div class="@theme.XAxis" aria-hidden="true">
+                        @foreach (var tick in xAxis.Ticks)
+                        {
+                            <span class="@xTickClasses" style="@GetXTickStyle(xAxis, tick)">@tick.Label</span>
+                        }
+                    </div>
+                }
+            </div>
+            @if (scene.XAxis?.Title is { } xTitle)
+            {
+                <div class="@xAxisTitleClasses" aria-hidden="true">@xTitle</div>
+            }
+        }
+    }
+</div>
