@@ -135,7 +135,7 @@ public class TwInputTheme
     /// every standalone checkbox.
     /// <para>
     /// The text color uses <c>!important</c> to win over <see cref="TwCheckboxTheme.LabelBase"/>'s muted
-    /// caption-style color, which is too low-contrast against <see cref="TwOverlayTheme.PopoverBackground"/>
+    /// caption-style color, which is too low-contrast against <see cref="TwPopoverTheme.Background"/>
     /// in dark mode once it is the primary, repeated content of a whole option list.
     /// </para>
     /// <para>

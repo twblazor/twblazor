@@ -25,7 +25,7 @@ public partial class TwTimeRangePicker : TwPopoverPickerComponentBase
 {
     private TwTimePickerTheme theme => options.Theme.Components.Require<TwTimePickerTheme>();
 
-    private TwOverlayTheme overlayTheme => options.Theme.Components.Require<TwOverlayTheme>();
+    private TwPopoverTheme popoverTheme => options.Theme.Components.Require<TwOverlayTheme>().Popover;
 
     /// <summary>
     /// Reference to the trigger <see cref="TwTextfield{T}"/> instance, used to focus its actual
@@ -120,7 +120,7 @@ public partial class TwTimeRangePicker : TwPopoverPickerComponentBase
     private string panelPositionClasses => new ClassBuilder(theme.PanelWrapper).Build();
 
     private string panelSurfaceClasses =>
-        popoverBuilder.GetSurfaceClasses(Rounded, Shadow, overlayTheme.TimeRangePopoverSize);
+        popoverBuilder.GetSurfaceClasses(Rounded, Shadow, popoverTheme.TimeRangeSize);
 
     private string stageTabsClasses => new ClassBuilder(theme.RangeStageTabsContainer).Build();
 
@@ -132,12 +132,9 @@ public partial class TwTimeRangePicker : TwPopoverPickerComponentBase
         var isActive = stage == tabStage;
         return new ClassBuilder(theme.StageTabBase)
             .AddClass(roundedBuilder.GetRounded())
-            .AddClass(options.Theme.Colors.HoverColors.Primary, !isActive)
+            .AddClass(theme.StageTabHover, !isActive)
             .AddClass(theme.RangeStageTabInactive, !isActive)
-            .AddClass(options.Theme.Colors.LightBackground.Light.Primary, isActive)
-            .AddClass(options.Theme.Colors.DarkBackground.Light.Primary, isActive)
-            .AddClass(options.Theme.Colors.TextColors.Medium.Primary, isActive)
-            .AddClass(options.Theme.Colors.DarkTextColors.Medium.Primary, isActive)
+            .AddClass(theme.StageTabActive, isActive)
             .Build();
     }
 

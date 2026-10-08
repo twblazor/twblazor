@@ -1,13 +1,13 @@
 @if (isShortHtmlOnly)
 {
-    <TwCodeBlock Content="@Razor" Language="html" Class="mt-4" Title="Razor" />
+    <TwCodeBlock Content="@Razor" Language="html" Class="mt-4" Title="RAZOR" />
 }
 else if (hasRazor || hasCSharp)
 {
     <TwCollapse Title="Show code" Class="mt-4">
         @if (hasRazor)
         {
-            <TwCodeBlock Content="@Razor" Language="html" Class="@(hasCSharp ? "rounded-b-none rounded-t-none" : "rounded-t-none")" Rounded="null" Title="Razor" />
+            <TwCodeBlock Content="@Razor" Language="html" Class="@(hasCSharp ? "rounded-b-none rounded-t-none" : "rounded-t-none")" Rounded="null" Title="RAZOR" />
         }
         @if (hasCSharp)
         {

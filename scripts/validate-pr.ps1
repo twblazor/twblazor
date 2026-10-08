@@ -1,13 +1,14 @@
 # Validates a pull request's title and description.
 #
 # Title must be Conventional Commits, and the subject - the part after
-# "<type>(<optional scope>): " - must be 10 to 100 characters and end in a full
+# "<type>(<optional scope>)<optional !>: " - must be 10 to 100 characters and end in a full
 # stop. The type prefix does not count toward the length, so the limits measure
 # how descriptive the subject actually is rather than how wide it renders:
 #
 #   chore: fixed versioning.           subject "fixed versioning." (17)  OK
 #   chore: typo.                       subject "typo." (5)              too short
 #   feat(button): add loading state.   subject "add loading state." (19) OK
+#   feat(api)!: remove legacy route.   "!" marks a breaking change      OK
 #   fix: something is broken           no full stop                     rejected
 #
 # Description must follow .github/pull_request_template.md: every required
@@ -52,7 +53,7 @@ $errors = [System.Collections.Generic.List[string]]::new()
 $trimmedTitle = $Title.Trim()
 Write-Host "Title: $trimmedTitle"
 
-$titlePattern = "^($($types -join '|'))(\([^)]+\))?: (.+)$"
+$titlePattern = "^($($types -join '|'))(\([^)]+\))?!?: (.+)$"
 
 if ($trimmedTitle -cmatch $titlePattern) {
     $subject = $Matches[3].Trim()
@@ -69,7 +70,7 @@ if ($trimmedTitle -cmatch $titlePattern) {
         $errors.Add("Title must end with a single full stop, not '..'. Got: '$trimmedTitle'")
     }
 } else {
-    $errors.Add("Title does not follow Conventional Commits. Expected '<type>(<optional scope>): <subject>.' where type is one of: $($types -join ', '). Got: '$trimmedTitle'")
+    $errors.Add("Title does not follow Conventional Commits. Expected '<type>(<optional scope>)<optional !>: <subject>.' where type is one of: $($types -join ', '). Got: '$trimmedTitle'")
 }
 
 # ----------------------------------------------------------- description ----

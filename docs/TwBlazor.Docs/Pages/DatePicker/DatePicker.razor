@@ -1,6 +1,7 @@
 @page "/date-picker"
+@using TwBlazor.Docs.Services
 
-<PageContainer Title="TwDatePicker" Path="/date-picker" Description="TwDatePicker is a Blazor date picker component with a calendar popup. Bind Value, set MinDate, MaxDate, Format and Placeholder, or use the native input." ThemeType="typeof(TwDatePickerTheme)">
+<PageContainer Faq="_faq" Title="TwDatePicker" Path="/date-picker" Description="TwDatePicker is a Blazor date picker component with a calendar popup. Bind Value, set MinDate, MaxDate, Format and Placeholder, or use the native input." ThemeType="typeof(TwDatePickerTheme)">
     <PageCard Title="Basic date picker">
         <Description>Bind <code>SelectedDate</code> for a <code>DateTime</code> value, or <code>Value</code> for a plain string.</Description>
         <CodeExample Name="DatePickerBasic" CSharpName="DatePickerBasicCode">
@@ -52,6 +53,13 @@
 </PageContainer>
 
 @code {
+    private static readonly IReadOnlyList<FaqItem> _faq =
+    [
+        new("How do I add a date picker to a Blazor app?", "Add TwDatePicker and bind SelectedDate for a DateTime value, or Value for a string. It shows a calendar popup and works in Blazor Server and WebAssembly."),
+        new("Can I limit the dates a Blazor date picker accepts?", "Yes. Set MinDate and MaxDate to restrict the selectable range, and Format to control how the date is displayed."),
+        new("Is there a Blazor date range picker?", "Yes. twblazor also includes TwDateRangePicker, TwDateTimePicker, TwDateTimeRangePicker, TwTimePicker and TwTimeRangePicker."),
+    ];
+
     #region CodeExample DatePickerBasicCode
     public DateTime SelectedDate { get; set; } = DateTime.Now;
     public string SelectedDateTextValue { get; set; } = DateTime.Now.ToShortDateString();

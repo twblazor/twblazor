@@ -1,8 +1,8 @@
 using Bunit;
 using TwBlazor.Components;
 using TwBlazor.Docs.Services.ThemeBuilder;
-using ThemePage = TwBlazor.Docs.Pages.ThemeBuilder.Theme;
 using TwBlazor.Enums;
+using ThemePage = TwBlazor.Docs.Pages.ThemeBuilder.Theme;
 
 namespace TwBlazor.Docs.Tests.Pages;
 
@@ -401,7 +401,7 @@ public class ThemePageTests : DocsTestBase
 
         cut.Find("#theme-component-twchip").Change(false);
 
-        Assert.Matches(@"5 / 6", cut.Find("fieldset[aria-label='Feedback components']").TextContent);
+        Assert.Matches(@"6 / 7", cut.Find("fieldset[aria-label='Feedback components']").TextContent);
     }
 
     [Fact]

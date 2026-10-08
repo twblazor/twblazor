@@ -45,7 +45,7 @@ public class TwTimePickerTheme
     /// trigger. Background/border/rounded/shadow/sizing are no longer baked in here - they come from
     /// the shared <see cref="TwOverlayTheme"/> via <see cref="Builders.PopoverBuilder"/>, applied to
     /// the panel's own surface element (<see cref="BodySurface"/> for the single picker,
-    /// <see cref="TwOverlayTheme.TimeRangePopoverSize"/> for <see cref="TwBlazor.Components.TwTimeRangePicker"/>)
+    /// <see cref="TwPopoverTheme.TimeRangeSize"/> for <see cref="TwBlazor.Components.TwTimeRangePicker"/>)
     /// instead of this wrapper.
     /// </summary>
     public required string PanelWrapper { get; set; }
@@ -59,6 +59,16 @@ public class TwTimePickerTheme
     /// Gets or sets the text color for an inactive Start/End step tab.
     /// </summary>
     public required string RangeStageTabInactive { get; set; }
+
+    /// <summary>
+    /// Gets or sets the classes for the active Start/End step tab.
+    /// </summary>
+    public required string StageTabActive { get; set; }
+
+    /// <summary>
+    /// Gets or sets the hover classes for an inactive Start/End step tab.
+    /// </summary>
+    public required string StageTabHover { get; set; }
 
     /// <summary>
     /// Gets or sets the base classes for a Start/End step tab button.

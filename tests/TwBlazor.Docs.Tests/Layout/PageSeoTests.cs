@@ -67,7 +67,36 @@ public class PageSeoTests : DocsTestBase
 
         // Assert
         Assert.Equal("twblazor", head.Find("meta[property='og:site_name']").GetAttribute("content"));
-        Assert.Equal("en_GB", head.Find("meta[property='og:locale']").GetAttribute("content"));
+        Assert.Equal("en_US", head.Find("meta[property='og:locale']").GetAttribute("content"));
+    }
+
+    [Fact]
+    public void Render_EmitsEachJsonLdDocumentInItsOwnScript()
+    {
+        // Arrange
+        var head = TestContext.Render<HeadOutlet>();
+
+        // Act
+        TestContext.Render<PageSeo>(parameters => parameters
+            .Add(p => p.Title, "T")
+            .Add(p => p.Description, "D")
+            .Add(p => p.Path, "/card")
+            .Add(p => p.JsonLd, ["{\"a\":1}", "{\"b\":2}"]));
+        head.WaitForState(() => head.Markup.Contains("ld+json"));
+
+        // Assert
+        var scripts = head.FindAll("script[type='application/ld+json']");
+        Assert.Equal(["{\"a\":1}", "{\"b\":2}"], scripts.Select(s => s.TextContent));
+    }
+
+    [Fact]
+    public void Render_EmitsNoJsonLd_WhenNoneIsGiven()
+    {
+        // Arrange & Act
+        var head = RenderHead();
+
+        // Assert
+        Assert.Empty(head.FindAll("script[type='application/ld+json']"));
     }
 
     [Fact]

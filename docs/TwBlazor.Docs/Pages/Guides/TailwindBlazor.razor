@@ -1,0 +1,72 @@
+@page "/tailwind-blazor"
+@using TwBlazor.Docs.Services
+
+<PageContainer Title="Tailwind CSS with Blazor" Path="/tailwind-blazor" Category="Guides" Faq="_faq" Description="How to use Tailwind CSS with Blazor Server and WebAssembly, and how twblazor gives you accessible, themeable Tailwind Blazor components." SeoTitle="Tailwind Blazor Guide | twblazor - Tailwind CSS with Blazor">
+    <PageCard Title="Why Tailwind with Blazor?">
+        <p class="mb-3">
+            Tailwind CSS is a utility-first CSS framework: you style elements with small single-purpose classes such as <code>px-4</code> or <code>bg-purple-600</code> instead of writing stylesheets. Blazor renders Razor markup, so those classes sit directly in your components and your design lives next to the markup that uses it.
+        </p>
+        <p>
+            The catch is that Tailwind only generates the classes it can find as literal text in your source files. That matters the moment a component library is involved, because Tailwind cannot read the classes compiled into a NuGet package's DLL.
+        </p>
+    </PageCard>
+
+    <PageCard Title="How Tailwind finds your classes">
+        <p class="mb-3">
+            Tailwind scans the files you point it at with <code>@@source</code> directives and generates CSS for every class name it finds. In a Blazor project that means your <code>.razor</code> files and any C# file that holds class names.
+        </p>
+        <TwCodeBlock Content="@_sourceExample" Language="css" />
+        <p class="mt-3">
+            Run the Tailwind CLI against that input file to produce <code>output.css</code>, then link it from <code>App.razor</code> (Blazor Server and Web App) or <code>index.html</code> (standalone WebAssembly). Nothing about Tailwind needs a Node server at runtime, only at build time.
+        </p>
+    </PageCard>
+
+    <PageCard Title="How twblazor handles the DLL problem">
+        <p class="mb-3">
+            twblazor is a Tailwind Blazor component library, so it solves the problem above directly. Every class a component uses is declared as a literal string in a <code>Theme.cs</code> file that lives in <strong>your</strong> project. Your Tailwind build scans that file alongside your Razor files and produces one stylesheet containing everything.
+        </p>
+        <TwCodeBlock Content="@_themeExample" Language="csharp" />
+        <p class="mt-3">
+            Because the classes are plain C# strings in your own code, you can change a component's look by editing one property, with no CSS overrides and no <code>!important</code>. The <a href="/theme" class="font-semibold underline">Theme builder</a> generates a <code>Theme.cs</code> with your brand colors and only the components you use.
+        </p>
+    </PageCard>
+
+    <PageCard Title="Dark mode and accessibility">
+        <p class="mb-3">
+            Every twblazor component ships with <code>dark:</code> variants, so dark mode works as soon as your app toggles the <code>dark</code> class on the root element. Components also include ARIA attributes and keyboard support, which you would otherwise have to build and test yourself.
+        </p>
+        <p>
+            Browse the <a href="/button" class="font-semibold underline">button</a>, <a href="/textfield" class="font-semibold underline">textfield</a>, <a href="/data-table" class="font-semibold underline">data table</a> and <a href="/color-picker" class="font-semibold underline">color picker</a> pages to see live examples and the theme properties each one exposes.
+        </p>
+    </PageCard>
+
+    <PageCard Title="Next steps">
+        <ul class="list-disc space-y-2 ps-5">
+            <li>Follow the <a href="/get-started" class="font-semibold underline">Get started</a> guide to install twblazor in a Blazor Server or WebAssembly app.</li>
+            <li>Create your own palette with the <a href="/theme" class="font-semibold underline">Theme builder</a>.</li>
+            <li>Read the <a href="/why-twblazor" class="font-semibold underline">Why twblazor?</a> page to see what sets it apart.</li>
+        </ul>
+    </PageCard>
+</PageContainer>
+
+@code {
+    private static readonly IReadOnlyList<FaqItem> _faq =
+    [
+        new("Can I use Tailwind CSS with Blazor?", "Yes. Tailwind works with Blazor Server, Blazor WebAssembly and Blazor Web Apps. You point the Tailwind CLI at your .razor files, build an output.css and link it from your host page."),
+        new("Why can't Tailwind see classes inside a component library's DLL?", "Tailwind generates CSS by scanning source files for class names as literal text. Compiled assemblies are not scanned, so a library has to expose its classes in a file your own build can read. twblazor does this with a Theme.cs file in your project."),
+        new("Does twblazor include a pre-built stylesheet?", "No. twblazor ships no pre-built CSS. Your own Tailwind build generates every class its components use from the Theme.cs file in your project, so the output only contains what you need."),
+        new("Does twblazor support dark mode?", "Yes. Every component has dark mode styles and switches when the dark class is present on your root element."),
+        new("Which Tailwind version does twblazor use?", "twblazor is built for Tailwind CSS v4 and its @source directive based configuration, as shown in the Get started guide."),
+    ];
+
+    private const string _sourceExample = """
+        @import "tailwindcss";
+
+        @source "../../**/*.razor";
+        @source "../../Theme.cs";
+        """;
+
+    private const string _themeExample = """
+        builder.Services.AddTwBlazor(_ => { }, Theme.CreateDefaultTheme);
+        """;
+}

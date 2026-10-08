@@ -1909,7 +1909,7 @@ public class TwSelectTests : TwBlazorTestBase
     public async Task TwSelect_ToggleOption_IgnoresUnknownIds_AndDisabledOrReadOnly()
     {
         var calls = 0;
-        EventCallback<IEnumerable<string>> callback = EventCallback.Factory.Create<IEnumerable<string>>(this, _ => calls++);
+        var callback = EventCallback.Factory.Create<IEnumerable<string>>(this, _ => calls++);
         var enabled = TestContext.Render<TwSelect<string>>(p => p
             .Add(x => x.Multiple, true).Add(x => x.PreferNativePicker, false)
             .Add(x => x.Values, _threeStringOptions).Add(x => x.SelectedValuesChanged, callback));

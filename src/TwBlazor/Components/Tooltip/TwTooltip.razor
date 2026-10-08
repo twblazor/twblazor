@@ -1,0 +1,33 @@
+@namespace TwBlazor.Components
+@inherits TwBlazorComponentBase
+
+<div id="@Id"
+     class="@wrapperClasses"
+     style="@Style"
+     tabindex="@(isFocusable ? "0" : null)"
+     aria-describedby="@(hasTooltip ? tooltipId : null)"
+     @attributes="@Attributes"
+     aria-label="@AriaLabel"
+     aria-labelledby="@AriaLabelledBy"
+     @onkeydown="OnKeyDown"
+     @onmouseleave="ResetDismissal"
+     @onfocusout="ResetDismissal">
+    @ChildContent
+    @if (hasTooltip)
+    {
+        <span id="@tooltipId" role="tooltip" class="@tooltipClasses">
+            @if (Arrow)
+            {
+                <span class="@arrowClasses" aria-hidden="true"></span>
+            }
+            @if (TooltipContent != null)
+            {
+                @TooltipContent
+            }
+            else
+            {
+                @Text
+            }
+        </span>
+    }
+</div>

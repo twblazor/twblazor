@@ -290,10 +290,10 @@ public class TwDatePickerTests : TwBlazorTestBase
         // Assert
         Assert.Equal("date", currentYearButton.GetAttribute("aria-current"));
         Assert.Contains(datePickerTheme.ActiveClass, currentYearButton.GetAttribute("class"));
-        Assert.DoesNotContain(Theme.Colors.LightBackground.Light.Primary, currentYearButton.GetAttribute("class"));
+        Assert.DoesNotContain(Theme.Components.Require<TwBlazor.Configuration.Components.TwDatePickerTheme>().SelectedClass, currentYearButton.GetAttribute("class"));
 
         Assert.Null(selectedYearButton.GetAttribute("aria-current"));
-        Assert.Contains(Theme.Colors.LightBackground.Light.Primary, selectedYearButton.GetAttribute("class"));
+        Assert.Contains(Theme.Components.Require<TwBlazor.Configuration.Components.TwDatePickerTheme>().SelectedClass, selectedYearButton.GetAttribute("class"));
     }
 
     [Fact]
@@ -318,10 +318,10 @@ public class TwDatePickerTests : TwBlazorTestBase
         // Assert
         Assert.Equal("date", currentMonthButton.GetAttribute("aria-current"));
         Assert.Contains(datePickerTheme.ActiveClass, currentMonthButton.GetAttribute("class"));
-        Assert.DoesNotContain(Theme.Colors.LightBackground.Light.Primary, currentMonthButton.GetAttribute("class"));
+        Assert.DoesNotContain(Theme.Components.Require<TwBlazor.Configuration.Components.TwDatePickerTheme>().SelectedClass, currentMonthButton.GetAttribute("class"));
 
         Assert.Null(selectedMonthButton.GetAttribute("aria-current"));
-        Assert.Contains(Theme.Colors.LightBackground.Light.Primary, selectedMonthButton.GetAttribute("class"));
+        Assert.Contains(Theme.Components.Require<TwBlazor.Configuration.Components.TwDatePickerTheme>().SelectedClass, selectedMonthButton.GetAttribute("class"));
     }
 
     [Fact]

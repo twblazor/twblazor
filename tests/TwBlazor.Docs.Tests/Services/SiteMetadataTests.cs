@@ -1,3 +1,4 @@
+using System.Text.Json;
 using TwBlazor.Docs.Services;
 
 namespace TwBlazor.Docs.Tests.Services;
@@ -67,6 +68,58 @@ public class SiteMetadataTests
     {
         // Act & Assert
         Assert.Equal(expected, SiteMetadata.AbsoluteUrl(path));
+    }
+
+    [Fact]
+    public void HomeJsonLd_DescribesTheWebSiteAndTheLibrary()
+    {
+        // Act
+        using var json = JsonDocument.Parse(SiteMetadata.HomeJsonLd());
+
+        // Assert
+        var graph = json.RootElement.GetProperty("@graph").EnumerateArray().ToList();
+        Assert.Equal("https://schema.org", json.RootElement.GetProperty("@context").GetString());
+        Assert.Equal(["WebSite", "SoftwareSourceCode"], graph.Select(node => node.GetProperty("@type").GetString()));
+        Assert.All(graph, node => Assert.Equal("twblazor", node.GetProperty("name").GetString()));
+        Assert.Equal(SiteMetadata.GitHubUrl, graph[1].GetProperty("codeRepository").GetString());
+    }
+
+    [Fact]
+    public void BreadcrumbJsonLd_ListsTheHomePageThenThePage()
+    {
+        // Act
+        using var json = JsonDocument.Parse(SiteMetadata.BreadcrumbJsonLd("TwCard", "/card"));
+
+        // Assert
+        var items = json.RootElement.GetProperty("itemListElement").EnumerateArray().ToList();
+        Assert.Equal("BreadcrumbList", json.RootElement.GetProperty("@type").GetString());
+        Assert.Equal(["https://twblazor.com/", "https://twblazor.com/card"], items.Select(i => i.GetProperty("item").GetString()));
+        Assert.Equal(["twblazor", "TwCard"], items.Select(i => i.GetProperty("name").GetString()));
+        Assert.Equal([1, 2], items.Select(i => i.GetProperty("position").GetInt32()));
+    }
+
+    [Fact]
+    public void FaqJsonLd_MapsEachQuestionToAnAcceptedAnswer()
+    {
+        // Act
+        using var json = JsonDocument.Parse(SiteMetadata.FaqJsonLd([("Is it free?", "Yes."), ("Why?", "Because.")]));
+
+        // Assert
+        var questions = json.RootElement.GetProperty("mainEntity").EnumerateArray().ToList();
+        Assert.Equal("FAQPage", json.RootElement.GetProperty("@type").GetString());
+        Assert.Equal(["Is it free?", "Why?"], questions.Select(q => q.GetProperty("name").GetString()));
+        Assert.Equal(["Yes.", "Because."], questions.Select(q => q.GetProperty("acceptedAnswer").GetProperty("text").GetString()));
+    }
+
+    [Fact]
+    public void JsonLd_EscapesMarkupSoItCannotCloseTheScriptElement()
+    {
+        // Act
+        var json = SiteMetadata.FaqJsonLd([("</script><b>", "a & b")]);
+
+        // Assert
+        Assert.DoesNotContain("</script>", json);
+        Assert.DoesNotContain("<", json);
     }
 
     [Fact]

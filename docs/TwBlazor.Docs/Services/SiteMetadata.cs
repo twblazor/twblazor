@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 
 namespace TwBlazor.Docs.Services;
@@ -9,6 +10,11 @@ namespace TwBlazor.Docs.Services;
 /// </summary>
 internal static partial class SiteMetadata
 {
+    /// <summary>
+    /// The JSON-LD key that names a node's schema.org type.
+    /// </summary>
+    private const string JsonLdType = "@type";
+
     /// <summary>
     /// The public origin of the docs site. Must match <c>SitemapGenerator.DefaultBaseUrl</c> in the build
     /// tools, which writes the sitemap entries the canonical URLs have to agree with.
@@ -25,11 +31,18 @@ internal static partial class SiteMetadata
 #pragma warning restore S1075
 
     /// <summary>
+    /// The project's GitHub repository.
+    /// </summary>
+#pragma warning disable S1075 // The project's fixed repository, not environment-specific
+    public const string GitHubUrl = "https://github.com/twblazor/twblazor";
+#pragma warning restore S1075
+
+    /// <summary>
     /// The site name.
     /// </summary>
     public const string SiteName = "twblazor";
 
-    public const string Locale = "en_GB";
+    public const string Locale = "en_US";
 
     /// <summary>
     /// The default social sharing image, served from the docs static web assets.
@@ -93,6 +106,79 @@ internal static partial class SiteMetadata
     /// <param name="date">The date to format.</param>
     /// <returns>The date as <c>yyyy-MM-dd</c>.</returns>
     public static string FormatIsoDate(DateOnly date) => date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+    /// <summary>
+    /// Builds the schema.org JSON-LD for the home page: the site itself and the library it documents.
+    /// </summary>
+    /// <returns>A JSON-LD <c>@graph</c> document.</returns>
+    public static string HomeJsonLd() => Serialize(new Dictionary<string, object>
+    {
+        ["@context"] = "https://schema.org",
+        ["@graph"] = new object[]
+        {
+            new Dictionary<string, object>
+            {
+                [JsonLdType] = "WebSite",
+                ["@id"] = AbsoluteUrl("/#website"),
+                ["name"] = SiteName,
+                ["url"] = AbsoluteUrl("/"),
+                ["inLanguage"] = "en",
+            },
+            new Dictionary<string, object>
+            {
+                [JsonLdType] = "SoftwareSourceCode",
+                ["@id"] = AbsoluteUrl("/#library"),
+                ["name"] = "twblazor",
+                ["alternateName"] = "twblazor Tailwind CSS Blazor component library",
+                ["description"] = "A free, open-source Blazor components library built on Tailwind CSS.",
+                ["url"] = AbsoluteUrl("/"),
+                ["codeRepository"] = GitHubUrl,
+                ["programmingLanguage"] = "C#",
+                ["runtimePlatform"] = ".NET",
+                ["license"] = "https://opensource.org/licenses/MIT",
+                ["isAccessibleForFree"] = true,
+            },
+        },
+    });
+
+    /// <summary>
+    /// Builds the schema.org <c>BreadcrumbList</c> JSON-LD for a page one level below the home page.
+    /// </summary>
+    /// <param name="name">The page's name, e.g. <c>TwCard</c>.</param>
+    /// <param name="path">The page's root-relative route, e.g. <c>/card</c>.</param>
+    /// <returns>A JSON-LD document.</returns>
+    public static string BreadcrumbJsonLd(string name, string path) => Serialize(new Dictionary<string, object>
+    {
+        ["@context"] = "https://schema.org",
+        [JsonLdType] = "BreadcrumbList",
+        ["itemListElement"] = new object[]
+        {
+            new Dictionary<string, object> { [JsonLdType] = "ListItem", ["position"] = 1, ["name"] = SiteName, ["item"] = AbsoluteUrl("/") },
+            new Dictionary<string, object> { [JsonLdType] = "ListItem", ["position"] = 2, ["name"] = name, ["item"] = AbsoluteUrl(path) },
+        },
+    });
+
+    /// <summary>
+    /// Builds the schema.org <c>FAQPage</c> JSON-LD for a set of questions and answers.
+    /// </summary>
+    /// <param name="items">The questions and their plain-text answers.</param>
+    /// <returns>A JSON-LD document.</returns>
+    public static string FaqJsonLd(IEnumerable<(string Question, string Answer)> items) => Serialize(new Dictionary<string, object>
+    {
+        ["@context"] = "https://schema.org",
+        [JsonLdType] = "FAQPage",
+        ["mainEntity"] = items.Select(item => new Dictionary<string, object>
+        {
+            [JsonLdType] = "Question",
+            ["name"] = item.Question,
+            ["acceptedAnswer"] = new Dictionary<string, object> { [JsonLdType] = "Answer", ["text"] = item.Answer },
+        }).ToArray(),
+    });
+
+    /// <summary>
+    /// The default encoder escapes <c>&lt;</c> and <c>&gt;</c>, so the output is safe inside a <c>script</c> element.
+    /// </summary>
+    private static string Serialize(object value) => JsonSerializer.Serialize(value);
 
     [GeneratedRegex("(?<=[a-z])(?=[A-Z])")]
     private static partial Regex WordBoundaryPattern();

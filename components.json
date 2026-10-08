@@ -220,6 +220,14 @@
         "name": "TwSpinner",
         "url": "/spinner",
         "theme": "TwSpinnerTheme"
+      },
+      {
+        "id": "tooltip-navitem",
+        "display": "Tooltip",
+        "name": "TwTooltip",
+        "url": "/tooltip",
+        "isNew": true,
+        "theme": "TwTooltipTheme"
       }
     ]
   },

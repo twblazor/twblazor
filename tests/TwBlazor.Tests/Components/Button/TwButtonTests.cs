@@ -64,8 +64,8 @@ public class TwButtonTests : TwBlazorTestBase
             .Add(p => p.Tooltip, "Save your changes"));
 
         var tooltipClasses = cut.Find("[role='tooltip']").GetAttribute("class")!;
-        Assert.Contains(Theme.Components.Require<TwOverlayTheme>().TooltipBubble, tooltipClasses);
-        Assert.Contains(Theme.Components.Require<TwOverlayTheme>().PopoverBackground, tooltipClasses);
+        Assert.Contains(Theme.Components.Require<TwOverlayTheme>().Tooltip.Bubble, tooltipClasses);
+        Assert.Contains(Theme.Components.Require<TwOverlayTheme>().Popover.Background, tooltipClasses);
         Assert.Contains("group", cut.Find("[role='tooltip']").ParentElement!.GetAttribute("class"));
     }
 

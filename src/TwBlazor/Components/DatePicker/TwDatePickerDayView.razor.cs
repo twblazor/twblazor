@@ -325,10 +325,10 @@ public partial class TwDatePickerDayView : TwBlazorComponentBase, IAsyncDisposab
         .AddClass(options.Theme.Interaction.DisabledCursor, isDisabled)
         .AddClass(GetRangeAwareRoundedClass(isRangeStart, isRangeEnd, isInRange))
         .AddClass(theme.ButtonClass)
-        .AddClass(options.Theme.Colors.HoverColors.Primary, !isDisabled)
-        .AddClass($"{theme.ActiveClass} {options.Theme.Colors.TextColors.Medium.Primary} {options.Theme.Colors.DarkTextColors.Light.Primary}", isToday && !isSelected && !isInRange && !isDisabled)
+        .AddClass(theme.HoverClass, !isDisabled && !isSelected)
+        .AddClass(theme.ActiveClass, isToday && !isSelected && !isInRange && !isDisabled)
         .AddClass(theme.RangeClass, isInRange && !isSelected && !isDisabled)
-        .AddClass($"{options.Theme.Colors.LightBackground.Light.Primary} {options.Theme.Colors.DarkBackground.Light.Primary} {options.Theme.Colors.TextColors.Medium.Primary} {options.Theme.Colors.DarkTextColors.Dark.Primary}", isSelected && !isDisabled)
+        .AddClass(theme.SelectedClass, isSelected && !isDisabled)
         .Build();
 
     /// <summary>

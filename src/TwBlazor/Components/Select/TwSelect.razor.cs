@@ -7,7 +7,6 @@ using Microsoft.JSInterop;
 using TwBlazor.Builders;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Enums;
-using TwBlazor.Models;
 using TwBlazor.Utilities;
 
 namespace TwBlazor.Components;

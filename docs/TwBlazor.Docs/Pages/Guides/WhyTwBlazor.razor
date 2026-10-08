@@ -1,0 +1,117 @@
+@page "/why-twblazor"
+@using TwBlazor.Docs.Services
+
+<PageContainer Title="Why twblazor?" Path="/why-twblazor" Category="Guides" Description="twblazor is the MIT licensed Blazor component library built on Tailwind CSS. Free, fully themeable and styled in your own project." SeoTitle="Why twblazor? Tailwind CSS Blazor Components | twblazor">
+    <PageCard Title="Blazor components that follow your design">
+        <p class="mb-3">
+            Most Blazor component libraries ship their own design system and ask you to work around it. twblazor starts from the opposite end: your Tailwind CSS setup, your brand and your rules, with ready-made accessible components on top.
+        </p>
+        <ul class="list-disc space-y-2 ps-5">
+            <li><strong>MIT licensed.</strong> Free for commercial and personal projects, forever.</li>
+            <li><strong>Tailwind native.</strong> Real utility classes, not a theme layer that imitates them.</li>
+            <li><strong>Yours to change.</strong> Every component's styles live in your own project.</li>
+        </ul>
+    </PageCard>
+
+    <PageCard Title="How twblazor stacks up">
+        <p class="mb-3">
+            twblazor is the one option that is MIT licensed, has no paid tier and is built on Tailwind CSS with the styles living in your own project.
+        </p>
+        <TwTable Id="library-features" Hoverable>
+            <Caption>Licence, cost and styling model of each Blazor component library. Radzen is MIT with optional paid tooling, and the commercial suites are Telerik, Syncfusion and DevExpress</Caption>
+            <TableHeader>
+                <tr>
+                    <th scope="col" class="px-6 py-3 whitespace-nowrap">Library</th>
+                    <th scope="col" class="px-6 py-3 whitespace-nowrap">Licence</th>
+                    <th scope="col" class="px-6 py-3 whitespace-nowrap">Commercial use</th>
+                    <th scope="col" class="px-6 py-3 whitespace-nowrap">Tailwind</th>
+                    <th scope="col" class="px-6 py-3 whitespace-nowrap">Your styles</th>
+                    <th scope="col" class="px-6 py-3 whitespace-nowrap">Fully free</th>
+                </tr>
+            </TableHeader>
+            <TableBody>
+                @foreach (var row in _features)
+                {
+                    <tr class="@(row.Highlight ? "bg-purple-500/20 dark:bg-purple-500/25" : null)">
+                        <th scope="row" class="@(row.Highlight ? "px-6 py-4 whitespace-nowrap font-bold text-purple-900 dark:text-purple-200" : "px-6 py-4 whitespace-nowrap font-medium text-gray-900 dark:text-white")">@row.Name</th>
+                        <td class="@(row.Highlight ? "px-6 py-4 whitespace-nowrap font-semibold text-purple-900 dark:text-purple-200" : "px-6 py-4 whitespace-nowrap")">@row.Licence</td>
+                        <td class="@CellClass(row.FreeCommercial, row.Highlight)">@Mark(row.FreeCommercial)</td>
+                        <td class="@CellClass(row.Tailwind, row.Highlight)">@Mark(row.Tailwind)</td>
+                        <td class="@CellClass(row.OwnedStyles, row.Highlight)">@Mark(row.OwnedStyles)</td>
+                        <td class="@CellClass(row.NoPaidTier, row.Highlight)">@Mark(row.NoPaidTier)</td>
+                    </tr>
+                }
+            </TableBody>
+        </TwTable>
+    </PageCard>
+
+    <PageCard Title="What you get">
+        <p class="mb-3">
+            Its components are styled with Tailwind utility classes that live in a <code>Theme.cs</code> file in your own project, so your Tailwind build compiles them and you can change any component's look by editing a C# string. There is no theme override layer to fight and no design system to work around.
+        </p>
+        <ul class="list-disc space-y-2 ps-5">
+            <li><strong>MIT licence, no paid tier.</strong> Free and open source for commercial and personal projects, with nothing held back behind a subscription.</li>
+            <li><strong>You own the styling.</strong> Classes sit in your repository, so your brand, your Tailwind config and your dark mode apply directly.</li>
+            <li>Works with Blazor Server and Blazor WebAssembly.</li>
+            <li>Dark mode, accessible markup and keyboard support in every component.</li>
+            <li>A <a href="/theme" class="font-semibold underline">Theme builder</a> for brand colors and picking only the components you use.</li>
+        </ul>
+        <p class="mt-3">
+            It is also newer and smaller than the established libraries, and some components are marked as beta. If you need a charting or scheduling suite today, a larger library may suit you better. If you already use Tailwind and want components that follow your design, twblazor is built for that.
+        </p>
+    </PageCard>
+
+    <PageCard Title="Next steps">
+        <ul class="list-disc space-y-2 ps-5">
+            <li>Follow the <a href="/get-started" class="font-semibold underline">Get started</a> guide to install twblazor.</li>
+            <li>Try the live examples, starting with the <a href="/button" class="font-semibold underline">button</a> and <a href="/data-table" class="font-semibold underline">data table</a> pages.</li>
+            <li>Learn <a href="/tailwind-blazor" class="font-semibold underline">how Tailwind CSS works with Blazor</a>.</li>
+        </ul>
+    </PageCard>
+</PageContainer>
+
+@code {
+    private enum Support { Yes, Partial, No }
+
+    private sealed record FeatureRow(string Name, string Licence, Support FreeCommercial, Support Tailwind, Support OwnedStyles, Support NoPaidTier, bool Highlight = false);
+
+    private static readonly FeatureRow[] _features =
+    [
+        new("twblazor", "MIT", Support.Yes, Support.Yes, Support.Yes, Support.Yes, Highlight: true),
+        new("MudBlazor", "MIT", Support.Yes, Support.No, Support.No, Support.Yes),
+        new("Radzen", "MIT", Support.Yes, Support.No, Support.No, Support.Partial),
+        new("Fluent UI Blazor", "MIT", Support.Yes, Support.No, Support.No, Support.Yes),
+        new("Blazorise", "Free + paid", Support.Partial, Support.Partial, Support.No, Support.No),
+        new("Commercial suites", "Proprietary", Support.No, Support.No, Support.No, Support.No),
+    ];
+
+    private static string CellClass(Support support, bool highlight)
+    {
+        var tint = support switch
+        {
+            Support.Yes => "bg-green-500/10 dark:bg-green-400/10",
+            Support.Partial => "bg-amber-500/10 dark:bg-amber-400/10",
+            _ => "bg-red-500/10 dark:bg-red-400/10",
+        };
+        return $"px-6 py-4 whitespace-nowrap text-center {(highlight ? "" : tint)}";
+    }
+
+    private static RenderFragment Mark(Support support) => builder =>
+    {
+        var (symbol, text, css) = support switch
+        {
+            Support.Yes => ("✓", "Yes", "font-bold text-green-600 dark:text-green-400"),
+            Support.Partial => ("~", "Partly", "font-bold text-amber-600 dark:text-amber-400"),
+            _ => ("✗", "No", "font-bold text-red-600 dark:text-red-400"),
+        };
+        builder.OpenElement(0, "span");
+        builder.AddAttribute(1, "class", "font-bold");
+        builder.AddAttribute(2, "aria-hidden", "true");
+        builder.AddContent(3, symbol);
+        builder.CloseElement();
+        builder.OpenElement(4, "span");
+        builder.AddAttribute(5, "class", "sr-only");
+        builder.AddContent(6, text);
+        builder.CloseElement();
+    };
+}

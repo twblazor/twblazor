@@ -217,12 +217,9 @@ public partial class TwDateTimeRangePicker : TwPopoverPickerComponentBase
         var isActive = stage == tabStage;
         return new ClassBuilder(theme.StageTabBase)
             .AddClass(roundedBuilder.GetRounded())
-            .AddClass(options.Theme.Colors.HoverColors.Primary, !isActive)
+            .AddClass(theme.HoverClass, !isActive)
             .AddClass(theme.RangeStageTabInactive, !isActive)
-            .AddClass(options.Theme.Colors.LightBackground.Light.Primary, isActive)
-            .AddClass(options.Theme.Colors.DarkBackground.Light.Primary, isActive)
-            .AddClass(options.Theme.Colors.TextColors.Medium.Primary, isActive)
-            .AddClass(options.Theme.Colors.DarkTextColors.Medium.Primary, isActive)
+            .AddClass(theme.StageTabActive, isActive)
             .Build();
     }
 

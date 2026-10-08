@@ -16,7 +16,7 @@ public class TwDatePickerTheme
 {
     /// <summary>
     /// Gets or sets the classes for the header that displays navigation between days, months, and
-    /// decades. Its background comes from the shared <see cref="TwOverlayTheme.PopoverBackground"/>.
+    /// decades. Its background comes from the shared <see cref="TwPopoverTheme.Background"/>.
     /// </summary>
     public required string Header { get; set; }
 
@@ -36,6 +36,21 @@ public class TwDatePickerTheme
     /// Gets or sets the classes for active day, month, and year selection buttons.
     /// </summary>
     public required string ActiveClass { get; set; }
+
+    /// <summary>
+    /// Gets or sets the classes for a selected day, month, or year (and the start and end of a range).
+    /// </summary>
+    public required string SelectedClass { get; set; }
+
+    /// <summary>
+    /// Gets or sets the hover classes for an unselected day, month, year, or step tab.
+    /// </summary>
+    public required string HoverClass { get; set; }
+
+    /// <summary>
+    /// Gets or sets the classes for the active Start/End step tab.
+    /// </summary>
+    public required string StageTabActive { get; set; }
 
     /// <summary>
     /// Gets or sets the classes for the day, month, and year selection buttons.
