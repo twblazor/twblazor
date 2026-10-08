@@ -11,7 +11,7 @@ public class DialogBuilderTests : TwBlazorTestBase
 
     private TwDialogTheme dialogTheme => Theme.Components.Require<TwOverlayTheme>().Dialog;
 
-    
+
     #region GetPositionClasses
 
     [Theory]

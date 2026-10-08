@@ -1,5 +1,4 @@
 using Bunit;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using TwBlazor.Components;
 using TwBlazor.Configuration.Components;
@@ -43,7 +42,7 @@ public class TwTooltipTests : TwBlazorTestBase
     [Fact]
     public void TwTooltip_TooltipContent_TakesPrecedenceOverText()
     {
-        var cut = RenderTooltip(p => p.Add(x => x.TooltipContent, (RenderFragment)(b => b.AddMarkupContent(0, "<strong>Rich</strong>"))));
+        var cut = RenderTooltip(p => p.Add(x => x.TooltipContent, b => b.AddMarkupContent(0, "<strong>Rich</strong>")));
 
         var tooltip = cut.Find("[role='tooltip']");
         Assert.NotNull(tooltip.QuerySelector("strong"));
@@ -193,6 +192,48 @@ public class TwTooltipTests : TwBlazorTestBase
         var cut = RenderTooltip();
 
         Assert.Contains(tooltipTheme.Top, cut.Find("[role='tooltip']").GetAttribute("class"));
+    }
+
+    #endregion
+
+    #region Arrow
+
+    [Fact]
+    public void TwTooltip_RendersNoArrow_ByDefault()
+    {
+        var cut = RenderTooltip();
+
+        Assert.Empty(cut.FindAll("[role='tooltip'] [aria-hidden='true']"));
+    }
+
+    [Fact]
+    public void TwTooltip_Arrow_RendersDecorativeElementInsideTooltip()
+    {
+        var cut = RenderTooltip(p => p.Add(x => x.Arrow, true));
+
+        var arrow = cut.Find("[role='tooltip'] [aria-hidden='true']");
+        Assert.Contains(tooltipTheme.Arrow, arrow.GetAttribute("class"));
+        Assert.Contains(popoverTheme.Background, arrow.GetAttribute("class"));
+        Assert.Equal("More detail", cut.Find("[role='tooltip']").TextContent.Trim());
+    }
+
+    [Theory]
+    [InlineData(TooltipPlacement.Top)]
+    [InlineData(TooltipPlacement.Bottom)]
+    [InlineData(TooltipPlacement.Left)]
+    [InlineData(TooltipPlacement.Right)]
+    public void TwTooltip_Arrow_FollowsPlacement(TooltipPlacement placement)
+    {
+        var cut = RenderTooltip(p => p.Add(x => x.Arrow, true).Add(x => x.Placement, placement));
+
+        var expected = placement switch
+        {
+            TooltipPlacement.Bottom => tooltipTheme.ArrowBottom,
+            TooltipPlacement.Left => tooltipTheme.ArrowLeft,
+            TooltipPlacement.Right => tooltipTheme.ArrowRight,
+            _ => tooltipTheme.ArrowTop
+        };
+        Assert.Contains(expected, cut.Find("[role='tooltip'] [aria-hidden='true']").GetAttribute("class"));
     }
 
     #endregion

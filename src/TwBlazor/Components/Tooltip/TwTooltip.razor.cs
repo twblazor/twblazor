@@ -55,6 +55,14 @@ public partial class TwTooltip : TwBlazorComponentBase
     [Parameter] public bool Disabled { get; set; }
 
     /// <summary>
+    /// Gets or sets whether the bubble shows a small arrow pointing at the content.
+    /// </summary>
+    /// <remarks>
+    /// Default is <see langword="false"/>. The arrow is decorative and hidden from assistive technology.
+    /// </remarks>
+    [Parameter] public bool Arrow { get; set; }
+
+    /// <summary>
     /// Gets or sets whether the wrapper itself is added to the tab order so keyboard users can reveal the
     /// tooltip.
     /// </summary>
@@ -90,6 +98,8 @@ public partial class TwTooltip : TwBlazorComponentBase
         .Build();
 
     private string tooltipClasses => popoverBuilder.GetTooltipClasses(dismissed, Placement, Rounded, Shadow, TooltipClass);
+
+    private string arrowClasses => popoverBuilder.GetTooltipArrowClasses(Placement);
 
     private void OnKeyDown(KeyboardEventArgs e)
     {

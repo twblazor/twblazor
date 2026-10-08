@@ -27,6 +27,19 @@
         </CodeExample>
     </PageCard>
 
+    <PageCard Title="Arrow">
+        <Description>Set <code>Arrow</code> to add a small pointer from the bubble to the content. It follows <code>Placement</code> and is decorative, so it is hidden from assistive technology.</Description>
+
+        <CodeExample Name="TooltipArrow">
+            <div class="flex flex-wrap items-center justify-center gap-16 py-10">
+                <TwTooltip Text="Shown above" Arrow="true">Top</TwTooltip>
+                <TwTooltip Text="Shown below" Placement="TooltipPlacement.Bottom" Arrow="true">Bottom</TwTooltip>
+                <TwTooltip Text="Shown to the left" Placement="TooltipPlacement.Left" Arrow="true">Left</TwTooltip>
+                <TwTooltip Text="Shown to the right" Placement="TooltipPlacement.Right" Arrow="true">Right</TwTooltip>
+            </div>
+        </CodeExample>
+    </PageCard>
+
     <PageCard Title="Rich content">
         <Description>
             Use <code>TooltipContent</code> for formatted text instead of <code>Text</code>. Keep it

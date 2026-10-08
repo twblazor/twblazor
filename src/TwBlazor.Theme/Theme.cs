@@ -627,7 +627,12 @@ public static class Theme
                 Top = "bottom-full left-1/2 mb-2 -translate-x-1/2",
                 Bottom = "top-full left-1/2 mt-2 -translate-x-1/2",
                 Left = "right-full top-1/2 mr-2 -translate-y-1/2",
-                Right = "left-full top-1/2 ml-2 -translate-y-1/2"
+                Right = "left-full top-1/2 ml-2 -translate-y-1/2",
+                Arrow = $"{positioning.Absolute} size-2 rotate-45 pointer-events-none",
+                ArrowTop = "-bottom-[5px] left-1/2 -translate-x-1/2 border-t-0 border-l-0",
+                ArrowBottom = "-top-[5px] left-1/2 -translate-x-1/2 border-b-0 border-r-0",
+                ArrowLeft = "-right-[5px] top-1/2 -translate-y-1/2 border-b-0 border-l-0",
+                ArrowRight = "-left-[5px] top-1/2 -translate-y-1/2 border-t-0 border-r-0"
             }
         };
 

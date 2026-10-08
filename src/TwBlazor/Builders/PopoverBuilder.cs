@@ -67,6 +67,24 @@ public class PopoverBuilder(TwBlazorOptions options, RoundedBuilder roundedBuild
             .AddClass(options.Theme.Display.Hidden, dismissed)
             .Build();
 
+    /// <summary>
+    /// Gets the classes for a tooltip's arrow: the shared arrow shape, the popover fill and border so it
+    /// continues the bubble's outline, and the offset for the bubble's <paramref name="placement"/>.
+    /// </summary>
+    /// <param name="placement">Which side of the control the bubble appears on.</param>
+    public string GetTooltipArrowClasses(TooltipPlacement placement) =>
+        new ClassBuilder(tooltipTheme.Arrow)
+            .AddClass(theme.Background)
+            .AddClass(theme.Border)
+            .AddClass(placement switch
+            {
+                TooltipPlacement.Bottom => tooltipTheme.ArrowBottom,
+                TooltipPlacement.Left => tooltipTheme.ArrowLeft,
+                TooltipPlacement.Right => tooltipTheme.ArrowRight,
+                _ => tooltipTheme.ArrowTop
+            })
+            .Build();
+
     private string GetPlacementClasses(TooltipPlacement placement) => placement switch
     {
         TooltipPlacement.Bottom => tooltipTheme.Bottom,

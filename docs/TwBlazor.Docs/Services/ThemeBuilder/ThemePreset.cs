@@ -51,7 +51,7 @@ internal sealed record ThemePreset(string Name, string Description, IReadOnlyDic
         Create("Bubblegum", "Playful pink", (Palette.Pink700, Palette.Violet600, Palette.Green700, Palette.Red600, Palette.Yellow600, Palette.Sky600), new(Rounded.Lg, Shadow.Md, InputVariant.Filled, ButtonVariant.Filled)),
         Create("Coral", "Burnt orange, elevated buttons", (Palette.Orange700, Palette.Pink700, Palette.Green700, Palette.Red700, Palette.Yellow600, Palette.Cyan700), new(Rounded.Lg, Shadow.Md, InputVariant.Filled, ButtonVariant.Elevated)),
         Create("Volcano", "Molten red and orange", (Palette.Red700, Palette.Orange700, Palette.Green700, Palette.Red900, Palette.Amber700, Palette.Blue700), new(Rounded.Sm, Shadow.Lg, InputVariant.Filled, ButtonVariant.Elevated)),
- 
+
         Create("Amber", "Golden brown, flat", (Palette.Amber700, Palette.Fuchsia700, Palette.Green700, Palette.Red700, Palette.Yellow600, Palette.Blue700), new(Rounded.Sm, Shadow.None, InputVariant.Default, ButtonVariant.Filled)),
         Create("Terracotta", "Baked clay and sage", (Palette.Orange800, Palette.Yellow700, Palette.Lime800, Palette.Red800, Palette.Amber700, Palette.Cyan800), new(Rounded.Sm, Shadow.Md, InputVariant.Filled, ButtonVariant.Filled)),
         Create("Espresso", "Dark roast, no shadows", (Palette.Amber900, Palette.Yellow700, Palette.Lime800, Palette.Red800, Palette.Amber700, Palette.Cyan800), new(Rounded.Sm, Shadow.None, InputVariant.Default, ButtonVariant.Filled)),

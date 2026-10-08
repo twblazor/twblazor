@@ -16,6 +16,10 @@
     @if (hasTooltip)
     {
         <span id="@tooltipId" role="tooltip" class="@tooltipClasses">
+            @if (Arrow)
+            {
+                <span class="@arrowClasses" aria-hidden="true"></span>
+            }
             @if (TooltipContent != null)
             {
                 @TooltipContent

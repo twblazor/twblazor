@@ -176,6 +176,32 @@ public class PopoverBuilderTests : TwBlazorTestBase
         }
     }
 
+    [Theory]
+    [InlineData(TooltipPlacement.Top)]
+    [InlineData(TooltipPlacement.Bottom)]
+    [InlineData(TooltipPlacement.Left)]
+    [InlineData(TooltipPlacement.Right)]
+    public void GetTooltipArrowClasses_AddsShapePopoverSurfaceAndOnlyTheRequestedPlacement(TooltipPlacement placement)
+    {
+        var placements = new Dictionary<TooltipPlacement, string>
+        {
+            [TooltipPlacement.Top] = tooltipTheme.ArrowTop,
+            [TooltipPlacement.Bottom] = tooltipTheme.ArrowBottom,
+            [TooltipPlacement.Left] = tooltipTheme.ArrowLeft,
+            [TooltipPlacement.Right] = tooltipTheme.ArrowRight
+        };
+
+        var result = popoverBuilder.GetTooltipArrowClasses(placement);
+
+        Assert.Contains(tooltipTheme.Arrow, result);
+        Assert.Contains(popoverTheme.Background, result);
+        Assert.Contains(popoverTheme.Border, result);
+        foreach (var (key, classes) in placements)
+        {
+            Assert.Equal(key == placement, result.Contains(classes));
+        }
+    }
+
     [Fact]
     public void GetTooltipClasses_DefaultsToTopPlacement()
     {

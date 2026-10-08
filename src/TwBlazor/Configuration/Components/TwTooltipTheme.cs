@@ -48,4 +48,32 @@ public class TwTooltipTheme
     /// Gets or sets the offset classes that place a tooltip bubble to the right of its control.
     /// </summary>
     public required string Right { get; set; }
+
+    /// <summary>
+    /// Gets or sets the classes shared by every tooltip arrow: a small rotated square that sits on the
+    /// bubble's edge. Its fill and border come from <see cref="TwPopoverTheme"/> so it matches the bubble;
+    /// the per-placement classes below position it and hide the two borders that would show inside the bubble.
+    /// </summary>
+    public required string Arrow { get; set; }
+
+    /// <summary>
+    /// Gets or sets the classes that place the arrow on the bottom edge of a bubble shown above its control
+    /// (<see cref="TwBlazor.Enums.TooltipPlacement.Top"/>).
+    /// </summary>
+    public required string ArrowTop { get; set; }
+
+    /// <summary>
+    /// Gets or sets the classes that place the arrow on the top edge of a bubble shown below its control.
+    /// </summary>
+    public required string ArrowBottom { get; set; }
+
+    /// <summary>
+    /// Gets or sets the classes that place the arrow on the right edge of a bubble shown left of its control.
+    /// </summary>
+    public required string ArrowLeft { get; set; }
+
+    /// <summary>
+    /// Gets or sets the classes that place the arrow on the left edge of a bubble shown right of its control.
+    /// </summary>
+    public required string ArrowRight { get; set; }
 }
