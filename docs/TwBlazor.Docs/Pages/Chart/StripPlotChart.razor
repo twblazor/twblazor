@@ -1,0 +1,53 @@
+@page "/chart/strip-plot"
+@using TwBlazor.Models
+
+<PageContainer Title="TwStripPlotChart" Path="/chart/strip-plot" Beta Description="TwStripPlotChart is a Blazor strip plot that draws every observation as a dot, one strip per group. Add jitter to separate overlaps.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwStripPlotChart</code> draws every observation in a <code>ChartSample</code> as a dot along the value axis, one strip per group, so the raw spread and any clusters are visible.</Description>
+
+        <CodeExample Name="StripPlotChartBasic" CSharpName="StripPlotChartData">
+            <TwChart Title="Response times by service" Description="Milliseconds">
+                <TwStripPlotChart Samples="@services" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Jitter">
+        <Description>Set <code>Jitter</code> to nudge dots sideways so overlapping values stay visible. The nudge is repeatable: the same data always draws the same picture.</Description>
+
+        <CodeExample Name="StripPlotChartJitter">
+            <TwChart Title="Response times by service">
+                <TwStripPlotChart Samples="@services" Jitter="true" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Horizontal">
+        <Description>Set <code>Horizontal</code> to list the groups down the side.</Description>
+
+        <CodeExample Name="StripPlotChartHorizontal">
+            <TwChart Title="Response times by service">
+                <TwStripPlotChart Samples="@services" Horizontal="true" Height="ChartHeight.Small" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="When to use">
+        <Description>A strip plot suits small samples. For large ones, summarise with <TwLink Href="/chart/box-plot">TwBoxPlotChart</TwLink> or <TwLink Href="/chart/histogram">TwHistogramChart</TwLink>.</Description>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart">TwChart</TwLink> for those options.</Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample StripPlotChartData
+    private ChartSample[] services =
+    [
+        new("Search", [112, 120, 131, 135, 138, 142, 144, 149, 151, 153, 290]),
+        new("Checkout", [156, 158, 160, 163, 167, 170, 172, 176, 181, 185]),
+        new("Reports", [190, 196, 204, 215, 228, 240, 262, 150, 310])
+    ];
+    #endregion
+}

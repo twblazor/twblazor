@@ -1,0 +1,77 @@
+@page "/chart/scatter"
+@using TwBlazor.Models
+
+<PageContainer Title="TwScatterChart" Path="/chart/scatter" Beta Description="TwScatterChart is a Blazor scatter plot that positions points by two values. Also draws bubble charts and connected scatter plots.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwScatterChart</code> positions points by two numeric values to show how they relate. Pass one or more <code>ChartPointSeries</code>, each a named list of <code>ChartPoint</code>. <code>XTitle</code> and <code>YTitle</code> label the axes and name the values in tooltips and the table view.</Description>
+
+        <CodeExample Name="ScatterChartBasic" CSharpName="ScatterChartData">
+            <TwChart Title="Price against rating">
+                <TwScatterChart Series="@products" XTitle="Price" YTitle="Rating" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Bubble chart">
+        <Description>Give points a <code>Size</code> and each is drawn as a bubble whose area follows it, adding a third value. <code>SizeTitle</code> names it.</Description>
+
+        <CodeExample Name="ScatterChartBubble" CSharpName="ScatterChartBubbleData">
+            <TwChart Title="Price, rating and units sold">
+                <TwScatterChart Series="@bubbles" XTitle="Price" YTitle="Rating" SizeTitle="Units sold" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Point labels">
+        <Description>Set <code>ShowLabels</code> to print each point's <code>Label</code> beside it.</Description>
+
+        <CodeExample Name="ScatterChartLabels">
+            <TwChart Title="Price against rating">
+                <TwScatterChart Series="@products" XTitle="Price" YTitle="Rating" ShowLabels="true" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Connected scatter plot">
+        <Description>Set <code>Connect</code> to join the points of each series in order, tracing a path through two variables over time.</Description>
+
+        <CodeExample Name="ScatterChartConnected" CSharpName="ScatterChartConnectedData">
+            <TwChart Title="Unemployment against inflation" Description="Percent, by year">
+                <TwScatterChart Series="@economy" XTitle="Unemployment" YTitle="Inflation" Connect="true" ShowLabels="true" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Colors">
+        <Description>Any two points can sit side by side, so keep to three series or fewer for colors that stay easy to tell apart.</Description>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart">TwChart</TwLink> for those options.</Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample ScatterChartData
+    private ChartPointSeries[] products =
+    [
+        new("Audio", [new(49, 4.1, "Buds"), new(129, 4.6, "Studio"), new(79, 3.8, "Sport")]),
+        new("Wearables", [new(199, 4.4, "Pulse"), new(99, 3.6, "Band"), new(249, 4.7, "Pro")])
+    ];
+    #endregion
+
+    #region CodeExample ScatterChartBubbleData
+    private ChartPointSeries[] bubbles =
+    [
+        new("Audio", [new(49, 4.1, "Buds", 320), new(129, 4.6, "Studio", 180), new(79, 3.8, "Sport", 240)]),
+        new("Wearables", [new(199, 4.4, "Pulse", 150), new(99, 3.6, "Band", 410), new(249, 4.7, "Pro", 90)])
+    ];
+    #endregion
+
+    #region CodeExample ScatterChartConnectedData
+    private ChartPointSeries[] economy =
+    [
+        new("Economy", [new(4.1, 2.0, "2021"), new(3.8, 6.2, "2022"), new(4.3, 7.4, "2023"), new(4.6, 3.1, "2024"), new(4.4, 2.4, "2025")])
+    ];
+    #endregion
+}

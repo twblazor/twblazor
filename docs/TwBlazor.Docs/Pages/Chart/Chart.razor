@@ -1,407 +1,87 @@
 @page "/chart"
 @using TwBlazor.Models
 
-<PageContainer Title="TwChart" Path="/chart" Beta Description="TwChart is a Blazor chart container with over thirty chart types: bar, column, line, area, pie, radar, waterfall, heatmap and more. Accessible, themeable and script-free." ThemeType="typeof(TwChartTheme)">
+<PageContainer Title="TwChart" Path="/chart" Beta Description="TwChart is the Blazor chart container for over thirty chart types. It adds a title, loading state and shared options. Accessible and script-free." ThemeType="typeof(TwChartTheme)">
     <PageCard Title="Basic usage">
         <Description>
-            <code>TwChart</code> is the container: it adds a title, a description and a loading state. Place one
-            chart component inside it and pass the data. Every chart supplies its own legend, tooltips on hover
-            and keyboard focus, and a table view of the same data. Tab into a chart, then use the arrow,
-            <kbd>Home</kbd> and <kbd>End</kbd> keys to move between data points.
+            <code>TwChart</code> is the container: it frames a chart with a title, a description and a loading
+            state. Place one chart component inside it and pass the data. Every chart supplies its own legend,
+            tooltips on hover and keyboard focus, and a table view of the same data.
         </Description>
 
-        <CodeExample Name="ChartBasic" CSharpName="ChartCategoryData">
+        <CodeExample Name="ChartBasic" CSharpName="ChartData">
             <TwChart Title="Revenue by region" Description="Thousands of pounds, last quarter">
-                <TwColumnChart Categories="@regions" Series="@revenue" />
-            </TwChart>
-        </CodeExample>
-    </PageCard>
-
-    <PageCard Title="Bar and column">
-        <Description>
-            <code>TwBarChart</code> draws horizontal bars and <code>TwColumnChart</code> draws vertical ones. Pass
-            more than one series for a grouped chart. Set <code>ShowValues</code> to label each bar.
-        </Description>
-
-        <CodeExample Name="ChartBar">
-            <TwChart Title="Revenue by region">
-                <TwBarChart Categories="@regions" Series="@revenue" ShowValues="true" />
-            </TwChart>
-        </CodeExample>
-
-        <CodeExample Name="ChartGrouped">
-            <TwChart Title="Revenue by region and year">
                 <TwColumnChart Categories="@regions" Series="@yearly" />
             </TwChart>
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Stacked and diverging">
+    <PageCard Title="Choosing a chart">
         <Description>
-            Set <code>Stacking</code> to <code>ChartStacking.Stacked</code> to show totals, or
-            <code>ChartStacking.Percent</code> to show shares. Negative values grow the other way from the
-            baseline, which makes a diverging chart.
+            Start from what the reader needs to see, then pick the chart. Each chart has its own page with
+            examples of every option.
         </Description>
 
-        <CodeExample Name="ChartStacked">
-            <TwChart Title="Revenue by region and year">
-                <TwColumnChart Categories="@regions" Series="@yearly" Stacking="ChartStacking.Stacked" />
-            </TwChart>
-        </CodeExample>
+        <TwTable Id="chart-types" AriaLabel="Chart types by purpose" Bordered="true" Class="mt-4">
+            <TableHeader>
+                <tr>
+                    <th scope="col" class="px-4 py-2.5">To show</th>
+                    <th scope="col" class="px-4 py-2.5">Use</th>
+                </tr>
+            </TableHeader>
+            <TableBody>
+                @foreach (var (purpose, charts) in chartTypes)
+                {
+                    <tr>
+                        <th scope="row" class="px-4 py-2.5 font-medium align-top">@purpose</th>
+                        <td class="px-4 py-2.5">
+                            <div class="flex flex-wrap gap-x-4 gap-y-1">
+                                @foreach (var (name, url) in charts)
+                                {
+                                    <TwLink Href="@url">@name</TwLink>
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </TableBody>
+        </TwTable>
+    </PageCard>
 
-        <CodeExample Name="ChartPercent">
-            <TwChart Title="Share of revenue by year">
-                <TwBarChart Categories="@regions" Series="@yearly" Stacking="ChartStacking.Percent" />
-            </TwChart>
-        </CodeExample>
+    <PageCard Title="Title and description">
+        <Description>
+            <code>Title</code> names the chart, on screen and for assistive technology. Use
+            <code>Description</code> for the unit or the period, so the axis does not have to carry it. Both are
+            optional; without a title, give the chart an <code>AriaLabel</code>.
+        </Description>
 
-        <CodeExample Name="ChartDiverging" CSharpName="ChartDivergingData">
-            <TwChart Title="Survey: the new layout is easier to use">
-                <TwBarChart Categories="@teams" Series="@sentiment" Stacking="ChartStacking.Stacked" />
+        <CodeExample Name="ChartTitle">
+            <TwChart Title="Revenue by region" Description="Thousands of pounds, last quarter">
+                <TwBarChart Categories="@regions" Series="@revenue" />
             </TwChart>
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Lollipop, dot plot and dumbbell">
+    <PageCard Title="Height">
         <Description>
-            <code>TwLollipopChart</code> is a lighter bar chart. <code>TwDotPlotChart</code> compares series by
-            position on a scale that does not have to start at zero, and <code>TwDumbbellChart</code> joins the
-            dots to draw attention to the gap between them.
+            <code>Height</code> sets how tall the plot is: <code>ChartHeight.Small</code>,
+            <code>Medium</code> (the default) or <code>Large</code>. Set it on the container, or on a chart to
+            override the container. The width always follows the space available. Radial charts are square, and
+            <code>Height</code> sets how wide the square may grow.
         </Description>
 
-        <CodeExample Name="ChartLollipop">
-            <TwChart Title="Revenue by region">
-                <TwLollipopChart Categories="@regions" Series="@revenue" />
-            </TwChart>
-        </CodeExample>
-
-        <CodeExample Name="ChartDotPlot">
-            <TwChart Title="Revenue by region and year">
-                <TwDotPlotChart Categories="@regions" Series="@yearly" />
-            </TwChart>
-        </CodeExample>
-
-        <CodeExample Name="ChartDumbbell">
-            <TwChart Title="Revenue change by region">
-                <TwDumbbellChart Categories="@regions" Series="@yearly" />
-            </TwChart>
-        </CodeExample>
-    </PageCard>
-
-    <PageCard Title="Range and Gantt">
-        <Description>
-            <code>TwRangeChart</code> draws a floating bar from a low to a high value.
-            <code>TwGanttChart</code> does the same for tasks between two dates.
-        </Description>
-
-        <CodeExample Name="ChartRange" CSharpName="ChartRangeData">
-            <TwChart Title="Salary bands" Description="Thousands of pounds">
-                <TwRangeChart Ranges="@salaryBands" />
-            </TwChart>
-        </CodeExample>
-
-        <CodeExample Name="ChartGantt" CSharpName="ChartGanttData">
-            <TwChart Title="Release plan">
-                <TwGanttChart Tasks="@tasks" />
-            </TwChart>
-        </CodeExample>
-    </PageCard>
-
-    <PageCard Title="Bullet">
-        <Description>
-            <code>TwBulletChart</code> benchmarks an actual value against a target, with optional shaded bands
-            for qualitative ranges. Each measure has its own scale.
-        </Description>
-
-        <CodeExample Name="ChartBullet" CSharpName="ChartBulletData">
-            <TwChart Title="Quarterly targets">
-                <TwBulletChart Items="@bullets" Height="ChartHeight.Small" />
-            </TwChart>
-        </CodeExample>
-    </PageCard>
-
-    <PageCard Title="Waterfall">
-        <Description>
-            <code>TwWaterfallChart</code> shows how increases and decreases build up to a total. Each value is a
-            change; the total column is added for you.
-        </Description>
-
-        <CodeExample Name="ChartWaterfall" CSharpName="ChartWaterfallData">
-            <TwChart Title="Profit bridge" Description="Thousands of pounds">
-                <TwWaterfallChart Data="@bridge" ShowValues="true" />
-            </TwChart>
-        </CodeExample>
-    </PageCard>
-
-    <PageCard Title="Line and area">
-        <Description>
-            <code>TwLineChart</code> shows a trend. Set <code>Curve</code> to <code>ChartCurve.Smooth</code> for
-            a spline or <code>ChartCurve.Step</code> for a step line. <code>TwAreaChart</code> fills the space
-            under the line, and <code>Stacked</code> shows how the series add up.
-        </Description>
-
-        <CodeExample Name="ChartLine" CSharpName="ChartTrendData">
-            <TwChart Title="Monthly visitors" Description="Thousands">
-                <TwLineChart Categories="@months" Series="@visitors" />
-            </TwChart>
-        </CodeExample>
-
-        <CodeExample Name="ChartSpline">
-            <TwChart Title="Monthly visitors" Description="Thousands">
-                <TwLineChart Categories="@months" Series="@visitors" Curve="ChartCurve.Smooth" />
-            </TwChart>
-        </CodeExample>
-
-        <CodeExample Name="ChartStep">
-            <TwChart Title="Monthly visitors" Description="Thousands">
-                <TwLineChart Categories="@months" Series="@visitors" Curve="ChartCurve.Step" ShowMarkers="false" />
-            </TwChart>
-        </CodeExample>
-
-        <CodeExample Name="ChartArea">
-            <TwChart Title="Monthly visitors" Description="Thousands">
-                <TwAreaChart Categories="@months" Series="@visitors" Stacked="true" />
-            </TwChart>
-        </CodeExample>
-    </PageCard>
-
-    <PageCard Title="Slope and bump">
-        <Description>
-            <code>TwSlopeChart</code> shows change between two points in time, labelled at both ends.
-            <code>TwBumpChart</code> tracks how the series rank against each other.
-        </Description>
-
-        <CodeExample Name="ChartSlope" CSharpName="ChartSlopeData">
-            <TwChart Title="Market share" Description="Percent">
-                <TwSlopeChart Categories="@years" Series="@share" />
-            </TwChart>
-        </CodeExample>
-
-        <CodeExample Name="ChartBump">
-            <TwChart Title="Visitor ranking by month">
-                <TwBumpChart Categories="@months" Series="@visitors" />
-            </TwChart>
-        </CodeExample>
-    </PageCard>
-
-    <PageCard Title="Small multiples">
-        <Description>
-            <code>TwSmallMultiplesChart</code> repeats one simple chart per series on a shared scale. Reach for it
-            when a single plot would hold too many series. <code>Kind</code> picks columns, a line or an area.
-        </Description>
-
-        <CodeExample Name="ChartSmallMultiples">
-            <TwChart Title="Monthly visitors by channel" Description="Thousands">
-                <TwSmallMultiplesChart Categories="@months" Series="@visitors" Kind="SmallMultipleKind.Area" />
-            </TwChart>
-        </CodeExample>
-    </PageCard>
-
-    <PageCard Title="Radar and parallel coordinates">
-        <Description>
-            Both compare items across several variables. <code>TwRadarChart</code> uses one shared scale around
-            a center. <code>TwParallelCoordinatesChart</code> gives every variable its own axis and scale.
-        </Description>
-
-        <CodeExample Name="ChartRadar" CSharpName="ChartProfileData">
-            <TwChart Title="Laptop comparison" Description="Score out of 10">
-                <TwRadarChart Categories="@attributes" Series="@laptops" />
-            </TwChart>
-        </CodeExample>
-
-        <CodeExample Name="ChartParallel">
-            <TwChart Title="Laptop comparison" Description="Score out of 10">
-                <TwParallelCoordinatesChart Categories="@attributes" Series="@laptops" />
-            </TwChart>
-        </CodeExample>
-    </PageCard>
-
-    <PageCard Title="Heatmap and matrix">
-        <Description>
-            Both lay series out as rows and categories as columns. <code>TwHeatmapChart</code> shows the value by
-            color intensity and <code>TwMatrixChart</code> by the size of a dot.
-        </Description>
-
-        <CodeExample Name="ChartHeatmap" CSharpName="ChartGridData">
-            <TwChart Title="Support tickets by day and shift">
-                <TwHeatmapChart Categories="@days" Series="@shifts" ShowValues="true" />
-            </TwChart>
-        </CodeExample>
-
-        <CodeExample Name="ChartMatrix">
-            <TwChart Title="Support tickets by day and shift">
-                <TwMatrixChart Categories="@days" Series="@shifts" />
-            </TwChart>
-        </CodeExample>
-    </PageCard>
-
-    <PageCard Title="Scatter, bubble and quadrant">
-        <Description>
-            <code>TwScatterChart</code> positions points by two values. Give points a <code>Size</code> for a
-            bubble chart, or set <code>Connect</code> to join them in order. <code>TwQuadrantChart</code> adds
-            two thresholds and a label for each of the four regions.
-        </Description>
-
-        <CodeExample Name="ChartScatter" CSharpName="ChartPointData">
-            <TwChart Title="Price against rating">
-                <TwScatterChart Series="@products" XTitle="Price" YTitle="Rating" SizeTitle="Units sold" />
-            </TwChart>
-        </CodeExample>
-
-        <CodeExample Name="ChartQuadrant">
-            <TwChart Title="Backlog priorities">
-                <TwQuadrantChart Series="@backlog" XTitle="Effort" YTitle="Impact" XThreshold="5" YThreshold="5"
-                                 TopLeftLabel="Quick wins" TopRightLabel="Major projects" BottomLeftLabel="Fill-ins" BottomRightLabel="Reconsider" />
-            </TwChart>
-        </CodeExample>
-    </PageCard>
-
-    <PageCard Title="Pie, donut and Nightingale">
-        <Description>
-            <code>TwPieChart</code> shows parts of a whole. Set <code>InnerRadius</code> for a donut and
-            <code>Semicircle</code> for a half donut. <code>TwNightingaleChart</code> uses equal angles and
-            varies the radius instead. Past eight values, the smallest fold into one "Other" slice.
-        </Description>
-
-        <CodeExample Name="ChartPie" CSharpName="ChartShareData">
-            <TwChart Title="Traffic by source">
-                <TwPieChart Data="@sources" />
-            </TwChart>
-        </CodeExample>
-
-        <CodeExample Name="ChartDonut">
-            <TwChart Title="Traffic by source">
-                <TwPieChart Data="@sources" InnerRadius="0.6" CenterText="1,000" />
-            </TwChart>
-        </CodeExample>
-
-        <CodeExample Name="ChartSemicircle">
-            <TwChart Title="Traffic by source">
-                <TwPieChart Data="@sources" InnerRadius="0.6" Semicircle="true" />
-            </TwChart>
-        </CodeExample>
-
-        <CodeExample Name="ChartNightingale">
-            <TwChart Title="Traffic by source">
-                <TwNightingaleChart Data="@sources" />
-            </TwChart>
-        </CodeExample>
-    </PageCard>
-
-    <PageCard Title="Waffle, treemap and funnel">
-        <Description>
-            <code>TwWaffleChart</code> shows shares as squares worth one percent each.
-            <code>TwTreemapChart</code> tiles the plot with rectangles sized by value.
-            <code>TwFunnelChart</code> shows what remains at each stage of a process; set <code>Inverted</code>
-            for a pyramid.
-        </Description>
-
-        <CodeExample Name="ChartWaffle">
-            <TwChart Title="Traffic by source">
-                <TwWaffleChart Data="@sources" />
-            </TwChart>
-        </CodeExample>
-
-        <CodeExample Name="ChartTreemap">
-            <TwChart Title="Traffic by source">
-                <TwTreemapChart Data="@sources" />
-            </TwChart>
-        </CodeExample>
-
-        <CodeExample Name="ChartFunnel" CSharpName="ChartFunnelData">
-            <TwChart Title="Checkout funnel">
-                <TwFunnelChart Data="@funnel" LabelHeader="Stage" ValueHeader="Visitors" />
-            </TwChart>
-        </CodeExample>
-    </PageCard>
-
-    <PageCard Title="Radial bar and gauge">
-        <Description>
-            <code>TwRadialBarChart</code> bends bars around a circle. <code>TwGaugeChart</code> shows one value
-            between a minimum and a maximum.
-        </Description>
-
-        <CodeExample Name="ChartRadialBar">
-            <TwChart Title="Traffic by source">
-                <TwRadialBarChart Data="@sources" />
-            </TwChart>
-        </CodeExample>
-
-        <CodeExample Name="ChartGauge">
-            <TwChart Title="Storage used">
-                <TwGaugeChart Value="68" Label="Percent used" Height="ChartHeight.Small" />
-            </TwChart>
-        </CodeExample>
-    </PageCard>
-
-    <PageCard Title="Icon chart">
-        <Description>
-            <code>TwIconChart</code> draws values with any <code>Icon</code>. By default it repeats the icon
-            (a pictogram). Set <code>Mode</code> to <code>IconChartMode.Size</code> to scale one icon per value.
-        </Description>
-
-        <CodeExample Name="ChartIcon" CSharpName="ChartIconData">
-            <TwChart Title="Team size by office">
-                <TwIconChart Data="@offices" Icon="Icon.Person" LabelHeader="Office" ValueHeader="People" Height="ChartHeight.Small" />
-            </TwChart>
-        </CodeExample>
-
-        <CodeExample Name="ChartIconSize">
-            <TwChart Title="Team size by office">
-                <TwIconChart Data="@offices" Icon="Icon.Person" Mode="IconChartMode.Size" Height="ChartHeight.Small" />
-            </TwChart>
-        </CodeExample>
-    </PageCard>
-
-    <PageCard Title="Distributions">
-        <Description>
-            <code>TwHistogramChart</code> groups raw values into bins. <code>TwBoxPlotChart</code> summarises
-            each group by its quartiles, and <code>TwStripPlotChart</code> shows every observation; set
-            <code>Jitter</code> to spread overlapping dots.
-        </Description>
-
-        <CodeExample Name="ChartHistogram" CSharpName="ChartSampleData">
-            <TwChart Title="Response times" Description="Milliseconds">
-                <TwHistogramChart Values="@responseTimes" BinCount="8" />
-            </TwChart>
-        </CodeExample>
-
-        <CodeExample Name="ChartBoxPlot">
-            <TwChart Title="Response times by service" Description="Milliseconds">
-                <TwBoxPlotChart Samples="@services" />
-            </TwChart>
-        </CodeExample>
-
-        <CodeExample Name="ChartStripPlot">
-            <TwChart Title="Response times by service" Description="Milliseconds">
-                <TwStripPlotChart Samples="@services" Jitter="true" />
-            </TwChart>
-        </CodeExample>
-    </PageCard>
-
-    <PageCard Title="Candlestick and OHLC">
-        <Description>
-            <code>TwCandlestickChart</code> shows the open, high, low and close of each period. Set
-            <code>Kind</code> to <code>CandlestickStyle.Ohlc</code> for open and close ticks instead of a body.
-        </Description>
-
-        <CodeExample Name="ChartCandlestick" CSharpName="ChartOhlcData">
-            <TwChart Title="Share price" Description="Pounds">
-                <TwCandlestickChart Items="@prices" />
-            </TwChart>
-        </CodeExample>
-
-        <CodeExample Name="ChartOhlc">
-            <TwChart Title="Share price" Description="Pounds">
-                <TwCandlestickChart Items="@prices" Kind="CandlestickStyle.Ohlc" />
+        <CodeExample Name="ChartHeight">
+            <TwChart Title="Revenue by region" Height="ChartHeight.Small">
+                <TwColumnChart Categories="@regions" Series="@revenue" />
             </TwChart>
         </CodeExample>
     </PageCard>
 
     <PageCard Title="Formatting values">
         <Description>
-            Set <code>ValueFormat</code> to any .NET numeric format string, or <code>ValueFormatter</code> for
-            full control. The format applies to the axis, tooltips, value labels and table view alike.
+            Every chart takes <code>ValueFormat</code>, any .NET numeric format string, or
+            <code>ValueFormatter</code>, a function, for full control. The format applies to the axis, tooltips,
+            value labels and table view alike, in the current culture.
         </Description>
 
         <CodeExample Name="ChartFormat">
@@ -409,12 +89,48 @@
                 <TwColumnChart Categories="@regions" Series="@revenue" ValueFormat="C0" ShowValues="true" />
             </TwChart>
         </CodeExample>
+
+        <CodeExample Name="ChartFormatter" CSharpName="ChartFormatterCode">
+            <TwChart Title="Revenue by region">
+                <TwColumnChart Categories="@regions" Series="@revenue" ValueFormatter="FormatThousands" ShowValues="true" />
+            </TwChart>
+        </CodeExample>
     </PageCard>
 
-    <PageCard Title="Height, loading and empty states">
+    <PageCard Title="Legend">
         <Description>
-            <code>Height</code> on the container or on a chart sets the plot height. <code>Loading</code> shows a
-            placeholder while data is fetched, and a chart with no data shows <code>EmptyText</code>.
+            A chart with two or more series shows a legend; a single series needs none, because the title names
+            it. Each entry is a button that hides or shows its series, and a series keeps its color while others
+            are hidden. Set <code>InteractiveLegend</code> to <code>false</code> for a plain legend, or
+            <code>ShowLegend</code> to <code>false</code> to remove it.
+        </Description>
+
+        <CodeExample Name="ChartLegend">
+            <TwChart Title="Monthly visitors" Description="Thousands">
+                <TwLineChart Categories="@months" Series="@visitors" InteractiveLegend="false" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Table view">
+        <Description>
+            "View as table" swaps the plot for a table of the same data, and "View as chart" swaps it back. The
+            table is the accessible alternative to the plot, so only set <code>ShowTableToggle</code> to
+            <code>false</code> when the same data is available elsewhere on the page.
+            <code>TableViewLabel</code>, <code>ChartViewLabel</code> and <code>TableLabel</code> change the wording.
+        </Description>
+
+        <CodeExample Name="ChartTable">
+            <TwChart Title="Revenue by region and year">
+                <TwColumnChart Categories="@regions" Series="@yearly" CategoryHeader="Region" TableViewLabel="Show the numbers" ChartViewLabel="Show the chart" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Loading and empty states">
+        <Description>
+            Set <code>Loading</code> on the container to show a placeholder of the right height while data is
+            fetched. A chart with no data shows its <code>EmptyText</code> instead of an empty set of axes.
         </Description>
 
         <CodeExample Name="ChartStates">
@@ -429,26 +145,26 @@
 
     <PageCard Title="Accessibility">
         <Description>
-            The chart is named by the container's <code>Title</code>. Each data point is announced with its
-            values and is reachable by keyboard: the plot is one tab stop, and the arrow, <kbd>Home</kbd> and
-            <kbd>End</kbd> keys move between points, showing the same tooltip as hover. Tooltips can be
-            dismissed with <kbd>Esc</kbd>. "View as table" presents the same data without the plot; only set
-            <code>ShowTableToggle</code> to <code>false</code> when that data is available elsewhere on the page.
-            Legend entries are buttons that hide and show a series, and a series keeps its color while others
-            are hidden. Colors are assigned in a fixed order chosen so neighboring series stay distinguishable
-            for color-blind readers; keep to eight series or fewer.
+            The chart is a group named by the container's <code>Title</code>. Each data point is announced with
+            its values. The plot is a single tab stop: tab into it, then use the arrow, <kbd>Home</kbd> and
+            <kbd>End</kbd> keys to move between data points. Focus shows the same tooltip as hover, and
+            <kbd>Esc</kbd> dismisses it. The table view presents the same data without the plot. Text never
+            takes a series color, direction and status are always named as well as colored, and colors are
+            assigned in a fixed order chosen so neighboring series stay distinguishable for color-blind readers.
+            Keep to eight series or fewer: there are eight colors, and a ninth series would reuse the last.
         </Description>
     </PageCard>
 
     <PageCard Title="Adding your own chart type">
         <Description>
-            Every chart is a small class that describes what to draw. Derive from <code>TwCategoryChartBase</code>
-            (categories and series), <code>TwValueChartBase</code> (labelled values) or <code>TwChartBase</code>,
-            and add marks with the <code>ChartSceneBuilder</code>. Positions are percentages of the plot area.
-            The legend, tooltips, keyboard support, table view and theming come from the base class.
+            Every chart is a small class that describes what to draw. Derive from
+            <code>TwCategoryChartBase</code> (categories and series), <code>TwValueChartBase</code> (labelled
+            values) or <code>TwChartBase</code>, and add marks with the <code>ChartSceneBuilder</code>. Positions
+            are percentages of the plot area. The legend, tooltips, keyboard support, table view and theming
+            come from the base class, so a new chart needs no markup or styles of its own.
         </Description>
 
-        <TwChart Title="Onboarding progress" Description="Percent complete">
+        <TwChart Title="Onboarding progress" Description="Percent complete" Class="mt-4">
             <CompletionChart Data="@onboarding" LabelHeader="Step" ValueHeader="Complete" Height="ChartHeight.Small" />
         </TwChart>
 
@@ -457,7 +173,7 @@
 </PageContainer>
 
 @code {
-    #region CodeExample ChartCategoryData
+    #region CodeExample ChartData
     private string[] regions = ["North", "South", "East", "West"];
 
     private ChartSeries[] revenue = [new("Revenue", [420, 310, 275, 380])];
@@ -469,57 +185,10 @@
     ];
     #endregion
 
-    #region CodeExample ChartDivergingData
-    private string[] teams = ["Design", "Engineering", "Sales", "Support"];
-
-    private ChartSeries[] sentiment =
-    [
-        new("Agree", [62, 48, 35, 54]),
-        new("Disagree", [-18, -30, -41, -22])
-    ];
+    #region CodeExample ChartFormatterCode
+    private static string FormatThousands(double value) => $"£{value:0}k";
     #endregion
 
-    #region CodeExample ChartRangeData
-    private ChartRange[] salaryBands =
-    [
-        new("Junior", 28, 38),
-        new("Mid", 36, 52),
-        new("Senior", 50, 72),
-        new("Lead", 65, 90)
-    ];
-    #endregion
-
-    #region CodeExample ChartGanttData
-    private ChartTask[] tasks =
-    [
-        new("Research", new DateTime(2026, 1, 5), new DateTime(2026, 1, 23)),
-        new("Design", new DateTime(2026, 1, 19), new DateTime(2026, 2, 13)),
-        new("Build", new DateTime(2026, 2, 9), new DateTime(2026, 3, 20)),
-        new("Test", new DateTime(2026, 3, 9), new DateTime(2026, 3, 31))
-    ];
-    #endregion
-
-    #region CodeExample ChartBulletData
-    private ChartBullet[] bullets =
-    [
-        new("Revenue", 270, 250, [150, 225, 300]),
-        new("Profit", 22, 26, [15, 22, 30]),
-        new("New customers", 1650, 1500, [1000, 1400, 2000])
-    ];
-    #endregion
-
-    #region CodeExample ChartWaterfallData
-    private ChartValue[] bridge =
-    [
-        new("Sales", 520),
-        new("Services", 140),
-        new("Cost of goods", -210),
-        new("Salaries", -180),
-        new("Marketing", -60)
-    ];
-    #endregion
-
-    #region CodeExample ChartTrendData
     private string[] months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
 
     private ChartSeries[] visitors =
@@ -528,108 +197,39 @@
         new("Paid", [30, 34, 31, 45, 52, 49]),
         new("Referral", [12, 15, 21, 19, 26, 33])
     ];
-    #endregion
-
-    #region CodeExample ChartSlopeData
-    private string[] years = ["2020", "2025"];
-
-    private ChartSeries[] share =
-    [
-        new("Aster", [34, 41]),
-        new("Birch", [28, 19]),
-        new("Cedar", [15, 26])
-    ];
-    #endregion
-
-    #region CodeExample ChartProfileData
-    private string[] attributes = ["Battery", "Display", "Speed", "Weight", "Price"];
-
-    private ChartSeries[] laptops =
-    [
-        new("Aero 13", [9, 7, 6, 9, 5]),
-        new("Titan 16", [5, 9, 9, 4, 6])
-    ];
-    #endregion
-
-    #region CodeExample ChartGridData
-    private string[] days = ["Mon", "Tue", "Wed", "Thu", "Fri"];
-
-    private ChartSeries[] shifts =
-    [
-        new("Morning", [34, 28, 31, 25, 40]),
-        new("Afternoon", [52, 47, 58, 49, 61]),
-        new("Evening", [18, 22, 15, 27, 33])
-    ];
-    #endregion
-
-    #region CodeExample ChartPointData
-    private ChartPointSeries[] products =
-    [
-        new("Audio", [new(49, 4.1, "Buds", 320), new(129, 4.6, "Studio", 180), new(79, 3.8, "Sport", 240)]),
-        new("Wearables", [new(199, 4.4, "Pulse", 150), new(99, 3.6, "Band", 410), new(249, 4.7, "Pro", 90)])
-    ];
-
-    private ChartPointSeries[] backlog =
-    [
-        new("Features", [new(2, 8, "Search"), new(8, 9, "Billing"), new(3, 3, "Themes"), new(7, 2, "Importer"), new(4, 6, "Exports")])
-    ];
-    #endregion
-
-    #region CodeExample ChartShareData
-    private ChartValue[] sources =
-    [
-        new("Search", 430),
-        new("Direct", 260),
-        new("Social", 170),
-        new("Email", 90),
-        new("Referral", 50)
-    ];
-    #endregion
-
-    #region CodeExample ChartFunnelData
-    private ChartValue[] funnel =
-    [
-        new("Visited", 12000),
-        new("Added to basket", 5400),
-        new("Started checkout", 3100),
-        new("Paid", 2200)
-    ];
-    #endregion
-
-    #region CodeExample ChartIconData
-    private ChartValue[] offices =
-    [
-        new("London", 48),
-        new("Leeds", 22),
-        new("Bristol", 31)
-    ];
-    #endregion
-
-    #region CodeExample ChartSampleData
-    private double[] responseTimes =
-    [
-        112, 120, 131, 135, 138, 142, 144, 149, 151, 153, 156, 158, 160, 163, 167,
-        170, 172, 176, 181, 185, 190, 196, 204, 215, 228, 240, 262, 290
-    ];
-
-    private ChartSample[] services =
-    [
-        new("Search", [112, 120, 131, 135, 138, 142, 144, 149, 151, 153, 290]),
-        new("Checkout", [156, 158, 160, 163, 167, 170, 172, 176, 181, 185]),
-        new("Reports", [190, 196, 204, 215, 228, 240, 262, 150, 310])
-    ];
-    #endregion
 
     private ChartValue[] onboarding = [new("Profile", 100), new("Billing", 60), new("Team invites", 25)];
 
-    #region CodeExample ChartOhlcData
-    private ChartOhlc[] prices =
+    private static readonly (string Purpose, (string Name, string Url)[] Charts)[] chartTypes =
     [
-        new("Mon", 102, 108, 100, 106),
-        new("Tue", 106, 111, 104, 109),
-        new("Wed", 109, 110, 101, 103),
-        new("Thu", 103, 107, 99, 105),
-        new("Fri", 105, 114, 104, 112)
+        ("A comparison between categories",
+        [
+            ("Bar", "/chart/bar"), ("Column", "/chart/column"), ("Lollipop", "/chart/lollipop"), ("Dot plot", "/chart/dot-plot"),
+            ("Dumbbell", "/chart/dumbbell"), ("Range", "/chart/range"), ("Bullet", "/chart/bullet"), ("Icon", "/chart/icon"),
+            ("Radial bar", "/chart/radial-bar")
+        ]),
+        ("A change over time",
+        [
+            ("Line", "/chart/line"), ("Area", "/chart/area"), ("Slope", "/chart/slope"), ("Bump", "/chart/bump"),
+            ("Small multiples", "/chart/small-multiples"), ("Candlestick", "/chart/candlestick"), ("Gantt", "/chart/gantt")
+        ]),
+        ("Parts of a whole",
+        [
+            ("Pie", "/chart/pie"), ("Waffle", "/chart/waffle"), ("Treemap", "/chart/treemap"), ("Funnel", "/chart/funnel"),
+            ("Nightingale", "/chart/nightingale"), ("Waterfall", "/chart/waterfall"), ("Gauge", "/chart/gauge")
+        ]),
+        ("How values are distributed",
+        [
+            ("Histogram", "/chart/histogram"), ("Box plot", "/chart/box-plot"), ("Strip plot", "/chart/strip-plot")
+        ]),
+        ("How two values relate",
+        [
+            ("Scatter", "/chart/scatter"), ("Quadrant", "/chart/quadrant")
+        ]),
+        ("Several variables at once",
+        [
+            ("Radar", "/chart/radar"), ("Parallel coordinates", "/chart/parallel-coordinates"), ("Heatmap", "/chart/heatmap"),
+            ("Matrix", "/chart/matrix")
+        ])
     ];
-    #endregion
 }

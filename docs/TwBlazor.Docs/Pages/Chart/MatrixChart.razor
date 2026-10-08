@@ -1,0 +1,45 @@
+@page "/chart/matrix"
+@using TwBlazor.Models
+
+<PageContainer Title="TwMatrixChart" Path="/chart/matrix" Beta Description="TwMatrixChart is a Blazor matrix chart: a grid with a dot sized by value where a row and a column meet, for two categorical dimensions.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwMatrixChart</code> lays each series out as a row and each category as a column, and draws a dot where they meet, sized by the value. The area of the dot, not its width, follows the value.</Description>
+
+        <CodeExample Name="MatrixChartBasic" CSharpName="MatrixChartData">
+            <TwChart Title="Support tickets by day and shift">
+                <TwMatrixChart Categories="@days" Series="@shifts" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Labels">
+        <Description><code>ValueLabel</code> names the value in tooltips and <code>CategoryHeader</code> names the first column of the table view.</Description>
+
+        <CodeExample Name="MatrixChartLabels">
+            <TwChart Title="Support tickets by day and shift">
+                <TwMatrixChart Categories="@days" Series="@shifts" ValueLabel="Tickets" CategoryHeader="Day" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="When to use">
+        <Description>Dot sizes are harder to compare than shades when values are close together. For a dense grid, or to print the values, use <TwLink Href="/chart/heatmap">TwHeatmapChart</TwLink>.</Description>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart">TwChart</TwLink> for those options.</Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample MatrixChartData
+    private string[] days = ["Mon", "Tue", "Wed", "Thu", "Fri"];
+
+    private ChartSeries[] shifts =
+    [
+        new("Morning", [34, 28, 31, 25, 40]),
+        new("Afternoon", [52, 47, 58, 49, 61]),
+        new("Evening", [18, 22, 15, 27, 33])
+    ];
+    #endregion
+}

@@ -1,0 +1,53 @@
+@page "/chart/icon"
+@using TwBlazor.Models
+
+<PageContainer Title="TwIconChart" Path="/chart/icon" Beta Description="TwIconChart is a Blazor icon chart and pictogram: values shown as rows of repeated icons, or as one icon sized by each value.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwIconChart</code> draws values with any <code>Icon</code> from the library. By default each value becomes a row of repeated icons, a pictogram, and the legend states what one icon stands for.</Description>
+
+        <CodeExample Name="IconChartBasic" CSharpName="IconChartData">
+            <TwChart Title="Team size by office">
+                <TwIconChart Data="@offices" Icon="Icon.Person" LabelHeader="Office" ValueHeader="People" Height="ChartHeight.Small" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Unit value">
+        <Description>A round amount is chosen so the largest value uses about ten icons. Set <code>UnitValue</code> to decide what one icon is worth.</Description>
+
+        <CodeExample Name="IconChartUnit">
+            <TwChart Title="Team size by office">
+                <TwIconChart Data="@offices" Icon="Icon.Person" UnitValue="2" Height="ChartHeight.Small" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Sized icons">
+        <Description>Set <code>Mode</code> to <code>IconChartMode.Size</code> to draw one icon per value, with its area following the value.</Description>
+
+        <CodeExample Name="IconChartSize">
+            <TwChart Title="Team size by office">
+                <TwIconChart Data="@offices" Icon="Icon.Person" Mode="IconChartMode.Size" Height="ChartHeight.Small" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Accessibility">
+        <Description>The icons are decorative and hidden from assistive technology. The values are stated by the data points, tooltips and table view.</Description>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart">TwChart</TwLink> for those options.</Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample IconChartData
+    private ChartValue[] offices =
+    [
+        new("London", 48),
+        new("Leeds", 22),
+        new("Bristol", 31)
+    ];
+    #endregion
+}

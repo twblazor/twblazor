@@ -1,0 +1,51 @@
+@page "/chart/waterfall"
+@using TwBlazor.Models
+
+<PageContainer Title="TwWaterfallChart" Path="/chart/waterfall" Beta Description="TwWaterfallChart is a Blazor waterfall chart: floating columns that show how increases and decreases build up to a total.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwWaterfallChart</code> shows how a series of changes builds up to a result. Each <code>ChartValue</code> in <code>Data</code> is a change, positive or negative, and each column floats from where the previous one ended. A total column is added for you. Direction is shown by color and named in the legend and tooltips, so it never depends on color alone.</Description>
+
+        <CodeExample Name="WaterfallChartBasic" CSharpName="WaterfallChartData">
+            <TwChart Title="Profit bridge" Description="Thousands of pounds">
+                <TwWaterfallChart Data="@bridge" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Value labels">
+        <Description>Set <code>ShowValues</code> to label each column with its signed change.</Description>
+
+        <CodeExample Name="WaterfallChartValues">
+            <TwChart Title="Profit bridge">
+                <TwWaterfallChart Data="@bridge" ShowValues="true" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Total and labels">
+        <Description>Set <code>ShowTotal</code> to <code>false</code> to leave out the final column. <code>TotalLabel</code>, <code>IncreaseLabel</code> and <code>DecreaseLabel</code> rename the legend entries.</Description>
+
+        <CodeExample Name="WaterfallChartLabels">
+            <TwChart Title="Profit bridge">
+                <TwWaterfallChart Data="@bridge" TotalLabel="Profit" IncreaseLabel="Income" DecreaseLabel="Cost" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart">TwChart</TwLink> for those options.</Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample WaterfallChartData
+    private ChartValue[] bridge =
+    [
+        new("Sales", 520),
+        new("Services", 140),
+        new("Cost of goods", -210),
+        new("Salaries", -180),
+        new("Marketing", -60)
+    ];
+    #endregion
+}

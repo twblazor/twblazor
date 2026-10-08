@@ -1,0 +1,58 @@
+@page "/chart/radar"
+@using TwBlazor.Models
+
+<PageContainer Title="TwRadarChart" Path="/chart/radar" Beta Description="TwRadarChart is a Blazor radar (spider) chart that compares a few items across several attributes on spokes around a center.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwRadarChart</code> gives each category a spoke around a center and draws each series as a shape joining its values. It needs at least three categories. All spokes share one scale starting at zero, so use values in the same unit, such as scores.</Description>
+
+        <CodeExample Name="RadarChartBasic" CSharpName="RadarChartData">
+            <TwChart Title="Laptop comparison" Description="Score out of 10">
+                <TwRadarChart Categories="@attributes" Series="@laptops" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Single series">
+        <Description>With one series the chart shows a profile: where an item is strong and where it is weak.</Description>
+
+        <CodeExample Name="RadarChartSingle" CSharpName="RadarChartSingleData">
+            <TwChart Title="Aero 13">
+                <TwRadarChart Categories="@attributes" Series="@aero" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Size">
+        <Description>Radial charts are square. <code>Height</code> sets how wide the square may grow.</Description>
+
+        <CodeExample Name="RadarChartLarge">
+            <TwChart Title="Laptop comparison">
+                <TwRadarChart Categories="@attributes" Series="@laptops" Height="ChartHeight.Large" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="When to use">
+        <Description>Keep to two or three series, because overlapping shapes hide each other. For attributes in different units use <TwLink Href="/chart/parallel-coordinates">TwParallelCoordinatesChart</TwLink>, which gives each its own scale.</Description>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart">TwChart</TwLink> for those options.</Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample RadarChartData
+    private string[] attributes = ["Battery", "Display", "Speed", "Weight", "Price"];
+
+    private ChartSeries[] laptops =
+    [
+        new("Aero 13", [9, 7, 6, 9, 5]),
+        new("Titan 16", [5, 9, 9, 4, 6])
+    ];
+    #endregion
+
+    #region CodeExample RadarChartSingleData
+    private ChartSeries[] aero = [new("Aero 13", [9, 7, 6, 9, 5])];
+    #endregion
+}

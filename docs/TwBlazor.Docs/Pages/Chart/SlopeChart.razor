@@ -1,0 +1,62 @@
+@page "/chart/slope"
+@using TwBlazor.Models
+
+<PageContainer Title="TwSlopeChart" Path="/chart/slope" Beta Description="TwSlopeChart is a Blazor slope chart: a labelled line per series between two points in time, showing the direction and size of each change.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwSlopeChart</code> draws a straight line per series between two points in time and labels both ends, so the direction and size of each change is read from the slope. Use two categories for the classic form.</Description>
+
+        <CodeExample Name="SlopeChartBasic" CSharpName="SlopeChartData">
+            <TwChart Title="Market share" Description="Percent">
+                <TwSlopeChart Categories="@years" Series="@share" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="More than two points">
+        <Description>Extra categories add intermediate points. The first is labelled with the series name and value, and the last with its value.</Description>
+
+        <CodeExample Name="SlopeChartThree" CSharpName="SlopeChartThreeData">
+            <TwChart Title="Market share">
+                <TwSlopeChart Categories="@threeYears" Series="@shareByYear" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Formatting">
+        <Description><code>ValueFormat</code> applies to the end labels as well as the tooltips and table view.</Description>
+
+        <CodeExample Name="SlopeChartFormat">
+            <TwChart Title="Market share">
+                <TwSlopeChart Categories="@years" Series="@share" ValueFormat="0\%" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart">TwChart</TwLink> for those options.</Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample SlopeChartData
+    private string[] years = ["2020", "2025"];
+
+    private ChartSeries[] share =
+    [
+        new("Aster", [34, 41]),
+        new("Birch", [28, 19]),
+        new("Cedar", [15, 26])
+    ];
+    #endregion
+
+    #region CodeExample SlopeChartThreeData
+    private string[] threeYears = ["2015", "2020", "2025"];
+
+    private ChartSeries[] shareByYear =
+    [
+        new("Aster", [22, 34, 41]),
+        new("Birch", [37, 28, 19]),
+        new("Cedar", [9, 15, 26])
+    ];
+    #endregion
+}

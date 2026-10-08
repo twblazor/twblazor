@@ -1,0 +1,61 @@
+@page "/chart/dumbbell"
+@using TwBlazor.Models
+
+<PageContainer Title="TwDumbbellChart" Path="/chart/dumbbell" Beta Description="TwDumbbellChart is a Blazor dumbbell chart: two dots per category joined by a bar, highlighting the gap between values such as before and after.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwDumbbellChart</code> is a dot plot whose dots are joined by a bar. The bar makes the size of the gap the first thing the reader sees, which suits before and after, target and actual, or any two groups.</Description>
+
+        <CodeExample Name="DumbbellChartBasic" CSharpName="DumbbellChartData">
+            <TwChart Title="Revenue change by region" Description="Thousands of pounds">
+                <TwDumbbellChart Categories="@regions" Series="@yearly" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Vertical">
+        <Description>Set <code>Vertical</code> to place the categories along the bottom.</Description>
+
+        <CodeExample Name="DumbbellChartVertical">
+            <TwChart Title="Revenue change by region">
+                <TwDumbbellChart Categories="@regions" Series="@yearly" Vertical="true" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="More than two series">
+        <Description>The bar always spans from the lowest to the highest value in the category, so a third series sits somewhere along it.</Description>
+
+        <CodeExample Name="DumbbellChartThree" CSharpName="DumbbellChartTrendData">
+            <TwChart Title="Monthly visitors by channel" Description="Thousands">
+                <TwDumbbellChart Categories="@months" Series="@visitors" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart">TwChart</TwLink> for those options.</Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample DumbbellChartData
+    private string[] regions = ["North", "South", "East", "West"];
+
+    private ChartSeries[] yearly =
+    [
+        new("2024", [360, 290, 240, 330]),
+        new("2025", [420, 310, 275, 380])
+    ];
+    #endregion
+
+    #region CodeExample DumbbellChartTrendData
+    private string[] months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
+
+    private ChartSeries[] visitors =
+    [
+        new("Organic", [42, 48, 55, 61, 58, 70]),
+        new("Paid", [30, 34, 31, 45, 52, 49]),
+        new("Referral", [12, 15, 21, 19, 26, 33])
+    ];
+    #endregion
+}

@@ -1,0 +1,53 @@
+@page "/chart/treemap"
+@using TwBlazor.Models
+
+<PageContainer Title="TwTreemapChart" Path="/chart/treemap" Beta Description="TwTreemapChart is a Blazor treemap: rectangles that tile the plot, each sized by its value, showing many parts of a whole compactly.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwTreemapChart</code> tiles the plot with rectangles sized by value. Tiles are laid out largest first and kept close to square so their areas are easy to compare. Tiles with room show their label; every tile has a tooltip.</Description>
+
+        <CodeExample Name="TreemapChartBasic" CSharpName="TreemapChartData">
+            <TwChart Title="Traffic by source">
+                <TwTreemapChart Data="@sources" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Many values">
+        <Description>A treemap copes with far more parts than a pie, which makes it a good fit for long-tailed data.</Description>
+
+        <CodeExample Name="TreemapChartMany" CSharpName="TreemapChartManyData">
+            <TwChart Title="Disk usage by folder">
+                <TwTreemapChart Data="@folders" ValueFormat="0 GB" LabelHeader="Folder" ValueHeader="Size" Height="ChartHeight.Large" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Values">
+        <Description>Negative and zero values have no area, so they are left out of the plot. They still appear in the table view.</Description>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart">TwChart</TwLink> for those options.</Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample TreemapChartData
+    private ChartValue[] sources =
+    [
+        new("Search", 430),
+        new("Direct", 260),
+        new("Social", 170),
+        new("Email", 90),
+        new("Referral", 50)
+    ];
+    #endregion
+
+    #region CodeExample TreemapChartManyData
+    private ChartValue[] folders =
+    [
+        new("Videos", 180), new("Photos", 120), new("Projects", 75), new("Music", 48), new("Documents", 30),
+        new("Downloads", 22), new("Backups", 16), new("Apps", 12), new("Fonts", 5), new("Temp", 3)
+    ];
+    #endregion
+}

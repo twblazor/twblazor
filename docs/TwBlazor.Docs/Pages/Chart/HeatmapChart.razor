@@ -1,0 +1,51 @@
+@page "/chart/heatmap"
+@using TwBlazor.Models
+
+<PageContainer Title="TwHeatmapChart" Path="/chart/heatmap" Beta Description="TwHeatmapChart is a Blazor heatmap: a grid of cells whose color intensity shows the value where a row and a column meet.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwHeatmapChart</code> lays each series out as a row and each category as a column, and shades the cell where they meet by its value. Intensity uses a single hue, so darker always means more.</Description>
+
+        <CodeExample Name="HeatmapChartBasic" CSharpName="HeatmapChartData">
+            <TwChart Title="Support tickets by day and shift">
+                <TwHeatmapChart Categories="@days" Series="@shifts" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Value labels">
+        <Description>Set <code>ShowValues</code> to print each value on its cell. The text switches between dark and light ink to stay readable on any shade.</Description>
+
+        <CodeExample Name="HeatmapChartValues">
+            <TwChart Title="Support tickets by day and shift">
+                <TwHeatmapChart Categories="@days" Series="@shifts" ShowValues="true" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Labels">
+        <Description><code>ValueLabel</code> names the value in tooltips and <code>CategoryHeader</code> names the first column of the table view.</Description>
+
+        <CodeExample Name="HeatmapChartLabels">
+            <TwChart Title="Support tickets by day and shift">
+                <TwHeatmapChart Categories="@days" Series="@shifts" ValueLabel="Tickets" CategoryHeader="Day" Height="ChartHeight.Small" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart">TwChart</TwLink> for those options.</Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample HeatmapChartData
+    private string[] days = ["Mon", "Tue", "Wed", "Thu", "Fri"];
+
+    private ChartSeries[] shifts =
+    [
+        new("Morning", [34, 28, 31, 25, 40]),
+        new("Afternoon", [52, 47, 58, 49, 61]),
+        new("Evening", [18, 22, 15, 27, 33])
+    ];
+    #endregion
+}

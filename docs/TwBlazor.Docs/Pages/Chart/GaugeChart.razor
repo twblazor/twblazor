@@ -1,0 +1,43 @@
+@page "/chart/gauge"
+@using TwBlazor.Models
+
+<PageContainer Title="TwGaugeChart" Path="/chart/gauge" Beta Description="TwGaugeChart is a Blazor circular gauge: an arc filled in proportion to one value between a minimum and a maximum.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwGaugeChart</code> fills an arc in proportion to a single <code>Value</code> and prints it in the middle. <code>Label</code> says what it measures.</Description>
+
+        <CodeExample Name="GaugeChartBasic">
+            <TwChart Title="Storage used">
+                <TwGaugeChart Value="68" Label="Percent used" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Range">
+        <Description>The arc runs from <code>Min</code> (0 by default) to <code>Max</code> (100 by default). A value outside the range fills or empties the arc but is still printed as given.</Description>
+
+        <CodeExample Name="GaugeChartRange">
+            <TwChart Title="Response time">
+                <TwGaugeChart Value="340" Min="0" Max="500" Label="Milliseconds" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Size and format">
+        <Description><code>Height</code> sets how large the gauge may grow and <code>ValueFormat</code> formats the figure.</Description>
+
+        <CodeExample Name="GaugeChartSmall">
+            <div class="grid grid-cols-2 gap-8">
+                <TwChart Title="CPU">
+                    <TwGaugeChart Value="0.42" Max="1" Label="Load" ValueFormat="0%" Height="ChartHeight.Small" />
+                </TwChart>
+                <TwChart Title="Memory">
+                    <TwGaugeChart Value="0.87" Max="1" Label="In use" ValueFormat="0%" Height="ChartHeight.Small" />
+                </TwChart>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart">TwChart</TwLink> for those options.</Description>
+    </PageCard>
+</PageContainer>

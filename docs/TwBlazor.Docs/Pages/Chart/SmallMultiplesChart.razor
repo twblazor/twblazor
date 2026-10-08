@@ -1,0 +1,57 @@
+@page "/chart/small-multiples"
+@using TwBlazor.Models
+
+<PageContainer Title="TwSmallMultiplesChart" Path="/chart/small-multiples" Beta Description="TwSmallMultiplesChart is a Blazor small multiples chart: one small panel per series on a shared scale, for comparing many series clearly.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwSmallMultiplesChart</code> repeats one simple chart per series, all on one shared scale so the panels can be compared at a glance. Reach for it when a single plot would hold too many series to tell apart.</Description>
+
+        <CodeExample Name="SmallMultiplesChartBasic" CSharpName="SmallMultiplesChartData">
+            <TwChart Title="Monthly visitors by channel" Description="Thousands">
+                <TwSmallMultiplesChart Categories="@months" Series="@visitors" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Kind">
+        <Description><code>Kind</code> picks the mark drawn in each panel: <code>SmallMultipleKind.Column</code> (the default), <code>Line</code> or <code>Area</code>.</Description>
+
+        <CodeExample Name="SmallMultiplesChartLine">
+            <TwChart Title="Monthly visitors by channel">
+                <TwSmallMultiplesChart Categories="@months" Series="@visitors" Kind="SmallMultipleKind.Line" />
+            </TwChart>
+        </CodeExample>
+
+        <CodeExample Name="SmallMultiplesChartArea">
+            <TwChart Title="Monthly visitors by channel">
+                <TwSmallMultiplesChart Categories="@months" Series="@visitors" Kind="SmallMultipleKind.Area" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Columns">
+        <Description>Up to three panels share a row. Set <code>Columns</code> to change that, and <code>Height</code> to give several rows more room.</Description>
+
+        <CodeExample Name="SmallMultiplesChartColumns">
+            <TwChart Title="Monthly visitors by channel">
+                <TwSmallMultiplesChart Categories="@months" Series="@visitors" Columns="1" Height="ChartHeight.Large" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart">TwChart</TwLink> for those options.</Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample SmallMultiplesChartData
+    private string[] months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
+
+    private ChartSeries[] visitors =
+    [
+        new("Organic", [42, 48, 55, 61, 58, 70]),
+        new("Paid", [30, 34, 31, 45, 52, 49]),
+        new("Referral", [12, 15, 21, 19, 26, 33])
+    ];
+    #endregion
+}

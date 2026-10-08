@@ -1,0 +1,55 @@
+@page "/chart/quadrant"
+@using TwBlazor.Models
+
+<PageContainer Title="TwQuadrantChart" Path="/chart/quadrant" Beta Description="TwQuadrantChart is a Blazor quadrant chart: a scatter plot split into four labelled regions by two thresholds, for sorting items into groups.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwQuadrantChart</code> is a scatter plot divided into four regions by a horizontal and a vertical line. Points are labelled by default, since the reader wants to know which item landed where.</Description>
+
+        <CodeExample Name="QuadrantChartBasic" CSharpName="QuadrantChartData">
+            <TwChart Title="Backlog priorities">
+                <TwQuadrantChart Series="@backlog" XTitle="Effort" YTitle="Impact" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Quadrant labels">
+        <Description>Name each region with <code>TopLeftLabel</code>, <code>TopRightLabel</code>, <code>BottomLeftLabel</code> and <code>BottomRightLabel</code>.</Description>
+
+        <CodeExample Name="QuadrantChartLabels">
+            <TwChart Title="Backlog priorities">
+                <TwQuadrantChart Series="@backlog" XTitle="Effort" YTitle="Impact"
+                                 TopLeftLabel="Quick wins" TopRightLabel="Major projects"
+                                 BottomLeftLabel="Fill-ins" BottomRightLabel="Reconsider" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Thresholds">
+        <Description>The dividers sit in the middle of each axis unless you set <code>XThreshold</code> and <code>YThreshold</code> to the values that separate the groups.</Description>
+
+        <CodeExample Name="QuadrantChartThresholds">
+            <TwChart Title="Backlog priorities">
+                <TwQuadrantChart Series="@backlog" XTitle="Effort" YTitle="Impact" XThreshold="3.5" YThreshold="7"
+                                 TopLeftLabel="Quick wins" TopRightLabel="Major projects"
+                                 BottomLeftLabel="Fill-ins" BottomRightLabel="Reconsider" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Inherited options">
+        <Description>Everything on <TwLink Href="/chart/scatter">TwScatterChart</TwLink> is available, including bubble sizes and <code>ShowLabels</code>.</Description>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart">TwChart</TwLink> for those options.</Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample QuadrantChartData
+    private ChartPointSeries[] backlog =
+    [
+        new("Features", [new(2, 8, "Search"), new(8, 9, "Billing"), new(3, 3, "Themes"), new(7, 2, "Importer"), new(4, 6, "Exports")])
+    ];
+    #endregion
+}

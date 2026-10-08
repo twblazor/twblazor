@@ -1,0 +1,92 @@
+@page "/chart/column"
+@using TwBlazor.Models
+
+<PageContainer Title="TwColumnChart" Path="/chart/column" Beta Description="TwColumnChart is a Blazor column chart that compares categories with vertical columns. Supports grouped, stacked, 100% stacked and diverging layouts.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwColumnChart</code> draws vertical columns whose length shows the value of each category. Columns suit short category labels and a handful of categories, and read naturally for values over time. Pass the category labels as <code>Categories</code> and one or more <code>ChartSeries</code> as <code>Series</code>. For the other direction use <TwLink Href="/chart/bar">TwBarChart</TwLink>; the parameters are identical.</Description>
+
+        <CodeExample Name="ColumnChartBasic" CSharpName="ColumnChartData">
+            <TwChart Title="Revenue by region" Description="Thousands of pounds">
+                <TwColumnChart Categories="@regions" Series="@revenue" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Value labels">
+        <Description>Set <code>ShowValues</code> to label each bar with its value. It works best with few bars; with many, the axis and tooltips carry the values more cleanly.</Description>
+
+        <CodeExample Name="ColumnChartValues">
+            <TwChart Title="Revenue by region">
+                <TwColumnChart Categories="@regions" Series="@revenue" ShowValues="true" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Grouped">
+        <Description>Pass more than one series and each category shows its series side by side. A legend appears automatically, and clicking an entry hides that series.</Description>
+
+        <CodeExample Name="ColumnChartGrouped">
+            <TwChart Title="Revenue by region and year">
+                <TwColumnChart Categories="@regions" Series="@yearly" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Stacked">
+        <Description>Set <code>Stacking</code> to <code>ChartStacking.Stacked</code> to pile the series on top of each other, so each bar shows the category total as well as its parts.</Description>
+
+        <CodeExample Name="ColumnChartStacked">
+            <TwChart Title="Revenue by region and year">
+                <TwColumnChart Categories="@regions" Series="@yearly" Stacking="ChartStacking.Stacked" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="100% stacked">
+        <Description><code>ChartStacking.Percent</code> scales every bar to the same length, so the chart compares shares instead of totals. Tooltips and the table view still show the original values.</Description>
+
+        <CodeExample Name="ColumnChartPercent">
+            <TwChart Title="Share of revenue by year">
+                <TwColumnChart Categories="@regions" Series="@yearly" Stacking="ChartStacking.Percent" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Diverging">
+        <Description>Negative values grow the other way from the baseline. Stack a positive and a negative series to make a diverging chart, for example agreement against disagreement.</Description>
+
+        <CodeExample Name="ColumnChartDiverging" CSharpName="ColumnChartDivergingData">
+            <TwChart Title="The new layout is easier to use" Description="Percent of responses">
+                <TwColumnChart Categories="@teams" Series="@sentiment" Stacking="ChartStacking.Stacked" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart">TwChart</TwLink> for those options.</Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample ColumnChartData
+    private string[] regions = ["North", "South", "East", "West"];
+
+    private ChartSeries[] revenue = [new("Revenue", [420, 310, 275, 380])];
+
+    private ChartSeries[] yearly =
+    [
+        new("2024", [360, 290, 240, 330]),
+        new("2025", [420, 310, 275, 380])
+    ];
+    #endregion
+
+    #region CodeExample ColumnChartDivergingData
+    private string[] teams = ["Design", "Engineering", "Sales", "Support"];
+
+    private ChartSeries[] sentiment =
+    [
+        new("Agree", [62, 48, 35, 54]),
+        new("Disagree", [-18, -30, -41, -22])
+    ];
+    #endregion
+}

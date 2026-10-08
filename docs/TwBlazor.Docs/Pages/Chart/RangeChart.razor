@@ -1,0 +1,55 @@
+@page "/chart/range"
+@using TwBlazor.Models
+
+<PageContainer Title="TwRangeChart" Path="/chart/range" Beta Description="TwRangeChart is a Blazor range chart that draws a floating bar from a low value to a high value per category, such as salary bands.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwRangeChart</code> draws a floating bar from a low value to a high value for each category. Pass a list of <code>ChartRange</code>, each with a label, a low and a high.</Description>
+
+        <CodeExample Name="RangeChartBasic" CSharpName="RangeChartData">
+            <TwChart Title="Salary bands" Description="Thousands of pounds">
+                <TwRangeChart Ranges="@salaryBands" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Vertical">
+        <Description>Set <code>Vertical</code> to stand the bars up, which suits ranges over time such as daily temperatures.</Description>
+
+        <CodeExample Name="RangeChartVertical" CSharpName="RangeChartTemperatureData">
+            <TwChart Title="Temperature this week" Description="Degrees Celsius">
+                <TwRangeChart Ranges="@temperatures" Vertical="true" LowLabel="Coldest" HighLabel="Warmest" LabelHeader="Day" ValueFormat="0°" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Labels">
+        <Description><code>LowLabel</code> and <code>HighLabel</code> name the two ends in tooltips and the table view, and <code>LabelHeader</code> names the first table column.</Description>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart">TwChart</TwLink> for those options.</Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample RangeChartData
+    private ChartRange[] salaryBands =
+    [
+        new("Junior", 28, 38),
+        new("Mid", 36, 52),
+        new("Senior", 50, 72),
+        new("Lead", 65, 90)
+    ];
+    #endregion
+
+    #region CodeExample RangeChartTemperatureData
+    private ChartRange[] temperatures =
+    [
+        new("Mon", 8, 15),
+        new("Tue", 9, 17),
+        new("Wed", 11, 19),
+        new("Thu", 7, 14),
+        new("Fri", 6, 12)
+    ];
+    #endregion
+}

@@ -1,0 +1,53 @@
+@page "/chart/nightingale"
+@using TwBlazor.Models
+
+<PageContainer Title="TwNightingaleChart" Path="/chart/nightingale" Beta Description="TwNightingaleChart is a Blazor Nightingale (rose) chart: equal-angle wedges whose radius shows each value, suited to cyclical data.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwNightingaleChart</code> gives every value a wedge of the same angle and varies the radius. The area of each wedge is proportional to the value, so large values are not exaggerated.</Description>
+
+        <CodeExample Name="NightingaleChartBasic" CSharpName="NightingaleChartData">
+            <TwChart Title="Traffic by source">
+                <TwNightingaleChart Data="@sources" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Cyclical data">
+        <Description>The form suits values that follow a cycle, such as days of the week, where the last value sits beside the first.</Description>
+
+        <CodeExample Name="NightingaleChartCycle" CSharpName="NightingaleChartCycleData">
+            <TwChart Title="Orders by day">
+                <TwNightingaleChart Data="@orders" LabelHeader="Day" ValueHeader="Orders" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Many values">
+        <Description>As on a pie chart, past eight values the smallest are folded into one wedge named by <code>OtherLabel</code>.</Description>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart">TwChart</TwLink> for those options.</Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample NightingaleChartData
+    private ChartValue[] sources =
+    [
+        new("Search", 430),
+        new("Direct", 260),
+        new("Social", 170),
+        new("Email", 90),
+        new("Referral", 50)
+    ];
+    #endregion
+
+    #region CodeExample NightingaleChartCycleData
+    private ChartValue[] orders =
+    [
+        new("Mon", 120), new("Tue", 135), new("Wed", 150), new("Thu", 170),
+        new("Fri", 240), new("Sat", 310), new("Sun", 190)
+    ];
+    #endregion
+}

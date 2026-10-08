@@ -1,0 +1,65 @@
+@page "/chart/area"
+@using TwBlazor.Models
+
+<PageContainer Title="TwAreaChart" Path="/chart/area" Beta Description="TwAreaChart is a Blazor area chart: a line chart with the space beneath filled. Supports stacked areas and smooth or stepped curves.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwAreaChart</code> is a line chart with the space under each line filled with a light wash, which emphasises volume. The scale always includes zero so the filled area stays honest.</Description>
+
+        <CodeExample Name="AreaChartBasic" CSharpName="AreaChartData">
+            <TwChart Title="Monthly visitors" Description="Thousands">
+                <TwAreaChart Categories="@months" Series="@organic" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Stacked">
+        <Description>Set <code>Stacked</code> to pile the series on top of each other, showing how they add up to a total over time. Missing and negative values count as zero when stacked.</Description>
+
+        <CodeExample Name="AreaChartStacked" CSharpName="AreaChartStackedData">
+            <TwChart Title="Monthly visitors by channel">
+                <TwAreaChart Categories="@months" Series="@visitors" Stacked="true" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Curves">
+        <Description><code>Curve</code> works as it does on a line chart: <code>ChartCurve.Smooth</code> for a spline area and <code>ChartCurve.Step</code> for a stepped one.</Description>
+
+        <CodeExample Name="AreaChartSmooth">
+            <TwChart Title="Monthly visitors">
+                <TwAreaChart Categories="@months" Series="@organic" Curve="ChartCurve.Smooth" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Overlapping series">
+        <Description>Without stacking, the washes overlap so every line stays visible. Past two or three series, stack them or use <TwLink Href="/chart/small-multiples">TwSmallMultiplesChart</TwLink> instead.</Description>
+
+        <CodeExample Name="AreaChartOverlap">
+            <TwChart Title="Monthly visitors by channel">
+                <TwAreaChart Categories="@months" Series="@visitors" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart">TwChart</TwLink> for those options.</Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample AreaChartData
+    private string[] months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
+
+    private ChartSeries[] organic = [new("Organic", [42, 48, 55, 61, 58, 70])];
+    #endregion
+
+    #region CodeExample AreaChartStackedData
+    private ChartSeries[] visitors =
+    [
+        new("Organic", [42, 48, 55, 61, 58, 70]),
+        new("Paid", [30, 34, 31, 45, 52, 49]),
+        new("Referral", [12, 15, 21, 19, 26, 33])
+    ];
+    #endregion
+}
