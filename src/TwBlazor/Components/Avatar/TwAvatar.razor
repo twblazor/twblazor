@@ -1,0 +1,17 @@
+@namespace TwBlazor.Components
+@inherits TwBlazorComponentBase
+
+<span id="@Id" class="@classes" style="@Style" role="@(isDecorative ? null : "img")" aria-label="@accessibleName" aria-labelledby="@AriaLabelledBy" aria-hidden="@(isDecorative ? "true" : null)" @attributes="Attributes">
+    @if (showImage)
+    {
+        <img @ref="imageRef" src="@Src" alt="" class="@theme.Image" loading="lazy" decoding="async" @onerror="OnImageError" />
+    }
+    else if (effectiveInitials.Length > 0)
+    {
+        @effectiveInitials
+    }
+    else
+    {
+        <TwIcon Icon="@Icon" Plain Class="@theme.Icon" />
+    }
+</span>
