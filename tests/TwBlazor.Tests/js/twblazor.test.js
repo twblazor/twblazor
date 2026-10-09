@@ -2156,3 +2156,154 @@ describe('twPicker scroll ownership and twSelect edge cases', () => {
         });
     });
 });
+
+describe('twTooltip', () => {
+    function buildTooltip({ arrow = false } = {}) {
+        const wrapper = document.createElement('div');
+        wrapper.setAttribute('data-tw-tooltip', '');
+        const control = document.createElement('button');
+        const bubble = document.createElement('span');
+        bubble.setAttribute('role', 'tooltip');
+        if (arrow) {
+            const arrowEl = document.createElement('span');
+            arrowEl.setAttribute('aria-hidden', 'true');
+            bubble.appendChild(arrowEl);
+        }
+        wrapper.append(control, bubble);
+        document.body.appendChild(wrapper);
+        return { wrapper, control, bubble, arrow: bubble.firstElementChild };
+    }
+
+    function tap(target, pointerType = 'touch') {
+        const event = new Event('pointerdown', { bubbles: true });
+        Object.assign(event, { pointerType });
+        target.dispatchEvent(event);
+    }
+
+    function isOpen(wrapper) {
+        return wrapper.hasAttribute('data-tw-tooltip-open');
+    }
+
+    function mockBubbleRect(bubble, left, right) {
+        vi.spyOn(bubble, 'getBoundingClientRect').mockReturnValue({ left, right, top: 0, bottom: 20, width: right - left, height: 20 });
+    }
+
+    beforeEach(() => {
+        vi.spyOn(document.documentElement, 'clientWidth', 'get').mockReturnValue(390);
+    });
+
+    afterEach(() => {
+        document.body.innerHTML = '';
+        vi.restoreAllMocks();
+    });
+
+    test('a touch tap on the control opens its tooltip', () => {
+        const { wrapper, control } = buildTooltip();
+
+        tap(control);
+
+        expect(isOpen(wrapper)).toBe(true);
+    });
+
+    test('a pen tap opens the tooltip too', () => {
+        const { wrapper, control } = buildTooltip();
+
+        tap(control, 'pen');
+
+        expect(isOpen(wrapper)).toBe(true);
+    });
+
+    test('a mouse press is left to the hover styles', () => {
+        const { wrapper, control } = buildTooltip();
+
+        tap(control, 'mouse');
+
+        expect(isOpen(wrapper)).toBe(false);
+    });
+
+    test('a second tap on the same control closes it', () => {
+        const { wrapper, control } = buildTooltip();
+
+        tap(control);
+        tap(control);
+
+        expect(isOpen(wrapper)).toBe(false);
+    });
+
+    test('a tap elsewhere closes the open tooltip', () => {
+        const { wrapper, control } = buildTooltip();
+        tap(control);
+
+        tap(document.body);
+
+        expect(isOpen(wrapper)).toBe(false);
+    });
+
+    test('a tap on another tooltip moves the open one', () => {
+        const first = buildTooltip();
+        const second = buildTooltip();
+        tap(first.control);
+
+        tap(second.control);
+
+        expect(isOpen(first.wrapper)).toBe(false);
+        expect(isOpen(second.wrapper)).toBe(true);
+    });
+
+    test('a bubble past the right edge is slid back inside, and its arrow the other way', () => {
+        const { control, bubble, arrow } = buildTooltip({ arrow: true });
+        mockBubbleRect(bubble, 300, 420);
+
+        tap(control);
+
+        expect(bubble.style.marginLeft).toBe('-38px');
+        expect(arrow.style.marginLeft).toBe('38px');
+    });
+
+    test('a bubble past the left edge is slid back inside', () => {
+        const { control, bubble } = buildTooltip();
+        mockBubbleRect(bubble, -20, 100);
+
+        tap(control);
+
+        expect(bubble.style.marginLeft).toBe('28px');
+    });
+
+    test('a bubble that fits is not moved', () => {
+        const { control, bubble } = buildTooltip();
+        mockBubbleRect(bubble, 100, 220);
+
+        tap(control);
+
+        expect(bubble.style.marginLeft).toBe('');
+    });
+
+    test('closing clears the adjustment', () => {
+        const { control, bubble, arrow } = buildTooltip({ arrow: true });
+        mockBubbleRect(bubble, 300, 420);
+        tap(control);
+
+        tap(document.body);
+
+        expect(bubble.style.marginLeft).toBe('');
+        expect(arrow.style.marginLeft).toBe('');
+    });
+
+    test('a wrapper with no bubble opens without error', () => {
+        const wrapper = document.createElement('div');
+        wrapper.setAttribute('data-tw-tooltip', '');
+        document.body.appendChild(wrapper);
+
+        expect(() => tap(wrapper)).not.toThrow();
+        expect(isOpen(wrapper)).toBe(true);
+        expect(() => tap(document.body)).not.toThrow();
+    });
+
+    test('register adds the document listener only once', () => {
+        const addSpy = vi.spyOn(document, 'addEventListener');
+
+        window.twTooltip.register();
+
+        expect(addSpy).not.toHaveBeenCalled();
+    });
+});

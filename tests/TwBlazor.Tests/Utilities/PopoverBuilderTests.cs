@@ -141,17 +141,29 @@ public class PopoverBuilderTests : TwBlazorTestBase
     {
         var classes = popoverBuilder.GetTooltipClasses(false).Split(' ');
 
-        Assert.Contains("invisible", classes);
-        Assert.Contains("group-hover:visible", classes);
-        Assert.Contains("group-has-[:focus-visible]:visible", classes);
+        Assert.Contains("hidden", classes);
+        Assert.Contains("group-hover:block", classes);
+        Assert.Contains("group-has-[:focus-visible]:block", classes);
     }
 
     [Fact]
-    public void GetTooltipClasses_AddsHidden_OnlyWhenDismissed()
+    public void GetTooltipClasses_TakesAHiddenBubbleOutOfLayout_SoItCannotWidenThePage()
     {
-        Assert.DoesNotContain(Theme.Display.Hidden, popoverBuilder.GetTooltipClasses(false).Split(' '));
-        Assert.Contains(Theme.Display.Hidden, popoverBuilder.GetTooltipClasses(true).Split(' '));
+        // visibility:hidden still occupies layout space, so a bubble near the screen edge would add sideways scroll.
+        var classes = popoverBuilder.GetTooltipClasses(false).Split(' ');
+
+        Assert.DoesNotContain("invisible", classes);
+        Assert.DoesNotContain(classes, c => c.EndsWith(":visible", StringComparison.Ordinal));
     }
+
+    [Fact]
+    public void GetTooltipClasses_AddsTheThemeDismissedClasses_OnlyWhenDismissed()
+    {
+        Assert.NotEmpty(tooltipTheme.Dismissed);
+        Assert.DoesNotContain(tooltipTheme.Dismissed, popoverBuilder.GetTooltipClasses(false).Split(' '));
+        Assert.Contains(tooltipTheme.Dismissed, popoverBuilder.GetTooltipClasses(true).Split(' '));
+    }
+
 
     [Theory]
     [InlineData(TooltipPlacement.Top)]

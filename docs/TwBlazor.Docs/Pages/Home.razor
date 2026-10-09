@@ -6,8 +6,8 @@
 
 <!-- Hero -->
 <section class="relative isolate overflow-hidden border-b border-purple-200/60 bg-white dark:border-white/10 dark:bg-gray-950">
-    <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10 bg-[linear-gradient(to_right,rgb(168_85_247/0.12)_1px,transparent_1px),linear-gradient(to_bottom,rgb(168_85_247/0.12)_1px,transparent_1px)] bg-[size:3rem_3rem] [mask-image:radial-gradient(ellipse_70%_60%_at_50%_0%,black,transparent)] dark:bg-[linear-gradient(to_right,rgb(168_85_247/0.18)_1px,transparent_1px),linear-gradient(to_bottom,rgb(168_85_247/0.18)_1px,transparent_1px)]"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute left-1/2 top-0 -z-10 h-80 w-[56rem] max-w-full -translate-x-1/2">
+    <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10 bg-[linear-gradient(to_right,rgb(168_85_247/0.12)_1px,transparent_1px),linear-gradient(to_bottom,rgb(168_85_247/0.12)_1px,transparent_1px)] bg-size-[3rem_3rem] mask-[radial-gradient(ellipse_70%_60%_at_50%_0%,black,transparent)] dark:bg-[linear-gradient(to_right,rgb(168_85_247/0.18)_1px,transparent_1px),linear-gradient(to_bottom,rgb(168_85_247/0.18)_1px,transparent_1px)]"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute left-1/2 top-0 -z-10 h-80 w-4xl max-w-full -translate-x-1/2">
         <div class="size-full animate-glow-drift rounded-full bg-linear-to-r from-purple-500/30 via-fuchsia-500/30 to-pink-400/30 blur-3xl motion-reduce:animate-none dark:from-purple-600/30 dark:via-fuchsia-600/25 dark:to-pink-500/20"></div>
     </div>
     <div aria-hidden="true" class="pointer-events-none absolute -right-24 top-24 -z-10 size-72 md:size-96">
@@ -165,7 +165,7 @@
                         <TwRadioButton Value="@("public")" Label="Public" @bind-SelectedValue="visibility" />
                     </TwRadioGroup>
 
-                    <TwSelect T="string" Label="Environment" Values="environments" @bind-SelectedValue="environment" Required />
+                    <TwSelect T="string" Label="Environment" Values="_environments" @bind-SelectedValue="environment" Required />
 
                     <div class="flex flex-col gap-3">
                         <TwSwitch @bind-Value="emailAlerts" Label="Email alerts" AriaLabel="Email alerts" />
@@ -178,6 +178,10 @@
                             <span class="tabular-nums text-gray-600 dark:text-gray-400">7.2 of 10 GB</span>
                         </div>
                         <TwProgress Value="72" Max="100" Color="Color.Primary" AriaLabel="Storage used" />
+
+                        <TwChart Title="Storage by folder" Description="7.2 GB across 10 folders" Height="ChartHeight.Small" Class="mt-4">
+                            <TwTreemapChart Data="@_storageFolders" ValueFormat="0.0 GB" LabelHeader="Folder" ValueHeader="Size" />
+                        </TwChart>
                     </div>
 
                     @if (settingsSaved)
@@ -201,7 +205,7 @@
                 <TwAlert Dense Color="Color.Accent" StartIcon="IconEnum.Exclamation_Circle" Class="mt-4">Storage nearing capacity.</TwAlert>
 
                 <dl class="mt-5 grid grid-cols-3 divide-x divide-gray-200 text-center dark:divide-gray-800">
-                    @foreach (var figure in releaseFigures)
+                    @foreach (var figure in _releaseFigures)
                     {
                         <div class="px-2">
                             <dd class="text-2xl font-bold tabular-nums text-gray-950 dark:text-white">@figure.Value</dd>
@@ -210,20 +214,14 @@
                     }
                 </dl>
 
-                <h4 class="mt-6 text-sm font-medium text-gray-950 dark:text-white">Services</h4>
-                <ul class="mt-2 divide-y divide-gray-200 dark:divide-gray-800">
-                    @foreach (var service in services)
-                    {
-                        <li class="grid grid-cols-[minmax(0,1fr)_5rem_6.5rem] items-center gap-3 py-3 text-sm">
-                            <span class="min-w-0">
-                                <span class="block truncate font-medium text-gray-950 dark:text-white">@service.Name</span>
-                                <span class="block text-xs tabular-nums text-gray-600 dark:text-gray-400">@service.Uptime.ToString("0.0")% uptime</span>
-                            </span>
-                            <TwProgress Value="@service.Uptime" Max="@(100d)" Size="ProgressSize.Small" Color="@service.Color" AriaLabel="@($"{service.Name} uptime")" />
-                            <span class="justify-self-end"><TwChip Label="@service.Status" Color="@service.Color" Variant="ButtonVariant.Outlined" Size="ChipSize.Small" /></span>
-                        </li>
-                    }
-                </ul>
+                <div class="mt-6 grid grid-cols-1 gap-6">
+                    <TwChart Title="Response time" Description="95th percentile, last 24 hours" Height="ChartHeight.Small" Class="min-w-0">
+                        <TwLineChart Categories="@_responseHours" Series="@_responseTimes" Curve="ChartCurve.Smooth" ValueFormat="#,0 ms" CategoryHeader="Hour" />
+                    </TwChart>
+                    <TwChart Title="Deploys per day" Description="Last 14 days" Height="ChartHeight.Small" Class="min-w-0">
+                        <TwColumnChart Categories="@_deployDays" Series="@_deploys" Stacking="ChartStacking.Stacked" CategoryHeader="Day" />
+                    </TwChart>
+                </div>
             </TwCard>
         </div>
     </section>
@@ -231,7 +229,7 @@
     <!-- Theming -->
     <section class="mt-16 bg-purple-950 text-white md:mt-24" aria-labelledby="theming-heading">
         <div class="relative isolate overflow-hidden">
-            <div aria-hidden="true" class="pointer-events-none absolute -right-32 -top-32 -z-10 size-[30rem] rounded-full bg-fuchsia-600/25 blur-3xl"></div>
+            <div aria-hidden="true" class="pointer-events-none absolute -right-32 -top-32 -z-10 size-120 rounded-full bg-fuchsia-600/25 blur-3xl"></div>
             <div class="mx-auto max-w-6xl px-6 py-14 md:py-20">
                 <h2 id="theming-heading" class="max-w-2xl text-2xl font-bold tracking-tight text-white text-balance md:text-3xl">The deepest Tailwind theming of any Blazor library</h2>
                 <p class="mt-2 max-w-2xl text-purple-200">
@@ -320,91 +318,3 @@
         </p>
     </section>
 </div>
-
-@code {
-    private static readonly IReadOnlyList<string> _jsonLd = [TwBlazor.Docs.Services.SiteMetadata.HomeJsonLd()];
-
-    private string email = string.Empty;
-    private bool notificationsEnabled = true;
-
-    private TwStepper? checkoutStepper;
-    private int checkoutStep;
-
-    private string signInEmail = string.Empty;
-    private string signInPassword = string.Empty;
-    private bool rememberMe = true;
-
-    private sealed record Figure(string Label, string Value);
-
-    private sealed record Service(string Name, double Uptime, string Status, Color Color);
-
-    private readonly List<string> environments = ["Production", "Staging", "Development"];
-
-    private string projectName = "Atlas";
-    private string visibility = "team";
-    private string environment = "Production";
-    private bool emailAlerts = true;
-    private bool autoDeploy;
-    private bool settingsSaved;
-
-    private readonly List<Figure> releaseFigures =
-    [
-        new("Deploys", "128"),
-        new("Failed", "3"),
-        new("Avg. time", "4m")
-    ];
-
-    private readonly List<Service> services =
-    [
-        new("Web app", 99.98, "Operational", Color.Success),
-        new("API", 99.2, "Degraded", Color.Warning),
-        new("Database", 100, "Operational", Color.Success),
-        new("Workers", 94.1, "Outage", Color.Danger)
-    ];
-
-    /// <summary>
-    /// Handles the sample settings form. It only demonstrates the controls, so it just confirms the save.
-    /// </summary>
-    private void SaveSettings() => settingsSaved = true;
-
-    private void ResetSettings()
-    {
-        projectName = "Atlas";
-        visibility = "team";
-        environment = "Production";
-        emailAlerts = true;
-        autoDeploy = false;
-        settingsSaved = false;
-    }
-
-    /// <summary>
-    /// Handles the sample sign-in form. It only demonstrates the controls, so it just clears the password.
-    /// </summary>
-    private void SignIn() => signInPassword = string.Empty;
-
-    private const string quickStartInstall =
-        "dotnet add package twblazor";
-
-    private const string quickStartSnippet =
-        "<TwButton Label=\"Get Started\" Color=\"Color.Primary\" />\n" +
-        "<TwAlert Color=\"Color.Success\" Dense>Everything is working!</TwAlert>";
-
-    private const string themingSnippet =
-        "builder.Services.AddTwBlazor(_ => { }, () => new TwBlazorTheme\n" +
-        "{\n" +
-        "    // ...position, colors, shadows, rounded...\n" +
-        "    Components =\n" +
-        "    [\n" +
-        "        new TwButtonTheme\n" +
-        "        {\n" +
-        "            Base = \"inline-flex items-center gap-2 rounded-full font-semibold\",\n" +
-        "            Padding = \"px-8\"\n" +
-        "        },\n" +
-        "        new TwInputTheme\n" +
-        "        {\n" +
-        "            DefaultInputVariant = InputVariant.Outlined\n" +
-        "        }\n" +
-        "        // ...every other component you use\n" +
-        "    ]\n" +
-        "});";
-}

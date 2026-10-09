@@ -106,10 +106,10 @@ public class TwTooltipTests : TwBlazorTestBase
     {
         var classes = RenderTooltip().Find("[role='tooltip']").ClassList;
 
-        Assert.Contains("invisible", classes);
-        Assert.Contains("group-hover:visible", classes);
-        Assert.Contains("group-focus-visible:visible", classes);
-        Assert.Contains("group-has-[:focus-visible]:visible", classes);
+        Assert.Contains("hidden", classes);
+        Assert.Contains("group-hover:block", classes);
+        Assert.Contains("group-focus-visible:block", classes);
+        Assert.Contains("group-has-[:focus-visible]:block", classes);
     }
 
     [Fact]
@@ -118,10 +118,10 @@ public class TwTooltipTests : TwBlazorTestBase
         var cut = RenderTooltip();
 
         cut.Find("div").KeyDown(new KeyboardEventArgs { Key = "Escape" });
-        Assert.Contains("hidden", cut.Find("[role='tooltip']").ClassList);
+        Assert.Contains("!hidden", cut.Find("[role='tooltip']").ClassList);
 
         cut.Find("div").MouseLeave();
-        Assert.DoesNotContain("hidden", cut.Find("[role='tooltip']").ClassList);
+        Assert.DoesNotContain("!hidden", cut.Find("[role='tooltip']").ClassList);
     }
 
     [Fact]
@@ -132,7 +132,7 @@ public class TwTooltipTests : TwBlazorTestBase
         cut.Find("div").KeyDown(new KeyboardEventArgs { Key = "Escape" });
         cut.Find("div").FocusOut();
 
-        Assert.DoesNotContain("hidden", cut.Find("[role='tooltip']").ClassList);
+        Assert.DoesNotContain("!hidden", cut.Find("[role='tooltip']").ClassList);
     }
 
     [Fact]
@@ -142,7 +142,7 @@ public class TwTooltipTests : TwBlazorTestBase
 
         cut.Find("div").KeyDown(new KeyboardEventArgs { Key = "a" });
 
-        Assert.DoesNotContain("hidden", cut.Find("[role='tooltip']").ClassList);
+        Assert.DoesNotContain("!hidden", cut.Find("[role='tooltip']").ClassList);
     }
 
     [Fact]
@@ -295,4 +295,30 @@ public class TwTooltipTests : TwBlazorTestBase
     }
 
     #endregion
+
+    [Fact]
+    public void TwTooltip_MarksItsWrapper_SoATapCanOpenIt()
+    {
+        var cut = RenderTooltip();
+
+        Assert.True(cut.Find("div").HasAttribute("data-tw-tooltip"));
+        Assert.Contains("group-data-[tw-tooltip-open]:block", cut.Find("[role='tooltip']").ClassList);
+    }
+
+    [Fact]
+    public void TwTooltip_Disabled_DoesNotMarkItsWrapper()
+    {
+        var cut = RenderTooltip(p => p.Add(x => x.Disabled, true));
+
+        Assert.False(cut.Find("div").HasAttribute("data-tw-tooltip"));
+    }
+
+    [Fact]
+    public void TwTooltip_TooltipStyle_IsAppliedToTheBubble_NotTheWrapper()
+    {
+        var cut = RenderTooltip(p => p.Add(x => x.TooltipStyle, "left:25%"));
+
+        Assert.Equal("left:25%", cut.Find("[role='tooltip']").GetAttribute("style"));
+        Assert.Null(cut.Find("div").GetAttribute("style"));
+    }
 }

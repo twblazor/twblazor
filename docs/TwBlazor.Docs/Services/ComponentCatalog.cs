@@ -31,9 +31,11 @@ internal sealed class ComponentEntry
 
     public List<ComponentEntry> Items { get; set; } = [];
 
-#pragma warning disable S3459, S1144 // Populated by JSON deserialization from components.json - the setter has no visible caller for Sonar's static analysis to see
+    /// <summary>
+    /// Whether the entry is new. An entry is also new when the category or group that holds it is flagged
+    /// <c>isNew</c>, so a whole section can be marked once instead of on every entry.
+    /// </summary>
     public bool IsNew { get; set; }
-#pragma warning restore S3459, S1144
 }
 
 /// <summary>
@@ -42,6 +44,14 @@ internal sealed class ComponentEntry
 internal sealed class ComponentCategory
 {
     public string Category { get; set; } = string.Empty;
+
+#pragma warning disable S3459, S1144 // Populated by JSON deserialization from components.json - the setter has no visible caller for Sonar's static analysis to see
+    /// <summary>
+    /// Whether everything in the category is new. Every entry inside it is then treated as new too.
+    /// </summary>
+    public bool IsNew { get; set; }
+#pragma warning restore S3459, S1144
+
     public List<ComponentEntry> Items { get; set; } = [];
 }
 
@@ -99,6 +109,22 @@ internal static class ComponentCatalog
         using var stream = assembly.GetManifestResourceStream("TwBlazor.Docs.components.json")
             ?? throw new InvalidOperationException("Embedded resource 'components.json' was not found.");
 
-        return JsonSerializer.Deserialize<List<ComponentCategory>>(stream, JsonSerializerOptions.Web) ?? [];
+        var loaded = JsonSerializer.Deserialize<List<ComponentCategory>>(stream, JsonSerializerOptions.Web) ?? [];
+
+        foreach (var category in loaded)
+        {
+            InheritIsNew(category.Items, category.IsNew);
+        }
+
+        return loaded;
+    }
+
+    private static void InheritIsNew(List<ComponentEntry> entries, bool parentIsNew)
+    {
+        foreach (var entry in entries)
+        {
+            entry.IsNew |= parentIsNew;
+            InheritIsNew(entry.Items, entry.IsNew);
+        }
     }
 }

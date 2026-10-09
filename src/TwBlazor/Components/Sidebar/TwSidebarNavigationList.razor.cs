@@ -40,6 +40,15 @@ public partial class TwSidebarNavigationList : TwBlazorComponentBase
     /// incremented by one on every recursive call rendering a parent item's own children.</remarks>
     [Parameter] public int Depth { get; set; }
 
+    /// <summary>
+    /// Gets or sets the content rendered after the label of every item in the list, at every depth.
+    /// </summary>
+    /// <remarks>Supplied by <see cref="TwSidebar.NavigationItemContent"/> and passed on unchanged to each
+    /// recursive call.</remarks>
+    [Parameter] public RenderFragment<NavigationItem>? ItemContent { get; set; }
+
+    private RenderFragment? GetItemContent(NavigationItem item) => ItemContent?.Invoke(item);
+
     private string GetChildContainerClasses(bool collapsed, int childDepth) =>
         new ClassBuilder(theme.NavigationDropdownContainer)
             .AddClass(theme.NavigationDropdownContainerDeep, childDepth >= 2)

@@ -14,6 +14,11 @@ namespace TwBlazor.Docs.Compiler;
 /// requirements are its <c>Require&lt;TwXxxTheme&gt;()</c> calls; its dependencies are every other known type
 /// name its code mentions, found by scanning identifiers after stripping comments. The result is the
 /// transitive closure, so it can over-include when a type is merely mentioned, never under-include.
+/// <para>
+/// A component also needs the themes of its companions: the other types in its own folder, such as
+/// <c>TwButtonGroup</c> beside <c>TwButton</c>. Companions are used with the component but never mentioned by it,
+/// and have no entry of their own to select. Files directly in the source root have no companions.
+/// </para>
 /// </remarks>
 public static partial class ComponentThemeDependencyScanner
 {
@@ -38,12 +43,23 @@ public static partial class ComponentThemeDependencyScanner
             .Concat(Directory.GetFiles(sourceRoot, "*.razor", SearchOption.AllDirectories))
             .Where(f => !IsBuildOutput(f));
 
+        var root = Path.GetFullPath(sourceRoot);
         var sources = new Dictionary<string, string>(StringComparer.Ordinal);
+        var folders = new Dictionary<string, HashSet<string>>(StringComparer.OrdinalIgnoreCase);
         foreach (var file in files)
         {
             var stem = Path.GetFileName(file).Split('.')[0];
             var code = CommentRegex().Replace(File.ReadAllText(file), string.Empty);
             sources[stem] = sources.TryGetValue(stem, out var existing) ? existing + "\n" + code : code;
+
+            var folder = Path.GetDirectoryName(Path.GetFullPath(file))!;
+            if (!string.Equals(folder, root, StringComparison.OrdinalIgnoreCase))
+            {
+                if (!folders.TryGetValue(folder, out var stems))
+                    folders[folder] = stems = new HashSet<string>(StringComparer.Ordinal);
+
+                stems.Add(stem);
+            }
         }
 
         var themes = sources.ToDictionary(s => s.Key, s => RequireRegex().Matches(s.Value).Select(m => m.Groups[1].Value).ToHashSet(StringComparer.Ordinal));
@@ -53,7 +69,7 @@ public static partial class ComponentThemeDependencyScanner
 
         return componentNames
             .Distinct(StringComparer.Ordinal)
-            .ToDictionary(name => name, name => Closure(name, themes, references));
+            .ToDictionary(name => name, name => Closure([name, .. folders.Values.Where(stems => stems.Contains(name)).SelectMany(stems => stems)], themes, references));
     }
 
     /// <summary>
@@ -84,14 +100,11 @@ public static partial class ComponentThemeDependencyScanner
         }
     }
 
-    private static List<string> Closure(string start, Dictionary<string, HashSet<string>> themes, Dictionary<string, HashSet<string>> references)
+    private static List<string> Closure(IEnumerable<string> starts, Dictionary<string, HashSet<string>> themes, Dictionary<string, HashSet<string>> references)
     {
         var visited = new HashSet<string>(StringComparer.Ordinal);
-        var queue = new Queue<string>();
+        var queue = new Queue<string>(starts.Where(themes.ContainsKey));
         var result = new SortedSet<string>(StringComparer.Ordinal);
-
-        if (themes.ContainsKey(start))
-            queue.Enqueue(start);
 
         while (queue.Count > 0)
         {

@@ -320,6 +320,10 @@ public abstract partial class TwChartBase : TwBlazorComponentBase, IAsyncDisposa
         .AddClass(theme.LegendItemHidden, item.Hidden)
         .Build();
 
+    private string GetHitWrapperClasses(ChartDatum datum) => new ClassBuilder(theme.HitWrapper)
+        .AddClass(theme.HitWrapperShaped, datum.Clip != null)
+        .Build();
+
     private string GetSwatchClasses(ChartColor color) => $"{theme.LegendSwatch} {GetColor(color).Background}";
 
     private string GetTooltipKeyClasses(ChartColor color) => $"{theme.TooltipKey} {GetColor(color).Background}";
@@ -388,6 +392,22 @@ public abstract partial class TwChartBase : TwBlazorComponentBase, IAsyncDisposa
     // the winner to stylesheet order.
     private static string GetDatumStyle(ChartDatum datum) =>
         $"position:absolute;left:{Number(datum.X)}%;top:{Number(datum.Y)}%;width:{Number(datum.Width)}%;height:{Number(datum.Height)}%;transform:translate(-50%,-50%)";
+
+    /// <summary>
+    /// Places the tooltip of a datum with an anchor so it points at that position instead of sitting above the
+    /// middle of the datum's box. Positions are percentages of the box, measured as the tooltip theme measures them.
+    /// </summary>
+    private static string? GetTooltipStyle(ChartDatum datum)
+    {
+        if (datum.AnchorX is not { } anchorX || datum.AnchorY is not { } anchorY || datum.Width <= 0 || datum.Height <= 0)
+        {
+            return null;
+        }
+
+        var left = (anchorX - (datum.X - datum.Width / 2)) / datum.Width * 100;
+        var bottom = 100 - (anchorY - (datum.Y - datum.Height / 2)) / datum.Height * 100;
+        return $"left:{Number(left)}%;bottom:{Number(bottom)}%";
+    }
 
     private static string GetXTickStyle(ChartAxis axis, ChartTick tick)
     {

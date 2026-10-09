@@ -843,3 +843,74 @@ globalThis.twSkeleton = {
         }
     }
 };
+
+// Tooltips: a touch screen has no hover and a tap does not give keyboard focus, so the hover and focus
+// styles never reveal a bubble there. One document listener opens the tooltip under a touch or pen tap by
+// marking its wrapper (the theme reveals the bubble for a marked wrapper) and closes it on the next tap
+// anywhere, so at most one is open. Mouse input is left to the hover styles.
+globalThis.twTooltip = {
+    _wrapperSelector: '[data-tw-tooltip]',
+    _openAttribute: 'data-tw-tooltip-open',
+    _edgeMargin: 8,
+    _registered: false,
+
+    _parts: function (wrapper) {
+        const bubble = Array.from(wrapper.children).find(child => child.getAttribute('role') === 'tooltip') ?? null;
+        const arrow = bubble ? Array.from(bubble.children).find(child => child.getAttribute('aria-hidden') === 'true') ?? null : null;
+        return { bubble, arrow };
+    },
+
+    // A bubble is centered on its control, so one near the edge of the screen would be cut off and make the
+    // page scroll sideways. Slides it back inside, and the arrow the other way so it still points at the control.
+    _fit: function (wrapper) {
+        const { bubble, arrow } = globalThis.twTooltip._parts(wrapper);
+        if (!bubble) return;
+
+        const margin = globalThis.twTooltip._edgeMargin;
+        const rect = bubble.getBoundingClientRect();
+        const viewportWidth = document.documentElement.clientWidth;
+
+        let shift = 0;
+        if (rect.right > viewportWidth - margin) {
+            shift = viewportWidth - margin - rect.right;
+        }
+        if (rect.left + shift < margin) {
+            shift = margin - rect.left;
+        }
+        if (shift === 0) return;
+
+        bubble.style.marginLeft = `${shift}px`;
+        if (arrow) arrow.style.marginLeft = `${-shift}px`;
+    },
+
+    open: function (wrapper) {
+        wrapper.setAttribute(globalThis.twTooltip._openAttribute, '');
+        globalThis.twTooltip._fit(wrapper);
+    },
+
+    close: function (wrapper) {
+        wrapper.removeAttribute(globalThis.twTooltip._openAttribute);
+        const { bubble, arrow } = globalThis.twTooltip._parts(wrapper);
+        if (bubble) bubble.style.marginLeft = '';
+        if (arrow) arrow.style.marginLeft = '';
+    },
+
+    _onPointerDown: function (e) {
+        if (e.pointerType === 'mouse') return;
+
+        const tooltip = globalThis.twTooltip;
+        const wrapper = e.target?.closest?.(tooltip._wrapperSelector) ?? null;
+        const opened = document.querySelector(`[${tooltip._openAttribute}]`);
+
+        if (opened) tooltip.close(opened);
+        if (wrapper && wrapper !== opened) tooltip.open(wrapper);
+    },
+
+    register: function () {
+        if (globalThis.twTooltip._registered || typeof document === 'undefined') return;
+        document.addEventListener('pointerdown', globalThis.twTooltip._onPointerDown);
+        globalThis.twTooltip._registered = true;
+    }
+};
+
+globalThis.twTooltip.register();

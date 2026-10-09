@@ -32,6 +32,7 @@ public static class AccessibilityRoutes
     [
         "/sidebar/preview",
         "/sidebar/preview-navigation",
+        "/sidebar/preview-item-content",
     ];
 
     private static readonly string[] _all = BuildAllRoutes();

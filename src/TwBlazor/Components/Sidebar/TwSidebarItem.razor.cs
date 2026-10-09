@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 Jack Shuter @ TwBlazor - twblazor.com
+// Copyright (c) 2025 Jack Shuter @ TwBlazor - twblazor.com
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Components;
@@ -106,6 +106,16 @@ public partial class TwSidebarItem : TwBlazorComponentBase
     /// This is typically used to render nested <see cref="TwSidebarItem"/> components when <see cref="IsParent"/> is true.
     /// </remarks>
     [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>
+    /// Gets or sets content rendered after the item's label, such as a badge or a count.
+    /// </summary>
+    /// <remarks>
+    /// Rendered for both link items and parent items; on a parent item it sits between the label and the chevron.
+    /// The content is placed inside the item's link or toggle button, so it must not be interactive, and any text
+    /// in it becomes part of the item's accessible name.
+    /// </remarks>
+    [Parameter] public RenderFragment? EndContent { get; set; }
 
     /// <summary>
     /// Gets or sets the navigation item model that provides the sidebar item's properties.
