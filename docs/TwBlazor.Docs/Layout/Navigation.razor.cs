@@ -26,6 +26,25 @@ public partial class Navigation : IDisposable
         "inline-flex items-center gap-2 rounded px-3 py-1.5 text-sm font-medium text-gray-600 transition-colors duration-200 hover:bg-purple-50 hover:text-purple-900 [&.active]:bg-purple-100 [&.active]:text-purple-900 dark:text-gray-300 dark:hover:bg-purple-500/15 dark:hover:text-white dark:[&.active]:bg-purple-500/20 dark:[&.active]:text-white";
 
     /// <summary>
+    /// The brand gradient, shared by the logo and the wordmark in the sidebar header so the two always match,
+    /// in light and dark.
+    /// </summary>
+    private const string brandGradientClasses =
+        "bg-linear-to-r from-purple-700 to-fuchsia-600 dark:from-purple-400 dark:to-fuchsia-300";
+
+    /// <summary>
+    /// Classes for the logo. The gradient shows through the shape of <c>logo-mark.svg</c> (the bolt without its backdrop), used as a mask, because an
+    /// image cannot follow the site's theme toggle. The path is relative to the stylesheet.
+    /// </summary>
+    private const string logoClasses =
+        brandGradientClasses + " size-8 me-2 shrink-0 mask-[url(../images/logo-mark.svg)] mask-contain mask-center mask-no-repeat";
+
+    /// <summary>
+    /// Classes for the "twblazor" wordmark: the gradient clipped to the letters.
+    /// </summary>
+    private const string wordmarkClasses = brandGradientClasses + " bg-clip-text text-transparent";
+
+    /// <summary>
     /// Classes for the icon buttons on the right of the top bar.
     /// </summary>
     private const string navIconClasses =
