@@ -61,7 +61,9 @@ public class TwPieChart : TwValueChartBase
             var share = FormatShare(item.Value, total);
             var middle = ChartGeometry.Polar(50, centerY, radius * (hole > 0 ? (1 + hole) / 2 : 0.65), angle + span / 2);
 
-            builder.Path(ChartGeometry.Sector(50, centerY, radius * hole, radius, angle, angle + span), color, filled: true, outline: true, title: $"{item.Label}: {FormatValue(item.Value)} ({share})");
+            var slice = new ChartSector(50, centerY, radius * hole, radius, angle, angle + span);
+
+            builder.Path(ChartGeometry.Sector(slice), color, filled: true, outline: true, title: $"{item.Label}: {FormatValue(item.Value)} ({share})");
             builder.Legend(item.Label, color);
 
             if (ShowPercentages && item.Value / total >= 0.07)
@@ -69,7 +71,7 @@ public class TwPieChart : TwValueChartBase
                 builder.Add(new ChartText(middle.X, middle.Y, share, Tone: ChartTextTone.Inverse, Strong: true));
             }
 
-            builder.SectorDatum(50, centerY, radius * hole, radius, angle, angle + span, item.Label, [new ChartDatumRow(ValueHeader, FormatValue(item.Value), color), new ChartDatumRow("Share", share)]);
+            builder.SectorDatum(slice, item.Label, [new ChartDatumRow(ValueHeader, FormatValue(item.Value), color), new ChartDatumRow("Share", share)]);
             angle += span;
         }
 
@@ -107,9 +109,11 @@ public class TwNightingaleChart : TwValueChartBase
             var item = data[i];
             var color = ChartColor.Series(i);
             var radius = 46 * Math.Sqrt(item.Value / max);
-            builder.Path(ChartGeometry.Sector(50, 50, 0, radius, span * i, span * (i + 1)), color, filled: true, outline: true, title: $"{item.Label}: {FormatValue(item.Value)}");
+            var wedge = new ChartSector(50, 50, 0, radius, span * i, span * (i + 1));
+
+            builder.Path(ChartGeometry.Sector(wedge), color, filled: true, outline: true, title: $"{item.Label}: {FormatValue(item.Value)}");
             builder.Legend(item.Label, color);
-            builder.SectorDatum(50, 50, 0, radius, span * i, span * (i + 1), item.Label, [new ChartDatumRow(ValueHeader, FormatValue(item.Value), color)]);
+            builder.SectorDatum(wedge, item.Label, [new ChartDatumRow(ValueHeader, FormatValue(item.Value), color)]);
         }
     }
 }
@@ -141,7 +145,9 @@ public class TwRadialBarChart : TwValueChartBase
             var inner = outer - thickness;
             var sweep = maxSweep * Math.Clamp(scale.Map(item.Value) / 100, 0, 1);
 
-            builder.Path(ChartGeometry.Sector(50, 50, inner, outer, 0, maxSweep), ChartColor.Track, filled: true);
+            var track = new ChartSector(50, 50, inner, outer, 0, maxSweep);
+
+            builder.Path(ChartGeometry.Sector(track), ChartColor.Track, filled: true);
 
             if (sweep > 0)
             {
@@ -149,7 +155,7 @@ public class TwRadialBarChart : TwValueChartBase
             }
 
             builder.Add(new ChartText(50, 50 - (inner + outer) / 2, item.Label, ChartAnchor.End, OffsetX: -8));
-            builder.SectorDatum(50, 50, inner, outer, 0, maxSweep, item.Label, [new ChartDatumRow(ValueHeader, FormatValue(item.Value), color)], anchorAngle: sweep);
+            builder.SectorDatum(track, item.Label, [new ChartDatumRow(ValueHeader, FormatValue(item.Value), color)], anchorAngle: sweep);
         }
     }
 }

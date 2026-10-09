@@ -369,7 +369,7 @@ public class ChartSectorDatumTests
     private static ChartDatum Sector(double innerRadius, double outerRadius, double startAngle, double endAngle)
     {
         var builder = new ChartSceneBuilder();
-        builder.SectorDatum(50, 50, innerRadius, outerRadius, startAngle, endAngle, "Slice", []);
+        builder.SectorDatum(new ChartSector(50, 50, innerRadius, outerRadius, startAngle, endAngle), "Slice", []);
         return Assert.Single(builder.Build().Datums);
     }
 
@@ -452,7 +452,7 @@ public class ChartSectorDatumTests
     public void SectorDatum_AnchorAngle_MovesTheTooltipRoundTheSegment()
     {
         var builder = new ChartSceneBuilder();
-        builder.SectorDatum(50, 50, 20, 40, 0, 270, "Ring", [], anchorAngle: 180);
+        builder.SectorDatum(new ChartSector(50, 50, 20, 40, 0, 270), "Ring", [], anchorAngle: 180);
 
         var datum = Assert.Single(builder.Build().Datums);
         Assert.Equal(50, datum.AnchorX!.Value, 3);

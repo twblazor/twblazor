@@ -105,6 +105,12 @@ public sealed class ChartPathBuilder
 public static class ChartGeometry
 {
     /// <summary>
+    /// Builds the path of a <see cref="ChartSector"/>.
+    /// </summary>
+    public static string Sector(ChartSector sector) =>
+        Sector(sector.CenterX, sector.CenterY, sector.InnerRadius, sector.OuterRadius, sector.StartAngle, sector.EndAngle);
+
+    /// <summary>
     /// Gets the point at an angle and distance from a center. Angles are in degrees, clockwise from 12 o'clock.
     /// </summary>
     public static (double X, double Y) Polar(double centerX, double centerY, double radius, double angle)
@@ -172,3 +178,9 @@ public static class ChartGeometry
         return sorted[lower] + (sorted[upper] - sorted[lower]) * (position - lower);
     }
 }
+
+/// <summary>
+/// A ring segment, or a pie wedge when <paramref name="InnerRadius"/> is zero. Positions and radii are percentages
+/// of the plot area; angles are in degrees, clockwise from 12 o'clock.
+/// </summary>
+public readonly record struct ChartSector(double CenterX, double CenterY, double InnerRadius, double OuterRadius, double StartAngle, double EndAngle);

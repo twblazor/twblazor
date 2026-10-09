@@ -119,16 +119,16 @@ public sealed class ChartSceneBuilder
         _datums.Add(new ChartDatum(x, y, width, height, title, rows, hover));
 
     /// <summary>
-    /// Adds an interactive data point that covers a ring segment (or a pie wedge when
-    /// <paramref name="innerRadius"/> is zero), so the pointer triggers it anywhere on the segment.
-    /// Angles are in degrees, clockwise from 12 o'clock. Use it on a <see cref="ChartShape.Square"/> plot.
+    /// Adds an interactive data point that covers a <see cref="ChartSector"/>, so the pointer triggers it
+    /// anywhere on the segment. Use it on a <see cref="ChartShape.Square"/> plot.
     /// </summary>
     /// <remarks>
     /// The tooltip points at the middle of the segment's thickness (65% of the way out on a wedge), at
     /// <paramref name="anchorAngle"/> or halfway round the segment when that is not given.
     /// </remarks>
-    public void SectorDatum(double centerX, double centerY, double innerRadius, double outerRadius, double startAngle, double endAngle, string title, IReadOnlyList<ChartDatumRow> rows, double? anchorAngle = null)
+    public void SectorDatum(ChartSector sector, string title, IReadOnlyList<ChartDatumRow> rows, double? anchorAngle = null)
     {
+        var (centerX, centerY, innerRadius, outerRadius, startAngle, endAngle) = sector;
         endAngle = Math.Min(endAngle, startAngle + 360);
         var steps = Math.Max(1, (int)Math.Ceiling((endAngle - startAngle) / sectorStepDegrees));
         var angles = Enumerable.Range(0, steps + 1).Select(step => startAngle + (endAngle - startAngle) * step / steps).ToList();
