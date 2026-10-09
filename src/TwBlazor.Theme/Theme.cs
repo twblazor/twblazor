@@ -753,6 +753,28 @@ public static class Theme
                     DismissButtonSpacingWithEndIcon = "ml-2",
                     DismissButtonColor = $"text-current {neutralHoverFill} opacity-70 hover:opacity-100 focus-visible:ring-2 focus-visible:ring-current transition-[opacity,background-color] {transition.DurationFast} motion-reduce:transition-none {interaction.FocusOutlineNone}"
                 },
+                new TwAvatarTheme
+                {
+                    Colors = new()
+                    {
+                        Primary = $"{background.Medium.Primary} {text.Medium.Light}",
+                        Accent = "bg-fuchsia-700 text-gray-100",
+                        Success = $"{background.Medium.Success} text-white",
+                        Danger = "bg-red-700 text-gray-100",
+                        Warning = $"{background.Medium.Warning} {text.Medium.Dark}",
+                        Info = $"{background.Medium.Info} {text.Medium.Light}",
+                        Light = $"{background.Medium.Light} {text.Medium.Dark}",
+                        Dark = $"{background.Dark.Dark} {text.Medium.Light}",
+                    },
+                    Neutral = $"{neutralTrack} {neutralText.Secondary}",
+                    Base = $"{display.InlineFlex} {anchor.Center} {flexbox.ShrinkNone} {overflow.Hidden} {typography.Weight.Semibold} leading-none select-none",
+                    Small = $"size-8 {typography.Size.Xs}",
+                    Medium = $"size-10 {typography.Size.Sm}",
+                    Large = $"size-12 {typography.Size.Base}",
+                    ExtraLarge = "size-16 text-xl",
+                    Image = $"{sizing.Full} object-cover",
+                    Icon = "text-[1.25em]"
+                },
                 new TwBreadcrumbTheme
                 {
                     List = $"{display.InlineFlex} {flexbox.Wrap} {spacing.Gap.Lg}",
