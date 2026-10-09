@@ -914,3 +914,20 @@ globalThis.twTooltip = {
 };
 
 globalThis.twTooltip.register();
+
+// Avatar: reports whether a picture has already failed to load. An image that fails before Blazor attaches
+// its error handler never raises that event again, so TwAvatar asks once after rendering. decode() is used
+// instead of naturalWidth because a vector image without its own dimensions can report a width of zero.
+globalThis.twAvatar = {
+    isBroken: async function (img) {
+        if (!img?.complete) return false;
+        if (typeof img.decode !== 'function') return img.naturalWidth === 0;
+
+        try {
+            await img.decode();
+            return false;
+        } catch {
+            return true;
+        }
+    }
+};

@@ -1,0 +1,108 @@
+@page "/avatar"
+
+<PageContainer Title="TwAvatar" Path="/avatar" Beta Description="TwAvatar is a Blazor avatar component that shows a picture, initials or an icon for a person. Set Src, Name, Initials, Icon, Color and Size." ThemeType="typeof(TwAvatarTheme)">
+    <PageCard Title="Basic usage">
+        <Description>Give <code>TwAvatar</code> a <code>Name</code> and it shows that person's initials: the first letters of the first and last words. The name also labels the avatar for assistive technology.</Description>
+
+        <CodeExample Name="AvatarBasic">
+            <div class="flex items-center gap-4">
+                <TwAvatar Name="Jane Doe" />
+                <TwAvatar Name="Mary Anne Smith" />
+                <TwAvatar Name="Cher" />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Picture">
+        <Description>Set <code>Src</code> to show a picture, cropped to the avatar's shape. If the picture fails to load, the avatar falls back to the initials, so keep the <code>Name</code> alongside it.</Description>
+
+        <CodeExample Name="AvatarPicture">
+            <div class="flex items-center gap-4">
+                <TwAvatar Src="_content/TwBlazor.Docs/images/logo.svg" Name="twblazor" />
+                <TwAvatar Src="/images/missing-picture.png" Name="Jane Doe" Color="Color.Primary" />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Initials">
+        <Description>Set <code>Initials</code> to choose the letters yourself, for example when the name is not a person's.</Description>
+
+        <CodeExample Name="AvatarInitials">
+            <div class="flex items-center gap-4">
+                <TwAvatar Name="Design Team" Initials="DS" Color="Color.Accent" />
+                <TwAvatar Name="Quality Assurance" Initials="QA" Color="Color.Success" />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Icon">
+        <Description>With no picture and no initials the avatar shows an icon. Set <code>Icon</code> to change it.</Description>
+
+        <CodeExample Name="AvatarIcon">
+            <div class="flex items-center gap-4">
+                <TwAvatar AriaLabel="Guest" />
+                <TwAvatar AriaLabel="Support bot" Icon="Icon.Robot" Color="Color.Info" />
+                <TwAvatar AriaLabel="Acme Ltd" Icon="Icon.Building" Color="Color.Dark" />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Sizes">
+        <Description>Use <code>Size</code> to set the avatar's dimensions. The initials and icon scale with it.</Description>
+
+        <CodeExample Name="AvatarSizes">
+            <div class="flex items-center gap-4">
+                <TwAvatar Name="Jane Doe" Color="Color.Primary" Size="AvatarSize.Small" />
+                <TwAvatar Name="Jane Doe" Color="Color.Primary" Size="AvatarSize.Medium" />
+                <TwAvatar Name="Jane Doe" Color="Color.Primary" Size="AvatarSize.Large" />
+                <TwAvatar Name="Jane Doe" Color="Color.Primary" Size="AvatarSize.ExtraLarge" />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Colors">
+        <Description>Use <code>Color</code> to set the background behind the initials or icon. Without one the avatar is a neutral gray.</Description>
+
+        <CodeExample Name="AvatarColors">
+            <div class="flex flex-wrap items-center gap-4">
+                <TwAvatar Name="No Color" />
+                @foreach (var color in Enum.GetValues<Color>())
+                {
+                    <TwAvatar Name="@($"{color} Avatar")" Color="@color" />
+                }
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Shape">
+        <Description>Avatars are round by default. Set <code>Rounded</code> for a different shape.</Description>
+
+        <CodeExample Name="AvatarShape">
+            <div class="flex items-center gap-4">
+                <TwAvatar Name="Jane Doe" Color="Color.Primary" Rounded="Rounded.Full" />
+                <TwAvatar Name="Jane Doe" Color="Color.Primary" Rounded="Rounded.Lg" />
+                <TwAvatar Name="Jane Doe" Color="Color.Primary" Rounded="Rounded.None" />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Beside a name">
+        <Description>When the name is written next to the avatar, leave <code>Name</code> off and pass <code>Initials</code> instead. The avatar is then decoration and is hidden from assistive technology, so the name is not read out twice.</Description>
+
+        <CodeExample Name="AvatarBesideName">
+            <div class="flex items-center gap-3">
+                <TwAvatar Initials="JD" Color="Color.Primary" Size="AvatarSize.Large" />
+                <div>
+                    <p class="font-semibold">Jane Doe</p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Product Designer</p>
+                </div>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Accessibility">
+        <Description>
+            An avatar with a <code>Name</code> or an <code>AriaLabel</code> is exposed as an image with that name, whether it shows a picture, initials or an icon. An avatar with neither is hidden from assistive technology. Give every avatar that stands on its own a name, and leave it off only when the same name is already in the text beside it.
+        </Description>
+    </PageCard>
+</PageContainer>

@@ -2307,3 +2307,31 @@ describe('twTooltip', () => {
         expect(addSpy).not.toHaveBeenCalled();
     });
 });
+
+describe('twAvatar', () => {
+    describe('isBroken', () => {
+        test('is false while the picture is still loading, leaving it to the error event', async () => {
+            const decode = vi.fn();
+
+            expect(await window.twAvatar.isBroken({ complete: false, decode })).toBe(false);
+            expect(decode).not.toHaveBeenCalled();
+        });
+
+        test('is false for a loaded picture that decodes', async () => {
+            expect(await window.twAvatar.isBroken({ complete: true, decode: () => Promise.resolve() })).toBe(false);
+        });
+
+        test('is true for a finished picture that cannot be decoded', async () => {
+            expect(await window.twAvatar.isBroken({ complete: true, decode: () => Promise.reject(new Error('broken')) })).toBe(true);
+        });
+
+        test('falls back to the natural width when decode is unavailable', async () => {
+            expect(await window.twAvatar.isBroken({ complete: true, naturalWidth: 0 })).toBe(true);
+            expect(await window.twAvatar.isBroken({ complete: true, naturalWidth: 64 })).toBe(false);
+        });
+
+        test('is false when there is no image element', async () => {
+            expect(await window.twAvatar.isBroken(null)).toBe(false);
+        });
+    });
+});
