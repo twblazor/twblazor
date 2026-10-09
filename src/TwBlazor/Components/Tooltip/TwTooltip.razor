@@ -6,6 +6,7 @@
      style="@Style"
      tabindex="@(isFocusable ? "0" : null)"
      aria-describedby="@(hasTooltip ? tooltipId : null)"
+     data-tw-tooltip="@hasTooltip"
      @attributes="@Attributes"
      aria-label="@AriaLabel"
      aria-labelledby="@AriaLabelledBy"
@@ -15,7 +16,7 @@
     @ChildContent
     @if (hasTooltip)
     {
-        <span id="@tooltipId" role="tooltip" class="@tooltipClasses">
+        <span id="@tooltipId" role="tooltip" class="@tooltipClasses" style="@TooltipStyle">
             @if (Arrow)
             {
                 <span class="@arrowClasses" aria-hidden="true"></span>

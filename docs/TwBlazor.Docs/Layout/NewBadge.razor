@@ -1,0 +1,14 @@
+@* The "New" badge shown beside a sidebar item, through TwSidebar's NavigationItemContent. *@
+<TwChip Color="Color.Info" AriaLabel="@AriaLabel" Variant="ButtonVariant.Outlined" Label="@Label" Size="ChipSize.Small" Class="h-5" />
+
+@code {
+    /// <summary>
+    /// Gets or sets the text shown on the badge.
+    /// </summary>
+    [Parameter] public string Label { get; set; } = "New";
+
+    /// <summary>
+    /// Gets or sets the text announced for the badge by assistive technology.
+    /// </summary>
+    [Parameter] public string AriaLabel { get; set; } = "New";
+}

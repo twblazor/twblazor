@@ -1,4 +1,4 @@
-﻿@page "/sidebar"
+@page "/sidebar"
 
 <PageContainer Title="TwSidebar" Path="/sidebar" Description="TwSidebar is a Blazor sidebar for navigation. Build it from SidebarContent markup or data-driven NavigationItems, with IsSearchable and a collapsible layout." ThemeType="typeof(TwSidebarTheme)">
     <PageCard Title="Basic sidebar">
@@ -15,5 +15,19 @@
         </Description>
         <iframe src="/sidebar/preview-navigation" title="TwSidebar data-driven navigation example preview" class="w-full h-50 border-0 rounded-lg"></iframe>
         <ExampleCodeBlock Razor="@CodeExamples.Get("SidebarNavigationItems")" CSharp="@CodeExamples.Get("SidebarNavigationItemsCode")" />
+    </PageCard>
+
+    <PageCard Title="Item content">
+        <Description>
+            Use <code>NavigationItemContent</code> to render your own content after the label of the items generated from <code>NavigationItems</code>, such as a badge or a count. The template is called for every item and receives the <code>NavigationItem</code> as its context, so render nothing for the items that need no extra content. This documentation site uses it for the "New" badges in its own sidebar.
+        </Description>
+        <Description>
+            It works on parent items as well as links: on a parent item the content sits between the label and the chevron, as on "Content" below. A badge on a parent can stand for everything inside it, in place of a badge on every child.
+        </Description>
+        <Description>
+            Identify items by their <code>Id</code> or <code>Href</code>, not by reference, because the template receives a copy of the item while the sidebar is being searched. The content is placed inside the item's link or toggle button, so keep it non-interactive; any text in it is read out as part of the item's name. The wrapper around the content is styled by <code>NavigationItemContent</code> on <code>TwSidebarTheme</code>.
+        </Description>
+        <iframe src="/sidebar/preview-item-content" title="TwSidebar item content example preview" class="w-full h-50 border-0 rounded-lg"></iframe>
+        <ExampleCodeBlock Razor="@CodeExamples.Get("SidebarItemContent")" CSharp="@CodeExamples.Get("SidebarItemContentCode")" />
     </PageCard>
 </PageContainer>

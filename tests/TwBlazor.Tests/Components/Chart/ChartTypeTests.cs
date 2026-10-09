@@ -840,4 +840,28 @@ public class ChartTypeTests : TwBlazorTestBase
     }
 
     #endregion
+
+    [Fact]
+    public void Pie_DataPoints_CoverTheirWholeSlice()
+    {
+        // Search is half the pie: the right-hand semicircle, 48 wide and 96 tall.
+        var scene = ValueScene<TwPieChart>();
+
+        Assert.All(scene.Datums, datum => Assert.StartsWith("polygon(", datum.Clip));
+        Assert.Equal(48, scene.Datums[0].Width, 3);
+        Assert.Equal(96, scene.Datums[0].Height, 3);
+        Assert.Equal(74, scene.Datums[0].X, 3);
+        Assert.Equal(50, scene.Datums[0].Y, 3);
+    }
+
+    [Fact]
+    public void Nightingale_And_RadialBar_DataPoints_CoverTheirWholeShape()
+    {
+        Assert.All(ValueScene<TwNightingaleChart>().Datums, datum => Assert.StartsWith("polygon(", datum.Clip));
+
+        // Every ring's hit area spans its whole track, so a short bar is as easy to point at as a long one.
+        var rings = ValueScene<TwRadialBarChart>().Datums;
+        Assert.All(rings, datum => Assert.StartsWith("polygon(", datum.Clip));
+        Assert.Equal(96, rings[0].Width, 3);
+    }
 }

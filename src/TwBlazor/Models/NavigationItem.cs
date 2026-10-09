@@ -65,11 +65,6 @@ public class NavigationItem
     /// </summary>
     public bool Hidden { get; set; }
 
-    /// <summary>
-    /// This property needs to be removed, it's currently used for the documentation project.
-    /// </summary>
-    /// <remarks>Renders a "New" badge next to the item's label in <see cref="TwBlazor.Components.TwSidebarItem"/>.</remarks>
-    public bool New { get; set; }
 
     /// <summary>
     /// Gets or sets whether this item should be marked as the active page.

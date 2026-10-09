@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 Jack Shuter @ TwBlazor - twblazor.com
+// Copyright (c) 2025 Jack Shuter @ TwBlazor - twblazor.com
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Components;
@@ -105,6 +105,27 @@ public partial class TwSidebar : TwBlazorComponentBase, IDisposable
     /// <remarks>If <see langword="null"/> or empty, no sidebar items will be rendered. Changes to this
     /// collection will update the displayed sidebar items accordingly.</remarks>
     [Parameter] public List<NavigationItem> NavigationItems { get; set; } = [];
+
+    /// <summary>
+    /// Gets or sets the content rendered after the label of each item generated from
+    /// <see cref="NavigationItems"/>, such as a badge or a count.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// The template is called for every item at every depth, link items and parent items alike, and receives the
+    /// item as its context. Render nothing for the items that need no extra content. On a parent item the content
+    /// sits between the label and the chevron.
+    /// </para>
+    /// <para>
+    /// While a search is active the context is a copy of the original item, so identify items by their
+    /// <see cref="NavigationItem.Id"/> or <see cref="NavigationItem.Href"/> rather than by reference.
+    /// </para>
+    /// <para>
+    /// Accessibility: the content is placed inside the item's link or toggle button, so it must not be
+    /// interactive, and any text in it becomes part of the item's accessible name.
+    /// </para>
+    /// </remarks>
+    [Parameter] public RenderFragment<NavigationItem>? NavigationItemContent { get; set; }
 
     /// <summary>
     /// Gets the items currently displayed in the sidebar, either filtered or the full list.

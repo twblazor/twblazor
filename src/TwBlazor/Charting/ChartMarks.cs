@@ -131,8 +131,11 @@ public sealed record ChartDatumRow(string Label, string Value, ChartColor? Color
 
 /// <summary>
 /// An interactive data point: the hover and keyboard-focus target that carries a tooltip. Positioned by its center.
+/// <paramref name="Clip"/> is an optional CSS shape, in percentages of the datum's own box, that limits where the
+/// pointer triggers it; without one the whole box does. <paramref name="AnchorX"/> and <paramref name="AnchorY"/>
+/// are the plot position the tooltip points at; without them it sits above the middle of the box.
 /// </summary>
-public sealed record ChartDatum(double X, double Y, double Width, double Height, string Title, IReadOnlyList<ChartDatumRow> Rows, ChartHover Hover = ChartHover.Highlight)
+public sealed record ChartDatum(double X, double Y, double Width, double Height, string Title, IReadOnlyList<ChartDatumRow> Rows, ChartHover Hover = ChartHover.Highlight, string? Clip = null, double? AnchorX = null, double? AnchorY = null)
 {
     /// <summary>Gets the datum described as one sentence for assistive technology.</summary>
     public string AriaLabel => Rows.Count == 0

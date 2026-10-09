@@ -69,6 +69,7 @@
 @if (hasTooltip)
 {
     <span class="@tooltipWrapperClasses"
+          data-tw-tooltip
           @onkeydown="OnTooltipKeyDown"
           @onmouseleave="ResetTooltipDismissal"
           @onfocusout="ResetTooltipDismissal">

@@ -12,10 +12,10 @@
         {
             <li>
                 <div class="@GetParentGroupClasses(item.Collapsed, Depth + 1)">
-                    <TwSidebarItem NavigationItem="item" Id="@parentId" IsParent IsCollapsed="item.Collapsed" ChildrenId="@childrenId" Depth="Depth" OnClick="@(() => item.Collapsed = !item.Collapsed)" />
+                    <TwSidebarItem NavigationItem="item" EndContent="GetItemContent(item)" Id="@parentId" IsParent IsCollapsed="item.Collapsed" ChildrenId="@childrenId" Depth="Depth" OnClick="@(() => item.Collapsed = !item.Collapsed)" />
                     <div id="@childrenId" class="@GetChildContainerClasses(item.Collapsed, Depth + 1)">
                         <ul>
-                            <TwSidebarNavigationList Items="item.NavigationItems" IsNested="true" Depth="Depth + 1" />
+                            <TwSidebarNavigationList Items="item.NavigationItems" ItemContent="ItemContent" IsNested="true" Depth="Depth + 1" />
                         </ul>
                     </div>
                 </div>
@@ -24,10 +24,10 @@
         else
         {
             <div class="@GetParentGroupClasses(item.Collapsed, Depth + 1)">
-                <TwSidebarItem NavigationItem="item" Id="@parentId" IsParent IsCollapsed="item.Collapsed" ChildrenId="@childrenId" Depth="Depth" OnClick="@(() => item.Collapsed = !item.Collapsed)" />
+                <TwSidebarItem NavigationItem="item" EndContent="GetItemContent(item)" Id="@parentId" IsParent IsCollapsed="item.Collapsed" ChildrenId="@childrenId" Depth="Depth" OnClick="@(() => item.Collapsed = !item.Collapsed)" />
                 <div id="@childrenId" class="@GetChildContainerClasses(item.Collapsed, Depth + 1)">
                     <ul>
-                        <TwSidebarNavigationList Items="item.NavigationItems" IsNested="true" Depth="Depth + 1" />
+                        <TwSidebarNavigationList Items="item.NavigationItems" ItemContent="ItemContent" IsNested="true" Depth="Depth + 1" />
                     </ul>
                 </div>
             </div>
@@ -36,11 +36,11 @@
     else if (IsNested) // is a nested single item.
     {
         <li>
-            <TwSidebarItem NavigationItem="item" IsChild IsLastChild="item == Items[^1]" />
+            <TwSidebarItem NavigationItem="item" EndContent="GetItemContent(item)" IsChild IsLastChild="item == Items[^1]" />
         </li>
     }
     else // is a top-level single item.
     {
-        <TwSidebarItem NavigationItem="item" />
+        <TwSidebarItem NavigationItem="item" EndContent="GetItemContent(item)" />
     }
 }

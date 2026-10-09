@@ -122,6 +122,7 @@ public sealed class PageRouteScannerTests : IDisposable
         Assert.Contains("/date-range-picker", routes);
         Assert.DoesNotContain("/sidebar/preview", routes);
         Assert.DoesNotContain("/sidebar/preview-navigation", routes);
+        Assert.DoesNotContain("/sidebar/preview-item-content", routes);
         Assert.DoesNotContain("/component-test", routes);
     }
 }

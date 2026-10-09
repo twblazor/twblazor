@@ -35,10 +35,15 @@ public partial class Navigation : IDisposable
     private static readonly string _apiDocumentationUri = "https://twblazor.github.io/twblazor/";
 #pragma warning restore S1075
 
-    // Category order in the sidebar follows components.json's array order.
-    private readonly List<NavigationItem> _navigationItems = BuildNavigationItems();
+    // The ids of the items that show a "New" badge, filled while the navigation items are built.
+    private readonly HashSet<string> _newItemIds = [];
 
-    private static List<NavigationItem> BuildNavigationItems()
+    // Category order in the sidebar follows components.json's array order.
+    private readonly List<NavigationItem> _navigationItems;
+
+    public Navigation() => _navigationItems = BuildNavigationItems();
+
+    private List<NavigationItem> BuildNavigationItems()
     {
         List<NavigationItem> items =
         [
@@ -60,8 +65,12 @@ public partial class Navigation : IDisposable
 
         foreach (var category in ComponentCatalog.LoadCategories())
         {
-            var children = category.Items.Select(BuildNavigationItem).ToList();
-            items.Add(new NavigationItem { Id = category.Category.ToLowerInvariant(), Label = category.Category, NavigationItems = children });
+            var id = category.Category.ToLowerInvariant();
+            if (category.IsNew)
+                _newItemIds.Add(id);
+
+            var children = category.Items.Select(entry => BuildNavigationItem(entry, category.IsNew)).ToList();
+            items.Add(new NavigationItem { Id = id, Label = category.Category, NavigationItems = children });
         }
 
         items.Add(new() { Id = "api-doc", Label = "API Documentation", Href = _apiDocumentationUri });
@@ -71,10 +80,19 @@ public partial class Navigation : IDisposable
 
     // An entry with nested Items (e.g. "Dates & Time" grouping the date/time pickers under "Forms")
     // is itself a group rather than a leaf link, so it recurses - to any depth components.json uses.
-    private static NavigationItem BuildNavigationItem(ComponentEntry entry) =>
-        entry.Items.Count > 0
-            ? new NavigationItem { Id = entry.Id, Label = entry.Display, NavigationItems = entry.Items.Select(BuildNavigationItem).ToList() }
-            : new NavigationItem { Id = entry.Id, Label = entry.Display, Href = entry.Url, New = entry.IsNew };
+    // A new entry inside a section that is already badged gets no badge of its own: one badge on the section
+    // says it for all of them.
+    private NavigationItem BuildNavigationItem(ComponentEntry entry, bool isInNewSection)
+    {
+        if (entry.IsNew && !isInNewSection)
+            _newItemIds.Add(entry.Id);
+
+        return entry.Items.Count > 0
+            ? new NavigationItem { Id = entry.Id, Label = entry.Display, NavigationItems = entry.Items.Select(child => BuildNavigationItem(child, entry.IsNew)).ToList() }
+            : new NavigationItem { Id = entry.Id, Label = entry.Display, Href = entry.Url };
+    }
+
+    private bool IsNew(NavigationItem item) => item.Id is { } id && _newItemIds.Contains(id);
 
     private readonly CancellationTokenSource _cts = new();
 

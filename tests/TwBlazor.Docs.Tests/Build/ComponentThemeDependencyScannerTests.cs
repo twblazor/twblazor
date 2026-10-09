@@ -105,6 +105,32 @@ public sealed class ComponentThemeDependencyScannerTests : IDisposable
     }
 
     [Fact]
+    public void Scan_IncludesThemesOfTypesInTheComponentsFolder()
+    {
+        Write(Path.Combine("Button", "TwButton.razor.cs"), "Require<TwButtonTheme>();");
+        Write(Path.Combine("Button", "TwButtonGroup.razor.cs"), "Require<TwGroupsTheme>();");
+        Write(Path.Combine("Card", "TwCard.razor.cs"), "Require<TwCardTheme>();");
+
+        var result = ComponentThemeDependencyScanner.Scan(_root, ["TwButton", "TwCard"]);
+
+        Assert.Equal(["TwButtonTheme", "TwGroupsTheme"], result["TwButton"]);
+        Assert.Equal(["TwCardTheme"], result["TwCard"]);
+    }
+
+    [Fact]
+    public void Scan_OfTheRealLibrary_GivesGroupedComponentsTheGroupsTheme()
+    {
+        var names = ComponentThemeDependencyScanner.ReadComponentNames(Paths.ComponentsJsonPath);
+
+        var result = ComponentThemeDependencyScanner.Scan(Paths.LibrarySourcePath, names);
+
+        Assert.Contains("TwGroupsTheme", result["TwButton"]);
+        Assert.Contains("TwGroupsTheme", result["TwCheckbox"]);
+        Assert.Contains("TwGroupsTheme", result["TwChip"]);
+        Assert.Contains("TwGroupsTheme", result["TwRadioButton"]);
+    }
+
+    [Fact]
     public void ReadComponentNames_IncludesNestedGroupEntries_AndSkipsNamelessOnes()
     {
         var path = Path.Combine(_root, "components.json");

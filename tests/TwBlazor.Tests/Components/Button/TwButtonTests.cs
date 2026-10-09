@@ -78,10 +78,20 @@ public class TwButtonTests : TwBlazorTestBase
         var wrapper = cut.Find("[role='tooltip']").ParentElement!;
 
         wrapper.KeyDown(new KeyboardEventArgs { Key = "Escape" });
-        Assert.Contains("hidden", cut.Find("[role='tooltip']").ClassList);
+        Assert.Contains("!hidden", cut.Find("[role='tooltip']").ClassList);
 
         cut.Find("[role='tooltip']").ParentElement!.MouseLeave();
-        Assert.DoesNotContain("hidden", cut.Find("[role='tooltip']").ClassList);
+        Assert.DoesNotContain("!hidden", cut.Find("[role='tooltip']").ClassList);
+    }
+
+    [Fact]
+    public void TwButton_Tooltip_MarksItsWrapper_SoATapCanOpenIt()
+    {
+        var cut = TestContext.Render<TwButton>(parameters => parameters
+            .Add(p => p.Label, "Save")
+            .Add(p => p.Tooltip, "Save your changes"));
+
+        Assert.True(cut.Find("[role='tooltip']").ParentElement!.HasAttribute("data-tw-tooltip"));
     }
 
     [Fact]
@@ -93,7 +103,7 @@ public class TwButtonTests : TwBlazorTestBase
 
         cut.Find("[role='tooltip']").ParentElement!.KeyDown(new KeyboardEventArgs { Key = "a" });
 
-        Assert.DoesNotContain("hidden", cut.Find("[role='tooltip']").ClassList);
+        Assert.DoesNotContain("!hidden", cut.Find("[role='tooltip']").ClassList);
     }
 
     [Fact]
