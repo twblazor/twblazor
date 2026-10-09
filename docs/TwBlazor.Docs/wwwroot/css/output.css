@@ -2226,6 +2226,9 @@
   .mask-\[radial-gradient\(ellipse_70\%_60\%_at_50\%_0\%\,black\,transparent\)\] {
     mask-image: radial-gradient(ellipse 70% 60% at 50% 0%,black,transparent);
   }
+  .mask-\[url\(\.\.\/images\/logo-mark\.svg\)\] {
+    mask-image: url(../images/logo-mark.svg);
+  }
   .mask-\[url\(\.\.\/images\/logo\.svg\)\] {
     mask-image: url(../images/logo.svg);
   }

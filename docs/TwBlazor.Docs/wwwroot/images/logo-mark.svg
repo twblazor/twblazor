@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- The bolt of logo.svg on its own, with no backdrop and no colour, for use as a CSS mask. The back bolt is fainter so both bolts stay distinct. -->
+<svg width="1000" height="1000" viewBox="0 0 1000 1000" version="1.1" xmlns="http://www.w3.org/2000/svg" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <path d="M277.151,868.294L815.461,491.906L686.566,466.121L870.108,298.081L737.995,190.351L459.047,498.917L541.645,520.518L277.151,868.294Z" style="fill:black;fill-opacity:0.6;"/>
+    <path d="M167.754,792.495L673.997,373.97L543.444,358.651L712.854,176.373L572.493,79.634L319.306,409.666L403.375,424.543L167.754,792.494L167.754,792.495Z" style="fill:black;"/>
+</svg>

@@ -5,10 +5,12 @@
     <style>
         .brand-from { stop-color: #6e11b0; }
         .brand-to { stop-color: #a800b7; }
+        .brand-backdrop { fill: white; }
 
         @media (prefers-color-scheme: dark) {
             .brand-from { stop-color: #dab2ff; }
             .brand-to { stop-color: #f6cfff; }
+            .brand-backdrop { display: none; }
         }
     </style>
     <defs>
@@ -17,6 +19,8 @@
             <stop offset="1" class="brand-to" stop-color="#a800b7"/>
         </linearGradient>
     </defs>
+    <!-- A white disc behind the bolt on a light page, where it only shows against a coloured surface. Hidden on a dark page. -->
+    <circle class="brand-backdrop" cx="500" cy="500" r="500" fill="white"/>
     <g>
         <path d="M277.151,868.294L815.461,491.906L686.566,466.121L870.108,298.081L737.995,190.351L459.047,498.917L541.645,520.518L277.151,868.294Z" style="fill:url(#brand);fill-opacity:0.6;"/>
         <path d="M167.754,792.495L673.997,373.97L543.444,358.651L712.854,176.373L572.493,79.634L319.306,409.666L403.375,424.543L167.754,792.494L167.754,792.495Z" style="fill:url(#brand);"/>
