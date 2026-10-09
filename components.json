@@ -187,6 +187,14 @@
         "theme": "TwAlertTheme"
       },
       {
+        "id": "avatar-navitem",
+        "display": "Avatar",
+        "name": "TwAvatar",
+        "url": "/avatar",
+        "isNew": true,
+        "theme": "TwAvatarTheme"
+      },
+      {
         "id": "chip-navitem",
         "display": "Chip",
         "name": "TwChip",
