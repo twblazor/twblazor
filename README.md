@@ -1,9 +1,6 @@
 <p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="./images/banner-dark.svg">
-    <source media="(prefers-color-scheme: light)" srcset="./images/banner-light.svg">
-    <img src="./images/banner.svg" alt="twblazor" height="200" style="height: 200px;">
-  </picture>
+  <img src="./images/banner-light.svg#gh-light-mode-only" alt="twblazor" height="200" style="height: 200px;">
+  <img src="./images/banner-dark.svg#gh-dark-mode-only" alt="twblazor" height="200" style="height: 200px;">
 </p>
 <p align="center">
 

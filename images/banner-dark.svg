@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg width="100%" height="100%" viewBox="0 0 1280 720" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
-    <!-- banner.svg fixed in its dark colours (purple-400 to fuchsia-300), for a dark page whatever the OS setting. -->
+    <!-- banner.svg fixed in its dark colours (purple-300 to fuchsia-200), for a dark page whatever the OS setting. -->
     <defs>
         <linearGradient id="brand-mark" gradientUnits="userSpaceOnUse" x1="395.735" y1="0" x2="873.388" y2="0">
-            <stop offset="0" stop-color="#c27aff"/>
-            <stop offset="1" stop-color="#f4a8ff"/>
+            <stop offset="0" stop-color="#dab2ff"/>
+            <stop offset="1" stop-color="#f6cfff"/>
         </linearGradient>
         <linearGradient id="brand-word" gradientUnits="userSpaceOnUse" x1="363" y1="0" x2="917" y2="0">
-            <stop offset="0" stop-color="#c27aff"/>
-            <stop offset="1" stop-color="#f4a8ff"/>
+            <stop offset="0" stop-color="#dab2ff"/>
+            <stop offset="1" stop-color="#f6cfff"/>
         </linearGradient>
         <!-- Each letter has its own coordinate system, so the word is used as a mask over one gradient that spans it. -->
         <mask id="word" maskUnits="userSpaceOnUse" x="350" y="540" width="580" height="120">
