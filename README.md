@@ -1,5 +1,9 @@
 <p align="center">
-  <img src="./images/banner.svg" height="300" style="height: 300px;">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./images/banner-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="./images/banner-light.svg">
+    <img src="./images/banner.svg" alt="twblazor" height="200" style="height: 200px;">
+  </picture>
 </p>
 <p align="center">
 
