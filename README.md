@@ -1,6 +1,5 @@
 <p align="center">
-  <img src="./images/banner-light.svg#gh-light-mode-only" alt="twblazor" height="200" style="height: 200px;">
-  <img src="./images/banner-dark.svg#gh-dark-mode-only" alt="twblazor" height="200" style="height: 200px;">
+  <img src="./images/banner.svg" alt="twblazor" height="200" style="height: 200px;">
 </p>
 <p align="center">
 

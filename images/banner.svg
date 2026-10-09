@@ -1,24 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg width="100%" height="100%" viewBox="0 0 1280 720" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
-    <!-- The gradient of the "twblazor" wordmark: purple-800 to fuchsia-700, or purple-300 to fuchsia-200 on a dark page. -->
-    <style>
-        .brand-from { stop-color: #6e11b0; }
-        .brand-to { stop-color: #a800b7; }
-
-        @media (prefers-color-scheme: dark) {
-            .brand-from { stop-color: #dab2ff; }
-            .brand-to { stop-color: #f6cfff; }
-        }
-    </style>
+    <!-- The banner sits on its own white panel, so it reads the same on a light or a dark page. -->
+    <path d="M1280,180L1280,540C1280,639.345 1199.345,720 1100,720L180,720C80.655,720 0,639.345 0,540L0,180C0,80.655 80.655,0 180,0L1100,0C1199.345,0 1280,80.655 1280,180Z" style="fill:white;"/>
     <defs>
         <linearGradient id="brand-mark" gradientUnits="userSpaceOnUse" x1="395.735" y1="0" x2="873.388" y2="0">
-            <stop offset="0" class="brand-from" stop-color="#6e11b0"/>
-            <stop offset="1" class="brand-to" stop-color="#a800b7"/>
+            <stop offset="0" stop-color="#6e11b0"/>
+            <stop offset="1" stop-color="#a800b7"/>
         </linearGradient>
         <linearGradient id="brand-word" gradientUnits="userSpaceOnUse" x1="363" y1="0" x2="917" y2="0">
-            <stop offset="0" class="brand-from" stop-color="#6e11b0"/>
-            <stop offset="1" class="brand-to" stop-color="#a800b7"/>
+            <stop offset="0" stop-color="#6e11b0"/>
+            <stop offset="1" stop-color="#a800b7"/>
         </linearGradient>
         <!-- Each letter has its own coordinate system, so the word is used as a mask over one gradient that spans it. -->
         <mask id="word" maskUnits="userSpaceOnUse" x="350" y="540" width="580" height="120">
