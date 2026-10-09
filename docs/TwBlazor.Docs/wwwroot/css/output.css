@@ -2226,6 +2226,12 @@
   .mask-\[radial-gradient\(ellipse_70\%_60\%_at_50\%_0\%\,black\,transparent\)\] {
     mask-image: radial-gradient(ellipse 70% 60% at 50% 0%,black,transparent);
   }
+  .mask-\[url\(\.\.\/images\/logo-mark\.svg\)\] {
+    mask-image: url(../images/logo-mark.svg);
+  }
+  .mask-\[url\(\.\.\/images\/logo\.svg\)\] {
+    mask-image: url(../images/logo.svg);
+  }
   .bg-\[length\:1\.5em_1\.5em\] {
     background-size: 1.5em 1.5em;
   }
@@ -2243,6 +2249,15 @@
   }
   .bg-no-repeat {
     background-repeat: no-repeat;
+  }
+  .mask-contain {
+    mask-size: contain;
+  }
+  .mask-center {
+    mask-position: center;
+  }
+  .mask-no-repeat {
+    mask-repeat: no-repeat;
   }
   .mask-repeat {
     mask-repeat: repeat;

@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./images/banner.svg" height="300" style="height: 300px;">
+  <img src="./images/banner.svg" alt="twblazor" height="200" style="height: 200px;">
 </p>
 <p align="center">
 
