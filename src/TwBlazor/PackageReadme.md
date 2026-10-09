@@ -1,4 +1,4 @@
-![TwBlazor](images/banner.svg)
+![twblazor](https://raw.githubusercontent.com/twblazor/twblazor/main/images/banner.png)
 
 [![Quality gate status](https://sonarcloud.io/api/project_badges/measure?project=twblazor_twblazor&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=twblazor_twblazor)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=twblazor_twblazor&metric=bugs)](https://sonarcloud.io/summary/new_code?id=twblazor_twblazor)
