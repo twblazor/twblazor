@@ -338,6 +338,8 @@ public class KeyboardRegressionTests(A11yFixture fixture)
             await page.Keyboard.PressAsync("Enter");
 
             await page.WaitForFunctionAsync("document.activeElement?.getAttribute('role') === 'combobox'");
+
+            Assert.Equal("combobox", await page.EvaluateAsync<string?>("document.activeElement?.getAttribute('role')"));
         }
         finally
         {

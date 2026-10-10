@@ -9,14 +9,6 @@
    @onpointerenter="Resolve" @onfocus="Resolve" @ontouchstart="Resolve">@ChildContent<span class="sr-only"> (opens in a new tab)</span></a>
 
 @code {
-#pragma warning disable S1075 // Fixed external link to the project's own Discord server, not environment-specific
-    /// <summary>
-    /// The permanent invite link of the Discord server, used until, and unless, the server's own invite has been
-    /// looked up.
-    /// </summary>
-    public const string PermanentUrl = "https://discord.gg/f7CBdf38Nw";
-#pragma warning restore S1075
-
     private string href = PermanentUrl;
 
     private bool requested;
