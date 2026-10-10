@@ -347,7 +347,7 @@ public class TwPaginationTests : TwBlazorTestBase
         // stronger than the tabindex="-1" hack the old <a>-based markup needed, since <a> has no
         // disabled attribute of its own.
         Assert.Equal("true", previous.GetAttribute("aria-disabled"));
-        Assert.True(previous.HasAttribute("disabled"));
+        Assert.False(previous.HasAttribute("disabled"));
         Assert.Contains("cursor-not-allowed", previous.GetAttribute("class"));
     }
 
@@ -379,7 +379,7 @@ public class TwPaginationTests : TwBlazorTestBase
         // stronger than the tabindex="-1" hack the old <a>-based markup needed, since <a> has no
         // disabled attribute of its own.
         Assert.Equal("true", next.GetAttribute("aria-disabled"));
-        Assert.True(next.HasAttribute("disabled"));
+        Assert.False(next.HasAttribute("disabled"));
         Assert.Contains("cursor-not-allowed", next.GetAttribute("class"));
     }
 

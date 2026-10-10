@@ -234,7 +234,7 @@ public class TwDialogTests : TwBlazorTestBase
         var cut = TestContext.Render<TwDialog>(p => p.Add(x => x.Reference, reference));
 
         // Act
-        cut.Find("div[tabindex='-1']").KeyDown(new KeyboardEventArgs { Key = "Escape" });
+        cut.InvokeAsync(() => cut.Instance.CloseFromEscapeAsync());
 
         // Assert
         Assert.NotNull(capturedResult);
@@ -252,24 +252,7 @@ public class TwDialogTests : TwBlazorTestBase
         var cut = TestContext.Render<TwDialog>(p => p.Add(x => x.Reference, reference));
 
         // Act
-        cut.Find("div[tabindex='-1']").KeyDown(new KeyboardEventArgs { Key = "Escape" });
-
-        // Assert
-        Assert.False(closeRequested);
-    }
-
-    [Fact]
-    public void TwDialog_OtherKey_DoesNotCloseDialog()
-    {
-        // Arrange
-        var reference = CreateReference();
-        var dialogService = TestContext.Services.GetRequiredService<ITwDialogService>();
-        var closeRequested = false;
-        dialogService.OnDialogCloseRequested += (_, _) => closeRequested = true;
-        var cut = TestContext.Render<TwDialog>(p => p.Add(x => x.Reference, reference));
-
-        // Act
-        cut.Find("div[tabindex='-1']").KeyDown(new KeyboardEventArgs { Key = "Enter" });
+        cut.InvokeAsync(() => cut.Instance.CloseFromEscapeAsync());
 
         // Assert
         Assert.False(closeRequested);

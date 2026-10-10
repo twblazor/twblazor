@@ -22,7 +22,7 @@ public class TwDateTimeRangePickerTests : TwBlazorTestBase
         EventCallback.Factory.Create<KeyValuePair<DateTime?, DateTime?>>(owner, _ => { });
 
     private static bool IsStageActive(IRenderedComponent<TwDateTimeRangePicker> cut, string label) =>
-        cut.FindAll("button[role='tab']").First(b => b.TextContent.Trim() == label).GetAttribute("aria-selected") == "true";
+        cut.FindAll("[role='group'][aria-label='Range step'] button").First(b => b.TextContent.Trim() == label).GetAttribute("aria-pressed") == "true";
 
     [Fact]
     public void FocusingInput_PositionsPanelAsFixed_AnchoredToTheInputRoot()
@@ -30,7 +30,7 @@ public class TwDateTimeRangePickerTests : TwBlazorTestBase
         // Regression test - see the identical test on TwDatePickerTests for the full rationale.
         var cut = TestContext.Render<TwDateTimeRangePicker>();
 
-        cut.Find("input").Focus();
+        cut.Find("input").Click();
 
         var invocation = Assert.Single(TestContext.JSInterop.Invocations, i => i.Identifier == "twPicker.registerScrollReposition");
         Assert.IsType<ElementReference>(invocation.Arguments[0]);
@@ -55,7 +55,7 @@ public class TwDateTimeRangePickerTests : TwBlazorTestBase
         var cut = TestContext.Render<TwDateTimeRangePicker>();
 
         // Act
-        cut.Find("input").Focus();
+        cut.Find("input").Click();
 
         // Assert
         Assert.True(IsStageActive(cut, "Start"));
@@ -73,7 +73,7 @@ public class TwDateTimeRangePickerTests : TwBlazorTestBase
         var cut = TestContext.Render<TwDateTimeRangePicker>();
 
         // Act
-        cut.Find("input").Focus();
+        cut.Find("input").Click();
 
         // Assert - merged trigger, then hour/minute (day-view calendar has no <input> elements)
         var numberInputs = cut.FindAll("input").Skip(1).ToList();
@@ -95,7 +95,7 @@ public class TwDateTimeRangePickerTests : TwBlazorTestBase
         );
 
         // Act
-        cut.Find("input").Focus();
+        cut.Find("input").Click();
         cut.FindAll("button.day").First(b => b.TextContent.Trim() == "5").Click();
 
         // Assert - the panel stays open, now on the end step.
@@ -117,7 +117,7 @@ public class TwDateTimeRangePickerTests : TwBlazorTestBase
         );
 
         // Act
-        cut.Find("input").Focus();
+        cut.Find("input").Click();
         cut.FindAll("button.day").First(b => b.TextContent.Trim() == "5").Click();
         cut.FindAll("button.day").First(b => b.TextContent.Trim() == "15").Click();
 
@@ -139,7 +139,7 @@ public class TwDateTimeRangePickerTests : TwBlazorTestBase
             .Add(x => x.SelectedRangeChanged, NoOpRangeCallback(this))
         );
 
-        cut.Find("input").Focus();
+        cut.Find("input").Click();
         cut.FindAll("button.day").First(b => b.TextContent.Trim() == "10").Click();
 
         // Act
@@ -159,7 +159,7 @@ public class TwDateTimeRangePickerTests : TwBlazorTestBase
             .Add(x => x.SelectedRangeChanged, EventCallback.Factory.Create<KeyValuePair<DateTime?, DateTime?>>(this, r => rangeFromCallback = r))
         );
 
-        cut.Find("input").Focus();
+        cut.Find("input").Click();
         cut.FindAll("button.day").First(b => b.TextContent.Trim() == "10").Click();
         rangeFromCallback = null; // reset - only care about what happens next
 
@@ -183,8 +183,8 @@ public class TwDateTimeRangePickerTests : TwBlazorTestBase
         );
 
         // Act
-        cut.Find("input").Focus();
-        var timeButtons = cut.FindAll("button[type='button']").TakeLast(4).ToList();
+        cut.Find("input").Click();
+        var timeButtons = cut.FindAll("[data-tw-popover] button[type='button']").TakeLast(4).ToList();
         timeButtons[0].Click(); // hour increment: 00:00 -> 01:00
         cut.FindAll("button.day").First(b => b.TextContent.Trim() == "5").Click();
 
@@ -208,8 +208,8 @@ public class TwDateTimeRangePickerTests : TwBlazorTestBase
 
         // Act - focusing re-seeds the start step; adjusting the hour should apply immediately since
         // the start date is already set, without needing to reclick the day.
-        cut.Find("input").Focus();
-        var timeButtons = cut.FindAll("button[type='button']").TakeLast(4).ToList();
+        cut.Find("input").Click();
+        var timeButtons = cut.FindAll("[data-tw-popover] button[type='button']").TakeLast(4).ToList();
         timeButtons[0].Click(); // hour increment
 
         // Assert
@@ -230,7 +230,7 @@ public class TwDateTimeRangePickerTests : TwBlazorTestBase
         );
 
         // Act
-        cut.Find("input").Focus();
+        cut.Find("input").Click();
 
         // Assert
         Assert.True(IsStageActive(cut, "Start"));
@@ -246,8 +246,8 @@ public class TwDateTimeRangePickerTests : TwBlazorTestBase
         );
 
         // Act
-        cut.Find("input").Focus();
-        cut.FindAll("button[role='tab']").First(b => b.TextContent.Trim() == "End").Click();
+        cut.Find("input").Click();
+        cut.FindAll("[role='group'][aria-label='Range step'] button").First(b => b.TextContent.Trim() == "End").Click();
 
         // Assert
         Assert.True(IsStageActive(cut, "End"));
@@ -266,8 +266,8 @@ public class TwDateTimeRangePickerTests : TwBlazorTestBase
         );
 
         // Act
-        cut.Find("input").Focus();
-        cut.FindAll("button[role='tab']").First(b => b.TextContent.Trim() == "End").Click();
+        cut.Find("input").Click();
+        cut.FindAll("[role='group'][aria-label='Range step'] button").First(b => b.TextContent.Trim() == "End").Click();
         cut.FindAll("button.day").First(b => b.TextContent.Trim() == "20").Click();
 
         // Assert
@@ -287,11 +287,11 @@ public class TwDateTimeRangePickerTests : TwBlazorTestBase
             .Add(x => x.SelectedRangeChanged, NoOpRangeCallback(this))
         );
 
-        cut.Find("input").Focus();
+        cut.Find("input").Click();
         cut.FindAll("button.day").First(b => b.TextContent.Trim() == "10").Click(); // advances to End, jumps to November
 
         // Act
-        cut.FindAll("button[role='tab']").First(b => b.TextContent.Trim() == "Start").Click();
+        cut.FindAll("[role='group'][aria-label='Range step'] button").First(b => b.TextContent.Trim() == "Start").Click();
 
         // Assert - back on the Start step, still showing the picked start's month.
         Assert.True(IsStageActive(cut, "Start"));
@@ -351,7 +351,7 @@ public class TwDateTimeRangePickerTests : TwBlazorTestBase
         // Assert
         Assert.False(callbackInvoked);
         Assert.True(cut.Instance.Invalid);
-        Assert.Equal("Enter a valid date range", cut.Instance.ErrorMessage);
+        Assert.StartsWith("Enter a valid date range, for example ", cut.Instance.ErrorMessage);
     }
 
     [Fact]
@@ -406,7 +406,7 @@ public class TwDateTimeRangePickerTests : TwBlazorTestBase
         );
 
         // Act
-        cut.Find("input").Focus();
+        cut.Find("input").Click();
         cut.FindAll("button.day").First(b => b.TextContent.Trim() == "5").Click();
 
         // Assert
@@ -453,7 +453,7 @@ public class TwDateTimeRangePickerTests : TwBlazorTestBase
         );
 
         // Act
-        cut.Find("input").Focus();
+        cut.Find("input").Click();
         Assert.Contains("datepicker-grid", cut.Markup);
         await cut.Instance.Close();
 
@@ -520,7 +520,7 @@ public class TwDateTimeRangePickerTests : TwBlazorTestBase
         );
 
         // Act
-        cut.Find("input").Focus();
+        cut.Find("input").Click();
         cut.FindAll("button.day").First(b => b.TextContent.Trim() == "25").Click();
 
         // Assert
@@ -594,7 +594,7 @@ public class TwDateTimeRangePickerTests : TwBlazorTestBase
         );
 
         // Assert - the calendar/time panel never opens for a readonly field.
-        cut.Find("input").Focus();
+        cut.Find("input").Click();
         Assert.DoesNotContain("datepicker-grid", cut.Markup);
     }
 }

@@ -31,6 +31,10 @@ public sealed partial class TwDialogProvider : IDisposable
     /// </summary>
     private ElementReference containerRef;
 
+    // Names this provider's claim on the page's inert state, so a picker closing inside a dialog lifts
+    // only what the picker set (see twDialog.setBackgroundInert).
+    private const string inertOwner = "dialog";
+
     /// <summary>
     /// Opaque focus-restore tokens captured (via JS interop) at the moment each dialog was shown, keyed
     /// by dialog id, so focus can be returned to the triggering element once that dialog closes.
@@ -71,7 +75,7 @@ public sealed partial class TwDialogProvider : IDisposable
                 // render inside this same provider container, which is already excluded.
                 if (wasEmpty)
                 {
-                    await jsRuntime.InvokeVoidAsync("twDialog.setBackgroundInert", containerRef);
+                    await jsRuntime.InvokeVoidAsync("twDialog.setBackgroundInert", containerRef, inertOwner);
                 }
             }
             catch (JSDisconnectedException)
@@ -113,7 +117,7 @@ public sealed partial class TwDialogProvider : IDisposable
         {
             if (wasLastDialog)
             {
-                await jsRuntime.InvokeVoidAsync("twDialog.clearBackgroundInert");
+                await jsRuntime.InvokeVoidAsync("twDialog.clearBackgroundInert", inertOwner);
             }
 
             if (_focusRestoreTokens.Remove(reference.Id, out var token) && !string.IsNullOrEmpty(token))
@@ -167,7 +171,7 @@ public sealed partial class TwDialogProvider : IDisposable
     {
         try
         {
-            await jsRuntime!.InvokeVoidAsync("twDialog.clearBackgroundInert");
+            await jsRuntime!.InvokeVoidAsync("twDialog.clearBackgroundInert", inertOwner);
         }
         catch (JSDisconnectedException)
         {

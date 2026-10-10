@@ -18,6 +18,12 @@ public class TwSidebarTheme
     public required string SkipLink { get; set; }
 
     /// <summary>
+    /// Gets or sets the classes for the close button inside the sidebar. It is shown only while the sidebar
+    /// is a drawer over the page (below the "lg" breakpoint), where the toggle in the top bar is covered.
+    /// </summary>
+    public string DrawerCloseButton { get; set; } = string.Empty;
+
+    /// <summary>
     /// Gets or sets the classes for the mobile backdrop overlay shown behind an open sidebar drawer.
     /// </summary>
     public required string MobileOverlay { get; set; }

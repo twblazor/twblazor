@@ -86,6 +86,10 @@ public sealed partial class TwToastProvider : IDisposable
     /// <summary>
     /// Clears a specific toast.
     /// </summary>
+    // An error or a warning interrupts; anything else waits for the screen reader to finish speaking.
+    private static string GetToastRole(ToastModel toast) =>
+        toast.Color is Enums.Color.Danger or Enums.Color.Warning ? "alert" : "status";
+
     private void ClearToast(ToastModel toast) => toastService?.ClearToast(toast);
 
     /// <summary>

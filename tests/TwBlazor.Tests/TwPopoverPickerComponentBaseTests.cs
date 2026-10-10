@@ -31,7 +31,8 @@ public class TwPopoverPickerComponentBaseTests : TwBlazorTestBase
         // fallback chain (triggerInputRef ?? InputRoot?.RootRef ?? default) bottoms out at a
         // default(ElementReference) rather than throwing.
         var cut = TestContext.Render<TestPopoverPickerComponent>(p => p
-            .Add(x => x.WithInputRoot, false));
+            .Add(x => x.WithInputRoot, false)
+            .Add(x => x.ReadOnly, true));
 
         // Act
         await cut.Instance.ClickIconAsync();
@@ -47,7 +48,8 @@ public class TwPopoverPickerComponentBaseTests : TwBlazorTestBase
         // Arrange - with no derived triggerInputRef but a rendered InputRoot, the fallback should
         // focus the InputRoot's own surface rather than a default(ElementReference).
         var cut = TestContext.Render<TestPopoverPickerComponent>(p => p
-            .Add(x => x.WithInputRoot, true));
+            .Add(x => x.WithInputRoot, true)
+            .Add(x => x.ReadOnly, true));
 
         // Act
         await cut.Instance.ClickIconAsync();

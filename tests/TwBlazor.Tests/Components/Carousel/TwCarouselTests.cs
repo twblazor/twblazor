@@ -241,8 +241,8 @@ public class TwCarouselTests : TwBlazorTestBase
             .Add(x => x.ChildContent, ThreeSlides()));
 
         // Assert - on the first slide, only the previous arrow is disabled
-        Assert.True(cut.Find("button[aria-label='Previous slide']").HasAttribute("disabled"));
-        Assert.False(cut.Find("button[aria-label='Next slide']").HasAttribute("disabled"));
+        Assert.Equal("true", cut.Find("button[aria-label='Previous slide']").GetAttribute("aria-disabled"));
+        Assert.NotEqual("true", cut.Find("button[aria-label='Next slide']").GetAttribute("aria-disabled"));
     }
 
     [Fact]
@@ -347,7 +347,7 @@ public class TwCarouselTests : TwBlazorTestBase
         var cut = TestContext.Render<TwCarousel>(p => p.Add(x => x.ChildContent, ThreeSlides()));
 
         // Act
-        cut.Find("div[role='region']").KeyDown(new KeyboardEventArgs { Key = "ArrowRight" });
+        cut.InvokeAsync(() => cut.Instance.NextSlideFromKeyAsync());
 
         // Assert
         Assert.Equal(1, cut.Instance.SelectedIndex);
@@ -362,20 +362,7 @@ public class TwCarouselTests : TwBlazorTestBase
             .Add(x => x.ChildContent, ThreeSlides()));
 
         // Act
-        cut.Find("div[role='region']").KeyDown(new KeyboardEventArgs { Key = "ArrowLeft" });
-
-        // Assert
-        Assert.Equal(0, cut.Instance.SelectedIndex);
-    }
-
-    [Fact]
-    public void UnhandledKey_DoesNotChangeSelectedIndex()
-    {
-        // Arrange
-        var cut = TestContext.Render<TwCarousel>(p => p.Add(x => x.ChildContent, ThreeSlides()));
-
-        // Act
-        cut.Find("div[role='region']").KeyDown(new KeyboardEventArgs { Key = "A" });
+        cut.InvokeAsync(() => cut.Instance.PreviousSlideFromKeyAsync());
 
         // Assert
         Assert.Equal(0, cut.Instance.SelectedIndex);

@@ -29,12 +29,12 @@ public class TwDateTimePickerTests : TwBlazorTestBase
             .Add(x => x.SelectedDateTime, start)
         );
 
-        cut.Find("input").Focus(); // Date input
+        cut.Find("input").Click(); // Date input
 
         // Assert
         Assert.Contains("datepicker-grid", cut.Markup);
         // Verify time picker controls are rendered (4 buttons for hour/minute up/down)
-        var buttons = cut.FindAll("button[type='button']");
+        var buttons = cut.FindAll("[data-tw-popover] button[type='button']");
         Assert.True(buttons.Count >= 4, "Expected at least 4 control buttons for time picker");
     }
 
@@ -57,7 +57,7 @@ public class TwDateTimePickerTests : TwBlazorTestBase
         );
 
         // Act
-        cut.Find("input").Focus();
+        cut.Find("input").Click();
         cut.FindAll("button.day").First(b => b.TextContent.Trim() == "5").Click();
 
         // Assert
@@ -83,9 +83,9 @@ public class TwDateTimePickerTests : TwBlazorTestBase
             .Add(x => x.ValueChanged, EventCallback.Factory.Create<string>(this, s => valueChanged = s))
         );
 
-        cut.Find("input").Focus();
+        cut.Find("input").Click();
 
-        var buttons = cut.FindAll("button[type='button']");
+        var buttons = cut.FindAll("[data-tw-popover] button[type='button']");
         // Find the hour increment button - it's among the time picker buttons
         // After date picker buttons, we have: hour up (0), hour down (1), minute up (2), minute down (3)
         // But there are also date navigation buttons, so we need to find the time buttons
@@ -112,8 +112,8 @@ public class TwDateTimePickerTests : TwBlazorTestBase
             .Add(x => x.SelectedDateTimeChanged, EventCallback.Factory.Create<DateTime>(this, d => callbackValue = d))
         );
 
-        cut.Find("input").Focus();
-        var buttons = cut.FindAll("button[type='button']");
+        cut.Find("input").Click();
+        var buttons = cut.FindAll("[data-tw-popover] button[type='button']");
         var timeButtons = buttons.Skip(buttons.Count - 4).ToList();
         timeButtons[2].Click(); // Minute increment button
 
@@ -135,8 +135,8 @@ public class TwDateTimePickerTests : TwBlazorTestBase
             .Add(x => x.SelectedDateTimeChanged, EventCallback.Factory.Create<DateTime>(this, d => callbackValue = d))
         );
 
-        cut.Find("input").Focus();
-        var buttons = cut.FindAll("button[type='button']");
+        cut.Find("input").Click();
+        var buttons = cut.FindAll("[data-tw-popover] button[type='button']");
         var timeButtons = buttons.Skip(buttons.Count - 4).ToList();
         timeButtons[3].Click(); // Minute decrement button
 
@@ -162,7 +162,7 @@ public class TwDateTimePickerTests : TwBlazorTestBase
             .Add(x => x.ValueChanged, EventCallback.Factory.Create<string>(this, s => valueChanged = s))
         );
 
-        cut.Find("input").Focus();
+        cut.Find("input").Click();
         var hourInput = cut.FindAll("input")[1]; // Hour input (second input: date, hour, minute)
         hourInput.Change("12"); // 12 AM -> should become 00 internally
 
@@ -189,7 +189,7 @@ public class TwDateTimePickerTests : TwBlazorTestBase
             .Add(x => x.SelectedDateTimeChanged, EventCallback.Factory.Create<DateTime>(this, d => callbackValue = d))
         );
 
-        cut.Find("input").Focus();
+        cut.Find("input").Click();
         // Minute input is the third input: date input, hour input, minute input
         var minuteInput = cut.FindAll("input")[2];
         await minuteInput.ChangeAsync(new ChangeEventArgs()
@@ -228,7 +228,7 @@ public class TwDateTimePickerTests : TwBlazorTestBase
         );
 
         // Act
-        cut.Find("input").Focus();
+        cut.Find("input").Click();
 
         // Assert
         Assert.DoesNotContain("datepicker-grid", cut.Markup);
@@ -245,11 +245,11 @@ public class TwDateTimePickerTests : TwBlazorTestBase
         );
 
         // Act
-        cut.Find("input").Focus();
+        cut.Find("input").Click();
 
         // Assert
         Assert.Contains("datepicker-grid", cut.Markup);
-        var buttons = cut.FindAll("button[type='button']");
+        var buttons = cut.FindAll("[data-tw-popover] button[type='button']");
         Assert.True(buttons.Count >= 4, "Expected at least 4 control buttons for time picker");
     }
 
@@ -303,7 +303,7 @@ public class TwDateTimePickerTests : TwBlazorTestBase
         );
 
         // Act
-        cut.Find("input").Focus();
+        cut.Find("input").Click();
 
         // Assert - date input, hour input, minute input
         var hourInput = cut.FindAll("input")[1];

@@ -43,4 +43,11 @@ public class TwPaginationTheme
     /// Gets or sets the classes applied to the active (currently selected) page button.
     /// </summary>
     public required string ActiveButton { get; set; }
+
+    /// <summary>
+    /// Gets or sets the classes for a previous or next button that is unavailable (on the first or last
+    /// page). It stays focusable, so this dims its content without fading its focus ring. Falls back to the
+    /// theme's disabled opacity and cursor when empty.
+    /// </summary>
+    public string DisabledButton { get; set; } = string.Empty;
 }

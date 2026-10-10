@@ -61,6 +61,16 @@ public partial class TwTextfield<T> : TwBlazorTextInputComponentBase
     [Parameter] public EventCallback<FocusEventArgs> OnFocus { get; set; } = default!;
 
     /// <summary>
+    /// Gets or sets the callback invoked when the input is clicked.
+    /// </summary>
+    [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
+
+    /// <summary>
+    /// Gets or sets the callback invoked when a key is pressed while the input has focus.
+    /// </summary>
+    [Parameter] public EventCallback<KeyboardEventArgs> OnKeyDown { get; set; }
+
+    /// <summary>
     /// Gets or sets an optional asynchronous validator invoked with the new value whenever it changes.
     /// </summary>
     /// <remarks>
@@ -95,6 +105,12 @@ public partial class TwTextfield<T> : TwBlazorTextInputComponentBase
     [Parameter] public string Placeholder { get; set; } = string.Empty;
 
     /// <summary>
+    /// Gets or sets whether a value is required. The field is marked required for the browser's own
+    /// validation and announced as required by assistive technology.
+    /// </summary>
+    [Parameter] public bool Required { get; set; }
+
+    /// <summary>
     /// Gets the CSS classes applied to the input element.
     /// </summary>
     /// <remarks>
@@ -117,15 +133,10 @@ public partial class TwTextfield<T> : TwBlazorTextInputComponentBase
             RootId = Guid.NewGuid().ToString("N");
         }
 
-        if (Disabled && !Attributes.ContainsKey("disabled"))
-        {
-            Attributes["disabled"] = true;
-        }
-
-        if (ReadOnly && !Attributes.ContainsKey("readonly"))
-        {
-            Attributes["readonly"] = true;
-        }
+        // The attributes dictionary can outlive one parameter set, so anything this component adds to it is
+        // taken out again once the parameter is switched off. An attribute the consumer supplied is left alone.
+        disabledAdded = SyncAttribute("disabled", Disabled, disabledAdded);
+        readOnlyAdded = SyncAttribute("readonly", ReadOnly, readOnlyAdded);
 
         // A field with no "name" is omitted from form submissions and gives browsers nothing to key
         // autofill/password-manager suggestions on, so it defaults to Id (already unique per instance)
@@ -157,6 +168,30 @@ public partial class TwTextfield<T> : TwBlazorTextInputComponentBase
     /// mapping. Returns <see langword="null"/> for types (like "text" or "password", whose correct
     /// autocomplete token depends on context this component can't know) where no safe default applies.
     /// </summary>
+    private bool disabledAdded;
+    private bool readOnlyAdded;
+
+    private bool SyncAttribute(string name, bool enabled, bool addedByComponent)
+    {
+        if (enabled)
+        {
+            if (Attributes.ContainsKey(name))
+            {
+                return addedByComponent;
+            }
+
+            Attributes[name] = true;
+            return true;
+        }
+
+        if (addedByComponent)
+        {
+            Attributes.Remove(name);
+        }
+
+        return false;
+    }
+
     private static string? GetAutoCompleteForInputType(string inputType) => inputType switch
     {
         emailInputType => emailInputType,

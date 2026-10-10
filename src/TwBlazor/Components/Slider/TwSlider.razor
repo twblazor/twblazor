@@ -6,6 +6,7 @@
     <TwInputLabel Id="@LabelId" For="@Id" Label="@Label" Class="@LabelClass" @attributes="@LabelAttributes" />
     <div class="@wrapperClasses">
         <input type="range"
+               @ref="inputRef"
                id="@Id"
                name="@Name"
                value="@Value"

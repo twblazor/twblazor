@@ -13,11 +13,12 @@
     </NavbarNavigationContent>
     <NavbarActionsContent>
         <TwIcon Id="search-dialog-toggle" Icon="Icon.Search" AriaLabel="Open search dialog" OnClick="SearchDialog" Class="@navIconClasses" />
-        <TwIcon Id="theme-toggle" Icon="@themeIcon" AriaLabel="Toggle theme" OnClick="ToggleTheme" Class="@navIconClasses" />
+        <TwIcon Id="theme-toggle" Icon="@themeIcon" AriaLabel="@themeToggleLabel" OnClick="ToggleTheme" Class="@navIconClasses" />
+        <span class="sr-only" role="status" aria-live="polite">@themeStatusMessage</span>
     </NavbarActionsContent>
     <HeaderContent>
-        <a href="#" class="ml-1 w-fit inline-flex justify-center items-center text-2xl font-bold tracking-tight bg-linear-to-r from-purple-700 to-fuchsia-600 bg-clip-text text-transparent dark:from-purple-400 dark:to-fuchsia-300">
-            <img src="_content/TwBlazor.Docs/images/logo.svg" alt="twblazor Logo" class="h-8 me-2" />
+        <a href="/" aria-label="twblazor home" class="ml-1 w-fit inline-flex justify-center items-center rounded text-2xl font-bold tracking-tight bg-linear-to-r from-purple-700 to-fuchsia-600 bg-clip-text text-transparent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600 dark:from-purple-400 dark:to-fuchsia-300 dark:focus-visible:outline-purple-300">
+            <img src="_content/TwBlazor.Docs/images/logo.svg" alt="" class="h-8 me-2" />
             twblazor
         </a>
     </HeaderContent>

@@ -2013,11 +2013,19 @@ describe('twSelect', () => {
         expect(activeId()).toBe('opt-2');
     });
 
-    test('keys it does not handle are left alone', () => {
+    test('Escape is left alone', () => {
         build(['USA', 'UK'], 0);
 
-        expect(press('Tab').defaultPrevented).toBe(false);
         expect(press('Escape').defaultPrevented).toBe(false);
+    });
+
+    test('Tab closes the list and keeps focus from leaving through the trap', () => {
+        build(['USA', 'UK'], 0);
+
+        const event = press('Tab');
+
+        expect(event.defaultPrevented).toBe(true);
+        expect(dotnetRef.invokeMethodAsync).toHaveBeenCalledWith('Close');
     });
 
     test('pointer movement highlights the hovered option', () => {

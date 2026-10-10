@@ -70,7 +70,7 @@
         </div>
         <div class="flex flex-col gap-4">
             <TwProgress T="int" Label="Progress" Value="60" Max="100" Color="Color.Primary" />
-            <TwSlider T="int" Name="@($"preview-slider-{ModeId}")" @bind-Value="sliderValue" Min="0" Max="100" Step="1" Color="Color.Success" />
+            <TwSlider T="int" AriaLabel="Slider preview" Name="@($"preview-slider-{ModeId}")" @bind-Value="sliderValue" Min="0" Max="100" Step="1" Color="Color.Success" />
             <div class="inline">
                 <TwSpinner Color="Color.Primary" />
                 <TwSpinner Color="Color.Accent" />

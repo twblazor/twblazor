@@ -101,7 +101,7 @@
                 <TwButton Type="button"
                           Class="@theme.ModeSwitchButton"
                           OnClick="@HandleModeSwitch"
-                          AriaLabel="Toggle color mode"
+                          AriaLabel="@($"{currentMode.ToString().ToUpper()}, change color format")"
                           Variant="ButtonVariant.Text"
                           Color="Color.Primary"
                           StartIcon="Icon.Arrow_Repeat"

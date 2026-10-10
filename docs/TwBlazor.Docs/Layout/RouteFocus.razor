@@ -1,0 +1,57 @@
+@using Microsoft.JSInterop
+@inject IJSRuntime JS
+
+@* Moves focus to the new page's heading after a navigation, which is also what makes a screen reader
+   announce where the user has arrived. Client-side routing swaps the content without a page load, so
+   without this nothing is announced and focus stays on a link that may no longer exist.
+
+   The framework's FocusOnNavigate does the same, but also on the very first load. That starts a keyboard
+   user below the "Skip to main content" link and the navigation, so this only acts from the second page on. *@
+
+@code {
+    /// <summary>
+    /// The current route, passed from the router. A change of page is what triggers the focus move.
+    /// </summary>
+    [Parameter, EditorRequired] public RouteData RouteData { get; set; } = null!;
+
+    /// <summary>
+    /// The CSS selector of the element to focus on the new page.
+    /// </summary>
+    [Parameter] public string Selector { get; set; } = "h1";
+
+    private Type? lastPageType;
+    private bool focusAfterRender;
+
+    protected override void OnParametersSet()
+    {
+        if (lastPageType is not null && RouteData.PageType != lastPageType)
+        {
+            focusAfterRender = true;
+        }
+
+        lastPageType = RouteData.PageType;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!focusAfterRender)
+        {
+            return;
+        }
+
+        focusAfterRender = false;
+
+        try
+        {
+            await JS.InvokeVoidAsync("twFocus.focusBySelector", Selector);
+        }
+        catch (JSDisconnectedException)
+        {
+            // The circuit closed mid-navigation; there is no page left to focus.
+        }
+        catch (TaskCanceledException)
+        {
+            // Another navigation cancelled the call before it ran.
+        }
+    }
+}

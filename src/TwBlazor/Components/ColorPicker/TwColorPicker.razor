@@ -53,7 +53,7 @@
 
         @if (isFocused)
         {
-            <div class="@colorPickerTheme.DialogPosition" role="dialog" aria-label="Choose color" @onkeydown="OnPanelKeyDownAsync" tabindex="-1" @ref="PanelRef">
+            <div class="@colorPickerTheme.DialogPosition" role="dialog" aria-label="Choose color" @onkeydown="OnPanelKeyDownAsync" id="@panelId" data-tw-popover tabindex="-1" @ref="PanelRef">
                 <TwColorPickerBody Value="@Value" ShowAlpha="@ShowAlpha" ShowModeSwitch="@ShowModeSwitch" OutputFormat="@OutputFormat" ValueChanged="OnDialogValueChanged" OnClose="OnDialogClose" Variant="@effectiveVariant" Rounded="@Rounded" Shadow="@Shadow" />
             </div>
         }

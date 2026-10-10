@@ -2,9 +2,15 @@
 @using TwBlazor.Enums
 @inherits TwBlazorComponentBase
 
-<div id="@Id" class="@containerClasses" style="@Style" @attributes="@Attributes" role="region" aria-roledescription="carousel" aria-label="@effectiveAriaLabel" aria-labelledby="@AriaLabelledBy" @onkeydown="HandleKeyDown" @onfocusin="HandleFocusIn" @onfocusout="HandleFocusOut">
+<div id="@Id" class="@containerClasses" style="@Style" @attributes="@Attributes" role="region" aria-roledescription="carousel" aria-label="@effectiveAriaLabel" aria-labelledby="@AriaLabelledBy" @ref="rootRef" @onfocusin="HandleFocusIn" @onfocusout="HandleFocusOut">
     <div class="@theme.Viewport" @onmouseenter="HandlePointerEnter" @onmouseleave="HandlePointerLeave" @ontouchstart="HandleTouchStart" @ontouchend="HandleTouchEnd">
-        <div class="@theme.Slide" aria-live="@(AutoPlay ? "off" : "polite")">
+        @* First in the tab order, so the rotation can be stopped before anything inside it is reached. *@
+        @if (AutoPlay)
+        {
+            <TwIcon Id="@($"{Id}-playpause")" Icon="@(IsAutoPlayManuallyPaused ? Icon.Play_Fill : Icon.Pause_Fill)" ButtonVariant="ButtonVariant.Filled" Color="ButtonColor" RootClass="@theme.PlayPauseButton" AriaLabel="@(IsAutoPlayManuallyPaused ?"Play automatic slideshow" : "Pause automatic slideshow")" OnClick="ToggleAutoPlayPaused" />
+        }
+
+        <div class="@theme.Slide" aria-live="@(AutoPlay && !IsAutoPlayManuallyPaused ? "off" : "polite")">
             @if (ActiveItem != null)
             {
                 <div class="@theme.SlideContent" role="group" aria-roledescription="slide" aria-label="@($"{SelectedIndex + 1} of {_items.Count}")">
@@ -21,7 +27,7 @@
             }
             else if (ShowArrows)
             {
-                <TwIcon Id="@($"{Id}-previous")" Icon="Icon.Chevron_Left" ButtonVariant="ButtonVariant.Filled" Color="ButtonColor" RootClass="@previousArrowClasses" AriaLabel="Previous slide" OnClick="PreviousSlide" Disabled="@(!Loop && IsFirstSlide)" />
+                <TwIcon Id="@($"{Id}-previous")" Icon="Icon.Chevron_Left" ButtonVariant="ButtonVariant.Filled" Color="ButtonColor" RootClass="@previousArrowClasses" AriaLabel="Previous slide" OnClick="PreviousSlide" Readonly="@(!Loop && IsFirstSlide)" />
             }
 
             if (RightNavigation != null)
@@ -30,13 +36,8 @@
             }
             else if (ShowArrows)
             {
-                <TwIcon Id="@($"{Id}-next")" Icon="Icon.Chevron_Right" ButtonVariant="ButtonVariant.Filled" Color="ButtonColor" RootClass="@nextArrowClasses" AriaLabel="Next slide" OnClick="NextSlide" Disabled="@(!Loop && IsLastSlide)" />
+                <TwIcon Id="@($"{Id}-next")" Icon="Icon.Chevron_Right" ButtonVariant="ButtonVariant.Filled" Color="ButtonColor" RootClass="@nextArrowClasses" AriaLabel="Next slide" OnClick="NextSlide" Readonly="@(!Loop && IsLastSlide)" />
             }
-        }
-
-        @if (AutoPlay)
-        {
-            <TwIcon Id="@($"{Id}-playpause")" Icon="@(IsAutoPlayManuallyPaused ? Icon.Play_Fill : Icon.Pause_Fill)" ButtonVariant="ButtonVariant.Filled" Color="ButtonColor" RootClass="@theme.PlayPauseButton" AriaLabel="@(IsAutoPlayManuallyPaused ?"Play automatic slideshow" : "Pause automatic slideshow")" OnClick="ToggleAutoPlayPaused" />
         }
 
         @if (_items.Count > 1)

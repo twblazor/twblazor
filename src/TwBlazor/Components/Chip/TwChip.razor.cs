@@ -159,22 +159,6 @@ public partial class TwChip : TwBlazorComponentBase
         }
     }
 
-    /// <summary>
-    /// Handles Enter/Space on a non-link, clickable chip (role="button"), matching native button
-    /// keyboard activation since a &lt;span&gt; has no built-in key handling of its own.
-    /// </summary>
-    private async Task OnKeyDownAsync(KeyboardEventArgs e)
-    {
-        if (!isClickable)
-        {
-            return;
-        }
-
-        if (e.Key is "Enter" or " ")
-        {
-            await OnClickAsync();
-        }
-    }
 
     /// <summary>
     /// Handles the close button click event asynchronously.

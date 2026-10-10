@@ -167,13 +167,8 @@ public partial class TwTimePicker : TwPopoverPickerComponentBase
         if (ReadOnly || Disabled)
             return;
 
-        if (isFocused)
-        {
-            await ReleasePanelTrapAsync();
-        }
-        isFocused = false;
+        await ClosePanelAfterTextCommitAsync();
         await UnregisterOutsideClickAsync();
-        FocusReturnToken = null;
 
         Value = value;
         if (ValueChanged.HasDelegate)
@@ -187,7 +182,7 @@ public partial class TwTimePicker : TwPopoverPickerComponentBase
         if (!TimeOnly.TryParse(value, effectiveCulture, out var parsedTime))
         {
             Invalid = true;
-            ErrorMessage = "Enter a valid time";
+            ErrorMessage = $"Enter a valid time, for example {new TimeOnly(9, 30).ToString(format, effectiveCulture)}";
             return;
         }
 

@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using Microsoft.AspNetCore.Components.Web;
 using TwBlazor.Enums;
 using TwBlazor.Utilities;
@@ -91,6 +92,44 @@ public partial class TwTooltip : TwBlazorComponentBase
     /// leaves or focus moves away (WCAG 1.4.13 "dismissible").
     /// </summary>
     private bool dismissed;
+
+    private ElementReference wrapperRef;
+
+    // Whether the wrapped content is itself focusable (a button, a link). The tooltip then describes that
+    // control and the wrapper stays out of the tab order, so the control is not reached twice.
+    private bool describesControl;
+
+    [Inject] private IJSRuntime jsRuntime { get; set; } = null!;
+
+    /// <inheritdoc />
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        // A tooltip that never takes focus (Focusable off, as on a chart's data points) has nothing to hand over.
+        if (!firstRender || !isFocusable)
+        {
+            return;
+        }
+
+        try
+        {
+            describesControl = await jsRuntime.InvokeAsync<bool>("twTooltip.describeControl", wrapperRef, tooltipId);
+        }
+        catch (JSDisconnectedException)
+        {
+            // The circuit disconnected before the script could run; the wrapper keeps its own tab stop.
+        }
+        catch (InvalidOperationException)
+        {
+            // JS interop is not available (prerendering); the wrapper keeps its own tab stop.
+        }
+
+        if (describesControl)
+        {
+            StateHasChanged();
+        }
+    }
 
     private bool hasTooltip => !Disabled && (TooltipContent != null || !string.IsNullOrWhiteSpace(Text));
 

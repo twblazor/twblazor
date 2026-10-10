@@ -3,7 +3,7 @@
 @inherits TwBlazorComponentBase
 
 <div id="@Id" class="@rootClasses" style="@Style" @attributes="Attributes" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy">
-    <a class="@skipLinkClasses" href="#main-content-root">skip to the main content</a>
+    <a class="@skipLinkClasses" href="@skipLinkHref" @onclick="FocusMainContentAsync" @onclick:preventDefault="true">Skip to main content</a>
 
     @* Backdrop overlay for mobile when sidebar is open *@
     @if (IsSidebarOpen)
@@ -11,7 +11,7 @@
         <div class="@mobileOverlayClasses" @onclick="ToggleSidebar" aria-hidden="true"></div>
     }
 
-    <nav class="@sidebarClasses" aria-label="sidebar navigation">
+    <nav id="@navigationId" class="@sidebarClasses" aria-label="sidebar navigation" inert="@(!IsSidebarOpen)" @ref="navigationRef">
         @if (HeaderContent != null)
         {
             @HeaderContent
@@ -19,7 +19,8 @@
         
         @if (IsSearchable)
         {
-            <TwTextfield T=string Placeholder="Search..." Class="@options.Theme.Spacing.MarginTop.Lg" Value="@searchTerm" ValueChanged="@((v) => OnSearchInput(v))" BindEvent="oninput" />
+            <TwTextfield T=string Placeholder="Search..." AriaLabel="@SearchLabel" InputType="search" Class="@options.Theme.Spacing.MarginTop.Lg" Value="@searchTerm" ValueChanged="@((v) => OnSearchInput(v))" BindEvent="oninput" />
+            <span class="@options.Theme.Display.ScreenReaderOnly" role="status" aria-live="polite">@searchStatusMessage</span>
         }
 
         <div class="@navigationListClasses">
@@ -27,18 +28,25 @@
 
             @SidebarContent
         </div>
+
+        @* Shown only while the sidebar is a drawer over the page, where the toggle in the top bar is covered
+           and inert. It is pinned to the drawer's top corner; Escape closes the drawer too. *@
+        @if (IsSidebarOpen)
+        {
+            <TwIcon Id="@closeButtonId" Icon="Icon.X" AriaLabel="Close sidebar" OnClick="CloseDrawerAsync" Class="@theme.DrawerCloseButton" />
+        }
     </nav>
-    <div id="main-content-root" class="@mainContentRootClasses">
+    <div id="main-content-root" class="@mainContentRootClasses" @ref="contentRootRef">
         <TwNavbar Fixed="IsNavbarFixed" Class="@NavbarClass" DisableResponsiveCollapse
                   BrandContent="NavbarBrandContent"
                   NavigationContent="NavbarNavigationContent"
                   ActionsContent="NavbarActionsContent"
                   NavigationItems="NavbarNavigationItems">
-            <TwIcon Icon="@(IsSidebarOpen? Icon.X: Icon.List)" AriaLabel="@(IsSidebarOpen ? "Close sidebar" : "Open sidebar")" aria-expanded="@(IsSidebarOpen ? "true" : "false")" OnClick="ToggleSidebar" Class="@theme.NavbarToggleIcon" />
+            <TwIcon Id="@toggleId" Icon="@(IsSidebarOpen? Icon.X: Icon.List)" AriaLabel="@(IsSidebarOpen ? "Close sidebar" : "Open sidebar")" aria-expanded="@(IsSidebarOpen ? "true" : "false")" aria-controls="@navigationId" OnClick="ToggleSidebar" Class="@theme.NavbarToggleIcon" />
             @NavbarContent
         </TwNavbar>
-        <div @ref="mainContentRef" class="@mainContentClasses" tabindex="0">
+        <main id="main-content" @ref="mainContentRef" class="@mainContentClasses" tabindex="0">
             @ChildContent
-        </div>
+        </main>
     </div>
 </div>

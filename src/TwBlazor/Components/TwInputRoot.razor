@@ -1,5 +1,5 @@
 ﻿<CascadingValue Value="this" IsFixed="true">
-    <div id="@(string.IsNullOrEmpty(RootId) ? null : RootId)" class="@RootClass" style="@RootStyle" @attributes="@RootAttributes" @ref="@RootRef" aria-label="@RootAriaLabel" aria-labelledby="@RootAriaLabelledBy">
+    <div id="@(string.IsNullOrEmpty(RootId) ? null : RootId)" class="@RootClass" style="@RootStyle" @attributes="@RootAttributes" @ref="@RootRef">
         @ChildContent
         @if (!string.IsNullOrWhiteSpace(RootErrorMessage))
         {

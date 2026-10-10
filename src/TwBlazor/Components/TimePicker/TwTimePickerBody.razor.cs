@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using TwBlazor.Builders;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Enums;
@@ -243,6 +244,31 @@ public partial class TwTimePickerBody
     /// Toggles between AM and PM for 12-hour format.
     /// </summary>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+    // Announced when a step button is pressed: the value changes in the field beside the button, while focus
+    // stays on the button. Arrow keys in the field itself need nothing extra, since the field has focus then.
+    private string statusMessage = string.Empty;
+
+    private async Task StepAsync(Func<Task> step)
+    {
+        await step();
+        statusMessage = SelectedTime.ToString(Is12HourFormat ? "h:mm tt" : "HH:mm", System.Globalization.CultureInfo.CurrentCulture);
+    }
+
+    // Arrow Up and Arrow Down step the value, as they do in a native number field.
+    private Task OnHourKeyDown(KeyboardEventArgs e) => e.Key switch
+    {
+        "ArrowUp" => IncrementHour(),
+        "ArrowDown" => DecrementHour(),
+        _ => Task.CompletedTask
+    };
+
+    private Task OnMinuteKeyDown(KeyboardEventArgs e) => e.Key switch
+    {
+        "ArrowUp" => IncrementMinute(),
+        "ArrowDown" => DecrementMinute(),
+        _ => Task.CompletedTask
+    };
+
     private async Task ToggleAmPm()
     {
         var hour = SelectedTime.Hour;

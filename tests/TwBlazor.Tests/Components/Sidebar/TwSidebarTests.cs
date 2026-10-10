@@ -50,14 +50,14 @@ public class TwSidebarTests : TwBlazorTestBase
 
         // Act
         var skipLink = cut.Find("a.sr-only");
-        var main = cut.Find("#main-content-root");
+        var main = cut.Find("#main-content");
 
-        // Assert - the skip link's href must point at an id that actually exists in the DOM
-        // (#main-content-root, the wrapper around the navbar + page content), not a dangling
-        // #main-content id that nothing carries.
+        // Assert - the skip link targets the focusable page content, after the navbar.
         Assert.NotNull(skipLink);
-        Assert.Equal("#main-content-root", skipLink.GetAttribute("href"));
+        Assert.Equal("#main-content", skipLink.GetAttribute("href"));
         Assert.NotNull(main);
+        Assert.Equal("0", main.GetAttribute("tabindex"));
+        Assert.Null(main.QuerySelector("nav[aria-label='Top navigation']"));
         Assert.Contains("Main area", cut.Markup);
     }
 
@@ -113,7 +113,7 @@ public class TwSidebarTests : TwBlazorTestBase
             .Add(x => x.IsSearchable, true)
         );
 
-        var input = cut.Find("input[type='text']");
+        var input = cut.Find("input[type='search']");
 
         // Assert
         Assert.NotNull(input);
@@ -201,7 +201,7 @@ public class TwSidebarTests : TwBlazorTestBase
         var sidebarNav = cut.Find("nav[aria-label='sidebar navigation']");
         var navbar = cut.Find("nav[aria-label='Top navigation']");
         var mainContentRoot = cut.Find("#main-content-root");
-        var mainContent = mainContentRoot.QuerySelector(":scope > nav + div");
+        var mainContent = mainContentRoot.QuerySelector(":scope > nav + main");
 
         // Assert
         Assert.Contains("translate-x-0", sidebarNav.GetAttribute("class"));
@@ -228,7 +228,7 @@ public class TwSidebarTests : TwBlazorTestBase
         var sidebarNavClosed = cut.Find("nav[aria-label='sidebar navigation']");
         var navbarClosed = cut.Find("nav[aria-label='Top navigation']");
         var mainContentRootClosed = cut.Find("#main-content-root");
-        var mainContentClosed = mainContentRootClosed.QuerySelector(":scope > nav + div");
+        var mainContentClosed = mainContentRootClosed.QuerySelector(":scope > nav + main");
 
         // Assert
         Assert.Contains("-translate-x-full", sidebarNavClosed.GetAttribute("class"));

@@ -170,6 +170,39 @@ public partial class TwDatePickerCalendar : TwBlazorComponentBase
         }
     }
 
+    private TwDatePickerDayView? dayView;
+
+    // The day to focus once the page the keyboard just turned to has rendered.
+    private int? pendingFocusDay;
+
+    private static DateTime FirstOfMonth(DateTime date) => new(date.Year, date.Month, 1, 0, 0, 0, DateTimeKind.Unspecified);
+
+    // Turns the page to the month the keyboard moved into, unless MinDate/MaxDate rule that month out.
+    private async Task OnDayNavigationRequested(DateTime target)
+    {
+        var targetMonth = FirstOfMonth(target);
+        if ((MinDate.HasValue && targetMonth < FirstOfMonth(MinDate.Value))
+            || (MaxDate.HasValue && targetMonth > FirstOfMonth(MaxDate.Value)))
+        {
+            return;
+        }
+
+        pendingFocusDay = target.Day;
+        await SetAnchorDateAsync(new DateTime(target.Year, target.Month, target.Day, AnchorDate.Hour, AnchorDate.Minute, AnchorDate.Second, AnchorDate.Kind));
+    }
+
+    /// <inheritdoc />
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+
+        if (pendingFocusDay is { } day && dayView is not null)
+        {
+            pendingFocusDay = null;
+            dayView.FocusDay(day);
+        }
+    }
+
     private Task PreviousMonth() => isPreviousMonthDisabled ? Task.CompletedTask : SetAnchorDateAsync(AnchorDate.AddMonths(-1));
 
     private Task NextMonth() => isNextMonthDisabled ? Task.CompletedTask : SetAnchorDateAsync(AnchorDate.AddMonths(1));

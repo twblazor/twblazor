@@ -42,7 +42,7 @@ public partial class TwDatePicker : TwPopoverPickerComponentBase
     /// <see cref="SelectedDate"/>. Browsing with the header's Previous/Next controls (or drilling
     /// through the year/month quick-pick grids) only moves this; <see cref="SelectedDate"/> itself
     /// changes only when a day is actually picked (or a valid date is typed). Re-seeded to
-    /// <see cref="SelectedDate"/> every time the panel opens (see the <see cref="OnFocusAsync"/>
+    /// <see cref="SelectedDate"/> every time the panel opens (see the <see cref="OpenPanelAsync"/>
     /// override) so browsing that was abandoned without picking anything doesn't linger into the
     /// next time the picker is opened.
     /// </summary>
@@ -198,10 +198,10 @@ public partial class TwDatePicker : TwPopoverPickerComponentBase
     /// month/year, then clicking away) doesn't linger the next time the picker is opened - it
     /// always starts back at the real selection's own month.
     /// </summary>
-    protected override async Task OnFocusAsync()
+    protected override async Task OpenPanelAsync()
     {
         anchorDate = SelectedDate;
-        await base.OnFocusAsync();
+        await base.OpenPanelAsync();
     }
 
     /// <summary>
@@ -242,7 +242,7 @@ public partial class TwDatePicker : TwPopoverPickerComponentBase
             if (pendingViewFocus)
             {
                 pendingViewFocus = false;
-                await JSRuntime.InvokeVoidAsync("twDialog.focusSurface", PanelRef);
+                await JSRuntime.InvokeVoidAsync("twDialog.focusPanel", PanelRef);
             }
         }
     }
@@ -265,19 +265,7 @@ public partial class TwDatePicker : TwPopoverPickerComponentBase
         if (ReadOnly || Disabled)
             return;
 
-        if (isFocused)
-        {
-            await ReleasePanelTrapAsync();
-        }
-        isFocused = false;
-
-        // This handler fires on blur (TwTextfield's BindEvent defaults to "onchange"), meaning the
-        // browser has already moved focus away from the trigger - by the user tabbing to the next
-        // field, for instance. Forcing focus back here (as every other close path correctly does)
-        // would fight that: it'd not only reopen the panel (guarded against separately by
-        // suppressNextFocusOpen) but also yank focus away from wherever the user just tabbed to.
-        // So this path only clears the captured token and otherwise leaves focus alone.
-        FocusReturnToken = null;
+        await ClosePanelAfterTextCommitAsync();
 
         if (string.IsNullOrWhiteSpace(date))
         {
@@ -307,7 +295,7 @@ public partial class TwDatePicker : TwPopoverPickerComponentBase
         if (!success)
         {
             Invalid = true;
-            ErrorMessage = "Enter a valid date";
+            ErrorMessage = $"Enter a valid date, for example {DateTime.Today.ToString(effectiveFormat, effectiveCulture)}";
             Value = date;
             return;
         }

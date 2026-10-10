@@ -16,7 +16,13 @@ namespace TwBlazor.A11yTests;
 [Collection(A11yCollection.Name)]
 public partial class AccessibilityScanTests(A11yFixture fixture)
 {
-    private static readonly string[] _wcagTags = ["wcag2a", "wcag2aa", "wcag21aa"];
+    private static readonly string[] _wcagTags = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"];
+
+    // axe no longer reports duplicate ids, but one still breaks things quietly: a label's "for" resolves to
+    // the first element with that id, so the control it was written for loses its name.
+    private const string duplicateIdsScript =
+        "(() => { const seen = new Map(); document.querySelectorAll('[id]').forEach(el => { if (el.id) seen.set(el.id, (seen.get(el.id) ?? 0) + 1); });"
+        + " return [...seen].filter(([, count]) => count > 1).map(([id]) => id); })()";
 
     [Theory]
     [MemberData(nameof(AccessibilityRoutes.LightAndDark), MemberType = typeof(AccessibilityRoutes))]
@@ -48,6 +54,9 @@ public partial class AccessibilityScanTests(A11yFixture fixture)
             {
                 Assert.Fail(FormatViolations(route, dark, results.Violations));
             }
+
+            var duplicateIds = await page.EvaluateAsync<string[]>(duplicateIdsScript);
+            Assert.True(duplicateIds.Length == 0, $"Duplicate id(s) on '{route}': {string.Join(", ", duplicateIds)}");
         }
         finally
         {

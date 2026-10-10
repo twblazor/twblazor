@@ -53,6 +53,19 @@ public partial class TwCollapse : TwBlazorComponentBase
     /// </summary>
     [Parameter] public EventCallback<bool> OnToggle { get; set; }
 
+    /// <summary>
+    /// Gets or sets the heading level (1 to 6) the trigger is wrapped in, so the collapse shows up in a
+    /// screen reader's list of headings. Leave unset for a trigger with no heading.
+    /// </summary>
+    [Parameter] public int? HeadingLevel { get; set; }
+
+    private RenderFragment RenderHeading(int level) => builder =>
+    {
+        builder.OpenElement(0, $"h{Math.Clamp(level, 1, 6)}");
+        builder.AddContent(1, trigger);
+        builder.CloseElement();
+    };
+
     private TwCollapseTheme theme => options.Theme.Components.Require<TwCollapseTheme>();
 
     private string containerClasses =>

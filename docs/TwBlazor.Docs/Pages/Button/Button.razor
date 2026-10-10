@@ -12,7 +12,7 @@
 
         <CodeExample Name="ButtonBasic" CSharpName="ButtonBasicCode">
             <TwButtonGroup>
-                <TwButton AriaLabel="Action button" Label="@($"Clicked {ClickCount} times")" Color="Color.Accent" StartIcon="Icon.Chat_Square_Dots" OnClick="HandleClick" />
+                <TwButton Label="@($"Clicked {ClickCount} times")" Color="Color.Accent" StartIcon="Icon.Chat_Square_Dots" OnClick="HandleClick" />
                 <TwButton AriaLabel="Submit Type" Label="Submit" Color="Color.Primary" StartIcon="Icon.Mailbox" OnClick="@(() => { /* your action */ })" Type="submit" />
             </TwButtonGroup>
         </CodeExample>

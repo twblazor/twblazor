@@ -3,7 +3,24 @@
 @inherits TwBlazorComponentBase
 
 <div id="@Id" class="@containerClasses" style="@Style" @attributes="Attributes" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy">
-    <button type="button"
+    @if (HeadingLevel is { } level)
+    {
+        @RenderHeading(level)
+    }
+    else
+    {
+        @trigger
+    }
+    <div id="@($"{Id}-content")"
+         role="group"
+         aria-labelledby="@($"{Id}-trigger")"
+         class="@contentClasses">
+        @ChildContent
+    </div>
+</div>
+
+@code {
+    private RenderFragment trigger => @<button type="button"
             id="@($"{Id}-trigger")"
             class="@triggerClasses"
             aria-expanded="@(IsOpen ? "true" : "false")"
@@ -18,11 +35,5 @@
             <span>@Title</span>
         }
         <TwIcon Icon="Icon.Chevron_Down" Class="@iconClasses" />
-    </button>
-    <div id="@($"{Id}-content")"
-         role="region"
-         aria-labelledby="@($"{Id}-trigger")"
-         class="@contentClasses">
-        @ChildContent
-    </div>
-</div>
+    </button>;
+}

@@ -24,11 +24,13 @@ public class TwCalendarWeekViewTests : TwBlazorTestBase
         DateTimeEnd = end
     };
 
-    private IRenderedComponent<TwCalendarWeekView<string>> Render(Action<ComponentParameterCollectionBuilder<TwCalendarWeekView<string>>>? configure = null, DateTime? date = null) =>
+    private IRenderedComponent<TwCalendarWeekView<string>> Render(Action<ComponentParameterCollectionBuilder<TwCalendarWeekView<string>>>? configure = null, DateTime? date = null, bool editable = true) =>
         TestContext.Render<TwCalendarWeekView<string>>(p =>
         {
             p.Add(x => x.Date, date ?? _wednesday);
             configure?.Invoke(p);
+            // Slots only exist in an editable calendar, which is what most of these tests exercise.
+            p.Add(x => x.Editable, editable);
         });
 
     private static IReadOnlyList<AngleSharp.Dom.IElement> Columns(IRenderedComponent<TwCalendarWeekView<string>> cut) =>
@@ -263,7 +265,6 @@ public class TwCalendarWeekViewTests : TwBlazorTestBase
     {
         DateTime? clicked = null;
         var cut = Render(p => p
-            .Add(x => x.Editable, true)
             .Add(x => x.OnSlotClick, EventCallback.Factory.Create<DateTime>(this, d => clicked = d)));
 
         Slot(cut, 3, 18).Click();
@@ -294,7 +295,6 @@ public class TwCalendarWeekViewTests : TwBlazorTestBase
         DateTime? dropped = null;
         var ended = false;
         var cut = Render(p => p
-            .Add(x => x.Editable, true)
             .Add(x => x.Schedules, [evt])
             .Add(x => x.OnEventDragStart, EventCallback.Factory.Create<Schedule<string>>(this, e => started = e))
             .Add(x => x.OnEventDragOver, EventCallback.Factory.Create<DateTime>(this, d => over = d))
@@ -317,7 +317,6 @@ public class TwCalendarWeekViewTests : TwBlazorTestBase
     public void DropPreview_ShowsAPlaceholderOnlyInTheTargetDaysColumn()
     {
         var cut = Render(p => p
-            .Add(x => x.Editable, true)
             .Add(x => x.DraggedEvent, Event("Moving", _monday.AddHours(9), _monday.AddHours(10)))
             .Add(x => x.DropPreview, _monday.AddDays(2).AddHours(15)));
 

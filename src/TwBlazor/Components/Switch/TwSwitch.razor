@@ -6,11 +6,13 @@
     <TwInputLabel Id="@LabelId" For="@Id" Label="@Label" OverrideClass="@labelClasses" @attributes="@LabelAttributes">
         <span class="@wrapperClasses">
             <input type="checkbox"
+                   role="switch"
                    id="@Id"
                    name="@Name"
                    value="@Value"
                    checked="@isChecked"
                    @onchange="@HandleChange"
+                   @onclick:preventDefault="@(ReadOnly && !Disabled)"
                    class="@classes"
                    disabled="@Disabled"
                    @attributes="@Attributes"

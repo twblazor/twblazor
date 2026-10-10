@@ -51,6 +51,9 @@ public partial class TwCodeBlock : TwBlazorComponentBase, IAsyncDisposable
 
     private string headerTitle => Title ?? Language.ToUpperInvariant();
 
+    // Names the focusable, scrollable code region. A hidden title stays hidden here too.
+    private string codeRegionLabel => HideTitle ? "Code" : $"{headerTitle} code";
+
     /// <summary>
     /// Gets or sets a value indicating whether the header bar is removed. When <see langword="true"/> the
     /// copy button is overlaid on the top end corner of the code panel instead, and <see cref="Title"/> is ignored.
@@ -108,6 +111,9 @@ public partial class TwCodeBlock : TwBlazorComponentBase, IAsyncDisposable
         try
         {
             await jSRuntime.InvokeVoidAsync("twCodeBlock.highlightElement", cancellationTokenSource.Token, codeBlock);
+
+            // After highlighting, since that is what gives the element its final size and overflow.
+            await jSRuntime.InvokeVoidAsync("twScrollRegion.observe", cancellationTokenSource.Token, codeBlock);
         }
         catch (TaskCanceledException)
         {

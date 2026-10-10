@@ -6,11 +6,11 @@
 
 @if (toastService is not null && (toastService.HasToasts || (Attributes != null && Attributes.Count > 0) || !string.IsNullOrEmpty(Class) || !string.IsNullOrEmpty(Style) || !string.IsNullOrEmpty(AriaLabel) || !string.IsNullOrEmpty(AriaLabelledBy) || hasUserProvidedId))
 {
-    <div id="@Id" class="@containerClasses" style="@Style" @attributes="Attributes" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy">
+    <div id="@Id" class="@containerClasses" style="@Style" data-tw-inert-exempt role="region" @attributes="Attributes" aria-label="@(AriaLabel ?? (AriaLabelledBy == null ? "Notifications" : null))" aria-labelledby="@AriaLabelledBy">
         @foreach (var toast in toastService.GetToasts())
         {
             <div class="@GetToastClasses(toast)"
-                 role="alert"
+                 role="@GetToastRole(toast)"
                  aria-atomic="true"
                  @onmouseenter="() => PauseToastForHover(toast)"
                  @onmouseleave="() => ResumeToastForHover(toast)"
@@ -34,7 +34,9 @@
                         <div class="@messageClasses">@toast.Message</div>
                     }
 
-                    <div class="@timestampClasses">@toast.ElapsedTimeText</div>
+                    @* Hidden from assistive technology: it changes every minute, and inside this atomic live region each
+                       change would read the whole toast out again. *@
+                    <div class="@timestampClasses" aria-hidden="true">@toast.ElapsedTimeText</div>
                 </div>
 
                 <button type="button" 

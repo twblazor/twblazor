@@ -4,7 +4,7 @@
     <PageCard Title="Basic tabs">
         <Description>Use <code>TwTabContainer</code> and <code>TwTab</code> to split content into switchable panels.</Description>
         <CodeExample Name="TabsBasic">
-            <TwTabContainer>
+            <TwTabContainer AriaLabel="Example tabs 1">
                 <TwTab Label="Tab 1">
                     <p>This is the content of Tab 1.</p>
                 </TwTab>
@@ -18,7 +18,7 @@
     <PageCard Title="Container tab colors">
         <Description>Set <code>TabColor</code> on <code>TwTabContainer</code> to colour every tab within it.</Description>
         <CodeExample Name="TabContainerColors">
-            <TwTabContainer TabColor="Color.Accent">
+            <TwTabContainer AriaLabel="Example tabs 2" TabColor="Color.Accent">
                 <TwTab Label="Tab 1">
                     <p>Setting the <code>TabColor</code> property on the <code>TwTabContainer</code> will set the colour for all tabs within that container.</p>
                 </TwTab>
@@ -35,7 +35,7 @@
     <PageCard Title="Single tab colors">
         <Description>Set <code>Color</code> on an individual <code>TwTab</code> to colour just that tab.</Description>
         <CodeExample Name="TabColors">
-            <TwTabContainer>
+            <TwTabContainer AriaLabel="Example tabs 3">
                 <TwTab Label="Tab 1" Color="Color.Danger">
                     <p>Setting the <code>Color</code> property on an individual basis will set the colour for each tab.</p>
                 </TwTab>
@@ -52,7 +52,7 @@
     <PageCard Title="Dense tabs">
         <Description>Set <code>Dense</code> on <code>TwTabContainer</code> to render more compact tabs.</Description>
         <CodeExample Name="TabsDense">
-            <TwTabContainer Dense>
+            <TwTabContainer AriaLabel="Example tabs 4" Dense>
                 <TwTab Label="Tab 1">
                     <p>This is the content of Tab 1.</p>
                 </TwTab>
@@ -66,7 +66,7 @@
     <PageCard Title="Disabled tabs">
         <Description>Set <code>Disabled</code> on a <code>TwTab</code> to prevent it from being selected.</Description>
         <CodeExample Name="TabsDisabled">
-            <TwTabContainer Dense>
+            <TwTabContainer AriaLabel="Example tabs 5" Dense>
                 <TwTab Label="Tab 1">
                     <p>This is the content of Tab 1.</p>
                 </TwTab>

@@ -15,7 +15,7 @@ public class TwAlertTests : TwBlazorTestBase
         var cut = TestContext.Render<TwAlert>();
 
         // Assert
-        var alert = cut.Find("div[role='alert']");
+        var alert = cut.Find("div.tw-alert");
         Assert.NotNull(alert);
         Assert.Contains("tw-alert", alert.GetAttribute("class"));
         Assert.Contains("rounded", alert.GetAttribute("class"));
@@ -29,7 +29,7 @@ public class TwAlertTests : TwBlazorTestBase
             .Add(p => p.Text, "This is an alert message"));
 
         // Assert
-        var alert = cut.Find("div[role='alert']");
+        var alert = cut.Find("div.tw-alert");
         Assert.Contains("This is an alert message", alert.TextContent);
     }
 
@@ -41,7 +41,7 @@ public class TwAlertTests : TwBlazorTestBase
             .Add(p => p.ChildContent, RenderFragmentBuilder("This is custom child content")));
 
         // Assert
-        var alert = cut.Find("div[role='alert']");
+        var alert = cut.Find("div.tw-alert");
         Assert.Contains("This is custom child content", alert.TextContent);
     }
 
@@ -54,7 +54,7 @@ public class TwAlertTests : TwBlazorTestBase
             .Add(p => p.ChildContent, RenderFragmentBuilder("This content should appear")));
 
         // Assert
-        var alert = cut.Find("div[role='alert']");
+        var alert = cut.Find("div.tw-alert");
         Assert.Contains("This content should appear", alert.TextContent);
         Assert.DoesNotContain("This text should not appear", alert.TextContent);
     }
@@ -68,7 +68,7 @@ public class TwAlertTests : TwBlazorTestBase
             .Add(p => p.Text, "Red alert"));
 
         // Assert
-        var alert = cut.Find("div[role='alert']");
+        var alert = cut.Find("div.tw-alert");
         Assert.Contains("bg-red-200", alert.GetAttribute("class"));
         Assert.Contains("border-red-600", alert.GetAttribute("class"));
         Assert.Contains("text-red-900", alert.GetAttribute("class"));
@@ -88,7 +88,7 @@ public class TwAlertTests : TwBlazorTestBase
             .Add(p => p.Color, color));
 
         // Assert
-        var alert = cut.Find("div[role='alert']");
+        var alert = cut.Find("div.tw-alert");
         Assert.Contains(bgClass, alert.GetAttribute("class"));
         Assert.Contains(borderClass, alert.GetAttribute("class"));
         Assert.Contains(textClass, alert.GetAttribute("class"));
@@ -200,7 +200,7 @@ public class TwAlertTests : TwBlazorTestBase
             .Add(p => p.Dismissible, true)
             .Add(p => p.Text, "Dismissable alert"));
 
-        var alert = cut.Find("div[role='alert']");
+        var alert = cut.Find("div.tw-alert");
         Assert.DoesNotContain("hidden", alert.GetAttribute("class"));
 
         // Act - click dismiss button
@@ -208,7 +208,7 @@ public class TwAlertTests : TwBlazorTestBase
         dismissButton.Click();
 
         // Assert - alert should be hidden
-        alert = cut.Find("div[role='alert']");
+        alert = cut.Find("div.tw-alert");
         Assert.Contains("hidden", alert.GetAttribute("class"));
     }
 
@@ -256,7 +256,7 @@ public class TwAlertTests : TwBlazorTestBase
             .Add(p => p.Text, "Hidden alert"));
 
         // Assert
-        var alert = cut.Find("div[role='alert']");
+        var alert = cut.Find("div.tw-alert");
         Assert.Contains("hidden", alert.GetAttribute("class"));
     }
 
@@ -269,7 +269,7 @@ public class TwAlertTests : TwBlazorTestBase
             .Add(p => p.Text, "Dense alert"));
 
         // Assert
-        var alert = cut.Find("div[role='alert']");
+        var alert = cut.Find("div.tw-alert");
         Assert.Contains("py-2", alert.GetAttribute("class"));
         Assert.Contains("px-3", alert.GetAttribute("class"));
         Assert.DoesNotContain("py-4", alert.GetAttribute("class"));
@@ -284,7 +284,7 @@ public class TwAlertTests : TwBlazorTestBase
             .Add(p => p.Text, "Normal alert"));
 
         // Assert
-        var alert = cut.Find("div[role='alert']");
+        var alert = cut.Find("div.tw-alert");
         Assert.Contains("py-4", alert.GetAttribute("class"));
         Assert.Contains("px-6", alert.GetAttribute("class"));
     }
@@ -298,7 +298,7 @@ public class TwAlertTests : TwBlazorTestBase
             .Add(p => p.Text, "Alert with ID"));
 
         // Assert
-        var alert = cut.Find("div[role='alert']");
+        var alert = cut.Find("div.tw-alert");
         Assert.Equal("custom-alert-id", alert.GetAttribute("id"));
     }
 
@@ -311,7 +311,7 @@ public class TwAlertTests : TwBlazorTestBase
             .Add(p => p.Text, "Alert with custom class"));
 
         // Assert
-        var alert = cut.Find("div[role='alert']");
+        var alert = cut.Find("div.tw-alert");
         Assert.Contains("my-custom-class", alert.GetAttribute("class"));
     }
 
@@ -324,7 +324,7 @@ public class TwAlertTests : TwBlazorTestBase
             .Add(p => p.Text, "Dismissable alert"));
 
         // Assert
-        var alert = cut.Find("div[role='alert']");
+        var alert = cut.Find("div.tw-alert");
         Assert.Contains("flex", alert.GetAttribute("class"));
         Assert.Contains("items-center", alert.GetAttribute("class"));
     }
@@ -338,7 +338,7 @@ public class TwAlertTests : TwBlazorTestBase
             .Add(p => p.Text, "Alert with end icon"));
 
         // Assert
-        var alert = cut.Find("div[role='alert']");
+        var alert = cut.Find("div.tw-alert");
         Assert.Contains("flex", alert.GetAttribute("class"));
         Assert.Contains("items-center", alert.GetAttribute("class"));
     }
@@ -413,7 +413,7 @@ public class TwAlertTests : TwBlazorTestBase
             .Add(p => p.Text, "Alert with attributes"));
 
         // Assert
-        var alert = cut.Find("div[role='alert']");
+        var alert = cut.Find("div.tw-alert");
         Assert.Equal("test-alert", alert.GetAttribute("data-testid"));
         Assert.Equal("custom-value", alert.GetAttribute("data-custom"));
     }
@@ -447,7 +447,7 @@ public class TwAlertTests : TwBlazorTestBase
             .Add(p => p.Text, "Default color alert"));
 
         // Assert
-        var alert = cut.Find("div[role='alert']");
+        var alert = cut.Find("div.tw-alert");
         Assert.DoesNotContain("bg-blue-100", alert.GetAttribute("class"));
         Assert.DoesNotContain("border-blue-500", alert.GetAttribute("class"));
         Assert.DoesNotContain("text-blue-900", alert.GetAttribute("class"));

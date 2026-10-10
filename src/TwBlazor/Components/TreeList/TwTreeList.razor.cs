@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Utilities;
 
@@ -46,6 +47,34 @@ public partial class TwTreeList : TwBlazorComponentBase
     /// from its descendants on every render - reflects the change immediately.
     /// </summary>
     internal void NotifyDescendantChangedAsync() => StateHasChanged();
+
+    private ElementReference rootRef;
+
+    private const string itemSelector = "[role=\"treeitem\"]";
+
+    [Inject] private IJSRuntime jsRuntime { get; set; } = null!;
+
+    /// <summary>
+    /// Makes the tree a single Tab stop whose items are reached with the arrow keys, Home and End. Moving
+    /// focus is done in script, since a round trip per key press would lag.
+    /// </summary>
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        try
+        {
+            await jsRuntime.InvokeVoidAsync("twRoving.attach", rootRef, itemSelector, "tree");
+        }
+        catch (JSDisconnectedException)
+        {
+            // The circuit disconnected before the script could run; nothing to wire up.
+        }
+        catch (InvalidOperationException)
+        {
+            // JS interop is not available (prerendering); the next interactive render wires it up.
+        }
+    }
 
     private string rootClasses =>
         new ClassBuilder(theme.Container)

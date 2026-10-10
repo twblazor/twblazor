@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using Microsoft.AspNetCore.Components.Web;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Utilities;
@@ -112,6 +113,44 @@ public partial class TwPickList<TItem> : TwBlazorComponentBase
     private HashSet<TItem> selectedTarget = [];
     private bool selectionInitialized;
 
+    private ElementReference sourceListRef;
+    private ElementReference targetListRef;
+
+    // Announced after a transfer or a reorder: the items move, but focus stays on the button that moved them.
+    private string statusMessage = string.Empty;
+
+    private const string optionSelector = "[role=\"option\"]";
+
+    [Inject] private IJSRuntime jsRuntime { get; set; } = null!;
+
+    /// <summary>
+    /// Keeps each list a single Tab stop whose options are reached with the arrow keys, Home and End.
+    /// </summary>
+    /// <remarks>
+    /// Runs after every render because a transfer replaces the options, including whichever one held the
+    /// Tab stop. The script attaches once per list and only re-syncs after that.
+    /// </remarks>
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        try
+        {
+            await jsRuntime.InvokeVoidAsync("twRoving.attach", sourceListRef, optionSelector, "list");
+            await jsRuntime.InvokeVoidAsync("twRoving.attach", targetListRef, optionSelector, "list");
+        }
+        catch (JSDisconnectedException)
+        {
+            // The circuit disconnected before the script could run; nothing to wire up.
+        }
+        catch (InvalidOperationException)
+        {
+            // JS interop is not available (prerendering); the next interactive render wires it up.
+        }
+    }
+
+    private static string CountText(int count) => count == 1 ? "1 item" : $"{count} items";
+
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
@@ -200,6 +239,7 @@ public partial class TwPickList<TItem> : TwBlazorComponentBase
         var destination = (fromSource ? TargetItems : SourceItems).ToList();
         destination.AddRange(moving);
         selection.Clear();
+        statusMessage = $"{CountText(moving.Count)} moved to {(fromSource ? TargetLabel : SourceLabel)}";
 
         await ApplyTransferAsync(fromSource, origin, destination);
     }
@@ -222,6 +262,7 @@ public partial class TwPickList<TItem> : TwBlazorComponentBase
 
         var destination = (fromSource ? TargetItems : SourceItems).ToList();
         destination.AddRange(origin);
+        statusMessage = $"{CountText(origin.Count)} moved to {(fromSource ? TargetLabel : SourceLabel)}";
         origin.Clear();
         (fromSource ? selectedSource : selectedTarget).Clear();
 
@@ -266,6 +307,7 @@ public partial class TwPickList<TItem> : TwBlazorComponentBase
 
         var list = (isSource ? SourceItems : TargetItems).ToList();
         ShiftSelected(list, selection, up);
+        statusMessage = $"{CountText(selection.Count)} moved {(up ? "up" : "down")}";
 
         if (isSource)
         {
