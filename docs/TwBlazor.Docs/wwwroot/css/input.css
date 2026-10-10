@@ -31,6 +31,12 @@
 @source not "../../../TwBlazor.Theme/bin/**";
 @source not "../../../TwBlazor.Theme/obj/**";
 
+/* The class merge tables, their tests and their generator are full of class names that are data, not
+   markup. Left in, Tailwind would generate a rule for every one of them. */
+@source not "../../../../src/TwBlazor/Utilities/ClassMerge/TwClassGroups.Data.cs";
+@source not "../../../../tests/TwBlazor.Tests/Utilities/ClassMerge/**";
+@source not "../../../../scripts/class-merge/**";
+
 /* Scrollbars follow the site theme: color-scheme darkens the browser's own controls in dark mode, and the
    thumb reuses the neutral text tokens from Theme.cs so it reads as part of the surface. */
 :root {

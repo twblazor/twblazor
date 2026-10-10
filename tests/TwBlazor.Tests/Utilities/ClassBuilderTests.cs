@@ -221,17 +221,16 @@ public class ClassBuilderTests
     }
 
     [Fact]
-    public void ShouldPreserveInternalWhitespace_InInitialValue()
+    public void ShouldCollapseInternalWhitespace()
     {
-        // Arrange & Act - ClassBuilder preserves internal whitespace from initial value
-        // Only trims leading/trailing on Build()
+        // Arrange & Act - merging splits on whitespace, so extra spaces never reach the element
         var classes = new ClassBuilder("  base  ")
             .AddClass("  class-1  ")
             .AddClass("  class-2  ")
             .Build();
 
-        // Assert - Internal whitespace from "  base  " is preserved, only outer trim applied
-        Assert.Equal("base   class-1 class-2", classes);
+        // Assert
+        Assert.Equal("base class-1 class-2", classes);
     }
 
     [Fact]
@@ -289,7 +288,7 @@ public class ClassBuilderTests
     [InlineData("single", "single")]
     [InlineData("class-1 class-2", "class-1 class-2")]
     [InlineData("  trimmed  ", "trimmed")]
-    [InlineData("   multiple   spaces   ", "multiple   spaces")]
+    [InlineData("   multiple   spaces   ", "multiple spaces")]
     public void ShouldBuild_VariousInputs(string input, string expected)
     {
         // Arrange & Act
@@ -351,6 +350,54 @@ public class ClassBuilderTests
 
         // Assert - Should contain both (ClassBuilder doesn't deduplicate)
         Assert.Equal("base duplicate duplicate", classes);
+    }
+
+    [Fact]
+    public void ShouldOverride_ConflictingTailwindClass_WithTheOneAddedLast()
+    {
+        // Arrange & Act
+        var classes = new ClassBuilder("flex px-4 text-sm")
+            .AddClass("px-2")
+            .AddClass("text-lg")
+            .Build();
+
+        // Assert
+        Assert.Equal("flex px-2 text-lg", classes);
+    }
+
+    [Fact]
+    public void ShouldOverride_ConflictingTailwindClass_OnlyWhenConditionIsTrue()
+    {
+        // Arrange & Act
+        var overridden = new ClassBuilder("px-4").AddClass("px-2", true).Build();
+        var kept = new ClassBuilder("px-4").AddClass("px-2", false).Build();
+
+        // Assert
+        Assert.Equal("px-2", overridden);
+        Assert.Equal("px-4", kept);
+    }
+
+    [Fact]
+    public void ShouldKeep_ClassesThatAreNotTailwindUtilities()
+    {
+        // Arrange & Act
+        var classes = new ClassBuilder("custom-card px-4")
+            .AddClass("px-2")
+            .AddClass("custom-card-lg")
+            .Build();
+
+        // Assert
+        Assert.Equal("custom-card px-2 custom-card-lg", classes);
+    }
+
+    [Fact]
+    public void ShouldNotMerge_ClassesWithDifferentVariants()
+    {
+        // Arrange & Act
+        var classes = new ClassBuilder("px-4 hover:px-4").AddClass("hover:px-2").Build();
+
+        // Assert
+        Assert.Equal("px-4 hover:px-2", classes);
     }
 
     [Fact]

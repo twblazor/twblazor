@@ -12,3 +12,4 @@ jobs:
     uses: ./.github/workflows/build-and-test.yml
     with:
       configuration: Release
+      run-accessibility-tests: true

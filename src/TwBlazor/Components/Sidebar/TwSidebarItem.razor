@@ -10,6 +10,10 @@
         aria-controls="@ChildrenId"
         aria-expanded="@(IsCollapsed ? "false" : "true")"
         class="@parentClasses" style="@Style" @attributes="Attributes" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy">
+        @if (Icon is not null)
+        {
+            <TwIcon Icon="@Icon.Value" Class="@theme.NavigationItemIcon" />
+        }
         <span class="@theme.NavigationItemToggleLabel">@Label</span>
         @if (EndContent != null)
         {
@@ -23,6 +27,10 @@
 else
 {
     <a id="@Id" href="@Href" class="@classes" style="@Style" @attributes="Attributes" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy" aria-current="@(isActive ? "page" : null)">
+        @if (Icon is not null)
+        {
+            <TwIcon Icon="@Icon.Value" Class="@theme.NavigationItemIcon" />
+        }
         <span>@Label</span>
         @if (EndContent != null)
         {

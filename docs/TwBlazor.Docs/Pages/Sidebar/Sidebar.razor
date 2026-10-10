@@ -13,6 +13,9 @@
         <Description>
             Instead of hand-writing <code>SidebarContent</code> markup, pass a <code>List&lt;NavigationItem&gt;</code> to <code>NavigationItems</code> and TwSidebar renders the links, nested groups, and (with <code>IsSearchable</code>) a search box for you - this is exactly how this documentation site's own sidebar is built, see <code>Navigation.razor.cs</code>.
         </Description>
+        <Description>
+            Set <code>Icon</code> on a <code>NavigationItem</code> to render a <code>TwIcon</code> before its label. It works on links and parent items at any depth. The icon is decorative and hidden from screen readers, so the label stays the item's name. It is styled by <code>NavigationItemIcon</code> on <code>TwSidebarTheme</code>.
+        </Description>
         <iframe src="/sidebar/preview-navigation" title="TwSidebar data-driven navigation example preview" class="w-full h-50 border-0 rounded-lg"></iframe>
         <ExampleCodeBlock Razor="@CodeExamples.Get("SidebarNavigationItems")" CSharp="@CodeExamples.Get("SidebarNavigationItemsCode")" />
     </PageCard>

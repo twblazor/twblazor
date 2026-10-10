@@ -5,6 +5,12 @@ on:
     branches:
       - develop
   workflow_dispatch:
+    inputs:
+      run-accessibility-tests:
+        description: 'Also run the accessibility tests'
+        required: false
+        default: false
+        type: boolean
 
 jobs:
   header-check:
@@ -30,6 +36,9 @@ jobs:
       actions: read
     with:
       configuration: Release
+      # Opt in by ticking "Run the accessibility tests" in the pull request description. The description is
+      # only ever compared here, never run, so it is safe to read from a fork's pull request.
+      run-accessibility-tests: ${{ inputs.run-accessibility-tests == true || contains(github.event.pull_request.body, '[x] Run the accessibility tests') }}
 
   sonarcloud-scan:
     name: SonarCloud Scan

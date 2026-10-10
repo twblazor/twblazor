@@ -376,7 +376,8 @@ public class TwSelectTests : TwBlazorTestBase
         // Assert
         var label = cut.Find("label");
         Assert.Contains("text-blue-600", label.GetAttribute("class"));
-        Assert.Contains(inputTheme.LabelBase, label.GetAttribute("class")); // Default class should still be present
+        Assert.Contains("tracking-wide", label.GetAttribute("class")); // Default classes that don't conflict should still be present
+        Assert.DoesNotContain(inputTheme.LabelBase, label.GetAttribute("class")); // The theme's own text color is replaced
     }
 
     [Fact]

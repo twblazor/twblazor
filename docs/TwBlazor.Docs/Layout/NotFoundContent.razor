@@ -1,0 +1,67 @@
+@* The "page not found" content shared by the Server and WebAssembly hosts, which each route to it their own way. *@
+@using TwBlazor.Models
+@using TwBlazor.Services
+@using IconEnum = TwBlazor.Enums.Icon
+@inject ITwDialogService DialogService
+
+<PageTitle>Page not found | twblazor</PageTitle>
+<HeadContent>
+    <meta name="robots" content="noindex" />
+</HeadContent>
+
+<section class="relative isolate flex min-h-[70dvh] items-center justify-center overflow-hidden px-6 py-12" aria-labelledby="not-found-heading">
+    <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10 bg-[linear-gradient(to_right,rgb(168_85_247/0.10)_1px,transparent_1px),linear-gradient(to_bottom,rgb(168_85_247/0.10)_1px,transparent_1px)] bg-size-[3rem_3rem] mask-[radial-gradient(ellipse_60%_55%_at_50%_40%,black,transparent)] dark:bg-[linear-gradient(to_right,rgb(168_85_247/0.16)_1px,transparent_1px),linear-gradient(to_bottom,rgb(168_85_247/0.16)_1px,transparent_1px)]"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute left-1/2 top-8 -z-10 size-80 -translate-x-1/2">
+        <div class="size-full animate-glow-drift rounded-full bg-linear-to-r from-purple-500/25 via-fuchsia-500/25 to-pink-400/25 blur-3xl motion-reduce:animate-none dark:from-purple-600/25 dark:via-fuchsia-600/20 dark:to-pink-500/15"></div>
+    </div>
+
+    <div class="mx-auto flex max-w-xl flex-col items-center text-center">
+        <img src="_content/TwBlazor.Docs/images/logo.svg" alt="" width="112" height="112" class="size-24 rounded-full shadow-xl shadow-purple-500/25 md:size-28" />
+
+        <p class="mt-6 inline-flex items-center gap-2 rounded-full border border-purple-200 bg-white/80 px-3 py-1 text-sm font-medium text-purple-800 shadow-xs dark:border-purple-500/30 dark:bg-purple-500/10 dark:text-purple-200">
+            <span class="size-1.5 rounded-full bg-fuchsia-500" aria-hidden="true"></span>
+            Error 404
+        </p>
+        <h1 id="not-found-heading" class="mt-4 text-3xl font-bold tracking-tight text-balance text-gray-950 md:text-4xl dark:text-white">
+            We can't find
+            <span class="bg-linear-to-r from-purple-700 to-fuchsia-600 bg-clip-text text-transparent dark:from-purple-400 dark:to-fuchsia-300">this page</span>
+        </h1>
+        <p class="mt-3 text-gray-700 text-pretty dark:text-gray-300">
+            There is nothing at this address. The page may have moved, or the link may have a typo in it.
+            Head home, or search the docs for what you were after.
+        </p>
+
+        <div class="mt-7 flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row">
+            <TwButton Id="not-found-home" Class="w-full justify-center sm:w-auto" Color="Color.Primary" Label="Back to home" StartIcon="IconEnum.House" Href="/" />
+            <TwButton Id="not-found-search" Class="w-full justify-center sm:w-auto" Color="Color.Accent" Variant="ButtonVariant.Outlined" Label="Search the docs" StartIcon="IconEnum.Search" OnClick="Search" />
+        </div>
+
+        <nav class="mt-8 w-full border-t border-purple-200/70 pt-6 dark:border-white/10" aria-label="Popular pages">
+            <p class="text-sm font-semibold text-purple-900 dark:text-white">Popular pages</p>
+            <ul class="mt-3 flex flex-wrap justify-center gap-2">
+                @foreach (var link in _links)
+                {
+                    <li>
+                        <a href="@link.Href" class="inline-flex items-center gap-2 rounded-full border border-purple-200 bg-white px-3 py-1.5 text-sm font-medium text-purple-900 transition-colors hover:border-fuchsia-400 hover:text-fuchsia-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600 dark:border-purple-500/30 dark:bg-purple-500/10 dark:text-purple-200 dark:hover:border-fuchsia-400 dark:hover:text-fuchsia-200">
+                            <TwIcon Icon="link.Icon" Plain /> @link.Label
+                        </a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    </div>
+</section>
+
+@code {
+    private static readonly IReadOnlyList<PopularLink> _links =
+    [
+        new("Get started", "/get-started", IconEnum.Rocket_Takeoff),
+        new("Theme", "/theme", IconEnum.Brush),
+        new("Class Merge", "/class-merge", IconEnum.Intersect),
+        new("Button", "/button", IconEnum.Hand_Index_Thumb),
+    ];
+
+    private Task Search() => DialogService.ShowAsync<SearchDisplay>(options: new TwDialogOptions { NoHeader = true });
+
+    private sealed record PopularLink(string Label, string Href, IconEnum Icon);
+}

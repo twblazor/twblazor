@@ -8,6 +8,11 @@ on:
         required: false
         default: 'Release'
         type: string
+      run-accessibility-tests:
+        description: 'Also run the accessibility (axe-core/Playwright) tests, after the unit and docs tests'
+        required: false
+        default: false
+        type: boolean
 
 jobs:
   build-and-test:
@@ -40,16 +45,27 @@ jobs:
           BUILD_CONFIGURATION: ${{ inputs.configuration }}
         run: dotnet build --configuration "$BUILD_CONFIGURATION" --no-restore
 
+      - name: Test
+        env:
+          BUILD_CONFIGURATION: ${{ inputs.configuration }}
+        run: |
+          dotnet test tests/TwBlazor.Tests/TwBlazor.Tests.csproj --configuration "$BUILD_CONFIGURATION" --no-build --verbosity normal --results-directory ./test-results -- --report-xunit-trx --report-xunit-trx-filename unit-tests.trx
+          dotnet test tests/TwBlazor.Docs.Tests/TwBlazor.Docs.Tests.csproj --configuration "$BUILD_CONFIGURATION" --no-build --verbosity normal --results-directory ./test-results -- --report-xunit-trx --report-xunit-trx-filename docs-tests.trx
+
+      # The accessibility tests start the docs site and scan every page in a real browser, so they are slower
+      # than the tests above and only run when the caller asks for them.
       - name: Install Playwright browser
+        if: ${{ inputs.run-accessibility-tests }}
         shell: pwsh
         env:
           BUILD_CONFIGURATION: ${{ inputs.configuration }}
         run: pwsh tests/TwBlazor.A11yTests/bin/$env:BUILD_CONFIGURATION/net10.0/playwright.ps1 install --with-deps chromium
 
-      - name: Test
+      - name: Accessibility tests
+        if: ${{ inputs.run-accessibility-tests }}
         env:
           BUILD_CONFIGURATION: ${{ inputs.configuration }}
-        run: dotnet test --configuration "$BUILD_CONFIGURATION" --no-build --verbosity normal --results-directory ./test-results -- --report-xunit-trx --report-xunit-trx-filename test-results.trx
+        run: dotnet test tests/TwBlazor.A11yTests/TwBlazor.A11yTests.csproj --configuration "$BUILD_CONFIGURATION" --no-build --verbosity normal --results-directory ./test-results -- --report-xunit-trx --report-xunit-trx-filename accessibility-tests.trx
 
       - name: Publish Test Results
         uses: dorny/test-reporter@a43b3a5f7366b97d083190328d2c652e1a8b6aa2 # v3.0.0

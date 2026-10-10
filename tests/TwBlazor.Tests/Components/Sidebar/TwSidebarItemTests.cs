@@ -2,6 +2,7 @@ using Bunit;
 using Microsoft.AspNetCore.Components;
 using TwBlazor.Components;
 using TwBlazor.Models;
+using Icons = TwBlazor.Enums.Icon;
 
 namespace TwBlazor.Tests.Components.Sidebar;
 
@@ -103,6 +104,59 @@ public class TwSidebarItemTests : TwBlazorTestBase
         // Assert
         Assert.Contains("hover:bg-[oklch(98%_0_0)]", classAttr);
         Assert.Contains("custom-link-class", classAttr); // appended custom class
+    }
+
+    [Theory]
+    [InlineData(true, "button")]
+    [InlineData(false, "a")]
+    public void ShouldRender_DecorativeIcon_BeforeLabel_WhenIconProvided(bool isParent, string selector)
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwSidebarItem>(p => p
+            .Add(x => x.IsParent, isParent)
+            .Add(x => x.Label, "Home")
+            .Add(x => x.Href, "/home")
+            .Add(x => x.Icon, Icons.House)
+        );
+
+        var item = cut.Find(selector);
+        var icon = item.FirstElementChild!;
+
+        // Assert
+        Assert.Equal("I", icon.TagName);
+        Assert.Contains("bi-house", icon.GetAttribute("class"));
+        Assert.Contains("shrink-0", icon.GetAttribute("class"));
+        Assert.Equal("true", icon.GetAttribute("aria-hidden"));
+        Assert.Equal("Home", item.TextContent.Trim());
+    }
+
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public void ShouldNotRender_Icon_WhenIconNotProvided(bool isParent)
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwSidebarItem>(p => p
+            .Add(x => x.IsParent, isParent)
+            .Add(x => x.Label, "Home")
+            .Add(x => x.Href, "/home")
+        );
+
+        // Assert
+        Assert.Empty(cut.FindAll("i"));
+    }
+
+    [Fact]
+    public void ShouldInitialize_Icon_FromNavigationItem_WhenProvided()
+    {
+        // Arrange
+        var navItem = new NavigationItem { Label = "Theme", Href = "/theme", Icon = Icons.Brush };
+
+        // Act
+        var cut = TestContext.Render<TwSidebarItem>(p => p.Add(x => x.NavigationItem, navItem));
+
+        // Assert
+        Assert.Contains("bi-brush", cut.Find("a > i").GetAttribute("class"));
     }
 
     [Fact]

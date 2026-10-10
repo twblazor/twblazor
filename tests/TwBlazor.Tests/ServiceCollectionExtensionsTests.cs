@@ -3,6 +3,8 @@ using TwBlazor.Builders;
 using TwBlazor.Configuration;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Services;
+using TwBlazor.Utilities;
+using TwBlazor.Utilities.ClassMerge;
 using ThemeBase = TwBlazor.Theme.Theme;
 
 namespace TwBlazor.Tests;
@@ -45,6 +47,44 @@ public class ServiceCollectionExtensionsTests
 
         // Assert
         Assert.True(configureWasCalled);
+    }
+
+    [Fact]
+    public void AddTwBlazor_WithoutClassMergeConfiguration_MergesWithTheDefaults()
+    {
+        // Arrange
+        var services = new ServiceCollection();
+
+        // Act
+        services.AddTwBlazor(ThemeBase.CreateDefaultTheme());
+        var options = services.BuildServiceProvider().GetRequiredService<TwBlazorOptions>();
+
+        // Assert
+        Assert.True(options.ClassMerge.Enabled);
+        Assert.Empty(options.ClassMerge.Groups);
+        Assert.Equal("px-2", new ClassBuilder("px-4 px-2").Build());
+    }
+
+    [Fact]
+    public void AddTwBlazor_WithClassMergeConfiguration_AppliesItToClassBuilder()
+    {
+        // Arrange
+        var services = new ServiceCollection();
+
+        try
+        {
+            // Act
+            services.AddTwBlazor(
+                options => options.ClassMerge.Groups.Add(new TwClassGroup("service-collection-test", ["service-collection-test"])),
+                ThemeBase.CreateDefaultTheme());
+
+            // Assert
+            Assert.Equal("service-collection-test-b", new ClassBuilder("service-collection-test-a service-collection-test-b").Build());
+        }
+        finally
+        {
+            TwClassMerger.Configure(new TwClassMergeOptions());
+        }
     }
 
     [Fact]

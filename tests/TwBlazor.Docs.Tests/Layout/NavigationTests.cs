@@ -52,6 +52,22 @@ public class NavigationTests : DocsTestBase
     }
 
     [Fact]
+    public void Sidebar_GroupsThemeAndClassMerge_UnderConfiguration()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<Navigation>();
+
+        // Assert
+        var toggle = cut.Find("#configuration");
+        Assert.Contains("Configuration", toggle.TextContent);
+
+        var hrefs = cut.FindAll("a").Select(a => a.GetAttribute("href")).ToList();
+        Assert.Contains("/theme", hrefs);
+        Assert.Contains("/class-merge", hrefs);
+        Assert.True(hrefs.IndexOf("/theme") < hrefs.IndexOf("/class-merge"));
+    }
+
+    [Fact]
     public void Sidebar_HasNoSeparateThemeBuilderEntry()
     {
         // Arrange & Act

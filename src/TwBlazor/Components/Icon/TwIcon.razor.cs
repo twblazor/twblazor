@@ -160,7 +160,7 @@ public partial class TwIcon : TwBlazorComponentBase
         .Build();
 
     private string iconClasses => new ClassBuilder($"bi bi-{iconName}")
-        .AddClass(Class)
         .AddClass(color)
+        .AddClass(Class)
         .Build();
 }

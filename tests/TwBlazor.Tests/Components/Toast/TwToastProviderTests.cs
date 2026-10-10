@@ -272,7 +272,7 @@ public class TwToastProviderTests : TwBlazorTestBase
 
         // Assert
         var toast = cut.Find("div[role='alert']");
-        Assert.Contains(expected, toast.GetAttribute("class"));
+        Assert.Contains(string.Join(' ', expected.Split(' ', StringSplitOptions.RemoveEmptyEntries)), toast.GetAttribute("class"));
     }
 
     [Fact]

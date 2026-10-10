@@ -37,11 +37,12 @@
     #region CodeExample SidebarNavigationItemsCode
     private readonly List<NavigationItem> _navigationItems =
     [
-        new() { Id = "dashboard", Label = "Dashboard", Href = "/dashboard" },
+        new() { Id = "dashboard", Label = "Dashboard", Href = "/dashboard", Icon = Icon.Speedometer2 },
         new()
         {
             Id = "content",
             Label = "Content",
+            Icon = Icon.Collection,
             NavigationItems =
             [
                 new() { Id = "posts", Label = "Posts", Href = "/posts" },
@@ -53,6 +54,7 @@
         {
             Id = "settings",
             Label = "Settings",
+            Icon = Icon.Gear,
             NavigationItems =
             [
                 new() { Id = "profile", Label = "Profile", Href = "/profile" },

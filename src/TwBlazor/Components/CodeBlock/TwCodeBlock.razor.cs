@@ -83,13 +83,13 @@ public partial class TwCodeBlock : TwBlazorComponentBase, IAsyncDisposable
         .Build();
 
     private string classes =>
-        new ClassBuilder(Class)
-        .AddClass(shadowBuilder.GetShadow(effectiveShadow))
+        new ClassBuilder(shadowBuilder.GetShadow(effectiveShadow))
         .AddClass(roundedBuilder.GetRounded(effectiveRounded))
         .AddClass(options.Theme.Position.Relative)
         .AddClass(options.Theme.Display.Flex)
         .AddClass(options.Theme.Flexbox.Col)
-        .AddClass(theme.Container).Build();
+        .AddClass(theme.Container)
+        .AddClass(Class).Build();
 
     private ElementReference codeBlock { get; set; }
 
