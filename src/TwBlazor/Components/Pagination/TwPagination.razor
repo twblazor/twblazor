@@ -2,7 +2,10 @@
 @inherits TwBlazorComponentBase
 
 <div class="@rootClasses">
-    <span class="@options.Theme.Display.ScreenReaderOnly" role="status" aria-live="polite">@statusMessage</span>
+    @if (AnnouncePageChanges)
+    {
+        <span class="@options.Theme.Display.ScreenReaderOnly" role="status" aria-live="polite">@statusMessage</span>
+    }
     <nav id="@Id" aria-label="@(AriaLabel ?? "pagination")" aria-labelledby="@AriaLabelledBy" style="@Style" @attributes="@Attributes">
         <ul class="@listClasses">
             <li>

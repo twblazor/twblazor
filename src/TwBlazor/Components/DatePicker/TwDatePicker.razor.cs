@@ -295,7 +295,7 @@ public partial class TwDatePicker : TwPopoverPickerComponentBase
         if (!success)
         {
             Invalid = true;
-            ErrorMessage = "Enter a valid date";
+            ErrorMessage = $"Enter a valid date, for example {DateTime.Today.ToString(effectiveFormat, effectiveCulture)}";
             Value = date;
             return;
         }

@@ -111,6 +111,9 @@ public partial class TwCodeBlock : TwBlazorComponentBase, IAsyncDisposable
         try
         {
             await jSRuntime.InvokeVoidAsync("twCodeBlock.highlightElement", cancellationTokenSource.Token, codeBlock);
+
+            // After highlighting, since that is what gives the element its final size and overflow.
+            await jSRuntime.InvokeVoidAsync("twScrollRegion.observe", cancellationTokenSource.Token, codeBlock);
         }
         catch (TaskCanceledException)
         {

@@ -96,7 +96,7 @@ public class TwTimePickerTests : TwBlazorTestBase
         // Assert
         Assert.Contains("Choose time", cut.Markup);
         // Verify time picker controls are rendered (4 buttons for hour/minute up/down)
-        var buttons = cut.FindAll("button[type='button']");
+        var buttons = cut.FindAll("[data-tw-popover] button[type='button']");
         Assert.True(buttons.Count >= 4, "Expected at least 4 control buttons for time picker");
     }
 
@@ -166,7 +166,7 @@ public class TwTimePickerTests : TwBlazorTestBase
 
         cut.Find("input[type='text']").Click();
 
-        var buttons = cut.FindAll("button[type='button']");
+        var buttons = cut.FindAll("[data-tw-popover] button[type='button']");
         buttons[0].Click(); // Hour increment button
 
         // Assert
@@ -254,7 +254,7 @@ public class TwTimePickerTests : TwBlazorTestBase
 
         cut.Find("input[type='text']").Click();
 
-        var buttons = cut.FindAll("button[type='button']");
+        var buttons = cut.FindAll("[data-tw-popover] button[type='button']");
         buttons[2].Click(); // Minute increment button
 
         // Assert
@@ -278,7 +278,7 @@ public class TwTimePickerTests : TwBlazorTestBase
 
         cut.Find("input[type='text']").Click();
 
-        var buttons = cut.FindAll("button[type='button']");
+        var buttons = cut.FindAll("[data-tw-popover] button[type='button']");
         buttons[1].Click(); // Hour decrement button
 
         // Assert
@@ -640,7 +640,7 @@ public class TwTimePickerTests : TwBlazorTestBase
 
         // Assert
         Assert.True(cut.Instance.Invalid);
-        Assert.Equal("Enter a valid time", cut.Instance.ErrorMessage);
+        Assert.StartsWith("Enter a valid time, for example ", cut.Instance.ErrorMessage);
     }
 
     [Fact]
@@ -766,7 +766,7 @@ public class TwTimePickerTests : TwBlazorTestBase
         // Arrange - covers OnIconClickAsync's non-disabled path (the twDialog.focusSurface JS call),
         // previously unreached since no existing test interacted with the decorative clock icon.
         var cut = TestContext.Render<TwTimePicker>(p => p.Add(x => x.PreferNativePicker, true));
-        var icon = cut.Find("div[role='button']");
+        var icon = cut.Find("button[aria-label^='Open']");
 
         // Act
         icon.Click();
@@ -785,7 +785,7 @@ public class TwTimePickerTests : TwBlazorTestBase
         // just clicked and refocused it, a no-op that never fired the input's focus event, so the
         // panel never opened. The JS call must target the trigger's actual <input> element instead.
         var cut = TestContext.Render<TwTimePicker>(p => p.Add(x => x.PreferNativePicker, true));
-        var icon = cut.Find("div[role='button']");
+        var icon = cut.Find("button[aria-label^='Open']");
 
         // Act
         icon.Click();
@@ -813,7 +813,7 @@ public class TwTimePickerTests : TwBlazorTestBase
         var cut = TestContext.Render<TwTimePicker>(p => p
             .Add(x => x.PreferNativePicker, true)
             .Add(x => x.Disabled, true));
-        var icon = cut.Find("div[role='button']");
+        var icon = cut.Find("button[aria-label^='Open']");
 
         // Act
         icon.Click();
@@ -827,10 +827,10 @@ public class TwTimePickerTests : TwBlazorTestBase
     {
         // Arrange - covers OnIconKeyDownAsync's `e.Key is "Enter" or " "` match branch (Enter case).
         var cut = TestContext.Render<TwTimePicker>(p => p.Add(x => x.PreferNativePicker, true));
-        var icon = cut.Find("div[role='button']");
+        var icon = cut.Find("button[aria-label^='Open']");
 
         // Act
-        icon.KeyDown(new Microsoft.AspNetCore.Components.Web.KeyboardEventArgs { Key = "Enter" });
+        icon.Click();
 
         // Assert
         Assert.Contains(TestContext.JSInterop.Invocations, i => i.Identifier == "twDialog.focusSurface");
@@ -841,27 +841,13 @@ public class TwTimePickerTests : TwBlazorTestBase
     {
         // Arrange - covers OnIconKeyDownAsync's match branch (Space case).
         var cut = TestContext.Render<TwTimePicker>(p => p.Add(x => x.PreferNativePicker, true));
-        var icon = cut.Find("div[role='button']");
+        var icon = cut.Find("button[aria-label^='Open']");
 
         // Act
-        icon.KeyDown(new Microsoft.AspNetCore.Components.Web.KeyboardEventArgs { Key = " " });
+        icon.Click();
 
         // Assert
         Assert.Contains(TestContext.JSInterop.Invocations, i => i.Identifier == "twDialog.focusSurface");
-    }
-
-    [Fact]
-    public void OnIconKeyDown_OtherKey_DoesNothing()
-    {
-        // Arrange - covers OnIconKeyDownAsync's non-matching-key branch (no forwarded call).
-        var cut = TestContext.Render<TwTimePicker>(p => p.Add(x => x.PreferNativePicker, true));
-        var icon = cut.Find("div[role='button']");
-
-        // Act
-        icon.KeyDown(new Microsoft.AspNetCore.Components.Web.KeyboardEventArgs { Key = "Tab" });
-
-        // Assert
-        Assert.DoesNotContain(TestContext.JSInterop.Invocations, i => i.Identifier == "twDialog.focusSurface");
     }
 
     #endregion

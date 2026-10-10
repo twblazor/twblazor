@@ -20,11 +20,13 @@ public class TwCalendarDayColumnTests : TwBlazorTestBase
         DateTimeEnd = end
     };
 
-    private IRenderedComponent<TwCalendarDayColumn<string>> Render(Action<ComponentParameterCollectionBuilder<TwCalendarDayColumn<string>>>? configure = null) =>
+    private IRenderedComponent<TwCalendarDayColumn<string>> Render(Action<ComponentParameterCollectionBuilder<TwCalendarDayColumn<string>>>? configure = null, bool editable = true) =>
         TestContext.Render<TwCalendarDayColumn<string>>(p =>
         {
             p.Add(x => x.Date, _day);
             configure?.Invoke(p);
+            // Slots only exist in an editable calendar, which is what most of these tests exercise.
+            p.Add(x => x.Editable, editable);
         });
 
     private static IReadOnlyList<AngleSharp.Dom.IElement> Slots(IRenderedComponent<TwCalendarDayColumn<string>> cut) =>
@@ -62,7 +64,6 @@ public class TwCalendarDayColumnTests : TwBlazorTestBase
     {
         DateTime? clicked = null;
         var cut = Render(p => p
-            .Add(x => x.Editable, true)
             .Add(x => x.OnSlotClick, EventCallback.Factory.Create<DateTime>(this, d => clicked = d)));
 
         Slots(cut)[19].Click();
@@ -71,23 +72,20 @@ public class TwCalendarDayColumnTests : TwBlazorTestBase
     }
 
     [Fact]
-    public void NotEditable_SlotsAreInertAndMarkedDisabled()
+    public void NotEditable_RendersNoSlotButtons_OnlyTheGridLines()
     {
-        var clicked = false;
-        var cut = Render(p => p
-            .Add(x => x.OnSlotClick, EventCallback.Factory.Create<DateTime>(this, _ => clicked = true)));
+        var cut = Render(editable: false);
 
-        var slot = Slots(cut)[3];
-        slot.Click();
-
-        Assert.False(clicked);
-        Assert.Equal("true", slot.GetAttribute("aria-disabled"));
+        // A read-only day would otherwise put 48 unavailable buttons between a screen reader user and
+        // the day's events.
+        Assert.Empty(Slots(cut));
+        Assert.Equal(48, cut.FindAll("div[aria-hidden='true'][style^='height']").Count);
     }
 
     [Fact]
     public void Editable_SlotsAreNotMarkedDisabled()
     {
-        var cut = Render(p => p.Add(x => x.Editable, true));
+        var cut = Render();
 
         Assert.Null(Slots(cut)[3].GetAttribute("aria-disabled"));
     }
@@ -295,7 +293,6 @@ public class TwCalendarDayColumnTests : TwBlazorTestBase
         var evt = Event("Standup", _day.AddHours(9), _day.AddHours(10));
         Schedule<string>? dragged = null;
         var cut = Render(p => p
-            .Add(x => x.Editable, true)
             .Add(x => x.Events, [evt])
             .Add(x => x.OnEventDragStart, EventCallback.Factory.Create<Schedule<string>>(this, e => dragged = e)));
 
@@ -313,7 +310,6 @@ public class TwCalendarDayColumnTests : TwBlazorTestBase
         evt.ReadOnly = true;
         var dragStarted = false;
         var cut = Render(p => p
-            .Add(x => x.Editable, true)
             .Add(x => x.Events, [evt])
             .Add(x => x.OnEventDragStart, EventCallback.Factory.Create<Schedule<string>>(this, _ => dragStarted = true)));
 
@@ -327,7 +323,7 @@ public class TwCalendarDayColumnTests : TwBlazorTestBase
     [Fact]
     public void NonEditableColumn_EventsAreNotDraggable()
     {
-        var cut = Render(p => p.Add(x => x.Events, [Event("Standup", _day.AddHours(9), _day.AddHours(10))]));
+        var cut = Render(p => p.Add(x => x.Events, [Event("Standup", _day.AddHours(9), _day.AddHours(10))]), editable: false);
 
         Assert.Equal("false", Chips(cut).Single().GetAttribute("draggable"));
     }
@@ -337,7 +333,6 @@ public class TwCalendarDayColumnTests : TwBlazorTestBase
     {
         var ended = false;
         var cut = Render(p => p
-            .Add(x => x.Editable, true)
             .Add(x => x.Events, [Event("Standup", _day.AddHours(9), _day.AddHours(10))])
             .Add(x => x.OnEventDragEnd, EventCallback.Factory.Create(this, () => ended = true)));
 
@@ -351,7 +346,6 @@ public class TwCalendarDayColumnTests : TwBlazorTestBase
     {
         var evt = Event("Standup", _day.AddHours(9), _day.AddHours(10));
         var cut = Render(p => p
-            .Add(x => x.Editable, true)
             .Add(x => x.Events, [evt])
             .Add(x => x.DraggedEvent, evt));
 
@@ -364,7 +358,6 @@ public class TwCalendarDayColumnTests : TwBlazorTestBase
         DateTime? over = null;
         DateTime? dropped = null;
         var cut = Render(p => p
-            .Add(x => x.Editable, true)
             .Add(x => x.OnEventDragOver, EventCallback.Factory.Create<DateTime>(this, d => over = d))
             .Add(x => x.OnEventDrop, EventCallback.Factory.Create<DateTime>(this, d => dropped = d)));
 
@@ -376,25 +369,10 @@ public class TwCalendarDayColumnTests : TwBlazorTestBase
     }
 
     [Fact]
-    public void NotEditable_DragEnterAndDrop_AreIgnored()
-    {
-        var called = false;
-        var cut = Render(p => p
-            .Add(x => x.OnEventDragOver, EventCallback.Factory.Create<DateTime>(this, _ => called = true))
-            .Add(x => x.OnEventDrop, EventCallback.Factory.Create<DateTime>(this, _ => called = true)));
-
-        Slots(cut)[20].DragEnter();
-        Slots(cut)[20].Drop();
-
-        Assert.False(called);
-    }
-
-    [Fact]
     public void DropPlaceholder_IsSizedToTheDraggedEventAndPositionedAtThePreview()
     {
         var dragged = Event("Moving", _day.AddHours(9), _day.AddHours(11));
         var cut = Render(p => p
-            .Add(x => x.Editable, true)
             .Add(x => x.DraggedEvent, dragged)
             .Add(x => x.DropPreview, _day.AddHours(14)));
 
@@ -411,7 +389,6 @@ public class TwCalendarDayColumnTests : TwBlazorTestBase
     {
         var dragged = Event("Moving", _day.AddHours(9), _day.AddHours(13));
         var cut = Render(p => p
-            .Add(x => x.Editable, true)
             .Add(x => x.DraggedEvent, dragged)
             .Add(x => x.DropPreview, _day.AddHours(22)));
 
@@ -422,7 +399,6 @@ public class TwCalendarDayColumnTests : TwBlazorTestBase
     public void DropPlaceholder_IsNotShown_WhenThePreviewIsOnADifferentDay()
     {
         var cut = Render(p => p
-            .Add(x => x.Editable, true)
             .Add(x => x.DraggedEvent, Event("Moving", _day.AddHours(9), _day.AddHours(11)))
             .Add(x => x.DropPreview, _day.AddDays(1).AddHours(9)));
 
@@ -433,7 +409,6 @@ public class TwCalendarDayColumnTests : TwBlazorTestBase
     public void DropPlaceholder_IsNotShown_WithoutAPreview()
     {
         var cut = Render(p => p
-            .Add(x => x.Editable, true)
             .Add(x => x.DraggedEvent, Event("Moving", _day.AddHours(9), _day.AddHours(11))));
 
         Assert.Empty(cut.FindAll("div[aria-hidden='true']"));
@@ -444,16 +419,15 @@ public class TwCalendarDayColumnTests : TwBlazorTestBase
     {
         var cut = Render(p => p
             .Add(x => x.DraggedEvent, Event("Moving", _day.AddHours(9), _day.AddHours(11)))
-            .Add(x => x.DropPreview, _day.AddHours(9)));
+            .Add(x => x.DropPreview, _day.AddHours(9)), editable: false);
 
-        Assert.Empty(cut.FindAll("div[aria-hidden='true']"));
+        Assert.Empty(cut.FindAll("div[aria-hidden='true']:not([style^='height'])"));
     }
 
     [Fact]
     public void DropPlaceholder_IsNotShown_ForAllDayEvents()
     {
         var cut = Render(p => p
-            .Add(x => x.Editable, true)
             .Add(x => x.DraggedEvent, Event("Holiday", _day, _day.AddDays(1)))
             .Add(x => x.DropPreview, _day.AddHours(9)));
 

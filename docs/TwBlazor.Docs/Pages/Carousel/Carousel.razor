@@ -4,7 +4,7 @@
     <PageCard Title="Basic carousel">
         <Description>Use <code>TwCarousel</code> and <code>TwCarouselItem</code> to cycle through a set of slides. Only the active slide is rendered.</Description>
         <CodeExample Name="CarouselBasic">
-            <TwCarousel Style="height:240px;">
+            <TwCarousel AriaLabel="Example carousel 1" Style="height:240px;">
                 <TwCarouselItem>
                     <div class="flex h-full items-center justify-center bg-purple-600 text-white text-xl font-semibold">Slide 1</div>
                 </TwCarouselItem>
@@ -27,7 +27,7 @@
                     <TwButton Label="@fit.Label" Color="Color.Primary" Variant="@(selectedObjectFit == fit.Class ? ButtonVariant.Filled : ButtonVariant.Outlined)" OnClick="@(() => selectedObjectFit = fit.Class)" />
                 }
             </div>
-            <TwCarousel Style="height:500px;">
+            <TwCarousel AriaLabel="Example carousel 2" Style="height:500px;">
                 <TwCarouselItem>
                     <img src="_content/TwBlazor.Docs/images/placeholder-1.webp" alt="Placeholder 1" class="@($"h-full w-full {selectedObjectFit}")" />
                 </TwCarouselItem>
@@ -47,7 +47,7 @@
     <PageCard Title="Autoplay">
         <Description>Set <code>AutoPlay</code> to automatically advance slides. A pause/play control is always shown so playback can be stopped, and it also pauses automatically while hovered or focused.</Description>
         <CodeExample Name="CarouselAutoPlay">
-            <TwCarousel Style="height:240px;" AutoPlay AutoPlayInterval="TimeSpan.FromSeconds(3)">
+            <TwCarousel AriaLabel="Example carousel 3" Style="height:240px;" AutoPlay AutoPlayInterval="TimeSpan.FromSeconds(3)">
                 <TwCarouselItem>
                     <div class="flex h-full items-center justify-center bg-green-800 text-white text-xl font-semibold">Slide 1</div>
                 </TwCarouselItem>
@@ -64,7 +64,7 @@
     <PageCard Title="Indicator color">
         <Description>Set <code>Color</code> to customize the active slide indicator's color.</Description>
         <CodeExample Name="CarouselColor">
-            <TwCarousel Style="height:240px;" Color="Color.Success">
+            <TwCarousel AriaLabel="Example carousel 4" Style="height:240px;" Color="Color.Success">
                 <TwCarouselItem>
                     <div class="flex h-full items-center justify-center bg-gray-700 text-white text-xl font-semibold">Slide 1</div>
                 </TwCarouselItem>
@@ -81,7 +81,7 @@
     <PageCard Title="Without arrows or indicators">
         <Description>Set <code>ShowArrows</code> and <code>ShowIndicators</code> to <code>false</code> to rely on swipe gestures or programmatic navigation only.</Description>
         <CodeExample Name="CarouselNoControls">
-            <TwCarousel Style="height:240px;" ShowArrows="false" ShowIndicators="false">
+            <TwCarousel AriaLabel="Example carousel 5" Style="height:240px;" ShowArrows="false" ShowIndicators="false">
                 <TwCarouselItem>
                     <div class="flex h-full items-center justify-center bg-indigo-600 text-white text-xl font-semibold">Slide 1</div>
                 </TwCarouselItem>
@@ -95,7 +95,7 @@
     <PageCard Title="Non-looping">
         <Description>Set <code>Loop</code> to <code>false</code> to disable the arrow buttons at the first and last slide instead of wrapping around.</Description>
         <CodeExample Name="CarouselNoLoop">
-            <TwCarousel Style="height:240px;" Loop="false">
+            <TwCarousel AriaLabel="Example carousel 6" Style="height:240px;" Loop="false">
                 <TwCarouselItem>
                     <div class="flex h-full items-center justify-center bg-orange-800 text-white text-xl font-semibold">Slide 1</div>
                 </TwCarouselItem>
@@ -113,7 +113,7 @@
         <Description>Bind <code>SelectedIndex</code> to control or observe the active slide from outside the carousel.</Description>
         <CodeExample Name="CarouselBoundIndex">
             <p class="mb-2">Selected slide: @(selectedIndex + 1)</p>
-            <TwCarousel Style="height:240px;" @bind-SelectedIndex="selectedIndex">
+            <TwCarousel AriaLabel="Example carousel 7" Style="height:240px;" @bind-SelectedIndex="selectedIndex">
                 <TwCarouselItem>
                     <div class="flex h-full items-center justify-center bg-purple-700 text-white text-xl font-semibold">Slide 1</div>
                 </TwCarouselItem>
@@ -130,7 +130,7 @@
     <PageCard Title="Custom previous/next controls">
         <Description>Set <code>LeftNavigation</code> and <code>RightNavigation</code> to render your own previous/next controls instead of the default arrow buttons. Each is a <code>RenderFragment&lt;TwCarousel&gt;</code>, so its <code>context</code> exposes the carousel's public API (<code>PreviousSlide</code>, <code>NextSlide</code>, <code>GoToSlide</code>, <code>ToggleAutoPlayPaused</code>, and more) for your own markup to call.</Description>
         <CodeExample Name="CarouselCustomNavigation">
-            <TwCarousel Style="height:240px;">
+            <TwCarousel AriaLabel="Example carousel 8" Style="height:240px;">
                 <LeftNavigation>
                     <TwButton Plain Class="absolute bottom-3 start-3 z-10 px-3 py-1.5 rounded-md bg-white text-purple-700 text-xs font-bold uppercase tracking-wide shadow-lg hover:bg-purple-50 transition-colors" AriaLabel="Previous slide" OnClick="context.PreviousSlide">
                         Prev
@@ -159,7 +159,7 @@
     <PageCard Title="Custom indicators">
         <Description>Set <code>Indicators</code> to render your own slide-picker controls instead of the default dots. Its <code>context</code> exposes <code>SelectedIndex</code> and <code>GoToSlide</code> so your markup can both reflect and drive the active slide.</Description>
         <CodeExample Name="CarouselCustomIndicators">
-            <TwCarousel Style="height:240px;">
+            <TwCarousel AriaLabel="Example carousel 9" Style="height:240px;">
                 <Indicators>
                     <div class="absolute bottom-2 inset-x-0 z-10 w-fit mx-auto flex justify-center gap-2">
                         @for (var i = 0; i < 3; i++)

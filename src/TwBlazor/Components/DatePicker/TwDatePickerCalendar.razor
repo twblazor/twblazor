@@ -13,7 +13,7 @@
                 var yearDate = new DateTime(year, AnchorDate.Month, 1, 0, 0, 0, DateTimeKind.Unspecified);
                 var isSelectedYear = SelectedDate.HasValue && year == SelectedDate.Value.Year;
                 var isCurrentYear = ShowTodayIndicator && year == today.Year;
-                <button type="button" class="@GetButtonClasses("year", isSelectedYear, isCurrentYear)" aria-pressed="@(isSelectedYear ? "true" : "false")" aria-current="@(isCurrentYear ? "date" : null)" @onclick="@(() => SelectYear(yearDate))">
+                <button type="button" class="@GetButtonClasses("year", isSelectedYear, isCurrentYear)" aria-pressed="@(isSelectedYear ? "true" : "false")" aria-current="@(isCurrentYear ? "date" : null)" data-tw-autofocus="@(year == AnchorDate.Year)" @onclick="@(() => SelectYear(yearDate))">
                     @yearDate.ToString("yyyy")
                 </button>
             }
@@ -32,7 +32,7 @@ else if (View == DatePickerCalendarView.Month)
                 var monthDate = new DateTime(AnchorDate.Year, month, 1, 0, 0, 0, DateTimeKind.Unspecified);
                 var isSelectedMonth = SelectedDate.HasValue && AnchorDate.Year == SelectedDate.Value.Year && month == SelectedDate.Value.Month;
                 var isCurrentMonth = ShowTodayIndicator && AnchorDate.Year == today.Year && month == today.Month;
-                <button type="button" class="@GetButtonClasses("month", isSelectedMonth, isCurrentMonth)" aria-pressed="@(isSelectedMonth ? "true" : "false")" aria-current="@(isCurrentMonth ? "date" : null)" @onclick="@(() => SelectMonth(monthDate))">
+                <button type="button" class="@GetButtonClasses("month", isSelectedMonth, isCurrentMonth)" aria-pressed="@(isSelectedMonth ? "true" : "false")" aria-current="@(isCurrentMonth ? "date" : null)" aria-label="@monthDate.ToString("MMMM yyyy")" data-tw-autofocus="@(month == AnchorDate.Month)" @onclick="@(() => SelectMonth(monthDate))">
                     @monthDate.ToString("MMM")
                 </button>
             }

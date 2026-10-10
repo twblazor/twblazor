@@ -484,6 +484,16 @@ public partial class TwSelect<T> : TwPopoverPickerComponentBase
         selectedValueIds = newIds;
         SelectedValues = [.. orderedSelectedValueIds.Select(x => parsedValues[x])];
 
+        try
+        {
+            // The chip's remove button goes with the chip, so focus moves to the field it belonged to.
+            await JSRuntime.InvokeVoidAsync("twFocus.focusById", Id);
+        }
+        catch (JSDisconnectedException)
+        {
+            // The circuit disconnected; there is no focus left to move.
+        }
+
         if (SelectedValuesChanged.HasDelegate)
         {
             await SelectedValuesChanged.InvokeAsync(SelectedValues);

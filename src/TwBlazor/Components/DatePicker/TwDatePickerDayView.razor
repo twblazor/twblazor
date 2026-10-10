@@ -70,7 +70,10 @@
                             var today = Value.Kind == DateTimeKind.Utc ? DateTime.UtcNow.Date : DateTime.Today;
                             var isToday = thisDate!.Value.Date == today;
                             var fullDate = new DateTime(Value.Year, Value.Month, cell.Value.DayNumber, Value.Hour, Value.Minute, Value.Second, Value.Kind);
-                            <button type="button" class="@GetButtonClasses(isSelected, isToday, isRangeStart, isRangeEnd, isInRange, isDisabled)"
+                            @* Keyed by date: without it Blazor reuses last month's buttons by position, their
+                               element references are never captured again, and focus cannot follow the keyboard
+                               onto the new page. *@
+                            <button type="button" @key="thisDate!.Value" class="@GetButtonClasses(isSelected, isToday, isRangeStart, isRangeEnd, isInRange, isDisabled)"
                                     tabindex="@(cell.Value.DayNumber == focusedDay ? "0" : "-1")"
                                     aria-label="@GetDayAriaLabel(thisDate!.Value, isSelected, isRangeStart, isRangeEnd, isInRange)"
                                     aria-pressed="@(isSelected ? "true" : "false")"

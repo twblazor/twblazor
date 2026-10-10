@@ -11,7 +11,7 @@
         <div class="@mobileOverlayClasses" @onclick="ToggleSidebar" aria-hidden="true"></div>
     }
 
-    <nav id="@navigationId" class="@sidebarClasses" aria-label="sidebar navigation" inert="@(!IsSidebarOpen)" @ref="navigationRef" @onkeydown="OnSidebarKeyDownAsync">
+    <nav id="@navigationId" class="@sidebarClasses" aria-label="sidebar navigation" inert="@(!IsSidebarOpen)" @ref="navigationRef">
         @if (HeaderContent != null)
         {
             @HeaderContent
@@ -28,8 +28,15 @@
 
             @SidebarContent
         </div>
+
+        @* Shown only while the sidebar is a drawer over the page, where the toggle in the top bar is covered
+           and inert. It is pinned to the drawer's top corner; Escape closes the drawer too. *@
+        @if (IsSidebarOpen)
+        {
+            <TwIcon Id="@closeButtonId" Icon="Icon.X" AriaLabel="Close sidebar" OnClick="CloseDrawerAsync" Class="@theme.DrawerCloseButton" />
+        }
     </nav>
-    <div id="main-content-root" class="@mainContentRootClasses">
+    <div id="main-content-root" class="@mainContentRootClasses" @ref="contentRootRef">
         <TwNavbar Fixed="IsNavbarFixed" Class="@NavbarClass" DisableResponsiveCollapse
                   BrandContent="NavbarBrandContent"
                   NavigationContent="NavbarNavigationContent"

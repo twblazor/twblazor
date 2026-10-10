@@ -34,7 +34,9 @@
                         <div class="@messageClasses">@toast.Message</div>
                     }
 
-                    <div class="@timestampClasses">@toast.ElapsedTimeText</div>
+                    @* Hidden from assistive technology: it changes every minute, and inside this atomic live region each
+                       change would read the whole toast out again. *@
+                    <div class="@timestampClasses" aria-hidden="true">@toast.ElapsedTimeText</div>
                 </div>
 
                 <button type="button" 

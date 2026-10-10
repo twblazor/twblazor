@@ -305,7 +305,7 @@ public partial class TwDateTimeRangePicker : TwPopoverPickerComponentBase
         if (!success)
         {
             Invalid = true;
-            ErrorMessage = "Enter a valid date range";
+            ErrorMessage = $"Enter a valid date range, for example {FormatRange(new KeyValuePair<DateTime?, DateTime?>(DateTime.Today.AddHours(9), DateTime.Today.AddDays(1).AddHours(17)))}";
             Value = text;
             return;
         }

@@ -7,12 +7,22 @@
     {
         var slotIndex = slot;
         var slotTime = Date.Date.AddMinutes(slotIndex * minutesPerSlot);
+        @* A slot is a button only so that an event can be created in it. Read-only, it would be one of
+           hundreds of unavailable buttons between a screen reader user and the day's events, so only the
+           grid line is drawn. *@
+        if (!Editable)
+        {
+            <div class="@GetSlotClasses()"
+                 style="@($"height:{slotHeightRem.ToString(System.Globalization.CultureInfo.InvariantCulture)}rem;")"
+                 aria-hidden="true"></div>
+            continue;
+        }
+
         <button type="button"
                 class="@GetSlotClasses()"
                 style="@($"height:{slotHeightRem.ToString(System.Globalization.CultureInfo.InvariantCulture)}rem;")"
                 tabindex="@(slotIndex == focusedSlot ? "0" : "-1")"
                 aria-label="@slotTime.ToString("h:mm tt")"
-                aria-disabled="@(Editable ? null : "true")"
                 @ref="GetSlotRef(slotIndex).Element"
                 @onclick="@(() => OnSlotClickedAsync(slotIndex))"
                 @onfocus="@(() => OnSlotFocusedAsync(slotIndex))"

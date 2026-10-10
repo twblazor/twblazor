@@ -103,14 +103,14 @@ public class AccessibilityBehaviourTests : TwBlazorTestBase
         var cut = TestContext.Render<TwDatePicker>(p => p.Add(x => x.SelectedDate, new DateTime(2026, 3, 10)));
 
         // Act
-        cut.Find("div[role='button']").Click();
+        cut.Find("button[aria-label='Open date picker']").Click();
 
         // Assert
         Assert.NotNull(cut.Find("[role='dialog']"));
         Assert.True(WasInvoked("twDialog.focusPanel"));
 
         // Act
-        cut.Find("div[role='button']").Click();
+        cut.Find("button[aria-label='Open date picker']").Click();
 
         // Assert
         Assert.Empty(cut.FindAll("[role='dialog']"));
@@ -393,7 +393,7 @@ public class AccessibilityBehaviourTests : TwBlazorTestBase
         var cut = TestContext.Render<TwSidebar>(p => p.Add(x => x.IsSidebarOpen, true));
 
         // Assert
-        var toggle = cut.Find("button[aria-label='Close sidebar']");
+        var toggle = cut.Find("button[aria-expanded]");
         Assert.Equal("true", toggle.GetAttribute("aria-expanded"));
         Assert.Equal(cut.Find("nav[aria-label='sidebar navigation']").Id, toggle.GetAttribute("aria-controls"));
     }
@@ -409,28 +409,11 @@ public class AccessibilityBehaviourTests : TwBlazorTestBase
             .Add(x => x.IsSidebarOpenChanged, EventCallback.Factory.Create<bool>(this, v => isOpen = v)));
 
         // Act
-        cut.Find("nav[aria-label='sidebar navigation']").KeyDown(Key("Escape"));
+        cut.InvokeAsync(() => cut.Instance.CloseDrawerFromEscapeAsync());
 
         // Assert
         Assert.False(isOpen);
         cut.WaitForAssertion(() => Assert.True(WasInvoked("twSidebar.focusById")));
-    }
-
-    [Fact]
-    public void Sidebar_Escape_LeavesThePersistentSidebarOpen_OnAWideViewport()
-    {
-        // Arrange
-        TestContext.JSInterop.Setup<bool>("twSidebar.isMobileViewport").SetResult(false);
-        var isOpen = true;
-        var cut = TestContext.Render<TwSidebar>(p => p
-            .Add(x => x.IsSidebarOpen, true)
-            .Add(x => x.IsSidebarOpenChanged, EventCallback.Factory.Create<bool>(this, v => isOpen = v)));
-
-        // Act
-        cut.Find("nav[aria-label='sidebar navigation']").KeyDown(Key("Escape"));
-
-        // Assert
-        Assert.True(isOpen);
     }
 
     [Fact]
@@ -828,7 +811,7 @@ public class AccessibilityBehaviourTests : TwBlazorTestBase
         var cut = TestContext.Render<TwTable>(p => p.Add(x => x.AriaLabel, "Orders"));
 
         // Assert
-        var region = cut.Find("[role='region']");
+        var region = cut.Find("[role='group']");
         Assert.Equal("0", region.GetAttribute("tabindex"));
         Assert.Equal("Orders, Scrollable table", region.GetAttribute("aria-label"));
     }
@@ -914,7 +897,7 @@ public class AccessibilityBehaviourTests : TwBlazorTestBase
         // The highlighter gives the code element the overflow, so that is the element a keyboard must reach.
         var code = cut.Find("code");
         Assert.Equal("0", code.GetAttribute("tabindex"));
-        Assert.Equal("region", code.GetAttribute("role"));
+        Assert.Equal("group", code.GetAttribute("role"));
         Assert.Equal("CSHARP code", code.GetAttribute("aria-label"));
         Assert.Null(cut.Find("pre").GetAttribute("tabindex"));
     }

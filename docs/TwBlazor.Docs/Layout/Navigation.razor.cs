@@ -160,7 +160,7 @@ public partial class Navigation : IDisposable
         themeStatusMessage = isDark ? "Dark theme on" : "Light theme on";
     }
 
-    private async Task SearchDialog() => await dialogService.ShowAsync<SearchDisplay>(options: new TwDialogOptions { NoHeader = true });
+    private async Task SearchDialog() => await dialogService.ShowAsync<SearchDisplay>("Search documentation", new TwDialogOptions { NoHeader = true });
 
     public void Dispose()
     {

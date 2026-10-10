@@ -96,7 +96,7 @@ public class TwTimeRangePickerTests : TwBlazorTestBase
 
         // Act - editing while the Start tab is active applies straight to the start time.
         cut.Find("input").Click();
-        var timeButtons = cut.FindAll("button[type='button']").TakeLast(4).ToList();
+        var timeButtons = cut.FindAll("[data-tw-popover] button[type='button']").TakeLast(4).ToList();
         timeButtons[0].Click(); // hour increment: 09:00 -> 10:00
 
         // Assert
@@ -118,7 +118,7 @@ public class TwTimeRangePickerTests : TwBlazorTestBase
         // Act
         cut.Find("input").Click();
         cut.FindAll("[role='group'][aria-label='Range step'] button").First(b => b.TextContent.Trim() == "End").Click();
-        var timeButtons = cut.FindAll("button[type='button']").TakeLast(4).ToList();
+        var timeButtons = cut.FindAll("[data-tw-popover] button[type='button']").TakeLast(4).ToList();
         timeButtons[2].Click(); // minute increment: 17:00 -> 17:01
 
         // Assert
@@ -202,7 +202,7 @@ public class TwTimeRangePickerTests : TwBlazorTestBase
         // Assert
         Assert.False(callbackInvoked);
         Assert.True(cut.Instance.Invalid);
-        Assert.Equal("Enter a valid time range", cut.Instance.ErrorMessage);
+        Assert.StartsWith("Enter a valid time range, for example ", cut.Instance.ErrorMessage);
     }
 
     [Fact]

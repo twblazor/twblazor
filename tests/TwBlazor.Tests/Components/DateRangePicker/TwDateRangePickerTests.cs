@@ -210,7 +210,7 @@ public class TwDateRangePickerTests : TwBlazorTestBase
         // Assert
         Assert.False(callbackInvoked);
         Assert.True(cut.Instance.Invalid);
-        Assert.Equal("Enter a valid date range", cut.Instance.ErrorMessage);
+        Assert.StartsWith("Enter a valid date range, for example ", cut.Instance.ErrorMessage);
     }
 
     [Fact]

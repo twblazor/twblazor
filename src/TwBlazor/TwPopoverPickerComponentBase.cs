@@ -227,6 +227,23 @@ public abstract class TwPopoverPickerComponentBase : TwBlazorTextInputComponentB
     protected virtual ElementReference? triggerInputRef => null;
 
     /// <summary>
+    /// The <c>aria-expanded</c> value for the trigger's icon button, which opens and closes the panel.
+    /// Omitted when the browser's native picker is in use, since the button then only moves focus.
+    /// </summary>
+    protected string? iconExpanded
+    {
+        get
+        {
+            if (UseNativePicker)
+            {
+                return null;
+            }
+
+            return isFocused ? "true" : "false";
+        }
+    }
+
+    /// <summary>
     /// Handles the trigger's icon button: opens the panel and moves focus into it, or closes the panel
     /// when it is already open.
     /// </summary>
@@ -381,6 +398,13 @@ public abstract class TwPopoverPickerComponentBase : TwBlazorTextInputComponentB
     /// </summary>
     private async Task ClosePanelAsync()
     {
+        // Escape reaches this from the panel, from the field and from the document-level listener, and
+        // more than one of them can fire for a single press.
+        if (!isFocused)
+        {
+            return;
+        }
+
         await ReleasePanelTrapAsync();
         isFocused = false;
         PendingPanelFocus = false;
@@ -413,7 +437,7 @@ public abstract class TwPopoverPickerComponentBase : TwBlazorTextInputComponentB
     {
         if (registeredOutsideHandler) return;
         dotNetRef ??= DotNetObjectReference.Create(this);
-        await JSRuntime.InvokeVoidAsync("twPicker.registerOutsideClick", InputRoot?.RootRef, dotNetRef);
+        await JSRuntime.InvokeVoidAsync("twPicker.registerOutsideClick", InputRoot?.RootRef, dotNetRef, inertOwner);
         registeredOutsideHandler = true;
     }
 
@@ -426,7 +450,7 @@ public abstract class TwPopoverPickerComponentBase : TwBlazorTextInputComponentB
     protected async Task UnregisterOutsideClickAsync()
     {
         if (!registeredOutsideHandler) return;
-        await JSRuntime.InvokeVoidAsync("twPicker.unregisterOutsideClick", InputRoot?.RootRef);
+        await JSRuntime.InvokeVoidAsync("twPicker.unregisterOutsideClick", InputRoot?.RootRef, inertOwner);
         ReleaseOutsideClickHandle();
     }
 
@@ -472,12 +496,27 @@ public abstract class TwPopoverPickerComponentBase : TwBlazorTextInputComponentB
     {
         try
         {
+            // A picker destroyed while its panel is open (the page navigated, or the dialog around it
+            // closed) never ran its close path. Its claim on the page's inert state has to be lifted
+            // here, or everything it made inert stays unusable until the page is reloaded.
+            if (isFocused || panelTrapApplied)
+            {
+                isFocused = false;
+                panelTrapApplied = false;
+                await JSRuntime.InvokeVoidAsync("twDialog.clearBackgroundInert", inertOwner);
+            }
+
             await UnregisterOutsideClickAsync();
         }
         catch (JSDisconnectedException)
         {
             // The circuit is already gone, so there is nothing left on the client to unregister;
             // release what is held here instead of letting disposal throw.
+            ReleaseOutsideClickHandle();
+        }
+        catch (InvalidOperationException)
+        {
+            // JS interop is unavailable during teardown (e.g. prerendering).
             ReleaseOutsideClickHandle();
         }
 

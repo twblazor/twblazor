@@ -206,7 +206,7 @@ public partial class TwTimeRangePicker : TwPopoverPickerComponentBase
         if (!success)
         {
             Invalid = true;
-            ErrorMessage = "Enter a valid time range";
+            ErrorMessage = $"Enter a valid time range, for example {FormatRange(new KeyValuePair<TimeOnly?, TimeOnly?>(new TimeOnly(9, 0), new TimeOnly(17, 30)))}";
             Value = text;
             return;
         }

@@ -219,7 +219,7 @@ public class TwDatePickerTests : TwBlazorTestBase
         Assert.Equal("true", input.GetAttribute("aria-invalid"));
 
         var error = cut.Find("[role='alert']");
-        Assert.Equal("Enter a valid date", error.TextContent);
+        Assert.StartsWith("Enter a valid date, for example ", error.TextContent);
     }
 
     [Fact]
@@ -839,7 +839,7 @@ public class TwDatePickerTests : TwBlazorTestBase
 
         // Assert
         Assert.True(cut.Instance.Invalid);
-        Assert.Equal("Enter a valid date", cut.Instance.ErrorMessage);
+        Assert.StartsWith("Enter a valid date, for example ", cut.Instance.ErrorMessage);
     }
 
     [Fact]
@@ -997,40 +997,6 @@ public class TwDatePickerTests : TwBlazorTestBase
 
         // Act
         cut.Find("[aria-label='Open date picker']").Click();
-
-        // Assert
-        Assert.DoesNotContain(TestContext.JSInterop.Invocations, i => i.Identifier == "twDialog.focusSurface");
-    }
-
-    [Theory]
-    [InlineData("Enter")]
-    [InlineData(" ")]
-    public void CalendarIconKeyDown_EnterOrSpace_FocusesTriggerViaJsInterop(string key)
-    {
-        // Arrange
-        var cut = TestContext.Render<TwDatePicker>(p => p
-            .Add(x => x.PreferNativePicker, true)
-            .Add(x => x.SelectedDate, new DateTime(2025, 11, 1))
-        );
-
-        // Act
-        cut.Find("[aria-label='Open date picker']").KeyDown(new KeyboardEventArgs { Key = key });
-
-        // Assert
-        Assert.Contains(TestContext.JSInterop.Invocations, i => i.Identifier == "twDialog.focusSurface");
-    }
-
-    [Fact]
-    public void CalendarIconKeyDown_OtherKey_DoesNotInvokeJsInterop()
-    {
-        // Arrange
-        var cut = TestContext.Render<TwDatePicker>(p => p
-            .Add(x => x.PreferNativePicker, true)
-            .Add(x => x.SelectedDate, new DateTime(2025, 11, 1))
-        );
-
-        // Act
-        cut.Find("[aria-label='Open date picker']").KeyDown(new KeyboardEventArgs { Key = "Tab" });
 
         // Assert
         Assert.DoesNotContain(TestContext.JSInterop.Invocations, i => i.Identifier == "twDialog.focusSurface");

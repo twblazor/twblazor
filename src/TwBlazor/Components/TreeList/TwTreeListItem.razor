@@ -26,7 +26,7 @@
         {
             @* The tree item itself carries aria-checked and toggles with Space, so the visual checkbox is for
                the pointer only: out of the tab order and hidden from assistive technology. *@
-            <span class="@theme.CheckboxWrapper" aria-hidden="true" @onclick:stopPropagation="true">
+            <span class="@theme.CheckboxWrapper" aria-hidden="true" @onclick:stopPropagation="true" @onmousedown:preventDefault="true">
                 <TwCheckbox T="bool?"
                             tabindex="-1"
                             RootClass="@($"{options.Theme.Display.Flex} {options.Theme.Flexbox.Align.Center}")"

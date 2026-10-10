@@ -184,7 +184,7 @@ public class TwDateTimeRangePickerTests : TwBlazorTestBase
 
         // Act
         cut.Find("input").Click();
-        var timeButtons = cut.FindAll("button[type='button']").TakeLast(4).ToList();
+        var timeButtons = cut.FindAll("[data-tw-popover] button[type='button']").TakeLast(4).ToList();
         timeButtons[0].Click(); // hour increment: 00:00 -> 01:00
         cut.FindAll("button.day").First(b => b.TextContent.Trim() == "5").Click();
 
@@ -209,7 +209,7 @@ public class TwDateTimeRangePickerTests : TwBlazorTestBase
         // Act - focusing re-seeds the start step; adjusting the hour should apply immediately since
         // the start date is already set, without needing to reclick the day.
         cut.Find("input").Click();
-        var timeButtons = cut.FindAll("button[type='button']").TakeLast(4).ToList();
+        var timeButtons = cut.FindAll("[data-tw-popover] button[type='button']").TakeLast(4).ToList();
         timeButtons[0].Click(); // hour increment
 
         // Assert
@@ -351,7 +351,7 @@ public class TwDateTimeRangePickerTests : TwBlazorTestBase
         // Assert
         Assert.False(callbackInvoked);
         Assert.True(cut.Instance.Invalid);
-        Assert.Equal("Enter a valid date range", cut.Instance.ErrorMessage);
+        Assert.StartsWith("Enter a valid date range, for example ", cut.Instance.ErrorMessage);
     }
 
     [Fact]

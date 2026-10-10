@@ -68,6 +68,7 @@ internal static class KeyboardShortcuts
         Key("Moves to the previous or next month.", PageUp, PageDown),
         Key("Moves to the previous or next year.", "Shift + Page Up", "Shift + Page Down"),
         Key("Selects the focused day.", Enter, Space),
+        Key("On the month and year heading: switches to the list of months, then of years. Focus lands on the current one, and Tab moves between them.", Enter, Space),
     ];
 
     private static readonly KeyboardShortcut[] _timeFields =
@@ -107,13 +108,13 @@ internal static class KeyboardShortcuts
             Key("Hides the button's tooltip, if it has one.", Escape)),
 
         ["/calendar"] = Guide(
-            "Each view is a grid with a single Tab stop for its days or time slots. Events are buttons reached with Tab. "
+            "Each view is a grid with a single Tab stop for its days or time slots. Events are buttons reached with Tab. A read-only calendar has no time slots to focus, only its events. "
             + "Dragging an event has a keyboard equivalent: open the event and change its start and end.",
             Key("Moves between the toolbar buttons, the grid, and the events.", Tab, ShiftTab),
             Key("Month view: moves to the previous or next day. Week view: moves to the same time on the previous or next day.", Left, Right),
             Key("Month view: moves to the same weekday in the previous or next week. Day and week view: moves to the previous or next time slot.", Up, Down),
             Key("Month view: moves to the first or last day of the week. Day and week view: moves to the first or last time slot.", Home, End),
-            Key("On a day: opens that day. On a time slot: starts a new event there. On an event: opens it.", Enter, Space),
+            Key("On a day: opens that day and moves focus to the calendar's title, which names it. On a time slot: starts a new event there. On an event: opens it.", Enter, Space),
             Key("Closes the event dialog.", Escape)),
 
         ["/card"] = _notInteractive,
@@ -230,7 +231,7 @@ internal static class KeyboardShortcuts
             Key("Moves to the next option starting with the typed letters.", "A to Z"),
             Key("Selects the focused option and closes the list. In a multiple select, adds or removes the option and keeps the list open.", Enter, Space),
             Key("Closes the list without changing the value and returns focus to the field.", Escape, Tab),
-            Key("On a selected item's remove button in a multiple select: removes that item.", Enter, Space)),
+            Key("On a selected item's remove button in a multiple select: removes that item and returns focus to the field.", Enter, Space)),
 
         ["/sidebar"] = Guide(
             "The first Tab stop on the page is a link that skips the navigation. A closed sidebar is taken out of the Tab order entirely. "
@@ -241,7 +242,8 @@ internal static class KeyboardShortcuts
             Key("Moves through the search field and the navigation items.", Tab, ShiftTab),
             Key("On a group: expands or collapses it.", Enter, Space),
             Key("On a link: goes to that page.", Enter),
-            Key("Closes the sidebar while it is open as a drawer, and returns focus to the sidebar button.", Escape)),
+            Key("Closes the sidebar while it is open as a drawer, from wherever focus is, and returns focus to the sidebar button. In the search field the first press clears the text.", Escape),
+            Key("On the close button inside the drawer: closes it.", Enter, Space)),
 
         ["/skeleton"] = Guide(
             "A skeleton is not interactive and is not a Tab stop. While it is showing, screen readers are told the content is loading."),

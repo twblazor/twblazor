@@ -37,6 +37,7 @@
                                 class="@dayNumberClasses"
                                 tabindex="@(cellIndex == focusedIndex ? "0" : "-1")"
                                 aria-label="@day.ToString("MMMM d, yyyy")"
+                                aria-current="@(day.Date == DateTime.Today ? "date" : null)"
                                 @ref="GetDayCellRef(cellIndex).Element"
                                 @onclick="@(() => OnDayClickedAsync(day))">
                             @day.Day
@@ -58,6 +59,7 @@
                                         draggable="@(IsDraggable(segment.Event) ? "true" : "false")"
                                         @ondragstart="@(() => OnChipDragStartAsync(segment.Event))"
                                         @ondragend="OnChipDragEndAsync"
+                                        @onkeydown:stopPropagation="true"
                                         @onclick="@(() => OnEventClickedAsync(segment.Event))">
                                     @if (EventContentTemplate is not null)
                                     {
@@ -78,6 +80,7 @@
                                         draggable="@(IsDraggable(evt) ? "true" : "false")"
                                         @ondragstart="@(() => OnChipDragStartAsync(evt))"
                                         @ondragend="OnChipDragEndAsync"
+                                        @onkeydown:stopPropagation="true"
                                         @onclick="@(() => OnEventClickedAsync(evt))">
                                     @if (EventContentTemplate is not null)
                                     {
@@ -98,7 +101,7 @@
                             }
                             @if (overflowCount > 0)
                             {
-                                <button type="button" class="@overflowLabelClasses" @onclick="@(() => OnDayClickedAsync(day))">
+                                <button type="button" class="@overflowLabelClasses" @onkeydown:stopPropagation="true" @onclick="@(() => OnDayClickedAsync(day))">
                                     +@overflowCount more
                                 </button>
                             }

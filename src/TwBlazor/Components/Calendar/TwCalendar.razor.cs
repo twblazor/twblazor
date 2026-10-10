@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Enums;
 using TwBlazor.Models;
@@ -369,8 +370,42 @@ public partial class TwCalendar<T> : TwBlazorComponentBase, IDisposable
     /// </summary>
     private async Task SwitchToDayAsync(DateTime day)
     {
+        var viewBefore = currentView;
         await SetSelectedDateAsync(day);
         await SetViewAsync(TwCalendarView.Day); // no-op when the Day view isn't enabled
+
+        // Switching view removes the button that was pressed (a day in the month grid, a "+N more" link, a
+        // weekday header). Focus goes to the calendar's title, which now names the day that was opened, so
+        // the keyboard carries on from inside the calendar and not from the top of the page.
+        focusTitleAfterRender = currentView != viewBefore;
+    }
+
+    private string titleId => $"{Id}-title";
+
+    private bool focusTitleAfterRender;
+
+    [Inject] private IJSRuntime jsRuntime { get; set; } = null!;
+
+    /// <inheritdoc />
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (!focusTitleAfterRender)
+        {
+            return;
+        }
+
+        focusTitleAfterRender = false;
+
+        try
+        {
+            await jsRuntime.InvokeVoidAsync("twFocus.focusById", titleId);
+        }
+        catch (JSDisconnectedException)
+        {
+            // The circuit disconnected before the script could run; there is no focus left to move.
+        }
     }
 
     private Task StartCreateEventAsync(DateTime start)

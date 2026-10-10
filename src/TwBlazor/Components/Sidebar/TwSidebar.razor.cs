@@ -221,16 +221,27 @@ public partial class TwSidebar : TwBlazorComponentBase, IDisposable
 
     private async Task FocusMainContentAsync() => await jsRuntime.InvokeVoidAsync("twSidebar.focusMain", mainContentRef);
 
-    // Escape closes the sidebar while it is a drawer over the page (below the "lg" breakpoint). Beside
-    // the content on a wider viewport it is not a popup, so Escape leaves it alone.
-    private async Task OnSidebarKeyDownAsync(KeyboardEventArgs e)
-    {
-        if (e.Key != "Escape" || !IsSidebarOpen)
-        {
-            return;
-        }
+    private ElementReference contentRootRef;
 
-        if (!await jsRuntime.InvokeAsync<bool>("twSidebar.isMobileViewport"))
+    private string closeButtonId => $"{Id}-close";
+
+    private DotNetObjectReference<TwSidebar>? selfReference;
+
+    /// <summary>
+    /// Closes the sidebar while it is a drawer over the page, and returns focus to the button that opens
+    /// it. Invoked from JavaScript for Escape, which is listened for on the document so it works wherever
+    /// focus is. Beside the content on a wider viewport the sidebar is not a popup and Escape leaves it alone.
+    /// </summary>
+    [JSInvokable("CloseDrawerFromEscape")]
+    public async Task CloseDrawerFromEscapeAsync()
+    {
+        await CloseDrawerAsync();
+        StateHasChanged();
+    }
+
+    private async Task CloseDrawerAsync()
+    {
+        if (!IsSidebarOpen)
         {
             return;
         }
@@ -252,7 +263,8 @@ public partial class TwSidebar : TwBlazorComponentBase, IDisposable
 
         try
         {
-            var isModalDrawer = await jsRuntime.InvokeAsync<bool>("twSidebar.syncDrawer", mainContentRef, IsSidebarOpen);
+            selfReference ??= DotNetObjectReference.Create(this);
+            var isModalDrawer = await jsRuntime.InvokeAsync<bool>("twSidebar.syncDrawer", contentRootRef, navigationRef, IsSidebarOpen, selfReference);
 
             // Never move focus for the state the page loaded with: only for a change the user made.
             if (previous is null)
@@ -300,6 +312,7 @@ public partial class TwSidebar : TwBlazorComponentBase, IDisposable
         if (disposing)
         {
             navigationManager.LocationChanged -= OnLocationChanged;
+            selfReference?.Dispose();
         }
     }
 

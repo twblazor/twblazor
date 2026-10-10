@@ -12,6 +12,7 @@
                    value="@Value"
                    checked="@isChecked"
                    @onchange="@HandleChange"
+                   @onclick:preventDefault="@(ReadOnly && !Disabled)"
                    class="@classes"
                    disabled="@Disabled"
                    @attributes="@Attributes"

@@ -57,7 +57,7 @@ public class DenseInputTests : TwBlazorTestBase
             .Add(p => p.Dense, true));
 
         Assert.Contains(inputTheme.DenseSize, InputClass(cut));
-        Assert.Contains(inputTheme.DenseSize, cut.Find("div[aria-label='Open date picker']").GetAttribute("class"));
+        Assert.Contains(inputTheme.DenseSize, cut.Find("button[aria-label='Open date picker']").GetAttribute("class"));
     }
 
     [Fact]
@@ -67,7 +67,7 @@ public class DenseInputTests : TwBlazorTestBase
             .Add(p => p.Dense, true));
 
         Assert.Contains(inputTheme.DenseSize, InputClass(cut));
-        Assert.Contains(inputTheme.DenseSize, cut.Find("div[aria-label='Open date range picker']").GetAttribute("class"));
+        Assert.Contains(inputTheme.DenseSize, cut.Find("button[aria-label='Open date range picker']").GetAttribute("class"));
     }
 
     [Fact]
@@ -86,7 +86,7 @@ public class DenseInputTests : TwBlazorTestBase
             .Add(p => p.Dense, true));
 
         Assert.Contains(inputTheme.DenseSize, InputClass(cut));
-        Assert.Contains(inputTheme.DenseSize, cut.Find("div[aria-label='Open datetime range picker']").GetAttribute("class"));
+        Assert.Contains(inputTheme.DenseSize, cut.Find("button[aria-label='Open datetime range picker']").GetAttribute("class"));
     }
 
     [Fact]
@@ -96,7 +96,7 @@ public class DenseInputTests : TwBlazorTestBase
             .Add(p => p.Dense, true));
 
         Assert.Contains(inputTheme.DenseSize, InputClass(cut));
-        Assert.Contains(inputTheme.DenseSize, cut.Find("div[aria-label='Open time picker']").GetAttribute("class"));
+        Assert.Contains(inputTheme.DenseSize, cut.Find("button[aria-label='Open time picker']").GetAttribute("class"));
     }
 
     [Fact]
@@ -106,7 +106,7 @@ public class DenseInputTests : TwBlazorTestBase
             .Add(p => p.Dense, true));
 
         Assert.Contains(inputTheme.DenseSize, InputClass(cut));
-        Assert.Contains(inputTheme.DenseSize, cut.Find("div[aria-label='Open time range picker']").GetAttribute("class"));
+        Assert.Contains(inputTheme.DenseSize, cut.Find("button[aria-label='Open time range picker']").GetAttribute("class"));
     }
 
     [Fact]

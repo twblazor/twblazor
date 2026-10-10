@@ -1886,6 +1886,9 @@
   .bg-\[oklch\(21\%_0\.006_285\.885\)\]\/40 {
     background-color: color-mix(in oklab, oklch(21% 0.006 285.885) 40%, transparent);
   }
+  .bg-\[oklch\(21\%_0\.006_285\.885\)\]\/45 {
+    background-color: color-mix(in oklab, oklch(21% 0.006 285.885) 45%, transparent);
+  }
   .bg-\[oklch\(78\%_0_0\)\] {
     background-color: oklch(78% 0 0);
   }
@@ -3492,6 +3495,9 @@
     --tw-ease: var(--ease-in-out);
     transition-timing-function: var(--ease-in-out);
   }
+  .forced-color-adjust-none {
+    forced-color-adjust: none;
+  }
   .outline-none {
     --tw-outline-style: none;
     outline-style: none;
@@ -3895,6 +3901,9 @@
     .hover\:bg-\[oklch\(21\%_0\.006_285\.885\)\]\/40:hover {
       background-color: color-mix(in oklab, oklch(21% 0.006 285.885) 40%, transparent);
     }
+    .hover\:bg-\[oklch\(21\%_0\.006_285\.885\)\]\/65:hover {
+      background-color: color-mix(in oklab, oklch(21% 0.006 285.885) 65%, transparent);
+    }
     .hover\:bg-\[oklch\(98\%_0_0\)\]:hover {
       background-color: oklch(98% 0 0);
     }
@@ -4247,6 +4256,9 @@
     outline-style: var(--tw-outline-style);
     outline-width: 2px;
   }
+  .focus-visible\:-outline-offset-2:focus-visible {
+    outline-offset: calc(2px * -1);
+  }
   .focus-visible\:outline-offset-2:focus-visible {
     outline-offset: 2px;
   }
@@ -4320,6 +4332,20 @@
   }
   .has-\[\:focus-visible\]\:ring-offset-\[oklch\(100\%_0_0\)\]:has(:is(:focus-visible)) {
     --tw-ring-offset-color: oklch(100% 0 0);
+  }
+  .aria-disabled\:cursor-not-allowed[aria-disabled="true"] {
+    cursor: not-allowed;
+  }
+  .aria-disabled\:border-\[oklch\(21\%_0\.006_285\.885\)\]\/20[aria-disabled="true"] {
+    border-color: color-mix(in oklab, oklch(21% 0.006 285.885) 20%, transparent);
+  }
+  .aria-disabled\:text-\[oklch\(21\%_0\.006_285\.885\)\]\/40[aria-disabled="true"] {
+    color: color-mix(in oklab, oklch(21% 0.006 285.885) 40%, transparent);
+  }
+  @media (hover: hover) {
+    .aria-disabled\:hover\:bg-transparent[aria-disabled="true"]:hover {
+      background-color: transparent;
+    }
   }
   .aria-selected\:bg-purple-50[aria-selected="true"] {
     background-color: var(--color-purple-50);
@@ -4396,6 +4422,9 @@
     }
     .motion-reduce\:transition-none {
       transition-property: none;
+    }
+    .motion-reduce\:\[animation-duration\:3s\] {
+      animation-duration: 3s;
     }
   }
   .after\:motion-reduce\:transition-none::after {
@@ -4767,6 +4796,9 @@
   }
   .dark\:bg-\[oklch\(97\.807\%_0\.029_256\.847\)\]\/40:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
     background-color: color-mix(in oklab, oklch(97.807% 0.029 256.847) 40%, transparent);
+  }
+  .dark\:bg-\[oklch\(97\.807\%_0\.029_256\.847\)\]\/50:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+    background-color: color-mix(in oklab, oklch(97.807% 0.029 256.847) 50%, transparent);
   }
   .dark\:bg-amber-400\/10:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
     background-color: color-mix(in srgb, oklch(82.8% 0.189 84.429) 10%, transparent);
@@ -5470,6 +5502,9 @@
     .dark\:hover\:bg-\[oklch\(97\.807\%_0\.029_256\.847\)\]\/40:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):hover {
       background-color: color-mix(in oklab, oklch(97.807% 0.029 256.847) 40%, transparent);
     }
+    .dark\:hover\:bg-\[oklch\(97\.807\%_0\.029_256\.847\)\]\/70:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):hover {
+      background-color: color-mix(in oklab, oklch(97.807% 0.029 256.847) 70%, transparent);
+    }
     .dark\:hover\:bg-blue-900\/20:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):hover {
       background-color: color-mix(in srgb, oklch(37.9% 0.146 265.522) 20%, transparent);
     }
@@ -5642,8 +5677,15 @@
   .dark\:focus-visible\:ring-yellow-400:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):focus-visible {
     --tw-ring-color: var(--color-yellow-400);
   }
+  .dark\:focus-visible\:ring-offset-2:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):focus-visible {
+    --tw-ring-offset-width: 2px;
+    --tw-ring-offset-shadow: var(--tw-ring-inset,) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  }
   .dark\:focus-visible\:ring-offset-\[oklch\(25\.33\%_0\.016_252\.42\)\]:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):focus-visible {
     --tw-ring-offset-color: oklch(25.33% 0.016 252.42);
+  }
+  .dark\:focus-visible\:ring-offset-\[oklch\(97\.807\%_0\.029_256\.847\)\]:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):focus-visible {
+    --tw-ring-offset-color: oklch(97.807% 0.029 256.847);
   }
   .dark\:focus-visible\:outline-purple-300:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):focus-visible {
     outline-color: var(--color-purple-300);
@@ -5659,6 +5701,17 @@
   }
   .dark\:has-\[\:focus-visible\]\:ring-offset-\[oklch\(25\.33\%_0\.016_252\.42\)\]:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):has(:is(:focus-visible)) {
     --tw-ring-offset-color: oklch(25.33% 0.016 252.42);
+  }
+  .dark\:aria-disabled\:border-\[oklch\(97\.807\%_0\.029_256\.847\)\]\/20:where(.dark, .dark *):not(:where(.theme-light, .theme-light *))[aria-disabled="true"] {
+    border-color: color-mix(in oklab, oklch(97.807% 0.029 256.847) 20%, transparent);
+  }
+  .dark\:aria-disabled\:text-\[oklch\(97\.807\%_0\.029_256\.847\)\]\/40:where(.dark, .dark *):not(:where(.theme-light, .theme-light *))[aria-disabled="true"] {
+    color: color-mix(in oklab, oklch(97.807% 0.029 256.847) 40%, transparent);
+  }
+  @media (hover: hover) {
+    .dark\:aria-disabled\:hover\:bg-transparent:where(.dark, .dark *):not(:where(.theme-light, .theme-light *))[aria-disabled="true"]:hover {
+      background-color: transparent;
+    }
   }
   .dark\:aria-selected\:bg-purple-500\/20:where(.dark, .dark *):not(:where(.theme-light, .theme-light *))[aria-selected="true"] {
     background-color: color-mix(in srgb, oklch(62.7% 0.265 303.9) 20%, transparent);
@@ -5708,6 +5761,58 @@
       .dark\:supports-\[appearance\:base-select\]\:hover\:bg-\[oklch\(34\%_0\.018_253\)\]:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):hover {
         background-color: oklch(34% 0.018 253);
       }
+    }
+  }
+  @media (forced-colors: active) {
+    .forced-colors\:border {
+      border-style: var(--tw-border-style);
+      border-width: 1px;
+    }
+    .forced-colors\:border-\[ButtonText\] {
+      border-color: ButtonText;
+    }
+    .forced-colors\:bg-\[ButtonText\] {
+      background-color: ButtonText;
+    }
+    .forced-colors\:bg-\[Highlight\] {
+      background-color: Highlight;
+    }
+    .forced-colors\:outline {
+      outline-style: var(--tw-outline-style);
+      outline-width: 1px;
+    }
+    .forced-colors\:outline-2 {
+      outline-style: var(--tw-outline-style);
+      outline-width: 2px;
+    }
+    .forced-colors\:-outline-offset-2 {
+      outline-offset: calc(2px * -1);
+    }
+    .forced-colors\:outline-\[Highlight\] {
+      outline-color: Highlight;
+    }
+    .forced-colors\:peer-checked\:bg-\[Highlight\]:is(:where(.peer):checked ~ *) {
+      background-color: Highlight;
+    }
+    .forced-colors\:peer-focus-visible\:outline-2:is(:where(.peer):focus-visible ~ *) {
+      outline-style: var(--tw-outline-style);
+      outline-width: 2px;
+    }
+    .forced-colors\:peer-focus-visible\:outline-offset-2:is(:where(.peer):focus-visible ~ *) {
+      outline-offset: 2px;
+    }
+    .forced-colors\:peer-focus-visible\:outline-\[Highlight\]:is(:where(.peer):focus-visible ~ *) {
+      outline-color: Highlight;
+    }
+    .forced-colors\:has-\[\:focus-visible\]\:outline-2:has(:is(:focus-visible)) {
+      outline-style: var(--tw-outline-style);
+      outline-width: 2px;
+    }
+    .forced-colors\:has-\[\:focus-visible\]\:outline-offset-2:has(:is(:focus-visible)) {
+      outline-offset: 2px;
+    }
+    .forced-colors\:has-\[\:focus-visible\]\:outline-\[Highlight\]:has(:is(:focus-visible)) {
+      outline-color: Highlight;
     }
   }
   .\[\&_fieldset\]\:gap-0 fieldset {
@@ -5868,6 +5973,11 @@
   .dark\:\[\&\:\:-moz-progress-bar\]\:bg-yellow-400:where(.dark, .dark *):not(:where(.theme-light, .theme-light *))::-moz-progress-bar {
     background-color: var(--color-yellow-400);
   }
+  @media (forced-colors: active) {
+    .forced-colors\:\[\&\:\:-moz-progress-bar\]\:bg-\[Highlight\]::-moz-progress-bar {
+      background-color: Highlight;
+    }
+  }
   .\[\&\:\:-webkit-date-and-time-value\]\:min-h-0::-webkit-date-and-time-value {
     min-height: 0px;
   }
@@ -5938,6 +6048,11 @@
   }
   .dark\:\[\&\:\:-webkit-progress-value\]\:bg-yellow-400:where(.dark, .dark *):not(:where(.theme-light, .theme-light *))::-webkit-progress-value {
     background-color: var(--color-yellow-400);
+  }
+  @media (forced-colors: active) {
+    .forced-colors\:\[\&\:\:-webkit-progress-value\]\:bg-\[Highlight\]::-webkit-progress-value {
+      background-color: Highlight;
+    }
   }
   .\[\&\:\:picker\(select\)\]\:\[appearance\:base-select\]::picker(select) {
     appearance: base-select;
@@ -6018,6 +6133,31 @@
   }
   .\[\&\>tr\:nth-child\(even\)\]\:dark\:bg-\[oklch\(23\.26\%_0\.014_253\.1\)\] > tr:nth-child(even):where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
     background-color: oklch(23.26% 0.014 253.1);
+  }
+  li:focus-visible > .\[li\:focus-visible\>\&\]\:ring-2 {
+    --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+  li:focus-visible > .\[li\:focus-visible\>\&\]\:ring-purple-500 {
+    --tw-ring-color: var(--color-purple-500);
+  }
+  li:focus-visible > .\[li\:focus-visible\>\&\]\:ring-inset {
+    --tw-ring-inset: inset;
+  }
+  li:focus-visible > .dark\:\[li\:focus-visible\>\&\]\:ring-purple-400:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+    --tw-ring-color: var(--color-purple-400);
+  }
+  @media (forced-colors: active) {
+    li:focus-visible > .forced-colors\:\[li\:focus-visible\>\&\]\:outline-2 {
+      outline-style: var(--tw-outline-style);
+      outline-width: 2px;
+    }
+    li:focus-visible > .forced-colors\:\[li\:focus-visible\>\&\]\:-outline-offset-2 {
+      outline-offset: calc(2px * -1);
+    }
+    li:focus-visible > .forced-colors\:\[li\:focus-visible\>\&\]\:outline-\[Highlight\] {
+      outline-color: Highlight;
+    }
   }
 }
 :root {
