@@ -594,7 +594,8 @@ globalThis.twDialog = {
     unregisterEscape: function (surface) {
         const stack = globalThis.twDialog._escapeStack;
         const index = stack.findIndex(function (entry) { return entry.surface === surface; });
-        if (index >= 0) stack.splice(index, 1);
+        if (index < 0) return;
+        stack.splice(index, 1);
         if (stack.length === 0) {
             document.removeEventListener('keydown', globalThis.twDialog._onDocumentKeyDown);
         }

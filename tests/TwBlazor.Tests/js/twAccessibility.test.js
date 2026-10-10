@@ -131,26 +131,97 @@ describe('twDialog Escape handling', () => {
         expect(first.invokeMethodAsync).toHaveBeenCalledTimes(1);
     });
 
-    test('Escape inside an open popover panel belongs to the popover', () => {
-        document.body.innerHTML = '<div id="surface"><div data-tw-popover><button id="day">1</button></div></div>';
-        const ref = dialogRef();
-        window.twDialog.registerEscape(document.getElementById('surface'), ref);
+    describe('with a picker inside the dialog', () => {
+        let dialog;
+        let picker;
 
-        key(document.getElementById('day'), 'Escape');
+        const openPicker = () => {
+            document.body.innerHTML = `
+                <div id="surface">
+                    <div id="picker-root">
+                        <button id="icon">Open date picker</button>
+                        <input id="field" role="combobox" aria-expanded="true">
+                        <div id="panel" data-tw-popover><button id="day">1</button></div>
+                    </div>
+                    <button id="save">Save</button>
+                </div>`;
+            dialog = dialogRef();
+            picker = dialogRef();
+            window.twDialog.registerEscape(document.getElementById('surface'), dialog);
+            window.twPicker.registerOutsideClick(document.getElementById('picker-root'), picker, 'picker-1');
+        };
 
-        expect(ref.invokeMethodAsync).not.toHaveBeenCalled();
+        afterEach(() => {
+            window.twPicker.unregisterOutsideClick(document.getElementById('picker-root'), 'picker-1');
+        });
+
+        // The picker must take the press wherever focus is. Deciding from the event target let the dialog
+        // close around an open picker whenever focus was on the icon button, on another control, or lost.
+        test.each(['day', 'field', 'icon', 'save'])('Escape with focus on #%s closes the picker and leaves the dialog open', (id) => {
+            openPicker();
+
+            key(document.getElementById(id), 'Escape');
+
+            expect(picker.invokeMethodAsync).toHaveBeenCalledWith('Close');
+            expect(dialog.invokeMethodAsync).not.toHaveBeenCalled();
+        });
+
+        test('Escape with focus lost to the page body still closes the picker, not the dialog', () => {
+            openPicker();
+
+            key(document.body, 'Escape');
+
+            expect(picker.invokeMethodAsync).toHaveBeenCalledTimes(1);
+            expect(dialog.invokeMethodAsync).not.toHaveBeenCalled();
+        });
+
+        test('once the panel has closed, the next Escape closes the dialog', () => {
+            openPicker();
+            document.getElementById('panel').remove();
+
+            key(document.getElementById('field'), 'Escape');
+
+            expect(picker.invokeMethodAsync).not.toHaveBeenCalled();
+            expect(dialog.invokeMethodAsync).toHaveBeenCalledWith('CloseFromEscape');
+        });
+
+        test('a picker destroyed while open is dropped, so the dialog gets the key', () => {
+            openPicker();
+            document.getElementById('picker-root').remove();
+
+            key(document.body, 'Escape');
+
+            expect(picker.invokeMethodAsync).not.toHaveBeenCalled();
+            expect(dialog.invokeMethodAsync).toHaveBeenCalledTimes(1);
+        });
+
+        test('a destroyed picker can be unregistered by its owner key alone', () => {
+            openPicker();
+            const remove = vi.spyOn(document, 'removeEventListener');
+            document.getElementById('picker-root').remove();
+
+            // The component can no longer hand over its root element: Blazor resolves it to null.
+            window.twPicker.unregisterOutsideClick(null, 'picker-1');
+
+            expect(remove).toHaveBeenCalledWith('pointerup', expect.any(Function));
+            expect(window.twPicker._registrations.has('picker-1')).toBe(false);
+        });
     });
 
-    test('Escape in a trigger whose popover is open belongs to the popover', () => {
-        document.body.innerHTML = '<div id="surface"><input id="trigger" role="combobox" aria-expanded="true"></div>';
+    test('a showing tooltip takes Escape before the dialog does', () => {
+        document.body.innerHTML = `
+            <div id="surface">
+                <span id="wrapper" data-tw-tooltip><button id="close">Close</button><span id="tip" role="tooltip">Closes it</span></span>
+            </div>`;
         const ref = dialogRef();
         window.twDialog.registerEscape(document.getElementById('surface'), ref);
 
-        key(document.getElementById('trigger'), 'Escape');
+        key(document.getElementById('close'), 'Escape');
         expect(ref.invokeMethodAsync).not.toHaveBeenCalled();
 
-        document.getElementById('trigger').setAttribute('aria-expanded', 'false');
-        key(document.getElementById('trigger'), 'Escape');
+        // Dismissed (hidden), the same key now belongs to the dialog.
+        document.getElementById('tip').style.display = 'none';
+        key(document.getElementById('close'), 'Escape');
         expect(ref.invokeMethodAsync).toHaveBeenCalledTimes(1);
     });
 
@@ -455,29 +526,218 @@ describe('twSidebar focus and drawer helpers', () => {
         expect(() => window.twSidebar.focusById('missing')).not.toThrow();
     });
 
-    test('syncDrawer makes the page inert only while the sidebar is an open drawer', () => {
-        document.body.innerHTML = '<main id="main"></main>';
-        const main = document.getElementById('main');
-        let wide = false;
+    describe('syncDrawer', () => {
+        let content;
+        let nav;
+        let ref;
+        let wide;
         let onChange;
-        window.matchMedia = vi.fn(() => ({
-            get matches() { return wide; },
-            addEventListener: (_, handler) => { onChange = handler; }
-        }));
 
-        expect(window.twSidebar.syncDrawer(main, true)).toBe(true);
-        expect(main.hasAttribute('inert')).toBe(true);
+        beforeEach(() => {
+            document.body.innerHTML = `
+                <nav id="nav"><input id="search" type="search"><a id="link" href="/button">Button</a><button id="close">Close sidebar</button></nav>
+                <div id="content"><button id="toggle">Open sidebar</button><main id="main"><a id="page-link" href="/x">Page</a></main></div>`;
+            content = document.getElementById('content');
+            nav = document.getElementById('nav');
+            ref = { invokeMethodAsync: vi.fn(() => Promise.resolve()) };
+            wide = false;
+            window.matchMedia = vi.fn(() => ({
+                get matches() { return wide; },
+                addEventListener: (_, handler) => { onChange = handler; },
+                removeEventListener: vi.fn()
+            }));
+        });
 
-        expect(window.twSidebar.syncDrawer(main, false)).toBe(false);
-        expect(main.hasAttribute('inert')).toBe(false);
+        afterEach(() => {
+            window.twSidebar.releaseDrawer(content, nav);
+        });
 
-        // Open on a narrow viewport, then widen it: the content must not stay inert beside the sidebar.
-        window.twSidebar.syncDrawer(main, true);
-        wide = true;
-        onChange();
-        expect(main.hasAttribute('inert')).toBe(false);
+        test('as an open drawer, everything beside the sidebar is inert, including the top bar it covers', () => {
+            expect(window.twSidebar.syncDrawer(content, nav, true, ref)).toBe(true);
+            expect(content.hasAttribute('inert')).toBe(true);
 
-        expect(window.twSidebar.syncDrawer(null, true)).toBe(false);
+            expect(window.twSidebar.syncDrawer(content, nav, false, ref)).toBe(false);
+            expect(content.hasAttribute('inert')).toBe(false);
+        });
+
+        test('Tab wraps inside the open drawer', () => {
+            window.twSidebar.syncDrawer(content, nav, true, ref);
+            document.getElementById('close').focus();
+
+            const event = key(document.getElementById('close'), 'Tab');
+
+            expect(event.defaultPrevented).toBe(true);
+            expect(document.activeElement.id).toBe('search');
+        });
+
+        test('Escape closes the open drawer from anywhere, and does nothing once it is closed', () => {
+            window.twSidebar.syncDrawer(content, nav, true, ref);
+
+            key(document.body, 'Escape');
+            expect(ref.invokeMethodAsync).toHaveBeenCalledWith('CloseDrawerFromEscape');
+
+            window.twSidebar.syncDrawer(content, nav, false, ref);
+            key(document.body, 'Escape');
+            expect(ref.invokeMethodAsync).toHaveBeenCalledTimes(1);
+        });
+
+        test('Escape in a search field with text clears the text first', () => {
+            window.twSidebar.syncDrawer(content, nav, true, ref);
+            const search = document.getElementById('search');
+
+            search.value = 'but';
+            key(search, 'Escape');
+            expect(ref.invokeMethodAsync).not.toHaveBeenCalled();
+
+            search.value = '';
+            key(search, 'Escape');
+            expect(ref.invokeMethodAsync).toHaveBeenCalledTimes(1);
+        });
+
+        test('beside the content on a wide viewport nothing is inert and Escape is not taken', () => {
+            wide = true;
+
+            expect(window.twSidebar.syncDrawer(content, nav, true, ref)).toBe(false);
+            expect(content.hasAttribute('inert')).toBe(false);
+
+            key(document.body, 'Escape');
+            expect(ref.invokeMethodAsync).not.toHaveBeenCalled();
+        });
+
+        test('widening the window with the drawer open frees the content, and narrowing it moves focus into the drawer', () => {
+            window.twSidebar.syncDrawer(content, nav, true, ref);
+            wide = true;
+            onChange();
+            expect(content.hasAttribute('inert')).toBe(false);
+
+            document.getElementById('toggle').focus();
+            wide = false;
+            onChange();
+            expect(content.hasAttribute('inert')).toBe(true);
+            expect(nav.contains(document.activeElement)).toBe(true);
+        });
+
+        test('does nothing without the content element', () => {
+            expect(window.twSidebar.syncDrawer(null, nav, true, ref)).toBe(false);
+        });
+    });
+});
+
+describe('twDialog focus trap', () => {
+    afterEach(() => {
+        window.twDialog._trapStack.slice().forEach(surface => window.twDialog.releaseFocusTrap(surface));
+    });
+
+    test('a button the roving tabindex has parked at -1 is not an edge of the Tab order', () => {
+        document.body.innerHTML = `
+            <div id="panel">
+                <button id="previous">Previous month</button>
+                <button id="day-1" tabindex="-1">1</button>
+                <button id="day-2" tabindex="0">2</button>
+                <button id="day-3" tabindex="-1">3</button>
+            </div>`;
+        const panel = document.getElementById('panel');
+        window.twDialog.trapFocus(panel);
+        document.getElementById('day-2').focus();
+
+        // The focused day is the last Tab stop. Day 3 comes later in the document but Tab skips it, so
+        // without this Tab left the panel.
+        const event = key(document.getElementById('day-2'), 'Tab');
+
+        expect(event.defaultPrevented).toBe(true);
+        expect(document.activeElement.id).toBe('previous');
+    });
+
+    test('a toast shown while a dialog is open is in the dialog\'s Tab order, both ways', () => {
+        document.body.innerHTML = `
+            <div id="dialog"><button id="first">Cancel</button><button id="last">Save</button></div>
+            <div id="toasts" data-tw-inert-exempt><button id="toast-close">Close</button></div>`;
+        window.twDialog.trapFocus(document.getElementById('dialog'));
+
+        document.getElementById('last').focus();
+        key(document.getElementById('last'), 'Tab');
+        expect(document.activeElement.id).toBe('toast-close');
+
+        key(document.getElementById('toast-close'), 'Tab');
+        expect(document.activeElement.id).toBe('first');
+
+        key(document.getElementById('first'), 'Tab', { shiftKey: true });
+        expect(document.activeElement.id).toBe('toast-close');
+
+        key(document.getElementById('toast-close'), 'Tab', { shiftKey: true });
+        expect(document.activeElement.id).toBe('last');
+    });
+
+    test('with no toast showing, Tab wraps within the dialog as before', () => {
+        document.body.innerHTML = '<div id="dialog"><button id="first">Cancel</button><button id="last">Save</button></div>';
+        window.twDialog.trapFocus(document.getElementById('dialog'));
+        document.getElementById('last').focus();
+
+        key(document.getElementById('last'), 'Tab');
+
+        expect(document.activeElement.id).toBe('first');
+    });
+
+    test('the reconnect and error bars are never made inert', () => {
+        document.body.innerHTML = `
+            <div id="dialogs"></div>
+            <div id="components-reconnect-modal"></div>
+            <div id="blazor-error-ui"></div>
+            <div id="page"></div>`;
+
+        window.twDialog.setBackgroundInert(document.getElementById('dialogs'), 'dialog');
+
+        expect(document.getElementById('components-reconnect-modal').hasAttribute('inert')).toBe(false);
+        expect(document.getElementById('blazor-error-ui').hasAttribute('inert')).toBe(false);
+        expect(document.getElementById('page').hasAttribute('inert')).toBe(true);
+        window.twDialog.clearBackgroundInert('dialog');
+    });
+});
+
+describe('twScrollRegion', () => {
+    const size = (el, scrollWidth, clientWidth) => {
+        Object.defineProperty(el, 'scrollWidth', { configurable: true, value: scrollWidth });
+        Object.defineProperty(el, 'clientWidth', { configurable: true, value: clientWidth });
+    };
+
+    test('a container whose content fits is not a Tab stop', () => {
+        document.body.innerHTML = '<div id="wrap" tabindex="0" role="group" aria-label="Orders, Scrollable table"><table></table></div>';
+        const wrap = document.getElementById('wrap');
+        size(wrap, 400, 400);
+
+        window.twScrollRegion.observe(wrap);
+
+        expect(wrap.hasAttribute('tabindex')).toBe(false);
+        expect(wrap.hasAttribute('role')).toBe(false);
+        expect(wrap.hasAttribute('aria-label')).toBe(false);
+        window.twScrollRegion.unobserve(wrap);
+    });
+
+    test('a container that overflows stays focusable and keeps its name', () => {
+        document.body.innerHTML = '<div id="wrap" tabindex="0" role="group" aria-label="Orders, Scrollable table"><table></table></div>';
+        const wrap = document.getElementById('wrap');
+        size(wrap, 900, 400);
+
+        window.twScrollRegion.observe(wrap);
+
+        expect(wrap.getAttribute('tabindex')).toBe('0');
+        expect(wrap.getAttribute('aria-label')).toBe('Orders, Scrollable table');
+
+        // The content shrinks to fit, then grows again.
+        size(wrap, 400, 400);
+        window.twScrollRegion._sync(wrap);
+        expect(wrap.hasAttribute('tabindex')).toBe(false);
+
+        size(wrap, 900, 400);
+        window.twScrollRegion._sync(wrap);
+        expect(wrap.getAttribute('tabindex')).toBe('0');
+        expect(wrap.getAttribute('aria-label')).toBe('Orders, Scrollable table');
+        window.twScrollRegion.unobserve(wrap);
+    });
+
+    test('does nothing without an element', () => {
+        expect(() => window.twScrollRegion.observe(null)).not.toThrow();
+        expect(() => window.twScrollRegion.unobserve(null)).not.toThrow();
     });
 });
 
