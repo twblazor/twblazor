@@ -752,6 +752,34 @@ export const corpus = {
     ],
 };
 
+// Inputs merged with the prefix option set to "tw", by both tailwind-merge and TwBlazor.
+export const prefixCorpus = [
+    'tw:px-4 tw:px-2',
+    'px-4 px-2',
+    'tw:px-4 px-2',
+    'px-4 tw:px-2',
+    'hidden block tw:hidden tw:block',
+    'container tw:container flex tw:flex tw:grid',
+    'tw:hover:px-4 tw:hover:px-2',
+    'tw:hover:px-4 hover:tw:px-2',
+    'hover:tw:px-4 hover:tw:px-2',
+    'tw:p-4 tw:px-2 tw:pl-1 tw:px-3',
+    'tw:pl-1 tw:pr-1 tw:px-3',
+    'tw:text-sm tw:leading-6 tw:text-lg/7',
+    'tw:px-4! tw:px-2!',
+    'tw:px-4! tw:px-2',
+    'tw:dark:hover:bg-red-500 tw:hover:dark:bg-blue-500',
+    'tw:before:hover:p-1 tw:hover:before:p-2',
+    'tw:-mt-2 tw:mt-4',
+    'tw:bg-red-500 tw:bg-[#fff] tw:bg-(--brand)',
+    'tw:[&>*]:p-1 tw:[&>*]:p-2',
+    'tw:[mask-type:alpha] tw:[mask-type:luminance]',
+    'tw:w-1/2 tw:w-half tw:w-full',
+    'tw:my-class tw:my-class other other',
+    'fable:px-4 fable:px-2 tw:m-4 tw:m-2',
+    'tw: tw:flex tw:block',
+];
+
 // Inputs above that TwBlazor deliberately merges differently from tailwind-merge. They are left out of the parity
 // tests and covered in TwClassMergerTests instead.
 export const knownDifferences = [

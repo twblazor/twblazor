@@ -23,6 +23,23 @@ public class ClassMergePageTests : DocsTestBase
     [InlineData("tw:px-4 px-2", "tw:px-4 px-2")]
     [InlineData("bg-red-500 bg-[right_0.5rem_center]", "bg-red-500 bg-[right_0.5rem_center]")]
     [InlineData("!leading-4 !text-sm/6", "!text-sm/6")]
+    [InlineData("px-5 p-3", "p-3")]
+    [InlineData("rounded-lg rounded-t-none", "rounded-lg rounded-t-none")]
+    [InlineData("w-4 h-6 size-8", "size-8")]
+    [InlineData("basis-4 grow flex-1", "flex-1")]
+    [InlineData("overflow-auto inline line-clamp-1", "line-clamp-1")]
+    [InlineData("text-sm text-red-500 text-lg", "text-red-500 text-lg")]
+    [InlineData("bg-red-500 bg-cover bg-center bg-blue-500", "bg-cover bg-center bg-blue-500")]
+    [InlineData("group-hover:p-1 peer-hover:p-2 group-hover:p-3", "peer-hover:p-2 group-hover:p-3")]
+    [InlineData("before:hover:p-1 hover:before:p-2", "before:hover:p-1 hover:before:p-2")]
+    [InlineData("text-2xl text-(--my-color)", "text-2xl text-(--my-color)")]
+    [InlineData("text-2xl text-(length:--my-size)", "text-(length:--my-size)")]
+    [InlineData("hover:[&>*]:p-1 [&>*]:hover:p-2", "hover:[&>*]:p-1 [&>*]:hover:p-2")]
+    [InlineData("!p-3 p-4!", "p-4!")]
+    [InlineData("text-lg/7 leading-9", "text-lg/7 leading-9")]
+    [InlineData("bg-red-500/50 bg-blue-500", "bg-blue-500")]
+    [InlineData("btn btn-primary btn", "btn btn-primary btn")]
+    [InlineData("ring-brand ring-2 ring-other", "ring-2 ring-other")]
     public void Examples_ShowTheInputAndItsMergedResult_InACodeBlock(string input, string result)
     {
         var cut = Render();
@@ -48,6 +65,8 @@ public class ClassMergePageTests : DocsTestBase
     [InlineData("Supports arbitrary values")]
     [InlineData("Preserves non-Tailwind classes")]
     [InlineData("Supports a Tailwind prefix")]
+    [InlineData("Tells apart classes that share a prefix")]
+    [InlineData("What it does not do")]
     [InlineData("Differences from tailwind-merge")]
     [InlineData("Composition")]
     [InlineData("Turn it off")]
@@ -73,6 +92,21 @@ public class ClassMergePageTests : DocsTestBase
 
         Assert.NotEqual("configuration", id);
         Assert.Single(cut.FindAll($"[id='{id}']"));
+    }
+
+    [Fact]
+    public void Page_LinksToItsOwnSections_ThroughItsPath_SoTheBaseHrefDoesNotSendThemToTheHomepage()
+    {
+        var cut = Render();
+
+        var links = cut.FindAll("a[href*='#class-merge']").Select(a => a.GetAttribute("href")!).ToList();
+
+        Assert.NotEmpty(links);
+        Assert.All(links, href =>
+        {
+            Assert.StartsWith("/class-merge#", href);
+            Assert.Single(cut.FindAll($"[id='{href.Split('#')[1]}']"));
+        });
     }
 
     [Fact]
@@ -112,5 +146,10 @@ public class ClassMergePageTests : DocsTestBase
         Assert.Contains("ClassMerge.Enabled", code);
         Assert.Contains("TwClassGroup", code);
         Assert.Contains("Overrides", code);
+        Assert.Contains("ClassMerge.Prefix", code);
+        Assert.Contains("ClassMerge.CacheSize", code);
+        Assert.Contains("ClassMerge.OrderSensitiveVariants", code);
+        Assert.Contains("ModifierOverrides", code);
+        Assert.Contains("Classes = ", code);
     }
 }

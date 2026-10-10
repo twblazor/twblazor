@@ -18,13 +18,15 @@ namespace TwBlazor.Utilities.ClassMerge;
 /// </remarks>
 internal sealed class TwClassMerger
 {
-    private const int maxCacheSize = 2048;
-
     private static volatile TwClassMerger current = new(new TwClassMergeOptions());
 
     private readonly bool _enabled;
+    private readonly string? _prefix;
+    private readonly int _cacheSize;
     private readonly List<CustomGroup> _customGroups;
     private readonly Dictionary<string, string[]> _conflicts;
+    private readonly Dictionary<string, string[]> _modifierConflicts;
+    private readonly HashSet<string> _orderSensitiveVariants;
     private readonly ConcurrentDictionary<string, string> _cache = new(StringComparer.Ordinal);
 
     /// <summary>
@@ -34,14 +36,22 @@ internal sealed class TwClassMerger
     public TwClassMerger(TwClassMergeOptions options)
     {
         _enabled = options.Enabled;
-        _customGroups = [.. options.Groups.Select(group => new CustomGroup(group.Name, [.. group.Prefixes]))];
+        _prefix = string.IsNullOrWhiteSpace(options.Prefix) ? null : options.Prefix.Trim().TrimEnd(':') + ":";
+        _cacheSize = options.CacheSize;
+        _customGroups = [.. options.Groups.Select(group => new CustomGroup(group.Name, [.. group.Prefixes], [.. group.Classes]))];
         _conflicts = TwClassGroups.Conflicts.ToDictionary(c => c.Key, c => c.Value, StringComparer.Ordinal);
+        _modifierConflicts = TwClassGroups.ModifierConflicts.ToDictionary(c => c.Key, c => c.Value, StringComparer.Ordinal);
+        _orderSensitiveVariants = new HashSet<string>(TwClassGroups.OrderSensitiveModifiers, StringComparer.Ordinal);
 
-        foreach (var group in options.Groups.Where(g => g.Overrides.Count > 0))
+        foreach (var group in options.Groups)
         {
-            _conflicts[group.Name] = _conflicts.TryGetValue(group.Name, out var existing)
-                ? [.. existing.Union(group.Overrides, StringComparer.Ordinal)]
-                : [.. group.Overrides];
+            Extend(_conflicts, group.Name, group.Overrides);
+            Extend(_modifierConflicts, group.Name, group.ModifierOverrides);
+        }
+
+        foreach (var variant in options.OrderSensitiveVariants.Where(v => !string.IsNullOrWhiteSpace(v)))
+        {
+            _orderSensitiveVariants.Add(variant.Trim().TrimEnd(':'));
         }
     }
 
@@ -69,16 +79,29 @@ internal sealed class TwClassMerger
         if (!_enabled)
             return classes.Trim();
 
+        if (_cacheSize <= 0)
+            return MergeUncached(classes);
+
         if (_cache.TryGetValue(classes, out var cached))
             return cached;
 
         var merged = MergeUncached(classes);
 
-        if (_cache.Count >= maxCacheSize)
+        if (_cache.Count >= _cacheSize)
             _cache.Clear();
 
         _cache[classes] = merged;
         return merged;
+    }
+
+    private static void Extend(Dictionary<string, string[]> conflicts, string group, IReadOnlyList<string> overrides)
+    {
+        if (overrides.Count == 0)
+            return;
+
+        conflicts[group] = conflicts.TryGetValue(group, out var existing)
+            ? [.. existing.Union(overrides, StringComparer.Ordinal)]
+            : [.. overrides];
     }
 
     private string MergeUncached(string classes)
@@ -97,6 +120,15 @@ internal sealed class TwClassMerger
 
     private bool Claim(string token, HashSet<string> claimed)
     {
+        if (_prefix is not null)
+        {
+            // In a prefixed build a class without the prefix is not a Tailwind utility, whatever it is called.
+            if (!token.StartsWith(_prefix, StringComparison.Ordinal))
+                return true;
+
+            token = token[_prefix.Length..];
+        }
+
         var parsed = Parse(token);
         var hasModifier = parsed.ModifierPosition > 0;
         string? group;
@@ -142,7 +174,7 @@ internal sealed class TwClassMerger
                 claimed.Add(scope + other);
         }
 
-        if (hasModifier && TwClassGroups.ModifierConflicts.TryGetValue(group, out var overriddenByModifier))
+        if (hasModifier && _modifierConflicts.TryGetValue(group, out var overriddenByModifier))
         {
             foreach (var other in overriddenByModifier)
                 claimed.Add(scope + other);
@@ -172,14 +204,17 @@ internal sealed class TwClassMerger
     /// </summary>
     /// <param name="Name">The group's name.</param>
     /// <param name="Prefixes">The class prefixes that belong to the group.</param>
-    private sealed record CustomGroup(string Name, string[] Prefixes)
+    /// <param name="Classes">The classes that belong to the group by their whole name.</param>
+    private sealed record CustomGroup(string Name, string[] Prefixes, string[] Classes)
     {
         /// <summary>
-        /// Gets whether <paramref name="utility"/> is one of the prefixes, or starts with one followed by a dash.
+        /// Gets whether <paramref name="utility"/> is one of the classes or prefixes, or starts with a prefix
+        /// followed by a dash.
         /// </summary>
         /// <param name="utility">The class without variants, <c>!</c>, a leading <c>-</c> or a <c>/</c> modifier.</param>
         public bool Matches(string utility) =>
-            Array.Exists(Prefixes, prefix => utility == prefix || (utility.Length > prefix.Length && utility[prefix.Length] == '-' && utility.StartsWith(prefix, StringComparison.Ordinal)));
+            Array.IndexOf(Classes, utility) >= 0
+            || Array.Exists(Prefixes, prefix => utility == prefix || (utility.Length > prefix.Length && utility[prefix.Length] == '-' && utility.StartsWith(prefix, StringComparison.Ordinal)));
     }
 
     /// <summary>
@@ -190,7 +225,7 @@ internal sealed class TwClassMerger
     /// <param name="ModifierPosition">The index in <paramref name="Utility"/> of its last top-level <c>/</c>, or 0 when it has none.</param>
     private readonly record struct ParsedClass(string Scope, string Utility, int ModifierPosition);
 
-    private static ParsedClass Parse(string token)
+    private ParsedClass Parse(string token)
     {
         var variants = new List<string>();
         var bracketDepth = 0;
@@ -263,7 +298,7 @@ internal sealed class TwClassMerger
     /// which side of those a variant is on changes the css produced.
     /// </summary>
     /// <param name="variants">The variants in the order they were written.</param>
-    private static List<string> SortVariants(List<string> variants)
+    private List<string> SortVariants(List<string> variants)
     {
         if (variants.Count < 2)
             return variants;
@@ -273,7 +308,7 @@ internal sealed class TwClassMerger
 
         foreach (var variant in variants)
         {
-            if (variant.StartsWith('[') || TwClassGroups.OrderSensitiveModifiers.Contains(variant))
+            if (variant.StartsWith('[') || _orderSensitiveVariants.Contains(variant))
             {
                 segment.Sort(StringComparer.Ordinal);
                 sorted.AddRange(segment);

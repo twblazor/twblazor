@@ -351,6 +351,35 @@ public class TwClassMergerTests
     }
 
     [Fact]
+    public void Merge_TreatsACustomSizeName_AsPartOfTheBuiltInGroupItIsAddedTo()
+    {
+        var options = new TwClassMergeOptions();
+        options.Groups.Add(new TwClassGroup("font-size", []) { Classes = ["text-huge"] });
+        options.Groups.Add(new TwClassGroup("rounded", []) { Classes = ["rounded-brand"] });
+        var merger = new TwClassMerger(options);
+
+        Assert.Equal("text-huge", merger.Merge("text-sm leading-6 text-huge"));
+        Assert.Equal("text-sm", merger.Merge("text-huge text-sm"));
+        Assert.Equal("text-red-500 text-huge", merger.Merge("text-red-500 text-huge"));
+        Assert.Equal("rounded-brand", merger.Merge("rounded-md rounded-t-lg rounded-brand"));
+        Assert.Equal("text-huge text-sm", _merger.Merge("text-huge text-sm"));
+        Assert.Equal("rounded-md rounded-brand", _merger.Merge("rounded-md rounded-brand"));
+    }
+
+    [Fact]
+    public void Merge_AppliesOverridesInOneDirectionOnly()
+    {
+        var options = new TwClassMergeOptions();
+        options.Groups.Add(new TwClassGroup("spacing-all", ["pad"]) { Overrides = ["px", "py"] });
+        options.Groups.Add(new TwClassGroup("btn-size", ["btn"]));
+        var merger = new TwClassMerger(options);
+
+        Assert.Equal("pad-4 px-2", merger.Merge("pad-4 px-2"));
+        Assert.Equal("btn-sm btns", merger.Merge("btn-sm btns"));
+        Assert.Equal("btn-sm hover:btn-lg", merger.Merge("hover:btn-sm btn-sm hover:btn-lg"));
+    }
+
+    [Fact]
     public void Merge_MergesOverridesIntoTheBuiltInConflicts_WhenACustomGroupReusesABuiltInName()
     {
         var options = new TwClassMergeOptions();
@@ -358,6 +387,109 @@ public class TwClassMergerTests
         var merger = new TwClassMerger(options);
 
         Assert.Equal("gutter-x-2", merger.Merge("pr-4 pl-4 gap-x-2 gutter-x-2"));
+    }
+
+    [Theory]
+    [InlineData("tw")]
+    [InlineData("tw:")]
+    [InlineData(" tw ")]
+    public void Merge_OnlyMergesPrefixedClasses_WhenAPrefixIsSet(string prefix)
+    {
+        var merger = new TwClassMerger(new TwClassMergeOptions { Prefix = prefix });
+
+        Assert.Equal("tw:px-2", merger.Merge("tw:px-4 tw:px-2"));
+        Assert.Equal("px-4 px-2", merger.Merge("px-4 px-2"));
+        Assert.Equal("hidden block tw:block", merger.Merge("hidden block tw:hidden tw:block"));
+        Assert.Equal("tw:hover:px-2", merger.Merge("tw:hover:px-4 tw:hover:px-2"));
+        Assert.Equal("fable:px-4 fable:px-2", merger.Merge("fable:px-4 fable:px-2"));
+    }
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    [InlineData("  ")]
+    public void Merge_TreatsEveryClassAsTailwind_WhenThePrefixIsEmpty(string? prefix)
+    {
+        var merger = new TwClassMerger(new TwClassMergeOptions { Prefix = prefix });
+
+        Assert.Equal("px-2 tw:px-2", merger.Merge("px-4 tw:px-4 px-2 tw:px-2"));
+    }
+
+    [Fact]
+    public void Merge_AppliesCustomGroups_ToPrefixedClasses_WhenAPrefixIsSet()
+    {
+        var options = new TwClassMergeOptions { Prefix = "tw" };
+        options.Groups.Add(new TwClassGroup("btn-size", ["btn"]));
+        var merger = new TwClassMerger(options);
+
+        Assert.Equal("tw:btn-lg", merger.Merge("tw:btn-sm tw:btn-lg"));
+        Assert.Equal("btn-sm btn-lg", merger.Merge("btn-sm btn-lg"));
+    }
+
+    [Theory]
+    [InlineData(0)]
+    [InlineData(-1)]
+    [InlineData(1)]
+    [InlineData(3)]
+    public void Merge_GivesTheSameResults_WhateverTheCacheSize(int cacheSize)
+    {
+        var merger = new TwClassMerger(new TwClassMergeOptions { CacheSize = cacheSize });
+
+        for (var pass = 0; pass < 2; pass++)
+        {
+            for (var i = 1; i <= 10; i++)
+                Assert.Equal($"px-{i} flex", merger.Merge($"px-0 px-{i} flex"));
+        }
+    }
+
+    [Fact]
+    public void Merge_MatchesAClassByItsWholeName_WhenListedInClasses()
+    {
+        var options = new TwClassMergeOptions();
+        options.Groups.Add(new TwClassGroup("font-size", []) { Classes = ["text-huge"] });
+        var merger = new TwClassMerger(options);
+
+        Assert.Equal("text-huge", merger.Merge("text-sm leading-6 text-huge"));
+        Assert.Equal("hover:text-huge", merger.Merge("hover:text-sm hover:text-huge"));
+        Assert.Equal("text-huge-wide text-sm", merger.Merge("text-huge-wide text-sm"));
+    }
+
+    [Fact]
+    public void Merge_AppliesModifierOverrides_OnlyWhenTheClassHasAModifier()
+    {
+        var options = new TwClassMergeOptions();
+        options.Groups.Add(new TwClassGroup("tile", ["tile"]) { ModifierOverrides = ["opacity"] });
+        var merger = new TwClassMerger(options);
+
+        Assert.Equal("tile-2/50", merger.Merge("opacity-75 tile-2/50"));
+        Assert.Equal("opacity-75 tile-2", merger.Merge("opacity-75 tile-2"));
+        Assert.Equal("tile-2/50 opacity-75", merger.Merge("tile-2/50 opacity-75"));
+    }
+
+    [Fact]
+    public void Merge_AddsModifierOverrides_ToThoseOfABuiltInGroup()
+    {
+        var options = new TwClassMergeOptions();
+        options.Groups.Add(new TwClassGroup("font-size", []) { ModifierOverrides = ["tracking"] });
+        var merger = new TwClassMerger(options);
+
+        Assert.Equal("text-lg/7", merger.Merge("leading-6 tracking-wide text-lg/7"));
+        Assert.Equal("tracking-wide text-lg", merger.Merge("leading-6 tracking-wide text-lg"));
+    }
+
+    [Theory]
+    [InlineData("scrollbar")]
+    [InlineData("scrollbar:")]
+    public void Merge_KeepsVariantOrder_AroundACustomOrderSensitiveVariant(string variant)
+    {
+        var options = new TwClassMergeOptions();
+        options.OrderSensitiveVariants.Add(variant);
+        options.OrderSensitiveVariants.Add(" ");
+        var merger = new TwClassMerger(options);
+
+        Assert.Equal("hover:scrollbar:p-1 scrollbar:hover:p-2", merger.Merge("hover:scrollbar:p-1 scrollbar:hover:p-2"));
+        Assert.Equal("hover:scrollbar:p-2", merger.Merge("hover:scrollbar:p-1 hover:scrollbar:p-2"));
+        Assert.Equal("scrollbar:hover:p-2", _merger.Merge("hover:scrollbar:p-1 scrollbar:hover:p-2"));
     }
 
     [Fact]
@@ -387,7 +519,13 @@ public class TwClassMergerTests
         var options = new TwClassMergeOptions();
 
         Assert.True(options.Enabled);
+        Assert.Null(options.Prefix);
+        Assert.Equal(TwClassMergeOptions.DefaultCacheSize, options.CacheSize);
         Assert.Empty(options.Groups);
+        Assert.Empty(options.OrderSensitiveVariants);
+        Assert.Empty(new TwClassGroup("group", []).Classes);
+        Assert.Empty(new TwClassGroup("group", []).Overrides);
+        Assert.Empty(new TwClassGroup("group", []).ModifierOverrides);
         Assert.NotNull(new TwBlazorOptions { Theme = null! }.ClassMerge);
     }
 }

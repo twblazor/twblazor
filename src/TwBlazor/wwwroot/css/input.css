@@ -6,6 +6,12 @@
 @source not "../../bin/**";
 @source not "../../obj/**";
 
+/* The class merge tables, their tests and their generator are full of class names that are data, not
+   markup. Left in, Tailwind would generate a rule for every one of them. */
+@source not "../../../../src/TwBlazor/Utilities/ClassMerge/TwClassGroups.Data.cs";
+@source not "../../../../tests/TwBlazor.Tests/Utilities/ClassMerge/**";
+@source not "../../../../scripts/class-merge/**";
+
 /* TwBlazor.Theme (the default Theme.cs) is deliberately NOT scanned here. Every class a component
    needs is either a literal still in this project's own .razor/.cs files (picked up above) or comes
    from a theme.* property that consumers are expected to supply their own Tailwind build for, via

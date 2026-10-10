@@ -10,89 +10,177 @@
             It is built into twblazor, so there is nothing to install and nothing to set up. <code>ClassBuilder.Build()</code> does the merge for every component. The sections below show the rules it follows, and every result in them is produced by <code>ClassBuilder</code> when this page renders, so it is always what the library really does.
         </p>
         <p class="mb-3">
-            The rules are those of the <a href="https://github.com/dcastil/tailwind-merge" class="underline">tailwind-merge</a> npm package for Tailwind CSS v4. Its class groups are generated into twblazor from that package, and twblazor's tests compare the two on several hundred class strings. See <a href="#class-merge-differences" class="underline">Differences from tailwind-merge</a> for the two places they part.
+            The rules are those of the <a href="https://github.com/dcastil/tailwind-merge" class="underline">tailwind-merge</a> npm package for Tailwind CSS v4. Its class groups are generated into twblazor from that package, and twblazor's tests compare the two on several hundred class strings. See <a href="/class-merge#class-merge-differences" class="underline">Differences from tailwind-merge</a> for the two places they part.
         </p>
         <TwCodeBlock Content="@_componentExample" Language="razor" />
     </PageCard>
 
     <PageCard Title="Last conflicting class wins">
-        <Description>When several classes set the same property, only the last one is kept.</Description>
-        <TwCodeBlock Content="@Examples("p-5 p-2 p-4")" Language="csharp" />
+        <Description>
+            Two classes conflict when they set the same CSS property, such as two paddings, two font sizes or two display values. Of the classes that conflict, only the one written last is kept. It stays exactly where you wrote it, the earlier ones are removed, and every class that is not part of the conflict keeps its place.
+        </Description>
+        <p class="mb-3">
+            The classes do not need to be next to each other, and several conflicts are resolved in the same pass.
+        </p>
+        <TwCodeBlock Content="@Examples("p-5 p-2 p-4", "flex px-4 items-center px-2", "text-sm font-bold text-lg font-normal")" Language="csharp" />
     </PageCard>
 
     <PageCard Title="Allows refinements">
-        <Description>A more specific class that comes after a general one refines it instead of replacing it, so both are kept.</Description>
-        <TwCodeBlock Content="@Examples("p-3 px-5", "inset-x-4 right-4")" Language="csharp" />
+        <Description>
+            A shorthand such as <code>p-3</code> sets several sides at once, and a class for one of those sides, such as <code>px-5</code>, is more specific. When the more specific class comes after the shorthand it refines it, so both are kept: padding everywhere, then a different horizontal padding.
+        </Description>
+        <p class="mb-3">
+            The order decides it. The other way round, the shorthand comes last and covers everything the specific class set, so the specific class is removed.
+        </p>
+        <TwCodeBlock Content="@Examples("p-3 px-5", "px-5 p-3", "inset-x-4 right-4", "rounded-lg rounded-t-none", "rounded-t-none rounded-lg", "border-2 border-t-4")" Language="csharp" />
     </PageCard>
 
     <PageCard Title="Resolves non-trivial conflicts">
-        <Description>Classes that look different can still conflict, such as a shorthand and the longhand it covers, or two display values.</Description>
-        <TwCodeBlock Content="@Examples("inset-x-px -inset-1", "bottom-auto inset-y-6", "inline block")" Language="csharp" />
+        <Description>
+            Classes with different names can still set the same property. The merge knows which Tailwind utilities overlap, including the cases that are easy to miss:
+        </Description>
+        <ul class="list-disc list-inside mb-3 space-y-2">
+            <li>A shorthand and the classes it covers: <code>p</code> with <code>px</code>, <code>py</code> and each side, and the same for margin, inset, gap, overflow, border width, border color, rounded corners and scroll margin and padding.</li>
+            <li><code>size-8</code> sets both width and height, so it replaces an earlier <code>w-4</code> and <code>h-6</code>.</li>
+            <li><code>flex-1</code> sets grow, shrink and basis, so it replaces earlier <code>grow</code>, <code>shrink</code> and <code>basis-4</code>.</li>
+            <li><code>line-clamp-1</code> sets display and overflow, so it replaces earlier classes for those.</li>
+            <li>Every display value conflicts with every other, as do the position values (<code>static</code>, <code>relative</code>, <code>absolute</code>) and the text decorations (<code>underline</code>, <code>line-through</code>).</li>
+            <li>A negative value conflicts with the positive class for the same property.</li>
+        </ul>
+        <TwCodeBlock Content="@Examples("inset-x-px -inset-1", "bottom-auto inset-y-6", "inline block", "w-4 h-6 size-8", "basis-4 grow flex-1", "overflow-auto inline line-clamp-1")" Language="csharp" />
+    </PageCard>
+
+    <PageCard Title="Tells apart classes that share a prefix">
+        <Description>
+            Many Tailwind prefixes are shared by unrelated properties. <code>text-</code> is used for font size, color, alignment and wrapping. <code>border-</code> is used for width, color and style. <code>bg-</code> is used for color, image, size, position and repeat. The value after the prefix decides which property a class sets, and only classes for the same property conflict.
+        </Description>
+        <p class="mb-3">
+            So <code>text-lg</code> replaces <code>text-sm</code> and leaves <code>text-red-500</code> alone, and a background color never removes a background size or position.
+        </p>
+        <TwCodeBlock Content="@Examples("text-sm text-red-500 text-lg", "border-2 border-red-500 border-dashed border-4", "bg-red-500 bg-cover bg-center bg-blue-500", "shadow-md shadow-brand shadow-lg")" Language="csharp" />
     </PageCard>
 
     <PageCard Title="Supports modifiers and stacked modifiers">
-        <Description>Classes only conflict when they share the same set of modifiers, so <code>hover:p-4</code> never removes <code>p-2</code>, and the order of stacked modifiers does not matter.</Description>
-        <TwCodeBlock Content="@Examples("p-2 hover:p-4", "hover:p-2 hover:p-4", "hover:focus:p-2 focus:hover:p-4")" Language="csharp" />
+        <Description>
+            Classes only conflict when they have exactly the same modifiers, because each set of modifiers applies in a different situation. <code>hover:p-4</code> never removes <code>p-2</code>, and <code>md:p-4</code> never removes <code>lg:p-6</code>. This holds for every kind of modifier: state (<code>hover</code>, <code>focus</code>, <code>disabled</code>), responsive (<code>md</code>, <code>max-lg</code>), color scheme (<code>dark</code>), group and peer (<code>group-hover</code>, <code>peer-checked</code>), and data and aria attributes.
+        </Description>
+        <p class="mb-3">
+            When modifiers are stacked their order does not matter, so <code>hover:focus:</code> and <code>focus:hover:</code> are the same thing.
+        </p>
+        <TwCodeBlock Content="@Examples("p-2 hover:p-4", "hover:p-2 hover:p-4", "hover:focus:p-2 focus:hover:p-4", "md:p-2 md:p-4 lg:p-6", "dark:hover:bg-red-500 hover:dark:bg-blue-500", "group-hover:p-1 peer-hover:p-2 group-hover:p-3")" Language="csharp" />
         <TwAlert Color="Color.Info" Class="mt-3">
-            The order does matter around a modifier that changes which element is styled: <code>before</code>, <code>after</code>, <code>placeholder</code>, <code>file</code>, <code>marker</code>, <code>selection</code>, <code>first-line</code>, <code>first-letter</code>, <code>backdrop</code>, <code>details-content</code>, <code>*</code> and <code>**</code>, and any arbitrary variant. <code>before:hover:p-1</code> and <code>hover:before:p-2</code> produce different CSS, so both are kept.
+            <p class="font-semibold">Where the order does matter</p>
+            <p>
+                Some modifiers change which element is styled: <code>before</code>, <code>after</code>, <code>placeholder</code>, <code>file</code>, <code>marker</code>, <code>selection</code>, <code>first-line</code>, <code>first-letter</code>, <code>backdrop</code>, <code>details-content</code>, <code>*</code> and <code>**</code>, and any arbitrary variant. Moving another modifier from one side of these to the other changes the CSS Tailwind produces, so <code>before:hover:p-1</code> and <code>hover:before:p-2</code> are treated as different and both are kept. If you define such a variant yourself with <code>@@custom-variant</code>, add its name to <code>OrderSensitiveVariants</code> so it is treated the same way.
+            </p>
         </TwAlert>
+        <TwCodeBlock Content="@Examples("before:hover:p-1 hover:before:p-2", "hover:before:p-1 hover:before:p-2")" Language="csharp" Class="mt-3" />
     </PageCard>
 
     <PageCard Title="Supports a Tailwind prefix">
         <Description>
-            A Tailwind v4 prefix is written like a modifier, as in <code>tw:px-4</code>, so prefixed classes need no configuration. They merge with each other, and never with the unprefixed class of the same name, because the two come from different stylesheets.
+            If your Tailwind build uses a prefix, Tailwind v4 writes it like a modifier at the start of the class, as in <code>tw:px-4</code> or <code>tw:hover:px-4</code>. Prefixed classes are merged with no configuration, and everything on this page applies to them: refinements, modifiers, arbitrary values and the important modifier.
         </Description>
-        <TwCodeBlock Content="@Examples("tw:px-4 tw:px-2", "tw:pt-1 tw:py-3", "tw:px-4 px-2")" Language="csharp" />
-    </PageCard>
-
-    <PageCard Title="Supports arbitrary values">
-        <Description>Arbitrary values take part in the merge like any other value.</Description>
-        <TwCodeBlock Content="@Examples("bg-black bg-(--my-color) bg-[color:var(--mystery-var)]", "grid-cols-[1fr,auto] grid-cols-2")" Language="csharp" />
+        <p class="mb-3">
+            A prefixed class never conflicts with the unprefixed class of the same name. The two come from different stylesheets, so neither can stand in for the other.
+        </p>
+        <TwCodeBlock Content="@Examples("tw:px-4 tw:px-2", "tw:pt-1 tw:py-3", "tw:hover:px-4 tw:hover:px-2", "tw:px-4 px-2")" Language="csharp" />
+        <p class="my-3">
+            By default unprefixed classes are merged as well, which is right when the page mixes a prefixed and an unprefixed Tailwind build. If your whole application is prefixed, set <code>Prefix</code> to the value you gave <code>prefix(...)</code> in your stylesheet. Only classes that start with it are then treated as Tailwind utilities. Any other class, such as a <code>hidden</code> or <code>container</code> that belongs to another framework on the page, is left alone.
+        </p>
+        <TwCodeBlock Content="@_prefixExample" Language="csharp" />
         <TwAlert Color="Color.Info" Class="mt-3">
-            <p class="font-semibold">Labels are necessary in ambiguous cases</p>
-            <p>
-                A class like <code>text-[calc(var(--rebecca)-1rem)]</code> could be a font size or a text color, so the value is inspected for clues such as <code>calc()</code> or a number followed by a unit like <code>1rem</code>. When the type can't be told from the value, as in <code>text-[theme(myCustomScale.rebecca)]</code>, it is treated as a color. Add a CSS data type label, as Tailwind itself does, to say which one you mean: <code>text-[length:theme(myCustomScale.rebecca)]</code>.
-            </p>
+            The option only tells the merge what to treat as Tailwind. It does not add the prefix to anything: your copy of the theme must already be written with it, because Tailwind only generates the classes it finds in your source.
         </TwAlert>
     </PageCard>
 
+    <PageCard Title="Supports arbitrary values">
+        <Description>
+            Arbitrary values take part in the merge like any other value. That covers both the square bracket form, <code>m-[10px]</code>, and the Tailwind v4 shorthand for a CSS variable, <code>w-(--sidebar)</code>. An arbitrary value conflicts with the named values for the same property, in either order.
+        </Description>
+        <TwCodeBlock Content="@Examples("m-[2px] m-[10px]", "text-[14px] text-sm", "w-(--sidebar) w-64", "bg-black bg-(--my-color) bg-[color:var(--mystery-var)]", "grid-cols-[1fr,auto] grid-cols-2")" Language="csharp" />
+        <TwAlert Color="Color.Info" Class="mt-3">
+            <p class="font-semibold">Labels are necessary in ambiguous cases</p>
+            <p class="mb-2">
+                A class like <code>text-[calc(var(--rebecca)-1rem)]</code> could be a font size or a text color, so the value is inspected for clues such as <code>calc()</code> or a number followed by a unit like <code>1rem</code>. When the type can't be told from the value, as in <code>text-[theme(myCustomScale.rebecca)]</code>, it is treated as a color. Add a CSS data type label, as Tailwind itself does, to say which one you mean: <code>text-[length:theme(myCustomScale.rebecca)]</code>.
+            </p>
+            <p>
+                A variable in the shorthand form can never be inspected, so <code>text-(--my-size)</code> is always read as a color. Label it when it is something else: <code>text-(length:--my-size)</code>. The labels are <code>length</code>, <code>size</code>, <code>position</code>, <code>percentage</code>, <code>image</code>, <code>url</code>, <code>number</code>, <code>weight</code>, <code>family-name</code> and <code>shadow</code>.
+            </p>
+        </TwAlert>
+        <TwCodeBlock Content="@Examples("text-2xl text-(--my-color)", "text-2xl text-(length:--my-size)")" Language="csharp" Class="mt-3" />
+    </PageCard>
+
     <PageCard Title="Supports arbitrary properties">
-        <Description>Arbitrary properties conflict with other arbitrary properties for the same property name.</Description>
-        <TwCodeBlock Content="@Examples("[mask-type:luminance] [mask-type:alpha]", "[--scroll-offset:56px] lg:[--scroll-offset:44px]")" Language="csharp" />
+        <Description>
+            An arbitrary property, such as <code>[mask-type:alpha]</code>, conflicts with another arbitrary property that has the same property name. CSS variables set this way work the same, so a later <code>[--scroll-offset:44px]</code> replaces an earlier one. Modifiers apply as they do everywhere else: the two only conflict when their modifiers match.
+        </Description>
+        <TwCodeBlock Content="@Examples("[mask-type:luminance] [mask-type:alpha]", "hover:[color:red] hover:[color:blue]", "[--scroll-offset:56px] lg:[--scroll-offset:44px]")" Language="csharp" />
         <TwAlert Color="Color.Info" Class="mt-3">
             Conflicts between an arbitrary property and the Tailwind class for the same property are not resolved. Don't write <code>[padding:1rem] p-8</code> and expect one of them to go.
         </TwAlert>
     </PageCard>
 
     <PageCard Title="Supports arbitrary variants">
-        <Description>Arbitrary variants conflict with the same arbitrary variant. Like arbitrary properties, an arbitrary variant is never matched against a predefined modifier, so <code>[&amp;:focus]:ring</code> and <code>focus:ring-4</code> are both kept.</Description>
-        <TwCodeBlock Content="@Examples("[&:nth-child(3)]:py-0 [&:nth-child(3)]:py-4", "[&:focus]:ring focus:ring-4")" Language="csharp" />
+        <Description>
+            Arbitrary variants, such as <code>[&amp;&gt;*]:</code> or <code>[&amp;:nth-child(3)]:</code>, are modifiers like any other: two classes conflict when they have the same one. The selector is compared as written, so <code>[&amp;&gt;*]:</code> and <code>[&amp;&gt;p]:</code> are different.
+        </Description>
+        <p class="mb-3">
+            Like arbitrary properties, an arbitrary variant is never matched against a predefined modifier, so <code>[&amp;:focus]:ring</code> and <code>focus:ring-4</code> are both kept. And because an arbitrary variant can change which element is styled, the order of the modifiers around it is kept too.
+        </p>
+        <TwCodeBlock Content="@Examples("[&:nth-child(3)]:py-0 [&:nth-child(3)]:py-4", "[&>*]:underline [&>*]:line-through", "[&>*]:p-1 [&>p]:p-2", "[&:focus]:ring focus:ring-4", "hover:[&>*]:p-1 [&>*]:hover:p-2")" Language="csharp" />
     </PageCard>
 
     <PageCard Title="Supports important modifier">
-        <Description>The important modifier can go before or after the class, and important classes only conflict with other important classes.</Description>
-        <TwCodeBlock Content="@Examples("p-3! p-4! p-5", "right-2! -inset-x-1!")" Language="csharp" />
+        <Description>
+            An important class only conflicts with other important classes, and an ordinary class only with ordinary ones. An important class already beats the ordinary one in the browser, so removing either would change nothing or lose a fallback.
+        </Description>
+        <p class="mb-3">
+            The modifier can be written after the class, <code>p-4!</code>, which is the Tailwind v4 form, or before it, <code>!p-4</code>, which is the older form Tailwind still accepts. The two forms conflict with each other, and both work with modifiers.
+        </p>
+        <TwCodeBlock Content="@Examples("p-3! p-4! p-5", "right-2! -inset-x-1!", "!p-3 p-4!", "hover:p-3! hover:p-4!", "p-3 p-4!")" Language="csharp" />
     </PageCard>
 
     <PageCard Title="Supports postfix modifiers">
-        <Description>A postfix modifier, such as the line height in <code>text-lg/7</code>, also replaces the class it sets.</Description>
-        <TwCodeBlock Content="@Examples("text-sm leading-6 text-lg/7")" Language="csharp" />
+        <Description>
+            A postfix modifier is the part after a slash. In <code>text-lg/7</code> it sets the line height as well as the font size, so the class also replaces an earlier <code>leading-6</code>. A <code>leading</code> class written after it refines it and is kept.
+        </Description>
+        <p class="mb-3">
+            Elsewhere the modifier is an opacity, as in <code>bg-red-500/50</code>, and does not change what the class conflicts with. A slash that is part of the value, as in the fraction <code>w-1/2</code>, is not a modifier at all.
+        </p>
+        <TwCodeBlock Content="@Examples("text-sm leading-6 text-lg/7", "text-lg/7 leading-9", "bg-red-500/50 bg-blue-500", "w-full w-1/2")" Language="csharp" />
     </PageCard>
 
     <PageCard Title="Preserves non-Tailwind classes">
-        <Description>Classes that are not Tailwind utilities are never removed and keep their place. That includes a class that only looks like one, such as <code>w-half</code>, whose value Tailwind does not have.</Description>
-        <TwCodeBlock Content="@Examples("p-5 p-2 my-non-tailwind-class p-4", "w-1/2 w-half")" Language="csharp" />
+        <Description>
+            A class that is not a Tailwind utility is never removed and keeps its place, so your own classes, component classes from other libraries and icon classes are safe. Such classes are not compared with each other either: writing one twice leaves it twice.
+        </Description>
+        <p class="mb-3">
+            A class counts as a Tailwind utility only when its value is one Tailwind has. <code>w-half</code> starts like a width, but <code>half</code> is not a width Tailwind knows, so it is left alone and does not remove <code>w-1/2</code>.
+        </p>
+        <TwCodeBlock Content="@Examples("p-5 p-2 my-non-tailwind-class p-4", "btn btn-primary btn", "w-1/2 w-half")" Language="csharp" />
     </PageCard>
 
     <PageCard Title="Supports custom colors out of the box">
-        <Description>A color name it has never seen, such as one from your own Tailwind theme, is treated as a color.</Description>
-        <TwCodeBlock Content="@Examples("text-red text-secret-sauce")" Language="csharp" />
+        <Description>
+            Where a utility takes a color, any name it has never seen is treated as a color. Colors from your own Tailwind theme therefore merge with no configuration, for text, background, border, ring, outline, shadow, fill, stroke and the rest. Custom font families work the same way.
+        </Description>
+        <TwCodeBlock Content="@Examples("text-red text-secret-sauce", "bg-brand bg-brand-dark", "ring-brand ring-2 ring-other", "font-sans font-my-family")" Language="csharp" />
+        <TwAlert Color="Color.Info" Class="mt-3">
+            <p class="font-semibold">Custom sizes need a group</p>
+            <p>
+                The same rule means a custom name that is not a color is misread. With <code>--text-huge</code> in your theme, <code>text-huge</code> is taken for a color and will not replace <code>text-sm</code>, and a custom radius such as <code>rounded-brand</code> is not recognised at all. Sizes named like Tailwind's own, such as <code>text-3.5xl</code>, are fine. For any other name, add the class to the built-in group it belongs to, as shown under <a href="/class-merge#class-merge-custom-names" class="underline">Add your own utilities</a>.
+            </p>
+        </TwAlert>
     </PageCard>
 
     <PageCard Title="Composition">
         <Description>
-            <code>ClassBuilder</code> merges once, when you call <code>Build()</code>, so you can add classes in as many calls as you like. A conditional class takes part in the merge only when its condition is true.
+            <code>ClassBuilder</code> merges once, when you call <code>Build()</code>, so you can add classes in as many calls as you like. The order of the calls is the order of the classes, which is why a component adds its theme classes first and your <code>Class</code> last. A conditional class takes part in the merge only when its condition is true.
         </Description>
+        <p class="mb-3">
+            Whitespace is tidied on the way: extra spaces, tabs and line breaks become single spaces, and a null or empty string adds nothing.
+        </p>
         <TwCodeBlock Content="@_compositionExample" Language="csharp" />
     </PageCard>
 
@@ -100,28 +188,68 @@
         <Description>
             Merging needs no configuration. Leave <code>ClassMerge</code> alone and everything above applies. To change it, set it on the options you pass to <code>AddTwBlazor</code>. It is part of <code>TwBlazorOptions</code>, not the theme, and applies to your whole application.
         </Description>
+        <p class="mb-3">
+            The configuration is read once, when <code>AddTwBlazor</code> runs, so set it there and not later. These are the settings:
+        </p>
+        <ul class="list-disc list-inside mb-3 space-y-2">
+            <li><code>Enabled</code> turns merging on or off. It is on by default.</li>
+            <li><code>Prefix</code> is the prefix of your Tailwind build, such as <code>tw</code>. Classes without it are then left alone.</li>
+            <li><code>Groups</code> holds your own class groups, for utilities the merge does not know.</li>
+            <li><code>OrderSensitiveVariants</code> names custom variants whose position among the other variants matters.</li>
+            <li><code>CacheSize</code> is how many results are remembered. It is 2,048 by default, and 0 turns the cache off.</li>
+        </ul>
         <TwCodeBlock Content="@_configureExample" Language="csharp" />
     </PageCard>
 
     <PageCard Title="Turn it off">
         <p class="mb-3">
-            With <code>Enabled</code> set to <code>false</code> every class is rendered exactly as written, with only the surrounding whitespace trimmed.
+            With <code>Enabled</code> set to <code>false</code> every class is rendered exactly as written, with only the surrounding whitespace trimmed. Both the theme's class and yours then reach the element, and which one applies is decided by their order in Tailwind's stylesheet. Turn it off only if you resolve conflicts some other way.
         </p>
         <TwCodeBlock Content="@_disableExample" Language="csharp" />
     </PageCard>
 
-    <PageCard Title="Add your own utilities">
+    <PageCard Title="Add your own utilities" Id="class-merge-custom-names">
         <p class="mb-3">
-            A <code>TwClassGroup</code> is a set of classes that conflict with each other. A class belongs to the group when it equals one of its prefixes or starts with the prefix and a dash, so the prefix <code>btn</code> matches <code>btn</code>, <code>btn-sm</code> and <code>btn-lg</code>. Custom groups are checked before the built-in ones.
+            A <code>TwClassGroup</code> is a set of classes that conflict with each other. A class belongs to the group when it equals one of its prefixes or starts with the prefix and a dash, so the prefix <code>btn</code> matches <code>btn</code>, <code>btn-sm</code> and <code>btn-lg</code>, and does not match <code>btns</code>. Use it for classes you define with <code>@@utility</code> or in your own CSS. Custom groups are checked before the built-in ones.
+        </p>
+        <p class="mb-3">
+            Classes in a custom group get the same treatment as Tailwind's: modifiers, the important modifier, a leading minus and a postfix modifier are all understood, so <code>hover:btn-sm</code> only conflicts with <code>hover:btn-lg</code>.
         </p>
         <TwCodeBlock Content="@_groupExample" Language="csharp" />
+        <p class="my-3">
+            Give a group the name of a built-in one to add your classes to it. This is how to teach the merge a custom size from your Tailwind theme: the class then conflicts with everything else in that group and inherits what the group overrides.
+        </p>
+        <TwCodeBlock Content="@_customNamesExample" Language="csharp" />
+        <p class="my-3">
+            <code>Classes</code> matches a class by its whole name, where a prefix would also match everything that starts with it. Use it for a single class such as <code>text-huge</code>, so that an unrelated <code>text-huge-wide</code> is not pulled into the group. A group can have prefixes, classes or both.
+        </p>
     </PageCard>
 
     <PageCard Title="Override other groups">
         <p class="mb-3">
-            Set <code>Overrides</code> to the names of groups that a later class from this one also removes. Reusing the name of a built-in group, such as <code>p</code>, adds your classes to that group and keeps its existing overrides.
+            Set <code>Overrides</code> to the names of groups that a later class from this one also removes. It works in one direction, like Tailwind's own shorthands: a later <code>pad-4</code> removes an earlier <code>px-2</code>, and a later <code>px-2</code> refines an earlier <code>pad-4</code>, so both are kept.
+        </p>
+        <p class="mb-3">
+            Reusing the name of a built-in group, such as <code>p</code>, adds your classes to that group and keeps its existing overrides. The built-in groups are named as in tailwind-merge. The common ones are <code>p</code>, <code>px</code>, <code>py</code>, <code>m</code>, <code>w</code>, <code>h</code>, <code>size</code>, <code>display</code>, <code>font-size</code>, <code>font-weight</code>, <code>font-family</code>, <code>leading</code>, <code>text-color</code>, <code>bg-color</code>, <code>border-w</code>, <code>border-color</code>, <code>rounded</code>, <code>shadow</code> and <code>shadow-color</code>.
         </p>
         <TwCodeBlock Content="@_overridesExample" Language="csharp" />
+        <p class="my-3">
+            <code>ModifierOverrides</code> does the same, but only for a class written with a postfix modifier. This is how the built-in font sizes work: <code>text-lg/7</code> removes an earlier line height and <code>text-lg</code> does not. Use it when the part after the slash in your own utility sets a second property.
+        </p>
+        <TwCodeBlock Content="@_modifierOverridesExample" Language="csharp" />
+    </PageCard>
+
+    <PageCard Title="What it does not do">
+        <Description>
+            The merge only removes classes it is sure conflict. A few things are outside it:
+        </Description>
+        <ul class="list-disc list-inside mb-3 space-y-2">
+            <li>It does not compare an arbitrary property with the utility for the same property, so <code>[padding:1rem] p-8</code> keeps both.</li>
+            <li>It does not remove duplicates of classes that are not Tailwind utilities.</li>
+            <li>It does not reorder classes. What is kept stays where it was written.</li>
+            <li>It does not know your own utilities or custom size names until you add a group for them.</li>
+            <li>It does not read your Tailwind configuration, so it cannot tell whether a class exists in your build.</li>
+        </ul>
     </PageCard>
 
     <PageCard Title="Differences from tailwind-merge" Id="class-merge-differences">
@@ -133,15 +261,18 @@
                 An unlabelled arbitrary background value made of position keywords, such as <code>bg-[right_0.5rem_center]</code>, is a background position, as it is to Tailwind. tailwind-merge reads it as a color unless you write <code>bg-[position:right_0.5rem_center]</code>.
             </li>
             <li>
-                A line height modifier is recognised after the Tailwind v3 important syntax too, so <code>!text-sm/6</code> replaces an earlier <code>!leading-4</code> just as <code>text-sm/6!</code> does.
+                A line height modifier is recognised after the older important syntax too, so <code>!text-sm/6</code> replaces an earlier <code>!leading-4</code> just as <code>text-sm/6!</code> does.
             </li>
         </ul>
         <TwCodeBlock Content="@Examples("bg-red-500 bg-[right_0.5rem_center]", "!leading-4 !text-sm/6")" Language="csharp" />
+        <p class="my-3">
+            Configuration differs too. tailwind-merge is extended with <code>extendTailwindMerge</code> and its own config format. twblazor has the settings listed under <a href="/class-merge#class-merge-configuration" class="underline">Configuration</a>, set in C#. Its <code>Prefix</code> behaves like tailwind-merge's <code>prefix</code>, and <code>Groups</code>, <code>Overrides</code> and <code>ModifierOverrides</code> cover what <code>classGroups</code>, <code>conflictingClassGroups</code> and <code>conflictingClassGroupModifiers</code> do there.
+        </p>
     </PageCard>
 
     <PageCard Title="Performance">
         <Description>
-            Results are cached, so re-renders don't repeat the work. The cache is keyed on the full class string given to <code>Build()</code> and holds up to 2,048 different results before it starts again.
+            Results are cached, so re-renders don't repeat the work. The cache is keyed on the full class string given to <code>Build()</code> and holds up to 2,048 different results before it starts again. Change that number with <code>CacheSize</code> if your application builds far more distinct class strings than that, or set it to 0 to always merge afresh. A component that renders with the same classes as last time gets its answer from one dictionary lookup.
         </Description>
     </PageCard>
 </PageContainer>
@@ -170,9 +301,28 @@
     private const string _configureExample = """
         builder.Services.AddTwBlazor(options =>
         {
-            options.ClassMerge.Enabled = true; // the default
+            options.ClassMerge.Enabled = true;   // the default
+            options.ClassMerge.Prefix = "tw";    // only for a prefixed Tailwind build
+            options.ClassMerge.CacheSize = 4096; // 2,048 by default
             options.ClassMerge.Groups.Add(new TwClassGroup("btn-size", ["btn"]));
+            options.ClassMerge.OrderSensitiveVariants.Add("scrollbar");
         }, Theme.CreateTheme);
+        """;
+
+    private const string _prefixExample = """
+        // app.css: @import "tailwindcss" prefix(tw);
+        builder.Services.AddTwBlazor(options => options.ClassMerge.Prefix = "tw", Theme.CreateTheme);
+
+        // "tw:px-4 tw:px-2" renders as "tw:px-2".
+        // "hidden block" is left as it is: without the prefix they are not Tailwind classes.
+        """;
+
+    private const string _modifierOverridesExample = """
+        // tile-2/50 sets an opacity as well, so it removes an earlier opacity-75. tile-2 does not.
+        options.ClassMerge.Groups.Add(new TwClassGroup("tile", ["tile"])
+        {
+            ModifierOverrides = ["opacity"],
+        });
         """;
 
     private const string _disableExample = """
@@ -184,6 +334,18 @@
         options.ClassMerge.Groups.Add(new TwClassGroup("btn-size", ["btn"]));
 
         // "btn-sm btn-lg flex" renders as "btn-lg flex".
+        """;
+
+    private const string _customNamesExample = """
+        // text-huge comes from --text-huge in your Tailwind theme. In the font-size group it
+        // replaces text-sm, and an earlier leading-6, the way a built-in font size does.
+        options.ClassMerge.Groups.Add(new TwClassGroup("font-size", []) { Classes = ["text-huge"] });
+
+        // rounded-brand comes from --radius-brand.
+        options.ClassMerge.Groups.Add(new TwClassGroup("rounded", []) { Classes = ["rounded-brand"] });
+
+        // "text-sm leading-6 text-huge" renders as "text-huge".
+        // "rounded-md rounded-brand" renders as "rounded-brand".
         """;
 
     private const string _overridesExample = """

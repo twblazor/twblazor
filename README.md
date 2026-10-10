@@ -46,7 +46,7 @@ $ dotnet add package twblazor --version 1.14.2
 
 ## Class merging
 
-When a component builds its `class` attribute, conflicting Tailwind utilities are merged so the last one wins. A `Class="px-2"` you pass to a component replaces the theme's `px-4` instead of both reaching the element. It is built into twblazor, so there is no extra package, and it needs no setup. Classes that are not Tailwind utilities are always kept.
+When a component builds its `class` attribute, conflicting Tailwind utilities are merged so the last one wins. A `Class="px-2"` you pass to a component replaces the theme's `px-4` instead of both reaching the element. It is built into twblazor, so there is no extra package, and it needs no setup. Classes that are not Tailwind utilities are always kept. It follows the rules of tailwind-merge for Tailwind CSS v4, including variants, arbitrary values, the important modifier and prefixed classes such as `tw:px-4`.
 
 To tune it, set `ClassMerge` on the options you pass to `AddTwBlazor`:
 
@@ -58,8 +58,13 @@ builder.Services.AddTwBlazor(options =>
 
     // Teach it your own utilities: of btn, btn-sm, btn-lg only the last one is kept.
     options.ClassMerge.Groups.Add(new TwClassGroup("btn-size", ["btn"]));
+
+    // If your Tailwind build uses prefix(tw), only merge classes written as tw:px-4.
+    // options.ClassMerge.Prefix = "tw";
 }, Theme.CreateTheme);
 ```
+
+See the [Class Merge docs](https://twblazor.com/class-merge) for every rule and option.
 
 ## Supported Versions
 

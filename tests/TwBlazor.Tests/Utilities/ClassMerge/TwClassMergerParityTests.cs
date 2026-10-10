@@ -17,6 +17,8 @@ public class TwClassMergerParityTests
 {
     private static readonly TwClassMerger _merger = new(new TwClassMergeOptions());
 
+    private static readonly TwClassMerger _prefixedMerger = new(new TwClassMergeOptions { Prefix = "tw" });
+
     [Fact]
     public void Tables_AreGeneratedFromTheSameTailwindMergeVersion_AsTheseTests()
     {
@@ -827,5 +829,35 @@ public class TwClassMergerParityTests
     public void Merge_MatchesTailwindMerge_ForRealWorldComponentClasses(string input, string expected)
     {
         Assert.Equal(expected, _merger.Merge(input));
+    }
+
+    [Theory]
+    [InlineData("tw:px-4 tw:px-2", "tw:px-2")]
+    [InlineData("px-4 px-2", "px-4 px-2")]
+    [InlineData("tw:px-4 px-2", "tw:px-4 px-2")]
+    [InlineData("px-4 tw:px-2", "px-4 tw:px-2")]
+    [InlineData("hidden block tw:hidden tw:block", "hidden block tw:block")]
+    [InlineData("container tw:container flex tw:flex tw:grid", "container tw:container flex tw:grid")]
+    [InlineData("tw:hover:px-4 tw:hover:px-2", "tw:hover:px-2")]
+    [InlineData("tw:hover:px-4 hover:tw:px-2", "tw:hover:px-4 hover:tw:px-2")]
+    [InlineData("hover:tw:px-4 hover:tw:px-2", "hover:tw:px-4 hover:tw:px-2")]
+    [InlineData("tw:p-4 tw:px-2 tw:pl-1 tw:px-3", "tw:p-4 tw:px-3")]
+    [InlineData("tw:pl-1 tw:pr-1 tw:px-3", "tw:px-3")]
+    [InlineData("tw:text-sm tw:leading-6 tw:text-lg/7", "tw:text-lg/7")]
+    [InlineData("tw:px-4! tw:px-2!", "tw:px-2!")]
+    [InlineData("tw:px-4! tw:px-2", "tw:px-4! tw:px-2")]
+    [InlineData("tw:dark:hover:bg-red-500 tw:hover:dark:bg-blue-500", "tw:hover:dark:bg-blue-500")]
+    [InlineData("tw:before:hover:p-1 tw:hover:before:p-2", "tw:before:hover:p-1 tw:hover:before:p-2")]
+    [InlineData("tw:-mt-2 tw:mt-4", "tw:mt-4")]
+    [InlineData("tw:bg-red-500 tw:bg-[#fff] tw:bg-(--brand)", "tw:bg-(--brand)")]
+    [InlineData("tw:[&>*]:p-1 tw:[&>*]:p-2", "tw:[&>*]:p-2")]
+    [InlineData("tw:[mask-type:alpha] tw:[mask-type:luminance]", "tw:[mask-type:luminance]")]
+    [InlineData("tw:w-1/2 tw:w-half tw:w-full", "tw:w-half tw:w-full")]
+    [InlineData("tw:my-class tw:my-class other other", "tw:my-class tw:my-class other other")]
+    [InlineData("fable:px-4 fable:px-2 tw:m-4 tw:m-2", "fable:px-4 fable:px-2 tw:m-2")]
+    [InlineData("tw: tw:flex tw:block", "tw: tw:block")]
+    public void Merge_MatchesTailwindMerge_WhenThePrefixOptionIsSet(string input, string expected)
+    {
+        Assert.Equal(expected, _prefixedMerger.Merge(input));
     }
 }
