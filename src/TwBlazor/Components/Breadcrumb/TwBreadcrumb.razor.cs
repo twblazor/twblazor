@@ -4,6 +4,7 @@
 using Microsoft.AspNetCore.Components;
 using System.Text;
 using TwBlazor.Configuration.Components;
+using TwBlazor.Enums;
 using TwBlazor.Models;
 
 namespace TwBlazor.Components;
@@ -36,6 +37,26 @@ public partial class TwBreadcrumb : TwBlazorComponentBase
     /// Determines if the breadcrumbs are automatically constructed from the URI.
     /// </summary>
     [Parameter] public bool Auto { get; set; }
+
+    /// <summary>
+    /// Gets or sets the text shown between breadcrumbs. Defaults to <c>/</c>.
+    /// </summary>
+    /// <remarks>
+    /// The separator is decorative and hidden from assistive technology, which already announces the trail as a
+    /// list. <see cref="SeparatorIcon"/> takes its place when set.
+    /// </remarks>
+    [Parameter] public string Separator { get; set; } = defaultSeparator;
+
+    /// <summary>
+    /// Gets or sets an icon shown between breadcrumbs in place of the <see cref="Separator"/> text, such as
+    /// <see cref="Icon.Chevron_Right"/>.
+    /// </summary>
+    [Parameter] public Icon? SeparatorIcon { get; set; }
+
+    /// <summary>
+    /// The separator text used when none is set.
+    /// </summary>
+    internal const string defaultSeparator = "/";
 
     /// <summary>
     /// Inline breadcrumb items.
