@@ -296,9 +296,10 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
         }
 
         ApplySearch(value);
+        var rowNoun = displayedRows.Count == 1 ? "row" : "rows";
         sortStatusMessage = displayedRows.Count == 0
             ? "No results match your search"
-            : $"Showing {displayedRows.Count} matching {(displayedRows.Count == 1 ? "row" : "rows")}";
+            : $"Showing {displayedRows.Count} matching {rowNoun}";
         await Task.CompletedTask;
     }
 

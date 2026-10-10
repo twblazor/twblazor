@@ -7,7 +7,7 @@ namespace TwBlazor.Docs.Tests.Services;
 public class KeyboardShortcutsTests : DocsTestBase
 {
     public static TheoryData<string> ComponentPaths =>
-        new(ComponentCatalog.LoadLeafEntries().Select(leaf => leaf.Entry.Url));
+        [.. ComponentCatalog.LoadLeafEntries().Select(leaf => leaf.Entry.Url)];
 
     [Theory]
     [MemberData(nameof(ComponentPaths))]

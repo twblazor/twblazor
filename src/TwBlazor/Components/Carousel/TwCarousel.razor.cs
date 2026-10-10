@@ -407,7 +407,10 @@ public partial class TwCarousel : TwBlazorComponentBase, IAsyncDisposable
     /// </summary>
     public async ValueTask DisposeAsync()
     {
-        autoPlayTimer?.Dispose();
+        if (autoPlayTimer is not null)
+        {
+            await autoPlayTimer.DisposeAsync();
+        }
 
         if (keysAttached)
         {

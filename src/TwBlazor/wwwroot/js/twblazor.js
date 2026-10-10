@@ -427,7 +427,7 @@ globalThis.twDialog = {
             const parent = current.parentElement;
             Array.from(parent.children).forEach(function (sibling) {
                 if (sibling === current) return;
-                if (sibling.hasAttribute('data-tw-inert-exempt')) return;
+                if ('twInertExempt' in sibling.dataset) return;
                 const ours = sibling.dataset.twDialogInert === 'true';
                 if (sibling.hasAttribute('inert') && !ours) return;
                 const owners = globalThis.twDialog._inertOwners(sibling);
@@ -1209,7 +1209,7 @@ globalThis.twTooltip = {
         if (!wrapper || !tooltipId) return false;
         const { bubble } = globalThis.twTooltip._parts(wrapper);
         const control = globalThis.twDialog.getFocusableElements(wrapper).find(function (el) {
-            return el !== wrapper && !(bubble && bubble.contains(el));
+            return el !== wrapper && !bubble?.contains(el);
         });
         if (!control) return false;
 

@@ -148,6 +148,9 @@ public class KeyboardNavigationTests(A11yFixture fixture)
                 "label => document.activeElement?.closest('[role=\"grid\"]')?.getAttribute('aria-label') !== undefined"
                 + " && document.activeElement.closest('[role=\"grid\"]').getAttribute('aria-label') !== label",
                 before);
+
+            var after = await page.EvaluateAsync<string>("document.activeElement.closest('[role=\"grid\"]').getAttribute('aria-label')");
+            Assert.NotEqual(before, after);
         }
         finally
         {
@@ -265,6 +268,7 @@ public class KeyboardNavigationTests(A11yFixture fixture)
 
             await page.WaitForURLAsync("**/get-started");
             await page.WaitForFunctionAsync("document.activeElement?.tagName === 'H1'");
+            Assert.Equal("H1", await page.EvaluateAsync<string>("document.activeElement.tagName"));
         }
         finally
         {

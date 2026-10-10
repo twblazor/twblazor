@@ -606,14 +606,14 @@ public class AccessibilityBehaviourTests : TwBlazorTestBase
 
         // Assert - "indeterminate" has no attribute form, so only script can make a screen reader say "mixed"
         var invocation = TestContext.JSInterop.Invocations.Single(i => i.Identifier == "twCheckbox.setIndeterminate");
-        Assert.Equal(true, invocation.Arguments[1]);
+        Assert.True(Assert.IsType<bool>(invocation.Arguments[1]));
 
         // Act
         cut.Render(p => p.Add(x => x.Value, true));
 
         // Assert
         var last = TestContext.JSInterop.Invocations.Last(i => i.Identifier == "twCheckbox.setIndeterminate");
-        Assert.Equal(false, last.Arguments[1]);
+        Assert.False(Assert.IsType<bool>(last.Arguments[1]));
     }
 
     [Fact]
@@ -901,7 +901,7 @@ public class AccessibilityBehaviourTests : TwBlazorTestBase
 
         // Assert
         var invocation = TestContext.JSInterop.Invocations.Single(i => i.Identifier == "twSliderLock.set");
-        Assert.Equal(true, invocation.Arguments[1]);
+        Assert.True(Assert.IsType<bool>(invocation.Arguments[1]));
     }
 
     [Fact]

@@ -241,8 +241,8 @@ public class TwCarouselTests : TwBlazorTestBase
             .Add(x => x.ChildContent, ThreeSlides()));
 
         // Assert - on the first slide, only the previous arrow is disabled
-        Assert.True(cut.Find("button[aria-label='Previous slide']").GetAttribute("aria-disabled") == "true");
-        Assert.False(cut.Find("button[aria-label='Next slide']").GetAttribute("aria-disabled") == "true");
+        Assert.Equal("true", cut.Find("button[aria-label='Previous slide']").GetAttribute("aria-disabled"));
+        Assert.NotEqual("true", cut.Find("button[aria-label='Next slide']").GetAttribute("aria-disabled"));
     }
 
     [Fact]

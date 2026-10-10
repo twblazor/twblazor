@@ -240,8 +240,8 @@ public partial class TwDateRangePicker : TwPopoverPickerComponentBase
         if (pendingFocusDate is { } focusDate)
         {
             pendingFocusDate = null;
-            var view = MonthIndex(focusDate) == MonthIndex(anchorMonth) ? firstMonthView : secondMonthView;
-            view?.FocusDay(focusDate.Day);
+            var monthView = MonthIndex(focusDate) == MonthIndex(anchorMonth) ? firstMonthView : secondMonthView;
+            monthView?.FocusDay(focusDate.Day);
         }
 
         if (isFocused && PanelRef.Context != null)
