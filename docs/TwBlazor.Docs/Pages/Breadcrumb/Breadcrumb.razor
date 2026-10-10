@@ -11,7 +11,7 @@
     </PageCard>
 
     <PageCard Title="Manual breadcrumbs">
-        <Description>You can also manually configure the breadcrumbs:</Description>
+        <Description>You can also manually configure the breadcrumbs. Give an item an <code>Icon</code> to show it before the label, and set <code>AriaCurrent</code> on the last one to mark it as the current page: it is then shown as text, not a link, and announced as the current page by screen readers.</Description>
 
         <CodeExample Name="BreadcrumbManual" CSharpName="BreadcrumbManualCode">
             <TwBreadcrumb Breadcrumbs="@breadcrumbs" />
@@ -23,9 +23,47 @@
 
         <CodeExample Name="BreadcrumbInline">
             <TwBreadcrumb>
-                <TwBreadcrumbItem Label="Home" Href="/" />
+                <TwBreadcrumbItem Label="Home" Href="/" Icon="Icon.House" />
                 <TwBreadcrumbItem Label="Docs" Href="/" />
                 <TwBreadcrumbItem Label="Breadcrumb" Href="/breadcrumb" Icon="Icon.Segmented_Nav" AriaCurrent />
+            </TwBreadcrumb>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Custom separators">
+        <Description>The separator between breadcrumbs is a <code>/</code> by default. Set <code>Separator</code> to use any other text, such as a dot:</Description>
+
+        <CodeExample Name="BreadcrumbSeparatorDot">
+            <TwBreadcrumb Separator="•">
+                <TwBreadcrumbItem Label="Home" Href="/" />
+                <TwBreadcrumbItem Label="Docs" Href="/" />
+                <TwBreadcrumbItem Label="Breadcrumb" Href="/breadcrumb" AriaCurrent />
+            </TwBreadcrumb>
+        </CodeExample>
+
+        <p class="mt-6 mb-3">Set <code>SeparatorIcon</code> to use an icon instead, such as a chevron or an arrow. It works with <code>Breadcrumbs</code> and <code>Auto</code> as well as inline items:</p>
+
+        <CodeExample Name="BreadcrumbSeparatorChevron">
+            <TwBreadcrumb SeparatorIcon="Icon.Chevron_Right">
+                <TwBreadcrumbItem Label="Home" Href="/" Icon="Icon.House" />
+                <TwBreadcrumbItem Label="Docs" Href="/" />
+                <TwBreadcrumbItem Label="Breadcrumb" Href="/breadcrumb" AriaCurrent />
+            </TwBreadcrumb>
+        </CodeExample>
+
+        <div class="mt-6">
+            <CodeExample Name="BreadcrumbSeparatorArrow">
+                <TwBreadcrumb Breadcrumbs="@breadcrumbs" SeparatorIcon="Icon.Arrow_Right" />
+            </CodeExample>
+        </div>
+
+        <p class="mt-6 mb-3">A <code>TwBreadcrumbItem</code> can set its own <code>Separator</code> or <code>SeparatorIcon</code>, which is shown before that item only. Separators are decorative, so they are hidden from screen readers, which already announce the trail as a list.</p>
+
+        <CodeExample Name="BreadcrumbSeparatorPerItem">
+            <TwBreadcrumb Separator="•">
+                <TwBreadcrumbItem Label="Home" Href="/" />
+                <TwBreadcrumbItem Label="Docs" Href="/" />
+                <TwBreadcrumbItem Label="Breadcrumb" Href="/breadcrumb" SeparatorIcon="Icon.Arrow_Right" AriaCurrent />
             </TwBreadcrumb>
         </CodeExample>
     </PageCard>
@@ -43,9 +81,16 @@
         },
         new ()
         {
-            Icon = Icon.Wrench,
+            Icon = Icon.Gear,
             Label = "Settings",
             Href = "/"
+        },
+        new ()
+        {
+            Icon = Icon.Person,
+            Label = "Profile",
+            Href = "/",
+            AriaCurrent = true
         }
     };
     #endregion

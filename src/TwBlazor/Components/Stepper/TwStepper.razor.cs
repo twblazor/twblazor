@@ -179,23 +179,42 @@ public partial class TwStepper : TwBlazorComponentBase
         return index < ActiveStepIndex ? StepStatus.Completed : StepStatus.Upcoming;
     }
 
+    // Without a Color the indicators would have no fill at all, so the stepper falls back to the primary color,
+    // as its connectors and focus rings already do.
+    private Color accentColor => Color ?? Enums.Color.Primary;
+
     private string CircleClasses(TwStep step, StepStatus status) => new ClassBuilder(theme.Circle)
-        .AddClass(colorBuilder.GetFilledVariantColor(Color), status is StepStatus.Active or StepStatus.Completed)
+        .AddClass(colorBuilder.GetFilledVariantColor(accentColor), status is StepStatus.Active or StepStatus.Completed)
         .AddClass(theme.CircleUpcoming, status == StepStatus.Upcoming)
+        .AddClass(theme.CircleUpcomingClickable, status == StepStatus.Upcoming && CanActivate(step))
         .AddClass(theme.CircleDisabled, step.Disabled)
         .AddClass(theme.CircleClickable, CanActivate(step))
-        .AddClass(colorBuilder.GetFocusRing(Color))
+        .AddClass(colorBuilder.GetFocusRing(accentColor))
         .Build();
 
-    private string LabelClasses(StepStatus status) => status == StepStatus.Upcoming ? theme.LabelUpcoming : theme.Label;
+    /// <summary>
+    /// Gets the classes for the frame around a step's indicator. Every step has one, so the indicators stay the
+    /// same size, and the current step's is drawn in the accent color as a ring around it.
+    /// </summary>
+    private string FrameClasses(StepStatus status) => new ClassBuilder(theme.CircleFrame)
+        .AddClass(colorBuilder.GetBorderColor(accentColor), status == StepStatus.Active)
+        .AddClass(theme.CircleFrameInactive, status != StepStatus.Active)
+        .Build();
+
+    private string LabelClasses(StepStatus status) => status switch
+    {
+        StepStatus.Upcoming => theme.LabelUpcoming,
+        StepStatus.Active => new ClassBuilder(theme.Label).AddClass(theme.LabelActive).Build(),
+        _ => theme.Label,
+    };
 
     private string ConnectorClasses(int beforeIndex) => new ClassBuilder(theme.Connector)
-        .AddClass(colorBuilder.GetBorderColor(Color), beforeIndex < ActiveStepIndex)
+        .AddClass(colorBuilder.GetBorderColor(accentColor), beforeIndex < ActiveStepIndex)
         .AddClass(theme.ConnectorNeutral, beforeIndex >= ActiveStepIndex)
         .Build();
 
     private string VerticalConnectorClasses(int beforeIndex) => new ClassBuilder(theme.VerticalConnector)
-        .AddClass(colorBuilder.GetBorderColor(Color), beforeIndex < ActiveStepIndex)
+        .AddClass(colorBuilder.GetBorderColor(accentColor), beforeIndex < ActiveStepIndex)
         .AddClass(theme.ConnectorNeutral, beforeIndex >= ActiveStepIndex)
         .Build();
 

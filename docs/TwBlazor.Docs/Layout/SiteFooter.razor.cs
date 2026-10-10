@@ -1,17 +1,14 @@
 namespace TwBlazor.Docs.Layout;
 
 /// <summary>
-/// The site-wide footer: links to the two guides, the GitHub project, the documentation and the MIT license, plus the
-/// open source statement.
+/// The site-wide footer: links to the Discord server, the GitHub project, the documentation and the MIT license,
+/// plus the open source statement.
 /// </summary>
 public partial class SiteFooter
 {
 #pragma warning disable S1075 // Fixed external project links, not environment-specific
-    /// <summary>Gets the route of the Tailwind with Blazor guide.</summary>
-    public const string TailwindGuidePath = "/tailwind-blazor";
-
-    /// <summary>Gets the route of the Why twblazor page.</summary>
-    public const string ComparisonPath = "/why-twblazor";
+    /// <summary>Gets the permanent invite link of the Discord server, see <see cref="DiscordInviteLink"/>.</summary>
+    public const string DiscordUrl = DiscordInviteLink.PermanentUrl;
 
     /// <summary>Gets the URL of the GitHub project.</summary>
     public const string GitHubUrl = "https://github.com/TwBlazor/twblazor";

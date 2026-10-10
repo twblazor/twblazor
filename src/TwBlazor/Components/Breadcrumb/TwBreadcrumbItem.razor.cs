@@ -40,6 +40,17 @@ public partial class TwBreadcrumbItem : TwBlazorComponentBase
     /// </summary>
     [Parameter] public bool? IsFirst { get; set; }
 
+    /// <summary>
+    /// Gets or sets the text shown before this breadcrumb, in place of the one set on <see cref="TwBreadcrumb"/>.
+    /// </summary>
+    /// <remarks>Not shown before the first breadcrumb. <see cref="SeparatorIcon"/> takes its place when set.</remarks>
+    [Parameter] public string? Separator { get; set; }
+
+    /// <summary>
+    /// Gets or sets an icon shown before this breadcrumb, in place of the separator set on <see cref="TwBreadcrumb"/>.
+    /// </summary>
+    [Parameter] public Icon? SeparatorIcon { get; set; }
+
     protected override void OnInitialized()
     {
         parent?.AddItem(this);
@@ -47,5 +58,23 @@ public partial class TwBreadcrumbItem : TwBlazorComponentBase
 
     internal bool isFirst => IsFirst ?? (parent == null || parent.inlineBreadcrumbs.Count == 0 || parent.inlineBreadcrumbs[0] == this);
 
-    private string labelClasses => new ClassBuilder(theme.Label).AddClass(Class).Build();
+    // An item is described either by its own parameters or by the Breadcrumb model, which wins when set.
+    private Icon? icon => Breadcrumb is null ? Icon : Breadcrumb.Icon;
+
+    private string? label => Breadcrumb is null ? Label : Breadcrumb.Label;
+
+    private string? href => Breadcrumb is null ? Href : Breadcrumb.Href;
+
+    private bool isCurrent => Breadcrumb is null ? AriaCurrent : Breadcrumb.AriaCurrent;
+
+    // The item's own separator wins over its parent's, and on either an icon wins over text.
+    private Icon? separatorIcon => SeparatorIcon ?? (Separator is null ? parent?.SeparatorIcon : null);
+
+    private string separator => Separator ?? parent?.Separator ?? TwBreadcrumb.defaultSeparator;
+
+    private string linkClasses => new ClassBuilder(theme.Label).AddClass(theme.Link).AddClass(Class).Build();
+
+    private string currentClasses => new ClassBuilder(theme.Label).AddClass(theme.Current).AddClass(Class).Build();
+
+    private string currentIconClasses => new ClassBuilder(theme.Icon).AddClass(theme.CurrentIcon).Build();
 }

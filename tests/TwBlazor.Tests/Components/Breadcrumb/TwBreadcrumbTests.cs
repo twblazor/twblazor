@@ -217,6 +217,77 @@ public class TwBreadcrumbTests : TwBlazorTestBase
         Assert.Equal(2, separators.Count);
     }
 
+    private static List<BreadcrumbItem> ThreeBreadcrumbs() =>
+    [
+        new() { Label = "Home", Href = "/" },
+        new() { Label = "Docs", Href = "/docs" },
+        new() { Label = "Breadcrumb", Href = "/docs/breadcrumb", AriaCurrent = true },
+    ];
+
+    [Fact]
+    public void TwBreadcrumb_Renders_CustomSeparatorText_BetweenListItems()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwBreadcrumb>(p => p
+            .Add(x => x.Breadcrumbs, ThreeBreadcrumbs())
+            .Add(x => x.Separator, "•"));
+
+        // Assert
+        var separators = cut.FindAll("li > span[aria-hidden='true']");
+        Assert.Equal(2, separators.Count);
+        Assert.All(separators, separator => Assert.Equal("•", separator.TextContent.Trim()));
+        Assert.Empty(cut.FindAll("li:first-child > span[aria-hidden='true']"));
+    }
+
+    [Fact]
+    public void TwBreadcrumb_Renders_SeparatorIcon_InPlaceOfTheText()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwBreadcrumb>(p => p
+            .Add(x => x.Breadcrumbs, ThreeBreadcrumbs())
+            .Add(x => x.Separator, "•")
+            .Add(x => x.SeparatorIcon, TwBlazor.Enums.Icon.Chevron_Right));
+
+        // Assert
+        var separators = cut.FindAll("li > span[aria-hidden='true']");
+        Assert.Equal(2, separators.Count);
+        Assert.All(separators, separator =>
+        {
+            Assert.Contains("bi-chevron-right", separator.QuerySelector("i")!.GetAttribute("class"));
+            Assert.Equal(string.Empty, separator.TextContent.Trim());
+        });
+    }
+
+    [Fact]
+    public void TwBreadcrumb_Renders_CustomSeparator_BetweenInlineItems_AndLetsAnItemOverrideIt()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwBreadcrumb>(p => p
+            .Add(x => x.SeparatorIcon, TwBlazor.Enums.Icon.Chevron_Right)
+            .AddChildContent<TwBreadcrumbItem>(item => item.Add(x => x.Label, "Home").Add(x => x.Href, "/"))
+            .AddChildContent<TwBreadcrumbItem>(item => item.Add(x => x.Label, "Docs").Add(x => x.Href, "/docs"))
+            .AddChildContent<TwBreadcrumbItem>(item => item.Add(x => x.Label, "Text").Add(x => x.Href, "/text").Add(x => x.Separator, "•"))
+            .AddChildContent<TwBreadcrumbItem>(item => item.Add(x => x.Label, "Icon").Add(x => x.Href, "/icon").Add(x => x.SeparatorIcon, TwBlazor.Enums.Icon.Arrow_Right)));
+
+        // Assert
+        var separators = cut.FindAll("li > span[aria-hidden='true']");
+        Assert.Equal(3, separators.Count);
+        Assert.Contains("bi-chevron-right", separators[0].QuerySelector("i")!.GetAttribute("class"));
+        Assert.Equal("•", separators[1].TextContent.Trim());
+        Assert.Null(separators[1].QuerySelector("i"));
+        Assert.Contains("bi-arrow-right", separators[2].QuerySelector("i")!.GetAttribute("class"));
+    }
+
+    [Fact]
+    public void TwBreadcrumb_UsesASlash_WhenNoSeparatorIsSet()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwBreadcrumb>(p => p.Add(x => x.Breadcrumbs, ThreeBreadcrumbs()));
+
+        // Assert
+        Assert.All(cut.FindAll("li > span[aria-hidden='true']"), separator => Assert.Equal("/", separator.TextContent.Trim()));
+    }
+
     [Fact]
     public void TwBreadcrumb_FirstInlineItem_HasNo_Separator()
     {

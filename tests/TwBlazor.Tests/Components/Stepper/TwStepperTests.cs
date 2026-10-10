@@ -90,6 +90,117 @@ public class TwStepperTests : TwBlazorTestBase
 
     #endregion
 
+    #region appearance
+
+    private static string FirstClass(string classes) => classes.Split(' ', StringSplitOptions.RemoveEmptyEntries)[0];
+
+    [Theory]
+    [InlineData(StepperOrientation.Horizontal)]
+    [InlineData(StepperOrientation.Vertical)]
+    public void TwStepper_WithNoColor_FillsTheCompletedAndCurrentSteps_WithThePrimaryColor(StepperOrientation orientation)
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwStepper>(p => p
+            .Add(x => x.ActiveStepIndex, 1)
+            .Add(x => x.Orientation, orientation)
+            .Add(x => x.ChildContent, BuildSteps(
+                new StepSpec { Label = "One" }, new StepSpec { Label = "Two" }, new StepSpec { Label = "Three" })));
+
+        // Assert
+        var fill = FirstClass(Theme.Colors.SurfaceColors.Filled.Primary);
+        var buttons = cut.FindAll("button");
+        Assert.Contains(fill, buttons[0].ClassList);
+        Assert.Contains(fill, buttons[1].ClassList);
+        Assert.DoesNotContain(fill, buttons[2].ClassList);
+    }
+
+    [Fact]
+    public void TwStepper_WithAColor_UsesIt_ForTheIndicatorsAndTheCurrentStepsRing()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwStepper>(p => p
+            .Add(x => x.ActiveStepIndex, 0)
+            .Add(x => x.Color, Color.Success)
+            .Add(x => x.ChildContent, BuildSteps(new StepSpec { Label = "One" }, new StepSpec { Label = "Two" })));
+
+        // Assert
+        var current = cut.Find("button[aria-current='step']");
+        Assert.Contains(FirstClass(Theme.Colors.SurfaceColors.Filled.Success), current.ClassList);
+        Assert.DoesNotContain(FirstClass(Theme.Colors.SurfaceColors.Filled.Primary), current.ClassList);
+        Assert.Contains(FirstClass(Theme.Border.Colors.Success), current.ParentElement!.ClassList);
+    }
+
+    [Theory]
+    [InlineData(StepperOrientation.Horizontal)]
+    [InlineData(StepperOrientation.Vertical)]
+    public void TwStepper_FramesEveryIndicator_AndOnlyShowsTheFrame_AroundTheCurrentStep(StepperOrientation orientation)
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwStepper>(p => p
+            .Add(x => x.ActiveStepIndex, 1)
+            .Add(x => x.Orientation, orientation)
+            .Add(x => x.ChildContent, BuildSteps(
+                new StepSpec { Label = "One" }, new StepSpec { Label = "Two" }, new StepSpec { Label = "Three" })));
+
+        // Assert
+        var frames = cut.FindAll("button").Select(button => button.ParentElement!).ToList();
+        var ring = FirstClass(Theme.Border.Colors.Primary);
+
+        Assert.All(frames, frame =>
+        {
+            Assert.Equal("SPAN", frame.TagName);
+            Assert.Contains("border-2", frame.ClassList);
+        });
+        Assert.Contains(ring, frames[1].ClassList);
+        Assert.DoesNotContain("border-transparent", frames[1].ClassList);
+        Assert.All(new[] { frames[0], frames[2] }, frame =>
+        {
+            Assert.Contains("border-transparent", frame.ClassList);
+            Assert.DoesNotContain(ring, frame.ClassList);
+        });
+    }
+
+    [Fact]
+    public void TwStepper_EmphasisesTheCurrentStepsLabel()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwStepper>(p => p
+            .Add(x => x.ActiveStepIndex, 1)
+            .Add(x => x.ChildContent, BuildSteps(
+                new StepSpec { Label = "One" }, new StepSpec { Label = "Two" }, new StepSpec { Label = "Three" })));
+
+        // Assert
+        string LabelClasses(string label) => cut.FindAll("li > span").Single(span => span.TextContent.Trim() == label).GetAttribute("class")!;
+
+        Assert.NotEmpty(StepperTheme.LabelActive);
+        Assert.Contains(StepperTheme.LabelActive, LabelClasses("Two"));
+        Assert.DoesNotContain(StepperTheme.LabelActive, LabelClasses("One"));
+        Assert.Equal(StepperTheme.LabelUpcoming, LabelClasses("Three"));
+    }
+
+    [Theory]
+    [InlineData(false, true)]
+    [InlineData(true, false)]
+    public void TwStepper_GivesAnUpcomingStepAHoverState_OnlyWhenItCanBeClicked(bool linear, bool expected)
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwStepper>(p => p
+            .Add(x => x.ActiveStepIndex, 0)
+            .Add(x => x.Linear, linear)
+            .Add(x => x.ChildContent, BuildSteps(
+                new StepSpec { Label = "One" }, new StepSpec { Label = "Two" }, new StepSpec { Label = "Three", Disabled = true })));
+
+        // Assert
+        var hover = FirstClass(StepperTheme.CircleUpcomingClickable);
+        var buttons = cut.FindAll("button");
+
+        Assert.Equal(expected, buttons[1].ClassList.Contains(hover));
+        Assert.DoesNotContain(hover, buttons[2].ClassList);
+        Assert.DoesNotContain(hover, buttons[0].ClassList);
+    }
+
+    #endregion
+
     #region horizontal rendering
 
     [Fact]

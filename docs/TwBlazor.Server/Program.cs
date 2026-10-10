@@ -28,7 +28,10 @@ app.UseHttpsRedirection();
 app.UseAntiforgery();
 
 app.MapStaticAssets();
+// The docs pages live in TwBlazor.Docs. Without this they are not endpoints, so every request for one is
+// answered with the "not found" page and a 404 until the interactive router replaces it.
 app.MapRazorComponents<App>()
-    .AddInteractiveServerRenderMode();
+    .AddInteractiveServerRenderMode()
+    .AddAdditionalAssemblies(typeof(TwBlazor.Docs._Imports).Assembly);
 
 await app.RunAsync();

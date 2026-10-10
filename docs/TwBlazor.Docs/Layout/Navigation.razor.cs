@@ -28,12 +28,6 @@ public partial class Navigation : IDisposable
         "relative inline-flex items-center gap-2 rounded-md px-3 py-1.5 text-sm font-medium text-gray-600 transition-colors duration-200 hover:bg-gray-100 hover:text-gray-950 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600 after:absolute after:inset-x-3 after:-bottom-1 after:h-0.5 after:rounded-full after:bg-linear-to-r after:from-purple-600 after:to-fuchsia-500 after:opacity-0 after:transition-opacity after:duration-200 [&.active]:text-gray-950 [&.active]:after:opacity-100 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-white dark:after:from-purple-400 dark:after:to-fuchsia-300 dark:[&.active]:text-white";
 
     /// <summary>
-    /// Classes for the rule between the sidebar toggle and the top-bar links, so the toggle reads as a control
-    /// and not as the first link.
-    /// </summary>
-    private const string navDividerClasses = "h-5 w-px shrink-0 bg-gray-300 dark:bg-white/15";
-
-    /// <summary>
     /// Classes for the icon buttons on the right of the top bar.
     /// </summary>
     private const string navIconClasses =
