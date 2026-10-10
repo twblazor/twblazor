@@ -35,11 +35,22 @@ public static class AccessibilityRoutes
         "/sidebar/preview-item-content",
     ];
 
+    // Pages that are not in the component catalogue. The home page is the first one anybody sees.
+    private static readonly string[] _sitePages =
+    [
+        "/",
+        "/get-started",
+        "/tailwind-blazor",
+        "/why-twblazor",
+        "/theme",
+        "/class-merge",
+    ];
+
     private static readonly string[] _all = BuildAllRoutes();
 
     private static string[] BuildAllRoutes()
     {
-        List<string> routes = [.. _previewRoutes, .. LoadComponentRoutes()];
+        List<string> routes = [.. _previewRoutes, .. _sitePages, .. LoadComponentRoutes()];
         return [.. routes.OrderBy(route => route, StringComparer.Ordinal)];
     }
 

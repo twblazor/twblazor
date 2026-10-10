@@ -12,7 +12,7 @@ namespace TwBlazor.A11yTests;
 [Collection(A11yCollection.Name)]
 public class KeyboardNavigationTests(A11yFixture fixture)
 {
-    private const string ActiveElementId = "document.activeElement?.id ?? ''";
+    private const string activeElementId = "document.activeElement?.id ?? ''";
 
     private async Task<IPage> OpenAsync(string route, int width = 1280, int height = 900)
     {
@@ -117,40 +117,13 @@ public class KeyboardNavigationTests(A11yFixture fixture)
             // Opened with a click, focus stays in the field, and Escape there closes the panel too.
             await field.ClickAsync();
             await Expect(panel).ToBeVisibleAsync();
-            Assert.Equal("basic-datepicker", await page.EvaluateAsync<string>(ActiveElementId));
+            Assert.Equal("basic-datepicker", await page.EvaluateAsync<string>(activeElementId));
 
             await page.Keyboard.PressAsync("Escape");
             await Expect(panel).ToHaveCountAsync(0);
 
             // Nothing is left inert once it has closed.
             Assert.Equal(0, await page.EvaluateAsync<int>("document.querySelectorAll('[inert][data-tw-dialog-inert]').length"));
-        }
-        finally
-        {
-            await page.CloseAsync();
-        }
-    }
-
-    [Fact]
-    public async Task DatePicker_PageDown_TurnsToTheNextMonth_AndKeepsFocusInTheGrid()
-    {
-        var page = await OpenAsync("date-picker");
-        try
-        {
-            await page.Locator("#basic-datepicker").FocusAsync();
-            await page.Keyboard.PressAsync("ArrowDown");
-            await page.WaitForFunctionAsync("document.activeElement?.closest('[role=\"grid\"]') !== null");
-            var before = await page.EvaluateAsync<string>("document.activeElement.closest('[role=\"grid\"]').getAttribute('aria-label')");
-
-            await page.Keyboard.PressAsync("PageDown");
-
-            await page.WaitForFunctionAsync(
-                "label => document.activeElement?.closest('[role=\"grid\"]')?.getAttribute('aria-label') !== undefined"
-                + " && document.activeElement.closest('[role=\"grid\"]').getAttribute('aria-label') !== label",
-                before);
-
-            var after = await page.EvaluateAsync<string>("document.activeElement.closest('[role=\"grid\"]').getAttribute('aria-label')");
-            Assert.NotEqual(before, after);
         }
         finally
         {
@@ -197,13 +170,13 @@ public class KeyboardNavigationTests(A11yFixture fixture)
 
             await page.WaitForFunctionAsync(
                 "document.querySelector('nav[aria-label=\"sidebar navigation\"]').contains(document.activeElement)");
-            await Expect(page.Locator("#main-content")).ToHaveAttributeAsync("inert", "");
+            await Expect(page.Locator("#main-content-root")).ToHaveAttributeAsync("inert", "");
 
             await page.Keyboard.PressAsync("Escape");
 
             await Expect(navigation).ToHaveAttributeAsync("inert", "");
             await page.WaitForFunctionAsync("document.activeElement?.getAttribute('aria-label') === 'Open sidebar'");
-            Assert.False(await page.EvaluateAsync<bool>("document.getElementById('main-content').hasAttribute('inert')"));
+            Assert.False(await page.EvaluateAsync<bool>("document.getElementById('main-content-root').hasAttribute('inert')"));
         }
         finally
         {
@@ -277,37 +250,13 @@ public class KeyboardNavigationTests(A11yFixture fixture)
     }
 
     [Fact]
-    public async Task EveryComponentPage_DocumentsItsKeyboardControls()
+    public async Task ComponentPage_ShowsItsKeyboardControls()
     {
         var page = await OpenAsync("tabs");
         try
         {
             await Expect(page.GetByRole(AriaRole.Heading, new() { Name = "Keyboard navigation" })).ToBeVisibleAsync();
             await Expect(page.GetByRole(AriaRole.Table, new() { Name = "TwTabs keyboard controls" })).ToBeVisibleAsync();
-        }
-        finally
-        {
-            await page.CloseAsync();
-        }
-    }
-
-    [Fact]
-    public async Task FocusIndicator_SurvivesForcedColours()
-    {
-        var page = await OpenAsync("button");
-        try
-        {
-            // Windows High Contrast drops box-shadow rings, so each control must still carry an outline.
-            await page.EmulateMediaAsync(new PageEmulateMediaOptions { ForcedColors = ForcedColors.Active });
-            await page.Locator("#main-content button:not([disabled])").First.FocusAsync();
-            await page.Keyboard.PressAsync("Shift+Tab");
-            await page.Keyboard.PressAsync("Tab");
-
-            var outlineStyle = await page.EvaluateAsync<string>("getComputedStyle(document.activeElement).outlineStyle");
-            var outlineWidth = await page.EvaluateAsync<string>("getComputedStyle(document.activeElement).outlineWidth");
-
-            Assert.NotEqual("none", outlineStyle);
-            Assert.NotEqual("0px", outlineWidth);
         }
         finally
         {

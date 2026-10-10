@@ -297,6 +297,127 @@ public class AccessibilityBehaviourTests : TwBlazorTestBase
 
     #endregion
 
+    [Fact]
+    public async Task Picker_DestroyedWhileOpen_LiftsItsOwnInertClaim()
+    {
+        // Arrange - the page navigating away, or a dialog around the picker closing, destroys it without
+        // its close path ever running. What it made inert must not stay that way.
+        var cut = TestContext.Render<TwDatePicker>(p => p
+            .Add(x => x.Id, "start")
+            .Add(x => x.SelectedDate, new DateTime(2026, 3, 10)));
+        cut.Find("input").Click();
+        var clearsBefore = TestContext.JSInterop.Invocations.Count(i => i.Identifier == "twDialog.clearBackgroundInert");
+
+        // Act
+        await cut.Instance.DisposeAsync();
+
+        // Assert
+        var clears = TestContext.JSInterop.Invocations.Where(i => i.Identifier == "twDialog.clearBackgroundInert").ToList();
+        Assert.Equal(clearsBefore + 1, clears.Count);
+        Assert.Equal("picker-start", clears[^1].Arguments[0]);
+        var unregister = TestContext.JSInterop.Invocations.Last(i => i.Identifier == "twPicker.unregisterOutsideClick");
+        Assert.Equal("picker-start", unregister.Arguments[1]);
+    }
+
+    [Fact]
+    public async Task Picker_DestroyedWhileClosed_TouchesNoInertState()
+    {
+        // Arrange
+        var cut = TestContext.Render<TwDatePicker>(p => p.Add(x => x.SelectedDate, new DateTime(2026, 3, 10)));
+
+        // Act
+        await cut.Instance.DisposeAsync();
+
+        // Assert
+        Assert.False(WasInvoked("twDialog.clearBackgroundInert"));
+    }
+
+    [Fact]
+    public void PickerIcon_IsANativeButton_ThatReportsWhetherThePanelIsOpen()
+    {
+        // Arrange
+        var cut = TestContext.Render<TwDatePicker>(p => p.Add(x => x.SelectedDate, new DateTime(2026, 3, 10)));
+        var icon = cut.Find("button[aria-label='Open date picker']");
+
+        // Assert - a div with role="button" needed its own key handling, and Space scrolled the page
+        Assert.Equal("button", icon.GetAttribute("type"));
+        Assert.Equal("false", icon.GetAttribute("aria-expanded"));
+        Assert.Null(icon.GetAttribute("role"));
+
+        // Act
+        icon.Click();
+
+        // Assert
+        Assert.Equal("true", cut.Find("button[aria-label='Open date picker']").GetAttribute("aria-expanded"));
+    }
+
+    [Fact]
+    public void PickerIcon_IsNativelyDisabled_WithTheField()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwDatePicker>(p => p
+            .Add(x => x.Disabled, true)
+            .Add(x => x.SelectedDate, new DateTime(2026, 3, 10)));
+
+        // Assert
+        Assert.True(cut.Find("button[aria-label='Open date picker']").HasAttribute("disabled"));
+    }
+
+    [Fact]
+    public void DatePicker_InvalidText_ErrorShowsWhatAValidDateLooksLike()
+    {
+        // Arrange
+        var cut = TestContext.Render<TwDatePicker>(p => p
+            .Add(x => x.Format, "yyyy-MM-dd")
+            .Add(x => x.SelectedDate, new DateTime(2026, 3, 10)));
+
+        // Act
+        cut.Find("input").Change("soon");
+
+        // Assert - the placeholder that showed the format is gone once something has been typed
+        Assert.Equal($"Enter a valid date, for example {DateTime.Today:yyyy-MM-dd}", cut.Find("p[role='alert']").TextContent);
+    }
+
+    [Fact]
+    public void TimeStepButtons_AnnounceTheNewTime_ButArrowKeysInTheFieldDoNot()
+    {
+        // Arrange
+        var time = new TimeOnly(9, 30);
+        var cut = TestContext.Render<TwTimePickerBody>(p => p
+            .Add(x => x.Id, "t")
+            .Add(x => x.SelectedTime, time)
+            .Add(x => x.SelectedTimeChanged, EventCallback.Factory.Create<TimeOnly>(this, t => time = t)));
+        Assert.Equal(string.Empty, cut.Find("[role='status']").TextContent);
+
+        // Act - the field has focus for an arrow key, so its own value change is what gets read
+        cut.Find("#t-hour").KeyDown(Key("ArrowUp"));
+
+        // Assert
+        Assert.Equal(string.Empty, cut.Find("[role='status']").TextContent);
+
+        // Act - a step button keeps focus while the value changes in the field beside it
+        cut.Find("button[aria-label='Increase minute']").Click();
+
+        // Assert
+        Assert.Equal(new TimeOnly(10, 31), time);
+        Assert.NotEqual(string.Empty, cut.Find("[role='status']").TextContent);
+    }
+
+    [Fact]
+    public void MonthView_NamesEachMonthInFull_AndMarksWhereFocusShouldLand()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwDatePickerCalendar>(p => p
+            .Add(x => x.AnchorDate, new DateTime(2026, 3, 10))
+            .Add(x => x.View, DatePickerCalendarView.Month)
+            .Add(x => x.DaySelected, EventCallback.Factory.Create<DateTime>(this, _ => { })));
+
+        // Assert
+        var march = cut.Find("button[aria-label='March 2026']");
+        Assert.True(march.HasAttribute("data-tw-autofocus"));
+        Assert.Single(cut.FindAll("[data-tw-autofocus]"));
+    }
+
     #region Dialog
 
     [Fact]
@@ -578,6 +699,83 @@ public class AccessibilityBehaviourTests : TwBlazorTestBase
     }
 
     #endregion
+
+    [Fact]
+    public void Calendar_OpeningADay_MovesFocusToTheTitle()
+    {
+        // Arrange
+        var cut = TestContext.Render<TwCalendar<string>>(p => p
+            .Add(x => x.Id, "cal")
+            .Add(x => x.View, TwCalendarView.Month)
+            .Add(x => x.SelectedDate, new DateTime(2026, 3, 10)));
+        Assert.Equal("-1", cut.Find("#cal-title").GetAttribute("tabindex"));
+
+        // Act - the day button that was pressed is removed with the month grid
+        cut.Find("table[role='grid'] button[tabindex='0']").Click();
+
+        // Assert
+        var focus = TestContext.JSInterop.Invocations.Last(i => i.Identifier == "twFocus.focusById");
+        Assert.Equal("cal-title", focus.Arguments[0]);
+    }
+
+    [Fact]
+    public void CalendarMonthView_MarksToday()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwCalendar<string>>(p => p
+            .Add(x => x.View, TwCalendarView.Month)
+            .Add(x => x.SelectedDate, DateTime.Today));
+
+        // Assert
+        Assert.Equal(DateTime.Today.ToString("MMMM d, yyyy"), cut.Find("button[aria-current='date']").GetAttribute("aria-label"));
+    }
+
+    [Fact]
+    public void Sidebar_OpenDrawer_HasACloseButtonOfItsOwn()
+    {
+        // Arrange
+        var isOpen = true;
+        var cut = TestContext.Render<TwSidebar>(p => p
+            .Add(x => x.IsSidebarOpen, true)
+            .Add(x => x.IsSidebarOpenChanged, EventCallback.Factory.Create<bool>(this, v => isOpen = v)));
+
+        // Act - the toggle in the top bar is covered, and inert, while the sidebar is a drawer
+        cut.Find("nav[aria-label='sidebar navigation'] button[aria-label='Close sidebar']").Click();
+
+        // Assert
+        Assert.False(isOpen);
+    }
+
+    [Fact]
+    public void Pagination_InsideADataTable_LeavesTheAnnouncementToTheTable()
+    {
+        // Arrange & Act
+        var alone = TestContext.Render<TwPagination>(p => p.Add(x => x.TotalPages, 3));
+        var hosted = TestContext.Render<TwPagination>(p => p.Add(x => x.TotalPages, 3).Add(x => x.AnnouncePageChanges, false));
+
+        // Assert - two live regions would read every page change twice
+        Assert.Single(alone.FindAll("[role='status']"));
+        Assert.Empty(hosted.FindAll("[role='status']"));
+    }
+
+    [Fact]
+    public void MultiSelect_RemovingAChip_HandsFocusToTheField()
+    {
+        // Arrange
+        var cut = TestContext.Render<TwSelect<string>>(p => p
+            .Add(x => x.Id, "fruit")
+            .Add(x => x.Multiple, true)
+            .Add(x => x.PreferNativePicker, false)
+            .Add(x => x.Values, ["Apple", "Pear"])
+            .Add(x => x.SelectedValues, ["Apple"]));
+
+        // Act
+        cut.Find("button[aria-label='Remove Apple']").Click();
+
+        // Assert
+        var focus = TestContext.JSInterop.Invocations.Last(i => i.Identifier == "twFocus.focusById");
+        Assert.Equal("fruit", focus.Arguments[0]);
+    }
 
     #region Names, roles and states
 
