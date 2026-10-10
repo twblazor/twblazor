@@ -1,70 +1,38 @@
 @namespace TwBlazor.Components
-@using TwBlazor.Enums
 @inherits TwBlazorComponentBase
 
-@if (Breadcrumb != null)
-{
-    @if (Breadcrumb.AriaCurrent)
+<li class="@theme.Item">
+    @if (!isFirst)
     {
-        <li class="@theme.Item">
-            @if (!isFirst)
+        <span class="@theme.Separator" aria-hidden="true">
+            @if (separatorIcon is { } separatorGlyph)
             {
-                <span class="@theme.Separator" aria-hidden="true">/</span>
+                <TwIcon Icon="@separatorGlyph" Class="@theme.SeparatorIcon" />
             }
-            @if (Breadcrumb.Icon != null)
+            else
             {
-                <TwIcon Icon="@((Icon)Breadcrumb.Icon)" />
+                @separator
             }
-            <span id="@Id" aria-current="page" class="@labelClasses" style="@Style" @attributes="Attributes" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy">
-                @Breadcrumb.Label
-            </span>
-        </li>
+        </span>
+    }
+    @if (isCurrent)
+    {
+        <span id="@Id" aria-current="page" class="@currentClasses" style="@Style" @attributes="Attributes" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy">
+            @if (icon is { } currentIcon)
+            {
+                <TwIcon Icon="@currentIcon" Class="@currentIconClasses" />
+            }
+            @label
+        </span>
     }
     else
     {
-        <li class="@theme.Item">
-            @if (!isFirst)
+        <a id="@Id" href="@href" class="@linkClasses" style="@Style" @attributes="Attributes" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy">
+            @if (icon is { } linkIcon)
             {
-                <span class="@theme.Separator" aria-hidden="true">/</span>
+                <TwIcon Icon="@linkIcon" Class="@theme.Icon" />
             }
-            @if (Breadcrumb.Icon != null)
-            {
-                <TwIcon Icon="@((Icon)Breadcrumb.Icon)" />
-            }
-            <a id="@Id" href="@Breadcrumb.Href" class="@labelClasses" style="@Style" @attributes="Attributes" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy">@Breadcrumb.Label</a>
-        </li>
+            @label
+        </a>
     }
-}
-else
-{
-    @if (AriaCurrent)
-    {
-        <li class="@theme.Item">
-            @if (!isFirst)
-            {
-                <span class="@theme.Separator" aria-hidden="true">/</span>
-            }
-            @if (Icon != null)
-            {
-                <TwIcon Icon="@((Icon)Icon)" />
-            }
-            <span id="@Id" aria-current="page" class="@labelClasses" style="@Style" @attributes="Attributes" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy">
-                @Label
-            </span>
-        </li>
-    }
-    else
-    {
-        <li class="@theme.Item">
-            @if (!isFirst)
-            {
-                <span class="@theme.Separator" aria-hidden="true">/</span>
-            }
-            @if (Icon != null)
-            {
-                <TwIcon Icon="@((Icon)Icon)" />
-            }
-            <a id="@Id" href="@Href" class="@labelClasses" style="@Style" @attributes="Attributes" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy">@Label</a>
-        </li>
-    }
-}
+</li>

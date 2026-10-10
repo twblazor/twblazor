@@ -137,4 +137,27 @@ public class TwStepperTheme
     /// information beneath it.
     /// </summary>
     public required string MobileProgressLabel { get; set; }
+
+    /// <summary>
+    /// Gets or sets the classes for the frame around every step indicator. The current step's frame is drawn in
+    /// the stepper's color as a ring around the indicator; the others use <see cref="CircleFrameInactive"/>.
+    /// </summary>
+    public string CircleFrame { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes added to <see cref="CircleFrame"/> for every step except the current one,
+    /// normally a transparent border so the frame takes up space without being seen.
+    /// </summary>
+    public string CircleFrameInactive { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes added to <see cref="CircleUpcoming"/> for an upcoming step that can be
+    /// clicked, which is any enabled one in a non-linear stepper: its hover state.
+    /// </summary>
+    public string CircleUpcomingClickable { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes added to <see cref="Label"/> for the current step's label.
+    /// </summary>
+    public string LabelActive { get; set; } = string.Empty;
 }

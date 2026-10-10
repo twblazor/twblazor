@@ -6,14 +6,14 @@ namespace TwBlazor.Docs.Tests.Layout;
 public class SiteFooterTests : DocsTestBase
 {
     [Fact]
-    public void Render_ShowsGuideGitHubDocumentationAndLicenseLinks()
+    public void Render_ShowsGuideDiscordGitHubDocumentationAndLicenseLinks()
     {
         // Arrange & Act
         var cut = TestContext.Render<SiteFooter>();
 
         // Assert
         var hrefs = cut.FindAll("footer a").Select(a => a.GetAttribute("href")).ToList();
-        Assert.Equal([SiteFooter.TailwindGuidePath, SiteFooter.ComparisonPath, SiteFooter.GitHubUrl, SiteFooter.DocumentationUrl, SiteFooter.LicenseUrl], hrefs);
+        Assert.Equal([SiteFooter.TailwindGuidePath, SiteFooter.DiscordUrl, SiteFooter.GitHubUrl, SiteFooter.DocumentationUrl, SiteFooter.LicenseUrl], hrefs);
     }
 
     [Fact]
@@ -44,15 +44,29 @@ public class SiteFooterTests : DocsTestBase
     }
 
     [Fact]
-    public void Render_LinksToTheGuidesInTheSameTab()
+    public void Render_LinksToTheGuideInTheSameTab()
     {
         // Arrange & Act
         var cut = TestContext.Render<SiteFooter>();
 
         // Assert
         var guides = cut.FindAll("footer a").Where(a => a.GetAttribute("href")!.StartsWith('/')).ToList();
-        Assert.Equal(["Tailwind Blazor guide", "Why twblazor?"], guides.Select(a => a.TextContent));
+        Assert.Equal(["Tailwind Blazor guide"], guides.Select(a => a.TextContent));
         Assert.All(guides, a => Assert.Null(a.GetAttribute("target")));
+    }
+
+    [Fact]
+    public void Render_LinksToTheDiscordServer_WithItsIcon()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<SiteFooter>();
+
+        // Assert
+        var discord = cut.Find($"footer a[href='{SiteFooter.DiscordUrl}']");
+        Assert.Equal("https://discord.gg/EsckVBu9V8", discord.GetAttribute("href"));
+        Assert.StartsWith("Discord", discord.TextContent.Trim());
+        Assert.Contains("bi-discord", discord.QuerySelector("i")!.GetAttribute("class"));
+        Assert.Equal("true", discord.QuerySelector("i")!.GetAttribute("aria-hidden"));
     }
 
     [Fact]

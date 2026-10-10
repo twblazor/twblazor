@@ -13,7 +13,7 @@
         {
             @for (var i = 0; i < Breadcrumbs.Count; i++)
             {
-                <TwBreadcrumbItem Breadcrumb="@Breadcrumbs[i]" Class="" IsFirst="@(i == 0)" />
+                <TwBreadcrumbItem Breadcrumb="@Breadcrumbs[i]" Class="" IsFirst="@(i == 0)" Separator="@Separator" SeparatorIcon="@SeparatorIcon" />
             }
         }
     </ol>
