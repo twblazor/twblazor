@@ -3,6 +3,7 @@
 
 using Microsoft.AspNetCore.Components;
 using TwBlazor.Configuration.Components;
+using TwBlazor.Enums;
 using TwBlazor.Models;
 using TwBlazor.Utilities;
 
@@ -78,6 +79,15 @@ public partial class TwSidebarItem : TwBlazorComponentBase
     [Parameter] public required string Label { get; set; }
 
     /// <summary>
+    /// Gets or sets the icon rendered before the sidebar item's label.
+    /// </summary>
+    /// <remarks>
+    /// The icon is decorative: it is hidden from assistive technology, so the <see cref="Label"/> remains the
+    /// item's accessible name. Taken from the <see cref="NavigationItem"/> when one is provided.
+    /// </remarks>
+    [Parameter] public Icon? Icon { get; set; }
+
+    /// <summary>
     /// Gets or sets whether this sidebar item is a child within a parent group.
     /// </summary>
     /// <remarks>
@@ -121,7 +131,7 @@ public partial class TwSidebarItem : TwBlazorComponentBase
     /// Gets or sets the navigation item model that provides the sidebar item's properties.
     /// </summary>
     /// <remarks>
-    /// When provided, the <see cref="Href"/> and <see cref="Label"/> properties are automatically populated
+    /// When provided, the <see cref="Href"/>, <see cref="Label"/> and <see cref="Icon"/> properties are automatically populated
     /// from the navigation item during initialization. This allows for easier integration with navigation data models.
     /// </remarks>
     [Parameter] public NavigationItem? NavigationItem { get; set; }
@@ -139,6 +149,7 @@ public partial class TwSidebarItem : TwBlazorComponentBase
         {
             Href = NavigationItem.Href ?? string.Empty;
             Label = NavigationItem.Label ?? string.Empty;
+            Icon = NavigationItem.Icon;
         }
 
         base.OnParametersSet();

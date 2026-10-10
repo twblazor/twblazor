@@ -141,6 +141,12 @@ public class TwSidebarTheme
     public string NavigationItemParent { get; set; } = string.Empty;
 
     /// <summary>
+    /// Gets or sets the classes for the icon rendered before a navigation item's label
+    /// (see <see cref="TwBlazor.Models.NavigationItem.Icon"/>).
+    /// </summary>
+    public string NavigationItemIcon { get; set; } = string.Empty;
+
+    /// <summary>
     /// Gets or sets the classes for the wrapper around the content rendered after a navigation item's label
     /// (see <see cref="TwBlazor.Components.TwSidebar.NavigationItemContent"/>), pushing it to the end of the row.
     /// </summary>

@@ -1,0 +1,188 @@
+@page "/class-merge"
+@using TwBlazor.Utilities
+
+<PageContainer Title="Class Merge" Path="/class-merge" Category="Configuration" Description="How twblazor merges conflicting Tailwind classes so the last one wins, and how to turn it off or add your own utilities with TwBlazorOptions.ClassMerge." SeoTitle="Class Merge | twblazor - Merge Conflicting Tailwind CSS Classes in Blazor">
+    <PageCard Title="Overview" NoMarginTop>
+        <Description>
+            Every twblazor component builds its <code>class</code> attribute from its theme classes, then your own <code>Class</code>. When two of those classes set the same CSS property, such as <code>px-4</code> from the theme and <code>px-2</code> from you, the one added last wins and the other is removed. Without merging, both would reach the element and the order of Tailwind's stylesheet, not your intent, would decide the result.
+        </Description>
+        <p class="mb-3">
+            It is built into twblazor, so there is nothing to install and nothing to set up. <code>ClassBuilder.Build()</code> does the merge for every component. The sections below show the rules it follows, and every result in them is produced by <code>ClassBuilder</code> when this page renders, so it is always what the library really does.
+        </p>
+        <TwCodeBlock Content="@_componentExample" Language="razor" />
+    </PageCard>
+
+    <PageCard Title="Last conflicting class wins">
+        <Description>When several classes set the same property, only the last one is kept.</Description>
+        <TwCodeBlock Content="@Examples("p-5 p-2 p-4")" Language="csharp" />
+    </PageCard>
+
+    <PageCard Title="Allows refinements">
+        <Description>A more specific class that comes after a general one refines it instead of replacing it, so both are kept.</Description>
+        <TwCodeBlock Content="@Examples("p-3 px-5", "inset-x-4 right-4")" Language="csharp" />
+    </PageCard>
+
+    <PageCard Title="Resolves non-trivial conflicts">
+        <Description>Classes that look different can still conflict, such as a shorthand and the longhand it covers, or two display values.</Description>
+        <TwCodeBlock Content="@Examples("inset-x-px -inset-1", "bottom-auto inset-y-6", "inline block")" Language="csharp" />
+    </PageCard>
+
+    <PageCard Title="Supports modifiers and stacked modifiers">
+        <Description>Classes only conflict when they share the same set of modifiers, so <code>hover:p-4</code> never removes <code>p-2</code>, and the order of stacked modifiers does not matter.</Description>
+        <TwCodeBlock Content="@Examples("p-2 hover:p-4", "hover:p-2 hover:p-4", "hover:focus:p-2 focus:hover:p-4")" Language="csharp" />
+    </PageCard>
+
+    <PageCard Title="Supports arbitrary values">
+        <Description>Arbitrary values take part in the merge like any other value.</Description>
+        <TwCodeBlock Content="@Examples("bg-black bg-(--my-color) bg-[color:var(--mystery-var)]", "grid-cols-[1fr,auto] grid-cols-2")" Language="csharp" />
+        <TwAlert Color="Color.Info" Class="mt-3">
+            <p class="font-semibold">Labels are necessary in ambiguous cases</p>
+            <p>
+                A class like <code>text-[calc(var(--rebecca)-1rem)]</code> could be a font size or a text color, so the value is inspected for clues such as <code>calc()</code> or a number followed by a unit like <code>1rem</code>. When the type can't be told from the value, as in <code>text-[theme(myCustomScale.rebecca)]</code>, it is treated as a color. Add a CSS data type label, as Tailwind itself does, to say which one you mean: <code>text-[length:theme(myCustomScale.rebecca)]</code>.
+            </p>
+        </TwAlert>
+    </PageCard>
+
+    <PageCard Title="Supports arbitrary properties">
+        <Description>Arbitrary properties conflict with other arbitrary properties for the same property name.</Description>
+        <TwCodeBlock Content="@Examples("[mask-type:luminance] [mask-type:alpha]", "[--scroll-offset:56px] lg:[--scroll-offset:44px]")" Language="csharp" />
+        <TwAlert Color="Color.Info" Class="mt-3">
+            Conflicts between an arbitrary property and the Tailwind class for the same property are not resolved. Don't write <code>[padding:1rem] p-8</code> and expect one of them to go.
+        </TwAlert>
+    </PageCard>
+
+    <PageCard Title="Supports arbitrary variants">
+        <Description>Arbitrary variants conflict with the same arbitrary variant. Like arbitrary properties, an arbitrary variant is never matched against a predefined modifier, so <code>[&amp;:focus]:ring</code> and <code>focus:ring-4</code> are both kept.</Description>
+        <TwCodeBlock Content="@Examples("[&:nth-child(3)]:py-0 [&:nth-child(3)]:py-4", "[&:focus]:ring focus:ring-4")" Language="csharp" />
+    </PageCard>
+
+    <PageCard Title="Supports important modifier">
+        <Description>The important modifier can go before or after the class, and important classes only conflict with other important classes.</Description>
+        <TwCodeBlock Content="@Examples("p-3! p-4! p-5", "right-2! -inset-x-1!")" Language="csharp" />
+    </PageCard>
+
+    <PageCard Title="Supports postfix modifiers">
+        <Description>A postfix modifier, such as the line height in <code>text-lg/7</code>, also replaces the class it sets.</Description>
+        <TwCodeBlock Content="@Examples("text-sm leading-6 text-lg/7")" Language="csharp" />
+    </PageCard>
+
+    <PageCard Title="Preserves non-Tailwind classes">
+        <Description>Classes that are not Tailwind utilities are never removed and keep their place.</Description>
+        <TwCodeBlock Content="@Examples("p-5 p-2 my-non-tailwind-class p-4")" Language="csharp" />
+    </PageCard>
+
+    <PageCard Title="Supports custom colors out of the box">
+        <Description>A color name it has never seen, such as one from your own Tailwind theme, is treated as a color.</Description>
+        <TwCodeBlock Content="@Examples("text-red text-secret-sauce")" Language="csharp" />
+    </PageCard>
+
+    <PageCard Title="Composition">
+        <Description>
+            <code>ClassBuilder</code> merges once, when you call <code>Build()</code>, so you can add classes in as many calls as you like. A conditional class takes part in the merge only when its condition is true.
+        </Description>
+        <TwCodeBlock Content="@_compositionExample" Language="csharp" />
+    </PageCard>
+
+    <PageCard Title="Configuration" Id="class-merge-configuration">
+        <Description>
+            Merging needs no configuration. Leave <code>ClassMerge</code> alone and everything above applies. To change it, set it on the options you pass to <code>AddTwBlazor</code>. It is part of <code>TwBlazorOptions</code>, not the theme, and applies to your whole application.
+        </Description>
+        <TwCodeBlock Content="@_configureExample" Language="csharp" />
+    </PageCard>
+
+    <PageCard Title="Turn it off">
+        <p class="mb-3">
+            With <code>Enabled</code> set to <code>false</code> every class is rendered exactly as written, with only the surrounding whitespace trimmed.
+        </p>
+        <TwCodeBlock Content="@_disableExample" Language="csharp" />
+    </PageCard>
+
+    <PageCard Title="Add your own utilities">
+        <p class="mb-3">
+            A <code>TwClassGroup</code> is a set of classes that conflict with each other. A class belongs to the group when it equals one of its prefixes or starts with the prefix and a dash, so the prefix <code>btn</code> matches <code>btn</code>, <code>btn-sm</code> and <code>btn-lg</code>. Custom groups are checked before the built-in ones.
+        </p>
+        <TwCodeBlock Content="@_groupExample" Language="csharp" />
+    </PageCard>
+
+    <PageCard Title="Override other groups">
+        <p class="mb-3">
+            Set <code>Overrides</code> to the names of groups that a later class from this one also removes. Reusing the name of a built-in group, such as <code>p</code>, adds your classes to that group and keeps its existing overrides.
+        </p>
+        <TwCodeBlock Content="@_overridesExample" Language="csharp" />
+    </PageCard>
+
+    <PageCard Title="Performance">
+        <Description>
+            Results are cached, so re-renders don't repeat the work. The cache is keyed on the full class string given to <code>Build()</code> and holds up to 2,048 different results before it starts again.
+        </Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    private const string _componentExample = """
+        <TwButton Label="Compact" Class="px-2" />
+
+        @* Renders px-2 and no px-6. The colors, height and the rest of the theme are untouched. *@
+        """;
+
+    private const string _compositionExample = """
+        var classes = new ClassBuilder("some-class")
+            .AddClass("another-class yet-another-class")
+            .AddClass("so-many-classes")
+            .Build();
+        // → "some-class another-class yet-another-class so-many-classes"
+
+        var compact = true;
+        var button = new ClassBuilder("px-6 py-2")
+            .AddClass("px-2", compact)
+            .Build();
+        // → "py-2 px-2"
+        """;
+
+    private const string _configureExample = """
+        builder.Services.AddTwBlazor(options =>
+        {
+            options.ClassMerge.Enabled = true; // the default
+            options.ClassMerge.Groups.Add(new TwClassGroup("btn-size", ["btn"]));
+        }, Theme.CreateTheme);
+        """;
+
+    private const string _disableExample = """
+        builder.Services.AddTwBlazor(options => options.ClassMerge.Enabled = false, Theme.CreateTheme);
+        """;
+
+    private const string _groupExample = """
+        // Of btn, btn-sm and btn-lg only the last one added is kept.
+        options.ClassMerge.Groups.Add(new TwClassGroup("btn-size", ["btn"]));
+
+        // "btn-sm btn-lg flex" renders as "btn-lg flex".
+        """;
+
+    private const string _overridesExample = """
+        // A later pad-4 also removes earlier px and py classes.
+        options.ClassMerge.Groups.Add(new TwClassGroup("spacing-all", ["pad"])
+        {
+            Overrides = ["px", "py"],
+        });
+
+        // Add gutter-* to the built-in padding group instead.
+        options.ClassMerge.Groups.Add(new TwClassGroup("p", ["gutter"]));
+        """;
+
+    private const int _maxCodeLineLength = 90;
+
+    /// <summary>
+    /// Builds a code block with one line per input showing the merged result, computed with <see cref="ClassBuilder"/>.
+    /// </summary>
+    /// <param name="inputs">The class strings to merge.</param>
+    private static string Examples(params string[] inputs) =>
+        string.Join('\n', inputs.Select(Example));
+
+    private static string Example(string input)
+    {
+        var call = $"new ClassBuilder(\"{input}\").Build();";
+        var result = $"// → \"{new ClassBuilder(input).Build()}\"";
+
+        return call.Length + result.Length > _maxCodeLineLength ? $"{call}\n{result}" : $"{call} {result}";
+    }
+}

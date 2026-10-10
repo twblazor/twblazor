@@ -369,7 +369,8 @@ public class ShadowBuilderTests : TwBlazorTestBase
         var result = ShadowBuilder.GetButtonShadow(null, overrideShadow: (Shadow)999);
 
         // Assert
-        Assert.Contains(Theme.Shadows.Sm, result);
+        // The base shadow is replaced because the none shadow is added after it and sets the same property.
+        Assert.DoesNotContain(Theme.Shadows.Sm, result);
         Assert.Contains(Theme.Shadows.None, result);
         Assert.DoesNotContain(Theme.Shadows.HoverSm, result);
         Assert.DoesNotContain(Theme.Shadows.HoverMd, result);

@@ -19,4 +19,9 @@ public class TwBlazorOptions
     /// Changes here affect all components unless individually overridden.
     /// </remarks>
     public required TwBlazorTheme Theme { get; set; }
+
+    /// <summary>
+    /// Gets or sets how conflicting Tailwind classes are merged. Optional: the defaults are used when this is left alone.
+    /// </summary>
+    public TwClassMergeOptions ClassMerge { get; set; } = new();
 }

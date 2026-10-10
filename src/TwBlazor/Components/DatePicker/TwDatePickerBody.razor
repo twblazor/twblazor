@@ -16,5 +16,5 @@
     private string rootClasses => new ClassBuilder("datepicker-body")
         .AddClass(theme.Body).Build();
 
-    private string classes => new ClassBuilder(Class).AddClass(options.Theme.Sizing.FullWidth).Build();
+    private string classes => new ClassBuilder(options.Theme.Sizing.FullWidth).AddClass(Class).Build();
 }

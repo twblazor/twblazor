@@ -54,6 +54,18 @@ public partial class Navigation : IDisposable
     private static readonly string _apiDocumentationUri = "https://twblazor.github.io/twblazor/";
 #pragma warning restore S1075
 
+    // The icons of the groups built from components.json, by item id: its categories and the groups nested in them.
+    private static readonly Dictionary<string, Icon> _groupIcons = new()
+    {
+        ["layout"] = Icon.Columns_Gap,
+        ["forms"] = Icon.Ui_Checks,
+        ["dates-time-navitem"] = Icon.Calendar_Week,
+        ["feedback"] = Icon.Chat_Square_Dots,
+        ["data"] = Icon.Table,
+        ["charts"] = Icon.Bar_Chart_Line,
+        ["services"] = Icon.Plug,
+    };
+
     // The ids of the items that show a "New" badge, filled while the navigation items are built.
     private readonly HashSet<string> _newItemIds = [];
 
@@ -66,11 +78,12 @@ public partial class Navigation : IDisposable
     {
         List<NavigationItem> items =
         [
-            new() { Id = "home", Label = "Home", Href = "/" },
+            new() { Id = "home", Label = "Home", Href = "/", Icon = Icon.House },
             new()
             {
                 Id = "get-started-group",
                 Label = "Get Started",
+                Icon = Icon.Rocket_Takeoff,
                 Collapsed = false,
                 NavigationItems =
                 [
@@ -79,7 +92,17 @@ public partial class Navigation : IDisposable
                     new() { Id = "why-twblazor", Label = "Why twblazor?", Href = "/why-twblazor" },
                 ],
             },
-            new() { Id = "theme", Label = "Theme", Href = "/theme" },
+            new()
+            {
+                Id = "configuration",
+                Label = "Configuration",
+                Icon = Icon.Gear,
+                NavigationItems =
+                [
+                    new() { Id = "theme", Label = "Theme", Href = "/theme", Icon = Icon.Brush },
+                    new() { Id = "class-merge", Label = "Class Merge", Href = "/class-merge", Icon = Icon.Intersect },
+                ],
+            },
         ];
 
         foreach (var category in ComponentCatalog.LoadCategories())
@@ -89,10 +112,10 @@ public partial class Navigation : IDisposable
                 _newItemIds.Add(id);
 
             var children = category.Items.Select(entry => BuildNavigationItem(entry, category.IsNew)).ToList();
-            items.Add(new NavigationItem { Id = id, Label = category.Category, NavigationItems = children });
+            items.Add(new NavigationItem { Id = id, Label = category.Category, Icon = GetGroupIcon(id), NavigationItems = children });
         }
 
-        items.Add(new() { Id = "api-doc", Label = "API Documentation", Href = _apiDocumentationUri });
+        items.Add(new() { Id = "api-doc", Label = "API Documentation", Href = _apiDocumentationUri, Icon = Icon.Journal_Code });
 
         return items;
     }
@@ -107,9 +130,15 @@ public partial class Navigation : IDisposable
             _newItemIds.Add(entry.Id);
 
         return entry.Items.Count > 0
-            ? new NavigationItem { Id = entry.Id, Label = entry.Display, NavigationItems = entry.Items.Select(child => BuildNavigationItem(child, entry.IsNew)).ToList() }
+            ? new NavigationItem { Id = entry.Id, Label = entry.Display, Icon = GetGroupIcon(entry.Id), NavigationItems = entry.Items.Select(child => BuildNavigationItem(child, entry.IsNew)).ToList() }
             : new NavigationItem { Id = entry.Id, Label = entry.Display, Href = entry.Url };
     }
+
+    /// <summary>
+    /// Returns the icon for a group built from <c>components.json</c>, or <see langword="null"/> when the
+    /// group has none in <see cref="_groupIcons"/>.
+    /// </summary>
+    private static Icon? GetGroupIcon(string id) => _groupIcons.TryGetValue(id, out var icon) ? icon : null;
 
     private bool IsNew(NavigationItem item) => item.Id is { } id && _newItemIds.Contains(id);
 

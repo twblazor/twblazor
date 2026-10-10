@@ -44,6 +44,23 @@ $ dotnet add package twblazor --version 1.14.2
 ```
 2. Head to the [Get Started guide](https://twblazor.com/get-started) for the rest of the setup - stylesheets, imports, providers, theming and dependency injection - covering both Interactive Server and WebAssembly Blazor Web Apps step by step.
 
+## Class merging
+
+When a component builds its `class` attribute, conflicting Tailwind utilities are merged so the last one wins. A `Class="px-2"` you pass to a component replaces the theme's `px-4` instead of both reaching the element. It is built into twblazor, so there is no extra package, and it needs no setup. Classes that are not Tailwind utilities are always kept.
+
+To tune it, set `ClassMerge` on the options you pass to `AddTwBlazor`:
+
+```csharp
+builder.Services.AddTwBlazor(options =>
+{
+    // Turn merging off entirely.
+    // options.ClassMerge.Enabled = false;
+
+    // Teach it your own utilities: of btn, btn-sm, btn-lg only the last one is kept.
+    options.ClassMerge.Groups.Add(new TwClassGroup("btn-size", ["btn"]));
+}, Theme.CreateTheme);
+```
+
 ## Supported Versions
 
 | Version      | Supported          | .NET    |

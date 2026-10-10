@@ -1007,6 +1007,34 @@ public class TwSidebarTests : TwBlazorTestBase
     }
 
     [Fact]
+    public void NavigationItemIcon_IsRendered_ForLinkAndParentItems_AndKeptWhileSearching()
+    {
+        // Arrange
+        var items = BuildItemContentNavigationItems();
+        items[0].Icon = TwBlazor.Enums.Icon.House;
+        items[1].Icon = TwBlazor.Enums.Icon.Bar_Chart_Line;
+        items[1].NavigationItems[1].Icon = TwBlazor.Enums.Icon.Pie_Chart;
+
+        var cut = TestContext.Render<TwSidebar>(p => p
+            .Add(x => x.IsSearchable, true)
+            .Add(x => x.NavigationItems, items)
+        );
+
+        // Assert
+        Assert.Contains("bi-house", cut.Find("a[href='/home'] > i").GetAttribute("class"));
+        Assert.Contains("bi-bar-chart-line", cut.Find("button#charts > i").GetAttribute("class"));
+        Assert.Contains("bi-pie-chart", cut.Find("button#radial > i").GetAttribute("class"));
+        Assert.Empty(cut.FindAll("a[href='/bar'] > i"));
+
+        // Act
+        cut.Find("input").Input("Pie");
+
+        // Assert
+        Assert.Contains("bi-bar-chart-line", cut.Find("button#charts > i").GetAttribute("class"));
+        Assert.Contains("bi-pie-chart", cut.Find("button#radial > i").GetAttribute("class"));
+    }
+
+    [Fact]
     public void NavigationItemContent_StillReceivesTheItemId_WhileSearching()
     {
         // Arrange
