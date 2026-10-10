@@ -9,6 +9,9 @@
         <p class="mb-3">
             It is built into twblazor, so there is nothing to install and nothing to set up. <code>ClassBuilder.Build()</code> does the merge for every component. The sections below show the rules it follows, and every result in them is produced by <code>ClassBuilder</code> when this page renders, so it is always what the library really does.
         </p>
+        <p class="mb-3">
+            The rules are those of the <a href="https://github.com/dcastil/tailwind-merge" class="underline">tailwind-merge</a> npm package for Tailwind CSS v4. Its class groups are generated into twblazor from that package, and twblazor's tests compare the two on several hundred class strings. See <a href="#class-merge-differences" class="underline">Differences from tailwind-merge</a> for the two places they part.
+        </p>
         <TwCodeBlock Content="@_componentExample" Language="razor" />
     </PageCard>
 
@@ -30,6 +33,16 @@
     <PageCard Title="Supports modifiers and stacked modifiers">
         <Description>Classes only conflict when they share the same set of modifiers, so <code>hover:p-4</code> never removes <code>p-2</code>, and the order of stacked modifiers does not matter.</Description>
         <TwCodeBlock Content="@Examples("p-2 hover:p-4", "hover:p-2 hover:p-4", "hover:focus:p-2 focus:hover:p-4")" Language="csharp" />
+        <TwAlert Color="Color.Info" Class="mt-3">
+            The order does matter around a modifier that changes which element is styled: <code>before</code>, <code>after</code>, <code>placeholder</code>, <code>file</code>, <code>marker</code>, <code>selection</code>, <code>first-line</code>, <code>first-letter</code>, <code>backdrop</code>, <code>details-content</code>, <code>*</code> and <code>**</code>, and any arbitrary variant. <code>before:hover:p-1</code> and <code>hover:before:p-2</code> produce different CSS, so both are kept.
+        </TwAlert>
+    </PageCard>
+
+    <PageCard Title="Supports a Tailwind prefix">
+        <Description>
+            A Tailwind v4 prefix is written like a modifier, as in <code>tw:px-4</code>, so prefixed classes need no configuration. They merge with each other, and never with the unprefixed class of the same name, because the two come from different stylesheets.
+        </Description>
+        <TwCodeBlock Content="@Examples("tw:px-4 tw:px-2", "tw:pt-1 tw:py-3", "tw:px-4 px-2")" Language="csharp" />
     </PageCard>
 
     <PageCard Title="Supports arbitrary values">
@@ -67,8 +80,8 @@
     </PageCard>
 
     <PageCard Title="Preserves non-Tailwind classes">
-        <Description>Classes that are not Tailwind utilities are never removed and keep their place.</Description>
-        <TwCodeBlock Content="@Examples("p-5 p-2 my-non-tailwind-class p-4")" Language="csharp" />
+        <Description>Classes that are not Tailwind utilities are never removed and keep their place. That includes a class that only looks like one, such as <code>w-half</code>, whose value Tailwind does not have.</Description>
+        <TwCodeBlock Content="@Examples("p-5 p-2 my-non-tailwind-class p-4", "w-1/2 w-half")" Language="csharp" />
     </PageCard>
 
     <PageCard Title="Supports custom colors out of the box">
@@ -109,6 +122,21 @@
             Set <code>Overrides</code> to the names of groups that a later class from this one also removes. Reusing the name of a built-in group, such as <code>p</code>, adds your classes to that group and keeps its existing overrides.
         </p>
         <TwCodeBlock Content="@_overridesExample" Language="csharp" />
+    </PageCard>
+
+    <PageCard Title="Differences from tailwind-merge" Id="class-merge-differences">
+        <Description>
+            twblazor gives the same result as tailwind-merge except in two cases, where it follows what Tailwind itself generates.
+        </Description>
+        <ul class="list-disc list-inside mb-3 space-y-2">
+            <li>
+                An unlabelled arbitrary background value made of position keywords, such as <code>bg-[right_0.5rem_center]</code>, is a background position, as it is to Tailwind. tailwind-merge reads it as a color unless you write <code>bg-[position:right_0.5rem_center]</code>.
+            </li>
+            <li>
+                A line height modifier is recognised after the Tailwind v3 important syntax too, so <code>!text-sm/6</code> replaces an earlier <code>!leading-4</code> just as <code>text-sm/6!</code> does.
+            </li>
+        </ul>
+        <TwCodeBlock Content="@Examples("bg-red-500 bg-[right_0.5rem_center]", "!leading-4 !text-sm/6")" Language="csharp" />
     </PageCard>
 
     <PageCard Title="Performance">

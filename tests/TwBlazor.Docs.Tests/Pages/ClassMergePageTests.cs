@@ -18,6 +18,11 @@ public class ClassMergePageTests : DocsTestBase
     [InlineData("p-3! p-4! p-5", "p-4! p-5")]
     [InlineData("text-sm leading-6 text-lg/7", "text-lg/7")]
     [InlineData("p-5 p-2 my-non-tailwind-class p-4", "my-non-tailwind-class p-4")]
+    [InlineData("w-1/2 w-half", "w-1/2 w-half")]
+    [InlineData("tw:px-4 tw:px-2", "tw:px-2")]
+    [InlineData("tw:px-4 px-2", "tw:px-4 px-2")]
+    [InlineData("bg-red-500 bg-[right_0.5rem_center]", "bg-red-500 bg-[right_0.5rem_center]")]
+    [InlineData("!leading-4 !text-sm/6", "!text-sm/6")]
     public void Examples_ShowTheInputAndItsMergedResult_InACodeBlock(string input, string result)
     {
         var cut = Render();
@@ -42,6 +47,8 @@ public class ClassMergePageTests : DocsTestBase
     [InlineData("Last conflicting class wins")]
     [InlineData("Supports arbitrary values")]
     [InlineData("Preserves non-Tailwind classes")]
+    [InlineData("Supports a Tailwind prefix")]
+    [InlineData("Differences from tailwind-merge")]
     [InlineData("Composition")]
     [InlineData("Turn it off")]
     [InlineData("Add your own utilities")]

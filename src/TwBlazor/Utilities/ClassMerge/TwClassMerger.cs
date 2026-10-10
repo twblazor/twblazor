@@ -13,7 +13,8 @@ namespace TwBlazor.Utilities.ClassMerge;
 /// </summary>
 /// <remarks>
 /// Two classes only conflict when they share the same variants (<c>hover:</c>, <c>md:</c>) and the same
-/// <c>!</c> importance, so <c>hover:px-2</c> never removes <c>px-4</c>.
+/// <c>!</c> importance, so <c>hover:px-2</c> never removes <c>px-4</c>. The algorithm and the built-in groups
+/// follow the tailwind-merge npm package, see <see cref="TwClassGroups"/>.
 /// </remarks>
 internal sealed class TwClassMerger
 {
@@ -22,7 +23,7 @@ internal sealed class TwClassMerger
     private static volatile TwClassMerger current = new(new TwClassMergeOptions());
 
     private readonly bool _enabled;
-    private readonly List<TwClassGroupRule> _rules;
+    private readonly List<CustomGroup> _customGroups;
     private readonly Dictionary<string, string[]> _conflicts;
     private readonly ConcurrentDictionary<string, string> _cache = new(StringComparer.Ordinal);
 
@@ -33,7 +34,7 @@ internal sealed class TwClassMerger
     public TwClassMerger(TwClassMergeOptions options)
     {
         _enabled = options.Enabled;
-        _rules = [.. options.Groups.Select(ToRule), .. TwClassGroups.Rules];
+        _customGroups = [.. options.Groups.Select(group => new CustomGroup(group.Name, [.. group.Prefixes]))];
         _conflicts = TwClassGroups.Conflicts.ToDictionary(c => c.Key, c => c.Value, StringComparer.Ordinal);
 
         foreach (var group in options.Groups.Where(g => g.Overrides.Count > 0))
@@ -80,12 +81,6 @@ internal sealed class TwClassMerger
         return merged;
     }
 
-    private static TwClassGroupRule ToRule(TwClassGroup group)
-    {
-        var matchers = group.Prefixes.Select(prefix => TwClassGroups.Prefixed(prefix, bare: true)).ToList();
-        return new TwClassGroupRule(group.Name, utility => matchers.Exists(match => match(utility)));
-    }
-
     private string MergeUncached(string classes)
     {
         var tokens = classes.Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries);
@@ -103,10 +98,38 @@ internal sealed class TwClassMerger
     private bool Claim(string token, HashSet<string> claimed)
     {
         var parsed = Parse(token);
-        var group = FindGroup(parsed.Utility);
+        var hasModifier = parsed.ModifierPosition > 0;
+        string? group;
+
+        if (hasModifier)
+        {
+            group = FindGroup(parsed.Utility[..parsed.ModifierPosition]);
+
+            // The modifier can change the group: @container is a container type, @container/name a named container.
+            if (group is not null && TwClassGroups.PostfixLookupGroups.Contains(group) && FindGroup(parsed.Utility) is { } withModifier && withModifier != group)
+            {
+                group = withModifier;
+                hasModifier = false;
+            }
+        }
+        else
+        {
+            group = FindGroup(parsed.Utility);
+        }
 
         if (group is null)
-            return true;
+        {
+            if (!hasModifier)
+                return true;
+
+            // What looked like a modifier may be part of the value, as in the fraction of w-1/2.
+            group = FindGroup(parsed.Utility);
+
+            if (group is null)
+                return true;
+
+            hasModifier = false;
+        }
 
         var scope = parsed.Scope;
 
@@ -119,107 +142,152 @@ internal sealed class TwClassMerger
                 claimed.Add(scope + other);
         }
 
-        if (parsed.HasModifier && group == "font-size")
-            claimed.Add(scope + "leading");
+        if (hasModifier && TwClassGroups.ModifierConflicts.TryGetValue(group, out var overriddenByModifier))
+        {
+            foreach (var other in overriddenByModifier)
+                claimed.Add(scope + other);
+        }
 
         return true;
     }
 
     private string? FindGroup(string utility)
     {
-        if (utility.Length > 2 && utility[0] == '[' && utility[^1] == ']' && utility.IndexOf(':', StringComparison.Ordinal) is var colon and > 1)
-            return "arbitrary:" + utility[1..colon];
-
-        foreach (var rule in _rules)
+        if (_customGroups.Count > 0)
         {
-            if (rule.Matches(utility))
-                return rule.Name;
+            var name = utility.Length > 1 && utility[0] == '-' ? utility[1..] : utility;
+
+            foreach (var custom in _customGroups)
+            {
+                if (custom.Matches(name))
+                    return custom.Name;
+            }
         }
 
-        return null;
+        return TwClassGroups.Find(utility);
+    }
+
+    /// <summary>
+    /// A group from <see cref="TwClassMergeOptions.Groups"/>.
+    /// </summary>
+    /// <param name="Name">The group's name.</param>
+    /// <param name="Prefixes">The class prefixes that belong to the group.</param>
+    private sealed record CustomGroup(string Name, string[] Prefixes)
+    {
+        /// <summary>
+        /// Gets whether <paramref name="utility"/> is one of the prefixes, or starts with one followed by a dash.
+        /// </summary>
+        /// <param name="utility">The class without variants, <c>!</c>, a leading <c>-</c> or a <c>/</c> modifier.</param>
+        public bool Matches(string utility) =>
+            Array.Exists(Prefixes, prefix => utility == prefix || (utility.Length > prefix.Length && utility[prefix.Length] == '-' && utility.StartsWith(prefix, StringComparison.Ordinal)));
     }
 
     /// <summary>
     /// The pieces of a class that matter when deciding whether two classes conflict.
     /// </summary>
-    /// <param name="Scope">The sorted variants and importance, e.g. <c>hover:md:!</c>, so only classes in the same scope conflict.</param>
-    /// <param name="Utility">The utility with variants, importance, a leading <c>-</c> and any <c>/</c> modifier removed.</param>
-    /// <param name="HasModifier">Whether the utility had a <c>/</c> modifier such as the line height in <c>text-sm/6</c>.</param>
-    private readonly record struct ParsedClass(string Scope, string Utility, bool HasModifier);
+    /// <param name="Scope">The variants and importance, e.g. <c>hover:md:!</c>, so only classes in the same scope conflict.</param>
+    /// <param name="Utility">The class with its variants and importance removed.</param>
+    /// <param name="ModifierPosition">The index in <paramref name="Utility"/> of its last top-level <c>/</c>, or 0 when it has none.</param>
+    private readonly record struct ParsedClass(string Scope, string Utility, int ModifierPosition);
 
     private static ParsedClass Parse(string token)
     {
         var variants = new List<string>();
-        var depth = 0;
+        var bracketDepth = 0;
+        var parenDepth = 0;
         var start = 0;
+        var slash = -1;
 
         for (var i = 0; i < token.Length; i++)
         {
-            switch (token[i])
+            var character = token[i];
+
+            if (bracketDepth == 0 && parenDepth == 0)
             {
-                case '[' or '(':
-                    depth++;
-                    break;
-                case ']' or ')':
-                    depth--;
-                    break;
-                case ':' when depth == 0:
+                if (character == ':')
+                {
                     variants.Add(token[start..i]);
                     start = i + 1;
+                    continue;
+                }
+
+                if (character == '/')
+                {
+                    slash = i;
+                    continue;
+                }
+            }
+
+            switch (character)
+            {
+                case '[':
+                    bracketDepth++;
+                    break;
+                case ']':
+                    bracketDepth--;
+                    break;
+                case '(':
+                    parenDepth++;
+                    break;
+                case ')':
+                    parenDepth--;
                     break;
             }
         }
 
         var utility = token[start..];
+        var modifierPosition = slash > start ? slash - start : 0;
         var important = false;
 
-        if (utility.StartsWith('!'))
-        {
-            important = true;
-            utility = utility[1..];
-        }
-        else if (utility.EndsWith('!'))
+        if (utility.EndsWith('!'))
         {
             important = true;
             utility = utility[..^1];
         }
-
-        if (utility.Length > 1 && utility[0] == '-')
+        else if (utility.StartsWith('!'))
+        {
+            // The Tailwind v3 position of the important modifier.
+            important = true;
             utility = utility[1..];
+            modifierPosition = Math.Max(modifierPosition - 1, 0);
+        }
 
-        var slash = LastTopLevelSlash(utility);
-        var hasModifier = slash > 0;
+        var scope = string.Join(':', SortVariants(variants)) + (important ? "!" : string.Empty) + "|";
 
-        if (hasModifier)
-            utility = utility[..slash];
-
-        variants.Sort(StringComparer.Ordinal);
-        var scope = string.Concat(variants.Select(v => v + ":")) + (important ? "!" : string.Empty) + "|";
-
-        return new ParsedClass(scope, utility, hasModifier);
+        return new ParsedClass(scope, utility, modifierPosition);
     }
 
-    private static int LastTopLevelSlash(string utility)
+    /// <summary>
+    /// Sorts the variants so that <c>hover:focus:</c> and <c>focus:hover:</c> give the same scope, without moving
+    /// any of them across an arbitrary variant (<c>[&amp;>*]</c>) or an order sensitive one (<c>before</c>), since
+    /// which side of those a variant is on changes the css produced.
+    /// </summary>
+    /// <param name="variants">The variants in the order they were written.</param>
+    private static List<string> SortVariants(List<string> variants)
     {
-        var depth = 0;
-        var slash = -1;
+        if (variants.Count < 2)
+            return variants;
 
-        for (var i = 0; i < utility.Length; i++)
+        var sorted = new List<string>(variants.Count);
+        var segment = new List<string>();
+
+        foreach (var variant in variants)
         {
-            switch (utility[i])
+            if (variant.StartsWith('[') || TwClassGroups.OrderSensitiveModifiers.Contains(variant))
             {
-                case '[' or '(':
-                    depth++;
-                    break;
-                case ']' or ')':
-                    depth--;
-                    break;
-                case '/' when depth == 0:
-                    slash = i;
-                    break;
+                segment.Sort(StringComparer.Ordinal);
+                sorted.AddRange(segment);
+                segment.Clear();
+                sorted.Add(variant);
+            }
+            else
+            {
+                segment.Add(variant);
             }
         }
 
-        return slash;
+        segment.Sort(StringComparer.Ordinal);
+        sorted.AddRange(segment);
+        return sorted;
     }
 }

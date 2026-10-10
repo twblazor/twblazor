@@ -88,7 +88,7 @@ public class TwClassMergerTests
     [InlineData("bg-red-500 bg-center", "bg-red-500 bg-center")]
     [InlineData("bg-center bg-top", "bg-top")]
     [InlineData("bg-red-500 bg-[oklch(97%_0_0)]", "bg-[oklch(97%_0_0)]")]
-    [InlineData("bg-gradient-to-r bg-none", "bg-none")]
+    [InlineData("bg-linear-to-r bg-none", "bg-none")]
     [InlineData("from-red-500 from-blue-500", "from-blue-500")]
     [InlineData("from-red-500 from-10%", "from-red-500 from-10%")]
     [InlineData("from-red-500 to-blue-500", "from-red-500 to-blue-500")]
@@ -131,7 +131,7 @@ public class TwClassMergerTests
     [InlineData("blur-sm blur-lg", "blur-lg")]
     [InlineData("transition transition-colors", "transition-colors")]
     [InlineData("scale-75 scale-x-50", "scale-75 scale-x-50")]
-    [InlineData("scale-x-50 scale-75", "scale-75")]
+    [InlineData("scale-x-50 scale-75", "scale-x-50 scale-75")]
     public void Merge_TellsShadowSizeAndColorApart(string input, string expected)
     {
         Assert.Equal(expected, _merger.Merge(input));
@@ -168,6 +168,90 @@ public class TwClassMergerTests
     public void Merge_HandlesNegativeAndArbitraryValues(string input, string expected)
     {
         Assert.Equal(expected, _merger.Merge(input));
+    }
+
+    [Theory]
+    [InlineData("w-1/2 w-half", "w-1/2 w-half")]
+    [InlineData("p-4 p-foo", "p-4 p-foo")]
+    [InlineData("z-10 z-top", "z-10 z-top")]
+    [InlineData("opacity-50 opacity-half", "opacity-50 opacity-half")]
+    [InlineData("grid-cols-2 grid-cols-many", "grid-cols-2 grid-cols-many")]
+    [InlineData("flex flex-container", "flex flex-container")]
+    [InlineData("block blocky", "block blocky")]
+    public void Merge_LeavesAClassAlone_WhenItsValueIsNotOneTailwindHas(string input, string expected)
+    {
+        Assert.Equal(expected, _merger.Merge(input));
+    }
+
+    [Theory]
+    [InlineData("text-red text-secret-sauce", "text-secret-sauce")]
+    [InlineData("bg-brand bg-brand-dark", "bg-brand-dark")]
+    [InlineData("border-brand border-other", "border-other")]
+    [InlineData("font-sans font-my-family", "font-my-family")]
+    [InlineData("shadow-brand shadow-other", "shadow-other")]
+    [InlineData("text-sm text-secret-sauce", "text-sm text-secret-sauce")]
+    public void Merge_TreatsAnUnknownName_AsAColorOrFontFromYourTheme(string input, string expected)
+    {
+        Assert.Equal(expected, _merger.Merge(input));
+    }
+
+    [Theory]
+    [InlineData("before:hover:p-1 hover:before:p-2", "before:hover:p-1 hover:before:p-2")]
+    [InlineData("hover:before:p-1 hover:before:p-2", "hover:before:p-2")]
+    [InlineData("*:hover:p-1 hover:*:p-2", "*:hover:p-1 hover:*:p-2")]
+    [InlineData("hover:[&>*]:p-1 [&>*]:hover:p-2", "hover:[&>*]:p-1 [&>*]:hover:p-2")]
+    [InlineData("dark:hover:[&>*]:p-1 hover:dark:[&>*]:p-2", "hover:dark:[&>*]:p-2")]
+    [InlineData("[&>*]:focus:hover:p-1 [&>*]:hover:focus:p-2", "[&>*]:hover:focus:p-2")]
+    public void Merge_KeepsVariantOrder_AroundArbitraryAndOrderSensitiveVariants(string input, string expected)
+    {
+        Assert.Equal(expected, _merger.Merge(input));
+    }
+
+    [Theory]
+    [InlineData("tw:px-4 tw:px-2", "tw:px-2")]
+    [InlineData("customprefix:py-3 customprefix:py-1", "customprefix:py-1")]
+    [InlineData("customprefix:pt-1 customprefix:py-3", "customprefix:py-3")]
+    [InlineData("tw:hover:px-4 tw:hover:px-2", "tw:hover:px-2")]
+    [InlineData("tw:px-4 px-2", "tw:px-4 px-2")]
+    [InlineData("px-4 tw:px-4 px-2 tw:px-2", "px-2 tw:px-2")]
+    public void Merge_MergesPrefixedClasses_WithEachOther_ButNotWithUnprefixedOnes(string input, string expected)
+    {
+        Assert.Equal(expected, _merger.Merge(input));
+    }
+
+    [Theory]
+    [InlineData("!leading-4 !text-sm/6", "!text-sm/6")]
+    [InlineData("!text-sm/6 !leading-4", "!text-sm/6 !leading-4")]
+    [InlineData("!text-sm/6 !text-lg/7", "!text-lg/7")]
+    [InlineData("bg-center bg-[center_top_1rem]", "bg-[center_top_1rem]")]
+    [InlineData("bg-red-500 bg-[center_top_1rem]", "bg-red-500 bg-[center_top_1rem]")]
+    [InlineData("bg-red-500 bg-[linear-gradient(to_right_bottom,red,blue)]", "bg-red-500 bg-[linear-gradient(to_right_bottom,red,blue)]")]
+    [InlineData("bg-red-500 bg-[color:center]", "bg-[color:center]")]
+    public void Merge_DiffersFromTailwindMerge_OnlyWhereTailwindItselfDisagreesWithIt(string input, string expected)
+    {
+        Assert.Equal(expected, _merger.Merge(input));
+    }
+
+    [Theory]
+    [InlineData("@container @container-normal", "@container-normal")]
+    [InlineData("@container/main @container/sidebar", "@container/sidebar")]
+    [InlineData("@container @container/main", "@container/main")]
+    public void Merge_HandlesContainerQueryClasses(string input, string expected)
+    {
+        Assert.Equal(expected, _merger.Merge(input));
+    }
+
+    [Fact]
+    public void Merge_MatchesACustomGroup_ForNegativeImportantAndModifiedClasses()
+    {
+        var options = new TwClassMergeOptions();
+        options.Groups.Add(new TwClassGroup("nudge", ["nudge"]));
+        var merger = new TwClassMerger(options);
+
+        Assert.Equal("nudge-4", merger.Merge("-nudge-2 nudge-4"));
+        Assert.Equal("nudge-4!", merger.Merge("nudge-2! nudge-4!"));
+        Assert.Equal("nudge-4/50", merger.Merge("nudge-2 nudge-4/50"));
+        Assert.Equal("nudge-2 nudges", merger.Merge("nudge-2 nudges"));
     }
 
     [Theory]
