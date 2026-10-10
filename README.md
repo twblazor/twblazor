@@ -77,4 +77,3 @@ See the [Class Merge docs](https://twblazor.com/class-merge) for every rule and 
 
 - [Tailwind CSS](https://tailwindcss.com/) - A utility-first CSS framework for styling components.
 - [Bootstrap Icons](https://icons.getbootstrap.com/) - An open-source icon library used for our TwIcon component.
-- [tailwind-merge](https://github.com/dcastil/tailwind-merge) - The rules our built-in class merging follows, ported to C# so there is no npm package to install.
