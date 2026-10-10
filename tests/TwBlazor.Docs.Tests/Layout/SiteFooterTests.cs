@@ -1,19 +1,90 @@
 using Bunit;
+using Microsoft.Extensions.DependencyInjection;
 using TwBlazor.Docs.Layout;
+using TwBlazor.Docs.Services;
 
 namespace TwBlazor.Docs.Tests.Layout;
 
 public class SiteFooterTests : DocsTestBase
 {
+    private sealed class FakeInviteSource(string? invite) : IDiscordInviteSource
+    {
+        public int Lookups { get; private set; }
+
+        public Task<string?> GetInviteAsync(CancellationToken cancellationToken = default)
+        {
+            Lookups++;
+            return Task.FromResult(invite);
+        }
+    }
+
+    private FakeInviteSource UseInviteSource(string? invite)
+    {
+        var source = new FakeInviteSource(invite);
+        TestContext.Services.AddSingleton<IDiscordInviteSource>(source);
+        return source;
+    }
+
+    [Theory]
+    [InlineData("pointerenter")]
+    [InlineData("focus")]
+    [InlineData("touchstart")]
+    public void Discord_SwapsInTheServersOwnInvite_WhenTheVisitorReachesForTheLink(string trigger)
+    {
+        // Arrange
+        var source = UseInviteSource("https://discord.com/invite/server-owned");
+        var cut = TestContext.Render<SiteFooter>();
+        Assert.Equal(SiteFooter.DiscordUrl, cut.Find("#footer-discord").GetAttribute("href"));
+        Assert.Equal(0, source.Lookups);
+
+        // Act
+        cut.Find("#footer-discord").TriggerEvent("on" + trigger, EventArgs.Empty);
+
+        // Assert
+        Assert.Equal("https://discord.com/invite/server-owned", cut.Find("#footer-discord").GetAttribute("href"));
+        Assert.Equal(1, source.Lookups);
+    }
+
     [Fact]
-    public void Render_ShowsGuideDiscordGitHubDocumentationAndLicenseLinks()
+    public void Discord_KeepsThePermanentLink_WhenNoInviteCanBeFound()
+    {
+        // Arrange
+        var source = UseInviteSource(null);
+        var cut = TestContext.Render<SiteFooter>();
+
+        // Act
+        cut.Find("#footer-discord").TriggerEvent("onpointerenter", EventArgs.Empty);
+
+        // Assert
+        Assert.Equal(SiteFooter.DiscordUrl, cut.Find("#footer-discord").GetAttribute("href"));
+        Assert.Equal(1, source.Lookups);
+    }
+
+    [Fact]
+    public void Discord_LooksTheInviteUpOnlyOnce()
+    {
+        // Arrange
+        var source = UseInviteSource("https://discord.com/invite/server-owned");
+        var cut = TestContext.Render<SiteFooter>();
+
+        // Act
+        cut.Find("#footer-discord").TriggerEvent("onpointerenter", EventArgs.Empty);
+        cut.Find("#footer-discord").TriggerEvent("onfocus", EventArgs.Empty);
+        cut.Find("#footer-discord").TriggerEvent("onpointerenter", EventArgs.Empty);
+
+        // Assert
+        Assert.Equal(1, source.Lookups);
+    }
+
+    [Fact]
+    public void Render_ShowsDiscordGitHubDocumentationAndLicenseLinks()
     {
         // Arrange & Act
         var cut = TestContext.Render<SiteFooter>();
 
         // Assert
         var hrefs = cut.FindAll("footer a").Select(a => a.GetAttribute("href")).ToList();
-        Assert.Equal([SiteFooter.TailwindGuidePath, SiteFooter.DiscordUrl, SiteFooter.GitHubUrl, SiteFooter.DocumentationUrl, SiteFooter.LicenseUrl], hrefs);
+        Assert.Equal([SiteFooter.DiscordUrl, SiteFooter.GitHubUrl, SiteFooter.DocumentationUrl, SiteFooter.LicenseUrl], hrefs);
     }
 
     [Fact]
@@ -24,7 +95,7 @@ public class SiteFooterTests : DocsTestBase
 
         // Assert
         var separators = cut.FindAll("footer span[aria-hidden='true']");
-        Assert.Equal(4, separators.Count);
+        Assert.Equal(3, separators.Count);
         Assert.All(separators, s => Assert.Equal("•", s.TextContent));
     }
 
@@ -44,15 +115,19 @@ public class SiteFooterTests : DocsTestBase
     }
 
     [Fact]
-    public void Render_LinksToTheGuideInTheSameTab()
+    public void Render_OnlyLinksToOtherSites_SoEveryLinkOpensInANewTab()
     {
         // Arrange & Act
         var cut = TestContext.Render<SiteFooter>();
 
         // Assert
-        var guides = cut.FindAll("footer a").Where(a => a.GetAttribute("href")!.StartsWith('/')).ToList();
-        Assert.Equal(["Tailwind Blazor guide"], guides.Select(a => a.TextContent));
-        Assert.All(guides, a => Assert.Null(a.GetAttribute("target")));
+        var links = cut.FindAll("footer a");
+        Assert.Equal(4, links.Count);
+        Assert.All(links, a =>
+        {
+            Assert.StartsWith("https://", a.GetAttribute("href"));
+            Assert.Equal("_blank", a.GetAttribute("target"));
+        });
     }
 
     [Fact]
@@ -62,8 +137,8 @@ public class SiteFooterTests : DocsTestBase
         var cut = TestContext.Render<SiteFooter>();
 
         // Assert
-        var discord = cut.Find($"footer a[href='{SiteFooter.DiscordUrl}']");
-        Assert.Equal("https://discord.gg/EsckVBu9V8", discord.GetAttribute("href"));
+        var discord = cut.Find("#footer-discord");
+        Assert.Equal(SiteFooter.DiscordUrl, discord.GetAttribute("href"));
         Assert.StartsWith("Discord", discord.TextContent.Trim());
         Assert.Contains("bi-discord", discord.QuerySelector("i")!.GetAttribute("class"));
         Assert.Equal("true", discord.QuerySelector("i")!.GetAttribute("aria-hidden"));
