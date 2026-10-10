@@ -39,6 +39,17 @@ public partial class TwIcon : TwBlazorComponentBase
     [Parameter] public bool Disabled { get; set; }
 
     /// <summary>
+    /// Gets or sets whether the icon button is unavailable but still focusable. It is announced as
+    /// unavailable (<c>aria-disabled</c>) and ignores clicks, without dropping out of the tab order.
+    /// </summary>
+    /// <remarks>
+    /// Use this, not <see cref="Disabled"/>, for a button that can become unavailable as a result of being
+    /// pressed (a "next" button on the last page). A natively disabled button loses focus the moment it is
+    /// disabled, which sends a keyboard user back to the top of the page.
+    /// </remarks>
+    [Parameter] public bool Readonly { get; set; }
+
+    /// <summary>
     /// Gets or sets the text of a tooltip shown when the icon button is hovered or keyboard-focused.
     /// </summary>
     /// <remarks>
@@ -143,8 +154,8 @@ public partial class TwIcon : TwBlazorComponentBase
     /// <see cref="Disabled"/> ones, which shouldn't hint at interactivity they don't have.
     /// </remarks>
     private string buttonClasses => new ClassBuilder(RootClass)
-        .AddClass(iconTheme.HoverBackground, !Plain && !Disabled)
-        .AddClass(pulseClasses, !Plain && !Disabled)
+        .AddClass(iconTheme.HoverBackground, !Plain && !Disabled && !Readonly)
+        .AddClass(pulseClasses, !Plain && !Disabled && !Readonly)
         .AddClass(Class)
         .Build();
 

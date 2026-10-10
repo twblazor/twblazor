@@ -23,6 +23,12 @@ public class TwChipTheme
     public required string CloseButton { get; set; }
 
     /// <summary>
+    /// Gets or sets the classes for the button that carries a chip's content when the chip is both
+    /// clickable and closable. The chip then holds two separate buttons, side by side.
+    /// </summary>
+    public string ContentButton { get; set; } = string.Empty;
+
+    /// <summary>
     /// Gets or sets the size classes for <see cref="Enums.ChipSize.Small"/> chips.
     /// </summary>
     public required string Sm { get; set; }

@@ -54,7 +54,7 @@ public class TwDatePickerHeaderTests : TwBlazorTestBase
         previousButton.Click();
 
         // Assert
-        Assert.True(previousButton.HasAttribute("disabled"));
+        Assert.Equal("true", previousButton.GetAttribute("aria-disabled"));
         Assert.False(previousInvoked);
     }
 
@@ -75,7 +75,7 @@ public class TwDatePickerHeaderTests : TwBlazorTestBase
         nextButton.Click();
 
         // Assert
-        Assert.True(nextButton.HasAttribute("disabled"));
+        Assert.Equal("true", nextButton.GetAttribute("aria-disabled"));
         Assert.False(nextInvoked);
     }
 

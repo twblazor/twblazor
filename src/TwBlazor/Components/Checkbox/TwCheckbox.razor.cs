@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using TwBlazor.Builders;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Enums;
@@ -111,6 +112,41 @@ public partial class TwCheckbox<T> : TwBlazorInputComponentBase
     /// always resolves it to checked or unchecked - there is no click gesture that produces this state.
     /// </summary>
     private bool isIndeterminate => Value is null;
+
+    private ElementReference inputRef;
+
+    // The indeterminate state as last pushed to the DOM. It is a DOM property, not an attribute, so it has
+    // to be set from script; this keeps that to the renders where it actually changed.
+    private bool syncedIndeterminate;
+
+    [Inject] private IJSRuntime jsRuntime { get; set; } = null!;
+
+    /// <inheritdoc />
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (syncedIndeterminate == isIndeterminate)
+        {
+            return;
+        }
+
+        syncedIndeterminate = isIndeterminate;
+
+        try
+        {
+            await jsRuntime.InvokeVoidAsync("twCheckbox.setIndeterminate", inputRef, isIndeterminate);
+        }
+        catch (JSDisconnectedException)
+        {
+            // The circuit disconnected before the script could run; nothing to update.
+        }
+        catch (InvalidOperationException)
+        {
+            // JS interop is not available yet (prerendering); the next interactive render sets it.
+            syncedIndeterminate = !isIndeterminate;
+        }
+    }
 
     private string GetCheckboxColor(Color? color) => ColorBuilder.GetPaletteColor(color, theme.Colors, theme.Colors.Primary);
 

@@ -35,6 +35,8 @@ public partial class TwDialog : TwBlazorComponentBase, IAsyncDisposable
     private ElementReference surfaceRef;
     private bool hasFocused;
     private bool trapRegistered;
+    private bool escapeRegistered;
+    private DotNetObjectReference<TwDialog>? selfReference;
 
     /// <summary>
     /// Gets or sets the dialog reference this chrome renders content for.
@@ -138,6 +140,12 @@ public partial class TwDialog : TwBlazorComponentBase, IAsyncDisposable
                 await jSRuntime.InvokeVoidAsync("twDialog.trapFocus", surfaceRef);
                 trapRegistered = true;
                 await jSRuntime.InvokeVoidAsync("twDialog.focusSurface", surfaceRef);
+
+                // Escape is listened for on the document rather than on the dialog element, so one press
+                // closes the dialog even when focus is not inside it (see twDialog.registerEscape).
+                selfReference ??= DotNetObjectReference.Create(this);
+                await jSRuntime.InvokeVoidAsync("twDialog.registerEscape", surfaceRef, selfReference);
+                escapeRegistered = true;
             }
             catch (JSDisconnectedException)
             {
@@ -151,11 +159,19 @@ public partial class TwDialog : TwBlazorComponentBase, IAsyncDisposable
     /// </summary>
     public async ValueTask DisposeAsync()
     {
-        if (trapRegistered)
+        if (trapRegistered || escapeRegistered)
         {
             try
             {
-                await jSRuntime.InvokeVoidAsync("twDialog.releaseFocusTrap", surfaceRef);
+                if (escapeRegistered)
+                {
+                    await jSRuntime.InvokeVoidAsync("twDialog.unregisterEscape", surfaceRef);
+                }
+
+                if (trapRegistered)
+                {
+                    await jSRuntime.InvokeVoidAsync("twDialog.releaseFocusTrap", surfaceRef);
+                }
             }
             catch (JSDisconnectedException)
             {
@@ -167,6 +183,7 @@ public partial class TwDialog : TwBlazorComponentBase, IAsyncDisposable
             }
         }
 
+        selfReference?.Dispose();
         GC.SuppressFinalize(this);
     }
 
@@ -186,9 +203,14 @@ public partial class TwDialog : TwBlazorComponentBase, IAsyncDisposable
         return Task.CompletedTask;
     }
 
-    private Task HandleKeyDownAsync(KeyboardEventArgs e)
+    /// <summary>
+    /// Closes the dialog when Escape is pressed. Invoked from JavaScript, which listens on the document
+    /// and only calls the topmost open dialog.
+    /// </summary>
+    [JSInvokable("CloseFromEscape")]
+    public Task CloseFromEscapeAsync()
     {
-        if (closeOnEscapeKeyEnabled && e.Key == "Escape")
+        if (closeOnEscapeKeyEnabled)
         {
             Reference.Close(TwDialogResult.Cancel());
         }

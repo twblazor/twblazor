@@ -76,7 +76,7 @@ public class TwCollapseTests : TwBlazorTestBase
             .Add(p => p.ChildContent, RenderFragmentBuilder("Collapsible content")));
 
         // Assert
-        var content = cut.Find("div[role='region']");
+        var content = cut.Find("div[role='group']");
         Assert.Contains("Collapsible content", content.TextContent);
     }
 
@@ -88,7 +88,7 @@ public class TwCollapseTests : TwBlazorTestBase
             .Add(p => p.ChildContent, RenderFragmentBuilder("Content")));
 
         // Assert
-        var content = cut.Find("div[role='region']");
+        var content = cut.Find("div[role='group']");
         var classes = content.GetAttribute("class")?.Split(' ', StringSplitOptions.RemoveEmptyEntries) ?? [];
         Assert.Contains("hidden", classes);
     }
@@ -102,7 +102,7 @@ public class TwCollapseTests : TwBlazorTestBase
             .Add(p => p.ChildContent, RenderFragmentBuilder("Visible content")));
 
         // Assert
-        var content = cut.Find("div[role='region']");
+        var content = cut.Find("div[role='group']");
         var classes = content.GetAttribute("class")?.Split(' ', StringSplitOptions.RemoveEmptyEntries) ?? [];
         Assert.DoesNotContain("hidden", classes);
     }
@@ -118,7 +118,7 @@ public class TwCollapseTests : TwBlazorTestBase
         cut.Find("button").Click();
 
         // Assert
-        var content = cut.Find("div[role='region']");
+        var content = cut.Find("div[role='group']");
         var classes = content.GetAttribute("class")?.Split(' ', StringSplitOptions.RemoveEmptyEntries) ?? [];
         Assert.DoesNotContain("hidden", classes);
     }
@@ -134,7 +134,7 @@ public class TwCollapseTests : TwBlazorTestBase
         cut.Find("button").Click();
 
         // Assert
-        var content = cut.Find("div[role='region']");
+        var content = cut.Find("div[role='group']");
         var classes = content.GetAttribute("class")?.Split(' ', StringSplitOptions.RemoveEmptyEntries) ?? [];
         Assert.Contains("hidden", classes);
     }
@@ -171,7 +171,7 @@ public class TwCollapseTests : TwBlazorTestBase
             .Add(p => p.Id, "test-collapse"));
 
         // Assert
-        var content = cut.Find("div[role='region']");
+        var content = cut.Find("div[role='group']");
         Assert.Equal("test-collapse-content", content.GetAttribute("id"));
         Assert.Equal("test-collapse-trigger", content.GetAttribute("aria-labelledby"));
     }

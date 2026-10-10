@@ -29,7 +29,7 @@ public class TwTimePickerTests : TwBlazorTestBase
         // all, just static CSS.
         var cut = TestContext.Render<TwTimePicker>();
 
-        cut.Find("input[type='text']").Focus();
+        cut.Find("input[type='text']").Click();
 
         var invocation = Assert.Single(TestContext.JSInterop.Invocations, i => i.Identifier == "twPicker.registerScrollReposition");
         Assert.IsType<ElementReference>(invocation.Arguments[0]);
@@ -91,12 +91,12 @@ public class TwTimePickerTests : TwBlazorTestBase
             .Add(x => x.SelectedTime, selectedTime)
         );
 
-        cut.Find("input[type='text']").Focus();
+        cut.Find("input[type='text']").Click();
 
         // Assert
         Assert.Contains("Choose time", cut.Markup);
         // Verify time picker controls are rendered (4 buttons for hour/minute up/down)
-        var buttons = cut.FindAll("button[type='button']");
+        var buttons = cut.FindAll("[data-tw-popover] button[type='button']");
         Assert.True(buttons.Count >= 4, "Expected at least 4 control buttons for time picker");
     }
 
@@ -113,7 +113,7 @@ public class TwTimePickerTests : TwBlazorTestBase
         );
 
         // Act
-        cut.Find("input[type='text']").Focus();
+        cut.Find("input[type='text']").Click();
 
         // Assert
         var numberInputs = cut.FindAll("input[type='text']").Skip(1).ToList();
@@ -164,9 +164,9 @@ public class TwTimePickerTests : TwBlazorTestBase
             .Add(x => x.ValueChanged, EventCallback.Factory.Create<string>(this, v => callbackValue = v))
         );
 
-        cut.Find("input[type='text']").Focus();
+        cut.Find("input[type='text']").Click();
 
-        var buttons = cut.FindAll("button[type='button']");
+        var buttons = cut.FindAll("[data-tw-popover] button[type='button']");
         buttons[0].Click(); // Hour increment button
 
         // Assert
@@ -252,9 +252,9 @@ public class TwTimePickerTests : TwBlazorTestBase
             .Add(x => x.SelectedTimeChanged, EventCallback.Factory.Create<TimeOnly>(this, t => callbackTime = t))
         );
 
-        cut.Find("input[type='text']").Focus();
+        cut.Find("input[type='text']").Click();
 
-        var buttons = cut.FindAll("button[type='button']");
+        var buttons = cut.FindAll("[data-tw-popover] button[type='button']");
         buttons[2].Click(); // Minute increment button
 
         // Assert
@@ -276,9 +276,9 @@ public class TwTimePickerTests : TwBlazorTestBase
             .Add(x => x.SelectedTimeChanged, EventCallback.Factory.Create<TimeOnly>(this, t => callbackTime = t))
         );
 
-        cut.Find("input[type='text']").Focus();
+        cut.Find("input[type='text']").Click();
 
-        var buttons = cut.FindAll("button[type='button']");
+        var buttons = cut.FindAll("[data-tw-popover] button[type='button']");
         buttons[1].Click(); // Hour decrement button
 
         // Assert
@@ -294,7 +294,7 @@ public class TwTimePickerTests : TwBlazorTestBase
         var cut = TestContext.Render<TwTimePicker>(p => p
             .Add(x => x.ReadOnly, true));
 
-        cut.Find("input[type='text']").Focus();
+        cut.Find("input[type='text']").Click();
 
         // Assert
         Assert.DoesNotContain("Choose time", cut.Markup);
@@ -307,7 +307,7 @@ public class TwTimePickerTests : TwBlazorTestBase
         var cut = TestContext.Render<TwTimePicker>(p => p
             .Add(x => x.Disabled, true));
 
-        cut.Find("input[type='text']").Focus();
+        cut.Find("input[type='text']").Click();
 
         // Assert
         Assert.DoesNotContain("Choose time", cut.Markup);
@@ -318,7 +318,7 @@ public class TwTimePickerTests : TwBlazorTestBase
     {
         // Arrange
         var cut = TestContext.Render<TwTimePicker>();
-        cut.Find("input[type='text']").Focus();
+        cut.Find("input[type='text']").Click();
         Assert.Contains("Choose time", cut.Markup);
 
         // Act
@@ -389,7 +389,7 @@ public class TwTimePickerTests : TwBlazorTestBase
     {
         // Arrange
         var cut = TestContext.Render<TwTimePicker>();
-        cut.Find("input[type='text']").Focus();
+        cut.Find("input[type='text']").Click();
 
         // Act
         var exception = await Record.ExceptionAsync(() => cut.Instance.DisposeAsync().AsTask());
@@ -405,8 +405,8 @@ public class TwTimePickerTests : TwBlazorTestBase
         var cut = TestContext.Render<TwTimePicker>();
 
         // Act
-        cut.Find("input[type='text']").Focus();
-        cut.Find("input[type='text']").Focus();
+        cut.Find("input[type='text']").Click();
+        cut.Find("input[type='text']").Click();
 
         // Assert
         Assert.Contains("Choose time", cut.Markup);
@@ -465,7 +465,7 @@ public class TwTimePickerTests : TwBlazorTestBase
         );
 
         // Act
-        cut.Find("input").Focus();
+        cut.Find("input").Click();
 
         // Assert
         Assert.DoesNotContain("Choose time", cut.Markup);
@@ -507,7 +507,7 @@ public class TwTimePickerTests : TwBlazorTestBase
         Assert.Equal("text", input.GetAttribute("type"));
 
         // Act
-        input.Focus();
+        input.Click();
 
         // Assert
         Assert.Contains("Choose time", cut.Markup);
@@ -549,7 +549,7 @@ public class TwTimePickerTests : TwBlazorTestBase
         Assert.Equal("text", input.GetAttribute("type"));
         Assert.Contains("02:30 PM", input.GetAttribute("value"));
 
-        input.Focus();
+        input.Click();
         Assert.Contains("Choose time", cut.Markup);
     }
 
@@ -581,7 +581,7 @@ public class TwTimePickerTests : TwBlazorTestBase
         var input = cut.Find("input");
         Assert.Equal("text", input.GetAttribute("type"));
 
-        input.Focus();
+        input.Click();
 
         // Assert
         Assert.Contains("Choose time", cut.Markup);
@@ -608,7 +608,7 @@ public class TwTimePickerTests : TwBlazorTestBase
             .Add(x => x.PreferNativePicker, false));
 
         // Act
-        cut.Find("input[type='text']").Focus();
+        cut.Find("input[type='text']").Click();
 
         // Assert
         var input = cut.Find("input[type='text']");
@@ -640,7 +640,7 @@ public class TwTimePickerTests : TwBlazorTestBase
 
         // Assert
         Assert.True(cut.Instance.Invalid);
-        Assert.Equal("Enter a valid time", cut.Instance.ErrorMessage);
+        Assert.StartsWith("Enter a valid time, for example ", cut.Instance.ErrorMessage);
     }
 
     [Fact]
@@ -686,7 +686,7 @@ public class TwTimePickerTests : TwBlazorTestBase
         var cut = TestContext.Render<TwTimePicker>();
 
         // Act
-        cut.Find("input[type='text']").Focus();
+        cut.Find("input[type='text']").Click();
 
         // Assert
         Assert.Contains(TestContext.JSInterop.Invocations, i => i.Identifier == "twDialog.captureFocus");
@@ -699,7 +699,7 @@ public class TwTimePickerTests : TwBlazorTestBase
         var cut = TestContext.Render<TwTimePicker>();
 
         // Act
-        cut.Find("input[type='text']").Focus();
+        cut.Find("input[type='text']").Click();
 
         // Assert - unlike TwDatePicker/TwColorPicker, focus deliberately stays on the input (a
         // typeable combobox) rather than moving into the panel, so twDialog.focusSurface is not
@@ -714,7 +714,7 @@ public class TwTimePickerTests : TwBlazorTestBase
         // Arrange
         TestContext.JSInterop.Setup<string?>("twDialog.captureFocus").SetResult("tw-focus-token");
         var cut = TestContext.Render<TwTimePicker>();
-        cut.Find("input[type='text']").Focus();
+        cut.Find("input[type='text']").Click();
 
         // Act
         cut.InvokeAsync(() => cut.Instance.Close());
@@ -731,7 +731,7 @@ public class TwTimePickerTests : TwBlazorTestBase
         // Arrange
         TestContext.JSInterop.Setup<string?>("twDialog.captureFocus").SetResult("tw-focus-token");
         var cut = TestContext.Render<TwTimePicker>();
-        cut.Find("input[type='text']").Focus();
+        cut.Find("input[type='text']").Click();
         var panel = cut.Find("div[role='dialog']");
 
         // Act
@@ -748,7 +748,7 @@ public class TwTimePickerTests : TwBlazorTestBase
     {
         // Arrange
         var cut = TestContext.Render<TwTimePicker>();
-        cut.Find("input[type='text']").Focus();
+        cut.Find("input[type='text']").Click();
         var panel = cut.Find("div[role='dialog']");
 
         // Act
@@ -765,8 +765,8 @@ public class TwTimePickerTests : TwBlazorTestBase
     {
         // Arrange - covers OnIconClickAsync's non-disabled path (the twDialog.focusSurface JS call),
         // previously unreached since no existing test interacted with the decorative clock icon.
-        var cut = TestContext.Render<TwTimePicker>();
-        var icon = cut.Find("div[role='button']");
+        var cut = TestContext.Render<TwTimePicker>(p => p.Add(x => x.PreferNativePicker, true));
+        var icon = cut.Find("button[aria-label^='Open']");
 
         // Act
         icon.Click();
@@ -784,8 +784,8 @@ public class TwTimePickerTests : TwBlazorTestBase
         // focusable - so scanning the root for the first focusable descendant found the icon that was
         // just clicked and refocused it, a no-op that never fired the input's focus event, so the
         // panel never opened. The JS call must target the trigger's actual <input> element instead.
-        var cut = TestContext.Render<TwTimePicker>();
-        var icon = cut.Find("div[role='button']");
+        var cut = TestContext.Render<TwTimePicker>(p => p.Add(x => x.PreferNativePicker, true));
+        var icon = cut.Find("button[aria-label^='Open']");
 
         // Act
         icon.Click();
@@ -811,8 +811,9 @@ public class TwTimePickerTests : TwBlazorTestBase
     {
         // Arrange - covers OnIconClickAsync's `if (Disabled) return;` guard.
         var cut = TestContext.Render<TwTimePicker>(p => p
+            .Add(x => x.PreferNativePicker, true)
             .Add(x => x.Disabled, true));
-        var icon = cut.Find("div[role='button']");
+        var icon = cut.Find("button[aria-label^='Open']");
 
         // Act
         icon.Click();
@@ -825,11 +826,11 @@ public class TwTimePickerTests : TwBlazorTestBase
     public void OnIconKeyDown_Enter_FocusesSurface()
     {
         // Arrange - covers OnIconKeyDownAsync's `e.Key is "Enter" or " "` match branch (Enter case).
-        var cut = TestContext.Render<TwTimePicker>();
-        var icon = cut.Find("div[role='button']");
+        var cut = TestContext.Render<TwTimePicker>(p => p.Add(x => x.PreferNativePicker, true));
+        var icon = cut.Find("button[aria-label^='Open']");
 
         // Act
-        icon.KeyDown(new Microsoft.AspNetCore.Components.Web.KeyboardEventArgs { Key = "Enter" });
+        icon.Click();
 
         // Assert
         Assert.Contains(TestContext.JSInterop.Invocations, i => i.Identifier == "twDialog.focusSurface");
@@ -839,28 +840,14 @@ public class TwTimePickerTests : TwBlazorTestBase
     public void OnIconKeyDown_Space_FocusesSurface()
     {
         // Arrange - covers OnIconKeyDownAsync's match branch (Space case).
-        var cut = TestContext.Render<TwTimePicker>();
-        var icon = cut.Find("div[role='button']");
+        var cut = TestContext.Render<TwTimePicker>(p => p.Add(x => x.PreferNativePicker, true));
+        var icon = cut.Find("button[aria-label^='Open']");
 
         // Act
-        icon.KeyDown(new Microsoft.AspNetCore.Components.Web.KeyboardEventArgs { Key = " " });
+        icon.Click();
 
         // Assert
         Assert.Contains(TestContext.JSInterop.Invocations, i => i.Identifier == "twDialog.focusSurface");
-    }
-
-    [Fact]
-    public void OnIconKeyDown_OtherKey_DoesNothing()
-    {
-        // Arrange - covers OnIconKeyDownAsync's non-matching-key branch (no forwarded call).
-        var cut = TestContext.Render<TwTimePicker>();
-        var icon = cut.Find("div[role='button']");
-
-        // Act
-        icon.KeyDown(new Microsoft.AspNetCore.Components.Web.KeyboardEventArgs { Key = "Tab" });
-
-        // Assert
-        Assert.DoesNotContain(TestContext.JSInterop.Invocations, i => i.Identifier == "twDialog.focusSurface");
     }
 
     #endregion
@@ -868,29 +855,27 @@ public class TwTimePickerTests : TwBlazorTestBase
     #region Focus Suppression And Text-Change-While-Open Tests
 
     [Fact]
-    public void OnFocusAsync_SuppressesReopen_ImmediatelyAfterProgrammaticRestoreFocus_ThenReopensOnNextGenuineFocus()
+    public void Focus_Alone_DoesNotOpenPanel_ButAClickDoes_BeforeAndAfterClosing()
     {
-        // Arrange - covers the `suppressNextFocusOpen` short-circuit at the top of OnFocusAsync: Close()
-        // calls RestoreFocusAsync, which sets the flag right before the twDialog.restoreFocus JS call that
-        // (in a real browser) fires a native focus event back on the trigger. Simulate that immediate
-        // re-focus here and confirm it's swallowed exactly once. A non-empty captureFocus token is
-        // required, since RestoreFocusAsync no-ops (and never sets the flag) without one.
+        // Arrange - the panel makes the rest of the page unreachable while it is open, so it must not open
+        // just because focus arrived (tabbing through a form, or focus being restored after a close).
         TestContext.JSInterop.Setup<string?>("twDialog.captureFocus").SetResult("tw-focus-token");
         var cut = TestContext.Render<TwTimePicker>();
-        var input = cut.Find("input[type='text']");
-        input.Focus();
-        Assert.Contains("Choose time", cut.Markup);
 
-        // Act - close, then simulate the self-caused focus event that follows restoreFocus()
-        cut.InvokeAsync(() => cut.Instance.Close());
-        input = cut.Find("input[type='text']");
-        input.Focus();
-
-        // Assert - swallowed once, panel stays closed
+        // Act & Assert - the trigger does not even listen for focus
+        Assert.Throws<MissingEventHandlerException>(() => cut.Find("input[type='text']").Focus());
         Assert.DoesNotContain("Choose time", cut.Markup);
 
-        // Act - a second, genuine focus should reopen normally since suppression only applies once
-        input.Focus();
+        // Act - a click opens it
+        cut.Find("input[type='text']").Click();
+        Assert.Contains("Choose time", cut.Markup);
+
+        // Act - closing restores focus to the trigger, which must leave the panel closed
+        cut.InvokeAsync(() => cut.Instance.Close());
+        Assert.DoesNotContain("Choose time", cut.Markup);
+
+        // Act - and the next click opens it again
+        cut.Find("input[type='text']").Click();
 
         // Assert
         Assert.Contains("Choose time", cut.Markup);
@@ -903,7 +888,7 @@ public class TwTimePickerTests : TwBlazorTestBase
         // previously unreached since existing text-change tests never focused the field first.
         var cut = TestContext.Render<TwTimePicker>();
         var input = cut.Find("input[type='text']");
-        input.Focus();
+        input.Click();
         Assert.Contains("Choose time", cut.Markup);
 
         // Act

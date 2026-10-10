@@ -10,6 +10,7 @@
                value="@Value"
                checked="@isChecked"
                @onchange="@HandleChange"
+               @onclick:preventDefault="@(ReadOnly && !Disabled)"
                class="@classes"
                disabled="@Disabled"
                @attributes="@Attributes"
@@ -19,7 +20,7 @@
                aria-label="@AriaLabel"
                aria-labelledby="@AriaLabelledBy" />
         <span class="@radioClasses">
-            <svg xmlns="http://www.w3.org/2000/svg" class="@options.Theme.Sizing.Icon.Xs" viewBox="0 0 16 16" fill="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" class="@options.Theme.Sizing.Icon.Xs" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
                 <circle cx="8" cy="8" r="4"></circle>
             </svg>
         </span>

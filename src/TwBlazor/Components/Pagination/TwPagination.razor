@@ -2,10 +2,14 @@
 @inherits TwBlazorComponentBase
 
 <div class="@rootClasses">
+    @if (AnnouncePageChanges)
+    {
+        <span class="@options.Theme.Display.ScreenReaderOnly" role="status" aria-live="polite">@statusMessage</span>
+    }
     <nav id="@Id" aria-label="@(AriaLabel ?? "pagination")" aria-labelledby="@AriaLabelledBy" style="@Style" @attributes="@Attributes">
         <ul class="@listClasses">
             <li>
-                <TwIcon Class="@NavButtonClass(isPreviousDisabled)" Plain aria-disabled="@(isPreviousDisabled ? "true" : null)" Disabled="@isPreviousDisabled" OnClick="() => OnPageClick(ActivePage - 1)" Icon="Enums.Icon.Chevron_Left" AriaLabel="Previous page" />
+                <TwIcon Class="@NavButtonClass(isPreviousDisabled)" Plain Readonly="@isPreviousDisabled" OnClick="() => OnPageClick(ActivePage - 1)" Icon="Enums.Icon.Chevron_Left" AriaLabel="Previous page" />
             </li>
 
             @foreach (var pageNumber in VisiblePages())
@@ -18,7 +22,7 @@
             }
 
             <li>
-                <TwIcon Class="@NavButtonClass(isNextDisabled)" Plain aria-disabled="@(isNextDisabled ? "true" : null)" Disabled="@isNextDisabled" OnClick="() => OnPageClick(ActivePage + 1)" Icon="Enums.Icon.Chevron_Right" AriaLabel="Next page" />
+                <TwIcon Class="@NavButtonClass(isNextDisabled)" Plain Readonly="@isNextDisabled" OnClick="() => OnPageClick(ActivePage + 1)" Icon="Enums.Icon.Chevron_Right" AriaLabel="Next page" />
             </li>
         </ul>
     </nav>

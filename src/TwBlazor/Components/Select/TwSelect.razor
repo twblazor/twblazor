@@ -53,14 +53,14 @@
                     disabled="@Disabled"
                     @attributes="@Attributes"
                     @onclick="@ToggleOrOpenPanelAsync"
-                    @onkeydown="@OnTriggerKeyDownAsync">
+                    @onkeydown="@OnSelectTriggerKeyDownAsync">
                 <span class="@(hasSelection ? "truncate" : $"truncate {theme.SelectCustomPlaceholder}")">@(hasSelection ? selectedDisplayText : Placeholder)</span>
                 <TwIcon Icon="Icon.Chevron_Down" Plain Class="@chevronClasses" aria-hidden="true" />
             </button>
 
             @if (isFocused)
             {
-                <div class="@panelPositionClasses" tabindex="-1" @ref="PanelRef" @onkeydown="@OnPanelKeyDownAsync">
+                <div class="@panelPositionClasses" id="@panelId" data-tw-popover tabindex="-1" @ref="PanelRef" @onkeydown="@OnPanelKeyDownAsync">
                     <div class="@customPanelSurfaceClasses">
                         <div id="@listboxId" class="@theme.SelectCustomListbox" role="listbox" tabindex="0" @ref="listboxRef"
                              aria-label="@(string.IsNullOrWhiteSpace(Label) ? AriaLabel ?? "Options" : Label)">
@@ -146,19 +146,30 @@
                         aria-haspopup="listbox"
                         aria-expanded="@(isFocused ? "true" : "false")"
                         aria-controls="@(isFocused ? listboxId : null)"
+                        aria-required="@(Required ? "true" : null)"
                         aria-readonly="@(ReadOnly ? "true" : null)"
+                        aria-invalid="@(Invalid ? "true" : null)"
+                        aria-describedby="@errorId"
                         aria-label="@AriaLabel"
                         aria-labelledby="@AriaLabelledBy"
                         @attributes="@Attributes"
-                        @onkeydown="@OnTriggerKeyDownAsync">
-                    @(selectedValueIds.Count == 0 ? Placeholder : null)
+                        @onkeydown="@OnSelectTriggerKeyDownAsync">
+                    @if (selectedValueIds.Count == 0)
+                    {
+                        @Placeholder
+                    }
+                    else
+                    {
+                        @* The chips sit outside the button, so this is what tells assistive technology the value. *@
+                        <span class="@options.Theme.Display.ScreenReaderOnly">@selectedSummary</span>
+                    }
                 </button>
                 <TwIcon Icon="Icon.Chevron_Down" Plain Class="@multiChevronClasses" aria-hidden="true" />
             </div>
 
             @if (isFocused)
             {
-                <div class="@panelPositionClasses" tabindex="-1" @ref="PanelRef" @onkeydown="@OnPanelKeyDownAsync">
+                <div class="@panelPositionClasses" id="@panelId" data-tw-popover tabindex="-1" @ref="PanelRef" @onkeydown="@OnPanelKeyDownAsync">
                     <div class="@customPanelSurfaceClasses">
                         <div id="@listboxId" class="@theme.SelectCustomListbox" role="listbox" aria-multiselectable="true" tabindex="0" @ref="listboxRef"
                              aria-label="@(string.IsNullOrWhiteSpace(Label) ? AriaLabel ?? "Options" : Label)">

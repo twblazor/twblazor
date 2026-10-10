@@ -315,7 +315,10 @@ public class TwPickListTests : TwBlazorTestBase
 
         // Assert
         var transferButton = cut.Find("button[aria-label='Move selected items to Target']");
-        Assert.NotNull(transferButton.GetAttribute("disabled"));
+        // Unavailable, but still focusable: a natively disabled button would drop focus the moment the
+        // selection it just moved is gone.
+        Assert.Equal("true", transferButton.GetAttribute("aria-disabled"));
+        Assert.False(transferButton.HasAttribute("disabled"));
     }
 
     [Fact]

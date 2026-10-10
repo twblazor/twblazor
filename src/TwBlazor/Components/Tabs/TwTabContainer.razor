@@ -1,15 +1,15 @@
 ﻿@namespace TwBlazor.Components
 @inherits TwBlazorComponentBase
 
-<div id="@Id" class="@Class" style="@Style" @attributes="@Attributes" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy" @ref="@TabsElement">
-    <div class="@tabContainerClasses" role="tablist" @onkeydown="HandleTabKeyDown" @ref="tablistElement">
+<div id="@Id" class="@Class" style="@Style" @attributes="@Attributes" @ref="@TabsElement">
+    <div class="@tabContainerClasses" role="tablist" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy" @onkeydown="HandleTabKeyDown" @ref="tablistElement">
         @foreach (var tab in _tabs)
         {
             <TwButton @ref="tab.buttonRef" Id="@tab.Id" Class="@tab.TabClasses" OnClick="@(() => ViewTab(tab))" Label="@tab.Label" role="tab" tabindex="@(tab == ActiveTab ? "0" : "-1")" aria-selected="@(tab == ActiveTab ? "true" : "false")" aria-controls="@panelId" Disabled="@tab.Disabled" Rounded="@Enums.Rounded.None" />
         }
     </div>
 
-    <div id="@panelId" class="@containerClasses" role="tabpanel" aria-labelledby="@(ActiveTab?.Id)">
+    <div id="@panelId" class="@containerClasses" role="tabpanel" tabindex="0" aria-labelledby="@(ActiveTab?.Id)">
         @if (ActiveTab != null)
         {
             @ActiveTab.ChildContent

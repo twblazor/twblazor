@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Utilities;
 
@@ -19,6 +20,45 @@ namespace TwBlazor.Components;
 /// Blazor projects.</remarks>
 public partial class TwTable : TwBlazorComponentBase
 {
+    // The wrapper scrolls when the table is wider than its container. A keyboard can only scroll it once it
+    // is focusable, and a focusable region needs a name.
+    private string scrollRegionLabel => string.IsNullOrWhiteSpace(AriaLabel) ? ScrollRegionLabel : $"{AriaLabel}, {ScrollRegionLabel}";
+
+    /// <summary>
+    /// Gets or sets the accessible name of the scrollable region that wraps the table.
+    /// </summary>
+    [Parameter] public string ScrollRegionLabel { get; set; } = "Scrollable table";
+
+    private ElementReference wrapperRef;
+
+    [Inject] private IJSRuntime jsRuntime { get; set; } = null!;
+
+    /// <summary>
+    /// Hands the scroll wrapper to the script that keeps it a Tab stop only while the table overflows it.
+    /// </summary>
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (!firstRender)
+        {
+            return;
+        }
+
+        try
+        {
+            await jsRuntime.InvokeVoidAsync("twScrollRegion.observe", wrapperRef);
+        }
+        catch (JSDisconnectedException)
+        {
+            // The circuit disconnected before the script could run; the wrapper stays focusable.
+        }
+        catch (InvalidOperationException)
+        {
+            // JS interop is not available (prerendering); the wrapper stays focusable.
+        }
+    }
+
     private TwTableTheme theme => options.Theme.Components.Require<TwTableTheme>();
 
     /// <summary>

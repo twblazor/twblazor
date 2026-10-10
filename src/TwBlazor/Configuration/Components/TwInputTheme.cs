@@ -225,6 +225,22 @@ public class TwInputTheme
     public required string FocusBorder { get; set; }
 
     /// <summary>
+    /// Gets or sets the focus border shown only for keyboard focus, used by controls that also take
+    /// focus on a mouse click (the select's trigger). Falls back to <see cref="FocusBorder"/> when empty.
+    /// </summary>
+    /// <remarks>
+    /// Declared in full, rather than derived from <see cref="FocusBorder"/> at runtime, so Tailwind can
+    /// find the class names when it scans the theme.
+    /// </remarks>
+    public string FocusVisibleBorder { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the focus border for a container whose focusable control sits inside it (the
+    /// multi-select's trigger box). Falls back to <see cref="FocusBorder"/> when empty.
+    /// </summary>
+    public string FocusWithinBorder { get; set; } = string.Empty;
+
+    /// <summary>
     /// Gets or sets the filled variant background color.
     /// </summary>
     public required string FilledBackgroundColor { get; set; }

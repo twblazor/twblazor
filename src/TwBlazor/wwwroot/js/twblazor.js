@@ -31,7 +31,12 @@ globalThis.twPicker = {
     // Reacting on pointerdown alone would close the panel as soon as a touch-scroll begins
     // outside it (breaks scrolling TwDateRangePicker's tall mobile panel), so we wait for
     // pointerup and check distance travelled instead.
-    registerOutsideClick: function (root, dotnetRef) {
+    // Registrations by owner key. A picker destroyed while its panel is open (the page navigated, or a
+    // dialog around it closed) can no longer pass its root element, so the key is what lets its document
+    // listeners and its claim on Escape be removed.
+    _registrations: new Map(),
+
+    registerOutsideClick: function (root, dotnetRef, ownerKey) {
         if (!root) return;
 
         root.__twPickerClosing = false;
@@ -89,10 +94,30 @@ globalThis.twPicker = {
         document.addEventListener('pointerdown', onPointerDown);
         document.addEventListener('pointerup', onPointerUp);
         document.addEventListener('pointercancel', onPointerCancel);
+
+        if (ownerKey) {
+            globalThis.twPicker._registrations.set(ownerKey, root);
+        }
+
+        // While its panel is open the picker owns Escape, wherever focus is: in the field, in the panel,
+        // on the icon button beside the field, or nowhere at all.
+        globalThis.twDialog._pushEscape({
+            surface: root,
+            dotnetRef: dotnetRef,
+            method: 'Close',
+            isOpen: function () { return root.querySelector('[data-tw-popover]') !== null; }
+        });
     },
 
-    unregisterOutsideClick: function (root) {
+    unregisterOutsideClick: function (root, ownerKey) {
+        if (!root && ownerKey) {
+            root = globalThis.twPicker._registrations.get(ownerKey) ?? null;
+        }
+        if (ownerKey) {
+            globalThis.twPicker._registrations.delete(ownerKey);
+        }
         if (!root) return;
+        globalThis.twDialog.unregisterEscape(root);
         const onPointerDown = root.__twPickerPointerDown;
         const onPointerUp = root.__twPickerPointerUp;
         const onPointerCancel = root.__twPickerPointerCancel;
@@ -345,7 +370,11 @@ globalThis.twDialog = {
         try {
             return Array.from(container.querySelectorAll(globalThis.twDialog._focusableSelector))
                 .filter(function (el) {
-                    return !el.hasAttribute('inert') && el.getClientRects().length > 0;
+                    // tabindex="-1" (every day of a date grid but one, every tab but the selected one) can be
+                    // focused by script but is skipped by Tab, so it is not an edge of the Tab order.
+                    return !el.hasAttribute('inert')
+                        && el.getAttribute('tabindex') !== '-1'
+                        && el.getClientRects().length > 0;
                 });
         } catch (err) {
             console.error('twDialog.getFocusableElements error', err);
@@ -366,6 +395,46 @@ globalThis.twDialog = {
     },
 
     // Traps Tab/Shift+Tab within the dialog surface so focus can't leave it while open.
+    //
+    // Controls in a container marked data-tw-inert-exempt (the toast region) are kept reachable: Tab from the
+    // last control of the surface goes on to them, and from the last of them back to the surface. A toast
+    // raised while a dialog is open can then be read and closed from the keyboard.
+    _trapStack: [],
+
+    _exemptSelector: '[data-tw-inert-exempt], #components-reconnect-modal, #blazor-error-ui',
+
+    _exemptFocusable: function () {
+        const found = [];
+        document.querySelectorAll('[data-tw-inert-exempt]').forEach(function (container) {
+            if (!container.__twTrapReturnHandler) {
+                container.__twTrapReturnHandler = globalThis.twDialog._onExemptKeyDown;
+                container.addEventListener('keydown', globalThis.twDialog._onExemptKeyDown);
+            }
+            found.push(...globalThis.twDialog.getFocusableElements(container));
+        });
+        return found;
+    },
+
+    // Tab out of the toast region, in either direction, returns to the trapped surface on top.
+    _onExemptKeyDown: function (e) {
+        if (e.key !== 'Tab') return;
+        const surface = globalThis.twDialog._trapStack.at(-1);
+        if (!surface?.isConnected) return;
+
+        const exempt = globalThis.twDialog._exemptFocusable();
+        const inSurface = globalThis.twDialog.getFocusableElements(surface);
+        const active = document.activeElement;
+        if (inSurface.length === 0) return;
+
+        if (!e.shiftKey && active === exempt.at(-1)) {
+            e.preventDefault();
+            inSurface[0].focus();
+        } else if (e.shiftKey && active === exempt[0]) {
+            e.preventDefault();
+            inSurface.at(-1).focus();
+        }
+    },
+
     trapFocus: function (surface) {
         if (!surface || surface.__twDialogTrapHandler) return;
         const handler = function (e) {
@@ -378,6 +447,7 @@ globalThis.twDialog = {
                 return;
             }
 
+            const exempt = globalThis.twDialog._exemptFocusable();
             const first = focusable[0];
             const last = focusable.at(-1);
             const active = document.activeElement;
@@ -385,48 +455,164 @@ globalThis.twDialog = {
             if (e.shiftKey) {
                 if (active === first || !surface.contains(active)) {
                     e.preventDefault();
-                    last.focus();
+                    (exempt.at(-1) ?? last).focus();
                 }
             } else if (active === last || !surface.contains(active)) {
                 e.preventDefault();
-                first.focus();
+                (exempt[0] ?? first).focus();
             }
         };
         surface.__twDialogTrapHandler = handler;
         surface.addEventListener('keydown', handler);
+        globalThis.twDialog._trapStack.push(surface);
     },
 
     releaseFocusTrap: function (surface) {
         if (!surface?.__twDialogTrapHandler) return;
         surface.removeEventListener('keydown', surface.__twDialogTrapHandler);
         delete surface.__twDialogTrapHandler;
+        const stack = globalThis.twDialog._trapStack;
+        const index = stack.indexOf(surface);
+        if (index >= 0) stack.splice(index, 1);
     },
 
     // Marks everything outside `exceptEl` inert so it can't be reached while a dialog is open.
     // Walks up from exceptEl to <body>, inert-ing siblings at every level - needed because most
     // app hosts wrap everything in one root div, so only checking body's direct children would
     // find nothing to inert. Tags what it touched so clearBackgroundInert can undo precisely that.
-    setBackgroundInert: function (exceptEl) {
+    //
+    // `owner` names whoever asked (the dialog provider, or one picker). An element stays inert until
+    // every owner that marked it has cleared, so a picker closing inside a dialog can't lift the
+    // dialog's own inert-ing of the page behind it. Elements marked data-tw-inert-exempt (the toast
+    // container) are never made inert: a toast raised while a dialog is open must still be announced
+    // and dismissable.
+    _defaultInertOwner: 'default',
+
+    _inertOwners: function (el) {
+        const raw = el.dataset.twDialogInertOwners;
+        return raw ? raw.split(' ').filter(Boolean) : [];
+    },
+
+    setBackgroundInert: function (exceptEl, owner) {
         if (!exceptEl || !document.body) return;
+        const ownerKey = owner || globalThis.twDialog._defaultInertOwner;
         let current = exceptEl;
         while (current && current !== document.body && current.parentElement) {
             const parent = current.parentElement;
             Array.from(parent.children).forEach(function (sibling) {
                 if (sibling === current) return;
-                if (sibling.hasAttribute('inert')) return;
+                if (sibling.matches(globalThis.twDialog._exemptSelector)) return;
+                const ours = sibling.dataset.twDialogInert === 'true';
+                if (sibling.hasAttribute('inert') && !ours) return;
+                const owners = globalThis.twDialog._inertOwners(sibling);
+                if (!owners.includes(ownerKey)) owners.push(ownerKey);
                 sibling.setAttribute('inert', '');
                 sibling.dataset.twDialogInert = 'true';
+                sibling.dataset.twDialogInertOwners = owners.join(' ');
             });
             current = parent;
         }
     },
 
-    clearBackgroundInert: function () {
+    // Lifts the inert-ing `owner` asked for. Called with no owner it lifts everything, which is what a
+    // host tearing the whole page down wants.
+    clearBackgroundInert: function (owner) {
         if (!document.body) return;
         document.body.querySelectorAll('[data-tw-dialog-inert="true"]').forEach(function (el) {
+            const remaining = owner
+                ? globalThis.twDialog._inertOwners(el).filter(function (o) { return o !== owner; })
+                : [];
+            if (remaining.length > 0) {
+                el.dataset.twDialogInertOwners = remaining.join(' ');
+                return;
+            }
             el.removeAttribute('inert');
             delete el.dataset.twDialogInert;
+            delete el.dataset.twDialogInertOwners;
         });
+    },
+
+    // Escape closes the topmost dialog wherever focus happens to be. A handler on the dialog element
+    // alone misses the key whenever focus is not inside it: after the focused control was removed by a
+    // re-render, or while a screen reader's reading cursor is elsewhere. Listening on the document
+    // makes one press enough.
+    //
+    // Dialogs and open popovers (picker panels, select lists) share one stack, most recently opened
+    // last. Escape goes to the last entry that is still on the page and still open, so a popover opened
+    // from inside a dialog takes the first press and the dialog takes the next. Which one owns the key
+    // is decided by what is open, never by where focus is: with a popover open, focus can be on the icon
+    // button beside the field, or lost altogether, and the press must still close the popover and not
+    // the dialog around it.
+    _escapeStack: [],
+
+    _pushEscape: function (entry) {
+        const stack = globalThis.twDialog._escapeStack;
+        const existing = stack.findIndex(function (other) { return other.surface === entry.surface; });
+        if (existing >= 0) stack.splice(existing, 1);
+        stack.push(entry);
+        if (stack.length === 1) {
+            document.addEventListener('keydown', globalThis.twDialog._onDocumentKeyDown);
+        }
+    },
+
+    // A tooltip that is showing is dismissed by Escape (its component handles that). The same press must
+    // not also close the dialog or popover the tooltip's control sits in.
+    _tooltipOwnsEscape: function (target) {
+        const wrapper = target instanceof Element ? target.closest('[data-tw-tooltip]') : null;
+        if (!wrapper) return false;
+        const bubble = Array.from(wrapper.children).find(function (child) { return child.getAttribute('role') === 'tooltip'; });
+        return !!bubble && getComputedStyle(bubble).display !== 'none';
+    },
+
+    _onDocumentKeyDown: function (e) {
+        if (e.key !== 'Escape' || e.defaultPrevented) return;
+        if (globalThis.twDialog._tooltipOwnsEscape(e.target)) return;
+        const stack = globalThis.twDialog._escapeStack;
+
+        // Entries whose element has left the page were never unregistered (their component was destroyed
+        // while open), so they are dropped here.
+        for (let i = stack.length - 1; i >= 0; i--) {
+            if (!stack[i].surface.isConnected) stack.splice(i, 1);
+        }
+
+        for (let i = stack.length - 1; i >= 0; i--) {
+            const entry = stack[i];
+            if (entry.isOpen && !entry.isOpen()) continue;
+            if (entry.declines?.(e)) return;
+            void globalThis.twPicker._invokeSafely(entry.dotnetRef, entry.method);
+            return;
+        }
+    },
+
+    registerEscape: function (surface, dotnetRef) {
+        if (!surface || !dotnetRef) return;
+        const stack = globalThis.twDialog._escapeStack;
+        if (stack.some(function (entry) { return entry.surface === surface; })) return;
+        globalThis.twDialog._pushEscape({ surface: surface, dotnetRef: dotnetRef, method: 'CloseFromEscape' });
+    },
+
+    unregisterEscape: function (surface) {
+        const stack = globalThis.twDialog._escapeStack;
+        const index = stack.findIndex(function (entry) { return entry.surface === surface; });
+        if (index < 0) return;
+        stack.splice(index, 1);
+        if (stack.length === 0) {
+            document.removeEventListener('keydown', globalThis.twDialog._onDocumentKeyDown);
+        }
+    },
+
+    // Moves focus into a just-opened popover panel: onto the element the panel marks as its starting
+    // point (the selected day of a date grid, whose roving tabindex is 0), otherwise the first
+    // focusable element, otherwise the panel itself.
+    focusPanel: function (panel) {
+        if (!panel) return;
+        const preferred = panel.querySelector('[data-tw-autofocus]')
+            ?? panel.querySelector('[role="grid"] [tabindex="0"]');
+        if (preferred && typeof preferred.focus === 'function') {
+            preferred.focus();
+            return;
+        }
+        globalThis.twDialog.focusSurface(panel);
     },
 
     // Records the focused element under an opaque token for later refocus (.NET can't hold a
@@ -495,10 +681,19 @@ globalThis.twTabs = {
         }
     },
 
-    registerKeydownGuard: function (tablist) {
+    // A date grid also uses Page Up and Page Down (previous and next month), which would otherwise
+    // scroll the page behind the picker.
+    _gridKeydownHandler: function (e) {
+        if (globalThis.twTabs._navigationKeys.has(e.key) || e.key === 'PageUp' || e.key === 'PageDown') {
+            e.preventDefault();
+        }
+    },
+
+    registerKeydownGuard: function (tablist, includePagingKeys) {
         if (!tablist || tablist.__twTabsKeydownHandler) return;
-        tablist.__twTabsKeydownHandler = globalThis.twTabs._tabsKeydownHandler;
-        tablist.addEventListener('keydown', globalThis.twTabs._tabsKeydownHandler);
+        const handler = includePagingKeys ? globalThis.twTabs._gridKeydownHandler : globalThis.twTabs._tabsKeydownHandler;
+        tablist.__twTabsKeydownHandler = handler;
+        tablist.addEventListener('keydown', handler);
     },
 
     unregisterKeydownGuard: function (tablist) {
@@ -563,6 +758,250 @@ globalThis.twSidebar = {
         if (el) {
             el.scrollTop = 0;
         }
+    },
+
+    // The skip link's own href would be resolved against <base href>, sending the user to the site
+    // root, so the link moves focus itself. The main region is focusable, so the next Tab continues
+    // from the top of the page content.
+    focusMain: function (el) {
+        if (!el || typeof el.focus !== 'function') return;
+        el.focus();
+        if (typeof el.scrollIntoView === 'function') el.scrollIntoView({ block: 'start' });
+    },
+
+    focusById: function (id) {
+        const el = id ? document.getElementById(id) : null;
+        if (el && typeof el.focus === 'function') el.focus();
+    },
+
+    // Below the "lg" breakpoint the open sidebar is a drawer over the page, so the page content behind
+    // it is made inert: it can't be tabbed into or read while the drawer covers it. On a wider
+    // viewport the sidebar sits beside the content, which must stay usable. The state is re-applied
+    // when the viewport crosses the breakpoint, so widening the window never leaves the content inert.
+    // Returns whether the drawer is currently acting as a modal.
+    //
+    // `content` is everything beside the sidebar (the top bar and the page), `nav` the sidebar itself. As a
+    // drawer the sidebar traps Tab and owns Escape, like any other modal surface; the top bar it covers is
+    // inert along with the page, so nothing hidden behind the drawer can take focus.
+    syncDrawer: function (content, nav, isOpen, dotnetRef) {
+        if (!content) return false;
+
+        content.__twSidebarOpen = !!isOpen;
+
+        const isModal = function () {
+            return content.__twSidebarOpen && globalThis.twSidebar.isMobileViewport();
+        };
+
+        const apply = function (viewportChanged) {
+            const modal = isModal();
+            if (modal) {
+                content.setAttribute('inert', '');
+                if (nav) {
+                    globalThis.twDialog.trapFocus(nav);
+                    // The window was narrowed (or zoomed) with the sidebar open: it has just become a
+                    // drawer over the page, so focus has to come with it.
+                    if (viewportChanged === true && !nav.contains(document.activeElement)) {
+                        globalThis.twDialog.focusSurface(nav);
+                    }
+                }
+            } else {
+                content.removeAttribute('inert');
+                if (nav) globalThis.twDialog.releaseFocusTrap(nav);
+            }
+            return modal;
+        };
+
+        if (!content.__twSidebarMediaHandler && typeof window.matchMedia === 'function') {
+            try {
+                const query = window.matchMedia('(min-width: 1024px)');
+                const onChange = function () { apply(true); };
+                content.__twSidebarMediaHandler = onChange;
+                content.__twSidebarMediaQuery = query;
+                query.addEventListener?.('change', onChange);
+            } catch (err) {
+                console.error('twSidebar.syncDrawer error', err);
+            }
+        }
+
+        if (nav && dotnetRef && !globalThis.twDialog._escapeStack.some(function (entry) { return entry.surface === nav; })) {
+            globalThis.twDialog._pushEscape({
+                surface: nav,
+                dotnetRef: dotnetRef,
+                method: 'CloseDrawerFromEscape',
+                isOpen: isModal,
+                // Escape in a search field that has text clears the text. Closing the drawer is the next press.
+                declines: function (e) {
+                    return e.target instanceof HTMLInputElement && e.target.type === 'search' && e.target.value !== '';
+                }
+            });
+        }
+
+        return apply(false);
+    },
+
+    releaseDrawer: function (content, nav) {
+        if (content?.__twSidebarMediaHandler) {
+            content.__twSidebarMediaQuery?.removeEventListener?.('change', content.__twSidebarMediaHandler);
+            delete content.__twSidebarMediaHandler;
+            delete content.__twSidebarMediaQuery;
+            content.removeAttribute('inert');
+        }
+        if (nav) {
+            globalThis.twDialog.releaseFocusTrap(nav);
+            globalThis.twDialog.unregisterEscape(nav);
+        }
+    }
+};
+
+// Roving-focus lists (TwTreeList, TwPickList): the arrow keys, Home and End move focus between the
+// items, so only one item is a Tab stop. Runs client-side because a server round trip per arrow key
+// would lag, and because Space and the arrows must not also scroll the page.
+globalThis.twRoving = {
+    _items: function (container, selector) {
+        return Array.from(container.querySelectorAll(selector)).filter(function (el) {
+            return el.getClientRects().length > 0 && el.getAttribute('aria-disabled') !== 'true';
+        });
+    },
+
+    _mark: function (container, selector, item) {
+        container.querySelectorAll(selector).forEach(function (el) {
+            el.setAttribute('tabindex', el === item ? '0' : '-1');
+            if (el === item) el.dataset.twRovingCurrent = 'true';
+            else delete el.dataset.twRovingCurrent;
+        });
+    },
+
+    // Makes sure exactly one enabled item is in the Tab order. Called after every render, since a
+    // re-render resets each item's tabindex and can remove the item that held it. When the item that
+    // had focus is gone (it was moved to the other list), focus goes to its neighbour instead of
+    // being dropped on the page body.
+    sync: function (container, selector, restoreFocus) {
+        if (!container) return;
+        const enabled = globalThis.twRoving._items(container, selector);
+        const active = document.activeElement;
+        const current = (enabled.includes(active) ? active : null)
+            ?? enabled.find(function (el) { return el.dataset.twRovingCurrent === 'true'; })
+            ?? enabled[0]
+            ?? null;
+        globalThis.twRoving._mark(container, selector, current);
+        if (restoreFocus && current && (active === document.body || active === null)) {
+            current.focus();
+        }
+    },
+
+    attach: function (container, selector, mode) {
+        if (!container) return;
+        if (container.__twRovingHandler) {
+            globalThis.twRoving.sync(container, selector, false);
+            return;
+        }
+
+        const handler = function (e) {
+            const item = e.target instanceof Element ? e.target.closest(selector) : null;
+            // Keys pressed in a control nested inside an item (a tree row's checkbox) belong to it.
+            if (!item || item !== e.target || !container.contains(item)) return;
+
+            const items = globalThis.twRoving._items(container, selector);
+            const index = items.indexOf(item);
+            let target = null;
+
+            switch (e.key) {
+                case 'ArrowDown':
+                    target = items[Math.min(index + 1, items.length - 1)];
+                    break;
+                case 'ArrowUp':
+                    target = items[Math.max(index - 1, 0)];
+                    break;
+                case 'Home':
+                    target = items[0];
+                    break;
+                case 'End':
+                    target = items.at(-1);
+                    break;
+                case 'ArrowRight':
+                case 'ArrowLeft': {
+                    if (mode !== 'tree') return;
+                    const expanded = item.getAttribute('aria-expanded');
+                    // Expanding and collapsing is done by the component itself; this only moves focus.
+                    if (e.key === 'ArrowRight') {
+                        if (expanded === 'true') target = items[index + 1] ?? null;
+                    } else if (expanded !== 'true') {
+                        target = item.parentElement?.closest(selector) ?? null;
+                    }
+                    break;
+                }
+                case ' ':
+                    // Blazor handles the activation; this only stops the page scrolling.
+                    e.preventDefault();
+                    return;
+                default:
+                    return;
+            }
+
+            e.preventDefault();
+            if (target && target !== item) {
+                globalThis.twRoving._mark(container, selector, target);
+                target.focus();
+            }
+        };
+
+        const onFocusIn = function (e) {
+            const item = e.target instanceof Element ? e.target.closest(selector) : null;
+            if (!item || item !== e.target) return;
+            globalThis.twRoving._mark(container, selector, item);
+        };
+
+        container.__twRovingHandler = handler;
+        container.__twRovingFocusIn = onFocusIn;
+        container.addEventListener('keydown', handler);
+        container.addEventListener('focusin', onFocusIn);
+        globalThis.twRoving.sync(container, selector, false);
+    },
+
+    detach: function (container) {
+        if (!container?.__twRovingHandler) return;
+        container.removeEventListener('keydown', container.__twRovingHandler);
+        container.removeEventListener('focusin', container.__twRovingFocusIn);
+        delete container.__twRovingHandler;
+        delete container.__twRovingFocusIn;
+    }
+};
+
+// Carousel: Left and Right change slide, but not while the user is typing or operating a control
+// inside a slide that uses those keys itself.
+globalThis.twCarousel = {
+    _arrowKeyOwners: 'input, textarea, select, [contenteditable="true"], [role="slider"], [role="tab"], ' +
+        '[role="listbox"], [role="grid"], [role="tree"], [role="spinbutton"], [role="combobox"]',
+
+    _ownsArrowKeys: function (target) {
+        if (!(target instanceof Element)) return false;
+        return target.closest(globalThis.twCarousel._arrowKeyOwners) !== null;
+    },
+
+    attach: function (el, dotnetRef) {
+        if (!el || el.__twCarouselHandler) return;
+        const handler = function (e) {
+            if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+            if (e.defaultPrevented || globalThis.twCarousel._ownsArrowKeys(e.target)) return;
+            e.preventDefault();
+            void globalThis.twPicker._invokeSafely(dotnetRef, e.key === 'ArrowLeft' ? 'PreviousSlideFromKey' : 'NextSlideFromKey');
+        };
+        el.__twCarouselHandler = handler;
+        el.addEventListener('keydown', handler);
+    },
+
+    detach: function (el) {
+        if (!el?.__twCarouselHandler) return;
+        el.removeEventListener('keydown', el.__twCarouselHandler);
+        delete el.__twCarouselHandler;
+    },
+
+    prefersReducedMotion: function () {
+        try {
+            return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        } catch {
+            return false;
+        }
     }
 };
 
@@ -625,6 +1064,12 @@ globalThis.twSelect = {
                 case 'Enter':
                 case ' ':
                     commit(all[current]);
+                    break;
+                case 'Tab':
+                    // Tab closes the list and puts focus back on the field, so the next Tab moves on.
+                    // The focus trap would otherwise swallow the key and leave the user stuck here.
+                    e.stopPropagation();
+                    void globalThis.twPicker._invokeSafely(dotnetRef, 'Close');
                     break;
                 default: {
                     if (e.key.length !== 1 || e.ctrlKey || e.metaKey || e.altKey) return;
@@ -906,6 +1351,25 @@ globalThis.twTooltip = {
         if (wrapper && wrapper !== opened) tooltip.open(wrapper);
     },
 
+    // A tooltip wrapped around a control that is already focusable (a button, a link) must not add a
+    // second Tab stop, and its text has to describe that control, not the wrapper. Returns whether such
+    // a control was found, so the component can drop the wrapper's own tabindex.
+    describeControl: function (wrapper, tooltipId) {
+        if (!wrapper || !tooltipId) return false;
+        const { bubble } = globalThis.twTooltip._parts(wrapper);
+        const control = globalThis.twDialog.getFocusableElements(wrapper).find(function (el) {
+            return el !== wrapper && !bubble?.contains(el);
+        });
+        if (!control) return false;
+
+        const ids = (control.getAttribute('aria-describedby') ?? '').split(' ').filter(Boolean);
+        if (!ids.includes(tooltipId)) {
+            ids.push(tooltipId);
+            control.setAttribute('aria-describedby', ids.join(' '));
+        }
+        return true;
+    },
+
     register: function () {
         if (globalThis.twTooltip._registered || typeof document === 'undefined') return;
         document.addEventListener('pointerdown', globalThis.twTooltip._onPointerDown);
@@ -929,5 +1393,109 @@ globalThis.twAvatar = {
         } catch {
             return true;
         }
+    }
+};
+
+// Checkbox: the "mixed" state only exists as a DOM property, which markup can't set.
+globalThis.twCheckbox = {
+    setIndeterminate: function (el, value) {
+        if (el) el.indeterminate = !!value;
+    }
+};
+
+// Focus hand-off for controls that remove themselves (a dismissed alert, a removed file chip). Without
+// it focus falls back to the page body and the keyboard user starts again from the top.
+globalThis.twFocus = {
+    // Moves focus to the nearest focusable element after `el`, or failing that the nearest before it.
+    moveToNeighbour: function (el) {
+        if (!el) return;
+        const all = globalThis.twDialog.getFocusableElements(document.body).filter(function (candidate) {
+            return !el.contains(candidate);
+        });
+        const following = all.find(function (candidate) {
+            return (el.compareDocumentPosition(candidate) & Node.DOCUMENT_POSITION_FOLLOWING) !== 0;
+        });
+        const target = following ?? all.at(-1);
+        if (target) target.focus();
+    },
+
+    // Focuses the first element matching `selector`, making it programmatically focusable first if it
+    // is not (a heading). Used after a client-side navigation, where the new page's heading is both where
+    // the keyboard should continue from and what a screen reader should read out. Returns whether an
+    // element was found.
+    focusBySelector: function (selector) {
+        const el = selector ? document.querySelector(selector) : null;
+        if (!el || typeof el.focus !== 'function') return false;
+        if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '-1');
+        el.focus();
+        return true;
+    },
+
+    focusById: function (id) {
+        const el = id ? document.getElementById(id) : null;
+        if (el && typeof el.focus === 'function') el.focus();
+    }
+};
+
+// Read-only slider: stops the keys that would change a native range input's value, without touching Tab.
+globalThis.twSliderLock = {
+    _keys: ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Home', 'End', 'PageUp', 'PageDown'],
+
+    _handler: function (e) {
+        if (globalThis.twSliderLock._keys.includes(e.key)) e.preventDefault();
+    },
+
+    set: function (el, locked) {
+        if (!el) return;
+        if (locked && !el.__twSliderLocked) {
+            el.addEventListener('keydown', globalThis.twSliderLock._handler);
+            el.__twSliderLocked = true;
+        } else if (!locked && el.__twSliderLocked) {
+            el.removeEventListener('keydown', globalThis.twSliderLock._handler);
+            el.__twSliderLocked = false;
+        }
+    }
+};
+
+// Scroll containers (a wide table, a long code sample) have to be focusable for the keyboard to scroll
+// them, but only while they actually overflow. A container whose content fits would otherwise be a Tab
+// stop that does nothing. The markup ships focusable and named, so it works without script; this takes
+// the Tab stop, role and name away while there is nothing to scroll and puts them back when there is.
+globalThis.twScrollRegion = {
+    _observers: new WeakMap(),
+
+    _overflows: function (el) {
+        return el.scrollWidth > el.clientWidth + 1 || el.scrollHeight > el.clientHeight + 1;
+    },
+
+    _sync: function (el) {
+        if (globalThis.twScrollRegion._overflows(el)) {
+            el.setAttribute('tabindex', '0');
+            el.setAttribute('role', 'group');
+            if (el.dataset.twScrollLabel) el.setAttribute('aria-label', el.dataset.twScrollLabel);
+        } else {
+            el.removeAttribute('tabindex');
+            el.removeAttribute('role');
+            el.removeAttribute('aria-label');
+        }
+    },
+
+    observe: function (el) {
+        if (!el || globalThis.twScrollRegion._observers.has(el)) return;
+        el.dataset.twScrollLabel = el.getAttribute('aria-label') ?? '';
+        globalThis.twScrollRegion._sync(el);
+        if (typeof ResizeObserver === 'undefined') return;
+        const observer = new ResizeObserver(function () { globalThis.twScrollRegion._sync(el); });
+        observer.observe(el);
+        // The content can outgrow the container without the container itself resizing.
+        Array.from(el.children).forEach(function (child) { observer.observe(child); });
+        globalThis.twScrollRegion._observers.set(el, observer);
+    },
+
+    unobserve: function (el) {
+        const observer = el ? globalThis.twScrollRegion._observers.get(el) : null;
+        if (!observer) return;
+        observer.disconnect();
+        globalThis.twScrollRegion._observers.delete(el);
     }
 };

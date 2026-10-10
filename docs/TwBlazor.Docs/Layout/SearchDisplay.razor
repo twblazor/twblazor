@@ -5,6 +5,8 @@
 <div class="w-full">
     <TwTextfield T="string" Label="Search" Value="@searchTerm" ValueChanged="@((v) => OnSearchInput(v))" BindEvent="oninput" AriaLabel="search documentation" Placeholder="Search components and documentation..." />
 
+    <p class="sr-only" role="status" aria-live="polite">@statusMessage</p>
+
     @if (!hasSearched)
     {
         <p class="text-sm text-gray-500 dark:text-gray-400 mt-4">Search across TwBlazor components, theme configuration, and API documentation.</p>
@@ -27,7 +29,7 @@
                                target="@(result.IsExternal ? "_blank" : null)"
                                rel="@(result.IsExternal ? "noopener noreferrer" : null)"
                                @onclick="SelectResult"
-                               class="flex items-center justify-between gap-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+                               class="flex items-center justify-between gap-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600 dark:focus-visible:outline-purple-300">
                                 <span class="flex flex-col min-w-0">
                                     <span class="text-sm font-medium text-gray-900 dark:text-white truncate">@result.Title</span>
                                     <span class="text-xs text-gray-500 dark:text-gray-400 truncate">@result.Subtitle</span>

@@ -137,6 +137,25 @@ public partial class TwDatePickerDayView : TwBlazorComponentBase, IAsyncDisposab
     /// </summary>
     private int focusedDay;
 
+    /// <summary>
+    /// Raised when a keyboard move would leave the displayed month: an arrow key past the first or last
+    /// day, or Page Up / Page Down (Shift for a year). Carries the date the user was heading for.
+    /// </summary>
+    [Parameter] public EventCallback<DateTime> NavigationRequested { get; set; }
+
+    private bool pendingDayFocus;
+
+    /// <summary>
+    /// Moves the grid's roving tabindex to <paramref name="day"/> and focuses that day's button once it
+    /// has rendered. Called by the owner after it has turned the calendar page.
+    /// </summary>
+    public void FocusDay(int day)
+    {
+        focusedDay = Math.Clamp(day, 1, DateTime.DaysInMonth(Value.Year, Value.Month));
+        pendingDayFocus = true;
+        StateHasChanged();
+    }
+
     private int trackedYear = int.MinValue;
     private int trackedMonth = int.MinValue;
 
@@ -176,11 +195,17 @@ public partial class TwDatePickerDayView : TwBlazorComponentBase, IAsyncDisposab
     {
         await base.OnAfterRenderAsync(firstRender);
 
+        if (pendingDayFocus && _dayCellRefs.TryGetValue(focusedDay, out var pendingCell))
+        {
+            pendingDayFocus = false;
+            await pendingCell.Element.FocusAsync();
+        }
+
         if (firstRender)
         {
             try
             {
-                await JSRuntime.InvokeVoidAsync("twTabs.registerKeydownGuard", gridRef);
+                await JSRuntime.InvokeVoidAsync("twTabs.registerKeydownGuard", gridRef, true);
                 keydownGuardRegistered = true;
             }
             catch (JSDisconnectedException)
@@ -200,7 +225,30 @@ public partial class TwDatePickerDayView : TwBlazorComponentBase, IAsyncDisposab
     private async Task OnGridKeyDown(KeyboardEventArgs e)
     {
         var daysInMonth = DateTime.DaysInMonth(Value.Year, Value.Month);
-        var dayOfWeek = (int)new DateTime(Value.Year, Value.Month, focusedDay, 0, 0, 0, Value.Kind).DayOfWeek;
+        var focusedDate = new DateTime(Value.Year, Value.Month, focusedDay, 0, 0, 0, Value.Kind);
+        var dayOfWeek = (int)focusedDate.DayOfWeek;
+
+        // A move that leaves the displayed month is handed to whoever owns the calendar page, which turns
+        // the page and then puts focus on the day the user was heading for. Home and End stay within the
+        // week row, so they never leave the month.
+        DateTime? leavingTo = e.Key switch
+        {
+            "ArrowRight" => focusedDate.AddDays(1),
+            "ArrowLeft" => focusedDate.AddDays(-1),
+            "ArrowDown" => focusedDate.AddDays(7),
+            "ArrowUp" => focusedDate.AddDays(-7),
+            "PageDown" => e.ShiftKey ? focusedDate.AddYears(1) : focusedDate.AddMonths(1),
+            "PageUp" => e.ShiftKey ? focusedDate.AddYears(-1) : focusedDate.AddMonths(-1),
+            _ => null
+        };
+
+        if (leavingTo is { } destination
+            && (destination.Year != Value.Year || destination.Month != Value.Month)
+            && NavigationRequested.HasDelegate)
+        {
+            await NavigationRequested.InvokeAsync(destination);
+            return;
+        }
 
         int? target = e.Key switch
         {

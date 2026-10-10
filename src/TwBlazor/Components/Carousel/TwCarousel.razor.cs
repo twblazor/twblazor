@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using Microsoft.AspNetCore.Components.Web;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Enums;
@@ -290,12 +291,32 @@ public partial class TwCarousel : TwBlazorComponentBase, IAsyncDisposable
 
     private void HandleFocusOut() => isFocused = false;
 
-    private Task HandleKeyDown(KeyboardEventArgs e) => e.Key switch
+    private ElementReference rootRef;
+    private DotNetObjectReference<TwCarousel>? selfReference;
+    private bool keysAttached;
+
+    [Inject] private IJSRuntime jsRuntime { get; set; } = null!;
+
+    /// <summary>
+    /// Shows the previous slide in response to the Left arrow key. Invoked from JavaScript, which ignores
+    /// the key while the user is typing or using a control inside a slide that needs it.
+    /// </summary>
+    [JSInvokable("PreviousSlideFromKey")]
+    public async Task PreviousSlideFromKeyAsync()
     {
-        "ArrowLeft" => PreviousSlide(),
-        "ArrowRight" => NextSlide(),
-        _ => Task.CompletedTask,
-    };
+        await PreviousSlide();
+        StateHasChanged();
+    }
+
+    /// <summary>
+    /// Shows the next slide in response to the Right arrow key. Invoked from JavaScript.
+    /// </summary>
+    [JSInvokable("NextSlideFromKey")]
+    public async Task NextSlideFromKeyAsync()
+    {
+        await NextSlide();
+        StateHasChanged();
+    }
 
     private void HandleTouchStart(TouchEventArgs e)
     {
@@ -331,11 +352,39 @@ public partial class TwCarousel : TwBlazorComponentBase, IAsyncDisposable
     /// on every tick, so toggling <see cref="AutoPlay"/> off later simply stops it from advancing rather
     /// than needing to be recreated.
     /// </summary>
-    protected override void OnAfterRender(bool firstRender)
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender && AutoPlay)
+        if (!firstRender)
+        {
+            return;
+        }
+
+        if (AutoPlay)
         {
             autoPlayTimer = new Timer(OnAutoPlayTick, null, AutoPlayInterval, AutoPlayInterval);
+        }
+
+        try
+        {
+            selfReference = DotNetObjectReference.Create(this);
+            await jsRuntime.InvokeVoidAsync("twCarousel.attach", rootRef, selfReference);
+            keysAttached = true;
+
+            // Someone who asked their system for less motion gets a slideshow that starts paused. They can
+            // still start it with the play button.
+            if (AutoPlay && await jsRuntime.InvokeAsync<bool>("twCarousel.prefersReducedMotion"))
+            {
+                isManuallyPaused = true;
+                StateHasChanged();
+            }
+        }
+        catch (JSDisconnectedException)
+        {
+            // The circuit disconnected before the script could run; nothing to wire up.
+        }
+        catch (InvalidOperationException)
+        {
+            // JS interop is not available (prerendering); the arrow keys stay unbound.
         }
     }
 
@@ -356,10 +405,30 @@ public partial class TwCarousel : TwBlazorComponentBase, IAsyncDisposable
     /// <summary>
     /// Stops and releases the automatic-playback timer, if one was started.
     /// </summary>
-    public ValueTask DisposeAsync()
+    public async ValueTask DisposeAsync()
     {
-        autoPlayTimer?.Dispose();
+        if (autoPlayTimer is not null)
+        {
+            await autoPlayTimer.DisposeAsync();
+        }
+
+        if (keysAttached)
+        {
+            try
+            {
+                await jsRuntime.InvokeVoidAsync("twCarousel.detach", rootRef);
+            }
+            catch (JSDisconnectedException)
+            {
+                // The circuit is already gone; nothing left to clean up.
+            }
+            catch (InvalidOperationException)
+            {
+                // JS interop unavailable during teardown (e.g. prerendering); safe to ignore.
+            }
+        }
+
+        selfReference?.Dispose();
         GC.SuppressFinalize(this);
-        return ValueTask.CompletedTask;
     }
 }

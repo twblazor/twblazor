@@ -84,6 +84,20 @@ public partial class TwCheckboxGroup<TValue> : TwBlazorComponentBase
     /// </summary>
     [Parameter] public Color? ItemColor { get; set; }
 
+    /// <summary>
+    /// Gets or sets whether the group as a whole is in an error state.
+    /// </summary>
+    [Parameter] public bool Invalid { get; set; }
+
+    /// <summary>
+    /// Gets or sets the error message for the group. It is shown under the options when
+    /// <see cref="Invalid"/> is set, announced when it appears, and read as the group's description.
+    /// </summary>
+    [Parameter] public string ErrorMessage { get; set; } = string.Empty;
+
+    private string? errorId => Invalid && !string.IsNullOrWhiteSpace(ErrorMessage) ? $"{Id}-error" : null;
+
+
     private string classes =>
         new ClassBuilder(groupsTheme.FieldsetBase)
         .AddClass(Horizontal ? groupsTheme.HorizontalLayout : groupsTheme.VerticalLayout)

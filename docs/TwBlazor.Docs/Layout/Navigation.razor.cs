@@ -19,6 +19,12 @@ public partial class Navigation : IDisposable
 
     private bool isSidebarOpen = true; // NOSONAR - bound in Navigation.razor template
 
+    // The button is named for what pressing it does, which also tells a screen reader user which theme is on.
+    private string themeToggleLabel => themeIcon == Icon.Sun ? "Switch to light theme" : "Switch to dark theme"; // NOSONAR - used in Navigation.razor template
+
+    // Announced after the theme is switched: nothing else about the change reaches a screen reader.
+    private string themeStatusMessage = string.Empty; // NOSONAR - used in Navigation.razor template
+
     /// <summary>
     /// Classes for the top-bar links. Muted by default, with the current page marked by full-strength text and
     /// a brand gradient underline. The sidebar marks its current row with a fill, so the two levels of
@@ -151,9 +157,10 @@ public partial class Navigation : IDisposable
     {
         var isDark = await JS.InvokeAsync<bool>("themeToggle.toggle", _cts.Token);
         themeIcon = isDark ? Icon.Sun : Icon.Moon;
+        themeStatusMessage = isDark ? "Dark theme on" : "Light theme on";
     }
 
-    private async Task SearchDialog() => await dialogService.ShowAsync<SearchDisplay>(options: new TwDialogOptions { NoHeader = true });
+    private async Task SearchDialog() => await dialogService.ShowAsync<SearchDisplay>("Search documentation", new TwDialogOptions { NoHeader = true });
 
     public void Dispose()
     {

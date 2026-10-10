@@ -371,75 +371,62 @@ public class TwChipTests : TwBlazorTestBase
     }
 
     [Fact]
-    public void TwChip_InvokesOnClick_WhenEnterPressed()
+    public void TwChip_ClickableAndClosable_RendersContentAndRemoveAsSiblingButtons()
     {
-        // Arrange - Closable so the chip still renders as a span/role="button" with a custom
-        // keydown handler (a plain non-closable clickable chip now renders as a real <button>,
-        // which gets Enter/Space activation for free from the browser rather than from our code).
+        // Arrange
         var clickCalled = false;
+
         var cut = TestContext.Render<TwChip>(parameters => parameters
             .Add(p => p.Label, "Clickable Chip")
             .Add(p => p.Closable, true)
             .Add(p => p.OnClick, () => clickCalled = true));
 
         // Act
-        var chip = cut.Find("span");
-        chip.KeyDown(new KeyboardEventArgs { Key = "Enter" });
+        var buttons = cut.FindAll("span > button");
+        buttons[0].Click();
 
-        // Assert
+        // Assert - a remove button nested inside role="button" would be hidden from assistive technology,
+        // so the chip holds two native buttons side by side and has no button role of its own.
+        Assert.Equal(2, buttons.Count);
+        Assert.Null(cut.Find("span").GetAttribute("role"));
+        Assert.Null(cut.Find("span").GetAttribute("tabindex"));
+        Assert.Contains("Clickable Chip", buttons[0].TextContent);
+        Assert.Equal("Remove Clickable Chip", buttons[1].GetAttribute("aria-label"));
         Assert.True(clickCalled);
     }
 
     [Fact]
-    public void TwChip_InvokesOnClick_WhenSpacePressed()
+    public void TwChip_ClickableAndClosable_RemoveButton_DoesNotInvokeOnClick()
     {
-        // Arrange - see TwChip_InvokesOnClick_WhenEnterPressed for why Closable is set here.
+        // Arrange
         var clickCalled = false;
+        var closeCalled = false;
+
         var cut = TestContext.Render<TwChip>(parameters => parameters
             .Add(p => p.Label, "Clickable Chip")
             .Add(p => p.Closable, true)
+            .Add(p => p.OnClose, () => closeCalled = true)
             .Add(p => p.OnClick, () => clickCalled = true));
 
         // Act
-        var chip = cut.Find("span");
-        chip.KeyDown(new KeyboardEventArgs { Key = " " });
+        cut.Find("button[aria-label='Remove Clickable Chip']").Click();
 
         // Assert
-        Assert.True(clickCalled);
-    }
-
-    [Fact]
-    public void TwChip_DoesNotInvokeOnClick_WhenOtherKeyPressed()
-    {
-        // Arrange - see TwChip_InvokesOnClick_WhenEnterPressed for why Closable is set here.
-        var clickCalled = false;
-        var cut = TestContext.Render<TwChip>(parameters => parameters
-            .Add(p => p.Label, "Clickable Chip")
-            .Add(p => p.Closable, true)
-            .Add(p => p.OnClick, () => clickCalled = true));
-
-        // Act
-        var chip = cut.Find("span");
-        chip.KeyDown(new KeyboardEventArgs { Key = "A" });
-
-        // Assert
+        Assert.True(closeCalled);
         Assert.False(clickCalled);
     }
 
     [Fact]
-    public void TwChip_KeyDown_DoesNothing_WhenNotClickable()
+    public void TwChip_NotClickable_IsNotFocusable()
     {
-        // Arrange - no OnClick delegate and no Href means isClickable is false.
+        // Arrange & Act
         var cut = TestContext.Render<TwChip>(parameters => parameters
             .Add(p => p.Label, "Static Chip"));
 
-        // Act & Assert - should not throw
+        // Assert
         var chip = cut.Find("span");
-        chip.KeyDown(new KeyboardEventArgs { Key = "Enter" });
-
-        // Assert the chip element still exists and is rendered correctly
-        Assert.NotNull(chip);
-        Assert.Contains("Static Chip", chip.TextContent);
+        Assert.Null(chip.GetAttribute("role"));
+        Assert.Null(chip.GetAttribute("tabindex"));
     }
 
     [Fact]

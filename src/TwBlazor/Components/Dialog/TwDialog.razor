@@ -2,7 +2,7 @@
 @inherits TwBlazorComponentBase
 @using TwBlazor.Enums
 
-<div class="@backdropClasses" tabindex="-1" @onclick="HandleBackdropClickAsync" @onkeydown="HandleKeyDownAsync">
+<div class="@backdropClasses" tabindex="-1" @onclick="HandleBackdropClickAsync">
     <div id="@Id" class="@surfaceClasses" style="@Style" role="dialog" aria-modal="true" tabindex="-1" @ref="surfaceRef" aria-label="@effectiveAriaLabel" aria-labelledby="@(noHeader ? AriaLabelledBy : titleId)" @attributes="Attributes" @onclick:stopPropagation="true">
         @if (!noHeader)
         {

@@ -52,6 +52,12 @@ public partial class TwPagination : TwBlazorComponentBase
     /// </summary>
     [Parameter] public bool Dense { get; set; }
 
+    /// <summary>
+    /// Gets or sets whether a page change is announced to screen readers ("Page 2 of 5"). Turn it off when
+    /// whatever hosts the pagination announces the change itself, so it is not read out twice.
+    /// </summary>
+    [Parameter] public bool AnnouncePageChanges { get; set; } = true;
+
     private string buttonBaseClasses => new ClassBuilder(theme.Base)
         .AddClass(Dense ? theme.DenseSize : theme.Size)
         .AddClass(roundedBuilder.GetRounded())
@@ -78,6 +84,9 @@ public partial class TwPagination : TwBlazorComponentBase
     /// <summary>
     /// Whether the Previous button is at the lower boundary and should be disabled.
     /// </summary>
+    // Announced when the page changes, since the content it controls is somewhere else on the page.
+    private string statusMessage = string.Empty;
+
     private bool isPreviousDisabled => ActivePage <= 1;
 
     /// <summary>
@@ -88,7 +97,9 @@ public partial class TwPagination : TwBlazorComponentBase
     private string NavButtonClass(bool disabled) =>
         new ClassBuilder(buttonBaseClasses)
         .AddClass(theme.Buttons, !disabled)
-        .AddClass(options.Theme.Interaction.DisabledOpacity, disabled)
+        .AddClass(string.IsNullOrEmpty(theme.DisabledButton)
+            ? $"{options.Theme.Interaction.DisabledOpacity} {options.Theme.Interaction.DisabledCursor}"
+            : theme.DisabledButton, disabled)
         .Build();
 
     /// <summary>
@@ -113,6 +124,7 @@ public partial class TwPagination : TwBlazorComponentBase
         }
 
         ActivePage = page;
+        statusMessage = $"Page {page} of {TotalPages}";
 
         if (ActivePageChanged.HasDelegate)
         {

@@ -281,6 +281,7 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
     {
         currentPage = page;
         UpdateDisplay();
+        sortStatusMessage = $"Page {currentPage} of {TotalPages()}, showing {displayedRows.Count} {(displayedRows.Count == 1 ? "row" : "rows")}";
     }
 
     private async Task OnSearchAsync(string? value)
@@ -290,10 +291,15 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
         if (string.IsNullOrWhiteSpace(value))
         {
             ClearSearch();
+            sortStatusMessage = "Search cleared";
             return;
         }
 
         ApplySearch(value);
+        var rowNoun = displayedRows.Count == 1 ? "row" : "rows";
+        sortStatusMessage = displayedRows.Count == 0
+            ? "No results match your search"
+            : $"Showing {displayedRows.Count} matching {rowNoun}";
         await Task.CompletedTask;
     }
 

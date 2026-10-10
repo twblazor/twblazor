@@ -9,6 +9,7 @@
      @attributes="@Attributes"
      aria-label="@AriaLabel"
      aria-labelledby="@AriaLabelledBy">
+    <span class="@options.Theme.Display.ScreenReaderOnly" role="status" aria-live="polite">@statusMessage</span>
     <div class="@theme.Column">
         <div class="@theme.ColumnHeader">
             <span class="@theme.Label">@SourceLabel</span>
@@ -16,17 +17,17 @@
             {
                 <div class="@theme.ReorderButtons">
                     <TwIcon Icon="Icon.Chevron_Up" Class="@theme.ReorderButton"
-                            Disabled="@(Disabled || selectedSource.Count == 0)"
+                            Disabled="@Disabled" Readonly="@(selectedSource.Count == 0)"
                             OnClick="@(() => MoveSelectionAsync(true, true))"
                             AriaLabel="@($"Move selected {SourceLabel} item up")" />
                     <TwIcon Icon="Icon.Chevron_Down" Class="@theme.ReorderButton"
-                            Disabled="@(Disabled || selectedSource.Count == 0)"
+                            Disabled="@Disabled" Readonly="@(selectedSource.Count == 0)"
                             OnClick="@(() => MoveSelectionAsync(true, false))"
                             AriaLabel="@($"Move selected {SourceLabel} item down")" />
                 </div>
             }
         </div>
-        <ul class="@GetListBoxClasses()" role="listbox" aria-multiselectable="true" aria-label="@SourceLabel" aria-disabled="@(Disabled ? "true" : null)">
+        <ul class="@GetListBoxClasses()" role="listbox" aria-multiselectable="true" aria-label="@SourceLabel" aria-disabled="@(Disabled ? "true" : null)" @ref="sourceListRef">
             @if (!SourceItems.Any())
             {
                 <li class="@theme.EmptyState" role="option" aria-disabled="true" aria-selected="false" tabindex="-1">@EmptyText</li>
@@ -48,24 +49,24 @@
 
     <div class="@theme.TransferButtonColumn">
         <TwIcon Icon="Icon.Chevron_Right" Class="@theme.TransferButton"
-                Disabled="@(Disabled || selectedSource.Count == 0)"
+                Disabled="@Disabled" Readonly="@(selectedSource.Count == 0)"
                 OnClick="@(() => TransferSelectedAsync(true))"
                 AriaLabel="@($"Move selected items to {TargetLabel}")" />
         @if (ShowMoveAllButtons)
         {
             <TwIcon Icon="Icon.Chevron_Double_Right" Class="@theme.TransferButton" 
-                    Disabled="@(Disabled || !SourceItems.Any())"
+                    Disabled="@Disabled" Readonly="@(!SourceItems.Any())"
                     OnClick="@(() => TransferAllAsync(true))"
                     AriaLabel="@($"Move all items to {TargetLabel}")" />
         }
         <TwIcon Icon="Icon.Chevron_Left" Class="@theme.TransferButton"
-                Disabled="@(Disabled || selectedTarget.Count == 0)"
+                Disabled="@Disabled" Readonly="@(selectedTarget.Count == 0)"
                 OnClick="@(() => TransferSelectedAsync(false))"
                 AriaLabel="@($"Move selected items to {SourceLabel}")" />
         @if (ShowMoveAllButtons)
         {
             <TwIcon Icon="Icon.Chevron_Double_Left" Class="@theme.TransferButton"
-                    Disabled="@(Disabled || !TargetItems.Any())"
+                    Disabled="@Disabled" Readonly="@(!TargetItems.Any())"
                     OnClick="@(() => TransferAllAsync(false))"
                     AriaLabel="@($"Move all items to {SourceLabel}")" />
         }
@@ -78,17 +79,17 @@
             {
                 <div class="@theme.ReorderButtons">
                     <TwIcon Icon="Icon.Chevron_Up" Class="@theme.ReorderButton"
-                            Disabled="@(Disabled || selectedTarget.Count == 0)"
+                            Disabled="@Disabled" Readonly="@(selectedTarget.Count == 0)"
                             OnClick="@(() => MoveSelectionAsync(false, true))"
                             AriaLabel="@($"Move selected {TargetLabel} item up")" />
                     <TwIcon Icon="Icon.Chevron_Down" Class="@theme.ReorderButton"
-                            Disabled="@(Disabled || selectedTarget.Count == 0)"
+                            Disabled="@Disabled" Readonly="@(selectedTarget.Count == 0)"
                             OnClick="@(() => MoveSelectionAsync(false, false))"
                             AriaLabel="@($"Move selected {TargetLabel} item down")" />
                 </div>
             }
         </div>
-        <ul class="@GetListBoxClasses()" role="listbox" aria-multiselectable="true" aria-label="@TargetLabel" aria-disabled="@(Disabled ? "true" : null)">
+        <ul class="@GetListBoxClasses()" role="listbox" aria-multiselectable="true" aria-label="@TargetLabel" aria-disabled="@(Disabled ? "true" : null)" @ref="targetListRef">
             @if (!TargetItems.Any())
             {
                 <li class="@theme.EmptyState" role="option" aria-disabled="true" aria-selected="false" tabindex="-1">@EmptyText</li>

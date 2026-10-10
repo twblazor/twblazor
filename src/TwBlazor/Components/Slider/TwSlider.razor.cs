@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using System.Globalization;
 using TwBlazor.Builders;
 using TwBlazor.Configuration.Components;
@@ -175,6 +176,43 @@ public partial class TwSlider<T> : TwBlazorInputComponentBase
         else
         {
             Attributes.Remove("disabled");
+        }
+    }
+
+    private ElementReference inputRef;
+
+    // Whether the arrow keys are currently blocked on the native input. Ignoring the change on the server is
+    // not enough for a read-only slider: the browser has already moved the native value by then, so a screen
+    // reader announces a value the component never accepted.
+    private bool keysLocked;
+
+    [Inject] private IJSRuntime jsRuntime { get; set; } = null!;
+
+    /// <inheritdoc />
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        var shouldLock = ReadOnly && !Disabled;
+        if (shouldLock == keysLocked)
+        {
+            return;
+        }
+
+        keysLocked = shouldLock;
+
+        try
+        {
+            await jsRuntime.InvokeVoidAsync("twSliderLock.set", inputRef, shouldLock);
+        }
+        catch (JSDisconnectedException)
+        {
+            // The circuit disconnected before the script could run; nothing to update.
+        }
+        catch (InvalidOperationException)
+        {
+            // JS interop is not available yet (prerendering); the next interactive render applies it.
+            keysLocked = !shouldLock;
         }
     }
 

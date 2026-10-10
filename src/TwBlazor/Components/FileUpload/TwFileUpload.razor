@@ -21,6 +21,8 @@
         }
     </TwInputLabel>
 
+    <span class="@options.Theme.Display.ScreenReaderOnly" role="status" aria-live="polite">@statusMessage</span>
+
     @if (selectedFiles.Count > 0)
     {
         <div class="@fileListClasses">

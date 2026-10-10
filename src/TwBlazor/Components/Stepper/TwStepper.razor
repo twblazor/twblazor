@@ -3,6 +3,7 @@
 @inherits TwBlazorComponentBase
 
 <div id="@Id" class="@Class" style="@Style" @attributes="@Attributes">
+    <span class="@options.Theme.Display.ScreenReaderOnly" role="status" aria-live="polite">@statusMessage</span>
     <nav aria-label="@(AriaLabel ?? (AriaLabelledBy == null ? "Progress" : null))" aria-labelledby="@AriaLabelledBy">
         @if (Orientation == StepperOrientation.Horizontal)
         {

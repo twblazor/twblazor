@@ -19,8 +19,8 @@
         </div>
     }
 
-    @* Announces sort state changes to assistive technology *@
-    <span class="@options.Theme.Display.ScreenReaderOnly" aria-live="polite">@sortStatusMessage</span>
+    @* Announces sort, search and paging changes to assistive technology *@
+    <span class="@options.Theme.Display.ScreenReaderOnly" role="status" aria-live="polite">@sortStatusMessage</span>
 
     @* Table *@
     <TwTable Id="@Id"
@@ -139,6 +139,7 @@
             PageSizeChanged="OnRowsPerPageChangedAsync"
             PageSizeOptions="RowsPerPageOptions"
             Dense="!ComfortablePagination"
+            AnnouncePageChanges="false"
             AriaLabel="Table pagination" />
     }
 </div>

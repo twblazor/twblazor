@@ -29,7 +29,7 @@
             {
                 <div class="@GetGutterLabelClasses()" style="height:6rem;">@GetHourLabel(hour)</div>
             }
-            <div class="@theme.NowIndicatorLabel" style="@nowOffsetStyle">@now.ToString("h:mm tt")</div>
+            <div class="@theme.NowIndicatorLabel" style="@nowOffsetStyle"><span aria-hidden="true">@now.ToString("h:mm tt")</span></div>
         </div>
         <div class="@nowLineContainerClasses">
             @for (var i = 0; i < daysPerWeek; i++)

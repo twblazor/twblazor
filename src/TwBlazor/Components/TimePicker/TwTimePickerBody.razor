@@ -2,10 +2,11 @@
 @inherits TwBlazorComponentBase
 
 <div id="@Id" class="@rootClasses" style="@Style" @attributes="Attributes" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy">
+    <span class="@options.Theme.Display.ScreenReaderOnly" role="status" aria-live="polite">@statusMessage</span>
     <div class="@classes">
         <div class="@theme.ContentRow">
             <div class="@theme.Column">
-                <TwIcon OnClick="IncrementHour"
+                <TwIcon OnClick="@(() => StepAsync(IncrementHour))"
                         Icon="Icon.Caret_Up_Fill"
                         Class="@theme.StepButton"
                         AriaLabel="Increase hour" />
@@ -14,11 +15,17 @@
                     <input id="@($"{Id}-hour")" type="text"
                            class="@numberInputClasses"
                            value="@(Is12HourFormat ? SelectedTime.ToString("hh") : SelectedTime.ToString("HH"))"
+                           role="spinbutton"
+                           inputmode="numeric"
                            aria-label="Hours"
+                           aria-valuemin="@(Is12HourFormat ? 1 : 0)"
+                           aria-valuemax="@(Is12HourFormat ? 12 : 23)"
+                           aria-valuenow="@(Is12HourFormat ? int.Parse(SelectedTime.ToString("%h")) : SelectedTime.Hour)"
+                           @onkeydown="OnHourKeyDown"
                            @onchange="@((e) => SetHourValue(e.Value?.ToString() ?? string.Empty))">
                 </div>
 
-                <TwIcon OnClick="DecrementHour"
+                <TwIcon OnClick="@(() => StepAsync(DecrementHour))"
                         Icon="Icon.Caret_Down_Fill"
                         Class="@theme.StepButton"
                         AriaLabel="Decrease hour" />
@@ -27,7 +34,7 @@
             <div class="@theme.Separator">:</div>
 
             <div class="@theme.Column">
-                <TwIcon OnClick="IncrementMinute"
+                <TwIcon OnClick="@(() => StepAsync(IncrementMinute))"
                         Icon="Icon.Caret_Up_Fill"
                         Class="@theme.StepButton"
                         AriaLabel="Increase minute" />
@@ -36,11 +43,17 @@
                     <input id="@($"{Id}-minute")" type="text"
                            class="@numberInputClasses"
                            value="@SelectedTime.ToString("mm")"
+                           role="spinbutton"
+                           inputmode="numeric"
                            aria-label="Minutes"
+                           aria-valuemin="0"
+                           aria-valuemax="59"
+                           aria-valuenow="@SelectedTime.Minute"
+                           @onkeydown="OnMinuteKeyDown"
                            @onchange="@((e) => SetMinuteValue(e.Value?.ToString() ?? string.Empty))">
                 </div>
 
-                <TwIcon OnClick="DecrementMinute"
+                <TwIcon OnClick="@(() => StepAsync(DecrementMinute))"
                         Icon="Icon.Caret_Down_Fill"
                         Class="@theme.StepButton"
                         AriaLabel="Decrease minute" />
@@ -50,11 +63,11 @@
             {
                 <div class="@theme.AmPmWrapper">
                     <TwButton Type="button"
-                              OnClick="ToggleAmPm"
+                              OnClick="@(() => StepAsync(ToggleAmPm))"
                               Color="Color.Primary"
                               Variant="ButtonVariant.Filled"
                               Class="@theme.AmPmButtonClass"
-                              AriaLabel="Toggle AM/PM"
+                              AriaLabel="@(SelectedTime.Hour >= 12 ? "PM, switch to AM" : "AM, switch to PM")"
                               Dense>
                         @(SelectedTime.Hour >= 12 ? "PM" : "AM")
                     </TwButton>

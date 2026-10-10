@@ -33,7 +33,7 @@ public class TwToastProviderTests : TwBlazorTestBase
         var cut = TestContext.Render<TwToastProvider>();
 
         // Assert
-        var container = cut.Find("div[role='alert']");
+        var container = cut.Find("div[aria-atomic='true']");
         Assert.NotNull(container);
         Assert.Contains("Test Toast", cut.Markup);
     }
@@ -51,7 +51,7 @@ public class TwToastProviderTests : TwBlazorTestBase
         var cut = TestContext.Render<TwToastProvider>();
 
         // Assert
-        var toasts = cut.FindAll("div[role='alert']");
+        var toasts = cut.FindAll("div[aria-atomic='true']");
         Assert.Equal(3, toasts.Count);
         Assert.Contains("Toast 1", cut.Markup);
         Assert.Contains("Toast 2", cut.Markup);
@@ -238,7 +238,7 @@ public class TwToastProviderTests : TwBlazorTestBase
         var cut = TestContext.Render<TwToastProvider>();
 
         // Assert
-        var toast = cut.Find("div[role='alert']");
+        var toast = cut.Find("div[aria-atomic='true']");
         var classes = toast.GetAttribute("class");
         Assert.NotNull(classes);
         Assert.Contains(expectedBgClass, classes);
@@ -271,7 +271,7 @@ public class TwToastProviderTests : TwBlazorTestBase
         var cut = TestContext.Render<TwToastProvider>();
 
         // Assert
-        var toast = cut.Find("div[role='alert']");
+        var toast = cut.Find("div[aria-atomic='true']");
         Assert.Contains(string.Join(' ', expected.Split(' ', StringSplitOptions.RemoveEmptyEntries)), toast.GetAttribute("class"));
     }
 
@@ -287,8 +287,8 @@ public class TwToastProviderTests : TwBlazorTestBase
 
         // Assert - role="alert" implies aria-live="assertive" on its own, so an explicit
         // aria-live="polite" (which would contradict it) is intentionally omitted.
-        var toast = cut.Find("div[role='alert']");
-        Assert.Equal("alert", toast.GetAttribute("role"));
+        var toast = cut.Find("div[aria-atomic='true']");
+        Assert.Equal("status", toast.GetAttribute("role"));
         Assert.Null(toast.GetAttribute("aria-live"));
         Assert.Equal("true", toast.GetAttribute("aria-atomic"));
     }
@@ -419,7 +419,7 @@ public class TwToastProviderTests : TwBlazorTestBase
         var cut = TestContext.Render<TwToastProvider>();
 
         // Act
-        cut.Find("div[role='alert']").MouseEnter();
+        cut.Find("div[aria-atomic='true']").MouseEnter();
 
         // Assert
         Assert.True(toast.IsHovered);
@@ -433,7 +433,7 @@ public class TwToastProviderTests : TwBlazorTestBase
         var toast = new ToastModel { Title = "Hoverable" };
         toastService.AddToast(toast);
         var cut = TestContext.Render<TwToastProvider>();
-        var toastEl = cut.Find("div[role='alert']");
+        var toastEl = cut.Find("div[aria-atomic='true']");
         toastEl.MouseEnter();
 
         // Act
@@ -453,7 +453,7 @@ public class TwToastProviderTests : TwBlazorTestBase
         var cut = TestContext.Render<TwToastProvider>();
 
         // Act
-        cut.Find("div[role='alert']").FocusIn();
+        cut.Find("div[aria-atomic='true']").FocusIn();
 
         // Assert
         Assert.True(toast.IsFocused);
@@ -467,7 +467,7 @@ public class TwToastProviderTests : TwBlazorTestBase
         var toast = new ToastModel { Title = "Focusable" };
         toastService.AddToast(toast);
         var cut = TestContext.Render<TwToastProvider>();
-        var toastEl = cut.Find("div[role='alert']");
+        var toastEl = cut.Find("div[aria-atomic='true']");
         toastEl.FocusIn();
 
         // Act
