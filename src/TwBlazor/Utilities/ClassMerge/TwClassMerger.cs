@@ -130,57 +130,53 @@ internal sealed class TwClassMerger
         }
 
         var parsed = Parse(token);
-        var hasModifier = parsed.ModifierPosition > 0;
-        string? group;
 
-        if (hasModifier)
-        {
-            group = FindGroup(parsed.Utility[..parsed.ModifierPosition]);
+        if (ResolveGroup(parsed, out var hasModifier) is not { } group)
+            return true;
 
-            // The modifier can change the group: @container is a container type, @container/name a named container.
-            if (group is not null && TwClassGroups.PostfixLookupGroups.Contains(group) && FindGroup(parsed.Utility) is { } withModifier && withModifier != group)
-            {
-                group = withModifier;
-                hasModifier = false;
-            }
-        }
-        else
-        {
-            group = FindGroup(parsed.Utility);
-        }
-
-        if (group is null)
-        {
-            if (!hasModifier)
-                return true;
-
-            // What looked like a modifier may be part of the value, as in the fraction of w-1/2.
-            group = FindGroup(parsed.Utility);
-
-            if (group is null)
-                return true;
-
-            hasModifier = false;
-        }
-
-        var scope = parsed.Scope;
-
-        if (!claimed.Add(scope + group))
+        if (!claimed.Add(parsed.Scope + group))
             return false;
 
-        if (_conflicts.TryGetValue(group, out var overridden))
-        {
-            foreach (var other in overridden)
-                claimed.Add(scope + other);
-        }
+        ClaimAll(claimed, parsed.Scope, _conflicts, group);
 
-        if (hasModifier && _modifierConflicts.TryGetValue(group, out var overriddenByModifier))
-        {
-            foreach (var other in overriddenByModifier)
-                claimed.Add(scope + other);
-        }
+        if (hasModifier)
+            ClaimAll(claimed, parsed.Scope, _modifierConflicts, group);
 
         return true;
+    }
+
+    /// <summary>
+    /// Finds the group of a parsed class, working out whether its <c>/</c> is a modifier or part of the value.
+    /// </summary>
+    /// <param name="parsed">The parsed class.</param>
+    /// <param name="hasModifier">Whether the class has a <c>/</c> modifier, such as the line height in <c>text-sm/6</c>.</param>
+    /// <returns>The group's name, or <see langword="null"/> when the class is not a Tailwind utility.</returns>
+    private string? ResolveGroup(ParsedClass parsed, out bool hasModifier)
+    {
+        hasModifier = false;
+
+        if (parsed.ModifierPosition <= 0)
+            return FindGroup(parsed.Utility);
+
+        // What looks like a modifier may be part of the value, as in the fraction of w-1/2.
+        if (FindGroup(parsed.Utility[..parsed.ModifierPosition]) is not { } group)
+            return FindGroup(parsed.Utility);
+
+        // The modifier can change the group: @container is a container type, @container/name a named container.
+        if (TwClassGroups.PostfixLookupGroups.Contains(group) && FindGroup(parsed.Utility) is { } withModifier && withModifier != group)
+            return withModifier;
+
+        hasModifier = true;
+        return group;
+    }
+
+    private static void ClaimAll(HashSet<string> claimed, string scope, Dictionary<string, string[]> conflicts, string group)
+    {
+        if (!conflicts.TryGetValue(group, out var overridden))
+            return;
+
+        foreach (var other in overridden)
+            claimed.Add(scope + other);
     }
 
     private string? FindGroup(string utility)
@@ -189,11 +185,8 @@ internal sealed class TwClassMerger
         {
             var name = utility.Length > 1 && utility[0] == '-' ? utility[1..] : utility;
 
-            foreach (var custom in _customGroups)
-            {
-                if (custom.Matches(name))
-                    return custom.Name;
-            }
+            if (_customGroups.Find(group => group.Matches(name)) is { } custom)
+                return custom.Name;
         }
 
         return TwClassGroups.Find(utility);
@@ -227,49 +220,7 @@ internal sealed class TwClassMerger
 
     private ParsedClass Parse(string token)
     {
-        var variants = new List<string>();
-        var bracketDepth = 0;
-        var parenDepth = 0;
-        var start = 0;
-        var slash = -1;
-
-        for (var i = 0; i < token.Length; i++)
-        {
-            var character = token[i];
-
-            if (bracketDepth == 0 && parenDepth == 0)
-            {
-                if (character == ':')
-                {
-                    variants.Add(token[start..i]);
-                    start = i + 1;
-                    continue;
-                }
-
-                if (character == '/')
-                {
-                    slash = i;
-                    continue;
-                }
-            }
-
-            switch (character)
-            {
-                case '[':
-                    bracketDepth++;
-                    break;
-                case ']':
-                    bracketDepth--;
-                    break;
-                case '(':
-                    parenDepth++;
-                    break;
-                case ')':
-                    parenDepth--;
-                    break;
-            }
-        }
-
+        var variants = SplitVariants(token, out var start, out var slash);
         var utility = token[start..];
         var modifierPosition = slash > start ? slash - start : 0;
         var important = false;
@@ -290,6 +241,43 @@ internal sealed class TwClassMerger
         var scope = string.Join(':', SortVariants(variants)) + (important ? "!" : string.Empty) + "|";
 
         return new ParsedClass(scope, utility, modifierPosition);
+    }
+
+    /// <summary>
+    /// Splits a class at the colons that are not inside brackets or parentheses.
+    /// </summary>
+    /// <param name="token">The class as written.</param>
+    /// <param name="start">The index where the utility starts, after the last variant.</param>
+    /// <param name="slash">The index of the last <c>/</c> that is not inside brackets or parentheses, or -1.</param>
+    /// <returns>The variants, in the order they were written.</returns>
+    private static List<string> SplitVariants(string token, out int start, out int slash)
+    {
+        var variants = new List<string>();
+        var depth = 0;
+        start = 0;
+        slash = -1;
+
+        for (var i = 0; i < token.Length; i++)
+        {
+            switch (token[i])
+            {
+                case '[' or '(':
+                    depth++;
+                    break;
+                case ']' or ')':
+                    depth--;
+                    break;
+                case ':' when depth == 0:
+                    variants.Add(token[start..i]);
+                    start = i + 1;
+                    break;
+                case '/' when depth == 0:
+                    slash = i;
+                    break;
+            }
+        }
+
+        return variants;
     }
 
     /// <summary>

@@ -1,0 +1,21 @@
+name: Accessibility Tests
+
+# Runs the accessibility (axe-core/Playwright) tests on demand, on any branch. It needs no secrets, so anyone
+# can run it from the Actions tab of their own fork.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  accessibility-tests:
+    name: Build and Test (with accessibility tests)
+    uses: ./.github/workflows/build-and-test.yml
+    permissions:
+      checks: write
+      contents: read
+      actions: read
+    with:
+      configuration: Release
+      run-accessibility-tests: true

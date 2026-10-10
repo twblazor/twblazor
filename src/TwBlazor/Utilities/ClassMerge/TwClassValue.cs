@@ -159,7 +159,7 @@ internal static partial class TwClassValue
     /// </summary>
     /// <param name="value">The value part of the utility.</param>
     public static bool IsInteger(string value) =>
-        TryParseNumber(value, out var number) && double.IsFinite(number) && Math.Floor(number) == number;
+        TryParseNumber(value, out var number) && double.IsInteger(number);
 
     /// <summary>
     /// Gets whether <paramref name="value"/> is a percentage such as <c>50%</c>.

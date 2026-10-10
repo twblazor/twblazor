@@ -137,6 +137,30 @@ dotnet test tests/TwBlazor.Tests
 dotnet test tests/TwBlazor.Docs.Tests
 ```
 
+### Run the accessibility tests (optional)
+
+The accessibility tests start the docs site and scan every component page with axe-core in a real browser, in
+light and dark mode. They are slower than the tests above and need a browser installed, so they are optional:
+pull request checks only run them when asked. Run them when you change how a component renders, its ARIA
+attributes, its keyboard handling or its colors.
+
+**On your machine:** build once, install the browser once, then run the tests.
+
+```
+dotnet build tests/TwBlazor.A11yTests
+pwsh tests/TwBlazor.A11yTests/bin/Debug/net10.0/playwright.ps1 install chromium
+dotnet test tests/TwBlazor.A11yTests
+```
+
+**On your pull request:** tick **Run the accessibility tests** in the pull request description before you open
+it. The checks then run them after the unit and docs tests. If the pull request is already open, tick the box
+and push another commit.
+
+**On your fork, without a pull request:** open the **Actions** tab of your fork, choose **Accessibility Tests**,
+select **Run workflow** and pick your branch. This needs no secrets, so it works on any fork.
+
+They always run when a change is merged into `develop` or `main`.
+
 ### Rebuild the doc examples
 
 Code snippets shown on the documentation site are extracted from real source (docs pages and a few production files) by `TwBlazor.BuildTools`. See [CODE_SNIPPETS.md](docs/CODE_SNIPPETS.md) for how this works. This runs automatically before `TwBlazor.Docs` builds, but you can trigger it manually if generated snippets look stale:

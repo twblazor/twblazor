@@ -19,8 +19,9 @@ const here = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(here, '..', '..');
 const version = JSON.parse(readFileSync(resolve(here, 'node_modules/tailwind-merge/package.json'), 'utf8')).version;
 
-const quote = text => '"' + text.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n').replace(/\t/g, '\\t') + '"';
-const write = (path, content) => writeFileSync(resolve(repoRoot, path), content.replace(/\n/g, '\r\n'));
+// A JSON string literal escapes the same characters the same way as a C# one.
+const quote = text => JSON.stringify(text);
+const write = (path, content) => writeFileSync(resolve(repoRoot, path), content.replaceAll('\n', '\r\n'));
 
 // --- Class groups --------------------------------------------------------------------------------------------
 
@@ -53,6 +54,11 @@ function walk(group, path, classDefinitions) {
 for (const [group, classDefinitions] of Object.entries(config.classGroups)) {
     walk(group, '', classDefinitions);
 }
+
+const definitionLine = ({ group, path, validator }) => {
+    const validatorArgument = validator ? `, TwClassValidator.${validator}` : '';
+    return `        new(${quote(group)}, ${quote(path)}${validatorArgument}),`;
+};
 
 const stringList = values => `[${values.map(quote).join(', ')}]`;
 const dictionary = map => Object.entries(map).map(([key, values]) => `            [${quote(key)}] = ${stringList(values)},`).join('\n');
@@ -93,7 +99,7 @@ ${dictionary(config.conflictingClassGroupModifiers)}
 
     private static TwClassDefinition[] BuildDefinitions() =>
     [
-${definitions.map(d => `        new(${quote(d.group)}, ${quote(d.path)}${d.validator ? `, TwClassValidator.${d.validator}` : ''}),`).join('\n')}
+${definitions.map(definitionLine).join('\n')}
     ];
 }
 `);

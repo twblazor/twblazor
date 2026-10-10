@@ -105,12 +105,6 @@ public sealed class ChartPathBuilder
 public static class ChartGeometry
 {
     /// <summary>
-    /// Builds the path of a <see cref="ChartSector"/>.
-    /// </summary>
-    public static string Sector(ChartSector sector) =>
-        Sector(sector.CenterX, sector.CenterY, sector.InnerRadius, sector.OuterRadius, sector.StartAngle, sector.EndAngle);
-
-    /// <summary>
     /// Gets the point at an angle and distance from a center. Angles are in degrees, clockwise from 12 o'clock.
     /// </summary>
     public static (double X, double Y) Polar(double centerX, double centerY, double radius, double angle)
@@ -118,6 +112,12 @@ public static class ChartGeometry
         var radians = (angle - 90) * Math.PI / 180;
         return (centerX + radius * Math.Cos(radians), centerY + radius * Math.Sin(radians));
     }
+
+    /// <summary>
+    /// Builds the path of a <see cref="ChartSector"/>.
+    /// </summary>
+    public static string Sector(ChartSector sector) =>
+        Sector(sector.CenterX, sector.CenterY, sector.InnerRadius, sector.OuterRadius, sector.StartAngle, sector.EndAngle);
 
     /// <summary>
     /// Builds the path of a ring segment (or a pie wedge when <paramref name="innerRadius"/> is zero) between two
