@@ -186,7 +186,7 @@
 
                     @if (settingsSaved)
                     {
-                        <TwAlert Dense Color="Color.Success" StartIcon="IconEnum.Check_Circle">Settings saved.</TwAlert>
+                        <TwAlert Dense Role="none" Color="Color.Success" StartIcon="IconEnum.Check_Circle">Settings saved.</TwAlert>
                     }
 
                     <div class="flex justify-end gap-2 border-t border-gray-200 pt-4 dark:border-gray-800">
@@ -202,7 +202,7 @@
                     <TwChip Label="v2.4.0" Color="Color.Success" Variant="ButtonVariant.Filled" Size="ChipSize.Small" StartIcon="IconEnum.Check" />
                 </div>
 
-                <TwAlert Dense Color="Color.Accent" StartIcon="IconEnum.Exclamation_Circle" Class="mt-4">Storage nearing capacity.</TwAlert>
+                <TwAlert Dense Role="none" Color="Color.Accent" StartIcon="IconEnum.Exclamation_Circle" Class="mt-4">Storage nearing capacity.</TwAlert>
 
                 <dl class="mt-5 grid grid-cols-3 divide-x divide-gray-200 text-center dark:divide-gray-800">
                     @foreach (var figure in _releaseFigures)

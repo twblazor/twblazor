@@ -52,7 +52,7 @@ public partial class TwDateTimeRangePicker : TwPopoverPickerComponentBase
 
     /// <summary>
     /// Which half of the range is currently being picked. Reset to <see cref="DateTimeRangePickerStage.Start"/>
-    /// whenever the panel opens (see <see cref="OnFocusAsync"/>) so every visit starts the same
+    /// whenever the panel opens (see <see cref="OpenPanelAsync"/>) so every visit starts the same
     /// two-step flow from the beginning, regardless of what was picked last time - but can also be
     /// switched directly via the Start/End tabs (see <see cref="SwitchStage"/>), so a user isn't
     /// locked into picking strictly in order.
@@ -239,13 +239,13 @@ public partial class TwDateTimeRangePicker : TwPopoverPickerComponentBase
     /// start (or falls back to <see cref="MinDate"/>/today), and stages the start's existing
     /// time-of-day (or now, if unset) into the time editor.
     /// </summary>
-    protected override async Task OnFocusAsync()
+    protected override async Task OpenPanelAsync()
     {
         stage = DateTimeRangePickerStage.Start;
         view = DatePickerCalendarView.Day;
         anchorDate = SelectedRange.Key ?? MinDate ?? DateTime.Today;
         pendingTime = SelectedRange.Key.HasValue ? TimeOnly.FromDateTime(SelectedRange.Key.Value) : TimeOnly.FromDateTime(DateTime.Now);
-        await base.OnFocusAsync();
+        await base.OpenPanelAsync();
     }
 
     /// <summary>
@@ -268,7 +268,7 @@ public partial class TwDateTimeRangePicker : TwPopoverPickerComponentBase
             if (pendingViewFocus)
             {
                 pendingViewFocus = false;
-                await JSRuntime.InvokeVoidAsync("twDialog.focusSurface", PanelRef);
+                await JSRuntime.InvokeVoidAsync("twDialog.focusPanel", PanelRef);
             }
         }
     }
@@ -287,12 +287,7 @@ public partial class TwDateTimeRangePicker : TwPopoverPickerComponentBase
         if (ReadOnly || Disabled)
             return;
 
-        if (isFocused)
-        {
-            await ReleasePanelTrapAsync();
-        }
-        isFocused = false;
-        FocusReturnToken = null;
+        await ClosePanelAfterTextCommitAsync();
 
         if (string.IsNullOrWhiteSpace(text))
         {

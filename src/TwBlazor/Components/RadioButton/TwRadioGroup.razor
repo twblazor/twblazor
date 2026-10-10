@@ -6,6 +6,10 @@
           class="@classes"
           style="@Style"
           disabled="@Disabled"
+          role="radiogroup"
+          aria-required="@(Required ? "true" : null)"
+          aria-invalid="@(Invalid ? "true" : null)"
+          aria-describedby="@errorId"
           aria-label="@AriaLabel"
           aria-labelledby="@AriaLabelledBy"
           @attributes="@Attributes">
@@ -32,5 +36,9 @@
         <CascadingValue Value="@Name" Name="GroupName" IsFixed="true">
             @ChildContent
         </CascadingValue>
+    }
+    @if (errorId is not null)
+    {
+        <p id="@errorId" class="@inputTheme.ErrorMessage" role="alert">@ErrorMessage</p>
     }
 </fieldset>

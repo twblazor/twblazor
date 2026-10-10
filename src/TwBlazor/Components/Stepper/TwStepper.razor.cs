@@ -89,6 +89,9 @@ public partial class TwStepper : TwBlazorComponentBase
     /// </summary>
     public bool IsLastStep => ActiveStepIndex >= _steps.Count - 1;
 
+    // Announced when the active step changes: the step's content is replaced without focus moving to it.
+    private string statusMessage = string.Empty;
+
     private int mobileProgressValue => _steps.Count == 0 ? 0 : (int)Math.Round((ActiveStepIndex + 1) / (double)_steps.Count * 100);
 
     private string mobileAriaLabel => ActiveStep != null
@@ -155,6 +158,7 @@ public partial class TwStepper : TwBlazorComponentBase
         }
 
         ActiveStepIndex = index;
+        statusMessage = $"Step {index + 1} of {_steps.Count}: {_steps[index].Label}";
         await ActiveStepIndexChanged.InvokeAsync(index);
     }
 

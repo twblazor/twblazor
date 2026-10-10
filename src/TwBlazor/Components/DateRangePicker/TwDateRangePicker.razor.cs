@@ -237,6 +237,13 @@ public partial class TwDateRangePicker : TwPopoverPickerComponentBase
     {
         await base.OnAfterRenderAsync(firstRender);
 
+        if (pendingFocusDate is { } focusDate)
+        {
+            pendingFocusDate = null;
+            var view = MonthIndex(focusDate) == MonthIndex(anchorMonth) ? firstMonthView : secondMonthView;
+            view?.FocusDay(focusDate.Day);
+        }
+
         if (isFocused && PanelRef.Context != null)
         {
             // Re-run on every render rather than gating behind a one-shot "just opened" flag - see
@@ -247,7 +254,7 @@ public partial class TwDateRangePicker : TwPopoverPickerComponentBase
             if (pendingViewFocus)
             {
                 pendingViewFocus = false;
-                await JSRuntime.InvokeVoidAsync("twDialog.focusSurface", PanelRef);
+                await JSRuntime.InvokeVoidAsync("twDialog.focusPanel", PanelRef);
             }
         }
     }
@@ -267,12 +274,7 @@ public partial class TwDateRangePicker : TwPopoverPickerComponentBase
         if (ReadOnly || Disabled)
             return;
 
-        if (isFocused)
-        {
-            await ReleasePanelTrapAsync();
-        }
-        isFocused = false;
-        FocusReturnToken = null;
+        await ClosePanelAfterTextCommitAsync();
 
         if (string.IsNullOrWhiteSpace(text))
         {
@@ -345,6 +347,38 @@ public partial class TwDateRangePicker : TwPopoverPickerComponentBase
     /// <summary>
     /// Moves the displayed months back by one, unless <see cref="isPreviousMonthDisabled"/>.
     /// </summary>
+    private DatePicker.TwDatePickerDayView? firstMonthView;
+    private DatePicker.TwDatePickerDayView? secondMonthView;
+
+    // The date to focus once the months the keyboard just moved to have rendered.
+    private DateTime? pendingFocusDate;
+
+    private static int MonthIndex(DateTime date) => date.Year * 12 + date.Month;
+
+    // Two months are showing. A keyboard move between them only moves focus; a move off either end slides
+    // the pair along so the destination month is visible, unless MinDate/MaxDate rule it out.
+    private void OnDayNavigationRequested(DateTime target)
+    {
+        var targetIndex = MonthIndex(target);
+        if ((MinDate.HasValue && targetIndex < MonthIndex(MinDate.Value))
+            || (MaxDate.HasValue && targetIndex > MonthIndex(MaxDate.Value)))
+        {
+            return;
+        }
+
+        var firstIndex = MonthIndex(anchorMonth);
+        if (targetIndex < firstIndex)
+        {
+            anchorMonth = anchorMonth.AddMonths(targetIndex - firstIndex);
+        }
+        else if (targetIndex > firstIndex + 1)
+        {
+            anchorMonth = anchorMonth.AddMonths(targetIndex - firstIndex - 1);
+        }
+
+        pendingFocusDate = target;
+    }
+
     private void PreviousMonth()
     {
         if (!isPreviousMonthDisabled)

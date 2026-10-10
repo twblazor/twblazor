@@ -7,7 +7,7 @@
         <Description>Provide contextual feedback messages for typical user actions with the handful of available and flexible alert messages.</Description>
         <CodeExample Name="AlertBasic">
             <TwAlert Id="example-alert" Class="mt-2" Color="Color.Accent">
-                <p>This is an example alert with a <a href="#" class="underline m-0 p-0 inline">link</a>.</p>
+                <p>This is an example alert with a <a href="/alert" class="underline m-0 p-0 inline">link</a>.</p>
             </TwAlert>
         </CodeExample>
     </PageCard>
@@ -21,6 +21,20 @@
                     @c.ToString()
                 </TwAlert>
             }
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Announcements">
+        <Description>
+            A screen reader announces an alert when it appears. An error or a warning (<code>Color.Danger</code>,
+            <code>Color.Warning</code>) interrupts with <code>role="alert"</code>; every other color waits its turn with
+            <code>role="status"</code>. Set <code>Role</code> to choose for yourself, or to <code>none</code> for an alert that
+            is part of the page from the start and should be read in place like any other content.
+        </Description>
+        <CodeExample Name="AlertRole">
+            <TwAlert Id="status-alert" Class="mt-2" Color="Color.Success" Dense>Saved. Announced when the screen reader is idle.</TwAlert>
+            <TwAlert Id="urgent-alert" Class="mt-2" Color="Color.Danger" Dense>Payment failed. Announced at once.</TwAlert>
+            <TwAlert Id="static-alert" Class="mt-2" Color="Color.Info" Role="none" Dense>Prices include tax. Read in place, never announced.</TwAlert>
         </CodeExample>
     </PageCard>
 

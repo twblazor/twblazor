@@ -38,7 +38,7 @@ public partial class TwTimeRangePicker : TwPopoverPickerComponentBase
 
     /// <summary>
     /// Which half of the range is currently being edited. Reset to <see cref="TimeRangePickerStage.Start"/>
-    /// whenever the panel opens (see <see cref="OnFocusAsync"/>) so every visit starts the same way,
+    /// whenever the panel opens (see <see cref="OpenPanelAsync"/>) so every visit starts the same way,
     /// but can also be switched directly via the Start/End tabs (see <see cref="SwitchStage"/>).
     /// </summary>
     private TimeRangePickerStage stage;
@@ -151,10 +151,10 @@ public partial class TwTimeRangePicker : TwPopoverPickerComponentBase
     /// Re-seeds the picker's step state every time the panel opens: always starts back at
     /// <see cref="TimeRangePickerStage.Start"/>, regardless of what was being edited last time.
     /// </summary>
-    protected override async Task OnFocusAsync()
+    protected override async Task OpenPanelAsync()
     {
         stage = TimeRangePickerStage.Start;
-        await base.OnFocusAsync();
+        await base.OpenPanelAsync();
     }
 
     /// <summary>
@@ -189,12 +189,7 @@ public partial class TwTimeRangePicker : TwPopoverPickerComponentBase
         if (ReadOnly || Disabled)
             return;
 
-        if (isFocused)
-        {
-            await ReleasePanelTrapAsync();
-        }
-        isFocused = false;
-        FocusReturnToken = null;
+        await ClosePanelAfterTextCommitAsync();
 
         if (string.IsNullOrWhiteSpace(text))
         {

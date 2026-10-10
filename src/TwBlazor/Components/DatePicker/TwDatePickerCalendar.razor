@@ -45,6 +45,6 @@ else
         @AnchorDate.ToString("MMMM yyyy")
     </TwDatePickerHeader>
     <TwDatePickerBody Class="@bodyClasses">
-        <TwDatePickerDayView Value="AnchorDate" SelectedDate="SelectedDate" Range="Range" MinDate="MinDate" MaxDate="MaxDate" ShowMonthCaption="ShowMonthCaption" ValueChanged="OnDaySelected" />
+        <TwDatePickerDayView @ref="dayView" Value="AnchorDate" SelectedDate="SelectedDate" Range="Range" MinDate="MinDate" MaxDate="MaxDate" ShowMonthCaption="ShowMonthCaption" ValueChanged="OnDaySelected" NavigationRequested="OnDayNavigationRequested" />
     </TwDatePickerBody>
 }

@@ -32,7 +32,7 @@
     Disabled="@Disabled">
     <FocusedChildContent>
         <TwDatePickerBody Class="time">
-            <TwTimePickerBody Id="@Id"
+            <TwTimePickerBody Id="@($"{Id}-time")"
                               Variant="@effectiveVariant"
                               Is12HourFormat="@Is12HourFormat"
                               SelectedTime="@currentTime"

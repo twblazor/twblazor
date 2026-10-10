@@ -24,8 +24,11 @@
         </span>
         @if (showCheckboxes)
         {
-            <span class="@theme.CheckboxWrapper" @onclick:stopPropagation="true">
+            @* The tree item itself carries aria-checked and toggles with Space, so the visual checkbox is for
+               the pointer only: out of the tab order and hidden from assistive technology. *@
+            <span class="@theme.CheckboxWrapper" aria-hidden="true" @onclick:stopPropagation="true">
                 <TwCheckbox T="bool?"
+                            tabindex="-1"
                             RootClass="@($"{options.Theme.Display.Flex} {options.Theme.Flexbox.Align.Center}")"
                             Value="GetEffectiveChecked()"
                             ValueChanged="@(v => ToggleCheckedAsync(v ?? false))"

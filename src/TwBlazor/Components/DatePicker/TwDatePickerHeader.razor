@@ -3,13 +3,13 @@
 
 <div class="@classes">
     <div class="@headerControlsClasses">
-        <TwIcon OnClick="@OnPreviousClick" Icon="Icon.Arrow_Left" RootClass="prev-btn" Class="@theme.HeaderNavButton" AriaLabel="@PreviousLabel" Shadow="Enums.Shadow.None" Disabled="@PreviousDisabled" />
+        <TwIcon OnClick="@OnPreviousClick" Icon="Icon.Arrow_Left" RootClass="prev-btn" Class="@theme.HeaderNavButton" AriaLabel="@PreviousLabel" Shadow="Enums.Shadow.None" Readonly="@PreviousDisabled" />
 
         <TwButton OnClick="@OnTitleClick" Variant="ButtonVariant.Text" Class="@titleButtonClasses">
             @ChildContent
         </TwButton>
 
-        <TwIcon OnClick="@OnNextClick" Icon="Icon.Arrow_Right" RootClass="next-btn" Class="@theme.HeaderNavButton" AriaLabel="@NextLabel" Shadow="Enums.Shadow.None" Disabled="@NextDisabled" />
+        <TwIcon OnClick="@OnNextClick" Icon="Icon.Arrow_Right" RootClass="next-btn" Class="@theme.HeaderNavButton" AriaLabel="@NextLabel" Shadow="Enums.Shadow.None" Readonly="@NextDisabled" />
     </div>
     @* Visually-hidden live region so screen readers announce the new month/year/decade whenever
        navigation changes the title above, without altering the visible header's styling. *@

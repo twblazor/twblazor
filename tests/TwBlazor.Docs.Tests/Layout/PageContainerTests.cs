@@ -87,8 +87,8 @@ public class PageContainerTests : DocsTestBase
 
         // Assert
         Assert.Equal("Is it free?", cut.Find("button[aria-expanded]").TextContent.Trim());
-        Assert.Equal("Yes.", cut.Find("[role='region']").TextContent.Trim());
-        Assert.Equal("Frequently asked questions", cut.Find("h2").TextContent);
+        Assert.Equal("Yes.", cut.Find("[role='group']").TextContent.Trim());
+        Assert.Contains("Frequently asked questions", cut.FindAll("h2").Select(heading => heading.TextContent));
         Assert.Equal(2, head.FindAll("script[type='application/ld+json']").Count);
     }
 
@@ -128,7 +128,7 @@ public class PageContainerTests : DocsTestBase
     {
         var cut = Render(beta: true);
 
-        var alert = cut.Find("[role='alert']");
+        var alert = cut.Find(".tw-alert");
         Assert.Contains("Please be aware this component is new, may have bugs and/or be subject to change.", alert.TextContent);
         Assert.Contains("Please report any bugs at", alert.TextContent);
 
@@ -239,7 +239,7 @@ public class PageContainerTests : DocsTestBase
 
         // Assert
         var links = cut.FindAll("nav a");
-        Assert.Equal(["Basic", "Colors"], links.Select(link => link.TextContent));
+        Assert.Equal(["Basic", "Colors", "Keyboard navigation"], links.Select(link => link.TextContent));
         Assert.All(links, link => Assert.NotNull(cut.Find("#" + link.GetAttribute("href")!.Split('#')[1])));
     }
 

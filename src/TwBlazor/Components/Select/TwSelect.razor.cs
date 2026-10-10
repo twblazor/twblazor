@@ -119,8 +119,8 @@ public partial class TwSelect<T> : TwPopoverPickerComponentBase
     /// both <see cref="classes"/> and <see cref="triggerClasses"/>, parameterized on which "focus" variant
     /// shows the border - the two differ only in that.
     /// </summary>
-    private string GetBoxClasses(string focusVariant, string? baseClasses = null) => new ClassBuilder(Multiple ? string.Empty : inputSizeClasses)
-        .AddClass(inputVariantBuilder.GetClasses(effectiveVariant, theme).Replace("focus:", focusVariant, StringComparison.Ordinal))
+    private string GetBoxClasses(InputFocusStyle focusStyle, string? baseClasses = null) => new ClassBuilder(Multiple ? string.Empty : inputSizeClasses)
+        .AddClass(inputVariantBuilder.GetClasses(effectiveVariant, theme, focusStyle))
         .AddClass(theme.SelectDefaultPadding, effectiveVariant == InputVariant.Default)
         // Default/Outlined variants make the field's own background bg-transparent so it blends
         // with the surrounding page - fine for <input>, but a native <select> popup renders using
@@ -137,7 +137,7 @@ public partial class TwSelect<T> : TwPopoverPickerComponentBase
     /// <summary>
     /// Gets the CSS classes applied to the select element.
     /// </summary>
-    private string classes => new ClassBuilder(GetBoxClasses("focus-visible:"))
+    private string classes => new ClassBuilder(GetBoxClasses(InputFocusStyle.FocusVisible))
         // A native <select> focuses on mouse click same as keyboard, so theme.FocusBorder's plain
         // "focus:" variant (shared with text inputs, where showing the border on click is fine)
         // is rewritten to "focus-visible:" here so the border only appears on keyboard focus.
@@ -150,7 +150,7 @@ public partial class TwSelect<T> : TwPopoverPickerComponentBase
     /// </summary>
     private string customTriggerClasses => new ClassBuilder(theme.SelectCustomTrigger)
         .AddClass(inputSizeClasses)
-        .AddClass(inputVariantBuilder.GetClasses(effectiveVariant, theme).Replace("focus:", "focus-visible:", StringComparison.Ordinal))
+        .AddClass(inputVariantBuilder.GetClasses(effectiveVariant, theme, InputFocusStyle.FocusVisible))
         .AddClass(theme.SelectDefaultPadding, effectiveVariant == InputVariant.Default)
         .AddClass(Disabled ? $"{options.Theme.Interaction.DisabledOpacity} {options.Theme.Interaction.DisabledCursor}" : string.Empty)
         .AddClass(ReadOnly && !Disabled ? options.Theme.Interaction.PointerEventsNone : string.Empty)
@@ -182,7 +182,7 @@ public partial class TwSelect<T> : TwPopoverPickerComponentBase
     /// shows whenever a descendant has focus, the same way a real &lt;select&gt;'s border shows when it
     /// itself is focused.
     /// </remarks>
-    private string triggerClasses => new ClassBuilder(GetBoxClasses("focus-within:", theme.SelectMultiTriggerBase))
+    private string triggerClasses => new ClassBuilder(GetBoxClasses(InputFocusStyle.FocusWithin, theme.SelectMultiTriggerBase))
         .AddClass(theme.SelectMultiTriggerLayout)
         .AddClass(theme.SelectMultiChipsPadding, selectedValueIds.Count > 0)
         .AddClass(Class)
@@ -211,6 +211,9 @@ public partial class TwSelect<T> : TwPopoverPickerComponentBase
     /// Gets the currently selected option ids in <see cref="Values"/> order, for rendering one chip per
     /// selected option on <see cref="Multiple"/>'s closed trigger.
     /// </summary>
+    private string selectedSummary =>
+        $"{selectedValueIds.Count} selected: {string.Join(", ", orderedSelectedValueIds.Select(id => GetDisplayText(parsedValues[id])))}";
+
     private IEnumerable<int> orderedSelectedValueIds => selectedValueIds.OrderBy(id => id);
 
     protected override void OnParametersSet()
@@ -300,7 +303,7 @@ public partial class TwSelect<T> : TwPopoverPickerComponentBase
     /// Opens the single select's listbox from the keyboard when ArrowUp or ArrowDown is pressed on the
     /// trigger; Enter and Space already open it through the button's click.
     /// </summary>
-    private async Task OnTriggerKeyDownAsync(KeyboardEventArgs e)
+    private async Task OnSelectTriggerKeyDownAsync(KeyboardEventArgs e)
     {
         if (!isFocused && e.Key is "ArrowDown" or "ArrowUp")
         {

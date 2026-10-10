@@ -109,7 +109,7 @@ public class TwDatePickerCalendarTests : TwBlazorTestBase
         );
 
         // Assert
-        Assert.True(cut.Find(".prev-btn").HasAttribute("disabled"));
+        Assert.Equal("true", cut.Find(".prev-btn").GetAttribute("aria-disabled"));
     }
 
     [Fact]
@@ -177,7 +177,7 @@ public class TwDatePickerCalendarTests : TwBlazorTestBase
         );
 
         // Assert
-        Assert.True(cut.Find(".next-btn").HasAttribute("disabled"));
+        Assert.Equal("true", cut.Find(".next-btn").GetAttribute("aria-disabled"));
     }
 
     [Fact]

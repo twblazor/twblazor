@@ -22,7 +22,7 @@ public class TwTimeRangePickerTests : TwBlazorTestBase
         EventCallback.Factory.Create<KeyValuePair<TimeOnly?, TimeOnly?>>(owner, _ => { });
 
     private static bool IsStageActive(IRenderedComponent<TwTimeRangePicker> cut, string label) =>
-        cut.FindAll("button[role='tab']").First(b => b.TextContent.Trim() == label).GetAttribute("aria-selected") == "true";
+        cut.FindAll("[role='group'][aria-label='Range step'] button").First(b => b.TextContent.Trim() == label).GetAttribute("aria-pressed") == "true";
 
     [Fact]
     public void FocusingInput_PositionsPanelAsFixed_AnchoredToTheInputRoot()
@@ -30,7 +30,7 @@ public class TwTimeRangePickerTests : TwBlazorTestBase
         // Regression test - see the identical test on TwTimePickerTests for the full rationale.
         var cut = TestContext.Render<TwTimeRangePicker>();
 
-        cut.Find("input").Focus();
+        cut.Find("input").Click();
 
         var invocation = Assert.Single(TestContext.JSInterop.Invocations, i => i.Identifier == "twPicker.registerScrollReposition");
         Assert.IsType<ElementReference>(invocation.Arguments[0]);
@@ -54,7 +54,7 @@ public class TwTimeRangePickerTests : TwBlazorTestBase
         var cut = TestContext.Render<TwTimeRangePicker>();
 
         // Act
-        cut.Find("input").Focus();
+        cut.Find("input").Click();
 
         // Assert
         Assert.True(IsStageActive(cut, "Start"));
@@ -72,7 +72,7 @@ public class TwTimeRangePickerTests : TwBlazorTestBase
         var cut = TestContext.Render<TwTimeRangePicker>();
 
         // Act
-        cut.Find("input").Focus();
+        cut.Find("input").Click();
 
         // Assert
         var numberInputs = cut.FindAll("input").Skip(1).ToList(); // merged trigger, then hour/minute
@@ -95,7 +95,7 @@ public class TwTimeRangePickerTests : TwBlazorTestBase
         );
 
         // Act - editing while the Start tab is active applies straight to the start time.
-        cut.Find("input").Focus();
+        cut.Find("input").Click();
         var timeButtons = cut.FindAll("button[type='button']").TakeLast(4).ToList();
         timeButtons[0].Click(); // hour increment: 09:00 -> 10:00
 
@@ -116,8 +116,8 @@ public class TwTimeRangePickerTests : TwBlazorTestBase
         );
 
         // Act
-        cut.Find("input").Focus();
-        cut.FindAll("button[role='tab']").First(b => b.TextContent.Trim() == "End").Click();
+        cut.Find("input").Click();
+        cut.FindAll("[role='group'][aria-label='Range step'] button").First(b => b.TextContent.Trim() == "End").Click();
         var timeButtons = cut.FindAll("button[type='button']").TakeLast(4).ToList();
         timeButtons[2].Click(); // minute increment: 17:00 -> 17:01
 
@@ -137,12 +137,12 @@ public class TwTimeRangePickerTests : TwBlazorTestBase
             .Add(x => x.SelectedRangeChanged, NoOpRangeCallback(this))
         );
 
-        cut.Find("input").Focus();
-        cut.FindAll("button[role='tab']").First(b => b.TextContent.Trim() == "End").Click();
+        cut.Find("input").Click();
+        cut.FindAll("[role='group'][aria-label='Range step'] button").First(b => b.TextContent.Trim() == "End").Click();
         cut.InvokeAsync(() => cut.Instance.Close());
 
         // Act
-        cut.Find("input").Focus();
+        cut.Find("input").Click();
 
         // Assert
         Assert.True(IsStageActive(cut, "Start"));
@@ -343,7 +343,7 @@ public class TwTimeRangePickerTests : TwBlazorTestBase
         );
 
         // Act
-        cut.Find("input").Focus();
+        cut.Find("input").Click();
 
         // Assert - the picker panel never opens for a readonly field.
         Assert.DoesNotContain("role=\"dialog\"", cut.Markup);
@@ -370,7 +370,7 @@ public class TwTimeRangePickerTests : TwBlazorTestBase
         );
 
         // Act
-        cut.Find("input").Focus();
+        cut.Find("input").Click();
         Assert.Contains("role=\"dialog\"", cut.Markup);
         await cut.Instance.Close();
 

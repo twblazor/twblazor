@@ -78,6 +78,9 @@ public partial class TwPagination : TwBlazorComponentBase
     /// <summary>
     /// Whether the Previous button is at the lower boundary and should be disabled.
     /// </summary>
+    // Announced when the page changes, since the content it controls is somewhere else on the page.
+    private string statusMessage = string.Empty;
+
     private bool isPreviousDisabled => ActivePage <= 1;
 
     /// <summary>
@@ -89,6 +92,7 @@ public partial class TwPagination : TwBlazorComponentBase
         new ClassBuilder(buttonBaseClasses)
         .AddClass(theme.Buttons, !disabled)
         .AddClass(options.Theme.Interaction.DisabledOpacity, disabled)
+        .AddClass(options.Theme.Interaction.DisabledCursor, disabled)
         .Build();
 
     /// <summary>
@@ -113,6 +117,7 @@ public partial class TwPagination : TwBlazorComponentBase
         }
 
         ActivePage = page;
+        statusMessage = $"Page {page} of {TotalPages}";
 
         if (ActivePageChanged.HasDelegate)
         {

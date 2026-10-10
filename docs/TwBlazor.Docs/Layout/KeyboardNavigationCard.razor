@@ -1,0 +1,53 @@
+@using TwBlazor.Docs.Services
+
+@* The "Keyboard navigation" section of a component's docs page. PageContainer adds it to every page that
+   has an entry in KeyboardShortcuts, so the keys are written down once and never drift between pages. *@
+@if (guide is not null)
+{
+    <PageCard Title="Keyboard navigation">
+        <p class="@(guide.Shortcuts.Count > 0 ? "mb-4" : string.Empty) text-gray-600 dark:text-gray-400">@guide.Summary</p>
+        @if (guide.Shortcuts.Count > 0)
+        {
+            <TwTable Bordered Striped AriaLabel="@($"{ComponentTitle} keyboard controls")">
+                <TableHeader>
+                    <tr>
+                        <th scope="col" class="w-2/5 px-4 py-3">Key</th>
+                        <th scope="col" class="px-4 py-3">What it does</th>
+                    </tr>
+                </TableHeader>
+                <TableBody>
+                    @foreach (var shortcut in guide.Shortcuts)
+                    {
+                        <tr>
+                            <th scope="row" class="px-4 py-3 text-left align-top font-normal">
+                                <span class="flex flex-wrap gap-1.5">
+                                    @foreach (var key in shortcut.Keys)
+                                    {
+                                        <kbd class="rounded border border-gray-400 bg-gray-50 px-1.5 py-0.5 font-mono text-xs text-gray-900 dark:border-gray-500 dark:bg-gray-800 dark:text-gray-100">@key</kbd>
+                                    }
+                                </span>
+                            </th>
+                            <td class="px-4 py-3 align-top">@shortcut.Action</td>
+                        </tr>
+                    }
+                </TableBody>
+            </TwTable>
+        }
+    </PageCard>
+}
+
+@code {
+    /// <summary>
+    /// The route of the page this card sits on (e.g. <c>/tabs</c>), which selects the keys to show.
+    /// </summary>
+    [Parameter, EditorRequired] public string Path { get; set; } = string.Empty;
+
+    /// <summary>
+    /// The component's name, used to name the table for assistive technology.
+    /// </summary>
+    [Parameter] public string? ComponentTitle { get; set; }
+
+    private KeyboardGuide? guide;
+
+    protected override void OnParametersSet() => guide = KeyboardShortcuts.ForPath(Path);
+}

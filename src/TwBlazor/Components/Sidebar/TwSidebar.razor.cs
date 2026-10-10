@@ -3,6 +3,7 @@
 
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Routing;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Models;
@@ -27,6 +28,38 @@ public partial class TwSidebar : TwBlazorComponentBase, IDisposable
 
     private ElementReference mainContentRef;
 
+    private ElementReference navigationRef;
+
+    private string navigationId => $"{Id}-navigation";
+
+    private string toggleId => $"{Id}-toggle";
+
+    // The open state as of the last render, so OnAfterRenderAsync only reacts when it actually changes.
+    private bool? renderedOpenState;
+
+    // Set when the drawer was closed from inside it (Escape), so focus goes back to the toggle button
+    // instead of being left on an element that is now hidden.
+    private bool returnFocusToToggle;
+
+    // The skip link's target, written against the current page. A bare "#main-content" would be resolved
+    // against <base href> and take the user to the site root.
+    private string skipLinkHref
+    {
+        get
+        {
+            var relative = navigationManager.ToBaseRelativePath(navigationManager.Uri);
+            var fragmentIndex = relative.IndexOf('#');
+            if (fragmentIndex >= 0)
+            {
+                relative = relative[..fragmentIndex];
+            }
+
+            return $"{relative}#main-content";
+        }
+    }
+
+    private string searchStatusMessage = string.Empty;
+
     /// <summary>
     /// Gets or sets a value indicating whether the sidebar is currently open.
     /// </summary>
@@ -43,6 +76,11 @@ public partial class TwSidebar : TwBlazorComponentBase, IDisposable
     /// Binds the searchable state of the sidebar, allows for sidebar items to be searched.
     /// </summary>
     [Parameter] public bool IsSearchable { get; set; }
+
+    /// <summary>
+    /// Gets or sets the accessible name of the sidebar's search field, shown when <see cref="IsSearchable"/> is set.
+    /// </summary>
+    [Parameter] public string SearchLabel { get; set; } = "Search navigation";
 
     /// <summary>
     /// The page body content.
@@ -181,6 +219,66 @@ public partial class TwSidebar : TwBlazorComponentBase, IDisposable
         ApplyFilter();
     }
 
+    private async Task FocusMainContentAsync() => await jsRuntime.InvokeVoidAsync("twSidebar.focusMain", mainContentRef);
+
+    // Escape closes the sidebar while it is a drawer over the page (below the "lg" breakpoint). Beside
+    // the content on a wider viewport it is not a popup, so Escape leaves it alone.
+    private async Task OnSidebarKeyDownAsync(KeyboardEventArgs e)
+    {
+        if (e.Key != "Escape" || !IsSidebarOpen)
+        {
+            return;
+        }
+
+        if (!await jsRuntime.InvokeAsync<bool>("twSidebar.isMobileViewport"))
+        {
+            return;
+        }
+
+        returnFocusToToggle = true;
+        await ToggleSidebar();
+    }
+
+    /// <inheritdoc />
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (renderedOpenState == IsSidebarOpen)
+        {
+            return;
+        }
+
+        var previous = renderedOpenState;
+        renderedOpenState = IsSidebarOpen;
+
+        try
+        {
+            var isModalDrawer = await jsRuntime.InvokeAsync<bool>("twSidebar.syncDrawer", mainContentRef, IsSidebarOpen);
+
+            // Never move focus for the state the page loaded with: only for a change the user made.
+            if (previous is null)
+            {
+                return;
+            }
+
+            if (IsSidebarOpen && isModalDrawer)
+            {
+                await jsRuntime.InvokeVoidAsync("twDialog.focusSurface", navigationRef);
+            }
+            else if (!IsSidebarOpen && returnFocusToToggle)
+            {
+                await jsRuntime.InvokeVoidAsync("twSidebar.focusById", toggleId);
+            }
+        }
+        catch (JSDisconnectedException)
+        {
+            // The circuit disconnected before the script could run; nothing to update.
+        }
+        finally
+        {
+            returnFocusToToggle = false;
+        }
+    }
+
     private async Task ToggleSidebar()
     {
         IsSidebarOpen = !IsSidebarOpen;
@@ -242,7 +340,24 @@ public partial class TwSidebar : TwBlazorComponentBase, IDisposable
     {
         searchTerm = value;
         ApplyFilter();
+
+        if (string.IsNullOrWhiteSpace(searchTerm))
+        {
+            searchStatusMessage = string.Empty;
+            return;
+        }
+
+        var count = CountLinks(displayedNavigationItems);
+        searchStatusMessage = count switch
+        {
+            0 => "No results",
+            1 => "1 result",
+            _ => $"{count} results"
+        };
     }
+
+    private static int CountLinks(IEnumerable<NavigationItem> items) =>
+        items.Sum(item => item.NavigationItems.Count > 0 ? CountLinks(item.NavigationItems) : 1);
 
     private void ApplyFilter()
     {

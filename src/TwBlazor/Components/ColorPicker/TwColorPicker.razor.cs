@@ -19,7 +19,7 @@ namespace TwBlazor.Components;
 /// outside-click plumbing shared with <see cref="TwDatePicker"/>/<see cref="TwTimePicker"/>. Unlike those
 /// pickers, the popover here opens from a click on the swatch button rather than focusing the trigger
 /// textfield - <see cref="ShowDialogAsync"/> drives the shared <c>isFocused</c>/<c>PendingOpenFocus</c>
-/// state directly instead of going through <see cref="TwPopoverPickerComponentBase.OnFocusAsync"/>.
+/// state directly instead of going through <see cref="TwPopoverPickerComponentBase.OpenPanelAsync"/>.
 /// </remarks>
 public partial class TwColorPicker : TwPopoverPickerComponentBase
 {
@@ -213,7 +213,7 @@ public partial class TwColorPicker : TwPopoverPickerComponentBase
     /// <summary>
     /// Opens the color picker dialog when the swatch button is activated. Unlike the textfield-triggered
     /// popovers (<see cref="TwDatePicker"/>/<see cref="TwTimePicker"/>), this drives the base class's
-    /// shared open state directly rather than through <see cref="TwPopoverPickerComponentBase.OnFocusAsync"/>,
+    /// shared open state directly rather than through <see cref="TwPopoverPickerComponentBase.OpenPanelAsync"/>,
     /// since the swatch is a plain button rather than the combobox trigger those pickers use.
     /// </summary>
     private async Task ShowDialogAsync()

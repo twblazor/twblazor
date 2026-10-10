@@ -16,7 +16,9 @@
     }
     <span class="@options.Theme.Display.ScreenReaderOnly" aria-live="polite">@statusMessage</span>
     <pre class="@panelClasses">
-        <code class="@($"language-{Language}")" tabindex="0" @ref="codeBlock">
+        @* The highlighter makes the code element the one that scrolls, so it is the one that takes focus
+           and carries the region's name. *@
+        <code class="@($"language-{Language}")" tabindex="0" role="region" aria-label="@codeRegionLabel" @ref="codeBlock">
             @Content
         </code>
     </pre>

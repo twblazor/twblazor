@@ -8,7 +8,7 @@
         <div class="@headerLeadClasses">
             <div class="@headerDateGroupClasses">
                 <div class="@headerTitleRowClasses">
-                    <span class="@headerTitleClasses">@headerTitle</span>
+                    <span class="@headerTitleClasses" aria-live="polite" aria-atomic="true">@headerTitle</span>
                     <TwChip Label="@weekChipLabel" Color="Color.Primary" Variant="ButtonVariant.Outlined" Size="ChipSize.Small" />
                 </div>
                 <div class="@headerSubtitleClasses">@headerSubtitle</div>
@@ -24,7 +24,7 @@
             <TwIcon Icon="Icon.Chevron_Right" OnClick="NextAsync" AriaLabel="Next" Tooltip="@nextTooltip" Class="@GetNavButtonClasses()" />
             @if (showViewSwitcher)
             {
-            <div class="@viewSwitcherClasses" role="radiogroup" aria-label="Select view">
+            <div class="@viewSwitcherClasses" role="group" aria-label="Select view">
                 @if (IsViewEnabled(TwCalendarView.Day))
                 {
                 <TwIcon Icon="@(currentView == TwCalendarView.Day ? Icon.Calendar_Day_Fill : Icon.Calendar_Day)"

@@ -18,7 +18,8 @@
                         InputType="@(UseNativePicker ? "time" : "text")"
                         Class="@textfieldClasses"
                         Placeholder="@Placeholder"
-                        OnFocus="@OnFocusAsync"
+                        OnClick="OnTriggerClickAsync"
+            OnKeyDown="OnTriggerKeyDownAsync"
                         Value="@Value"
                         ValueChanged="@((e) => OnTextValueChanged(e))"
                         AriaLabel="@AriaLabel"
@@ -33,9 +34,9 @@
 
         @if (isFocused)
         {
-            <div class="@theme.PanelWrapper" role="dialog" aria-label="Choose time" tabindex="-1" @ref="PanelRef" @onkeydown="OnPanelKeyDownAsync">
+            <div class="@theme.PanelWrapper" role="dialog" aria-label="Choose time" id="@panelId" data-tw-popover tabindex="-1" @ref="PanelRef" @onkeydown="OnPanelKeyDownAsync">
                 <TwTimePickerBody Class="@bodyClasses"
-                                    Id="@Id"
+                                    Id="@($"{Id}-time")"
                                     Variant="@effectiveVariant"
                                     Is12HourFormat="@Is12HourFormat"
                                     SelectedTime="@SelectedTime"

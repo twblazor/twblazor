@@ -5,6 +5,7 @@
 <TwInputRoot RootId="@RootId" RootClass="@RootClass" RootAttributes="@RootAttributes" RootStyle="@Style" RootAriaLabel="@AriaLabel" RootAriaLabelledBy="@AriaLabelledBy" RootErrorMessage="@ErrorMessage" RootErrorId="@errorId">
     <TwInputLabel Id="@LabelId" For="@Id" Label="@Label" OverrideClass="@labelClasses" @attributes="@LabelAttributes">
         <input type="checkbox"
+               @ref="inputRef"
                id="@Id"
                name="@effectiveName"
                value="@Value"

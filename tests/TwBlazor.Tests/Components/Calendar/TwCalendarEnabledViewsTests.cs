@@ -24,7 +24,7 @@ public class TwCalendarEnabledViewsTests : TwBlazorTestBase
         });
 
     private static IReadOnlyList<string> ViewButtons(IRenderedComponent<TwCalendar<string>> cut) =>
-        [.. cut.FindAll("[role='radiogroup'] button").Select(b => b.GetAttribute("aria-label")!)];
+        [.. cut.FindAll("[role='group'][aria-label='Select view'] button").Select(b => b.GetAttribute("aria-label")!)];
 
     [Fact]
     public void ByDefault_AllThreeViews_AreAvailable_InSwitcherOrder()
@@ -77,7 +77,7 @@ public class TwCalendarEnabledViewsTests : TwBlazorTestBase
     {
         var cut = Render(only, [only]);
 
-        Assert.Empty(cut.FindAll("[role='radiogroup']"));
+        Assert.Empty(cut.FindAll("[role='group'][aria-label='Select view']"));
         Assert.Empty(cut.FindAll("button[aria-label$=' view']"));
     }
 
@@ -100,7 +100,7 @@ public class TwCalendarEnabledViewsTests : TwBlazorTestBase
     {
         var cut = Render(requested, enabled);
 
-        var pressed = cut.FindAll("[role='radiogroup'] button").Single(b => b.GetAttribute("aria-pressed") == "true");
+        var pressed = cut.FindAll("[role='group'][aria-label='Select view'] button").Single(b => b.GetAttribute("aria-pressed") == "true");
         Assert.Equal($"{expected} view", pressed.GetAttribute("aria-label"));
         Assert.Equal(expected == TwCalendarView.Day, cut.FindComponents<TwCalendarDayView<string>>().Count == 1);
         Assert.Equal(expected == TwCalendarView.Week, cut.FindComponents<TwCalendarWeekView<string>>().Count == 1);
@@ -194,7 +194,7 @@ public class TwCalendarEnabledViewsTests : TwBlazorTestBase
 
         cut.Render(p => p.Add(x => x.EnabledViews, [TwCalendarView.Week]));
 
-        Assert.Empty(cut.FindAll("[role='radiogroup']"));
+        Assert.Empty(cut.FindAll("[role='group'][aria-label='Select view']"));
     }
 
     [Fact]

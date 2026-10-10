@@ -15,6 +15,9 @@ public partial class SearchDisplay : ComponentBase
 
     private string searchTerm = string.Empty;
     private bool hasSearched;
+
+    // Announced as the results change, since they are replaced below the field the user is typing in.
+    private string statusMessage = string.Empty;
     private IReadOnlyList<SearchResult> componentResults = [];
     private IReadOnlyList<SearchResult> themeResults = [];
     private IReadOnlyList<SearchResult> documentationResults = [];
@@ -50,6 +53,16 @@ public partial class SearchDisplay : ComponentBase
         searchTerm = value;
         hasSearched = !string.IsNullOrWhiteSpace(searchTerm);
         (componentResults, themeResults, documentationResults) = SearchIndex.Search(searchTerm);
+
+        var count = componentResults.Count + themeResults.Count + documentationResults.Count;
+        statusMessage = !hasSearched
+            ? string.Empty
+            : count switch
+            {
+                0 => $"No results for {searchTerm}",
+                1 => "1 result",
+                _ => $"{count} results"
+            };
     }
 
     // Selecting a result is a successful pick, not the user backing out - Close rather than Cancel.

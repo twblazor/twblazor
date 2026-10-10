@@ -17,7 +17,8 @@
             Id="@Id"
             InputType="@(UseNativePicker ? NativeInputType : "text")"
             Disabled="@Disabled"
-            OnFocus="OnFocusAsync"
+            OnClick="OnTriggerClickAsync"
+            OnKeyDown="OnTriggerKeyDownAsync"
             Value="@Value"
             ValueChanged="@((e) => OnTextValueChanged(e))"
             ReadOnly="@ReadOnly"
@@ -32,7 +33,7 @@
 
     @if (isFocused)
     {
-        <div class="@datepickerContainerClasses" role="dialog" aria-label="Choose date" tabindex="-1" @ref="PanelRef" @onkeydown="OnPanelKeyDownAsync">
+        <div class="@datepickerContainerClasses" role="dialog" aria-label="Choose date" id="@panelId" data-tw-popover tabindex="-1" @ref="PanelRef" @onkeydown="OnPanelKeyDownAsync">
             <div class="@theme.PanelWidth">
                 <TwDatePickerCalendar AnchorDate="anchorDate" AnchorDateChanged="@((d) => anchorDate = d)" View="view" ViewChanged="@((v) => view = v)" SelectedDate="SelectedDate" BodyClasses="@BodyClasses" DaySelected="SelectDateAsync" Navigated="@(() => pendingViewFocus = true)" />
             </div>

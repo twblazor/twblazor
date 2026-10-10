@@ -6,11 +6,11 @@
 
 @if (toastService is not null && (toastService.HasToasts || (Attributes != null && Attributes.Count > 0) || !string.IsNullOrEmpty(Class) || !string.IsNullOrEmpty(Style) || !string.IsNullOrEmpty(AriaLabel) || !string.IsNullOrEmpty(AriaLabelledBy) || hasUserProvidedId))
 {
-    <div id="@Id" class="@containerClasses" style="@Style" @attributes="Attributes" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy">
+    <div id="@Id" class="@containerClasses" style="@Style" data-tw-inert-exempt role="region" @attributes="Attributes" aria-label="@(AriaLabel ?? (AriaLabelledBy == null ? "Notifications" : null))" aria-labelledby="@AriaLabelledBy">
         @foreach (var toast in toastService.GetToasts())
         {
             <div class="@GetToastClasses(toast)"
-                 role="alert"
+                 role="@GetToastRole(toast)"
                  aria-atomic="true"
                  @onmouseenter="() => PauseToastForHover(toast)"
                  @onmouseleave="() => ResumeToastForHover(toast)"

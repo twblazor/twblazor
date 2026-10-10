@@ -2,6 +2,7 @@
         AdditionalAssemblies="new[] { typeof(TwBlazor.Docs._Imports).Assembly }">
     <Found Context="routeData">
         <RouteView RouteData="routeData" DefaultLayout="typeof(TwBlazor.Docs.Layout.MainLayout)" />
+        <TwBlazor.Docs.Layout.RouteFocus RouteData="routeData" />
     </Found>
     <NotFound>
         <LayoutView Layout="typeof(TwBlazor.Docs.Layout.MainLayout)">

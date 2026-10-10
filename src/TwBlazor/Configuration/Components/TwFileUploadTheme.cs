@@ -27,4 +27,10 @@ public class TwFileUploadTheme
     /// Gets or sets the text color for a selected-file chip's label.
     /// </summary>
     public required string ChipTextColor { get; set; }
+
+    /// <summary>
+    /// Gets or sets the focus ring for the upload control. The file input sits inside the visible
+    /// label, so the ring is drawn on the label while the input has keyboard focus.
+    /// </summary>
+    public string FocusRing { get; set; } = string.Empty;
 }

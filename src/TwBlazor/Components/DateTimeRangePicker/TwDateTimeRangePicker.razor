@@ -18,7 +18,8 @@
             Id="@Id"
             InputType="text"
             Disabled="@Disabled"
-            OnFocus="OnFocusAsync"
+            OnClick="OnTriggerClickAsync"
+            OnKeyDown="OnTriggerKeyDownAsync"
             Value="@Value"
             ValueChanged="@((e) => OnTextValueChanged(e))"
             ReadOnly="@ReadOnly"
@@ -33,13 +34,13 @@
 
     @if (isFocused)
     {
-        <div class="@datepickerContainerClasses" role="dialog" aria-label="@(stage == DateTimeRangePickerStage.Start ? "Choose start date and time" : "Choose end date and time")" tabindex="-1" @ref="PanelRef" @onkeydown="OnPanelKeyDownAsync">
+        <div class="@datepickerContainerClasses" role="dialog" aria-label="@(stage == DateTimeRangePickerStage.Start ? "Choose start date and time" : "Choose end date and time")" id="@panelId" data-tw-popover tabindex="-1" @ref="PanelRef" @onkeydown="OnPanelKeyDownAsync">
             <div class="@theme.PanelWidth">
-                <div class="@stageTabsClasses" role="tablist" aria-label="Range step">
-                    <button type="button" role="tab" class="@GetStageTabClasses(DateTimeRangePickerStage.Start)" aria-selected="@(stage == DateTimeRangePickerStage.Start ? "true" : "false")" @onclick="@(() => SwitchStage(DateTimeRangePickerStage.Start))">
+                <div class="@stageTabsClasses" role="group" aria-label="Range step">
+                    <button type="button" class="@GetStageTabClasses(DateTimeRangePickerStage.Start)" aria-pressed="@(stage == DateTimeRangePickerStage.Start ? "true" : "false")" @onclick="@(() => SwitchStage(DateTimeRangePickerStage.Start))">
                         Start
                     </button>
-                    <button type="button" role="tab" class="@GetStageTabClasses(DateTimeRangePickerStage.End)" aria-selected="@(stage == DateTimeRangePickerStage.End ? "true" : "false")" @onclick="@(() => SwitchStage(DateTimeRangePickerStage.End))">
+                    <button type="button" class="@GetStageTabClasses(DateTimeRangePickerStage.End)" aria-pressed="@(stage == DateTimeRangePickerStage.End ? "true" : "false")" @onclick="@(() => SwitchStage(DateTimeRangePickerStage.End))">
                         End
                     </button>
                 </div>
@@ -47,7 +48,7 @@
                 @if (view == DatePickerCalendarView.Day)
                 {
                     <TwDatePickerBody Class="time">
-                        <TwTimePickerBody Id="@Id" Variant="@effectiveVariant" Is12HourFormat="@Is12HourFormat" SelectedTime="@pendingTime" SelectedTimeChanged="@OnPendingTimeChanged" />
+                        <TwTimePickerBody Id="@($"{Id}-time")" Variant="@effectiveVariant" Is12HourFormat="@Is12HourFormat" SelectedTime="@pendingTime" SelectedTimeChanged="@OnPendingTimeChanged" />
                     </TwDatePickerBody>
                 }
             </div>

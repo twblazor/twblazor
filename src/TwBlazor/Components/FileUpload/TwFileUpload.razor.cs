@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using Microsoft.AspNetCore.Components.Forms;
 using TwBlazor.Builders;
 using TwBlazor.Configuration.Components;
@@ -52,6 +53,11 @@ public partial class TwFileUpload : TwBlazorInputComponentBase
 
     private List<IBrowserFile> selectedFiles { get; set; } = [];
 
+    // Announced when files are chosen or removed, since neither changes anything the user has focus on.
+    private string statusMessage = string.Empty;
+
+    [Inject] private IJSRuntime jsRuntime { get; set; } = null!;
+
     /// <summary>
     /// Gets or sets the event callback that is invoked when the user selects one or more files using the file input.
     /// </summary>
@@ -70,14 +76,15 @@ public partial class TwFileUpload : TwBlazorInputComponentBase
         .Build();
 
     // The real <InputFile> is visually hidden (sr-only, not display:none) so it stays keyboard-focusable
-    // and in the accessibility tree; this visible label doubles as its focus indicator via peer-focus-visible,
-    // since the native input's own focus ring would otherwise land somewhere invisible.
+    // and in the accessibility tree; this visible label doubles as its focus indicator, since the native
+    // input's own focus ring would otherwise land somewhere invisible. The input is a child of the label,
+    // so the ring is keyed on the label containing the focused input (has-[:focus-visible]).
     private string classes =>
         new ClassBuilder(options.Theme.Display.Block)
         .AddClass(roundedBuilder.GetRounded())
         .AddClass(buttonBuilder.GetVariantClasses(Variant, Color, Disabled))
         .AddClass(shadowBuilder.GetButtonShadow(theme))
-        .AddClass(colorBuilder.GetPeerFocusRing(Color))
+        .AddClass(fileUploadTheme.FocusRing)
         .AddClass(options.Theme.Spacing.Padding.Lg)
         .AddClass(LabelClasses)
         .AddClass(Class).Build();
@@ -120,6 +127,10 @@ public partial class TwFileUpload : TwBlazorInputComponentBase
                 selectedFiles.Add(f);
             }
         }
+
+        statusMessage = selectedFiles.Count == 1
+            ? $"{selectedFiles[0].Name} selected"
+            : $"{selectedFiles.Count} files selected: {string.Join(", ", selectedFiles.Select(f => f.Name))}";
 
         // Notify existing OnChange if provided (keeps backward compatibility)
         if (OnChange.HasDelegate)
@@ -188,6 +199,17 @@ public partial class TwFileUpload : TwBlazorInputComponentBase
         if (existing == null) return;
 
         selectedFiles.Remove(existing);
+        statusMessage = $"{existing.Name} removed";
+
+        try
+        {
+            // The chip's remove button is gone with the chip, so focus returns to the upload control.
+            await jsRuntime.InvokeVoidAsync("twFocus.focusById", Id);
+        }
+        catch (JSDisconnectedException)
+        {
+            // The circuit disconnected; there is no focus left to move.
+        }
 
         // Update bound Files and notify parent
         Files = selectedFiles;

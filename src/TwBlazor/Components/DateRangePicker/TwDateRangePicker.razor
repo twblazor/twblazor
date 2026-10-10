@@ -17,7 +17,8 @@
             Id="@Id"
             InputType="text"
             Disabled="@Disabled"
-            OnFocus="OnFocusAsync"
+            OnClick="OnTriggerClickAsync"
+            OnKeyDown="OnTriggerKeyDownAsync"
             Value="@Value"
             ValueChanged="@((e) => OnTextValueChanged(e))"
             ReadOnly="@ReadOnly"
@@ -32,7 +33,7 @@
 
     @if (isFocused)
     {
-        <div class="@datepickerContainerClasses" role="dialog" aria-label="Choose date range" tabindex="-1" @ref="PanelRef" @onkeydown="OnPanelKeyDownAsync">
+        <div class="@datepickerContainerClasses" role="dialog" aria-label="Choose date range" id="@panelId" data-tw-popover tabindex="-1" @ref="PanelRef" @onkeydown="OnPanelKeyDownAsync">
             <div class="@panelWidthClasses">
                 @if (view == DateRangePickerView.Year)
                 {
@@ -78,10 +79,10 @@
                     <TwDatePickerBody Class="@bodyClasses">
                         <div class="@theme.DualMonthLayout">
                             <div class="@theme.DualMonthColumn">
-                                <TwDatePickerDayView Value="anchorMonth" Range="SelectedRange" MinDate="MinDate" MaxDate="MaxDate" ShowMonthCaption="true" ValueChanged="SelectRangeDateAsync" />
+                                <TwDatePickerDayView @ref="firstMonthView" Value="anchorMonth" Range="SelectedRange" MinDate="MinDate" MaxDate="MaxDate" ShowMonthCaption="true" ValueChanged="SelectRangeDateAsync" NavigationRequested="OnDayNavigationRequested" />
                             </div>
                             <div class="@theme.DualMonthColumn">
-                                <TwDatePickerDayView Value="anchorMonth.AddMonths(1)" Range="SelectedRange" MinDate="MinDate" MaxDate="MaxDate" ShowMonthCaption="true" ValueChanged="SelectRangeDateAsync" />
+                                <TwDatePickerDayView @ref="secondMonthView" Value="anchorMonth.AddMonths(1)" Range="SelectedRange" MinDate="MinDate" MaxDate="MaxDate" ShowMonthCaption="true" ValueChanged="SelectRangeDateAsync" NavigationRequested="OnDayNavigationRequested" />
                             </div>
                         </div>
                     </TwDatePickerBody>

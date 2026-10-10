@@ -2,7 +2,7 @@
 @inherits TwBlazorComponentBase
 
 <div class="@containerClasses">
-    <div class="@theme.Wrapper">
+    <div class="@theme.Wrapper" tabindex="0" role="region" aria-label="@scrollRegionLabel">
         <table id="@Id" class="@tableClasses" style="@Style" @attributes="Attributes" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy">
             @if (Caption != null)
             {

@@ -23,7 +23,7 @@ public class TwDateRangePickerTests : TwBlazorTestBase
         // Regression test - see the identical test on TwDatePickerTests for the full rationale.
         var cut = TestContext.Render<TwDateRangePicker>();
 
-        cut.Find("input").Focus();
+        cut.Find("input").Click();
 
         var invocation = Assert.Single(TestContext.JSInterop.Invocations, i => i.Identifier == "twPicker.registerScrollReposition");
         Assert.IsType<ElementReference>(invocation.Arguments[0]);
@@ -46,7 +46,7 @@ public class TwDateRangePickerTests : TwBlazorTestBase
         );
 
         // Act
-        cut.Find("input").Focus();
+        cut.Find("input").Click();
         cut.FindAll("button.day").First(b => b.TextContent.Trim() == "5").Click();
         cut.FindAll("button.day").First(b => b.TextContent.Trim() == "15").Click();
 
@@ -69,7 +69,7 @@ public class TwDateRangePickerTests : TwBlazorTestBase
         );
 
         // Act
-        cut.Find("input").Focus();
+        cut.Find("input").Click();
         cut.FindAll("button.day").First(b => b.TextContent.Trim() == "15").Click();
         cut.FindAll("button.day").First(b => b.TextContent.Trim() == "5").Click();
 
@@ -88,7 +88,7 @@ public class TwDateRangePickerTests : TwBlazorTestBase
         );
 
         // Act
-        cut.Find("input").Focus();
+        cut.Find("input").Click();
         cut.FindAll("button.day").First(b => b.TextContent.Trim() == "5").Click();
 
         // Assert
@@ -105,12 +105,12 @@ public class TwDateRangePickerTests : TwBlazorTestBase
             .Add(x => x.SelectedRangeChanged, EventCallback.Factory.Create<KeyValuePair<DateTime?, DateTime?>>(this, r => rangeFromCallback = r))
         );
 
-        cut.Find("input").Focus();
+        cut.Find("input").Click();
         cut.FindAll("button.day").First(b => b.TextContent.Trim() == "5").Click();
         cut.FindAll("button.day").First(b => b.TextContent.Trim() == "15").Click();
 
         // Act — panel reopens for a fresh selection.
-        cut.Find("input").Focus();
+        cut.Find("input").Click();
         cut.FindAll("button.day").First(b => b.TextContent.Trim() == "20").Click();
 
         // Assert
@@ -129,7 +129,7 @@ public class TwDateRangePickerTests : TwBlazorTestBase
             .Add(x => x.SelectedRange, new KeyValuePair<DateTime?, DateTime?>(start, null))
             .Add(x => x.SelectedRangeChanged, NoOpRangeCallback(this))
         );
-        cut.Find("input").Focus();
+        cut.Find("input").Click();
 
         // Assert
         var grids = cut.FindAll("table[role='grid']");
@@ -348,7 +348,7 @@ public class TwDateRangePickerTests : TwBlazorTestBase
         );
 
         // Act & Assert
-        cut.Find("input").Focus();
+        cut.Find("input").Click();
         cut.Find("button.view-switch").Click(); // Day -> Month
         Assert.Contains("months-of-the-year", cut.Markup);
 
@@ -373,7 +373,7 @@ public class TwDateRangePickerTests : TwBlazorTestBase
         );
 
         // Act
-        cut.Find("input").Focus();
+        cut.Find("input").Click();
         cut.Find("button.view-switch").Click(); // Day -> Month
         cut.Find("button.prev-btn").Click(); // 2026 -> 2025
 
@@ -392,7 +392,7 @@ public class TwDateRangePickerTests : TwBlazorTestBase
         );
 
         // Act
-        cut.Find("input").Focus();
+        cut.Find("input").Click();
         cut.Find("button.view-switch").Click(); // Day -> Month
 
         // Assert
@@ -410,7 +410,7 @@ public class TwDateRangePickerTests : TwBlazorTestBase
         );
 
         // Act
-        cut.Find("input").Focus();
+        cut.Find("input").Click();
         cut.Find("button.view-switch").Click(); // Day -> Month
         cut.Find("button.view-switch").Click(); // Month -> Year
         cut.Find("button.next-btn").Click(); // 2026-2035 -> 2036-2045, well past the range start
@@ -432,7 +432,7 @@ public class TwDateRangePickerTests : TwBlazorTestBase
         );
 
         // Act
-        cut.Find("input").Focus();
+        cut.Find("input").Click();
         cut.FindAll("button.day").First(b => b.TextContent.Trim() == "5").Click();
 
         // Assert
@@ -448,10 +448,10 @@ public class TwDateRangePickerTests : TwBlazorTestBase
             .Add(x => x.MinDate, new DateTime(2025, 11, 1))
             .Add(x => x.SelectedRangeChanged, NoOpRangeCallback(this))
         );
-        cut.Find("input").Focus();
+        cut.Find("input").Click();
 
         // Assert
-        Assert.True(cut.Find(".prev-btn").HasAttribute("disabled"));
+        Assert.Equal("true", cut.Find(".prev-btn").GetAttribute("aria-disabled"));
 
         // Act — clicking a disabled button should not move the displayed month.
         cut.Find(".prev-btn").Click();
@@ -487,7 +487,7 @@ public class TwDateRangePickerTests : TwBlazorTestBase
         );
 
         // Act
-        cut.Find("input").Focus();
+        cut.Find("input").Click();
         cut.Find("button.next-btn").Click();
 
         // Assert
@@ -505,7 +505,7 @@ public class TwDateRangePickerTests : TwBlazorTestBase
         );
 
         // Act
-        cut.Find("input").Focus();
+        cut.Find("input").Click();
         cut.Find("button.prev-btn").Click();
 
         // Assert
@@ -523,10 +523,10 @@ public class TwDateRangePickerTests : TwBlazorTestBase
             .Add(x => x.MaxDate, new DateTime(2025, 12, 1))
             .Add(x => x.SelectedRangeChanged, NoOpRangeCallback(this))
         );
-        cut.Find("input").Focus();
+        cut.Find("input").Click();
 
         // Assert
-        Assert.True(cut.Find(".next-btn").HasAttribute("disabled"));
+        Assert.Equal("true", cut.Find(".next-btn").GetAttribute("aria-disabled"));
 
         // Act — clicking a disabled button should not move the displayed months.
         cut.Find(".next-btn").Click();
@@ -543,7 +543,7 @@ public class TwDateRangePickerTests : TwBlazorTestBase
         );
 
         // Act
-        cut.Find("input").Focus();
+        cut.Find("input").Click();
         cut.Find("button.view-switch").Click(); // Day -> Month
         cut.Find("button.view-switch").Click(); // Month -> Year
         cut.Find("button.prev-btn").Click();
@@ -563,7 +563,7 @@ public class TwDateRangePickerTests : TwBlazorTestBase
         );
 
         // Act
-        cut.Find("input").Focus();
+        cut.Find("input").Click();
         cut.Find("button.view-switch").Click(); // Day -> Month
         cut.Find("button.next-btn").Click();
 
@@ -581,7 +581,7 @@ public class TwDateRangePickerTests : TwBlazorTestBase
         );
 
         // Act
-        cut.Find("input").Focus();
+        cut.Find("input").Click();
         cut.Find("button.view-switch").Click(); // Day -> Month
         var monthButton = cut.FindAll("button.month").First(b => b.TextContent.Trim() == "Mar");
         monthButton.Click();
@@ -601,7 +601,7 @@ public class TwDateRangePickerTests : TwBlazorTestBase
         );
 
         // Act
-        cut.Find("input").Focus();
+        cut.Find("input").Click();
         cut.Find("button.view-switch").Click(); // Day -> Month
         cut.Find("button.view-switch").Click(); // Month -> Year
         var yearButton = cut.FindAll("button.year").First(b => b.TextContent.Trim() == "2027");
@@ -657,7 +657,7 @@ public class TwDateRangePickerTests : TwBlazorTestBase
         );
 
         // Act
-        cut.Find("input").Focus();
+        cut.Find("input").Click();
         Assert.Contains("datepicker-grid", cut.Markup);
 
         cut.Find("input").Change("05/11/2025 - 15/11/2025");
@@ -677,7 +677,7 @@ public class TwDateRangePickerTests : TwBlazorTestBase
         );
 
         // Act
-        cut.Find("input").Focus();
+        cut.Find("input").Click();
         Assert.Contains("datepicker-grid", cut.Markup);
         await cut.Instance.Close();
 

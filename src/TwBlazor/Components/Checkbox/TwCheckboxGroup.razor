@@ -6,7 +6,9 @@
           class="@classes"
           style="@Style"
           disabled="@Disabled"
+          aria-describedby="@errorId"
           aria-label="@AriaLabel"
+          aria-labelledby="@AriaLabelledBy"
           @attributes="@Attributes">
     @if (!string.IsNullOrWhiteSpace(Legend))
     {
@@ -30,5 +32,9 @@
         <CascadingValue Value="@Name" Name="GroupName" IsFixed="true">
             @ChildContent
         </CascadingValue>
+    }
+    @if (errorId is not null)
+    {
+        <p id="@errorId" class="@inputTheme.ErrorMessage" role="alert">@ErrorMessage</p>
     }
 </fieldset>

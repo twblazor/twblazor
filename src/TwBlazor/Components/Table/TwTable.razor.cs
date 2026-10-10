@@ -19,6 +19,15 @@ namespace TwBlazor.Components;
 /// Blazor projects.</remarks>
 public partial class TwTable : TwBlazorComponentBase
 {
+    // The wrapper scrolls when the table is wider than its container. A keyboard can only scroll it once it
+    // is focusable, and a focusable region needs a name.
+    private string scrollRegionLabel => string.IsNullOrWhiteSpace(AriaLabel) ? ScrollRegionLabel : $"{AriaLabel}, {ScrollRegionLabel}";
+
+    /// <summary>
+    /// Gets or sets the accessible name of the scrollable region that wraps the table.
+    /// </summary>
+    [Parameter] public string ScrollRegionLabel { get; set; } = "Scrollable table";
+
     private TwTableTheme theme => options.Theme.Components.Require<TwTableTheme>();
 
     /// <summary>

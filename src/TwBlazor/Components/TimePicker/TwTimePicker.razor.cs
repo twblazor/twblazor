@@ -167,13 +167,8 @@ public partial class TwTimePicker : TwPopoverPickerComponentBase
         if (ReadOnly || Disabled)
             return;
 
-        if (isFocused)
-        {
-            await ReleasePanelTrapAsync();
-        }
-        isFocused = false;
+        await ClosePanelAfterTextCommitAsync();
         await UnregisterOutsideClickAsync();
-        FocusReturnToken = null;
 
         Value = value;
         if (ValueChanged.HasDelegate)

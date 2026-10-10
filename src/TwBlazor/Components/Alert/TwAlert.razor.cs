@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using TwBlazor.Builders;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Enums;
@@ -93,6 +94,19 @@ public partial class TwAlert : TwBlazorComponentBase
     /// </summary>
     [Parameter] public Color? Color { get; set; }
 
+    /// <summary>
+    /// Gets or sets the ARIA role of the alert, which decides how a screen reader announces it.
+    /// </summary>
+    /// <remarks>
+    /// Leave unset for the default: <c>alert</c> (announced at once, interrupting) for
+    /// <see cref="Enums.Color.Danger"/> and <see cref="Enums.Color.Warning"/>, and <c>status</c>
+    /// (announced when the screen reader is idle) for every other color. Set <c>none</c> for an alert that
+    /// is part of the page from the start and should be read in place like any other content.
+    /// </remarks>
+    [Parameter] public string? Role { get; set; }
+
+    [Inject] private IJSRuntime jsRuntime { get; set; } = null!;
+
     private string classes =>
         new ClassBuilder("tw-alert")
         .AddClass(shadowBuilder.GetShadow(effectiveShadow))
@@ -126,8 +140,29 @@ public partial class TwAlert : TwBlazorComponentBase
 
     private string GetAlertColor(Color? color) => ColorBuilder.GetPaletteColor(color, theme.Colors, theme.Colors.Primary);
 
+    private ElementReference rootRef;
+
+    // "alert" interrupts the screen reader, which is right for an error or a warning and wrong for
+    // everything else. Role lets the consumer decide; "none" leaves the alert as plain page content.
+    private string? effectiveRole => Role switch
+    {
+        null => Color is Enums.Color.Danger or Enums.Color.Warning ? "alert" : "status",
+        "" or "none" => null,
+        _ => Role
+    };
+
     private async Task HandleDismiss()
     {
+        try
+        {
+            // The dismiss button is about to disappear with the alert, so hand focus on first.
+            await jsRuntime.InvokeVoidAsync("twFocus.moveToNeighbour", rootRef);
+        }
+        catch (JSDisconnectedException)
+        {
+            // The circuit disconnected; there is no focus left to move.
+        }
+
         Dismissed = true;
 
         if (DismissedChanged.HasDelegate)

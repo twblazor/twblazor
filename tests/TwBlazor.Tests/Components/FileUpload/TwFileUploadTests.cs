@@ -171,7 +171,7 @@ public class TwFileUploadTests : TwBlazorTestBase
         // Assert
         var label = cut.Find("label");
         var classes = label.GetAttribute("class") ?? string.Empty;
-        Assert.Contains("peer-focus-visible:", classes);
+        Assert.Contains("has-[:focus-visible]:", classes);
         Assert.DoesNotContain(" focus:", classes);
     }
 

@@ -87,13 +87,23 @@ public abstract class TwPopoverPickerComponentBase : TwBlazorTextInputComponentB
     private bool registeredOutsideHandler;
 
     /// <summary>
-    /// Set immediately before a programmatic <c>twDialog.restoreFocus</c> JS call, and checked (and
-    /// cleared) at the top of <see cref="OnFocusAsync"/>. Focusing the trigger via JS fires a real
-    /// native "focus" event, which would otherwise re-enter <see cref="OnFocusAsync"/> and reopen the
-    /// panel immediately after it was just closed. This flag suppresses exactly that one, self-caused
-    /// focus event without affecting genuine user-initiated focus afterward.
+    /// Set when the panel should take focus on the next render: after it was opened from the keyboard
+    /// (Arrow Down on the trigger) or from the trigger's icon button. Opening with a click leaves focus
+    /// in the text field so the user can keep typing.
     /// </summary>
-    private bool suppressNextFocusOpen;
+    protected bool PendingPanelFocus;
+
+    /// <summary>
+    /// The id of the popover panel element, referenced by the trigger's <c>aria-controls</c> while the
+    /// panel is open.
+    /// </summary>
+    protected string panelId => $"{Id}-panel";
+
+    /// <summary>
+    /// Names this picker's claim on the page's inert state, so closing it lifts only what it set and
+    /// never what an enclosing dialog set (see <c>twDialog.setBackgroundInert</c>).
+    /// </summary>
+    private string inertOwner => $"picker-{Id}";
 
     /// <summary>
     /// Extra ARIA attributes forwarded onto the trigger textfield's rendered &lt;input&gt; so assistive
@@ -109,13 +119,19 @@ public abstract class TwPopoverPickerComponentBase : TwBlazorTextInputComponentB
                 return [];
             }
 
-            var expanded = isFocused ? "true" : "false";
-            return new Dictionary<string, object>
+            var attributes = new Dictionary<string, object>
             {
                 ["role"] = "combobox",
                 ["aria-haspopup"] = "dialog",
-                ["aria-expanded"] = expanded
+                ["aria-expanded"] = isFocused ? "true" : "false"
             };
+
+            if (isFocused)
+            {
+                attributes["aria-controls"] = panelId;
+            }
+
+            return attributes;
         }
     }
 
@@ -132,7 +148,7 @@ public abstract class TwPopoverPickerComponentBase : TwBlazorTextInputComponentB
     {
         await JSRuntime.InvokeVoidAsync("twPicker.unregisterScrollReposition", PanelRef);
         await JSRuntime.InvokeVoidAsync("twDialog.releaseFocusTrap", PanelRef);
-        await JSRuntime.InvokeVoidAsync("twDialog.clearBackgroundInert");
+        await JSRuntime.InvokeVoidAsync("twDialog.clearBackgroundInert", inertOwner);
     }
 
     /// <summary>
@@ -151,7 +167,7 @@ public abstract class TwPopoverPickerComponentBase : TwBlazorTextInputComponentB
     {
         panelTrapApplied = true;
         await JSRuntime.InvokeVoidAsync("twDialog.trapFocus", panel);
-        await JSRuntime.InvokeVoidAsync("twDialog.setBackgroundInert", InputRoot?.RootRef);
+        await JSRuntime.InvokeVoidAsync("twDialog.setBackgroundInert", InputRoot?.RootRef, inertOwner);
     }
 
     /// <summary>
@@ -172,7 +188,13 @@ public abstract class TwPopoverPickerComponentBase : TwBlazorTextInputComponentB
         if (!isFocused && panelTrapApplied)
         {
             panelTrapApplied = false;
-            await JSRuntime.InvokeVoidAsync("twDialog.clearBackgroundInert");
+            await JSRuntime.InvokeVoidAsync("twDialog.clearBackgroundInert", inertOwner);
+        }
+
+        if (isFocused && PendingPanelFocus && PanelRef.Context != null)
+        {
+            PendingPanelFocus = false;
+            await JSRuntime.InvokeVoidAsync("twDialog.focusPanel", PanelRef);
         }
     }
 
@@ -199,36 +221,46 @@ public abstract class TwPopoverPickerComponentBase : TwBlazorTextInputComponentB
     /// <summary>
     /// Reference to the trigger textfield's actual &lt;input&gt; element, supplied by derived pickers
     /// (<see cref="TwDatePicker"/>, <see cref="TwTimePicker"/>) that render a <see cref="TwTextfield{T}"/>
-    /// trigger. Used by <see cref="OnIconClickAsync"/> to focus that element directly.
+    /// trigger. Used by <see cref="OnIconClickAsync"/> to focus that element directly when the browser's
+    /// native picker is in use.
     /// </summary>
     protected virtual ElementReference? triggerInputRef => null;
 
     /// <summary>
-    /// Handles a click on the trigger's decorative icon by moving focus into the trigger textfield,
-    /// which opens the picker via the normal <see cref="OnFocusAsync"/> focus handler (triggered by the
-    /// native "focus" event this causes).
+    /// Handles the trigger's icon button: opens the panel and moves focus into it, or closes the panel
+    /// when it is already open.
     /// </summary>
     /// <remarks>
-    /// Focuses <see cref="triggerInputRef"/> directly when a derived picker supplies one, rather than
-    /// falling back to <c>twDialog.focusSurface</c> over the whole <see cref="InputRoot"/>: the icon
-    /// itself is rendered ahead of the trigger input in DOM order and (being a <c>role="button"</c>
-    /// element with <c>tabindex="0"</c>) is itself focusable, so scanning the root for the first
-    /// focusable descendant would find - and refocus - the icon that was just clicked instead of the
-    /// input, silently no-oping the click instead of opening the panel.
+    /// With the browser's native picker there is no panel to open, so the button moves focus to the
+    /// trigger input instead. It focuses <see cref="triggerInputRef"/> directly when a derived picker
+    /// supplies one, rather than scanning the whole <see cref="InputRoot"/> for its first focusable
+    /// element, which would find the icon button itself.
     /// </remarks>
     protected async Task OnIconClickAsync()
     {
         if (Disabled)
             return;
 
-        object surface = triggerInputRef is { } inputRef ? inputRef : InputRoot?.RootRef ?? default;
-        await JSRuntime.InvokeVoidAsync("twDialog.focusSurface", surface);
+        if (UseNativePicker || ReadOnly)
+        {
+            object surface = triggerInputRef is { } inputRef ? inputRef : InputRoot?.RootRef ?? default;
+            await JSRuntime.InvokeVoidAsync("twDialog.focusSurface", surface);
+            return;
+        }
+
+        if (isFocused)
+        {
+            await Close();
+            return;
+        }
+
+        await OpenPanelAsync();
+        PendingPanelFocus = isFocused;
     }
 
     /// <summary>
-    /// Handles keydown events on the trigger icon so it's operable from the keyboard (Enter/Space
-    /// forward focus to the trigger, same as a click), since it's a &lt;div&gt; rather than a native
-    /// button.
+    /// Handles keydown events on the trigger icon so it's operable from the keyboard (Enter and Space
+    /// act as a click), since it's a &lt;div&gt; rather than a native button.
     /// </summary>
     protected async Task OnIconKeyDownAsync(KeyboardEventArgs e)
     {
@@ -239,29 +271,63 @@ public abstract class TwPopoverPickerComponentBase : TwBlazorTextInputComponentB
     }
 
     /// <summary>
-    /// Handles the focus event of the trigger input, opening the popover panel.
+    /// Handles a click on the trigger input, opening the popover panel. Focus stays in the input so
+    /// the user can still type a value.
+    /// </summary>
+    protected async Task OnTriggerClickAsync()
+    {
+        if (!isFocused)
+        {
+            await OpenPanelAsync();
+        }
+    }
+
+    /// <summary>
+    /// Handles keydown events on the trigger input. Arrow Down opens the panel and moves focus into
+    /// it, and Escape closes an open panel.
+    /// </summary>
+    /// <remarks>
+    /// The panel does not open when the input merely receives focus: that would block the rest of the
+    /// page for anyone tabbing through a form.
+    /// </remarks>
+    protected async Task OnTriggerKeyDownAsync(KeyboardEventArgs e)
+    {
+        if (e.Key == "Escape")
+        {
+            if (isFocused)
+            {
+                await ClosePanelAsync();
+            }
+
+            return;
+        }
+
+        if (e.Key != "ArrowDown")
+            return;
+
+        if (!isFocused)
+        {
+            await OpenPanelAsync();
+        }
+
+        PendingPanelFocus = isFocused;
+    }
+
+    /// <summary>
+    /// Opens the popover panel.
     /// </summary>
     /// <remarks>
     /// Sets <see cref="isFocused"/> to true and registers an outside click handler to detect clicks
     /// outside the component. If the component is readonly, disabled, or the native picker is in use,
     /// the custom popover panel will not be shown.
     /// </remarks>
-    protected virtual async Task OnFocusAsync()
+    protected virtual async Task OpenPanelAsync()
     {
-        if (suppressNextFocusOpen)
-        {
-            // This focus event was caused by our own restoreFocus() JS call after closing the
-            // panel, not a genuine user-initiated focus - swallow it once so closing doesn't
-            // immediately reopen what it just closed.
-            suppressNextFocusOpen = false;
-            return;
-        }
-
         if (ReadOnly || Disabled || UseNativePicker)
             return;
 
-        // Capture whatever currently has focus (almost always this trigger textfield, since focusing
-        // it is what triggers this handler) so it can be restored once the panel closes.
+        // Capture whatever currently has focus (the trigger textfield or its icon button) so it can
+        // be restored once the panel closes.
         FocusReturnToken = await JSRuntime.InvokeAsync<string?>("twDialog.captureFocus");
         isFocused = true;
         PendingOpenFocus = true;
@@ -276,8 +342,48 @@ public abstract class TwPopoverPickerComponentBase : TwBlazorTextInputComponentB
     {
         if (e.Key != "Escape") return;
 
+        await ClosePanelAsync();
+    }
+
+    /// <summary>
+    /// Closes the panel after the user committed text typed into the trigger (Enter, or leaving the
+    /// field).
+    /// </summary>
+    /// <remarks>
+    /// When the panel was open, focus goes back to the trigger. Tab from the trigger moves into the
+    /// panel, which this call is about to remove, so leaving focus where it was would drop it on the
+    /// page body. When the panel was already closed, focus has moved on by itself and is left alone.
+    /// </remarks>
+    protected async Task ClosePanelAfterTextCommitAsync()
+    {
+        var wasOpen = isFocused;
+
+        if (wasOpen)
+        {
+            await ReleasePanelTrapAsync();
+        }
+
+        isFocused = false;
+        PendingPanelFocus = false;
+
+        if (wasOpen)
+        {
+            await RestoreFocusAsync();
+        }
+        else
+        {
+            FocusReturnToken = null;
+        }
+    }
+
+    /// <summary>
+    /// Closes the panel and returns focus to whatever opened it.
+    /// </summary>
+    private async Task ClosePanelAsync()
+    {
         await ReleasePanelTrapAsync();
         isFocused = false;
+        PendingPanelFocus = false;
         await UnregisterOutsideClickAsync();
         await RestoreFocusAsync();
     }
@@ -293,7 +399,6 @@ public abstract class TwPopoverPickerComponentBase : TwBlazorTextInputComponentB
 
         var token = FocusReturnToken;
         FocusReturnToken = null;
-        suppressNextFocusOpen = true;
         await JSRuntime.InvokeVoidAsync("twDialog.restoreFocus", token);
     }
 

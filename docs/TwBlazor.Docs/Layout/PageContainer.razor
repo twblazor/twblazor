@@ -18,7 +18,7 @@
 
             @if (Beta)
             {
-                <TwAlert Color="TwBlazor.Enums.Color.Warning" StartIcon="TwBlazor.Enums.Icon.Exclamation_Triangle" Class="mb-6 ps-3">
+                <TwAlert Color="TwBlazor.Enums.Color.Warning" Role="none" StartIcon="TwBlazor.Enums.Icon.Exclamation_Triangle" Class="mb-6 ps-3">
                     Please be aware this component is new, may have bugs and/or be subject to change. Please report any bugs at
                     <a href="@SiteMetadata.IssuesUrl" target="_blank" rel="noopener noreferrer" class="font-medium underline">@SiteMetadata.IssuesUrl</a>.
                 </TwAlert>
@@ -26,13 +26,15 @@
 
             @ChildContent
 
+            <KeyboardNavigationCard Path="@Path" ComponentTitle="@Title" />
+
             @if (Faq is { Count: > 0 })
             {
                 <PageCard Title="Frequently asked questions">
                     <div class="space-y-2">
                         @foreach (var item in Faq)
                         {
-                            <TwCollapse Title="@item.Question">
+                            <TwCollapse Title="@item.Question" HeadingLevel="3">
                                 <p class="p-4 text-gray-600 dark:text-gray-400">@item.Answer</p>
                             </TwCollapse>
                         }

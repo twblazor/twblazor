@@ -32,16 +32,32 @@ else if (isClickable && !Closable)
         @RenderContent()
     </button>
 }
+else if (isClickable)
+{
+    @* Clickable and closable. A remove button nested inside role="button" is hidden from assistive
+       technology, so the chip's content and its remove button are two sibling buttons. *@
+    <span id="@Id"
+          class="@classes"
+          style="@Style"
+          aria-disabled="@(Disabled ? "true" : null)"
+          @attributes="@Attributes">
+        <button type="button"
+                class="@theme.ContentButton"
+                disabled="@Disabled"
+                @onclick="OnClickAsync"
+                aria-label="@AriaLabel"
+                aria-labelledby="@AriaLabelledBy">
+            @RenderLabel()
+        </button>
+        @RenderClose()
+    </span>
+}
 else
 {
     <span id="@Id"
           class="@classes"
           style="@Style"
-          role="@(isClickable ? "button" : null)"
-          tabindex="@(isClickable && !Disabled ? "0" : null)"
           aria-disabled="@(Disabled ? "true" : null)"
-          @onclick="OnClickAsync"
-          @onkeydown="OnKeyDownAsync"
           @attributes="@Attributes"
           aria-label="@AriaLabel"
           aria-labelledby="@AriaLabelledBy">
@@ -51,6 +67,20 @@ else
 
 @code {
     private RenderFragment RenderContent() => __builder =>
+    {
+        @RenderLabel()
+        @RenderClose()
+    };
+
+    private RenderFragment RenderClose() => __builder =>
+    {
+        if (Closable && string.IsNullOrWhiteSpace(Href))
+        {
+            <TwIcon OnClick="OnCloseAsync" AriaLabel="@(string.IsNullOrWhiteSpace(Label) ? "Close" : $"Remove {Label}")" Icon="Icon.X" Class="@theme.CloseButton" Plain />
+        }
+    };
+
+    private RenderFragment RenderLabel() => __builder =>
     {
         if (!string.IsNullOrWhiteSpace(Avatar))
         {
@@ -73,11 +103,6 @@ else
         @if (EndIcon.HasValue)
         {
             <TwIcon Icon="@EndIcon.Value" Class="@GetIconSize()" />
-        }
-
-        if (Closable && string.IsNullOrWhiteSpace(Href))
-        {
-            <TwIcon OnClick="OnCloseAsync" AriaLabel="@(string.IsNullOrWhiteSpace(Label) ? "Close" : $"Remove {Label}")" Icon="Icon.X" Class="@theme.CloseButton" Plain />
         }
     };
 }
