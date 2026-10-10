@@ -55,6 +55,27 @@ public class HomePageTests : DocsTestBase
     }
 
     [Fact]
+    public void Render_InvitesVisitorsToTheDiscordServer_BeforeTheClosingCallToAction()
+    {
+        // Arrange & Act
+        var page = TestContext.Render<Home>();
+
+        // Assert
+        var section = page.Find("section[aria-labelledby='community-heading']");
+        Assert.Contains("Discord", section.QuerySelector("h2#community-heading")!.TextContent);
+
+        var link = section.QuerySelector("a#landing-discord")!;
+        Assert.Equal(TwBlazor.Docs.Layout.DiscordInviteLink.PermanentUrl, link.GetAttribute("href"));
+        Assert.Equal("_blank", link.GetAttribute("target"));
+        Assert.Equal("noopener noreferrer", link.GetAttribute("rel"));
+        Assert.Contains("Join the Discord", link.TextContent);
+        Assert.Contains("opens in a new tab", link.TextContent);
+
+        var sections = page.FindAll("section").ToList();
+        Assert.True(sections.IndexOf(section) < sections.FindIndex(s => s.QuerySelector("#cta-get-started") is not null));
+    }
+
+    [Fact]
     public void Render_AdvertisesClassMerging_AndLinksToItsPage()
     {
         // Arrange & Act
