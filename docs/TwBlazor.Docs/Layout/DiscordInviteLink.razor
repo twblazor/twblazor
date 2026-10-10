@@ -1,0 +1,51 @@
+@* A link to the Discord server that opens in a new tab. It starts on the permanent invite and swaps to the
+   server's own invite, which shows no member's profile, the first time a visitor points at, focuses or touches
+   it. Nothing is asked of Discord for visitors who never do, and the permanent link stays if the lookup fails. *@
+@using Microsoft.Extensions.DependencyInjection
+@using TwBlazor.Docs.Services
+@inject IServiceProvider Services
+
+<a id="@Id" href="@href" target="_blank" rel="noopener noreferrer" class="@Class"
+   @onpointerenter="Resolve" @onfocus="Resolve" @ontouchstart="Resolve">@ChildContent<span class="sr-only"> (opens in a new tab)</span></a>
+
+@code {
+#pragma warning disable S1075 // Fixed external link to the project's own Discord server, not environment-specific
+    /// <summary>
+    /// The permanent invite link of the Discord server, used until, and unless, the server's own invite has been
+    /// looked up.
+    /// </summary>
+    public const string PermanentUrl = "https://discord.gg/EsckVBu9V8";
+#pragma warning restore S1075
+
+    private string href = PermanentUrl;
+
+    private bool requested;
+
+    /// <summary>
+    /// Gets or sets the id of the link.
+    /// </summary>
+    [Parameter] public string? Id { get; set; }
+
+    /// <summary>
+    /// Gets or sets the css classes of the link.
+    /// </summary>
+    [Parameter] public string? Class { get; set; }
+
+    /// <summary>
+    /// Gets or sets what the link shows. Text saying it opens in a new tab is added for screen readers.
+    /// </summary>
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private async Task Resolve()
+    {
+        if (requested)
+            return;
+
+        requested = true;
+
+        var source = Services.GetService<IDiscordInviteSource>() ?? DiscordWidgetInviteSource.Shared;
+
+        if (await source.GetInviteAsync() is { } invite)
+            href = invite;
+    }
+}

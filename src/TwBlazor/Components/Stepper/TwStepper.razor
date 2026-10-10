@@ -14,6 +14,7 @@
                     var status = GetStatus(step);
                     var index = i;
                     <li class="@theme.Step">
+                        <span class="@FrameClasses(status)">
                         <button type="button"
                                 class="@CircleClasses(step, status)"
                                 disabled="@(!CanActivate(step))"
@@ -33,6 +34,7 @@
                                 @(index + 1)
                             }
                         </button>
+                        </span>
                         <span class="@LabelClasses(status)">@step.Label</span>
                         @if (!string.IsNullOrWhiteSpace(step.Description))
                         {
@@ -47,7 +49,7 @@
             </ol>
 
             <div class="@theme.MobileContainer">
-                <TwProgress T="int" Value="@mobileProgressValue" Max="100" Label="@mobileAriaLabel" LabelClass="@theme.MobileProgressLabel" Color="Color" />
+                <TwProgress T="int" Value="@mobileProgressValue" Max="100" Label="@mobileAriaLabel" LabelClass="@theme.MobileProgressLabel" Color="accentColor" />
                 @if (ActiveStep != null)
                 {
                     <p class="@theme.MobileLabel">Step @(ActiveStepIndex + 1) of @_steps.Count: @ActiveStep.Label</p>
@@ -64,6 +66,7 @@
                     var index = i;
                     <li class="@theme.VerticalStep">
                         <div class="@theme.VerticalIndicatorColumn">
+                            <span class="@FrameClasses(status)">
                             <button type="button"
                                     class="@CircleClasses(step, status)"
                                     disabled="@(!CanActivate(step))"
@@ -83,6 +86,7 @@
                                     @(index + 1)
                                 }
                             </button>
+                            </span>
                             @if (i < _steps.Count - 1)
                             {
                                 <span class="@VerticalConnectorClasses(i)" aria-hidden="true"></span>

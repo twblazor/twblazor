@@ -30,7 +30,34 @@ public class TwBreadcrumbTheme
     public required string Separator { get; set; }
 
     /// <summary>
+    /// Gets or sets the classes for the icon used as a separator
+    /// (see <see cref="TwBlazor.Components.TwBreadcrumb.SeparatorIcon"/>).
+    /// </summary>
+    public string SeparatorIcon { get; set; } = string.Empty;
+
+    /// <summary>
     /// Gets or sets the classes for an item's label text (the &lt;a&gt; or current-page &lt;span&gt;).
     /// </summary>
     public required string Label { get; set; }
+
+    /// <summary>
+    /// Gets or sets the classes added to <see cref="Label"/> for an item that links to another page: its
+    /// resting color, and its hover and focus states.
+    /// </summary>
+    public string Link { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes added to <see cref="Label"/> for the current page, which is not a link.
+    /// </summary>
+    public string Current { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes for an item's optional icon, which sits inside the label before its text.
+    /// </summary>
+    public string Icon { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes added to <see cref="Icon"/> for the current page's icon.
+    /// </summary>
+    public string CurrentIcon { get; set; } = string.Empty;
 }
