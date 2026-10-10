@@ -1,0 +1,12 @@
+{
+  "name": "twblazor-class-merge-tools",
+  "private": true,
+  "type": "module",
+  "description": "Generates TwBlazor's class merge tables and parity tests from the tailwind-merge package.",
+  "scripts": {
+    "generate": "node generate.mjs"
+  },
+  "dependencies": {
+    "tailwind-merge": "3.7.0"
+  }
+}

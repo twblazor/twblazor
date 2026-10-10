@@ -6,6 +6,7 @@ using System.Reflection.Metadata;
 using TwBlazor.Builders;
 using TwBlazor.Configuration;
 using TwBlazor.Services;
+using TwBlazor.Utilities.ClassMerge;
 
 [assembly: MetadataUpdateHandler(typeof(TwBlazor.TwBlazorUpdateHandler))]
 
@@ -63,6 +64,7 @@ public static class ServiceCollectionExtensions
         var theme = themeFactory();
         var options = new TwBlazorOptions { Theme = theme };
         configure(options);
+        TwClassMerger.Configure(options.ClassMerge);
         TwBlazorUpdateHandler.options = options;
         TwBlazorUpdateHandler.themeFactory = themeFactory;
         services.AddSingleton(options);

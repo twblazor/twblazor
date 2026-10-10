@@ -35,8 +35,7 @@ public partial class TwInputLabel : TwBlazorComponentBase
     [Parameter] public string OverrideClass { get; set; } = string.Empty;
 
     private string classes =>
-        new ClassBuilder(Class)
-        .AddClass(theme.LabelBase, string.IsNullOrWhiteSpace(OverrideClass))
-        .AddClass(OverrideClass, !string.IsNullOrWhiteSpace(OverrideClass))
+        new ClassBuilder(string.IsNullOrWhiteSpace(OverrideClass) ? theme.LabelBase : OverrideClass)
+        .AddClass(Class)
         .Build();
 }

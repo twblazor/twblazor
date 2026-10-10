@@ -81,7 +81,7 @@ public partial class TwTimePickerBody
 
     private string rootClasses => new ClassBuilder(theme.BodyRoot).Build();
 
-    private string classes => new ClassBuilder(Class).AddClass(theme.BodyInner).Build();
+    private string classes => new ClassBuilder(theme.BodyInner).AddClass(Class).Build();
 
     /// <summary>
     /// Gets the classes for the hour/minute number inputs. Structural/typography classes come from

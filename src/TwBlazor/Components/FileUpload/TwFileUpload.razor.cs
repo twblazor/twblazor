@@ -74,13 +74,13 @@ public partial class TwFileUpload : TwBlazorInputComponentBase
     // since the native input's own focus ring would otherwise land somewhere invisible.
     private string classes =>
         new ClassBuilder(options.Theme.Display.Block)
-        .AddClass(Class)
-        .AddClass(LabelClasses)
         .AddClass(roundedBuilder.GetRounded())
         .AddClass(buttonBuilder.GetVariantClasses(Variant, Color, Disabled))
         .AddClass(shadowBuilder.GetButtonShadow(theme))
         .AddClass(colorBuilder.GetPeerFocusRing(Color))
-        .AddClass(options.Theme.Spacing.Padding.Lg).Build();
+        .AddClass(options.Theme.Spacing.Padding.Lg)
+        .AddClass(LabelClasses)
+        .AddClass(Class).Build();
 
     private string inputClasses =>
         new ClassBuilder(options.Theme.Display.ScreenReaderOnly)

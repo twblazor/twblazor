@@ -32,8 +32,8 @@ public class ButtonBuilderTests : TwBlazorTestBase
         // Act
         var result = ButtonBuilder.GetBaseClasses(iconButton: true, dense: false);
 
-        // Assert
-        Assert.Contains(buttonTheme.Base, result);
+        // Assert - the icon button's own classes replace the base ones they conflict with (its fixed size over the height)
+        Assert.Contains("overflow-hidden", result);
         Assert.Contains(buttonTheme.IconButton, result);
         Assert.DoesNotContain(buttonTheme.Padding, result);
         Assert.DoesNotContain(buttonTheme.DensePadding, result);

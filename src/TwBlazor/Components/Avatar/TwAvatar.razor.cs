@@ -89,8 +89,8 @@ public partial class TwAvatar : TwBlazorComponentBase
         _ => theme.Medium
     };
 
-    private string classes => new ClassBuilder(theme.Base)
-        .AddClass(sizeClasses)
+    private string classes => new ClassBuilder(sizeClasses)
+        .AddClass(theme.Base)
         .AddClass(ColorBuilder.GetPaletteColor(Color, theme.Colors, theme.Neutral))
         .AddClass(roundedBuilder.GetRounded(Rounded ?? Enums.Rounded.Full))
         .AddClass(Class)

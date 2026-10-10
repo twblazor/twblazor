@@ -85,9 +85,9 @@ public partial class TwSlider<T> : TwBlazorInputComponentBase
     /// handled natively, while the visible track/fill/thumb are drawn separately for full styling control.
     /// </summary>
     private string classes => new ClassBuilder(theme.Base)
-        .AddClass(Class)
         .AddClass(Disabled ? "opacity-40 cursor-not-allowed" : string.Empty)
         .AddClass(ReadOnly && !Disabled ? "pointer-events-none" : string.Empty)
+        .AddClass(Class)
         .Build();
 
     /// <summary>

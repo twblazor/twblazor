@@ -4,9 +4,8 @@
         <RouteView RouteData="routeData" DefaultLayout="typeof(TwBlazor.Docs.Layout.MainLayout)" />
     </Found>
     <NotFound>
-        <PageTitle>Not found</PageTitle>
         <LayoutView Layout="typeof(TwBlazor.Docs.Layout.MainLayout)">
-            <p role="alert">Sorry, there's nothing at this address.</p>
+            <TwBlazor.Docs.Layout.NotFoundContent />
         </LayoutView>
     </NotFound>
 </Router>
