@@ -161,10 +161,14 @@ public sealed class TwDateTimeFormats
     public static bool Is12HourPattern(string pattern)
     {
         var quote = '\0';
-        for (var i = 0; i < pattern.Length; i++)
+        var escaped = false;
+        foreach (var current in pattern)
         {
-            var current = pattern[i];
-            if (quote != '\0')
+            if (escaped)
+            {
+                escaped = false;
+            }
+            else if (quote != '\0')
             {
                 if (current == quote)
                 {
@@ -177,7 +181,7 @@ public sealed class TwDateTimeFormats
             }
             else if (current == '\\')
             {
-                i++;
+                escaped = true;
             }
             else if (current is 'h' or 't')
             {

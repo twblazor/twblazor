@@ -18,6 +18,10 @@ namespace TwBlazor.Components;
 /// configured to display time in either 12-hour (AM/PM) or 24-hour format.</remarks>
 public partial class TwTimePicker : TwPopoverPickerComponentBase
 {
+    private const string twentyFourHourFormat = "HH:mm";
+
+    private const string twelveHourFormat = "hh:mm tt";
+
     private TwTimePickerTheme theme => options.Theme.Components.Require<TwTimePickerTheme>();
 
     /// <summary>
@@ -78,7 +82,7 @@ public partial class TwTimePicker : TwPopoverPickerComponentBase
     /// </summary>
     public TwTimePicker()
     {
-        format = "HH:mm";
+        format = twentyFourHourFormat;
     }
 
     /// <summary>
@@ -91,11 +95,28 @@ public partial class TwTimePicker : TwPopoverPickerComponentBase
     /// </summary>
     private CultureInfo effectiveCulture => UseNativePicker ? CultureInfo.InvariantCulture : localizer.Formats.Culture;
 
+    /// <summary>
+    /// Gets the format the custom popover types and parses: the localized time input format when one is
+    /// configured, otherwise the 12 or 24 hour default.
+    /// </summary>
+    private string popoverFormat
+    {
+        get
+        {
+            if (localizer.Formats.TimeInput is { } configured)
+            {
+                return configured;
+            }
+
+            return effectiveIs12HourFormat ? twelveHourFormat : twentyFourHourFormat;
+        }
+    }
+
     protected override Task OnParametersSetAsync()
     {
         // The native time input always needs a 24-hour HH:mm value no matter what effectiveIs12HourFormat
         // says, since the browser renders its own localized 12/24-hour UI on top of that.
-        format = UseNativePicker ? "HH:mm" : localizer.Formats.TimeInput ?? (effectiveIs12HourFormat ? "hh:mm tt" : "HH:mm");
+        format = UseNativePicker ? twentyFourHourFormat : popoverFormat;
         Value = SelectedTime.ToString(format, effectiveCulture);
         return base.OnParametersSetAsync();
     }
@@ -122,7 +143,7 @@ public partial class TwTimePicker : TwPopoverPickerComponentBase
             UseNativePicker = PreferNativePicker ?? (!effectiveIs12HourFormat && await DeviceDetector.PrefersNativePickerAsync(JSRuntime));
             if (UseNativePicker)
             {
-                format = "HH:mm";
+                format = twentyFourHourFormat;
                 Value = SelectedTime.ToString(format, effectiveCulture);
                 StateHasChanged();
             }
