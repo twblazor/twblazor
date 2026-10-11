@@ -17,9 +17,6 @@
                   @attributes="Attributes">
             @fallbackText
         </progress>
-        @if (showShimmer)
-        {
-            <span class="@shimmerClasses" style="@shimmerStyle" aria-hidden="true"></span>
-        }
+        @shimmer
     </span>
 </TwInputRoot>

@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Rendering;
 using System.Globalization;
 using TwBlazor.Builders;
 using TwBlazor.Configuration.Components;
@@ -97,14 +98,28 @@ public partial class TwProgress<T> : TwBlazorInputComponentBase
     private string wrapperClasses => theme.Wrapper;
 
     /// <summary>
-    /// Gets the classes applied to the shimmer overlay.
+    /// Gets the fragment that renders the shimmer overlay.
     /// </summary>
-    private string shimmerClasses => theme.Animated;
+    private RenderFragment shimmer => RenderShimmer;
 
     /// <summary>
-    /// Gets the inline style that sizes the shimmer overlay to the filled portion of the bar.
+    /// Renders the decorative shimmer overlay, sized to the filled portion of the bar, when
+    /// <see cref="showShimmer"/> is <c>true</c>.
     /// </summary>
-    private string shimmerStyle => $"width: {percentageText}%";
+    /// <param name="builder">The builder the overlay is rendered into.</param>
+    private void RenderShimmer(RenderTreeBuilder builder)
+    {
+        if (!showShimmer)
+        {
+            return;
+        }
+
+        builder.OpenElement(0, "span");
+        builder.AddAttribute(1, "class", theme.Animated);
+        builder.AddAttribute(2, "style", $"width: {percentageText}%");
+        builder.AddAttribute(3, "aria-hidden", "true");
+        builder.CloseElement();
+    }
 
     /// <summary>
     /// Gets the aria-invalid value, or <c>null</c> to omit the attribute when the progress bar is valid.
