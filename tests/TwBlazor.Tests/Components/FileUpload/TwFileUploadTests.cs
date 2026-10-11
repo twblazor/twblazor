@@ -43,7 +43,7 @@ public class TwFileUploadTests : TwBlazorTestBase
         // Act & Assert
         var rootDiv = cut.Find("div");
         Assert.NotNull(rootDiv);
-        Assert.Contains("rounded font-medium", rootDiv.GetAttribute("class"));
+        Assert.Contains("rounded-lg font-medium", rootDiv.GetAttribute("class"));
     }
 
     [Fact]

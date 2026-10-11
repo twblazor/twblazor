@@ -740,4 +740,33 @@ public class TwCodeBlockTests : TwBlazorTestBase
         var exception = await Record.ExceptionAsync(() => button.ClickAsync(new MouseEventArgs()));
         Assert.Null(exception);
     }
+
+    [Fact]
+    public void TwCodeBlock_CodeRegion_ShowsThePrimaryFocusRing()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwCodeBlock>(parameters => parameters
+            .Add(p => p.Language, "csharp"));
+
+        // Assert - the code element is a Tab stop, so it needs the library's focus ring rather than the browser's outline
+        var code = cut.Find("code");
+        Assert.Equal("0", code.GetAttribute("tabindex"));
+        Assert.Contains("language-csharp", code.ClassList);
+        Assert.Contains("focus-visible:ring-2", code.ClassList);
+        Assert.Contains("focus-visible:ring-purple-500", code.ClassList);
+        Assert.Contains("focus:outline-hidden", code.ClassList);
+    }
+
+    [Fact]
+    public void TwCodeBlock_Header_IsUpperCase_ForACustomTitle()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwCodeBlock>(parameters => parameters
+            .Add(p => p.Title, "Install"));
+
+        // Assert - a custom title is styled to match the upper case language name shown by default
+        var header = cut.Find("span").ParentElement!;
+        Assert.Equal("Install", cut.Find("span").TextContent);
+        Assert.Contains("uppercase", header.ClassList);
+    }
 }

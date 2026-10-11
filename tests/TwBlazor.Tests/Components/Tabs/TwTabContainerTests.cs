@@ -866,4 +866,19 @@ public class TwTabContainerTests : TwBlazorTestBase
         // Verify disposal completed despite InvalidOperationException
         Assert.NotNull(cut.Instance);
     }
+
+    [Fact]
+    public void TwTabContainer_Panel_ShowsThePrimaryFocusRing()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwTabContainer>(parameters => parameters
+            .Add(p => p.ChildContent, ThreeTabs()));
+
+        // Assert - the panel is a Tab stop (tabindex="0")
+        var tabpanel = cut.Find("div[role='tabpanel']");
+        Assert.Equal("0", tabpanel.GetAttribute("tabindex"));
+        Assert.Contains("focus-visible:ring-2", tabpanel.ClassList);
+        Assert.Contains("focus-visible:ring-inset", tabpanel.ClassList);
+        Assert.Contains("focus-visible:ring-purple-500", tabpanel.ClassList);
+    }
 }

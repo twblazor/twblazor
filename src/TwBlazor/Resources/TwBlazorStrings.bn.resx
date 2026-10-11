@@ -462,6 +462,9 @@
   <data name="Navbar_CloseMenu" xml:space="preserve">
     <value>নেভিগেশন মেনু বন্ধ করুন</value>
   </data>
+  <data name="OnThisPage_Title" xml:space="preserve">
+    <value>এই পৃষ্ঠায়</value>
+  </data>
   <data name="Pagination_Label" xml:space="preserve">
     <value>পেজিনেশন</value>
   </data>

@@ -1,4 +1,4 @@
-// Copyright (c) 2025 Jack Shuter @ TwBlazor - twblazor.com
+﻿// Copyright (c) 2025 Jack Shuter @ TwBlazor - twblazor.com
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using System.Diagnostics.CodeAnalysis;
@@ -19,6 +19,7 @@ public class TwCodeBlockTheme
 
     /// <summary>
     /// Gets or sets the classes for the header bar above the code, which holds the title and the copy button.
+    /// The title is shown in upper case whether it is the language name or a custom title.
     /// </summary>
     public required string Header { get; set; }
 
@@ -26,6 +27,12 @@ public class TwCodeBlockTheme
     /// Gets or sets the classes for the inset panel that holds the highlighted code.
     /// </summary>
     public required string Panel { get; set; }
+
+    /// <summary>
+    /// Gets or sets the classes for the scrollable code element inside the panel, which is a Tab stop:
+    /// its keyboard focus ring.
+    /// </summary>
+    public required string Code { get; set; }
 
     /// <summary>
     /// Gets or sets the classes for the copy button's wrapper, at the end of the header.

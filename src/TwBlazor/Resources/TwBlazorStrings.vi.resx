@@ -462,6 +462,9 @@
   <data name="Navbar_CloseMenu" xml:space="preserve">
     <value>Đóng menu điều hướng</value>
   </data>
+  <data name="OnThisPage_Title" xml:space="preserve">
+    <value>Trên trang này</value>
+  </data>
   <data name="Pagination_Label" xml:space="preserve">
     <value>phân trang</value>
   </data>

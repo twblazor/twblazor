@@ -200,6 +200,11 @@ internal static class KeyboardShortcuts
             Key("Follows the focused link.", Enter),
             Key("On the menu button: opens or closes the menu.", Enter, Space)),
 
+        ["/on-this-page"] = Guide(
+            "The list is a navigation landmark holding ordinary links. The link to the section being read is announced as the current location.",
+            Key("Moves to the next or previous link.", Tab, ShiftTab),
+            Key("Jumps to the focused link's section.", Enter)),
+
         ["/pagination"] = Guide(
             "The pagination is a navigation landmark. The previous and next buttons stay focusable on the first and last page, where they are announced as unavailable.",
             Key("Moves between the previous button, the page buttons, the next button and the page size list.", Tab, ShiftTab),

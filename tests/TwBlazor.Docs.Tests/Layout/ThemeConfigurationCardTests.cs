@@ -29,6 +29,20 @@ public class ThemeConfigurationCardTests : DocsTestBase
     }
 
     [Fact]
+    public void PropertyNames_StayOnOneLine_InBothTables()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<ThemeConfigurationCard>(parameters => parameters
+            .Add(p => p.ThemeType, typeof(ThemeConfigurationCardTestTheme)));
+        cut.WaitForState(() => cut.Markup.Contains("StringValue"));
+
+        // Assert - a long name must not break mid-word inside its code chip
+        var nameCells = cut.FindAll("tbody tr > td:first-child");
+        Assert.NotEmpty(nameCells);
+        Assert.All(nameCells, cell => Assert.Contains("whitespace-nowrap", cell.ClassList));
+    }
+
+    [Fact]
     public void InheritedFrom_IsNotShown_WhenComponentIsTheCanonicalOwner()
     {
         // Arrange & Act

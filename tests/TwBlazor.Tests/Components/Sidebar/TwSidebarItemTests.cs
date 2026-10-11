@@ -226,4 +226,54 @@ public class TwSidebarItemTests : TwBlazorTestBase
         Assert.Single(link.FindAll("a > span"));
         Assert.Single(parent.FindAll("button > span"));
     }
+
+    [Fact]
+    public void CurrentPageItem_ShowsAFullHeightGradientMarkerOnItsStartEdge()
+    {
+        // Arrange & Act - the test navigation manager starts at the site root, so "/" is the current page
+        var cut = TestContext.Render<TwSidebarItem>(p => p
+            .Add(x => x.Label, "Home")
+            .Add(x => x.Href, "/"));
+
+        // Assert
+        var link = cut.Find("a");
+        Assert.Equal("page", link.GetAttribute("aria-current"));
+        Assert.Contains("relative", link.ClassList);
+        Assert.Contains("before:absolute", link.ClassList);
+        Assert.Contains("before:start-0", link.ClassList);
+        Assert.Contains("before:inset-y-0", link.ClassList);
+        Assert.Contains("overflow-hidden", link.ClassList);
+        Assert.Contains("before:bg-linear-to-b", link.ClassList);
+        Assert.Contains("before:from-purple-600", link.ClassList);
+        Assert.Contains("before:to-fuchsia-500", link.ClassList);
+        Assert.Contains("forced-colors:before:bg-[Highlight]", link.ClassList);
+    }
+
+    [Fact]
+    public void OtherPageItem_HasNoMarker()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwSidebarItem>(p => p
+            .Add(x => x.Label, "Settings")
+            .Add(x => x.Href, "/settings"));
+
+        // Assert
+        var link = cut.Find("a");
+        Assert.False(link.HasAttribute("aria-current"));
+        Assert.DoesNotContain(link.ClassList, c => c.StartsWith("before:"));
+    }
+
+    [Fact]
+    public void OpenParentItem_HasNoCurrentPageMarker()
+    {
+        // Arrange & Act - an open parent shares the active fill, but the marker is for the current page only
+        var cut = TestContext.Render<TwSidebarItem>(p => p
+            .Add(x => x.IsParent, true)
+            .Add(x => x.IsCollapsed, false)
+            .Add(x => x.Label, "Parent")
+            .Add(x => x.OnClick, EventCallback.Factory.Create(this, () => { })));
+
+        // Assert
+        Assert.DoesNotContain(cut.Find("button").ClassList, c => c.StartsWith("before:"));
+    }
 }

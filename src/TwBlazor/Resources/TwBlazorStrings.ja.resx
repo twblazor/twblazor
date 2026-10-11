@@ -468,6 +468,9 @@
   <data name="Navbar_CloseMenu" xml:space="preserve">
     <value>ナビゲーションメニューを閉じる</value>
   </data>
+  <data name="OnThisPage_Title" xml:space="preserve">
+    <value>このページの内容</value>
+  </data>
   <data name="Pagination_Label" xml:space="preserve">
     <value>ページ送り</value>
   </data>

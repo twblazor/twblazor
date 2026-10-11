@@ -465,6 +465,9 @@
   <data name="Navbar_CloseMenu" xml:space="preserve">
     <value>탐색 메뉴 닫기</value>
   </data>
+  <data name="OnThisPage_Title" xml:space="preserve">
+    <value>이 페이지의 내용</value>
+  </data>
   <data name="Pagination_Label" xml:space="preserve">
     <value>페이지 탐색</value>
   </data>
