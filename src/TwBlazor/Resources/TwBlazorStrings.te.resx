@@ -1,0 +1,633 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Telugu strings for TwBlazor components.
+
+  DISCLAIMER: this translation was produced by AI and has not been reviewed by a native speaker. It may contain
+  mistakes or unnatural wording. Corrections are very welcome: edit the <value> you want to improve and open a
+  pull request (see CONTRIBUTING.md). Keep the names and the {0} placeholders unchanged.
+
+  A key that is missing from this file falls back to the English value in TwBlazorStrings.resx.
+-->
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Common_Close" xml:space="preserve">
+    <value>మూసివేయి</value>
+  </data>
+  <data name="Common_Cancel" xml:space="preserve">
+    <value>రద్దు చేయి</value>
+  </data>
+  <data name="Common_Confirm" xml:space="preserve">
+    <value>నిర్ధారించు</value>
+  </data>
+  <data name="Common_Save" xml:space="preserve">
+    <value>సేవ్ చేయి</value>
+  </data>
+  <data name="Common_Delete" xml:space="preserve">
+    <value>తొలగించు</value>
+  </data>
+  <data name="Common_Loading" xml:space="preserve">
+    <value>లోడ్ అవుతోంది</value>
+  </data>
+  <data name="Common_LoadingEllipsis" xml:space="preserve">
+    <value>లోడ్ అవుతోంది...</value>
+  </data>
+  <data name="Common_Previous" xml:space="preserve">
+    <value>మునుపటి</value>
+  </data>
+  <data name="Common_Next" xml:space="preserve">
+    <value>తదుపరి</value>
+  </data>
+  <data name="Common_Start" xml:space="preserve">
+    <value>ప్రారంభం</value>
+  </data>
+  <data name="Common_End" xml:space="preserve">
+    <value>ముగింపు</value>
+  </data>
+  <data name="Common_NoResults" xml:space="preserve">
+    <value>ఫలితాలు లేవు</value>
+  </data>
+  <data name="Common_Yes" xml:space="preserve">
+    <value>అవును</value>
+  </data>
+  <data name="Common_No" xml:space="preserve">
+    <value>కాదు</value>
+  </data>
+  <data name="Breadcrumb_Label" xml:space="preserve">
+    <value>బ్రెడ్‌క్రంబ్</value>
+  </data>
+  <data name="Calendar_Today" xml:space="preserve">
+    <value>ఈ రోజు</value>
+  </data>
+  <data name="Calendar_AddEvent" xml:space="preserve">
+    <value>ఈవెంట్‌ను జోడించు</value>
+  </data>
+  <data name="Calendar_SearchEvents" xml:space="preserve">
+    <value>ఈవెంట్‌లను వెతుకు</value>
+  </data>
+  <data name="Calendar_PreviousDay" xml:space="preserve">
+    <value>మునుపటి రోజు</value>
+  </data>
+  <data name="Calendar_PreviousWeek" xml:space="preserve">
+    <value>మునుపటి వారం</value>
+  </data>
+  <data name="Calendar_PreviousMonth" xml:space="preserve">
+    <value>మునుపటి నెల</value>
+  </data>
+  <data name="Calendar_NextDay" xml:space="preserve">
+    <value>తదుపరి రోజు</value>
+  </data>
+  <data name="Calendar_NextWeek" xml:space="preserve">
+    <value>తదుపరి వారం</value>
+  </data>
+  <data name="Calendar_NextMonth" xml:space="preserve">
+    <value>తదుపరి నెల</value>
+  </data>
+  <data name="Calendar_DayView" xml:space="preserve">
+    <value>రోజు వీక్షణ</value>
+  </data>
+  <data name="Calendar_WeekView" xml:space="preserve">
+    <value>వారం వీక్షణ</value>
+  </data>
+  <data name="Calendar_MonthView" xml:space="preserve">
+    <value>నెల వీక్షణ</value>
+  </data>
+  <data name="Calendar_SelectView" xml:space="preserve">
+    <value>వీక్షణను ఎంచుకోండి</value>
+  </data>
+  <data name="Calendar_AllDay" xml:space="preserve">
+    <value>రోజంతా</value>
+  </data>
+  <data name="Calendar_AllDayEvents" xml:space="preserve">
+    <value>రోజంతా జరిగే ఈవెంట్‌లు</value>
+  </data>
+  <data name="Calendar_AllDayRange" xml:space="preserve">
+    <value>{0} (రోజంతా)</value>
+  </data>
+  <data name="Calendar_WeekNumber" xml:space="preserve">
+    <value>వారం {0}</value>
+  </data>
+  <data name="Calendar_NewEvent" xml:space="preserve">
+    <value>కొత్త ఈవెంట్</value>
+  </data>
+  <data name="Calendar_EditEvent" xml:space="preserve">
+    <value>ఈవెంట్‌ను సవరించు</value>
+  </data>
+  <data name="Calendar_Event" xml:space="preserve">
+    <value>ఈవెంట్</value>
+  </data>
+  <data name="Calendar_EventTimeRange" xml:space="preserve">
+    <value>{0}, {1} నుండి {2} వరకు</value>
+  </data>
+  <data name="Calendar_FieldName" xml:space="preserve">
+    <value>పేరు</value>
+  </data>
+  <data name="Calendar_FieldColor" xml:space="preserve">
+    <value>రంగు</value>
+  </data>
+  <data name="Calendar_EventColor" xml:space="preserve">
+    <value>ఈవెంట్ రంగు</value>
+  </data>
+  <data name="Carousel_Label" xml:space="preserve">
+    <value>కెరౌసెల్</value>
+  </data>
+  <data name="Carousel_PreviousSlide" xml:space="preserve">
+    <value>మునుపటి స్లయిడ్</value>
+  </data>
+  <data name="Carousel_NextSlide" xml:space="preserve">
+    <value>తదుపరి స్లయిడ్</value>
+  </data>
+  <data name="Carousel_Play" xml:space="preserve">
+    <value>ఆటోమేటిక్ స్లయిడ్ షోను ప్లే చేయి</value>
+  </data>
+  <data name="Carousel_Pause" xml:space="preserve">
+    <value>ఆటోమేటిక్ స్లయిడ్ షోను పాజ్ చేయి</value>
+  </data>
+  <data name="Carousel_ChooseSlide" xml:space="preserve">
+    <value>చూపించాల్సిన స్లయిడ్‌ను ఎంచుకోండి</value>
+  </data>
+  <data name="Carousel_SlidePosition" xml:space="preserve">
+    <value>{1}లో {0}</value>
+  </data>
+  <data name="Carousel_SlideOf" xml:space="preserve">
+    <value>స్లయిడ్ {1}లో {0}</value>
+  </data>
+  <data name="Carousel_RoleDescription" xml:space="preserve">
+    <value>కెరౌసెల్</value>
+  </data>
+  <data name="Carousel_SlideRoleDescription" xml:space="preserve">
+    <value>స్లయిడ్</value>
+  </data>
+  <data name="Chart_Label" xml:space="preserve">
+    <value>చార్ట్</value>
+  </data>
+  <data name="Chart_ViewAsTable" xml:space="preserve">
+    <value>పట్టికగా చూడండి</value>
+  </data>
+  <data name="Chart_ViewAsChart" xml:space="preserve">
+    <value>చార్ట్‌గా చూడండి</value>
+  </data>
+  <data name="Chart_TableLabel" xml:space="preserve">
+    <value>చార్ట్ డేటా</value>
+  </data>
+  <data name="Chart_Legend" xml:space="preserve">
+    <value>లెజెండ్</value>
+  </data>
+  <data name="Chart_Empty" xml:space="preserve">
+    <value>చూపించడానికి డేటా లేదు</value>
+  </data>
+  <data name="Chart_Loading" xml:space="preserve">
+    <value>చార్ట్ లోడ్ అవుతోంది</value>
+  </data>
+  <data name="Chart_Category" xml:space="preserve">
+    <value>వర్గం</value>
+  </data>
+  <data name="Chart_Value" xml:space="preserve">
+    <value>విలువ</value>
+  </data>
+  <data name="Chart_Other" xml:space="preserve">
+    <value>ఇతర</value>
+  </data>
+  <data name="Chart_Group" xml:space="preserve">
+    <value>సమూహం</value>
+  </data>
+  <data name="Chart_Measure" xml:space="preserve">
+    <value>కొలత</value>
+  </data>
+  <data name="Chart_Actual" xml:space="preserve">
+    <value>వాస్తవం</value>
+  </data>
+  <data name="Chart_Target" xml:space="preserve">
+    <value>లక్ష్యం</value>
+  </data>
+  <data name="Chart_Rising" xml:space="preserve">
+    <value>పెరుగుదల</value>
+  </data>
+  <data name="Chart_Falling" xml:space="preserve">
+    <value>తగ్గుదల</value>
+  </data>
+  <data name="Chart_Period" xml:space="preserve">
+    <value>వ్యవధి</value>
+  </data>
+  <data name="Chart_Open" xml:space="preserve">
+    <value>ప్రారంభ ధర</value>
+  </data>
+  <data name="Chart_High" xml:space="preserve">
+    <value>గరిష్ఠం</value>
+  </data>
+  <data name="Chart_Low" xml:space="preserve">
+    <value>కనిష్ఠం</value>
+  </data>
+  <data name="Chart_Close" xml:space="preserve">
+    <value>ముగింపు ధర</value>
+  </data>
+  <data name="Chart_OfFirstStage" xml:space="preserve">
+    <value>మొదటి దశలో వాటా</value>
+  </data>
+  <data name="Chart_Task" xml:space="preserve">
+    <value>పని</value>
+  </data>
+  <data name="Chart_Start" xml:space="preserve">
+    <value>ప్రారంభం</value>
+  </data>
+  <data name="Chart_End" xml:space="preserve">
+    <value>ముగింపు</value>
+  </data>
+  <data name="Chart_Range" xml:space="preserve">
+    <value>పరిధి</value>
+  </data>
+  <data name="Chart_RangeValue" xml:space="preserve">
+    <value>{0} నుండి {1}</value>
+  </data>
+  <data name="Chart_Minimum" xml:space="preserve">
+    <value>కనిష్ఠం</value>
+  </data>
+  <data name="Chart_Maximum" xml:space="preserve">
+    <value>గరిష్ఠం</value>
+  </data>
+  <data name="Chart_Count" xml:space="preserve">
+    <value>సంఖ్య</value>
+  </data>
+  <data name="Chart_LowerQuartile" xml:space="preserve">
+    <value>దిగువ చతుర్థకం</value>
+  </data>
+  <data name="Chart_Median" xml:space="preserve">
+    <value>మధ్యగతం</value>
+  </data>
+  <data name="Chart_UpperQuartile" xml:space="preserve">
+    <value>ఎగువ చతుర్థకం</value>
+  </data>
+  <data name="Chart_IconLegend" xml:space="preserve">
+    <value>1 చిహ్నం = {0}</value>
+  </data>
+  <data name="Chart_Share" xml:space="preserve">
+    <value>వాటా</value>
+  </data>
+  <data name="Chart_Size" xml:space="preserve">
+    <value>పరిమాణం</value>
+  </data>
+  <data name="Chart_Series" xml:space="preserve">
+    <value>శ్రేణి</value>
+  </data>
+  <data name="Chart_PointLabel" xml:space="preserve">
+    <value>లేబుల్</value>
+  </data>
+  <data name="Chart_Rank" xml:space="preserve">
+    <value>ర్యాంక్</value>
+  </data>
+  <data name="Chart_Total" xml:space="preserve">
+    <value>మొత్తం</value>
+  </data>
+  <data name="Chart_Increase" xml:space="preserve">
+    <value>పెరుగుదల</value>
+  </data>
+  <data name="Chart_Decrease" xml:space="preserve">
+    <value>తగ్గుదల</value>
+  </data>
+  <data name="Chip_Remove" xml:space="preserve">
+    <value>{0} తీసివేయి</value>
+  </data>
+  <data name="CodeBlock_Copy" xml:space="preserve">
+    <value>కోడ్‌ను కాపీ చేయి</value>
+  </data>
+  <data name="CodeBlock_Copied" xml:space="preserve">
+    <value>కాపీ అయింది</value>
+  </data>
+  <data name="CodeBlock_CopiedToClipboard" xml:space="preserve">
+    <value>క్లిప్‌బోర్డ్‌కు కాపీ అయింది</value>
+  </data>
+  <data name="CodeBlock_CopyFailed" xml:space="preserve">
+    <value>కాపీ చేయడం విఫలమైంది</value>
+  </data>
+  <data name="ColorPicker_Dialog" xml:space="preserve">
+    <value>రంగును ఎంచుకోండి</value>
+  </data>
+  <data name="ColorPicker_Preview" xml:space="preserve">
+    <value>రంగు ప్రివ్యూ</value>
+  </data>
+  <data name="ColorPicker_SaturationLightness" xml:space="preserve">
+    <value>సంతృప్తత మరియు ప్రకాశం</value>
+  </data>
+  <data name="ColorPicker_SaturationLightnessValue" xml:space="preserve">
+    <value>సంతృప్తత {0}%, ప్రకాశం {1}%</value>
+  </data>
+  <data name="ColorPicker_Hue" xml:space="preserve">
+    <value>వర్ణఛాయ</value>
+  </data>
+  <data name="ColorPicker_HueValue" xml:space="preserve">
+    <value>{0} డిగ్రీలు</value>
+  </data>
+  <data name="ColorPicker_Alpha" xml:space="preserve">
+    <value>ఆల్ఫా</value>
+  </data>
+  <data name="ColorPicker_PickFromScreen" xml:space="preserve">
+    <value>స్క్రీన్ నుండి రంగును ఎంచుకోండి</value>
+  </data>
+  <data name="ColorPicker_SelectedColor" xml:space="preserve">
+    <value>ఎంచుకున్న రంగు: {0}</value>
+  </data>
+  <data name="DataTable_SearchLabel" xml:space="preserve">
+    <value>వెతుకు</value>
+  </data>
+  <data name="DataTable_SearchPlaceholder" xml:space="preserve">
+    <value>వెతుకు…</value>
+  </data>
+  <data name="DataTable_Pagination" xml:space="preserve">
+    <value>పట్టిక పేజీల నావిగేషన్</value>
+  </data>
+  <data name="DataTable_PageStatusOne" xml:space="preserve">
+    <value>పేజీ {1}లో {0}, {2} వరుస చూపబడుతోంది</value>
+  </data>
+  <data name="DataTable_PageStatusOther" xml:space="preserve">
+    <value>పేజీ {1}లో {0}, {2} వరుసలు చూపబడుతున్నాయి</value>
+  </data>
+  <data name="DataTable_SearchCleared" xml:space="preserve">
+    <value>శోధన తొలగించబడింది</value>
+  </data>
+  <data name="DataTable_NoSearchResults" xml:space="preserve">
+    <value>మీ శోధనకు సరిపోలే ఫలితాలు లేవు</value>
+  </data>
+  <data name="DataTable_MatchingOne" xml:space="preserve">
+    <value>సరిపోలే {0} వరుస చూపబడుతోంది</value>
+  </data>
+  <data name="DataTable_MatchingOther" xml:space="preserve">
+    <value>సరిపోలే {0} వరుసలు చూపబడుతున్నాయి</value>
+  </data>
+  <data name="DataTable_SortedAscending" xml:space="preserve">
+    <value>{0} ప్రకారం ఆరోహణ క్రమంలో అమర్చబడింది</value>
+  </data>
+  <data name="DataTable_SortedDescending" xml:space="preserve">
+    <value>{0} ప్రకారం అవరోహణ క్రమంలో అమర్చబడింది</value>
+  </data>
+  <data name="DataTable_SortRemoved" xml:space="preserve">
+    <value>{0} ప్రకారం క్రమం తీసివేయబడింది</value>
+  </data>
+  <data name="DataTable_SortBy" xml:space="preserve">
+    <value>{0} ప్రకారం క్రమబద్ధీకరించు</value>
+  </data>
+  <data name="DataTable_SortByAscending" xml:space="preserve">
+    <value>{0} ప్రకారం క్రమబద్ధీకరించు, ప్రస్తుతం ఆరోహణ</value>
+  </data>
+  <data name="DataTable_SortByDescending" xml:space="preserve">
+    <value>{0} ప్రకారం క్రమబద్ధీకరించు, ప్రస్తుతం అవరోహణ</value>
+  </data>
+  <data name="DatePicker_Open" xml:space="preserve">
+    <value>తేదీ ఎంపికను తెరువు</value>
+  </data>
+  <data name="DatePicker_Dialog" xml:space="preserve">
+    <value>తేదీని ఎంచుకోండి</value>
+  </data>
+  <data name="DatePicker_PreviousMonth" xml:space="preserve">
+    <value>మునుపటి నెల</value>
+  </data>
+  <data name="DatePicker_NextMonth" xml:space="preserve">
+    <value>తదుపరి నెల</value>
+  </data>
+  <data name="DatePicker_PreviousYear" xml:space="preserve">
+    <value>మునుపటి సంవత్సరం</value>
+  </data>
+  <data name="DatePicker_NextYear" xml:space="preserve">
+    <value>తదుపరి సంవత్సరం</value>
+  </data>
+  <data name="DatePicker_PreviousDecade" xml:space="preserve">
+    <value>మునుపటి దశాబ్దం</value>
+  </data>
+  <data name="DatePicker_NextDecade" xml:space="preserve">
+    <value>తదుపరి దశాబ్దం</value>
+  </data>
+  <data name="DatePicker_Invalid" xml:space="preserve">
+    <value>చెల్లుబాటు అయ్యే తేదీని నమోదు చేయండి, ఉదాహరణకు {0}</value>
+  </data>
+  <data name="DatePicker_Selected" xml:space="preserve">
+    <value>ఎంచుకోబడింది, {0}</value>
+  </data>
+  <data name="DatePicker_RangeStart" xml:space="preserve">
+    <value>ఎంచుకున్న పరిధి ప్రారంభం, {0}</value>
+  </data>
+  <data name="DatePicker_RangeEnd" xml:space="preserve">
+    <value>ఎంచుకున్న పరిధి ముగింపు, {0}</value>
+  </data>
+  <data name="DatePicker_InRange" xml:space="preserve">
+    <value>ఎంచుకున్న పరిధిలో, {0}</value>
+  </data>
+  <data name="DateRangePicker_Open" xml:space="preserve">
+    <value>తేదీ పరిధి ఎంపికను తెరువు</value>
+  </data>
+  <data name="DateRangePicker_Dialog" xml:space="preserve">
+    <value>తేదీ పరిధిని ఎంచుకోండి</value>
+  </data>
+  <data name="DateRangePicker_Invalid" xml:space="preserve">
+    <value>చెల్లుబాటు అయ్యే తేదీ పరిధిని నమోదు చేయండి, ఉదాహరణకు {0}</value>
+  </data>
+  <data name="DateTimePicker_Placeholder" xml:space="preserve">
+    <value>తేదీ మరియు సమయాన్ని ఎంచుకోండి</value>
+  </data>
+  <data name="DateTimeRangePicker_Open" xml:space="preserve">
+    <value>తేదీ మరియు సమయ పరిధి ఎంపికను తెరువు</value>
+  </data>
+  <data name="DateTimeRangePicker_DialogStart" xml:space="preserve">
+    <value>ప్రారంభ తేదీ మరియు సమయాన్ని ఎంచుకోండి</value>
+  </data>
+  <data name="DateTimeRangePicker_DialogEnd" xml:space="preserve">
+    <value>ముగింపు తేదీ మరియు సమయాన్ని ఎంచుకోండి</value>
+  </data>
+  <data name="DateTimeRangePicker_RangeStep" xml:space="preserve">
+    <value>పరిధి దశ</value>
+  </data>
+  <data name="Dialog_Label" xml:space="preserve">
+    <value>డైలాగ్</value>
+  </data>
+  <data name="FileUpload_FileSelected" xml:space="preserve">
+    <value>{0} ఎంచుకోబడింది</value>
+  </data>
+  <data name="FileUpload_FilesSelected" xml:space="preserve">
+    <value>{0} ఫైల్‌లు ఎంచుకోబడ్డాయి: {1}</value>
+  </data>
+  <data name="Navbar_Label" xml:space="preserve">
+    <value>ఎగువ నావిగేషన్</value>
+  </data>
+  <data name="Navbar_OpenMenu" xml:space="preserve">
+    <value>నావిగేషన్ మెనూను తెరువు</value>
+  </data>
+  <data name="Navbar_CloseMenu" xml:space="preserve">
+    <value>నావిగేషన్ మెనూను మూసివేయి</value>
+  </data>
+  <data name="Pagination_Label" xml:space="preserve">
+    <value>పేజీల నావిగేషన్</value>
+  </data>
+  <data name="Pagination_PreviousPage" xml:space="preserve">
+    <value>మునుపటి పేజీ</value>
+  </data>
+  <data name="Pagination_NextPage" xml:space="preserve">
+    <value>తదుపరి పేజీ</value>
+  </data>
+  <data name="Pagination_ItemsPerPage" xml:space="preserve">
+    <value>ప్రతి పేజీకి అంశాలు</value>
+  </data>
+  <data name="Pagination_PageStatus" xml:space="preserve">
+    <value>పేజీ {1}లో {0}</value>
+  </data>
+  <data name="Pagination_PagePrefix" xml:space="preserve">
+    <value>పేజీ</value>
+  </data>
+  <data name="PickList_Source" xml:space="preserve">
+    <value>అందుబాటులో ఉన్నవి</value>
+  </data>
+  <data name="PickList_Target" xml:space="preserve">
+    <value>ఎంచుకున్నవి</value>
+  </data>
+  <data name="PickList_Empty" xml:space="preserve">
+    <value>అంశాలు లేవు</value>
+  </data>
+  <data name="PickList_MoveItemUp" xml:space="preserve">
+    <value>{0}లో ఎంచుకున్న అంశాన్ని పైకి జరుపు</value>
+  </data>
+  <data name="PickList_MoveItemDown" xml:space="preserve">
+    <value>{0}లో ఎంచుకున్న అంశాన్ని కిందకు జరుపు</value>
+  </data>
+  <data name="PickList_MoveSelectedTo" xml:space="preserve">
+    <value>ఎంచుకున్న అంశాలను {0}కు తరలించు</value>
+  </data>
+  <data name="PickList_MoveAllTo" xml:space="preserve">
+    <value>అన్ని అంశాలను {0}కు తరలించు</value>
+  </data>
+  <data name="PickList_ItemsOne" xml:space="preserve">
+    <value>{0} అంశం</value>
+  </data>
+  <data name="PickList_ItemsOther" xml:space="preserve">
+    <value>{0} అంశాలు</value>
+  </data>
+  <data name="PickList_MovedTo" xml:space="preserve">
+    <value>{0} {1}కు తరలించబడ్డాయి</value>
+  </data>
+  <data name="PickList_MovedUp" xml:space="preserve">
+    <value>{0} పైకి జరపబడ్డాయి</value>
+  </data>
+  <data name="PickList_MovedDown" xml:space="preserve">
+    <value>{0} కిందకు జరపబడ్డాయి</value>
+  </data>
+  <data name="Select_Placeholder" xml:space="preserve">
+    <value>ఒక ఎంపికను ఎంచుకోండి...</value>
+  </data>
+  <data name="Select_Options" xml:space="preserve">
+    <value>ఎంపికలు</value>
+  </data>
+  <data name="Sidebar_SkipToMain" xml:space="preserve">
+    <value>ప్రధాన కంటెంట్‌కు వెళ్లండి</value>
+  </data>
+  <data name="Sidebar_NavigationLabel" xml:space="preserve">
+    <value>సైడ్‌బార్ నావిగేషన్</value>
+  </data>
+  <data name="Sidebar_SearchLabel" xml:space="preserve">
+    <value>నావిగేషన్‌లో వెతుకు</value>
+  </data>
+  <data name="Sidebar_SearchPlaceholder" xml:space="preserve">
+    <value>వెతుకు...</value>
+  </data>
+  <data name="Sidebar_Open" xml:space="preserve">
+    <value>సైడ్‌బార్‌ను తెరువు</value>
+  </data>
+  <data name="Sidebar_Close" xml:space="preserve">
+    <value>సైడ్‌బార్‌ను మూసివేయి</value>
+  </data>
+  <data name="Sidebar_ResultsOne" xml:space="preserve">
+    <value>{0} ఫలితం</value>
+  </data>
+  <data name="Sidebar_ResultsOther" xml:space="preserve">
+    <value>{0} ఫలితాలు</value>
+  </data>
+  <data name="Stepper_Label" xml:space="preserve">
+    <value>పురోగతి</value>
+  </data>
+  <data name="Stepper_StepOf" xml:space="preserve">
+    <value>దశ {1}లో {0}: {2}</value>
+  </data>
+  <data name="Stepper_StepState" xml:space="preserve">
+    <value>దశ {0}: {1}, {2}</value>
+  </data>
+  <data name="Stepper_Completed" xml:space="preserve">
+    <value>పూర్తయింది</value>
+  </data>
+  <data name="Stepper_Current" xml:space="preserve">
+    <value>ప్రస్తుతం</value>
+  </data>
+  <data name="Stepper_NotStarted" xml:space="preserve">
+    <value>ప్రారంభం కాలేదు</value>
+  </data>
+  <data name="Table_ScrollRegion" xml:space="preserve">
+    <value>స్క్రోల్ చేయగల పట్టిక</value>
+  </data>
+  <data name="TimePicker_Open" xml:space="preserve">
+    <value>సమయ ఎంపికను తెరువు</value>
+  </data>
+  <data name="TimePicker_Dialog" xml:space="preserve">
+    <value>సమయాన్ని ఎంచుకోండి</value>
+  </data>
+  <data name="TimePicker_Placeholder" xml:space="preserve">
+    <value>సమయాన్ని ఎంచుకోండి</value>
+  </data>
+  <data name="TimePicker_Invalid" xml:space="preserve">
+    <value>చెల్లుబాటు అయ్యే సమయాన్ని నమోదు చేయండి, ఉదాహరణకు {0}</value>
+  </data>
+  <data name="TimePicker_Hours" xml:space="preserve">
+    <value>గంటలు</value>
+  </data>
+  <data name="TimePicker_Minutes" xml:space="preserve">
+    <value>నిమిషాలు</value>
+  </data>
+  <data name="TimePicker_IncreaseHour" xml:space="preserve">
+    <value>గంటను పెంచు</value>
+  </data>
+  <data name="TimePicker_DecreaseHour" xml:space="preserve">
+    <value>గంటను తగ్గించు</value>
+  </data>
+  <data name="TimePicker_IncreaseMinute" xml:space="preserve">
+    <value>నిమిషాన్ని పెంచు</value>
+  </data>
+  <data name="TimePicker_DecreaseMinute" xml:space="preserve">
+    <value>నిమిషాన్ని తగ్గించు</value>
+  </data>
+  <data name="TimePicker_SwitchPeriod" xml:space="preserve">
+    <value>{0}, {1}కు మార్చు</value>
+  </data>
+  <data name="TimeRangePicker_Open" xml:space="preserve">
+    <value>సమయ పరిధి ఎంపికను తెరువు</value>
+  </data>
+  <data name="TimeRangePicker_DialogStart" xml:space="preserve">
+    <value>ప్రారంభ సమయాన్ని ఎంచుకోండి</value>
+  </data>
+  <data name="TimeRangePicker_DialogEnd" xml:space="preserve">
+    <value>ముగింపు సమయాన్ని ఎంచుకోండి</value>
+  </data>
+  <data name="TimeRangePicker_Invalid" xml:space="preserve">
+    <value>చెల్లుబాటు అయ్యే సమయ పరిధిని నమోదు చేయండి, ఉదాహరణకు {0}</value>
+  </data>
+  <data name="Toast_RegionLabel" xml:space="preserve">
+    <value>నోటిఫికేషన్‌లు</value>
+  </data>
+  <data name="Toast_JustNow" xml:space="preserve">
+    <value>ఇప్పుడే</value>
+  </data>
+  <data name="Toast_MinutesAgo" xml:space="preserve">
+    <value>{0} నిమిషాల క్రితం</value>
+  </data>
+  <data name="Toast_HoursAgo" xml:space="preserve">
+    <value>{0} గంటల క్రితం</value>
+  </data>
+  <data name="Toast_DaysAgo" xml:space="preserve">
+    <value>{0} రోజుల క్రితం</value>
+  </data>
+  <data name="TreeList_Select" xml:space="preserve">
+    <value>{0} ఎంచుకోండి</value>
+  </data>
+</root>

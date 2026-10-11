@@ -17,7 +17,7 @@ public partial class TwLocalizerTests
 {
     private static readonly ResourceManager _builtIn = new("TwBlazor.Resources.TwBlazorStrings", typeof(TwLocalizer).Assembly);
 
-    public static TheoryData<string> Languages => ["zh-Hans", "es", "hi", "pt", "bn", "ru", "ja", "pa-Arab", "tr"];
+    public static TheoryData<string> Languages => ["zh-Hans", "es", "hi", "pt", "bn", "ru", "ja", "pa-Arab", "tr", "vi", "zh-Hant", "ar", "mr", "te", "ko", "ta", "ur", "id", "de", "fr", "jv", "fa", "it"];
 
     private static TwLocalizer Create(Action<TwLocalizationOptions>? configure = null)
     {
@@ -77,6 +77,20 @@ public partial class TwLocalizerTests
     [InlineData("hi", "बंद करें")]
     [InlineData("bn", "বন্ধ করুন")]
     [InlineData("pa-Arab", "بند کرو")]
+    [InlineData("vi", "Đóng")]
+    [InlineData("zh-Hant", "關閉")]
+    [InlineData("ar", "إغلاق")]
+    [InlineData("mr", "बंद करा")]
+    [InlineData("te", "మూసివేయి")]
+    [InlineData("ko", "닫기")]
+    [InlineData("ta", "மூடு")]
+    [InlineData("ur", "بند کریں")]
+    [InlineData("id", "Tutup")]
+    [InlineData("de", "Schließen")]
+    [InlineData("fr", "Fermer")]
+    [InlineData("jv", "Tutup")]
+    [InlineData("fa", "بستن")]
+    [InlineData("it", "Chiudi")]
     public void Indexer_ReturnsTheTranslation_ForEachShippedLanguage(string culture, string expected)
     {
         var localizer = CreateFor(culture);
@@ -89,6 +103,11 @@ public partial class TwLocalizerTests
     [InlineData("pt-BR", "Fechar")]
     [InlineData("zh-CN", "关闭")]
     [InlineData("pa-Arab-PK", "بند کرو")]
+    [InlineData("zh-HK", "關閉")]
+    [InlineData("zh-TW", "關閉")]
+    [InlineData("ar-EG", "إغلاق")]
+    [InlineData("de-AT", "Schließen")]
+    [InlineData("fr-CA", "Fermer")]
     public void Indexer_FallsBackToTheParentCulture(string culture, string expected)
     {
         var localizer = CreateFor(culture);
@@ -99,7 +118,7 @@ public partial class TwLocalizerTests
     [Fact]
     public void Indexer_FallsBackToEnglish_ForALanguageThatIsNotShipped()
     {
-        var localizer = CreateFor("de-DE");
+        var localizer = CreateFor("sv-SE");
 
         Assert.Equal("Close", localizer[TwStrings.Common_Close]);
     }

@@ -1,0 +1,636 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Urdu strings for TwBlazor components.
+
+  DISCLAIMER: this translation was produced by AI and has not been reviewed by a native speaker. It may contain
+  mistakes or unnatural wording. Corrections are very welcome: edit the <value> you want to improve and open a
+  pull request (see CONTRIBUTING.md). Keep the names and the {0} placeholders unchanged.
+
+  A key that is missing from this file falls back to the English value in TwBlazorStrings.resx.
+-->
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Common_Close" xml:space="preserve">
+    <value>بند کریں</value>
+  </data>
+  <data name="Common_Cancel" xml:space="preserve">
+    <value>منسوخ کریں</value>
+  </data>
+  <data name="Common_Confirm" xml:space="preserve">
+    <value>تصدیق کریں</value>
+  </data>
+  <data name="Common_Save" xml:space="preserve">
+    <value>محفوظ کریں</value>
+  </data>
+  <data name="Common_Delete" xml:space="preserve">
+    <value>حذف کریں</value>
+  </data>
+  <data name="Common_Loading" xml:space="preserve">
+    <value>لوڈ ہو رہا ہے</value>
+  </data>
+  <data name="Common_LoadingEllipsis" xml:space="preserve">
+    <value>لوڈ ہو رہا ہے...</value>
+  </data>
+  <data name="Common_Previous" xml:space="preserve">
+    <value>پچھلا</value>
+  </data>
+  <data name="Common_Next" xml:space="preserve">
+    <value>اگلا</value>
+  </data>
+  <data name="Common_Start" xml:space="preserve">
+    <value>آغاز</value>
+  </data>
+  <data name="Common_End" xml:space="preserve">
+    <value>اختتام</value>
+  </data>
+  <data name="Common_NoResults" xml:space="preserve">
+    <value>کوئی نتیجہ نہیں</value>
+  </data>
+  <data name="Common_Yes" xml:space="preserve">
+    <value>ہاں</value>
+  </data>
+  <data name="Common_No" xml:space="preserve">
+    <value>نہیں</value>
+  </data>
+  <data name="Breadcrumb_Label" xml:space="preserve">
+    <value>بریڈ کرمب</value>
+  </data>
+  <data name="Calendar_Today" xml:space="preserve">
+    <value>آج</value>
+  </data>
+  <data name="Calendar_AddEvent" xml:space="preserve">
+    <value>ایونٹ شامل کریں</value>
+  </data>
+  <data name="Calendar_SearchEvents" xml:space="preserve">
+    <value>ایونٹ تلاش کریں</value>
+  </data>
+  <data name="Calendar_PreviousDay" xml:space="preserve">
+    <value>پچھلا دن</value>
+  </data>
+  <data name="Calendar_PreviousWeek" xml:space="preserve">
+    <value>پچھلا ہفتہ</value>
+  </data>
+  <data name="Calendar_PreviousMonth" xml:space="preserve">
+    <value>پچھلا مہینہ</value>
+  </data>
+  <data name="Calendar_NextDay" xml:space="preserve">
+    <value>اگلا دن</value>
+  </data>
+  <data name="Calendar_NextWeek" xml:space="preserve">
+    <value>اگلا ہفتہ</value>
+  </data>
+  <data name="Calendar_NextMonth" xml:space="preserve">
+    <value>اگلا مہینہ</value>
+  </data>
+  <data name="Calendar_DayView" xml:space="preserve">
+    <value>دن کا منظر</value>
+  </data>
+  <data name="Calendar_WeekView" xml:space="preserve">
+    <value>ہفتے کا منظر</value>
+  </data>
+  <data name="Calendar_MonthView" xml:space="preserve">
+    <value>مہینے کا منظر</value>
+  </data>
+  <data name="Calendar_SelectView" xml:space="preserve">
+    <value>منظر منتخب کریں</value>
+  </data>
+  <data name="Calendar_AllDay" xml:space="preserve">
+    <value>پورا دن</value>
+  </data>
+  <data name="Calendar_AllDayEvents" xml:space="preserve">
+    <value>پورے دن کے ایونٹ</value>
+  </data>
+  <data name="Calendar_AllDayRange" xml:space="preserve">
+    <value>{0} (پورا دن)</value>
+  </data>
+  <data name="Calendar_WeekNumber" xml:space="preserve">
+    <value>ہفتہ {0}</value>
+  </data>
+  <data name="Calendar_NewEvent" xml:space="preserve">
+    <value>نیا ایونٹ</value>
+  </data>
+  <data name="Calendar_EditEvent" xml:space="preserve">
+    <value>ایونٹ میں ترمیم کریں</value>
+  </data>
+  <data name="Calendar_Event" xml:space="preserve">
+    <value>ایونٹ</value>
+  </data>
+  <data name="Calendar_EventLabel" xml:space="preserve">
+    <value>{0}، {1}</value>
+  </data>
+  <data name="Calendar_EventTimeRange" xml:space="preserve">
+    <value>{0}، {1} سے {2} تک</value>
+  </data>
+  <data name="Calendar_FieldName" xml:space="preserve">
+    <value>نام</value>
+  </data>
+  <data name="Calendar_FieldColor" xml:space="preserve">
+    <value>رنگ</value>
+  </data>
+  <data name="Calendar_EventColor" xml:space="preserve">
+    <value>ایونٹ کا رنگ</value>
+  </data>
+  <data name="Carousel_Label" xml:space="preserve">
+    <value>کیروسل</value>
+  </data>
+  <data name="Carousel_PreviousSlide" xml:space="preserve">
+    <value>پچھلی سلائیڈ</value>
+  </data>
+  <data name="Carousel_NextSlide" xml:space="preserve">
+    <value>اگلی سلائیڈ</value>
+  </data>
+  <data name="Carousel_Play" xml:space="preserve">
+    <value>خودکار سلائیڈ شو چلائیں</value>
+  </data>
+  <data name="Carousel_Pause" xml:space="preserve">
+    <value>خودکار سلائیڈ شو روکیں</value>
+  </data>
+  <data name="Carousel_ChooseSlide" xml:space="preserve">
+    <value>دکھانے کے لیے سلائیڈ منتخب کریں</value>
+  </data>
+  <data name="Carousel_SlidePosition" xml:space="preserve">
+    <value>{1} میں سے {0}</value>
+  </data>
+  <data name="Carousel_SlideOf" xml:space="preserve">
+    <value>سلائیڈ {1} میں سے {0}</value>
+  </data>
+  <data name="Carousel_RoleDescription" xml:space="preserve">
+    <value>کیروسل</value>
+  </data>
+  <data name="Carousel_SlideRoleDescription" xml:space="preserve">
+    <value>سلائیڈ</value>
+  </data>
+  <data name="Chart_Label" xml:space="preserve">
+    <value>چارٹ</value>
+  </data>
+  <data name="Chart_ViewAsTable" xml:space="preserve">
+    <value>جدول کے طور پر دیکھیں</value>
+  </data>
+  <data name="Chart_ViewAsChart" xml:space="preserve">
+    <value>چارٹ کے طور پر دیکھیں</value>
+  </data>
+  <data name="Chart_TableLabel" xml:space="preserve">
+    <value>چارٹ کا ڈیٹا</value>
+  </data>
+  <data name="Chart_Legend" xml:space="preserve">
+    <value>کلید</value>
+  </data>
+  <data name="Chart_Empty" xml:space="preserve">
+    <value>دکھانے کے لیے کوئی ڈیٹا نہیں</value>
+  </data>
+  <data name="Chart_Loading" xml:space="preserve">
+    <value>چارٹ لوڈ ہو رہا ہے</value>
+  </data>
+  <data name="Chart_Category" xml:space="preserve">
+    <value>زمرہ</value>
+  </data>
+  <data name="Chart_Value" xml:space="preserve">
+    <value>قدر</value>
+  </data>
+  <data name="Chart_Other" xml:space="preserve">
+    <value>دیگر</value>
+  </data>
+  <data name="Chart_Group" xml:space="preserve">
+    <value>گروپ</value>
+  </data>
+  <data name="Chart_Measure" xml:space="preserve">
+    <value>پیمائش</value>
+  </data>
+  <data name="Chart_Actual" xml:space="preserve">
+    <value>اصل</value>
+  </data>
+  <data name="Chart_Target" xml:space="preserve">
+    <value>ہدف</value>
+  </data>
+  <data name="Chart_Rising" xml:space="preserve">
+    <value>اضافہ</value>
+  </data>
+  <data name="Chart_Falling" xml:space="preserve">
+    <value>کمی</value>
+  </data>
+  <data name="Chart_Period" xml:space="preserve">
+    <value>مدت</value>
+  </data>
+  <data name="Chart_Open" xml:space="preserve">
+    <value>ابتدائی قیمت</value>
+  </data>
+  <data name="Chart_High" xml:space="preserve">
+    <value>بلند ترین</value>
+  </data>
+  <data name="Chart_Low" xml:space="preserve">
+    <value>کم ترین</value>
+  </data>
+  <data name="Chart_Close" xml:space="preserve">
+    <value>اختتامی قیمت</value>
+  </data>
+  <data name="Chart_OfFirstStage" xml:space="preserve">
+    <value>پہلے مرحلے کا حصہ</value>
+  </data>
+  <data name="Chart_Task" xml:space="preserve">
+    <value>کام</value>
+  </data>
+  <data name="Chart_Start" xml:space="preserve">
+    <value>آغاز</value>
+  </data>
+  <data name="Chart_End" xml:space="preserve">
+    <value>اختتام</value>
+  </data>
+  <data name="Chart_Range" xml:space="preserve">
+    <value>حد</value>
+  </data>
+  <data name="Chart_RangeValue" xml:space="preserve">
+    <value>{0} سے {1}</value>
+  </data>
+  <data name="Chart_Minimum" xml:space="preserve">
+    <value>کم از کم</value>
+  </data>
+  <data name="Chart_Maximum" xml:space="preserve">
+    <value>زیادہ سے زیادہ</value>
+  </data>
+  <data name="Chart_Count" xml:space="preserve">
+    <value>تعداد</value>
+  </data>
+  <data name="Chart_LowerQuartile" xml:space="preserve">
+    <value>زیریں چوتھائی</value>
+  </data>
+  <data name="Chart_Median" xml:space="preserve">
+    <value>وسطانیہ</value>
+  </data>
+  <data name="Chart_UpperQuartile" xml:space="preserve">
+    <value>بالائی چوتھائی</value>
+  </data>
+  <data name="Chart_IconLegend" xml:space="preserve">
+    <value>1 آئیکن = {0}</value>
+  </data>
+  <data name="Chart_Share" xml:space="preserve">
+    <value>حصہ</value>
+  </data>
+  <data name="Chart_Size" xml:space="preserve">
+    <value>سائز</value>
+  </data>
+  <data name="Chart_Series" xml:space="preserve">
+    <value>سلسلہ</value>
+  </data>
+  <data name="Chart_PointLabel" xml:space="preserve">
+    <value>لیبل</value>
+  </data>
+  <data name="Chart_Rank" xml:space="preserve">
+    <value>درجہ</value>
+  </data>
+  <data name="Chart_Total" xml:space="preserve">
+    <value>کل</value>
+  </data>
+  <data name="Chart_Increase" xml:space="preserve">
+    <value>اضافہ</value>
+  </data>
+  <data name="Chart_Decrease" xml:space="preserve">
+    <value>کمی</value>
+  </data>
+  <data name="Chip_Remove" xml:space="preserve">
+    <value>{0} ہٹائیں</value>
+  </data>
+  <data name="CodeBlock_Copy" xml:space="preserve">
+    <value>کوڈ کاپی کریں</value>
+  </data>
+  <data name="CodeBlock_Copied" xml:space="preserve">
+    <value>کاپی ہو گیا</value>
+  </data>
+  <data name="CodeBlock_CopiedToClipboard" xml:space="preserve">
+    <value>کلپ بورڈ پر کاپی ہو گیا</value>
+  </data>
+  <data name="CodeBlock_CopyFailed" xml:space="preserve">
+    <value>کاپی نہیں ہو سکا</value>
+  </data>
+  <data name="ColorPicker_Dialog" xml:space="preserve">
+    <value>رنگ منتخب کریں</value>
+  </data>
+  <data name="ColorPicker_Preview" xml:space="preserve">
+    <value>رنگ کا پیش منظر</value>
+  </data>
+  <data name="ColorPicker_SaturationLightness" xml:space="preserve">
+    <value>سیچوریشن اور روشنی</value>
+  </data>
+  <data name="ColorPicker_SaturationLightnessValue" xml:space="preserve">
+    <value>سیچوریشن {0}%، روشنی {1}%</value>
+  </data>
+  <data name="ColorPicker_Hue" xml:space="preserve">
+    <value>ہیو</value>
+  </data>
+  <data name="ColorPicker_HueValue" xml:space="preserve">
+    <value>{0} درجے</value>
+  </data>
+  <data name="ColorPicker_Alpha" xml:space="preserve">
+    <value>الفا</value>
+  </data>
+  <data name="ColorPicker_PickFromScreen" xml:space="preserve">
+    <value>اسکرین سے رنگ منتخب کریں</value>
+  </data>
+  <data name="ColorPicker_SelectedColor" xml:space="preserve">
+    <value>منتخب رنگ: {0}</value>
+  </data>
+  <data name="DataTable_SearchLabel" xml:space="preserve">
+    <value>تلاش</value>
+  </data>
+  <data name="DataTable_SearchPlaceholder" xml:space="preserve">
+    <value>تلاش کریں…</value>
+  </data>
+  <data name="DataTable_Pagination" xml:space="preserve">
+    <value>جدول کی صفحہ بندی</value>
+  </data>
+  <data name="DataTable_PageStatusOne" xml:space="preserve">
+    <value>صفحہ {1} میں سے {0}، {2} قطار دکھائی جا رہی ہے</value>
+  </data>
+  <data name="DataTable_PageStatusOther" xml:space="preserve">
+    <value>صفحہ {1} میں سے {0}، {2} قطاریں دکھائی جا رہی ہیں</value>
+  </data>
+  <data name="DataTable_SearchCleared" xml:space="preserve">
+    <value>تلاش صاف کر دی گئی</value>
+  </data>
+  <data name="DataTable_NoSearchResults" xml:space="preserve">
+    <value>آپ کی تلاش سے کوئی نتیجہ مطابقت نہیں رکھتا</value>
+  </data>
+  <data name="DataTable_MatchingOne" xml:space="preserve">
+    <value>مماثل {0} قطار دکھائی جا رہی ہے</value>
+  </data>
+  <data name="DataTable_MatchingOther" xml:space="preserve">
+    <value>مماثل {0} قطاریں دکھائی جا رہی ہیں</value>
+  </data>
+  <data name="DataTable_SortedAscending" xml:space="preserve">
+    <value>{0} کے لحاظ سے صعودی ترتیب میں</value>
+  </data>
+  <data name="DataTable_SortedDescending" xml:space="preserve">
+    <value>{0} کے لحاظ سے نزولی ترتیب میں</value>
+  </data>
+  <data name="DataTable_SortRemoved" xml:space="preserve">
+    <value>{0} کے لحاظ سے ترتیب ہٹا دی گئی</value>
+  </data>
+  <data name="DataTable_SortBy" xml:space="preserve">
+    <value>{0} کے لحاظ سے ترتیب دیں</value>
+  </data>
+  <data name="DataTable_SortByAscending" xml:space="preserve">
+    <value>{0} کے لحاظ سے ترتیب دیں، فی الحال صعودی</value>
+  </data>
+  <data name="DataTable_SortByDescending" xml:space="preserve">
+    <value>{0} کے لحاظ سے ترتیب دیں، فی الحال نزولی</value>
+  </data>
+  <data name="DatePicker_Open" xml:space="preserve">
+    <value>تاریخ منتخب کرنے والا کھولیں</value>
+  </data>
+  <data name="DatePicker_Dialog" xml:space="preserve">
+    <value>تاریخ منتخب کریں</value>
+  </data>
+  <data name="DatePicker_PreviousMonth" xml:space="preserve">
+    <value>پچھلا مہینہ</value>
+  </data>
+  <data name="DatePicker_NextMonth" xml:space="preserve">
+    <value>اگلا مہینہ</value>
+  </data>
+  <data name="DatePicker_PreviousYear" xml:space="preserve">
+    <value>پچھلا سال</value>
+  </data>
+  <data name="DatePicker_NextYear" xml:space="preserve">
+    <value>اگلا سال</value>
+  </data>
+  <data name="DatePicker_PreviousDecade" xml:space="preserve">
+    <value>پچھلی دہائی</value>
+  </data>
+  <data name="DatePicker_NextDecade" xml:space="preserve">
+    <value>اگلی دہائی</value>
+  </data>
+  <data name="DatePicker_Invalid" xml:space="preserve">
+    <value>درست تاریخ درج کریں، مثلاً {0}</value>
+  </data>
+  <data name="DatePicker_Selected" xml:space="preserve">
+    <value>منتخب، {0}</value>
+  </data>
+  <data name="DatePicker_RangeStart" xml:space="preserve">
+    <value>منتخب حد کا آغاز، {0}</value>
+  </data>
+  <data name="DatePicker_RangeEnd" xml:space="preserve">
+    <value>منتخب حد کا اختتام، {0}</value>
+  </data>
+  <data name="DatePicker_InRange" xml:space="preserve">
+    <value>منتخب حد میں، {0}</value>
+  </data>
+  <data name="DateRangePicker_Open" xml:space="preserve">
+    <value>تاریخوں کی حد منتخب کرنے والا کھولیں</value>
+  </data>
+  <data name="DateRangePicker_Dialog" xml:space="preserve">
+    <value>تاریخوں کی حد منتخب کریں</value>
+  </data>
+  <data name="DateRangePicker_Invalid" xml:space="preserve">
+    <value>تاریخوں کی درست حد درج کریں، مثلاً {0}</value>
+  </data>
+  <data name="DateTimePicker_Placeholder" xml:space="preserve">
+    <value>تاریخ اور وقت منتخب کریں</value>
+  </data>
+  <data name="DateTimeRangePicker_Open" xml:space="preserve">
+    <value>تاریخ اور وقت کی حد منتخب کرنے والا کھولیں</value>
+  </data>
+  <data name="DateTimeRangePicker_DialogStart" xml:space="preserve">
+    <value>آغاز کی تاریخ اور وقت منتخب کریں</value>
+  </data>
+  <data name="DateTimeRangePicker_DialogEnd" xml:space="preserve">
+    <value>اختتام کی تاریخ اور وقت منتخب کریں</value>
+  </data>
+  <data name="DateTimeRangePicker_RangeStep" xml:space="preserve">
+    <value>حد کا مرحلہ</value>
+  </data>
+  <data name="Dialog_Label" xml:space="preserve">
+    <value>ڈائیلاگ</value>
+  </data>
+  <data name="FileUpload_FileSelected" xml:space="preserve">
+    <value>{0} منتخب ہوئی</value>
+  </data>
+  <data name="FileUpload_FilesSelected" xml:space="preserve">
+    <value>{0} فائلیں منتخب ہوئیں: {1}</value>
+  </data>
+  <data name="Navbar_Label" xml:space="preserve">
+    <value>بالائی نیویگیشن</value>
+  </data>
+  <data name="Navbar_OpenMenu" xml:space="preserve">
+    <value>نیویگیشن مینو کھولیں</value>
+  </data>
+  <data name="Navbar_CloseMenu" xml:space="preserve">
+    <value>نیویگیشن مینو بند کریں</value>
+  </data>
+  <data name="Pagination_Label" xml:space="preserve">
+    <value>صفحہ بندی</value>
+  </data>
+  <data name="Pagination_PreviousPage" xml:space="preserve">
+    <value>پچھلا صفحہ</value>
+  </data>
+  <data name="Pagination_NextPage" xml:space="preserve">
+    <value>اگلا صفحہ</value>
+  </data>
+  <data name="Pagination_ItemsPerPage" xml:space="preserve">
+    <value>فی صفحہ آئٹم</value>
+  </data>
+  <data name="Pagination_PageStatus" xml:space="preserve">
+    <value>صفحہ {1} میں سے {0}</value>
+  </data>
+  <data name="Pagination_PagePrefix" xml:space="preserve">
+    <value>صفحہ</value>
+  </data>
+  <data name="PickList_Source" xml:space="preserve">
+    <value>دستیاب</value>
+  </data>
+  <data name="PickList_Target" xml:space="preserve">
+    <value>منتخب</value>
+  </data>
+  <data name="PickList_Empty" xml:space="preserve">
+    <value>کوئی آئٹم نہیں</value>
+  </data>
+  <data name="PickList_MoveItemUp" xml:space="preserve">
+    <value>{0} کا منتخب آئٹم اوپر لے جائیں</value>
+  </data>
+  <data name="PickList_MoveItemDown" xml:space="preserve">
+    <value>{0} کا منتخب آئٹم نیچے لے جائیں</value>
+  </data>
+  <data name="PickList_MoveSelectedTo" xml:space="preserve">
+    <value>منتخب آئٹم {0} میں لے جائیں</value>
+  </data>
+  <data name="PickList_MoveAllTo" xml:space="preserve">
+    <value>تمام آئٹم {0} میں لے جائیں</value>
+  </data>
+  <data name="PickList_ItemsOne" xml:space="preserve">
+    <value>{0} آئٹم</value>
+  </data>
+  <data name="PickList_ItemsOther" xml:space="preserve">
+    <value>{0} آئٹم</value>
+  </data>
+  <data name="PickList_MovedTo" xml:space="preserve">
+    <value>{0} {1} میں منتقل کر دیے گئے</value>
+  </data>
+  <data name="PickList_MovedUp" xml:space="preserve">
+    <value>{0} اوپر منتقل کر دیے گئے</value>
+  </data>
+  <data name="PickList_MovedDown" xml:space="preserve">
+    <value>{0} نیچے منتقل کر دیے گئے</value>
+  </data>
+  <data name="Select_Placeholder" xml:space="preserve">
+    <value>کوئی آپشن منتخب کریں...</value>
+  </data>
+  <data name="Select_Options" xml:space="preserve">
+    <value>اختیارات</value>
+  </data>
+  <data name="Sidebar_SkipToMain" xml:space="preserve">
+    <value>مرکزی مواد پر جائیں</value>
+  </data>
+  <data name="Sidebar_NavigationLabel" xml:space="preserve">
+    <value>سائیڈبار نیویگیشن</value>
+  </data>
+  <data name="Sidebar_SearchLabel" xml:space="preserve">
+    <value>نیویگیشن میں تلاش کریں</value>
+  </data>
+  <data name="Sidebar_SearchPlaceholder" xml:space="preserve">
+    <value>تلاش کریں...</value>
+  </data>
+  <data name="Sidebar_Open" xml:space="preserve">
+    <value>سائیڈبار کھولیں</value>
+  </data>
+  <data name="Sidebar_Close" xml:space="preserve">
+    <value>سائیڈبار بند کریں</value>
+  </data>
+  <data name="Sidebar_ResultsOne" xml:space="preserve">
+    <value>{0} نتیجہ</value>
+  </data>
+  <data name="Sidebar_ResultsOther" xml:space="preserve">
+    <value>{0} نتائج</value>
+  </data>
+  <data name="Stepper_Label" xml:space="preserve">
+    <value>پیش رفت</value>
+  </data>
+  <data name="Stepper_StepOf" xml:space="preserve">
+    <value>مرحلہ {1} میں سے {0}: {2}</value>
+  </data>
+  <data name="Stepper_StepState" xml:space="preserve">
+    <value>مرحلہ {0}: {1}، {2}</value>
+  </data>
+  <data name="Stepper_Completed" xml:space="preserve">
+    <value>مکمل</value>
+  </data>
+  <data name="Stepper_Current" xml:space="preserve">
+    <value>موجودہ</value>
+  </data>
+  <data name="Stepper_NotStarted" xml:space="preserve">
+    <value>شروع نہیں ہوا</value>
+  </data>
+  <data name="Table_ScrollRegion" xml:space="preserve">
+    <value>اسکرول ہونے والا جدول</value>
+  </data>
+  <data name="TimePicker_Open" xml:space="preserve">
+    <value>وقت منتخب کرنے والا کھولیں</value>
+  </data>
+  <data name="TimePicker_Dialog" xml:space="preserve">
+    <value>وقت منتخب کریں</value>
+  </data>
+  <data name="TimePicker_Placeholder" xml:space="preserve">
+    <value>وقت منتخب کریں</value>
+  </data>
+  <data name="TimePicker_Invalid" xml:space="preserve">
+    <value>درست وقت درج کریں، مثلاً {0}</value>
+  </data>
+  <data name="TimePicker_Hours" xml:space="preserve">
+    <value>گھنٹے</value>
+  </data>
+  <data name="TimePicker_Minutes" xml:space="preserve">
+    <value>منٹ</value>
+  </data>
+  <data name="TimePicker_IncreaseHour" xml:space="preserve">
+    <value>گھنٹہ بڑھائیں</value>
+  </data>
+  <data name="TimePicker_DecreaseHour" xml:space="preserve">
+    <value>گھنٹہ گھٹائیں</value>
+  </data>
+  <data name="TimePicker_IncreaseMinute" xml:space="preserve">
+    <value>منٹ بڑھائیں</value>
+  </data>
+  <data name="TimePicker_DecreaseMinute" xml:space="preserve">
+    <value>منٹ گھٹائیں</value>
+  </data>
+  <data name="TimePicker_SwitchPeriod" xml:space="preserve">
+    <value>{0}، {1} پر تبدیل کریں</value>
+  </data>
+  <data name="TimeRangePicker_Open" xml:space="preserve">
+    <value>وقت کی حد منتخب کرنے والا کھولیں</value>
+  </data>
+  <data name="TimeRangePicker_DialogStart" xml:space="preserve">
+    <value>آغاز کا وقت منتخب کریں</value>
+  </data>
+  <data name="TimeRangePicker_DialogEnd" xml:space="preserve">
+    <value>اختتام کا وقت منتخب کریں</value>
+  </data>
+  <data name="TimeRangePicker_Invalid" xml:space="preserve">
+    <value>وقت کی درست حد درج کریں، مثلاً {0}</value>
+  </data>
+  <data name="Toast_RegionLabel" xml:space="preserve">
+    <value>اطلاعات</value>
+  </data>
+  <data name="Toast_JustNow" xml:space="preserve">
+    <value>ابھی ابھی</value>
+  </data>
+  <data name="Toast_MinutesAgo" xml:space="preserve">
+    <value>{0} منٹ پہلے</value>
+  </data>
+  <data name="Toast_HoursAgo" xml:space="preserve">
+    <value>{0} گھنٹے پہلے</value>
+  </data>
+  <data name="Toast_DaysAgo" xml:space="preserve">
+    <value>{0} دن پہلے</value>
+  </data>
+  <data name="TreeList_Select" xml:space="preserve">
+    <value>{0} منتخب کریں</value>
+  </data>
+</root>

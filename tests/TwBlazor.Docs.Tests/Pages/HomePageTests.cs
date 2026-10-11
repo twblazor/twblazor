@@ -76,6 +76,37 @@ public class HomePageTests : DocsTestBase
     }
 
     [Fact]
+    public void Render_AdvertisesLocalization_ListsEveryShippedLanguage_AndLinksToItsPage()
+    {
+        // Arrange & Act
+        var page = TestContext.Render<Home>();
+
+        // Assert
+        var section = page.Find("section[aria-labelledby='localization-heading']");
+        Assert.Contains("language", section.QuerySelector("h2#localization-heading")!.TextContent);
+        Assert.Equal("/localization", section.QuerySelector("a#localization-docs")!.GetAttribute("href"));
+
+        var cultures = section.QuerySelectorAll("#localization-languages > li > span[lang]").Select(span => span.GetAttribute("lang")!).ToList();
+        Assert.Equal(24, cultures.Count);
+        Assert.Equal("en", cultures[0]);
+        var resources = new System.Resources.ResourceManager("TwBlazor.Resources.TwBlazorStrings", typeof(TwBlazor.Localization.TwLocalizer).Assembly);
+        Assert.All(cultures.Skip(1), culture =>
+            Assert.NotNull(resources.GetResourceSet(System.Globalization.CultureInfo.GetCultureInfo(culture), true, false)));
+    }
+
+    [Fact]
+    public void Render_SaysTheTranslationsWereProducedByAi()
+    {
+        // Arrange & Act
+        var page = TestContext.Render<Home>();
+
+        // Assert
+        var disclaimer = page.Find("#localization-disclaimer");
+        Assert.Contains("produced by AI", disclaimer.TextContent);
+        Assert.Equal("/localization#localization-contributing", disclaimer.QuerySelector("a")!.GetAttribute("href"));
+    }
+
+    [Fact]
     public void Render_AdvertisesClassMerging_AndLinksToItsPage()
     {
         // Arrange & Act

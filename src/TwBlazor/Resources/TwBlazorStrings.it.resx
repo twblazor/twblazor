@@ -1,0 +1,633 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Italian strings for TwBlazor components.
+
+  DISCLAIMER: this translation was produced by AI and has not been reviewed by a native speaker. It may contain
+  mistakes or unnatural wording. Corrections are very welcome: edit the <value> you want to improve and open a
+  pull request (see CONTRIBUTING.md). Keep the names and the {0} placeholders unchanged.
+
+  A key that is missing from this file falls back to the English value in TwBlazorStrings.resx.
+-->
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Common_Close" xml:space="preserve">
+    <value>Chiudi</value>
+  </data>
+  <data name="Common_Cancel" xml:space="preserve">
+    <value>Annulla</value>
+  </data>
+  <data name="Common_Confirm" xml:space="preserve">
+    <value>Conferma</value>
+  </data>
+  <data name="Common_Save" xml:space="preserve">
+    <value>Salva</value>
+  </data>
+  <data name="Common_Delete" xml:space="preserve">
+    <value>Elimina</value>
+  </data>
+  <data name="Common_Loading" xml:space="preserve">
+    <value>Caricamento</value>
+  </data>
+  <data name="Common_LoadingEllipsis" xml:space="preserve">
+    <value>Caricamento...</value>
+  </data>
+  <data name="Common_Previous" xml:space="preserve">
+    <value>Precedente</value>
+  </data>
+  <data name="Common_Next" xml:space="preserve">
+    <value>Successivo</value>
+  </data>
+  <data name="Common_Start" xml:space="preserve">
+    <value>Inizio</value>
+  </data>
+  <data name="Common_End" xml:space="preserve">
+    <value>Fine</value>
+  </data>
+  <data name="Common_NoResults" xml:space="preserve">
+    <value>Nessun risultato</value>
+  </data>
+  <data name="Common_Yes" xml:space="preserve">
+    <value>Sì</value>
+  </data>
+  <data name="Common_No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="Breadcrumb_Label" xml:space="preserve">
+    <value>Percorso di navigazione</value>
+  </data>
+  <data name="Calendar_Today" xml:space="preserve">
+    <value>Oggi</value>
+  </data>
+  <data name="Calendar_AddEvent" xml:space="preserve">
+    <value>Aggiungi evento</value>
+  </data>
+  <data name="Calendar_SearchEvents" xml:space="preserve">
+    <value>Cerca eventi</value>
+  </data>
+  <data name="Calendar_PreviousDay" xml:space="preserve">
+    <value>Giorno precedente</value>
+  </data>
+  <data name="Calendar_PreviousWeek" xml:space="preserve">
+    <value>Settimana precedente</value>
+  </data>
+  <data name="Calendar_PreviousMonth" xml:space="preserve">
+    <value>Mese precedente</value>
+  </data>
+  <data name="Calendar_NextDay" xml:space="preserve">
+    <value>Giorno successivo</value>
+  </data>
+  <data name="Calendar_NextWeek" xml:space="preserve">
+    <value>Settimana successiva</value>
+  </data>
+  <data name="Calendar_NextMonth" xml:space="preserve">
+    <value>Mese successivo</value>
+  </data>
+  <data name="Calendar_DayView" xml:space="preserve">
+    <value>Vista giorno</value>
+  </data>
+  <data name="Calendar_WeekView" xml:space="preserve">
+    <value>Vista settimana</value>
+  </data>
+  <data name="Calendar_MonthView" xml:space="preserve">
+    <value>Vista mese</value>
+  </data>
+  <data name="Calendar_SelectView" xml:space="preserve">
+    <value>Seleziona vista</value>
+  </data>
+  <data name="Calendar_AllDay" xml:space="preserve">
+    <value>Tutto il giorno</value>
+  </data>
+  <data name="Calendar_AllDayEvents" xml:space="preserve">
+    <value>Eventi di tutto il giorno</value>
+  </data>
+  <data name="Calendar_AllDayRange" xml:space="preserve">
+    <value>{0} (tutto il giorno)</value>
+  </data>
+  <data name="Calendar_WeekNumber" xml:space="preserve">
+    <value>Settimana {0}</value>
+  </data>
+  <data name="Calendar_NewEvent" xml:space="preserve">
+    <value>Nuovo evento</value>
+  </data>
+  <data name="Calendar_EditEvent" xml:space="preserve">
+    <value>Modifica evento</value>
+  </data>
+  <data name="Calendar_Event" xml:space="preserve">
+    <value>Evento</value>
+  </data>
+  <data name="Calendar_EventTimeRange" xml:space="preserve">
+    <value>{0}, dalle {1} alle {2}</value>
+  </data>
+  <data name="Calendar_FieldName" xml:space="preserve">
+    <value>Nome</value>
+  </data>
+  <data name="Calendar_FieldColor" xml:space="preserve">
+    <value>Colore</value>
+  </data>
+  <data name="Calendar_EventColor" xml:space="preserve">
+    <value>Colore dell'evento</value>
+  </data>
+  <data name="Carousel_Label" xml:space="preserve">
+    <value>Carosello</value>
+  </data>
+  <data name="Carousel_PreviousSlide" xml:space="preserve">
+    <value>Diapositiva precedente</value>
+  </data>
+  <data name="Carousel_NextSlide" xml:space="preserve">
+    <value>Diapositiva successiva</value>
+  </data>
+  <data name="Carousel_Play" xml:space="preserve">
+    <value>Avvia presentazione automatica</value>
+  </data>
+  <data name="Carousel_Pause" xml:space="preserve">
+    <value>Metti in pausa la presentazione automatica</value>
+  </data>
+  <data name="Carousel_ChooseSlide" xml:space="preserve">
+    <value>Scegli la diapositiva da mostrare</value>
+  </data>
+  <data name="Carousel_SlidePosition" xml:space="preserve">
+    <value>{0} di {1}</value>
+  </data>
+  <data name="Carousel_SlideOf" xml:space="preserve">
+    <value>Diapositiva {0} di {1}</value>
+  </data>
+  <data name="Carousel_RoleDescription" xml:space="preserve">
+    <value>carosello</value>
+  </data>
+  <data name="Carousel_SlideRoleDescription" xml:space="preserve">
+    <value>diapositiva</value>
+  </data>
+  <data name="Chart_Label" xml:space="preserve">
+    <value>Grafico</value>
+  </data>
+  <data name="Chart_ViewAsTable" xml:space="preserve">
+    <value>Visualizza come tabella</value>
+  </data>
+  <data name="Chart_ViewAsChart" xml:space="preserve">
+    <value>Visualizza come grafico</value>
+  </data>
+  <data name="Chart_TableLabel" xml:space="preserve">
+    <value>Dati del grafico</value>
+  </data>
+  <data name="Chart_Legend" xml:space="preserve">
+    <value>Legenda</value>
+  </data>
+  <data name="Chart_Empty" xml:space="preserve">
+    <value>Nessun dato da visualizzare</value>
+  </data>
+  <data name="Chart_Loading" xml:space="preserve">
+    <value>Caricamento del grafico</value>
+  </data>
+  <data name="Chart_Category" xml:space="preserve">
+    <value>Categoria</value>
+  </data>
+  <data name="Chart_Value" xml:space="preserve">
+    <value>Valore</value>
+  </data>
+  <data name="Chart_Other" xml:space="preserve">
+    <value>Altro</value>
+  </data>
+  <data name="Chart_Group" xml:space="preserve">
+    <value>Gruppo</value>
+  </data>
+  <data name="Chart_Measure" xml:space="preserve">
+    <value>Misura</value>
+  </data>
+  <data name="Chart_Actual" xml:space="preserve">
+    <value>Effettivo</value>
+  </data>
+  <data name="Chart_Target" xml:space="preserve">
+    <value>Obiettivo</value>
+  </data>
+  <data name="Chart_Rising" xml:space="preserve">
+    <value>In rialzo</value>
+  </data>
+  <data name="Chart_Falling" xml:space="preserve">
+    <value>In ribasso</value>
+  </data>
+  <data name="Chart_Period" xml:space="preserve">
+    <value>Periodo</value>
+  </data>
+  <data name="Chart_Open" xml:space="preserve">
+    <value>Apertura</value>
+  </data>
+  <data name="Chart_High" xml:space="preserve">
+    <value>Massimo</value>
+  </data>
+  <data name="Chart_Low" xml:space="preserve">
+    <value>Minimo</value>
+  </data>
+  <data name="Chart_Close" xml:space="preserve">
+    <value>Chiusura</value>
+  </data>
+  <data name="Chart_OfFirstStage" xml:space="preserve">
+    <value>Della prima fase</value>
+  </data>
+  <data name="Chart_Task" xml:space="preserve">
+    <value>Attività</value>
+  </data>
+  <data name="Chart_Start" xml:space="preserve">
+    <value>Inizio</value>
+  </data>
+  <data name="Chart_End" xml:space="preserve">
+    <value>Fine</value>
+  </data>
+  <data name="Chart_Range" xml:space="preserve">
+    <value>Intervallo</value>
+  </data>
+  <data name="Chart_RangeValue" xml:space="preserve">
+    <value>da {0} a {1}</value>
+  </data>
+  <data name="Chart_Minimum" xml:space="preserve">
+    <value>Minimo</value>
+  </data>
+  <data name="Chart_Maximum" xml:space="preserve">
+    <value>Massimo</value>
+  </data>
+  <data name="Chart_Count" xml:space="preserve">
+    <value>Conteggio</value>
+  </data>
+  <data name="Chart_LowerQuartile" xml:space="preserve">
+    <value>Quartile inferiore</value>
+  </data>
+  <data name="Chart_Median" xml:space="preserve">
+    <value>Mediana</value>
+  </data>
+  <data name="Chart_UpperQuartile" xml:space="preserve">
+    <value>Quartile superiore</value>
+  </data>
+  <data name="Chart_IconLegend" xml:space="preserve">
+    <value>1 icona = {0}</value>
+  </data>
+  <data name="Chart_Share" xml:space="preserve">
+    <value>Quota</value>
+  </data>
+  <data name="Chart_Size" xml:space="preserve">
+    <value>Dimensione</value>
+  </data>
+  <data name="Chart_Series" xml:space="preserve">
+    <value>Serie</value>
+  </data>
+  <data name="Chart_PointLabel" xml:space="preserve">
+    <value>Etichetta</value>
+  </data>
+  <data name="Chart_Rank" xml:space="preserve">
+    <value>Posizione</value>
+  </data>
+  <data name="Chart_Total" xml:space="preserve">
+    <value>Totale</value>
+  </data>
+  <data name="Chart_Increase" xml:space="preserve">
+    <value>Aumento</value>
+  </data>
+  <data name="Chart_Decrease" xml:space="preserve">
+    <value>Diminuzione</value>
+  </data>
+  <data name="Chip_Remove" xml:space="preserve">
+    <value>Rimuovi {0}</value>
+  </data>
+  <data name="CodeBlock_Copy" xml:space="preserve">
+    <value>Copia codice</value>
+  </data>
+  <data name="CodeBlock_Copied" xml:space="preserve">
+    <value>Copiato</value>
+  </data>
+  <data name="CodeBlock_CopiedToClipboard" xml:space="preserve">
+    <value>Copiato negli appunti</value>
+  </data>
+  <data name="CodeBlock_CopyFailed" xml:space="preserve">
+    <value>Copia non riuscita</value>
+  </data>
+  <data name="ColorPicker_Dialog" xml:space="preserve">
+    <value>Scegli colore</value>
+  </data>
+  <data name="ColorPicker_Preview" xml:space="preserve">
+    <value>Anteprima del colore</value>
+  </data>
+  <data name="ColorPicker_SaturationLightness" xml:space="preserve">
+    <value>Saturazione e luminosità</value>
+  </data>
+  <data name="ColorPicker_SaturationLightnessValue" xml:space="preserve">
+    <value>Saturazione {0}%, luminosità {1}%</value>
+  </data>
+  <data name="ColorPicker_Hue" xml:space="preserve">
+    <value>Tonalità</value>
+  </data>
+  <data name="ColorPicker_HueValue" xml:space="preserve">
+    <value>{0} gradi</value>
+  </data>
+  <data name="ColorPicker_Alpha" xml:space="preserve">
+    <value>Alfa</value>
+  </data>
+  <data name="ColorPicker_PickFromScreen" xml:space="preserve">
+    <value>Preleva un colore dallo schermo</value>
+  </data>
+  <data name="ColorPicker_SelectedColor" xml:space="preserve">
+    <value>Colore selezionato: {0}</value>
+  </data>
+  <data name="DataTable_SearchLabel" xml:space="preserve">
+    <value>Cerca</value>
+  </data>
+  <data name="DataTable_SearchPlaceholder" xml:space="preserve">
+    <value>Cerca…</value>
+  </data>
+  <data name="DataTable_Pagination" xml:space="preserve">
+    <value>Paginazione della tabella</value>
+  </data>
+  <data name="DataTable_PageStatusOne" xml:space="preserve">
+    <value>Pagina {0} di {1}, {2} riga visualizzata</value>
+  </data>
+  <data name="DataTable_PageStatusOther" xml:space="preserve">
+    <value>Pagina {0} di {1}, {2} righe visualizzate</value>
+  </data>
+  <data name="DataTable_SearchCleared" xml:space="preserve">
+    <value>Ricerca cancellata</value>
+  </data>
+  <data name="DataTable_NoSearchResults" xml:space="preserve">
+    <value>Nessun risultato corrisponde alla ricerca</value>
+  </data>
+  <data name="DataTable_MatchingOne" xml:space="preserve">
+    <value>{0} riga corrispondente visualizzata</value>
+  </data>
+  <data name="DataTable_MatchingOther" xml:space="preserve">
+    <value>{0} righe corrispondenti visualizzate</value>
+  </data>
+  <data name="DataTable_SortedAscending" xml:space="preserve">
+    <value>Ordinato per {0}, crescente</value>
+  </data>
+  <data name="DataTable_SortedDescending" xml:space="preserve">
+    <value>Ordinato per {0}, decrescente</value>
+  </data>
+  <data name="DataTable_SortRemoved" xml:space="preserve">
+    <value>Ordinamento per {0} rimosso</value>
+  </data>
+  <data name="DataTable_SortBy" xml:space="preserve">
+    <value>Ordina per {0}</value>
+  </data>
+  <data name="DataTable_SortByAscending" xml:space="preserve">
+    <value>Ordina per {0}, attualmente crescente</value>
+  </data>
+  <data name="DataTable_SortByDescending" xml:space="preserve">
+    <value>Ordina per {0}, attualmente decrescente</value>
+  </data>
+  <data name="DatePicker_Open" xml:space="preserve">
+    <value>Apri selettore data</value>
+  </data>
+  <data name="DatePicker_Dialog" xml:space="preserve">
+    <value>Scegli data</value>
+  </data>
+  <data name="DatePicker_PreviousMonth" xml:space="preserve">
+    <value>Mese precedente</value>
+  </data>
+  <data name="DatePicker_NextMonth" xml:space="preserve">
+    <value>Mese successivo</value>
+  </data>
+  <data name="DatePicker_PreviousYear" xml:space="preserve">
+    <value>Anno precedente</value>
+  </data>
+  <data name="DatePicker_NextYear" xml:space="preserve">
+    <value>Anno successivo</value>
+  </data>
+  <data name="DatePicker_PreviousDecade" xml:space="preserve">
+    <value>Decennio precedente</value>
+  </data>
+  <data name="DatePicker_NextDecade" xml:space="preserve">
+    <value>Decennio successivo</value>
+  </data>
+  <data name="DatePicker_Invalid" xml:space="preserve">
+    <value>Inserisci una data valida, ad esempio {0}</value>
+  </data>
+  <data name="DatePicker_Selected" xml:space="preserve">
+    <value>Selezionato, {0}</value>
+  </data>
+  <data name="DatePicker_RangeStart" xml:space="preserve">
+    <value>Inizio dell'intervallo selezionato, {0}</value>
+  </data>
+  <data name="DatePicker_RangeEnd" xml:space="preserve">
+    <value>Fine dell'intervallo selezionato, {0}</value>
+  </data>
+  <data name="DatePicker_InRange" xml:space="preserve">
+    <value>Nell'intervallo selezionato, {0}</value>
+  </data>
+  <data name="DateRangePicker_Open" xml:space="preserve">
+    <value>Apri selettore intervallo di date</value>
+  </data>
+  <data name="DateRangePicker_Dialog" xml:space="preserve">
+    <value>Scegli intervallo di date</value>
+  </data>
+  <data name="DateRangePicker_Invalid" xml:space="preserve">
+    <value>Inserisci un intervallo di date valido, ad esempio {0}</value>
+  </data>
+  <data name="DateTimePicker_Placeholder" xml:space="preserve">
+    <value>Seleziona data e ora</value>
+  </data>
+  <data name="DateTimeRangePicker_Open" xml:space="preserve">
+    <value>Apri selettore intervallo di data e ora</value>
+  </data>
+  <data name="DateTimeRangePicker_DialogStart" xml:space="preserve">
+    <value>Scegli data e ora di inizio</value>
+  </data>
+  <data name="DateTimeRangePicker_DialogEnd" xml:space="preserve">
+    <value>Scegli data e ora di fine</value>
+  </data>
+  <data name="DateTimeRangePicker_RangeStep" xml:space="preserve">
+    <value>Passaggio dell'intervallo</value>
+  </data>
+  <data name="Dialog_Label" xml:space="preserve">
+    <value>Finestra di dialogo</value>
+  </data>
+  <data name="FileUpload_FileSelected" xml:space="preserve">
+    <value>{0} selezionato</value>
+  </data>
+  <data name="FileUpload_FilesSelected" xml:space="preserve">
+    <value>{0} file selezionati: {1}</value>
+  </data>
+  <data name="Navbar_Label" xml:space="preserve">
+    <value>Navigazione superiore</value>
+  </data>
+  <data name="Navbar_OpenMenu" xml:space="preserve">
+    <value>Apri menu di navigazione</value>
+  </data>
+  <data name="Navbar_CloseMenu" xml:space="preserve">
+    <value>Chiudi menu di navigazione</value>
+  </data>
+  <data name="Pagination_Label" xml:space="preserve">
+    <value>paginazione</value>
+  </data>
+  <data name="Pagination_PreviousPage" xml:space="preserve">
+    <value>Pagina precedente</value>
+  </data>
+  <data name="Pagination_NextPage" xml:space="preserve">
+    <value>Pagina successiva</value>
+  </data>
+  <data name="Pagination_ItemsPerPage" xml:space="preserve">
+    <value>Elementi per pagina</value>
+  </data>
+  <data name="Pagination_PageStatus" xml:space="preserve">
+    <value>Pagina {0} di {1}</value>
+  </data>
+  <data name="Pagination_PagePrefix" xml:space="preserve">
+    <value>pagina</value>
+  </data>
+  <data name="PickList_Source" xml:space="preserve">
+    <value>Disponibili</value>
+  </data>
+  <data name="PickList_Target" xml:space="preserve">
+    <value>Selezionati</value>
+  </data>
+  <data name="PickList_Empty" xml:space="preserve">
+    <value>Nessun elemento</value>
+  </data>
+  <data name="PickList_MoveItemUp" xml:space="preserve">
+    <value>Sposta su l'elemento selezionato in {0}</value>
+  </data>
+  <data name="PickList_MoveItemDown" xml:space="preserve">
+    <value>Sposta giù l'elemento selezionato in {0}</value>
+  </data>
+  <data name="PickList_MoveSelectedTo" xml:space="preserve">
+    <value>Sposta gli elementi selezionati in {0}</value>
+  </data>
+  <data name="PickList_MoveAllTo" xml:space="preserve">
+    <value>Sposta tutti gli elementi in {0}</value>
+  </data>
+  <data name="PickList_ItemsOne" xml:space="preserve">
+    <value>{0} elemento</value>
+  </data>
+  <data name="PickList_ItemsOther" xml:space="preserve">
+    <value>{0} elementi</value>
+  </data>
+  <data name="PickList_MovedTo" xml:space="preserve">
+    <value>{0} spostato/i in {1}</value>
+  </data>
+  <data name="PickList_MovedUp" xml:space="preserve">
+    <value>{0} spostato/i in alto</value>
+  </data>
+  <data name="PickList_MovedDown" xml:space="preserve">
+    <value>{0} spostato/i in basso</value>
+  </data>
+  <data name="Select_Placeholder" xml:space="preserve">
+    <value>Seleziona un'opzione...</value>
+  </data>
+  <data name="Select_Options" xml:space="preserve">
+    <value>Opzioni</value>
+  </data>
+  <data name="Sidebar_SkipToMain" xml:space="preserve">
+    <value>Vai al contenuto principale</value>
+  </data>
+  <data name="Sidebar_NavigationLabel" xml:space="preserve">
+    <value>navigazione laterale</value>
+  </data>
+  <data name="Sidebar_SearchLabel" xml:space="preserve">
+    <value>Cerca nella navigazione</value>
+  </data>
+  <data name="Sidebar_SearchPlaceholder" xml:space="preserve">
+    <value>Cerca...</value>
+  </data>
+  <data name="Sidebar_Open" xml:space="preserve">
+    <value>Apri barra laterale</value>
+  </data>
+  <data name="Sidebar_Close" xml:space="preserve">
+    <value>Chiudi barra laterale</value>
+  </data>
+  <data name="Sidebar_ResultsOne" xml:space="preserve">
+    <value>{0} risultato</value>
+  </data>
+  <data name="Sidebar_ResultsOther" xml:space="preserve">
+    <value>{0} risultati</value>
+  </data>
+  <data name="Stepper_Label" xml:space="preserve">
+    <value>Avanzamento</value>
+  </data>
+  <data name="Stepper_StepOf" xml:space="preserve">
+    <value>Passaggio {0} di {1}: {2}</value>
+  </data>
+  <data name="Stepper_StepState" xml:space="preserve">
+    <value>Passaggio {0}: {1}, {2}</value>
+  </data>
+  <data name="Stepper_Completed" xml:space="preserve">
+    <value>completato</value>
+  </data>
+  <data name="Stepper_Current" xml:space="preserve">
+    <value>corrente</value>
+  </data>
+  <data name="Stepper_NotStarted" xml:space="preserve">
+    <value>non iniziato</value>
+  </data>
+  <data name="Table_ScrollRegion" xml:space="preserve">
+    <value>Tabella scorrevole</value>
+  </data>
+  <data name="TimePicker_Open" xml:space="preserve">
+    <value>Apri selettore ora</value>
+  </data>
+  <data name="TimePicker_Dialog" xml:space="preserve">
+    <value>Scegli ora</value>
+  </data>
+  <data name="TimePicker_Placeholder" xml:space="preserve">
+    <value>Seleziona un'ora</value>
+  </data>
+  <data name="TimePicker_Invalid" xml:space="preserve">
+    <value>Inserisci un'ora valida, ad esempio {0}</value>
+  </data>
+  <data name="TimePicker_Hours" xml:space="preserve">
+    <value>Ore</value>
+  </data>
+  <data name="TimePicker_Minutes" xml:space="preserve">
+    <value>Minuti</value>
+  </data>
+  <data name="TimePicker_IncreaseHour" xml:space="preserve">
+    <value>Aumenta ora</value>
+  </data>
+  <data name="TimePicker_DecreaseHour" xml:space="preserve">
+    <value>Diminuisci ora</value>
+  </data>
+  <data name="TimePicker_IncreaseMinute" xml:space="preserve">
+    <value>Aumenta minuto</value>
+  </data>
+  <data name="TimePicker_DecreaseMinute" xml:space="preserve">
+    <value>Diminuisci minuto</value>
+  </data>
+  <data name="TimePicker_SwitchPeriod" xml:space="preserve">
+    <value>{0}, passa a {1}</value>
+  </data>
+  <data name="TimeRangePicker_Open" xml:space="preserve">
+    <value>Apri selettore intervallo orario</value>
+  </data>
+  <data name="TimeRangePicker_DialogStart" xml:space="preserve">
+    <value>Scegli ora di inizio</value>
+  </data>
+  <data name="TimeRangePicker_DialogEnd" xml:space="preserve">
+    <value>Scegli ora di fine</value>
+  </data>
+  <data name="TimeRangePicker_Invalid" xml:space="preserve">
+    <value>Inserisci un intervallo orario valido, ad esempio {0}</value>
+  </data>
+  <data name="Toast_RegionLabel" xml:space="preserve">
+    <value>Notifiche</value>
+  </data>
+  <data name="Toast_JustNow" xml:space="preserve">
+    <value>proprio ora</value>
+  </data>
+  <data name="Toast_MinutesAgo" xml:space="preserve">
+    <value>{0} min fa</value>
+  </data>
+  <data name="Toast_HoursAgo" xml:space="preserve">
+    <value>{0} h fa</value>
+  </data>
+  <data name="Toast_DaysAgo" xml:space="preserve">
+    <value>{0} g fa</value>
+  </data>
+  <data name="TreeList_Select" xml:space="preserve">
+    <value>Seleziona {0}</value>
+  </data>
+</root>

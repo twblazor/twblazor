@@ -3,7 +3,7 @@
 <PageContainer Title="Localization" Path="/localization" Category="Configuration" Description="Translate twblazor components and set date and time formats: built in languages, your own .resx files, and options.Localization in AddTwBlazor." SeoTitle="Localization | twblazor - Translate Blazor Components and Format Dates">
     <PageCard Title="Overview" NoMarginTop>
         <Description>
-            Every piece of text a twblazor component renders by itself, such as button labels, placeholders, validation messages and the names screen readers announce, comes from a resource file. English is built in and nine more languages ship with the package, so a component follows the language of your application with nothing to set up.
+            Every piece of text a twblazor component renders by itself, such as button labels, placeholders, validation messages and the names screen readers announce, comes from a resource file. English is built in and 23 more languages ship with the package, so a component follows the language of your application with nothing to set up.
         </Description>
         <p class="mb-3">
             Dates and times are localized the same way. Month and day names, the first day of the week, 12 or 24 hour time and the order of day, month and year all follow the culture, and each one can be set in <code>AddTwBlazor</code>.
@@ -15,7 +15,7 @@
 
     <PageCard Title="Supported languages" Id="localization-languages">
         <Description>
-            The language is chosen from <code>CultureInfo.CurrentUICulture</code>. A regional culture uses its language file, so <code>es-MX</code> and <code>es-AR</code> both use Spanish, and a language that is not in this table falls back to English.
+            The language is chosen from <code>CultureInfo.CurrentUICulture</code>. A regional culture uses its language file, so <code>es-MX</code> and <code>es-AR</code> both use Spanish, <code>ar-EG</code> uses Arabic, and <code>zh-HK</code> uses Traditional Chinese. Wu Chinese is written in Simplified Chinese, so it is covered by <code>zh-Hans</code>. A language that is not in this table falls back to English.
         </Description>
         <TwTable Bordered Striped Class="mb-4" AriaLabel="Supported languages">
             <TableHeader>
@@ -70,7 +70,7 @@
         </p>
         <TwCodeBlock Content="@_resourceExample" Language="csharp" />
         <p class="my-3">
-            A value with placeholders keeps them, so <code>Page {0} of {1}</code> becomes <code>Seite {0} von {1}</code>. Text that counts something has a singular and a plural key, such as <code>Sidebar_ResultsOne</code> and <code>Sidebar_ResultsOther</code>.
+            A value with placeholders keeps them, so <code>Page {0} of {1}</code> becomes <code>Pagina {0} van {1}</code>. Text that counts something has a singular and a plural key, such as <code>Sidebar_ResultsOne</code> and <code>Sidebar_ResultsOther</code>.
         </p>
         <TwCodeBlock Content="@_resxExample" Language="xml" />
         <p class="my-3">
@@ -161,6 +161,20 @@
         new("Japanese", "ja", "TwBlazorStrings.ja.resx", _ai),
         new("Western Punjabi (Shahmukhi)", "pa-Arab", "TwBlazorStrings.pa-Arab.resx", _ai),
         new("Turkish", "tr", "TwBlazorStrings.tr.resx", _ai),
+        new("Vietnamese", "vi", "TwBlazorStrings.vi.resx", _ai),
+        new("Chinese (Traditional), for Yue Chinese (Cantonese) in Hong Kong and Macau", "zh-Hant", "TwBlazorStrings.zh-Hant.resx", _ai),
+        new("Arabic, including Egyptian Arabic", "ar", "TwBlazorStrings.ar.resx", _ai),
+        new("Marathi", "mr", "TwBlazorStrings.mr.resx", _ai),
+        new("Telugu", "te", "TwBlazorStrings.te.resx", _ai),
+        new("Korean", "ko", "TwBlazorStrings.ko.resx", _ai),
+        new("Tamil", "ta", "TwBlazorStrings.ta.resx", _ai),
+        new("Urdu", "ur", "TwBlazorStrings.ur.resx", _ai),
+        new("Indonesian", "id", "TwBlazorStrings.id.resx", _ai),
+        new("German", "de", "TwBlazorStrings.de.resx", _ai),
+        new("French", "fr", "TwBlazorStrings.fr.resx", _ai),
+        new("Javanese", "jv", "TwBlazorStrings.jv.resx", _ai),
+        new("Persian", "fa", "TwBlazorStrings.fa.resx", _ai),
+        new("Italian", "it", "TwBlazorStrings.it.resx", _ai),
     ];
 
     private static readonly FormatOption[] _formats =
@@ -204,8 +218,8 @@
         MyApp/
           Resources/
             TwBlazorStrings.resx        the neutral file, used when no language file matches
-            TwBlazorStrings.de.resx     German
-            TwBlazorStrings.fr.resx     French
+            TwBlazorStrings.nl.resx     Dutch
+            TwBlazorStrings.sv.resx     Swedish
         """;
 
     private const string _resourceExample = """
@@ -219,12 +233,12 @@
         """;
 
     private const string _resxExample = """
-        <!-- Resources/TwBlazorStrings.de.resx -->
+        <!-- Resources/TwBlazorStrings.nl.resx -->
         <data name="Common_Close" xml:space="preserve">
-          <value>Schließen</value>
+          <value>Sluiten</value>
         </data>
         <data name="Pagination_PageStatus" xml:space="preserve">
-          <value>Seite {0} von {1}</value>
+          <value>Pagina {0} van {1}</value>
         </data>
         """;
 

@@ -378,6 +378,64 @@
         </div>
     </section>
 
+    <!-- Localization -->
+    <section class="mx-auto max-w-6xl px-6 pt-16 md:pt-24" aria-labelledby="localization-heading">
+        <div class="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:items-start lg:gap-14">
+            <div>
+                <p class="inline-flex items-center gap-2 rounded-full border border-purple-200 bg-white/80 px-3 py-1 text-sm font-medium text-purple-800 shadow-xs dark:border-purple-500/30 dark:bg-purple-500/10 dark:text-purple-200">
+                    <TwIcon Icon="IconEnum.Translate" Plain />
+                    @_localizationLanguages.Count languages, built in
+                </p>
+                <h2 id="localization-heading" class="mt-5 text-2xl font-bold tracking-tight text-balance text-purple-900 md:text-3xl dark:text-white">
+                    Speaks your users' language,
+                    <span class="bg-linear-to-r from-purple-700 to-fuchsia-600 bg-clip-text text-transparent dark:from-purple-400 dark:to-fuchsia-300">out of the box</span>
+                </h2>
+                <p class="mt-3 max-w-xl text-gray-700 text-pretty dark:text-gray-400">
+                    Every label, placeholder, validation message and screen reader announcement comes from a
+                    resource file, and dates and times follow the culture your application runs under.
+                    Components pick the language up by themselves, with nothing to set up.
+                </p>
+
+                <ul class="mt-6 flex flex-col gap-4">
+                    @foreach (var point in _localizationPoints)
+                    {
+                        <li class="flex items-start gap-3">
+                            <span class="mt-0.5 inline-flex size-6 shrink-0 items-center justify-center rounded-full bg-linear-to-br from-purple-600 to-fuchsia-500 text-sm text-white shadow-sm shadow-fuchsia-500/30"><TwIcon Icon="IconEnum.Check" Plain /></span>
+                            <span>
+                                <span class="block font-semibold text-purple-900 dark:text-white">@point.Title</span>
+                                <span class="mt-0.5 block text-sm text-gray-600 dark:text-gray-400">@point.Description</span>
+                            </span>
+                        </li>
+                    }
+                </ul>
+
+                <a id="localization-docs" href="/localization" class="mt-7 inline-flex items-center gap-2 rounded-md font-semibold text-purple-800 underline-offset-4 transition-colors hover:text-fuchsia-700 hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-purple-600 dark:text-purple-300 dark:hover:text-fuchsia-300">
+                    See how localization works <TwIcon Icon="IconEnum.Arrow_Right" Plain />
+                </a>
+            </div>
+
+            <div class="min-w-0">
+                <ul id="localization-languages" class="flex flex-wrap gap-2" aria-label="Supported languages">
+                    @foreach (var language in _localizationLanguages)
+                    {
+                        <li class="inline-flex items-baseline gap-2 rounded-full border border-purple-200 bg-white px-3 py-1.5 text-sm shadow-xs dark:border-white/10 dark:bg-white/5">
+                            <span lang="@language.Culture" dir="auto" class="font-medium text-purple-900 dark:text-white">@language.NativeName</span>
+                            <span class="text-xs text-gray-600 dark:text-gray-400">@language.Name</span>
+                        </li>
+                    }
+                </ul>
+                <p id="localization-disclaimer" class="mt-4 text-sm text-gray-600 dark:text-gray-400">
+                    Translations other than English were produced by AI and have not been reviewed by native
+                    speakers. Spotted something that could read better?
+                    <a href="/localization#localization-contributing" class="font-medium text-purple-800 underline underline-offset-2 dark:text-purple-300">Contribute a correction</a>.
+                </p>
+                <div class="mt-6">
+                    <TwCodeBlock Language="csharp" Content="@localizationSnippet" />
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Quick start -->
     <section class="mx-auto max-w-6xl px-6 pt-16 md:pt-24" aria-labelledby="quickstart-heading">
         <h2 id="quickstart-heading" class="text-2xl font-bold tracking-tight text-purple-900 md:text-3xl dark:text-white">Up and running in minutes</h2>
