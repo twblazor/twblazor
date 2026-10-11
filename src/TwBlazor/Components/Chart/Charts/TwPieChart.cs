@@ -3,6 +3,7 @@
 
 using Microsoft.AspNetCore.Components;
 using TwBlazor.Charting;
+using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 
@@ -71,7 +72,7 @@ public class TwPieChart : TwValueChartBase
                 builder.Add(new ChartText(middle.X, middle.Y, share, Tone: ChartTextTone.Inverse, Strong: true));
             }
 
-            builder.SectorDatum(slice, item.Label, [new ChartDatumRow(ValueHeader, FormatValue(item.Value), color), new ChartDatumRow("Share", share)]);
+            builder.SectorDatum(slice, item.Label, [new ChartDatumRow(effectiveValueHeader, FormatValue(item.Value), color), new ChartDatumRow(localizer[TwStrings.Chart_Share], share)]);
             angle += span;
         }
 
@@ -113,7 +114,7 @@ public class TwNightingaleChart : TwValueChartBase
 
             builder.Path(ChartGeometry.Sector(wedge), color, filled: true, outline: true, title: $"{item.Label}: {FormatValue(item.Value)}");
             builder.Legend(item.Label, color);
-            builder.SectorDatum(wedge, item.Label, [new ChartDatumRow(ValueHeader, FormatValue(item.Value), color)]);
+            builder.SectorDatum(wedge, item.Label, [new ChartDatumRow(effectiveValueHeader, FormatValue(item.Value), color)]);
         }
     }
 }
@@ -155,7 +156,7 @@ public class TwRadialBarChart : TwValueChartBase
             }
 
             builder.Add(new ChartText(50, 50 - (inner + outer) / 2, item.Label, ChartAnchor.End, OffsetX: -8));
-            builder.SectorDatum(track, item.Label, [new ChartDatumRow(ValueHeader, FormatValue(item.Value), color)], anchorAngle: sweep);
+            builder.SectorDatum(track, item.Label, [new ChartDatumRow(effectiveValueHeader, FormatValue(item.Value), color)], anchorAngle: sweep);
         }
     }
 }

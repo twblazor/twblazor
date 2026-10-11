@@ -9,6 +9,7 @@ using TwBlazor.Charting;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Enums;
 using TwBlazor.Utilities;
+using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 
@@ -83,28 +84,43 @@ public abstract partial class TwChartBase : TwBlazorComponentBase, IAsyncDisposa
 
     /// <summary>
     /// Gets or sets the label of the button that switches to the table view.
+    /// Defaults to the localized <see cref="TwStrings.Chart_ViewAsTable"/> text ("View as table").
     /// </summary>
-    [Parameter] public string TableViewLabel { get; set; } = "View as table";
+    [Parameter] public string? TableViewLabel { get; set; }
+
+    private string effectiveTableViewLabel => TableViewLabel ?? localizer[TwStrings.Chart_ViewAsTable];
 
     /// <summary>
     /// Gets or sets the label of the button that switches back to the plot.
+    /// Defaults to the localized <see cref="TwStrings.Chart_ViewAsChart"/> text ("View as chart").
     /// </summary>
-    [Parameter] public string ChartViewLabel { get; set; } = "View as chart";
+    [Parameter] public string? ChartViewLabel { get; set; }
+
+    private string effectiveChartViewLabel => ChartViewLabel ?? localizer[TwStrings.Chart_ViewAsChart];
 
     /// <summary>
     /// Gets or sets the accessible name of the table view.
+    /// Defaults to the localized <see cref="TwStrings.Chart_TableLabel"/> text ("Chart data").
     /// </summary>
-    [Parameter] public string TableLabel { get; set; } = "Chart data";
+    [Parameter] public string? TableLabel { get; set; }
+
+    private string effectiveTableLabel => TableLabel ?? localizer[TwStrings.Chart_TableLabel];
 
     /// <summary>
     /// Gets or sets the accessible name of the legend.
+    /// Defaults to the localized <see cref="TwStrings.Chart_Legend"/> text ("Legend").
     /// </summary>
-    [Parameter] public string LegendLabel { get; set; } = "Legend";
+    [Parameter] public string? LegendLabel { get; set; }
+
+    private string effectiveLegendLabel => LegendLabel ?? localizer[TwStrings.Chart_Legend];
 
     /// <summary>
     /// Gets or sets the message shown when there is no data to plot.
+    /// Defaults to the localized <see cref="TwStrings.Chart_Empty"/> text ("No data to display").
     /// </summary>
-    [Parameter] public string EmptyText { get; set; } = "No data to display";
+    [Parameter] public string? EmptyText { get; set; }
+
+    private string effectiveEmptyText => EmptyText ?? localizer[TwStrings.Chart_Empty];
 
     /// <summary>
     /// Gets or sets the .NET numeric format string used for values on axes, tooltips and the table view,
@@ -129,7 +145,7 @@ public abstract partial class TwChartBase : TwBlazorComponentBase, IAsyncDisposa
 
     private string? effectiveAriaLabelledBy => AriaLabelledBy ?? (AriaLabel == null ? Chart?.titleId : null);
 
-    private string? effectiveAriaLabel => AriaLabel ?? (effectiveAriaLabelledBy == null ? "Chart" : null);
+    private string? effectiveAriaLabel => AriaLabel ?? (effectiveAriaLabelledBy == null ? localizer[TwStrings.Chart_Label] : null);
 
     private bool hasLegend => ShowLegend && scene.Legend.Count > 0;
 
@@ -185,7 +201,7 @@ public abstract partial class TwChartBase : TwBlazorComponentBase, IAsyncDisposa
     /// </summary>
     /// <param name="value">The value to format.</param>
     protected internal string FormatValue(double value) =>
-        ValueFormatter?.Invoke(value) ?? value.ToString(ValueFormat ?? "#,0.##", CultureInfo.CurrentCulture);
+        ValueFormatter?.Invoke(value) ?? value.ToString(ValueFormat ?? "#,0.##", localizer.Formats.Culture);
 
     /// <summary>
     /// Builds the chart's scene from its current parameters.

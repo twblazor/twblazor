@@ -11,11 +11,11 @@
              style="background: linear-gradient(to right, white, hsl(@hue, 100%, 50%)), linear-gradient(to top, black, transparent);"
              role="slider"
              tabindex="0"
-             aria-label="Saturation and lightness"
+             aria-label="@localizer[TwStrings.ColorPicker_SaturationLightness]"
              aria-valuemin="0"
              aria-valuemax="100"
              aria-valuenow="@((int)Math.Round(saturation * 100))"
-             aria-valuetext="@($"Saturation {(int)Math.Round(saturation * 100)}%, Lightness {(int)Math.Round(lightness * 100)}%")"
+             aria-valuetext="@localizer[TwStrings.ColorPicker_SaturationLightnessValue, (int)Math.Round(saturation * 100), (int)Math.Round(lightness * 100)]"
              @onmousedown="OnSelectorMouseDown"
              @onmousemove="OnSelectorMouseMove"
              @onmouseup="OnSelectorMouseUp"
@@ -35,11 +35,11 @@
             <div class="@($"{sliderRowClasses} {theme.HueSliderTouch}")"
                  role="slider"
                  tabindex="0"
-                 aria-label="Hue"
+                 aria-label="@localizer[TwStrings.ColorPicker_Hue]"
                  aria-valuemin="0"
                  aria-valuemax="360"
                  aria-valuenow="@((int)Math.Round(hue))"
-                 aria-valuetext="@($"{(int)Math.Round(hue)} degrees")"
+                 aria-valuetext="@localizer[TwStrings.ColorPicker_HueValue, (int)Math.Round(hue)]"
                  @onmousedown="OnHueMouseDown"
                  @onmousemove="OnHueMouseMove"
                  @onmouseup="OnHueMouseUp"
@@ -61,15 +61,15 @@
         @if (ShowAlpha)
         {
             <div class="@sliderContainerClasses">
-                <span class="@($"{theme.AlphaLabel} {options.Theme.Display.ScreenReaderOnly}")">Alpha</span>
+                <span class="@($"{theme.AlphaLabel} {options.Theme.Display.ScreenReaderOnly}")">@localizer[TwStrings.ColorPicker_Alpha]</span>
                 <div class="@sliderRowClasses"
                      role="slider"
                      tabindex="0"
-                     aria-label="Alpha"
+                     aria-label="@localizer[TwStrings.ColorPicker_Alpha]"
                      aria-valuemin="0"
                      aria-valuemax="100"
                      aria-valuenow="@((int)Math.Round(alpha * 100))"
-                     aria-valuetext="@($"{(int)Math.Round(alpha * 100)}%")"
+                     aria-valuetext="@localizer[TwStrings.ColorPicker_PercentValue, (int)Math.Round(alpha * 100)]"
                      @onmousedown="OnAlphaMouseDown"
                      @onmousemove="OnAlphaMouseMove"
                      @onmouseup="OnAlphaMouseUp"
@@ -94,7 +94,7 @@
         <div class="@controlRowClasses">
             @if (eyeDropperSupported)
             {
-                <TwIcon Icon="Icon.Eyedropper" OnClick="PickColorFromScreenAsync" AriaLabel="Pick color from screen" Color="Color.Primary" ButtonVariant="ButtonVariant.Text" Class="@options.Theme.Flexbox.ShrinkNone" />
+                <TwIcon Icon="Icon.Eyedropper" OnClick="PickColorFromScreenAsync" AriaLabel="@localizer[TwStrings.ColorPicker_PickFromScreen]" Color="Color.Primary" ButtonVariant="ButtonVariant.Text" Class="@options.Theme.Flexbox.ShrinkNone" />
             }
             @if (ShowModeSwitch)
             {
@@ -153,8 +153,8 @@
 
         <!-- Action Buttons -->
         <div class="@theme.ActionBar">
-            <TwButton OnClick="OnCancel" Label="Cancel" Color="Color.Primary" Variant="ButtonVariant.Text" Dense />
-            <TwButton OnClick="OnConfirm" Label="Confirm" Color="Color.Primary" Variant="ButtonVariant.Filled" Dense />
+            <TwButton OnClick="OnCancel" Label="@localizer[TwStrings.Common_Cancel]" Color="Color.Primary" Variant="ButtonVariant.Text" Dense />
+            <TwButton OnClick="OnConfirm" Label="@localizer[TwStrings.Common_Confirm]" Color="Color.Primary" Variant="ButtonVariant.Filled" Dense />
         </div>
     </div>
 </div>

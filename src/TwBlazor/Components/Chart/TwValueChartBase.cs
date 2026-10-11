@@ -4,6 +4,7 @@
 using Microsoft.AspNetCore.Components;
 using TwBlazor.Charting;
 using TwBlazor.Models;
+using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 
@@ -20,18 +21,27 @@ public abstract class TwValueChartBase : TwChartBase
 
     /// <summary>
     /// Gets or sets the heading of the label column in the table view.
+    /// Defaults to the localized <see cref="TwStrings.Chart_Category"/> text ("Category").
     /// </summary>
-    [Parameter] public string LabelHeader { get; set; } = "Category";
+    [Parameter] public string? LabelHeader { get; set; }
+
+    private string effectiveLabelHeader => LabelHeader ?? localizer[TwStrings.Chart_Category];
 
     /// <summary>
     /// Gets or sets the heading of the value column in the table view. It also labels the value in tooltips.
+    /// Defaults to the localized <see cref="TwStrings.Chart_Value"/> text ("Value").
     /// </summary>
-    [Parameter] public string ValueHeader { get; set; } = "Value";
+    [Parameter] public string? ValueHeader { get; set; }
+
+    private protected string effectiveValueHeader => ValueHeader ?? localizer[TwStrings.Chart_Value];
 
     /// <summary>
     /// Gets or sets the label of the slice that collects the smallest values once there are more values than colors.
+    /// Defaults to the localized <see cref="TwStrings.Chart_Other"/> text ("Other").
     /// </summary>
-    [Parameter] public string OtherLabel { get; set; } = "Other";
+    [Parameter] public string? OtherLabel { get; set; }
+
+    private string effectiveOtherLabel => OtherLabel ?? localizer[TwStrings.Chart_Other];
 
     /// <summary>
     /// Adds the marks, data points and axes for the values.
@@ -47,7 +57,7 @@ public abstract class TwValueChartBase : TwChartBase
             return;
         }
 
-        builder.Table = new ChartTable([LabelHeader, ValueHeader], [.. Data.Select(item => (IReadOnlyList<string>)[item.Label, FormatValue(item.Value)])]);
+        builder.Table = new ChartTable([effectiveLabelHeader, effectiveValueHeader], [.. Data.Select(item => (IReadOnlyList<string>)[item.Label, FormatValue(item.Value)])]);
         BuildMarks(builder);
     }
 
@@ -65,7 +75,7 @@ public abstract class TwValueChartBase : TwChartBase
         }
 
         var kept = positive.OrderByDescending(item => item.Value).Take(limit - 1).ToHashSet();
-        return [.. positive.Where(kept.Contains), new ChartValue(OtherLabel, positive.Where(item => !kept.Contains(item)).Sum(item => item.Value))];
+        return [.. positive.Where(kept.Contains), new ChartValue(effectiveOtherLabel, positive.Where(item => !kept.Contains(item)).Sum(item => item.Value))];
     }
 
     /// <summary>

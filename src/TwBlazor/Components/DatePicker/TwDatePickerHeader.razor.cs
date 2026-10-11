@@ -4,6 +4,7 @@
 using Microsoft.AspNetCore.Components;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Utilities;
+using TwBlazor.Localization;
 
 namespace TwBlazor.Components.DatePicker;
 
@@ -34,14 +35,20 @@ public partial class TwDatePickerHeader : TwBlazorComponentBase
     /// <summary>
     /// Accessible name for the "previous" navigation button (e.g. "Previous month", "Previous year",
     /// "Previous decade" depending on which view this header is rendered for).
+    /// Defaults to the localized <see cref="TwStrings.Common_Previous"/> text ("Previous").
     /// </summary>
-    [Parameter] public string PreviousLabel { get; set; } = "Previous";
+    [Parameter] public string? PreviousLabel { get; set; }
+
+    private string effectivePreviousLabel => PreviousLabel ?? localizer[TwStrings.Common_Previous];
 
     /// <summary>
     /// Accessible name for the "next" navigation button (e.g. "Next month", "Next year", "Next decade"
     /// depending on which view this header is rendered for).
+    /// Defaults to the localized <see cref="TwStrings.Common_Next"/> text ("Next").
     /// </summary>
-    [Parameter] public string NextLabel { get; set; } = "Next";
+    [Parameter] public string? NextLabel { get; set; }
+
+    private string effectiveNextLabel => NextLabel ?? localizer[TwStrings.Common_Next];
 
     /// <summary>
     /// Disables the "previous" navigation button, e.g. once a picker's <c>MinDate</c> boundary is

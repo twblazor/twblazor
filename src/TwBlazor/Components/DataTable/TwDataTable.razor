@@ -12,8 +12,8 @@
                 <TwTextfield T="string"
                     Id="@($"{Id}-search")"
                     Class="@options.Theme.Sizing.FullWidth"
-                    Label="@SearchLabel"
-                    Placeholder="@SearchPlaceholder"
+                    Label="@effectiveSearchLabel"
+                    Placeholder="@effectiveSearchPlaceholder"
                     ValueChanged="@OnSearchAsync" />
             </div>
         </div>
@@ -140,7 +140,7 @@
             PageSizeOptions="RowsPerPageOptions"
             Dense="!ComfortablePagination"
             AnnouncePageChanges="false"
-            AriaLabel="Table pagination" />
+            AriaLabel="@localizer[TwStrings.DataTable_Pagination]" />
     }
 </div>
 

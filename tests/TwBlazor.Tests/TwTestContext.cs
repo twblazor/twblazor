@@ -1,8 +1,10 @@
 ﻿using Bunit;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
+using System.Globalization;
 using TwBlazor.Builders;
 using TwBlazor.Configuration;
+using TwBlazor.Localization;
 using ThemeBase = TwBlazor.Theme.Theme;
 
 namespace TwBlazor.Tests;
@@ -30,11 +32,15 @@ public class TwBlazorTestBase
 
     public InputVariantBuilder InputVariantBuilder => TestContext.Services.GetRequiredService<InputVariantBuilder>();
 
+    public ITwLocalizer Localizer => TestContext.Services.GetRequiredService<ITwLocalizer>();
+
     public TwBlazorTestBase()
     {
         TestContext = new BunitContext();
         Theme = ThemeBase.CreateDefaultTheme();
-        TestContext.Services.AddTwBlazor(Theme);
+
+        // Pinned so the text, date formats and week start that tests assert on do not depend on the machine's culture.
+        TestContext.Services.AddTwBlazor(options => options.Localization.Culture = CultureInfo.GetCultureInfo("en-US"), Theme);
 
         // Loose mode lets unconfigured JS interop calls (e.g. twDevice.prefersNativePicker fired from
         // picker components' OnAfterRenderAsync) return their default value instead of throwing, so

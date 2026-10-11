@@ -6,12 +6,15 @@ using TwBlazor.Abstraction;
 using TwBlazor.Builders;
 using TwBlazor.Configuration;
 using TwBlazor.Enums;
+using TwBlazor.Localization;
 
 namespace TwBlazor;
 
 public class TwBlazorComponentBase : ComponentBase, ITwComponent
 {
     [Inject] protected TwBlazorOptions options { get; set; } = null!;
+
+    [Inject] protected ITwLocalizer localizer { get; set; } = null!;
 
     [Inject] protected RoundedBuilder roundedBuilder { get; set; } = null!;
     [Inject] protected ShadowBuilder shadowBuilder { get; set; } = null!;

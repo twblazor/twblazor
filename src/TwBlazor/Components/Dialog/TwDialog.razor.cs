@@ -13,6 +13,7 @@ using TwBlazor.Configuration.Components;
 using TwBlazor.Models;
 using TwBlazor.Services;
 using TwBlazor.Utilities;
+using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 
@@ -78,7 +79,7 @@ public partial class TwDialog : TwBlazorComponentBase, IAsyncDisposable
 
             if (noHeader && string.IsNullOrWhiteSpace(AriaLabelledBy))
             {
-                return !string.IsNullOrWhiteSpace(Reference?.Title) ? Reference.Title : "Dialog";
+                return !string.IsNullOrWhiteSpace(Reference?.Title) ? Reference.Title : localizer[TwStrings.Dialog_Label];
             }
 
             return AriaLabel;

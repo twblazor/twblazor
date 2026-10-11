@@ -6,7 +6,7 @@
 <TwInputRoot @ref="@InputRoot" RootId="@RootId" RootClass="@classes" RootAttributes="@RootAttributes" RootStyle="@Style" RootAriaLabel="@AriaLabel" RootAriaLabelledBy="@AriaLabelledBy">
     <TwInputLabel Id="@LabelId" For="@Id" Label="@Label" Class="@LabelClass" @attributes="@LabelAttributes" />
     <div class="@options.Theme.Position.Relative">
-        <button type="button" class="@($"{theme.IconTriggerWrapper} {inputSizeClasses}")" aria-expanded="@iconExpanded" aria-label="Open datetime range picker" disabled="@Disabled" @onclick="OnIconClickAsync">
+        <button type="button" class="@($"{theme.IconTriggerWrapper} {inputSizeClasses}")" aria-expanded="@iconExpanded" aria-label="@localizer[TwStrings.DateTimeRangePicker_Open]" disabled="@Disabled" @onclick="OnIconClickAsync">
             <svg class="@theme.IconGlyph" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 10h16m-8-3V4M7 7V4m10 3V4M5 20h14a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Zm3-7h.01v.01H8V13Zm4 0h.01v.01H12V13Zm4 0h.01v.01H16V13Zm-8 4h.01v.01H8V17Zm4 0h.01v.01H12V17Zm4 0h.01v.01H16V17Z" />
             </svg>
@@ -34,21 +34,21 @@
 
     @if (isFocused)
     {
-        <div class="@datepickerContainerClasses" role="dialog" aria-label="@(stage == DateTimeRangePickerStage.Start ? "Choose start date and time" : "Choose end date and time")" id="@panelId" data-tw-popover tabindex="-1" @ref="PanelRef" @onkeydown="OnPanelKeyDownAsync">
+        <div class="@datepickerContainerClasses" role="dialog" aria-label="@(stage == DateTimeRangePickerStage.Start ? localizer[TwStrings.DateTimeRangePicker_DialogStart] : localizer[TwStrings.DateTimeRangePicker_DialogEnd])" id="@panelId" data-tw-popover tabindex="-1" @ref="PanelRef" @onkeydown="OnPanelKeyDownAsync">
             <div class="@theme.PanelWidth">
-                <div class="@stageTabsClasses" role="group" aria-label="Range step">
+                <div class="@stageTabsClasses" role="group" aria-label="@localizer[TwStrings.DateTimeRangePicker_RangeStep]">
                     <button type="button" class="@GetStageTabClasses(DateTimeRangePickerStage.Start)" aria-pressed="@(stage == DateTimeRangePickerStage.Start ? "true" : "false")" @onclick="@(() => SwitchStage(DateTimeRangePickerStage.Start))">
-                        Start
+                        @localizer[TwStrings.Common_Start]
                     </button>
                     <button type="button" class="@GetStageTabClasses(DateTimeRangePickerStage.End)" aria-pressed="@(stage == DateTimeRangePickerStage.End ? "true" : "false")" @onclick="@(() => SwitchStage(DateTimeRangePickerStage.End))">
-                        End
+                        @localizer[TwStrings.Common_End]
                     </button>
                 </div>
                 <TwDatePickerCalendar AnchorDate="anchorDate" AnchorDateChanged="@((d) => anchorDate = d)" View="view" ViewChanged="@((v) => view = v)" SelectedDate="stageDate" Range="SelectedRange" MinDate="@effectiveMinDate" MaxDate="MaxDate" PreserveAnchorDay="false" ShowTodayIndicator="false" DaySelected="SelectDateAsync" Navigated="@(() => pendingViewFocus = true)" />
                 @if (view == DatePickerCalendarView.Day)
                 {
                     <TwDatePickerBody Class="time">
-                        <TwTimePickerBody Id="@($"{Id}-time")" Variant="@effectiveVariant" Is12HourFormat="@Is12HourFormat" SelectedTime="@pendingTime" SelectedTimeChanged="@OnPendingTimeChanged" />
+                        <TwTimePickerBody Id="@($"{Id}-time")" Variant="@effectiveVariant" Is12HourFormat="@effectiveIs12HourFormat" SelectedTime="@pendingTime" SelectedTimeChanged="@OnPendingTimeChanged" />
                     </TwDatePickerBody>
                 }
             </div>

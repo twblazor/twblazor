@@ -76,7 +76,7 @@ else
     {
         if (Closable && string.IsNullOrWhiteSpace(Href))
         {
-            <TwIcon OnClick="OnCloseAsync" AriaLabel="@(string.IsNullOrWhiteSpace(Label) ? "Close" : $"Remove {Label}")" Icon="Icon.X" Class="@theme.CloseButton" Plain />
+            <TwIcon OnClick="OnCloseAsync" AriaLabel="@(string.IsNullOrWhiteSpace(Label) ? localizer[TwStrings.Common_Close] : localizer[TwStrings.Chip_Remove, Label])" Icon="Icon.X" Class="@theme.CloseButton" Plain />
         }
     };
 

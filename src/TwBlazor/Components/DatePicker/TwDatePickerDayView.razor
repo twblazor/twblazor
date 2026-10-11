@@ -2,9 +2,9 @@
 
 @if (ShowMonthCaption)
 {
-    <div class="@monthCaptionClasses">@Value.ToString("MMMM yyyy")</div>
+    <div class="@monthCaptionClasses">@localizer.Formats.Format(Value, localizer.Formats.MonthYear)</div>
 }
-<table class="@gridClasses" role="grid" aria-label="@Value.ToString("MMMM yyyy")" @ref="gridRef" @onkeydown="OnGridKeyDown">
+<table class="@gridClasses" role="grid" aria-label="@localizer.Formats.Format(Value, localizer.Formats.MonthYear)" @ref="gridRef" @onkeydown="OnGridKeyDown">
     <thead>
         <tr role="row">
             @foreach (var (abbreviation, fullName) in weekdayHeaders)

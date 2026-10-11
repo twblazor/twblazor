@@ -4,6 +4,7 @@
 using Microsoft.AspNetCore.Components;
 using TwBlazor.Charting;
 using TwBlazor.Models;
+using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 
@@ -26,18 +27,27 @@ public class TwRangeChart : TwChartBase
 
     /// <summary>
     /// Gets or sets the heading of the label column in the table view.
+    /// Defaults to the localized <see cref="TwStrings.Chart_Category"/> text ("Category").
     /// </summary>
-    [Parameter] public string LabelHeader { get; set; } = "Category";
+    [Parameter] public string? LabelHeader { get; set; }
+
+    private string effectiveLabelHeader => LabelHeader ?? localizer[TwStrings.Chart_Category];
 
     /// <summary>
     /// Gets or sets the label for the low end of a range.
+    /// Defaults to the localized <see cref="TwStrings.Chart_Low"/> text ("Low").
     /// </summary>
-    [Parameter] public string LowLabel { get; set; } = "Low";
+    [Parameter] public string? LowLabel { get; set; }
+
+    private string effectiveLowLabel => LowLabel ?? localizer[TwStrings.Chart_Low];
 
     /// <summary>
     /// Gets or sets the label for the high end of a range.
+    /// Defaults to the localized <see cref="TwStrings.Chart_High"/> text ("High").
     /// </summary>
-    [Parameter] public string HighLabel { get; set; } = "High";
+    [Parameter] public string? HighLabel { get; set; }
+
+    private string effectiveHighLabel => HighLabel ?? localizer[TwStrings.Chart_High];
 
     /// <inheritdoc />
     protected internal override void BuildScene(ChartSceneBuilder builder)
@@ -59,12 +69,12 @@ public class TwRangeChart : TwChartBase
             builder.Bar(band.Center(i), Math.Min(band.Step * 0.45, 8), scale.Map(range.Low), scale.Map(range.High), ChartColor.Series(0), ChartCorner.All);
             builder.BandDatum(band.Center(i), band.Step, range.Label,
             [
-                new ChartDatumRow(LowLabel, FormatValue(range.Low)),
-                new ChartDatumRow(HighLabel, FormatValue(range.High))
+                new ChartDatumRow(effectiveLowLabel, FormatValue(range.Low)),
+                new ChartDatumRow(effectiveHighLabel, FormatValue(range.High))
             ]);
         }
 
-        builder.Table = new ChartTable([LabelHeader, LowLabel, HighLabel],
+        builder.Table = new ChartTable([effectiveLabelHeader, effectiveLowLabel, effectiveHighLabel],
             [.. Ranges.Select(range => (IReadOnlyList<string>)[range.Label, FormatValue(range.Low), FormatValue(range.High)])]);
     }
 }

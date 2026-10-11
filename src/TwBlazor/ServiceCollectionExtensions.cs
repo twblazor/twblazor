@@ -2,9 +2,11 @@
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.Reflection.Metadata;
 using TwBlazor.Builders;
 using TwBlazor.Configuration;
+using TwBlazor.Localization;
 using TwBlazor.Services;
 using TwBlazor.Utilities.ClassMerge;
 
@@ -69,6 +71,7 @@ public static class ServiceCollectionExtensions
         TwBlazorUpdateHandler.themeFactory = themeFactory;
         services.AddSingleton(options);
         services.AddSingleton(theme);
+        services.TryAddSingleton<ITwLocalizer, TwLocalizer>();
         services.AddScoped<ITwToastService, TwToastService>();
         services.AddScoped<ITwDialogService, TwDialogService>();
         services.AddScoped<ColorBuilder>();

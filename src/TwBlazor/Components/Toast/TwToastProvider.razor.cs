@@ -4,6 +4,7 @@
 using Microsoft.AspNetCore.Components;
 using TwBlazor.Builders;
 using TwBlazor.Configuration.Components;
+using TwBlazor.Localization;
 using TwBlazor.Models;
 using TwBlazor.Services;
 using TwBlazor.Utilities;
@@ -19,6 +20,29 @@ public sealed partial class TwToastProvider : IDisposable
     [Inject] private ToastBuilder toastBuilder { get; set; } = null!;
 
     private TwToastTheme theme => options.Theme.Components.Require<TwToastTheme>();
+
+    /// <summary>
+    /// Gets the localized "time since it appeared" text for a toast, mirroring <see cref="ToastModel.ElapsedTimeText"/>.
+    /// </summary>
+    /// <param name="toast">The toast to describe.</param>
+    /// <returns>The elapsed time text, for example "5m ago".</returns>
+    private string GetElapsedTimeText(ToastModel toast)
+    {
+        var elapsed = DateTime.UtcNow.Subtract(toast.CreatedAt);
+        if (elapsed.TotalSeconds < 60)
+        {
+            return localizer[TwStrings.Toast_JustNow];
+        }
+
+        if (elapsed.TotalMinutes < 60)
+        {
+            return localizer[TwStrings.Toast_MinutesAgo, (int)elapsed.TotalMinutes];
+        }
+
+        return elapsed.TotalHours < 24
+            ? localizer[TwStrings.Toast_HoursAgo, (int)elapsed.TotalHours]
+            : localizer[TwStrings.Toast_DaysAgo, (int)elapsed.TotalDays];
+    }
 
     /// <summary>
     /// Gets the CSS classes applied to the toast container element.

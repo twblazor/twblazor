@@ -6,6 +6,7 @@ using Microsoft.JSInterop;
 using System.Globalization;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Utilities;
+using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 
@@ -62,7 +63,7 @@ public partial class TwDateRangePicker : TwPopoverPickerComponentBase
     [Parameter] public string? Placeholder { get; set; }
 
     private string effectivePlaceholder => Placeholder ??
-        $"{resolvedFormat.ToLower(CultureInfo.CurrentCulture)}{resolvedRangeSeparator}{resolvedFormat.ToLower(CultureInfo.CurrentCulture)}";
+        $"{resolvedFormat.ToLower(localizer.Formats.Culture)}{resolvedRangeSeparator}{resolvedFormat.ToLower(localizer.Formats.Culture)}";
 
     /// <summary>
     /// The selected date range: <c>Key</c> is the start date, <c>Value</c> is the end date. Either
@@ -103,7 +104,7 @@ public partial class TwDateRangePicker : TwPopoverPickerComponentBase
     /// The format actually used: <see cref="Format"/> when explicitly set, otherwise
     /// <see cref="TwDatePickerTheme.DefaultFormat"/>.
     /// </summary>
-    private string resolvedFormat => Format ?? theme.DefaultFormat;
+    private string resolvedFormat => Format ?? localizer.Formats.DateInput ?? theme.DefaultFormat;
 
     /// <summary>
     /// The separator inserted between the two dates in <see cref="Value"/>. A locale-neutral symbol
@@ -285,14 +286,14 @@ public partial class TwDateRangePicker : TwPopoverPickerComponentBase
         var start = default(DateTime);
         var end = default(DateTime);
         var success = parts.Length == 2
-            && DateTime.TryParseExact(parts[0], resolvedFormat, CultureInfo.CurrentCulture, DateTimeStyles.None, out start)
-            && DateTime.TryParseExact(parts[1], resolvedFormat, CultureInfo.CurrentCulture, DateTimeStyles.None, out end)
+            && DateTime.TryParseExact(parts[0], resolvedFormat, localizer.Formats.Culture, DateTimeStyles.None, out start)
+            && DateTime.TryParseExact(parts[1], resolvedFormat, localizer.Formats.Culture, DateTimeStyles.None, out end)
             && !IsOutOfBounds(start) && !IsOutOfBounds(end);
 
         if (!success)
         {
             Invalid = true;
-            ErrorMessage = $"Enter a valid date range, for example {FormatRange(new KeyValuePair<DateTime?, DateTime?>(DateTime.Today, DateTime.Today.AddDays(7)))}";
+            ErrorMessage = localizer[TwStrings.DateRangePicker_Invalid, FormatRange(new KeyValuePair<DateTime?, DateTime?>(DateTime.Today, DateTime.Today.AddDays(7)))];
             Value = text;
             return;
         }
@@ -335,13 +336,13 @@ public partial class TwDateRangePicker : TwPopoverPickerComponentBase
             return string.Empty;
         }
 
-        var start = range.Key.Value.ToString(resolvedFormat, CultureInfo.CurrentCulture);
+        var start = range.Key.Value.ToString(resolvedFormat, localizer.Formats.Culture);
         if (range.Value is null)
         {
             return start;
         }
 
-        return $"{start}{resolvedRangeSeparator}{range.Value.Value.ToString(resolvedFormat, CultureInfo.CurrentCulture)}";
+        return $"{start}{resolvedRangeSeparator}{range.Value.Value.ToString(resolvedFormat, localizer.Formats.Culture)}";
     }
 
     /// <summary>

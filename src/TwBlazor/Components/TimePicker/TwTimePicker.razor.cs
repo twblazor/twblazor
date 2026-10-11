@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Components;
 using System.Globalization;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Utilities;
+using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 
@@ -38,7 +39,12 @@ public partial class TwTimePicker : TwPopoverPickerComponentBase
     /// </summary>
     /// <remarks>Set this property to <see langword="true"/> to use 12-hour time representation (with AM/PM);
     /// otherwise, 24-hour format will be used.</remarks>
-    [Parameter] public bool Is12HourFormat { get; set; }
+    [Parameter] public bool? Is12HourFormat { get; set; }
+
+    /// <summary>
+    /// Gets whether a 12 hour clock is used: <see cref="Is12HourFormat"/> when set, otherwise the localization options.
+    /// </summary>
+    private bool effectiveIs12HourFormat => Is12HourFormat ?? localizer.Formats.Use12HourInput;
 
     /// <summary>
     /// The selected time value.
@@ -61,8 +67,11 @@ public partial class TwTimePicker : TwPopoverPickerComponentBase
     [Parameter] public EventCallback<string> ValueChanged { get; set; }
     /// <summary>
     /// The placeholder text to display when no time is selected.
+    /// Defaults to the localized <see cref="TwStrings.TimePicker_Placeholder"/> text ("Select a time").
     /// </summary>
-    [Parameter] public string Placeholder { get; set; } = "Select a time";
+    [Parameter] public string? Placeholder { get; set; }
+
+    private string effectivePlaceholder => Placeholder ?? localizer[TwStrings.TimePicker_Placeholder];
 
     /// <summary>
     /// Initializes a new instance of the <see cref="TwTimePicker"/> class.
@@ -80,13 +89,13 @@ public partial class TwTimePicker : TwPopoverPickerComponentBase
     /// (e.g. a localized AM/PM designator) also parses back correctly when they type it in - which
     /// requires parsing with that same culture rather than always <see cref="CultureInfo.InvariantCulture"/>.
     /// </summary>
-    private CultureInfo effectiveCulture => UseNativePicker ? CultureInfo.InvariantCulture : CultureInfo.CurrentCulture;
+    private CultureInfo effectiveCulture => UseNativePicker ? CultureInfo.InvariantCulture : localizer.Formats.Culture;
 
     protected override Task OnParametersSetAsync()
     {
-        // The native time input always needs a 24-hour HH:mm value no matter what Is12HourFormat
+        // The native time input always needs a 24-hour HH:mm value no matter what effectiveIs12HourFormat
         // says, since the browser renders its own localized 12/24-hour UI on top of that.
-        format = (!UseNativePicker && Is12HourFormat) ? "hh:mm tt" : "HH:mm";
+        format = UseNativePicker ? "HH:mm" : localizer.Formats.TimeInput ?? (effectiveIs12HourFormat ? "hh:mm tt" : "HH:mm");
         Value = SelectedTime.ToString(format, effectiveCulture);
         return base.OnParametersSetAsync();
     }
@@ -110,7 +119,7 @@ public partial class TwTimePicker : TwPopoverPickerComponentBase
 
         if (firstRender)
         {
-            UseNativePicker = PreferNativePicker ?? (!Is12HourFormat && await DeviceDetector.PrefersNativePickerAsync(JSRuntime));
+            UseNativePicker = PreferNativePicker ?? (!effectiveIs12HourFormat && await DeviceDetector.PrefersNativePickerAsync(JSRuntime));
             if (UseNativePicker)
             {
                 format = "HH:mm";
@@ -182,7 +191,7 @@ public partial class TwTimePicker : TwPopoverPickerComponentBase
         if (!TimeOnly.TryParse(value, effectiveCulture, out var parsedTime))
         {
             Invalid = true;
-            ErrorMessage = $"Enter a valid time, for example {new TimeOnly(9, 30).ToString(format, effectiveCulture)}";
+            ErrorMessage = localizer[TwStrings.TimePicker_Invalid, new TimeOnly(9, 30).ToString(format, effectiveCulture)];
             return;
         }
 

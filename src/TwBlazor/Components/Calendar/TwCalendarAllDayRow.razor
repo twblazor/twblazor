@@ -5,8 +5,8 @@
 @if (segments.Count > 0)
 {
     <div id="@Id" class="@rowClasses" style="@Style" @attributes="Attributes">
-        <div class="@labelClasses">All day</div>
-        <div class="@gridClasses" style="@gridStyle" role="group" aria-label="All day events">
+        <div class="@labelClasses">@localizer[TwStrings.Calendar_AllDay]</div>
+        <div class="@gridClasses" style="@gridStyle" role="group" aria-label="@localizer[TwStrings.Calendar_AllDayEvents]">
             @for (var i = 0; i < Days.Count; i++)
             {
                 var day = Days[i].Date;

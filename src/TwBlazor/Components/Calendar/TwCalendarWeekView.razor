@@ -8,7 +8,7 @@
         @foreach (var day in weekDays)
         {
             <button type="button" class="@dayHeaderClasses" @onclick="@(() => OnDayHeaderClickedAsync(day))">
-                @day.ToString("ddd d")
+                @localizer.Formats.Format(day, localizer.Formats.WeekdayDay)
             </button>
         }
     </div>
@@ -29,7 +29,7 @@
             {
                 <div class="@GetGutterLabelClasses()" style="height:6rem;">@GetHourLabel(hour)</div>
             }
-            <div class="@theme.NowIndicatorLabel" style="@nowOffsetStyle"><span aria-hidden="true">@now.ToString("h:mm tt")</span></div>
+            <div class="@theme.NowIndicatorLabel" style="@nowOffsetStyle"><span aria-hidden="true">@localizer.Formats.Format(now, localizer.Formats.ShortTime)</span></div>
         </div>
         <div class="@nowLineContainerClasses">
             @for (var i = 0; i < daysPerWeek; i++)

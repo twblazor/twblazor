@@ -8,11 +8,11 @@
     <div class="@fieldsClasses">
         <div class="@summaryClasses" style="@accentCardStyle">
             <TwIcon Icon="Icon.Calendar_Event" Class="@summaryIconClasses" Style="@accentIconStyle" />
-            <span>@FormatRange(WorkingEvent.DateTimeStart, WorkingEvent.DateTimeEnd)</span>
+            <span>@FormatRange(localizer, WorkingEvent.DateTimeStart, WorkingEvent.DateTimeEnd)</span>
         </div>
         @foreach (var field in Fields)
         {
-            var text = field.GetDisplayText(WorkingEvent.Value);
+            var text = field.GetDisplayText(WorkingEvent.Value, localizer);
             if (!string.IsNullOrWhiteSpace(text))
             {
                 <div class="@readOnlyFieldClasses">
@@ -27,28 +27,28 @@
         }
     </div>
     <div class="@actionsClasses">
-        <TwButton Label="Close" Variant="ButtonVariant.Text" OnClick="Cancel" />
+        <TwButton Label="@localizer[TwStrings.Common_Close]" Variant="ButtonVariant.Text" OnClick="Cancel" />
     </div>
 }
 else
 {
     <div class="@fieldsClasses">
         <div class="@accentClasses" style="@accentBarStyle" aria-hidden="true"></div>
-        <TwTextfield T="string" Label="Name" Value="@WorkingEvent.Name" ValueChanged="@((v) => WorkingEvent.Name = v)" AriaLabel="Name" />
-        <TwSwitch T="bool" Label="All day" Value="isAllDay" ValueChanged="SetAllDay" />
+        <TwTextfield T="string" Label="@localizer[TwStrings.Calendar_FieldName]" Value="@WorkingEvent.Name" ValueChanged="@((v) => WorkingEvent.Name = v)" AriaLabel="@localizer[TwStrings.Calendar_FieldName]" />
+        <TwSwitch T="bool" Label="@localizer[TwStrings.Calendar_AllDay]" Value="isAllDay" ValueChanged="SetAllDay" />
         <div class="@dateRowClasses">
             @if (isAllDay)
             {
-                <TwDatePicker SelectedDate="GetAllDayStart()" SelectedDateChanged="SetAllDayStart" Label="Start" />
-                <TwDatePicker SelectedDate="GetAllDayEnd()" SelectedDateChanged="SetAllDayEnd" Label="End" />
+                <TwDatePicker SelectedDate="GetAllDayStart()" SelectedDateChanged="SetAllDayStart" Label="@localizer[TwStrings.Common_Start]" />
+                <TwDatePicker SelectedDate="GetAllDayEnd()" SelectedDateChanged="SetAllDayEnd" Label="@localizer[TwStrings.Common_End]" />
             }
             else
             {
-                <TwDateTimePicker SelectedDateTime="GetLocalStart()" SelectedDateTimeChanged="SetLocalStart" Label="Start" />
-                <TwDateTimePicker SelectedDateTime="GetLocalEnd()" SelectedDateTimeChanged="SetLocalEnd" Label="End" />
+                <TwDateTimePicker SelectedDateTime="GetLocalStart()" SelectedDateTimeChanged="SetLocalStart" Label="@localizer[TwStrings.Common_Start]" />
+                <TwDateTimePicker SelectedDateTime="GetLocalEnd()" SelectedDateTimeChanged="SetLocalEnd" Label="@localizer[TwStrings.Common_End]" />
             }
         </div>
-        <TwColorPicker Value="@GetColor()" ValueChanged="SetColor" Label="Color" AriaLabel="Event color" />
+        <TwColorPicker Value="@GetColor()" ValueChanged="SetColor" Label="@localizer[TwStrings.Calendar_FieldColor]" AriaLabel="@localizer[TwStrings.Calendar_EventColor]" />
         @foreach (var field in Fields)
         {
             var current = field;
@@ -61,7 +61,7 @@ else
             {
                 <div class="@readOnlyFieldClasses">
                     <span class="@readOnlyLabelClasses">@current.Label</span>
-                    <p class="@readOnlyValueClasses">@current.GetDisplayText(WorkingEvent.Value)</p>
+                    <p class="@readOnlyValueClasses">@current.GetDisplayText(WorkingEvent.Value, localizer)</p>
                 </div>
             }
             else if (current.Kind == TwCalendarDialogFieldKind.Boolean)
@@ -93,9 +93,9 @@ else
     <div class="@actionsClasses">
         @if (!IsNew)
         {
-            <TwButton Label="Delete" Color="Color.Danger" Variant="ButtonVariant.Text" OnClick="Delete" />
+            <TwButton Label="@localizer[TwStrings.Common_Delete]" Color="Color.Danger" Variant="ButtonVariant.Text" OnClick="Delete" />
         }
-        <TwButton Label="Cancel" Variant="ButtonVariant.Text" OnClick="Cancel" />
-        <TwButton Label="Save" Color="Color.Primary" OnClick="Save" />
+        <TwButton Label="@localizer[TwStrings.Common_Cancel]" Variant="ButtonVariant.Text" OnClick="Cancel" />
+        <TwButton Label="@localizer[TwStrings.Common_Save]" Color="Color.Primary" OnClick="Save" />
     </div>
 }

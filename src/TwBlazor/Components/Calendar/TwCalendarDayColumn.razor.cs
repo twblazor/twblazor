@@ -193,7 +193,7 @@ public partial class TwCalendarDayColumn<T> : TwBlazorComponentBase, IAsyncDispo
     /// <summary>
     /// The event's start time (e.g. "9:00 AM"), shown as the card's subtitle line below its name.
     /// </summary>
-    private static string GetStartTimeLabel(Schedule<T> evt) => evt.DateTimeStart.DateTime.ToString("h:mm tt");
+    private string GetStartTimeLabel(Schedule<T> evt) => localizer.Formats.Format(evt.DateTimeStart.DateTime, localizer.Formats.ShortTime);
 
     private bool IsDraggable(Schedule<T> evt) => Editable && !evt.ReadOnly;
 

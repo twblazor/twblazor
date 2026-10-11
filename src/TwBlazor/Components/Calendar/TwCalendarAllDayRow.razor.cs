@@ -4,6 +4,7 @@
 using Microsoft.AspNetCore.Components;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Utilities;
+using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 
@@ -106,10 +107,10 @@ public partial class TwCalendarAllDayRow<T> : TwBlazorComponentBase
     private static string GetChipStyle(TwCalendarSpans.Segment<T> segment) =>
         $"grid-column:{segment.StartColumn + 1} / span {segment.Span};grid-row:{segment.Lane + 1};{TwCalendarColors.GetEventCardStyle(segment.Event.Color)}";
 
-    private static string GetChipLabel(Schedule<T> evt) =>
+    private string GetChipLabel(Schedule<T> evt) =>
         TwCalendarSpans.IsAllDay(evt)
-            ? $"{evt.Name}, {TwCalendarEventDialog<T>.FormatRange(evt.DateTimeStart, evt.DateTimeEnd)}"
-            : $"{evt.Name}, {evt.DateTimeStart:d MMM} to {evt.DateTimeEnd:d MMM}";
+            ? localizer[TwStrings.Calendar_EventLabel, evt.Name, TwCalendarEventDialog<T>.FormatRange(localizer, evt.DateTimeStart, evt.DateTimeEnd)]
+            : localizer[TwStrings.Calendar_EventTimeRange, evt.Name, localizer.Formats.Format(evt.DateTimeStart.DateTime, localizer.Formats.MonthDay), localizer.Formats.Format(evt.DateTimeEnd.DateTime, localizer.Formats.MonthDay)];
 
     private string placeholderClasses => new ClassBuilder(theme.MonthEventRow)
         .AddClass(theme.DropPlaceholder)

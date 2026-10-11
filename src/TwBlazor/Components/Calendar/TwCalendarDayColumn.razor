@@ -2,7 +2,7 @@
 @typeparam T
 @inherits TwBlazorComponentBase
 
-<div id="@Id" class="@columnClasses" style="@Style" role="group" aria-label="@Date.ToString("dddd, MMMM d")" @ref="gridRef" @onkeydown="OnGridKeyDownAsync" @attributes="Attributes">
+<div id="@Id" class="@columnClasses" style="@Style" role="group" aria-label="@localizer.Formats.Format(Date, localizer.Formats.LongDate)" @ref="gridRef" @onkeydown="OnGridKeyDownAsync" @attributes="Attributes">
     @for (var slot = 0; slot < slotsPerDay; slot++)
     {
         var slotIndex = slot;
@@ -22,7 +22,7 @@
                 class="@GetSlotClasses()"
                 style="@($"height:{slotHeightRem.ToString(System.Globalization.CultureInfo.InvariantCulture)}rem;")"
                 tabindex="@(slotIndex == focusedSlot ? "0" : "-1")"
-                aria-label="@slotTime.ToString("h:mm tt")"
+                aria-label="@localizer.Formats.Format(slotTime, localizer.Formats.ShortTime)"
                 @ref="GetSlotRef(slotIndex).Element"
                 @onclick="@(() => OnSlotClickedAsync(slotIndex))"
                 @onfocus="@(() => OnSlotFocusedAsync(slotIndex))"
@@ -35,7 +35,7 @@
     {
         <div class="@placeholderClasses" style="@dropPlaceholderStyle" aria-hidden="true">
             <span class="@chipTitleClasses">@DraggedEvent!.Name</span>
-            <span class="@chipTimeClasses">@DropPreview!.Value.ToString("h:mm tt")</span>
+            <span class="@chipTimeClasses">@localizer.Formats.Format(DropPreview!.Value, localizer.Formats.ShortTime)</span>
         </div>
     }
     @foreach (var slot in layoutSlots)
@@ -43,7 +43,7 @@
         <button type="button"
                 class="@GetChipClasses(slot.Event)"
                 style="@GetChipStyle(slot)"
-                aria-label="@($"{slot.Event.Name}, {slot.Event.DateTimeStart:h:mm tt} to {slot.Event.DateTimeEnd:h:mm tt}")"
+                aria-label="@localizer[TwStrings.Calendar_EventTimeRange, slot.Event.Name, localizer.Formats.Format(slot.Event.DateTimeStart.DateTime, localizer.Formats.ShortTime), localizer.Formats.Format(slot.Event.DateTimeEnd.DateTime, localizer.Formats.ShortTime)]"
                 draggable="@(IsDraggable(slot.Event) ? "true" : "false")"
                 @ondragstart="@(() => OnChipDragStartAsync(slot.Event))"
                 @ondragend="OnChipDragEndAsync"

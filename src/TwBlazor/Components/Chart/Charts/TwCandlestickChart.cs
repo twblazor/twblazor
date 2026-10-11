@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Components;
 using TwBlazor.Charting;
 using TwBlazor.Enums;
 using TwBlazor.Models;
+using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 
@@ -30,18 +31,27 @@ public class TwCandlestickChart : TwChartBase
 
     /// <summary>
     /// Gets or sets the legend label for a period that closed at or above its open.
+    /// Defaults to the localized <see cref="TwStrings.Chart_Rising"/> text ("Rising").
     /// </summary>
-    [Parameter] public string RisingLabel { get; set; } = "Rising";
+    [Parameter] public string? RisingLabel { get; set; }
+
+    private string effectiveRisingLabel => RisingLabel ?? localizer[TwStrings.Chart_Rising];
 
     /// <summary>
     /// Gets or sets the legend label for a period that closed below its open.
+    /// Defaults to the localized <see cref="TwStrings.Chart_Falling"/> text ("Falling").
     /// </summary>
-    [Parameter] public string FallingLabel { get; set; } = "Falling";
+    [Parameter] public string? FallingLabel { get; set; }
+
+    private string effectiveFallingLabel => FallingLabel ?? localizer[TwStrings.Chart_Falling];
 
     /// <summary>
     /// Gets or sets the heading of the period column in the table view.
+    /// Defaults to the localized <see cref="TwStrings.Chart_Period"/> text ("Period").
     /// </summary>
-    [Parameter] public string LabelHeader { get; set; } = "Period";
+    [Parameter] public string? LabelHeader { get; set; }
+
+    private string effectiveLabelHeader => LabelHeader ?? localizer[TwStrings.Chart_Period];
 
     /// <inheritdoc />
     protected internal override void BuildScene(ChartSceneBuilder builder)
@@ -77,18 +87,18 @@ public class TwCandlestickChart : TwChartBase
                 builder.Bar(center, thickness, scale.Map(item.Open) - flat, scale.Map(item.Close) + flat, color, ChartCorner.None);
             }
 
-            builder.BandDatum(center, band.Step, $"{item.Label} ({(rising ? RisingLabel : FallingLabel)})",
+            builder.BandDatum(center, band.Step, $"{item.Label} ({(rising ? effectiveRisingLabel : effectiveFallingLabel)})",
             [
-                new ChartDatumRow("Open", FormatValue(item.Open)),
-                new ChartDatumRow("High", FormatValue(item.High)),
-                new ChartDatumRow("Low", FormatValue(item.Low)),
-                new ChartDatumRow("Close", FormatValue(item.Close), color)
+                new ChartDatumRow(localizer[TwStrings.Chart_Open], FormatValue(item.Open)),
+                new ChartDatumRow(localizer[TwStrings.Chart_High], FormatValue(item.High)),
+                new ChartDatumRow(localizer[TwStrings.Chart_Low], FormatValue(item.Low)),
+                new ChartDatumRow(localizer[TwStrings.Chart_Close], FormatValue(item.Close), color)
             ]);
         }
 
-        builder.Legend(RisingLabel, ChartColor.Positive);
-        builder.Legend(FallingLabel, ChartColor.Negative);
-        builder.Table = new ChartTable([LabelHeader, "Open", "High", "Low", "Close"],
+        builder.Legend(effectiveRisingLabel, ChartColor.Positive);
+        builder.Legend(effectiveFallingLabel, ChartColor.Negative);
+        builder.Table = new ChartTable([effectiveLabelHeader, localizer[TwStrings.Chart_Open], localizer[TwStrings.Chart_High], localizer[TwStrings.Chart_Low], localizer[TwStrings.Chart_Close]],
             [.. Items.Select(item => (IReadOnlyList<string>)[item.Label, FormatValue(item.Open), FormatValue(item.High), FormatValue(item.Low), FormatValue(item.Close)])]);
     }
 }

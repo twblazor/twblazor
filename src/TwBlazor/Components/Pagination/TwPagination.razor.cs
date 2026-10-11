@@ -4,6 +4,7 @@
 using Microsoft.AspNetCore.Components;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Utilities;
+using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 
@@ -124,7 +125,7 @@ public partial class TwPagination : TwBlazorComponentBase
         }
 
         ActivePage = page;
-        statusMessage = $"Page {page} of {TotalPages}";
+        statusMessage = localizer[TwStrings.Pagination_PageStatus, page, TotalPages];
 
         if (ActivePageChanged.HasDelegate)
         {

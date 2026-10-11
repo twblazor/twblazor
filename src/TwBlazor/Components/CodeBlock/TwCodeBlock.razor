@@ -29,5 +29,5 @@
         Icon="@(copied ? Icon.Check2 : Icon.Copy)"
         Class="@options.Theme.Spacing.Padding.Md"
         RootClass="@copyButtonClasses"
-        AriaLabel="@(copied ? "Copied" : "Copy code")" />;
+        AriaLabel="@(copied ? localizer[TwStrings.CodeBlock_Copied] : localizer[TwStrings.CodeBlock_Copy])" />;
 }

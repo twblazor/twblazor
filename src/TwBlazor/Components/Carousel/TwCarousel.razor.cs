@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Components.Web;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Enums;
 using TwBlazor.Utilities;
+using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 
@@ -164,7 +165,7 @@ public partial class TwCarousel : TwBlazorComponentBase, IAsyncDisposable
     /// </summary>
     public bool IsAutoPlayManuallyPaused => isManuallyPaused;
 
-    private string effectiveAriaLabel => string.IsNullOrEmpty(AriaLabel) && string.IsNullOrEmpty(AriaLabelledBy) ? "Carousel" : AriaLabel ?? string.Empty;
+    private string effectiveAriaLabel => string.IsNullOrEmpty(AriaLabel) && string.IsNullOrEmpty(AriaLabelledBy) ? localizer[TwStrings.Carousel_Label] : AriaLabel ?? string.Empty;
 
     private string containerClasses => new ClassBuilder(theme.Container)
         .AddClass(roundedBuilder.GetRounded(effectiveRounded))

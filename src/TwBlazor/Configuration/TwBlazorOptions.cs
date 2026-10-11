@@ -24,4 +24,10 @@ public class TwBlazorOptions
     /// Gets or sets how conflicting Tailwind classes are merged. Optional: the defaults are used when this is left alone.
     /// </summary>
     public TwClassMergeOptions ClassMerge { get; set; } = new();
+
+    /// <summary>
+    /// Gets or sets the language and the date and time formats components render with. Optional: components follow
+    /// the application's culture and use the built in English strings when this is left alone.
+    /// </summary>
+    public TwLocalizationOptions Localization { get; set; } = new();
 }
