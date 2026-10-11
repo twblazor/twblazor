@@ -5,6 +5,7 @@ using System.Globalization;
 using Microsoft.AspNetCore.Components;
 using TwBlazor.Charting;
 using TwBlazor.Models;
+using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 
@@ -28,18 +29,27 @@ public class TwGanttChart : TwChartBase
 
     /// <summary>
     /// Gets or sets the heading of the task column in the table view.
+    /// Defaults to the localized <see cref="TwStrings.Chart_Task"/> text ("Task").
     /// </summary>
-    [Parameter] public string LabelHeader { get; set; } = "Task";
+    [Parameter] public string? LabelHeader { get; set; }
+
+    private string effectiveLabelHeader => LabelHeader ?? localizer[TwStrings.Chart_Task];
 
     /// <summary>
     /// Gets or sets the label for a task's start date.
+    /// Defaults to the localized <see cref="TwStrings.Chart_Start"/> text ("Start").
     /// </summary>
-    [Parameter] public string StartLabel { get; set; } = "Start";
+    [Parameter] public string? StartLabel { get; set; }
+
+    private string effectiveStartLabel => StartLabel ?? localizer[TwStrings.Chart_Start];
 
     /// <summary>
     /// Gets or sets the label for a task's end date.
+    /// Defaults to the localized <see cref="TwStrings.Chart_End"/> text ("End").
     /// </summary>
-    [Parameter] public string EndLabel { get; set; } = "End";
+    [Parameter] public string? EndLabel { get; set; }
+
+    private string effectiveEndLabel => EndLabel ?? localizer[TwStrings.Chart_End];
 
     /// <inheritdoc />
     protected internal override void BuildScene(ChartSceneBuilder builder)
@@ -54,7 +64,7 @@ public class TwGanttChart : TwChartBase
         var span = Math.Max(1, (Tasks.Max(task => task.End) - first).Ticks);
         var band = new ChartBand(Tasks.Count);
         double Position(DateTime date) => (date - first).Ticks / (double)span * 100;
-        string Format(DateTime date) => date.ToString(DateFormat, CultureInfo.CurrentCulture);
+        string Format(DateTime date) => date.ToString(DateFormat, localizer.Formats.Culture);
 
         builder.ValueAxis([.. Enumerable.Range(0, tickCount + 1).Select(tick => new ChartTick(100.0 * tick / tickCount, Format(first.AddTicks(span * tick / tickCount))))]);
         builder.BandAxis([.. Tasks.Select(task => task.Label)], band);
@@ -63,10 +73,10 @@ public class TwGanttChart : TwChartBase
         {
             var task = Tasks[i];
             builder.Bar(band.Center(i), Math.Min(band.Step * 0.5, 8), Position(task.Start), Position(task.End), ChartColor.Series(0), ChartCorner.All);
-            builder.BandDatum(band.Center(i), band.Step, task.Label, [new ChartDatumRow(StartLabel, Format(task.Start)), new ChartDatumRow(EndLabel, Format(task.End))]);
+            builder.BandDatum(band.Center(i), band.Step, task.Label, [new ChartDatumRow(effectiveStartLabel, Format(task.Start)), new ChartDatumRow(effectiveEndLabel, Format(task.End))]);
         }
 
-        builder.Table = new ChartTable([LabelHeader, StartLabel, EndLabel],
+        builder.Table = new ChartTable([effectiveLabelHeader, effectiveStartLabel, effectiveEndLabel],
             [.. Tasks.Select(task => (IReadOnlyList<string>)[task.Label, Format(task.Start), Format(task.End)])]);
     }
 }

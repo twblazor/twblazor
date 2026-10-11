@@ -108,7 +108,7 @@ public class TwCalendarEventDialogTests : TwBlazorTestBase
         var start = new DateTimeOffset(sy, sm, sd, sh, smin, 0, TimeSpan.Zero);
         var end = new DateTimeOffset(ey, em, ed, eh, emin, 0, TimeSpan.Zero);
 
-        Assert.Equal(expected, TwCalendarEventDialog<string>.FormatRange(start, end));
+        Assert.Equal(expected, TwCalendarEventDialog<string>.FormatRange(Localizer, start, end));
     }
 
     [Theory]
@@ -120,7 +120,7 @@ public class TwCalendarEventDialogTests : TwBlazorTestBase
         var start = new DateTimeOffset(sy, sm, sd, 0, 0, 0, TimeSpan.Zero);
         var end = new DateTimeOffset(ey, em, ed, 0, 0, 0, TimeSpan.Zero);
 
-        Assert.Equal(expected, TwCalendarEventDialog<string>.FormatRange(start, end));
+        Assert.Equal(expected, TwCalendarEventDialog<string>.FormatRange(Localizer, start, end));
     }
 
     [Fact]

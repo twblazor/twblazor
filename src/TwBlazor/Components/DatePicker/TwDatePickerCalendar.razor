@@ -3,8 +3,8 @@
 
 @if (View == DatePickerCalendarView.Year)
 {
-    <TwDatePickerHeader OnPreviousClick="PreviousDecade" OnNextClick="NextDecade" PreviousLabel="Previous decade" NextLabel="Next decade">
-        @AnchorDate.ToString("yyyy")
+    <TwDatePickerHeader OnPreviousClick="PreviousDecade" OnNextClick="NextDecade" PreviousLabel="@localizer[TwStrings.DatePicker_PreviousDecade]" NextLabel="@localizer[TwStrings.DatePicker_NextDecade]">
+        @localizer.Formats.Format(AnchorDate, localizer.Formats.Year)
     </TwDatePickerHeader>
     <TwDatePickerBody Class="@bodyClasses">
         <div class="@yearsGridClasses">
@@ -14,7 +14,7 @@
                 var isSelectedYear = SelectedDate.HasValue && year == SelectedDate.Value.Year;
                 var isCurrentYear = ShowTodayIndicator && year == today.Year;
                 <button type="button" class="@GetButtonClasses("year", isSelectedYear, isCurrentYear)" aria-pressed="@(isSelectedYear ? "true" : "false")" aria-current="@(isCurrentYear ? "date" : null)" data-tw-autofocus="@(year == AnchorDate.Year)" @onclick="@(() => SelectYear(yearDate))">
-                    @yearDate.ToString("yyyy")
+                    @localizer.Formats.Format(yearDate, localizer.Formats.Year)
                 </button>
             }
         </div>
@@ -22,8 +22,8 @@
 }
 else if (View == DatePickerCalendarView.Month)
 {
-    <TwDatePickerHeader OnPreviousClick="PreviousYear" OnNextClick="NextYear" OnTitleClick="@(() => SwitchView(DatePickerCalendarView.Year))" PreviousLabel="Previous year" NextLabel="Next year">
-        @AnchorDate.ToString("yyyy")
+    <TwDatePickerHeader OnPreviousClick="PreviousYear" OnNextClick="NextYear" OnTitleClick="@(() => SwitchView(DatePickerCalendarView.Year))" PreviousLabel="@localizer[TwStrings.DatePicker_PreviousYear]" NextLabel="@localizer[TwStrings.DatePicker_NextYear]">
+        @localizer.Formats.Format(AnchorDate, localizer.Formats.Year)
     </TwDatePickerHeader>
     <TwDatePickerBody Class="@bodyClasses">
         <div class="@monthsGridClasses">
@@ -32,8 +32,8 @@ else if (View == DatePickerCalendarView.Month)
                 var monthDate = new DateTime(AnchorDate.Year, month, 1, 0, 0, 0, DateTimeKind.Unspecified);
                 var isSelectedMonth = SelectedDate.HasValue && AnchorDate.Year == SelectedDate.Value.Year && month == SelectedDate.Value.Month;
                 var isCurrentMonth = ShowTodayIndicator && AnchorDate.Year == today.Year && month == today.Month;
-                <button type="button" class="@GetButtonClasses("month", isSelectedMonth, isCurrentMonth)" aria-pressed="@(isSelectedMonth ? "true" : "false")" aria-current="@(isCurrentMonth ? "date" : null)" aria-label="@monthDate.ToString("MMMM yyyy")" data-tw-autofocus="@(month == AnchorDate.Month)" @onclick="@(() => SelectMonth(monthDate))">
-                    @monthDate.ToString("MMM")
+                <button type="button" class="@GetButtonClasses("month", isSelectedMonth, isCurrentMonth)" aria-pressed="@(isSelectedMonth ? "true" : "false")" aria-current="@(isCurrentMonth ? "date" : null)" aria-label="@localizer.Formats.Format(monthDate, localizer.Formats.MonthYear)" data-tw-autofocus="@(month == AnchorDate.Month)" @onclick="@(() => SelectMonth(monthDate))">
+                    @localizer.Formats.Format(monthDate, localizer.Formats.ShortMonth)
                 </button>
             }
         </div>
@@ -41,8 +41,8 @@ else if (View == DatePickerCalendarView.Month)
 }
 else
 {
-    <TwDatePickerHeader OnPreviousClick="PreviousMonth" OnNextClick="NextMonth" OnTitleClick="@(() => SwitchView(DatePickerCalendarView.Month))" PreviousLabel="Previous month" NextLabel="Next month" PreviousDisabled="@isPreviousMonthDisabled" NextDisabled="@isNextMonthDisabled">
-        @AnchorDate.ToString("MMMM yyyy")
+    <TwDatePickerHeader OnPreviousClick="PreviousMonth" OnNextClick="NextMonth" OnTitleClick="@(() => SwitchView(DatePickerCalendarView.Month))" PreviousLabel="@localizer[TwStrings.DatePicker_PreviousMonth]" NextLabel="@localizer[TwStrings.DatePicker_NextMonth]" PreviousDisabled="@isPreviousMonthDisabled" NextDisabled="@isNextMonthDisabled">
+        @localizer.Formats.Format(AnchorDate, localizer.Formats.MonthYear)
     </TwDatePickerHeader>
     <TwDatePickerBody Class="@bodyClasses">
         <TwDatePickerDayView @ref="dayView" Value="AnchorDate" SelectedDate="SelectedDate" Range="Range" MinDate="MinDate" MaxDate="MaxDate" ShowMonthCaption="ShowMonthCaption" ValueChanged="OnDaySelected" NavigationRequested="OnDayNavigationRequested" />

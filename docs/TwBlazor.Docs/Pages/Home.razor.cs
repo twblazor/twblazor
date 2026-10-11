@@ -99,6 +99,57 @@ public partial class Home
         new("color", "Color", "bg-pink-700"),
     ];
 
+    private const string localizationSnippet =
+        "builder.Services.AddTwBlazor(options =>\n" +
+        "{\n" +
+        "    // Reword a string or add a language with your own .resx files.\n" +
+        "    options.Localization.AddResource(MyStrings.ResourceManager);\n" +
+        "\n" +
+        "    // Dates and times follow the culture. Set only what you want to change.\n" +
+        "    options.Localization.Formats.FirstDayOfWeek = DayOfWeek.Monday;\n" +
+        "    options.Localization.Formats.Use12HourClock = false;\n" +
+        "}, Theme.CreateTheme);";
+
+    /// <summary>
+    /// The languages twblazor ships a resource file for, in the order of the Localization page's table.
+    /// </summary>
+    private static readonly IReadOnlyList<LocalizationLanguage> _localizationLanguages =
+    [
+        new("English", "English", "en"),
+        new("中文（简体）", "Chinese, Simplified", "zh-Hans"),
+        new("Español", "Spanish", "es"),
+        new("हिन्दी", "Hindi", "hi"),
+        new("Português", "Portuguese", "pt"),
+        new("বাংলা", "Bengali", "bn"),
+        new("Русский", "Russian", "ru"),
+        new("日本語", "Japanese", "ja"),
+        new("پنجابی", "Western Punjabi", "pa-Arab"),
+        new("Türkçe", "Turkish", "tr"),
+        new("Tiếng Việt", "Vietnamese", "vi"),
+        new("中文（繁體）", "Chinese, Traditional", "zh-Hant"),
+        new("العربية", "Arabic", "ar"),
+        new("मराठी", "Marathi", "mr"),
+        new("తెలుగు", "Telugu", "te"),
+        new("한국어", "Korean", "ko"),
+        new("தமிழ்", "Tamil", "ta"),
+        new("اردو", "Urdu", "ur"),
+        new("Bahasa Indonesia", "Indonesian", "id"),
+        new("Deutsch", "German", "de"),
+        new("Français", "French", "fr"),
+        new("Basa Jawa", "Javanese", "jv"),
+        new("فارسی", "Persian", "fa"),
+        new("Italiano", "Italian", "it"),
+    ];
+
+    private static readonly IReadOnlyList<MergePoint> _localizationPoints =
+    [
+        new("One .resx file per language", "English is built in and the rest ship in the package. Add or reword any string with resource files of your own."),
+        new("Dates and times that fit", "Month names, the first day of the week and 12 or 24 hour time follow the culture, with British formats as the fallback."),
+        new("Configured in AddTwBlazor", "Pin a culture, set a format or swap the localizer service, all from the options you already pass."),
+    ];
+
+    private sealed record LocalizationLanguage(string NativeName, string Name, string Culture);
+
     private static readonly IReadOnlyList<MergePoint> _mergePoints =
     [
         new("The last class wins", "Conflicts are settled by what you wrote last, not by the order of Tailwind's stylesheet."),

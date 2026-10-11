@@ -3,6 +3,7 @@
 
 using Microsoft.AspNetCore.Components;
 using TwBlazor.Charting;
+using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 
@@ -50,15 +51,18 @@ public abstract class TwGridChartBase : TwCategoryChartBase
                 var intensity = max > min ? (value - min) / (max - min) : 1;
                 BuildCell(builder, columns.Step * column, rows.Step * row, columns.Step, rows.Step, value, intensity);
                 builder.Datum(columns.Center(column), rows.Center(row), columns.Step, rows.Step, $"{series[row].Series.Name}, {Categories[column]}",
-                    [new ChartDatumRow(ValueLabel, FormatValue(value))]);
+                    [new ChartDatumRow(effectiveValueLabel, FormatValue(value))]);
             }
         }
     }
 
     /// <summary>
     /// Gets or sets the label for a cell's value in tooltips.
+    /// Defaults to the localized <see cref="TwStrings.Chart_Value"/> text ("Value").
     /// </summary>
-    [Parameter] public string ValueLabel { get; set; } = "Value";
+    [Parameter] public string? ValueLabel { get; set; }
+
+    private string effectiveValueLabel => ValueLabel ?? localizer[TwStrings.Chart_Value];
 }
 
 /// <summary>

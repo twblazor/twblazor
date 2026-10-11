@@ -19,7 +19,7 @@
     <div class="@theme.Body" aria-busy="@(Loading ? "true" : null)">
         @if (Loading)
         {
-            <TwSkeleton SkeletonType="SkeletonType.Rectangle" Height="@skeletonHeight" AriaLabel="@LoadingLabel" />
+            <TwSkeleton SkeletonType="SkeletonType.Rectangle" Height="@skeletonHeight" AriaLabel="@effectiveLoadingLabel" />
         }
         else
         {

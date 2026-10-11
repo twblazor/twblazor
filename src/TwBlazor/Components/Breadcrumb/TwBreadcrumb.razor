@@ -1,7 +1,7 @@
 ﻿@namespace TwBlazor.Components
 @inherits TwBlazorComponentBase
 
-<nav id="@Id" class="@Class" style="@Style" aria-label="@(AriaLabel ?? (AriaLabelledBy == null ? "Breadcrumb" : null))" aria-labelledby="@AriaLabelledBy" @attributes="@Attributes">
+<nav id="@Id" class="@Class" style="@Style" aria-label="@(AriaLabel ?? (AriaLabelledBy == null ? localizer[TwStrings.Breadcrumb_Label] : null))" aria-labelledby="@AriaLabelledBy" @attributes="@Attributes">
     <ol class="@theme.List">
         @if (ChildContent != null)
         {

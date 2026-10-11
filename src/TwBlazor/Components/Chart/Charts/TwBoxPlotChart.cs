@@ -4,6 +4,7 @@
 using Microsoft.AspNetCore.Components;
 using TwBlazor.Charting;
 using TwBlazor.Models;
+using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 
@@ -25,8 +26,11 @@ public abstract class TwSampleChartBase : TwChartBase
 
     /// <summary>
     /// Gets or sets the heading of the group column in the table view.
+    /// Defaults to the localized <see cref="TwStrings.Chart_Group"/> text ("Group").
     /// </summary>
-    [Parameter] public string LabelHeader { get; set; } = "Group";
+    [Parameter] public string? LabelHeader { get; set; }
+
+    private string effectiveLabelHeader => LabelHeader ?? localizer[TwStrings.Chart_Group];
 
     /// <summary>
     /// Adds the marks for one group.
@@ -53,6 +57,7 @@ public abstract class TwSampleChartBase : TwChartBase
         builder.ValueAxis(scale, FormatValue);
         builder.BandAxis([.. groups.Select(group => group.Label)], band);
 
+        var labels = summaryLabels;
         List<IReadOnlyList<string>> rows = [];
         for (var i = 0; i < groups.Count; i++)
         {
@@ -68,14 +73,22 @@ public abstract class TwSampleChartBase : TwChartBase
             ];
 
             BuildGroup(builder, scale, band.Center(i), band.Step, sorted);
-            builder.BandDatum(band.Center(i), band.Step, groups[i].Label, [.. _summaryLabels.Zip(summary, (label, value) => new ChartDatumRow(label, value))]);
+            builder.BandDatum(band.Center(i), band.Step, groups[i].Label, [.. labels.Zip(summary, (label, value) => new ChartDatumRow(label, value))]);
             rows.Add([groups[i].Label, .. summary]);
         }
 
-        builder.Table = new ChartTable([LabelHeader, .. _summaryLabels], rows);
+        builder.Table = new ChartTable([effectiveLabelHeader, .. labels], rows);
     }
 
-    private static readonly string[] _summaryLabels = ["Count", "Minimum", "Lower quartile", "Median", "Upper quartile", "Maximum"];
+    private string[] summaryLabels =>
+    [
+        localizer[TwStrings.Chart_Count],
+        localizer[TwStrings.Chart_Minimum],
+        localizer[TwStrings.Chart_LowerQuartile],
+        localizer[TwStrings.Chart_Median],
+        localizer[TwStrings.Chart_UpperQuartile],
+        localizer[TwStrings.Chart_Maximum]
+    ];
 }
 
 /// <summary>

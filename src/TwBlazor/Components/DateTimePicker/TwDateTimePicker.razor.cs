@@ -3,6 +3,7 @@
 
 using Microsoft.AspNetCore.Components;
 using TwBlazor.Configuration.Components;
+using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 
@@ -30,14 +31,19 @@ public partial class TwDateTimePicker : TwBlazorTextInputComponentBase
     /// <see cref="TwDatePickerTheme.DefaultDateTimeFormat"/>/<see cref="TwDatePickerTheme.DefaultDateTimeFormat12Hour"/>
     /// matches <see cref="Is12HourFormat"/>.
     /// </summary>
-    private string format => Format ?? (Is12HourFormat ? theme.DefaultDateTimeFormat12Hour : theme.DefaultDateTimeFormat);
+    private string format => Format ?? localizer.Formats.DateTimeInput ?? (effectiveIs12HourFormat ? theme.DefaultDateTimeFormat12Hour : theme.DefaultDateTimeFormat);
 
     /// <summary>
     /// Gets or sets a value indicating whether the time should be displayed in 12-hour format.
     /// </summary>
     /// <remarks>Set this property to <see langword="true"/> to use 12-hour time representation (with AM/PM);
     /// otherwise, 24-hour format will be used. Has no effect when <see cref="Format"/> is explicitly set.</remarks>
-    [Parameter] public bool Is12HourFormat { get; set; }
+    [Parameter] public bool? Is12HourFormat { get; set; }
+
+    /// <summary>
+    /// Gets whether a 12 hour clock is used: <see cref="Is12HourFormat"/> when set, otherwise the localization options.
+    /// </summary>
+    private bool effectiveIs12HourFormat => Is12HourFormat ?? localizer.Formats.Use12HourInput;
     /// <summary>
     /// The selected <see cref="DateTime"/> value.
     /// </summary>
@@ -56,8 +62,11 @@ public partial class TwDateTimePicker : TwBlazorTextInputComponentBase
     [Parameter] public EventCallback<string> ValueChanged { get; set; }
     /// <summary>
     /// The placeholder text to display when no date is selected.
+    /// Defaults to the localized <see cref="TwStrings.DateTimePicker_Placeholder"/> text ("Select a datetime").
     /// </summary>
-    [Parameter] public string Placeholder { get; set; } = "Select a datetime";
+    [Parameter] public string? Placeholder { get; set; }
+
+    private string effectivePlaceholder => Placeholder ?? localizer[TwStrings.DateTimePicker_Placeholder];
 
     /// <summary>
     /// Overrides automatic device detection for whether the browser's native datetime picker should be used
@@ -109,7 +118,7 @@ public partial class TwDateTimePicker : TwBlazorTextInputComponentBase
         // Combine the existing date with the new time
         var date = DateOnly.FromDateTime(SelectedDateTime);
         SelectedDateTime = DateTime.SpecifyKind(date.ToDateTime(newTime), SelectedDateTime.Kind);
-        Value = SelectedDateTime.ToString(format);
+        Value = SelectedDateTime.ToString(format, localizer.Formats.Culture);
 
         // Captured before either callback fires: a caller binding both SelectedDateTime and
         // Value can trigger a reentrant render from the first InvokeAsync that pushes its

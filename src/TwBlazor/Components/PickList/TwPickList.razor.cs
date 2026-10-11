@@ -6,6 +6,7 @@ using Microsoft.JSInterop;
 using Microsoft.AspNetCore.Components.Web;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Utilities;
+using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 
@@ -80,18 +81,27 @@ public partial class TwPickList<TItem> : TwBlazorComponentBase
 
     /// <summary>
     /// Gets or sets the heading shown above the source list.
+    /// Defaults to the localized <see cref="TwStrings.PickList_Source"/> text ("Available").
     /// </summary>
-    [Parameter] public string SourceLabel { get; set; } = "Available";
+    [Parameter] public string? SourceLabel { get; set; }
+
+    private string effectiveSourceLabel => SourceLabel ?? localizer[TwStrings.PickList_Source];
 
     /// <summary>
     /// Gets or sets the heading shown above the target list.
+    /// Defaults to the localized <see cref="TwStrings.PickList_Target"/> text ("Selected").
     /// </summary>
-    [Parameter] public string TargetLabel { get; set; } = "Selected";
+    [Parameter] public string? TargetLabel { get; set; }
+
+    private string effectiveTargetLabel => TargetLabel ?? localizer[TwStrings.PickList_Target];
 
     /// <summary>
     /// Gets or sets the text shown in place of a list that has no items.
+    /// Defaults to the localized <see cref="TwStrings.PickList_Empty"/> text ("No items").
     /// </summary>
-    [Parameter] public string EmptyText { get; set; } = "No items";
+    [Parameter] public string? EmptyText { get; set; }
+
+    private string effectiveEmptyText => EmptyText ?? localizer[TwStrings.PickList_Empty];
 
     /// <summary>
     /// Gets or sets whether the whole component is disabled.
@@ -149,7 +159,7 @@ public partial class TwPickList<TItem> : TwBlazorComponentBase
         }
     }
 
-    private static string CountText(int count) => count == 1 ? "1 item" : $"{count} items";
+    private string CountText(int count) => localizer.Plural(count, TwStrings.PickList_ItemsOne, TwStrings.PickList_ItemsOther, count);
 
     protected override void OnParametersSet()
     {
@@ -239,7 +249,7 @@ public partial class TwPickList<TItem> : TwBlazorComponentBase
         var destination = (fromSource ? TargetItems : SourceItems).ToList();
         destination.AddRange(moving);
         selection.Clear();
-        statusMessage = $"{CountText(moving.Count)} moved to {(fromSource ? TargetLabel : SourceLabel)}";
+        statusMessage = localizer[TwStrings.PickList_MovedTo, CountText(moving.Count), fromSource ? effectiveTargetLabel : effectiveSourceLabel];
 
         await ApplyTransferAsync(fromSource, origin, destination);
     }
@@ -262,7 +272,7 @@ public partial class TwPickList<TItem> : TwBlazorComponentBase
 
         var destination = (fromSource ? TargetItems : SourceItems).ToList();
         destination.AddRange(origin);
-        statusMessage = $"{CountText(origin.Count)} moved to {(fromSource ? TargetLabel : SourceLabel)}";
+        statusMessage = localizer[TwStrings.PickList_MovedTo, CountText(origin.Count), fromSource ? effectiveTargetLabel : effectiveSourceLabel];
         origin.Clear();
         (fromSource ? selectedSource : selectedTarget).Clear();
 
@@ -307,7 +317,7 @@ public partial class TwPickList<TItem> : TwBlazorComponentBase
 
         var list = (isSource ? SourceItems : TargetItems).ToList();
         ShiftSelected(list, selection, up);
-        statusMessage = $"{CountText(selection.Count)} moved {(up ? "up" : "down")}";
+        statusMessage = localizer[up ? TwStrings.PickList_MovedUp : TwStrings.PickList_MovedDown, CountText(selection.Count)];
 
         if (isSource)
         {

@@ -8,6 +8,7 @@ using TwBlazor.Configuration.Components;
 using TwBlazor.Enums;
 using TwBlazor.Models;
 using TwBlazor.Utilities;
+using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 
@@ -128,7 +129,7 @@ public partial class TwSkeleton : TwBlazorComponentBase, IAsyncDisposable
     /// <see cref="TwBlazorComponentBase.AriaLabelledBy"/>, so the busy region never announces with no name.
     /// </summary>
     private string? effectiveAriaLabel => Loading && string.IsNullOrWhiteSpace(AriaLabel) && string.IsNullOrWhiteSpace(AriaLabelledBy)
-        ? "Loading"
+        ? localizer[TwStrings.Common_Loading]
         : AriaLabel;
 
     private string RectClasses(SkeletonRect rect) => new ClassBuilder(theme.Base)

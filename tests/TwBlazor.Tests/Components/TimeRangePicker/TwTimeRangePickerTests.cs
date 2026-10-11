@@ -232,7 +232,7 @@ public class TwTimeRangePickerTests : TwBlazorTestBase
         );
 
         // Assert
-        Assert.Equal("09:00 AM - 02:00 PM", cut.Find("input").GetAttribute("value"));
+        Assert.Equal("09:00 am - 02:00 pm", cut.Find("input").GetAttribute("value"));
     }
 
     [Fact]

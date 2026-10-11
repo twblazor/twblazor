@@ -4,6 +4,7 @@
 using Microsoft.AspNetCore.Components;
 using TwBlazor.Charting;
 using TwBlazor.Models;
+using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 
@@ -33,8 +34,11 @@ public class TwScatterChart : TwChartBase
 
     /// <summary>
     /// Gets or sets the label for a point's size in tooltips and the table view.
+    /// Defaults to the localized <see cref="TwStrings.Chart_Size"/> text ("Size").
     /// </summary>
-    [Parameter] public string SizeTitle { get; set; } = "Size";
+    [Parameter] public string? SizeTitle { get; set; }
+
+    private string effectiveSizeTitle => SizeTitle ?? localizer[TwStrings.Chart_Size];
 
     /// <summary>
     /// Gets or sets whether the points of each series are joined in order (a connected scatter plot).
@@ -108,10 +112,10 @@ public class TwScatterChart : TwChartBase
     private ChartTable BuildTable()
     {
         var hasSize = Series.Any(series => series.Points.Any(point => point.Size.HasValue));
-        List<string> headers = ["Series", "Label", XTitle, YTitle];
+        List<string> headers = [localizer[TwStrings.Chart_Series], localizer[TwStrings.Chart_PointLabel], XTitle, YTitle];
         if (hasSize)
         {
-            headers.Add(SizeTitle);
+            headers.Add(effectiveSizeTitle);
         }
 
         return new ChartTable(headers, [.. Series.SelectMany(series => series.Points.Select(point => GetTableRow(series.Name, point, hasSize)))]);
@@ -141,7 +145,7 @@ public class TwScatterChart : TwChartBase
         List<ChartDatumRow> rows = [new(XTitle, FormatValue(point.X)), new(YTitle, FormatValue(point.Y))];
         if (point.Size is { } bubble)
         {
-            rows.Add(new ChartDatumRow(SizeTitle, FormatValue(bubble)));
+            rows.Add(new ChartDatumRow(effectiveSizeTitle, FormatValue(bubble)));
         }
 
         builder.Datum(position.X, position.Y, 0, 0, point.Label ?? seriesName, rows, ChartHover.None);

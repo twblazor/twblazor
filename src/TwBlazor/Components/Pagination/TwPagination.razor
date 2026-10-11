@@ -6,23 +6,23 @@
     {
         <span class="@options.Theme.Display.ScreenReaderOnly" role="status" aria-live="polite">@statusMessage</span>
     }
-    <nav id="@Id" aria-label="@(AriaLabel ?? "pagination")" aria-labelledby="@AriaLabelledBy" style="@Style" @attributes="@Attributes">
+    <nav id="@Id" aria-label="@(AriaLabel ?? localizer[TwStrings.Pagination_Label])" aria-labelledby="@AriaLabelledBy" style="@Style" @attributes="@Attributes">
         <ul class="@listClasses">
             <li>
-                <TwIcon Class="@NavButtonClass(isPreviousDisabled)" Plain Readonly="@isPreviousDisabled" OnClick="() => OnPageClick(ActivePage - 1)" Icon="Enums.Icon.Chevron_Left" AriaLabel="Previous page" />
+                <TwIcon Class="@NavButtonClass(isPreviousDisabled)" Plain Readonly="@isPreviousDisabled" OnClick="() => OnPageClick(ActivePage - 1)" Icon="Enums.Icon.Chevron_Left" AriaLabel="@localizer[TwStrings.Pagination_PreviousPage]" />
             </li>
 
             @foreach (var pageNumber in VisiblePages())
             {
                 <li>
                     <TwButton Type="button" Class="@IsActivePage(pageNumber)" Plain OnClick="() => OnPageClick(pageNumber)" aria-current="@(pageNumber == ActivePage ? "page" : null)">
-                        <span class="@options.Theme.Display.ScreenReaderOnly">page </span>@pageNumber
+                        <span class="@options.Theme.Display.ScreenReaderOnly">@($"{localizer[TwStrings.Pagination_PagePrefix]} ")</span>@pageNumber
                     </TwButton>
                 </li>
             }
 
             <li>
-                <TwIcon Class="@NavButtonClass(isNextDisabled)" Plain Readonly="@isNextDisabled" OnClick="() => OnPageClick(ActivePage + 1)" Icon="Enums.Icon.Chevron_Right" AriaLabel="Next page" />
+                <TwIcon Class="@NavButtonClass(isNextDisabled)" Plain Readonly="@isNextDisabled" OnClick="() => OnPageClick(ActivePage + 1)" Icon="Enums.Icon.Chevron_Right" AriaLabel="@localizer[TwStrings.Pagination_NextPage]" />
             </li>
         </ul>
     </nav>
@@ -37,6 +37,6 @@
             SelectedValueChanged="@OnPageSizeSelected"
             Required="true"
             Dense="@Dense"
-            AriaLabel="Items per page" />
+            AriaLabel="@localizer[TwStrings.Pagination_ItemsPerPage]" />
     }
 </div>

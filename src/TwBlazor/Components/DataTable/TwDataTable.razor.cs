@@ -6,6 +6,7 @@ using System.Reflection;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Enums;
 using TwBlazor.Utilities;
+using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 
@@ -30,15 +31,21 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
 
     /// <summary>
     /// Label for the search field.
+    /// Defaults to the localized <see cref="TwStrings.DataTable_SearchLabel"/> text ("Search").
     /// </summary>
     [Parameter]
-    public string SearchLabel { get; set; } = "Search";
+    public string? SearchLabel { get; set; }
+
+    private string effectiveSearchLabel => SearchLabel ?? localizer[TwStrings.DataTable_SearchLabel];
 
     /// <summary>
     /// Placeholder text for the search field.
+    /// Defaults to the localized <see cref="TwStrings.DataTable_SearchPlaceholder"/> text ("Search…").
     /// </summary>
     [Parameter]
-    public string SearchPlaceholder { get; set; } = "Search…";
+    public string? SearchPlaceholder { get; set; }
+
+    private string effectiveSearchPlaceholder => SearchPlaceholder ?? localizer[TwStrings.DataTable_SearchPlaceholder];
 
     /// <summary>
     /// The data items to display in the table.
@@ -281,7 +288,7 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
     {
         currentPage = page;
         UpdateDisplay();
-        sortStatusMessage = $"Page {currentPage} of {TotalPages()}, showing {displayedRows.Count} {(displayedRows.Count == 1 ? "row" : "rows")}";
+        sortStatusMessage = localizer.Plural(displayedRows.Count, TwStrings.DataTable_PageStatusOne, TwStrings.DataTable_PageStatusOther, currentPage, TotalPages(), displayedRows.Count);
     }
 
     private async Task OnSearchAsync(string? value)
@@ -291,15 +298,14 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
         if (string.IsNullOrWhiteSpace(value))
         {
             ClearSearch();
-            sortStatusMessage = "Search cleared";
+            sortStatusMessage = localizer[TwStrings.DataTable_SearchCleared];
             return;
         }
 
         ApplySearch(value);
-        var rowNoun = displayedRows.Count == 1 ? "row" : "rows";
         sortStatusMessage = displayedRows.Count == 0
-            ? "No results match your search"
-            : $"Showing {displayedRows.Count} matching {rowNoun}";
+            ? localizer[TwStrings.DataTable_NoSearchResults]
+            : localizer.Plural(displayedRows.Count, TwStrings.DataTable_MatchingOne, TwStrings.DataTable_MatchingOther, displayedRows.Count);
         await Task.CompletedTask;
     }
 
@@ -392,9 +398,9 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
 
         sortStatusMessage = currentSortDirection switch
         {
-            SortDirection.Ascending => $"Sorted by {column.Title}, ascending",
-            SortDirection.Descending => $"Sorted by {column.Title}, descending",
-            _ => $"Sort by {column.Title} removed"
+            SortDirection.Ascending => localizer[TwStrings.DataTable_SortedAscending, column.Title],
+            SortDirection.Descending => localizer[TwStrings.DataTable_SortedDescending, column.Title],
+            _ => localizer[TwStrings.DataTable_SortRemoved, column.Title]
         };
 
         ApplySort();
@@ -423,13 +429,13 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
     private string GetSortAriaLabel(TwDataTableColumn<TItem> column)
     {
         if (currentSortColumn != column.Name || currentSortDirection == SortDirection.None)
-            return $"Sort by {column.Title}";
+            return localizer[TwStrings.DataTable_SortBy, column.Title];
 
         return currentSortDirection switch
         {
-            SortDirection.Ascending => $"Sort by {column.Title}, currently ascending",
-            SortDirection.Descending => $"Sort by {column.Title}, currently descending",
-            _ => $"Sort by {column.Title}"
+            SortDirection.Ascending => localizer[TwStrings.DataTable_SortByAscending, column.Title],
+            SortDirection.Descending => localizer[TwStrings.DataTable_SortByDescending, column.Title],
+            _ => localizer[TwStrings.DataTable_SortBy, column.Title]
         };
     }
 

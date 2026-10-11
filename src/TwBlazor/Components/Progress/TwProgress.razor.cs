@@ -8,6 +8,7 @@ using TwBlazor.Builders;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Enums;
 using TwBlazor.Utilities;
+using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 
@@ -134,7 +135,7 @@ public partial class TwProgress<T> : TwBlazorInputComponentBase
     /// <summary>
     /// Gets the fallback text content rendered for browsers that don't support &lt;progress&gt;.
     /// </summary>
-    private string fallbackText => Indeterminate ? "Loading..." : $"{percentageText}%";
+    private string fallbackText => Indeterminate ? localizer[TwStrings.Common_LoadingEllipsis] : percentage.ToString("0.###", localizer.Formats.Culture) + "%";
 
     /// <summary>
     /// Gets the combined aria-describedby value from <see cref="AriaDescribedBy"/> and the base class's validation error id, or <c>null</c> if neither applies.

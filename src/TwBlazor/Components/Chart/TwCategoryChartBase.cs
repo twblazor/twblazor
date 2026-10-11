@@ -4,6 +4,7 @@
 using Microsoft.AspNetCore.Components;
 using TwBlazor.Charting;
 using TwBlazor.Models;
+using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 
@@ -40,8 +41,11 @@ public abstract class TwCategoryChartBase : TwChartBase
 
     /// <summary>
     /// Gets or sets the heading of the category column in the table view.
+    /// Defaults to the localized <see cref="TwStrings.Chart_Category"/> text ("Category").
     /// </summary>
-    [Parameter] public string CategoryHeader { get; set; } = "Category";
+    [Parameter] public string? CategoryHeader { get; set; }
+
+    protected string effectiveCategoryHeader => CategoryHeader ?? localizer[TwStrings.Chart_Category];
 
     /// <summary>
     /// Gets whether each series gets a legend entry that can hide it. Charts that label their series directly
@@ -82,7 +86,7 @@ public abstract class TwCategoryChartBase : TwChartBase
         }
 
         builder.Table = new ChartTable(
-            [CategoryHeader, .. Series.Select(series => series.Name)],
+            [effectiveCategoryHeader, .. Series.Select(series => series.Name)],
             [.. Categories.Select((category, index) => (IReadOnlyList<string>)[category, .. Series.Select((series, slot) => FormatCell(new ChartSeriesSlot(slot, series).Value(index)))])]);
 
         if (visible.Count > 0)

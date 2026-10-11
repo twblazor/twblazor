@@ -172,7 +172,7 @@ public class TwDateTimePickerTests : TwBlazorTestBase
         // Because initial time was 11 (AM), entering 12 should map to 00
         // UpdateTime logic converts 12 AM to 0
         Assert.Equal(0, callbackValue!.Value.Hour);
-        Assert.Equal(callbackValue.Value.ToString("dd/MM/yyyy hh:mm tt"), valueChanged);
+        Assert.Equal(callbackValue.Value.ToString("dd/MM/yyyy hh:mm tt", Localizer.Formats.Culture), valueChanged);
     }
 
     [Fact]
@@ -343,7 +343,7 @@ public class TwDateTimePickerTests : TwBlazorTestBase
         );
 
         // Assert
-        Assert.Equal("11/24/2025 02:30 PM", cut.Find("input").GetAttribute("value"));
+        Assert.Equal("11/24/2025 02:30 pm", cut.Find("input").GetAttribute("value"));
     }
 
     [Fact]

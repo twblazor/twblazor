@@ -13,25 +13,25 @@
                 </div>
                 <div class="@headerSubtitleClasses">@headerSubtitle</div>
             </div>
-            <TwButton Label="Today" Color="Color.Primary" Dense StartIcon="Icon.Pin" OnClick="TodayAsync" />
+            <TwButton Label="@localizer[TwStrings.Calendar_Today]" Color="Color.Primary" Dense StartIcon="Icon.Pin" OnClick="TodayAsync" />
         </div>
         <div class="@headerControlsClasses">
             @if (OnSearch.HasDelegate)
             {
-                <TwIcon Icon="Icon.Search" OnClick="OnSearchClickedAsync" AriaLabel="Search events" Tooltip="Search events" Class="@theme.SearchButton" />
+                <TwIcon Icon="Icon.Search" OnClick="OnSearchClickedAsync" AriaLabel="@localizer[TwStrings.Calendar_SearchEvents]" Tooltip="@localizer[TwStrings.Calendar_SearchEvents]" Class="@theme.SearchButton" />
             }
-            <TwIcon Icon="Icon.Chevron_Left" OnClick="PreviousAsync" AriaLabel="Previous" Tooltip="@previousTooltip" Class="@GetNavButtonClasses()" />
-            <TwIcon Icon="Icon.Chevron_Right" OnClick="NextAsync" AriaLabel="Next" Tooltip="@nextTooltip" Class="@GetNavButtonClasses()" />
+            <TwIcon Icon="Icon.Chevron_Left" OnClick="PreviousAsync" AriaLabel="@localizer[TwStrings.Common_Previous]" Tooltip="@previousTooltip" Class="@GetNavButtonClasses()" />
+            <TwIcon Icon="Icon.Chevron_Right" OnClick="NextAsync" AriaLabel="@localizer[TwStrings.Common_Next]" Tooltip="@nextTooltip" Class="@GetNavButtonClasses()" />
             @if (showViewSwitcher)
             {
-            <div class="@viewSwitcherClasses" role="group" aria-label="Select view">
+            <div class="@viewSwitcherClasses" role="group" aria-label="@localizer[TwStrings.Calendar_SelectView]">
                 @if (IsViewEnabled(TwCalendarView.Day))
                 {
                 <TwIcon Icon="@(currentView == TwCalendarView.Day ? Icon.Calendar_Day_Fill : Icon.Calendar_Day)"
                         Color="@(currentView == TwCalendarView.Day ? Color.Primary : null)"
                         OnClick="@(() => SetViewAsync(TwCalendarView.Day))"
-                        AriaLabel="Day view"
-                        Tooltip="Day view"
+                        AriaLabel="@localizer[TwStrings.Calendar_DayView]"
+                        Tooltip="@localizer[TwStrings.Calendar_DayView]"
                         Class="@GetViewButtonClasses(TwCalendarView.Day)"
                         aria-pressed="@(currentView == TwCalendarView.Day ? "true" : "false")" />
                 }
@@ -40,8 +40,8 @@
                 <TwIcon Icon="@(currentView == TwCalendarView.Week ? Icon.Calendar_Week_Fill : Icon.Calendar_Week)"
                         Color="@(currentView == TwCalendarView.Week ? Color.Primary : null)"
                         OnClick="@(() => SetViewAsync(TwCalendarView.Week))"
-                        AriaLabel="Week view"
-                        Tooltip="Week view"
+                        AriaLabel="@localizer[TwStrings.Calendar_WeekView]"
+                        Tooltip="@localizer[TwStrings.Calendar_WeekView]"
                         Class="@GetViewButtonClasses(TwCalendarView.Week)"
                         aria-pressed="@(currentView == TwCalendarView.Week ? "true" : "false")" />
                 }
@@ -50,8 +50,8 @@
                 <TwIcon Icon="@(currentView == TwCalendarView.Month ? Icon.Calendar_Month_Fill : Icon.Calendar_Month)"
                         Color="@(currentView == TwCalendarView.Month ? Color.Primary : null)"
                         OnClick="@(() => SetViewAsync(TwCalendarView.Month))"
-                        AriaLabel="Month view"
-                        Tooltip="Month view"
+                        AriaLabel="@localizer[TwStrings.Calendar_MonthView]"
+                        Tooltip="@localizer[TwStrings.Calendar_MonthView]"
                         Class="@GetViewButtonClasses(TwCalendarView.Month)"
                         aria-pressed="@(currentView == TwCalendarView.Month ? "true" : "false")" />
                 }
@@ -59,7 +59,7 @@
             }
             @if (Editable)
             {
-                <TwButton Label="Add event" StartIcon="Icon.Plus" Color="Color.Primary" Class="@theme.AddButton" OnClick="@(() => StartCreateEventAsync(SelectedDate.Date.AddHours(9)))" />
+                <TwButton Label="@localizer[TwStrings.Calendar_AddEvent]" StartIcon="Icon.Plus" Color="Color.Primary" Class="@theme.AddButton" OnClick="@(() => StartCreateEventAsync(SelectedDate.Date.AddHours(9)))" />
             }
         </div>
     </div>

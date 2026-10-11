@@ -42,9 +42,9 @@ public class TwCalendarDayViewTests : TwBlazorTestBase
         var labels = cut.FindAll("div[style='height:6rem;']");
 
         Assert.Equal(24, labels.Count);
-        Assert.Equal(day.ToString("h tt"), labels[0].TextContent);
-        Assert.Equal(day.AddHours(23).ToString("h tt"), labels[23].TextContent);
-        Assert.Contains(cut.FindAll("div[style='top:81rem;']"), e => e.TextContent == day.AddHours(13).AddMinutes(30).ToString("h:mm tt"));
+        Assert.Equal(day.ToString("HH:mm"), labels[0].TextContent);
+        Assert.Equal(day.AddHours(23).ToString("HH:mm"), labels[23].TextContent);
+        Assert.Contains(cut.FindAll("div[style='top:81rem;']"), e => e.TextContent == day.AddHours(13).AddMinutes(30).ToString("HH:mm"));
     }
 
     [Fact]

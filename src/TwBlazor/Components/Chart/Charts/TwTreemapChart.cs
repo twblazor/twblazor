@@ -3,6 +3,7 @@
 
 using TwBlazor.Charting;
 using TwBlazor.Models;
+using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 
@@ -39,7 +40,7 @@ public class TwTreemapChart : TwValueChartBase
             }
 
             builder.Datum(x + width / 2, y + height / 2, width, height, item.Label,
-                [new ChartDatumRow(ValueHeader, FormatValue(item.Value), color), new ChartDatumRow("Share", FormatShare(item.Value, total))]);
+                [new ChartDatumRow(effectiveValueHeader, FormatValue(item.Value), color), new ChartDatumRow(localizer[TwStrings.Chart_Share], FormatShare(item.Value, total))]);
         }
     }
 

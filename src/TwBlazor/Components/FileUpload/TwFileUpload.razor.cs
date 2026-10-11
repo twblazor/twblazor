@@ -8,6 +8,7 @@ using TwBlazor.Builders;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Enums;
 using TwBlazor.Utilities;
+using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 
@@ -129,8 +130,8 @@ public partial class TwFileUpload : TwBlazorInputComponentBase
         }
 
         statusMessage = selectedFiles.Count == 1
-            ? $"{selectedFiles[0].Name} selected"
-            : $"{selectedFiles.Count} files selected: {string.Join(", ", selectedFiles.Select(f => f.Name))}";
+            ? localizer[TwStrings.FileUpload_FileSelected, selectedFiles[0].Name]
+            : localizer[TwStrings.FileUpload_FilesSelected, selectedFiles.Count, string.Join(", ", selectedFiles.Select(f => f.Name))];
 
         // Notify existing OnChange if provided (keeps backward compatibility)
         if (OnChange.HasDelegate)

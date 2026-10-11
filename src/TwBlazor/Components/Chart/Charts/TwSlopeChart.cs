@@ -4,6 +4,7 @@
 using Microsoft.AspNetCore.Components;
 using TwBlazor.Charting;
 using TwBlazor.Enums;
+using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 
@@ -76,8 +77,11 @@ public class TwBumpChart : TwCategoryChartBase
 {
     /// <summary>
     /// Gets or sets the label for the rank in tooltips.
+    /// Defaults to the localized <see cref="TwStrings.Chart_Rank"/> text ("Rank").
     /// </summary>
-    [Parameter] public string RankLabel { get; set; } = "Rank";
+    [Parameter] public string? RankLabel { get; set; }
+
+    private string effectiveRankLabel => RankLabel ?? localizer[TwStrings.Chart_Rank];
 
     /// <inheritdoc />
     protected override void BuildMarks(ChartSceneBuilder builder, IReadOnlyList<ChartSeriesSlot> series)
@@ -98,7 +102,7 @@ public class TwBumpChart : TwCategoryChartBase
                 points[slot.Slot].Add(point);
                 builder.Datum(point.X, point.Y, 0, 0, $"{slot.Series.Name}, {Categories[i]}",
                 [
-                    new ChartDatumRow(RankLabel, (rank + 1).ToString(), slot.Color),
+                    new ChartDatumRow(effectiveRankLabel, (rank + 1).ToString(), slot.Color),
                     new ChartDatumRow(slot.Series.Name, FormatValue(slot.Value(i)!.Value))
                 ], ChartHover.None);
             }

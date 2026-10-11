@@ -8,6 +8,7 @@ using TwBlazor.Builders;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Enums;
 using TwBlazor.Utilities;
+using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 
@@ -71,12 +72,15 @@ public partial class TwSelect<T> : TwPopoverPickerComponentBase
 
     /// <summary>
     /// Gets or sets the placeholder text displayed when no value is selected.
+    /// Defaults to the localized <see cref="TwStrings.Select_Placeholder"/> text ("Select an option...").
     /// </summary>
     /// <remarks>
     /// When <see cref="Multiple"/> is <see langword="true"/>, this is shown on the closed trigger only
     /// while nothing is selected - it's replaced by a chip per selected option once at least one is picked.
     /// </remarks>
-    [Parameter] public string Placeholder { get; set; } = "Select an option...";
+    [Parameter] public string? Placeholder { get; set; }
+
+    private string effectivePlaceholder => Placeholder ?? localizer[TwStrings.Select_Placeholder];
 
     /// <summary>
     /// Gets or sets whether the select is required (no empty option will be shown).

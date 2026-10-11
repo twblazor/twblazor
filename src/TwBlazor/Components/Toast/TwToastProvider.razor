@@ -6,7 +6,7 @@
 
 @if (toastService is not null && (toastService.HasToasts || (Attributes != null && Attributes.Count > 0) || !string.IsNullOrEmpty(Class) || !string.IsNullOrEmpty(Style) || !string.IsNullOrEmpty(AriaLabel) || !string.IsNullOrEmpty(AriaLabelledBy) || hasUserProvidedId))
 {
-    <div id="@Id" class="@containerClasses" style="@Style" data-tw-inert-exempt role="region" @attributes="Attributes" aria-label="@(AriaLabel ?? (AriaLabelledBy == null ? "Notifications" : null))" aria-labelledby="@AriaLabelledBy">
+    <div id="@Id" class="@containerClasses" style="@Style" data-tw-inert-exempt role="region" @attributes="Attributes" aria-label="@(AriaLabel ?? (AriaLabelledBy == null ? localizer[TwStrings.Toast_RegionLabel] : null))" aria-labelledby="@AriaLabelledBy">
         @foreach (var toast in toastService.GetToasts())
         {
             <div class="@GetToastClasses(toast)"
@@ -36,12 +36,12 @@
 
                     @* Hidden from assistive technology: it changes every minute, and inside this atomic live region each
                        change would read the whole toast out again. *@
-                    <div class="@timestampClasses" aria-hidden="true">@toast.ElapsedTimeText</div>
+                    <div class="@timestampClasses" aria-hidden="true">@GetElapsedTimeText(toast)</div>
                 </div>
 
                 <button type="button" 
                         class="@closeButtonClasses" 
-                        aria-label="Close" 
+                        aria-label="@localizer[TwStrings.Common_Close]" 
                         @onclick="() => ClearToast(toast)">
                     <TwIcon Icon="Enums.Icon.X" />
                 </button>

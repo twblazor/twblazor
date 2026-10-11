@@ -13,7 +13,7 @@
         {
             <TwIcon Icon="@(isMenuOpen ? Icon.X : Icon.List)"
                     OnClick="ToggleMenu"
-                    AriaLabel="@(isMenuOpen ? "Close navigation menu" : ToggleAriaLabel)"
+                    AriaLabel="@(isMenuOpen ? localizer[TwStrings.Navbar_CloseMenu] : effectiveToggleAriaLabel)"
                     aria-expanded="@(isMenuOpen ? "true" : "false")"
                     aria-controls="@menuId"
                     Class="@theme.NavbarToggle"

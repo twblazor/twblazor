@@ -7,6 +7,7 @@ using Microsoft.JSInterop;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Enums;
 using TwBlazor.Utilities;
+using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 
@@ -134,7 +135,7 @@ public partial class TwColorPicker : TwPopoverPickerComponentBase
     /// Gets the accessible name for the custom color swatch, reflecting the currently selected color
     /// instead of a static, never-updating label.
     /// </summary>
-    private string swatchAriaLabel => $"Selected color: {Value}";
+    private string swatchAriaLabel => localizer[TwStrings.ColorPicker_SelectedColor, Value];
 
     private string GetPlaceholder()
     {

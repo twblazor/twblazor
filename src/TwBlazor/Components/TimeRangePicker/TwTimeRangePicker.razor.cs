@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Components;
 using System.Globalization;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Utilities;
+using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 
@@ -49,7 +50,7 @@ public partial class TwTimeRangePicker : TwPopoverPickerComponentBase
     [Parameter] public string? Placeholder { get; set; }
 
     private string effectivePlaceholder => Placeholder ??
-        $"{format.ToLower(CultureInfo.CurrentCulture)}{RangeSeparator}{format.ToLower(CultureInfo.CurrentCulture)}";
+        $"{format.ToLower(localizer.Formats.Culture)}{RangeSeparator}{format.ToLower(localizer.Formats.Culture)}";
 
     /// <summary>
     /// The selected time range: <c>Key</c> is the start, <c>Value</c> is the end. Either (or both)
@@ -82,7 +83,12 @@ public partial class TwTimeRangePicker : TwPopoverPickerComponentBase
     /// Gets or sets a value indicating whether the time should be displayed in 12-hour format.
     /// Has no effect when <see cref="Format"/> is explicitly set.
     /// </summary>
-    [Parameter] public bool Is12HourFormat { get; set; }
+    [Parameter] public bool? Is12HourFormat { get; set; }
+
+    /// <summary>
+    /// Gets whether a 12 hour clock is used: <see cref="Is12HourFormat"/> when set, otherwise the localization options.
+    /// </summary>
+    private bool effectiveIs12HourFormat => Is12HourFormat ?? localizer.Formats.Use12HourInput;
 
     /// <summary>
     /// The .NET custom time format string used to display and parse each side of
@@ -95,7 +101,7 @@ public partial class TwTimeRangePicker : TwPopoverPickerComponentBase
     /// The format actually used: <see cref="Format"/> when explicitly set, otherwise 'HH:mm'/'hh:mm tt'
     /// depending on <see cref="Is12HourFormat"/> - the same fallback <see cref="TwTimePicker"/> uses.
     /// </summary>
-    private string format => Format ?? (Is12HourFormat ? "hh:mm tt" : "HH:mm");
+    private string format => Format ?? localizer.Formats.TimeInput ?? (effectiveIs12HourFormat ? "hh:mm tt" : "HH:mm");
 
     /// <summary>
     /// The separator inserted between the two times in <see cref="Value"/>. Default " - ".
@@ -200,13 +206,13 @@ public partial class TwTimeRangePicker : TwPopoverPickerComponentBase
         var start = default(TimeOnly);
         var end = default(TimeOnly);
         var success = parts.Length == 2
-            && TimeOnly.TryParseExact(parts[0], format, CultureInfo.CurrentCulture, DateTimeStyles.None, out start)
-            && TimeOnly.TryParseExact(parts[1], format, CultureInfo.CurrentCulture, DateTimeStyles.None, out end);
+            && TimeOnly.TryParseExact(parts[0], format, localizer.Formats.Culture, DateTimeStyles.None, out start)
+            && TimeOnly.TryParseExact(parts[1], format, localizer.Formats.Culture, DateTimeStyles.None, out end);
 
         if (!success)
         {
             Invalid = true;
-            ErrorMessage = $"Enter a valid time range, for example {FormatRange(new KeyValuePair<TimeOnly?, TimeOnly?>(new TimeOnly(9, 0), new TimeOnly(17, 30)))}";
+            ErrorMessage = localizer[TwStrings.TimeRangePicker_Invalid, FormatRange(new KeyValuePair<TimeOnly?, TimeOnly?>(new TimeOnly(9, 0), new TimeOnly(17, 30)))];
             Value = text;
             return;
         }
@@ -226,13 +232,13 @@ public partial class TwTimeRangePicker : TwPopoverPickerComponentBase
             return string.Empty;
         }
 
-        var start = range.Key.Value.ToString(format, CultureInfo.CurrentCulture);
+        var start = range.Key.Value.ToString(format, localizer.Formats.Culture);
         if (range.Value is null)
         {
             return start;
         }
 
-        return $"{start}{RangeSeparator}{range.Value.Value.ToString(format, CultureInfo.CurrentCulture)}";
+        return $"{start}{RangeSeparator}{range.Value.Value.ToString(format, localizer.Formats.Culture)}";
     }
 
     /// <summary>

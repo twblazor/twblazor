@@ -20,7 +20,7 @@
     SelectedDate="@SelectedDateTime"
     SelectedDateChanged="@OnDateChangedAsync"
     @attributes="@Attributes"
-    Placeholder="@Placeholder" 
+    Placeholder="@effectivePlaceholder" 
     Class="@Class" 
     Label="@Label"
     LabelClass="@LabelClass"
@@ -34,7 +34,7 @@
         <TwDatePickerBody Class="time">
             <TwTimePickerBody Id="@($"{Id}-time")"
                               Variant="@effectiveVariant"
-                              Is12HourFormat="@Is12HourFormat"
+                              Is12HourFormat="@effectiveIs12HourFormat"
                               SelectedTime="@currentTime"
                               SelectedTimeChanged="@OnTimePickerChanged" />
         </TwDatePickerBody>

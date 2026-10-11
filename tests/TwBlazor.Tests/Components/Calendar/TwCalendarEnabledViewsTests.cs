@@ -170,7 +170,7 @@ public class TwCalendarEnabledViewsTests : TwBlazorTestBase
             .Add(x => x.SelectedDateChanged, EventCallback.Factory.Create<DateTime>(this, d => date = d))
             .Add(x => x.ViewChanged, EventCallback.Factory.Create<TwCalendarView>(this, v => view = v)));
 
-        cut.Find("button[aria-label='March 25, 2026']").Click();
+        cut.Find("button[aria-label='Wednesday, 25 March 2026']").Click();
 
         Assert.Equal(new DateTime(2026, 3, 25), date);
         Assert.Null(view);

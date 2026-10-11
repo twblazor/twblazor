@@ -3,7 +3,7 @@
 @inherits TwBlazorComponentBase
 
 @{ var weekRows = GetWeekRows(); }
-<table id="@Id" class="@(new TwBlazor.Utilities.ClassBuilder(theme.MonthGrid).AddClass(Class).Build())" style="@Style" role="grid" aria-label="@Date.ToString("MMMM yyyy")" @ref="gridRef" @onkeydown="OnGridKeyDownAsync">
+<table id="@Id" class="@(new TwBlazor.Utilities.ClassBuilder(theme.MonthGrid).AddClass(Class).Build())" style="@Style" role="grid" aria-label="@localizer.Formats.Format(Date, localizer.Formats.MonthYear)" @ref="gridRef" @onkeydown="OnGridKeyDownAsync">
     <colgroup>
         @for (var col = 0; col < 7; col++)
         {
@@ -12,7 +12,7 @@
     </colgroup>
     <thead>
         <tr role="row">
-            @foreach (var header in TwBlazor.Utilities.DateHelpers.GetWeekdayHeaders())
+            @foreach (var header in localizer.Formats.GetWeekdayHeaders())
             {
                 <th scope="col" role="columnheader" class="@theme.DayColumnHeader">@header</th>
             }
@@ -36,7 +36,7 @@
                         <button type="button"
                                 class="@dayNumberClasses"
                                 tabindex="@(cellIndex == focusedIndex ? "0" : "-1")"
-                                aria-label="@day.ToString("MMMM d, yyyy")"
+                                aria-label="@localizer.Formats.Format(day, localizer.Formats.LongDate)"
                                 aria-current="@(day.Date == DateTime.Today ? "date" : null)"
                                 @ref="GetDayCellRef(cellIndex).Element"
                                 @onclick="@(() => OnDayClickedAsync(day))">
@@ -76,7 +76,7 @@
                                 <button type="button"
                                         class="@GetEventRowClasses(evt)"
                                         style="@GetEventRowStyle(evt)"
-                                        aria-label="@($"{evt.Name}, {GetStartTimeLabel(evt)}")"
+                                        aria-label="@localizer[TwStrings.Calendar_EventLabel, evt.Name, GetStartTimeLabel(evt)]"
                                         draggable="@(IsDraggable(evt) ? "true" : "false")"
                                         @ondragstart="@(() => OnChipDragStartAsync(evt))"
                                         @ondragend="OnChipDragEndAsync"

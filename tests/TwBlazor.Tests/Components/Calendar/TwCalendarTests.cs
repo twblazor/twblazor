@@ -177,7 +177,7 @@ public class TwCalendarTests : TwBlazorTestBase
 
         var pulsing = cut.FindAll(".animate-pulse");
         var element = Assert.Single(pulsing);
-        var expectedDay = DateTime.Today.ToString("MMMM d, yyyy");
+        var expectedDay = DateTime.Today.ToString("dddd, d MMMM yyyy");
         if (view == TwCalendarView.Month)
         {
             Assert.Equal("td", element.TagName.ToLowerInvariant());
@@ -185,7 +185,7 @@ public class TwCalendarTests : TwBlazorTestBase
         }
         else
         {
-            Assert.Equal(DateTime.Today.ToString("dddd, MMMM d"), element.GetAttribute("aria-label"));
+            Assert.Equal(DateTime.Today.ToString("dddd, d MMMM yyyy"), element.GetAttribute("aria-label"));
         }
     }
 
@@ -271,7 +271,7 @@ public class TwCalendarTests : TwBlazorTestBase
     }
 
     [Theory]
-    [InlineData(TwCalendarView.Day, "Wed 18 March 2026")]
+    [InlineData(TwCalendarView.Day, "Wednesday, 18 March 2026")]
     [InlineData(TwCalendarView.Week, "16 Mar 2026 - 22 Mar 2026")]
     [InlineData(TwCalendarView.Month, "March 2026")]
     public void HeaderTitle_NamesWhatTheViewShows(TwCalendarView view, string expected)
@@ -284,7 +284,7 @@ public class TwCalendarTests : TwBlazorTestBase
     }
 
     [Fact]
-    public void HeaderTitle_ZeroPadsDayNumbers()
+    public void HeaderTitle_UsesTheLongAndMediumDateFormats()
     {
         var day = TestContext.Render<TwCalendar<string>>(p => p
             .Add(x => x.SelectedDate, new DateTime(2026, 12, 3))
@@ -293,8 +293,8 @@ public class TwCalendarTests : TwBlazorTestBase
             .Add(x => x.SelectedDate, new DateTime(2026, 12, 3))
             .Add(x => x.View, TwCalendarView.Week));
 
-        Assert.Equal("Thu 03 December 2026", day.Find("span.font-semibold").TextContent.Trim());
-        Assert.Equal("30 Nov 2026 - 06 Dec 2026", week.Find("span.font-semibold").TextContent.Trim());
+        Assert.Equal("Thursday, 3 December 2026", day.Find("span.font-semibold").TextContent.Trim());
+        Assert.Equal("30 Nov 2026 - 6 Dec 2026", week.Find("span.font-semibold").TextContent.Trim());
     }
 
     [Theory]
@@ -541,7 +541,7 @@ public class TwCalendarTests : TwBlazorTestBase
             .Add(x => x.SchedulesChanged, EventCallback.Factory.Create<List<Schedule<string>>>(this, list => updatedList = list)));
 
         StartDrag(cut, "Design review");
-        cut.Find("button[aria-label='11:00 AM']").Drop(new DragEventArgs());
+        cut.Find("button[aria-label='11:00']").Drop(new DragEventArgs());
 
         cut.WaitForAssertion(() => Assert.NotNull(updatedList)); // the drop handler finishes asynchronously
         var moved = Assert.Single(Assert.IsType<List<Schedule<string>>>(updatedList));
@@ -567,7 +567,7 @@ public class TwCalendarTests : TwBlazorTestBase
 
         // Columns render Monday(0)..Sunday(6); Wednesday is index 2, Thursday index 3.
         var thursdayColumn = cut.FindComponents<TwCalendarDayColumn<string>>()[3];
-        thursdayColumn.Find("button[aria-label='9:00 AM']").Drop(new DragEventArgs());
+        thursdayColumn.Find("button[aria-label='09:00']").Drop(new DragEventArgs());
 
         cut.WaitForAssertion(() => Assert.NotNull(updatedList)); // the drop handler finishes asynchronously
         var moved = Assert.Single(Assert.IsType<List<Schedule<string>>>(updatedList));
@@ -676,7 +676,7 @@ public class TwCalendarTests : TwBlazorTestBase
         Assert.Empty(cut.FindAll("[aria-hidden='true'][style*='width:100%']"));
 
         StartDrag(cut, "Design review");
-        DragEnterOn(cut, "button[aria-label='2:00 PM']");
+        DragEnterOn(cut, "button[aria-label='14:00']");
 
         var placeholder = cut.WaitForElement("div[aria-hidden='true'][style*='width:100%']");
         var style = placeholder.GetAttribute("style")!;
@@ -699,7 +699,7 @@ public class TwCalendarTests : TwBlazorTestBase
 
         StartDrag(cut, "Design review");
         var columns = cut.FindComponents<TwCalendarDayColumn<string>>();
-        columns[3].Find("button[aria-label='9:00 AM']").DragEnter(new DragEventArgs());
+        columns[3].Find("button[aria-label='09:00']").DragEnter(new DragEventArgs());
 
         cut.WaitForAssertion(() =>
         {
@@ -733,7 +733,7 @@ public class TwCalendarTests : TwBlazorTestBase
 
         Assert.Contains("pointer-events-none", cut.Find("button[aria-label^='Existing']").GetAttribute("class"));
 
-        DropOnSlot(cut, "2:00 PM");
+        DropOnSlot(cut, "14:00");
 
         cut.WaitForAssertion(() =>
         {
@@ -756,7 +756,7 @@ public class TwCalendarTests : TwBlazorTestBase
             .Add(x => x.Schedules, [evt]));
 
         StartDrag(cut, "Design review");
-        DragEnterOn(cut, "button[aria-label='11:00 AM']");
+        DragEnterOn(cut, "button[aria-label='11:00']");
         cut.WaitForElement("div[aria-hidden='true'][style*='width:100%']");
 
         DragEndOn(cut, "button[aria-label^='Design review']");

@@ -3,6 +3,7 @@
 
 using TwBlazor.Charting;
 using TwBlazor.Models;
+using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 
@@ -37,7 +38,7 @@ public class TwWaffleChart : TwValueChartBase
             if (cells[i] > 0)
             {
                 builder.Datum((cell % side + 0.5) * side, (cell / side + 0.5) * side, side, side, data[i].Label,
-                    [new ChartDatumRow(ValueHeader, FormatValue(data[i].Value), color), new ChartDatumRow("Share", share)], ChartHover.None);
+                    [new ChartDatumRow(effectiveValueHeader, FormatValue(data[i].Value), color), new ChartDatumRow(localizer[TwStrings.Chart_Share], share)], ChartHover.None);
             }
 
             for (var k = 0; k < cells[i]; k++, cell++)

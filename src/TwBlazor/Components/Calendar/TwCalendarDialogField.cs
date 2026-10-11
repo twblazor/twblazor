@@ -4,6 +4,7 @@
 using System.Globalization;
 using System.Reflection;
 using System.Text;
+using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 
@@ -116,6 +117,23 @@ public sealed class TwCalendarDialogField
         DateTimeOffset date => date.DateTime.ToString("d MMM yyyy HH:mm", CultureInfo.CurrentCulture),
         bool flag => flag ? "Yes" : "No",
         IFormattable formattable => formattable.ToString(null, CultureInfo.CurrentCulture),
+        var other => other.ToString() ?? string.Empty
+    };
+
+    /// <summary>
+    /// Gets the value as display text in the current language: dates in the localized date and time formats,
+    /// booleans as the localized Yes/No, an empty string for <see langword="null"/>.
+    /// </summary>
+    /// <param name="target">The object the field belongs to.</param>
+    /// <param name="localizer">Supplies the text and the date and time formats.</param>
+    /// <returns>The display text.</returns>
+    public string GetDisplayText(object? target, ITwLocalizer localizer) => GetValue(target) switch
+    {
+        null => string.Empty,
+        DateTime date => localizer.Formats.FormatDateTime(date),
+        DateTimeOffset date => localizer.Formats.FormatDateTime(date.DateTime),
+        bool flag => localizer[flag ? TwStrings.Common_Yes : TwStrings.Common_No],
+        IFormattable formattable => formattable.ToString(null, localizer.Formats.Culture),
         var other => other.ToString() ?? string.Empty
     };
 

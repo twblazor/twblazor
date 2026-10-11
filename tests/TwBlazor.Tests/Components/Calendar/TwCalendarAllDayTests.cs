@@ -241,7 +241,7 @@ public class TwCalendarAllDayTests : TwBlazorTestBase
 
         StartDrag(cut, "Conference");
         var thursday = cut.FindComponents<TwCalendarDayColumn<string>>()[3];
-        thursday.Find("button[aria-label='2:00 PM']").Drop(new DragEventArgs());
+        thursday.Find("button[aria-label='14:00']").Drop(new DragEventArgs());
 
         cut.WaitForAssertion(() => Assert.NotNull(saved));
         Assert.Equal(new DateTimeOffset(wednesday.AddDays(1), TimeSpan.Zero), Assert.Single(saved!).DateTimeStart);
@@ -286,7 +286,7 @@ public class TwCalendarAllDayTests : TwBlazorTestBase
         var cut = Render(TwCalendarView.Day, true, evt);
 
         StartDrag(cut, "Conference");
-        cut.FindComponent<TwCalendarDayColumn<string>>().Find("button[aria-label='10:00 AM']").DragEnter(new DragEventArgs());
+        cut.FindComponent<TwCalendarDayColumn<string>>().Find("button[aria-label='10:00']").DragEnter(new DragEventArgs());
 
         Assert.Empty(cut.FindComponent<TwCalendarDayColumn<string>>().FindAll("div[aria-hidden='true']"));
     }

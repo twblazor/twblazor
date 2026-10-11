@@ -114,7 +114,7 @@ public partial class TwCalendarWeekView<T> : TwBlazorComponentBase, IAsyncDispos
 
     private ElementReference scrollContainerRef;
 
-    private DateTime weekStart => DateHelpers.GetStartOfWeek(Date);
+    private DateTime weekStart => localizer.Formats.GetStartOfWeek(Date);
 
     private IReadOnlyList<DateTime> weekDays => [.. Enumerable.Range(0, daysPerWeek).Select(i => weekStart.AddDays(i))];
 
@@ -139,7 +139,7 @@ public partial class TwCalendarWeekView<T> : TwBlazorComponentBase, IAsyncDispos
 
     private string GetGutterLabelClasses() => new ClassBuilder(theme.TimeGutterLabel).Build();
 
-    private static string GetHourLabel(int hour) => DateTime.Today.AddHours(hour).ToString("h tt");
+    private string GetHourLabel(int hour) => localizer.Formats.Format(DateTime.Today.AddHours(hour), localizer.Formats.Hour);
 
     /// <summary>
     /// The current time, refreshed every <see cref="TwCalendarTimings.nowTickInterval"/> by <see cref="nowTimer"/> while

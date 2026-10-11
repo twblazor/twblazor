@@ -3,6 +3,7 @@
 
 using Microsoft.AspNetCore.Components;
 using TwBlazor.Charting;
+using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 
@@ -22,18 +23,27 @@ public class TwWaterfallChart : TwValueChartBase
 
     /// <summary>
     /// Gets or sets the label of the total column.
+    /// Defaults to the localized <see cref="TwStrings.Chart_Total"/> text ("Total").
     /// </summary>
-    [Parameter] public string TotalLabel { get; set; } = "Total";
+    [Parameter] public string? TotalLabel { get; set; }
+
+    private string effectiveTotalLabel => TotalLabel ?? localizer[TwStrings.Chart_Total];
 
     /// <summary>
     /// Gets or sets the legend label for positive changes.
+    /// Defaults to the localized <see cref="TwStrings.Chart_Increase"/> text ("Increase").
     /// </summary>
-    [Parameter] public string IncreaseLabel { get; set; } = "Increase";
+    [Parameter] public string? IncreaseLabel { get; set; }
+
+    private string effectiveIncreaseLabel => IncreaseLabel ?? localizer[TwStrings.Chart_Increase];
 
     /// <summary>
     /// Gets or sets the legend label for negative changes.
+    /// Defaults to the localized <see cref="TwStrings.Chart_Decrease"/> text ("Decrease").
     /// </summary>
-    [Parameter] public string DecreaseLabel { get; set; } = "Decrease";
+    [Parameter] public string? DecreaseLabel { get; set; }
+
+    private string effectiveDecreaseLabel => DecreaseLabel ?? localizer[TwStrings.Chart_Decrease];
 
     /// <summary>
     /// Gets or sets whether each column is labelled with its change.
@@ -56,7 +66,7 @@ public class TwWaterfallChart : TwValueChartBase
         var band = new ChartBand(count);
         var thickness = Math.Min(band.Step * 0.6, 12);
         builder.ValueAxis(scale, FormatValue);
-        builder.BandAxis([.. Data.Select(item => item.Label), .. ShowTotal ? [TotalLabel] : Array.Empty<string>()], band);
+        builder.BandAxis([.. Data.Select(item => item.Label), .. ShowTotal ? [effectiveTotalLabel] : Array.Empty<string>()], band);
 
         running = 0;
         for (var i = 0; i < Data.Count; i++)
@@ -79,24 +89,24 @@ public class TwWaterfallChart : TwValueChartBase
 
             builder.BandDatum(band.Center(i), band.Step, item.Label,
             [
-                new ChartDatumRow(item.Value >= 0 ? IncreaseLabel : DecreaseLabel, FormatChange(item.Value), color),
-                new ChartDatumRow(TotalLabel, FormatValue(running))
+                new ChartDatumRow(item.Value >= 0 ? effectiveIncreaseLabel : effectiveDecreaseLabel, FormatChange(item.Value), color),
+                new ChartDatumRow(effectiveTotalLabel, FormatValue(running))
             ]);
         }
 
         if (ShowTotal)
         {
             builder.Bar(band.Center(count - 1), thickness, scale.Map(0), scale.Map(running), ChartColor.Total);
-            builder.BandDatum(band.Center(count - 1), band.Step, TotalLabel, [new ChartDatumRow(TotalLabel, FormatValue(running), ChartColor.Total)]);
+            builder.BandDatum(band.Center(count - 1), band.Step, effectiveTotalLabel, [new ChartDatumRow(effectiveTotalLabel, FormatValue(running), ChartColor.Total)]);
         }
 
         builder.Baseline(scale.Map(0));
-        builder.Legend(IncreaseLabel, ChartColor.Positive);
-        builder.Legend(DecreaseLabel, ChartColor.Negative);
+        builder.Legend(effectiveIncreaseLabel, ChartColor.Positive);
+        builder.Legend(effectiveDecreaseLabel, ChartColor.Negative);
 
         if (ShowTotal)
         {
-            builder.Legend(TotalLabel, ChartColor.Total);
+            builder.Legend(effectiveTotalLabel, ChartColor.Total);
         }
     }
 

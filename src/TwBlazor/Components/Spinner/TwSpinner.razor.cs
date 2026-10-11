@@ -6,6 +6,7 @@ using TwBlazor.Builders;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Enums;
 using TwBlazor.Utilities;
+using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 
@@ -31,11 +32,14 @@ public partial class TwSpinner : TwBlazorComponentBase
 
     /// <summary>
     /// Gets or sets the text announced to assistive technology while the spinner is visible.
+    /// Defaults to the localized <see cref="TwStrings.Common_LoadingEllipsis"/> text ("Loading...").
     /// </summary>
     /// <remarks>
     /// Always rendered in the DOM so the spinner has an accessible name; visually hidden unless <see cref="ShowLabel"/> is <c>true</c>.
     /// </remarks>
-    [Parameter] public string Label { get; set; } = "Loading...";
+    [Parameter] public string? Label { get; set; }
+
+    private string effectiveLabel => Label ?? localizer[TwStrings.Common_LoadingEllipsis];
 
     /// <summary>
     /// Gets or sets whether <see cref="Label"/> is displayed visibly next to the spinner, instead of only being announced to assistive technology.

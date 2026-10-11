@@ -1,0 +1,778 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  English (neutral) strings for every TwBlazor component.
+
+  To add a language, copy this file to TwBlazorStrings.<culture>.resx (for example TwBlazorStrings.de.resx)
+  and translate each <value>. Keep the names and the {0} placeholders unchanged. A key that is missing from a
+  language file falls back to the value in this file.
+
+  The Format_ entries are optional .NET date and time format strings. Leave them empty to use the culture's own patterns.
+-->
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <!-- Common -->
+  <data name="Common_Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="Common_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Common_Confirm" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="Common_Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Common_Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Common_Loading" xml:space="preserve">
+    <value>Loading</value>
+  </data>
+  <data name="Common_LoadingEllipsis" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
+  <data name="Common_Previous" xml:space="preserve">
+    <value>Previous</value>
+  </data>
+  <data name="Common_Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="Common_Start" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="Common_End" xml:space="preserve">
+    <value>End</value>
+  </data>
+  <data name="Common_NoResults" xml:space="preserve">
+    <value>No results</value>
+  </data>
+  <data name="Common_Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="Common_No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="Common_Range" xml:space="preserve">
+    <value>{0} - {1}</value>
+    <comment>Joins the start and end of a range. {0} = start, {1} = end.</comment>
+  </data>
+  <!-- Breadcrumb -->
+  <data name="Breadcrumb_Label" xml:space="preserve">
+    <value>Breadcrumb</value>
+  </data>
+  <!-- Calendar -->
+  <data name="Calendar_Today" xml:space="preserve">
+    <value>Today</value>
+  </data>
+  <data name="Calendar_AddEvent" xml:space="preserve">
+    <value>Add event</value>
+  </data>
+  <data name="Calendar_SearchEvents" xml:space="preserve">
+    <value>Search events</value>
+  </data>
+  <data name="Calendar_PreviousDay" xml:space="preserve">
+    <value>Previous day</value>
+  </data>
+  <data name="Calendar_PreviousWeek" xml:space="preserve">
+    <value>Previous week</value>
+  </data>
+  <data name="Calendar_PreviousMonth" xml:space="preserve">
+    <value>Previous month</value>
+  </data>
+  <data name="Calendar_NextDay" xml:space="preserve">
+    <value>Next day</value>
+  </data>
+  <data name="Calendar_NextWeek" xml:space="preserve">
+    <value>Next week</value>
+  </data>
+  <data name="Calendar_NextMonth" xml:space="preserve">
+    <value>Next month</value>
+  </data>
+  <data name="Calendar_DayView" xml:space="preserve">
+    <value>Day view</value>
+  </data>
+  <data name="Calendar_WeekView" xml:space="preserve">
+    <value>Week view</value>
+  </data>
+  <data name="Calendar_MonthView" xml:space="preserve">
+    <value>Month view</value>
+  </data>
+  <data name="Calendar_SelectView" xml:space="preserve">
+    <value>Select view</value>
+  </data>
+  <data name="Calendar_AllDay" xml:space="preserve">
+    <value>All day</value>
+  </data>
+  <data name="Calendar_AllDayEvents" xml:space="preserve">
+    <value>All day events</value>
+  </data>
+  <data name="Calendar_AllDayRange" xml:space="preserve">
+    <value>{0} (all day)</value>
+    <comment>{0} = a date or date range.</comment>
+  </data>
+  <data name="Calendar_WeekNumber" xml:space="preserve">
+    <value>Week {0}</value>
+    <comment>{0} = the week of the month.</comment>
+  </data>
+  <data name="Calendar_NewEvent" xml:space="preserve">
+    <value>New event</value>
+  </data>
+  <data name="Calendar_EditEvent" xml:space="preserve">
+    <value>Edit event</value>
+  </data>
+  <data name="Calendar_Event" xml:space="preserve">
+    <value>Event</value>
+  </data>
+  <data name="Calendar_EventLabel" xml:space="preserve">
+    <value>{0}, {1}</value>
+    <comment>Accessible name of an event. {0} = event name, {1} = start time or the all day text.</comment>
+  </data>
+  <data name="Calendar_EventTimeRange" xml:space="preserve">
+    <value>{0}, {1} to {2}</value>
+    <comment>Accessible name of a timed event. {0} = event name, {1} = start time, {2} = end time.</comment>
+  </data>
+  <data name="Calendar_FieldName" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Calendar_FieldColor" xml:space="preserve">
+    <value>Color</value>
+  </data>
+  <data name="Calendar_EventColor" xml:space="preserve">
+    <value>Event color</value>
+  </data>
+  <!-- Carousel -->
+  <data name="Carousel_Label" xml:space="preserve">
+    <value>Carousel</value>
+  </data>
+  <data name="Carousel_PreviousSlide" xml:space="preserve">
+    <value>Previous slide</value>
+  </data>
+  <data name="Carousel_NextSlide" xml:space="preserve">
+    <value>Next slide</value>
+  </data>
+  <data name="Carousel_Play" xml:space="preserve">
+    <value>Play automatic slideshow</value>
+  </data>
+  <data name="Carousel_Pause" xml:space="preserve">
+    <value>Pause automatic slideshow</value>
+  </data>
+  <data name="Carousel_ChooseSlide" xml:space="preserve">
+    <value>Choose slide to display</value>
+  </data>
+  <data name="Carousel_SlidePosition" xml:space="preserve">
+    <value>{0} of {1}</value>
+    <comment>{0} = current slide number, {1} = slide count.</comment>
+  </data>
+  <data name="Carousel_SlideOf" xml:space="preserve">
+    <value>Slide {0} of {1}</value>
+    <comment>{0} = slide number, {1} = slide count.</comment>
+  </data>
+  <data name="Carousel_RoleDescription" xml:space="preserve">
+    <value>carousel</value>
+    <comment>Spoken by screen readers as the type of the region.</comment>
+  </data>
+  <data name="Carousel_SlideRoleDescription" xml:space="preserve">
+    <value>slide</value>
+    <comment>Spoken by screen readers as the type of each slide.</comment>
+  </data>
+  <!-- Chart -->
+  <data name="Chart_Label" xml:space="preserve">
+    <value>Chart</value>
+  </data>
+  <data name="Chart_ViewAsTable" xml:space="preserve">
+    <value>View as table</value>
+  </data>
+  <data name="Chart_ViewAsChart" xml:space="preserve">
+    <value>View as chart</value>
+  </data>
+  <data name="Chart_TableLabel" xml:space="preserve">
+    <value>Chart data</value>
+  </data>
+  <data name="Chart_Legend" xml:space="preserve">
+    <value>Legend</value>
+  </data>
+  <data name="Chart_Empty" xml:space="preserve">
+    <value>No data to display</value>
+  </data>
+  <data name="Chart_Loading" xml:space="preserve">
+    <value>Loading chart</value>
+  </data>
+  <data name="Chart_Category" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="Chart_Value" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="Chart_Other" xml:space="preserve">
+    <value>Other</value>
+  </data>
+  <data name="Chart_Group" xml:space="preserve">
+    <value>Group</value>
+  </data>
+  <data name="Chart_Measure" xml:space="preserve">
+    <value>Measure</value>
+  </data>
+  <data name="Chart_Actual" xml:space="preserve">
+    <value>Actual</value>
+  </data>
+  <data name="Chart_Target" xml:space="preserve">
+    <value>Target</value>
+  </data>
+  <data name="Chart_Rising" xml:space="preserve">
+    <value>Rising</value>
+  </data>
+  <data name="Chart_Falling" xml:space="preserve">
+    <value>Falling</value>
+  </data>
+  <data name="Chart_Period" xml:space="preserve">
+    <value>Period</value>
+  </data>
+  <data name="Chart_Open" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="Chart_High" xml:space="preserve">
+    <value>High</value>
+  </data>
+  <data name="Chart_Low" xml:space="preserve">
+    <value>Low</value>
+  </data>
+  <data name="Chart_Close" xml:space="preserve">
+    <value>Close</value>
+    <comment>The closing price in a candlestick chart.</comment>
+  </data>
+  <data name="Chart_OfFirstStage" xml:space="preserve">
+    <value>Of first stage</value>
+  </data>
+  <data name="Chart_Task" xml:space="preserve">
+    <value>Task</value>
+  </data>
+  <data name="Chart_Start" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="Chart_End" xml:space="preserve">
+    <value>End</value>
+  </data>
+  <data name="Chart_Range" xml:space="preserve">
+    <value>Range</value>
+  </data>
+  <data name="Chart_RangeValue" xml:space="preserve">
+    <value>{0} to {1}</value>
+    <comment>{0} = lower bound, {1} = upper bound.</comment>
+  </data>
+  <data name="Chart_Minimum" xml:space="preserve">
+    <value>Minimum</value>
+  </data>
+  <data name="Chart_Maximum" xml:space="preserve">
+    <value>Maximum</value>
+  </data>
+  <data name="Chart_Count" xml:space="preserve">
+    <value>Count</value>
+  </data>
+  <data name="Chart_LowerQuartile" xml:space="preserve">
+    <value>Lower quartile</value>
+  </data>
+  <data name="Chart_Median" xml:space="preserve">
+    <value>Median</value>
+  </data>
+  <data name="Chart_UpperQuartile" xml:space="preserve">
+    <value>Upper quartile</value>
+  </data>
+  <data name="Chart_IconLegend" xml:space="preserve">
+    <value>1 icon = {0}</value>
+    <comment>{0} = the value one icon stands for.</comment>
+  </data>
+  <data name="Chart_Share" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="Chart_Size" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="Chart_Series" xml:space="preserve">
+    <value>Series</value>
+  </data>
+  <data name="Chart_PointLabel" xml:space="preserve">
+    <value>Label</value>
+  </data>
+  <data name="Chart_Rank" xml:space="preserve">
+    <value>Rank</value>
+  </data>
+  <data name="Chart_Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="Chart_Increase" xml:space="preserve">
+    <value>Increase</value>
+  </data>
+  <data name="Chart_Decrease" xml:space="preserve">
+    <value>Decrease</value>
+  </data>
+  <!-- Chip -->
+  <data name="Chip_Remove" xml:space="preserve">
+    <value>Remove {0}</value>
+    <comment>{0} = the chip's label.</comment>
+  </data>
+  <!-- CodeBlock -->
+  <data name="CodeBlock_Copy" xml:space="preserve">
+    <value>Copy code</value>
+  </data>
+  <data name="CodeBlock_Copied" xml:space="preserve">
+    <value>Copied</value>
+  </data>
+  <data name="CodeBlock_CopiedToClipboard" xml:space="preserve">
+    <value>Copied to clipboard</value>
+  </data>
+  <data name="CodeBlock_CopyFailed" xml:space="preserve">
+    <value>Copy failed</value>
+  </data>
+  <!-- ColorPicker -->
+  <data name="ColorPicker_Dialog" xml:space="preserve">
+    <value>Choose color</value>
+  </data>
+  <data name="ColorPicker_Preview" xml:space="preserve">
+    <value>Color preview</value>
+  </data>
+  <data name="ColorPicker_SaturationLightness" xml:space="preserve">
+    <value>Saturation and lightness</value>
+  </data>
+  <data name="ColorPicker_SaturationLightnessValue" xml:space="preserve">
+    <value>Saturation {0}%, Lightness {1}%</value>
+    <comment>{0} = saturation, {1} = lightness.</comment>
+  </data>
+  <data name="ColorPicker_Hue" xml:space="preserve">
+    <value>Hue</value>
+  </data>
+  <data name="ColorPicker_HueValue" xml:space="preserve">
+    <value>{0} degrees</value>
+    <comment>{0} = hue angle.</comment>
+  </data>
+  <data name="ColorPicker_Alpha" xml:space="preserve">
+    <value>Alpha</value>
+  </data>
+  <data name="ColorPicker_PercentValue" xml:space="preserve">
+    <value>{0}%</value>
+    <comment>{0} = a percentage.</comment>
+  </data>
+  <data name="ColorPicker_PickFromScreen" xml:space="preserve">
+    <value>Pick color from screen</value>
+  </data>
+  <data name="ColorPicker_SelectedColor" xml:space="preserve">
+    <value>Selected color: {0}</value>
+    <comment>{0} = the color value.</comment>
+  </data>
+  <!-- DataTable -->
+  <data name="DataTable_SearchLabel" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="DataTable_SearchPlaceholder" xml:space="preserve">
+    <value>Search…</value>
+  </data>
+  <data name="DataTable_Pagination" xml:space="preserve">
+    <value>Table pagination</value>
+  </data>
+  <data name="DataTable_PageStatusOne" xml:space="preserve">
+    <value>Page {0} of {1}, showing {2} row</value>
+    <comment>{0} = page, {1} = page count, {2} = row count (singular form).</comment>
+  </data>
+  <data name="DataTable_PageStatusOther" xml:space="preserve">
+    <value>Page {0} of {1}, showing {2} rows</value>
+    <comment>{0} = page, {1} = page count, {2} = row count (plural form).</comment>
+  </data>
+  <data name="DataTable_SearchCleared" xml:space="preserve">
+    <value>Search cleared</value>
+  </data>
+  <data name="DataTable_NoSearchResults" xml:space="preserve">
+    <value>No results match your search</value>
+  </data>
+  <data name="DataTable_MatchingOne" xml:space="preserve">
+    <value>Showing {0} matching row</value>
+    <comment>{0} = row count (singular form).</comment>
+  </data>
+  <data name="DataTable_MatchingOther" xml:space="preserve">
+    <value>Showing {0} matching rows</value>
+    <comment>{0} = row count (plural form).</comment>
+  </data>
+  <data name="DataTable_SortedAscending" xml:space="preserve">
+    <value>Sorted by {0}, ascending</value>
+    <comment>{0} = column title.</comment>
+  </data>
+  <data name="DataTable_SortedDescending" xml:space="preserve">
+    <value>Sorted by {0}, descending</value>
+    <comment>{0} = column title.</comment>
+  </data>
+  <data name="DataTable_SortRemoved" xml:space="preserve">
+    <value>Sort by {0} removed</value>
+    <comment>{0} = column title.</comment>
+  </data>
+  <data name="DataTable_SortBy" xml:space="preserve">
+    <value>Sort by {0}</value>
+    <comment>{0} = column title.</comment>
+  </data>
+  <data name="DataTable_SortByAscending" xml:space="preserve">
+    <value>Sort by {0}, currently ascending</value>
+    <comment>{0} = column title.</comment>
+  </data>
+  <data name="DataTable_SortByDescending" xml:space="preserve">
+    <value>Sort by {0}, currently descending</value>
+    <comment>{0} = column title.</comment>
+  </data>
+  <!-- DatePicker -->
+  <data name="DatePicker_Open" xml:space="preserve">
+    <value>Open date picker</value>
+  </data>
+  <data name="DatePicker_Dialog" xml:space="preserve">
+    <value>Choose date</value>
+  </data>
+  <data name="DatePicker_PreviousMonth" xml:space="preserve">
+    <value>Previous month</value>
+  </data>
+  <data name="DatePicker_NextMonth" xml:space="preserve">
+    <value>Next month</value>
+  </data>
+  <data name="DatePicker_PreviousYear" xml:space="preserve">
+    <value>Previous year</value>
+  </data>
+  <data name="DatePicker_NextYear" xml:space="preserve">
+    <value>Next year</value>
+  </data>
+  <data name="DatePicker_PreviousDecade" xml:space="preserve">
+    <value>Previous decade</value>
+  </data>
+  <data name="DatePicker_NextDecade" xml:space="preserve">
+    <value>Next decade</value>
+  </data>
+  <data name="DatePicker_Invalid" xml:space="preserve">
+    <value>Enter a valid date, for example {0}</value>
+    <comment>{0} = an example date.</comment>
+  </data>
+  <data name="DatePicker_Selected" xml:space="preserve">
+    <value>Selected, {0}</value>
+    <comment>{0} = a date.</comment>
+  </data>
+  <data name="DatePicker_RangeStart" xml:space="preserve">
+    <value>Start of selected range, {0}</value>
+    <comment>{0} = a date.</comment>
+  </data>
+  <data name="DatePicker_RangeEnd" xml:space="preserve">
+    <value>End of selected range, {0}</value>
+    <comment>{0} = a date.</comment>
+  </data>
+  <data name="DatePicker_InRange" xml:space="preserve">
+    <value>In selected range, {0}</value>
+    <comment>{0} = a date.</comment>
+  </data>
+  <!-- DateRangePicker -->
+  <data name="DateRangePicker_Open" xml:space="preserve">
+    <value>Open date range picker</value>
+  </data>
+  <data name="DateRangePicker_Dialog" xml:space="preserve">
+    <value>Choose date range</value>
+  </data>
+  <data name="DateRangePicker_Invalid" xml:space="preserve">
+    <value>Enter a valid date range, for example {0}</value>
+    <comment>{0} = an example range.</comment>
+  </data>
+  <!-- DateTimePicker -->
+  <data name="DateTimePicker_Placeholder" xml:space="preserve">
+    <value>Select a datetime</value>
+  </data>
+  <!-- DateTimeRangePicker -->
+  <data name="DateTimeRangePicker_Open" xml:space="preserve">
+    <value>Open datetime range picker</value>
+  </data>
+  <data name="DateTimeRangePicker_DialogStart" xml:space="preserve">
+    <value>Choose start date and time</value>
+  </data>
+  <data name="DateTimeRangePicker_DialogEnd" xml:space="preserve">
+    <value>Choose end date and time</value>
+  </data>
+  <data name="DateTimeRangePicker_RangeStep" xml:space="preserve">
+    <value>Range step</value>
+  </data>
+  <!-- Dialog -->
+  <data name="Dialog_Label" xml:space="preserve">
+    <value>Dialog</value>
+  </data>
+  <!-- FileUpload -->
+  <data name="FileUpload_FileSelected" xml:space="preserve">
+    <value>{0} selected</value>
+    <comment>{0} = file name.</comment>
+  </data>
+  <data name="FileUpload_FilesSelected" xml:space="preserve">
+    <value>{0} files selected: {1}</value>
+    <comment>{0} = file count, {1} = file names.</comment>
+  </data>
+  <!-- Navbar -->
+  <data name="Navbar_Label" xml:space="preserve">
+    <value>Top navigation</value>
+  </data>
+  <data name="Navbar_OpenMenu" xml:space="preserve">
+    <value>Open navigation menu</value>
+  </data>
+  <data name="Navbar_CloseMenu" xml:space="preserve">
+    <value>Close navigation menu</value>
+  </data>
+  <!-- Pagination -->
+  <data name="Pagination_Label" xml:space="preserve">
+    <value>pagination</value>
+  </data>
+  <data name="Pagination_PreviousPage" xml:space="preserve">
+    <value>Previous page</value>
+  </data>
+  <data name="Pagination_NextPage" xml:space="preserve">
+    <value>Next page</value>
+  </data>
+  <data name="Pagination_ItemsPerPage" xml:space="preserve">
+    <value>Items per page</value>
+  </data>
+  <data name="Pagination_PageStatus" xml:space="preserve">
+    <value>Page {0} of {1}</value>
+    <comment>{0} = page, {1} = page count.</comment>
+  </data>
+  <data name="Pagination_PagePrefix" xml:space="preserve">
+    <value>page</value>
+    <comment>Read by screen readers before each page number.</comment>
+  </data>
+  <!-- PickList -->
+  <data name="PickList_Source" xml:space="preserve">
+    <value>Available</value>
+  </data>
+  <data name="PickList_Target" xml:space="preserve">
+    <value>Selected</value>
+  </data>
+  <data name="PickList_Empty" xml:space="preserve">
+    <value>No items</value>
+  </data>
+  <data name="PickList_MoveItemUp" xml:space="preserve">
+    <value>Move selected {0} item up</value>
+    <comment>{0} = list label.</comment>
+  </data>
+  <data name="PickList_MoveItemDown" xml:space="preserve">
+    <value>Move selected {0} item down</value>
+    <comment>{0} = list label.</comment>
+  </data>
+  <data name="PickList_MoveSelectedTo" xml:space="preserve">
+    <value>Move selected items to {0}</value>
+    <comment>{0} = list label.</comment>
+  </data>
+  <data name="PickList_MoveAllTo" xml:space="preserve">
+    <value>Move all items to {0}</value>
+    <comment>{0} = list label.</comment>
+  </data>
+  <data name="PickList_ItemsOne" xml:space="preserve">
+    <value>{0} item</value>
+    <comment>{0} = item count (singular form).</comment>
+  </data>
+  <data name="PickList_ItemsOther" xml:space="preserve">
+    <value>{0} items</value>
+    <comment>{0} = item count (plural form).</comment>
+  </data>
+  <data name="PickList_MovedTo" xml:space="preserve">
+    <value>{0} moved to {1}</value>
+    <comment>{0} = item count text, {1} = list label.</comment>
+  </data>
+  <data name="PickList_MovedUp" xml:space="preserve">
+    <value>{0} moved up</value>
+    <comment>{0} = item count text.</comment>
+  </data>
+  <data name="PickList_MovedDown" xml:space="preserve">
+    <value>{0} moved down</value>
+    <comment>{0} = item count text.</comment>
+  </data>
+  <!-- Select -->
+  <data name="Select_Placeholder" xml:space="preserve">
+    <value>Select an option...</value>
+  </data>
+  <data name="Select_Options" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <!-- Sidebar -->
+  <data name="Sidebar_SkipToMain" xml:space="preserve">
+    <value>Skip to main content</value>
+  </data>
+  <data name="Sidebar_NavigationLabel" xml:space="preserve">
+    <value>sidebar navigation</value>
+  </data>
+  <data name="Sidebar_SearchLabel" xml:space="preserve">
+    <value>Search navigation</value>
+  </data>
+  <data name="Sidebar_SearchPlaceholder" xml:space="preserve">
+    <value>Search...</value>
+  </data>
+  <data name="Sidebar_Open" xml:space="preserve">
+    <value>Open sidebar</value>
+  </data>
+  <data name="Sidebar_Close" xml:space="preserve">
+    <value>Close sidebar</value>
+  </data>
+  <data name="Sidebar_ResultsOne" xml:space="preserve">
+    <value>{0} result</value>
+    <comment>{0} = result count (singular form).</comment>
+  </data>
+  <data name="Sidebar_ResultsOther" xml:space="preserve">
+    <value>{0} results</value>
+    <comment>{0} = result count (plural form).</comment>
+  </data>
+  <!-- Stepper -->
+  <data name="Stepper_Label" xml:space="preserve">
+    <value>Progress</value>
+  </data>
+  <data name="Stepper_StepOf" xml:space="preserve">
+    <value>Step {0} of {1}: {2}</value>
+    <comment>{0} = step number, {1} = step count, {2} = step label.</comment>
+  </data>
+  <data name="Stepper_StepState" xml:space="preserve">
+    <value>Step {0}: {1}, {2}</value>
+    <comment>{0} = step number, {1} = step label, {2} = state.</comment>
+  </data>
+  <data name="Stepper_Completed" xml:space="preserve">
+    <value>completed</value>
+  </data>
+  <data name="Stepper_Current" xml:space="preserve">
+    <value>current</value>
+  </data>
+  <data name="Stepper_NotStarted" xml:space="preserve">
+    <value>not started</value>
+  </data>
+  <!-- Table -->
+  <data name="Table_ScrollRegion" xml:space="preserve">
+    <value>Scrollable table</value>
+  </data>
+  <!-- TimePicker -->
+  <data name="TimePicker_Open" xml:space="preserve">
+    <value>Open time picker</value>
+  </data>
+  <data name="TimePicker_Dialog" xml:space="preserve">
+    <value>Choose time</value>
+  </data>
+  <data name="TimePicker_Placeholder" xml:space="preserve">
+    <value>Select a time</value>
+  </data>
+  <data name="TimePicker_Invalid" xml:space="preserve">
+    <value>Enter a valid time, for example {0}</value>
+    <comment>{0} = an example time.</comment>
+  </data>
+  <data name="TimePicker_Hours" xml:space="preserve">
+    <value>Hours</value>
+  </data>
+  <data name="TimePicker_Minutes" xml:space="preserve">
+    <value>Minutes</value>
+  </data>
+  <data name="TimePicker_IncreaseHour" xml:space="preserve">
+    <value>Increase hour</value>
+  </data>
+  <data name="TimePicker_DecreaseHour" xml:space="preserve">
+    <value>Decrease hour</value>
+  </data>
+  <data name="TimePicker_IncreaseMinute" xml:space="preserve">
+    <value>Increase minute</value>
+  </data>
+  <data name="TimePicker_DecreaseMinute" xml:space="preserve">
+    <value>Decrease minute</value>
+  </data>
+  <data name="TimePicker_SwitchPeriod" xml:space="preserve">
+    <value>{0}, switch to {1}</value>
+    <comment>{0} = the current period (AM or PM), {1} = the other period.</comment>
+  </data>
+  <!-- TimeRangePicker -->
+  <data name="TimeRangePicker_Open" xml:space="preserve">
+    <value>Open time range picker</value>
+  </data>
+  <data name="TimeRangePicker_DialogStart" xml:space="preserve">
+    <value>Choose start time</value>
+  </data>
+  <data name="TimeRangePicker_DialogEnd" xml:space="preserve">
+    <value>Choose end time</value>
+  </data>
+  <data name="TimeRangePicker_Invalid" xml:space="preserve">
+    <value>Enter a valid time range, for example {0}</value>
+    <comment>{0} = an example range.</comment>
+  </data>
+  <!-- Toast -->
+  <data name="Toast_RegionLabel" xml:space="preserve">
+    <value>Notifications</value>
+  </data>
+  <data name="Toast_JustNow" xml:space="preserve">
+    <value>just now</value>
+  </data>
+  <data name="Toast_MinutesAgo" xml:space="preserve">
+    <value>{0}m ago</value>
+    <comment>{0} = whole minutes since the toast appeared.</comment>
+  </data>
+  <data name="Toast_HoursAgo" xml:space="preserve">
+    <value>{0}h ago</value>
+    <comment>{0} = whole hours since the toast appeared.</comment>
+  </data>
+  <data name="Toast_DaysAgo" xml:space="preserve">
+    <value>{0}d ago</value>
+    <comment>{0} = whole days since the toast appeared.</comment>
+  </data>
+  <!-- TreeList -->
+  <data name="TreeList_Select" xml:space="preserve">
+    <value>Select {0}</value>
+    <comment>{0} = item label.</comment>
+  </data>
+  <!-- Format -->
+  <data name="Format_ShortTime" xml:space="preserve">
+    <value></value>
+    <comment>Optional .NET format string for a time of day (for example HH:mm). Leave empty to use the culture's short time pattern.</comment>
+  </data>
+  <data name="Format_Hour" xml:space="preserve">
+    <value></value>
+    <comment>Optional .NET format string for an hour label in the calendar gutter (for example HH:mm or h tt). Leave empty to derive it from the clock style.</comment>
+  </data>
+  <data name="Format_LongDate" xml:space="preserve">
+    <value></value>
+    <comment>Optional .NET format string for a full date read by screen readers (for example dddd, d MMMM yyyy). Leave empty to use the culture's long date pattern.</comment>
+  </data>
+  <data name="Format_MediumDate" xml:space="preserve">
+    <value></value>
+    <comment>Optional .NET format string for an abbreviated date (for example d MMM yyyy). Leave empty to use d MMM yyyy.</comment>
+  </data>
+  <data name="Format_MonthYear" xml:space="preserve">
+    <value></value>
+    <comment>Optional .NET format string for a month and year (for example MMMM yyyy). Leave empty to use the culture's year month pattern.</comment>
+  </data>
+  <data name="Format_MonthDay" xml:space="preserve">
+    <value></value>
+    <comment>Optional .NET format string for a day and month without the year (for example d MMMM). Leave empty to use d MMM.</comment>
+  </data>
+  <data name="Format_Month" xml:space="preserve">
+    <value></value>
+    <comment>Optional .NET format string for a month on its own (for example MMMM). Leave empty to use MMMM.</comment>
+  </data>
+  <data name="Format_ShortMonth" xml:space="preserve">
+    <value></value>
+    <comment>Optional .NET format string for an abbreviated month (for example MMM). Leave empty to use MMM.</comment>
+  </data>
+  <data name="Format_Year" xml:space="preserve">
+    <value></value>
+    <comment>Optional .NET format string for a year (for example yyyy). Leave empty to use yyyy.</comment>
+  </data>
+  <data name="Format_WeekdayDay" xml:space="preserve">
+    <value></value>
+    <comment>Optional .NET format string for a week view column heading (for example ddd d). Leave empty to use ddd d.</comment>
+  </data>
+  <data name="Format_DateInput" xml:space="preserve">
+    <value></value>
+    <comment>Optional .NET format string the date pickers type and parse (for example dd.MM.yyyy). Leave empty to use the theme's default.</comment>
+  </data>
+  <data name="Format_TimeInput" xml:space="preserve">
+    <value></value>
+    <comment>Optional .NET format string the time pickers type and parse (for example HH:mm). Leave empty to derive it from the clock style.</comment>
+  </data>
+  <data name="Format_DateTimeInput" xml:space="preserve">
+    <value></value>
+    <comment>Optional .NET format string the date time pickers type and parse (for example dd.MM.yyyy HH:mm). Leave empty to use the theme's default.</comment>
+  </data>
+</root>

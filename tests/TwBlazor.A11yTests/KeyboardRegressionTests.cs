@@ -31,25 +31,46 @@ public class KeyboardRegressionTests(A11yFixture fixture)
 
     private static ILocator Popover(IPage page) => page.Locator("[data-tw-popover]");
 
+    // The long date is formatted for the culture the docs site runs under, so both English orders are accepted.
+    private static readonly string[] _longDateFormats = ["dddd, d MMMM yyyy", "dddd d MMMM yyyy", "dddd, MMMM d, yyyy", "d MMMM yyyy", "MMMM d, yyyy"];
+
     /// <summary>
-    /// The date on the focused day button, read from its accessible name ("Selected, March 10, 2026").
+    /// The date on the focused day button, read from its accessible name ("Selected, Tuesday, 10 March 2026").
     /// </summary>
     private static async Task<DateTime> FocusedDayAsync(IPage page)
     {
         var label = await page.EvaluateAsync<string>(
             "document.activeElement?.closest('[role=\"grid\"]') ? (document.activeElement.getAttribute('aria-label') ?? '') : ''");
-        // "Selected, March 10, 2026" and "March 10, 2026" both end with the date.
-        var match = System.Text.RegularExpressions.Regex.Match(label, @"[A-Z][a-z]+ \d{1,2}, \d{4}$", System.Text.RegularExpressions.RegexOptions.None, TimeSpan.FromSeconds(1));
-        Assert.True(match.Success, $"The focused element is not a day button (accessible name: '{label}').");
-        return DateTime.ParseExact(match.Value, "MMMM d, yyyy", CultureInfo.InvariantCulture);
+        var date = ParseDayLabel(label);
+        Assert.True(date.HasValue, $"The focused element is not a day button (accessible name: '{label}').");
+        return date.Value;
+    }
+
+    /// <summary>
+    /// Reads the date a day button's accessible name ends with, whatever state text comes before it.
+    /// </summary>
+    private static DateTime? ParseDayLabel(string label)
+    {
+        // "Selected, Tuesday, 10 March 2026" and "Tuesday, 10 March 2026" both end with the date.
+        var parts = label.Split(", ");
+        for (var start = 0; start < parts.Length; start++)
+        {
+            var candidate = string.Join(", ", parts[start..]);
+            if (DateTime.TryParseExact(candidate, _longDateFormats, CultureInfo.InvariantCulture, DateTimeStyles.None, out var date))
+            {
+                return date;
+            }
+        }
+
+        return null;
     }
 
     private static async Task ExpectFocusedDayAsync(IPage page, DateTime expected)
     {
-        var name = expected.ToString("MMMM d, yyyy", CultureInfo.InvariantCulture);
+        var names = _longDateFormats.Select(format => expected.ToString(format, CultureInfo.InvariantCulture)).ToArray();
         await page.WaitForFunctionAsync(
-            "name => document.activeElement?.closest('[role=\"grid\"]') !== null && (document.activeElement.getAttribute('aria-label') ?? '').endsWith(name)",
-            name);
+            "names => document.activeElement?.closest('[role=\"grid\"]') !== null && names.some(name => (document.activeElement.getAttribute('aria-label') ?? '').endsWith(name))",
+            names);
     }
 
     /// <summary>
@@ -297,7 +318,7 @@ public class KeyboardRegressionTests(A11yFixture fixture)
             var readOnly = page.Locator("#main-content [role='group'][aria-label='Select view']").First.Locator("xpath=ancestor::div[.//button[@aria-label='Previous']][1]");
             await page.GetByRole(AriaRole.Button, new() { Name = "Week view" }).First.ClickAsync();
 
-            Assert.Equal(0, await readOnly.Locator("button[aria-disabled='true'][aria-label$='AM'], button[aria-disabled='true'][aria-label$='PM']").CountAsync());
+            Assert.Equal(0, await readOnly.Locator("button[aria-disabled='true'][aria-label*=':']").CountAsync());
         }
         finally
         {

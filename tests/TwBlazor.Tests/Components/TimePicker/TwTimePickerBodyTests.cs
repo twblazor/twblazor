@@ -114,7 +114,7 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
     public void TwTimePickerBody_DisplaysTime_In12HourFormat()
     {
         // Arrange
-        var selectedTime = new TimeOnly(14, 30); // 2:30 PM
+        var selectedTime = new TimeOnly(14, 30); // 2:30 pm
 
         // Act
         var cut = TestContext.Render<TwTimePickerBody>(p => p
@@ -437,7 +437,7 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
     {
         // Arrange
         TimeOnly? callbackTime = null;
-        var initialTime = new TimeOnly(14, 30); // 2:30 PM
+        var initialTime = new TimeOnly(14, 30); // 2:30 pm
 
         // Act
         var cut = TestContext.Render<TwTimePickerBody>(p => p
@@ -467,7 +467,7 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
 
         // Assert
         var buttons = cut.FindAll("button");
-        var amPmButton = buttons.FirstOrDefault(b => b.TextContent.Contains("AM") || b.TextContent.Contains("PM"));
+        var amPmButton = buttons.FirstOrDefault(b => b.TextContent.Contains(Localizer.Formats.AmDesignator) || b.TextContent.Contains(Localizer.Formats.PmDesignator));
         Assert.NotNull(amPmButton);
     }
 
@@ -482,7 +482,7 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
 
         // Assert
         var buttons = cut.FindAll("button");
-        var amPmButton = buttons.FirstOrDefault(b => b.TextContent.Contains("AM") || b.TextContent.Contains("PM"));
+        var amPmButton = buttons.FirstOrDefault(b => b.TextContent.Contains(Localizer.Formats.AmDesignator) || b.TextContent.Contains(Localizer.Formats.PmDesignator));
         Assert.Null(amPmButton);
     }
 
@@ -492,13 +492,13 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
         // Arrange & Act
         var cut = TestContext.Render<TwTimePickerBody>(p => p
             .Add(x => x.Is12HourFormat, true)
-            .Add(x => x.SelectedTime, new TimeOnly(10, 30)) // 10:30 AM
+            .Add(x => x.SelectedTime, new TimeOnly(10, 30)) // 10:30 am
         );
 
         // Assert
         var buttons = cut.FindAll("button");
-        var amPmButton = buttons.First(b => b.TextContent.Contains("AM") || b.TextContent.Contains("PM"));
-        Assert.Contains("AM", amPmButton.TextContent);
+        var amPmButton = buttons.First(b => b.TextContent.Contains(Localizer.Formats.AmDesignator) || b.TextContent.Contains(Localizer.Formats.PmDesignator));
+        Assert.Contains(Localizer.Formats.AmDesignator, amPmButton.TextContent);
     }
 
     [Fact]
@@ -507,13 +507,13 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
         // Arrange & Act
         var cut = TestContext.Render<TwTimePickerBody>(p => p
             .Add(x => x.Is12HourFormat, true)
-            .Add(x => x.SelectedTime, new TimeOnly(14, 30)) // 2:30 PM
+            .Add(x => x.SelectedTime, new TimeOnly(14, 30)) // 2:30 pm
         );
 
         // Assert
         var buttons = cut.FindAll("button");
-        var amPmButton = buttons.First(b => b.TextContent.Contains("AM") || b.TextContent.Contains("PM"));
-        Assert.Contains("PM", amPmButton.TextContent);
+        var amPmButton = buttons.First(b => b.TextContent.Contains(Localizer.Formats.AmDesignator) || b.TextContent.Contains(Localizer.Formats.PmDesignator));
+        Assert.Contains(Localizer.Formats.PmDesignator, amPmButton.TextContent);
     }
 
     [Fact]
@@ -521,7 +521,7 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
     {
         // Arrange
         TimeOnly? callbackTime = null;
-        var initialTime = new TimeOnly(10, 30); // 10:30 AM
+        var initialTime = new TimeOnly(10, 30); // 10:30 am
 
         var cut = TestContext.Render<TwTimePickerBody>(p => p
             .Add(x => x.Is12HourFormat, true)
@@ -531,12 +531,12 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
 
         // Act
         var buttons = cut.FindAll("button");
-        var amPmButton = buttons.First(b => b.TextContent.Contains("AM") || b.TextContent.Contains("PM"));
+        var amPmButton = buttons.First(b => b.TextContent.Contains(Localizer.Formats.AmDesignator) || b.TextContent.Contains(Localizer.Formats.PmDesignator));
         amPmButton.Click();
 
         // Assert
         Assert.NotNull(callbackTime);
-        Assert.Equal(22, callbackTime.Value.Hour); // 10:30 AM + 12 hours = 22:30 (10:30 PM)
+        Assert.Equal(22, callbackTime.Value.Hour); // 10:30 am + 12 hours = 22:30 (10:30 pm)
         Assert.Equal(30, callbackTime.Value.Minute);
     }
 
@@ -545,7 +545,7 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
     {
         // Arrange
         TimeOnly? callbackTime = null;
-        var initialTime = new TimeOnly(14, 30); // 2:30 PM
+        var initialTime = new TimeOnly(14, 30); // 2:30 pm
 
         var cut = TestContext.Render<TwTimePickerBody>(p => p
             .Add(x => x.Is12HourFormat, true)
@@ -555,12 +555,12 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
 
         // Act
         var buttons = cut.FindAll("button");
-        var amPmButton = buttons.First(b => b.TextContent.Contains("AM") || b.TextContent.Contains("PM"));
+        var amPmButton = buttons.First(b => b.TextContent.Contains(Localizer.Formats.AmDesignator) || b.TextContent.Contains(Localizer.Formats.PmDesignator));
         amPmButton.Click();
 
         // Assert
         Assert.NotNull(callbackTime);
-        Assert.Equal(2, callbackTime.Value.Hour); // 2:30 PM - 12 hours = 02:30 (2:30 AM)
+        Assert.Equal(2, callbackTime.Value.Hour); // 2:30 pm - 12 hours = 02:30 (2:30 am)
         Assert.Equal(30, callbackTime.Value.Minute);
     }
 
@@ -569,7 +569,7 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
     {
         // Arrange
         TimeOnly? callbackTime = null;
-        var initialTime = new TimeOnly(10, 45); // 10:45 AM
+        var initialTime = new TimeOnly(10, 45); // 10:45 am
 
         var cut = TestContext.Render<TwTimePickerBody>(p => p
             .Add(x => x.Is12HourFormat, true)
@@ -579,7 +579,7 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
 
         // Act
         var buttons = cut.FindAll("button");
-        var amPmButton = buttons.First(b => b.TextContent.Contains("AM") || b.TextContent.Contains("PM"));
+        var amPmButton = buttons.First(b => b.TextContent.Contains(Localizer.Formats.AmDesignator) || b.TextContent.Contains(Localizer.Formats.PmDesignator));
         amPmButton.Click();
 
         // Assert
@@ -596,7 +596,7 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
     {
         // Arrange
         TimeOnly? callbackTime = null;
-        var initialTime = new TimeOnly(11, 30); // 11:30 AM
+        var initialTime = new TimeOnly(11, 30); // 11:30 am
 
         var cut = TestContext.Render<TwTimePickerBody>(p => p
             .Add(x => x.Is12HourFormat, true)
@@ -610,7 +610,7 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
 
         // Assert
         Assert.NotNull(callbackTime);
-        Assert.Equal(12, callbackTime.Value.Hour); // 12:30 PM
+        Assert.Equal(12, callbackTime.Value.Hour); // 12:30 pm
         Assert.Equal(30, callbackTime.Value.Minute);
     }
 
@@ -619,7 +619,7 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
     {
         // Arrange
         TimeOnly? callbackTime = null;
-        var initialTime = new TimeOnly(12, 30); // 12:30 PM
+        var initialTime = new TimeOnly(12, 30); // 12:30 pm
 
         var cut = TestContext.Render<TwTimePickerBody>(p => p
             .Add(x => x.Is12HourFormat, true)
@@ -633,7 +633,7 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
 
         // Assert
         Assert.NotNull(callbackTime);
-        Assert.Equal(13, callbackTime.Value.Hour); // 1:30 PM (13:30 in 24h)
+        Assert.Equal(13, callbackTime.Value.Hour); // 1:30 pm (13:30 in 24h)
         Assert.Equal(30, callbackTime.Value.Minute);
     }
 
@@ -642,7 +642,7 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
     {
         // Arrange
         TimeOnly? callbackTime = null;
-        var initialTime = new TimeOnly(23, 30); // 11:30 PM
+        var initialTime = new TimeOnly(23, 30); // 11:30 pm
 
         var cut = TestContext.Render<TwTimePickerBody>(p => p
             .Add(x => x.Is12HourFormat, true)
@@ -656,7 +656,7 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
 
         // Assert
         Assert.NotNull(callbackTime);
-        Assert.Equal(0, callbackTime.Value.Hour); // 12:30 AM (00:30 in 24h)
+        Assert.Equal(0, callbackTime.Value.Hour); // 12:30 am (00:30 in 24h)
         Assert.Equal(30, callbackTime.Value.Minute);
     }
 
@@ -665,7 +665,7 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
     {
         // Arrange
         TimeOnly? callbackTime = null;
-        var initialTime = new TimeOnly(0, 30); // 12:30 AM
+        var initialTime = new TimeOnly(0, 30); // 12:30 am
 
         var cut = TestContext.Render<TwTimePickerBody>(p => p
             .Add(x => x.Is12HourFormat, true)
@@ -679,7 +679,7 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
 
         // Assert
         Assert.NotNull(callbackTime);
-        Assert.Equal(1, callbackTime.Value.Hour); // 1:30 AM
+        Assert.Equal(1, callbackTime.Value.Hour); // 1:30 am
         Assert.Equal(30, callbackTime.Value.Minute);
     }
 
@@ -688,7 +688,7 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
     {
         // Arrange
         TimeOnly? callbackTime = null;
-        var initialTime = new TimeOnly(12, 30); // 12:30 PM
+        var initialTime = new TimeOnly(12, 30); // 12:30 pm
 
         var cut = TestContext.Render<TwTimePickerBody>(p => p
             .Add(x => x.Is12HourFormat, true)
@@ -702,7 +702,7 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
 
         // Assert
         Assert.NotNull(callbackTime);
-        Assert.Equal(11, callbackTime.Value.Hour); // 11:30 AM
+        Assert.Equal(11, callbackTime.Value.Hour); // 11:30 am
         Assert.Equal(30, callbackTime.Value.Minute);
     }
 
@@ -711,7 +711,7 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
     {
         // Arrange
         TimeOnly? callbackTime = null;
-        var initialTime = new TimeOnly(13, 30); // 1:30 PM
+        var initialTime = new TimeOnly(13, 30); // 1:30 pm
 
         var cut = TestContext.Render<TwTimePickerBody>(p => p
             .Add(x => x.Is12HourFormat, true)
@@ -725,7 +725,7 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
 
         // Assert
         Assert.NotNull(callbackTime);
-        Assert.Equal(12, callbackTime.Value.Hour); // 12:30 PM
+        Assert.Equal(12, callbackTime.Value.Hour); // 12:30 pm
         Assert.Equal(30, callbackTime.Value.Minute);
     }
 
@@ -734,7 +734,7 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
     {
         // Arrange
         TimeOnly? callbackTime = null;
-        var initialTime = new TimeOnly(0, 30); // 12:30 AM
+        var initialTime = new TimeOnly(0, 30); // 12:30 am
 
         var cut = TestContext.Render<TwTimePickerBody>(p => p
             .Add(x => x.Is12HourFormat, true)
@@ -748,7 +748,7 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
 
         // Assert
         Assert.NotNull(callbackTime);
-        Assert.Equal(23, callbackTime.Value.Hour); // 11:30 PM (23:30 in 24h)
+        Assert.Equal(23, callbackTime.Value.Hour); // 11:30 pm (23:30 in 24h)
         Assert.Equal(30, callbackTime.Value.Minute);
     }
 
@@ -757,7 +757,7 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
     {
         // Arrange
         TimeOnly? callbackTime = null;
-        var initialTime = new TimeOnly(1, 30); // 1:30 AM
+        var initialTime = new TimeOnly(1, 30); // 1:30 am
 
         var cut = TestContext.Render<TwTimePickerBody>(p => p
             .Add(x => x.Is12HourFormat, true)
@@ -771,7 +771,7 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
 
         // Assert
         Assert.NotNull(callbackTime);
-        Assert.Equal(0, callbackTime.Value.Hour); // 12:30 AM (00:30 in 24h)
+        Assert.Equal(0, callbackTime.Value.Hour); // 12:30 am (00:30 in 24h)
         Assert.Equal(30, callbackTime.Value.Minute);
     }
 
@@ -780,7 +780,7 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
     {
         // Arrange
         TimeOnly? callbackTime = null;
-        var initialTime = new TimeOnly(11, 59); // 11:59 AM
+        var initialTime = new TimeOnly(11, 59); // 11:59 am
 
         var cut = TestContext.Render<TwTimePickerBody>(p => p
             .Add(x => x.Is12HourFormat, true)
@@ -794,7 +794,7 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
 
         // Assert
         Assert.NotNull(callbackTime);
-        Assert.Equal(12, callbackTime.Value.Hour); // Rolls to 12:00 PM
+        Assert.Equal(12, callbackTime.Value.Hour); // Rolls to 12:00 pm
         Assert.Equal(0, callbackTime.Value.Minute);
     }
 
@@ -803,7 +803,7 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
     {
         // Arrange
         TimeOnly? callbackTime = null;
-        var initialTime = new TimeOnly(12, 0); // 12:00 PM
+        var initialTime = new TimeOnly(12, 0); // 12:00 pm
 
         var cut = TestContext.Render<TwTimePickerBody>(p => p
             .Add(x => x.Is12HourFormat, true)
@@ -817,7 +817,7 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
 
         // Assert
         Assert.NotNull(callbackTime);
-        Assert.Equal(11, callbackTime.Value.Hour); // Rolls back to 11:59 AM
+        Assert.Equal(11, callbackTime.Value.Hour); // Rolls back to 11:59 am
         Assert.Equal(59, callbackTime.Value.Minute);
     }
 
@@ -828,7 +828,7 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
         // Arrange
         var cut = TestContext.Render<TwTimePickerBody>(p => p
             .Add(x => x.Is12HourFormat, true)
-            .Add(x => x.SelectedTime, new TimeOnly(0, 0)) // Start at 12:00 AM
+            .Add(x => x.SelectedTime, new TimeOnly(0, 0)) // Start at 12:00 am
         );
 
         var buttons = cut.FindAll("button[type='button']");
@@ -849,7 +849,7 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
             Assert.Equal(expected12Hour, displayedHour);
         }
 
-        // One more click should return to 12:00 AM
+        // One more click should return to 12:00 am
         increaseHourButton.Click();
         cut.Render();
         var finalHourInput = cut.FindAll("input[type='text']")[0];
@@ -1219,7 +1219,7 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
     {
         // Arrange - hour == 12 and currentIsPm == false → should return 0 (12 AM = midnight)
         TimeOnly? callbackTime = null;
-        var initialTime = new TimeOnly(10, 30); // 10:30 AM
+        var initialTime = new TimeOnly(10, 30); // 10:30 am
 
         var cut = TestContext.Render<TwTimePickerBody>(p => p
             .Add(x => x.Is12HourFormat, true)
@@ -1241,7 +1241,7 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
     {
         // Arrange - hour == 12 and currentIsPm == true → should return 12 (12 PM = noon)
         TimeOnly? callbackTime = null;
-        var initialTime = new TimeOnly(14, 30); // 2:30 PM
+        var initialTime = new TimeOnly(14, 30); // 2:30 pm
 
         var cut = TestContext.Render<TwTimePickerBody>(p => p
             .Add(x => x.Is12HourFormat, true)
@@ -1419,7 +1419,7 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
         // Arrange - hour != 12 and currentIsPm == false → Normalize12HourTo24Hour's
         // fallthrough `return currentIsPm ? hour + 12 : hour;` with currentIsPm false.
         TimeOnly? callbackTime = null;
-        var initialTime = new TimeOnly(10, 30); // 10:30 AM
+        var initialTime = new TimeOnly(10, 30); // 10:30 am
 
         var cut = TestContext.Render<TwTimePickerBody>(p => p
             .Add(x => x.Is12HourFormat, true)
