@@ -92,6 +92,36 @@ public partial class TwProgress<T> : TwBlazorInputComponentBase
     private bool showShimmer => Animated && !Indeterminate;
 
     /// <summary>
+    /// Gets the classes applied to the element wrapping the &lt;progress&gt; element.
+    /// </summary>
+    private string wrapperClasses => theme.Wrapper;
+
+    /// <summary>
+    /// Gets the classes applied to the shimmer overlay.
+    /// </summary>
+    private string shimmerClasses => theme.Animated;
+
+    /// <summary>
+    /// Gets the inline style that sizes the shimmer overlay to the filled portion of the bar.
+    /// </summary>
+    private string shimmerStyle => $"width: {percentageText}%";
+
+    /// <summary>
+    /// Gets the aria-invalid value, or <c>null</c> to omit the attribute when the progress bar is valid.
+    /// </summary>
+    private string? ariaInvalid => Invalid ? "true" : null;
+
+    /// <summary>
+    /// Gets the aria-busy value, or <c>null</c> to omit the attribute when the progress bar is not busy.
+    /// </summary>
+    private string? ariaBusy => effectiveAriaBusy ? "true" : null;
+
+    /// <summary>
+    /// Gets the fallback text content rendered for browsers that don't support &lt;progress&gt;.
+    /// </summary>
+    private string fallbackText => Indeterminate ? "Loading..." : $"{percentageText}%";
+
+    /// <summary>
     /// Gets the combined aria-describedby value from <see cref="AriaDescribedBy"/> and the base class's validation error id, or <c>null</c> if neither applies.
     /// </summary>
     private string? describedByIds
