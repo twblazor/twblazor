@@ -186,7 +186,21 @@ public partial class TwCalendarWeekView<T> : TwBlazorComponentBase, IAsyncDispos
         .AddClass(options.Theme.Interaction.PointerCursor, OnDayHeaderClick.HasDelegate)
         .Build();
 
+    private string compactHeaderClasses => new ClassBuilder(options.Theme.Display.Flex)
+        .AddClass(options.Theme.Flexbox.Col)
+        .AddClass(options.Theme.Flexbox.Align.Center)
+        .AddClass(theme.DayColumnHeaderCompact)
+        .Build();
+
+    private string GetCompactDayNumberClasses(DateTime day) => new ClassBuilder(theme.DayColumnHeaderDayNumber)
+        .AddClass(theme.DayColumnHeaderDayNumberToday, day.Date == DateTime.Today)
+        .Build();
+
+    private string GetShortWeekday(DateTime day) =>
+        localizer.Formats.GetWeekdayHeaders()[localizer.Formats.GetDayOffset(day.DayOfWeek)];
+
     private string GetDayColumnClasses(DateTime day) => new ClassBuilder(options.Theme.Flexbox.Flex1)
+        .AddClass(options.Theme.Sizing.MinWidthNone)
         .AddClass(theme.DayColumnDivider)
         .AddClass(theme.TodayHighlight, HighlightDate?.Date == day.Date)
         .Build();

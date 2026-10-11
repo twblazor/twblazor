@@ -142,7 +142,7 @@ public class TwCalendarEnabledViewsTests : TwBlazorTestBase
             .Add(x => x.SelectedDateChanged, EventCallback.Factory.Create<DateTime>(this, d => date = d))
             .Add(x => x.ViewChanged, EventCallback.Factory.Create<TwCalendarView>(this, v => view = v)));
 
-        cut.FindAll("button").First(b => b.TextContent.Trim() == "Fri 20").Click();
+        cut.FindAll("button").First(b => b.FirstElementChild?.TextContent.Trim() == "Fri 20").Click();
 
         Assert.Equal(new DateTime(2026, 3, 20), date);
         Assert.Null(view);
@@ -156,7 +156,7 @@ public class TwCalendarEnabledViewsTests : TwBlazorTestBase
         var cut = Render(TwCalendarView.Week, null, p => p
             .Add(x => x.ViewChanged, EventCallback.Factory.Create<TwCalendarView>(this, v => view = v)));
 
-        cut.FindAll("button").First(b => b.TextContent.Trim() == "Fri 20").Click();
+        cut.FindAll("button").First(b => b.FirstElementChild?.TextContent.Trim() == "Fri 20").Click();
 
         Assert.Equal(TwCalendarView.Day, view);
     }

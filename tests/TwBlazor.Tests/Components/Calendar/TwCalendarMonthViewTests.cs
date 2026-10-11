@@ -175,4 +175,26 @@ public class TwCalendarMonthViewTests : TwBlazorTestBase
 
         Assert.DoesNotContain("more", cut.Markup);
     }
+
+    [Fact]
+    public void EventRows_CompactOnAPhone_AndKeepTheTimeInTheirAccessibleName()
+    {
+        // Arrange & Act
+        var day = new DateTime(2026, 3, 18);
+        var cut = TestContext.Render<TwCalendarMonthView<string>>(p => p
+            .Add(x => x.Date, day)
+            .Add(x => x.Schedules, [Event("Standup", day, 9, 10)]));
+
+        // Assert - a month cell is only a few characters wide on a phone
+        var row = cut.Find("button[aria-label^='Standup']");
+        Assert.Contains("text-start", row.ClassList);
+        Assert.Contains("max-sm:border-l-2", row.ClassList);
+        Assert.Contains("max-sm:px-0.5", row.ClassList);
+        Assert.Contains("max-sm:text-[10px]", row.Children[0].ClassList);
+        Assert.Contains("max-sm:hidden", row.Children[1].ClassList);
+
+        // The start time is hidden visually on a phone, so it must still be spoken
+        Assert.Contains("09:00", row.GetAttribute("aria-label"));
+        Assert.Contains("max-sm:p-0.5", row.Closest("td")!.ClassList);
+    }
 }

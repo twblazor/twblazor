@@ -113,6 +113,12 @@ public partial class TwCalendarDayColumn<T> : TwBlazorComponentBase, IAsyncDispo
     /// </summary>
     [Parameter] public DateTime? DropPreview { get; set; }
 
+    /// <summary>
+    /// Gets or sets whether event chips tighten up on a phone. Set by the Week view, where seven columns
+    /// share the screen; the Day view's single column has room for the full chip.
+    /// </summary>
+    [Parameter] public bool Compact { get; set; }
+
     private string columnClasses => new ClassBuilder(options.Theme.Position.Relative)
         .AddClass(options.Theme.Display.Flex)
         .AddClass(options.Theme.Flexbox.Col)
@@ -152,6 +158,7 @@ public partial class TwCalendarDayColumn<T> : TwBlazorComponentBase, IAsyncDispo
     }
 
     private string GetChipClasses(Schedule<T> evt) => new ClassBuilder(theme.EventChip)
+        .AddClass(theme.EventChipCompact, Compact)
         .AddClass(theme.EventChipReadOnly, evt.ReadOnly || !Editable)
         .AddClass(theme.EventChipDraggable, IsDraggable(evt))
         .AddClass(options.Theme.Interaction.PointerEventsNone, DraggedEvent is not null)
@@ -186,9 +193,13 @@ public partial class TwCalendarDayColumn<T> : TwBlazorComponentBase, IAsyncDispo
         }
     }
 
-    private string chipTitleClasses => new ClassBuilder(theme.EventChipTitle).Build();
+    private string chipTitleClasses => new ClassBuilder(theme.EventChipTitle)
+        .AddClass(theme.EventChipTitleCompact, Compact)
+        .Build();
 
-    private string chipTimeClasses => new ClassBuilder(theme.EventChipTime).Build();
+    private string chipTimeClasses => new ClassBuilder(theme.EventChipTime)
+        .AddClass(theme.EventChipTimeCompact, Compact)
+        .Build();
 
     /// <summary>
     /// The event's start time (e.g. "9:00 AM"), shown as the card's subtitle line below its name.
