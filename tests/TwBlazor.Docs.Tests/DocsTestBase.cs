@@ -1,5 +1,4 @@
 using Bunit;
-using System.Globalization;
 using TwBlazor.Configuration;
 using ThemeBase = TwBlazor.Theme.Theme;
 
@@ -21,7 +20,7 @@ public class DocsTestBase
         Theme = ThemeBase.CreateDefaultTheme();
 
         // Pinned so the text and date formats that pages render do not depend on the machine's culture.
-        TestContext.Services.AddTwBlazor(options => options.Localization.Culture = CultureInfo.GetCultureInfo("en-GB"), Theme);
+        TestContext.Services.AddTwBlazor(options => options.Localization.Culture = TestCultures.British, Theme);
 
         // Loose mode lets unconfigured JS interop calls (e.g. the theme toggle or code highlighting a docs
         // page fires from OnAfterRenderAsync) return their default value instead of throwing, so tests
