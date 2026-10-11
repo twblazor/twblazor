@@ -20,8 +20,8 @@
             {
                 <TwIcon Icon="Icon.Search" OnClick="OnSearchClickedAsync" AriaLabel="@localizer[TwStrings.Calendar_SearchEvents]" Tooltip="@localizer[TwStrings.Calendar_SearchEvents]" Class="@theme.SearchButton" />
             }
-            <TwIcon Icon="Icon.Chevron_Left" OnClick="PreviousAsync" AriaLabel="@previousTooltip" Tooltip="@previousTooltip" Class="@GetNavButtonClasses()" />
-            <TwIcon Icon="Icon.Chevron_Right" OnClick="NextAsync" AriaLabel="@nextTooltip" Tooltip="@nextTooltip" Class="@GetNavButtonClasses()" />
+            <TwIcon Icon="Icon.Chevron_Left" OnClick="PreviousAsync" AriaLabel="@localizer[TwStrings.Common_Previous]" Tooltip="@previousTooltip" Class="@GetNavButtonClasses()" />
+            <TwIcon Icon="Icon.Chevron_Right" OnClick="NextAsync" AriaLabel="@localizer[TwStrings.Common_Next]" Tooltip="@nextTooltip" Class="@GetNavButtonClasses()" />
             @if (showViewSwitcher)
             {
             <div class="@viewSwitcherClasses" role="group" aria-label="@localizer[TwStrings.Calendar_SelectView]">

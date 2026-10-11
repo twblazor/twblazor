@@ -32,7 +32,7 @@ public class TwCalendarMonthSpanTests : TwBlazorTestBase
             .Add(x => x.Schedules, [.. events]));
 
     private static AngleSharp.Dom.IElement CellOf(IRenderedComponent<TwCalendarMonthView<string>> cut, DateTime day) =>
-        cut.Find($"button[aria-label='{day:MMMM d, yyyy}']").Closest("td")!;
+        cut.Find($"button[aria-label='{day:dddd, d MMMM yyyy}']").Closest("td")!;
 
     [Fact]
     public void MultiDayEvent_IsOneBar_StartingInItsFirstDaysCell()

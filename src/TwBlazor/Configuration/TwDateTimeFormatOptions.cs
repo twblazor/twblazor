@@ -59,7 +59,7 @@ public class TwDateTimeFormatOptions
     public string? MonthYear { get; set; }
 
     /// <summary>
-    /// Gets or sets the format of a day and month without the year. Defaults to the culture month day pattern.
+    /// Gets or sets the format of a day and month without the year. Defaults to <c>d MMM</c>.
     /// </summary>
     public string? MonthDay { get; set; }
 

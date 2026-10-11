@@ -745,7 +745,7 @@
   </data>
   <data name="Format_MonthDay" xml:space="preserve">
     <value></value>
-    <comment>Optional .NET format string for a day and month without the year (for example d MMMM). Leave empty to use the culture month day pattern.</comment>
+    <comment>Optional .NET format string for a day and month without the year (for example d MMMM). Leave empty to use d MMM.</comment>
   </data>
   <data name="Format_Month" xml:space="preserve">
     <value></value>

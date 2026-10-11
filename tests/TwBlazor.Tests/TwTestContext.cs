@@ -40,7 +40,7 @@ public class TwBlazorTestBase
         Theme = ThemeBase.CreateDefaultTheme();
 
         // Pinned so the text, date formats and week start that tests assert on do not depend on the machine's culture.
-        TestContext.Services.AddTwBlazor(options => options.Localization.Culture = CultureInfo.GetCultureInfo("en-US"), Theme);
+        TestContext.Services.AddTwBlazor(options => options.Localization.Culture = CultureInfo.GetCultureInfo("en-GB"), Theme);
 
         // Loose mode lets unconfigured JS interop calls (e.g. twDevice.prefersNativePicker fired from
         // picker components' OnAfterRenderAsync) return their default value instead of throwing, so

@@ -411,11 +411,11 @@ public class TwDatePickerDayViewTests : TwBlazorTestBase
 
         // Assert
         Assert.Contains(Theme.Components.Require<TwBlazor.Configuration.Components.TwDatePickerTheme>().SelectedClass, startButton.GetAttribute("class"));
-        Assert.Equal("Start of selected range, November 10, 2025", startButton.GetAttribute("aria-label"));
+        Assert.Equal("Start of selected range, Monday, 10 November 2025", startButton.GetAttribute("aria-label"));
         Assert.Equal("true", startButton.GetAttribute("aria-pressed"));
 
         Assert.Contains(Theme.Components.Require<TwBlazor.Configuration.Components.TwDatePickerTheme>().SelectedClass, endButton.GetAttribute("class"));
-        Assert.Equal("End of selected range, November 20, 2025", endButton.GetAttribute("aria-label"));
+        Assert.Equal("End of selected range, Thursday, 20 November 2025", endButton.GetAttribute("aria-label"));
         Assert.Equal("true", endButton.GetAttribute("aria-pressed"));
     }
 
@@ -438,7 +438,7 @@ public class TwDatePickerDayViewTests : TwBlazorTestBase
 
         // Assert
         Assert.Contains(datePickerTheme.RangeClass, midButton.GetAttribute("class"));
-        Assert.Equal("In selected range, November 15, 2025", midButton.GetAttribute("aria-label"));
+        Assert.Equal("In selected range, Saturday, 15 November 2025", midButton.GetAttribute("aria-label"));
         Assert.DoesNotContain(Theme.Components.Require<TwBlazor.Configuration.Components.TwDatePickerTheme>().SelectedClass, midButton.GetAttribute("class"));
     }
 

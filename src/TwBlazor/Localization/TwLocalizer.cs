@@ -88,28 +88,31 @@ public class TwLocalizer : ITwLocalizer
         var configured = _localization.Formats;
         var pattern = format.DateTimeFormat;
 
+        // The invariant culture's patterns are US style, so an application that has not chosen a culture gets British ones.
+        var british = string.IsNullOrEmpty(format.Name);
+
         var timeInput = configured.TimeInput ?? Resource(TwStrings.Format_TimeInput);
         var configuredShortTime = configured.ShortTime ?? Resource(TwStrings.Format_ShortTime);
         var shortTime = configuredShortTime ?? configured.Use12HourClock switch
         {
             true => "h:mm tt",
             false => "HH:mm",
-            null => pattern.ShortTimePattern
+            null => british ? "HH:mm" : pattern.ShortTimePattern
         };
         var use12HourClock = configured.Use12HourClock ?? TwDateTimeFormats.Is12HourPattern(shortTime);
 
         return new TwDateTimeFormats
         {
             Culture = format,
-            FirstDayOfWeek = configured.FirstDayOfWeek ?? pattern.FirstDayOfWeek,
+            FirstDayOfWeek = configured.FirstDayOfWeek ?? (british ? DayOfWeek.Monday : pattern.FirstDayOfWeek),
             Use12HourClock = use12HourClock,
             Use12HourInput = configured.Use12HourClock ?? (timeInput is not null && TwDateTimeFormats.Is12HourPattern(timeInput)),
             ShortTime = shortTime,
             Hour = configured.Hour ?? Resource(TwStrings.Format_Hour) ?? (use12HourClock ? "h tt" : "HH:mm"),
-            LongDate = configured.LongDate ?? Resource(TwStrings.Format_LongDate) ?? pattern.LongDatePattern,
+            LongDate = configured.LongDate ?? Resource(TwStrings.Format_LongDate) ?? (british ? "dddd, d MMMM yyyy" : pattern.LongDatePattern),
             MediumDate = configured.MediumDate ?? Resource(TwStrings.Format_MediumDate) ?? "d MMM yyyy",
-            MonthYear = configured.MonthYear ?? Resource(TwStrings.Format_MonthYear) ?? pattern.YearMonthPattern,
-            MonthDay = configured.MonthDay ?? Resource(TwStrings.Format_MonthDay) ?? pattern.MonthDayPattern,
+            MonthYear = configured.MonthYear ?? Resource(TwStrings.Format_MonthYear) ?? (british ? "MMMM yyyy" : pattern.YearMonthPattern),
+            MonthDay = configured.MonthDay ?? Resource(TwStrings.Format_MonthDay) ?? "d MMM",
             Month = configured.Month ?? Resource(TwStrings.Format_Month) ?? "MMMM",
             ShortMonth = configured.ShortMonth ?? Resource(TwStrings.Format_ShortMonth) ?? "MMM",
             Year = configured.Year ?? Resource(TwStrings.Format_Year) ?? "yyyy",

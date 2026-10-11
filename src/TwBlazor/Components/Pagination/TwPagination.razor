@@ -16,7 +16,7 @@
             {
                 <li>
                     <TwButton Type="button" Class="@IsActivePage(pageNumber)" Plain OnClick="() => OnPageClick(pageNumber)" aria-current="@(pageNumber == ActivePage ? "page" : null)">
-                        <span class="@options.Theme.Display.ScreenReaderOnly">@localizer[TwStrings.Pagination_PagePrefix] </span>@pageNumber
+                        <span class="@options.Theme.Display.ScreenReaderOnly">@($"{localizer[TwStrings.Pagination_PagePrefix]} ")</span>@pageNumber
                     </TwButton>
                 </li>
             }

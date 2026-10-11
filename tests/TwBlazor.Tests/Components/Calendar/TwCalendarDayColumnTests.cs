@@ -45,9 +45,9 @@ public class TwCalendarDayColumnTests : TwBlazorTestBase
 
         var slots = Slots(cut);
         Assert.Equal(48, slots.Count);
-        Assert.Equal(_day.ToString("h:mm tt"), slots[0].GetAttribute("aria-label"));
-        Assert.Equal(_day.AddMinutes(23 * 60 + 30).ToString("h:mm tt"), slots[47].GetAttribute("aria-label"));
-        Assert.Equal(_day.ToString("dddd, MMMM d"), cut.Find("[role='group']").GetAttribute("aria-label"));
+        Assert.Equal(_day.ToString("HH:mm"), slots[0].GetAttribute("aria-label"));
+        Assert.Equal(_day.AddMinutes(23 * 60 + 30).ToString("HH:mm"), slots[47].GetAttribute("aria-label"));
+        Assert.Equal(_day.ToString("dddd, d MMMM yyyy"), cut.Find("[role='group']").GetAttribute("aria-label"));
     }
 
     [Fact]
@@ -192,7 +192,7 @@ public class TwCalendarDayColumnTests : TwBlazorTestBase
         Assert.Contains("left:0%;", chip.GetAttribute("style"));
         Assert.Contains("width:100%;", chip.GetAttribute("style"));
         Assert.Contains("Standup", chip.TextContent);
-        Assert.Contains("9:00 AM", chip.TextContent);
+        Assert.Contains("09:00", chip.TextContent);
     }
 
     [Fact]
@@ -201,7 +201,7 @@ public class TwCalendarDayColumnTests : TwBlazorTestBase
         var evt = Event("Standup", _day.AddHours(9), _day.AddHours(10));
         var cut = Render(p => p.Add(x => x.Events, [evt]));
 
-        Assert.Equal($"Standup, {evt.DateTimeStart:h:mm tt} to {evt.DateTimeEnd:h:mm tt}", Chips(cut).Single().GetAttribute("aria-label"));
+        Assert.Equal($"Standup, {evt.DateTimeStart:HH:mm} to {evt.DateTimeEnd:HH:mm}", Chips(cut).Single().GetAttribute("aria-label"));
     }
 
     [Fact]
@@ -270,7 +270,7 @@ public class TwCalendarDayColumnTests : TwBlazorTestBase
         var chip = Chips(cut).Single();
 
         Assert.Equal("custom Standup", chip.QuerySelector("em")!.TextContent);
-        Assert.DoesNotContain("9:00 AM", chip.TextContent);
+        Assert.DoesNotContain("09:00", chip.TextContent);
     }
 
     [Fact]
@@ -381,7 +381,7 @@ public class TwCalendarDayColumnTests : TwBlazorTestBase
         Assert.Contains("top:84rem;", placeholder.GetAttribute("style"));
         Assert.Contains("height:12rem;", placeholder.GetAttribute("style"));
         Assert.Contains("Moving", placeholder.TextContent);
-        Assert.Contains("2:00 PM", placeholder.TextContent);
+        Assert.Contains("14:00", placeholder.TextContent);
     }
 
     [Fact]
