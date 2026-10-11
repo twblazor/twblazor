@@ -38,6 +38,17 @@ public partial class TwProgress<T> : TwBlazorInputComponentBase
     [Parameter] public bool Indeterminate { get; set; }
 
     /// <summary>
+    /// Gets or sets whether a shimmer animation sweeps across the filled portion of the progress bar to show
+    /// that work is ongoing.
+    /// </summary>
+    /// <remarks>
+    /// Purely decorative: it does not change the value, role or busy state announced to assistive technology,
+    /// and it is suppressed for users who prefer reduced motion. It has no effect while
+    /// <see cref="Indeterminate"/> is <c>true</c>.
+    /// </remarks>
+    [Parameter] public bool Animated { get; set; }
+
+    /// <summary>
     /// Gets or sets the color of the progress bar's filled portion.
     /// </summary>
     /// <remarks>
@@ -74,6 +85,11 @@ public partial class TwProgress<T> : TwBlazorInputComponentBase
     /// (rendering an indeterminate progress bar) when <see cref="Indeterminate"/> is <c>true</c>.
     /// </summary>
     private object? progressValue => Indeterminate ? null : Value;
+
+    /// <summary>
+    /// Gets whether the shimmer overlay is rendered. An indeterminate bar has no filled portion to shimmer over.
+    /// </summary>
+    private bool showShimmer => Animated && !Indeterminate;
 
     /// <summary>
     /// Gets the combined aria-describedby value from <see cref="AriaDescribedBy"/> and the base class's validation error id, or <c>null</c> if neither applies.

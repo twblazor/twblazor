@@ -3333,6 +3333,11 @@
     transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
     transition-duration: var(--tw-duration, var(--default-transition-duration));
   }
+  .transition-\[width\] {
+    transition-property: width;
+    transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+    transition-duration: var(--tw-duration, var(--default-transition-duration));
+  }
   .transition-colors {
     transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to;
     transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
@@ -3375,6 +3380,9 @@
   }
   .\[--scroll-offset\:56px\] {
     --scroll-offset: 56px;
+  }
+  .\[--tw-wave-color\:rgb\(255_255_255\/0\.7\)\] {
+    --tw-wave-color: rgb(255 255 255/0.7);
   }
   .\[animation-iteration-count\:1\] {
     animation-iteration-count: 1;
@@ -5170,6 +5178,9 @@
       --tw-ring-color: color-mix(in oklab, var(--color-purple-400) 30%, transparent);
     }
   }
+  .dark\:\[--tw-wave-color\:rgb\(255_255_255\/0\.4\)\]:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+    --tw-wave-color: rgb(255 255 255/0.4);
+  }
   .dark\:peer-checked\:bg-blue-500:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)):is(:where(.peer):checked ~ *) {
     background-color: var(--color-blue-500);
   }
@@ -6052,7 +6063,7 @@ html, body {
   font-weight: 900;
   src: url('../fonts/source-sans-3-v19-latin-900.woff2') format('woff2');
 }
-@keyframes tw-skeleton-wave {
+@keyframes tw-wave {
   0% {
     transform: translateX(-100%);
   }
@@ -6060,16 +6071,16 @@ html, body {
     transform: translateX(100%);
   }
 }
-.tw-skeleton-wave::after {
+.tw-wave::after {
   content: "";
   position: absolute;
   inset: 0;
   transform: translateX(-100%);
-  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 40%), transparent);
-  animation: tw-skeleton-wave 1.6s linear infinite;
+  background: linear-gradient(90deg, transparent, var(--tw-wave-color, rgb(255 255 255 / 40%)), transparent);
+  animation: tw-wave 1.6s linear infinite;
 }
-.dark .tw-skeleton-wave::after {
-  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 8%), transparent);
+.dark .tw-wave::after {
+  background: linear-gradient(90deg, transparent, var(--tw-wave-color, rgb(255 255 255 / 8%)), transparent);
 }
 .tw-icon-pulse::after {
   content: "";
@@ -6088,6 +6099,9 @@ html, body {
   transition: transform 120ms ease-out, opacity 80ms ease-out;
 }
 @media (prefers-reduced-motion: reduce) {
+  .tw-wave::after {
+    animation: none;
+  }
   .tw-icon-pulse::after {
     transition: none;
   }

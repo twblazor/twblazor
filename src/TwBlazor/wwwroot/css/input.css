@@ -19,10 +19,12 @@
    twblazor.css duplicate that entire default theme's classes, defeating the point of the split - the
    docs site's own input.css scans it separately, so twblazor.com keeps full styling regardless. */
 
-/* TwSkeleton's Wave animation: Tailwind has no built-in shimmer utility, so this sweeps a translucent
-   gradient across the placeholder via ::after. Requires the placeholder itself to be "relative
-   overflow-hidden" (set on TwSkeletonTheme.Base) so the gradient is clipped to its bounds. */
-@keyframes tw-skeleton-wave {
+/* Shared wave shimmer, used by TwSkeleton's Wave animation and TwProgress's Animated option: Tailwind
+   has no built-in shimmer utility, so this sweeps a translucent gradient across the element via
+   ::after. Requires the element itself to be positioned and "overflow-hidden" (set on
+   TwSkeletonTheme.Base and TwProgressTheme.Animated) so the gradient is clipped to its bounds. The
+   shimmer colour can be overridden per element with the --tw-wave-color custom property. */
+@keyframes tw-wave {
     0% {
         transform: translateX(-100%);
     }
@@ -33,17 +35,17 @@
     }
 }
 
-.tw-skeleton-wave::after {
+.tw-wave::after {
     content: "";
     position: absolute;
     inset: 0;
     transform: translateX(-100%);
-    background: linear-gradient(90deg, transparent, rgb(255 255 255 / 40%), transparent);
-    animation: tw-skeleton-wave 1.6s linear infinite;
+    background: linear-gradient(90deg, transparent, var(--tw-wave-color, rgb(255 255 255 / 40%)), transparent);
+    animation: tw-wave 1.6s linear infinite;
 }
 
-.dark .tw-skeleton-wave::after {
-    background: linear-gradient(90deg, transparent, rgb(255 255 255 / 8%), transparent);
+.dark .tw-wave::after {
+    background: linear-gradient(90deg, transparent, var(--tw-wave-color, rgb(255 255 255 / 8%)), transparent);
 }
 
 .tw-icon-pulse::after {
@@ -65,6 +67,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+    .tw-wave::after {
+        animation: none;
+    }
+
     .tw-icon-pulse::after {
         transition: none;
     }

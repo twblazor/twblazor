@@ -157,6 +157,97 @@ public class TwProgressTests : TwBlazorTestBase
     }
 
     [Fact]
+    public void TwProgress_Animated_AppliesAnimatedThemeClasses()
+    {
+        // Arrange
+        var progressTheme = Theme.Components.Require<TwProgressTheme>();
+
+        // Act
+        var cut = TestContext.Render<TwProgress<int>>(parameters => parameters
+            .Add(p => p.Animated, true)
+            .Add(p => p.Value, 40)
+            .Add(p => p.Max, 100));
+
+        // Assert - the shimmer is a decorative overlay sized to the filled portion, not a class on the bar
+        var overlay = cut.Find("progress + span");
+        Assert.Equal(progressTheme.Animated, overlay.GetAttribute("class"));
+        Assert.Contains("tw-wave", overlay.GetAttribute("class"));
+        Assert.Equal("width: 40%", overlay.GetAttribute("style"));
+        Assert.Equal("true", overlay.GetAttribute("aria-hidden"));
+        Assert.DoesNotContain("tw-wave", cut.Find("progress").GetAttribute("class"));
+    }
+
+    [Fact]
+    public void TwProgress_Animated_SizesOverlayToClampedPercentage()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwProgress<int>>(parameters => parameters
+            .Add(p => p.Animated, true)
+            .Add(p => p.Value, 150)
+            .Add(p => p.Max, 100));
+
+        // Assert
+        Assert.Equal("width: 100%", cut.Find("progress + span").GetAttribute("style"));
+    }
+
+    [Fact]
+    public void TwProgress_NotAnimated_DoesNotRenderShimmerOverlay()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwProgress<int>>(parameters => parameters
+            .Add(p => p.Value, 40)
+            .Add(p => p.Max, 100));
+
+        // Assert
+        Assert.Empty(cut.FindAll("progress + span"));
+    }
+
+    [Fact]
+    public void TwProgress_Animated_DoesNotRenderShimmerOverlay_WhenIndeterminate()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwProgress<int>>(parameters => parameters
+            .Add(p => p.Animated, true)
+            .Add(p => p.Indeterminate, true)
+            .Add(p => p.Max, 100));
+
+        // Assert
+        Assert.Empty(cut.FindAll("progress + span"));
+    }
+
+    [Fact]
+    public void TwProgress_RendersWrapper_WithThemeClasses()
+    {
+        // Arrange
+        var progressTheme = Theme.Components.Require<TwProgressTheme>();
+
+        // Act
+        var cut = TestContext.Render<TwProgress<int>>(parameters => parameters
+            .Add(p => p.Value, 40)
+            .Add(p => p.Max, 100));
+
+        // Assert
+        var wrapper = cut.Find("progress").ParentElement;
+        Assert.NotNull(wrapper);
+        Assert.Equal(progressTheme.Wrapper, wrapper.GetAttribute("class"));
+    }
+
+    [Fact]
+    public void TwProgress_Animated_DoesNotChangeValueOrAriaBusy()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwProgress<int>>(parameters => parameters
+            .Add(p => p.Animated, true)
+            .Add(p => p.Value, 40)
+            .Add(p => p.Max, 100));
+
+        // Assert
+        var progress = cut.Find("progress");
+        Assert.Equal("40", progress.GetAttribute("value"));
+        Assert.False(progress.HasAttribute("aria-busy"));
+    }
+
+    [Fact]
     public void TwProgress_Indeterminate_DefaultsAriaBusy_ToTrue()
     {
         // Arrange & Act
