@@ -28,11 +28,14 @@
 
 ## Why twblazor?
 
-Most Blazor component libraries make you fight their built-in CSS the moment you want something to look different. We built twblazor so customising a component feels like customising your own markup: every component is styled with plain Tailwind CSS classes, all gathered in one typed theme file.
-
-Change a color, spacing or radius, and with Tailwind + hot reload you see it straight away. There is no digging through component internals to find what to change.
-
-twblazor is open source under the MIT license, free for personal and commercial projects. It is actively maintained, with new components, accessibility fixes and documentation landing regularly, and we welcome contributions, issues and feedback from everyone using it.
+- Every component is styled with plain Tailwind CSS classes, so there is no built-in CSS to fight when you want something to look different.
+- All styles live in one typed theme file. Change a color, spacing or radius there without digging through component internals.
+- See your changes straight away with Tailwind and hot reload.
+- Built-in class merging: a `Class` you pass to a component replaces the theme's conflicting utility instead of both reaching the element.
+- Accessibility comes first, with ARIA attributes and keyboard navigation built into the components.
+- Open source under the MIT license, free for personal and commercial projects.
+- Actively maintained, with new components, accessibility fixes and documentation landing regularly.
+- Contributions, issues and feedback are welcome from everyone using it.
 
 Using twblazor in your own project? Share it [here](https://github.com/TwBlazor/twblazor/discussions/81). We would love to see what you're building!
 
@@ -66,12 +69,13 @@ builder.Services.AddTwBlazor(options =>
 
 See the [Class Merge docs](https://twblazor.com/class-merge) for every rule and option.
 
-## Supported Versions
+## Supported .NET Versions
+
+All our packages currently support and built in .NET 10.
 
 | Version      | Supported          | .NET    |
 | ------------ | ------------------ | ------- |
-| 1.9 - 1.10+  | :white_check_mark: | .NET 10 |
-| < 1.9        | :x:                | .NET 10 |
+| *            | :white_check_mark: | .NET 10 |
 
 ## Dependencies 
 
