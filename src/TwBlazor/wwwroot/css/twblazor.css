@@ -4754,7 +4754,7 @@
     background-color: oklch(23.26% 0.014 253.1);
   }
 }
-@keyframes tw-skeleton-wave {
+@keyframes tw-wave {
   0% {
     transform: translateX(-100%);
   }
@@ -4762,16 +4762,16 @@
     transform: translateX(100%);
   }
 }
-.tw-skeleton-wave::after {
+.tw-wave::after {
   content: "";
   position: absolute;
   inset: 0;
   transform: translateX(-100%);
-  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 40%), transparent);
-  animation: tw-skeleton-wave 1.6s linear infinite;
+  background: linear-gradient(90deg, transparent, var(--tw-wave-color, rgb(255 255 255 / 40%)), transparent);
+  animation: tw-wave 1.6s linear infinite;
 }
-.dark .tw-skeleton-wave::after {
-  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 8%), transparent);
+.dark .tw-wave::after {
+  background: linear-gradient(90deg, transparent, var(--tw-wave-color, rgb(255 255 255 / 8%)), transparent);
 }
 .tw-icon-pulse::after {
   content: "";
@@ -4790,6 +4790,9 @@
   transition: transform 120ms ease-out, opacity 80ms ease-out;
 }
 @media (prefers-reduced-motion: reduce) {
+  .tw-wave::after {
+    animation: none;
+  }
   .tw-icon-pulse::after {
     transition: none;
   }

@@ -1133,7 +1133,9 @@ public static class Theme
                     Base = $"{display.Block} {overflow.Hidden} {sizing.FullWidth} {sizing.MinWidthNone} tabular-nums {neutralTrackStrong} {rounded.Full} {borderWidth.Thin} {neutralSurface.BorderStrong} forced-colors:[&::-webkit-progress-value]:bg-[Highlight] forced-colors:[&::-moz-progress-bar]:bg-[Highlight] indeterminate:animate-pulse indeterminate:motion-reduce:animate-none appearance-none [&::-webkit-progress-bar]:rounded-full [&::-webkit-progress-bar]:bg-transparent [&::-webkit-progress-value]:rounded-full [&::-webkit-progress-value]:transition-[width] [&::-webkit-progress-value]:{transition.DurationSlow} [&::-moz-progress-bar]:rounded-full [&::-moz-progress-bar]:transition-[width] [&::-moz-progress-bar]:{transition.DurationSlow}",
                     Small = "h-1.5",
                     Medium = "h-2.5",
-                    Large = "h-4"
+                    Large = "h-4",
+                    Wrapper = $"{positioning.Relative} {display.Block}",
+                    Animated = $"{positioning.Absolute} inset-y-0 start-0 {overflow.Hidden} {rounded.Full} {interaction.PointerEventsNone} transition-[width] {transition.DurationSlow} tw-wave [--tw-wave-color:rgb(255_255_255/0.7)] dark:[--tw-wave-color:rgb(255_255_255/0.4)]"
                 },
                 new TwTabTheme
                 {
@@ -1155,7 +1157,7 @@ public static class Theme
                     Rectangle = $"{sizing.FullWidth} h-24",
                     MeasuringWrapper = "invisible",
                     Pulse = "animate-pulse motion-reduce:animate-none",
-                    Wave = "tw-skeleton-wave"
+                    Wave = "tw-wave"
                 },
                 new TwSidebarTheme
                 {

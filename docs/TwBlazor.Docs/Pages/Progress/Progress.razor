@@ -55,6 +55,14 @@
         </CodeExample>
     </PageCard>
 
+    <PageCard Title="Animated">
+        <Description>Set <code>Animated</code> to sweep a shimmer across the filled portion of the bar while work is ongoing. It is decorative only - the announced value is unchanged - and it is switched off for users who prefer reduced motion.</Description>
+
+        <CodeExample Name="ProgressAnimated">
+            <TwProgress T="int" Id="animated-progress" Label="Uploading..." Value="60" Max="100" Size="ProgressSize.Large" Animated />
+        </CodeExample>
+    </PageCard>
+
     <PageCard Title="Interactive">
         <Description>Drive <code>Value</code> from your own component state - there's no built-in user interaction, so the bar only moves when your code updates it.</Description>
 

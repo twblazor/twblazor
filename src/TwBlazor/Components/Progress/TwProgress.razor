@@ -4,16 +4,19 @@
 
 <TwInputRoot RootId="@RootId" RootClass="@RootClass" RootAttributes="@RootAttributes" RootStyle="@Style" RootAriaLabel="@AriaLabel" RootAriaLabelledBy="@AriaLabelledBy" RootErrorMessage="@ErrorMessage" RootErrorId="@errorId">
     <TwInputLabel Id="@LabelId" For="@Id" Label="@Label" Class="@LabelClass" @attributes="@LabelAttributes" />
-    <progress id="@Id"
-              value="@progressValue"
-              max="@Max"
-              class="@classes"
-              aria-label="@AriaLabel"
-              aria-labelledby="@AriaLabelledBy"
-              aria-describedby="@describedByIds"
-              aria-invalid="@(Invalid ? "true" : null)"
-              aria-busy="@(effectiveAriaBusy ? "true" : null)"
-              @attributes="Attributes">
-        @(Indeterminate ? "Loading..." : $"{percentageText}%")
-    </progress>
+    <span class="@wrapperClasses">
+        <progress id="@Id"
+                  value="@progressValue"
+                  max="@Max"
+                  class="@classes"
+                  aria-label="@AriaLabel"
+                  aria-labelledby="@AriaLabelledBy"
+                  aria-describedby="@describedByIds"
+                  aria-invalid="@ariaInvalid"
+                  aria-busy="@ariaBusy"
+                  @attributes="Attributes">
+            @fallbackText
+        </progress>
+        @shimmer
+    </span>
 </TwInputRoot>

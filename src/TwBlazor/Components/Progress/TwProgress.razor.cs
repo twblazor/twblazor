@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Rendering;
 using System.Globalization;
 using TwBlazor.Builders;
 using TwBlazor.Configuration.Components;
@@ -36,6 +37,17 @@ public partial class TwProgress<T> : TwBlazorInputComponentBase
     /// how the HTML spec distinguishes an indeterminate progress bar from one that is determinately at 0%.
     /// </remarks>
     [Parameter] public bool Indeterminate { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether a shimmer animation sweeps across the filled portion of the progress bar to show
+    /// that work is ongoing.
+    /// </summary>
+    /// <remarks>
+    /// Purely decorative: it does not change the value, role or busy state announced to assistive technology,
+    /// and it is suppressed for users who prefer reduced motion. It has no effect while
+    /// <see cref="Indeterminate"/> is <c>true</c>.
+    /// </remarks>
+    [Parameter] public bool Animated { get; set; }
 
     /// <summary>
     /// Gets or sets the color of the progress bar's filled portion.
@@ -74,6 +86,55 @@ public partial class TwProgress<T> : TwBlazorInputComponentBase
     /// (rendering an indeterminate progress bar) when <see cref="Indeterminate"/> is <c>true</c>.
     /// </summary>
     private object? progressValue => Indeterminate ? null : Value;
+
+    /// <summary>
+    /// Gets whether the shimmer overlay is rendered. An indeterminate bar has no filled portion to shimmer over.
+    /// </summary>
+    private bool showShimmer => Animated && !Indeterminate;
+
+    /// <summary>
+    /// Gets the classes applied to the element wrapping the &lt;progress&gt; element.
+    /// </summary>
+    private string wrapperClasses => theme.Wrapper;
+
+    /// <summary>
+    /// Gets the fragment that renders the shimmer overlay.
+    /// </summary>
+    private RenderFragment shimmer => RenderShimmer;
+
+    /// <summary>
+    /// Renders the decorative shimmer overlay, sized to the filled portion of the bar, when
+    /// <see cref="showShimmer"/> is <c>true</c>.
+    /// </summary>
+    /// <param name="builder">The builder the overlay is rendered into.</param>
+    private void RenderShimmer(RenderTreeBuilder builder)
+    {
+        if (!showShimmer)
+        {
+            return;
+        }
+
+        builder.OpenElement(0, "span");
+        builder.AddAttribute(1, "class", theme.Animated);
+        builder.AddAttribute(2, "style", $"width: {percentageText}%");
+        builder.AddAttribute(3, "aria-hidden", "true");
+        builder.CloseElement();
+    }
+
+    /// <summary>
+    /// Gets the aria-invalid value, or <c>null</c> to omit the attribute when the progress bar is valid.
+    /// </summary>
+    private string? ariaInvalid => Invalid ? "true" : null;
+
+    /// <summary>
+    /// Gets the aria-busy value, or <c>null</c> to omit the attribute when the progress bar is not busy.
+    /// </summary>
+    private string? ariaBusy => effectiveAriaBusy ? "true" : null;
+
+    /// <summary>
+    /// Gets the fallback text content rendered for browsers that don't support &lt;progress&gt;.
+    /// </summary>
+    private string fallbackText => Indeterminate ? "Loading..." : $"{percentageText}%";
 
     /// <summary>
     /// Gets the combined aria-describedby value from <see cref="AriaDescribedBy"/> and the base class's validation error id, or <c>null</c> if neither applies.

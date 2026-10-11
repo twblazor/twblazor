@@ -121,8 +121,8 @@ html, body {
     src: url('../fonts/source-sans-3-v19-latin-900.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
 
-/* Powers TwSkeleton's Wave variant - a shimmer sweep Tailwind has no utility for. */
-@keyframes tw-skeleton-wave {
+/* Powers TwSkeleton's Wave variant and TwProgress's Animated option - a shimmer sweep Tailwind has no utility for. */
+@keyframes tw-wave {
     0% {
         transform: translateX(-100%);
     }
@@ -132,17 +132,17 @@ html, body {
     }
 }
 
-.tw-skeleton-wave::after {
+.tw-wave::after {
     content: "";
     position: absolute;
     inset: 0;
     transform: translateX(-100%);
-    background: linear-gradient(90deg, transparent, rgb(255 255 255 / 40%), transparent);
-    animation: tw-skeleton-wave 1.6s linear infinite;
+    background: linear-gradient(90deg, transparent, var(--tw-wave-color, rgb(255 255 255 / 40%)), transparent);
+    animation: tw-wave 1.6s linear infinite;
 }
 
-.dark .tw-skeleton-wave::after {
-    background: linear-gradient(90deg, transparent, rgb(255 255 255 / 8%), transparent);
+.dark .tw-wave::after {
+    background: linear-gradient(90deg, transparent, var(--tw-wave-color, rgb(255 255 255 / 8%)), transparent);
 }
 
 .tw-icon-pulse::after {
@@ -164,6 +164,10 @@ html, body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+    .tw-wave::after {
+        animation: none;
+    }
+
     .tw-icon-pulse::after {
         transition: none;
     }
