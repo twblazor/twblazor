@@ -16,11 +16,11 @@
     </PageCard>
 
     <PageCard Title="Container tab colors">
-        <Description>Set <code>TabColor</code> on <code>TwTabContainer</code> to colour every tab within it.</Description>
+        <Description>Set <code>TabColor</code> on <code>TwTabContainer</code> to choose the colour of the selected tab's label and underline. Unselected tabs stay neutral, so the selected tab is always the one that stands out.</Description>
         <CodeExample Name="TabContainerColors">
             <TwTabContainer AriaLabel="Example tabs 2" TabColor="Color.Accent">
                 <TwTab Label="Tab 1">
-                    <p>Setting the <code>TabColor</code> property on the <code>TwTabContainer</code> will set the colour for all tabs within that container.</p>
+                    <p>Setting the <code>TabColor</code> property on the <code>TwTabContainer</code> sets the selected colour for every tab within that container.</p>
                 </TwTab>
                 <TwTab Label="Tab 2">
                     <p>This is the content of Tab 2.</p>
@@ -33,11 +33,11 @@
     </PageCard>
 
     <PageCard Title="Single tab colors">
-        <Description>Set <code>Color</code> on an individual <code>TwTab</code> to colour just that tab.</Description>
+        <Description>Set <code>Color</code> on an individual <code>TwTab</code> to give just that tab its own selected colour. Select each tab below to see it.</Description>
         <CodeExample Name="TabColors">
             <TwTabContainer AriaLabel="Example tabs 3">
                 <TwTab Label="Tab 1" Color="Color.Danger">
-                    <p>Setting the <code>Color</code> property on an individual basis will set the colour for each tab.</p>
+                    <p>Setting the <code>Color</code> property on an individual tab sets the colour it uses while it is selected.</p>
                 </TwTab>
                 <TwTab Label="Tab 2" Color="Color.Success">
                     <p>This is the content of Tab 2.</p>

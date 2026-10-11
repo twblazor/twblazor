@@ -602,6 +602,9 @@
   .my-3 {
     margin-block: calc(var(--spacing) * 3);
   }
+  .my-4 {
+    margin-block: calc(var(--spacing) * 4);
+  }
   .my-6 {
     margin-block: calc(var(--spacing) * 6);
   }
@@ -3948,11 +3951,6 @@
       content: var(--tw-content);
       padding: calc(var(--spacing) * 2);
     }
-    .hover\:after\:scale-x-100:hover::after {
-      content: var(--tw-content);
-      --tw-scale-x: 100%;
-      scale: var(--tw-scale-x) var(--tw-scale-y);
-    }
   }
   .focus\:not-sr-only:focus {
     position: static;
@@ -5619,6 +5617,10 @@
     }
     .forced-colors\:peer-focus-visible\:outline-\[Highlight\]:is(:where(.peer):focus-visible ~ *) {
       outline-color: Highlight;
+    }
+    .forced-colors\:after\:bg-\[Highlight\]::after {
+      content: var(--tw-content);
+      background-color: Highlight;
     }
     .forced-colors\:has-\[\:focus-visible\]\:outline-2:has(:is(:focus-visible)) {
       outline-style: var(--tw-outline-style);

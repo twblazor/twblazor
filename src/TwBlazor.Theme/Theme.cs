@@ -1139,14 +1139,14 @@ public static class Theme
                 },
                 new TwTabTheme
                 {
-                    TabBase = $"{positioning.Relative} tracking-wide {typography.Weight.Medium} {typography.Size.Sm} {transition.ColorsFast} {focusRingInset} {interaction.FocusOutlineNone}",
-                    TabPadding = "py-5 px-6",
-                    TabDensePadding = "px-4",
-                    ActiveIndicator = "after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-current after:scale-x-100 after:transition-transform after:duration-200 after:motion-reduce:transition-none",
-                    InactiveIndicator = $"after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 {neutralHoverText} after:bg-current after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-200 after:motion-reduce:transition-none",
-                    DisabledTab = $"{interaction.DisabledOpacity} {interaction.DisabledCursor}",
-                    TabListContainer = $"{display.Flex} {flexbox.Wrap} {borderWidth.Thin} {neutralSurface.Border}",
-                    PanelContainer = $"p-6 border-x border-b {neutralSurface.Border}",
+                    TabBase = $"{positioning.Relative} {display.InlineFlex} {anchor.Center} {typography.Weight.Medium} {typography.Size.Sm} {transition.ColorsFast} {focusRingInset} {interaction.FocusOutlineNone} touch-manipulation",
+                    TabPadding = "px-6 py-3",
+                    TabDensePadding = "px-4 py-2",
+                    ActiveIndicator = "after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-current forced-colors:after:bg-[Highlight] after:scale-x-100 after:transition-transform after:duration-200 after:motion-reduce:transition-none",
+                    InactiveIndicator = $"{neutralText.Muted} {neutralHoverText} {neutralRowHover} after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-current after:scale-x-0 after:transition-transform after:duration-200 after:motion-reduce:transition-none",
+                    DisabledTab = $"{neutralText.Muted} {interaction.DisabledOpacity} {interaction.DisabledCursor}",
+                    TabListContainer = $"{display.Flex} {flexbox.Wrap} {overflow.Hidden} {borderWidth.Thin} {neutralSurface.Border}",
+                    PanelContainer = $"px-6 py-5 border-x border-b {neutralSurface.Border} {focusRingInset} {interaction.FocusOutlineNone}",
                     Background = neutralSurface.Background,
                 },
                 new TwSkeletonTheme
