@@ -1,0 +1,275 @@
+@page "/localization"
+
+<PageContainer Title="Localization" Path="/localization" Category="Configuration" Description="Translate twblazor components and set date and time formats: built in languages, your own .resx files, and options.Localization in AddTwBlazor." SeoTitle="Localization | twblazor - Translate Blazor Components and Format Dates">
+    <PageCard Title="Overview" NoMarginTop>
+        <Description>
+            Every piece of text a twblazor component renders by itself, such as button labels, placeholders, validation messages and the names screen readers announce, comes from a resource file. English is built in and nine more languages ship with the package, so a component follows the language of your application with nothing to set up.
+        </Description>
+        <p class="mb-3">
+            Dates and times are localized the same way. Month and day names, the first day of the week, 12 or 24 hour time and the order of day, month and year all follow the culture, and each one can be set in <code>AddTwBlazor</code>.
+        </p>
+        <p class="mb-3">
+            Text you pass to a component yourself, such as a <code>Label</code> or a column title, is rendered as it is. Translating it stays in your application, with whatever you already use for that.
+        </p>
+    </PageCard>
+
+    <PageCard Title="Supported languages" Id="localization-languages">
+        <Description>
+            The language is chosen from <code>CultureInfo.CurrentUICulture</code>. A regional culture uses its language file, so <code>es-MX</code> and <code>es-AR</code> both use Spanish, and a language that is not in this table falls back to English.
+        </Description>
+        <TwTable Bordered Striped Class="mb-4" AriaLabel="Supported languages">
+            <TableHeader>
+                <tr>
+                    <th scope="col" class="px-4 py-3">Language</th>
+                    <th scope="col" class="px-4 py-3">Culture</th>
+                    <th scope="col" class="px-4 py-3">Resource file</th>
+                    <th scope="col" class="px-4 py-3">Translation</th>
+                </tr>
+            </TableHeader>
+            <TableBody>
+                @foreach (var language in _languages)
+                {
+                    <tr>
+                        <th scope="row" class="px-4 py-3 text-left font-normal">@language.Name</th>
+                        <td class="px-4 py-3"><code>@language.Culture</code></td>
+                        <td class="px-4 py-3"><code>@language.File</code></td>
+                        <td class="px-4 py-3">@language.Source</td>
+                    </tr>
+                }
+            </TableBody>
+        </TwTable>
+        <TwAlert Color="Color.Warning" Class="mb-3">
+            <strong>Translations other than English were produced by AI</strong> and have not been reviewed by native speakers, so some wording may be inaccurate or unnatural. If you spot something that could read better, please <a href="/localization#localization-contributing" class="underline">contribute a correction</a>.
+        </TwAlert>
+    </PageCard>
+
+    <PageCard Title="Choose the language" Id="localization-culture">
+        <Description>
+            twblazor does not pick a language itself. It reads the culture your application is running under, which is what Blazor's own localization sets, so if your application already switches culture the components switch with it.
+        </Description>
+        <p class="mb-3">
+            In Blazor WebAssembly set the culture before the application runs. In a server application use request localization, so each user gets the culture of their request.
+        </p>
+        <TwCodeBlock Content="@_cultureExample" Language="csharp" />
+        <p class="my-3">
+            To pin every component to one culture whatever the application is running under, set <code>Culture</code> on the options. It applies to both the text and the formatting.
+        </p>
+        <TwCodeBlock Content="@_pinExample" Language="csharp" />
+        <p class="my-3">
+            Blazor WebAssembly only downloads the language files for the culture the application starts with. Changing the language while it runs needs a page reload, and <code>BlazorWebAssemblyLoadAllGlobalizationData</code> has to be on for cultures outside the default set. This is how Blazor localization works in general and is not specific to twblazor.
+        </p>
+    </PageCard>
+
+    <PageCard Title="Change or add text with your own resource files" Id="localization-resources">
+        <Description>
+            To reword a string, or to add a language twblazor does not ship, add <code>.resx</code> files to your own project: one neutral file, and one more for each language. The name of each entry is a key from <code>TwStrings</code>, such as <code>Pagination_NextPage</code>.
+        </Description>
+        <TwCodeBlock Content="@_filesExample" Language="text" />
+        <p class="my-3">
+            Then register the file family. Only the keys you want to change need to be there. Anything missing falls back to twblazor's own file for that language, then to English.
+        </p>
+        <TwCodeBlock Content="@_resourceExample" Language="csharp" />
+        <p class="my-3">
+            A value with placeholders keeps them, so <code>Page {0} of {1}</code> becomes <code>Seite {0} von {1}</code>. Text that counts something has a singular and a plural key, such as <code>Sidebar_ResultsOne</code> and <code>Sidebar_ResultsOther</code>.
+        </p>
+        <TwCodeBlock Content="@_resxExample" Language="xml" />
+        <p class="my-3">
+            Several file families can be registered. They are searched last added first. The full list of keys, with the English text of each, is the <code>TwStrings</code> class and <a href="https://github.com/twblazor/twblazor/blob/develop/src/TwBlazor/Resources/TwBlazorStrings.resx" target="_blank" rel="noopener noreferrer" class="underline">TwBlazorStrings.resx</a>.
+        </p>
+    </PageCard>
+
+    <PageCard Title="Change text on one component">
+        <p class="mb-3">
+            A component parameter always wins over the resource files, so a single component can say something different from the rest of the application.
+        </p>
+        <TwCodeBlock Content="@_parameterExample" Language="razor" />
+    </PageCard>
+
+    <PageCard Title="Date and time formats" Id="localization-formats">
+        <Description>
+            Calendars, pickers and charts take their formats from <code>options.Localization.Formats</code>. Every value is optional and is a .NET date and time format string. Anything you leave out comes from the culture, so most applications set nothing here.
+        </Description>
+        <p class="mb-3">
+            When the application has no culture of its own (the invariant culture), twblazor uses British formats: a 24 hour clock, day before month, and weeks that start on Monday.
+        </p>
+        <TwCodeBlock Content="@_formatsExample" Language="csharp" />
+        <TwTable Bordered Striped Class="my-4" AriaLabel="Date and time format options">
+            <TableHeader>
+                <tr>
+                    <th scope="col" class="px-4 py-3">Option</th>
+                    <th scope="col" class="px-4 py-3">Used for</th>
+                    <th scope="col" class="px-4 py-3">Default</th>
+                </tr>
+            </TableHeader>
+            <TableBody>
+                @foreach (var format in _formats)
+                {
+                    <tr>
+                        <th scope="row" class="px-4 py-3 text-left font-normal"><code>@format.Option</code></th>
+                        <td class="px-4 py-3">@format.UsedFor</td>
+                        <td class="px-4 py-3">@format.Default</td>
+                    </tr>
+                }
+            </TableBody>
+        </TwTable>
+        <p class="mb-3">
+            The picker input formats are the ones users type, so they stay fixed unless you change them: the date pickers use the theme's <code>dd/MM/yyyy</code> and the time pickers use a 24 hour clock, whatever the culture. To make the pickers type and parse the way a culture writes dates, copy its patterns in one call.
+        </p>
+        <TwCodeBlock Content="@_inputFormatsExample" Language="csharp" />
+        <p class="my-3">
+            A format can also live in a resource file, so each language carries its own. Add an entry named <code>Format_ShortTime</code>, <code>Format_LongDate</code> and so on to the language's file. A value set on the options wins over the resource file, which wins over the culture. A component parameter such as <code>Format</code> or <code>Is12HourFormat</code> wins over all three.
+        </p>
+    </PageCard>
+
+    <PageCard Title="Use your own localizer" Id="localization-localizer">
+        <Description>
+            Components read their text through the <code>ITwLocalizer</code> service. If your strings live somewhere other than <code>.resx</code> files, such as a database or an <code>IStringLocalizer</code>, register your own implementation and <code>AddTwBlazor</code> will leave it in place.
+        </Description>
+        <TwCodeBlock Content="@_localizerExample" Language="csharp" />
+        <p class="my-3">
+            The same service is available to your own components, with the same keys and formats.
+        </p>
+        <TwCodeBlock Content="@_injectExample" Language="razor" />
+    </PageCard>
+
+    <PageCard Title="Improve a translation" Id="localization-contributing" NoMarginBottom>
+        <Description>
+            Each language is one file in <a href="https://github.com/twblazor/twblazor/tree/develop/src/TwBlazor/Resources" target="_blank" rel="noopener noreferrer" class="underline">src/TwBlazor/Resources</a>. To correct a translation, edit the <code>value</code> of the entry and open a pull request. To add a language, copy <code>TwBlazorStrings.resx</code> to <code>TwBlazorStrings.&lt;culture&gt;.resx</code> and translate the values.
+        </Description>
+        <p class="mb-3">
+            Keep the entry names and the <code>{0}</code> placeholders unchanged. The test suite checks every language file for unknown keys and missing placeholders, so a mistake there is caught before it ships.
+        </p>
+    </PageCard>
+</PageContainer>
+
+@code {
+    private sealed record Language(string Name, string Culture, string File, string Source);
+
+    private sealed record FormatOption(string Option, string UsedFor, string Default);
+
+    private const string _ai = "AI translated";
+
+    private static readonly Language[] _languages =
+    [
+        new("English", "en", "TwBlazorStrings.resx", "Written by the maintainers"),
+        new("Chinese (Simplified, Mandarin)", "zh-Hans", "TwBlazorStrings.zh-Hans.resx", _ai),
+        new("Spanish", "es", "TwBlazorStrings.es.resx", _ai),
+        new("Hindi", "hi", "TwBlazorStrings.hi.resx", _ai),
+        new("Portuguese", "pt", "TwBlazorStrings.pt.resx", _ai),
+        new("Bengali", "bn", "TwBlazorStrings.bn.resx", _ai),
+        new("Russian", "ru", "TwBlazorStrings.ru.resx", _ai),
+        new("Japanese", "ja", "TwBlazorStrings.ja.resx", _ai),
+        new("Western Punjabi (Shahmukhi)", "pa-Arab", "TwBlazorStrings.pa-Arab.resx", _ai),
+        new("Turkish", "tr", "TwBlazorStrings.tr.resx", _ai),
+    ];
+
+    private static readonly FormatOption[] _formats =
+    [
+        new("FirstDayOfWeek", "The first column of calendars and date pickers", "The culture's first day of the week"),
+        new("Use12HourClock", "Whether times show AM and PM", "The culture for displayed times, 24 hour for picker inputs"),
+        new("ShortTime", "Event times and time slots", "The culture's short time pattern"),
+        new("Hour", "Hour labels beside the calendar's time grid", "h tt or HH:mm, from the clock style"),
+        new("LongDate", "The full date screen readers announce for a day", "The culture's long date pattern"),
+        new("MediumDate", "Date ranges in the calendar header and event summaries", "d MMM yyyy"),
+        new("MonthYear", "Month headings", "The culture's year month pattern"),
+        new("MonthDay", "The days a multi day event covers", "d MMM"),
+        new("Month, ShortMonth, Year", "Month and year buttons in the date pickers", "MMMM, MMM, yyyy"),
+        new("WeekdayDay", "Column headings in the calendar's week view", "ddd d"),
+        new("DateInput", "The format date pickers type and parse", "The theme's DefaultFormat"),
+        new("TimeInput", "The format time pickers type and parse", "HH:mm, or hh:mm tt on a 12 hour clock"),
+        new("DateTimeInput", "The format date time pickers type and parse", "The theme's DefaultDateTimeFormat"),
+    ];
+
+    private const string _cultureExample = """
+        // Blazor WebAssembly: Program.cs
+        var culture = new CultureInfo("es");
+        CultureInfo.DefaultThreadCurrentCulture = culture;
+        CultureInfo.DefaultThreadCurrentUICulture = culture;
+
+        // Blazor Server: Program.cs
+        app.UseRequestLocalization(new RequestLocalizationOptions()
+            .SetDefaultCulture("en-GB")
+            .AddSupportedCultures("en-GB", "es", "ja")
+            .AddSupportedUICultures("en-GB", "es", "ja"));
+        """;
+
+    private const string _pinExample = """
+        builder.Services.AddTwBlazor(options =>
+        {
+            options.Localization.Culture = new CultureInfo("ja");
+        }, Theme.CreateTheme);
+        """;
+
+    private const string _filesExample = """
+        MyApp/
+          Resources/
+            TwBlazorStrings.resx        the neutral file, used when no language file matches
+            TwBlazorStrings.de.resx     German
+            TwBlazorStrings.fr.resx     French
+        """;
+
+    private const string _resourceExample = """
+        using System.Resources;
+
+        builder.Services.AddTwBlazor(options =>
+        {
+            options.Localization.AddResource(
+                new ResourceManager("MyApp.Resources.TwBlazorStrings", typeof(Program).Assembly));
+        }, Theme.CreateTheme);
+        """;
+
+    private const string _resxExample = """
+        <!-- Resources/TwBlazorStrings.de.resx -->
+        <data name="Common_Close" xml:space="preserve">
+          <value>Schließen</value>
+        </data>
+        <data name="Pagination_PageStatus" xml:space="preserve">
+          <value>Seite {0} von {1}</value>
+        </data>
+        """;
+
+    private const string _parameterExample = """
+        <TwSelect T="string" Values="@countries" Placeholder="Choose a country" />
+
+        <TwDatePicker @bind-SelectedDate="date" Format="yyyy-MM-dd" />
+
+        <TwTimePicker @bind-SelectedTime="time" Is12HourFormat="true" />
+        """;
+
+    private const string _formatsExample = """
+        builder.Services.AddTwBlazor(options =>
+        {
+            options.Localization.Formats.FirstDayOfWeek = DayOfWeek.Sunday;
+            options.Localization.Formats.Use12HourClock = true;
+            options.Localization.Formats.LongDate = "dddd, d MMMM yyyy";
+            options.Localization.Formats.DateInput = "dd.MM.yyyy";
+        }, Theme.CreateTheme);
+        """;
+
+    private const string _inputFormatsExample = """
+        // For en-US this sets M/d/yyyy, h:mm tt and a 12 hour clock.
+        options.Localization.Formats.UseCultureInputFormats(new CultureInfo("en-US"));
+        """;
+
+    private const string _localizerExample = """
+        public class MyLocalizer(TwBlazorOptions options, IStringLocalizer<SharedResource> strings)
+            : TwLocalizer(options)
+        {
+            protected override string? GetString(string key, CultureInfo culture)
+            {
+                var text = strings[key];
+                return text.ResourceNotFound ? base.GetString(key, culture) : text.Value;
+            }
+        }
+
+        builder.Services.AddScoped<ITwLocalizer, MyLocalizer>();
+        builder.Services.AddTwBlazor(_ => { }, Theme.CreateTheme);
+        """;
+
+    private const string _injectExample = """
+        @inject ITwLocalizer Localizer
+
+        <button aria-label="@Localizer[TwStrings.Common_Close]">×</button>
+        <span>@Localizer.Formats.Format(DateTime.Today, Localizer.Formats.LongDate)</span>
+        """;
+}

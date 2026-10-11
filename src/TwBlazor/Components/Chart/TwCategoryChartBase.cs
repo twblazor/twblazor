@@ -45,7 +45,7 @@ public abstract class TwCategoryChartBase : TwChartBase
     /// </summary>
     [Parameter] public string? CategoryHeader { get; set; }
 
-    private protected string effectiveCategoryHeader => CategoryHeader ?? localizer[TwStrings.Chart_Category];
+    protected string effectiveCategoryHeader => CategoryHeader ?? localizer[TwStrings.Chart_Category];
 
     /// <summary>
     /// Gets whether each series gets a legend entry that can hide it. Charts that label their series directly

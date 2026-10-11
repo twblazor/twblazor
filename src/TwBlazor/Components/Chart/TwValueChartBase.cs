@@ -33,7 +33,7 @@ public abstract class TwValueChartBase : TwChartBase
     /// </summary>
     [Parameter] public string? ValueHeader { get; set; }
 
-    private protected string effectiveValueHeader => ValueHeader ?? localizer[TwStrings.Chart_Value];
+    protected string effectiveValueHeader => ValueHeader ?? localizer[TwStrings.Chart_Value];
 
     /// <summary>
     /// Gets or sets the label of the slice that collects the smallest values once there are more values than colors.

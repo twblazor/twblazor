@@ -68,6 +68,18 @@ public class NavigationTests : DocsTestBase
     }
 
     [Fact]
+    public void Sidebar_ListsLocalization_UnderConfiguration_AfterClassMerge()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<Navigation>();
+
+        // Assert
+        var hrefs = cut.FindAll("a").Select(a => a.GetAttribute("href")).ToList();
+        Assert.Contains("/localization", hrefs);
+        Assert.True(hrefs.IndexOf("/class-merge") < hrefs.IndexOf("/localization"));
+    }
+
+    [Fact]
     public void Sidebar_HasNoSeparateThemeBuilderEntry()
     {
         // Arrange & Act

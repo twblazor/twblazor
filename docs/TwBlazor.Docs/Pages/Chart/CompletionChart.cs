@@ -22,7 +22,7 @@ public class CompletionChart : TwValueChartBase
             builder.Bar(band.Center(i), 6, 0, 100, ChartColor.Track, ChartCorner.All, gap: false);
             builder.Bar(band.Center(i), 6, 0, filled, color, ChartCorner.All, gap: false);
             builder.BandDatum(band.Center(i), band.Step, Data[i].Label,
-                [new ChartDatumRow(ValueHeader, FormatValue(Data[i].Value), color)]);
+                [new ChartDatumRow(effectiveValueHeader, FormatValue(Data[i].Value), color)]);
         }
     }
 }
