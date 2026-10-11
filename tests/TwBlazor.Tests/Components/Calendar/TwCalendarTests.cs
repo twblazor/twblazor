@@ -284,7 +284,7 @@ public class TwCalendarTests : TwBlazorTestBase
     }
 
     [Fact]
-    public void HeaderTitle_ZeroPadsDayNumbers()
+    public void HeaderTitle_UsesTheLongAndMediumDateFormats()
     {
         var day = TestContext.Render<TwCalendar<string>>(p => p
             .Add(x => x.SelectedDate, new DateTime(2026, 12, 3))
@@ -294,7 +294,7 @@ public class TwCalendarTests : TwBlazorTestBase
             .Add(x => x.View, TwCalendarView.Week));
 
         Assert.Equal("Thursday, 3 December 2026", day.Find("span.font-semibold").TextContent.Trim());
-        Assert.Equal("30 Nov 2026 - 06 Dec 2026", week.Find("span.font-semibold").TextContent.Trim());
+        Assert.Equal("30 Nov 2026 - 6 Dec 2026", week.Find("span.font-semibold").TextContent.Trim());
     }
 
     [Theory]

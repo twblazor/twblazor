@@ -34,7 +34,7 @@ public class TwDatePickerDayViewTests : TwBlazorTestBase
         // Arrange
         var value = new DateTime(2025, 11, 1);
         var firstOfMonth = new DateTime(2025, 11, 1);
-        var offset = (int)firstOfMonth.DayOfWeek;
+        var offset = Localizer.Formats.GetDayOffset(firstOfMonth.DayOfWeek);
 
         // Act
         var cut = TestContext.Render<TwDatePickerDayView>(p => p
@@ -150,8 +150,8 @@ public class TwDatePickerDayViewTests : TwBlazorTestBase
     [Fact]
     public void Home_MovesRovingTabIndexToFirstDayOfWeekRow()
     {
-        // Arrange — Nov 15 2025 is a Saturday, the last column of its row; Home should land on
-        // Nov 9, the Sunday that starts that same row.
+        // Arrange — Nov 15 2025 is a Saturday; with the week starting on Monday, Home should land on
+        // Nov 10, the Monday that starts that same row.
         var cut = TestContext.Render<TwDatePickerDayView>(p => p
             .Add(x => x.Value, new DateTime(2025, 11, 15))
             .Add(x => x.ValueChanged, NoOpCallback(this))
@@ -161,17 +161,17 @@ public class TwDatePickerDayViewTests : TwBlazorTestBase
         cut.Find("table[role='grid']").KeyDown(new KeyboardEventArgs { Key = "Home" });
 
         // Assert
-        var day9 = cut.FindAll("button.day").First(b => b.TextContent.Trim() == "9");
+        var day10 = cut.FindAll("button.day").First(b => b.TextContent.Trim() == "10");
         var day15 = cut.FindAll("button.day").First(b => b.TextContent.Trim() == "15");
-        Assert.Equal("0", day9.GetAttribute("tabindex"));
+        Assert.Equal("0", day10.GetAttribute("tabindex"));
         Assert.Equal("-1", day15.GetAttribute("tabindex"));
     }
 
     [Fact]
     public void End_MovesRovingTabIndexToLastDayOfWeekRow()
     {
-        // Arrange — Nov 11 2025 is a Tuesday; End should land on Nov 15, the Saturday that ends
-        // that same row.
+        // Arrange — Nov 11 2025 is a Tuesday; with the week starting on Monday, End should land on
+        // Nov 16, the Sunday that ends that same row.
         var cut = TestContext.Render<TwDatePickerDayView>(p => p
             .Add(x => x.Value, new DateTime(2025, 11, 11))
             .Add(x => x.ValueChanged, NoOpCallback(this))
@@ -182,9 +182,9 @@ public class TwDatePickerDayViewTests : TwBlazorTestBase
 
         // Assert
         var day11 = cut.FindAll("button.day").First(b => b.TextContent.Trim() == "11");
-        var day15 = cut.FindAll("button.day").First(b => b.TextContent.Trim() == "15");
+        var day16 = cut.FindAll("button.day").First(b => b.TextContent.Trim() == "16");
         Assert.Equal("-1", day11.GetAttribute("tabindex"));
-        Assert.Equal("0", day15.GetAttribute("tabindex"));
+        Assert.Equal("0", day16.GetAttribute("tabindex"));
     }
 
     [Fact]
@@ -566,7 +566,7 @@ public class TwDatePickerDayViewTests : TwBlazorTestBase
     [Fact]
     public void LeadInDayOutsideRange_IsNotHighlighted()
     {
-        // Arrange — Oct 26 is a lead-in day before the range starts (Oct 28), so it should keep
+        // Arrange — Oct 27 is a lead-in day before the range starts (Oct 28), so it should keep
         // its normal muted styling with no range tint.
         var value = new DateTime(2025, 11, 1);
         var range = new KeyValuePair<DateTime?, DateTime?>(new DateTime(2025, 10, 28), new DateTime(2025, 11, 2));
@@ -579,10 +579,10 @@ public class TwDatePickerDayViewTests : TwBlazorTestBase
             .Add(x => x.ValueChanged, NoOpCallback(this))
         );
 
-        var oct26 = cut.FindAll("span.day.prev").First(s => s.TextContent.Trim() == "26");
+        var oct27 = cut.FindAll("span.day.prev").First(s => s.TextContent.Trim() == "27");
 
         // Assert
-        Assert.DoesNotContain(datePickerTheme.RangeClass, oct26.GetAttribute("class"));
+        Assert.DoesNotContain(datePickerTheme.RangeClass, oct27.GetAttribute("class"));
     }
 
     [Fact]

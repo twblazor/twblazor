@@ -467,7 +467,7 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
 
         // Assert
         var buttons = cut.FindAll("button");
-        var amPmButton = buttons.FirstOrDefault(b => b.TextContent.Contains("AM") || b.TextContent.Contains("PM"));
+        var amPmButton = buttons.FirstOrDefault(b => b.TextContent.Contains(Localizer.Formats.AmDesignator) || b.TextContent.Contains(Localizer.Formats.PmDesignator));
         Assert.NotNull(amPmButton);
     }
 
@@ -482,7 +482,7 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
 
         // Assert
         var buttons = cut.FindAll("button");
-        var amPmButton = buttons.FirstOrDefault(b => b.TextContent.Contains("AM") || b.TextContent.Contains("PM"));
+        var amPmButton = buttons.FirstOrDefault(b => b.TextContent.Contains(Localizer.Formats.AmDesignator) || b.TextContent.Contains(Localizer.Formats.PmDesignator));
         Assert.Null(amPmButton);
     }
 
@@ -497,8 +497,8 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
 
         // Assert
         var buttons = cut.FindAll("button");
-        var amPmButton = buttons.First(b => b.TextContent.Contains("AM") || b.TextContent.Contains("PM"));
-        Assert.Contains("AM", amPmButton.TextContent);
+        var amPmButton = buttons.First(b => b.TextContent.Contains(Localizer.Formats.AmDesignator) || b.TextContent.Contains(Localizer.Formats.PmDesignator));
+        Assert.Contains(Localizer.Formats.AmDesignator, amPmButton.TextContent);
     }
 
     [Fact]
@@ -512,8 +512,8 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
 
         // Assert
         var buttons = cut.FindAll("button");
-        var amPmButton = buttons.First(b => b.TextContent.Contains("AM") || b.TextContent.Contains("PM"));
-        Assert.Contains("PM", amPmButton.TextContent);
+        var amPmButton = buttons.First(b => b.TextContent.Contains(Localizer.Formats.AmDesignator) || b.TextContent.Contains(Localizer.Formats.PmDesignator));
+        Assert.Contains(Localizer.Formats.PmDesignator, amPmButton.TextContent);
     }
 
     [Fact]
@@ -531,7 +531,7 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
 
         // Act
         var buttons = cut.FindAll("button");
-        var amPmButton = buttons.First(b => b.TextContent.Contains("AM") || b.TextContent.Contains("PM"));
+        var amPmButton = buttons.First(b => b.TextContent.Contains(Localizer.Formats.AmDesignator) || b.TextContent.Contains(Localizer.Formats.PmDesignator));
         amPmButton.Click();
 
         // Assert
@@ -555,7 +555,7 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
 
         // Act
         var buttons = cut.FindAll("button");
-        var amPmButton = buttons.First(b => b.TextContent.Contains("AM") || b.TextContent.Contains("PM"));
+        var amPmButton = buttons.First(b => b.TextContent.Contains(Localizer.Formats.AmDesignator) || b.TextContent.Contains(Localizer.Formats.PmDesignator));
         amPmButton.Click();
 
         // Assert
@@ -579,7 +579,7 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
 
         // Act
         var buttons = cut.FindAll("button");
-        var amPmButton = buttons.First(b => b.TextContent.Contains("AM") || b.TextContent.Contains("PM"));
+        var amPmButton = buttons.First(b => b.TextContent.Contains(Localizer.Formats.AmDesignator) || b.TextContent.Contains(Localizer.Formats.PmDesignator));
         amPmButton.Click();
 
         // Assert
