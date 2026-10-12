@@ -140,6 +140,13 @@ public class TwSidebarTheme
     public required string NavigationItemActive { get; set; }
 
     /// <summary>
+    /// Gets or sets the classes layered on top of <see cref="NavigationItemActive"/> for the link to the
+    /// current page only (not for an open parent item): the full-height brand gradient marker on its start edge,
+    /// clipped to the item's rounded corners.
+    /// </summary>
+    public required string NavigationItemCurrent { get; set; }
+
+    /// <summary>
     /// Gets or sets the classes for a parent item's label: always applied to a top-level parent, and to a
     /// nested parent only while it is expanded. Leaf links never receive it, so only the items that open
     /// sections stand out from the page links beneath them.

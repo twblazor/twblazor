@@ -1,0 +1,73 @@
+﻿@page "/on-this-page"
+@using TwBlazor.Models
+
+<PageContainer Title="TwOnThisPage" Path="/on-this-page" Beta Description="TwOnThisPage is a Blazor table of contents component: an On this page list of section links that highlights the section being read as you scroll." ThemeType="typeof(TwOnThisPageTheme)">
+    <PageCard Title="Basic usage">
+        <Description>
+            Give <code>TwOnThisPage</code> a list of <code>OnThisPageItem</code>s, each pairing the <code>Id</code> of an element on the page with the text of its link.
+            The link to the section being read is highlighted as the page scrolls. The example lists this page's own sections, so scroll the page to see it follow along.
+            It is the same component as the "On this page" list beside every page of these docs.
+        </Description>
+
+        <CodeExample Name="OnThisPageBasic" CSharpName="OnThisPageBasicCode">
+            <TwOnThisPage Items="@sections" BasePath="/on-this-page" Class="max-w-xs" />
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Link paths">
+        <Description>
+            Every Blazor app has a <code>&lt;base href&gt;</code>, which makes a bare <code>#section</code> link point at the site root instead of the current page.
+            Set <code>BasePath</code> to the current page's path so each link becomes <code>/your-page#section</code>.
+        </Description>
+
+        <CodeExample Name="OnThisPageBasePath">
+            <TwOnThisPage Items="@sections" BasePath="/on-this-page" Class="max-w-xs" />
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Title and heading level">
+        <Description>
+            The heading defaults to "On this page", translated into the app's language. Set <code>Title</code> to change it, and <code>HeadingLevel</code> so it fits the page's heading outline.
+            The navigation landmark is named after the heading, so screen reader users can find it in their list of landmarks.
+        </Description>
+
+        <CodeExample Name="OnThisPageTitle">
+            <TwOnThisPage Items="@sections" BasePath="/on-this-page" Title="Contents" HeadingLevel="3" Class="max-w-xs" />
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Hidden title">
+        <Description>
+            Set <code>HideTitle</code> to leave the visible heading out, for example when the list sits under a heading of your own.
+            The landmark keeps its name through <code>aria-label</code>, so it is still announced.
+        </Description>
+
+        <CodeExample Name="OnThisPageHideTitle">
+            <TwOnThisPage Items="@sections" BasePath="/on-this-page" HideTitle Class="max-w-xs" />
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Fixed headers">
+        <Description>
+            A section counts as the one being read once its top passes a line 140 pixels below the top of the viewport.
+            Raise <code>Offset</code> when a fixed header covers more of the page than that, or lower it for a page with nothing fixed at the top.
+        </Description>
+
+        <CodeExample Name="OnThisPageOffset">
+            <TwOnThisPage Items="@sections" BasePath="/on-this-page" Offset="240" Class="max-w-xs" />
+        </CodeExample>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample OnThisPageBasicCode
+    private readonly List<OnThisPageItem> sections =
+    [
+        new("basic-usage", "Basic usage"),
+        new("link-paths", "Link paths"),
+        new("title-and-heading-level", "Title and heading level"),
+        new("hidden-title", "Hidden title"),
+        new("fixed-headers", "Fixed headers")
+    ];
+    #endregion
+}

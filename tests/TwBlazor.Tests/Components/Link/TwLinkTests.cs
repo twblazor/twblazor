@@ -160,4 +160,34 @@ public class TwLinkTests : TwBlazorTestBase
         Assert.NotNull(anchor.QuerySelector("i"));
         Assert.Equal("Home", anchor.TextContent.Trim());
     }
+
+    [Fact]
+    public void TwLink_WithCustomClass_KeepsThePrimaryFocusRing()
+    {
+        // Arrange & Act - a custom Class replaces the link's default look, but must not leave it with the browser's own focus outline
+        var cut = TestContext.Render<TwLink>(parameters => parameters
+            .Add(p => p.Href, "/alert")
+            .Add(p => p.Class, "underline"));
+
+        // Assert
+        var classes = cut.Find("a").ClassList;
+        Assert.Contains("underline", classes);
+        Assert.Contains("focus-visible:ring-2", classes);
+        Assert.Contains("focus-visible:ring-purple-500", classes);
+        Assert.Contains("focus:outline-hidden", classes);
+    }
+
+    [Fact]
+    public void TwLink_WithCustomClass_LetsThatClassOverrideTheFocusRing()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwLink>(parameters => parameters
+            .Add(p => p.Href, "/alert")
+            .Add(p => p.Class, "focus-visible:ring-red-500"));
+
+        // Assert
+        var classes = cut.Find("a").ClassList;
+        Assert.Contains("focus-visible:ring-red-500", classes);
+        Assert.DoesNotContain("focus-visible:ring-purple-500", classes);
+    }
 }

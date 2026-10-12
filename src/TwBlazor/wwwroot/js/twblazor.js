@@ -1499,3 +1499,58 @@ globalThis.twScrollRegion = {
         globalThis.twScrollRegion._observers.delete(el);
     }
 };
+
+// On this page: marks the link to the section currently being read with aria-current="location".
+globalThis.twOnThisPage = {
+    _stops: new Map(),
+
+    observe: function (key, nav, ids, offset) {
+        globalThis.twOnThisPage.dispose(key);
+        if (!nav || !ids || ids.length === 0) return;
+
+        const update = function (event) {
+            const scroller = event?.target instanceof Element ? event.target : null;
+            const atBottom = scroller !== null &&
+                scroller.scrollTop > 0 &&
+                scroller.scrollTop + scroller.clientHeight >= scroller.scrollHeight - 2;
+
+            let active = ids[0];
+
+            ids.forEach(function (id) {
+                const section = document.getElementById(id);
+                if (section && section.getBoundingClientRect().top <= offset) {
+                    active = id;
+                }
+            });
+
+            // The last section can be too short to ever reach the offset line.
+            if (atBottom) {
+                active = ids[ids.length - 1];
+            }
+
+            nav.querySelectorAll('[data-tw-section-id]').forEach(function (link) {
+                if (link.dataset.twSectionId === active) {
+                    link.setAttribute('aria-current', 'location');
+                } else {
+                    link.removeAttribute('aria-current');
+                }
+            });
+        };
+
+        // Scroll events don't bubble, and the content may scroll inside its own container rather than the
+        // window, so listen in the capture phase on the document.
+        document.addEventListener('scroll', update, { capture: true, passive: true });
+        update();
+
+        globalThis.twOnThisPage._stops.set(key, function () {
+            document.removeEventListener('scroll', update, { capture: true });
+        });
+    },
+
+    dispose: function (key) {
+        const stop = globalThis.twOnThisPage._stops.get(key);
+        if (!stop) return;
+        stop();
+        globalThis.twOnThisPage._stops.delete(key);
+    }
+};

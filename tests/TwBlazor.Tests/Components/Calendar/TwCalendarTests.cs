@@ -914,7 +914,7 @@ public class TwCalendarTests : TwBlazorTestBase
         var after = DateTime.Now;
 
         var line = cut.Find("div.border-t-2");
-        var label = cut.Find("div.right-2");
+        var label = cut.Find("div.right-1");
 
         var minTop = TwCalendarTimeGrid.GetOffsetRem(before.TimeOfDay.TotalMinutes);
         var maxTop = TwCalendarTimeGrid.GetOffsetRem(after.TimeOfDay.TotalMinutes);

@@ -65,11 +65,26 @@ public partial class TwCheckbox<T> : TwBlazorInputComponentBase
     private string classes =>
         new ClassBuilder(theme.Base)
         .AddClass(sizeClasses)
-        .AddClass(roundedBuilder.GetRounded())
+        .AddClass(roundedBuilder.GetRounded(boxRounded))
         .AddClass(GetCheckboxColor(Color))
         .AddClass(GetIndeterminateCheckboxColor(Color), isIndeterminate)
         .AddClass(Disabled ? theme.Disabled : theme.Hover)
         .AddClass(Class).Build();
+
+    /// <summary>
+    /// The corner radius of the box: the theme's default, capped so a box this small never reads as a circle
+    /// (which is how a radio button looks). The cap is one step tighter for the small size.
+    /// </summary>
+    private Rounded boxRounded
+    {
+        get
+        {
+            var cap = Size == Enums.Size.Sm ? Enums.Rounded.Sm : Enums.Rounded.Md;
+            var themed = options.Theme.Rounded.DefaultRounded;
+
+            return themed < cap ? themed : cap;
+        }
+    }
 
     private string sizeClasses => Size switch
     {

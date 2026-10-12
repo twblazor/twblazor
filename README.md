@@ -86,7 +86,7 @@ Every piece of text a component renders by itself (labels, placeholders, validat
 | Western Punjabi (Shahmukhi) | `pa-Arab` | `TwBlazorStrings.pa-Arab.resx` | AI translated |
 | Turkish | `tr` | `TwBlazorStrings.tr.resx` | AI translated |
 | Vietnamese | `vi` | `TwBlazorStrings.vi.resx` | AI translated |
-| Chinese (Traditional), for Yue Chinese (Cantonese) in Hong Kong and Macau | `zh-Hant` | `TwBlazorStrings.zh-Hant.resx` | AI translated |
+| Chinese (Traditional, Cantonese) | `zh-Hant` | `TwBlazorStrings.zh-Hant.resx` | AI translated |
 | Arabic, including Egyptian Arabic | `ar` | `TwBlazorStrings.ar.resx` | AI translated |
 | Marathi | `mr` | `TwBlazorStrings.mr.resx` | AI translated |
 | Telugu | `te` | `TwBlazorStrings.te.resx` | AI translated |
@@ -99,6 +99,7 @@ Every piece of text a component renders by itself (labels, placeholders, validat
 | Javanese | `jv` | `TwBlazorStrings.jv.resx` | AI translated |
 | Persian | `fa` | `TwBlazorStrings.fa.resx` | AI translated |
 | Italian | `it` | `TwBlazorStrings.it.resx` | AI translated |
+| Polish | `pl` | `TwBlazorStrings.pl.resx` | AI translated |
 
 A regional culture uses its language file: `es-MX` uses Spanish, `ar-EG` uses Arabic and `zh-HK` uses Traditional Chinese. Wu Chinese is written in Simplified Chinese, so it is covered by `zh-Hans`.
 

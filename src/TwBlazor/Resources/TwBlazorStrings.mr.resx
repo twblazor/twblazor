@@ -462,6 +462,9 @@
   <data name="Navbar_CloseMenu" xml:space="preserve">
     <value>नेव्हिगेशन मेनू बंद करा</value>
   </data>
+  <data name="OnThisPage_Title" xml:space="preserve">
+    <value>या पृष्ठावर</value>
+  </data>
   <data name="Pagination_Label" xml:space="preserve">
     <value>पृष्ठांकन</value>
   </data>

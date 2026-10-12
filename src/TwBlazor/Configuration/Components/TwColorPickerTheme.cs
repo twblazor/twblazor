@@ -1,4 +1,4 @@
-// Copyright (c) 2025 Jack Shuter @ TwBlazor - twblazor.com
+﻿// Copyright (c) 2025 Jack Shuter @ TwBlazor - twblazor.com
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using System.Diagnostics.CodeAnalysis;
@@ -85,8 +85,8 @@ public class TwColorPickerTheme
     public required string Body { get; set; }
 
     /// <summary>
-    /// Gets or sets the size classes for a draggable hue/alpha slider's clickable row (excluding
-    /// positioning/layout, which are composed alongside it).
+    /// Gets or sets the size, shape and keyboard focus ring classes for a draggable hue/alpha slider's
+    /// clickable row (excluding positioning/layout, which are composed alongside it).
     /// </summary>
     public required string SliderRow { get; set; }
 
