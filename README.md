@@ -28,7 +28,7 @@
 
 ---
 
-Contents:
+## Contents
 
 - [Why twblazor?](#why-twblazor)
 - [Setup](#setup)
