@@ -1,12 +1,61 @@
 @page "/chart/violin-plot"
 @using TwBlazor.Models
 
-<PageContainer Title="TwViolinPlotChart" Path="/chart/violin-plot" Beta Description="TwViolinPlotChart compares grouped distributions with mirrored density silhouettes.">
-    <PageCard Title="Basic usage"><Description>Each sample group becomes one violin.</Description><CodeExample Name="ViolinBasic" CSharpName="ViolinData"><TwChart Title="Scores by cohort"><TwViolinPlotChart Samples="@samples" /></TwChart></CodeExample></PageCard>
+<PageContainer Title="TwViolinPlotChart" Path="/chart/violin-plot" Beta Description="TwViolinPlotChart is a Blazor violin plot that shows the full shape of each group's distribution with its median and middle half marked.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwViolinPlotChart</code> draws a mirrored density curve for each <code>ChartSample</code>: wide where values cluster, narrow where they are rare. The bar down the middle spans the middle half of the values and the dot marks the median.</Description>
+
+        <CodeExample Name="ViolinPlotChartBasic" CSharpName="ViolinPlotChartData">
+            <TwChart Title="Exam scores by class" Description="Percent">
+                <TwViolinPlotChart Samples="@classes" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Shapes a box plot hides">
+        <Description>These two teams have almost the same median and quartiles, so their box plots would look alike. The violins show that one is evenly spread while the other splits into a fast group and a slow group.</Description>
+
+        <CodeExample Name="ViolinPlotChartShapes" CSharpName="ViolinPlotChartShapesData">
+            <TwChart Title="Ticket resolution time" Description="Hours">
+                <TwViolinPlotChart Samples="@teams" LabelHeader="Team" ValueFormat="0 h" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Horizontal">
+        <Description>Set <code>Horizontal</code> to list the groups down the side, which suits long names and many groups.</Description>
+
+        <CodeExample Name="ViolinPlotChartHorizontal">
+            <TwChart Title="Exam scores by class">
+                <TwViolinPlotChart Samples="@classes" Horizontal="true" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Reading the chart">
+        <Description>Each violin is drawn to the full width of its slot and ends at the group's lowest and highest values, so compare the shapes, not the widths. Hover or focus a group for its count, minimum, lower quartile, median, upper quartile and maximum. The table view gives the same summary.</Description>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart" Class="underline">TwChart</TwLink> for those options.</Description>
+    </PageCard>
 </PageContainer>
 
 @code {
-    #region CodeExample ViolinData
-    private readonly ChartSample[] samples = [new("A", [2, 3, 4, 4, 5, 9]), new("B", [1, 2, 5, 6, 7, 8])];
+    #region CodeExample ViolinPlotChartData
+    private readonly ChartSample[] classes =
+    [
+        new("Class A", [48, 55, 58, 61, 63, 64, 66, 67, 69, 71, 74, 78, 85]),
+        new("Class B", [52, 60, 66, 70, 72, 74, 75, 76, 78, 80, 83, 88, 94]),
+        new("Class C", [35, 42, 51, 57, 62, 68, 71, 77, 82, 86, 90])
+    ];
+    #endregion
+
+    #region CodeExample ViolinPlotChartShapesData
+    private readonly ChartSample[] teams =
+    [
+        new("Evenly spread", [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24]),
+        new("Two groups", [2, 3, 3, 4, 4, 5, 20, 21, 21, 22, 23, 24])
+    ];
     #endregion
 }

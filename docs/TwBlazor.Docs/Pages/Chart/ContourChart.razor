@@ -1,12 +1,76 @@
 @page "/chart/contour"
 @using TwBlazor.Models
 
-<PageContainer Title="TwContourChart" Path="/chart/contour" Beta Description="TwContourChart draws isolines over a surface estimated from numeric points.">
-    <PageCard Title="Basic usage"><Description>Set each point's <code>Size</code> to the measured surface value. Increase <code>Levels</code> for more isolines.</Description><CodeExample Name="ContourBasic" CSharpName="ContourData"><TwChart Title="Temperature surface"><TwContourChart Series="@surface" Levels="5" /></TwChart></CodeExample></PageCard>
+<PageContainer Title="TwContourChart" Path="/chart/contour" Beta Description="TwContourChart is a Blazor contour plot that joins the places where a measured surface has the same value, like height lines on a map.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwContourChart</code> draws contour lines over a surface estimated from scattered samples. Give each <code>ChartPoint</code> its position as <code>X</code> and <code>Y</code> and its measurement as <code>Size</code>. A stronger line marks a higher value, and each sample is drawn as a dot.</Description>
+
+        <CodeExample Name="ContourChartBasic" CSharpName="ContourChartData">
+            <TwChart Title="Room temperature" Description="Degrees Celsius across the floor, metres from the corner">
+                <TwContourChart Series="@temperatures" XTitle="East" YTitle="North" ValueTitle="Temperature" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Levels">
+        <Description><code>Levels</code> sets how many lines are drawn, from 2 to 10, spaced evenly between the lowest and highest measurement. More lines show the slope in more detail: where they bunch together the surface is steep.</Description>
+
+        <CodeExample Name="ContourChartLevels">
+            <div class="grid gap-8 md:grid-cols-2">
+                <TwChart Title="Three levels">
+                    <TwContourChart Series="@temperatures" Levels="3" XTitle="East" YTitle="North" Height="ChartHeight.Small" />
+                </TwChart>
+                <TwChart Title="Nine levels">
+                    <TwContourChart Series="@temperatures" Levels="9" XTitle="East" YTitle="North" Height="ChartHeight.Small" />
+                </TwChart>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Two peaks">
+        <Description>Closed rings mark a peak or a hollow. This survey has two hills with a saddle between them. Name the samples with <code>Label</code> to title their tooltips.</Description>
+
+        <CodeExample Name="ContourChartPeaks" CSharpName="ContourChartPeaksData">
+            <TwChart Title="Signal strength" Description="Decibels across the site, with the two transmitters named">
+                <TwContourChart Series="@signal" Levels="7" XTitle="X" YTitle="Y" ValueTitle="Signal" ValueFormat="0.#" Height="ChartHeight.Large" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Reading the chart">
+        <Description>The surface between samples is estimated from the nearest of them, so the lines are a guide, not a measurement; the dots are the measurements. Each dot is a data point with its position and value in the tooltip, and the table view lists every sample. Points without a <code>Size</code> are left out, and at least three samples are needed.</Description>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart" Class="underline">TwChart</TwLink> for those options.</Description>
+    </PageCard>
 </PageContainer>
 
 @code {
-    #region CodeExample ContourData
-    private readonly ChartPointSeries[] surface = [new("Samples", [new(0, 0, Size: 12), new(1, 0, Size: 18), new(0, 1, Size: 22), new(1, 1, Size: 31)])];
+    #region CodeExample ContourChartData
+    private readonly ChartPointSeries[] temperatures =
+    [
+        new("Sensors",
+        [
+            new(0, 0, Size: 17.5), new(4, 0, Size: 18.2), new(8, 0, Size: 19.1),
+            new(0, 3, Size: 18.4), new(4, 3, Size: 20.6), new(8, 3, Size: 22.3),
+            new(0, 6, Size: 19.0), new(4, 6, Size: 21.8), new(8, 6, Size: 24.5)
+        ])
+    ];
+    #endregion
+
+    #region CodeExample ContourChartPeaksData
+    // A 7 by 5 grid of readings that fall away from two transmitters.
+    private readonly ChartPointSeries[] signal =
+    [
+        new("Transmitters", [new(2, 3, "North mast", 60), new(8, 1.5, "South mast", 52)]),
+        new("Survey", [.. Enumerable.Range(0, 35).Select(index =>
+        {
+            var (x, y) = (index % 7 * 1.6, index / 7 * 1.0);
+            var north = 60 / (1 + Math.Pow(x - 2, 2) + Math.Pow(y - 3, 2));
+            var south = 52 / (1 + Math.Pow(x - 8, 2) + Math.Pow(y - 1.5, 2));
+            return new ChartPoint(x, y, Size: Math.Round(north + south, 1));
+        })])
+    ];
     #endregion
 }

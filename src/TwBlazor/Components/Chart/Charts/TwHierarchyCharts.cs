@@ -768,7 +768,8 @@ public class TwEulerDiagramChart : TwSetDiagramChartBase
             return (first + second) * 1.1;
         }
 
-        if (shared >= Math.PI * small * small)
+        // Sharing all of the smaller set, give or take the rounding of its radius, puts it inside the larger.
+        if (shared >= Math.PI * small * small * 0.999999)
         {
             return (large - small) / 2;
         }

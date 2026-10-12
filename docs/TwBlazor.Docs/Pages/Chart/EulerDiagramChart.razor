@@ -1,13 +1,83 @@
 @page "/chart/euler-diagram"
 @using TwBlazor.Models
 
-<PageContainer Title="TwEulerDiagramChart" Path="/chart/euler-diagram" Beta Description="TwEulerDiagramChart displays sets and supplied pairwise overlaps.">
-    <PageCard Title="Basic usage"><Description>Provide up to three sets and any pairwise intersections present in your data.</Description><CodeExample Name="EulerBasic" CSharpName="EulerData"><TwChart Title="Shared interests"><TwEulerDiagramChart Sets="@sets" Intersections="@overlaps" /></TwChart></CodeExample></PageCard>
+<PageContainer Title="TwEulerDiagramChart" Path="/chart/euler-diagram" Beta Description="TwEulerDiagramChart is a Blazor Euler diagram: sets as circles sized by their members, overlapping only where they share some.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwEulerDiagramChart</code> draws each <code>ChartSet</code> as a circle whose area follows its size. Two circles overlap only when a <code>ChartSetIntersection</code> says they share elements, and by an area that follows how many.</Description>
+
+        <CodeExample Name="EulerDiagramChartBasic" CSharpName="EulerDiagramChartData">
+            <TwChart Title="Shared interests" Description="Members of each group">
+                <TwEulerDiagramChart Sets="@groups" Intersections="@sharedMembers" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Separate sets">
+        <Description>Sets with no intersection are drawn apart. Here two products share customers and a third has none in common with either.</Description>
+
+        <CodeExample Name="EulerDiagramChartApart" CSharpName="EulerDiagramChartApartData">
+            <TwChart Title="Customers by product" Description="Thousands">
+                <TwEulerDiagramChart Sets="@products" Intersections="@sharedCustomers" LabelHeader="Product" ValueHeader="Customers" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="A set inside another">
+        <Description>When a set shares all of its elements with a larger one, it is drawn inside it. Every premium subscriber here is also a registered user.</Description>
+
+        <CodeExample Name="EulerDiagramChartSubset" CSharpName="EulerDiagramChartSubsetData">
+            <TwChart Title="Accounts" Description="Thousands">
+                <TwEulerDiagramChart Sets="@accounts" Intersections="@accountOverlap" Height="ChartHeight.Small" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Three overlapping sets">
+        <Description>With three sets the circles are placed so each pair overlaps as closely as circles allow to the number given. Read exact figures from the labels, tooltips and table view.</Description>
+
+        <CodeExample Name="EulerDiagramChartThree" CSharpName="EulerDiagramChartThreeData">
+            <TwChart Title="Languages spoken by staff">
+                <TwEulerDiagramChart Sets="@languages" Intersections="@bilingual" LabelHeader="Language" ValueHeader="Speakers" Height="ChartHeight.Large" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Reading the chart">
+        <Description>Each circle is a data point that responds anywhere on its shape; its tooltip gives the size of the set and every overlap it takes part in. The table view lists the sets and then the overlaps. Up to three sets are drawn, and sets with no size are left out. To show every possible overlap with equal circles, use <TwLink Href="/chart/venn-diagram" Class="underline">TwVennDiagramChart</TwLink>.</Description>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart" Class="underline">TwChart</TwLink> for those options.</Description>
+    </PageCard>
 </PageContainer>
 
 @code {
-    #region CodeExample EulerData
-    private readonly ChartSet[] sets = [new("Design", 42), new("Research", 35)];
-    private readonly ChartSetIntersection[] overlaps = [new("Design", "Research", 18)];
+    #region CodeExample EulerDiagramChartData
+    private readonly ChartSet[] groups = [new("Design", 42), new("Research", 35)];
+
+    private readonly ChartSetIntersection[] sharedMembers = [new("Design", "Research", 18)];
+    #endregion
+
+    #region CodeExample EulerDiagramChartApartData
+    private readonly ChartSet[] products = [new("Accounts", 64), new("Payroll", 38), new("Rostering", 12)];
+
+    private readonly ChartSetIntersection[] sharedCustomers = [new("Accounts", "Payroll", 22)];
+    #endregion
+
+    #region CodeExample EulerDiagramChartSubsetData
+    private readonly ChartSet[] accounts = [new("Registered", 90), new("Premium", 18)];
+
+    private readonly ChartSetIntersection[] accountOverlap = [new("Registered", "Premium", 18)];
+    #endregion
+
+    #region CodeExample EulerDiagramChartThreeData
+    private readonly ChartSet[] languages = [new("English", 120), new("Spanish", 55), new("French", 30)];
+
+    private readonly ChartSetIntersection[] bilingual =
+    [
+        new("English", "Spanish", 32),
+        new("English", "French", 18),
+        new("Spanish", "French", 6)
+    ];
     #endregion
 }

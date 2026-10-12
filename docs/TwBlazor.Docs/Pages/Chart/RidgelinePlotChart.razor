@@ -1,12 +1,65 @@
 @page "/chart/ridgeline"
 @using TwBlazor.Models
 
-<PageContainer Title="TwRidgelinePlotChart" Path="/chart/ridgeline" Beta Description="TwRidgelinePlotChart stacks density curves to compare distributions across groups.">
-    <PageCard Title="Basic usage"><Description>Each <code>ChartSample</code> creates one ridge.</Description><CodeExample Name="RidgelineBasic" CSharpName="RidgelineData"><TwChart Title="Monthly delivery times"><TwRidgelinePlotChart Samples="@samples" /></TwChart></CodeExample></PageCard>
+<PageContainer Title="TwRidgelinePlotChart" Path="/chart/ridgeline" Beta Description="TwRidgelinePlotChart is a Blazor ridgeline plot that gives each group its own row and density curve, for comparing many distributions.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwRidgelinePlotChart</code> draws one density curve per <code>ChartSample</code>, each on its own row with its name on the axis. Where a density plot overlays its curves, a ridgeline keeps them apart, so it copes with many more groups.</Description>
+
+        <CodeExample Name="RidgelinePlotChartBasic" CSharpName="RidgelinePlotChartData">
+            <TwChart Title="Delivery time by month" Description="Days from order to delivery">
+                <TwRidgelinePlotChart Samples="@deliveries" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Many groups">
+        <Description>Order the groups so a drift is easy to follow. Here the daily temperature shifts up and back down across the year. A larger <code>Height</code> gives each ridge more room.</Description>
+
+        <CodeExample Name="RidgelinePlotChartMany" CSharpName="RidgelinePlotChartManyData">
+            <TwChart Title="Daily high temperature" Description="Degrees Celsius, by month">
+                <TwRidgelinePlotChart Samples="@temperatures" LabelHeader="Month" ValueFormat="0°" Height="ChartHeight.Large" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Side by side">
+        <Description>Groups are listed top to bottom by default. Set <code>Horizontal</code> to <code>false</code> to stand the ridges side by side with values running up the plot.</Description>
+
+        <CodeExample Name="RidgelinePlotChartVertical">
+            <TwChart Title="Delivery time by month">
+                <TwRidgelinePlotChart Samples="@deliveries" Horizontal="false" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Reading the chart">
+        <Description>Each ridge is scaled to the height of its own row, so compare where the ridges sit and how wide they are, not how tall. Hover or focus a row for the count, minimum, lower quartile, median, upper quartile and maximum of its group. The table view gives the same summary.</Description>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart" Class="underline">TwChart</TwLink> for those options.</Description>
+    </PageCard>
 </PageContainer>
 
 @code {
-    #region CodeExample RidgelineData
-    private readonly ChartSample[] samples = [new("Jan", [12, 14, 15, 18, 20]), new("Feb", [10, 12, 14, 15, 17]), new("Mar", [9, 11, 13, 16, 19])];
+    #region CodeExample RidgelinePlotChartData
+    private readonly ChartSample[] deliveries =
+    [
+        new("January", [3, 4, 4, 5, 5, 5, 6, 6, 7, 8, 9]),
+        new("February", [2, 3, 3, 4, 4, 4, 5, 5, 6, 7]),
+        new("March", [1, 2, 2, 2, 3, 3, 3, 4, 4, 5])
+    ];
+    #endregion
+
+    #region CodeExample RidgelinePlotChartManyData
+    private readonly ChartSample[] temperatures =
+    [
+        new("Jan", [4, 5, 6, 6, 7, 8, 8, 9, 10, 11]),
+        new("Mar", [7, 8, 9, 10, 10, 11, 12, 13, 14, 15]),
+        new("May", [13, 14, 15, 16, 17, 17, 18, 19, 20, 22]),
+        new("Jul", [18, 20, 21, 22, 23, 23, 24, 25, 27, 30]),
+        new("Sep", [14, 16, 17, 18, 18, 19, 20, 21, 22, 24]),
+        new("Nov", [6, 7, 8, 9, 9, 10, 11, 12, 13, 14])
+    ];
     #endregion
 }

@@ -1,12 +1,62 @@
 @page "/chart/beeswarm"
 @using TwBlazor.Models
 
-<PageContainer Title="TwBeeswarmChart" Path="/chart/beeswarm" Beta Description="TwBeeswarmChart offsets raw observations to show grouped distributions without overlapping points.">
-    <PageCard Title="Basic usage"><Description>Each <code>ChartSample</code> is a group of raw observations.</Description><CodeExample Name="BeeswarmBasic" CSharpName="BeeswarmData"><TwChart Title="Scores by group"><TwBeeswarmChart Samples="@samples" /></TwChart></CodeExample></PageCard>
+<PageContainer Title="TwBeeswarmChart" Path="/chart/beeswarm" Beta Description="TwBeeswarmChart is a Blazor beeswarm chart that draws every observation as a dot, nudged sideways so none overlap.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwBeeswarmChart</code> draws every value in a <code>ChartSample</code> as a dot along the value axis and moves each one sideways just far enough to clear its neighbors. The swarm widens where values cluster, so you see both the spread and how many values sit at each level.</Description>
+
+        <CodeExample Name="BeeswarmChartBasic" CSharpName="BeeswarmChartData">
+            <TwChart Title="Customer satisfaction by plan" Description="Score out of 10">
+                <TwBeeswarmChart Samples="@plans" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Clusters and outliers">
+        <Description>Because no dot is hidden behind another, repeated values and stragglers are both easy to spot. Here most builds finish in about four minutes, with a handful of slow ones on the main branch.</Description>
+
+        <CodeExample Name="BeeswarmChartClusters" CSharpName="BeeswarmChartClustersData">
+            <TwChart Title="Build duration by branch" Description="Minutes">
+                <TwBeeswarmChart Samples="@builds" LabelHeader="Branch" ValueFormat="0.0 min" Height="ChartHeight.Large" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Horizontal">
+        <Description>Set <code>Horizontal</code> to list the groups down the side with values running left to right.</Description>
+
+        <CodeExample Name="BeeswarmChartHorizontal">
+            <TwChart Title="Customer satisfaction by plan">
+                <TwBeeswarmChart Samples="@plans" Horizontal="true" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Reading the chart">
+        <Description>Hover or focus a group for its count, minimum, lower quartile, median, upper quartile and maximum; the table view gives the same summary. A cluster too large for its group's slot overlaps at the edges, so for hundreds of values per group prefer <TwLink Href="/chart/violin-plot" Class="underline">TwViolinPlotChart</TwLink> or <TwLink Href="/chart/box-plot" Class="underline">TwBoxPlotChart</TwLink>.</Description>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart" Class="underline">TwChart</TwLink> for those options.</Description>
+    </PageCard>
 </PageContainer>
 
 @code {
-    #region CodeExample BeeswarmData
-    private readonly ChartSample[] samples = [new("A", [2, 3, 3, 4, 5, 7]), new("B", [1, 2, 5, 6, 7, 8])];
+    #region CodeExample BeeswarmChartData
+    private readonly ChartSample[] plans =
+    [
+        new("Free", [3, 4, 5, 5, 6, 6, 6, 7, 7, 7, 7, 8, 8, 9]),
+        new("Team", [5, 6, 7, 7, 8, 8, 8, 8, 9, 9, 9, 10]),
+        new("Enterprise", [6, 7, 8, 8, 9, 9, 9, 9, 10, 10, 10])
+    ];
+    #endregion
+
+    #region CodeExample BeeswarmChartClustersData
+    private readonly ChartSample[] builds =
+    [
+        new("main", [3.8, 3.9, 4.0, 4.0, 4.1, 4.1, 4.1, 4.2, 4.2, 4.3, 4.3, 4.4, 4.6, 7.9, 8.4, 11.2]),
+        new("release", [4.4, 4.5, 4.6, 4.6, 4.7, 4.8, 4.8, 4.9, 5.0, 5.2]),
+        new("feature", [2.9, 3.1, 3.3, 3.4, 3.6, 3.7, 3.9, 4.0, 4.4, 4.9, 5.5, 6.1])
+    ];
     #endregion
 }

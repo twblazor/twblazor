@@ -1,13 +1,92 @@
 @page "/chart/sankey"
 @using TwBlazor.Models
 
-<PageContainer Title="TwSankeyChart" Path="/chart/sankey" Beta Description="TwSankeyChart visualizes weighted flows between horizontal stages.">
-    <PageCard Title="Basic usage"><Description>Links reference node IDs. Set each node's <code>Stage</code> when you need to control its column.</Description><CodeExample Name="SankeyBasic" CSharpName="SankeyData"><TwChart Title="Energy flow"><TwSankeyChart Nodes="@nodes" Links="@links" /></TwChart></CodeExample></PageCard>
+<PageContainer Title="TwSankeyChart" Path="/chart/sankey" Beta Description="TwSankeyChart is a Blazor Sankey diagram: nodes in columns joined by ribbons as thick as the flow between them.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwSankeyChart</code> arranges <code>ChartGraphNode</code> values in columns and joins them with a ribbon for every <code>ChartGraphLink</code>, as thick as its value. A node sits to the right of every node that flows into it, and is as tall as what flows through it. Links refer to nodes by <code>Id</code>.</Description>
+
+        <CodeExample Name="SankeyChartBasic" CSharpName="SankeyChartData">
+            <TwChart Title="Energy flow" Description="Gigawatt hours">
+                <TwSankeyChart Nodes="@energyNodes" Links="@energyLinks" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Several stages">
+        <Description>Columns are worked out from the links, so a longer chain simply adds columns. This budget splits income into categories and then into line items, with everything it does not spend flowing to savings.</Description>
+
+        <CodeExample Name="SankeyChartBudget" CSharpName="SankeyChartBudgetData">
+            <TwChart Title="Where a monthly salary goes" Description="Pounds">
+                <TwSankeyChart Nodes="@budgetNodes" Links="@budgetLinks" ValueFormat="C0" SourceHeader="From" TargetHeader="To" ValueHeader="Amount" Height="ChartHeight.Large" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Setting the column">
+        <Description>A node with nothing flowing into it starts in the first column. Set its <code>Stage</code> to move it further right, as with the visitors who join this funnel at the basket from a saved link.</Description>
+
+        <CodeExample Name="SankeyChartStages" CSharpName="SankeyChartStagesData">
+            <TwChart Title="Checkout funnel" Description="Sessions last week">
+                <TwSankeyChart Nodes="@funnelNodes" Links="@funnelLinks" ValueHeader="Sessions" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Reading the chart">
+        <Description>Nodes and ribbons are both data points. A node's tooltip gives its total and lists every flow in and out of it; a ribbon responds anywhere on its shape and names its two ends and its value. The arrow keys visit the nodes first, then the ribbons. The table view lists every link. Links without a positive value are left out.</Description>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart" Class="underline">TwChart</TwLink> for those options.</Description>
+    </PageCard>
 </PageContainer>
 
 @code {
-    #region CodeExample SankeyData
-    private readonly ChartGraphNode[] nodes = [new("input", "Input", 0), new("solar", "Solar", 1), new("grid", "Grid", 1), new("homes", "Homes", 2)];
-    private readonly ChartGraphLink[] links = [new("input", "solar", 25), new("input", "grid", 75), new("solar", "homes", 25), new("grid", "homes", 75)];
+    #region CodeExample SankeyChartData
+    private readonly ChartGraphNode[] energyNodes =
+    [
+        new("solar", "Solar"), new("wind", "Wind"), new("gas", "Gas"),
+        new("grid", "Grid"),
+        new("homes", "Homes"), new("industry", "Industry")
+    ];
+
+    private readonly ChartGraphLink[] energyLinks =
+    [
+        new("solar", "grid", 25), new("wind", "grid", 40), new("gas", "grid", 35),
+        new("grid", "homes", 45), new("grid", "industry", 55)
+    ];
+    #endregion
+
+    #region CodeExample SankeyChartBudgetData
+    private readonly ChartGraphNode[] budgetNodes =
+    [
+        new("salary", "Salary"), new("bonus", "Bonus"),
+        new("income", "Income"),
+        new("housing", "Housing"), new("living", "Living"), new("savings", "Savings"),
+        new("rent", "Rent"), new("energy", "Energy"), new("food", "Food"), new("travel", "Travel"), new("leisure", "Leisure")
+    ];
+
+    private readonly ChartGraphLink[] budgetLinks =
+    [
+        new("salary", "income", 3200), new("bonus", "income", 400),
+        new("income", "housing", 1400), new("income", "living", 1300), new("income", "savings", 900),
+        new("housing", "rent", 1150), new("housing", "energy", 250),
+        new("living", "food", 520), new("living", "travel", 340), new("living", "leisure", 440)
+    ];
+    #endregion
+
+    #region CodeExample SankeyChartStagesData
+    private readonly ChartGraphNode[] funnelNodes =
+    [
+        new("home", "Home page"), new("product", "Product page"),
+        new("saved", "Saved link", Stage: 1),
+        new("basket", "Basket"), new("paid", "Paid"), new("left", "Abandoned")
+    ];
+
+    private readonly ChartGraphLink[] funnelLinks =
+    [
+        new("home", "product", 5200), new("product", "basket", 1900), new("saved", "basket", 600),
+        new("basket", "paid", 1400), new("basket", "left", 1100)
+    ];
     #endregion
 }

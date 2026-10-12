@@ -1,13 +1,75 @@
 @page "/chart/chord-diagram"
 @using TwBlazor.Models
 
-<PageContainer Title="TwChordDiagramChart" Path="/chart/chord-diagram" Beta Description="TwChordDiagramChart shows weighted relationships between nodes arranged around a circle.">
-    <PageCard Title="Basic usage"><Description>Links reference node IDs and their values determine the relationship weight.</Description><CodeExample Name="ChordBasic" CSharpName="ChordData"><TwChart Title="Cross-team collaboration"><TwChordDiagramChart Nodes="@nodes" Links="@links" /></TwChart></CodeExample></PageCard>
+<PageContainer Title="TwChordDiagramChart" Path="/chart/chord-diagram" Beta Description="TwChordDiagramChart is a Blazor chord diagram: nodes as arcs around a circle joined by ribbons as thick as the flow between them.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwChordDiagramChart</code> arranges <code>ChartGraphNode</code> values as arcs around a circle and draws a ribbon across it for every <code>ChartGraphLink</code>. An arc is as long as the total of its links and a ribbon is as thick as its link's value. Links refer to nodes by <code>Id</code>.</Description>
+
+        <CodeExample Name="ChordDiagramChartBasic" CSharpName="ChordDiagramChartData">
+            <TwChart Title="Cross-team collaboration" Description="Shared projects last year">
+                <TwChordDiagramChart Nodes="@teams" Links="@projects" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Flows in both directions">
+        <Description>Add a link each way to show a two-way flow. Each ribbon takes the color of the node it starts at, so the mix of colors arriving at an arc shows where its traffic comes from.</Description>
+
+        <CodeExample Name="ChordDiagramChartMigration" CSharpName="ChordDiagramChartMigrationData">
+            <TwChart Title="Customers switching between plans" Description="Accounts that changed plan last year">
+                <TwChordDiagramChart Nodes="@plans" Links="@switches" SourceHeader="From" TargetHeader="To" ValueHeader="Accounts" Height="ChartHeight.Large" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Dominant links">
+        <Description>Because thickness follows value, one heavy relationship stands out from many light ones at a glance.</Description>
+
+        <CodeExample Name="ChordDiagramChartTrade" CSharpName="ChordDiagramChartTradeData">
+            <TwChart Title="Trade between regions" Description="Billions of pounds">
+                <TwChordDiagramChart Nodes="@regions" Links="@trade" ValueFormat="C0" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Reading the chart">
+        <Description>Nodes are named in the legend, in the same colors as their arcs. Each arc is a data point that responds anywhere on its shape: its tooltip gives the node's total and lists every link, with an arrow showing whether it leaves or arrives. The table view lists every link with its source, target and value. Links that name a missing node, or join a node to itself, are left out.</Description>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart" Class="underline">TwChart</TwLink> for those options.</Description>
+    </PageCard>
 </PageContainer>
 
 @code {
-    #region CodeExample ChordData
-    private readonly ChartGraphNode[] nodes = [new("design", "Design"), new("eng", "Engineering"), new("sales", "Sales")];
-    private readonly ChartGraphLink[] links = [new("design", "eng", 8), new("eng", "sales", 5), new("sales", "design", 3)];
+    #region CodeExample ChordDiagramChartData
+    private readonly ChartGraphNode[] teams = [new("design", "Design"), new("eng", "Engineering"), new("sales", "Sales")];
+
+    private readonly ChartGraphLink[] projects = [new("design", "eng", 8), new("eng", "sales", 5), new("sales", "design", 3)];
+    #endregion
+
+    #region CodeExample ChordDiagramChartMigrationData
+    private readonly ChartGraphNode[] plans = [new("free", "Free"), new("team", "Team"), new("business", "Business"), new("enterprise", "Enterprise")];
+
+    private readonly ChartGraphLink[] switches =
+    [
+        new("free", "team", 420), new("team", "free", 90),
+        new("team", "business", 260), new("business", "team", 70),
+        new("business", "enterprise", 110), new("enterprise", "business", 25),
+        new("free", "business", 60)
+    ];
+    #endregion
+
+    #region CodeExample ChordDiagramChartTradeData
+    private readonly ChartGraphNode[] regions =
+    [
+        new("eu", "Europe"), new("na", "North America"), new("as", "Asia"), new("sa", "South America"), new("af", "Africa")
+    ];
+
+    private readonly ChartGraphLink[] trade =
+    [
+        new("eu", "na", 620), new("as", "na", 540), new("as", "eu", 480),
+        new("na", "sa", 90), new("eu", "af", 70), new("as", "af", 55), new("sa", "eu", 40)
+    ];
     #endregion
 }

@@ -1,13 +1,68 @@
 @page "/chart/stream-graph"
 @using TwBlazor.Models
 
-<PageContainer Title="TwStreamGraphChart" Path="/chart/stream-graph" Beta Description="TwStreamGraphChart centers stacked areas around a shared baseline.">
-    <PageCard Title="Basic usage"><Description>Pass one series value per time category.</Description><CodeExample Name="StreamGraphBasic" CSharpName="StreamGraphData"><TwChart Title="Traffic sources"><TwStreamGraphChart Categories="@months" Series="@series" /></TwChart></CodeExample></PageCard>
+<PageContainer Title="TwStreamGraphChart" Path="/chart/stream-graph" Beta Description="TwStreamGraphChart is a Blazor stream graph: stacked layers that flow around a central line to show how the make-up of a total shifts over time.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwStreamGraphChart</code> stacks one smooth layer per series around the middle of the plot instead of on a baseline. The thickness of a layer is its value, and the outline of the whole stream is the total.</Description>
+
+        <CodeExample Name="StreamGraphChartBasic" CSharpName="StreamGraphChartData">
+            <TwChart Title="Visits by source" Description="Thousands per month">
+                <TwStreamGraphChart Categories="@months" Series="@sources" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Rise and fall">
+        <Description>A stream graph is at its best when series come and go. Here each genre swells and fades in turn, which a stacked area chart would bury under a climbing baseline.</Description>
+
+        <CodeExample Name="StreamGraphChartGenres" CSharpName="StreamGraphChartGenresData">
+            <TwChart Title="Listening hours by genre" Description="Millions of hours per year">
+                <TwStreamGraphChart Categories="@years" Series="@genres" CategoryHeader="Year" Height="ChartHeight.Large" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Hiding layers">
+        <Description>Click a legend entry to remove its layer; the rest close up around the middle. Set <code>InteractiveLegend</code> to <code>false</code> to keep every layer in place.</Description>
+
+        <CodeExample Name="StreamGraphChartLegend">
+            <TwChart Title="Visits by source">
+                <TwStreamGraphChart Categories="@months" Series="@sources" InteractiveLegend="false" Height="ChartHeight.Small" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Reading the chart">
+        <Description>Only thickness carries meaning; a layer's height on the plot does not. Hover or focus a category for the value of every series there, and use the arrow keys to move along. Missing and negative values count as zero. When exact totals matter, use a stacked <TwLink Href="/chart/area" Class="underline">TwAreaChart</TwLink>.</Description>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart" Class="underline">TwChart</TwLink> for those options.</Description>
+    </PageCard>
 </PageContainer>
 
 @code {
-    #region CodeExample StreamGraphData
-    private readonly string[] months = ["Jan", "Feb", "Mar", "Apr"];
-    private readonly ChartSeries[] series = [new("Search", [24, 28, 26, 34]), new("Direct", [16, 18, 22, 20]), new("Social", [10, 14, 12, 18])];
+    #region CodeExample StreamGraphChartData
+    private readonly string[] months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
+
+    private readonly ChartSeries[] sources =
+    [
+        new("Search", [24, 28, 26, 34, 38, 41]),
+        new("Direct", [16, 18, 22, 20, 19, 23]),
+        new("Social", [10, 14, 12, 18, 27, 22])
+    ];
+    #endregion
+
+    #region CodeExample StreamGraphChartGenresData
+    private readonly string[] years = ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025"];
+
+    private readonly ChartSeries[] genres =
+    [
+        new("Rock", [42, 40, 36, 31, 27, 24, 22, 20, 19, 18]),
+        new("Pop", [35, 38, 44, 48, 46, 41, 37, 35, 34, 33]),
+        new("Hip hop", [12, 18, 27, 36, 45, 52, 50, 44, 39, 36]),
+        new("Electronic", [8, 9, 11, 15, 22, 31, 40, 46, 43, 38]),
+        new("Podcasts", [0, 1, 3, 6, 12, 20, 29, 37, 48, 58])
+    ];
     #endregion
 }

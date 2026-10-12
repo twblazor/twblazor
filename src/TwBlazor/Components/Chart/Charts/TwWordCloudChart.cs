@@ -23,8 +23,11 @@ public class TwWordCloudChart : TwValueChartBase
 
     private const double maxFontSize = 30;
 
-    // The smallest size the largest word is shrunk to before words start being left out.
+    // No word is set smaller than this, and the largest is not shrunk below the second size, so the cloud stays
+    // readable and its largest words still stand out. Past that point words are left out instead.
     private const double smallestFontSize = 9;
+
+    private const double smallestPeakFontSize = 14;
 
     private const double lineHeight = 1.25;
 
@@ -91,7 +94,7 @@ public class TwWordCloudChart : TwValueChartBase
             foreach (var word in words)
             {
                 // A word too long for the plot at its own size is set as large as fits.
-                var fontSize = (minFontSize + (maxFontSize - minFontSize) * Math.Sqrt(word.Value / words[0].Value)) * shrink;
+                var fontSize = Math.Max(smallestFontSize, (minFontSize + (maxFontSize - minFontSize) * Math.Sqrt(word.Value / words[0].Value)) * shrink);
                 fontSize = Math.Min(fontSize, available / (ChartMetrics.TextWidth(word.Label, 1) / side * 100));
                 var width = ChartMetrics.TextWidth(word.Label, fontSize) / side * 100;
 
@@ -110,7 +113,7 @@ public class TwWordCloudChart : TwValueChartBase
                 return lines;
             }
 
-            if (maxFontSize * shrink <= smallestFontSize)
+            if (maxFontSize * shrink <= smallestPeakFontSize)
             {
                 double height = 0;
                 return [.. lines.TakeWhile((line, index) => (height += GetHeight(line, side)) <= available || index == 0)];

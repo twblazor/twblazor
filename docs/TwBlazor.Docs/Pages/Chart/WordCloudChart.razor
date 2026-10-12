@@ -1,22 +1,71 @@
 @page "/chart/word-cloud"
 @using TwBlazor.Models
 
-<PageContainer Title="TwWordCloudChart" Path="/chart/word-cloud" Beta Description="TwWordCloudChart displays words sized by their values.">
+<PageContainer Title="TwWordCloudChart" Path="/chart/word-cloud" Beta Description="TwWordCloudChart is a Blazor word cloud: words sized by their values and gathered around the middle of the plot.">
     <PageCard Title="Basic usage">
-        <Description>Pass labelled values to <code>Data</code>. Larger values produce larger words; non-positive values are omitted.</Description>
+        <Description><code>TwWordCloudChart</code> takes labelled values as <code>Data</code> and draws each label as a word sized by its value, with the largest in the middle. It gives a quick impression of which terms dominate.</Description>
+
         <CodeExample Name="WordCloudChartBasic" CSharpName="WordCloudChartData">
-            <TwChart Title="Search terms">
+            <TwChart Title="Search terms" Description="Searches last month">
                 <TwWordCloudChart Data="@terms" />
             </TwChart>
         </CodeExample>
     </PageCard>
+
+    <PageCard Title="Many words">
+        <Description>As words are added they all shrink together to fit. A larger <code>Height</code> gives them more room. Use <code>LabelHeader</code> and <code>ValueHeader</code> to name the columns of the table view; the value heading also labels tooltips.</Description>
+
+        <CodeExample Name="WordCloudChartMany" CSharpName="WordCloudChartManyData">
+            <TwChart Title="Words in customer feedback" Description="Mentions this quarter">
+                <TwWordCloudChart Data="@feedback" LabelHeader="Word" ValueHeader="Mentions" Height="ChartHeight.Large" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Compact">
+        <Description>At <code>ChartHeight.Small</code> the words are set smaller to match, which suits a card on a dashboard.</Description>
+
+        <CodeExample Name="WordCloudChartSmall" CSharpName="WordCloudChartSmallData">
+            <TwChart Title="Top tags">
+                <TwWordCloudChart Data="@tags" Height="ChartHeight.Small" ShowTableToggle="false" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Reading the chart">
+        <Description>The area of a word, not its height, follows its value, so long words are not exaggerated. Each word is a data point with its value in the tooltip, and the arrow keys step through the words from largest to smallest. No word is set too small to read: when there are more words than fit, the smallest are left out of the plot but stay in the table view. Negative and zero values are left out. For exact comparison use <TwLink Href="/chart/bar" Class="underline">TwBarChart</TwLink>.</Description>
+    </PageCard>
+
     <PageCard Title="Shared features">
-        <Description>Tooltips, keyboard navigation, the table view, value formatting, height and empty state are provided by <TwLink Href="/chart" Class="underline">TwChart</TwLink>.</Description>
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart" Class="underline">TwChart</TwLink> for those options.</Description>
     </PageCard>
 </PageContainer>
 
 @code {
     #region CodeExample WordCloudChartData
-    private readonly ChartValue[] terms = [new("Search", 50), new("Direct", 30), new("Social", 20)];
+    private readonly ChartValue[] terms =
+    [
+        new("pricing", 50), new("login", 38), new("invoice", 30), new("export", 24),
+        new("api", 20), new("refund", 14), new("password", 12), new("teams", 9)
+    ];
+    #endregion
+
+    #region CodeExample WordCloudChartManyData
+    private readonly ChartValue[] feedback =
+    [
+        new("fast", 182), new("support", 164), new("easy", 151), new("price", 139), new("reliable", 118),
+        new("dashboard", 104), new("setup", 96), new("mobile", 88), new("reports", 81), new("slow", 74),
+        new("billing", 69), new("search", 63), new("helpful", 58), new("export", 52), new("confusing", 47),
+        new("integration", 43), new("clean", 39), new("updates", 35), new("login", 31), new("onboarding", 28),
+        new("charts", 25), new("filters", 22), new("alerts", 19), new("permissions", 17), new("sync", 15),
+        new("templates", 13), new("offline", 11), new("shortcuts", 9), new("themes", 8), new("imports", 7)
+    ];
+    #endregion
+
+    #region CodeExample WordCloudChartSmallData
+    private readonly ChartValue[] tags =
+    [
+        new("blazor", 40), new("tailwind", 32), new("charts", 21), new("a11y", 18), new("dotnet", 15), new("css", 9)
+    ];
     #endregion
 }

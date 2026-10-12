@@ -1,12 +1,70 @@
 @page "/chart/hexbin"
 @using TwBlazor.Models
 
-<PageContainer Title="TwHexbinChart" Path="/chart/hexbin" Beta Description="TwHexbinChart aggregates dense scatter data into hexagonal bins.">
-    <PageCard Title="Basic usage"><Description>Pass numeric point series; <code>BinWidth</code> controls approximate cell width.</Description><CodeExample Name="HexbinBasic" CSharpName="HexbinData"><TwChart Title="Sample concentration"><TwHexbinChart Series="@points" BinWidth="10" /></TwChart></CodeExample></PageCard>
+<PageContainer Title="TwHexbinChart" Path="/chart/hexbin" Beta Description="TwHexbinChart is a Blazor hexbin chart that tiles the plot with hexagons shaded by how many points fall in each, for scatter data too dense to read.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwHexbinChart</code> takes the same <code>ChartPointSeries</code> as a scatter plot, tiles the plot with hexagons and shades each by how many points fall inside it. Use it when there are so many points that dots would pile into a blob.</Description>
+
+        <CodeExample Name="HexbinChartBasic" CSharpName="HexbinChartData">
+            <TwChart Title="Session length against pages viewed" Description="One point per session">
+                <TwHexbinChart Series="@sessions" XTitle="Minutes" YTitle="Pages" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Bin size">
+        <Description><code>BinWidth</code> is the width of a hexagon as a percentage of the plot's width, from 4 to 25. Smaller hexagons show finer detail but need more points to fill; larger ones smooth out the noise.</Description>
+
+        <CodeExample Name="HexbinChartBinWidth">
+            <div class="grid gap-8 md:grid-cols-2">
+                <TwChart Title="Fine" Description="BinWidth 6">
+                    <TwHexbinChart Series="@sessions" BinWidth="6" XTitle="Minutes" YTitle="Pages" Height="ChartHeight.Small" />
+                </TwChart>
+                <TwChart Title="Coarse" Description="BinWidth 16">
+                    <TwHexbinChart Series="@sessions" BinWidth="16" XTitle="Minutes" YTitle="Pages" Height="ChartHeight.Small" />
+                </TwChart>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Several series">
+        <Description>Every series is combined into one cloud before counting, so you can pass data in whatever groups you hold it in. Here two clusters of readings show as two dark patches.</Description>
+
+        <CodeExample Name="HexbinChartClusters" CSharpName="HexbinChartClustersData">
+            <TwChart Title="Sensor readings" Description="Temperature against humidity">
+                <TwHexbinChart Series="@readings" XTitle="Temperature" YTitle="Humidity" CountLabel="Readings" BinWidth="8" Height="ChartHeight.Large" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Reading the chart">
+        <Description>Shading uses a single hue, so darker always means more points. Hexagons with no points are left out. Each hexagon is a data point that responds anywhere on its shape; its tooltip gives the average position of its points and their count, and the table view lists every hexagon.</Description>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart" Class="underline">TwChart</TwLink> for those options.</Description>
+    </PageCard>
 </PageContainer>
 
 @code {
-    #region CodeExample HexbinData
-    private readonly ChartPointSeries[] points = [new("Sample", [new(1, 4), new(2, 5), new(2.2, 5.2), new(8, 8), new(8.2, 8.3)])];
+    #region CodeExample HexbinChartData
+    // A repeatable cloud of 400 sessions: longer sessions view more pages, with some scatter.
+    private readonly ChartPointSeries[] sessions =
+    [
+        new("Sessions", [.. Enumerable.Range(0, 400).Select(index =>
+        {
+            var minutes = 2 + index % 37 * 0.6 + Math.Sin(index * 1.7) * 3;
+            var pages = 1 + minutes * 0.45 + Math.Cos(index * 2.3) * 2.5;
+            return new ChartPoint(Math.Max(0.5, minutes), Math.Max(1, pages));
+        })])
+    ];
+    #endregion
+
+    #region CodeExample HexbinChartClustersData
+    private readonly ChartPointSeries[] readings =
+    [
+        new("Greenhouse", [.. Enumerable.Range(0, 180).Select(index => new ChartPoint(27 + Math.Sin(index * 0.9) * 3, 72 + Math.Cos(index * 1.3) * 8))]),
+        new("Warehouse", [.. Enumerable.Range(0, 180).Select(index => new ChartPoint(16 + Math.Sin(index * 1.1) * 4, 41 + Math.Cos(index * 0.7) * 6))])
+    ];
     #endregion
 }

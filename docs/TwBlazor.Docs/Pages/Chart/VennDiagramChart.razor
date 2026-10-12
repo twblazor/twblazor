@@ -1,13 +1,67 @@
 @page "/chart/venn-diagram"
 @using TwBlazor.Models
 
-<PageContainer Title="TwVennDiagramChart" Path="/chart/venn-diagram" Beta Description="TwVennDiagramChart shows up to three sets and their reported overlaps.">
-    <PageCard Title="Basic usage"><Description>Provide set sizes and pairwise intersections.</Description><CodeExample Name="VennBasic" CSharpName="VennData"><TwChart Title="Shared skills"><TwVennDiagramChart Sets="@sets" Intersections="@overlaps" /></TwChart></CodeExample></PageCard>
+<PageContainer Title="TwVennDiagramChart" Path="/chart/venn-diagram" Beta Description="TwVennDiagramChart is a Blazor Venn diagram: up to three sets as equal overlapping circles, with the shared count where each pair meets.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwVennDiagramChart</code> draws each <code>ChartSet</code> as a circle and overlaps them all. A <code>ChartSetIntersection</code> names two sets and how many elements they share; that number is written where the two circles meet.</Description>
+
+        <CodeExample Name="VennDiagramChartBasic" CSharpName="VennDiagramChartData">
+            <TwChart Title="Skills on the team" Description="People with each skill">
+                <TwVennDiagramChart Sets="@skills" Intersections="@sharedSkills" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Two sets">
+        <Description>With two sets the circles sit side by side. Intersections can name their sets in either order.</Description>
+
+        <CodeExample Name="VennDiagramChartTwo" CSharpName="VennDiagramChartTwoData">
+            <TwChart Title="Newsletter and app users" Description="Thousands of customers">
+                <TwVennDiagramChart Sets="@audiences" Intersections="@sharedAudience" LabelHeader="Audience" ValueHeader="Customers" Height="ChartHeight.Small" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Missing overlaps">
+        <Description>A Venn diagram always draws every possible overlap. A pair with no intersection given still overlaps on the plot but shows no number. To draw only the overlaps that exist, with circles sized by their sets, use <TwLink Href="/chart/euler-diagram" Class="underline">TwEulerDiagramChart</TwLink>.</Description>
+
+        <CodeExample Name="VennDiagramChartPartial" CSharpName="VennDiagramChartPartialData">
+            <TwChart Title="Features used last month" Description="Accounts">
+                <TwVennDiagramChart Sets="@features" Intersections="@sharedFeatures" ValueFormat="#,0" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Reading the chart">
+        <Description>The circles are all the same size, so read the numbers, not the areas. Each circle is a data point that responds anywhere on its shape; its tooltip gives the size of the set and every overlap it takes part in. The table view lists the sets and then the overlaps. Up to three sets are drawn, and sets with no size are left out.</Description>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart" Class="underline">TwChart</TwLink> for those options.</Description>
+    </PageCard>
 </PageContainer>
 
 @code {
-    #region CodeExample VennData
-    private readonly ChartSet[] sets = [new("Research", 38), new("Design", 32), new("Engineering", 44)];
-    private readonly ChartSetIntersection[] overlaps = [new("Research", "Design", 14), new("Design", "Engineering", 9), new("Research", "Engineering", 6)];
+    #region CodeExample VennDiagramChartData
+    private readonly ChartSet[] skills = [new("Research", 38), new("Design", 32), new("Engineering", 44)];
+
+    private readonly ChartSetIntersection[] sharedSkills =
+    [
+        new("Research", "Design", 14),
+        new("Design", "Engineering", 9),
+        new("Research", "Engineering", 6)
+    ];
+    #endregion
+
+    #region CodeExample VennDiagramChartTwoData
+    private readonly ChartSet[] audiences = [new("Newsletter", 120), new("App", 85)];
+
+    private readonly ChartSetIntersection[] sharedAudience = [new("App", "Newsletter", 40)];
+    #endregion
+
+    #region CodeExample VennDiagramChartPartialData
+    private readonly ChartSet[] features = [new("Reports", 2400), new("Exports", 1100), new("Alerts", 860)];
+
+    private readonly ChartSetIntersection[] sharedFeatures = [new("Reports", "Exports", 940), new("Reports", "Alerts", 310)];
     #endregion
 }
