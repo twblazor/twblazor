@@ -123,11 +123,10 @@ public class HomePageTests : DocsTestBase
         var section = page.Find("section[aria-labelledby='rtl-heading']");
         Assert.Contains("right to left", section.QuerySelector("h2#rtl-heading")!.TextContent);
         Assert.Equal("/direction-provider", section.QuerySelector("a#rtl-docs")!.GetAttribute("href"));
-        Assert.Equal(3, section.QuerySelectorAll("ul > li").Length);
+        Assert.Equal(3, section.QuerySelectorAll("ul.mt-6 > li").Length);
 
-        var sections = page.FindAll("section").ToList();
-        var localization = sections.FindIndex(s => s.GetAttribute("aria-labelledby") == "localization-heading");
-        Assert.Equal(localization + 1, sections.IndexOf(section));
+        var headings = page.FindAll("section").Select(s => s.GetAttribute("aria-labelledby")).ToList();
+        Assert.Equal(headings.IndexOf("localization-heading") + 1, headings.IndexOf("rtl-heading"));
     }
 
     [Fact]
