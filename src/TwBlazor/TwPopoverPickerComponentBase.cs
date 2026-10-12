@@ -194,6 +194,11 @@ public abstract class TwPopoverPickerComponentBase : TwBlazorTextInputComponentB
         if (isFocused && PendingPanelFocus && PanelRef.Context != null)
         {
             PendingPanelFocus = false;
+
+            // Arm the trap before focus moves in. Each picker also arms it from its own OnAfterRenderAsync,
+            // but that runs after this and is several JS calls later, so a Tab pressed straight after the
+            // panel opened could land in between and carry focus out of the panel. Arming is idempotent.
+            await ApplyPanelTrapAsync(PanelRef);
             await JSRuntime.InvokeVoidAsync("twDialog.focusPanel", PanelRef);
         }
     }

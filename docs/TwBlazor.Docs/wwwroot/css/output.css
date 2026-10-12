@@ -3993,11 +3993,6 @@
       content: var(--tw-content);
       padding: calc(var(--spacing) * 2);
     }
-    .hover\:after\:scale-x-100:hover::after {
-      content: var(--tw-content);
-      --tw-scale-x: 100%;
-      scale: var(--tw-scale-x) var(--tw-scale-y);
-    }
   }
   .focus\:not-sr-only:focus {
     position: static;
@@ -5702,6 +5697,10 @@
       outline-color: Highlight;
     }
     .forced-colors\:before\:bg-\[Highlight\]::before {
+      content: var(--tw-content);
+      background-color: Highlight;
+    }
+    .forced-colors\:after\:bg-\[Highlight\]::after {
       content: var(--tw-content);
       background-color: Highlight;
     }

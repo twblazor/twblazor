@@ -34,7 +34,7 @@ public partial class TwTab : TwBlazorComponentBase
     [Parameter] public required RenderFragment ChildContent { get; set; }
 
     /// <summary>
-    /// The color of the tab, which can be set to customize its appearance. If not specified, it will inherit the color from the parent tab container.
+    /// The color of the tab's text and underline indicator while it is the active tab. If not specified, it will inherit the color from the parent tab container.
     /// </summary>
     [Parameter] public Color? Color { get; set; }
 
@@ -57,19 +57,21 @@ public partial class TwTab : TwBlazorComponentBase
     /// <summary>
     /// Gets the CSS classes that are applied to the tab element based on its current state and configuration.
     /// </summary>
-    /// <remarks>The returned class string reflects the tab's active, disabled, and dense states, as well as
-    /// color and text options provided by the parent component. These classes control the tab's appearance, including
-    /// padding, text styling, and interactive effects.</remarks>
+    /// <remarks>The returned class string reflects the tab's active, disabled, and dense states. Only the active
+    /// tab is drawn in its <see cref="Color"/> (text and underline indicator); inactive and disabled tabs use the
+    /// theme's neutral text so the selected tab is the single colored item in the list.</remarks>
     public string TabClasses => new ClassBuilder(Parent.Dense ? theme.TabDensePadding : theme.TabPadding)
         .AddClass(theme.TabBase)
-        .AddClass(tabTextColor)
-        .AddClass(theme.ActiveIndicator, (Parent.ActiveTab == this && !Disabled))
-        .AddClass(theme.InactiveIndicator, Parent.ActiveTab != this && !Disabled)
+        .AddClass(tabTextColor, isActive && !Disabled)
+        .AddClass(theme.ActiveIndicator, isActive && !Disabled)
+        .AddClass(theme.InactiveIndicator, !isActive && !Disabled)
         .AddClass(theme.DisabledTab, Disabled)
         .AddClass(Class).Build();
 
+    private bool isActive => Parent.ActiveTab == this;
+
     /// <summary>
-    /// The tab's text color classes. Unlike <see cref="ColorBuilder.GetTextColor"/>'s other consumer
+    /// The active tab's text color classes. Unlike <see cref="ColorBuilder.GetTextColor"/>'s other consumer
     /// (<see cref="TwIcon"/>, which should inherit its surrounding element's color via
     /// <c>currentColor</c> when no explicit <see cref="Color"/> is set), a tab button has no useful
     /// color to inherit, so it falls back to the same brand-purple pairing an explicit

@@ -29,7 +29,7 @@ public class TwTabContainerTests : TwBlazorTestBase
         var tablist = cut.Find("div[role='tablist']");
         Assert.NotNull(tablist);
         Assert.Contains("flex flex-wrap", tablist.GetAttribute("class"));
-        Assert.Contains("flex flex-wrap border", tablist.GetAttribute("class"));
+        Assert.Contains("flex flex-wrap overflow-hidden border", tablist.GetAttribute("class"));
 
         var tabpanel = cut.Find("div[role='tabpanel']");
         Assert.NotNull(tabpanel);
@@ -197,7 +197,7 @@ public class TwTabContainerTests : TwBlazorTestBase
 
         // Assert
         var button = cut.Find("button[role='tab']");
-        Assert.Contains("px-4", button.GetAttribute("class"));
+        Assert.Contains("px-4 py-2", button.GetAttribute("class"));
     }
 
     [Fact]
@@ -216,7 +216,7 @@ public class TwTabContainerTests : TwBlazorTestBase
 
         // Assert
         var button = cut.Find("button[role='tab']");
-        Assert.Contains("py-5 px-6", button.GetAttribute("class"));
+        Assert.Contains("px-6 py-3", button.GetAttribute("class"));
     }
 
     [Fact]
@@ -471,6 +471,32 @@ public class TwTabContainerTests : TwBlazorTestBase
         var tabpanelClass = tabpanel.GetAttribute("class") ?? string.Empty;
         Assert.Contains("border-x", tabpanelClass);
         Assert.Contains("border-b", tabpanelClass);
+    }
+
+    [Fact]
+    public void TwTabContainer_TabList_ClipsTabsToItsRoundedCorners()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwTabContainer>(parameters => parameters
+            .Add(p => p.ChildContent, ThreeTabs()));
+
+        // Assert - without clipping, a hovered first/last tab's fill would square off the rounded corners.
+        var tablist = cut.Find("div[role='tablist']");
+        Assert.Contains("overflow-hidden", tablist.GetAttribute("class"));
+    }
+
+    [Fact]
+    public void TwTabContainer_Panel_ShowsFocusRing_WhenKeyboardFocused()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwTabContainer>(parameters => parameters
+            .Add(p => p.ChildContent, ThreeTabs()));
+
+        // Assert - the panel is a Tab stop (tabindex="0"), so it needs the library's focus ring.
+        var tabpanel = cut.Find("div[role='tabpanel']");
+        Assert.Equal("0", tabpanel.GetAttribute("tabindex"));
+        Assert.Contains("focus-visible:ring-2", tabpanel.GetAttribute("class"));
+        Assert.Contains("focus-visible:ring-inset", tabpanel.GetAttribute("class"));
     }
 
     [Fact]
