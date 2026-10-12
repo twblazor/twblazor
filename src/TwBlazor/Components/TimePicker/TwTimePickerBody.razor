@@ -4,12 +4,12 @@
 <div id="@Id" class="@rootClasses" style="@Style" @attributes="Attributes" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy">
     <span class="@options.Theme.Display.ScreenReaderOnly" role="status" aria-live="polite">@statusMessage</span>
     <div class="@classes">
-        <div class="@theme.ContentRow">
+        <div class="@theme.ContentRow" dir="ltr">
             <div class="@theme.Column">
                 <TwIcon OnClick="@(() => StepAsync(IncrementHour))"
                         Icon="Icon.Caret_Up_Fill"
                         Class="@theme.StepButton"
-                        AriaLabel="Increase hour" />
+                        AriaLabel="@localizer[TwStrings.TimePicker_IncreaseHour]" />
 
                 <div class="@theme.NumberWrapper">
                     <input id="@($"{Id}-hour")" type="text"
@@ -17,7 +17,7 @@
                            value="@(Is12HourFormat ? SelectedTime.ToString("hh") : SelectedTime.ToString("HH"))"
                            role="spinbutton"
                            inputmode="numeric"
-                           aria-label="Hours"
+                           aria-label="@localizer[TwStrings.TimePicker_Hours]"
                            aria-valuemin="@(Is12HourFormat ? 1 : 0)"
                            aria-valuemax="@(Is12HourFormat ? 12 : 23)"
                            aria-valuenow="@(Is12HourFormat ? int.Parse(SelectedTime.ToString("%h")) : SelectedTime.Hour)"
@@ -28,7 +28,7 @@
                 <TwIcon OnClick="@(() => StepAsync(DecrementHour))"
                         Icon="Icon.Caret_Down_Fill"
                         Class="@theme.StepButton"
-                        AriaLabel="Decrease hour" />
+                        AriaLabel="@localizer[TwStrings.TimePicker_DecreaseHour]" />
             </div>
 
             <div class="@theme.Separator">:</div>
@@ -37,7 +37,7 @@
                 <TwIcon OnClick="@(() => StepAsync(IncrementMinute))"
                         Icon="Icon.Caret_Up_Fill"
                         Class="@theme.StepButton"
-                        AriaLabel="Increase minute" />
+                        AriaLabel="@localizer[TwStrings.TimePicker_IncreaseMinute]" />
 
                 <div class="@theme.NumberWrapper">
                     <input id="@($"{Id}-minute")" type="text"
@@ -45,7 +45,7 @@
                            value="@SelectedTime.ToString("mm")"
                            role="spinbutton"
                            inputmode="numeric"
-                           aria-label="Minutes"
+                           aria-label="@localizer[TwStrings.TimePicker_Minutes]"
                            aria-valuemin="0"
                            aria-valuemax="59"
                            aria-valuenow="@SelectedTime.Minute"
@@ -56,7 +56,7 @@
                 <TwIcon OnClick="@(() => StepAsync(DecrementMinute))"
                         Icon="Icon.Caret_Down_Fill"
                         Class="@theme.StepButton"
-                        AriaLabel="Decrease minute" />
+                        AriaLabel="@localizer[TwStrings.TimePicker_DecreaseMinute]" />
             </div>
 
             @if (Is12HourFormat)
@@ -67,9 +67,9 @@
                               Color="Color.Primary"
                               Variant="ButtonVariant.Filled"
                               Class="@theme.AmPmButtonClass"
-                              AriaLabel="@(SelectedTime.Hour >= 12 ? "PM, switch to AM" : "AM, switch to PM")"
+                              AriaLabel="@(SelectedTime.Hour >= 12 ? localizer[TwStrings.TimePicker_SwitchPeriod, localizer.Formats.PmDesignator, localizer.Formats.AmDesignator] : localizer[TwStrings.TimePicker_SwitchPeriod, localizer.Formats.AmDesignator, localizer.Formats.PmDesignator])"
                               Dense>
-                        @(SelectedTime.Hour >= 12 ? "PM" : "AM")
+                        @(SelectedTime.Hour >= 12 ? localizer.Formats.PmDesignator : localizer.Formats.AmDesignator)
                     </TwButton>
                 </div>
             }

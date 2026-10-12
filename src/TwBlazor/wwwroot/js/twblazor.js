@@ -1,3 +1,14 @@
+// Direction: whether an element is laid out right to left. The nearest explicit dir attribute wins, as it
+// does for the theme's rtl: styles; without one the computed direction is used.
+globalThis.twDirection = {
+    isRtl: function (el) {
+        if (!el || typeof el.closest !== 'function') return false;
+        const dir = el.closest('[dir]')?.getAttribute('dir')?.toLowerCase();
+        if (dir === 'rtl' || dir === 'ltr') return dir === 'rtl';
+        return typeof getComputedStyle === 'function' && getComputedStyle(el).direction === 'rtl';
+    }
+};
+
 // Generic picker (used by datepicker, timepicker, etc.)
 globalThis.twPicker = {
     // Marks root as already closing (or not) so this and twPicker.registerScrollReposition's
@@ -147,8 +158,10 @@ globalThis.twPicker = {
     _panelEdgeGapPx: 8,
 
     // Flips a just-opened popover panel away from whichever viewport edge it would overflow,
-    // instead of clipping off-screen. Only overrides the panel's default "top-full left-0" style
-    // on the axis that actually overflows, so panels that already fit are untouched. Re-run on
+    // instead of clipping off-screen. Only overrides the panel's default "top-full start-0" style
+    // on the axis that actually overflows, so panels that already fit are untouched. A panel grows
+    // rightwards from its trigger in a left to right layout and leftwards in a right to left one, so
+    // either side can be the one that overflows. Re-run on
     // every reopen since available space may have changed (scroll, trigger move, resize).
     positionPanel: function (panel) {
         if (!panel) return;
@@ -173,6 +186,9 @@ globalThis.twPicker = {
         if (rect.right > viewportWidth) {
             panel.style.left = 'auto';
             panel.style.right = '0';
+        } else if (rect.left < 0) {
+            panel.style.left = '0';
+            panel.style.right = 'auto';
         }
 
         // Both measured from the panel's un-flipped top edge (rect.top) so they're comparable.
@@ -227,16 +243,32 @@ globalThis.twPicker = {
             panel.style.width = anchorRect.width + 'px';
         }
 
-        // Place provisionally below the anchor's left edge, then measure natural size - a fixed
-        // element has no rendered position to read until one is set.
+        // Place provisionally below the anchor's starting edge (its left edge, or its right edge in a
+        // right to left layout), then measure natural size - a fixed element has no rendered position
+        // to read until one is set.
+        const alignLeft = function () {
+            panel.style.left = Math.max(anchorRect.left, 0) + 'px';
+            panel.style.right = 'auto';
+        };
+        const alignRight = function () {
+            panel.style.left = 'auto';
+            panel.style.right = Math.max(viewportWidth - anchorRect.right, 0) + 'px';
+        };
+        const rtl = globalThis.twDirection.isRtl(anchor);
+
         panel.style.top = anchorRect.bottom + 'px';
-        panel.style.left = anchorRect.left + 'px';
+        if (rtl) {
+            alignRight();
+        } else {
+            panel.style.left = anchorRect.left + 'px';
+        }
 
         const rect = panel.getBoundingClientRect();
 
-        if (rect.right > viewportWidth) {
-            panel.style.left = 'auto';
-            panel.style.right = Math.max(viewportWidth - anchorRect.right, 0) + 'px';
+        if (rtl) {
+            if (rect.left < 0) alignLeft();
+        } else if (rect.right > viewportWidth) {
+            alignRight();
         }
 
         // Measured from the anchor's edges, not the panel's, so a tall panel can't skew which
@@ -922,8 +954,10 @@ globalThis.twRoving = {
                 case 'ArrowLeft': {
                     if (mode !== 'tree') return;
                     const expanded = item.getAttribute('aria-expanded');
+                    // In a right to left tree the children sit to the left, so the keys swap roles.
+                    const inwardKey = globalThis.twDirection.isRtl(container) ? 'ArrowLeft' : 'ArrowRight';
                     // Expanding and collapsing is done by the component itself; this only moves focus.
-                    if (e.key === 'ArrowRight') {
+                    if (e.key === inwardKey) {
                         if (expanded === 'true') target = items[index + 1] ?? null;
                     } else if (expanded !== 'true') {
                         target = item.parentElement?.closest(selector) ?? null;
@@ -984,7 +1018,9 @@ globalThis.twCarousel = {
             if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
             if (e.defaultPrevented || globalThis.twCarousel._ownsArrowKeys(e.target)) return;
             e.preventDefault();
-            void globalThis.twPicker._invokeSafely(dotnetRef, e.key === 'ArrowLeft' ? 'PreviousSlideFromKey' : 'NextSlideFromKey');
+            // The previous button sits on the right in a right to left layout, so the keys follow it there.
+            const previousKey = globalThis.twDirection.isRtl(el) ? 'ArrowRight' : 'ArrowLeft';
+            void globalThis.twPicker._invokeSafely(dotnetRef, e.key === previousKey ? 'PreviousSlideFromKey' : 'NextSlideFromKey');
         };
         el.__twCarouselHandler = handler;
         el.addEventListener('keydown', handler);
@@ -1497,5 +1533,60 @@ globalThis.twScrollRegion = {
         if (!observer) return;
         observer.disconnect();
         globalThis.twScrollRegion._observers.delete(el);
+    }
+};
+
+// On this page: marks the link to the section currently being read with aria-current="location".
+globalThis.twOnThisPage = {
+    _stops: new Map(),
+
+    observe: function (key, nav, ids, offset) {
+        globalThis.twOnThisPage.dispose(key);
+        if (!nav || !ids || ids.length === 0) return;
+
+        const update = function (event) {
+            const scroller = event?.target instanceof Element ? event.target : null;
+            const atBottom = scroller !== null &&
+                scroller.scrollTop > 0 &&
+                scroller.scrollTop + scroller.clientHeight >= scroller.scrollHeight - 2;
+
+            let active = ids[0];
+
+            ids.forEach(function (id) {
+                const section = document.getElementById(id);
+                if (section && section.getBoundingClientRect().top <= offset) {
+                    active = id;
+                }
+            });
+
+            // The last section can be too short to ever reach the offset line.
+            if (atBottom) {
+                active = ids[ids.length - 1];
+            }
+
+            nav.querySelectorAll('[data-tw-section-id]').forEach(function (link) {
+                if (link.dataset.twSectionId === active) {
+                    link.setAttribute('aria-current', 'location');
+                } else {
+                    link.removeAttribute('aria-current');
+                }
+            });
+        };
+
+        // Scroll events don't bubble, and the content may scroll inside its own container rather than the
+        // window, so listen in the capture phase on the document.
+        document.addEventListener('scroll', update, { capture: true, passive: true });
+        update();
+
+        globalThis.twOnThisPage._stops.set(key, function () {
+            document.removeEventListener('scroll', update, { capture: true });
+        });
+    },
+
+    dispose: function (key) {
+        const stop = globalThis.twOnThisPage._stops.get(key);
+        if (!stop) return;
+        stop();
+        globalThis.twOnThisPage._stops.delete(key);
     }
 };

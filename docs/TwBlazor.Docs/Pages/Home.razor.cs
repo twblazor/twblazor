@@ -1,6 +1,7 @@
 using System.Globalization;
 using TwBlazor.Components;
 using TwBlazor.Docs.Services;
+using TwBlazor.Enums;
 using TwBlazor.Models;
 using TwBlazor.Utilities;
 
@@ -70,6 +71,26 @@ public partial class Home
         new("Failed", [0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0])
     ];
 
+    /// <summary>
+    /// The shell shared by every card on the page (features, guides and the live examples), so they all have
+    /// the same radius, border, padding and elevation.
+    /// </summary>
+    private const string cardClasses =
+        "rounded-2xl border border-purple-200/70 p-6 shadow-xs dark:border-white/10";
+
+    /// <summary>
+    /// A feature card: the shared shell with the brand gradient along its top edge. These are not links, so
+    /// they have no hover state.
+    /// </summary>
+    private const string featureCardClasses =
+        cardClasses + " relative overflow-hidden before:absolute before:inset-x-0 before:top-0 before:h-1 before:bg-linear-to-r before:from-purple-600 before:to-fuchsia-500";
+
+    /// <summary>
+    /// A guide card, which is a link: the shared shell on the same surface as <c>TwCard</c>, lifting on hover.
+    /// </summary>
+    private const string guideCardClasses =
+        "flex items-start gap-4 " + cardClasses + " bg-white dark:bg-[oklch(25.33%_0.016_252.42)] transition duration-200 hover:-translate-y-0.5 hover:border-fuchsia-400 hover:shadow-lg hover:shadow-purple-500/10 motion-reduce:transition-none motion-reduce:hover:translate-y-0 dark:hover:border-fuchsia-400";
+
     private const string mergeChipClasses = "rounded-md border px-2 py-1 font-mono text-xs";
 
     private const string mergeThemeChipClasses =
@@ -98,6 +119,101 @@ public partial class Home
         new("shape", "Shape", "rounded-full"),
         new("color", "Color", "bg-pink-700"),
     ];
+
+    private const string localizationSnippet =
+        "builder.Services.AddTwBlazor(options =>\n" +
+        "{\n" +
+        "    // Reword a string or add a language with your own .resx files.\n" +
+        "    options.Localization.AddResource(MyStrings.ResourceManager);\n" +
+        "\n" +
+        "    // Dates and times follow the culture. Set only what you want to change.\n" +
+        "    options.Localization.Formats.FirstDayOfWeek = DayOfWeek.Monday;\n" +
+        "    options.Localization.Formats.Use12HourClock = false;\n" +
+        "}, Theme.CreateTheme);";
+
+    /// <summary>
+    /// The languages twblazor ships a resource file for, in the order of the Localization page's table.
+    /// </summary>
+    private static readonly IReadOnlyList<LocalizationLanguage> _localizationLanguages =
+    [
+        new("English", "English", "en"),
+        new("中文（简体）", "Chinese, Simplified", "zh-Hans"),
+        new("Español", "Spanish", "es"),
+        new("हिन्दी", "Hindi", "hi"),
+        new("Português", "Portuguese", "pt"),
+        new("বাংলা", "Bengali", "bn"),
+        new("Русский", "Russian", "ru"),
+        new("日本語", "Japanese", "ja"),
+        new("پنجابی", "Western Punjabi", "pa-Arab"),
+        new("Türkçe", "Turkish", "tr"),
+        new("Tiếng Việt", "Vietnamese", "vi"),
+        new("中文（繁體）", "Chinese, Traditional", "zh-Hant"),
+        new("العربية", "Arabic", "ar"),
+        new("मराठी", "Marathi", "mr"),
+        new("తెలుగు", "Telugu", "te"),
+        new("한국어", "Korean", "ko"),
+        new("தமிழ்", "Tamil", "ta"),
+        new("اردو", "Urdu", "ur"),
+        new("Bahasa Indonesia", "Indonesian", "id"),
+        new("Deutsch", "German", "de"),
+        new("Français", "French", "fr"),
+        new("Basa Jawa", "Javanese", "jv"),
+        new("فارسی", "Persian", "fa"),
+        new("Italiano", "Italian", "it"),
+        new("Polski", "Polish", "pl"),
+    ];
+
+    private static readonly IReadOnlyList<MergePoint> _localizationPoints =
+    [
+        new("One .resx file per language", "English is built in and the rest ship in the package. Add or reword any string with resource files of your own."),
+        new("Dates and times that fit", "Month names, the first day of the week and 12 or 24 hour time follow the culture, with British formats as the fallback."),
+        new("Configured in AddTwBlazor", "Pin a culture, set a format or swap the localizer service, all from the options you already pass."),
+    ];
+
+    private sealed record LocalizationLanguage(string NativeName, string Name, string Culture);
+
+    // How many of the languages a wide screen lists before the link to the rest.
+    private const int desktopLanguageCount = 10;
+
+    private const string languageChipClasses =
+        "inline-flex items-baseline gap-2 rounded-full border border-purple-200 bg-white px-3 py-1.5 text-sm shadow-xs dark:border-white/10 dark:bg-white/5";
+
+    private const string languageChipCollapsedClasses = languageChipClasses + " lg:hidden";
+
+    private static readonly IReadOnlyList<MergePoint> _rtlPoints =
+    [
+        new("Follows the language", "A right to left culture mirrors every component by itself. Set the direction yourself to pin it."),
+        new("Keys that match the screen", "Left and Right swap in tabs, trees, calendars and carousels, so each arrow still moves the way it points."),
+        new("Mix directions on one page", "Wrap any part of a page in TwDirectionProvider to give it a direction of its own."),
+    ];
+
+    private static readonly IReadOnlyList<RtlDemoOption> _rtlDemoOptions =
+    [
+        new("ltr", "Left to right", TextDirection.LeftToRight),
+        new("rtl", "Right to left", TextDirection.RightToLeft),
+    ];
+
+    private static readonly RtlDemoText _rtlDemoEnglish =
+        new("en", "Your changes were saved.", "Name", "Enter your name", "Notifications", "Pages");
+
+    private static readonly RtlDemoText _rtlDemoArabic =
+        new("ar", "تم حفظ التغييرات.", "الاسم", "اكتب اسمك", "الإشعارات", "الصفحات");
+
+    private TextDirection rtlDemoDirection = TextDirection.RightToLeft;
+
+    private string rtlDemoName = string.Empty;
+
+    private bool rtlDemoNotifications = true;
+
+    private int rtlDemoPage = 2;
+
+    private RtlDemoText rtlDemoText => rtlDemoDirection == TextDirection.RightToLeft ? _rtlDemoArabic : _rtlDemoEnglish;
+
+    private string rtlDemoMarkup => $"<TwDirectionProvider Direction=\"TextDirection.{rtlDemoDirection}\">";
+
+    private sealed record RtlDemoOption(string Id, string Label, TextDirection Direction);
+
+    private sealed record RtlDemoText(string Culture, string Alert, string NameLabel, string NamePlaceholder, string SwitchLabel, string PaginationLabel);
 
     private static readonly IReadOnlyList<MergePoint> _mergePoints =
     [

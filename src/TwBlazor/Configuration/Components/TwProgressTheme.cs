@@ -44,4 +44,22 @@ public class TwProgressTheme
     /// Gets or sets the height classes for <see cref="Enums.ProgressSize.Large"/>.
     /// </summary>
     public required string Large { get; set; }
+
+    /// <summary>
+    /// Gets or sets the classes applied to the element that wraps the &lt;progress&gt; element, which positions
+    /// the <see cref="Animated"/> overlay.
+    /// </summary>
+    public required string Wrapper { get; set; }
+
+    /// <summary>
+    /// Gets or sets the classes applied to the decorative overlay rendered over the filled portion of the bar
+    /// when <see cref="TwBlazor.Components.TwProgress{T}.Animated"/> is <c>true</c>.
+    /// </summary>
+    /// <remarks>
+    /// The default theme reuses the <c>tw-wave</c> shimmer defined in <c>input.css</c>, which sweeps a
+    /// gradient across the overlay via "::after" and so needs it to be positioned and "overflow-hidden". The
+    /// overlay is sized to the current percentage so the shimmer stays inside the filled portion, and its
+    /// colour is set through the <c>--tw-wave-color</c> custom property.
+    /// </remarks>
+    public required string Animated { get; set; }
 }

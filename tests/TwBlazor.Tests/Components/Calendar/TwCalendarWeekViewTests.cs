@@ -46,7 +46,7 @@ public class TwCalendarWeekViewTests : TwBlazorTestBase
     }
 
     private static AngleSharp.Dom.IElement Header(IRenderedComponent<TwCalendarWeekView<string>> cut, DateTime day) =>
-        cut.FindAll("button").First(b => b.TextContent.Trim() == day.ToString("ddd d"));
+        cut.FindAll("button").First(b => b.FirstElementChild?.TextContent.Trim() == day.ToString("ddd d"));
 
     [Fact]
     public void RendersSevenDayHeaders_MondayToSunday()
@@ -137,7 +137,7 @@ public class TwCalendarWeekViewTests : TwBlazorTestBase
         var line = cut.Find("div[aria-hidden='true'][style='top:36rem;']");
         var expectedLeft = (100m / 7 * (((int)DateTime.Today.DayOfWeek + 6) % 7)).ToString(System.Globalization.CultureInfo.InvariantCulture);
 
-        Assert.Equal($"left:{expectedLeft}%;", Assert.Single(line.QuerySelectorAll("span")).GetAttribute("style"));
+        Assert.Equal($"inset-inline-start:{expectedLeft}%;", Assert.Single(line.QuerySelectorAll("span")).GetAttribute("style"));
     }
 
     [Fact]
@@ -341,5 +341,81 @@ public class TwCalendarWeekViewTests : TwBlazorTestBase
         var cut = Render(p => p.Add(x => x.Class, "my-week-view"));
 
         Assert.Contains("my-week-view", cut.Find("div").GetAttribute("class"));
+    }
+
+    [Fact]
+    public void DayHeader_KeepsItsFullLabelAsTheAccessibleName_AndAddsACompactOneForPhones()
+    {
+        // Arrange & Act
+        var cut = Render();
+        var monday = _monday;
+        var header = Header(cut, monday);
+
+        // Assert - the full label is only hidden visually below sm, so screen readers always get "Mon 16"
+        var label = header.FirstElementChild!;
+        Assert.Contains("sr-only", label.ClassList);
+        Assert.Contains("sm:not-sr-only", label.ClassList);
+
+        // The compact label (weekday over day number) is for sighted phone users only
+        var compact = header.LastElementChild!;
+        Assert.Equal("true", compact.GetAttribute("aria-hidden"));
+        Assert.Contains("sm:hidden", compact.ClassList);
+        var shortMonday = Localizer.Formats.Culture.DateTimeFormat.GetShortestDayName(DayOfWeek.Monday);
+        Assert.Equal([shortMonday, monday.Day.ToString()], compact.Children.Select(child => child.TextContent.Trim()));
+    }
+
+    [Fact]
+    public void DayHeaders_ShrinkEvenly_SoSevenColumnsFitANarrowScreen()
+    {
+        // Arrange & Act
+        var cut = Render();
+
+        // Assert - without min-w-0 a flex child cannot shrink below its text, pushing the week wider than the screen
+        Assert.All(Enumerable.Range(0, 7).Select(i => Header(cut, _monday.AddDays(i))), header => Assert.Contains("min-w-0", header.ClassList));
+        Assert.All(cut.FindComponents<TwCalendarDayColumn<string>>(), column => Assert.Contains("min-w-0", column.Find("div").ClassList));
+    }
+
+    [Fact]
+    public void DayHeaders_ShowTheFocusRing()
+    {
+        // Arrange & Act
+        var cut = Render();
+
+        // Assert
+        var header = Header(cut, _monday);
+        Assert.Contains("focus-visible:ring-2", header.ClassList);
+        Assert.Contains("focus-visible:ring-inset", header.ClassList);
+    }
+
+    [Fact]
+    public void WeekView_AsksItsColumnsForCompactEventChips()
+    {
+        // Arrange & Act
+        var cut = Render();
+
+        // Assert
+        Assert.All(cut.FindComponents<TwCalendarDayColumn<string>>(), column => Assert.True(column.Instance.Compact));
+    }
+
+    [Fact]
+    public void TodaysHeader_IsMarkedAsTheCurrentDate_AndItsCompactNumberIsFilled()
+    {
+        // Arrange & Act
+        var cut = Render(date: DateTime.Today);
+
+        // Assert - exactly one header is today, announced with aria-current as well as shown
+        var current = Assert.Single(cut.FindAll("button[aria-current='date']"));
+        Assert.Equal(DateTime.Today.ToString("ddd d"), current.FirstElementChild!.TextContent.Trim());
+        Assert.Contains("bg-purple-600", current.LastElementChild!.LastElementChild!.ClassList);
+    }
+
+    [Fact]
+    public void OtherWeeksHeaders_HaveNoCurrentDate()
+    {
+        // Arrange & Act
+        var cut = Render();
+
+        // Assert
+        Assert.Empty(cut.FindAll("button[aria-current]"));
     }
 }

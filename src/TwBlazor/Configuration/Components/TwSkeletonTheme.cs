@@ -46,7 +46,7 @@ public class TwSkeletonTheme
 
     /// <summary>
     /// Gets or sets the classes applied for <see cref="Enums.SkeletonAnimation.Wave"/>. Pairs with the
-    /// <c>tw-skeleton-wave</c> shimmer defined in <c>input.css</c>, which needs the <see cref="Base"/>
+    /// <c>tw-wave</c> shimmer defined in <c>input.css</c>, which needs the <see cref="Base"/>
     /// class's <c>relative</c>/<c>overflow-hidden</c> to clip correctly.
     /// </summary>
     public required string Wave { get; set; }

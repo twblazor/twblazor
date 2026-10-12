@@ -323,8 +323,8 @@
         @source "../../**/*.razor";
         @source "../../Theme.cs";
 
-        /* Powers TwSkeleton's wave animation. */
-        @keyframes tw-skeleton-wave {
+        /* Powers TwSkeleton's wave animation and TwProgress's Animated shimmer. */
+        @keyframes tw-wave {
             0% {
                 transform: translateX(-100%);
             }
@@ -335,17 +335,17 @@
             }
         }
 
-        .tw-skeleton-wave::after {
+        .tw-wave::after {
             content: "";
             position: absolute;
             inset: 0;
             transform: translateX(-100%);
-            background: linear-gradient(90deg, transparent, rgb(255 255 255 / 40%), transparent);
-            animation: tw-skeleton-wave 1.6s linear infinite;
+            background: linear-gradient(90deg, transparent, var(--tw-wave-color, rgb(255 255 255 / 40%)), transparent);
+            animation: tw-wave 1.6s linear infinite;
         }
 
-        .dark .tw-skeleton-wave::after {
-            background: linear-gradient(90deg, transparent, rgb(255 255 255 / 8%), transparent);
+        .dark .tw-wave::after {
+            background: linear-gradient(90deg, transparent, var(--tw-wave-color, rgb(255 255 255 / 8%)), transparent);
         }
 
         /* Powers TwIcons's pulse animation */
@@ -368,6 +368,10 @@
         }
 
         @media (prefers-reduced-motion: reduce) {
+            .tw-wave::after {
+                animation: none;
+            }
+
             .tw-icon-pulse::after {
                 transition: none;
             }
@@ -390,8 +394,8 @@
         @source "../../../{YourProjectName}.Client/**/*.razor";
         @source "../../../{YourProjectName}.Client/Theme.cs";
 
-        /* Powers TwSkeleton's wave animation. */
-        @keyframes tw-skeleton-wave {
+        /* Powers TwSkeleton's wave animation and TwProgress's Animated shimmer. */
+        @keyframes tw-wave {
             0% {
                 transform: translateX(-100%);
             }
@@ -402,17 +406,17 @@
             }
         }
 
-        .tw-skeleton-wave::after {
+        .tw-wave::after {
             content: "";
             position: absolute;
             inset: 0;
             transform: translateX(-100%);
-            background: linear-gradient(90deg, transparent, rgb(255 255 255 / 40%), transparent);
-            animation: tw-skeleton-wave 1.6s linear infinite;
+            background: linear-gradient(90deg, transparent, var(--tw-wave-color, rgb(255 255 255 / 40%)), transparent);
+            animation: tw-wave 1.6s linear infinite;
         }
 
-        .dark .tw-skeleton-wave::after {
-            background: linear-gradient(90deg, transparent, rgb(255 255 255 / 8%), transparent);
+        .dark .tw-wave::after {
+            background: linear-gradient(90deg, transparent, var(--tw-wave-color, rgb(255 255 255 / 8%)), transparent);
         }
 
         /* Powers TwIcons's pulse animation */
@@ -435,6 +439,10 @@
         }
 
         @media (prefers-reduced-motion: reduce) {
+            .tw-wave::after {
+                animation: none;
+            }
+
             .tw-icon-pulse::after {
                 transition: none;
             }

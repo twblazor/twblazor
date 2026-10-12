@@ -45,9 +45,9 @@ public class TwCalendarDayColumnTests : TwBlazorTestBase
 
         var slots = Slots(cut);
         Assert.Equal(48, slots.Count);
-        Assert.Equal(_day.ToString("h:mm tt"), slots[0].GetAttribute("aria-label"));
-        Assert.Equal(_day.AddMinutes(23 * 60 + 30).ToString("h:mm tt"), slots[47].GetAttribute("aria-label"));
-        Assert.Equal(_day.ToString("dddd, MMMM d"), cut.Find("[role='group']").GetAttribute("aria-label"));
+        Assert.Equal(_day.ToString("HH:mm"), slots[0].GetAttribute("aria-label"));
+        Assert.Equal(_day.AddMinutes(23 * 60 + 30).ToString("HH:mm"), slots[47].GetAttribute("aria-label"));
+        Assert.Equal(_day.ToString("dddd, d MMMM yyyy"), cut.Find("[role='group']").GetAttribute("aria-label"));
     }
 
     [Fact]
@@ -189,10 +189,10 @@ public class TwCalendarDayColumnTests : TwBlazorTestBase
 
         Assert.Contains("top:54rem;", chip.GetAttribute("style"));
         Assert.Contains("height:12rem;", chip.GetAttribute("style"));
-        Assert.Contains("left:0%;", chip.GetAttribute("style"));
+        Assert.Contains("inset-inline-start:0%;", chip.GetAttribute("style"));
         Assert.Contains("width:100%;", chip.GetAttribute("style"));
         Assert.Contains("Standup", chip.TextContent);
-        Assert.Contains("9:00 AM", chip.TextContent);
+        Assert.Contains("09:00", chip.TextContent);
     }
 
     [Fact]
@@ -201,7 +201,7 @@ public class TwCalendarDayColumnTests : TwBlazorTestBase
         var evt = Event("Standup", _day.AddHours(9), _day.AddHours(10));
         var cut = Render(p => p.Add(x => x.Events, [evt]));
 
-        Assert.Equal($"Standup, {evt.DateTimeStart:h:mm tt} to {evt.DateTimeEnd:h:mm tt}", Chips(cut).Single().GetAttribute("aria-label"));
+        Assert.Equal($"Standup, {evt.DateTimeStart:HH:mm} to {evt.DateTimeEnd:HH:mm}", Chips(cut).Single().GetAttribute("aria-label"));
     }
 
     [Fact]
@@ -246,8 +246,8 @@ public class TwCalendarDayColumnTests : TwBlazorTestBase
         var styles = Chips(cut).Select(c => c.GetAttribute("style")).ToList();
 
         Assert.All(styles, s => Assert.Contains("width:50%;", s));
-        Assert.Contains(styles, s => s!.Contains("left:0%;"));
-        Assert.Contains(styles, s => s!.Contains("left:50%;"));
+        Assert.Contains(styles, s => s!.Contains("inset-inline-start:0%;"));
+        Assert.Contains(styles, s => s!.Contains("inset-inline-start:50%;"));
     }
 
     [Fact]
@@ -270,7 +270,7 @@ public class TwCalendarDayColumnTests : TwBlazorTestBase
         var chip = Chips(cut).Single();
 
         Assert.Equal("custom Standup", chip.QuerySelector("em")!.TextContent);
-        Assert.DoesNotContain("9:00 AM", chip.TextContent);
+        Assert.DoesNotContain("09:00", chip.TextContent);
     }
 
     [Fact]
@@ -381,7 +381,7 @@ public class TwCalendarDayColumnTests : TwBlazorTestBase
         Assert.Contains("top:84rem;", placeholder.GetAttribute("style"));
         Assert.Contains("height:12rem;", placeholder.GetAttribute("style"));
         Assert.Contains("Moving", placeholder.TextContent);
-        Assert.Contains("2:00 PM", placeholder.TextContent);
+        Assert.Contains("14:00", placeholder.TextContent);
     }
 
     [Fact]
@@ -473,5 +473,45 @@ public class TwCalendarDayColumnTests : TwBlazorTestBase
 
         Assert.Null(thrown);
         Assert.NotNull(cut);
+    }
+
+    [Fact]
+    public void Chips_AreFullSizeByDefault()
+    {
+        // Arrange & Act
+        var cut = Render(p => p.Add(x => x.Events, [Event("Standup", _day.AddHours(9), _day.AddHours(10))]));
+
+        // Assert - the Day view has a whole column to itself, so nothing is trimmed on a phone
+        var chip = Assert.Single(Chips(cut));
+        Assert.DoesNotContain(chip.ClassList, c => c.StartsWith("max-sm:"));
+        Assert.All(chip.Children, child => Assert.DoesNotContain(child.ClassList, c => c.StartsWith("max-sm:")));
+    }
+
+    [Fact]
+    public void CompactChips_TightenOnAPhone_AndKeepTheTimeInTheirAccessibleName()
+    {
+        // Arrange & Act
+        var cut = Render(p => p
+            .Add(x => x.Compact, true)
+            .Add(x => x.Events, [Event("Standup", _day.AddHours(9), _day.AddHours(10))]));
+
+        // Assert
+        var chip = Assert.Single(Chips(cut));
+        Assert.Contains("max-sm:border-s-2", chip.ClassList);
+        Assert.Contains("max-sm:text-[10px]", chip.Children[0].ClassList);
+        Assert.Contains("max-sm:hidden", chip.Children[1].ClassList);
+
+        // The start time is hidden visually on a phone, so it must still be spoken
+        Assert.Contains("09:00", chip.GetAttribute("aria-label"));
+    }
+
+    [Fact]
+    public void Chips_AlignTheirTextToTheStart()
+    {
+        // Arrange & Act
+        var cut = Render(p => p.Add(x => x.Events, [Event("A long title that wraps", _day.AddHours(9), _day.AddHours(10))]));
+
+        // Assert - a button centres its text by default, which shows once a title wraps onto a second line
+        Assert.Contains("text-start", Assert.Single(Chips(cut)).ClassList);
     }
 }

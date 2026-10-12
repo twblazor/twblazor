@@ -4,6 +4,7 @@
 using Microsoft.AspNetCore.Components;
 using TwBlazor.Charting;
 using TwBlazor.Models;
+using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 
@@ -23,18 +24,27 @@ public class TwBulletChart : TwChartBase
 
     /// <summary>
     /// Gets or sets the heading of the label column in the table view.
+    /// Defaults to the localized <see cref="TwStrings.Chart_Measure"/> text ("Measure").
     /// </summary>
-    [Parameter] public string LabelHeader { get; set; } = "Measure";
+    [Parameter] public string? LabelHeader { get; set; }
+
+    private string effectiveLabelHeader => LabelHeader ?? localizer[TwStrings.Chart_Measure];
 
     /// <summary>
     /// Gets or sets the label for the actual value.
+    /// Defaults to the localized <see cref="TwStrings.Chart_Actual"/> text ("Actual").
     /// </summary>
-    [Parameter] public string ValueLabel { get; set; } = "Actual";
+    [Parameter] public string? ValueLabel { get; set; }
+
+    private string effectiveValueLabel => ValueLabel ?? localizer[TwStrings.Chart_Actual];
 
     /// <summary>
     /// Gets or sets the label for the target value.
+    /// Defaults to the localized <see cref="TwStrings.Chart_Target"/> text ("Target").
     /// </summary>
-    [Parameter] public string TargetLabel { get; set; } = "Target";
+    [Parameter] public string? TargetLabel { get; set; }
+
+    private string effectiveTargetLabel => TargetLabel ?? localizer[TwStrings.Chart_Target];
 
     /// <inheritdoc />
     protected internal override void BuildScene(ChartSceneBuilder builder)
@@ -71,14 +81,14 @@ public class TwBulletChart : TwChartBase
             builder.Bar(center, thickness * 0.8, scale.Map(item.Target) - 0.3, scale.Map(item.Target) + 0.3, ChartColor.Ink, ChartCorner.None, gap: false);
             builder.BandDatum(center, band.Step, item.Label,
             [
-                new ChartDatumRow(ValueLabel, FormatValue(item.Value), ChartColor.Series(0)),
-                new ChartDatumRow(TargetLabel, FormatValue(item.Target), ChartColor.Ink)
+                new ChartDatumRow(effectiveValueLabel, FormatValue(item.Value), ChartColor.Series(0)),
+                new ChartDatumRow(effectiveTargetLabel, FormatValue(item.Target), ChartColor.Ink)
             ]);
         }
 
-        builder.Legend(ValueLabel, ChartColor.Series(0));
-        builder.Legend(TargetLabel, ChartColor.Ink);
-        builder.Table = new ChartTable([LabelHeader, ValueLabel, TargetLabel],
+        builder.Legend(effectiveValueLabel, ChartColor.Series(0));
+        builder.Legend(effectiveTargetLabel, ChartColor.Ink);
+        builder.Table = new ChartTable([effectiveLabelHeader, effectiveValueLabel, effectiveTargetLabel],
             [.. Items.Select(item => (IReadOnlyList<string>)[item.Label, FormatValue(item.Value), FormatValue(item.Target)])]);
     }
 }

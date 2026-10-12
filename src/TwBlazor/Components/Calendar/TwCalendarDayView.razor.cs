@@ -127,7 +127,7 @@ public partial class TwCalendarDayView<T> : TwBlazorComponentBase, IAsyncDisposa
 
     private string GetGutterLabelClasses() => new ClassBuilder(theme.TimeGutterLabel).Build();
 
-    private static string GetHourLabel(int hour) => DateTime.Today.AddHours(hour).ToString("h tt");
+    private string GetHourLabel(int hour) => localizer.Formats.Format(DateTime.Today.AddHours(hour), localizer.Formats.Hour);
 
     /// <summary>
     /// The current time, refreshed every <see cref="TwCalendarTimings.nowTickInterval"/> by <see cref="nowTimer"/> while

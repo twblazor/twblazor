@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Components.Routing;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Models;
 using TwBlazor.Utilities;
+using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 
@@ -53,8 +54,11 @@ public partial class TwNavbar : TwBlazorComponentBase, IDisposable
 
     /// <summary>
     /// Gets or sets the accessible label for the responsive menu toggle.
+    /// Defaults to the localized <see cref="TwStrings.Navbar_OpenMenu"/> text ("Open navigation menu").
     /// </summary>
-    [Parameter] public string ToggleAriaLabel { get; set; } = "Open navigation menu";
+    [Parameter] public string? ToggleAriaLabel { get; set; }
+
+    private string effectiveToggleAriaLabel => ToggleAriaLabel ?? localizer[TwStrings.Navbar_OpenMenu];
 
     /// <summary>
     /// Gets or sets a value indicating whether the navbar should be fixed at the top.
@@ -119,7 +123,7 @@ public partial class TwNavbar : TwBlazorComponentBase, IDisposable
     protected override void OnInitialized()
     {
         if (string.IsNullOrWhiteSpace(AriaLabel))
-            AriaLabel = "Top navigation";
+            AriaLabel = localizer[TwStrings.Navbar_Label];
 
         navigationManager.LocationChanged += OnLocationChanged;
 

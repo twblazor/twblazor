@@ -68,6 +68,37 @@ public class NavigationTests : DocsTestBase
     }
 
     [Fact]
+    public void Sidebar_ListsLocalization_UnderConfiguration_AfterClassMerge()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<Navigation>();
+
+        // Assert
+        var hrefs = cut.FindAll("a").Select(a => a.GetAttribute("href")).ToList();
+        Assert.Contains("/localization", hrefs);
+        Assert.True(hrefs.IndexOf("/class-merge") < hrefs.IndexOf("/localization"));
+    }
+
+    [Fact]
+    public void Sidebar_GroupsConfiguringLocalizationAndTheRtlProvider_UnderLocalization()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<Navigation>();
+
+        // Assert
+        var toggle = cut.Find("#localization");
+        Assert.Contains("Localization", toggle.TextContent);
+        Assert.Null(toggle.GetAttribute("href"));
+
+        var links = cut.FindAll("a").ToList();
+        var configuring = links.Single(a => a.GetAttribute("href") == "/localization");
+        var provider = links.Single(a => a.GetAttribute("href") == "/direction-provider");
+        Assert.Contains("Configuring localization", configuring.TextContent);
+        Assert.Contains("RTL Provider", provider.TextContent);
+        Assert.True(links.IndexOf(configuring) < links.IndexOf(provider));
+    }
+
+    [Fact]
     public void Sidebar_HasNoSeparateThemeBuilderEntry()
     {
         // Arrange & Act

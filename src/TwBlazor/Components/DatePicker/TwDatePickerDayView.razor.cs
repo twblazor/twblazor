@@ -7,6 +7,7 @@ using Microsoft.JSInterop;
 using System.Globalization;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Utilities;
+using TwBlazor.Localization;
 
 namespace TwBlazor.Components.DatePicker;
 
@@ -86,25 +87,11 @@ public partial class TwDatePickerDayView : TwBlazorComponentBase, IAsyncDisposab
 
     /// <summary>
     /// Localized weekday column headers (abbreviation shown, full name in the <c>&lt;abbr&gt;</c>'s
-    /// <c>title</c>), Sunday-first to match <see cref="GetWeekRows"/>'s column order. Sourced from
-    /// <see cref="CultureInfo.CurrentCulture"/> instead of hardcoded English strings so the calendar
-    /// reads correctly for other locales.
+    /// <c>title</c>), starting from the localized first day of the week to match
+    /// <see cref="GetWeekRows"/>'s column order.
     /// </summary>
-    private static IReadOnlyList<(string Abbreviation, string FullName)> weekdayHeaders
-    {
-        get
-        {
-            var format = CultureInfo.CurrentCulture.DateTimeFormat;
-            var headers = new (string, string)[7];
-
-            for (var day = 0; day < 7; day++)
-            {
-                headers[day] = (format.ShortestDayNames[day], format.DayNames[day]);
-            }
-
-            return headers;
-        }
-    }
+    private IReadOnlyList<(string Abbreviation, string FullName)> weekdayHeaders =>
+        [.. localizer.Formats.GetWeekdayHeaders().Zip(localizer.Formats.GetWeekdayNames())];
 
     /// <summary>
     /// Reference to the &lt;table role="grid"&gt; element, used to register a native keydown guard
@@ -226,12 +213,12 @@ public partial class TwDatePickerDayView : TwBlazorComponentBase, IAsyncDisposab
     {
         var daysInMonth = DateTime.DaysInMonth(Value.Year, Value.Month);
         var focusedDate = new DateTime(Value.Year, Value.Month, focusedDay, 0, 0, 0, Value.Kind);
-        var dayOfWeek = (int)focusedDate.DayOfWeek;
+        var dayOfWeek = localizer.Formats.GetDayOffset(focusedDate.DayOfWeek);
 
         // A move that leaves the displayed month is handed to whoever owns the calendar page, which turns
         // the page and then puts focus on the day the user was heading for. Home and End stay within the
         // week row, so they never leave the month.
-        DateTime? leavingTo = e.Key switch
+        DateTime? leavingTo = ToLogicalKey(e.Key) switch
         {
             "ArrowRight" => focusedDate.AddDays(1),
             "ArrowLeft" => focusedDate.AddDays(-1),
@@ -250,7 +237,7 @@ public partial class TwDatePickerDayView : TwBlazorComponentBase, IAsyncDisposab
             return;
         }
 
-        int? target = e.Key switch
+        int? target = ToLogicalKey(e.Key) switch
         {
             "ArrowRight" => focusedDay + 1,
             "ArrowLeft" => focusedDay - 1,
@@ -384,12 +371,13 @@ public partial class TwDatePickerDayView : TwBlazorComponentBase, IAsyncDisposab
     /// "August 14, 2026") instead of just the bare day number, and prefixing it with the day's
     /// selection/range state when applicable.
     /// </summary>
-    private static string GetDayAriaLabel(DateTime date, bool isSelected, bool isRangeStart, bool isRangeEnd, bool isInRange)
+    private string GetDayAriaLabel(DateTime date, bool isSelected, bool isRangeStart, bool isRangeEnd, bool isInRange)
     {
-        if (isRangeStart) return $"Start of selected range, {date:MMMM d, yyyy}";
-        if (isRangeEnd) return $"End of selected range, {date:MMMM d, yyyy}";
-        if (isInRange) return $"In selected range, {date:MMMM d, yyyy}";
-        return isSelected ? $"Selected, {date:MMMM d, yyyy}" : date.ToString("MMMM d, yyyy");
+        var text = localizer.Formats.Format(date, localizer.Formats.LongDate);
+        if (isRangeStart) return localizer[TwStrings.DatePicker_RangeStart, text];
+        if (isRangeEnd) return localizer[TwStrings.DatePicker_RangeEnd, text];
+        if (isInRange) return localizer[TwStrings.DatePicker_InRange, text];
+        return isSelected ? localizer[TwStrings.DatePicker_Selected, text] : text;
     }
 
     /// <summary>
@@ -403,8 +391,7 @@ public partial class TwDatePickerDayView : TwBlazorComponentBase, IAsyncDisposab
     {
         var daysInMonth = DateTime.DaysInMonth(Value.Year, Value.Month);
         var firstOfMonth = new DateTime(Value.Year, Value.Month, 1, 0, 0, 0, Value.Kind);
-        // sunday = 0 - saturday = 6
-        var offset = (int)firstOfMonth.DayOfWeek;
+        var offset = localizer.Formats.GetDayOffset(firstOfMonth.DayOfWeek);
 
         var prevMonth = Value.AddMonths(-1);
         var prevDaysInMonth = DateTime.DaysInMonth(prevMonth.Year, prevMonth.Month);

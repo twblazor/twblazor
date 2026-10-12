@@ -37,6 +37,14 @@
         "url": "/navbar"
       },
       {
+        "id": "on-this-page-navitem",
+        "display": "On This Page",
+        "name": "TwOnThisPage",
+        "url": "/on-this-page",
+        "theme": "TwOnThisPageTheme",
+        "isNew": true
+      },
+      {
         "id": "sidebar-navitem",
         "display": "Sidebar",
         "name": "TwSidebar",

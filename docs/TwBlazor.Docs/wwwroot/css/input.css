@@ -60,6 +60,14 @@
     scrollbar-color: var(--scrollbar-thumb-hover) transparent;
 }
 
+/* Anything the docs render themselves (plain links, demo markup) gets the same primary focus indicator as
+   the components, in place of the browser's own. Components hide this outline and draw a ring instead. */
+@layer base {
+    :focus-visible {
+        @apply outline-2 outline-offset-0 outline-purple-500 dark:outline-purple-400;
+    }
+}
+
 h1, h2, h3, h4, h5, h6 {
     font-family: "Source Sans 3", sans-serif;
     font-optical-sizing: auto;
@@ -67,11 +75,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Reading text in docs cards is set at body size. Scoped to paragraphs so headings, inputs and the
-   demo components keep their own fonts and sizes. */
+   demo components keep their own fonts and sizes. The line height leaves room for an inline code chip,
+   whose padding and border make it taller than the text, so chips on wrapped lines do not crowd each other. */
 .docs-card p,
 .docs-card .docs-text {
     font-size: 1rem;
-    line-height: 1.5;
+    line-height: 1.75;
+    text-wrap: pretty;
 }
 
 :where(code):not(pre code) {
@@ -121,8 +131,8 @@ html, body {
     src: url('../fonts/source-sans-3-v19-latin-900.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
 
-/* Powers TwSkeleton's Wave variant - a shimmer sweep Tailwind has no utility for. */
-@keyframes tw-skeleton-wave {
+/* Powers TwSkeleton's Wave variant and TwProgress's Animated option - a shimmer sweep Tailwind has no utility for. */
+@keyframes tw-wave {
     0% {
         transform: translateX(-100%);
     }
@@ -132,17 +142,17 @@ html, body {
     }
 }
 
-.tw-skeleton-wave::after {
+.tw-wave::after {
     content: "";
     position: absolute;
     inset: 0;
     transform: translateX(-100%);
-    background: linear-gradient(90deg, transparent, rgb(255 255 255 / 40%), transparent);
-    animation: tw-skeleton-wave 1.6s linear infinite;
+    background: linear-gradient(90deg, transparent, var(--tw-wave-color, rgb(255 255 255 / 40%)), transparent);
+    animation: tw-wave 1.6s linear infinite;
 }
 
-.dark .tw-skeleton-wave::after {
-    background: linear-gradient(90deg, transparent, rgb(255 255 255 / 8%), transparent);
+.dark .tw-wave::after {
+    background: linear-gradient(90deg, transparent, var(--tw-wave-color, rgb(255 255 255 / 8%)), transparent);
 }
 
 .tw-icon-pulse::after {
@@ -164,6 +174,10 @@ html, body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+    .tw-wave::after {
+        animation: none;
+    }
+
     .tw-icon-pulse::after {
         transition: none;
     }

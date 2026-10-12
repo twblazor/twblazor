@@ -2456,4 +2456,22 @@ public class TwColorPickerBodyTests : TwBlazorTestBase
     }
 
     #endregion
+
+    [Fact]
+    public void TwColorPickerBody_EverySlider_ShowsThePrimaryFocusRing()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwColorPickerBody>();
+
+        // Assert - the saturation square and the hue and alpha sliders are all Tab stops
+        var sliders = cut.FindAll("[role='slider']");
+        Assert.True(sliders.Count >= 2);
+        Assert.All(sliders, slider =>
+        {
+            Assert.Equal("0", slider.GetAttribute("tabindex"));
+            Assert.Contains("focus-visible:ring-2", slider.ClassList);
+            Assert.Contains("focus-visible:ring-purple-500", slider.ClassList);
+            Assert.Contains("focus:outline-hidden", slider.ClassList);
+        });
+    }
 }

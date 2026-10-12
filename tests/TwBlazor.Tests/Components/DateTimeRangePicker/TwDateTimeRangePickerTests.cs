@@ -367,7 +367,7 @@ public class TwDateTimeRangePickerTests : TwBlazorTestBase
         );
 
         // Assert
-        Assert.Equal("05/11/2025 09:00 AM - 20/11/2025 02:00 PM", cut.Find("input").GetAttribute("value"));
+        Assert.Equal("05/11/2025 09:00 am - 20/11/2025 02:00 pm", cut.Find("input").GetAttribute("value"));
     }
 
     [Fact]

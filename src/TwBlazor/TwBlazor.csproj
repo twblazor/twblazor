@@ -5,6 +5,8 @@
 	<ImplicitUsings>enable</ImplicitUsings>
 	<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	<NoWarn>$(NoWarn);1591</NoWarn> <!-- Suppress missing XML comment warnings -->
+	<!-- Resources/TwBlazorStrings.resx is English, so English cultures never probe for a satellite assembly. -->
+	<NeutralLanguage>en</NeutralLanguage>
 
 	<!-- Package Information -->
 	<PackageId>twblazor</PackageId>

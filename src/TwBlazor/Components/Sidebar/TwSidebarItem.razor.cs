@@ -186,6 +186,7 @@ public partial class TwSidebarItem : TwBlazorComponentBase
     private string classes =>
         new ClassBuilder(theme.NavigationItemBase)
         .AddClass(theme.NavigationItemActive, isActive)
+        .AddClass(theme.NavigationItemCurrent, isActive)
         .AddClass(roundedBuilder.GetRounded(effectiveRounded), !IsChild)
         .AddClass(roundedBuilder.GetRoundedBottom(effectiveRounded), IsChild && IsLastChild)
         .AddClass(Class).Build();

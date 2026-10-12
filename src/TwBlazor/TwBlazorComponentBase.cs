@@ -6,12 +6,15 @@ using TwBlazor.Abstraction;
 using TwBlazor.Builders;
 using TwBlazor.Configuration;
 using TwBlazor.Enums;
+using TwBlazor.Localization;
 
 namespace TwBlazor;
 
 public class TwBlazorComponentBase : ComponentBase, ITwComponent
 {
     [Inject] protected TwBlazorOptions options { get; set; } = null!;
+
+    [Inject] protected ITwLocalizer localizer { get; set; } = null!;
 
     [Inject] protected RoundedBuilder roundedBuilder { get; set; } = null!;
     [Inject] protected ShadowBuilder shadowBuilder { get; set; } = null!;
@@ -42,6 +45,43 @@ public class TwBlazorComponentBase : ComponentBase, ITwComponent
 
     /// <inheritdoc cref="ITwComponent.Rounded" />
     [Parameter] public Rounded? Rounded { get; set; }
+
+    /// <summary>
+    /// Gets or sets the direction supplied by an enclosing <see cref="Components.TwDirectionProvider"/>, if there is one.
+    /// </summary>
+    [CascadingParameter] protected TextDirection? cascadedDirection { get; set; }
+
+    /// <summary>
+    /// Gets the direction the component is laid out in: the enclosing <see cref="Components.TwDirectionProvider"/>'s
+    /// when there is one, otherwise the localizer's.
+    /// </summary>
+    protected TextDirection effectiveDirection => cascadedDirection ?? localizer.Direction;
+
+    /// <summary>
+    /// Gets whether the component is laid out right to left, in which case the Left and Right arrow keys swap roles.
+    /// </summary>
+    protected bool isRightToLeft => effectiveDirection == TextDirection.RightToLeft;
+
+    /// <summary>
+    /// Translates a pressed key into the one it stands for in a left to right layout, so a handler can treat
+    /// <c>ArrowRight</c> as "forwards" and <c>ArrowLeft</c> as "backwards" whichever way the component is laid out.
+    /// </summary>
+    /// <param name="key">The key reported by the keyboard event.</param>
+    /// <returns><paramref name="key"/>, with the Left and Right arrows swapped when the layout is right to left.</returns>
+    protected string ToLogicalKey(string key) => (isRightToLeft, key) switch
+    {
+        (true, "ArrowLeft") => "ArrowRight",
+        (true, "ArrowRight") => "ArrowLeft",
+        _ => key
+    };
+
+    /// <summary>
+    /// Picks between an icon and its mirror image, so an arrow or chevron keeps pointing the way its action goes.
+    /// </summary>
+    /// <param name="leftToRight">The icon for a left to right layout.</param>
+    /// <param name="rightToLeft">The icon for a right to left layout.</param>
+    /// <returns>The icon for the direction the component is laid out in.</returns>
+    protected Icon DirectionalIcon(Icon leftToRight, Icon rightToLeft) => isRightToLeft ? rightToLeft : leftToRight;
 
     /// <summary>
     /// Gets the effective shadow to use, considering both the parameter and global configuration.

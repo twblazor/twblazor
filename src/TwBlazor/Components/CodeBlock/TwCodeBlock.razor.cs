@@ -6,6 +6,7 @@ using Microsoft.JSInterop;
 using System.Diagnostics;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Utilities;
+using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 
@@ -70,6 +71,8 @@ public partial class TwCodeBlock : TwBlazorComponentBase, IAsyncDisposable
         new ClassBuilder(theme.Panel)
         .AddClass(PanelClass ?? string.Empty)
         .Build();
+
+    private string codeClasses => $"language-{Language} {theme.Code}";
 
     private string copyButtonClasses =>
         new ClassBuilder(theme.CopyButtonWrapper)
@@ -143,7 +146,7 @@ public partial class TwCodeBlock : TwBlazorComponentBase, IAsyncDisposable
             await jSRuntime.InvokeVoidAsync("navigator.clipboard.writeText", cancellationTokenSource.Token, Content);
 
             copied = true;
-            SetStatusMessage("Copied to clipboard");
+            SetStatusMessage(localizer[TwStrings.CodeBlock_CopiedToClipboard]);
 
             await Task.Delay(1000, cancellationTokenSource.Token);
 
@@ -160,14 +163,14 @@ public partial class TwCodeBlock : TwBlazorComponentBase, IAsyncDisposable
             // Clipboard write failed (e.g. permission denied, unavailable in unit tests/JS runtime) - surface it via the live region instead of swallowing it.
             Debug.WriteLine(ex, nameof(TwCodeBlock));
             copied = false;
-            SetStatusMessage("Copy failed");
+            SetStatusMessage(localizer[TwStrings.CodeBlock_CopyFailed]);
         }
         catch (InvalidOperationException ex)
         {
             // JS interop unavailable (e.g. during prerendering or unit tests) - surface it via the live region instead of swallowing it.
             Debug.WriteLine(ex, nameof(TwCodeBlock));
             copied = false;
-            SetStatusMessage("Copy failed");
+            SetStatusMessage(localizer[TwStrings.CodeBlock_CopyFailed]);
         }
     }
 

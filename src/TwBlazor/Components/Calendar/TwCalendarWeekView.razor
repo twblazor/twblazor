@@ -7,8 +7,12 @@
         <div class="@theme.TimeGutter" style="visibility:hidden" aria-hidden="true">&nbsp;</div>
         @foreach (var day in weekDays)
         {
-            <button type="button" class="@dayHeaderClasses" @onclick="@(() => OnDayHeaderClickedAsync(day))">
-                @day.ToString("ddd d")
+            <button type="button" class="@dayHeaderClasses" aria-current="@(day.Date == DateTime.Today ? "date" : null)" @onclick="@(() => OnDayHeaderClickedAsync(day))">
+                <span class="@theme.DayColumnHeaderLabel">@localizer.Formats.Format(day, localizer.Formats.WeekdayDay)</span>
+                <span class="@compactHeaderClasses" aria-hidden="true">
+                    <span class="@theme.DayColumnHeaderWeekday">@GetShortWeekday(day)</span>
+                    <span class="@GetCompactDayNumberClasses(day)">@day.Day</span>
+                </span>
             </button>
         }
     </div>
@@ -29,7 +33,7 @@
             {
                 <div class="@GetGutterLabelClasses()" style="height:6rem;">@GetHourLabel(hour)</div>
             }
-            <div class="@theme.NowIndicatorLabel" style="@nowOffsetStyle"><span aria-hidden="true">@now.ToString("h:mm tt")</span></div>
+            <div class="@theme.NowIndicatorLabel" style="@nowOffsetStyle"><span aria-hidden="true">@localizer.Formats.Format(now, localizer.Formats.ShortTime)</span></div>
         </div>
         <div class="@nowLineContainerClasses">
             @for (var i = 0; i < daysPerWeek; i++)
@@ -51,6 +55,7 @@
                                       OnEventDrop="OnEventDrop"
                                       DraggedEvent="DraggedEvent"
                                       DropPreview="DropPreview"
+                                      Compact
                                       Class="@GetDayColumnClasses(day)" />
             }
             <div class="@theme.NowIndicatorLine" style="@nowOffsetStyle" aria-hidden="true">

@@ -53,7 +53,7 @@ internal static class TwCalendarColors
         var lightText = ColorConverter.GetReadableTextHex(rgb, alpha, _lightSurface, (0, 0, 0), dimmedTextOpacity, minContrast);
         var darkText = ColorConverter.GetReadableTextHex(rgb, alpha, _darkSurface, (255, 255, 255), dimmedTextOpacity, minContrast);
 
-        return $"background-color:{tint};border-left-color:{solid};color:light-dark({lightText},{darkText});";
+        return $"background-color:{tint};border-inline-start-color:{solid};color:light-dark({lightText},{darkText});";
     }
 
     /// <summary>
@@ -72,7 +72,7 @@ internal static class TwCalendarColors
         var solid = ColorConverter.ExpandShortHex(color!);
         var tint = solid.Length == 7 ? $"{solid}26" : solid;
 
-        return $"background-color:{tint};border-left-color:{solid};";
+        return $"background-color:{tint};border-inline-start-color:{solid};";
     }
 
     /// <summary>

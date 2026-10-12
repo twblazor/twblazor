@@ -1074,4 +1074,22 @@ public class TwButtonTests : TwBlazorTestBase
     }
 
     #endregion
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public void TwButton_GrowsWithAWrappedLabel_InsteadOfClippingIt(bool dense)
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwButton>(parameters => parameters
+            .Add(p => p.Label, "A label long enough to wrap")
+            .Add(p => p.Dense, dense));
+
+        // Assert - a minimum height lets a second line grow the button; a fixed height squeezed it
+        var classes = cut.Find("button").ClassList;
+        Assert.Contains("min-h-8", classes);
+        Assert.DoesNotContain("h-8", classes);
+        Assert.Contains("py-1", classes);
+        Assert.Contains("text-center", classes);
+    }
 }

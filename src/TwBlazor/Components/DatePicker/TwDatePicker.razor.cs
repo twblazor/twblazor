@@ -7,6 +7,7 @@ using System.Globalization;
 using TwBlazor.Components.DatePicker;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Utilities;
+using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 
@@ -100,7 +101,7 @@ public partial class TwDatePicker : TwPopoverPickerComponentBase
     /// The format actually used: <see cref="Format"/> when explicitly set, otherwise
     /// <see cref="TwDatePickerTheme.DefaultFormat"/>.
     /// </summary>
-    private string resolvedFormat => Format ?? theme.DefaultFormat;
+    private string resolvedFormat => Format ?? localizer.Formats.DateInput ?? theme.DefaultFormat;
 
     /// <summary>
     /// The HTML input type to use when the native picker is active, default value is 'date'.
@@ -130,7 +131,7 @@ public partial class TwDatePicker : TwPopoverPickerComponentBase
     /// they type it in - which requires parsing with that same culture rather than always
     /// <see cref="CultureInfo.InvariantCulture"/>.
     /// </summary>
-    private CultureInfo effectiveCulture => UseNativePicker ? CultureInfo.InvariantCulture : CultureInfo.CurrentCulture;
+    private CultureInfo effectiveCulture => UseNativePicker ? CultureInfo.InvariantCulture : localizer.Formats.Culture;
 
     /// <summary>
     /// Child content to be rendered when the date picker is focused, this is used for <see cref="TwDateTimePicker"/>.
@@ -295,7 +296,7 @@ public partial class TwDatePicker : TwPopoverPickerComponentBase
         if (!success)
         {
             Invalid = true;
-            ErrorMessage = $"Enter a valid date, for example {DateTime.Today.ToString(effectiveFormat, effectiveCulture)}";
+            ErrorMessage = localizer[TwStrings.DatePicker_Invalid, DateTime.Today.ToString(effectiveFormat, effectiveCulture)];
             Value = date;
             return;
         }

@@ -28,7 +28,7 @@
                     @foreach (var property in ownProperties)
                     {
                         <tr>
-                            <td class="px-4 py-3">
+                            <td class="px-4 py-3 whitespace-nowrap">
                                 <a href="@property.DocsUrl" target="_blank" rel="noopener noreferrer" class="underline text-purple-700 dark:text-purple-300">
                                     <code class="text-xs">@property.Name</code>
                                 </a>
@@ -56,9 +56,9 @@
         @if (globalProperties.Count > 0)
         {
             <h3 class="text-sm font-semibold text-gray-900 dark:text-white mb-2">Global Theme Configuration</h3>
-            <p class="text-xs text-gray-600 dark:text-gray-400 mb-2">
+            <Description>
                 These reuse shared design tokens configured once on <code>TwBlazorTheme</code>, rather than being unique to this component.
-            </p>
+            </Description>
 
             <TwTable Bordered Striped Class="mb-4">
                 <TableHeader>
@@ -72,7 +72,7 @@
                     @foreach (var property in globalProperties)
                     {
                         <tr>
-                            <td class="px-4 py-3">
+                            <td class="px-4 py-3 whitespace-nowrap">
                                 <a href="@property.DocsUrl" target="_blank" rel="noopener noreferrer" class="underline text-purple-700 dark:text-purple-300">
                                     <code class="text-xs">@property.Name</code>
                                 </a>

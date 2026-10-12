@@ -44,6 +44,7 @@ public static class AccessibilityRoutes
         "/why-twblazor",
         "/theme",
         "/class-merge",
+        "/localization",
     ];
 
     private static readonly string[] _all = BuildAllRoutes();

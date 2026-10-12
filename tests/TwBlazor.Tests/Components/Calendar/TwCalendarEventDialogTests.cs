@@ -66,9 +66,9 @@ public class TwCalendarEventDialogTests : TwBlazorTestBase
             .Add(x => x.IsNew, false)
             .Add(x => x.ReadOnly, true));
 
-        var summary = cut.Find("div[style*='border-left-color:#2563eb']");
+        var summary = cut.Find("div[style*='border-inline-start-color:#2563eb']");
         Assert.Contains("background-color:#2563eb26;", summary.GetAttribute("style"));
-        Assert.DoesNotContain("color:#2563eb;", summary.GetAttribute("style")!.Replace("border-left-color:#2563eb;", string.Empty));
+        Assert.DoesNotContain("color:#2563eb;", summary.GetAttribute("style")!.Replace("border-inline-start-color:#2563eb;", string.Empty));
         Assert.Contains("18 Mar 2026 10:00 - 11:00", summary.TextContent);
 
         Assert.Empty(cut.FindComponents<TwTextfield<string>>());
@@ -108,7 +108,7 @@ public class TwCalendarEventDialogTests : TwBlazorTestBase
         var start = new DateTimeOffset(sy, sm, sd, sh, smin, 0, TimeSpan.Zero);
         var end = new DateTimeOffset(ey, em, ed, eh, emin, 0, TimeSpan.Zero);
 
-        Assert.Equal(expected, TwCalendarEventDialog<string>.FormatRange(start, end));
+        Assert.Equal(expected, TwCalendarEventDialog<string>.FormatRange(Localizer, start, end));
     }
 
     [Theory]
@@ -120,7 +120,7 @@ public class TwCalendarEventDialogTests : TwBlazorTestBase
         var start = new DateTimeOffset(sy, sm, sd, 0, 0, 0, TimeSpan.Zero);
         var end = new DateTimeOffset(ey, em, ed, 0, 0, 0, TimeSpan.Zero);
 
-        Assert.Equal(expected, TwCalendarEventDialog<string>.FormatRange(start, end));
+        Assert.Equal(expected, TwCalendarEventDialog<string>.FormatRange(Localizer, start, end));
     }
 
     [Fact]

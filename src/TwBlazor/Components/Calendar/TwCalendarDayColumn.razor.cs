@@ -113,6 +113,12 @@ public partial class TwCalendarDayColumn<T> : TwBlazorComponentBase, IAsyncDispo
     /// </summary>
     [Parameter] public DateTime? DropPreview { get; set; }
 
+    /// <summary>
+    /// Gets or sets whether event chips tighten up on a phone. Set by the Week view, where seven columns
+    /// share the screen; the Day view's single column has room for the full chip.
+    /// </summary>
+    [Parameter] public bool Compact { get; set; }
+
     private string columnClasses => new ClassBuilder(options.Theme.Position.Relative)
         .AddClass(options.Theme.Display.Flex)
         .AddClass(options.Theme.Flexbox.Col)
@@ -148,10 +154,11 @@ public partial class TwCalendarDayColumn<T> : TwBlazorComponentBase, IAsyncDispo
         var leftPercent = widthPercent * slot.Column;
         var color = TwCalendarColors.GetEventCardStyle(slot.Event.Color);
 
-        return $"top:{top.ToString(System.Globalization.CultureInfo.InvariantCulture)}rem;height:{Math.Max(height, 0.5m).ToString(System.Globalization.CultureInfo.InvariantCulture)}rem;left:{leftPercent.ToString(System.Globalization.CultureInfo.InvariantCulture)}%;width:{widthPercent.ToString(System.Globalization.CultureInfo.InvariantCulture)}%;{color}";
+        return $"top:{top.ToString(System.Globalization.CultureInfo.InvariantCulture)}rem;height:{Math.Max(height, 0.5m).ToString(System.Globalization.CultureInfo.InvariantCulture)}rem;inset-inline-start:{leftPercent.ToString(System.Globalization.CultureInfo.InvariantCulture)}%;width:{widthPercent.ToString(System.Globalization.CultureInfo.InvariantCulture)}%;{color}";
     }
 
     private string GetChipClasses(Schedule<T> evt) => new ClassBuilder(theme.EventChip)
+        .AddClass(theme.EventChipCompact, Compact)
         .AddClass(theme.EventChipReadOnly, evt.ReadOnly || !Editable)
         .AddClass(theme.EventChipDraggable, IsDraggable(evt))
         .AddClass(options.Theme.Interaction.PointerEventsNone, DraggedEvent is not null)
@@ -182,18 +189,22 @@ public partial class TwCalendarDayColumn<T> : TwBlazorComponentBase, IAsyncDispo
             var top = TwCalendarTimeGrid.GetOffsetRem(startMinutes);
             var height = Math.Max((decimal)(durationMinutes / minutesPerSlot) * slotHeightRem, 0.5m);
 
-            return $"top:{top.ToString(System.Globalization.CultureInfo.InvariantCulture)}rem;height:{height.ToString(System.Globalization.CultureInfo.InvariantCulture)}rem;left:0;width:100%;";
+            return $"top:{top.ToString(System.Globalization.CultureInfo.InvariantCulture)}rem;height:{height.ToString(System.Globalization.CultureInfo.InvariantCulture)}rem;inset-inline-start:0;width:100%;";
         }
     }
 
-    private string chipTitleClasses => new ClassBuilder(theme.EventChipTitle).Build();
+    private string chipTitleClasses => new ClassBuilder(theme.EventChipTitle)
+        .AddClass(theme.EventChipTitleCompact, Compact)
+        .Build();
 
-    private string chipTimeClasses => new ClassBuilder(theme.EventChipTime).Build();
+    private string chipTimeClasses => new ClassBuilder(theme.EventChipTime)
+        .AddClass(theme.EventChipTimeCompact, Compact)
+        .Build();
 
     /// <summary>
     /// The event's start time (e.g. "9:00 AM"), shown as the card's subtitle line below its name.
     /// </summary>
-    private static string GetStartTimeLabel(Schedule<T> evt) => evt.DateTimeStart.DateTime.ToString("h:mm tt");
+    private string GetStartTimeLabel(Schedule<T> evt) => localizer.Formats.Format(evt.DateTimeStart.DateTime, localizer.Formats.ShortTime);
 
     private bool IsDraggable(Schedule<T> evt) => Editable && !evt.ReadOnly;
 

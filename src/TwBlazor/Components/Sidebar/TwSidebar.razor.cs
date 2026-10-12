@@ -8,6 +8,7 @@ using Microsoft.JSInterop;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Models;
 using TwBlazor.Utilities;
+using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 
@@ -79,8 +80,11 @@ public partial class TwSidebar : TwBlazorComponentBase, IDisposable
 
     /// <summary>
     /// Gets or sets the accessible name of the sidebar's search field, shown when <see cref="IsSearchable"/> is set.
+    /// Defaults to the localized <see cref="TwStrings.Sidebar_SearchLabel"/> text ("Search navigation").
     /// </summary>
-    [Parameter] public string SearchLabel { get; set; } = "Search navigation";
+    [Parameter] public string? SearchLabel { get; set; }
+
+    private string effectiveSearchLabel => SearchLabel ?? localizer[TwStrings.Sidebar_SearchLabel];
 
     /// <summary>
     /// The page body content.
@@ -363,9 +367,8 @@ public partial class TwSidebar : TwBlazorComponentBase, IDisposable
         var count = CountLinks(displayedNavigationItems);
         searchStatusMessage = count switch
         {
-            0 => "No results",
-            1 => "1 result",
-            _ => $"{count} results"
+            0 => localizer[TwStrings.Common_NoResults],
+            _ => localizer.Plural(count, TwStrings.Sidebar_ResultsOne, TwStrings.Sidebar_ResultsOther, count)
         };
     }
 

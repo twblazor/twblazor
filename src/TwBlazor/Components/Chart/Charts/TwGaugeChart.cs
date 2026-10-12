@@ -3,6 +3,7 @@
 
 using Microsoft.AspNetCore.Components;
 using TwBlazor.Charting;
+using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 
@@ -32,8 +33,11 @@ public class TwGaugeChart : TwChartBase
 
     /// <summary>
     /// Gets or sets what the value measures, shown under it.
+    /// Defaults to the localized <see cref="TwStrings.Chart_Value"/> text ("Value").
     /// </summary>
-    [Parameter] public string Label { get; set; } = "Value";
+    [Parameter] public string? Label { get; set; }
+
+    private string effectiveLabel => Label ?? localizer[TwStrings.Chart_Value];
 
     /// <inheritdoc />
     protected internal override void BuildScene(ChartSceneBuilder builder)
@@ -57,10 +61,10 @@ public class TwGaugeChart : TwChartBase
         }
 
         builder.Add(new ChartText(50, 50, FormatValue(Value), Tone: ChartTextTone.Primary, Strong: true, Large: true));
-        builder.Add(new ChartText(50, 50, Label, Baseline: ChartBaseline.Top, OffsetY: 22));
+        builder.Add(new ChartText(50, 50, effectiveLabel, Baseline: ChartBaseline.Top, OffsetY: 22));
         builder.Add(new ChartText(start.X, start.Y, FormatValue(Min), Baseline: ChartBaseline.Top, OffsetY: 12));
         builder.Add(new ChartText(end.X, end.Y, FormatValue(Max), Baseline: ChartBaseline.Top, OffsetY: 12));
-        builder.Datum(50, 50, 40, 30, Label, [new ChartDatumRow(Label, FormatValue(Value), color), new ChartDatumRow("Range", $"{FormatValue(Min)} to {FormatValue(Max)}")], ChartHover.None);
-        builder.Table = new ChartTable(["Measure", "Value", "Minimum", "Maximum"], [[Label, FormatValue(Value), FormatValue(Min), FormatValue(Max)]]);
+        builder.Datum(50, 50, 40, 30, effectiveLabel, [new ChartDatumRow(effectiveLabel, FormatValue(Value), color), new ChartDatumRow(localizer[TwStrings.Chart_Range], localizer[TwStrings.Chart_RangeValue, FormatValue(Min), FormatValue(Max)])], ChartHover.None);
+        builder.Table = new ChartTable([localizer[TwStrings.Chart_Measure], localizer[TwStrings.Chart_Value], localizer[TwStrings.Chart_Minimum], localizer[TwStrings.Chart_Maximum]], [[effectiveLabel, FormatValue(Value), FormatValue(Min), FormatValue(Max)]]);
     }
 }

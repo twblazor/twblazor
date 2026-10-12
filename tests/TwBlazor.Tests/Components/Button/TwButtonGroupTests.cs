@@ -244,4 +244,17 @@ public class TwButtonGroupTests : TwBlazorTestBase
         Assert.Equal("Button 2", buttons[1].Instance.Label);
         Assert.Equal("Button 3", buttons[2].Instance.Label);
     }
+
+    [Fact]
+    public void TwButtonGroup_Horizontal_WrapsItsButtons_WhenTheyDoNotFit()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwButtonGroup>(parameters => parameters
+            .AddChildContent("<button>One</button><button>Two</button>"));
+
+        // Assert - on a narrow screen the buttons move to a new line instead of overflowing the container
+        var group = cut.Find("button").ParentElement!;
+        Assert.Contains("flex-row", group.ClassList);
+        Assert.Contains("flex-wrap", group.ClassList);
+    }
 }

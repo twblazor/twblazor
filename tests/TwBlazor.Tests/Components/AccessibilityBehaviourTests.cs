@@ -39,6 +39,24 @@ public class AccessibilityBehaviourTests : TwBlazorTestBase
     }
 
     [Fact]
+    public void DatePicker_ArrowDownOnTheField_ArmsTheFocusTrap_BeforeMovingFocusIntoThePanel()
+    {
+        // Arrange
+        var cut = TestContext.Render<TwDatePicker>(p => p.Add(x => x.SelectedDate, new DateTime(2026, 3, 10)));
+
+        // Act
+        cut.Find("input").KeyDown(Key("ArrowDown"));
+
+        // Assert - if focus arrived first, a Tab pressed straight away could leave the panel before it was trapped
+        var calls = TestContext.JSInterop.Invocations.Select(i => i.Identifier).ToList();
+        var trapped = calls.IndexOf("twDialog.trapFocus");
+        var focused = calls.IndexOf("twDialog.focusPanel");
+        Assert.True(trapped >= 0, "The focus trap was never armed.");
+        Assert.True(focused >= 0, "Focus was never moved into the panel.");
+        Assert.True(trapped < focused, "Focus moved into the panel before its Tab trap was armed.");
+    }
+
+    [Fact]
     public void DatePicker_ClickOnTheField_OpensThePanel_ButLeavesFocusInTheField()
     {
         // Arrange
@@ -188,7 +206,7 @@ public class AccessibilityBehaviourTests : TwBlazorTestBase
 
         // Assert
         Assert.False(requested);
-        Assert.Equal("0", cut.Find("button[aria-label='March 11, 2026']").GetAttribute("tabindex"));
+        Assert.Equal("0", cut.Find("button[aria-label='Wednesday, 11 March 2026']").GetAttribute("tabindex"));
     }
 
     [Fact]
@@ -259,7 +277,7 @@ public class AccessibilityBehaviourTests : TwBlazorTestBase
             .Add(x => x.SelectedTime, new TimeOnly(15, 0)));
 
         // Assert - the accessible name starts with the visible text, so it is announced and voice control can say it
-        Assert.NotNull(cut.Find("button[aria-label='PM, switch to AM']"));
+        Assert.NotNull(cut.Find("button[aria-label='pm, switch to am']"));
         Assert.Equal("3", cut.Find("input[aria-label='Hours']").GetAttribute("aria-valuenow"));
         Assert.Equal("12", cut.Find("input[aria-label='Hours']").GetAttribute("aria-valuemax"));
     }
@@ -727,7 +745,7 @@ public class AccessibilityBehaviourTests : TwBlazorTestBase
             .Add(x => x.SelectedDate, DateTime.Today));
 
         // Assert
-        Assert.Equal(DateTime.Today.ToString("MMMM d, yyyy"), cut.Find("button[aria-current='date']").GetAttribute("aria-label"));
+        Assert.Equal(DateTime.Today.ToString("dddd, d MMMM yyyy"), cut.Find("button[aria-current='date']").GetAttribute("aria-label"));
     }
 
     [Fact]

@@ -178,7 +178,7 @@ public class TwCalendarDialogPropertiesTests : TwBlazorTestBase
         var provider = RenderProvider();
         var calendar = RenderCalendar([], onChanged: list => saved = list);
 
-        calendar.Find("button[aria-label='9:00 AM']").Click();
+        calendar.Find("button[aria-label='09:00']").Click();
 
         var dialog = provider.WaitForElement("[role='dialog']");
         Assert.Contains("New event", dialog.QuerySelector("h2")!.TextContent);

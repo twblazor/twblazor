@@ -29,7 +29,7 @@ public class TwCalendarMonthViewInteractionTests : TwBlazorTestBase
         });
 
     private static AngleSharp.Dom.IElement DayButton(IRenderedComponent<TwCalendarMonthView<string>> cut, DateTime day) =>
-        cut.Find($"button[aria-label='{day:MMMM d, yyyy}']");
+        cut.Find($"button[aria-label='{day:dddd, d MMMM yyyy}']");
 
     private static AngleSharp.Dom.IElement Cell(IRenderedComponent<TwCalendarMonthView<string>> cut, DateTime day) =>
         DayButton(cut, day).ParentElement!;
@@ -37,7 +37,7 @@ public class TwCalendarMonthViewInteractionTests : TwBlazorTestBase
     private static DateTime FocusedDay(IRenderedComponent<TwCalendarMonthView<string>> cut)
     {
         var label = cut.FindAll("td button[tabindex='0']").Single().GetAttribute("aria-label")!;
-        return DateTime.ParseExact(label, "MMMM d, yyyy", System.Globalization.CultureInfo.CurrentCulture);
+        return DateTime.ParseExact(label, "dddd, d MMMM yyyy", System.Globalization.CultureInfo.CurrentCulture);
     }
 
     [Theory]
@@ -196,8 +196,8 @@ public class TwCalendarMonthViewInteractionTests : TwBlazorTestBase
         var chip = Cell(cut, day).QuerySelector("button[draggable]")!;
 
         Assert.Contains("Standup", chip.TextContent);
-        Assert.Contains("9:00 AM", chip.TextContent);
-        Assert.Equal($"Standup, {evt.DateTimeStart.DateTime:h:mm tt}", chip.GetAttribute("aria-label"));
+        Assert.Contains("09:00", chip.TextContent);
+        Assert.Equal($"Standup, {evt.DateTimeStart.DateTime:HH:mm}", chip.GetAttribute("aria-label"));
         chip.Click();
         Assert.Same(evt, clicked);
     }

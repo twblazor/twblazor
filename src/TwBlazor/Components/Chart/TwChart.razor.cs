@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Components;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Enums;
 using TwBlazor.Utilities;
+using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 
@@ -51,8 +52,11 @@ public partial class TwChart : TwBlazorComponentBase
 
     /// <summary>
     /// Gets or sets the text announced by assistive technology while <see cref="Loading"/> is set.
+    /// Defaults to the localized <see cref="TwStrings.Chart_Loading"/> text ("Loading chart").
     /// </summary>
-    [Parameter] public string LoadingLabel { get; set; } = "Loading chart";
+    [Parameter] public string? LoadingLabel { get; set; }
+
+    private string effectiveLoadingLabel => LoadingLabel ?? localizer[TwStrings.Chart_Loading];
 
     /// <summary>
     /// Gets the id of the title element, or <see langword="null"/> when there is no title. Charts inside the

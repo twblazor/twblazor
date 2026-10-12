@@ -87,7 +87,7 @@ public class TwSkeletonTests : TwBlazorTestBase
 
     [Theory]
     [InlineData(SkeletonAnimation.Pulse, "animate-pulse")]
-    [InlineData(SkeletonAnimation.Wave, "tw-skeleton-wave")]
+    [InlineData(SkeletonAnimation.Wave, "tw-wave")]
     public void TwSkeleton_AppliesAnimationClass(SkeletonAnimation animation, string expectedClass)
     {
         // Arrange & Act
@@ -106,7 +106,7 @@ public class TwSkeletonTests : TwBlazorTestBase
         // Assert
         var classes = cut.Find("div").GetAttribute("class");
         Assert.DoesNotContain("animate-pulse", classes);
-        Assert.DoesNotContain("tw-skeleton-wave", classes);
+        Assert.DoesNotContain("tw-wave", classes);
     }
 
     [Fact]

@@ -24,7 +24,7 @@
                 aria-labelledby="@AriaLabelledBy">
             @if (!Required)
             {
-                <option value="0" class="@theme.SelectOption">@Placeholder</option>
+                <option value="0" class="@theme.SelectOption">@effectivePlaceholder</option>
             }
             @foreach (var (key, value) in parsedValues)
             {
@@ -54,7 +54,7 @@
                     @attributes="@Attributes"
                     @onclick="@ToggleOrOpenPanelAsync"
                     @onkeydown="@OnSelectTriggerKeyDownAsync">
-                <span class="@(hasSelection ? "truncate" : $"truncate {theme.SelectCustomPlaceholder}")">@(hasSelection ? selectedDisplayText : Placeholder)</span>
+                <span class="@(hasSelection ? "truncate" : $"truncate {theme.SelectCustomPlaceholder}")">@(hasSelection ? selectedDisplayText : effectivePlaceholder)</span>
                 <TwIcon Icon="Icon.Chevron_Down" Plain Class="@chevronClasses" aria-hidden="true" />
             </button>
 
@@ -63,13 +63,13 @@
                 <div class="@panelPositionClasses" id="@panelId" data-tw-popover tabindex="-1" @ref="PanelRef" @onkeydown="@OnPanelKeyDownAsync">
                     <div class="@customPanelSurfaceClasses">
                         <div id="@listboxId" class="@theme.SelectCustomListbox" role="listbox" tabindex="0" @ref="listboxRef"
-                             aria-label="@(string.IsNullOrWhiteSpace(Label) ? AriaLabel ?? "Options" : Label)">
+                             aria-label="@(string.IsNullOrWhiteSpace(Label) ? AriaLabel ?? localizer[TwStrings.Select_Options] : Label)">
                             @if (!Required)
                             {
                                 <div id="@OptionId(0)" role="option" class="@theme.SelectCustomOption" data-value="0"
                                      aria-selected="@(selectedValueId == 0 ? "true" : "false")"
                                      @onclick="@(() => SelectOptionAsync(0))">
-                                    <span class="@($"truncate {theme.SelectCustomPlaceholder}")">@Placeholder</span>
+                                    <span class="@($"truncate {theme.SelectCustomPlaceholder}")">@effectivePlaceholder</span>
                                 </div>
                             }
                             @foreach (var (key, value) in parsedValues)
@@ -96,7 +96,7 @@
             <div class="@triggerClasses" aria-hidden="true">
                 @if (selectedValueIds.Count == 0)
                 {
-                    <span class="@theme.SelectCustomPlaceholder">@Placeholder</span>
+                    <span class="@theme.SelectCustomPlaceholder">@effectivePlaceholder</span>
                 }
                 else
                 {
@@ -156,7 +156,7 @@
                         @onkeydown="@OnSelectTriggerKeyDownAsync">
                     @if (selectedValueIds.Count == 0)
                     {
-                        @Placeholder
+                        @effectivePlaceholder
                     }
                     else
                     {
@@ -172,7 +172,7 @@
                 <div class="@panelPositionClasses" id="@panelId" data-tw-popover tabindex="-1" @ref="PanelRef" @onkeydown="@OnPanelKeyDownAsync">
                     <div class="@customPanelSurfaceClasses">
                         <div id="@listboxId" class="@theme.SelectCustomListbox" role="listbox" aria-multiselectable="true" tabindex="0" @ref="listboxRef"
-                             aria-label="@(string.IsNullOrWhiteSpace(Label) ? AriaLabel ?? "Options" : Label)">
+                             aria-label="@(string.IsNullOrWhiteSpace(Label) ? AriaLabel ?? localizer[TwStrings.Select_Options] : Label)">
                             @foreach (var (key, value) in parsedValues)
                             {
                                 <div id="@OptionId(key)" role="option" class="@theme.SelectCustomOption" data-value="@key"

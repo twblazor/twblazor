@@ -3,6 +3,7 @@
 
 using Microsoft.AspNetCore.Components;
 using TwBlazor.Charting;
+using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 
@@ -27,13 +28,19 @@ public class TwHistogramChart : TwChartBase
 
     /// <summary>
     /// Gets or sets the label for a bin's range in tooltips and the table view.
+    /// Defaults to the localized <see cref="TwStrings.Chart_Range"/> text ("Range").
     /// </summary>
-    [Parameter] public string RangeLabel { get; set; } = "Range";
+    [Parameter] public string? RangeLabel { get; set; }
+
+    private string effectiveRangeLabel => RangeLabel ?? localizer[TwStrings.Chart_Range];
 
     /// <summary>
     /// Gets or sets the label for a bin's count in tooltips and the table view.
+    /// Defaults to the localized <see cref="TwStrings.Chart_Count"/> text ("Count").
     /// </summary>
-    [Parameter] public string CountLabel { get; set; } = "Count";
+    [Parameter] public string? CountLabel { get; set; }
+
+    private string effectiveCountLabel => CountLabel ?? localizer[TwStrings.Chart_Count];
 
     /// <inheritdoc />
     protected internal override void BuildScene(ChartSceneBuilder builder)
@@ -57,19 +64,19 @@ public class TwHistogramChart : TwChartBase
         var scale = ChartScale.Nice(0, counts.Max());
         var band = new ChartBand(bins);
         var every = (int)Math.Ceiling((bins + 1) / 8.0);
-        builder.ValueAxis(scale, value => value.ToString("#,0"), CountLabel);
+        builder.ValueAxis(scale, value => value.ToString("#,0"), effectiveCountLabel);
         builder.XAxis = new ChartAxis([.. Enumerable.Range(0, bins + 1).Where(edge => edge % every == 0).Select(edge => new ChartTick(band.Step * edge, FormatValue(min + size * edge)))]);
 
         List<IReadOnlyList<string>> rows = [];
         for (var i = 0; i < bins; i++)
         {
-            var range = $"{FormatValue(min + size * i)} to {FormatValue(min + size * (i + 1))}";
+            var range = localizer[TwStrings.Chart_RangeValue, FormatValue(min + size * i), FormatValue(min + size * (i + 1))];
             builder.Bar(band.Center(i), band.Step, 0, scale.Map(counts[i]), ChartColor.Series(0));
-            builder.BandDatum(band.Center(i), band.Step, range, [new ChartDatumRow(CountLabel, counts[i].ToString("#,0"), ChartColor.Series(0))]);
+            builder.BandDatum(band.Center(i), band.Step, range, [new ChartDatumRow(effectiveCountLabel, counts[i].ToString("#,0"), ChartColor.Series(0))]);
             rows.Add([range, counts[i].ToString("#,0")]);
         }
 
         builder.Baseline(0);
-        builder.Table = new ChartTable([RangeLabel, CountLabel], rows);
+        builder.Table = new ChartTable([effectiveRangeLabel, effectiveCountLabel], rows);
     }
 }

@@ -51,7 +51,7 @@ public class TwTimePickerTests : TwBlazorTestBase
     public void TwTimePicker_DisplaysProvidedTime()
     {
         // Arrange
-        var selectedTime = new TimeOnly(14, 30); // 2:30 PM
+        var selectedTime = new TimeOnly(14, 30); // 2:30 pm
 
         // Act
         var cut = TestContext.Render<TwTimePicker>(p => p
@@ -67,7 +67,7 @@ public class TwTimePickerTests : TwBlazorTestBase
     public void TwTimePicker_DisplaysTime_In12HourFormat()
     {
         // Arrange
-        var selectedTime = new TimeOnly(14, 30); // 2:30 PM
+        var selectedTime = new TimeOnly(14, 30); // 2:30 pm
 
         // Act
         var cut = TestContext.Render<TwTimePicker>(p => p
@@ -77,7 +77,7 @@ public class TwTimePickerTests : TwBlazorTestBase
 
         // Assert
         var input = cut.Find("input[type='text']");
-        Assert.Contains("02:30 PM", input.GetAttribute("value"));
+        Assert.Contains("02:30 pm", input.GetAttribute("value"));
     }
 
     [Fact]
@@ -547,7 +547,7 @@ public class TwTimePickerTests : TwBlazorTestBase
         // Assert
         var input = cut.Find("input");
         Assert.Equal("text", input.GetAttribute("type"));
-        Assert.Contains("02:30 PM", input.GetAttribute("value"));
+        Assert.Contains("02:30 pm", input.GetAttribute("value"));
 
         input.Click();
         Assert.Contains("Choose time", cut.Markup);

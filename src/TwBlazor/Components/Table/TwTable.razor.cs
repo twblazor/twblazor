@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Utilities;
+using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 
@@ -22,12 +23,15 @@ public partial class TwTable : TwBlazorComponentBase
 {
     // The wrapper scrolls when the table is wider than its container. A keyboard can only scroll it once it
     // is focusable, and a focusable region needs a name.
-    private string scrollRegionLabel => string.IsNullOrWhiteSpace(AriaLabel) ? ScrollRegionLabel : $"{AriaLabel}, {ScrollRegionLabel}";
+    private string scrollRegionLabel => string.IsNullOrWhiteSpace(AriaLabel) ? effectiveScrollRegionLabel : $"{AriaLabel}, {effectiveScrollRegionLabel}";
 
     /// <summary>
     /// Gets or sets the accessible name of the scrollable region that wraps the table.
+    /// Defaults to the localized <see cref="TwStrings.Table_ScrollRegion"/> text ("Scrollable table").
     /// </summary>
-    [Parameter] public string ScrollRegionLabel { get; set; } = "Scrollable table";
+    [Parameter] public string? ScrollRegionLabel { get; set; }
+
+    private string effectiveScrollRegionLabel => ScrollRegionLabel ?? localizer[TwStrings.Table_ScrollRegion];
 
     private ElementReference wrapperRef;
 

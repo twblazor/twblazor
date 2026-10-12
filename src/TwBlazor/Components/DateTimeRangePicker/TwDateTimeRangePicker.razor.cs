@@ -7,6 +7,7 @@ using System.Globalization;
 using TwBlazor.Components.DatePicker;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Utilities;
+using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 
@@ -80,7 +81,7 @@ public partial class TwDateTimeRangePicker : TwPopoverPickerComponentBase
     [Parameter] public string? Placeholder { get; set; }
 
     private string effectivePlaceholder => Placeholder ??
-        $"{format.ToLower(CultureInfo.CurrentCulture)}{resolvedRangeSeparator}{format.ToLower(CultureInfo.CurrentCulture)}";
+        $"{format.ToLower(localizer.Formats.Culture)}{resolvedRangeSeparator}{format.ToLower(localizer.Formats.Culture)}";
 
     /// <summary>
     /// The selected date/time range: <c>Key</c> is the start, <c>Value</c> is the end. Either (or
@@ -111,7 +112,12 @@ public partial class TwDateTimeRangePicker : TwPopoverPickerComponentBase
     /// Gets or sets a value indicating whether the time should be displayed in 12-hour format.
     /// Has no effect when <see cref="Format"/> is explicitly set.
     /// </summary>
-    [Parameter] public bool Is12HourFormat { get; set; }
+    [Parameter] public bool? Is12HourFormat { get; set; }
+
+    /// <summary>
+    /// Gets whether a 12 hour clock is used: <see cref="Is12HourFormat"/> when set, otherwise the localization options.
+    /// </summary>
+    private bool effectiveIs12HourFormat => Is12HourFormat ?? localizer.Formats.Use12HourInput;
 
     /// <summary>
     /// The .NET custom date/time format string used to display and parse each side of
@@ -157,7 +163,7 @@ public partial class TwDateTimeRangePicker : TwPopoverPickerComponentBase
     /// <see cref="TwDatePickerTheme.DefaultDateTimeFormat"/>/<see cref="TwDatePickerTheme.DefaultDateTimeFormat12Hour"/>
     /// matches <see cref="Is12HourFormat"/> - the same fallback <see cref="TwDateTimePicker"/> uses.
     /// </summary>
-    private string format => Format ?? (Is12HourFormat ? theme.DefaultDateTimeFormat12Hour : theme.DefaultDateTimeFormat);
+    private string format => Format ?? localizer.Formats.DateTimeInput ?? (effectiveIs12HourFormat ? theme.DefaultDateTimeFormat12Hour : theme.DefaultDateTimeFormat);
 
     /// <summary>
     /// The side of <see cref="SelectedRange"/> relevant to the current <see cref="stage"/> - used to
@@ -298,14 +304,14 @@ public partial class TwDateTimeRangePicker : TwPopoverPickerComponentBase
         var start = default(DateTime);
         var end = default(DateTime);
         var success = parts.Length == 2
-            && DateTime.TryParseExact(parts[0], format, CultureInfo.CurrentCulture, DateTimeStyles.None, out start)
-            && DateTime.TryParseExact(parts[1], format, CultureInfo.CurrentCulture, DateTimeStyles.None, out end)
+            && DateTime.TryParseExact(parts[0], format, localizer.Formats.Culture, DateTimeStyles.None, out start)
+            && DateTime.TryParseExact(parts[1], format, localizer.Formats.Culture, DateTimeStyles.None, out end)
             && !IsOutOfBounds(start) && !IsOutOfBounds(end);
 
         if (!success)
         {
             Invalid = true;
-            ErrorMessage = $"Enter a valid date range, for example {FormatRange(new KeyValuePair<DateTime?, DateTime?>(DateTime.Today.AddHours(9), DateTime.Today.AddDays(1).AddHours(17)))}";
+            ErrorMessage = localizer[TwStrings.DateRangePicker_Invalid, FormatRange(new KeyValuePair<DateTime?, DateTime?>(DateTime.Today.AddHours(9), DateTime.Today.AddDays(1).AddHours(17)))];
             Value = text;
             return;
         }
@@ -333,13 +339,13 @@ public partial class TwDateTimeRangePicker : TwPopoverPickerComponentBase
             return string.Empty;
         }
 
-        var start = range.Key.Value.ToString(format, CultureInfo.CurrentCulture);
+        var start = range.Key.Value.ToString(format, localizer.Formats.Culture);
         if (range.Value is null)
         {
             return start;
         }
 
-        return $"{start}{resolvedRangeSeparator}{range.Value.Value.ToString(format, CultureInfo.CurrentCulture)}";
+        return $"{start}{resolvedRangeSeparator}{range.Value.Value.ToString(format, localizer.Formats.Culture)}";
     }
 
     /// <summary>

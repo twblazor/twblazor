@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Components;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Enums;
 using TwBlazor.Utilities;
+using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 
@@ -95,7 +96,7 @@ public partial class TwStepper : TwBlazorComponentBase
     private int mobileProgressValue => _steps.Count == 0 ? 0 : (int)Math.Round((ActiveStepIndex + 1) / (double)_steps.Count * 100);
 
     private string mobileAriaLabel => ActiveStep != null
-        ? $"Step {ActiveStepIndex + 1} of {_steps.Count}: {ActiveStep.Label}"
+        ? localizer[TwStrings.Stepper_StepOf, ActiveStepIndex + 1, _steps.Count, ActiveStep.Label]
         : string.Empty;
 
     internal void RegisterStep(TwStep step)
@@ -158,7 +159,7 @@ public partial class TwStepper : TwBlazorComponentBase
         }
 
         ActiveStepIndex = index;
-        statusMessage = $"Step {index + 1} of {_steps.Count}: {_steps[index].Label}";
+        statusMessage = localizer[TwStrings.Stepper_StepOf, index + 1, _steps.Count, _steps[index].Label];
         await ActiveStepIndexChanged.InvokeAsync(index);
     }
 
@@ -222,15 +223,15 @@ public partial class TwStepper : TwBlazorComponentBase
         .AddClass(theme.ConnectorNeutral, beforeIndex >= ActiveStepIndex)
         .Build();
 
-    private static string StepAriaLabel(TwStep step, int index, StepStatus status)
+    private string StepAriaLabel(TwStep step, int index, StepStatus status)
     {
         var stateText = status switch
         {
-            StepStatus.Completed => "completed",
-            StepStatus.Active => "current",
-            _ => "not started"
+            StepStatus.Completed => localizer[TwStrings.Stepper_Completed],
+            StepStatus.Active => localizer[TwStrings.Stepper_Current],
+            _ => localizer[TwStrings.Stepper_NotStarted]
         };
 
-        return $"Step {index + 1}: {step.Label}, {stateText}";
+        return localizer[TwStrings.Stepper_StepState, index + 1, step.Label, stateText];
     }
 }

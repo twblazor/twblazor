@@ -8,6 +8,7 @@ using TwBlazor.Enums;
 using TwBlazor.Models;
 using TwBlazor.Services;
 using TwBlazor.Utilities;
+using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 
@@ -153,16 +154,19 @@ public partial class TwCalendar<T> : TwBlazorComponentBase, IDisposable
 
     private string GetNavButtonClasses() => new ClassBuilder(theme.NavButton).Build();
 
-    private string previousTooltip => $"Previous {viewUnit}";
-
-    private string nextTooltip => $"Next {viewUnit}";
-
-    private string viewUnit => currentView switch
+    private string previousTooltip => localizer[currentView switch
     {
-        TwCalendarView.Day => "day",
-        TwCalendarView.Month => "month",
-        _ => "week"
-    };
+        TwCalendarView.Day => TwStrings.Calendar_PreviousDay,
+        TwCalendarView.Month => TwStrings.Calendar_PreviousMonth,
+        _ => TwStrings.Calendar_PreviousWeek
+    }];
+
+    private string nextTooltip => localizer[currentView switch
+    {
+        TwCalendarView.Day => TwStrings.Calendar_NextDay,
+        TwCalendarView.Month => TwStrings.Calendar_NextMonth,
+        _ => TwStrings.Calendar_NextWeek
+    }];
 
     private string viewSwitcherClasses => new ClassBuilder(options.Theme.Display.Flex)
         .AddClass(options.Theme.Flexbox.Align.Center)
@@ -192,9 +196,9 @@ public partial class TwCalendar<T> : TwBlazorComponentBase, IDisposable
     /// </summary>
     private string headerTitle => currentView switch
     {
-        TwCalendarView.Day => SelectedDate.ToString("ddd dd MMMM yyyy"),
+        TwCalendarView.Day => localizer.Formats.Format(SelectedDate, localizer.Formats.LongDate),
         TwCalendarView.Week => weekRangeLabel,
-        _ => SelectedDate.ToString("MMMM yyyy")
+        _ => localizer.Formats.Format(SelectedDate, localizer.Formats.MonthYear)
     };
 
     /// <summary>
@@ -212,24 +216,22 @@ public partial class TwCalendar<T> : TwBlazorComponentBase, IDisposable
     {
         get
         {
-            var start = DateHelpers.GetStartOfWeek(SelectedDate);
+            var start = localizer.Formats.GetStartOfWeek(SelectedDate);
             var end = start.AddDays(6);
 
             if (start.Month == end.Month && start.Year == end.Year)
             {
-                return start.ToString("MMMM yyyy");
+                return localizer.Formats.Format(start, localizer.Formats.MonthYear);
             }
 
-            return start.Year == end.Year
-                ? $"{start:MMMM} - {end:MMMM yyyy}"
-                : $"{start:MMMM yyyy} - {end:MMMM yyyy}";
+            return localizer[TwStrings.Common_Range, localizer.Formats.Format(start, start.Year == end.Year ? localizer.Formats.Month : localizer.Formats.MonthYear), localizer.Formats.Format(end, localizer.Formats.MonthYear)];
         }
     }
 
     /// <summary>
     /// The label for the header's week-number <see cref="TwChip"/> (e.g. "Week 3").
     /// </summary>
-    private string weekChipLabel => $"Week {DateHelpers.GetWeekOfMonth(SelectedDate)}";
+    private string weekChipLabel => localizer[TwStrings.Calendar_WeekNumber, localizer.Formats.GetWeekOfMonth(SelectedDate)];
 
     /// <summary>
     /// The Monday-Sunday date range containing <see cref="SelectedDate"/> (e.g.
@@ -241,9 +243,9 @@ public partial class TwCalendar<T> : TwBlazorComponentBase, IDisposable
     {
         get
         {
-            var start = DateHelpers.GetStartOfWeek(SelectedDate);
+            var start = localizer.Formats.GetStartOfWeek(SelectedDate);
             var end = start.AddDays(6);
-            return $"{start:dd MMM yyyy} - {end:dd MMM yyyy}";
+            return localizer[TwStrings.Common_Range, localizer.Formats.Format(start, localizer.Formats.MediumDate), localizer.Formats.Format(end, localizer.Formats.MediumDate)];
         }
     }
 
@@ -479,15 +481,15 @@ public partial class TwCalendar<T> : TwBlazorComponentBase, IDisposable
         string title;
         if (isNew)
         {
-            title = "New event";
+            title = localizer[TwStrings.Calendar_NewEvent];
         }
         else if (readOnly)
         {
-            title = workingEvent.Name ?? "Event";
+            title = workingEvent.Name ?? localizer[TwStrings.Calendar_Event];
         }
         else
         {
-            title = "Edit event";
+            title = localizer[TwStrings.Calendar_EditEvent];
         }
 
         var parameters = new TwDialogParameters

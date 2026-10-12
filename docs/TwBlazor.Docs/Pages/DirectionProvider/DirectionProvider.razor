@@ -1,0 +1,180 @@
+@page "/direction-provider"
+
+<PageContainer Title="TwDirectionProvider" Path="/direction-provider" Category="Configuration" Description="TwDirectionProvider sets a Blazor app, or part of a page, to right to left or left to right, mirroring layout and arrow keys for Arabic and Hebrew.">
+    <PageCard Title="Right to left" NoMarginTop>
+        <Description>
+            Wrap content in a <code>TwDirectionProvider</code> and set <code>Direction</code>. Everything inside is mirrored: text aligns to the other side, icons and labels swap places, panels open from the other edge, and the Left and Right arrow keys swap so they keep following what is on screen.
+        </Description>
+
+        <CodeExample Name="DirectionProviderRtl" CSharpName="DirectionProviderRtlCode">
+            <TwDirectionProvider Direction="TextDirection.RightToLeft" Class="flex flex-col gap-4">
+                <TwTextfield Label="الاسم" @bind-Value="name" Placeholder="اكتب اسمك" />
+                <TwSwitch @bind-Value="notifications" Label="الإشعارات" />
+                <TwTabContainer AriaLabel="الحساب">
+                    <TwTab Label="الملف الشخصي">
+                        <p>معلومات الملف الشخصي.</p>
+                    </TwTab>
+                    <TwTab Label="الأمان">
+                        <p>إعدادات الأمان.</p>
+                    </TwTab>
+                    <TwTab Label="الفواتير">
+                        <p>سجل الفواتير.</p>
+                    </TwTab>
+                </TwTabContainer>
+                <TwPagination TotalPages="10" @bind-ActivePage="page" AriaLabel="الصفحات" />
+            </TwDirectionProvider>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Follow the language" Id="direction-provider-language">
+        <Description>
+            Leave <code>Direction</code> unset and the provider follows the language the application is running in: right to left for a culture such as Arabic, Hebrew, Persian or Urdu, left to right for everything else. Wrap the layout once and the whole application turns with the culture. Keep the toast and dialog providers inside it, so toasts and dialogs turn too.
+        </Description>
+        <TwCodeBlock Content="@_layoutExample" Language="razor" />
+        <p class="my-3">
+            To pin the direction whatever the culture, set it once in <code>AddTwBlazor</code>.
+        </p>
+        <TwCodeBlock Content="@_optionsExample" Language="csharp" />
+    </PageCard>
+
+    <PageCard Title="Without the provider" Id="direction-provider-html">
+        <Description>
+            The provider is a convenience. What the styles react to is the <code>dir</code> attribute, so an application that already sets it on the <code>html</code> element does not need one. Set it from the same culture twblazor reads, so the layout and the arrow keys agree.
+        </Description>
+        <TwCodeBlock Content="@_htmlExample" Language="razor" />
+        <TwAlert Color="Color.Info" Class="mt-3">
+            The <code>dir</code> attribute has to be there. Setting <code>direction: rtl</code> in CSS alone turns the text but not the parts of the theme that are mirrored with Tailwind's <code>rtl:</code> variant.
+        </TwAlert>
+    </PageCard>
+
+    <PageCard Title="One part of a page" Id="direction-provider-mixed">
+        <Description>
+            Providers nest, and the nearest one wins. Use this for a left to right island in a right to left page, or the other way round.
+        </Description>
+
+        <CodeExample Name="DirectionProviderMixed" CSharpName="DirectionProviderMixedCode">
+            <TwDirectionProvider Direction="TextDirection.RightToLeft" Class="flex flex-col gap-4">
+                <TwAlert Color="Color.Info">هذا التنبيه يُقرأ من اليمين إلى اليسار.</TwAlert>
+                <TwDirectionProvider Direction="TextDirection.LeftToRight">
+                    <TwAlert Color="Color.Success">This alert reads left to right.</TwAlert>
+                </TwDirectionProvider>
+                <TwSlider T="int" @bind-Value="volume" Min="0" Max="100" Label="مستوى الصوت" />
+            </TwDirectionProvider>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="What is mirrored" Id="direction-provider-mirrored">
+        <Description>
+            Mirroring follows the reading direction, so anything described as Left or Right means the start or end of the line.
+        </Description>
+        <TwTable Bordered Striped Class="mb-4" AriaLabel="How components behave right to left">
+            <TableHeader>
+                <tr>
+                    <th scope="col" class="px-4 py-3">Part</th>
+                    <th scope="col" class="px-4 py-3">Right to left</th>
+                </tr>
+            </TableHeader>
+            <TableBody>
+                @foreach (var row in _behaviour)
+                {
+                    <tr>
+                        <th scope="row" class="px-4 py-3 text-start align-top font-normal">@row.Part</th>
+                        <td class="px-4 py-3">@row.Behaviour</td>
+                    </tr>
+                }
+            </TableBody>
+        </TwTable>
+    </PageCard>
+
+    <PageCard Title="Your own theme and markup" Id="direction-provider-theme" NoMarginBottom>
+        <Description>
+            The default theme uses Tailwind's logical classes, which follow the direction by themselves. If you keep your own copy of <code>Theme.cs</code>, or write your own markup around the components, use them too.
+        </Description>
+        <TwTable Bordered Striped Class="mb-4" AriaLabel="Logical Tailwind classes">
+            <TableHeader>
+                <tr>
+                    <th scope="col" class="px-4 py-3">Instead of</th>
+                    <th scope="col" class="px-4 py-3">Use</th>
+                </tr>
+            </TableHeader>
+            <TableBody>
+                @foreach (var row in _classes)
+                {
+                    <tr>
+                        <th scope="row" class="px-4 py-3 text-start font-normal"><code>@row.Physical</code></th>
+                        <td class="px-4 py-3"><code>@row.Logical</code></td>
+                    </tr>
+                }
+            </TableBody>
+        </TwTable>
+        <p class="mb-3">
+            A sideways transform has no logical form, so pair it with the <code>rtl:</code> variant, as the theme does for the switch thumb: <code>peer-checked:translate-x-full rtl:peer-checked:-translate-x-full</code>.
+        </p>
+    </PageCard>
+</PageContainer>
+
+@code {
+    private sealed record MirrorRow(string Part, string Behaviour);
+
+    private sealed record ClassPair(string Physical, string Logical);
+
+    #region CodeExample DirectionProviderRtlCode
+    private string name = string.Empty;
+    private bool notifications = true;
+    private int page = 1;
+    #endregion
+
+    #region CodeExample DirectionProviderMixedCode
+    private int volume = 40;
+    #endregion
+
+    private static readonly MirrorRow[] _behaviour =
+    [
+        new("Text, spacing, borders and icons", "Swap sides. A leading icon sits on the right of its label, and an accent border moves to the right edge."),
+        new("Chevrons and arrows", "Point the other way: the next button in a pagination, calendar, carousel or date picker points left."),
+        new("Left and Right arrow keys", "Swap in tabs, trees, calendars, date grids and the carousel, so each key still moves the way it points."),
+        new("Panels and popovers", "Open from the right edge of their field and flip back if they would leave the screen."),
+        new("Dialog positions, toasts and tooltips", "Left and Right mean start and end. A top left dialog appears top right, toasts stack in the bottom left, and a tooltip placed Left appears on the right."),
+        new("Sidebar", "Sits on the right and slides in from the right on a small screen."),
+        new("Slider, switch and progress", "Fill from the right."),
+        new("Time pickers", "Not mirrored. Hours stay before minutes, as times are written in every language."),
+        new("Colour picker", "Not mirrored. The saturation square and the hue strip are pictures of a colour space, not text."),
+        new("Charts", "Not mirrored. Axes keep their orientation, and labels and legends take the direction of their text."),
+    ];
+
+    private static readonly ClassPair[] _classes =
+    [
+        new("ml-4, mr-4", "ms-4, me-4"),
+        new("pl-4, pr-4", "ps-4, pe-4"),
+        new("left-0, right-0", "start-0, end-0"),
+        new("text-left, text-right", "text-start, text-end"),
+        new("border-l, border-r", "border-s, border-e"),
+        new("rounded-l-md, rounded-r-md", "rounded-s-md, rounded-e-md"),
+    ];
+
+    private const string _layoutExample = """
+        @* MainLayout.razor *@
+        <TwDirectionProvider>
+            <TwSidebar>
+                @Body
+            </TwSidebar>
+            <TwToastProvider />
+            <TwDialogProvider />
+        </TwDirectionProvider>
+        """;
+
+    private const string _optionsExample = """
+        builder.Services.AddTwBlazor(options =>
+        {
+            options.Localization.Direction = TextDirection.RightToLeft;
+        }, Theme.CreateTheme);
+        """;
+
+    private const string _htmlExample = """
+        @* App.razor *@
+        @inject ITwLocalizer Localizer
+
+        <html lang="@CultureInfo.CurrentUICulture.Name"
+              dir="@(Localizer.Direction == TextDirection.RightToLeft ? "rtl" : "ltr")">
+        """;
+}

@@ -3,6 +3,7 @@
 
 using Microsoft.AspNetCore.Components;
 using TwBlazor.Charting;
+using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 
@@ -24,8 +25,11 @@ public class TwFunnelChart : TwValueChartBase
 
     /// <summary>
     /// Gets or sets the label for a stage's share of the first stage in tooltips.
+    /// Defaults to the localized <see cref="TwStrings.Chart_OfFirstStage"/> text ("Of first stage").
     /// </summary>
-    [Parameter] public string ShareLabel { get; set; } = "Of first stage";
+    [Parameter] public string? ShareLabel { get; set; }
+
+    private string effectiveShareLabel => ShareLabel ?? localizer[TwStrings.Chart_OfFirstStage];
 
     /// <inheritdoc />
     protected override void BuildMarks(ChartSceneBuilder builder)
@@ -57,8 +61,8 @@ public class TwFunnelChart : TwValueChartBase
             builder.Add(new ChartText(50 + Math.Max(nearWidth, farWidth) / 2, band.Center(row), FormatValue(Data[i].Value), ChartAnchor.Start, Tone: ChartTextTone.Primary, OffsetX: 8));
             builder.Datum(50, band.Center(row), 100, band.Step, Data[i].Label,
             [
-                new ChartDatumRow(ValueHeader, FormatValue(Data[i].Value), color),
-                new ChartDatumRow(ShareLabel, FormatShare(Data[i].Value, Data[0].Value))
+                new ChartDatumRow(effectiveValueHeader, FormatValue(Data[i].Value), color),
+                new ChartDatumRow(effectiveShareLabel, FormatShare(Data[i].Value, Data[0].Value))
             ]);
         }
 

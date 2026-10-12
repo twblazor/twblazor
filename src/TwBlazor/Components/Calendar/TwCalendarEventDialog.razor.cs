@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Components;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Services;
 using TwBlazor.Utilities;
+using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 
@@ -87,21 +88,30 @@ public partial class TwCalendarEventDialog<T> : TwBlazorComponentBase
     /// starts and ends on the same day (<c>1 Oct 2026 10:00 - 11:00</c>), or both full dates when it
     /// spans days (<c>1 Oct 2026 22:00 - 2 Oct 2026 01:00</c>).
     /// </summary>
-    internal static string FormatRange(DateTimeOffset start, DateTimeOffset end)
+    /// <param name="localizer">Supplies the text and the date and time formats.</param>
+    /// <param name="start">When the event starts.</param>
+    /// <param name="end">When the event ends.</param>
+    /// <returns>The formatted time span.</returns>
+    internal static string FormatRange(ITwLocalizer localizer, DateTimeOffset start, DateTimeOffset end)
     {
+        var formats = localizer.Formats;
+
         if (TwCalendarSpans.IsAllDay(start, end))
         {
             var first = start.DateTime.Date;
             var last = TwCalendarSpans.GetLastDay(start, end);
-            return first == last ? $"{first:d MMM yyyy} (all day)" : $"{first:d MMM yyyy} - {last:d MMM yyyy} (all day)";
+            var days = first == last
+                ? formats.Format(first, formats.MediumDate)
+                : localizer[TwStrings.Common_Range, formats.Format(first, formats.MediumDate), formats.Format(last, formats.MediumDate)];
+            return localizer[TwStrings.Calendar_AllDayRange, days];
         }
 
         var from = start.DateTime;
         var to = end.DateTime;
 
         return from.Date == to.Date
-            ? $"{from:d MMM yyyy} {from:HH:mm} - {to:HH:mm}"
-            : $"{from:d MMM yyyy HH:mm} - {to:d MMM yyyy HH:mm}";
+            ? $"{formats.Format(from, formats.MediumDate)} {localizer[TwStrings.Common_Range, formats.Format(from, formats.ShortTime), formats.Format(to, formats.ShortTime)]}"
+            : localizer[TwStrings.Common_Range, formats.FormatDateTime(from), formats.FormatDateTime(to)];
     }
 
     /// <summary>

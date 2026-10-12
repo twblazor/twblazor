@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Utilities;
+using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 
@@ -105,8 +106,8 @@ public partial class TwCalendarMonthView<T> : TwBlazorComponentBase, IAsyncDispo
         var daysInMonth = DateTime.DaysInMonth(Date.Year, Date.Month);
         var lastOfMonth = new DateTime(Date.Year, Date.Month, daysInMonth, 0, 0, 0, Date.Kind);
 
-        var gridStart = DateHelpers.GetStartOfWeek(firstOfMonth);
-        var gridEnd = DateHelpers.GetStartOfWeek(lastOfMonth).AddDays(6);
+        var gridStart = localizer.Formats.GetStartOfWeek(firstOfMonth);
+        var gridEnd = localizer.Formats.GetStartOfWeek(lastOfMonth).AddDays(6);
 
         var days = new List<DateTime>();
         for (var day = gridStart; day <= gridEnd; day = day.AddDays(1))
@@ -177,8 +178,8 @@ public partial class TwCalendarMonthView<T> : TwBlazorComponentBase, IAsyncDispo
     private static string GetSegmentStyle(TwCalendarSpans.Segment<T> segment) =>
         $"width:calc({segment.Span * 100}% + {segment.Span - 1} * (0.5rem + 1px));{TwCalendarColors.GetEventCardStyle(segment.Event.Color)}";
 
-    private static string GetSegmentLabel(Schedule<T> evt) =>
-        $"{evt.Name}, {evt.DateTimeStart:d MMM} to {TwCalendarSpans.GetLastDay(evt):d MMM}";
+    private string GetSegmentLabel(Schedule<T> evt) =>
+        localizer[TwStrings.Calendar_EventTimeRange, evt.Name, localizer.Formats.Format(evt.DateTimeStart.DateTime, localizer.Formats.MonthDay), localizer.Formats.Format(TwCalendarSpans.GetLastDay(evt), localizer.Formats.MonthDay)];
 
     private bool IsCurrentMonth(DateTime day) => day.Month == Date.Month && day.Year == Date.Year;
 
@@ -206,8 +207,8 @@ public partial class TwCalendarMonthView<T> : TwBlazorComponentBase, IAsyncDispo
     /// <summary>
     /// The event's start time (e.g. "9:00 AM"), shown after its name on the row's single truncated line.
     /// </summary>
-    private static string GetStartTimeLabel(Schedule<T> evt) =>
-        TwCalendarSpans.IsAllDay(evt) ? "All day" : evt.DateTimeStart.DateTime.ToString("h:mm tt");
+    private string GetStartTimeLabel(Schedule<T> evt) =>
+        TwCalendarSpans.IsAllDay(evt) ? localizer[TwStrings.Calendar_AllDay] : localizer.Formats.Format(evt.DateTimeStart.DateTime, localizer.Formats.ShortTime);
 
     private string overflowLabelClasses => new ClassBuilder(theme.MonthOverflowLabel).Build();
 
@@ -303,7 +304,7 @@ public partial class TwCalendarMonthView<T> : TwBlazorComponentBase, IAsyncDispo
     {
         var rowStart = focusedIndex - (focusedIndex % 7);
 
-        int? target = e.Key switch
+        int? target = ToLogicalKey(e.Key) switch
         {
             "ArrowRight" => focusedIndex + 1,
             "ArrowLeft" => focusedIndex - 1,

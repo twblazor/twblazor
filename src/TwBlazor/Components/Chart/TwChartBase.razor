@@ -6,7 +6,7 @@
 <div id="@Id" class="@rootClasses" style="@Style" role="group" aria-label="@effectiveAriaLabel" aria-labelledby="@effectiveAriaLabelledBy" @attributes="Attributes">
     @if (scene.IsEmpty)
     {
-        <p class="@theme.Empty">@EmptyText</p>
+        <p class="@theme.Empty">@effectiveEmptyText</p>
     }
     else
     {
@@ -15,7 +15,7 @@
             <div class="@theme.Toolbar">
                 @if (hasLegend)
                 {
-                    <ul class="@theme.Legend" aria-label="@LegendLabel">
+                    <ul class="@theme.Legend" aria-label="@effectiveLegendLabel">
                         @foreach (var item in scene.Legend)
                         {
                             <li>
@@ -39,14 +39,14 @@
                 }
                 @if (hasTableToggle)
                 {
-                    <TwButton Class="@theme.TableToggle" Label="@(showTable ? ChartViewLabel : TableViewLabel)" Variant="ButtonVariant.Text" Dense="true" StartIcon="@(showTable ? null : Icon.Table)" OnClick="ToggleTable" />
+                    <TwButton Class="@theme.TableToggle" Label="@(showTable ? effectiveChartViewLabel : effectiveTableViewLabel)" Variant="ButtonVariant.Text" Dense="true" StartIcon="@(showTable ? null : Icon.Table)" OnClick="ToggleTable" />
                 }
             </div>
         }
 
         @if (isTableVisible && scene.Table is { } table)
         {
-            <TwTable AriaLabel="@TableLabel">
+            <TwTable AriaLabel="@effectiveTableLabel">
                 <TableHeader>
                     <tr>
                         @foreach (var header in table.Headers)

@@ -1,6 +1,7 @@
 using Bunit;
 using Microsoft.AspNetCore.Components;
 using TwBlazor.Components;
+using TwBlazor.Configuration.Components;
 using TwBlazor.Enums;
 
 namespace TwBlazor.Tests.Components.Tabs;
@@ -171,10 +172,134 @@ public class TwTabTests : TwBlazorTestBase
         var buttons = cut.FindAll("button[role='tab']");
         var inactiveButton = buttons[1];
 
-        // Inactive tab should have hover effects
+        // Inactive tab should have hover effects and a collapsed indicator
         Assert.Contains("hover:text-[oklch(21%_0.006_285.885)]", inactiveButton.GetAttribute("class"));
+        Assert.Contains("hover:bg-[oklch(21%_0.006_285.885)]/5", inactiveButton.GetAttribute("class"));
         Assert.Contains("after:scale-x-0", inactiveButton.GetAttribute("class"));
-        Assert.Contains("hover:after:scale-x-100", inactiveButton.GetAttribute("class"));
+        Assert.DoesNotContain("after:scale-x-100", inactiveButton.GetAttribute("class"));
+    }
+
+    [Fact]
+    public void TwTab_InactiveTab_UsesNeutralText_InsteadOfTabColor()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwTabContainer>(parameters => parameters
+            .Add(p => p.TabColor, Color.Danger)
+            .Add(p => p.ChildContent, builder =>
+            {
+                builder.OpenComponent<TwTab>(0);
+                builder.AddAttribute(1, "Label", "Tab 1");
+                builder.AddAttribute(2, "ChildContent", (RenderFragment)(b => b.AddContent(3, "Content 1")));
+                builder.CloseComponent();
+
+                builder.OpenComponent<TwTab>(4);
+                builder.AddAttribute(5, "Label", "Tab 2");
+                builder.AddAttribute(6, "ChildContent", (RenderFragment)(b => b.AddContent(7, "Content 2")));
+                builder.CloseComponent();
+            }));
+
+        // Assert - only the selected tab carries the tab color.
+        var buttons = cut.FindAll("button[role='tab']");
+        Assert.Contains("text-red", buttons[0].GetAttribute("class"));
+        Assert.DoesNotContain("text-red", buttons[1].GetAttribute("class"));
+        Assert.Contains("text-[oklch(50%_0.006_285.885)]", buttons[1].GetAttribute("class"));
+    }
+
+    [Fact]
+    public void TwTab_TabColor_FollowsSelection()
+    {
+        // Arrange
+        var cut = TestContext.Render<TwTabContainer>(parameters => parameters
+            .Add(p => p.TabColor, Color.Danger)
+            .Add(p => p.ChildContent, builder =>
+            {
+                builder.OpenComponent<TwTab>(0);
+                builder.AddAttribute(1, "Label", "Tab 1");
+                builder.AddAttribute(2, "ChildContent", (RenderFragment)(b => b.AddContent(3, "Content 1")));
+                builder.CloseComponent();
+
+                builder.OpenComponent<TwTab>(4);
+                builder.AddAttribute(5, "Label", "Tab 2");
+                builder.AddAttribute(6, "ChildContent", (RenderFragment)(b => b.AddContent(7, "Content 2")));
+                builder.CloseComponent();
+            }));
+
+        // Act
+        cut.FindAll("button[role='tab']")[1].Click();
+
+        // Assert
+        var buttons = cut.FindAll("button[role='tab']");
+        Assert.DoesNotContain("text-red", buttons[0].GetAttribute("class"));
+        Assert.Contains("text-red", buttons[1].GetAttribute("class"));
+        Assert.Contains("after:scale-x-100", buttons[1].GetAttribute("class"));
+    }
+
+    [Fact]
+    public void TwTab_DisabledTab_UsesNeutralText_AndHasNoIndicator()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwTabContainer>(parameters => parameters
+            .Add(p => p.TabColor, Color.Danger)
+            .Add(p => p.ChildContent, builder =>
+            {
+                builder.OpenComponent<TwTab>(0);
+                builder.AddAttribute(1, "Label", "Tab 1");
+                builder.AddAttribute(2, "ChildContent", (RenderFragment)(b => b.AddContent(3, "Content")));
+                builder.AddAttribute(4, "Disabled", true);
+                builder.CloseComponent();
+            }));
+
+        // Assert
+        var classAttribute = cut.Find("button[role='tab']").GetAttribute("class");
+        Assert.DoesNotContain("text-red", classAttribute);
+        Assert.DoesNotContain("after:", classAttribute);
+        Assert.DoesNotContain("hover:", classAttribute);
+    }
+
+    [Fact]
+    public void TwTab_ActiveIndicator_StaysVisibleInForcedColors()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwTabContainer>(parameters => parameters
+            .Add(p => p.ChildContent, builder =>
+            {
+                builder.OpenComponent<TwTab>(0);
+                builder.AddAttribute(1, "Label", "Tab 1");
+                builder.AddAttribute(2, "ChildContent", (RenderFragment)(b => b.AddContent(3, "Content")));
+                builder.CloseComponent();
+            }));
+
+        // Assert
+        var button = cut.Find("button[role='tab']");
+        Assert.Contains("forced-colors:after:bg-[Highlight]", button.GetAttribute("class"));
+    }
+
+    [Fact]
+    public void TwTab_DoesNotInheritButtonChrome()
+    {
+        // Arrange - a consumer's button theme (shadow, uppercase) must not leak into the tab list.
+        var buttonTheme = Theme.Components.Require<TwButtonTheme>();
+        buttonTheme.ButtonShadow = Shadow.Md;
+        buttonTheme.ButtonUppercase = true;
+
+        // Act
+        var cut = TestContext.Render<TwTabContainer>(parameters => parameters
+            .Add(p => p.ChildContent, builder =>
+            {
+                builder.OpenComponent<TwTab>(0);
+                builder.AddAttribute(1, "Label", "Tab 1");
+                builder.AddAttribute(2, "ChildContent", (RenderFragment)(b => b.AddContent(3, "Content")));
+                builder.CloseComponent();
+            }));
+
+        // Assert
+        var classes = (cut.Find("button[role='tab']").GetAttribute("class") ?? string.Empty).Split(' ');
+        Assert.DoesNotContain("shadow", classes);
+        Assert.DoesNotContain("uppercase", classes);
+        Assert.DoesNotContain("h-8", classes);
+        Assert.DoesNotContain("focus-visible:ring-offset-2", classes);
+        Assert.Contains("focus-visible:ring-inset", classes);
+        Assert.Contains("cursor-pointer", classes);
     }
 
     [Fact]
@@ -193,7 +318,7 @@ public class TwTabTests : TwBlazorTestBase
 
         // Assert
         var button = cut.Find("button[role='tab']");
-        Assert.Contains("px-4", button.GetAttribute("class"));
+        Assert.Contains("px-4 py-2", button.GetAttribute("class"));
     }
 
     [Fact]
@@ -212,7 +337,7 @@ public class TwTabTests : TwBlazorTestBase
 
         // Assert
         var button = cut.Find("button[role='tab']");
-        Assert.Contains("py-5 px-6", button.GetAttribute("class"));
+        Assert.Contains("px-6 py-3", button.GetAttribute("class"));
     }
 
     [Fact]
@@ -233,7 +358,8 @@ public class TwTabTests : TwBlazorTestBase
         var classAttribute = button.GetAttribute("class");
 
         Assert.Contains("relative", classAttribute);
-        Assert.Contains("tracking-wide", classAttribute);
+        Assert.Contains("inline-flex items-center justify-center", classAttribute);
+        Assert.DoesNotContain("tracking-wide", classAttribute);
         Assert.Contains("font-medium", classAttribute);
         Assert.Contains("text-sm", classAttribute);
         Assert.Contains("transition-colors", classAttribute);

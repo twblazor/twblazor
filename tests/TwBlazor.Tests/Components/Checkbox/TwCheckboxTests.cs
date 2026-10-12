@@ -784,4 +784,31 @@ public class TwCheckboxTests : TwBlazorTestBase
         var input = cut.Find("input");
         Assert.Equal("terms-label", input.GetAttribute("aria-labelledby"));
     }
+
+    [Theory]
+    [InlineData(Rounded.None, Size.Sm, "rounded-none")]
+    [InlineData(Rounded.None, Size.Md, "rounded-none")]
+    [InlineData(Rounded.Sm, Size.Sm, "rounded-sm")]
+    [InlineData(Rounded.Sm, Size.Lg, "rounded-sm")]
+    [InlineData(Rounded.Md, Size.Sm, "rounded-sm")]
+    [InlineData(Rounded.Md, Size.Md, "rounded")]
+    [InlineData(Rounded.Lg, Size.Sm, "rounded-sm")]
+    [InlineData(Rounded.Lg, Size.Md, "rounded")]
+    [InlineData(Rounded.Lg, Size.Lg, "rounded")]
+    [InlineData(Rounded.Full, Size.Sm, "rounded-sm")]
+    [InlineData(Rounded.Full, Size.Md, "rounded")]
+    [InlineData(Rounded.Full, Size.Lg, "rounded")]
+    public void TwCheckbox_CapsTheThemeRadius_SoTheBoxNeverLooksLikeACircle(Rounded themeDefault, Size size, string expected)
+    {
+        // Arrange
+        Theme.Rounded.DefaultRounded = themeDefault;
+
+        // Act
+        var cut = TestContext.Render<TwCheckbox<bool>>(parameters => parameters
+            .Add(p => p.Size, size));
+
+        // Assert - exactly one radius class, and never a larger one than the box can carry
+        var radiusClasses = cut.Find("input").ClassList.Where(c => c == "rounded" || c.StartsWith("rounded-")).ToList();
+        Assert.Equal([expected], radiusClasses);
+    }
 }

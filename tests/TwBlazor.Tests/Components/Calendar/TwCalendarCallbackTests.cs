@@ -49,7 +49,7 @@ public class TwCalendarCallbackTests : TwBlazorTestBase
             .Add(x => x.Editable, true)
             .Add(x => x.OnEventCreated, EventCallback.Factory.Create<Schedule<string>>(this, e => created = e)));
 
-        cut.Find("button[aria-label='9:00 AM']").Click();
+        cut.Find("button[aria-label='09:00']").Click();
         DialogButton(provider, "Save").Click();
 
         provider.WaitForAssertion(() => Assert.NotNull(created));
@@ -117,7 +117,7 @@ public class TwCalendarCallbackTests : TwBlazorTestBase
 
         // The drag start re-renders the column twice, a moment apart, and each render replaces the slot's drop
         // handler. Finding and dropping on the renderer's own thread stops a render landing between the two.
-        await cut.InvokeAsync(() => cut.Find("button[aria-label='1:00 PM']").Drop(new DragEventArgs()));
+        await cut.InvokeAsync(() => cut.Find("button[aria-label='13:00']").Drop(new DragEventArgs()));
 
         cut.WaitForAssertion(() => Assert.DoesNotContain("pointer-events-none", cut.Find("button[aria-label^='Design review']").GetAttribute("class")));
         Assert.Null(changed);
@@ -138,7 +138,7 @@ public class TwCalendarCallbackTests : TwBlazorTestBase
             .Add(x => x.OnEventUpdated, EventCallback.Factory.Create<Schedule<string>>(this, e => updated = e)));
 
         cut.Find("button[aria-label^='Design review']").DragStart(new DragEventArgs());
-        cut.Find("button[aria-label='March 20, 2026']").ParentElement!.Drop(new DragEventArgs());
+        cut.Find("button[aria-label='Friday, 20 March 2026']").ParentElement!.Drop(new DragEventArgs());
 
         cut.WaitForAssertion(() => Assert.NotNull(updated));
         Assert.Equal(new DateTimeOffset(_day.AddDays(2).AddHours(13)), updated!.DateTimeStart);

@@ -251,7 +251,7 @@ public partial class TwTimePickerBody
     private async Task StepAsync(Func<Task> step)
     {
         await step();
-        statusMessage = SelectedTime.ToString(Is12HourFormat ? "h:mm tt" : "HH:mm", System.Globalization.CultureInfo.CurrentCulture);
+        statusMessage = SelectedTime.ToString(Is12HourFormat ? "h:mm tt" : "HH:mm", localizer.Formats.Culture);
     }
 
     // Arrow Up and Arrow Down step the value, as they do in a native number field.

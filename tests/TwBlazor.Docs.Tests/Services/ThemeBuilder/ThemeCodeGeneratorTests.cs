@@ -181,7 +181,7 @@ public class ThemeCodeGeneratorTests
 
     private static readonly ThemeTemplate _defaultsTemplate = new(
         ["TwBlazor.Configuration"],
-        [new ThemeStatement("rounded", "        var rounded = new TwBlazorRounded { DefaultRounded = Rounded.Md };")],
+        [new ThemeStatement("rounded", "        var rounded = new TwBlazorRounded { DefaultRounded = Rounded.Lg };")],
         "        return new TwBlazorTheme\n        {\n            Rounded = rounded,\n            Shadows = new TwBlazorShadow { DefaultShadow = Shadow.Sm },\n            Components =\n            [",
         [
             new ThemeBlock("TwInputTheme", "                new TwInputTheme\n                {\n                    DefaultInputVariant = InputVariant.Outlined,\n                    Base = \"x\"\n                }"),
@@ -208,7 +208,7 @@ public class ThemeCodeGeneratorTests
 
         Assert.Contains("DefaultRounded = Rounded.Full", code);
         Assert.Contains("DefaultShadow = Shadow.Lg", code);
-        Assert.DoesNotContain("Rounded.Md", code);
+        Assert.DoesNotContain("Rounded.Lg", code);
     }
 
     [Fact]

@@ -114,7 +114,7 @@ public partial class TwCalendarWeekView<T> : TwBlazorComponentBase, IAsyncDispos
 
     private ElementReference scrollContainerRef;
 
-    private DateTime weekStart => DateHelpers.GetStartOfWeek(Date);
+    private DateTime weekStart => localizer.Formats.GetStartOfWeek(Date);
 
     private IReadOnlyList<DateTime> weekDays => [.. Enumerable.Range(0, daysPerWeek).Select(i => weekStart.AddDays(i))];
 
@@ -139,7 +139,7 @@ public partial class TwCalendarWeekView<T> : TwBlazorComponentBase, IAsyncDispos
 
     private string GetGutterLabelClasses() => new ClassBuilder(theme.TimeGutterLabel).Build();
 
-    private static string GetHourLabel(int hour) => DateTime.Today.AddHours(hour).ToString("h tt");
+    private string GetHourLabel(int hour) => localizer.Formats.Format(DateTime.Today.AddHours(hour), localizer.Formats.Hour);
 
     /// <summary>
     /// The current time, refreshed every <see cref="TwCalendarTimings.nowTickInterval"/> by <see cref="nowTimer"/> while
@@ -173,7 +173,7 @@ public partial class TwCalendarWeekView<T> : TwBlazorComponentBase, IAsyncDispos
     }
 
     private static string GetDotOffsetStyle(int columnIndex) =>
-        $"left:{(100m / daysPerWeek * columnIndex).ToString(System.Globalization.CultureInfo.InvariantCulture)}%;";
+        $"inset-inline-start:{(100m / daysPerWeek * columnIndex).ToString(System.Globalization.CultureInfo.InvariantCulture)}%;";
 
     private void OnNowTick(object? state)
     {
@@ -186,7 +186,21 @@ public partial class TwCalendarWeekView<T> : TwBlazorComponentBase, IAsyncDispos
         .AddClass(options.Theme.Interaction.PointerCursor, OnDayHeaderClick.HasDelegate)
         .Build();
 
+    private string compactHeaderClasses => new ClassBuilder(options.Theme.Display.Flex)
+        .AddClass(options.Theme.Flexbox.Col)
+        .AddClass(options.Theme.Flexbox.Align.Center)
+        .AddClass(theme.DayColumnHeaderCompact)
+        .Build();
+
+    private string GetCompactDayNumberClasses(DateTime day) => new ClassBuilder(theme.DayColumnHeaderDayNumber)
+        .AddClass(theme.DayColumnHeaderDayNumberToday, day.Date == DateTime.Today)
+        .Build();
+
+    private string GetShortWeekday(DateTime day) =>
+        localizer.Formats.GetWeekdayHeaders()[localizer.Formats.GetDayOffset(day.DayOfWeek)];
+
     private string GetDayColumnClasses(DateTime day) => new ClassBuilder(options.Theme.Flexbox.Flex1)
+        .AddClass(options.Theme.Sizing.MinWidthNone)
         .AddClass(theme.DayColumnDivider)
         .AddClass(theme.TodayHighlight, HighlightDate?.Date == day.Date)
         .Build();
@@ -220,7 +234,7 @@ public partial class TwCalendarWeekView<T> : TwBlazorComponentBase, IAsyncDispos
     /// </summary>
     private async Task OnWrapperKeyDownAsync(KeyboardEventArgs e)
     {
-        int? target = e.Key switch
+        int? target = ToLogicalKey(e.Key) switch
         {
             "ArrowRight" => focusedColumn + 1,
             "ArrowLeft" => focusedColumn - 1,

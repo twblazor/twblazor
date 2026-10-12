@@ -93,7 +93,7 @@ jobs:
             /d:sonar.exclusions="docs/TwBlazor.Docs/Examples/**,**/*.css,**/*.woff,**/*.woff2,**/*.ttf,**/*.eot,**/*.png,**/*.jpg,**/*.jpeg,**/*.gif,**/*.ico" `
             /d:sonar.cpd.exclusions="**/wwwroot/404.html" `
             /d:sonar.javascript.lcov.reportPaths="${{ github.workspace }}/coverage/lcov.info" `
-            /d:sonar.coverage.exclusions="docs/TwBlazor.Docs/**,docs/TwBlazor.Server/**,docs/TwBlazor.WASM/**,docs/TwBlazor.WasmHost/**,build/TwBlazor.BuildTools/**,src/TwBlazor.Theme/**,build/TwBlazor.Docs.Compiler/**,**/Program.cs,src/TwBlazor/Components/ColorPicker/TwColorPicker.razor,src/TwBlazor/Components/TimePicker/TwTimePicker.razor" `
+            /d:sonar.coverage.exclusions="docs/TwBlazor.Docs/**,docs/TwBlazor.Server/**,docs/TwBlazor.WASM/**,docs/TwBlazor.WasmHost/**,build/TwBlazor.BuildTools/**,src/TwBlazor.Theme/**,build/TwBlazor.Docs.Compiler/**,scripts/**,**/*.ps1,tests/vitest.config.js" `
             /d:sonar.cs.opencover.reportsPaths="${{ github.workspace }}/coverage/**/coverage.opencover*.xml"
           dotnet build --configuration Release
           dotnet test tests/TwBlazor.Tests/TwBlazor.Tests.csproj --no-build --configuration Release --results-directory "${{ github.workspace }}/coverage" -- --coverlet --coverlet-output-format opencover

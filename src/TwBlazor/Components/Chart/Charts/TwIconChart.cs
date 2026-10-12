@@ -4,6 +4,7 @@
 using Microsoft.AspNetCore.Components;
 using TwBlazor.Charting;
 using TwBlazor.Enums;
+using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 
@@ -68,12 +69,12 @@ public class TwIconChart : TwValueChartBase
                 }
             }
 
-            builder.BandDatum(band.Center(i), band.Step, Data[i].Label, [new ChartDatumRow(ValueHeader, FormatValue(Data[i].Value), color)]);
+            builder.BandDatum(band.Center(i), band.Step, Data[i].Label, [new ChartDatumRow(effectiveValueHeader, FormatValue(Data[i].Value), color)]);
         }
 
         if (Mode == IconChartMode.Count)
         {
-            builder.Legend($"1 icon = {FormatValue(unit)}", color);
+            builder.Legend(localizer[TwStrings.Chart_IconLegend, FormatValue(unit)], color);
         }
     }
 }
