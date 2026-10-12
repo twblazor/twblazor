@@ -39,6 +39,24 @@ public class AccessibilityBehaviourTests : TwBlazorTestBase
     }
 
     [Fact]
+    public void DatePicker_ArrowDownOnTheField_ArmsTheFocusTrap_BeforeMovingFocusIntoThePanel()
+    {
+        // Arrange
+        var cut = TestContext.Render<TwDatePicker>(p => p.Add(x => x.SelectedDate, new DateTime(2026, 3, 10)));
+
+        // Act
+        cut.Find("input").KeyDown(Key("ArrowDown"));
+
+        // Assert - if focus arrived first, a Tab pressed straight away could leave the panel before it was trapped
+        var calls = TestContext.JSInterop.Invocations.Select(i => i.Identifier).ToList();
+        var trapped = calls.IndexOf("twDialog.trapFocus");
+        var focused = calls.IndexOf("twDialog.focusPanel");
+        Assert.True(trapped >= 0, "The focus trap was never armed.");
+        Assert.True(focused >= 0, "Focus was never moved into the panel.");
+        Assert.True(trapped < focused, "Focus moved into the panel before its Tab trap was armed.");
+    }
+
+    [Fact]
     public void DatePicker_ClickOnTheField_OpensThePanel_ButLeavesFocusInTheField()
     {
         // Arrange
