@@ -4,7 +4,7 @@
 <div id="@Id" class="@rootClasses" style="@Style" @attributes="Attributes" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy">
     <span class="@options.Theme.Display.ScreenReaderOnly" role="status" aria-live="polite">@statusMessage</span>
     <div class="@classes">
-        <div class="@theme.ContentRow">
+        <div class="@theme.ContentRow" dir="ltr">
             <div class="@theme.Column">
                 <TwIcon OnClick="@(() => StepAsync(IncrementHour))"
                         Icon="Icon.Caret_Up_Fill"

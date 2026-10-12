@@ -233,12 +233,12 @@ public partial class TwTabContainer : TwBlazorComponentBase, IAsyncDisposable
     /// ArrowDown move to the next enabled tab (wrapping), ArrowLeft/ArrowUp move to the previous enabled tab
     /// (wrapping), Home/End move to the first/last enabled tab. Moving focus also selects the tab and shows
     /// its panel immediately, and keyboard focus is moved to the newly-active tab's rendered element so that
-    /// focus visibly follows the selection.
+    /// focus visibly follows the selection. In a right to left layout ArrowLeft and ArrowRight swap.
     /// </summary>
     /// <param name="e">The keyboard event args from the tablist's <c>onkeydown</c> handler.</param>
     private async Task HandleTabKeyDown(KeyboardEventArgs e)
     {
-        var target = e.Key switch
+        var target = ToLogicalKey(e.Key) switch
         {
             "ArrowRight" or "ArrowDown" => GetAdjacentEnabledTab(1),
             "ArrowLeft" or "ArrowUp" => GetAdjacentEnabledTab(-1),

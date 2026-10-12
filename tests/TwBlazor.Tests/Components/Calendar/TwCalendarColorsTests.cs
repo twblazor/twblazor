@@ -22,10 +22,10 @@ public partial class TwCalendarColorsTests
     ];
 
     [Theory]
-    [InlineData("#9333ea", "background-color:#9333ea26;border-left-color:#9333ea;")]
-    [InlineData("#9333EA", "background-color:#9333EA26;border-left-color:#9333EA;")]
-    [InlineData("#9333ea80", "background-color:#9333ea80;border-left-color:#9333ea80;")] // already has alpha - used as-is, not re-tinted
-    [InlineData("#fff", "background-color:#ffffff26;border-left-color:#ffffff;")] // shorthand is expanded before tinting
+    [InlineData("#9333ea", "background-color:#9333ea26;border-inline-start-color:#9333ea;")]
+    [InlineData("#9333EA", "background-color:#9333EA26;border-inline-start-color:#9333EA;")]
+    [InlineData("#9333ea80", "background-color:#9333ea80;border-inline-start-color:#9333ea80;")] // already has alpha - used as-is, not re-tinted
+    [InlineData("#fff", "background-color:#ffffff26;border-inline-start-color:#ffffff;")] // shorthand is expanded before tinting
     public void GetEventCardStyle_ValidHexColor_ReturnsTintedBackgroundAndAccentBorder(string color, string expectedPrefix)
     {
         Assert.StartsWith(expectedPrefix + "color:light-dark(", TwCalendarColors.GetEventCardStyle(color));
@@ -83,9 +83,9 @@ public partial class TwCalendarColorsTests
     }
 
     [Theory]
-    [InlineData("#9333ea", "background-color:#9333ea26;border-left-color:#9333ea;")]
-    [InlineData("#fff", "background-color:#ffffff26;border-left-color:#ffffff;")]
-    [InlineData("#9333ea80", "background-color:#9333ea80;border-left-color:#9333ea80;")]
+    [InlineData("#9333ea", "background-color:#9333ea26;border-inline-start-color:#9333ea;")]
+    [InlineData("#fff", "background-color:#ffffff26;border-inline-start-color:#ffffff;")]
+    [InlineData("#9333ea80", "background-color:#9333ea80;border-inline-start-color:#9333ea80;")]
     public void GetAccentCardStyle_ValidHexColor_ReturnsTintAndAccentBorderWithoutTextColor(string color, string expected)
     {
         Assert.Equal(expected, TwCalendarColors.GetAccentCardStyle(color));

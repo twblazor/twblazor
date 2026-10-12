@@ -503,6 +503,17 @@ describe('twPicker', () => {
             expect(panel.style.top).toBe('auto');
             expect(panel.style.bottom).toBe('100%');
         });
+
+        test('moves to the left edge when a panel that opens leftwards would overflow it', () => {
+            setViewport(1000, 800);
+            // A right to left panel is anchored to its trigger's right edge and grows to the left.
+            const panel = mockPanel({ left: -40, right: 160, top: 100, bottom: 200 });
+
+            window.twPicker.positionPanel(panel);
+
+            expect(panel.style.left).toBe('0px');
+            expect(panel.style.right).toBe('auto');
+        });
     });
 
     describe('positionPanelFixed', () => {
@@ -634,6 +645,44 @@ describe('twPicker', () => {
             expect(panel.style.bottom).toBe('50px'); // 400 - anchorRect.top(350)
 
             vi.unstubAllGlobals();
+        });
+
+        test('aligns the panel to the right edge of the anchor in a right to left layout', () => {
+            setViewport(1000, 800);
+            const anchor = mockElement({ left: 700, right: 900, top: 100, bottom: 130 });
+            anchor.setAttribute('dir', 'rtl');
+            const panel = mockElement({ left: 600, right: 900, top: 130, bottom: 280 });
+
+            window.twPicker.positionPanelFixed(anchor, panel);
+
+            expect(panel.style.top).toBe('130px');
+            expect(panel.style.left).toBe('auto');
+            expect(panel.style.right).toBe('100px'); // viewportWidth(1000) - anchorRect.right(900)
+        });
+
+        test('flips to the left edge when a right to left panel would overflow it', () => {
+            setViewport(1000, 800);
+            const anchor = mockElement({ left: 40, right: 140, top: 100, bottom: 130 });
+            anchor.setAttribute('dir', 'rtl');
+            const panel = mockElement({ left: -160, right: 140, top: 130, bottom: 230 });
+
+            window.twPicker.positionPanelFixed(anchor, panel);
+
+            expect(panel.style.left).toBe('40px');
+            expect(panel.style.right).toBe('auto');
+        });
+
+        test('takes the direction from an ancestor of the anchor', () => {
+            setViewport(1000, 800);
+            const wrapper = document.createElement('div');
+            wrapper.setAttribute('dir', 'rtl');
+            const anchor = mockElement({ left: 700, right: 900, top: 100, bottom: 130 });
+            wrapper.appendChild(anchor);
+            const panel = mockElement({ left: 600, right: 900, top: 130, bottom: 280 });
+
+            window.twPicker.positionPanelFixed(anchor, panel);
+
+            expect(panel.style.right).toBe('100px');
         });
     });
 
@@ -2341,5 +2390,55 @@ describe('twAvatar', () => {
         test('is false when there is no image element', async () => {
             expect(await window.twAvatar.isBroken(null)).toBe(false);
         });
+    });
+});
+
+describe('twDirection', () => {
+    afterEach(() => {
+        document.body.innerHTML = '';
+        document.documentElement.removeAttribute('dir');
+        vi.restoreAllMocks();
+    });
+
+    test('is left to right when nothing says otherwise', () => {
+        const el = document.createElement('div');
+        document.body.appendChild(el);
+
+        expect(window.twDirection.isRtl(el)).toBe(false);
+    });
+
+    test('is false for a missing element', () => {
+        expect(window.twDirection.isRtl(null)).toBe(false);
+        expect(window.twDirection.isRtl(undefined)).toBe(false);
+    });
+
+    test('reads the dir attribute of the element itself', () => {
+        const el = document.createElement('div');
+        el.setAttribute('dir', 'RTL');
+
+        expect(window.twDirection.isRtl(el)).toBe(true);
+    });
+
+    test('reads the dir attribute of the document', () => {
+        document.documentElement.setAttribute('dir', 'rtl');
+        const el = document.createElement('div');
+        document.body.appendChild(el);
+
+        expect(window.twDirection.isRtl(el)).toBe(true);
+    });
+
+    test('the nearest dir attribute wins', () => {
+        document.body.innerHTML = '<div dir="rtl"><div dir="ltr"><span id="inner"></span></div><span id="outer"></span></div>';
+
+        expect(window.twDirection.isRtl(document.getElementById('inner'))).toBe(false);
+        expect(window.twDirection.isRtl(document.getElementById('outer'))).toBe(true);
+    });
+
+    test('falls back to the computed direction when dir is auto', () => {
+        document.body.innerHTML = '<div dir="auto"><span id="el"></span></div>';
+        const el = document.getElementById('el');
+        vi.spyOn(window, 'getComputedStyle').mockReturnValue({ direction: 'rtl' });
+
+        expect(window.twDirection.isRtl(el)).toBe(true);
     });
 });

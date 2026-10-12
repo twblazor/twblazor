@@ -86,7 +86,7 @@ public class TwCalendarMonthViewTests : TwBlazorTestBase
         var style = row.GetAttribute("style");
 
         Assert.Contains("background-color:#2563eb26;", style); // tinted background
-        Assert.Contains("border-left-color:#2563eb;", style);
+        Assert.Contains("border-inline-start-color:#2563eb;", style);
         Assert.Contains("color:#2563eb;", style);
     }
 
@@ -188,7 +188,7 @@ public class TwCalendarMonthViewTests : TwBlazorTestBase
         // Assert - a month cell is only a few characters wide on a phone
         var row = cut.Find("button[aria-label^='Standup']");
         Assert.Contains("text-start", row.ClassList);
-        Assert.Contains("max-sm:border-l-2", row.ClassList);
+        Assert.Contains("max-sm:border-s-2", row.ClassList);
         Assert.Contains("max-sm:px-0.5", row.ClassList);
         Assert.Contains("max-sm:text-[10px]", row.Children[0].ClassList);
         Assert.Contains("max-sm:hidden", row.Children[1].ClassList);

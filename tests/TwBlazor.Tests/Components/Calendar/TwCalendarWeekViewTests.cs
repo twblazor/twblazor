@@ -137,7 +137,7 @@ public class TwCalendarWeekViewTests : TwBlazorTestBase
         var line = cut.Find("div[aria-hidden='true'][style='top:36rem;']");
         var expectedLeft = (100m / 7 * (((int)DateTime.Today.DayOfWeek + 6) % 7)).ToString(System.Globalization.CultureInfo.InvariantCulture);
 
-        Assert.Equal($"left:{expectedLeft}%;", Assert.Single(line.QuerySelectorAll("span")).GetAttribute("style"));
+        Assert.Equal($"inset-inline-start:{expectedLeft}%;", Assert.Single(line.QuerySelectorAll("span")).GetAttribute("style"));
     }
 
     [Fact]

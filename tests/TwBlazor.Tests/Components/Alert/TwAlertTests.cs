@@ -115,7 +115,7 @@ public class TwAlertTests : TwBlazorTestBase
             .Add(p => p.StartIcon, Icons.Info_Circle)
             .Add(p => p.Text, "Alert"));
 
-        Assert.Contains("pr-2", cut.FindComponents<TwIcon>()[0].Find("*").GetAttribute("class"));
+        Assert.Contains("pe-2", cut.FindComponents<TwIcon>()[0].Find("*").GetAttribute("class"));
     }
 
     [Fact]
@@ -128,7 +128,7 @@ public class TwAlertTests : TwBlazorTestBase
 
         var classes = cut.FindComponents<TwIcon>()[0].Find("*").GetAttribute("class");
         Assert.Contains("pr-4", classes);
-        Assert.DoesNotContain("pr-2", classes);
+        Assert.DoesNotContain("pe-2", classes);
     }
 
     [Fact]
@@ -142,7 +142,7 @@ public class TwAlertTests : TwBlazorTestBase
             .Add(p => p.EndIconPadding, "pl-4")
             .Add(p => p.Text, "Alert"));
 
-        Assert.Contains("pl-2", defaultCut.FindComponents<TwIcon>()[0].Find("*").GetAttribute("class"));
+        Assert.Contains("ps-2", defaultCut.FindComponents<TwIcon>()[0].Find("*").GetAttribute("class"));
         Assert.Contains("pl-4", customCut.FindComponents<TwIcon>()[0].Find("*").GetAttribute("class"));
     }
 
@@ -158,7 +158,7 @@ public class TwAlertTests : TwBlazorTestBase
         var icons = cut.FindComponents<TwIcon>();
         Assert.NotEmpty(icons);
         Assert.Equal(Icons.Arrow_Right, icons[0].Instance.Icon);
-        Assert.Contains("ml-auto", icons[0].Find("*").GetAttribute("class"));
+        Assert.Contains("ms-auto", icons[0].Find("*").GetAttribute("class"));
     }
 
     [Fact]
@@ -367,7 +367,7 @@ public class TwAlertTests : TwBlazorTestBase
 
         // Assert
         var dismissButton = cut.Find("button[aria-label='Close']");
-        Assert.Contains("ml-auto", dismissButton.GetAttribute("class"));
+        Assert.Contains("ms-auto", dismissButton.GetAttribute("class"));
     }
 
     [Fact]
@@ -381,8 +381,8 @@ public class TwAlertTests : TwBlazorTestBase
 
         // Assert
         var dismissButton = cut.Find("button[aria-label='Close']");
-        Assert.Contains("ml-2", dismissButton.GetAttribute("class"));
-        Assert.DoesNotContain("ml-auto", dismissButton.GetAttribute("class"));
+        Assert.Contains("ms-2", dismissButton.GetAttribute("class"));
+        Assert.DoesNotContain("ms-auto", dismissButton.GetAttribute("class"));
     }
 
     [Fact]

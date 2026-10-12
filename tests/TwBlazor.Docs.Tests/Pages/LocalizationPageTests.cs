@@ -65,6 +65,19 @@ public class LocalizationPageTests : DocsTestBase
     }
 
     [Fact]
+    public void RightToLeftSection_LinksToTheDirectionProvider_AndShowsBothWaysToSetTheDirection()
+    {
+        var cut = Render();
+
+        var section = cut.Find("[id='localization-direction']");
+        var code = string.Join('\n', cut.FindAll("pre code").Select(block => block.TextContent));
+
+        Assert.NotNull(section.QuerySelector("a[href='/direction-provider']"));
+        Assert.Contains("<TwDirectionProvider>", code);
+        Assert.Contains("options.Localization.Direction = TextDirection.RightToLeft", code);
+    }
+
+    [Fact]
     public void ResourceKeysNamedOnThePage_Exist()
     {
         var cut = Render();

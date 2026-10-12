@@ -3,6 +3,7 @@
 
 using System.Globalization;
 using System.Resources;
+using TwBlazor.Enums;
 using TwBlazor.Localization;
 
 namespace TwBlazor.Configuration;
@@ -21,6 +22,16 @@ public class TwLocalizationOptions
     /// follows <see cref="CultureInfo.CurrentCulture"/>, which is what Blazor's own localization sets.
     /// </remarks>
     public CultureInfo? Culture { get; set; }
+
+    /// <summary>
+    /// Gets or sets the direction every component lays itself out in.
+    /// </summary>
+    /// <remarks>
+    /// Leave unset to follow the language: right to left for a culture such as Arabic or Hebrew, left to right
+    /// otherwise. The page has to agree, so set <c>dir</c> on the <c>html</c> element to the same direction or
+    /// wrap the application in a <c>TwDirectionProvider</c>.
+    /// </remarks>
+    public TextDirection? Direction { get; set; }
 
     /// <summary>
     /// Gets the resource files that are searched, last added first, before TwBlazor's built in strings.

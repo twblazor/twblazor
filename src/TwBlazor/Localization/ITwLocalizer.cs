@@ -1,6 +1,9 @@
 // Copyright (c) 2025 Jack Shuter @ TwBlazor - twblazor.com
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
+using System.Globalization;
+using TwBlazor.Enums;
+
 namespace TwBlazor.Localization;
 
 /// <summary>
@@ -31,4 +34,10 @@ public interface ITwLocalizer
     /// Gets the date and time formats for the current culture.
     /// </summary>
     TwDateTimeFormats Formats { get; }
+
+    /// <summary>
+    /// Gets the direction the current language is read in. Components use it to mirror their keyboard
+    /// navigation, so that the arrow keys keep following what is on screen.
+    /// </summary>
+    TextDirection Direction => CultureInfo.CurrentUICulture.TextInfo.IsRightToLeft ? TextDirection.RightToLeft : TextDirection.LeftToRight;
 }
