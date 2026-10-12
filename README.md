@@ -26,8 +26,6 @@
     <a href="https://twblazor.github.io/twblazor/" target="_blank">API Documentation (docfx)</a> &bullet; <a href="https://twblazor.com/" target="_blank">Component Documentation (twblazor.com)</a> &bullet; <a href="https://twblazor.com/get-started" target="_blank">Get Started</a>
 </p>
 
----
-
 ## Contents
 
 - [Why twblazor?](#why-twblazor)
