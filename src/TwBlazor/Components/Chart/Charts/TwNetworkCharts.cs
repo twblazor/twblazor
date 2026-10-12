@@ -504,11 +504,6 @@ public class TwFlowchart : TwGraphChartBase
             var tip = Edge(centers[edge.Target], centers[edge.Source]);
             var (dx, dy) = ((tip.X - start.X) * pixelsX, (tip.Y - start.Y) * pixelsY);
             var length = Math.Sqrt(dx * dx + dy * dy);
-            if (length <= 0)
-            {
-                continue;
-            }
-
             var (alongX, alongY) = (dx / length * headLength / pixelsX, dy / length * headLength / pixelsY);
             var (acrossX, acrossY) = (-dy / length * headWidth / pixelsX, dx / length * headWidth / pixelsY);
             builder.Line(start.X, start.Y, tip.X - alongX, tip.Y - alongY, ChartColor.Ink, ChartStroke.Normal);

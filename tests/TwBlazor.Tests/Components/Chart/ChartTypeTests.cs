@@ -793,6 +793,300 @@ public class ChartTypeTests : TwBlazorTestBase
 
     #endregion
 
+    #region Edge cases of the newer charts
+
+    [Fact]
+    public void ShapeDatum_WithNoOutline_AddsNothing()
+    {
+        var builder = new ChartSceneBuilder();
+        builder.ShapeDatum([], "Shape", []);
+
+        Assert.Empty(builder.Build().Datums);
+    }
+
+    [Theory]
+    [InlineData(ChartHeight.Small, false)]
+    [InlineData(ChartHeight.Large, false)]
+    [InlineData(ChartHeight.Medium, true)]
+    public void Beeswarm_KeepsItsDotsApart_AtEveryHeightAndOrientation(ChartHeight height, bool horizontal)
+    {
+        ChartSample[] samples = [new("A", [5, 5, 5, 5, 5]), new("B", [1, 9])];
+        var scene = Scene<TwBeeswarmChart>(p => p.Add(x => x.Samples, samples).Add(x => x.Height, height).Add(x => x.Horizontal, horizontal));
+        var swarm = Marks<ChartDot>(scene).Take(5).ToList();
+
+        // Identical values share a position on the value axis, so each needs its own place across the group's slot.
+        Assert.Equal(5, swarm.Select(dot => horizontal ? dot.Y : dot.X).Distinct().Count());
+        Assert.Single(swarm.Select(dot => horizontal ? dot.X : dot.Y).Distinct());
+        AssertInsidePlot(scene);
+    }
+
+    [Fact]
+    public void Marimekko_LeavesOutEmptyCategories_AndLabelsOnlyWhatHasRoom()
+    {
+        ChartSeries[] series = [new("One", [60, 0, 3, null]), new("Two", [36, -5, 1, double.NaN])];
+        var scene = Scene<TwMarimekkoChart>(p => p.Add(x => x.Categories, ["A", "B", "C", "D"]).Add(x => x.Series, series));
+
+        Assert.Equal([96, 96, 4, 4], Marks<ChartRect>(scene).Select(rect => rect.Width));
+        Assert.Equal(["A"], scene.XAxis!.Ticks.Select(tick => tick.Label));
+        Assert.Equal(["62.5%", "37.5%"], Marks<ChartText>(scene).Select(text => text.Text));
+        Assert.Equal(["A", "C"], scene.Datums.Select(datum => datum.Title));
+        Assert.Equal("96%", scene.Datums[0].Rows[^1].Value);
+    }
+
+    [Fact]
+    public void Marimekko_WithNothingToShare_DrawsNothing()
+    {
+        var scene = Scene<TwMarimekkoChart>(p => p.Add(x => x.Categories, ["A", "B"]).Add(x => x.Series, [new ChartSeries("One", [0, -4])]));
+
+        Assert.Empty(scene.Marks);
+        Assert.NotNull(scene.Table);
+    }
+
+    [Fact]
+    public void CircularTreemap_PacksManySiblings_WithoutOverlap_AndIgnoresWhatHasNoValue()
+    {
+        ChartHierarchyNode[] roots =
+        [
+            new("Group", Children: [new("A", 30), new("B", 20), new("C", 12), new("D", 8), new("E", 5), new("F", 3), new("G", 2), new("Lost", double.NaN), new("Gone", -4)]),
+            new("Solo", Children: [new("Only", 10)]),
+            new("Empty", Children: [new("Nothing", 0)])
+        ];
+        var scene = Scene<TwCircularTreemapChart>(p => p.Add(x => x.Roots, roots).Add(x => x.LabelHeader, "Folder").Add(x => x.ValueHeader, "Size"));
+        var leaves = scene.Datums;
+
+        Assert.Equal(8, leaves.Count);
+        Assert.Equal(["Group", "Solo"], scene.Legend.Select(item => item.Label));
+        Assert.Equal(["Folder", "Size"], scene.Table!.Headers);
+        Assert.Equal("Size", leaves[0].Rows[0].Label);
+        Assert.Equal(Math.Sqrt(30.0 / 20), leaves[0].Width / leaves[1].Width, 2);
+        AssertInsidePlot(scene);
+
+        for (var first = 0; first < leaves.Count; first++)
+        {
+            for (var second = first + 1; second < leaves.Count; second++)
+            {
+                var distance = Math.Sqrt(Math.Pow(leaves[first].X - leaves[second].X, 2) + Math.Pow(leaves[first].Y - leaves[second].Y, 2));
+                Assert.True(distance >= (leaves[first].Width + leaves[second].Width) / 2 - 0.01, $"{leaves[first].Title} overlaps {leaves[second].Title}");
+            }
+        }
+    }
+
+    [Fact]
+    public void ConvexTreemap_SharesARowBetweenEqualTiles_AndGroupsChildrenInsideTheirParent()
+    {
+        ChartHierarchyNode[] roots = [new("Group", Children: [new("A", 1), new("B", 1), new("C", 1), new("D", 1)]), new("Other", 4)];
+        var scene = Scene<TwConvexTreemapChart>(p => p.Add(x => x.Roots, roots).Add(x => x.LabelHeader, "Team").Add(x => x.ValueHeader, "Budget"));
+        var group = scene.Datums.Where(datum => datum.Title.StartsWith("Group / ")).ToList();
+
+        Assert.Equal(4, group.Count);
+        Assert.Single(group.Select(tile => Math.Round(tile.Width * tile.Height, 3)).Distinct());
+        Assert.Equal(4, group.Select(tile => (Math.Round(tile.X, 3), Math.Round(tile.Y, 3))).Distinct().Count());
+        Assert.Single(group.Select(tile => Math.Round(tile.Y, 3)).Distinct());
+        Assert.Equal(5000, scene.Datums.Single(datum => datum.Title == "Other").Width * scene.Datums.Single(datum => datum.Title == "Other").Height, 3);
+        Assert.Equal(["Team", "Budget"], scene.Table!.Headers);
+        Assert.Equal("50%", scene.Datums.Single(datum => datum.Title == "Other").Rows[1].Value);
+    }
+
+    [Fact]
+    public void Dendrogram_OfLeavesAlone_SetsThemInARow()
+    {
+        var scene = Scene<TwDendrogramChart>(p => p.Add(x => x.Roots, [new ChartHierarchyNode("A", 1), new ChartHierarchyNode("B", 2, [])]));
+
+        Assert.Equal(["A", "B"], scene.XAxis!.Ticks.Select(tick => tick.Label));
+        Assert.All(scene.Datums, datum => Assert.Equal(50, datum.Y));
+        Assert.Empty(Marks<ChartLine>(scene));
+        Assert.Empty(Marks<ChartText>(scene));
+    }
+
+    [Fact]
+    public void Dendrogram_NamesABranchNearTheRightEdge_OnItsLeft()
+    {
+        ChartHierarchyNode[] roots = [new("Left", Children: [new("A", 1), new("B", 1)]), new("Right", Children: [new("C", 1), new("D", 1)])];
+        var names = Marks<ChartText>(Scene<TwDendrogramChart>(p => p.Add(x => x.Roots, roots)));
+
+        Assert.Equal([ChartAnchor.Start, ChartAnchor.End], names.Select(name => name.Anchor));
+        Assert.True(names[0].OffsetX > 0 && names[1].OffsetX < 0);
+    }
+
+    [Fact]
+    public void Sunburst_EndsABranch_WhereItsChildrenHaveNoValue()
+    {
+        ChartHierarchyNode[] roots = [new("Kept", 5, [new("Nothing", 0)]), new("Deep", Children: [new("Leaf", 5)])];
+        var scene = Scene<TwSunburstChart>(p => p.Add(x => x.Roots, roots).Add(x => x.Height, ChartHeight.Large));
+
+        Assert.Equal(["Deep", "Deep / Leaf"], scene.Datums.Select(datum => datum.Title));
+        Assert.Empty(scene.Legend);
+        Assert.Equal(["Deep", "Leaf"], Marks<ChartText>(scene).Select(text => text.Text));
+    }
+
+    [Fact]
+    public void SetDiagrams_DrawASingleSet_AsOneCircle()
+    {
+        var venn = Scene<TwVennDiagramChart>(p => p.Add(x => x.Sets, [new ChartSet("A", 5), new ChartSet("None", 0)]).Add(x => x.LabelHeader, "Set").Add(x => x.ValueHeader, "Members"));
+        var euler = Scene<TwEulerDiagramChart>(p => p.Add(x => x.Sets, [new ChartSet("A", 5)]));
+
+        Assert.All((ChartScene[])[venn, euler], scene =>
+        {
+            var circle = Assert.Single(scene.Datums);
+            Assert.Equal((50, 50), (circle.X, circle.Y));
+            Assert.Equal(["A"], Marks<ChartText>(scene).Select(text => text.Text));
+        });
+        Assert.Equal(["Set", "Members"], venn.Table!.Headers);
+        Assert.Equal("Members", venn.Datums[0].Rows[0].Label);
+    }
+
+    [Fact]
+    public void EulerDiagram_StacksSetsThatShareEverything()
+    {
+        ChartSet[] sets = [new("A", 40), new("B", 40), new("C", 40)];
+        ChartSetIntersection[] shared = [new("A", "B", 40), new("A", "C", 40), new("B", "C", 40)];
+        var scene = Scene<TwEulerDiagramChart>(p => p.Add(x => x.Sets, sets).Add(x => x.Intersections, shared));
+
+        Assert.Single(scene.Datums.Select(datum => (Math.Round(datum.X, 3), Math.Round(datum.Y, 3), Math.Round(datum.Width, 3))).Distinct());
+        Assert.Equal(6, Marks<ChartText>(scene).Count);
+        AssertInsidePlot(scene);
+    }
+
+    [Fact]
+    public void EulerDiagram_LeavesOutTheCount_WhereAnOverlapIsTooSmallToHoldIt()
+    {
+        ChartSet[] sets = [new("A", 50), new("B", 20)];
+        var scene = Scene<TwEulerDiagramChart>(p => p.Add(x => x.Sets, sets).Add(x => x.Intersections, [new("A", "B", 0.0001)]));
+
+        Assert.Equal(["A", "B"], Marks<ChartText>(scene).Select(text => text.Text));
+        Assert.Equal(3, scene.Table!.Rows.Count);
+    }
+
+    [Fact]
+    public void ChordDiagram_WithoutLinks_GivesEveryNodeAnEqualArc()
+    {
+        var scene = Scene<TwChordDiagramChart>(p => p.Add(x => x.Nodes, _nodes).Add(x => x.SourceHeader, "From").Add(x => x.TargetHeader, "To").Add(x => x.ValueHeader, "Flow"));
+        var alone = Scene<TwChordDiagramChart>(p => p.Add(x => x.Nodes, _nodes.Take(1).ToArray()));
+
+        Assert.Equal(_nodes.Length, Marks<ChartPath>(scene).Count);
+        Assert.Equal(_nodes.Length, scene.Datums.Count);
+        Assert.Equal(["From", "To", "Flow"], scene.Table!.Headers);
+        Assert.Empty(scene.Table.Rows);
+        Assert.Equal((96, 96), (Math.Round(Assert.Single(alone.Datums).Width), Math.Round(alone.Datums[0].Height)));
+    }
+
+    [Fact]
+    public void Sankey_WithoutFlows_StacksItsNodesInOneColumn()
+    {
+        var scene = Scene<TwSankeyChart>(p => p.Add(x => x.Nodes, _nodes).Add(x => x.ValueHeader, "Flow"));
+        var rects = Marks<ChartRect>(scene);
+
+        Assert.Equal(_nodes.Length, rects.Count);
+        Assert.Single(rects.Select(rect => rect.X).Distinct());
+        Assert.Equal(_nodes.Length, scene.Datums.Count);
+        Assert.All(Marks<ChartText>(scene), text => Assert.Equal(ChartAnchor.Start, text.Anchor));
+        AssertInsidePlot(scene);
+    }
+
+    [Fact]
+    public void DensityPlot_WithOneGroup_HasNoLegend_AndHidesTheCurvesOfHiddenGroups()
+    {
+        var single = Scene<TwDensityPlotChart>(p => p.Add(x => x.Samples, _samples.Take(1).ToArray()).Add(x => x.LabelHeader, "Service"));
+        Assert.Empty(single.Legend);
+        Assert.Single(single.Datums);
+        Assert.Equal("Service", single.Table!.Headers[0]);
+
+        var cut = TestContext.Render<TwDensityPlotChart>(p => p.Add(x => x.Samples, _samples));
+        foreach (var index in Enumerable.Range(0, _samples.Length))
+        {
+            cut.FindAll("button[aria-pressed]")[index].Click();
+        }
+
+        var hidden = cut.Instance.CreateScene();
+        Assert.Empty(hidden.Marks);
+        Assert.All(hidden.Legend, item => Assert.True(item.Hidden));
+        Assert.Equal(_samples.Length, hidden.Table!.Rows.Count);
+    }
+
+    [Fact]
+    public void RadialHistogram_OfOneRepeatedValue_FillsASingleBin()
+    {
+        var scene = Scene<TwRadialHistogramChart>(p => p.Add(x => x.Values, [7, 7, 7]).Add(x => x.BinCount, 4).Add(x => x.RangeLabel, "Hour").Add(x => x.CountLabel, "Calls"));
+
+        Assert.Equal(["3", "0", "0", "0"], scene.Datums.Select(datum => datum.Rows[0].Value));
+        Assert.Equal("Calls", scene.Datums[0].Rows[0].Label);
+        Assert.Equal(["Hour", "Calls"], scene.Table!.Headers);
+    }
+
+    [Fact]
+    public void CategoricalScatter_WithNothingToSizeBy_DrawsEqualDots_AndLeavesOutValuesThatAreNotNumbers()
+    {
+        ChartCategoricalPoint[] points = [new("A", "X", 0), new("B", "Y", -3), new("C", "Z", double.NaN)];
+        var scene = Scene<TwCategoricalScatterChart>(p => p.Add(x => x.Points, points).Add(x => x.ValueTitle, "Orders"));
+
+        Assert.Equal([8, 8], Marks<ChartDot>(scene).Select(dot => dot.Diameter));
+        Assert.Equal(["A", "B"], scene.XAxis!.Ticks.Select(tick => tick.Label));
+        Assert.Equal(["X", "Y", "Orders"], scene.Table!.Headers);
+        Assert.Equal("Orders", scene.Datums[0].Rows[2].Label);
+    }
+
+    [Fact]
+    public void PointSurfaceCharts_LeaveOutPointsWithoutAPosition_AndUseTheirOwnLabels()
+    {
+        ChartPointSeries[] points = [new("Sensors", [new(0, 0, "Door", 1), new(4, 0, Size: 2), new(0, 4, Size: 3), new(double.NaN, 1, Size: 4), new(1, double.PositiveInfinity, Size: 5), new(2, 2, Size: double.NaN)])];
+        var hexbin = Scene<TwHexbinChart>(p => p.Add(x => x.Series, points).Add(x => x.CountLabel, "Readings"));
+        var contour = Scene<TwContourChart>(p => p.Add(x => x.Series, points).Add(x => x.ValueTitle, "Heat"));
+
+        Assert.Equal(4, hexbin.Datums.Sum(datum => int.Parse(datum.Rows[0].Value)));
+        Assert.Equal(["X", "Y", "Readings"], hexbin.Table!.Headers);
+        Assert.Equal(["Door", "Sensors", "Sensors"], contour.Datums.Select(datum => datum.Title));
+        Assert.Equal(["X", "Y", "Heat"], contour.Table!.Headers);
+        Assert.Equal("Heat", contour.Datums[0].Rows[2].Label);
+    }
+
+    [Fact]
+    public void StreamGraph_CountsMissingValuesAsZero_AndDrawsNothingWithoutATotal()
+    {
+        var scene = Scene<TwStreamGraphChart>(p => p.Add(x => x.Categories, _categories).Add(x => x.Series, [new ChartSeries("One", [4, null, double.NaN]), new ChartSeries("Two", [4, 8, 2])]));
+        var empty = Scene<TwStreamGraphChart>(p => p.Add(x => x.Categories, _categories).Add(x => x.Series, [new ChartSeries("One", [0, null, -2])]));
+
+        Assert.Equal(2, Marks<ChartPath>(scene).Count);
+        Assert.Equal(_categories.Length, scene.Datums.Count);
+        Assert.Empty(empty.Marks);
+        Assert.NotNull(empty.Table);
+    }
+
+    [Fact]
+    public void BumpArea_DrawsALoneSeriesAndLateArrivals_AndNothingWithoutATotal()
+    {
+        var alone = Scene<TwBumpAreaChart>(p => p.Add(x => x.Categories, _categories).Add(x => x.Series, [new ChartSeries("One", [2, 4, 3])]));
+        var late = Scene<TwBumpAreaChart>(p => p.Add(x => x.Categories, _categories).Add(x => x.Series, [new ChartSeries("One", [2, 4, 3]), new ChartSeries("Late", [null, null, 5])]));
+        var empty = Scene<TwBumpAreaChart>(p => p.Add(x => x.Categories, _categories).Add(x => x.Series, [new ChartSeries("One", [0, null, -1])]));
+
+        Assert.Single(Marks<ChartPath>(alone));
+        Assert.All(alone.Datums, datum => Assert.Equal(50, datum.Y, 3));
+        Assert.Equal(2, Marks<ChartPath>(late).Count);
+        Assert.Equal(["One, A", "One, B", "Late, C", "One, C"], late.Datums.Select(datum => datum.Title));
+        Assert.Empty(empty.Marks);
+        AssertInsidePlot(late);
+    }
+
+    [Fact]
+    public void Barcode_NamesItsColumns_FromItsLabels()
+    {
+        var scene = Scene<TwBarcodeChart>(p => p.Add(x => x.Values, [3, 3, 8]).Add(x => x.ValueLabel, "Items").Add(x => x.CountLabel, "Orders"));
+
+        Assert.Equal(["Items", "Orders"], scene.Table!.Headers);
+        Assert.Equal("Orders", scene.Datums[0].Rows[0].Label);
+        Assert.Equal(["3", "2"], scene.Table.Rows[0]);
+    }
+
+    [Fact]
+    public void WordCloud_WithNoPositiveValues_DrawsNothing()
+    {
+        var scene = Scene<TwWordCloudChart>(p => p.Add(x => x.Data, [new ChartValue("zero", 0), new ChartValue("minus", -3), new ChartValue(" ", 5)]));
+
+        Assert.Empty(scene.Marks);
+        Assert.Equal(3, scene.Table!.Rows.Count);
+    }
+
+    #endregion
+
     #region Bar and column
 
     [Fact]

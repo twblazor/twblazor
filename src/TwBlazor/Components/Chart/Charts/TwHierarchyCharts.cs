@@ -131,7 +131,7 @@ public abstract class TwHierarchyChartBase : TwChartBase
     /// </summary>
     /// <param name="value">The part.</param>
     /// <param name="total">The whole.</param>
-    private protected static string FormatShare(double value, double total) => total == 0 ? "0%" : (value / total).ToString("0.#%");
+    private protected static string FormatShare(double value, double total) => (value / total).ToString("0.#%");
 
     /// <summary>
     /// Adds a legend entry for each top-level node when there is more than one, and returns their colors.
