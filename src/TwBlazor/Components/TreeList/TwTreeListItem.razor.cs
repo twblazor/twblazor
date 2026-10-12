@@ -176,6 +176,7 @@ public partial class TwTreeListItem : TwBlazorComponentBase
     // Enter activates the item. Space checks it when the tree has checkboxes, and otherwise activates it too.
     // Right expands a collapsed item and Left collapses an expanded one; moving focus between items
     // (Up, Down, Home, End, and Left/Right once there is nothing to expand or collapse) is handled in script.
+    // Right and Left swap in a right to left layout, where the children sit to the left.
     private Task OnItemKeyDownAsync(KeyboardEventArgs e)
     {
         if (Disabled)
@@ -183,7 +184,7 @@ public partial class TwTreeListItem : TwBlazorComponentBase
             return Task.CompletedTask;
         }
 
-        return e.Key switch
+        return ToLogicalKey(e.Key) switch
         {
             "Enter" => OnItemActivatedAsync(),
             " " => showCheckboxes ? ToggleCheckedAsync(GetEffectiveChecked() != true) : OnItemActivatedAsync(),

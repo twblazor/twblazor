@@ -62,8 +62,8 @@ public class TwCalendarMonthSpanTests : TwBlazorTestBase
 
         var classes = cut.Find("button[aria-label^='Conference']").GetAttribute("class")!;
 
-        Assert.DoesNotContain("rounded-l-none", classes);
-        Assert.DoesNotContain("rounded-r-none", classes);
+        Assert.DoesNotContain("rounded-s-none", classes);
+        Assert.DoesNotContain("rounded-e-none", classes);
         Assert.Contains("z-10", classes); // paints above the cells it crosses
     }
 
@@ -109,12 +109,12 @@ public class TwCalendarMonthSpanTests : TwBlazorTestBase
         var second = bars.Single(b => ReferenceEquals(b.Closest("td"), CellOf(cut, new DateTime(2026, 3, 16))));
 
         Assert.Contains("width:calc(300% + 2 * (0.5rem + 1px))", first.GetAttribute("style")); // Fri, Sat, Sun
-        Assert.Contains("rounded-r-none", first.GetAttribute("class"));
-        Assert.DoesNotContain("rounded-l-none", first.GetAttribute("class"));
+        Assert.Contains("rounded-e-none", first.GetAttribute("class"));
+        Assert.DoesNotContain("rounded-s-none", first.GetAttribute("class"));
 
         Assert.Contains("width:calc(200% + 1 * (0.5rem + 1px))", second.GetAttribute("style")); // Mon, Tue
-        Assert.Contains("rounded-l-none", second.GetAttribute("class"));
-        Assert.DoesNotContain("rounded-r-none", second.GetAttribute("class"));
+        Assert.Contains("rounded-s-none", second.GetAttribute("class"));
+        Assert.DoesNotContain("rounded-e-none", second.GetAttribute("class"));
     }
 
     [Fact]
@@ -153,7 +153,7 @@ public class TwCalendarMonthSpanTests : TwBlazorTestBase
     {
         var cut = Render(false, Event("Conference", new DateTime(2026, 3, 11), new DateTime(2026, 3, 14), "#2563eb"));
 
-        Assert.Contains("border-left-color:#2563eb;", cut.Find("button[aria-label^='Conference']").GetAttribute("style"));
+        Assert.Contains("border-inline-start-color:#2563eb;", cut.Find("button[aria-label^='Conference']").GetAttribute("style"));
     }
 
     [Fact]

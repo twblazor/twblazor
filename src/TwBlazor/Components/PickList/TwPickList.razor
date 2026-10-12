@@ -48,24 +48,24 @@
     </div>
 
     <div class="@theme.TransferButtonColumn">
-        <TwIcon Icon="Icon.Chevron_Right" Class="@theme.TransferButton"
+        <TwIcon Icon="@DirectionalIcon(Icon.Chevron_Right, Icon.Chevron_Left)" Class="@theme.TransferButton"
                 Disabled="@Disabled" Readonly="@(selectedSource.Count == 0)"
                 OnClick="@(() => TransferSelectedAsync(true))"
                 AriaLabel="@localizer[TwStrings.PickList_MoveSelectedTo, effectiveTargetLabel]" />
         @if (ShowMoveAllButtons)
         {
-            <TwIcon Icon="Icon.Chevron_Double_Right" Class="@theme.TransferButton" 
+            <TwIcon Icon="@DirectionalIcon(Icon.Chevron_Double_Right, Icon.Chevron_Double_Left)" Class="@theme.TransferButton" 
                     Disabled="@Disabled" Readonly="@(!SourceItems.Any())"
                     OnClick="@(() => TransferAllAsync(true))"
                     AriaLabel="@localizer[TwStrings.PickList_MoveAllTo, effectiveTargetLabel]" />
         }
-        <TwIcon Icon="Icon.Chevron_Left" Class="@theme.TransferButton"
+        <TwIcon Icon="@DirectionalIcon(Icon.Chevron_Left, Icon.Chevron_Right)" Class="@theme.TransferButton"
                 Disabled="@Disabled" Readonly="@(selectedTarget.Count == 0)"
                 OnClick="@(() => TransferSelectedAsync(false))"
                 AriaLabel="@localizer[TwStrings.PickList_MoveSelectedTo, effectiveSourceLabel]" />
         @if (ShowMoveAllButtons)
         {
-            <TwIcon Icon="Icon.Chevron_Double_Left" Class="@theme.TransferButton"
+            <TwIcon Icon="@DirectionalIcon(Icon.Chevron_Double_Left, Icon.Chevron_Double_Right)" Class="@theme.TransferButton"
                     Disabled="@Disabled" Readonly="@(!TargetItems.Any())"
                     OnClick="@(() => TransferAllAsync(false))"
                     AriaLabel="@localizer[TwStrings.PickList_MoveAllTo, effectiveSourceLabel]" />

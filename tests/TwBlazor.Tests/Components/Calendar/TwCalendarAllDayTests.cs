@@ -106,8 +106,8 @@ public class TwCalendarAllDayTests : TwBlazorTestBase
         var bar = Strip(cut)!.QuerySelector("button")!;
 
         Assert.Contains("grid-column:1 / span 3", bar.GetAttribute("style")); // Mon, Tue, Wed
-        Assert.Contains("rounded-l-none", bar.GetAttribute("class"));
-        Assert.DoesNotContain("rounded-r-none", bar.GetAttribute("class"));
+        Assert.Contains("rounded-s-none", bar.GetAttribute("class"));
+        Assert.DoesNotContain("rounded-e-none", bar.GetAttribute("class"));
     }
 
     [Fact]
@@ -141,7 +141,7 @@ public class TwCalendarAllDayTests : TwBlazorTestBase
 
         var style = Strip(cut)!.QuerySelector("button")!.GetAttribute("style");
 
-        Assert.Contains("border-left-color:#2563eb;", style);
+        Assert.Contains("border-inline-start-color:#2563eb;", style);
     }
 
     [Fact]

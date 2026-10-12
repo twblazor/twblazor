@@ -62,7 +62,7 @@ internal static class KeyboardShortcuts
 
     private static readonly KeyboardShortcut[] _dateGrid =
     [
-        Key("Moves to the previous or next day. Moving past the start or end of the month turns the page.", Left, Right),
+        Key("Moves to the previous or next day. Moving past the start or end of the month turns the page. The two keys swap in a right to left layout.", Left, Right),
         Key("Moves to the same weekday in the previous or next week.", Up, Down),
         Key("Moves to the first or last day of the week.", Home, End),
         Key("Moves to the previous or next month.", PageUp, PageDown),
@@ -111,7 +111,7 @@ internal static class KeyboardShortcuts
             "Each view is a grid with a single Tab stop for its days or time slots. Events are buttons reached with Tab. A read-only calendar has no time slots to focus, only its events. "
             + "Dragging an event has a keyboard equivalent: open the event and change its start and end.",
             Key("Moves between the toolbar buttons, the grid, and the events.", Tab, ShiftTab),
-            Key("Month view: moves to the previous or next day. Week view: moves to the same time on the previous or next day.", Left, Right),
+            Key("Month view: moves to the previous or next day. Week view: moves to the same time on the previous or next day. The two keys swap in a right to left layout.", Left, Right),
             Key("Month view: moves to the same weekday in the previous or next week. Day and week view: moves to the previous or next time slot.", Up, Down),
             Key("Month view: moves to the first or last day of the week. Day and week view: moves to the first or last time slot.", Home, End),
             Key("On a day: opens that day and moves focus to the calendar's title, which names it. On a time slot: starts a new event there. On an event: opens it.", Enter, Space),
@@ -124,7 +124,7 @@ internal static class KeyboardShortcuts
             + "a control inside a slide that needs them. An automatic slideshow pauses while the carousel has focus, "
             + "and starts paused for anyone who has asked their system for reduced motion.",
             Key("Moves through the pause button (when the slideshow plays automatically), the slide's own controls, the previous and next buttons, and the slide indicators.", Tab, ShiftTab),
-            Key("Shows the previous or next slide.", Left, Right),
+            Key("Shows the previous or next slide. The two keys swap in a right to left layout.", Left, Right),
             Key("Presses the focused button: pause or play, previous, next, or a slide indicator.", Enter, Space)),
 
         ["/checkbox"] = Guide(
@@ -280,7 +280,8 @@ internal static class KeyboardShortcuts
             Key("Scrolls the table.", Left, Right, Up, Down)),
 
         ["/tabs"] = Guide(
-            "The tab list is a single Tab stop, and moving to a tab shows its panel straight away. Disabled tabs are skipped.",
+            "The tab list is a single Tab stop, and moving to a tab shows its panel straight away. Disabled tabs are skipped. "
+            + "In a right to left layout Arrow Left moves to the next tab and Arrow Right to the previous one.",
             Key("Moves focus to the selected tab, then to the tab panel, then on to the panel's content.", Tab),
             Key("Moves to the next tab and shows it. From the last tab it wraps to the first.", Right, Down),
             Key("Moves to the previous tab and shows it. From the first tab it wraps to the last.", Left, Up),
@@ -312,7 +313,8 @@ internal static class KeyboardShortcuts
             Key("Hides the tooltip without moving focus.", Escape)),
 
         ["/tree-list"] = Guide(
-            "The tree is a single Tab stop. Collapsed branches are skipped, and disabled nodes cannot be focused.",
+            "The tree is a single Tab stop. Collapsed branches are skipped, and disabled nodes cannot be focused. "
+            + "In a right to left layout Arrow Left and Arrow Right swap roles.",
             Key("Moves focus into the tree, onto the node last visited.", Tab),
             Key("Moves to the previous or next visible node.", Up, Down),
             Key("On a collapsed node: expands it. On an expanded node: moves to its first child.", Right),

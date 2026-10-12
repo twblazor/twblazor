@@ -154,7 +154,7 @@ public partial class TwCalendarDayColumn<T> : TwBlazorComponentBase, IAsyncDispo
         var leftPercent = widthPercent * slot.Column;
         var color = TwCalendarColors.GetEventCardStyle(slot.Event.Color);
 
-        return $"top:{top.ToString(System.Globalization.CultureInfo.InvariantCulture)}rem;height:{Math.Max(height, 0.5m).ToString(System.Globalization.CultureInfo.InvariantCulture)}rem;left:{leftPercent.ToString(System.Globalization.CultureInfo.InvariantCulture)}%;width:{widthPercent.ToString(System.Globalization.CultureInfo.InvariantCulture)}%;{color}";
+        return $"top:{top.ToString(System.Globalization.CultureInfo.InvariantCulture)}rem;height:{Math.Max(height, 0.5m).ToString(System.Globalization.CultureInfo.InvariantCulture)}rem;inset-inline-start:{leftPercent.ToString(System.Globalization.CultureInfo.InvariantCulture)}%;width:{widthPercent.ToString(System.Globalization.CultureInfo.InvariantCulture)}%;{color}";
     }
 
     private string GetChipClasses(Schedule<T> evt) => new ClassBuilder(theme.EventChip)
@@ -189,7 +189,7 @@ public partial class TwCalendarDayColumn<T> : TwBlazorComponentBase, IAsyncDispo
             var top = TwCalendarTimeGrid.GetOffsetRem(startMinutes);
             var height = Math.Max((decimal)(durationMinutes / minutesPerSlot) * slotHeightRem, 0.5m);
 
-            return $"top:{top.ToString(System.Globalization.CultureInfo.InvariantCulture)}rem;height:{height.ToString(System.Globalization.CultureInfo.InvariantCulture)}rem;left:0;width:100%;";
+            return $"top:{top.ToString(System.Globalization.CultureInfo.InvariantCulture)}rem;height:{height.ToString(System.Globalization.CultureInfo.InvariantCulture)}rem;inset-inline-start:0;width:100%;";
         }
     }
 

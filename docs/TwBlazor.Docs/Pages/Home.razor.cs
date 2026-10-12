@@ -1,6 +1,7 @@
 using System.Globalization;
 using TwBlazor.Components;
 using TwBlazor.Docs.Services;
+using TwBlazor.Enums;
 using TwBlazor.Models;
 using TwBlazor.Utilities;
 
@@ -170,6 +171,49 @@ public partial class Home
     ];
 
     private sealed record LocalizationLanguage(string NativeName, string Name, string Culture);
+
+    // How many of the languages a wide screen lists before the link to the rest.
+    private const int desktopLanguageCount = 10;
+
+    private const string languageChipClasses =
+        "inline-flex items-baseline gap-2 rounded-full border border-purple-200 bg-white px-3 py-1.5 text-sm shadow-xs dark:border-white/10 dark:bg-white/5";
+
+    private const string languageChipCollapsedClasses = languageChipClasses + " lg:hidden";
+
+    private static readonly IReadOnlyList<MergePoint> _rtlPoints =
+    [
+        new("Follows the language", "A right to left culture mirrors every component by itself. Set the direction yourself to pin it."),
+        new("Keys that match the screen", "Left and Right swap in tabs, trees, calendars and carousels, so each arrow still moves the way it points."),
+        new("Mix directions on one page", "Wrap any part of a page in TwDirectionProvider to give it a direction of its own."),
+    ];
+
+    private static readonly IReadOnlyList<RtlDemoOption> _rtlDemoOptions =
+    [
+        new("ltr", "Left to right", TextDirection.LeftToRight),
+        new("rtl", "Right to left", TextDirection.RightToLeft),
+    ];
+
+    private static readonly RtlDemoText _rtlDemoEnglish =
+        new("en", "Your changes were saved.", "Name", "Enter your name", "Notifications", "Pages");
+
+    private static readonly RtlDemoText _rtlDemoArabic =
+        new("ar", "تم حفظ التغييرات.", "الاسم", "اكتب اسمك", "الإشعارات", "الصفحات");
+
+    private TextDirection rtlDemoDirection = TextDirection.RightToLeft;
+
+    private string rtlDemoName = string.Empty;
+
+    private bool rtlDemoNotifications = true;
+
+    private int rtlDemoPage = 2;
+
+    private RtlDemoText rtlDemoText => rtlDemoDirection == TextDirection.RightToLeft ? _rtlDemoArabic : _rtlDemoEnglish;
+
+    private string rtlDemoMarkup => $"<TwDirectionProvider Direction=\"TextDirection.{rtlDemoDirection}\">";
+
+    private sealed record RtlDemoOption(string Id, string Label, TextDirection Direction);
+
+    private sealed record RtlDemoText(string Culture, string Alert, string NameLabel, string NamePlaceholder, string SwitchLabel, string PaginationLabel);
 
     private static readonly IReadOnlyList<MergePoint> _mergePoints =
     [

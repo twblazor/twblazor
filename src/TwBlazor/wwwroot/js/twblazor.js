@@ -1,3 +1,14 @@
+// Direction: whether an element is laid out right to left. The nearest explicit dir attribute wins, as it
+// does for the theme's rtl: styles; without one the computed direction is used.
+globalThis.twDirection = {
+    isRtl: function (el) {
+        if (!el || typeof el.closest !== 'function') return false;
+        const dir = el.closest('[dir]')?.getAttribute('dir')?.toLowerCase();
+        if (dir === 'rtl' || dir === 'ltr') return dir === 'rtl';
+        return typeof getComputedStyle === 'function' && getComputedStyle(el).direction === 'rtl';
+    }
+};
+
 // Generic picker (used by datepicker, timepicker, etc.)
 globalThis.twPicker = {
     // Marks root as already closing (or not) so this and twPicker.registerScrollReposition's
@@ -147,8 +158,10 @@ globalThis.twPicker = {
     _panelEdgeGapPx: 8,
 
     // Flips a just-opened popover panel away from whichever viewport edge it would overflow,
-    // instead of clipping off-screen. Only overrides the panel's default "top-full left-0" style
-    // on the axis that actually overflows, so panels that already fit are untouched. Re-run on
+    // instead of clipping off-screen. Only overrides the panel's default "top-full start-0" style
+    // on the axis that actually overflows, so panels that already fit are untouched. A panel grows
+    // rightwards from its trigger in a left to right layout and leftwards in a right to left one, so
+    // either side can be the one that overflows. Re-run on
     // every reopen since available space may have changed (scroll, trigger move, resize).
     positionPanel: function (panel) {
         if (!panel) return;
@@ -173,6 +186,9 @@ globalThis.twPicker = {
         if (rect.right > viewportWidth) {
             panel.style.left = 'auto';
             panel.style.right = '0';
+        } else if (rect.left < 0) {
+            panel.style.left = '0';
+            panel.style.right = 'auto';
         }
 
         // Both measured from the panel's un-flipped top edge (rect.top) so they're comparable.
@@ -227,16 +243,32 @@ globalThis.twPicker = {
             panel.style.width = anchorRect.width + 'px';
         }
 
-        // Place provisionally below the anchor's left edge, then measure natural size - a fixed
-        // element has no rendered position to read until one is set.
+        // Place provisionally below the anchor's starting edge (its left edge, or its right edge in a
+        // right to left layout), then measure natural size - a fixed element has no rendered position
+        // to read until one is set.
+        const alignLeft = function () {
+            panel.style.left = Math.max(anchorRect.left, 0) + 'px';
+            panel.style.right = 'auto';
+        };
+        const alignRight = function () {
+            panel.style.left = 'auto';
+            panel.style.right = Math.max(viewportWidth - anchorRect.right, 0) + 'px';
+        };
+        const rtl = globalThis.twDirection.isRtl(anchor);
+
         panel.style.top = anchorRect.bottom + 'px';
-        panel.style.left = anchorRect.left + 'px';
+        if (rtl) {
+            alignRight();
+        } else {
+            panel.style.left = anchorRect.left + 'px';
+        }
 
         const rect = panel.getBoundingClientRect();
 
-        if (rect.right > viewportWidth) {
-            panel.style.left = 'auto';
-            panel.style.right = Math.max(viewportWidth - anchorRect.right, 0) + 'px';
+        if (rtl) {
+            if (rect.left < 0) alignLeft();
+        } else if (rect.right > viewportWidth) {
+            alignRight();
         }
 
         // Measured from the anchor's edges, not the panel's, so a tall panel can't skew which
@@ -922,8 +954,10 @@ globalThis.twRoving = {
                 case 'ArrowLeft': {
                     if (mode !== 'tree') return;
                     const expanded = item.getAttribute('aria-expanded');
+                    // In a right to left tree the children sit to the left, so the keys swap roles.
+                    const inwardKey = globalThis.twDirection.isRtl(container) ? 'ArrowLeft' : 'ArrowRight';
                     // Expanding and collapsing is done by the component itself; this only moves focus.
-                    if (e.key === 'ArrowRight') {
+                    if (e.key === inwardKey) {
                         if (expanded === 'true') target = items[index + 1] ?? null;
                     } else if (expanded !== 'true') {
                         target = item.parentElement?.closest(selector) ?? null;
@@ -984,7 +1018,9 @@ globalThis.twCarousel = {
             if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
             if (e.defaultPrevented || globalThis.twCarousel._ownsArrowKeys(e.target)) return;
             e.preventDefault();
-            void globalThis.twPicker._invokeSafely(dotnetRef, e.key === 'ArrowLeft' ? 'PreviousSlideFromKey' : 'NextSlideFromKey');
+            // The previous button sits on the right in a right to left layout, so the keys follow it there.
+            const previousKey = globalThis.twDirection.isRtl(el) ? 'ArrowRight' : 'ArrowLeft';
+            void globalThis.twPicker._invokeSafely(dotnetRef, e.key === previousKey ? 'PreviousSlideFromKey' : 'NextSlideFromKey');
         };
         el.__twCarouselHandler = handler;
         el.addEventListener('keydown', handler);

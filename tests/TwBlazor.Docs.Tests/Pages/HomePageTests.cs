@@ -95,6 +95,77 @@ public class HomePageTests : DocsTestBase
     }
 
     [Fact]
+    public void LanguageList_OnAWideScreen_ShowsTheFirstTen_AndLinksToTheRest()
+    {
+        // Arrange & Act
+        var page = TestContext.Render<Home>();
+
+        // Assert - every language stays in the list; the later ones are only hidden from the "lg" breakpoint up
+        var languages = page.FindAll("#localization-languages > li").Where(item => item.QuerySelector("span[lang]") is not null).ToList();
+        Assert.Equal(10, languages.Count(item => !item.ClassList.Contains("lg:hidden")));
+        Assert.Equal(15, languages.Count(item => item.ClassList.Contains("lg:hidden")));
+        Assert.All(languages.Take(10), item => Assert.DoesNotContain("lg:hidden", item.ClassList));
+
+        var more = page.Find("#localization-more-languages");
+        Assert.Equal("/localization#localization-languages", more.GetAttribute("href"));
+        Assert.Equal("...", more.QuerySelector("[aria-hidden='true']")!.TextContent);
+        Assert.Equal("and 15 more languages", more.QuerySelector(".sr-only")!.TextContent);
+        Assert.Equal(["hidden", "lg:inline-flex"], more.ParentElement!.ClassList);
+    }
+
+    [Fact]
+    public void Render_AdvertisesRightToLeft_AfterLocalization_AndLinksToItsPage()
+    {
+        // Arrange & Act
+        var page = TestContext.Render<Home>();
+
+        // Assert
+        var section = page.Find("section[aria-labelledby='rtl-heading']");
+        Assert.Contains("right to left", section.QuerySelector("h2#rtl-heading")!.TextContent);
+        Assert.Equal("/direction-provider", section.QuerySelector("a#rtl-docs")!.GetAttribute("href"));
+        Assert.Equal(3, section.QuerySelectorAll("ul > li").Length);
+
+        var sections = page.FindAll("section").ToList();
+        var localization = sections.FindIndex(s => s.GetAttribute("aria-labelledby") == "localization-heading");
+        Assert.Equal(localization + 1, sections.IndexOf(section));
+    }
+
+    [Fact]
+    public void RightToLeftExample_StartsRightToLeft_InArabic()
+    {
+        // Arrange & Act
+        var page = TestContext.Render<Home>();
+
+        // Assert
+        var preview = page.Find("#rtl-demo-preview");
+        Assert.Equal("rtl", preview.GetAttribute("dir"));
+        Assert.Equal("ar", preview.GetAttribute("lang"));
+        Assert.Equal("true", page.Find("#rtl-demo-rtl").GetAttribute("aria-pressed"));
+        Assert.Equal("false", page.Find("#rtl-demo-ltr").GetAttribute("aria-pressed"));
+        Assert.Equal("<TwDirectionProvider Direction=\"TextDirection.RightToLeft\">", page.Find("#rtl-demo-markup").TextContent);
+        Assert.Contains("bi-chevron-left", preview.QuerySelector("[aria-label='Next page'] i")!.GetAttribute("class"));
+    }
+
+    [Fact]
+    public void RightToLeftExample_SwitchesToLeftToRight_InEnglish()
+    {
+        // Arrange
+        var page = TestContext.Render<Home>();
+
+        // Act
+        page.Find("#rtl-demo-ltr").Click();
+
+        // Assert
+        var preview = page.Find("#rtl-demo-preview");
+        Assert.Equal("ltr", preview.GetAttribute("dir"));
+        Assert.Equal("en", preview.GetAttribute("lang"));
+        Assert.Equal("true", page.Find("#rtl-demo-ltr").GetAttribute("aria-pressed"));
+        Assert.Equal("<TwDirectionProvider Direction=\"TextDirection.LeftToRight\">", page.Find("#rtl-demo-markup").TextContent);
+        Assert.Contains("Your changes were saved.", preview.TextContent);
+        Assert.Contains("bi-chevron-right", preview.QuerySelector("[aria-label='Next page'] i")!.GetAttribute("class"));
+    }
+
+    [Fact]
     public void Render_SaysTheTranslationsWereProducedByAi()
     {
         // Arrange & Act

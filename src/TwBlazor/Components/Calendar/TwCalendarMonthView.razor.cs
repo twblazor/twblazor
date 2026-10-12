@@ -304,7 +304,7 @@ public partial class TwCalendarMonthView<T> : TwBlazorComponentBase, IAsyncDispo
     {
         var rowStart = focusedIndex - (focusedIndex % 7);
 
-        int? target = e.Key switch
+        int? target = ToLogicalKey(e.Key) switch
         {
             "ArrowRight" => focusedIndex + 1,
             "ArrowLeft" => focusedIndex - 1,
