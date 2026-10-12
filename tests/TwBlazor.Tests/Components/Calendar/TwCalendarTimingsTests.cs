@@ -24,6 +24,17 @@ public class TwCalendarTimingsTests
 
 public class TwCalendarTimeGridTests
 {
+    [Fact]
+    public void SlotHeightRem_IsThreeRem_ForAThirtyMinuteSlot()
+    {
+        // A decimal constant is inlined wherever it is used, so its declaration is only read through reflection.
+        var slotHeight = typeof(TwCalendarTimeGrid).GetField(nameof(TwCalendarTimeGrid.SlotHeightRem))!.GetValue(null);
+
+        Assert.Equal(3m, slotHeight);
+        Assert.Equal(30, TwCalendarTimeGrid.MinutesPerSlot);
+        Assert.Equal(TwCalendarTimeGrid.SlotHeightRem, TwCalendarTimeGrid.GetOffsetRem(TwCalendarTimeGrid.MinutesPerSlot));
+    }
+
     [Theory]
     [InlineData(0, 0)]
     [InlineData(30, 3)]
