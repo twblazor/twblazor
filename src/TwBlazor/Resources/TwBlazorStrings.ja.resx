@@ -300,6 +300,12 @@
   <data name="Chart_Decrease" xml:space="preserve">
     <value>減少</value>
   </data>
+  <data name="Chart_Source" xml:space="preserve">
+    <value>ソース</value>
+  </data>
+  <data name="Chart_Destination" xml:space="preserve">
+    <value>ターゲット</value>
+  </data>
   <data name="Chip_Remove" xml:space="preserve">
     <value>{0} を削除</value>
   </data>

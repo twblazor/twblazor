@@ -297,6 +297,12 @@
   <data name="Chart_Decrease" xml:space="preserve">
     <value>Spadek</value>
   </data>
+  <data name="Chart_Source" xml:space="preserve">
+    <value>Źródło</value>
+  </data>
+  <data name="Chart_Destination" xml:space="preserve">
+    <value>Cel</value>
+  </data>
   <data name="Chip_Remove" xml:space="preserve">
     <value>Usuń: {0}</value>
   </data>

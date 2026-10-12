@@ -1,0 +1,13 @@
+@page "/chart/marimekko"
+@using TwBlazor.Models
+
+<PageContainer Title="TwMarimekkoChart" Path="/chart/marimekko" Beta Description="TwMarimekkoChart varies column width by category total and stacks each category's composition.">
+    <PageCard Title="Basic usage"><Description>Each category total sets its width; series values determine the stacked proportions.</Description><CodeExample Name="MarimekkoBasic" CSharpName="MarimekkoData"><TwChart Title="Product mix by region"><TwMarimekkoChart Categories="@regions" Series="@series" /></TwChart></CodeExample></PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample MarimekkoData
+    private readonly string[] regions = ["North", "South", "West"];
+    private readonly ChartSeries[] series = [new("Core", [50, 30, 20]), new("Plus", [25, 40, 35])];
+    #endregion
+}

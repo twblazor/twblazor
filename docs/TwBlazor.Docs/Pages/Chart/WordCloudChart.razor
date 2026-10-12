@@ -1,0 +1,22 @@
+@page "/chart/word-cloud"
+@using TwBlazor.Models
+
+<PageContainer Title="TwWordCloudChart" Path="/chart/word-cloud" Beta Description="TwWordCloudChart displays words sized by their values.">
+    <PageCard Title="Basic usage">
+        <Description>Pass labelled values to <code>Data</code>. Larger values produce larger words; non-positive values are omitted.</Description>
+        <CodeExample Name="WordCloudChartBasic" CSharpName="WordCloudChartData">
+            <TwChart Title="Search terms">
+                <TwWordCloudChart Data="@terms" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+    <PageCard Title="Shared features">
+        <Description>Tooltips, keyboard navigation, the table view, value formatting, height and empty state are provided by <TwLink Href="/chart" Class="underline">TwChart</TwLink>.</Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample WordCloudChartData
+    private readonly ChartValue[] terms = [new("Search", 50), new("Direct", 30), new("Social", 20)];
+    #endregion
+}

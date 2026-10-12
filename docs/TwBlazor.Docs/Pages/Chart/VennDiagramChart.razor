@@ -1,0 +1,13 @@
+@page "/chart/venn-diagram"
+@using TwBlazor.Models
+
+<PageContainer Title="TwVennDiagramChart" Path="/chart/venn-diagram" Beta Description="TwVennDiagramChart shows up to three sets and their reported overlaps.">
+    <PageCard Title="Basic usage"><Description>Provide set sizes and pairwise intersections.</Description><CodeExample Name="VennBasic" CSharpName="VennData"><TwChart Title="Shared skills"><TwVennDiagramChart Sets="@sets" Intersections="@overlaps" /></TwChart></CodeExample></PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample VennData
+    private readonly ChartSet[] sets = [new("Research", 38), new("Design", 32), new("Engineering", 44)];
+    private readonly ChartSetIntersection[] overlaps = [new("Research", "Design", 14), new("Design", "Engineering", 9), new("Research", "Engineering", 6)];
+    #endregion
+}

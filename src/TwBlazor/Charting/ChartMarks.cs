@@ -120,8 +120,11 @@ public sealed record ChartLine(double X1, double Y1, double X2, double Y2, Chart
 /// <summary>An SVG path, either stroked or filled. <paramref name="Outline"/> adds a surface-colored gap around a filled shape.</summary>
 public sealed record ChartPath(string Data, ChartColor Color, bool Filled = false, double Opacity = 1, ChartStroke Stroke = ChartStroke.Normal, bool Outline = false, string? Title = null) : IChartMark;
 
-/// <summary>A text label. Offsets are in pixels.</summary>
-public sealed record ChartText(double X, double Y, string Text, ChartAnchor Anchor = ChartAnchor.Middle, ChartBaseline Baseline = ChartBaseline.Middle, ChartTextTone Tone = ChartTextTone.Muted, double OffsetX = 0, double OffsetY = 0, bool Strong = false, bool Large = false) : IChartMark;
+/// <summary>
+/// A text label. Offsets and <paramref name="FontSize"/> are in pixels. <paramref name="MaxWidth"/> is a percentage
+/// of the plot's width; a label that would be wider is cut short with an ellipsis instead of spilling over its mark.
+/// </summary>
+public sealed record ChartText(double X, double Y, string Text, ChartAnchor Anchor = ChartAnchor.Middle, ChartBaseline Baseline = ChartBaseline.Middle, ChartTextTone Tone = ChartTextTone.Muted, double OffsetX = 0, double OffsetY = 0, bool Strong = false, bool Large = false, double? FontSize = null, double? MaxWidth = null) : IChartMark;
 
 /// <summary>An icon centered on a point. <paramref name="Size"/> is in pixels.</summary>
 public sealed record ChartGlyph(double X, double Y, Icon Icon, ChartColor Color, double Size = 20) : IChartMark;

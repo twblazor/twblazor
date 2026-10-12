@@ -1,0 +1,13 @@
+@page "/chart/sankey"
+@using TwBlazor.Models
+
+<PageContainer Title="TwSankeyChart" Path="/chart/sankey" Beta Description="TwSankeyChart visualizes weighted flows between horizontal stages.">
+    <PageCard Title="Basic usage"><Description>Links reference node IDs. Set each node's <code>Stage</code> when you need to control its column.</Description><CodeExample Name="SankeyBasic" CSharpName="SankeyData"><TwChart Title="Energy flow"><TwSankeyChart Nodes="@nodes" Links="@links" /></TwChart></CodeExample></PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample SankeyData
+    private readonly ChartGraphNode[] nodes = [new("input", "Input", 0), new("solar", "Solar", 1), new("grid", "Grid", 1), new("homes", "Homes", 2)];
+    private readonly ChartGraphLink[] links = [new("input", "solar", 25), new("input", "grid", 75), new("solar", "homes", 25), new("grid", "homes", 75)];
+    #endregion
+}

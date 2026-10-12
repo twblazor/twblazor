@@ -1,0 +1,13 @@
+@page "/chart/horizon"
+@using TwBlazor.Models
+
+<PageContainer Title="TwHorizonChart" Path="/chart/horizon" Beta Description="TwHorizonChart compresses time-series magnitudes into colored bands.">
+    <PageCard Title="Basic usage"><Description>Categories represent time points; each series is compressed into <code>BandCount</code> magnitude bands.</Description><CodeExample Name="HorizonBasic" CSharpName="HorizonData"><TwChart Title="Requests by service"><TwHorizonChart Categories="@months" Series="@series" BandCount="3" /></TwChart></CodeExample></PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample HorizonData
+    private readonly string[] months = ["Jan", "Feb", "Mar", "Apr", "May"];
+    private readonly ChartSeries[] series = [new("API", [12, 18, 15, 24, 28]), new("Web", [8, 11, 9, 14, 17])];
+    #endregion
+}

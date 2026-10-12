@@ -1,0 +1,13 @@
+@page "/chart/chord-diagram"
+@using TwBlazor.Models
+
+<PageContainer Title="TwChordDiagramChart" Path="/chart/chord-diagram" Beta Description="TwChordDiagramChart shows weighted relationships between nodes arranged around a circle.">
+    <PageCard Title="Basic usage"><Description>Links reference node IDs and their values determine the relationship weight.</Description><CodeExample Name="ChordBasic" CSharpName="ChordData"><TwChart Title="Cross-team collaboration"><TwChordDiagramChart Nodes="@nodes" Links="@links" /></TwChart></CodeExample></PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample ChordData
+    private readonly ChartGraphNode[] nodes = [new("design", "Design"), new("eng", "Engineering"), new("sales", "Sales")];
+    private readonly ChartGraphLink[] links = [new("design", "eng", 8), new("eng", "sales", 5), new("sales", "design", 3)];
+    #endregion
+}

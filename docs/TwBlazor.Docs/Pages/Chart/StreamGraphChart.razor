@@ -1,0 +1,13 @@
+@page "/chart/stream-graph"
+@using TwBlazor.Models
+
+<PageContainer Title="TwStreamGraphChart" Path="/chart/stream-graph" Beta Description="TwStreamGraphChart centers stacked areas around a shared baseline.">
+    <PageCard Title="Basic usage"><Description>Pass one series value per time category.</Description><CodeExample Name="StreamGraphBasic" CSharpName="StreamGraphData"><TwChart Title="Traffic sources"><TwStreamGraphChart Categories="@months" Series="@series" /></TwChart></CodeExample></PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample StreamGraphData
+    private readonly string[] months = ["Jan", "Feb", "Mar", "Apr"];
+    private readonly ChartSeries[] series = [new("Search", [24, 28, 26, 34]), new("Direct", [16, 18, 22, 20]), new("Social", [10, 14, 12, 18])];
+    #endregion
+}

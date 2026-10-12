@@ -1,0 +1,12 @@
+@page "/chart/ridgeline"
+@using TwBlazor.Models
+
+<PageContainer Title="TwRidgelinePlotChart" Path="/chart/ridgeline" Beta Description="TwRidgelinePlotChart stacks density curves to compare distributions across groups.">
+    <PageCard Title="Basic usage"><Description>Each <code>ChartSample</code> creates one ridge.</Description><CodeExample Name="RidgelineBasic" CSharpName="RidgelineData"><TwChart Title="Monthly delivery times"><TwRidgelinePlotChart Samples="@samples" /></TwChart></CodeExample></PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample RidgelineData
+    private readonly ChartSample[] samples = [new("Jan", [12, 14, 15, 18, 20]), new("Feb", [10, 12, 14, 15, 17]), new("Mar", [9, 11, 13, 16, 19])];
+    #endregion
+}

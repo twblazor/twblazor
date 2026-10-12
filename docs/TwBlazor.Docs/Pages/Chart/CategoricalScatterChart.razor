@@ -1,0 +1,12 @@
+@page "/chart/categorical-scatter"
+@using TwBlazor.Models
+
+<PageContainer Title="TwCategoricalScatterChart" Path="/chart/categorical-scatter" Beta Description="TwCategoricalScatterChart plots values at intersections of categorical axes.">
+    <PageCard Title="Basic usage"><Description>Use <code>ChartCategoricalPoint</code> to provide the two categories and the value represented by point size.</Description><CodeExample Name="CategoricalScatterBasic" CSharpName="CategoricalScatterData"><TwChart Title="Survey responses"><TwCategoricalScatterChart Points="@points" /></TwChart></CodeExample></PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample CategoricalScatterData
+    private readonly ChartCategoricalPoint[] points = [new("Service", "Positive", 48), new("Price", "Neutral", 20), new("Quality", "Positive", 62)];
+    #endregion
+}

@@ -1,0 +1,12 @@
+@page "/chart/sunburst"
+@using TwBlazor.Models
+
+<PageContainer Title="TwSunburstChart" Path="/chart/sunburst" Beta Description="TwSunburstChart displays nested hierarchy levels as concentric rings.">
+    <PageCard Title="Basic usage"><Description>Use nested <code>ChartHierarchyNode</code> roots; leaf values determine each segment's share.</Description><CodeExample Name="SunburstBasic" CSharpName="SunburstData"><TwChart Title="Sales breakdown"><TwSunburstChart Roots="@roots" /></TwChart></CodeExample></PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample SunburstData
+    private readonly ChartHierarchyNode[] roots = [new("North", Children: [new("Hardware", 38), new("Software", 24)]), new("South", Children: [new("Hardware", 28), new("Software", 16)])];
+    #endregion
+}

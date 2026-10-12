@@ -147,6 +147,17 @@ public static class ChartGeometry
     }
 
     /// <summary>
+    /// Builds the path of a whole circle. Unlike a 360 degree <see cref="Sector(ChartSector)"/> it has no seam
+    /// from the edge to the center, so it can be outlined.
+    /// </summary>
+    public static string Circle(double centerX, double centerY, double radius) => new ChartPathBuilder()
+        .MoveTo(centerX, centerY - radius)
+        .ArcTo(radius, true, true, centerX, centerY + radius)
+        .ArcTo(radius, true, true, centerX, centerY - radius)
+        .Close()
+        .ToString();
+
+    /// <summary>
     /// Builds the path of a line through points, joined according to <paramref name="curve"/>.
     /// </summary>
     public static string Line(IReadOnlyList<(double X, double Y)> points, ChartCurve curve = ChartCurve.Linear, bool close = false)

@@ -297,6 +297,12 @@
   <data name="Chart_Decrease" xml:space="preserve">
     <value>Уменьшение</value>
   </data>
+  <data name="Chart_Source" xml:space="preserve">
+    <value>Источник</value>
+  </data>
+  <data name="Chart_Destination" xml:space="preserve">
+    <value>Назначение</value>
+  </data>
   <data name="Chip_Remove" xml:space="preserve">
     <value>Удалить: {0}</value>
   </data>

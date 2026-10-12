@@ -1,0 +1,12 @@
+@page "/chart/violin-plot"
+@using TwBlazor.Models
+
+<PageContainer Title="TwViolinPlotChart" Path="/chart/violin-plot" Beta Description="TwViolinPlotChart compares grouped distributions with mirrored density silhouettes.">
+    <PageCard Title="Basic usage"><Description>Each sample group becomes one violin.</Description><CodeExample Name="ViolinBasic" CSharpName="ViolinData"><TwChart Title="Scores by cohort"><TwViolinPlotChart Samples="@samples" /></TwChart></CodeExample></PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample ViolinData
+    private readonly ChartSample[] samples = [new("A", [2, 3, 4, 4, 5, 9]), new("B", [1, 2, 5, 6, 7, 8])];
+    #endregion
+}

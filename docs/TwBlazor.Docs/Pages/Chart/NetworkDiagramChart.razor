@@ -1,0 +1,13 @@
+@page "/chart/network-diagram"
+@using TwBlazor.Models
+
+<PageContainer Title="TwNetworkDiagramChart" Path="/chart/network-diagram" Beta Description="TwNetworkDiagramChart positions connected nodes in a force-directed layout.">
+    <PageCard Title="Basic usage"><Description>Nodes use unique IDs and links reference those IDs.</Description><CodeExample Name="NetworkBasic" CSharpName="NetworkData"><TwChart Title="Dependencies"><TwNetworkDiagramChart Nodes="@nodes" Links="@links" /></TwChart></CodeExample></PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample NetworkData
+    private readonly ChartGraphNode[] nodes = [new("ui", "UI"), new("api", "API"), new("db", "Database")];
+    private readonly ChartGraphLink[] links = [new("ui", "api"), new("api", "db"), new("ui", "db")];
+    #endregion
+}

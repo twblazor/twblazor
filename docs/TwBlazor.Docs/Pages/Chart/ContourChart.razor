@@ -1,0 +1,12 @@
+@page "/chart/contour"
+@using TwBlazor.Models
+
+<PageContainer Title="TwContourChart" Path="/chart/contour" Beta Description="TwContourChart draws isolines over a surface estimated from numeric points.">
+    <PageCard Title="Basic usage"><Description>Set each point's <code>Size</code> to the measured surface value. Increase <code>Levels</code> for more isolines.</Description><CodeExample Name="ContourBasic" CSharpName="ContourData"><TwChart Title="Temperature surface"><TwContourChart Series="@surface" Levels="5" /></TwChart></CodeExample></PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample ContourData
+    private readonly ChartPointSeries[] surface = [new("Samples", [new(0, 0, Size: 12), new(1, 0, Size: 18), new(0, 1, Size: 22), new(1, 1, Size: 31)])];
+    #endregion
+}

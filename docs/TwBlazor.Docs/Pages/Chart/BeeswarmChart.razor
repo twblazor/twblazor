@@ -1,0 +1,12 @@
+@page "/chart/beeswarm"
+@using TwBlazor.Models
+
+<PageContainer Title="TwBeeswarmChart" Path="/chart/beeswarm" Beta Description="TwBeeswarmChart offsets raw observations to show grouped distributions without overlapping points.">
+    <PageCard Title="Basic usage"><Description>Each <code>ChartSample</code> is a group of raw observations.</Description><CodeExample Name="BeeswarmBasic" CSharpName="BeeswarmData"><TwChart Title="Scores by group"><TwBeeswarmChart Samples="@samples" /></TwChart></CodeExample></PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample BeeswarmData
+    private readonly ChartSample[] samples = [new("A", [2, 3, 3, 4, 5, 7]), new("B", [1, 2, 5, 6, 7, 8])];
+    #endregion
+}

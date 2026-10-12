@@ -294,6 +294,12 @@
   <data name="Chart_Decrease" xml:space="preserve">
     <value>குறைவு</value>
   </data>
+  <data name="Chart_Source" xml:space="preserve">
+    <value>மூலம்</value>
+  </data>
+  <data name="Chart_Destination" xml:space="preserve">
+    <value>இலக்கு</value>
+  </data>
   <data name="Chip_Remove" xml:space="preserve">
     <value>{0} அகற்று</value>
   </data>

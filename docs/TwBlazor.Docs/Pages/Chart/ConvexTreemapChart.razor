@@ -1,0 +1,12 @@
+@page "/chart/convex-treemap"
+@using TwBlazor.Models
+
+<PageContainer Title="TwConvexTreemapChart" Path="/chart/convex-treemap" Beta Description="TwConvexTreemapChart displays hierarchy leaves as convex polygon tiles sized by value.">
+    <PageCard Title="Basic usage"><Description>Pass nested hierarchy roots; each leaf becomes a convex tile.</Description><CodeExample Name="ConvexTreemapBasic" CSharpName="ConvexTreemapData"><TwChart Title="Budget by team"><TwConvexTreemapChart Roots="@roots" /></TwChart></CodeExample></PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample ConvexTreemapData
+    private readonly ChartHierarchyNode[] roots = [new("Product", Children: [new("Research", 36), new("Design", 24)]), new("Operations", Children: [new("Support", 22), new("Hosting", 18)])];
+    #endregion
+}

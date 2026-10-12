@@ -1,0 +1,12 @@
+@page "/chart/circular-treemap"
+@using TwBlazor.Models
+
+<PageContainer Title="TwCircularTreemapChart" Path="/chart/circular-treemap" Beta Description="TwCircularTreemapChart represents hierarchy leaves with circles sized by value.">
+    <PageCard Title="Basic usage"><Description>Nested <code>ChartHierarchyNode</code> values preserve parent labels in the chart data.</Description><CodeExample Name="CircularTreemapBasic" CSharpName="CircularTreemapData"><TwChart Title="Storage by folder"><TwCircularTreemapChart Roots="@roots" /></TwChart></CodeExample></PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample CircularTreemapData
+    private readonly ChartHierarchyNode[] roots = [new("Documents", Children: [new("Reports", 32), new("Notes", 18)]), new("Media", Children: [new("Images", 45), new("Audio", 20)])];
+    #endregion
+}

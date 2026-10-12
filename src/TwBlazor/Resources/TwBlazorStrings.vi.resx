@@ -294,6 +294,12 @@
   <data name="Chart_Decrease" xml:space="preserve">
     <value>Giảm</value>
   </data>
+  <data name="Chart_Source" xml:space="preserve">
+    <value>Nguồn</value>
+  </data>
+  <data name="Chart_Destination" xml:space="preserve">
+    <value>Đích</value>
+  </data>
   <data name="Chip_Remove" xml:space="preserve">
     <value>Xóa {0}</value>
   </data>

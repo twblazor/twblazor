@@ -1,0 +1,12 @@
+@page "/chart/barcode"
+@using TwBlazor.Models
+
+<PageContainer Title="TwBarcodeChart" Path="/chart/barcode" Beta Description="TwBarcodeChart places one thin mark for each observation along a numeric scale.">
+    <PageCard Title="Basic usage"><Description>Pass observations through <code>Values</code>.</Description><CodeExample Name="BarcodeBasic" CSharpName="BarcodeData"><TwChart Title="Response times"><TwBarcodeChart Values="@values" /></TwChart></CodeExample></PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample BarcodeData
+    private readonly double[] values = [18, 21, 23, 23, 31, 42, 46, 51];
+    #endregion
+}

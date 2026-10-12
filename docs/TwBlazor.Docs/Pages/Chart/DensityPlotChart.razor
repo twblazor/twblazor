@@ -1,0 +1,12 @@
+@page "/chart/density-plot"
+@using TwBlazor.Models
+
+<PageContainer Title="TwDensityPlotChart" Path="/chart/density-plot" Beta Description="TwDensityPlotChart estimates and compares continuous distributions.">
+    <PageCard Title="Basic usage"><Description>Each sample becomes a kernel-density curve.</Description><CodeExample Name="DensityPlotBasic" CSharpName="DensityPlotData"><TwChart Title="Response distributions"><TwDensityPlotChart Samples="@samples" /></TwChart></CodeExample></PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample DensityPlotData
+    private readonly ChartSample[] samples = [new("Control", [3, 4, 4, 5, 6, 7]), new("Variant", [4, 5, 7, 8, 8, 9])];
+    #endregion
+}

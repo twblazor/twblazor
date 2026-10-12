@@ -1,0 +1,12 @@
+@page "/chart/hexbin"
+@using TwBlazor.Models
+
+<PageContainer Title="TwHexbinChart" Path="/chart/hexbin" Beta Description="TwHexbinChart aggregates dense scatter data into hexagonal bins.">
+    <PageCard Title="Basic usage"><Description>Pass numeric point series; <code>BinWidth</code> controls approximate cell width.</Description><CodeExample Name="HexbinBasic" CSharpName="HexbinData"><TwChart Title="Sample concentration"><TwHexbinChart Series="@points" BinWidth="10" /></TwChart></CodeExample></PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample HexbinData
+    private readonly ChartPointSeries[] points = [new("Sample", [new(1, 4), new(2, 5), new(2.2, 5.2), new(8, 8), new(8.2, 8.3)])];
+    #endregion
+}

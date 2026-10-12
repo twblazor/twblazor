@@ -1,0 +1,16 @@
+@page "/chart/arc-diagram"
+@using TwBlazor.Models
+
+<PageContainer Title="TwArcDiagramChart" Path="/chart/arc-diagram" Beta Description="TwArcDiagramChart lays graph nodes along a baseline and links them with arcs.">
+    <PageCard Title="Basic usage">
+        <Description>Give each node a unique ID and connect nodes with <code>ChartGraphLink</code> values.</Description>
+        <CodeExample Name="ArcDiagramBasic" CSharpName="ArcDiagramData"><TwChart Title="Related topics"><TwArcDiagramChart Nodes="@nodes" Links="@links" /></TwChart></CodeExample>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample ArcDiagramData
+    private readonly ChartGraphNode[] nodes = [new("a", "Alpha"), new("b", "Beta"), new("c", "Gamma")];
+    private readonly ChartGraphLink[] links = [new("a", "b", 2), new("a", "c", 1)];
+    #endregion
+}

@@ -1,0 +1,12 @@
+@page "/chart/radial-histogram"
+@using TwBlazor.Models
+
+<PageContainer Title="TwRadialHistogramChart" Path="/chart/radial-histogram" Beta Description="TwRadialHistogramChart wraps frequency bins around a circle.">
+    <PageCard Title="Basic usage"><Description>Provide raw observations and choose a bin count.</Description><CodeExample Name="RadialHistogramBasic" CSharpName="RadialHistogramData"><TwChart Title="Directional measurements"><TwRadialHistogramChart Values="@values" BinCount="12" /></TwChart></CodeExample></PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample RadialHistogramData
+    private readonly double[] values = [1, 2, 2, 3, 4, 5, 7, 8, 8, 9];
+    #endregion
+}

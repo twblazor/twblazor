@@ -1,0 +1,13 @@
+@page "/chart/euler-diagram"
+@using TwBlazor.Models
+
+<PageContainer Title="TwEulerDiagramChart" Path="/chart/euler-diagram" Beta Description="TwEulerDiagramChart displays sets and supplied pairwise overlaps.">
+    <PageCard Title="Basic usage"><Description>Provide up to three sets and any pairwise intersections present in your data.</Description><CodeExample Name="EulerBasic" CSharpName="EulerData"><TwChart Title="Shared interests"><TwEulerDiagramChart Sets="@sets" Intersections="@overlaps" /></TwChart></CodeExample></PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample EulerData
+    private readonly ChartSet[] sets = [new("Design", 42), new("Research", 35)];
+    private readonly ChartSetIntersection[] overlaps = [new("Design", "Research", 18)];
+    #endregion
+}

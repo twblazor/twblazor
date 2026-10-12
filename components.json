@@ -490,6 +490,156 @@
         "display": "Waterfall",
         "name": "TwWaterfallChart",
         "url": "/chart/waterfall"
+      },
+      {
+        "id": "chart-arc-diagram-navitem",
+        "display": "Arc Diagram",
+        "name": "TwArcDiagramChart",
+        "url": "/chart/arc-diagram"
+      },
+      {
+        "id": "chart-barcode-navitem",
+        "display": "Barcode",
+        "name": "TwBarcodeChart",
+        "url": "/chart/barcode"
+      },
+      {
+        "id": "chart-beeswarm-navitem",
+        "display": "Beeswarm",
+        "name": "TwBeeswarmChart",
+        "url": "/chart/beeswarm"
+      },
+      {
+        "id": "chart-bump-area-navitem",
+        "display": "Bump Area",
+        "name": "TwBumpAreaChart",
+        "url": "/chart/bump-area"
+      },
+      {
+        "id": "chart-categorical-scatter-navitem",
+        "display": "Categorical Scatter",
+        "name": "TwCategoricalScatterChart",
+        "url": "/chart/categorical-scatter"
+      },
+      {
+        "id": "chart-chord-diagram-navitem",
+        "display": "Chord Diagram",
+        "name": "TwChordDiagramChart",
+        "url": "/chart/chord-diagram"
+      },
+      {
+        "id": "chart-circular-treemap-navitem",
+        "display": "Circular Treemap",
+        "name": "TwCircularTreemapChart",
+        "url": "/chart/circular-treemap"
+      },
+      {
+        "id": "chart-contour-navitem",
+        "display": "Contour",
+        "name": "TwContourChart",
+        "url": "/chart/contour"
+      },
+      {
+        "id": "chart-convex-treemap-navitem",
+        "display": "Convex Treemap",
+        "name": "TwConvexTreemapChart",
+        "url": "/chart/convex-treemap"
+      },
+      {
+        "id": "chart-density-plot-navitem",
+        "display": "Density Plot",
+        "name": "TwDensityPlotChart",
+        "url": "/chart/density-plot"
+      },
+      {
+        "id": "chart-dendrogram-navitem",
+        "display": "Dendrogram",
+        "name": "TwDendrogramChart",
+        "url": "/chart/dendrogram"
+      },
+      {
+        "id": "chart-euler-diagram-navitem",
+        "display": "Euler Diagram",
+        "name": "TwEulerDiagramChart",
+        "url": "/chart/euler-diagram"
+      },
+      {
+        "id": "chart-flowchart-navitem",
+        "display": "Flowchart",
+        "name": "TwFlowchart",
+        "url": "/chart/flowchart"
+      },
+      {
+        "id": "chart-hexbin-navitem",
+        "display": "Hexagonal Binning",
+        "name": "TwHexbinChart",
+        "url": "/chart/hexbin"
+      },
+      {
+        "id": "chart-horizon-navitem",
+        "display": "Horizon",
+        "name": "TwHorizonChart",
+        "url": "/chart/horizon"
+      },
+      {
+        "id": "chart-marimekko-navitem",
+        "display": "Marimekko",
+        "name": "TwMarimekkoChart",
+        "url": "/chart/marimekko"
+      },
+      {
+        "id": "chart-network-diagram-navitem",
+        "display": "Network Diagram",
+        "name": "TwNetworkDiagramChart",
+        "url": "/chart/network-diagram"
+      },
+      {
+        "id": "chart-radial-histogram-navitem",
+        "display": "Radial Histogram",
+        "name": "TwRadialHistogramChart",
+        "url": "/chart/radial-histogram"
+      },
+      {
+        "id": "chart-ridgeline-navitem",
+        "display": "Ridgeline",
+        "name": "TwRidgelinePlotChart",
+        "url": "/chart/ridgeline"
+      },
+      {
+        "id": "chart-sankey-navitem",
+        "display": "Sankey",
+        "name": "TwSankeyChart",
+        "url": "/chart/sankey"
+      },
+      {
+        "id": "chart-stream-graph-navitem",
+        "display": "Stream Graph",
+        "name": "TwStreamGraphChart",
+        "url": "/chart/stream-graph"
+      },
+      {
+        "id": "chart-sunburst-navitem",
+        "display": "Sunburst",
+        "name": "TwSunburstChart",
+        "url": "/chart/sunburst"
+      },
+      {
+        "id": "chart-venn-diagram-navitem",
+        "display": "Venn Diagram",
+        "name": "TwVennDiagramChart",
+        "url": "/chart/venn-diagram"
+      },
+      {
+        "id": "chart-violin-plot-navitem",
+        "display": "Violin Plot",
+        "name": "TwViolinPlotChart",
+        "url": "/chart/violin-plot"
+      },
+      {
+        "id": "chart-word-cloud-navitem",
+        "display": "Word Cloud",
+        "name": "TwWordCloudChart",
+        "url": "/chart/word-cloud"
       }
     ]
   },

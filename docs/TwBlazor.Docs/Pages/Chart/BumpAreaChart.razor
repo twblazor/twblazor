@@ -1,0 +1,13 @@
+@page "/chart/bump-area"
+@using TwBlazor.Models
+
+<PageContainer Title="TwBumpAreaChart" Path="/chart/bump-area" Beta Description="TwBumpAreaChart shows changing ranks with filled bands sized by their values.">
+    <PageCard Title="Basic usage"><Description>Series values are ranked independently at each category.</Description><CodeExample Name="BumpAreaBasic" CSharpName="BumpAreaData"><TwChart Title="Platform share by year"><TwBumpAreaChart Categories="@years" Series="@series" /></TwChart></CodeExample></PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample BumpAreaData
+    private readonly string[] years = ["2023", "2024", "2025"];
+    private readonly ChartSeries[] series = [new("A", [24, 30, 28]), new("B", [20, 18, 25]), new("C", [14, 16, 12])];
+    #endregion
+}

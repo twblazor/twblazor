@@ -294,6 +294,12 @@
   <data name="Chart_Decrease" xml:space="preserve">
     <value>Azalış</value>
   </data>
+  <data name="Chart_Source" xml:space="preserve">
+    <value>Kaynak</value>
+  </data>
+  <data name="Chart_Destination" xml:space="preserve">
+    <value>Hedef</value>
+  </data>
   <data name="Chip_Remove" xml:space="preserve">
     <value>{0} öğesini kaldır</value>
   </data>

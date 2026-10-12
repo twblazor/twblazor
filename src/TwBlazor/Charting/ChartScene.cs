@@ -143,14 +143,31 @@ public sealed class ChartSceneBuilder
             outline.AddRange(Enumerable.Reverse(angles).Select(angle => ChartGeometry.Polar(centerX, centerY, innerRadius, angle)));
         }
 
+        ShapeDatum(outline, title, rows, ChartGeometry.Polar(centerX, centerY, innerRadius > 0 ? (innerRadius + outerRadius) / 2 : outerRadius * sectorAnchorFraction, anchorAngle ?? (startAngle + endAngle) / 2));
+    }
+
+    /// <summary>
+    /// Adds an interactive data point cut to an outline, so the pointer triggers it anywhere on an irregular
+    /// shape such as an area, a ribbon or a hexagon.
+    /// </summary>
+    /// <param name="outline">The corners of the shape, in order, as plot percentages.</param>
+    /// <param name="title">The title of the tooltip.</param>
+    /// <param name="rows">The rows of the tooltip.</param>
+    /// <param name="anchor">The plot position the tooltip points at. Without one it sits above the middle of the shape.</param>
+    public void ShapeDatum(IReadOnlyList<(double X, double Y)> outline, string title, IReadOnlyList<ChartDatumRow> rows, (double X, double Y)? anchor = null)
+    {
+        if (outline.Count == 0)
+        {
+            return;
+        }
+
         var left = outline.Min(point => point.X);
         var top = outline.Min(point => point.Y);
         var width = Math.Max(outline.Max(point => point.X) - left, double.Epsilon);
         var height = Math.Max(outline.Max(point => point.Y) - top, double.Epsilon);
 
         var clip = string.Join(", ", outline.Select(point => string.Create(CultureInfo.InvariantCulture, $"{(point.X - left) / width * 100:0.##}% {(point.Y - top) / height * 100:0.##}%")));
-        var anchor = ChartGeometry.Polar(centerX, centerY, innerRadius > 0 ? (innerRadius + outerRadius) / 2 : outerRadius * sectorAnchorFraction, anchorAngle ?? (startAngle + endAngle) / 2);
-        _datums.Add(new ChartDatum(left + width / 2, top + height / 2, width, height, title, rows, ChartHover.None, $"polygon({clip})", anchor.X, anchor.Y));
+        _datums.Add(new ChartDatum(left + width / 2, top + height / 2, width, height, title, rows, ChartHover.None, $"polygon({clip})", anchor?.X, anchor?.Y));
     }
 
     /// <summary>Adds a legend entry.</summary>

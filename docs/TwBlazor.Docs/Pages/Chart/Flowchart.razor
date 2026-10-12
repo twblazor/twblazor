@@ -1,0 +1,13 @@
+@page "/chart/flowchart"
+@using TwBlazor.Models
+
+<PageContainer Title="TwFlowchart" Path="/chart/flowchart" Beta Description="TwFlowchart presents process steps and their directed connections.">
+    <PageCard Title="Basic usage"><Description>Links connect node IDs. Nodes are laid out in insertion order.</Description><CodeExample Name="FlowchartBasic" CSharpName="FlowchartData"><TwChart Title="Review process"><TwFlowchart Nodes="@nodes" Links="@links" /></TwChart></CodeExample></PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample FlowchartData
+    private readonly ChartGraphNode[] nodes = [new("submit", "Submit"), new("review", "Review"), new("publish", "Publish")];
+    private readonly ChartGraphLink[] links = [new("submit", "review"), new("review", "publish")];
+    #endregion
+}

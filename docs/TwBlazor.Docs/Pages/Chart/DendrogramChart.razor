@@ -1,0 +1,12 @@
+@page "/chart/dendrogram"
+@using TwBlazor.Models
+
+<PageContainer Title="TwDendrogramChart" Path="/chart/dendrogram" Beta Description="TwDendrogramChart renders parent-child relationships as a branching tree.">
+    <PageCard Title="Basic usage"><Description>Use nested <code>ChartHierarchyNode</code> values for branches and leaves.</Description><CodeExample Name="DendrogramBasic" CSharpName="DendrogramData"><TwChart Title="Document clusters"><TwDendrogramChart Roots="@roots" /></TwChart></CodeExample></PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample DendrogramData
+    private readonly ChartHierarchyNode[] roots = [new("All documents", Children: [new("Research", Children: [new("Paper A", 1), new("Paper B", 1)]), new("Guides", Children: [new("Guide A", 1), new("Guide B", 1)])])];
+    #endregion
+}

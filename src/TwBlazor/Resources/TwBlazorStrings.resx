@@ -317,6 +317,12 @@
   <data name="Chart_Decrease" xml:space="preserve">
     <value>Decrease</value>
   </data>
+  <data name="Chart_Source" xml:space="preserve">
+    <value>Source</value>
+  </data>
+  <data name="Chart_Destination" xml:space="preserve">
+    <value>Target</value>
+  </data>
   <!-- Chip -->
   <data name="Chip_Remove" xml:space="preserve">
     <value>Remove {0}</value>
