@@ -60,10 +60,15 @@ public class TwButtonTheme
     /// <summary>
     /// Gets or sets the base classes applied to all buttons.
     /// </summary>
+    /// <remarks>
+    /// Give the button a minimum height rather than a fixed one, so a label that wraps onto a second line
+    /// grows the button.
+    /// </remarks>
     public required string Base { get; set; }
 
     /// <summary>
-    /// Gets or sets the padding classes for non-icon buttons.
+    /// Gets or sets the padding classes for non-icon buttons. The vertical padding is what separates a
+    /// wrapped label from the button's edges; a single line is centred by the minimum height instead.
     /// </summary>
     public required string Padding { get; set; }
 

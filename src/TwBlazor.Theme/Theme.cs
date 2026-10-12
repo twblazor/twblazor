@@ -789,9 +789,9 @@ public static class Theme
                 },
                 new TwButtonTheme
                 {
-                    Base = $"{display.InlineFlex} {overflow.Hidden} {anchor.Center} {inputDenseHeight} {typography.Size.Sm} {transition.ColorsFast} {interaction.FocusOutlineNone} focus-visible:outline-hidden touch-manipulation",
-                    Padding = "px-6",
-                    DensePadding = "px-3 py-1.5",
+                    Base = $"{display.InlineFlex} {overflow.Hidden} {anchor.Center} min-h-8 {typography.Size.Sm} {typography.AlignCenter} {transition.ColorsFast} {interaction.FocusOutlineNone} focus-visible:outline-hidden touch-manipulation",
+                    Padding = "px-6 py-1",
+                    DensePadding = "px-3 py-1",
                     IconButton = $"{display.InlineFlex} {anchor.Center} {sizing.Icon.Xl} {typography.Size.Sm} {rounded.Full} {interaction.FocusOutlineNone}",
                     Typography = typography.Weight.Medium,
                     IconTypography = $"{typography.Size.Lg} leading-none",
