@@ -173,7 +173,7 @@ public partial class TwCalendarWeekView<T> : TwBlazorComponentBase, IAsyncDispos
     }
 
     private static string GetDotOffsetStyle(int columnIndex) =>
-        $"left:{(100m / daysPerWeek * columnIndex).ToString(System.Globalization.CultureInfo.InvariantCulture)}%;";
+        $"inset-inline-start:{(100m / daysPerWeek * columnIndex).ToString(System.Globalization.CultureInfo.InvariantCulture)}%;";
 
     private void OnNowTick(object? state)
     {
@@ -234,7 +234,7 @@ public partial class TwCalendarWeekView<T> : TwBlazorComponentBase, IAsyncDispos
     /// </summary>
     private async Task OnWrapperKeyDownAsync(KeyboardEventArgs e)
     {
-        int? target = e.Key switch
+        int? target = ToLogicalKey(e.Key) switch
         {
             "ArrowRight" => focusedColumn + 1,
             "ArrowLeft" => focusedColumn - 1,

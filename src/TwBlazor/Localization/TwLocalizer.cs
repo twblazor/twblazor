@@ -5,6 +5,7 @@ using System.Collections.Concurrent;
 using System.Globalization;
 using System.Resources;
 using TwBlazor.Configuration;
+using TwBlazor.Enums;
 
 namespace TwBlazor.Localization;
 
@@ -55,6 +56,10 @@ public class TwLocalizer : ITwLocalizer
             return _formatsByCulture.GetOrAdd((text.Name, format.Name), _ => CreateFormats(text, format));
         }
     }
+
+    /// <inheritdoc />
+    public virtual TextDirection Direction => _localization.Direction
+        ?? (textCulture.TextInfo.IsRightToLeft ? TextDirection.RightToLeft : TextDirection.LeftToRight);
 
     /// <summary>
     /// Looks a key up in the registered resource files, then in the built in strings.

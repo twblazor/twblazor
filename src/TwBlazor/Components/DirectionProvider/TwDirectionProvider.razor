@@ -1,0 +1,9 @@
+@namespace TwBlazor.Components
+@using TwBlazor.Enums
+@inherits TwBlazorComponentBase
+
+<div id="@Id" class="@Class" style="@Style" @attributes="Attributes" dir="@directionAttribute" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy">
+    <CascadingValue TValue="TextDirection?" Value="resolvedDirection">
+        @ChildContent
+    </CascadingValue>
+</div>

@@ -218,7 +218,7 @@ public partial class TwDatePickerDayView : TwBlazorComponentBase, IAsyncDisposab
         // A move that leaves the displayed month is handed to whoever owns the calendar page, which turns
         // the page and then puts focus on the day the user was heading for. Home and End stay within the
         // week row, so they never leave the month.
-        DateTime? leavingTo = e.Key switch
+        DateTime? leavingTo = ToLogicalKey(e.Key) switch
         {
             "ArrowRight" => focusedDate.AddDays(1),
             "ArrowLeft" => focusedDate.AddDays(-1),
@@ -237,7 +237,7 @@ public partial class TwDatePickerDayView : TwBlazorComponentBase, IAsyncDisposab
             return;
         }
 
-        int? target = e.Key switch
+        int? target = ToLogicalKey(e.Key) switch
         {
             "ArrowRight" => focusedDay + 1,
             "ArrowLeft" => focusedDay - 1,

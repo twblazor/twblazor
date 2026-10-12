@@ -90,7 +90,17 @@ public partial class Navigation : IDisposable
                 [
                     new() { Id = "theme", Label = "Theme", Href = "/theme", Icon = Icon.Brush },
                     new() { Id = "class-merge", Label = "Class Merge", Href = "/class-merge", Icon = Icon.Intersect },
-                    new() { Id = "localization", Label = "Localization", Href = "/localization", Icon = Icon.Translate },
+                    new()
+                    {
+                        Id = "localization",
+                        Label = "Localization",
+                        Icon = Icon.Translate,
+                        NavigationItems =
+                        [
+                            new() { Id = "configuring-localization", Label = "Configuring localization", Href = "/localization" },
+                            new() { Id = "rtl-provider", Label = "RTL Provider", Href = "/direction-provider" },
+                        ],
+                    },
                 ],
             },
         ];

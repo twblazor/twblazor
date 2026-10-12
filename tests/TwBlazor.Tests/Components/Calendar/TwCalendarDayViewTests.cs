@@ -55,7 +55,7 @@ public class TwCalendarDayViewTests : TwBlazorTestBase
 
         var line = cut.Find("div[aria-hidden='true'][style='top:36rem;']");
 
-        Assert.Single(line.QuerySelectorAll("span[style='left:0;']"));
+        Assert.Single(line.QuerySelectorAll("span[style='inset-inline-start:0;']"));
     }
 
     [Fact]

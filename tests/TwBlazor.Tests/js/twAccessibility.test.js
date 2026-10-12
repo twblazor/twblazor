@@ -434,6 +434,26 @@ describe('twRoving', () => {
             expect(document.activeElement.id).toBe('docs');
         });
 
+        test('in a right to left tree Left moves into an expanded node and Right moves back to its parent', () => {
+            tree.setAttribute('dir', 'rtl');
+            document.getElementById('docs').focus();
+
+            key(document.getElementById('docs'), 'ArrowLeft');
+            expect(document.activeElement.id).toBe('resume');
+
+            key(document.getElementById('resume'), 'ArrowRight');
+            expect(document.activeElement.id).toBe('docs');
+        });
+
+        test('in a right to left tree Left on a collapsed node leaves focus for the component to expand it', () => {
+            tree.setAttribute('dir', 'rtl');
+            document.getElementById('pictures').focus();
+
+            key(document.getElementById('pictures'), 'ArrowLeft');
+
+            expect(document.activeElement.id).toBe('pictures');
+        });
+
         test('keys pressed in a control inside a node are not handled', () => {
             const check = document.getElementById('check');
             check.focus();
@@ -469,6 +489,18 @@ describe('twCarousel', () => {
         expect(ref.invokeMethodAsync).toHaveBeenNthCalledWith(1, 'NextSlideFromKey');
         expect(ref.invokeMethodAsync).toHaveBeenNthCalledWith(2, 'PreviousSlideFromKey');
         expect(right.defaultPrevented).toBe(true);
+    });
+
+    test('Left and Right swap in a right to left layout', () => {
+        document.body.setAttribute('dir', 'rtl');
+
+        key(document.getElementById('next'), 'ArrowRight');
+        key(document.getElementById('next'), 'ArrowLeft');
+
+        expect(ref.invokeMethodAsync).toHaveBeenNthCalledWith(1, 'PreviousSlideFromKey');
+        expect(ref.invokeMethodAsync).toHaveBeenNthCalledWith(2, 'NextSlideFromKey');
+
+        document.body.removeAttribute('dir');
     });
 
     test('the arrows are left to a text field or a slider inside a slide', () => {

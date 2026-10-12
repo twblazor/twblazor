@@ -196,7 +196,7 @@ public partial class TwChip : TwBlazorComponentBase
         // dark overlay is used instead to keep the initials legible.
         var avatarBackground = Variant is ButtonVariant.Outlined or ButtonVariant.Text ? "bg-current/10" : "bg-black/20";
 
-        return $"inline-flex items-center justify-center rounded-full {avatarBackground} {sizeClass} font-semibold -ml-1";
+        return $"inline-flex items-center justify-center rounded-full {avatarBackground} {sizeClass} font-semibold -ms-1";
     }
 
     /// <summary>

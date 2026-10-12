@@ -498,7 +498,7 @@ public class TwCalendarTests : TwBlazorTestBase
         var style = chip.GetAttribute("style");
 
         Assert.Contains("background-color:#2563eb26;", style); // tinted background
-        Assert.Contains("border-left-color:#2563eb;", style);
+        Assert.Contains("border-inline-start-color:#2563eb;", style);
         Assert.Contains("color:#2563eb;", style);
     }
 
@@ -914,7 +914,7 @@ public class TwCalendarTests : TwBlazorTestBase
         var after = DateTime.Now;
 
         var line = cut.Find("div.border-t-2");
-        var label = cut.Find("div.right-1");
+        var label = cut.Find("div.end-1");
 
         var minTop = TwCalendarTimeGrid.GetOffsetRem(before.TimeOfDay.TotalMinutes);
         var maxTop = TwCalendarTimeGrid.GetOffsetRem(after.TimeOfDay.TotalMinutes);
@@ -935,7 +935,7 @@ public class TwCalendarTests : TwBlazorTestBase
         var dot = cut.Find("div.border-t-2").QuerySelector("span");
 
         Assert.NotNull(dot);
-        Assert.Contains("left:0", dot!.GetAttribute("style"));
+        Assert.Contains("inset-inline-start:0", dot!.GetAttribute("style"));
     }
 
     [Fact]
@@ -950,7 +950,7 @@ public class TwCalendarTests : TwBlazorTestBase
         var expectedLeft = 100m / 7 * (DateTime.Today - weekStart).Days;
 
         Assert.NotNull(dot);
-        Assert.Contains($"left:{expectedLeft.ToString(System.Globalization.CultureInfo.InvariantCulture)}%", dot!.GetAttribute("style"));
+        Assert.Contains($"inset-inline-start:{expectedLeft.ToString(System.Globalization.CultureInfo.InvariantCulture)}%", dot!.GetAttribute("style"));
     }
 
     [Fact]

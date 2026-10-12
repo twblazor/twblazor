@@ -189,7 +189,7 @@ public class TwCalendarDayColumnTests : TwBlazorTestBase
 
         Assert.Contains("top:54rem;", chip.GetAttribute("style"));
         Assert.Contains("height:12rem;", chip.GetAttribute("style"));
-        Assert.Contains("left:0%;", chip.GetAttribute("style"));
+        Assert.Contains("inset-inline-start:0%;", chip.GetAttribute("style"));
         Assert.Contains("width:100%;", chip.GetAttribute("style"));
         Assert.Contains("Standup", chip.TextContent);
         Assert.Contains("09:00", chip.TextContent);
@@ -246,8 +246,8 @@ public class TwCalendarDayColumnTests : TwBlazorTestBase
         var styles = Chips(cut).Select(c => c.GetAttribute("style")).ToList();
 
         Assert.All(styles, s => Assert.Contains("width:50%;", s));
-        Assert.Contains(styles, s => s!.Contains("left:0%;"));
-        Assert.Contains(styles, s => s!.Contains("left:50%;"));
+        Assert.Contains(styles, s => s!.Contains("inset-inline-start:0%;"));
+        Assert.Contains(styles, s => s!.Contains("inset-inline-start:50%;"));
     }
 
     [Fact]
@@ -497,7 +497,7 @@ public class TwCalendarDayColumnTests : TwBlazorTestBase
 
         // Assert
         var chip = Assert.Single(Chips(cut));
-        Assert.Contains("max-sm:border-l-2", chip.ClassList);
+        Assert.Contains("max-sm:border-s-2", chip.ClassList);
         Assert.Contains("max-sm:text-[10px]", chip.Children[0].ClassList);
         Assert.Contains("max-sm:hidden", chip.Children[1].ClassList);
 

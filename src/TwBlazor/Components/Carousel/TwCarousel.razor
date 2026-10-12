@@ -27,7 +27,7 @@
             }
             else if (ShowArrows)
             {
-                <TwIcon Id="@($"{Id}-previous")" Icon="Icon.Chevron_Left" ButtonVariant="ButtonVariant.Filled" Color="ButtonColor" RootClass="@previousArrowClasses" AriaLabel="@localizer[TwStrings.Carousel_PreviousSlide]" OnClick="PreviousSlide" Readonly="@(!Loop && IsFirstSlide)" />
+                <TwIcon Id="@($"{Id}-previous")" Icon="@DirectionalIcon(Icon.Chevron_Left, Icon.Chevron_Right)" ButtonVariant="ButtonVariant.Filled" Color="ButtonColor" RootClass="@previousArrowClasses" AriaLabel="@localizer[TwStrings.Carousel_PreviousSlide]" OnClick="PreviousSlide" Readonly="@(!Loop && IsFirstSlide)" />
             }
 
             if (RightNavigation != null)
@@ -36,7 +36,7 @@
             }
             else if (ShowArrows)
             {
-                <TwIcon Id="@($"{Id}-next")" Icon="Icon.Chevron_Right" ButtonVariant="ButtonVariant.Filled" Color="ButtonColor" RootClass="@nextArrowClasses" AriaLabel="@localizer[TwStrings.Carousel_NextSlide]" OnClick="NextSlide" Readonly="@(!Loop && IsLastSlide)" />
+                <TwIcon Id="@($"{Id}-next")" Icon="@DirectionalIcon(Icon.Chevron_Right, Icon.Chevron_Left)" ButtonVariant="ButtonVariant.Filled" Color="ButtonColor" RootClass="@nextArrowClasses" AriaLabel="@localizer[TwStrings.Carousel_NextSlide]" OnClick="NextSlide" Readonly="@(!Loop && IsLastSlide)" />
             }
         }
 

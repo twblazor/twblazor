@@ -19,7 +19,7 @@
         <span class="@theme.ToggleSlot" aria-hidden="true">
             @if (hasChildren)
             {
-                <TwIcon Icon="TwBlazor.Enums.Icon.Chevron_Right" Class="@toggleIconClasses" />
+                <TwIcon Icon="@DirectionalIcon(TwBlazor.Enums.Icon.Chevron_Right, TwBlazor.Enums.Icon.Chevron_Left)" Class="@toggleIconClasses" />
             }
         </span>
         @if (showCheckboxes)

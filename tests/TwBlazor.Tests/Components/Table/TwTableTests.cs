@@ -20,7 +20,7 @@ public class TwTableTests : TwBlazorTestBase
         Assert.NotNull(table);
         Assert.Contains("w-full", table.GetAttribute("class"));
         Assert.Contains("text-sm", table.GetAttribute("class"));
-        Assert.Contains("text-left", table.GetAttribute("class"));
+        Assert.Contains("text-start", table.GetAttribute("class"));
     }
 
     [Fact]
@@ -572,7 +572,7 @@ public class TwTableTests : TwBlazorTestBase
     }
 
     [Fact]
-    public void TwTable_RTL_AppliesRTLClass()
+    public void TwTable_AlignsTextToTheStart_SoItFollowsTheDirection()
     {
         // Arrange & Act
         var cut = TestContext.Render<TwTable>();
@@ -580,7 +580,8 @@ public class TwTableTests : TwBlazorTestBase
         // Assert
         var table = cut.Find("table");
         var tableClass = table.GetAttribute("class") ?? string.Empty;
-        Assert.Contains("rtl:text-right", tableClass);
+        Assert.Contains("text-start", tableClass);
+        Assert.DoesNotContain("text-left", tableClass);
     }
 
     [Fact]

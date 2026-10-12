@@ -60,6 +60,17 @@
         </p>
     </PageCard>
 
+    <PageCard Title="Right to left languages" Id="localization-direction">
+        <Description>
+            Arabic, Persian, Urdu and Western Punjabi are read right to left, and so is any other culture .NET reports as right to left, such as Hebrew. Components mirror their layout and swap the Left and Right arrow keys for those cultures. The page has to carry the matching <code>dir</code> attribute: wrap your layout in a <a href="/direction-provider" class="underline">TwDirectionProvider</a>, or set <code>dir</code> on the <code>html</code> element yourself.
+        </Description>
+        <TwCodeBlock Content="@_directionExample" Language="razor" />
+        <p class="my-3">
+            To set the direction whatever the culture, use <code>options.Localization.Direction</code>.
+        </p>
+        <TwCodeBlock Content="@_directionOptionExample" Language="csharp" />
+    </PageCard>
+
     <PageCard Title="Change or add text with your own resource files" Id="localization-resources">
         <Description>
             To reword a string, or to add a language twblazor does not ship, add <code>.resx</code> files to your own project: one neutral file, and one more for each language. The name of each entry is a key from <code>TwStrings</code>, such as <code>Pagination_NextPage</code>.
@@ -212,6 +223,22 @@
         builder.Services.AddTwBlazor(options =>
         {
             options.Localization.Culture = new CultureInfo("ja");
+        }, Theme.CreateTheme);
+        """;
+
+    private const string _directionExample = """
+        @* MainLayout.razor *@
+        <TwDirectionProvider>
+            @Body
+            <TwToastProvider />
+            <TwDialogProvider />
+        </TwDirectionProvider>
+        """;
+
+    private const string _directionOptionExample = """
+        builder.Services.AddTwBlazor(options =>
+        {
+            options.Localization.Direction = TextDirection.RightToLeft;
         }, Theme.CreateTheme);
         """;
 
