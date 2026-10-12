@@ -161,6 +161,17 @@ public partial class TwLocalizerTests
     }
 
     [Fact]
+    public void AddResource_ByType_RegistersTheResourceFamilyNamedAfterTheType_AndCanBeChained()
+    {
+        var options = new TwLocalizationOptions();
+
+        var returned = options.AddResource<TwLocalizer>().AddResource<TwLocalizerTests>();
+
+        Assert.Same(options, returned);
+        Assert.Equal([typeof(TwLocalizer).FullName, typeof(TwLocalizerTests).FullName], options.Resources.Select(resource => resource.BaseName));
+    }
+
+    [Fact]
     public void AddResource_RejectsNull()
     {
         Assert.Throws<ArgumentNullException>(() => new TwLocalizationOptions().AddResource(null!));

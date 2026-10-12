@@ -69,4 +69,31 @@ public class DateHelpersTests
             }
         }
     }
+
+    [Theory]
+    [InlineData("en-GB")]
+    [InlineData("de")]
+    [InlineData("ar")]
+    public void GetWeekdayHeaders_ReturnsTheSevenShortestDayNames_MondayFirst(string cultureName)
+    {
+        var previous = System.Globalization.CultureInfo.CurrentCulture;
+        var culture = System.Globalization.CultureInfo.GetCultureInfo(cultureName);
+
+        try
+        {
+            System.Globalization.CultureInfo.CurrentCulture = culture;
+
+            var headers = DateHelpers.GetWeekdayHeaders();
+
+            var names = culture.DateTimeFormat.ShortestDayNames;
+            Assert.Equal(7, headers.Count);
+            Assert.Equal(names[(int)DayOfWeek.Monday], headers[0]);
+            Assert.Equal(names[(int)DayOfWeek.Saturday], headers[5]);
+            Assert.Equal(names[(int)DayOfWeek.Sunday], headers[6]);
+        }
+        finally
+        {
+            System.Globalization.CultureInfo.CurrentCulture = previous;
+        }
+    }
 }
