@@ -1052,4 +1052,30 @@ public class TwSidebarTests : TwBlazorTestBase
         Assert.Equal("pie", cut.Find("a[href='/pie'] em.badge").TextContent);
         Assert.Empty(cut.FindAll("a[href='/home']"));
     }
+
+    [Fact]
+    public void TwSidebar_MainContent_ShowsThePrimaryFocusRing()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwSidebar>();
+
+        // Assert - the scrolling content area is a Tab stop; the ring is inset because it fills the viewport
+        var main = cut.Find("#main-content");
+        Assert.Equal("0", main.GetAttribute("tabindex"));
+        Assert.Contains("focus-visible:ring-2", main.ClassList);
+        Assert.Contains("focus-visible:ring-inset", main.ClassList);
+        Assert.Contains("focus-visible:ring-purple-500", main.ClassList);
+        Assert.Contains("focus:outline-hidden", main.ClassList);
+    }
+
+    [Fact]
+    public void TwSidebar_ScrollAreas_ReserveTheScrollbarGutter()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwSidebar>();
+
+        // Assert - a scrollbar appearing must not push the navigation or the page content sideways
+        Assert.Contains("scrollbar-gutter-stable", cut.Find("#main-content").ClassList);
+        Assert.Contains(cut.FindAll("*"), element => element.ClassList.Contains("w-64") && element.ClassList.Contains("scrollbar-gutter-stable"));
+    }
 }

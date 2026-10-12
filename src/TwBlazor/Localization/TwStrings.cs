@@ -460,6 +460,9 @@ public static class TwStrings
     /// <summary>The key for "Close navigation menu".</summary>
     public const string Navbar_CloseMenu = "Navbar_CloseMenu";
 
+    /// <summary>The key for "On this page".</summary>
+    public const string OnThisPage_Title = "OnThisPage_Title";
+
     /// <summary>The key for "pagination".</summary>
     public const string Pagination_Label = "Pagination_Label";
 

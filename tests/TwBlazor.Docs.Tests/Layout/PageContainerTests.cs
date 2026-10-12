@@ -270,8 +270,9 @@ public class PageContainerTests : DocsTestBase
         // Arrange & Act
         var cut = Render();
 
-        // Assert
-        Assert.Empty(cut.FindAll("nav"));
+        // Assert - the landmark stays in the DOM but is hidden, so nothing is shown or announced
+        Assert.True(cut.Find("nav").HasAttribute("hidden"));
+        Assert.Empty(cut.FindAll("nav a"));
     }
 
     [Fact]

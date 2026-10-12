@@ -17,7 +17,7 @@ public partial class TwLocalizerTests
 {
     private static readonly ResourceManager _builtIn = new("TwBlazor.Resources.TwBlazorStrings", typeof(TwLocalizer).Assembly);
 
-    public static TheoryData<string> Languages => ["zh-Hans", "es", "hi", "pt", "bn", "ru", "ja", "pa-Arab", "tr", "vi", "zh-Hant", "ar", "mr", "te", "ko", "ta", "ur", "id", "de", "fr", "jv", "fa", "it"];
+    public static TheoryData<string> Languages => ["zh-Hans", "es", "hi", "pt", "bn", "ru", "ja", "pa-Arab", "tr", "vi", "zh-Hant", "ar", "mr", "te", "ko", "ta", "ur", "id", "de", "fr", "jv", "fa", "it", "pl"];
 
     private static TwLocalizer Create(Action<TwLocalizationOptions>? configure = null)
     {
@@ -91,6 +91,7 @@ public partial class TwLocalizerTests
     [InlineData("jv", "Tutup")]
     [InlineData("fa", "بستن")]
     [InlineData("it", "Chiudi")]
+    [InlineData("pl", "Zamknij")]
     public void Indexer_ReturnsTheTranslation_ForEachShippedLanguage(string culture, string expected)
     {
         var localizer = CreateFor(culture);

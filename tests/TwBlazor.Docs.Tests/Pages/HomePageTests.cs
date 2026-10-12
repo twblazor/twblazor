@@ -87,7 +87,7 @@ public class HomePageTests : DocsTestBase
         Assert.Equal("/localization", section.QuerySelector("a#localization-docs")!.GetAttribute("href"));
 
         var cultures = section.QuerySelectorAll("#localization-languages > li > span[lang]").Select(span => span.GetAttribute("lang")!).ToList();
-        Assert.Equal(24, cultures.Count);
+        Assert.Equal(25, cultures.Count);
         Assert.Equal("en", cultures[0]);
         var resources = new System.Resources.ResourceManager("TwBlazor.Resources.TwBlazorStrings", typeof(TwBlazor.Localization.TwLocalizer).Assembly);
         Assert.All(cultures.Skip(1), culture =>

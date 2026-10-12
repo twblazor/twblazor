@@ -64,7 +64,8 @@ public class PageOutlineNavTests : DocsTestBase
         var cut = Render(new PageOutline());
 
         // Assert
-        Assert.Empty(cut.FindAll("nav"));
+        Assert.True(cut.Find("nav").HasAttribute("hidden"));
+        Assert.Empty(cut.FindAll("a"));
     }
 
     [Fact]
@@ -74,8 +75,8 @@ public class PageOutlineNavTests : DocsTestBase
         Render(OutlineOf("Basic", "Colors"));
 
         // Assert
-        var call = Assert.Single(TestContext.JSInterop.Invocations, invocation => invocation.Identifier == "pageOutline.observe");
-        Assert.Equal(["basic", "colors"], call.Arguments.Cast<string[]>().Single());
+        var call = Assert.Single(TestContext.JSInterop.Invocations, invocation => invocation.Identifier == "twOnThisPage.observe");
+        Assert.Equal(["basic", "colors"], Assert.IsType<string[]>(call.Arguments[2]));
     }
 
     [Fact]
@@ -88,6 +89,6 @@ public class PageOutlineNavTests : DocsTestBase
         await TestContext.DisposeAsync();
 
         // Assert
-        Assert.Contains(TestContext.JSInterop.Invocations, invocation => invocation.Identifier == "pageOutline.dispose");
+        Assert.Contains(TestContext.JSInterop.Invocations, invocation => invocation.Identifier == "twOnThisPage.dispose");
     }
 }

@@ -72,6 +72,8 @@ public partial class TwCodeBlock : TwBlazorComponentBase, IAsyncDisposable
         .AddClass(PanelClass ?? string.Empty)
         .Build();
 
+    private string codeClasses => $"language-{Language} {theme.Code}";
+
     private string copyButtonClasses =>
         new ClassBuilder(theme.CopyButtonWrapper)
         .AddClass(options.Theme.Position.Absolute, HideTitle)

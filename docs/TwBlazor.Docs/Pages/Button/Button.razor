@@ -51,31 +51,17 @@
         <Description>There are multiple different button variants.</Description>
 
         <CodeExample Name="ButtonVariants">
-            @foreach (Color c in ((Color[])Enum.GetValues(typeof(Color))).Take(10))
-            {
-                @if (c != Color.Light && c != Color.Dark)
+            <div class="flex flex-col gap-4">
+                @foreach (Color c in Enum.GetValues<Color>())
                 {
-                    <div class="block mt-4">
-                        <div class="p-3">
-                            <TwButton Label="@c.ToString()" Color="@c" Class="m-1" Variant="@ButtonVariant.Filled" />
-                            <TwButton Label="@c.ToString()" Color="@c" Class="m-1" Variant="@ButtonVariant.Outlined" />
-                            <TwButton Label="@c.ToString()" Color="@c" Class="m-1" Variant="@ButtonVariant.Text" />
-                            <TwButton Label="@c.ToString()" Color="@c" Class="m-1" Variant="@ButtonVariant.Elevated" />
-                        </div>
+                    <div class="@(c == Color.Light ? "grid grid-cols-2 gap-2 sm:flex sm:flex-wrap -mx-3 rounded-lg bg-gray-900 p-3" : "grid grid-cols-2 gap-2 sm:flex sm:flex-wrap")">
+                        <TwButton Label="@c.ToString()" Color="@c" Variant="@ButtonVariant.Filled" />
+                        <TwButton Label="@c.ToString()" Color="@c" Variant="@ButtonVariant.Outlined" />
+                        <TwButton Label="@c.ToString()" Color="@c" Variant="@ButtonVariant.Text" />
+                        <TwButton Label="@c.ToString()" Color="@c" Variant="@ButtonVariant.Elevated" />
                     </div>
                 }
-                else
-                {
-                    <div class="block mt-4">
-                        <div class="@(c == Color.Light ? "bg-gray-900 p-3 rounded-lg" : "p-3 rounded-lg")">
-                            <TwButton Label="@c.ToString()" Color="@c" Class="m-1" Variant="@ButtonVariant.Filled" />
-                            <TwButton Label="@c.ToString()" Color="@c" Class="m-1" Variant="@ButtonVariant.Outlined" />
-                            <TwButton Label="@c.ToString()" Color="@c" Class="m-1" Variant="@ButtonVariant.Text" />
-                            <TwButton Label="@c.ToString()" Color="@c" Class="m-1" Variant="@ButtonVariant.Elevated" />
-                        </div>
-                    </div>
-                }
-            }
+            </div>
         </CodeExample>
     </PageCard>
 
@@ -85,11 +71,11 @@
         </Description>
 
         <CodeExample Name="ButtonIcons">
-            <div class="mb-4">
-                <TwButton Label="Download" StartIcon="Icon.Download" Variant="ButtonVariant.Filled" Color="Color.Primary" Class="m-1" />
-                <TwButton Label="Next" EndIcon="Icon.Arrow_Right" Variant="ButtonVariant.Filled" Color="Color.Success" Class="m-1" />
-                <TwButton Label="Delete" StartIcon="Icon.Trash" Variant="ButtonVariant.Outlined" Color="Color.Danger" Class="m-1" />
-                <TwButton Label="Settings" StartIcon="Icon.Gear" Variant="ButtonVariant.Filled" Color="Color.Primary" Class="m-1" />
+            <div class="flex flex-wrap gap-2">
+                <TwButton Label="Download" StartIcon="Icon.Download" Variant="ButtonVariant.Filled" Color="Color.Primary" />
+                <TwButton Label="Next" EndIcon="Icon.Arrow_Right" Variant="ButtonVariant.Filled" Color="Color.Success" />
+                <TwButton Label="Delete" StartIcon="Icon.Trash" Variant="ButtonVariant.Outlined" Color="Color.Danger" />
+                <TwButton Label="Settings" StartIcon="Icon.Gear" Variant="ButtonVariant.Filled" Color="Color.Primary" />
             </div>
         </CodeExample>
     </PageCard>
@@ -100,10 +86,12 @@
         </Description>
 
         <CodeExample Name="ButtonColors">
-            @foreach (Color c in (Color[]) Enum.GetValues(typeof(Color)))
-            {
-                <TwButton Label="@c.ToString()" Color="@c" Class="m-1" />
-            }
+            <div class="flex flex-wrap gap-2">
+                @foreach (Color c in Enum.GetValues<Color>())
+                {
+                    <TwButton Label="@c.ToString()" Color="@c" />
+                }
+            </div>
         </CodeExample>
     </PageCard>
 
@@ -113,11 +101,11 @@
         </Description>
 
         <CodeExample Name="ButtonReadonlyDisabled">
-            <div class="mb-4">
-                <TwButton Label="Filled Disabled" Variant="ButtonVariant.Filled" Color="Color.Primary" Disabled Class="m-1" />
-                <TwButton Label="Outlined Disabled" Variant="ButtonVariant.Outlined" Color="Color.Primary" Disabled Class="m-1" />
-                <TwButton Label="Text Disabled" Variant="ButtonVariant.Text" Color="Color.Primary" Disabled Class="m-1" />
-                <TwButton Label="Readonly Button" Color="Color.Success" Readonly Class="m-1" />
+            <div class="flex flex-wrap gap-2">
+                <TwButton Label="Filled Disabled" Variant="ButtonVariant.Filled" Color="Color.Primary" Disabled />
+                <TwButton Label="Outlined Disabled" Variant="ButtonVariant.Outlined" Color="Color.Primary" Disabled />
+                <TwButton Label="Text Disabled" Variant="ButtonVariant.Text" Color="Color.Primary" Disabled />
+                <TwButton Label="Readonly Button" Color="Color.Success" Readonly />
             </div>
         </CodeExample>
     </PageCard>

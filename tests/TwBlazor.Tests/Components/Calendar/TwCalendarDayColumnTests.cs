@@ -474,4 +474,44 @@ public class TwCalendarDayColumnTests : TwBlazorTestBase
         Assert.Null(thrown);
         Assert.NotNull(cut);
     }
+
+    [Fact]
+    public void Chips_AreFullSizeByDefault()
+    {
+        // Arrange & Act
+        var cut = Render(p => p.Add(x => x.Events, [Event("Standup", _day.AddHours(9), _day.AddHours(10))]));
+
+        // Assert - the Day view has a whole column to itself, so nothing is trimmed on a phone
+        var chip = Assert.Single(Chips(cut));
+        Assert.DoesNotContain(chip.ClassList, c => c.StartsWith("max-sm:"));
+        Assert.All(chip.Children, child => Assert.DoesNotContain(child.ClassList, c => c.StartsWith("max-sm:")));
+    }
+
+    [Fact]
+    public void CompactChips_TightenOnAPhone_AndKeepTheTimeInTheirAccessibleName()
+    {
+        // Arrange & Act
+        var cut = Render(p => p
+            .Add(x => x.Compact, true)
+            .Add(x => x.Events, [Event("Standup", _day.AddHours(9), _day.AddHours(10))]));
+
+        // Assert
+        var chip = Assert.Single(Chips(cut));
+        Assert.Contains("max-sm:border-l-2", chip.ClassList);
+        Assert.Contains("max-sm:text-[10px]", chip.Children[0].ClassList);
+        Assert.Contains("max-sm:hidden", chip.Children[1].ClassList);
+
+        // The start time is hidden visually on a phone, so it must still be spoken
+        Assert.Contains("09:00", chip.GetAttribute("aria-label"));
+    }
+
+    [Fact]
+    public void Chips_AlignTheirTextToTheStart()
+    {
+        // Arrange & Act
+        var cut = Render(p => p.Add(x => x.Events, [Event("A long title that wraps", _day.AddHours(9), _day.AddHours(10))]));
+
+        // Assert - a button centres its text by default, which shows once a title wraps onto a second line
+        Assert.Contains("text-start", Assert.Single(Chips(cut)).ClassList);
+    }
 }

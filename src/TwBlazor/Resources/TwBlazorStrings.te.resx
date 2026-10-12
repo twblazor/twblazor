@@ -462,6 +462,9 @@
   <data name="Navbar_CloseMenu" xml:space="preserve">
     <value>నావిగేషన్ మెనూను మూసివేయి</value>
   </data>
+  <data name="OnThisPage_Title" xml:space="preserve">
+    <value>ఈ పేజీలో</value>
+  </data>
   <data name="Pagination_Label" xml:space="preserve">
     <value>పేజీల నావిగేషన్</value>
   </data>

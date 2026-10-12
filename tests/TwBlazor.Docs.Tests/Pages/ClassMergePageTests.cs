@@ -79,7 +79,7 @@ public class ClassMergePageTests : DocsTestBase
         var headings = cut.FindAll("h2").Select(h => h.TextContent).ToList();
 
         Assert.Contains(title, headings);
-        Assert.Contains(cut.FindAll("a[data-outline-id]"), link => link.TextContent.Trim() == title);
+        Assert.Contains(cut.FindAll("a[data-tw-section-id]"), link => link.TextContent.Trim() == title);
     }
 
     [Fact]
@@ -87,8 +87,8 @@ public class ClassMergePageTests : DocsTestBase
     {
         var cut = Render();
 
-        var link = cut.FindAll("a[data-outline-id]").Single(a => a.TextContent.Trim() == "Configuration");
-        var id = link.GetAttribute("data-outline-id");
+        var link = cut.FindAll("a[data-tw-section-id]").Single(a => a.TextContent.Trim() == "Configuration");
+        var id = link.GetAttribute("data-tw-section-id");
 
         Assert.NotEqual("configuration", id);
         Assert.Single(cut.FindAll($"[id='{id}']"));

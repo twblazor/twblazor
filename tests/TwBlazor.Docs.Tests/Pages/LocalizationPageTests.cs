@@ -22,7 +22,7 @@ public class LocalizationPageTests : DocsTestBase
             .Select(code => code.TextContent)
             .ToList();
 
-        Assert.Equal(["en", "zh-Hans", "es", "hi", "pt", "bn", "ru", "ja", "pa-Arab", "tr", "vi", "zh-Hant", "ar", "mr", "te", "ko", "ta", "ur", "id", "de", "fr", "jv", "fa", "it"], cultures);
+        Assert.Equal(["en", "zh-Hans", "es", "hi", "pt", "bn", "ru", "ja", "pa-Arab", "tr", "vi", "zh-Hant", "ar", "mr", "te", "ko", "ta", "ur", "id", "de", "fr", "jv", "fa", "it", "pl"], cultures);
         Assert.All(cultures.Skip(1), culture =>
             Assert.NotNull(_resources.GetResourceSet(CultureInfo.GetCultureInfo(culture), true, false)));
     }

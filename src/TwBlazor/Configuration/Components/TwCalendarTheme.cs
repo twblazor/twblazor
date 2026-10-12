@@ -122,6 +122,33 @@ public class TwCalendarTheme
     public required string DayColumnHeader { get; set; }
 
     /// <summary>
+    /// Gets or sets the classes for the Week view header's full label (e.g. "Mon 16"). On a phone it is
+    /// visually hidden, staying as the button's accessible name, and the compact label is shown instead.
+    /// </summary>
+    public required string DayColumnHeaderLabel { get; set; }
+
+    /// <summary>
+    /// Gets or sets the classes for the Week view header's compact label, shown only on a phone: the
+    /// weekday stacked over the day number, so seven columns fit across a narrow screen.
+    /// </summary>
+    public required string DayColumnHeaderCompact { get; set; }
+
+    /// <summary>
+    /// Gets or sets the classes for the short weekday name in the compact header label.
+    /// </summary>
+    public required string DayColumnHeaderWeekday { get; set; }
+
+    /// <summary>
+    /// Gets or sets the classes for the day number in the compact header label.
+    /// </summary>
+    public required string DayColumnHeaderDayNumber { get; set; }
+
+    /// <summary>
+    /// Gets or sets the classes layered on <see cref="DayColumnHeaderDayNumber"/> for today's date.
+    /// </summary>
+    public required string DayColumnHeaderDayNumberToday { get; set; }
+
+    /// <summary>
     /// Gets or sets the classes for the vertical divider between adjacent day columns in the Week view.
     /// </summary>
     public required string DayColumnDivider { get; set; }
@@ -143,6 +170,23 @@ public class TwCalendarTheme
     /// Gets or sets the classes for an event card's subtitle line (its start time).
     /// </summary>
     public required string EventChipTime { get; set; }
+
+    /// <summary>
+    /// Gets or sets the classes layered on <see cref="EventChip"/> in the Week view, where a column is only a
+    /// few characters wide on a phone: a thinner accent edge and tighter padding below the <c>sm</c> breakpoint.
+    /// </summary>
+    public required string EventChipCompact { get; set; }
+
+    /// <summary>
+    /// Gets or sets the classes layered on <see cref="EventChipTitle"/> in the Week view: smaller text on a phone.
+    /// </summary>
+    public required string EventChipTitleCompact { get; set; }
+
+    /// <summary>
+    /// Gets or sets the classes layered on <see cref="EventChipTime"/> in the Week view: the start time is
+    /// hidden on a phone, where the chip's position shows it and its accessible name still states it.
+    /// </summary>
+    public required string EventChipTimeCompact { get; set; }
 
     /// <summary>
     /// Gets or sets the classes layered onto <see cref="EventChip"/> for a read-only event.
@@ -256,12 +300,13 @@ public class TwCalendarTheme
     public required string MonthEventRow { get; set; }
 
     /// <summary>
-    /// Gets or sets the classes for a Month view event row's name text.
+    /// Gets or sets the classes for a Month view event row's name text, which is smaller on a phone.
     /// </summary>
     public required string MonthEventName { get; set; }
 
     /// <summary>
-    /// Gets or sets the classes for a Month view event row's start-time text.
+    /// Gets or sets the classes for a Month view event row's start-time text. It is hidden on a phone, where a
+    /// cell is only a few characters wide; the row's accessible name still states the time.
     /// </summary>
     public required string MonthEventTime { get; set; }
 

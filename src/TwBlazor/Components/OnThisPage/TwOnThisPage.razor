@@ -1,0 +1,21 @@
+﻿@namespace TwBlazor.Components
+@inherits TwBlazorComponentBase
+
+@* With no items the landmark is kept in the DOM but hidden, so an empty navigation is never announced. *@
+<nav id="@Id" class="@classes" style="@Style" hidden="@(Items.Count == 0)" aria-label="@navLabel" aria-labelledby="@navLabelledBy" @attributes="@Attributes" @ref="navElement">
+    @if (Items.Count > 0)
+    {
+        @if (!HideTitle)
+        {
+            @heading
+        }
+        <ul class="@theme.List">
+            @foreach (var item in Items)
+            {
+                <li @key="item.Id">
+                    <a href="@($"{BasePath}#{item.Id}")" data-tw-section-id="@item.Id" class="@linkClasses">@item.Title</a>
+                </li>
+            }
+        </ul>
+    }
+</nav>

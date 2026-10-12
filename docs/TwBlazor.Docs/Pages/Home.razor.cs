@@ -70,6 +70,26 @@ public partial class Home
         new("Failed", [0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0])
     ];
 
+    /// <summary>
+    /// The shell shared by every card on the page (features, guides and the live examples), so they all have
+    /// the same radius, border, padding and elevation.
+    /// </summary>
+    private const string cardClasses =
+        "rounded-2xl border border-purple-200/70 p-6 shadow-xs dark:border-white/10";
+
+    /// <summary>
+    /// A feature card: the shared shell with the brand gradient along its top edge. These are not links, so
+    /// they have no hover state.
+    /// </summary>
+    private const string featureCardClasses =
+        cardClasses + " relative overflow-hidden before:absolute before:inset-x-0 before:top-0 before:h-1 before:bg-linear-to-r before:from-purple-600 before:to-fuchsia-500";
+
+    /// <summary>
+    /// A guide card, which is a link: the shared shell on the same surface as <c>TwCard</c>, lifting on hover.
+    /// </summary>
+    private const string guideCardClasses =
+        "flex items-start gap-4 " + cardClasses + " bg-white dark:bg-[oklch(25.33%_0.016_252.42)] transition duration-200 hover:-translate-y-0.5 hover:border-fuchsia-400 hover:shadow-lg hover:shadow-purple-500/10 motion-reduce:transition-none motion-reduce:hover:translate-y-0 dark:hover:border-fuchsia-400";
+
     private const string mergeChipClasses = "rounded-md border px-2 py-1 font-mono text-xs";
 
     private const string mergeThemeChipClasses =
@@ -139,6 +159,7 @@ public partial class Home
         new("Basa Jawa", "Javanese", "jv"),
         new("فارسی", "Persian", "fa"),
         new("Italiano", "Italian", "it"),
+        new("Polski", "Polish", "pl"),
     ];
 
     private static readonly IReadOnlyList<MergePoint> _localizationPoints =

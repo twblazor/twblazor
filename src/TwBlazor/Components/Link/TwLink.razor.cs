@@ -1,4 +1,4 @@
-// Copyright (c) 2025 Jack Shuter @ TwBlazor - twblazor.com
+﻿// Copyright (c) 2025 Jack Shuter @ TwBlazor - twblazor.com
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Components;
@@ -54,5 +54,8 @@ public partial class TwLink : TwBlazorComponentBase
             .AddClass(colorBuilder.GetTextColor(Color ?? Enums.Color.Primary))
             .AddClass(theme.Default)
             .Build()
-        : new ClassBuilder(Class).Build();
+        : new ClassBuilder(colorBuilder.GetFocusRing(Color))
+            .AddClass(options.Theme.Interaction.FocusOutlineNone)
+            .AddClass(Class)
+            .Build();
 }

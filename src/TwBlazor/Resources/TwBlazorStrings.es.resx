@@ -465,6 +465,9 @@
   <data name="Navbar_CloseMenu" xml:space="preserve">
     <value>Cerrar menú de navegación</value>
   </data>
+  <data name="OnThisPage_Title" xml:space="preserve">
+    <value>En esta página</value>
+  </data>
   <data name="Pagination_Label" xml:space="preserve">
     <value>paginación</value>
   </data>

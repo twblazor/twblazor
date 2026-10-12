@@ -177,7 +177,7 @@ public class ThemePageTests : DocsTestBase
     {
         var cut = Render();
 
-        Assert.Contains("DefaultRounded = Rounded.Md", Code(cut));
+        Assert.Contains("DefaultRounded = Rounded.Lg", Code(cut));
         Assert.Contains("DefaultShadow = Shadow.Sm", Code(cut));
         Assert.Contains("DefaultInputVariant = InputVariant.Outlined", Code(cut));
         Assert.DoesNotContain("DefaultVariant = ButtonVariant", Code(cut));
@@ -202,7 +202,7 @@ public class ThemePageTests : DocsTestBase
 
         cut.Find("button:contains('Reset defaults')").Click();
 
-        Assert.Contains("DefaultRounded = Rounded.Md", Code(cut));
+        Assert.Contains("DefaultRounded = Rounded.Lg", Code(cut));
     }
 
     private static Task PickAsync(IRenderedComponent<ThemePage> cut, int index, string hex) =>
