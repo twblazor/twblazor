@@ -26,6 +26,17 @@
     <a href="https://twblazor.github.io/twblazor/" target="_blank">API Documentation (docfx)</a> &bullet; <a href="https://twblazor.com/" target="_blank">Component Documentation (twblazor.com)</a> &bullet; <a href="https://twblazor.com/get-started" target="_blank">Get Started</a>
 </p>
 
+---
+
+Contents:
+
+- [Why twblazor?](#why-twblazor)
+- [Setup](#setup)
+- [Class merging](#class-merging)
+- [Localization](#localization)
+- [Supported .NET Versions](#supported-net-versions)
+- [Dependencies](#dependencies)
+
 ## Why twblazor?
 
 - Every component is styled with plain Tailwind CSS classes, so there is no built-in CSS to fight when you want something to look different.
@@ -123,6 +134,24 @@ builder.Services.AddTwBlazor(options =>
 ```
 
 See the [Localization docs](https://twblazor.com/localization) for every key and option.
+
+### Right to left
+
+Arabic, Persian, Urdu, Western Punjabi and any other culture .NET reports as right to left (such as Hebrew) mirror every component: spacing, icons and panels swap sides, and the Left and Right arrow keys swap so they keep following what is on screen.
+
+The page has to carry the matching `dir` attribute. Wrap your layout in a `TwDirectionProvider`, which follows the current language, or set `dir` on the `html` element yourself:
+
+```razor
+<TwDirectionProvider>
+    @Body
+    <TwToastProvider />
+    <TwDialogProvider />
+</TwDirectionProvider>
+```
+
+To set the direction whatever the culture, use `options.Localization.Direction = TextDirection.RightToLeft` in `AddTwBlazor`, or pass `Direction` to a `TwDirectionProvider` to turn one part of a page.
+
+See the [RTL Provider docs](https://twblazor.com/direction-provider) for what is mirrored and how to make your own theme and markup follow the direction.
 
 ## Supported .NET Versions
 
