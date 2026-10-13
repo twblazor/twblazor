@@ -984,9 +984,19 @@ public class ChartTypeTests : TwBlazorTestBase
     }
 
     [Fact]
+    public void NetworkDiagram_WithASingleNode_PutsItInTheMiddle()
+    {
+        var scene = Scene<TwNetworkDiagramChart>(p => p.Add(x => x.Nodes, _nodes.Take(1).ToArray()));
+        var dot = Assert.Single(Marks<ChartDot>(scene));
+
+        Assert.Equal((50, 50), (dot.X, dot.Y));
+        Assert.Equal(ChartAnchor.Middle, Assert.Single(Marks<ChartText>(scene)).Anchor);
+    }
+
+    [Fact]
     public void DensityPlot_WithOneGroup_HasNoLegend_AndHidesTheCurvesOfHiddenGroups()
     {
-        var single = Scene<TwDensityPlotChart>(p => p.Add(x => x.Samples, _samples.Take(1).ToArray()).Add(x => x.LabelHeader, "Service"));
+        var single = Scene<TwDensityPlotChart>(p => p.Add(x => x.Samples, [_samples[0], new ChartSample("Nothing usable", [double.NaN])]).Add(x => x.LabelHeader, "Service"));
         Assert.Empty(single.Legend);
         Assert.Single(single.Datums);
         Assert.Equal("Service", single.Table!.Headers[0]);

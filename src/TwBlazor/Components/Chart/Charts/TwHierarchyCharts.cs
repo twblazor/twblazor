@@ -109,9 +109,15 @@ public abstract class TwHierarchyChartBase : TwChartBase
     /// Gets the value of a node: its own when it is a leaf, otherwise the sum of its leaves. Negative values count as zero.
     /// </summary>
     /// <param name="node">The node.</param>
-    private protected static double GetTotal(ChartHierarchyNode node) => node.Children is { Count: > 0 } children
-        ? children.Sum(GetTotal)
-        : double.IsFinite(node.Value) ? Math.Max(0, node.Value) : 0;
+    private protected static double GetTotal(ChartHierarchyNode node)
+    {
+        if (node.Children is { Count: > 0 } children)
+        {
+            return children.Sum(GetTotal);
+        }
+
+        return double.IsFinite(node.Value) ? Math.Max(0, node.Value) : 0;
+    }
 
     /// <summary>
     /// Gets the nodes that have a value to draw.
@@ -625,19 +631,7 @@ public abstract class TwSetDiagramChartBase : TwChartBase
             return;
         }
 
-        List<(int First, int Second, double Value)> overlaps = [];
-        for (var first = 0; first < sets.Count; first++)
-        {
-            for (var second = first + 1; second < sets.Count; second++)
-            {
-                var value = Intersections.Where(item => (item.First == sets[first].Label && item.Second == sets[second].Label) || (item.First == sets[second].Label && item.Second == sets[first].Label))
-                    .Select(item => item.Value).FirstOrDefault(item => double.IsFinite(item) && item > 0);
-                if (value > 0)
-                {
-                    overlaps.Add((first, second, value));
-                }
-            }
-        }
+        var overlaps = GetOverlaps(sets);
 
         builder.Shape = ChartShape.Square;
         var circles = Fit(Arrange(sets, (first, second) => overlaps.FirstOrDefault(overlap => (overlap.First, overlap.Second) == (Math.Min(first, second), Math.Max(first, second))).Value));
@@ -650,9 +644,7 @@ public abstract class TwSetDiagramChartBase : TwChartBase
             var color = ChartColor.Series(i);
             builder.Path(ChartGeometry.Circle(x, y, radius), color, filled: true, opacity: 0.35);
 
-            // Names go outside the circles, under those in the lower half so they stay clear of the overlaps.
-            var below = y > middle + 1;
-            builder.Add(new ChartText(x, below ? y + radius : y - radius, sets[i].Label, Baseline: below ? ChartBaseline.Top : ChartBaseline.Bottom, Tone: ChartTextTone.Primary, OffsetY: below ? 6 : -6, Strong: true));
+            builder.Add(GetName(sets[i].Label, x, y, radius, y > middle + 1));
             builder.SectorDatum(new ChartSector(x, y, 0, radius, 0, 360), sets[i].Label,
                 [new ChartDatumRow(effectiveValueHeader, FormatValue(sets[i].Value), color), .. overlaps.Where(overlap => overlap.First == i || overlap.Second == i).Select(overlap => new ChartDatumRow(Name(overlap), FormatValue(overlap.Value)))],
                 anchorAngle: 0);
@@ -668,6 +660,40 @@ public abstract class TwSetDiagramChartBase : TwChartBase
 
         builder.Table = new ChartTable([effectiveLabelHeader, effectiveValueHeader],
             [.. sets.Select(set => (IReadOnlyList<string>)[set.Label, FormatValue(set.Value)]), .. overlaps.Select(overlap => (IReadOnlyList<string>)[Name(overlap), FormatValue(overlap.Value)])]);
+    }
+
+    /// <summary>
+    /// Gets the name of a set, placed outside its circle: above it, or under it for a circle in the lower half
+    /// so the name stays clear of the overlaps.
+    /// </summary>
+    private static ChartText GetName(string label, double x, double y, double radius, bool below) => below
+        ? new ChartText(x, y + radius, label, Baseline: ChartBaseline.Top, Tone: ChartTextTone.Primary, OffsetY: 6, Strong: true)
+        : new ChartText(x, y - radius, label, Baseline: ChartBaseline.Bottom, Tone: ChartTextTone.Primary, OffsetY: -6, Strong: true);
+
+    /// <summary>
+    /// Gets how many elements each pair of sets shares, for the pairs that have an intersection with a size.
+    /// An intersection may name its two sets in either order.
+    /// </summary>
+    /// <param name="sets">The sets being drawn.</param>
+    private List<(int First, int Second, double Value)> GetOverlaps(List<ChartSet> sets)
+    {
+        static bool Joins(ChartSetIntersection item, ChartSet first, ChartSet second) => item.First == first.Label && item.Second == second.Label;
+
+        List<(int First, int Second, double Value)> overlaps = [];
+        for (var first = 0; first < sets.Count; first++)
+        {
+            for (var second = first + 1; second < sets.Count; second++)
+            {
+                var value = Intersections.Where(item => Joins(item, sets[first], sets[second]) || Joins(item, sets[second], sets[first]))
+                    .Select(item => item.Value).FirstOrDefault(item => double.IsFinite(item) && item > 0);
+                if (value > 0)
+                {
+                    overlaps.Add((first, second, value));
+                }
+            }
+        }
+
+        return overlaps;
     }
 
     /// <summary>

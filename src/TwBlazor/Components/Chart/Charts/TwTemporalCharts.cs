@@ -88,7 +88,34 @@ public class TwBumpAreaChart : TwCategoryChartBase
         var gap = series.Count > 1 ? spacing / (series.Count - 1) : 0;
         var unit = (100 - spacing) / peak;
 
-        // The top and bottom of every series' band at every category, or nothing where the series has no value.
+        var edges = GetEdges(series, ranked, gap, unit);
+        foreach (var slot in series)
+        {
+            BuildBand(builder, slot, edges[slot.Slot], band);
+        }
+
+        // Category by category, top band first, so the arrow keys read down each column in rank order.
+        for (var category = 0; category < Categories.Count; category++)
+        {
+            foreach (var slot in ranked[category])
+            {
+                var (top, bottom, rank) = edges[slot.Slot][category]!.Value;
+                builder.Datum(band.Center(category), (top + bottom) / 2, band.Step, bottom - top, $"{slot.Series.Name}, {Categories[category]}",
+                    [new ChartDatumRow(localizer[TwStrings.Chart_Rank], rank.ToString("#,0")), new ChartDatumRow(localizer[TwStrings.Chart_Value], FormatValue(slot.Value(category)!.Value), slot.Color)], ChartHover.None);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Works out the top and bottom of every series' band at every category, or nothing where the series has no value.
+    /// </summary>
+    /// <param name="series">The visible series.</param>
+    /// <param name="ranked">For each category, the series that have a value there, largest first.</param>
+    /// <param name="gap">The gap between neighboring bands.</param>
+    /// <param name="unit">The thickness of one unit of value.</param>
+    /// <returns>The edges and rank of each series at each category, keyed by the slot of the series.</returns>
+    private Dictionary<int, (double Top, double Bottom, int Rank)?[]> GetEdges(IReadOnlyList<ChartSeriesSlot> series, List<List<ChartSeriesSlot>> ranked, double gap, double unit)
+    {
         var edges = series.ToDictionary(slot => slot.Slot, _ => new (double Top, double Bottom, int Rank)?[Categories.Count]);
         for (var category = 0; category < Categories.Count; category++)
         {
@@ -102,34 +129,28 @@ public class TwBumpAreaChart : TwCategoryChartBase
             }
         }
 
-        foreach (var slot in series)
-        {
-            List<(double X, double Y)> upper = [];
-            List<(double X, double Y)> lower = [];
-            for (var category = 0; category <= Categories.Count; category++)
-            {
-                if (category < Categories.Count && edges[slot.Slot][category] is { } edge)
-                {
-                    upper.Add((band.Center(category), edge.Top));
-                    lower.Add((band.Center(category), edge.Bottom));
-                    continue;
-                }
+        return edges;
+    }
 
-                ChartRibbon.Add(builder, slot.Color, upper, lower, band.Step);
-                upper.Clear();
-                lower.Clear();
-            }
-        }
-
-        // Category by category, top band first, so the arrow keys read down each column in rank order.
-        for (var category = 0; category < Categories.Count; category++)
+    /// <summary>
+    /// Adds the band of one series, as a separate piece for each unbroken run of categories it has a value at.
+    /// </summary>
+    private static void BuildBand(ChartSceneBuilder builder, ChartSeriesSlot slot, (double Top, double Bottom, int Rank)?[] edges, ChartBand band)
+    {
+        List<(double X, double Y)> upper = [];
+        List<(double X, double Y)> lower = [];
+        for (var category = 0; category <= edges.Length; category++)
         {
-            foreach (var slot in ranked[category])
+            if (category < edges.Length && edges[category] is { } edge)
             {
-                var (top, bottom, rank) = edges[slot.Slot][category]!.Value;
-                builder.Datum(band.Center(category), (top + bottom) / 2, band.Step, bottom - top, $"{slot.Series.Name}, {Categories[category]}",
-                    [new ChartDatumRow(localizer[TwStrings.Chart_Rank], rank.ToString("#,0")), new ChartDatumRow(localizer[TwStrings.Chart_Value], FormatValue(slot.Value(category)!.Value), slot.Color)], ChartHover.None);
+                upper.Add((band.Center(category), edge.Top));
+                lower.Add((band.Center(category), edge.Bottom));
+                continue;
             }
+
+            ChartRibbon.Add(builder, slot.Color, upper, lower, band.Step);
+            upper.Clear();
+            lower.Clear();
         }
     }
 }

@@ -86,39 +86,60 @@ public class TwWordCloudChart : TwValueChartBase
     /// <param name="side">The side of the plot in pixels.</param>
     private static List<List<CloudWord>> Arrange(List<ChartValue> words, double side)
     {
-        for (var shrink = side / ChartMetrics.SquareSize(ChartHeight.Medium); ; shrink *= 0.9)
+        var shrink = side / ChartMetrics.SquareSize(ChartHeight.Medium);
+        var lines = BreakLines(words, side, shrink);
+        while (lines.Sum(line => GetHeight(line, side)) > available && maxFontSize * shrink > smallestPeakFontSize)
         {
-            List<List<CloudWord>> lines = [[]];
-            double used = 0;
-
-            foreach (var word in words)
-            {
-                // A word too long for the plot at its own size is set as large as fits.
-                var fontSize = Math.Max(smallestFontSize, (minFontSize + (maxFontSize - minFontSize) * Math.Sqrt(word.Value / words[0].Value)) * shrink);
-                fontSize = Math.Min(fontSize, available / (ChartMetrics.TextWidth(word.Label, 1) / side * 100));
-                var width = ChartMetrics.TextWidth(word.Label, fontSize) / side * 100;
-
-                if (lines[^1].Count > 0 && used + wordGap + width > available)
-                {
-                    lines.Add([]);
-                    used = 0;
-                }
-
-                used += (lines[^1].Count > 0 ? wordGap : 0) + width;
-                lines[^1].Add(new CloudWord(word, fontSize, width));
-            }
-
-            if (lines.Sum(line => GetHeight(line, side)) <= available)
-            {
-                return lines;
-            }
-
-            if (maxFontSize * shrink <= smallestPeakFontSize)
-            {
-                double height = 0;
-                return [.. lines.TakeWhile((line, index) => (height += GetHeight(line, side)) <= available || index == 0)];
-            }
+            shrink *= 0.9;
+            lines = BreakLines(words, side, shrink);
         }
+
+        // The first line always stays, so the cloud is never empty.
+        List<List<CloudWord>> kept = [];
+        double height = 0;
+        foreach (var line in lines)
+        {
+            height += GetHeight(line, side);
+            if (kept.Count > 0 && height > available)
+            {
+                break;
+            }
+
+            kept.Add(line);
+        }
+
+        return kept;
+    }
+
+    /// <summary>
+    /// Sets each word at its size and starts a new line whenever the next word would not fit the width of the plot.
+    /// </summary>
+    /// <param name="words">The words, largest value first. Never empty.</param>
+    /// <param name="side">The side of the plot in pixels.</param>
+    /// <param name="shrink">How much smaller than their usual size the words are set.</param>
+    private static List<List<CloudWord>> BreakLines(List<ChartValue> words, double side, double shrink)
+    {
+        List<List<CloudWord>> lines = [[]];
+        double used = 0;
+
+        foreach (var word in words)
+        {
+            // A word too long for the plot at its own size is set as large as fits.
+            var fontSize = Math.Max(smallestFontSize, (minFontSize + (maxFontSize - minFontSize) * Math.Sqrt(word.Value / words[0].Value)) * shrink);
+            fontSize = Math.Min(fontSize, available / (ChartMetrics.TextWidth(word.Label, 1) / side * 100));
+            var width = ChartMetrics.TextWidth(word.Label, fontSize) / side * 100;
+
+            if (lines[^1].Count > 0 && used + wordGap + width > available)
+            {
+                lines.Add([]);
+                used = 0;
+            }
+
+            used += (lines[^1].Count > 0 ? wordGap : 0) + width;
+            lines[^1].Add(new CloudWord(word, fontSize, width));
+        }
+
+        return lines;
     }
 
     private static double GetHeight(List<CloudWord> line, double side) => line.Max(word => word.FontSize) * lineHeight / side * 100;

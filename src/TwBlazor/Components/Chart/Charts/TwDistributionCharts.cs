@@ -40,46 +40,72 @@ public class TwDensityPlotChart : TwChartBase
     /// <inheritdoc />
     protected internal override void BuildScene(ChartSceneBuilder builder)
     {
-        var groups = Samples.Select((sample, slot) => (Slot: slot, sample.Label, Sorted: (IReadOnlyList<double>)[.. sample.Values.Where(double.IsFinite).Order()]))
-            .Where(group => group.Sorted.Count > 0).ToList();
+        List<DensityGroup> groups = [.. Samples.Select(CreateGroup).Where(group => group.Sorted.Count > 0)];
         if (groups.Count == 0)
         {
             return;
         }
 
         string[] labels = [localizer[TwStrings.Chart_Count], localizer[TwStrings.Chart_Minimum], localizer[TwStrings.Chart_Median], localizer[TwStrings.Chart_Maximum]];
-        var summaries = groups.Select(group => (string[])[group.Sorted.Count.ToString("#,0"), FormatValue(group.Sorted[0]), FormatValue(ChartGeometry.Percentile(group.Sorted, 0.5)), FormatValue(group.Sorted[^1])]).ToList();
-        builder.Table = new ChartTable([effectiveLabelHeader, .. labels], [.. groups.Select((group, index) => (IReadOnlyList<string>)[group.Label, .. summaries[index]])]);
+        builder.Table = new ChartTable([effectiveLabelHeader, .. labels], [.. groups.Select(group => (IReadOnlyList<string>)[group.Label, .. group.Summary])]);
 
         if (groups.Count > 1)
         {
             groups.ForEach(group => builder.Legend(group.Label, ChartColor.Series(group.Slot), group.Slot, IsSeriesHidden(group.Slot)));
         }
 
-        var visible = groups.Select((group, index) => (Group: group, Summary: summaries[index], Bandwidth: ChartDensity.Bandwidth(group.Sorted)))
-            .Where(item => groups.Count == 1 || !IsSeriesHidden(item.Group.Slot)).ToList();
+        List<DensityGroup> visible = [.. groups.Where(group => groups.Count == 1 || !IsSeriesHidden(group.Slot))];
         if (visible.Count == 0)
         {
             return;
         }
 
-        var scale = ChartScale.Nice(visible.Min(item => item.Group.Sorted[0] - item.Bandwidth * tail), visible.Max(item => item.Group.Sorted[^1] + item.Bandwidth * tail), includeZero: false);
-        var curves = visible.Select(item => ChartDensity.Curve(item.Group.Sorted, item.Bandwidth, item.Group.Sorted[0] - item.Bandwidth * tail, item.Group.Sorted[^1] + item.Bandwidth * tail)).ToList();
-        var peak = curves.Max(curve => curve.Max(point => point.Density));
+        var scale = ChartScale.Nice(visible.Select(group => group.From).Min(), visible.Select(group => group.To).Max(), includeZero: false);
+        var curves = visible.Select(group => ChartDensity.Curve(group.Sorted, group.Bandwidth, group.From, group.To)).ToList();
+        var peak = curves.SelectMany(curve => curve).Select(point => point.Density).Max();
 
         builder.XAxis = new ChartAxis([.. scale.Ticks.Select(tick => new ChartTick(scale.Map(tick), FormatValue(tick)))]);
         builder.Line(0, 100, 100, 100, ChartColor.Axis);
 
         for (var i = 0; i < visible.Count; i++)
         {
-            var color = ChartColor.Series(visible[i].Group.Slot);
+            var color = ChartColor.Series(visible[i].Slot);
             List<(double X, double Y)> line = [.. curves[i].Select(point => (scale.Map(point.Value), 100 - point.Density / peak * peakHeight))];
             List<(double X, double Y)> area = [(line[0].X, 100), .. line, (line[^1].X, 100)];
 
             builder.Path(ChartGeometry.Line(area, close: true), color, filled: true, opacity: 0.2);
             builder.Path(ChartGeometry.Line(line), color);
-            builder.ShapeDatum(area, visible[i].Group.Label, [.. labels.Zip(visible[i].Summary, (label, value) => new ChartDatumRow(label, value))], line.MinBy(point => point.Y));
+            builder.ShapeDatum(area, visible[i].Label, [.. labels.Zip(visible[i].Summary, (label, value) => new ChartDatumRow(label, value))], line.MinBy(point => point.Y));
         }
+    }
+
+    private DensityGroup CreateGroup(ChartSample sample, int slot)
+    {
+        IReadOnlyList<double> sorted = [.. sample.Values.Where(double.IsFinite).Order()];
+        if (sorted.Count == 0)
+        {
+            return new DensityGroup(slot, sample.Label, sorted, [], 0);
+        }
+
+        string[] summary = [sorted.Count.ToString("#,0"), FormatValue(sorted[0]), FormatValue(ChartGeometry.Percentile(sorted, 0.5)), FormatValue(sorted[^1])];
+        return new DensityGroup(slot, sample.Label, sorted, summary, ChartDensity.Bandwidth(sorted));
+    }
+
+    /// <summary>
+    /// One group of observations with what the plot needs to draw and describe it.
+    /// </summary>
+    /// <param name="Slot">The index of the group in <see cref="Samples"/>, which fixes its color.</param>
+    /// <param name="Label">The name of the group.</param>
+    /// <param name="Sorted">The observations in ascending order.</param>
+    /// <param name="Summary">The count, minimum, median and maximum, formatted for the tooltip and the table view.</param>
+    /// <param name="Bandwidth">The kernel width of the group's curve.</param>
+    private sealed record DensityGroup(int Slot, string Label, IReadOnlyList<double> Sorted, string[] Summary, double Bandwidth)
+    {
+        /// <summary>Gets the value the curve starts at.</summary>
+        public double From => Sorted[0] - Bandwidth * tail;
+
+        /// <summary>Gets the value the curve ends at.</summary>
+        public double To => Sorted[^1] + Bandwidth * tail;
     }
 }
 
@@ -167,16 +193,9 @@ public class TwHorizonChart : TwCategoryChartBase
 
             for (var column = 0; column < Categories.Count && peak > 0; column++)
             {
-                if (series[row].Value(column) is not { } value || !double.IsFinite(value))
+                if (series[row].Value(column) is { } value && double.IsFinite(value))
                 {
-                    continue;
-                }
-
-                var magnitude = Math.Abs(value) / peak * bands;
-                for (var band = 0; band < bands && magnitude > band; band++)
-                {
-                    var fill = Math.Min(1, magnitude - band) * height;
-                    builder.Add(new ChartRect(columns.Step * column, floor - fill, columns.Step, fill, value < 0 ? ChartColor.Negative : ChartColor.Sequential, Opacity: bandOpacity, Gap: false));
+                    BuildBands(builder, value, Math.Abs(value) / peak * bands, columns.Step * column, floor, columns.Step, height);
                 }
             }
         }
@@ -184,6 +203,25 @@ public class TwHorizonChart : TwCategoryChartBase
         for (var column = 0; column < Categories.Count; column++)
         {
             builder.BandDatum(columns.Center(column), columns.Step, Categories[column], GetRows(series, column), ChartHover.Crosshair);
+        }
+    }
+
+    /// <summary>
+    /// Adds the layered bands for one value: a full band for each whole band the value reaches, and a part of the next.
+    /// </summary>
+    /// <param name="builder">The builder that collects the scene.</param>
+    /// <param name="value">The value, whose sign picks the color.</param>
+    /// <param name="magnitude">The size of the value, measured in bands.</param>
+    /// <param name="x">The left edge of the value's column.</param>
+    /// <param name="floor">The bottom of the value's row.</param>
+    /// <param name="width">The width of the column.</param>
+    /// <param name="height">The height of one band.</param>
+    private static void BuildBands(ChartSceneBuilder builder, double value, double magnitude, double x, double floor, double width, double height)
+    {
+        for (var band = 0; magnitude > band; band++)
+        {
+            var fill = Math.Min(1, magnitude - band) * height;
+            builder.Add(new ChartRect(x, floor - fill, width, fill, value < 0 ? ChartColor.Negative : ChartColor.Sequential, Opacity: bandOpacity, Gap: false));
         }
     }
 }

@@ -225,6 +225,9 @@ public class TwContourChart : TwPointSurfaceChartBase
 {
     private const int divisions = 24;
 
+    // The width and height of one cell of the grid, as a plot percentage.
+    private const double cellSize = 100.0 / divisions;
+
     /// <summary>
     /// Gets or sets how many contour lines are drawn, from 2 to 10.
     /// </summary>
@@ -252,64 +255,13 @@ public class TwContourChart : TwPointSurfaceChartBase
 
         List<(double X, double Y, double Value)> samples = [.. points.Select(item => (xScale.Map(item.Point.X), 100 - yScale.Map(item.Point.Y), item.Point.Size!.Value))];
         var (min, max) = (samples.Min(sample => sample.Value), samples.Max(sample => sample.Value));
-        const double step = 100.0 / divisions;
-
-        // The surface at each grid corner is the average of the samples, weighted by the inverse square of their distance.
-        var surface = new double[divisions + 1, divisions + 1];
-        for (var row = 0; row <= divisions; row++)
-        {
-            for (var column = 0; column <= divisions; column++)
-            {
-                double weighted = 0, weights = 0;
-                foreach (var (x, y, value) in samples)
-                {
-                    var weight = 1 / Math.Max(0.01, (x - column * step) * (x - column * step) + (y - row * step) * (y - row * step));
-                    weighted += value * weight;
-                    weights += weight;
-                }
-
-                surface[row, column] = weighted / weights;
-            }
-        }
+        var surface = GetSurface(samples);
 
         var levels = Math.Clamp(Levels, 2, 10);
         for (var level = 1; level <= levels && max > min; level++)
         {
             var threshold = min + (max - min) * level / (levels + 1);
-            var path = new ChartPathBuilder();
-
-            for (var row = 0; row < divisions; row++)
-            {
-                for (var column = 0; column < divisions; column++)
-                {
-                    // Corners clockwise from the top left. The line crosses every edge whose ends lie either side of it.
-                    (double X, double Y, double Value)[] corners =
-                    [
-                        (column * step, row * step, surface[row, column]),
-                        ((column + 1) * step, row * step, surface[row, column + 1]),
-                        ((column + 1) * step, (row + 1) * step, surface[row + 1, column + 1]),
-                        (column * step, (row + 1) * step, surface[row + 1, column])
-                    ];
-
-                    List<(double X, double Y)> crossings = [];
-                    for (var edge = 0; edge < 4; edge++)
-                    {
-                        var (from, to) = (corners[edge], corners[(edge + 1) % 4]);
-                        if ((from.Value < threshold) != (to.Value < threshold))
-                        {
-                            var fraction = (threshold - from.Value) / (to.Value - from.Value);
-                            crossings.Add((from.X + (to.X - from.X) * fraction, from.Y + (to.Y - from.Y) * fraction));
-                        }
-                    }
-
-                    for (var i = 1; i < crossings.Count; i += 2)
-                    {
-                        path.MoveTo(crossings[i - 1].X, crossings[i - 1].Y).LineTo(crossings[i].X, crossings[i].Y);
-                    }
-                }
-            }
-
-            builder.Path(path.ToString(), ChartColor.Sequential, opacity: 0.3 + 0.7 * level / levels, title: FormatValue(threshold));
+            builder.Path(TraceLevel(surface, threshold), ChartColor.Sequential, opacity: 0.3 + 0.7 * level / levels, title: FormatValue(threshold));
         }
 
         List<IReadOnlyList<string>> table = [];
@@ -325,5 +277,77 @@ public class TwContourChart : TwPointSurfaceChartBase
         }
 
         builder.Table = new ChartTable([XTitle, YTitle, effectiveValueTitle], table);
+    }
+
+    /// <summary>
+    /// Estimates the surface at every corner of a grid laid over the plot: the average of the samples, weighted
+    /// by the inverse square of their distance.
+    /// </summary>
+    /// <param name="samples">The samples, positioned in plot percentages.</param>
+    private static double[,] GetSurface(List<(double X, double Y, double Value)> samples)
+    {
+        var surface = new double[divisions + 1, divisions + 1];
+        for (var row = 0; row <= divisions; row++)
+        {
+            for (var column = 0; column <= divisions; column++)
+            {
+                var (cornerX, cornerY) = (column * cellSize, row * cellSize);
+                var weights = samples.Select(sample => 1 / Math.Max(0.01, (sample.X - cornerX) * (sample.X - cornerX) + (sample.Y - cornerY) * (sample.Y - cornerY))).ToList();
+                surface[row, column] = samples.Zip(weights, (sample, weight) => sample.Value * weight).Sum() / weights.Sum();
+            }
+        }
+
+        return surface;
+    }
+
+    /// <summary>
+    /// Builds the path of one contour line: in every cell of the grid, a segment joining the edges the line crosses.
+    /// </summary>
+    /// <param name="surface">The surface at every corner of the grid, from <see cref="GetSurface"/>.</param>
+    /// <param name="threshold">The value the line follows.</param>
+    private static string TraceLevel(double[,] surface, double threshold)
+    {
+        var path = new ChartPathBuilder();
+        for (var row = 0; row < divisions; row++)
+        {
+            for (var column = 0; column < divisions; column++)
+            {
+                var crossings = GetCrossings(surface, row, column, threshold);
+                for (var i = 1; i < crossings.Count; i += 2)
+                {
+                    path.MoveTo(crossings[i - 1].X, crossings[i - 1].Y).LineTo(crossings[i].X, crossings[i].Y);
+                }
+            }
+        }
+
+        return path.ToString();
+    }
+
+    /// <summary>
+    /// Gets where a contour line crosses the edges of one cell of the grid: every edge whose ends lie either side of it.
+    /// </summary>
+    private static List<(double X, double Y)> GetCrossings(double[,] surface, int row, int column, double threshold)
+    {
+        // Corners clockwise from the top left.
+        (double X, double Y, double Value)[] corners =
+        [
+            (column * cellSize, row * cellSize, surface[row, column]),
+            ((column + 1) * cellSize, row * cellSize, surface[row, column + 1]),
+            ((column + 1) * cellSize, (row + 1) * cellSize, surface[row + 1, column + 1]),
+            (column * cellSize, (row + 1) * cellSize, surface[row + 1, column])
+        ];
+
+        List<(double X, double Y)> crossings = [];
+        for (var edge = 0; edge < 4; edge++)
+        {
+            var (from, to) = (corners[edge], corners[(edge + 1) % 4]);
+            if ((from.Value < threshold) != (to.Value < threshold))
+            {
+                var fraction = (threshold - from.Value) / (to.Value - from.Value);
+                crossings.Add((from.X + (to.X - from.X) * fraction, from.Y + (to.Y - from.Y) * fraction));
+            }
+        }
+
+        return crossings;
     }
 }

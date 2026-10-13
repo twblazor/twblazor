@@ -282,36 +282,12 @@ public class TwSankeyChart : TwGraphChartBase
             .Select(column => (100 - nodeGap * (column.Count - 1) - minNodeHeight * column.Count) / column.Sum(index => sizes[index]))
             .DefaultIfEmpty(0).Min();
 
-        var lefts = new double[nodes.Count];
-        var tops = new double[nodes.Count];
         var heights = sizes.Select(size => Math.Max(minNodeHeight, size * scale)).ToList();
-        for (var column = 0; column < columnCount; column++)
-        {
-            var top = (100 - members[column].Sum(index => heights[index]) - nodeGap * (members[column].Count - 1)) / 2;
-            foreach (var index in members[column])
-            {
-                lefts[index] = columnCount == 1 ? 50 - nodeWidth / 2 : column * (100 - nodeWidth) / (columnCount - 1);
-                tops[index] = top;
-                top += heights[index] + nodeGap;
-            }
-        }
+        var (lefts, tops) = PlaceNodes(members, heights);
 
         // Ribbons leave and arrive in the order of the nodes at their far ends, so they cross as little as possible.
-        var leaving = (double[])tops.Clone();
-        var arriving = (double[])tops.Clone();
-        var starts = new double[flows.Count];
-        var ends = new double[flows.Count];
-        foreach (var index in Enumerable.Range(0, flows.Count).OrderBy(index => tops[flows[index].Target]))
-        {
-            starts[index] = leaving[flows[index].Source];
-            leaving[flows[index].Source] += flows[index].Value * scale;
-        }
-
-        foreach (var index in Enumerable.Range(0, flows.Count).OrderBy(index => tops[flows[index].Source]))
-        {
-            ends[index] = arriving[flows[index].Target];
-            arriving[flows[index].Target] += flows[index].Value * scale;
-        }
+        var starts = StackRibbons(flows, tops, scale, flow => flow.Source, flow => flow.Target);
+        var ends = StackRibbons(flows, tops, scale, flow => flow.Target, flow => flow.Source);
 
         List<(List<(double X, double Y)> Outline, (double X, double Y) Anchor, string Title, ChartDatumRow Row)> ribbons = [];
         for (var i = 0; i < flows.Count; i++)
@@ -342,6 +318,52 @@ public class TwSankeyChart : TwGraphChartBase
         {
             builder.ShapeDatum(outline, title, [row], anchor);
         }
+    }
+
+    /// <summary>
+    /// Positions the nodes: each column evenly across the plot, and its nodes stacked and centered within it.
+    /// </summary>
+    /// <param name="members">The indexes of the nodes in each column, top to bottom.</param>
+    /// <param name="heights">The height of each node.</param>
+    /// <returns>The left and top edge of each node.</returns>
+    private static (double[] Lefts, double[] Tops) PlaceNodes(List<List<int>> members, List<double> heights)
+    {
+        var lefts = new double[heights.Count];
+        var tops = new double[heights.Count];
+        for (var column = 0; column < members.Count; column++)
+        {
+            var top = (100 - members[column].Sum(index => heights[index]) - nodeGap * (members[column].Count - 1)) / 2;
+            foreach (var index in members[column])
+            {
+                lefts[index] = members.Count == 1 ? 50 - nodeWidth / 2 : column * (100 - nodeWidth) / (members.Count - 1);
+                tops[index] = top;
+                top += heights[index] + nodeGap;
+            }
+        }
+
+        return (lefts, tops);
+    }
+
+    /// <summary>
+    /// Stacks the ribbons down the side of each node they meet at one end, ordered by where their other end sits.
+    /// </summary>
+    /// <param name="flows">The links being drawn.</param>
+    /// <param name="tops">The top edge of each node.</param>
+    /// <param name="scale">The height of one unit of flow.</param>
+    /// <param name="near">Gets the node a ribbon is being stacked on.</param>
+    /// <param name="far">Gets the node at the ribbon's other end.</param>
+    /// <returns>The top edge of each ribbon where it meets its near node.</returns>
+    private static double[] StackRibbons(List<ChartGraphEdge> flows, double[] tops, double scale, Func<ChartGraphEdge, int> near, Func<ChartGraphEdge, int> far)
+    {
+        var next = (double[])tops.Clone();
+        var edges = new double[flows.Count];
+        foreach (var index in Enumerable.Range(0, flows.Count).OrderBy(index => tops[far(flows[index])]))
+        {
+            edges[index] = next[near(flows[index])];
+            next[near(flows[index])] += flows[index].Value * scale;
+        }
+
+        return edges;
     }
 
     /// <summary>
@@ -384,12 +406,25 @@ public class TwNetworkDiagramChart : TwGraphChartBase
         for (var i = 0; i < nodes.Count; i++)
         {
             var (x, y) = points[i];
-            var anchor = x < 20 ? ChartAnchor.Start : x > 80 ? ChartAnchor.End : ChartAnchor.Middle;
 
             builder.Dot(x, y, color, 12);
-            builder.Add(new ChartText(x, y, nodes[i].Label, anchor, ChartBaseline.Bottom, ChartTextTone.Primary, OffsetY: -10, Strong: true, MaxWidth: 30));
+            builder.Add(new ChartText(x, y, nodes[i].Label, GetAnchor(x), ChartBaseline.Bottom, ChartTextTone.Primary, OffsetY: -10, Strong: true, MaxWidth: 30));
             builder.Datum(x, y, 0, 0, nodes[i].Label, GetLinkRows(i, nodes, edges), ChartHover.None);
         }
+    }
+
+    /// <summary>
+    /// Gets which way a node's name runs from its dot, so names near the left and right edges stay inside the plot.
+    /// </summary>
+    /// <param name="x">The horizontal position of the node.</param>
+    private static ChartAnchor GetAnchor(double x)
+    {
+        if (x < 20)
+        {
+            return ChartAnchor.Start;
+        }
+
+        return x > 80 ? ChartAnchor.End : ChartAnchor.Middle;
     }
 
     /// <summary>
@@ -404,32 +439,7 @@ public class TwNetworkDiagramChart : TwGraphChartBase
 
         for (var iteration = 0; iteration < iterations; iteration++)
         {
-            var moves = new (double X, double Y)[count];
-            void Push(int node, double x, double y) => moves[node] = (moves[node].X + x, moves[node].Y + y);
-
-            for (var first = 0; first < count; first++)
-            {
-                // A gentle pull to the middle keeps unlinked nodes from flying off.
-                Push(first, -points[first].X * 0.1, -points[first].Y * 0.1);
-
-                for (var second = first + 1; second < count; second++)
-                {
-                    var (dx, dy) = (points[first].X - points[second].X, points[first].Y - points[second].Y);
-                    var distance = Math.Max(0.01, Math.Sqrt(dx * dx + dy * dy));
-                    var force = ideal * ideal / distance;
-                    Push(first, dx / distance * force, dy / distance * force);
-                    Push(second, -dx / distance * force, -dy / distance * force);
-                }
-            }
-
-            foreach (var edge in edges)
-            {
-                var (dx, dy) = (points[edge.Target].X - points[edge.Source].X, points[edge.Target].Y - points[edge.Source].Y);
-                var distance = Math.Sqrt(dx * dx + dy * dy);
-                Push(edge.Source, dx * distance / ideal, dy * distance / ideal);
-                Push(edge.Target, -dx * distance / ideal, -dy * distance / ideal);
-            }
-
+            var moves = GetMoves(points, edges, ideal);
             var limit = 0.1 * (1 - iteration / (double)iterations);
             for (var index = 0; index < count; index++)
             {
@@ -444,10 +454,51 @@ public class TwNetworkDiagramChart : TwGraphChartBase
         // Stretch the result to fill the plot, inside a margin that leaves room for the dots and the names above them.
         var (left, right) = (points.Min(point => point.X), points.Max(point => point.X));
         var (top, bottom) = (points.Min(point => point.Y), points.Max(point => point.Y));
-        return [.. points.Select(point => (
-            right > left ? 8 + (point.X - left) / (right - left) * 84 : 50,
-            bottom > top ? 16 + (point.Y - top) / (bottom - top) * 74 : 50))];
+        return [.. points.Select(point => (Stretch(point.X, left, right, 8, 92), Stretch(point.Y, top, bottom, 16, 90)))];
     }
+
+    /// <summary>
+    /// Works out how far the forces would move each node in one step.
+    /// </summary>
+    /// <param name="points">Where the nodes are now.</param>
+    /// <param name="edges">The links between them.</param>
+    /// <param name="ideal">The distance at which two linked nodes are at rest.</param>
+    private static (double X, double Y)[] GetMoves((double X, double Y)[] points, IReadOnlyList<ChartGraphEdge> edges, double ideal)
+    {
+        var moves = new (double X, double Y)[points.Length];
+        void Push(int node, double x, double y) => moves[node] = (moves[node].X + x, moves[node].Y + y);
+
+        for (var first = 0; first < points.Length; first++)
+        {
+            // A gentle pull to the middle keeps unlinked nodes from flying off.
+            Push(first, -points[first].X * 0.1, -points[first].Y * 0.1);
+
+            for (var second = first + 1; second < points.Length; second++)
+            {
+                var (dx, dy) = (points[first].X - points[second].X, points[first].Y - points[second].Y);
+                var distance = Math.Max(0.01, Math.Sqrt(dx * dx + dy * dy));
+                var force = ideal * ideal / distance;
+                Push(first, dx / distance * force, dy / distance * force);
+                Push(second, -dx / distance * force, -dy / distance * force);
+            }
+        }
+
+        foreach (var edge in edges)
+        {
+            var (dx, dy) = (points[edge.Target].X - points[edge.Source].X, points[edge.Target].Y - points[edge.Source].Y);
+            var distance = Math.Sqrt(dx * dx + dy * dy);
+            Push(edge.Source, dx * distance / ideal, dy * distance / ideal);
+            Push(edge.Target, -dx * distance / ideal, -dy * distance / ideal);
+        }
+
+        return moves;
+    }
+
+    /// <summary>
+    /// Maps a position from the range the layout produced onto a range of the plot. A layout with no spread sits in the middle.
+    /// </summary>
+    private static double Stretch(double value, double low, double high, double from, double to) =>
+        high > low ? from + (value - low) / (high - low) * (to - from) : 50;
 }
 
 /// <summary>
