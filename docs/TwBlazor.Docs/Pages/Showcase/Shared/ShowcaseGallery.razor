@@ -1,0 +1,151 @@
+@using TwBlazor.Models
+@inject TwBlazorOptions Options
+
+<div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+    <TwCard Title="Buttons and chips">
+        <div class="flex flex-col gap-4">
+            <div class="flex flex-wrap gap-3">
+                <TwButton Label="Primary" Color="Color.Primary" />
+                <TwButton Label="Accent" Color="Color.Accent" />
+                <TwButton Label="Outlined" Color="Color.Primary" Variant="ButtonVariant.Outlined" />
+                <TwButton Label="Text" Color="Color.Primary" Variant="ButtonVariant.Text" />
+                <TwButton Label="Disabled" Color="Color.Primary" Disabled />
+            </div>
+            <div class="flex flex-wrap gap-2">
+                <TwChip Label="Primary" Color="Color.Primary" />
+                <TwChip Label="Accent" Color="Color.Accent" />
+                <TwChip Label="Success" Color="Color.Success" />
+                <TwChip Label="Outlined" Color="Color.Primary" Variant="ButtonVariant.Outlined" />
+            </div>
+            <div class="flex flex-wrap items-center gap-3">
+                <TwAvatar Name="Jane Doe" Color="Color.Primary" />
+                <TwAvatar Name="Sam Lee" Color="Color.Accent" />
+                <TwSpinner Color="Color.Primary" />
+                <TwTooltip Text="Styled by the theme too">
+                    <span class="text-sm underline decoration-dotted underline-offset-4 @Options.Theme.Colors.NeutralText.Secondary">Hover or focus for a tooltip</span>
+                </TwTooltip>
+            </div>
+        </div>
+    </TwCard>
+
+    <TwCard Title="Messages">
+        <div class="flex flex-col gap-3">
+            <TwAlert Color="Color.Primary" Text="Your order has been placed." />
+            <TwAlert Color="Color.Success" Text="Payment received. Thank you." />
+            <TwAlert Color="Color.Warning" Text="Only two left in stock." />
+            <TwAlert Color="Color.Danger" Text="We could not save your address." />
+        </div>
+    </TwCard>
+
+    <TwCard Title="Your details">
+        <form class="flex flex-col gap-4" @onsubmit:preventDefault @onsubmit="@(() => submitted = true)">
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <TwTextfield Id="@($"{Brand.Slug}-name")" Label="Full name" @bind-Value="name" Placeholder="Jane Doe" autocomplete="name" />
+                <TwTextfield Id="@($"{Brand.Slug}-email")" Label="Email" @bind-Value="email" Placeholder="jane@example.com" type="email" autocomplete="email" />
+            </div>
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <TwSelect T="string" Id="@($"{Brand.Slug}-delivery")" Label="Delivery" Values="@deliveryOptions" @bind-SelectedValue="delivery" />
+                <TwDatePicker Id="@($"{Brand.Slug}-date")" Label="Delivery date" @bind-SelectedDate="deliveryDate" />
+            </div>
+            <div class="flex flex-col gap-2">
+                <TwSwitch @bind-Value="updates" Label="Send me order updates" Color="Color.Primary" />
+                <TwCheckbox @bind-Value="terms" Label="I agree to the terms" Color="Color.Primary" />
+                <TwRadioButton T="string" Name="@($"{Brand.Slug}-pay")" Value="@("card")" @bind-SelectedValue="payment" Label="Pay by card" Color="Color.Primary" />
+                <TwRadioButton T="string" Name="@($"{Brand.Slug}-pay")" Value="@("collect")" @bind-SelectedValue="payment" Label="Pay on collection" Color="Color.Primary" />
+            </div>
+            <TwSlider T="int" Id="@($"{Brand.Slug}-quantity")" Label="Quantity" AriaLabel="Quantity" Name="@($"{Brand.Slug}-quantity")" @bind-Value="quantity" Min="1" Max="10" Step="1" Color="Color.Primary" />
+            <div class="flex flex-wrap items-center gap-3">
+                <TwButton Label="Place order" Color="Color.Primary" type="submit" />
+                <p class="text-sm @Options.Theme.Colors.NeutralText.Secondary" role="status">@(submitted ? "Thanks. This form is only an example, so nothing was sent." : string.Empty)</p>
+            </div>
+        </form>
+    </TwCard>
+
+    <TwCard Title="Progress and navigation">
+        <div class="flex flex-col gap-6">
+            <TwBreadcrumb Breadcrumbs="@breadcrumbs" />
+            <TwStepper @bind-ActiveStepIndex="step" Color="Color.Primary" AriaLabel="Checkout steps">
+                <TwStep Label="Basket" Description="Review your items"><p class="text-sm">Check what is in your basket.</p></TwStep>
+                <TwStep Label="Delivery" Description="Choose a slot"><p class="text-sm">Pick when it should arrive.</p></TwStep>
+                <TwStep Label="Payment" Description="Confirm and pay"><p class="text-sm">Pay securely.</p></TwStep>
+            </TwStepper>
+            <TwProgress T="int" Label="Order progress" Value="60" Max="100" Color="Color.Primary" />
+            <TwPagination TotalPages="8" @bind-ActivePage="page" AriaLabel="Example pages" />
+        </div>
+    </TwCard>
+
+    <div class="lg:col-span-2">
+        <TwTabContainer TabColor="Color.Primary">
+            <TwTab Label="Orders">
+                <TwTable AriaLabel="Recent orders">
+                    <TableHeader>
+                        <tr>
+                            <th scope="col" class="px-6 py-3">Order</th>
+                            <th scope="col" class="px-6 py-3">Item</th>
+                            <th scope="col" class="px-6 py-3">Status</th>
+                            <th scope="col" class="px-6 py-3 text-end">Total</th>
+                        </tr>
+                    </TableHeader>
+                    <TableBody>
+                        @foreach (var (order, product) in Brand.Products.Select((product, index) => (1042 + index, product)))
+                        {
+                            <tr>
+                                <th scope="row" class="px-6 py-4 font-medium tabular-nums">#@order</th>
+                                <td class="px-6 py-4">@product.Name</td>
+                                <td class="px-6 py-4"><TwChip Label="@(order % 2 == 0 ? "Delivered" : "On its way")" Color="@(order % 2 == 0 ? Color.Success : Color.Info)" Size="ChipSize.Small" /></td>
+                                <td class="px-6 py-4 text-end tabular-nums">@product.Price</td>
+                            </tr>
+                        }
+                    </TableBody>
+                </TwTable>
+            </TwTab>
+            <TwTab Label="Sales">
+                <TwChart Title="Sales by month" Description="Thousands of pounds">
+                    <TwColumnChart Categories="@months" Series="@sales" />
+                </TwChart>
+            </TwTab>
+            <TwTab Label="Help">
+                <div class="flex flex-col gap-3">
+                    <TwCollapse Title="When will my order arrive?">
+                        <p class="px-4 py-3 text-sm">Most orders arrive within three working days.</p>
+                    </TwCollapse>
+                    <TwCollapse Title="Can I change my order?">
+                        <p class="px-4 py-3 text-sm">Yes, until it has been packed.</p>
+                    </TwCollapse>
+                </div>
+            </TwTab>
+        </TwTabContainer>
+    </div>
+</div>
+
+@code {
+    /// <summary>
+    /// Gets or sets the example whose copy fills the gallery.
+    /// </summary>
+    [Parameter, EditorRequired] public required ShowcaseBrand Brand { get; set; }
+
+    private static readonly string[] deliveryOptions = ["Standard", "Next day", "Click and collect"];
+
+    private static readonly string[] months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
+
+    private static readonly ChartSeries[] sales = [new("Online", [42, 48, 45, 58, 63, 71]), new("In store", [30, 28, 33, 31, 36, 34])];
+
+    private readonly List<BreadcrumbItem> breadcrumbs =
+    [
+        new() { Label = "Home", Href = "#showcase-main" },
+        new() { Label = "Basket", Href = "#showcase-products" },
+        new() { Label = "Checkout" }
+    ];
+
+    private string name = string.Empty;
+    private string email = string.Empty;
+    private string delivery = "Standard";
+    private DateTime deliveryDate = new(2026, 11, 2);
+    private bool updates = true;
+    private bool terms;
+    private string? payment = "card";
+    private int quantity = 2;
+    private int step = 1;
+    private int page = 3;
+    private bool submitted;
+}

@@ -24,6 +24,8 @@
 @source "../../../TwBlazor/**/*.razor";
 @source "../../../TwBlazor/**/*.cs";
 @source "../../../TwBlazor.Theme/**/*.cs";
+/* Each brand-inspired example theme has its own stylesheet, built from its own Theme.cs (see css/showcase). */
+@source not "../../Pages/Showcase/Themes/**";
 @source not "../../bin/**";
 @source not "../../obj/**";
 @source not "../../../TwBlazor/bin/**";

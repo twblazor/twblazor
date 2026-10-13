@@ -1,0 +1,41 @@
+/* Tailwind input for the Tesco-inspired example theme. It compiles only the classes used by that theme's
+   Theme.cs and its showcase page, the way an app builds its stylesheet from its own theme file. The page loads
+   the result on top of the docs stylesheet, which already carries the reset. */
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities) source(none);
+
+@source "../../../Pages/Showcase/Themes/TescoTheme.cs";
+@source "../../../Pages/Showcase/TescoShowcase.razor";
+@source "../../../Pages/Showcase/Shared/**/*.razor";
+@source "../../../Pages/Showcase/Shared/**/*.cs";
+
+@custom-variant dark (&:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)));
+
+@theme {
+    --font-grocer: "Helvetica Neue", Arial, system-ui, sans-serif;
+
+    --color-grocerblue-50: oklch(97.5% 0.014 253.9);
+    --color-grocerblue-100: oklch(88.7% 0.024 253.9);
+    --color-grocerblue-200: oklch(79.8% 0.041 253.9);
+    --color-grocerblue-300: oklch(71.0% 0.062 253.9);
+    --color-grocerblue-400: oklch(62.2% 0.086 253.9);
+    --color-grocerblue-500: oklch(53.4% 0.112 253.9);
+    --color-grocerblue-600: oklch(44.5% 0.141 253.9);
+    --color-grocerblue-700: oklch(37.0% 0.129 253.9);
+    --color-grocerblue-800: oklch(29.5% 0.116 253.9);
+    --color-grocerblue-900: oklch(22.0% 0.104 253.9);
+    --color-grocerblue-950: oklch(14.5% 0.092 253.9);
+
+    --color-grocerred-50: oklch(97.5% 0.023 25.2);
+    --color-grocerred-100: oklch(90.1% 0.046 25.2);
+    --color-grocerred-200: oklch(82.7% 0.082 25.2);
+    --color-grocerred-300: oklch(75.3% 0.127 25.2);
+    --color-grocerred-400: oklch(68.0% 0.178 25.2);
+    --color-grocerred-500: oklch(60.6% 0.235 25.2);
+    --color-grocerred-600: oklch(53.7% 0.218 25.2);
+    --color-grocerred-700: oklch(46.7% 0.202 25.2);
+    --color-grocerred-800: oklch(39.8% 0.185 25.2);
+    --color-grocerred-900: oklch(32.9% 0.169 25.2);
+    --color-grocerred-950: oklch(26.0% 0.153 25.2);
+}

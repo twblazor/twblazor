@@ -1,0 +1,29 @@
+/* Tailwind input for the Apple-inspired example theme. It compiles only the classes used by that theme's
+   Theme.cs and its showcase page, the way an app builds its stylesheet from its own theme file. The page loads
+   the result on top of the docs stylesheet, which already carries the reset. */
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities) source(none);
+
+@source "../../../Pages/Showcase/Themes/AppleTheme.cs";
+@source "../../../Pages/Showcase/AppleShowcase.razor";
+@source "../../../Pages/Showcase/Shared/**/*.razor";
+@source "../../../Pages/Showcase/Shared/**/*.cs";
+
+@custom-variant dark (&:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)));
+
+@theme {
+    --font-cupertino: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", system-ui, sans-serif;
+
+    --color-cupertino-50: oklch(97.5% 0.019 256.2);
+    --color-cupertino-100: oklch(90.6% 0.033 256.2);
+    --color-cupertino-200: oklch(83.8% 0.057 256.2);
+    --color-cupertino-300: oklch(76.9% 0.085 256.2);
+    --color-cupertino-400: oklch(70.0% 0.118 256.2);
+    --color-cupertino-500: oklch(63.2% 0.154 256.2);
+    --color-cupertino-600: oklch(56.3% 0.193 256.2);
+    --color-cupertino-700: oklch(48.7% 0.176 256.2);
+    --color-cupertino-800: oklch(41.1% 0.159 256.2);
+    --color-cupertino-900: oklch(33.6% 0.143 256.2);
+    --color-cupertino-950: oklch(26.0% 0.126 256.2);
+}
