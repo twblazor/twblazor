@@ -1026,6 +1026,21 @@ public static class AppleTheme
                     ChipTextColor = "dark:text-white",
                     FocusRing = "has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-cupertino-500 dark:has-[:focus-visible]:ring-cupertino-400 has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-offset-[oklch(100%_0.003_286)] dark:has-[:focus-visible]:ring-offset-[oklch(18%_0.004_286)] forced-colors:has-[:focus-visible]:outline-2 forced-colors:has-[:focus-visible]:outline-offset-2 forced-colors:has-[:focus-visible]:outline-[Highlight]"
                 },
+                new TwFooterTheme
+                {
+                    Footer = $"{sizing.FullWidth} bg-[#f5f5f7] text-[#6e6e73] dark:bg-[#161617] dark:text-[#a1a1a6]",
+                    Container = "mx-auto w-full max-w-5xl px-6 py-8",
+                    Brand = "mb-8",
+                    Sections = $"{display.Grid} grid-cols-2 gap-8 md:grid-cols-4",
+                    Section = sizing.MinWidthNone,
+                    SectionTitle = "text-xs font-semibold text-[#1d1d1f] dark:text-[#f5f5f7]",
+                    LinkList = $"mt-3 {display.Flex} {flexbox.Col} {spacing.Gap.Md} list-none m-0 p-0",
+                    Link = $"{display.InlineFlex} {flexbox.Align.Center} {spacing.Gap.Md} text-xs {rounded.Sm} underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current",
+                    Content = "mt-8 first:mt-0",
+                    Bottom = $"mt-8 {display.Flex} {flexbox.Wrap} {flexbox.Align.Center} {flexbox.Justify.Between} gap-x-6 gap-y-3 border-t border-current/15 pt-6 first:mt-0 first:border-t-0 first:pt-0 {typography.Size.Xs}",
+                    Copyright = "m-0 max-w-3xl",
+                    BottomLinks = $"{display.Flex} {flexbox.Wrap} gap-x-4 gap-y-2 list-none m-0 p-0"
+                },
                 new TwIconTheme
                 {
                     Colors = new()

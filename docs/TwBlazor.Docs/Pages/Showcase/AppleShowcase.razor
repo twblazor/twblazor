@@ -1,6 +1,7 @@
 @page "/showcase/apple"
 @layout EmptyLayout
 @using TwBlazor.Docs.Pages.Showcase.Shared
+@using TwBlazor.Models
 @using IconEnum = TwBlazor.Enums.Icon
 
 <ShowcasePage Brand="brand">
@@ -24,28 +25,30 @@
         </TwNavbar>
 
         <main id="showcase-main" class="flex flex-col gap-3">
-            <section class="bg-[#f5f5f7] text-center text-[#1d1d1f] dark:bg-[#161617] dark:text-[#f5f5f7]" aria-labelledby="showcase-hero-heading">
+            @* Each band takes the background of its own picture, black then white, so the picture runs edge to edge with no seam.
+               The white band opts out of dark mode, since its picture is on white whatever the visitor's setting. *@
+            <section class="bg-black text-center text-[#f5f5f7]" aria-labelledby="showcase-hero-heading">
                 <div class="mx-auto flex max-w-5xl flex-col items-center px-6 pt-14">
                     <h1 id="showcase-hero-heading" class="text-5xl font-semibold tracking-tight md:text-[56px]">iPhone 18 Pro</h1>
                     <p class="mt-1 text-xl md:text-[28px]">Built for brilliance.</p>
                     <div class="mt-5 flex flex-wrap justify-center gap-4">
                         <TwButton Label="Learn more" Color="Color.Primary" Href="@Anchor("showcase-products")" />
-                        <TwButton Label="Buy" Color="Color.Primary" Variant="ButtonVariant.Outlined" Href="@Anchor("showcase-products")" />
-                    </div>
-                    <ShowcaseImage Url="@brand.HeroImage" Alt="iPhone 18 Pro" Icon="IconEnum.Phone" Class="mt-10 h-72 w-full max-w-3xl object-cover" FallbackClass="items-end text-[14rem] leading-none text-[#86868b]" />
-                </div>
-            </section>
-
-            <section class="bg-black text-center text-[#f5f5f7]" aria-labelledby="showcase-second-heading">
-                <div class="mx-auto flex max-w-5xl flex-col items-center px-6 pt-14">
-                    <h2 id="showcase-second-heading" class="text-5xl font-semibold tracking-tight md:text-[56px]">MacBook</h2>
-                    <p class="mt-1 text-xl md:text-[28px]">iPhone and Mac. Better together.</p>
-                    <div class="mt-5 flex flex-wrap justify-center gap-4">
-                        <TwButton Label="Learn more" Color="Color.Primary" Href="@Anchor("showcase-products")" />
                         <TwButton Label="Buy" Color="Color.Light" Variant="ButtonVariant.Outlined" Href="@Anchor("showcase-products")" />
                     </div>
-                    <ShowcaseImage Url="@brand.Products[^1].Image" Alt="MacBook beside an iPhone" Icon="IconEnum.Laptop" Class="mt-10 h-64 w-full max-w-3xl object-cover" FallbackClass="items-end text-[13rem] leading-none text-[#6e6e73]" />
                 </div>
+                <ShowcaseImage Url="@brand.HeroImage" Alt="iPhone 18 Pro lying across the word Pro" Icon="IconEnum.Phone" Class="h-64 w-full object-cover object-center md:h-[26rem]" FallbackClass="items-end text-[14rem] leading-none text-[#86868b]" />
+            </section>
+
+            <section class="theme-light bg-white text-center text-[#1d1d1f]" aria-labelledby="showcase-second-heading">
+                <div class="mx-auto flex max-w-5xl flex-col items-center px-6 pt-14">
+                    <h2 id="showcase-second-heading" class="text-5xl font-semibold tracking-tight md:text-[56px]">iPad Air</h2>
+                    <p class="mt-1 text-xl md:text-[28px]">Thin. Light. Ready for anything.</p>
+                    <div class="mt-5 flex flex-wrap justify-center gap-4">
+                        <TwButton Label="Learn more" Color="Color.Primary" Href="@Anchor("showcase-products")" />
+                        <TwButton Label="Buy" Color="Color.Primary" Variant="ButtonVariant.Outlined" Href="@Anchor("showcase-products")" />
+                    </div>
+                </div>
+                <img src="@($"{ShowcaseBrand.LocalImages}/ipad-hero.jpg")" alt="iPad Air in blue, with the other colors fanned out behind it" loading="lazy" decoding="async" width="1260" height="680" class="mx-auto h-auto w-full max-w-5xl" />
             </section>
 
             <section id="showcase-products" class="scroll-mt-6 px-3 pb-3" aria-labelledby="showcase-products-heading">
@@ -73,25 +76,11 @@
         </main>
     </ChildContent>
     <Footer>
-        <footer class="bg-[#f5f5f7] text-xs text-[#6e6e73] dark:bg-[#161617] dark:text-[#a1a1a6]">
-            <div class="mx-auto max-w-5xl px-6 py-8">
-                <p class="border-b border-[#d2d2d7] pb-4 dark:border-[#424245]">Prices shown are examples only. Trade-in values, finance and availability on this page are illustrative.</p>
-                <div class="grid grid-cols-2 gap-6 py-6 md:grid-cols-4">
-                    @foreach (var (title, links) in footer)
-                    {
-                        <div>
-                            <h2 class="font-semibold text-[#1d1d1f] dark:text-[#f5f5f7]">@title</h2>
-                            <ul class="mt-2 flex flex-col gap-2">
-                                @foreach (var link in links)
-                                {
-                                    <li><a href="@Anchor("showcase-main")" class="underline-offset-4 hover:underline @focusClass">@link</a></li>
-                                }
-                            </ul>
-                        </div>
-                    }
-                </div>
-            </div>
-        </footer>
+        <TwFooter Sections="@footer" BottomLinks="@legal" Copyright="An example page, not an Apple website." NavigationLabel="Apple example footer">
+            <BrandContent>
+                <p class="border-b border-[#d2d2d7] pb-4 text-xs dark:border-[#424245]">Prices shown are examples only. Trade-in values, finance and availability on this page are illustrative.</p>
+            </BrandContent>
+        </TwFooter>
     </Footer>
 </ShowcasePage>
 
@@ -102,13 +91,19 @@
 
     private static readonly string[] navigation = ["Store", "Mac", "iPad", "iPhone", "Watch", "Vision", "AirPods", "TV & Home", "Entertainment", "Accessories", "Support"];
 
-    private static readonly (string Title, string[] Links)[] footer =
+    private static readonly (string Title, string[] Links)[] footerColumns =
     [
         ("Shop and Learn", ["Store", "Mac", "iPad", "iPhone", "Watch"]),
         ("Account", ["Manage Your Account", "Apple Store Account", "iCloud.com"]),
         ("Apple Store", ["Find a Store", "Genius Bar", "Today at Apple", "Order Status"]),
         ("About Apple", ["Newsroom", "Apple Leadership", "Career Opportunities", "Contact Apple"])
     ];
+
+    // The same columns as the component's own models. Every link leads back to the top of this example.
+    private static readonly FooterSection[] footer =
+        [.. footerColumns.Select(column => new FooterSection(column.Title, [.. column.Links.Select(link => new FooterLink(link, Anchor("showcase-main")))]))];
+
+    private static readonly FooterLink[] legal = [("Privacy", Anchor("showcase-main")), ("Terms of use", Anchor("showcase-main")), ("Accessibility", Anchor("showcase-main"))];
 
     private int basket;
 

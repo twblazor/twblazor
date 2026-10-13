@@ -460,6 +460,12 @@ public static class TwStrings
     /// <summary>The key for "Top navigation".</summary>
     public const string Navbar_Label = "Navbar_Label";
 
+    /// <summary>The key for "Footer links", the name of the navigation landmark inside a footer.</summary>
+    public const string Footer_Label = "Footer_Label";
+
+    /// <summary>The key for "opens in a new tab", read after a link that does.</summary>
+    public const string Footer_OpensInNewTab = "Footer_OpensInNewTab";
+
     /// <summary>The key for "Open navigation menu".</summary>
     public const string Navbar_OpenMenu = "Navbar_OpenMenu";
 

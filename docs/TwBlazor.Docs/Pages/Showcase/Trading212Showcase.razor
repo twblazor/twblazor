@@ -112,25 +112,7 @@
         </main>
     </ChildContent>
     <Footer>
-        <footer class="bg-slate-950 text-sm text-slate-200">
-            <div class="mx-auto max-w-7xl px-6 py-10">
-                <div class="grid grid-cols-2 gap-8 md:grid-cols-4">
-                    @foreach (var (title, links) in footer)
-                    {
-                        <div>
-                            <h2 class="font-bold text-white">@title</h2>
-                            <ul class="mt-3 flex flex-col gap-2">
-                                @foreach (var link in links)
-                                {
-                                    <li><a href="@Anchor("showcase-main")" class="underline-offset-4 hover:underline @focusClass">@link</a></li>
-                                }
-                            </ul>
-                        </div>
-                    }
-                </div>
-                <p class="mt-8 border-t border-white/15 pt-6 text-xs text-slate-300">This page is a design example. It is not an offer or a recommendation to buy or sell any investment, and every price, holding and chart on it is invented.</p>
-            </div>
-        </footer>
+        <TwFooter Sections="@footer" BottomLinks="@legal" Copyright="This page is a design example. It is not an offer or a recommendation to buy or sell any investment, and every price, holding and chart on it is invented." NavigationLabel="Trading 212 example footer" />
     </Footer>
 </ShowcasePage>
 
@@ -150,13 +132,19 @@
         ("Protected and regulated", "Your assets are held separately from ours, in your name.", IconEnum.Shield_Check)
     ];
 
-    private static readonly (string Title, string[] Links)[] footer =
+    private static readonly (string Title, string[] Links)[] footerColumns =
     [
         ("Products", ["Invest", "Stocks and Shares ISA", "Cash ISA", "Pies & AutoInvest"]),
         ("Learn", ["Investing 101", "Help centre", "Community", "Glossary"]),
         ("Company", ["About us", "Careers", "Press", "Contact"]),
         ("Legal", ["Terms", "Privacy", "Risk disclosure", "Complaints"])
     ];
+
+    // The same columns as the component's own models. Every link leads back to the top of this example.
+    private static readonly FooterSection[] footer =
+        [.. footerColumns.Select(column => new FooterSection(column.Title, [.. column.Links.Select(link => new FooterLink(link, Anchor("showcase-main")))]))];
+
+    private static readonly FooterLink[] legal = [("Privacy", Anchor("showcase-main")), ("Terms of use", Anchor("showcase-main")), ("Accessibility", Anchor("showcase-main"))];
 
     // Forty repeatable trading days. Each candle opens where the last one closed, drifts with a slow wave and
     // swings by a smaller, faster one, so the chart shows a believable mix of rising and falling days.

@@ -1026,6 +1026,21 @@ public static class TescoTheme
                     ChipTextColor = "dark:text-white",
                     FocusRing = "has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-grocerblue-500 dark:has-[:focus-visible]:ring-grocerblue-400 has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-offset-[oklch(100%_0.004_255)] dark:has-[:focus-visible]:ring-offset-[oklch(25.33%_0.03_255)] forced-colors:has-[:focus-visible]:outline-2 forced-colors:has-[:focus-visible]:outline-offset-2 forced-colors:has-[:focus-visible]:outline-[Highlight]"
                 },
+                new TwFooterTheme
+                {
+                    Footer = $"{sizing.FullWidth} bg-grocerblue-600 text-white",
+                    Container = "mx-auto w-full max-w-7xl px-6 py-10",
+                    Brand = "mb-8",
+                    Sections = $"{display.Grid} grid-cols-2 gap-8 md:grid-cols-4",
+                    Section = sizing.MinWidthNone,
+                    SectionTitle = "text-base font-bold text-white",
+                    LinkList = $"mt-3 {display.Flex} {flexbox.Col} {spacing.Gap.Md} list-none m-0 p-0",
+                    Link = $"{display.InlineFlex} {flexbox.Align.Center} {spacing.Gap.Md} {typography.Size.Sm} {rounded.Sm} underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current",
+                    Content = "mt-8 first:mt-0",
+                    Bottom = $"mt-8 {display.Flex} {flexbox.Wrap} {flexbox.Align.Center} {flexbox.Justify.Between} gap-x-6 gap-y-3 border-t border-current/15 pt-6 first:mt-0 first:border-t-0 first:pt-0 {typography.Size.Xs}",
+                    Copyright = "m-0 max-w-3xl",
+                    BottomLinks = $"{display.Flex} {flexbox.Wrap} gap-x-4 gap-y-2 list-none m-0 p-0"
+                },
                 new TwIconTheme
                 {
                     Colors = new()

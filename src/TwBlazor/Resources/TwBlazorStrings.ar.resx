@@ -465,6 +465,12 @@
   <data name="FileUpload_FilesSelected" xml:space="preserve">
     <value>عدد الملفات المختارة: {0}. {1}</value>
   </data>
+  <data name="Footer_Label" xml:space="preserve">
+    <value>روابط التذييل</value>
+  </data>
+  <data name="Footer_OpensInNewTab" xml:space="preserve">
+    <value>يفتح في علامة تبويب جديدة</value>
+  </data>
   <data name="Navbar_Label" xml:space="preserve">
     <value>التنقل العلوي</value>
   </data>

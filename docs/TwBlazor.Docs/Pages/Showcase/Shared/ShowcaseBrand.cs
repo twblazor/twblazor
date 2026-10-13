@@ -145,7 +145,7 @@ public sealed class ShowcaseBrand
         WordmarkClass = "text-lg",
         LogoIcon = IconEnum.Apple,
         LogoIconOnly = true,
-        HeroImage = "https://www.apple.com/v/homepage/images/iphone-18-pro/a/hero_iphone_18_pro__fqe1motd0ymy_large.jpg",
+        HeroImage = $"{LocalImages}/apple-hero.jpg",
         PageName = "AppleShowcase",
         Products =
         [

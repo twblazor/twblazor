@@ -246,6 +246,24 @@ public class ShowcasePageTests : DocsTestBase
         Assert.True(cut.FindComponents<TwBlazor.Components.TwCard>().Count >= Brand(slug).Products.Count);
     }
 
+    [Theory]
+    [MemberData(nameof(Slugs))]
+    public void Page_EndsWithTheBrandsOwnFooter_DrawnByTwFooter(string slug)
+    {
+        var brand = Brand(slug);
+        var cut = Render(brand);
+        var footer = Assert.Single(cut.FindComponents<TwBlazor.Components.TwFooter>());
+        var theme = brand.Theme.Components.Require<TwFooterTheme>();
+
+        // One footer landmark per page: the notice under it is a note, not a second footer.
+        Assert.Single(cut.FindAll("footer"));
+        Assert.Equal(4, footer.FindAll("nav h2").Count);
+        Assert.Equal($"{brand.Name} example footer", footer.Find("nav").GetAttribute("aria-label"));
+        Assert.Contains(theme.Footer.Split(' ')[^1], footer.Find("footer").ClassName);
+        Assert.NotEqual(Theme.Components.Require<TwFooterTheme>().Footer, theme.Footer);
+        Assert.Equal("note", cut.Find("#showcase-disclaimer").ParentElement!.GetAttribute("role"));
+    }
+
     [Fact]
     public void TradingPage_ShowsACandlestickChartOfFortyTradingDays()
     {

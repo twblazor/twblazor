@@ -519,6 +519,12 @@
     <comment>{0} = file count, {1} = file names.</comment>
   </data>
   <!-- Navbar -->
+  <data name="Footer_Label" xml:space="preserve">
+    <value>Footer links</value>
+  </data>
+  <data name="Footer_OpensInNewTab" xml:space="preserve">
+    <value>opens in a new tab</value>
+  </data>
   <data name="Navbar_Label" xml:space="preserve">
     <value>Top navigation</value>
   </data>

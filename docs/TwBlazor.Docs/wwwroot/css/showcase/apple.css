@@ -383,9 +383,6 @@
   .mt-8 {
     margin-top: calc(var(--spacing) * 8);
   }
-  .mt-10 {
-    margin-top: calc(var(--spacing) * 10);
-  }
   .mt-\[19px\] {
     margin-top: 19px;
   }
@@ -403,6 +400,9 @@
   }
   .mb-4 {
     margin-bottom: calc(var(--spacing) * 4);
+  }
+  .mb-8 {
+    margin-bottom: calc(var(--spacing) * 8);
   }
   .\!flex {
     display: flex !important;
@@ -545,11 +545,11 @@
   .h-64 {
     height: calc(var(--spacing) * 64);
   }
-  .h-72 {
-    height: calc(var(--spacing) * 72);
-  }
   .h-96 {
     height: calc(var(--spacing) * 96);
+  }
+  .h-auto {
+    height: auto;
   }
   .h-dvh {
     height: 100dvh;
@@ -908,11 +908,17 @@
   .gap-x-4 {
     column-gap: calc(var(--spacing) * 4);
   }
+  .gap-x-6 {
+    column-gap: calc(var(--spacing) * 6);
+  }
   .gap-y-1 {
     row-gap: var(--spacing);
   }
   .gap-y-2 {
     row-gap: calc(var(--spacing) * 2);
+  }
+  .gap-y-3 {
+    row-gap: calc(var(--spacing) * 3);
   }
   :where(.divide-y > :not(:last-child)) {
     --tw-divide-y-reverse: 0;
@@ -1202,6 +1208,12 @@
   }
   .border-cupertino-600 {
     border-color: var(--color-cupertino-600);
+  }
+  .border-current\/15 {
+    border-color: currentcolor;
+    @supports (color: color-mix(in lab, red, red)) {
+      border-color: color-mix(in oklab, currentcolor 15%, transparent);
+    }
   }
   .border-gray-100 {
     border-color: var(--color-gray-100);
@@ -1590,6 +1602,9 @@
   .object-cover {
     object-fit: cover;
   }
+  .object-center {
+    object-position: center;
+  }
   .p-0 {
     padding: 0px;
   }
@@ -1713,6 +1728,9 @@
   .pt-4 {
     padding-top: calc(var(--spacing) * 4);
   }
+  .pt-6 {
+    padding-top: calc(var(--spacing) * 6);
+  }
   .pt-14 {
     padding-top: calc(var(--spacing) * 14);
   }
@@ -1789,9 +1807,6 @@
   }
   .text-\[10px\] {
     font-size: 10px;
-  }
-  .text-\[13rem\] {
-    font-size: 13rem;
   }
   .text-\[14rem\] {
     font-size: 14rem;
@@ -2460,6 +2475,16 @@
     --tw-content: '';
     content: var(--tw-content);
   }
+  .first\:mt-0:first-child {
+    margin-top: 0px;
+  }
+  .first\:border-t-0:first-child {
+    border-top-style: var(--tw-border-style);
+    border-top-width: 0px;
+  }
+  .first\:pt-0:first-child {
+    padding-top: 0px;
+  }
   .checked\:border-blue-600:checked {
     border-color: var(--color-blue-600);
   }
@@ -3075,6 +3100,9 @@
     }
   }
   @media (width >= 48rem) {
+    .md\:h-\[26rem\] {
+      height: 26rem;
+    }
     .md\:w-1\/2 {
       width: calc(1 / 2 * 100%);
     }
