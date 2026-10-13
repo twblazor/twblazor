@@ -82,8 +82,14 @@ public partial class TwNavbar : TwBlazorComponentBase, IDisposable
             .AddClass(theme.NavbarNavigationExpanded, DisableResponsiveCollapse)
             .Build();
 
+    private string actionsClasses =>
+        new ClassBuilder(theme.NavbarActions)
+            .AddClass(theme.NavbarActionsCollapsible, !DisableResponsiveCollapse)
+            .Build();
+
     private string GetNavigationItemClasses(NavigationItem item) =>
         new ClassBuilder(theme.NavbarLink)
+            .AddClass(theme.NavbarLinkCollapsible, !DisableResponsiveCollapse)
             .AddClass(theme.NavbarLinkActive, IsActive(item))
             .Build();
 

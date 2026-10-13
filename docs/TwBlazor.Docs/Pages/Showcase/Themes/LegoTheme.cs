@@ -9,7 +9,7 @@ using TwBlazor.Enums;
 namespace TwBlazor.Docs.Pages.Showcase.Themes;
 
 /// <summary>
-/// An example theme inspired by the look of Lego's products. Chunky and loud: thick black outlines, hard offset shadows, heavy uppercase type and a bright yellow bar.
+/// An example theme inspired by the look of Lego's products. Bright and friendly: a yellow bar, orange pill buttons with dark text, blue links, bold type and flat white cards.
 /// </summary>
 /// <remarks>
 /// This is a complete theme file, the same shape as the default <c>Theme.cs</c>, shown in full on the
@@ -91,8 +91,8 @@ public static class LegoTheme
         {
             Light =
             {
-                Primary = "text-brickred-200",
-                Accent = "text-brickyellow-200",
+                Primary = "text-brickblue-200",
+                Accent = "text-brickorange-200",
                 Success = "text-green-200",
                 Danger = "text-red-200",
                 Warning = "text-yellow-200",
@@ -102,8 +102,8 @@ public static class LegoTheme
             },
             Medium =
             {
-                Primary = "text-brickred-600",
-                Accent = "text-brickyellow-600",
+                Primary = "text-brickblue-600",
+                Accent = "text-brickorange-600",
                 Success = "text-green-800",
                 Danger = "text-red-700",
                 Warning = "text-yellow-800",
@@ -113,8 +113,8 @@ public static class LegoTheme
             },
             Dark =
             {
-                Primary = "text-brickred-900",
-                Accent = "text-brickyellow-900",
+                Primary = "text-brickblue-900",
+                Accent = "text-brickorange-900",
                 Success = "text-green-900",
                 Danger = "text-red-900",
                 Warning = "text-yellow-900",
@@ -128,8 +128,8 @@ public static class LegoTheme
         {
             Light =
             {
-                Primary = "dark:text-brickred-200",
-                Accent = "dark:text-brickyellow-200",
+                Primary = "dark:text-brickblue-200",
+                Accent = "dark:text-brickorange-200",
                 Success = "dark:text-green-200",
                 Danger = "dark:text-red-200",
                 Warning = "dark:text-yellow-200",
@@ -138,8 +138,8 @@ public static class LegoTheme
             },
             Medium =
             {
-                Primary = "dark:text-brickred-600",
-                Accent = "dark:text-brickyellow-600",
+                Primary = "dark:text-brickblue-600",
+                Accent = "dark:text-brickorange-600",
                 Success = "dark:text-green-600",
                 Danger = "dark:text-red-600",
                 Warning = "dark:text-yellow-600",
@@ -149,8 +149,8 @@ public static class LegoTheme
             },
             Dark =
             {
-                Primary = "dark:text-brickred-900",
-                Accent = "dark:text-brickyellow-900",
+                Primary = "dark:text-brickblue-900",
+                Accent = "dark:text-brickorange-900",
                 Success = "dark:text-green-900",
                 Danger = "dark:text-red-900",
                 Warning = "dark:text-yellow-900",
@@ -161,8 +161,8 @@ public static class LegoTheme
 
         var borderColors = new TwBlazorPalette
         {
-            Primary = "border-brickred-600 dark:border-brickred-500",
-            Accent = "border-brickyellow-600 dark:border-brickyellow-400",
+            Primary = "border-brickblue-600 dark:border-brickblue-500",
+            Accent = "border-brickorange-600 dark:border-brickorange-400",
             Success = "border-green-600 dark:border-green-400",
             Danger = "border-red-600 dark:border-red-400",
             Warning = "border-yellow-700 dark:border-yellow-400",
@@ -173,8 +173,8 @@ public static class LegoTheme
 
         var hoverColors = new TwBlazorPalette
         {
-            Primary = "hover:bg-brickred-50 dark:hover:bg-brickred-900/20",
-            Accent = "hover:bg-brickyellow-50 dark:hover:bg-brickyellow-900/20",
+            Primary = "hover:bg-brickblue-50 dark:hover:bg-brickblue-900/20",
+            Accent = "hover:bg-brickorange-50 dark:hover:bg-brickorange-900/20",
             Success = "hover:bg-green-50 dark:hover:bg-green-900/20",
             Danger = "hover:bg-red-50 dark:hover:bg-red-900/20",
             Warning = "hover:bg-yellow-50 dark:hover:bg-yellow-900/20",
@@ -187,8 +187,8 @@ public static class LegoTheme
         {
             Lightest = new()
             {
-                Primary = $"bg-brickred-50",
-                Accent = $"bg-brickyellow-50",
+                Primary = $"bg-brickblue-50",
+                Accent = $"bg-brickorange-50",
                 Success = $"bg-green-50",
                 Danger = $"bg-red-50",
                 Warning = $"bg-yellow-50",
@@ -198,8 +198,8 @@ public static class LegoTheme
             },
             Light = new()
             {
-                Primary = $"bg-brickred-200",
-                Accent = $"bg-brickyellow-200",
+                Primary = $"bg-brickblue-200",
+                Accent = $"bg-brickorange-200",
                 Success = $"bg-green-200",
                 Danger = $"bg-red-200",
                 Warning = $"bg-yellow-200",
@@ -209,8 +209,8 @@ public static class LegoTheme
             },
             Medium = new()
             {
-                Primary = $"bg-brickred-600",
-                Accent = $"bg-brickyellow-600",
+                Primary = $"bg-brickblue-600",
+                Accent = $"bg-brickorange-600",
                 Success = $"bg-green-700",
                 Danger = $"bg-red-600",
                 Warning = $"bg-yellow-600",
@@ -220,8 +220,8 @@ public static class LegoTheme
             },
             Dark = new()
             {
-                Primary = $"bg-brickred-900",
-                Accent = $"bg-brickyellow-900",
+                Primary = $"bg-brickblue-900",
+                Accent = $"bg-brickorange-900",
                 Success = $"bg-green-900",
                 Danger = $"bg-red-900",
                 Warning = $"bg-yellow-900",
@@ -231,8 +231,8 @@ public static class LegoTheme
             },
             Darkest = new()
             {
-                Primary = $"bg-brickred-950",
-                Accent = $"bg-brickyellow-950",
+                Primary = $"bg-brickblue-950",
+                Accent = $"bg-brickorange-950",
                 Success = $"bg-green-950",
                 Danger = $"bg-red-950",
                 Warning = $"bg-yellow-950",
@@ -246,8 +246,8 @@ public static class LegoTheme
         {
             Lightest = new()
             {
-                Primary = $"dark:bg-brickred-50",
-                Accent = $"dark:bg-brickyellow-50",
+                Primary = $"dark:bg-brickblue-50",
+                Accent = $"dark:bg-brickorange-50",
                 Success = $"dark:bg-green-50",
                 Danger = $"dark:bg-red-50",
                 Warning = $"dark:bg-yellow-50",
@@ -256,8 +256,8 @@ public static class LegoTheme
             },
             Light = new()
             {
-                Primary = $"dark:bg-brickred-200",
-                Accent = $"dark:bg-brickyellow-200",
+                Primary = $"dark:bg-brickblue-200",
+                Accent = $"dark:bg-brickorange-200",
                 Success = $"dark:bg-green-200",
                 Danger = $"dark:bg-red-200",
                 Warning = $"dark:bg-yellow-200",
@@ -266,8 +266,8 @@ public static class LegoTheme
             },
             Medium = new()
             {
-                Primary = $"dark:bg-brickred-600",
-                Accent = $"dark:bg-brickyellow-600",
+                Primary = $"dark:bg-brickblue-600",
+                Accent = $"dark:bg-brickorange-600",
                 Success = $"dark:bg-green-600",
                 Danger = $"dark:bg-red-600",
                 Warning = $"dark:bg-yellow-600",
@@ -277,8 +277,8 @@ public static class LegoTheme
             },
             Dark = new()
             {
-                Primary = $"dark:bg-brickred-900",
-                Accent = $"dark:bg-brickyellow-900",
+                Primary = $"dark:bg-brickblue-900",
+                Accent = $"dark:bg-brickorange-900",
                 Success = $"dark:bg-green-900",
                 Danger = $"dark:bg-red-900",
                 Warning = $"dark:bg-yellow-900",
@@ -287,8 +287,8 @@ public static class LegoTheme
             },
             Darkest = new()
             {
-                Primary = $"dark:bg-brickred-950",
-                Accent = $"dark:bg-brickyellow-950",
+                Primary = $"dark:bg-brickblue-950",
+                Accent = $"dark:bg-brickorange-950",
                 Success = $"dark:bg-green-950",
                 Danger = $"dark:bg-red-950",
                 Warning = $"dark:bg-yellow-950",
@@ -299,8 +299,8 @@ public static class LegoTheme
 
         var checkBoxRadioButtonColors = new TwBlazorPalette()
         {
-            Primary = "checked:bg-brickred-600 checked:border-brickred-600 dark:checked:bg-brickred-500 dark:checked:border-brickred-500",
-            Accent = "checked:bg-brickyellow-600 checked:border-brickyellow-600 dark:checked:bg-brickyellow-500 dark:checked:border-brickyellow-500",
+            Primary = "checked:bg-brickblue-600 checked:border-brickblue-600 dark:checked:bg-brickblue-500 dark:checked:border-brickblue-500",
+            Accent = "checked:bg-brickorange-600 checked:border-brickorange-600 dark:checked:bg-brickorange-500 dark:checked:border-brickorange-500",
             Success = "checked:bg-green-600 checked:border-green-600 dark:checked:bg-green-500 dark:checked:border-green-500",
             Danger = "checked:bg-red-600 checked:border-red-600 dark:checked:bg-red-500 dark:checked:border-red-500",
             Warning = "checked:bg-yellow-700 checked:border-yellow-700 dark:checked:bg-yellow-500 dark:checked:border-yellow-500",
@@ -336,8 +336,8 @@ public static class LegoTheme
 
         // Single focus language for every focusable surface: a 2px primary ring. The inset form is for rows
         // that sit flush against their container's edge and would otherwise have the ring clipped.
-        var focusRing = "focus-visible:ring-2 focus-visible:ring-brickred-500 dark:focus-visible:ring-brickred-400";
-        var focusRingInset = "focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brickred-500 dark:focus-visible:ring-brickred-400";
+        var focusRing = "focus-visible:ring-2 focus-visible:ring-brickblue-500 dark:focus-visible:ring-brickblue-400";
+        var focusRingInset = "focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brickblue-500 dark:focus-visible:ring-brickblue-400";
 
         // Neutral fills reused wherever a component needs a recessed track, a selected row or a pressed state.
         var neutralTrack = "bg-[oklch(95%_0_0)] dark:bg-[oklch(21.15%_0_0)]";
@@ -351,7 +351,7 @@ public static class LegoTheme
         var neutralHairlineRing = "ring-1 ring-inset ring-[oklch(15%_0_0)]/10 dark:ring-[oklch(97.807%_0_0)]/15";
         var disabledInk = "text-[oklch(15%_0_0)]/40 dark:text-[oklch(97.807%_0_0)]/40";
 
-        var inputLabelText = $"text-sm font-bold uppercase {neutralText.Secondary}";
+        var inputLabelText = $"text-sm font-bold {neutralText.Secondary}";
 
         var display = new TwBlazorDisplay
         {
@@ -491,8 +491,8 @@ public static class LegoTheme
             },
             Weight = new()
             {
-                Medium = "font-bold",
-                Semibold = "font-extrabold"
+                Medium = "font-medium",
+                Semibold = "font-bold"
             },
             AlignCenter = "text-center",
             WrapBreakWord = "wrap-break-word"
@@ -502,40 +502,40 @@ public static class LegoTheme
         {
             None = "rounded-none",
             Sm = "rounded-md",
-            Md = "rounded-xl",
-            Lg = "rounded-2xl",
+            Md = "rounded-lg",
+            Lg = "rounded-xl",
             Full = "rounded-full",
-            DefaultRounded = Rounded.Lg,
+            DefaultRounded = Rounded.Md,
             RoundedTop = new()
             {
                 None = "rounded-t-none",
                 Sm = "rounded-t-md",
-                Md = "rounded-t-xl",
-                Lg = "rounded-t-2xl",
+                Md = "rounded-t-lg",
+                Lg = "rounded-t-xl",
                 Full = "rounded-t-full"
             },
             RoundedBottom = new()
             {
                 None = "rounded-b-none",
                 Sm = "rounded-b-md",
-                Md = "rounded-b-xl",
-                Lg = "rounded-b-2xl",
+                Md = "rounded-b-lg",
+                Lg = "rounded-b-xl",
                 Full = "rounded-b-full"
             },
             RoundedStart = new()
             {
                 None = "rounded-s-none",
                 Sm = "rounded-s-md",
-                Md = "rounded-s-xl",
-                Lg = "rounded-s-2xl",
+                Md = "rounded-s-lg",
+                Lg = "rounded-s-xl",
                 Full = "rounded-s-full"
             },
             RoundedEnd = new()
             {
                 None = "rounded-e-none",
                 Sm = "rounded-e-md",
-                Md = "rounded-e-xl",
-                Lg = "rounded-e-2xl",
+                Md = "rounded-e-lg",
+                Lg = "rounded-e-xl",
                 Full = "rounded-e-full"
             }
         };
@@ -543,23 +543,23 @@ public static class LegoTheme
         var shadows = new TwBlazorShadow
         {
             None = "shadow-none",
-            Sm = "shadow-[0_4px_0_0_rgb(0_0_0/0.9)]",
-            Md = "shadow-[0_6px_0_0_rgb(0_0_0/0.9)]",
-            Lg = "shadow-[0_8px_0_0_rgb(0_0_0/0.9)]",
-            Xl = "shadow-[0_12px_0_0_rgb(0_0_0/0.9)]",
-            HoverSm = "hover:shadow-[0_4px_0_0_rgb(0_0_0/0.9)]",
-            HoverMd = "hover:shadow-[0_6px_0_0_rgb(0_0_0/0.9)]",
-            HoverLg = "hover:shadow-[0_12px_0_0_rgb(0_0_0/0.9)]",
-            ActiveMd = "active:shadow-[0_6px_0_0_rgb(0_0_0/0.9)]",
-            DefaultShadow = Shadow.Sm
+            Sm = "shadow-none",
+            Md = "shadow-sm",
+            Lg = "shadow-md",
+            Xl = "shadow-lg",
+            HoverSm = "hover:shadow-none",
+            HoverMd = "hover:shadow-sm",
+            HoverLg = "hover:shadow-lg",
+            ActiveMd = "active:shadow-sm",
+            DefaultShadow = Shadow.None
         };
 
         var borderWidth = new TwBlazorBorderWidth
         {
             None = "border-0",
-            Thin = "border-2",
-            Medium = "border-2",
-            Thick = "border-4",
+            Thin = "border",
+            Medium = "border-[1.2px]",
+            Thick = "border-2",
             AccentEdge = "border-s-4"
         };
 
@@ -673,8 +673,8 @@ public static class LegoTheme
                 FocusRingBase = "focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[oklch(100%_0_0)] dark:focus-visible:ring-offset-[oklch(25.33%_0_0)]",
                 FocusColors = new()
                 {
-                    Primary = "focus-visible:ring-brickred-500 dark:focus-visible:ring-brickred-400",
-                    Accent = "focus-visible:ring-brickyellow-500 dark:focus-visible:ring-brickyellow-400",
+                    Primary = "focus-visible:ring-brickblue-500 dark:focus-visible:ring-brickblue-400",
+                    Accent = "focus-visible:ring-brickorange-500 dark:focus-visible:ring-brickorange-400",
                     Success = "focus-visible:ring-green-600 dark:focus-visible:ring-green-400",
                     Danger = "focus-visible:ring-red-500 dark:focus-visible:ring-red-400",
                     Warning = "focus-visible:ring-yellow-500 dark:focus-visible:ring-yellow-400",
@@ -685,8 +685,8 @@ public static class LegoTheme
                 PeerFocusRingBase = "peer-focus-visible:ring-2 peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-[oklch(100%_0_0)] dark:peer-focus-visible:ring-offset-[oklch(25.33%_0_0)] forced-colors:peer-focus-visible:outline-2 forced-colors:peer-focus-visible:outline-offset-2 forced-colors:peer-focus-visible:outline-[Highlight]",
                 PeerFocusColors = new()
                 {
-                    Primary = "peer-focus-visible:ring-brickred-500 dark:peer-focus-visible:ring-brickred-400",
-                    Accent = "peer-focus-visible:ring-brickyellow-500 dark:peer-focus-visible:ring-brickyellow-400",
+                    Primary = "peer-focus-visible:ring-brickblue-500 dark:peer-focus-visible:ring-brickblue-400",
+                    Accent = "peer-focus-visible:ring-brickorange-500 dark:peer-focus-visible:ring-brickorange-400",
                     Success = "peer-focus-visible:ring-green-600 dark:peer-focus-visible:ring-green-400",
                     Danger = "peer-focus-visible:ring-red-500 dark:peer-focus-visible:ring-red-400",
                     Warning = "peer-focus-visible:ring-yellow-500 dark:peer-focus-visible:ring-yellow-400",
@@ -698,8 +698,8 @@ public static class LegoTheme
                 {
                     Filled = new()
                     {
-                        Primary = $"{background.Medium.Primary} hover:bg-brickred-700 active:bg-brickred-800 {text.Medium.Light}",
-                        Accent = "bg-brickyellow-400 hover:bg-brickyellow-300 active:bg-brickyellow-500 text-gray-950",
+                        Primary = $"{background.Medium.Primary} hover:bg-brickblue-700 active:bg-brickblue-800 {text.Medium.Light}",
+                        Accent = "bg-brickorange-400 hover:bg-brickorange-300 active:bg-brickorange-500 text-gray-950",
                         Success = $"{background.Medium.Success} hover:bg-green-700 active:bg-green-800 text-white",
                         Danger = "bg-red-700 hover:bg-red-800 active:bg-red-900 text-gray-100",
                         Warning = $"{background.Medium.Warning} hover:bg-yellow-600 active:bg-yellow-700 {text.Medium.Dark}",
@@ -766,7 +766,7 @@ public static class LegoTheme
                     Colors = new()
                     {
                         Primary = $"{background.Medium.Primary} {text.Medium.Light}",
-                        Accent = "bg-brickyellow-700 text-gray-100",
+                        Accent = "bg-brickorange-700 text-gray-100",
                         Success = $"{background.Medium.Success} text-white",
                         Danger = "bg-red-700 text-gray-100",
                         Warning = $"{background.Medium.Warning} {text.Medium.Dark}",
@@ -790,18 +790,18 @@ public static class LegoTheme
                     Separator = $"{display.InlineFlex} {flexbox.Align.Center} {neutralText.Subtle} select-none",
                     SeparatorIcon = "text-[0.875em] leading-none",
                     Label = $"{display.InlineFlex} {flexbox.Align.Center} gap-1.5 px-1.5 py-1 {rounded.Md} {typography.WrapBreakWord}",
-                    Link = $"{typography.Weight.Medium} {neutralText.Muted} hover:text-brickred-700 dark:hover:text-brickred-300 hover:bg-brickred-50 dark:hover:bg-brickred-500/15 {transition.ColorsFast} {focusRing} {interaction.FocusOutlineNone}",
+                    Link = $"{typography.Weight.Medium} {neutralText.Muted} hover:text-brickblue-700 dark:hover:text-brickblue-300 hover:bg-brickblue-50 dark:hover:bg-brickblue-500/15 {transition.ColorsFast} {focusRing} {interaction.FocusOutlineNone}",
                     Current = $"{typography.Weight.Semibold} {neutralText.Heading}",
                     Icon = $"{flexbox.ShrinkNone} leading-none",
-                    CurrentIcon = "text-brickred-600 dark:text-brickred-400"
+                    CurrentIcon = "text-brickblue-600 dark:text-brickblue-400"
                 },
                 new TwButtonTheme
                 {
-                    Base = $"{display.InlineFlex} {overflow.Hidden} {anchor.Center} min-h-11 {typography.Size.Sm} {typography.AlignCenter} {transition.ColorsFast} {interaction.FocusOutlineNone} focus-visible:outline-hidden touch-manipulation border-b-4 border-black/30 uppercase tracking-wide",
+                    Base = $"{display.InlineFlex} {overflow.Hidden} {anchor.Center} min-h-11 {typography.Size.Sm} {typography.AlignCenter} {transition.ColorsFast} {interaction.FocusOutlineNone} focus-visible:outline-hidden touch-manipulation rounded-full!",
                     Padding = "px-6 py-2",
                     DensePadding = "px-3 py-1",
-                    IconButton = $"{display.InlineFlex} {anchor.Center} {sizing.Icon.Xl} {typography.Size.Sm} {rounded.Full} {interaction.FocusOutlineNone}",
-                    Typography = "font-extrabold",
+                    IconButton = $"{display.InlineFlex} {anchor.Center} size-11 {typography.Size.Sm} {rounded.Full} {interaction.FocusOutlineNone}",
+                    Typography = "font-bold",
                     IconTypography = $"{typography.Size.Lg} leading-none",
                     Uppercase = $"{textTransform.Uppercase} tracking-wide",
                     DisabledCursor = interaction.DisabledCursor,
@@ -813,9 +813,9 @@ public static class LegoTheme
                 },
                 new TwCardTheme
                 {
-                    Container = "px-6 py-6",
-                    Bordered = $"{borderWidth.Thick} border-black dark:border-white",
-                    Title = $"{typography.Size.Lg} {typography.Weight.Semibold} uppercase {typography.WrapBreakWord} {neutralText.Heading}"
+                    Container = "px-5 py-5",
+                    Bordered = $"{borderWidth.Thin} {neutralSurface.Border}",
+                    Title = $"{typography.Size.Lg} {typography.Weight.Semibold} {typography.WrapBreakWord} {neutralText.Heading} mb-4"
                 },
                 new TwCarouselTheme
                 {
@@ -829,7 +829,7 @@ public static class LegoTheme
                     PlayPauseButton = $"{positioning.Absolute} top-2 end-2 z-10 text-sm {shadows.Md}",
                     IndicatorContainer = $"{positioning.Absolute} bottom-2 inset-x-0 z-10 w-fit mx-auto {display.Flex} {flexbox.Justify.Center} {flexbox.Align.Center} gap-4 px-4 py-2 {rounded.Full} bg-white/45 dark:bg-black/60 {shadows.Md}",
                     Indicator = $"{positioning.Relative} size-2.5 before:absolute before:-inset-2 before:content-[''] {rounded.Full} {interaction.PointerCursor} {interaction.FocusOutlineNone} {focusRing} focus-visible:ring-offset-2 focus-visible:ring-offset-[oklch(100%_0_0)] dark:focus-visible:ring-offset-[oklch(25.33%_0_0)] forced-colors:border forced-colors:border-[ButtonText] {transition.ColorsFast}",
-                    IndicatorActive = "bg-brickred-600 dark:bg-brickred-500 forced-colors:bg-[Highlight]",
+                    IndicatorActive = "bg-brickblue-600 dark:bg-brickblue-500 forced-colors:bg-[Highlight]",
                     IndicatorInactive = "bg-[oklch(15%_0_0)]/45 dark:bg-[oklch(97.807%_0_0)]/50 hover:bg-[oklch(15%_0_0)]/65 dark:hover:bg-[oklch(97.807%_0_0)]/70"
                 },
                 new TwCheckboxTheme
@@ -915,7 +915,7 @@ public static class LegoTheme
                     TableRowHeader = typography.Weight.Medium,
                     Series =
                     [
-                        new() { Background = "bg-brickred-600 dark:bg-brickred-500", Fill = "fill-brickred-600 dark:fill-brickred-500", Stroke = "stroke-brickred-600 dark:stroke-brickred-500", Text = "text-brickred-600 dark:text-brickred-500" },
+                        new() { Background = "bg-brickblue-600 dark:bg-brickblue-500", Fill = "fill-brickblue-600 dark:fill-brickblue-500", Stroke = "stroke-brickblue-600 dark:stroke-brickblue-500", Text = "text-brickblue-600 dark:text-brickblue-500" },
                         new() { Background = "bg-orange-600", Fill = "fill-orange-600", Stroke = "stroke-orange-600", Text = "text-orange-600" },
                         new() { Background = "bg-teal-600", Fill = "fill-teal-600", Stroke = "stroke-teal-600", Text = "text-teal-600" },
                         new() { Background = "bg-yellow-700", Fill = "fill-yellow-700", Stroke = "stroke-yellow-700", Text = "text-yellow-700" },
@@ -927,7 +927,7 @@ public static class LegoTheme
                     Positive = new() { Background = "bg-green-600", Fill = "fill-green-600", Stroke = "stroke-green-600", Text = "text-green-600" },
                     Negative = new() { Background = "bg-red-600 dark:bg-red-500", Fill = "fill-red-600 dark:fill-red-500", Stroke = "stroke-red-600 dark:stroke-red-500", Text = "text-red-600 dark:text-red-500" },
                     Total = new() { Background = "bg-slate-500 dark:bg-slate-400", Fill = "fill-slate-500 dark:fill-slate-400", Stroke = "stroke-slate-500 dark:stroke-slate-400", Text = "text-slate-500 dark:text-slate-400" },
-                    Sequential = new() { Background = "bg-brickred-600 dark:bg-brickred-500", Fill = "fill-brickred-600 dark:fill-brickred-500", Stroke = "stroke-brickred-600 dark:stroke-brickred-500", Text = "text-brickred-600 dark:text-brickred-500" },
+                    Sequential = new() { Background = "bg-brickblue-600 dark:bg-brickblue-500", Fill = "fill-brickblue-600 dark:fill-brickblue-500", Stroke = "stroke-brickblue-600 dark:stroke-brickblue-500", Text = "text-brickblue-600 dark:text-brickblue-500" },
                     Track = new() { Background = "bg-[oklch(91%_0_0)] dark:bg-[oklch(34%_0_0)]", Fill = "fill-[oklch(91%_0_0)] dark:fill-[oklch(34%_0_0)]", Stroke = "stroke-[oklch(91%_0_0)] dark:stroke-[oklch(34%_0_0)]", Text = "text-[oklch(91%_0_0)] dark:text-[oklch(34%_0_0)]" },
                     Grid = new() { Background = "bg-[oklch(92%_0_0)] dark:bg-[oklch(32%_0_0)]", Fill = "fill-[oklch(92%_0_0)] dark:fill-[oklch(32%_0_0)]", Stroke = "stroke-[oklch(92%_0_0)] dark:stroke-[oklch(32%_0_0)]", Text = "text-[oklch(92%_0_0)] dark:text-[oklch(32%_0_0)]" },
                     Axis = new() { Background = "bg-[oklch(78%_0_0)] dark:bg-[oklch(48%_0_0)]", Fill = "fill-[oklch(78%_0_0)] dark:fill-[oklch(48%_0_0)]", Stroke = "stroke-[oklch(78%_0_0)] dark:stroke-[oklch(48%_0_0)]", Text = "text-[oklch(78%_0_0)] dark:text-[oklch(48%_0_0)]" },
@@ -986,10 +986,10 @@ public static class LegoTheme
                     WeekdaysHeader = $"{display.Flex} {anchor.Center} h-8 {typography.Size.Xs} font-normal {neutralText.Muted}",
                     Base = $"{positioning.Fixed} z-120 {flexbox.Row} md:flex-row {flexbox.Align.Center} mt-1 px-2 pb-2 {typography.AlignCenter} {typography.Size.Sm} {typography.Weight.Medium} {transition.ColorsFast} {interaction.PointerCursor}",
                     ActiveClass = $"{neutralTrack} {neutralText.Heading} {typography.Weight.Semibold}",
-                    SelectedClass = $"bg-brickred-600 hover:bg-brickred-700 text-white {typography.Weight.Semibold}",
+                    SelectedClass = $"bg-brickblue-600 hover:bg-brickblue-700 text-white {typography.Weight.Semibold}",
                     HoverClass = neutralHoverFill,
                     ButtonClass = $"{display.Flex} {flexbox.Align.Center} {flexbox.Justify.Center} h-8 {sizing.FullWidth} {spacing.Padding.Md} tabular-nums {focusRingInset} {interaction.FocusOutlineNone} {transition.ColorsFast}",
-                    RangeClass = "bg-brickred-100 text-brickred-900 dark:bg-brickred-500/20 dark:text-brickred-100",
+                    RangeClass = "bg-brickblue-100 text-brickblue-900 dark:bg-brickblue-500/20 dark:text-brickblue-100",
                     RangeMonthCaptionClass = $"mt-2 {typography.AlignCenter} {typography.Size.Sm} {typography.Weight.Semibold} {neutralText.Heading}",
                     PrevMonthClass = neutralText.Subtle,
                     DefaultFormat = "dd/MM/yyyy",
@@ -1024,14 +1024,14 @@ public static class LegoTheme
                     IconSpacing = "me-2",
                     FileList = $"{typography.Size.Sm} {neutralText.Secondary}",
                     ChipTextColor = "dark:text-white",
-                    FocusRing = "has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-brickred-500 dark:has-[:focus-visible]:ring-brickred-400 has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-offset-[oklch(100%_0_0)] dark:has-[:focus-visible]:ring-offset-[oklch(25.33%_0_0)] forced-colors:has-[:focus-visible]:outline-2 forced-colors:has-[:focus-visible]:outline-offset-2 forced-colors:has-[:focus-visible]:outline-[Highlight]"
+                    FocusRing = "has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-brickblue-500 dark:has-[:focus-visible]:ring-brickblue-400 has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-offset-[oklch(100%_0_0)] dark:has-[:focus-visible]:ring-offset-[oklch(25.33%_0_0)] forced-colors:has-[:focus-visible]:outline-2 forced-colors:has-[:focus-visible]:outline-offset-2 forced-colors:has-[:focus-visible]:outline-[Highlight]"
                 },
                 new TwIconTheme
                 {
                     Colors = new()
                     {
-                        Primary = "text-brickred-600 dark:text-brickred-400",
-                        Accent = "text-brickyellow-600 dark:text-brickyellow-400",
+                        Primary = "text-brickblue-600 dark:text-brickblue-400",
+                        Accent = "text-brickorange-600 dark:text-brickorange-400",
                         Success = "text-green-600 dark:text-green-400",
                         Danger = "text-red-600 dark:text-red-400",
                         Warning = "text-[oklch(65%_0_0)] dark:text-yellow-400",
@@ -1071,7 +1071,7 @@ public static class LegoTheme
                     SelectBase = $"{display.Block} {sizing.FullWidth} pe-10 {neutralText.Heading} bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22none%22%20viewBox%3D%220%200%2020%2020%22%3E%3Cpath%20stroke%3D%22%236b7280%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%221.5%22%20d%3D%22m6%208%204%204%204-4%22%2F%3E%3C%2Fsvg%3E')] bg-[length:1.5em_1.5em] bg-[right_0.5rem_center] rtl:bg-[left_0.5rem_center] bg-no-repeat {transition.ColorsFast} appearance-none {interaction.FocusOutlineNone} supports-[appearance:base-select]:[appearance:base-select] supports-[appearance:base-select]:flex supports-[appearance:base-select]:items-center [&::picker(select)]:[appearance:base-select] [&::picker-icon]:hidden [&::picker(select)]:border-[oklch(15%_0_0)]/25 dark:[&::picker(select)]:border-[oklch(97.807%_0_0)]/20 [&::picker(select)]:bg-[oklch(100%_0_0)] dark:[&::picker(select)]:bg-[oklch(40%_0_0)]",
                     Size = $"{inputHeight} {typography.Size.Base}",
                     DenseSize = $"{inputDenseHeight} {typography.Size.Sm}",
-                    SelectOption = $"{spacing.Padding.Lg} dark:bg-gray-800 dark:text-white supports-[appearance:base-select]:[padding-inline:revert] supports-[appearance:base-select]:py-2 supports-[appearance:base-select]:bg-transparent dark:supports-[appearance:base-select]:bg-transparent supports-[appearance:base-select]:hover:bg-[oklch(97%_0_0)] dark:supports-[appearance:base-select]:hover:bg-[oklch(34%_0_0)] supports-[appearance:base-select]:checked:bg-brickred-50 supports-[appearance:base-select]:checked:text-brickred-700 dark:supports-[appearance:base-select]:checked:bg-brickred-500/20 dark:supports-[appearance:base-select]:checked:text-brickred-300",
+                    SelectOption = $"{spacing.Padding.Lg} dark:bg-gray-800 dark:text-white supports-[appearance:base-select]:[padding-inline:revert] supports-[appearance:base-select]:py-2 supports-[appearance:base-select]:bg-transparent dark:supports-[appearance:base-select]:bg-transparent supports-[appearance:base-select]:hover:bg-[oklch(97%_0_0)] dark:supports-[appearance:base-select]:hover:bg-[oklch(34%_0_0)] supports-[appearance:base-select]:checked:bg-brickblue-50 supports-[appearance:base-select]:checked:text-brickblue-700 dark:supports-[appearance:base-select]:checked:bg-brickblue-500/20 dark:supports-[appearance:base-select]:checked:text-brickblue-300",
                     SelectNativeBackground = "!bg-white dark:!bg-gray-800",
                     SelectDefaultPadding = "px-3",
                     SelectReadOnlyBackground = "!bg-none",
@@ -1080,24 +1080,24 @@ public static class LegoTheme
                     SelectMultiOpenButton = $"{flexbox.Flex1} min-w-[2rem] min-h-8 truncate text-start bg-transparent border-0 {interaction.FocusOutlineNone}",
                     SelectPanelPosition = $"{positioning.Fixed} z-120 {spacing.MarginTop.Md}",
                     SelectPanelSurface = $"overflow-y-auto max-h-64 {spacing.Padding.Sm}",
-                    SelectPanelItemText = "[&_label]:!text-[oklch(15%_0_0)] dark:[&_label]:!text-[oklch(97.807%_0_0)] [&_fieldset]:gap-0 [&_label]:w-full [&_label]:gap-2 [&_label]:px-2 [&_label]:py-2 [&_label]:text-base [&_input]:sr-only [&_label>span]:hidden [&_label::before]:content-['✓'] [&_label::before]:invisible [&_label::before]:w-4 [&_label::before]:shrink-0 [&_label::before]:text-center [&_label:has(input:checked)::before]:visible [&_label:hover]:bg-[oklch(97%_0_0)] dark:[&_label:hover]:bg-[oklch(34%_0_0)] [&_label:has(input:checked)]:bg-brickred-50 dark:[&_label:has(input:checked)]:bg-brickred-500/20 [&_label:has(input:checked)]:!text-brickred-700 dark:[&_label:has(input:checked)]:!text-brickred-300 [&_label:has(input:focus-visible)]:ring-2 [&_label:has(input:focus-visible)]:ring-inset [&_label:has(input:focus-visible)]:ring-brickred-500 dark:[&_label:has(input:focus-visible)]:ring-brickred-400",
+                    SelectPanelItemText = "[&_label]:!text-[oklch(15%_0_0)] dark:[&_label]:!text-[oklch(97.807%_0_0)] [&_fieldset]:gap-0 [&_label]:w-full [&_label]:gap-2 [&_label]:px-2 [&_label]:py-2 [&_label]:text-base [&_input]:sr-only [&_label>span]:hidden [&_label::before]:content-['✓'] [&_label::before]:invisible [&_label::before]:w-4 [&_label::before]:shrink-0 [&_label::before]:text-center [&_label:has(input:checked)::before]:visible [&_label:hover]:bg-[oklch(97%_0_0)] dark:[&_label:hover]:bg-[oklch(34%_0_0)] [&_label:has(input:checked)]:bg-brickblue-50 dark:[&_label:has(input:checked)]:bg-brickblue-500/20 [&_label:has(input:checked)]:!text-brickblue-700 dark:[&_label:has(input:checked)]:!text-brickblue-300 [&_label:has(input:focus-visible)]:ring-2 [&_label:has(input:focus-visible)]:ring-inset [&_label:has(input:focus-visible)]:ring-brickblue-500 dark:[&_label:has(input:focus-visible)]:ring-brickblue-400",
                     SelectCustomTrigger = $"{display.Flex} {flexbox.Align.Center} {flexbox.Justify.Between} {spacing.Gap.Md} {sizing.FullWidth} {sizing.MinWidthNone} text-start {neutralText.Heading} {transition.ColorsFast} {interaction.FocusOutlineNone} {interaction.PointerCursor}",
                     SelectCustomPlaceholder = $"{neutralText.Muted}",
                     SelectCustomChevron = $"{display.Flex} {anchor.Center} {sizing.Icon.Sm} {flexbox.ShrinkNone} leading-none {neutralText.Muted} {transition.TransformFast}",
                     SelectCustomChevronOpen = "rotate-180",
                     SelectCustomListbox = $"{display.Flex} {flexbox.Col} gap-0.5 {interaction.FocusOutlineNone}",
-                    SelectCustomOption = $"{display.Flex} {flexbox.Align.Center} {flexbox.Justify.Between} {spacing.Gap.Md} {rounded.Md} px-2 py-2 {typography.Size.Sm} {neutralText.Heading} {interaction.PointerCursor} select-none data-[active=true]:bg-[oklch(95%_0_0)] dark:data-[active=true]:bg-[oklch(48%_0_0)] data-[active=true]:outline-2 data-[active=true]:-outline-offset-2 data-[active=true]:outline-brickred-600 dark:data-[active=true]:outline-brickred-300 aria-selected:font-semibold",
+                    SelectCustomOption = $"{display.Flex} {flexbox.Align.Center} {flexbox.Justify.Between} {spacing.Gap.Md} {rounded.Md} px-2 py-2 {typography.Size.Sm} {neutralText.Heading} {interaction.PointerCursor} select-none data-[active=true]:bg-[oklch(95%_0_0)] dark:data-[active=true]:bg-[oklch(48%_0_0)] data-[active=true]:outline-2 data-[active=true]:-outline-offset-2 data-[active=true]:outline-brickblue-600 dark:data-[active=true]:outline-brickblue-300 aria-selected:font-semibold",
                     SelectMultiTriggerBase = $"{positioning.Relative} {sizing.FullWidth} {sizing.MinWidthNone} text-start pe-10 {neutralText.Heading} {transition.ColorsFast} {interaction.FocusOutlineNone} {interaction.PointerCursor}",
                     SelectMultiChipsPadding = "ps-0.75",
                     SelectMultiChevron = $"{positioning.Absolute} end-3 top-1/2 -translate-y-1/2 {display.Flex} {sizing.Icon.Sm} leading-none {neutralText.Muted} {transition.TransformFast} {interaction.PointerEventsNone}",
-                    SelectCustomCheck = $"{sizing.Icon.Sm} {flexbox.ShrinkNone} text-brickred-600 dark:text-brickred-300",
+                    SelectCustomCheck = $"{sizing.Icon.Sm} {flexbox.ShrinkNone} text-brickblue-600 dark:text-brickblue-300",
                     InputLegendBase = $"mb-3 {typography.Size.Base} {typography.Weight.Medium} {neutralText.Secondary}",
                     LabelBase = $"{display.Block} mb-2 {inputLabelText}",
-                    OutlinedBorder = $"{borderWidth.Thin} border-black dark:border-white",
+                    OutlinedBorder = $"{borderWidth.Thin} {neutralSurface.BorderStrong}",
                     FilledBorder = $"border-b {neutralSurface.BorderStrong}",
-                    FocusBorder = "focus:border-brickred-600 dark:focus:border-brickred-400 focus:ring-2 focus:ring-brickred-500 dark:focus:ring-brickred-400",
-                    FocusVisibleBorder = "focus-visible:border-brickred-600 dark:focus-visible:border-brickred-400 focus-visible:ring-2 focus-visible:ring-brickred-500 dark:focus-visible:ring-brickred-400",
-                    FocusWithinBorder = "has-[:focus-visible]:border-brickred-600 dark:has-[:focus-visible]:border-brickred-400 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-brickred-500 dark:has-[:focus-visible]:ring-brickred-400",
+                    FocusBorder = "focus:border-brickblue-600 dark:focus:border-brickblue-400 focus:ring-2 focus:ring-brickblue-500 dark:focus:ring-brickblue-400",
+                    FocusVisibleBorder = "focus-visible:border-brickblue-600 dark:focus-visible:border-brickblue-400 focus-visible:ring-2 focus-visible:ring-brickblue-500 dark:focus-visible:ring-brickblue-400",
+                    FocusWithinBorder = "has-[:focus-visible]:border-brickblue-600 dark:has-[:focus-visible]:border-brickblue-400 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-brickblue-500 dark:has-[:focus-visible]:ring-brickblue-400",
                     FilledBackgroundColor = neutralSurface.Elevated,
                     ErrorMessage = $"{spacing.MarginTop.Sm} {typography.Size.Xs} {text.Medium.Danger} {darkText.Medium.Danger}"
                 },
@@ -1106,7 +1106,7 @@ public static class LegoTheme
                     Title = $"{spacing.MarginBottom.Lg} {typography.Weight.Semibold} {neutralText.Heading}",
                     List = $"border-s {neutralSurface.Border}",
                     Link = $"{display.Block} -ms-px py-1 ps-4 border-s border-transparent {neutralText.Muted} {neutralHoverText} hover:border-[oklch(15%_0_0)]/45 dark:hover:border-[oklch(97.807%_0_0)]/45 {transition.ColorsFast} {focusRingInset} {interaction.FocusOutlineNone}",
-                    LinkCurrent = $"aria-[current=location]:font-medium aria-[current=location]:border-brickred-600 dark:aria-[current=location]:border-brickred-400 aria-[current=location]:text-[oklch(15%_0_0)] dark:aria-[current=location]:text-[oklch(97.807%_0_0)] forced-colors:aria-[current=location]:border-[Highlight]"
+                    LinkCurrent = $"aria-[current=location]:font-medium aria-[current=location]:border-brickblue-600 dark:aria-[current=location]:border-brickblue-400 aria-[current=location]:text-[oklch(15%_0_0)] dark:aria-[current=location]:text-[oklch(97.807%_0_0)] forced-colors:aria-[current=location]:border-[Highlight]"
                 },
                 new TwPaginationTheme
                 {
@@ -1114,7 +1114,7 @@ public static class LegoTheme
                     Base = $"{display.Flex} {anchor.Center} tabular-nums select-none {transition.ColorsFast} {focusRingInset} {interaction.FocusOutlineNone}",
                     Size = $"{inputHeight} min-w-10 px-3 {typography.Size.Sm}",
                     DenseSize = $"{inputDenseHeight} min-w-8 px-2 {typography.Size.Sm}",
-                    ActiveButton = $"{typography.Weight.Semibold} bg-brickred-50 text-brickred-700 ring-1 ring-inset ring-brickred-600/20 dark:bg-brickred-500/20 dark:text-brickred-300 dark:ring-brickred-400/30 forced-colors:outline forced-colors:outline-2 forced-colors:-outline-offset-2 forced-colors:outline-[Highlight] {interaction.PointerCursor}",
+                    ActiveButton = $"{typography.Weight.Semibold} bg-brickblue-50 text-brickblue-700 ring-1 ring-inset ring-brickblue-600/20 dark:bg-brickblue-500/20 dark:text-brickblue-300 dark:ring-brickblue-400/30 forced-colors:outline forced-colors:outline-2 forced-colors:-outline-offset-2 forced-colors:outline-[Highlight] {interaction.PointerCursor}",
                     Buttons = $"{neutralText.Secondary} {neutralHoverFill} {neutralHoverText} {interaction.PointerCursor}",
                     DisabledButton = "text-[oklch(15%_0_0)]/40 dark:text-[oklch(97.807%_0_0)]/40 cursor-not-allowed"
                 },
@@ -1130,7 +1130,7 @@ public static class LegoTheme
                     TransferButtonColumn = $"{display.Flex} {flexbox.Col} {flexbox.Align.Center} {flexbox.Justify.Center} {flexbox.AlignSelf.Center} {spacing.Gap.Md}",
                     ListBox = $"overflow-y-auto {sizing.FullWidth} h-64 {spacing.Padding.Sm} {neutralSurface.Background} {borderWidth.Thin} {neutralSurface.BorderStrong}",
                     ListBoxDisabled = $"{interaction.DisabledOpacity} {interaction.PointerEventsNone}",
-                    Item = $"{display.Flex} {flexbox.Align.Center} {spacing.Gap.Md} {rounded.Md} px-3 py-2 {typography.Size.Sm} {neutralText.Heading} {neutralRowHover} aria-selected:bg-brickred-50 aria-selected:text-brickred-700 aria-selected:hover:bg-brickred-100 dark:aria-selected:bg-brickred-500/20 dark:aria-selected:text-brickred-300 dark:aria-selected:hover:bg-brickred-500/30 {focusRingInset} {transition.ColorsFast} {interaction.PointerCursor} select-none {interaction.FocusOutlineNone}",
+                    Item = $"{display.Flex} {flexbox.Align.Center} {spacing.Gap.Md} {rounded.Md} px-3 py-2 {typography.Size.Sm} {neutralText.Heading} {neutralRowHover} aria-selected:bg-brickblue-50 aria-selected:text-brickblue-700 aria-selected:hover:bg-brickblue-100 dark:aria-selected:bg-brickblue-500/20 dark:aria-selected:text-brickblue-300 dark:aria-selected:hover:bg-brickblue-500/30 {focusRingInset} {transition.ColorsFast} {interaction.PointerCursor} select-none {interaction.FocusOutlineNone}",
                     ItemSelected = typography.Weight.Medium,
                     EmptyState = $"px-3 py-8 {typography.AlignCenter} {typography.Size.Sm} {neutralText.Subtle}"
                 },
@@ -1138,8 +1138,8 @@ public static class LegoTheme
                 {
                     Colors = new()
                     {
-                        Primary = "[&::-webkit-progress-value]:bg-brickred-600 dark:[&::-webkit-progress-value]:bg-brickred-500 [&::-moz-progress-bar]:bg-brickred-600 dark:[&::-moz-progress-bar]:bg-brickred-500",
-                        Accent = "[&::-webkit-progress-value]:bg-brickyellow-600 dark:[&::-webkit-progress-value]:bg-brickyellow-500 [&::-moz-progress-bar]:bg-brickyellow-600 dark:[&::-moz-progress-bar]:bg-brickyellow-500",
+                        Primary = "[&::-webkit-progress-value]:bg-brickblue-600 dark:[&::-webkit-progress-value]:bg-brickblue-500 [&::-moz-progress-bar]:bg-brickblue-600 dark:[&::-moz-progress-bar]:bg-brickblue-500",
+                        Accent = "[&::-webkit-progress-value]:bg-brickorange-600 dark:[&::-webkit-progress-value]:bg-brickorange-500 [&::-moz-progress-bar]:bg-brickorange-600 dark:[&::-moz-progress-bar]:bg-brickorange-500",
                         Success = "[&::-webkit-progress-value]:bg-green-600 dark:[&::-webkit-progress-value]:bg-green-500 [&::-moz-progress-bar]:bg-green-600 dark:[&::-moz-progress-bar]:bg-green-500",
                         Danger = "[&::-webkit-progress-value]:bg-red-600 dark:[&::-webkit-progress-value]:bg-red-500 [&::-moz-progress-bar]:bg-red-600 dark:[&::-moz-progress-bar]:bg-red-500",
                         Warning = "[&::-webkit-progress-value]:bg-yellow-500 dark:[&::-webkit-progress-value]:bg-yellow-400 [&::-moz-progress-bar]:bg-yellow-500 dark:[&::-moz-progress-bar]:bg-yellow-400",
@@ -1159,8 +1159,8 @@ public static class LegoTheme
                     TabBase = $"{positioning.Relative} {display.InlineFlex} {anchor.Center} {typography.Weight.Medium} {typography.Size.Sm} {transition.ColorsFast} {focusRingInset} {interaction.FocusOutlineNone} touch-manipulation",
                     TabPadding = "px-6 py-3",
                     TabDensePadding = "px-4 py-2",
-                    ActiveIndicator = "after:absolute after:bottom-0 after:left-0 after:right-0 after:h-1.5 after:bg-current forced-colors:after:bg-[Highlight] after:scale-x-100 after:transition-transform after:duration-200 after:motion-reduce:transition-none",
-                    InactiveIndicator = $"{neutralText.Muted} {neutralHoverText} {neutralRowHover} after:absolute after:bottom-0 after:left-0 after:right-0 after:h-1.5 after:bg-current after:scale-x-0 after:transition-transform after:duration-200 after:motion-reduce:transition-none",
+                    ActiveIndicator = "after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-current forced-colors:after:bg-[Highlight] after:scale-x-100 after:transition-transform after:duration-200 after:motion-reduce:transition-none",
+                    InactiveIndicator = $"{neutralText.Muted} {neutralHoverText} {neutralRowHover} after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-current after:scale-x-0 after:transition-transform after:duration-200 after:motion-reduce:transition-none",
                     DisabledTab = $"{neutralText.Muted} {interaction.DisabledOpacity} {interaction.DisabledCursor}",
                     TabListContainer = $"{display.Flex} {flexbox.Wrap} {overflow.Hidden} {borderWidth.Thin} {neutralSurface.Border}",
                     PanelContainer = $"px-6 py-5 border-x border-b {neutralSurface.Border} {focusRingInset} {interaction.FocusOutlineNone}",
@@ -1189,20 +1189,22 @@ public static class LegoTheme
                     NavbarNavigationExpanded = "flex flex-1",
                     NavigationItemToggleLabel = "me-auto text-start",
                     NavigationItemToggleIcon = "transition-transform",
-                    Navbar = $"{display.Flex} z-40 {flexbox.Align.Center} {flexbox.ShrinkNone} {sizing.FullWidth} min-h-16 px-4 py-2 bg-brickyellow-400 text-black border-b-4 border-black",
+                    Navbar = $"{display.Flex} z-40 {flexbox.Align.Center} {flexbox.ShrinkNone} {sizing.FullWidth} min-h-16 px-4 py-2 bg-brickyellow-400 text-black",
                     NavbarContent = $"{display.Flex} {flexbox.Wrap} {flexbox.Align.Center} {spacing.Gap.Xl} {sizing.FullWidth}",
                     NavbarBrand = flexbox.ShrinkNone,
                     NavbarNavigation = $"{flexbox.Align.Center} {spacing.Gap.Md}",
                     NavbarActions = $"{display.Flex} {flexbox.Align.Center} {spacing.Gap.Md} {spacing.PushEnd}",
-                    NavbarToggle = $"lg:hidden order-first {flexbox.ShrinkNone} text-xl {neutralText.Secondary}",
+                    NavbarActionsCollapsible = "max-lg:ms-0 max-lg:mt-2 max-lg:flex-wrap max-lg:justify-center max-lg:border-t max-lg:border-current/15 max-lg:pt-3",
+                    NavbarToggle = $"lg:hidden {spacing.PushEnd} -me-2 size-11 {flexbox.ShrinkNone} text-2xl",
                     NavbarToggleIcon = $"text-xl {neutralText.Secondary} {neutralHoverText} {transition.ColorsFast}",
                     NavbarLink = $"{display.InlineFlex} {flexbox.Align.Center} {spacing.Gap.Md} px-3 py-1.5 {typography.Size.Sm} {typography.Weight.Medium} {neutralText.Secondary} {neutralHoverFill} {neutralHoverText} {rounded.Md} {transition.ColorsFast} {focusRing} {interaction.FocusOutlineNone}",
+                    NavbarLinkCollapsible = "max-lg:w-full max-lg:min-h-11 max-lg:px-3 max-lg:text-base",
                     NavbarLinkActive = $"{neutralTrack} {neutralText.Heading}",
-                    NavbarMobileMenu = $"{spacing.Padding.Lg} {overlayTheme.Popover.Background} border-b {neutralSurface.Border} {shadows.Lg}",
+                    NavbarMobileMenu = "max-lg:basis-full max-lg:-mx-4 max-lg:-mt-2 max-lg:-mb-2 max-lg:max-h-[calc(100dvh-3.5rem)] max-lg:overflow-y-auto max-lg:overscroll-contain max-lg:items-stretch max-lg:gap-1 max-lg:border-t max-lg:border-current/15 max-lg:px-2 max-lg:py-2 max-lg:[&>a]:flex max-lg:[&>a]:min-h-11 max-lg:[&>a]:w-full max-lg:[&>a]:items-center max-lg:[&>a]:px-3 max-lg:[&>a]:text-base",
                     Sidebar = $"z-100 overflow-auto scrollbar-gutter-stable overscroll-contain {flexbox.ShrinkNone} h-dvh w-64 {spacing.Padding.Xl} {neutralSurface.Background} border-e {neutralSurface.Border} {transition.TransformFast} {transition.EaseInOut}",
                     NavigationItemBase = $"{display.Flex} {flexbox.Align.Center} {spacing.Gap.Md} {sizing.MinWidthNone} px-3 py-2 {typography.Size.Sm} {neutralText.Secondary} {neutralSurface.Hover} {focusRingInset} {transition.ColorsFast} {interaction.FocusOutlineNone} {interaction.PointerCursor}",
                     NavigationItemActive = $"{neutralTrack} {neutralText.Heading}",
-                    NavigationItemCurrent = $"{positioning.Relative} {overflow.Hidden} before:absolute before:inset-y-0 before:start-0 before:w-0.5 before:bg-linear-to-b before:from-brickred-600 before:to-brickyellow-500 forced-colors:before:bg-[Highlight]",
+                    NavigationItemCurrent = $"{positioning.Relative} {overflow.Hidden} before:absolute before:inset-y-0 before:start-0 before:w-0.5 before:bg-linear-to-b before:from-brickblue-600 before:to-brickorange-500 forced-colors:before:bg-[Highlight]",
                     NavigationItemParent = typography.Weight.Semibold,
                     NavigationItemIcon = flexbox.ShrinkNone,
                     NavigationItemContent = $"{display.InlineFlex} {flexbox.Align.Center} {flexbox.ShrinkNone} {spacing.PushEnd}",
@@ -1217,7 +1219,7 @@ public static class LegoTheme
                 {
                     Container = $"{display.Flex} {flexbox.Col} {typography.Size.Sm}",
                     Group = $"{display.Flex} {flexbox.Col} gap-0.5 mt-0.5 ms-3 ps-2 border-s {neutralSurface.Border}",
-                    Row = $"group/row {display.Flex} {flexbox.Align.Center} {spacing.Gap.Sm} {sizing.MinWidthNone} {rounded.Md} px-2 py-1.5 {typography.Size.Sm} {neutralText.Heading} {neutralRowHover} [li:focus-visible>&]:ring-inset [li:focus-visible>&]:ring-2 [li:focus-visible>&]:ring-brickred-500 dark:[li:focus-visible>&]:ring-brickred-400 forced-colors:[li:focus-visible>&]:outline-2 forced-colors:[li:focus-visible>&]:-outline-offset-2 forced-colors:[li:focus-visible>&]:outline-[Highlight] {transition.ColorsFast} {interaction.PointerCursor}",
+                    Row = $"group/row {display.Flex} {flexbox.Align.Center} {spacing.Gap.Sm} {sizing.MinWidthNone} {rounded.Md} px-2 py-1.5 {typography.Size.Sm} {neutralText.Heading} {neutralRowHover} [li:focus-visible>&]:ring-inset [li:focus-visible>&]:ring-2 [li:focus-visible>&]:ring-brickblue-500 dark:[li:focus-visible>&]:ring-brickblue-400 forced-colors:[li:focus-visible>&]:outline-2 forced-colors:[li:focus-visible>&]:-outline-offset-2 forced-colors:[li:focus-visible>&]:outline-[Highlight] {transition.ColorsFast} {interaction.PointerCursor}",
                     RowDisabled = $"{interaction.DisabledOpacity} {interaction.PointerEventsNone}",
                     ToggleSlot = $"{display.InlineFlex} {flexbox.ShrinkNone} {flexbox.Align.Center} {flexbox.Justify.Center} size-6",
                     ToggleIcon = $"{display.InlineFlex} {flexbox.ShrinkNone} {flexbox.Align.Center} {flexbox.Justify.Center} size-6 {rounded.Full} {neutralText.Muted} {neutralHoverFill} {neutralHoverText} transition-[transform,background-color,color] {transition.DurationFast} motion-reduce:transition-none",
@@ -1292,8 +1294,8 @@ public static class LegoTheme
                 {
                     Colors = new()
                     {
-                        Primary = "peer-checked:bg-brickred-600 dark:peer-checked:bg-brickred-500",
-                        Accent = "peer-checked:bg-brickyellow-600 dark:peer-checked:bg-brickyellow-500",
+                        Primary = "peer-checked:bg-brickblue-600 dark:peer-checked:bg-brickblue-500",
+                        Accent = "peer-checked:bg-brickorange-600 dark:peer-checked:bg-brickorange-500",
                         Success = "peer-checked:bg-green-600 dark:peer-checked:bg-green-500",
                         Danger = "peer-checked:bg-red-600 dark:peer-checked:bg-red-500",
                         Warning = "peer-checked:bg-yellow-600 dark:peer-checked:bg-yellow-500",
@@ -1314,8 +1316,8 @@ public static class LegoTheme
                 {
                     Colors = new()
                     {
-                        Primary = "border-t-brickred-600 dark:border-t-brickred-500",
-                        Accent = "border-t-brickyellow-600 dark:border-t-brickyellow-500",
+                        Primary = "border-t-brickblue-600 dark:border-t-brickblue-500",
+                        Accent = "border-t-brickorange-600 dark:border-t-brickorange-500",
                         Success = "border-t-green-600 dark:border-t-green-500",
                         Danger = "border-t-red-600 dark:border-t-red-500",
                         Warning = "border-t-yellow-500 dark:border-t-yellow-500",
@@ -1351,7 +1353,7 @@ public static class LegoTheme
                     BodyInner = $"{spacing.Padding.Md} {typography.AlignCenter} {typography.Weight.Medium} {neutralText.Heading}",
                     ContentRow = $"{display.Flex} {anchor.Center} {spacing.Gap.Lg}",
                     Column = $"{display.Flex} {flexbox.Col} {flexbox.Align.Center} {spacing.Gap.Sm}",
-                    StepButton = $"{neutralText.Subtle} hover:text-brickred-600 dark:hover:text-brickred-400 {interaction.PointerCursor}",
+                    StepButton = $"{neutralText.Subtle} hover:text-brickblue-600 dark:hover:text-brickblue-400 {interaction.PointerCursor}",
                     NumberWrapper = $"{display.Flex} {flexbox.Align.Center} {flexbox.Justify.Center}",
                     NumberInput = $"w-12 py-1 {typography.AlignCenter} {typography.Size.Lg} {typography.Weight.Semibold} {neutralText.Heading} {transition.ColorsFast} {rounded.Md} {focusRing} {interaction.FocusOutlineNone}",
                     Separator = $"self-center px-1 {typography.Size.Lg} {typography.Weight.Semibold} {neutralText.Subtle}",
@@ -1360,7 +1362,7 @@ public static class LegoTheme
                 },
                 new TwTableTheme
                 {
-                    Wrapper = $"{positioning.Relative} overflow-auto focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-brickred-600 dark:focus-visible:outline-brickred-300",
+                    Wrapper = $"{positioning.Relative} overflow-auto focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-brickblue-600 dark:focus-visible:outline-brickblue-300",
                     ContainerClip = overflow.Hidden,
                     Base = $"{sizing.FullWidth} {typography.Size.Sm} text-start {neutralText.Heading}",
                     Bordered = $"{borderWidth.Thin} {neutralSurface.Border}",
@@ -1435,7 +1437,7 @@ public static class LegoTheme
                     EventChipReadOnly = $"{interaction.ReadonlyCursor} opacity-90",
                     EventChipDraggable = "cursor-grab active:cursor-grabbing",
                     DropPlaceholder = $"{overflow.Hidden} {rounded.Sm} border-2 border-dashed {borderColors.Primary} {background.Lightest.Primary} {darkBackground.Dark.Primary} {text.Dark.Primary} {darkText.Light.Primary} {typography.Size.Xs} opacity-70 z-10",
-                    TodayHighlight = $"animate-pulse motion-reduce:animate-none [animation-iteration-count:1] {background.Light.Primary} dark:bg-brickred-500/50",
+                    TodayHighlight = $"animate-pulse motion-reduce:animate-none [animation-iteration-count:1] {background.Light.Primary} dark:bg-brickblue-500/50",
                     AllDayRow = $"border-b {neutralSurface.Border}",
                     AllDayLabel = $"{flexbox.ShrinkNone} w-10 sm:w-16 {spacing.Padding.Sm} text-end text-[10px] sm:text-xs {neutralText.Subtle}",
                     AllDayGrid = "gap-y-1 py-1",

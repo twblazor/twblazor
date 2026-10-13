@@ -1,5 +1,116 @@
 @page "/showcase/microsoft"
 @layout EmptyLayout
 @using TwBlazor.Docs.Pages.Showcase.Shared
+@using IconEnum = TwBlazor.Enums.Icon
 
-<ShowcasePage Brand="ShowcaseBrand.Microsoft" />
+<ShowcasePage Brand="brand">
+    <ChildContent>
+        <TwNavbar AriaLabel="Microsoft example navigation">
+            <BrandContent>
+                <a href="@brand.Path" class="@focusClass"><ShowcaseLogo Brand="brand" /></a>
+            </BrandContent>
+            <NavigationContent>
+                @foreach (var link in navigation)
+                {
+                    <a href="@Anchor("showcase-products")" class="px-2 py-2 text-[13px] underline-offset-4 hover:underline @focusClass">@link</a>
+                }
+            </NavigationContent>
+            <ActionsContent>
+                <a href="@Anchor("showcase-products")" class="inline-flex items-center gap-1 px-2 py-2 text-[13px] underline-offset-4 hover:underline @focusClass">All Microsoft <TwIcon Icon="IconEnum.Chevron_Down" Plain /></a>
+                <TwIcon Icon="IconEnum.Search" AriaLabel="Search" OnClick="@OnIconClick" />
+                <TwIcon Icon="IconEnum.Cart" AriaLabel="@($"Cart, {basket} items")" OnClick="@OnIconClick" />
+                <TwIcon Icon="IconEnum.Person_Circle" AriaLabel="Sign in to your account" OnClick="@OnIconClick" />
+            </ActionsContent>
+        </TwNavbar>
+
+        <main id="showcase-main">
+            <section class="bg-neutral-100 dark:bg-neutral-900" aria-labelledby="showcase-hero-heading">
+                <div class="mx-auto grid max-w-7xl grid-cols-1 items-center gap-8 px-6 py-12 md:grid-cols-2 md:py-16">
+                    <div class="flex flex-col items-start gap-4">
+                        <TwChip Label="New" Color="Color.Warning" Size="ChipSize.Small" Rounded="Rounded.None" Class="bg-[#FFB900] font-semibold text-black" />
+                        <h1 id="showcase-hero-heading" class="text-4xl font-semibold text-balance md:text-[46px] md:leading-[1.15]">Meet Surface Laptop Ultra</h1>
+                        <p class="max-w-md text-lg">Our most powerful Surface Laptop yet: a Copilot+ PC built for the work that matters.</p>
+                        <div class="mt-2 flex flex-wrap items-center gap-5">
+                            <TwButton Label="Shop now" Color="Color.Primary" Href="@Anchor("showcase-products")" />
+                            <a href="@Anchor("showcase-products")" class="inline-flex items-center gap-1 text-sm font-semibold text-fluentblue-600 underline-offset-4 hover:underline dark:text-fluentblue-300 @focusClass">Learn more <TwIcon Icon="IconEnum.Chevron_Right" Plain /></a>
+                        </div>
+                    </div>
+                    <ShowcaseImage Url="@brand.HeroImage" Alt="Surface Laptop Ultra" Icon="IconEnum.Laptop" Class="aspect-video w-full object-cover" FallbackClass="bg-linear-to-br from-fluentblue-200 via-fluentblue-400 to-fluentblue-700 text-8xl text-white" />
+                </div>
+            </section>
+
+            <section id="showcase-products" class="mx-auto max-w-7xl scroll-mt-6 px-6 py-12" aria-labelledby="showcase-products-heading">
+                <h2 id="showcase-products-heading" class="sr-only">Featured products</h2>
+                <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                    @foreach (var product in brand.Products)
+                    {
+                        <TwCard>
+                        <article class="flex h-full flex-col">
+                            <ShowcaseImage Url="@product.Image" Alt="@product.Name" Icon="product.Icon" Class="aspect-video w-full object-cover" FallbackClass="bg-neutral-100 text-6xl text-neutral-500 dark:bg-neutral-800 dark:text-neutral-300" />
+                            <div class="mt-4"><TwChip Label="@product.Tag" Color="Color.Warning" Size="ChipSize.Small" Rounded="Rounded.None" Class="bg-[#FFB900] font-semibold text-black" /></div>
+                            <h3 class="mt-3 text-xl font-semibold">@product.Name</h3>
+                            <p class="mt-2 text-[15px]">@product.Description</p>
+                            <p class="mt-2 text-sm font-semibold">@product.Price</p>
+                            <div class="mt-auto pt-4">
+                                <TwButton Label="Buy now" AriaLabel="@($"Buy {product.Name}")" Color="Color.Primary" OnClick="@(() => basket++)" />
+                            </div>
+                        </article>
+                        </TwCard>
+                    }
+                </div>
+                <p class="mt-6 text-sm" aria-live="polite">@(basket == 0 ? "Your cart is empty." : $"{basket} in your cart.")</p>
+            </section>
+
+            <section class="bg-[#243A5E] text-white" aria-labelledby="showcase-business-heading">
+                <div class="mx-auto flex max-w-7xl flex-col items-start gap-4 px-6 py-12">
+                    <h2 id="showcase-business-heading" class="text-3xl font-semibold">For business</h2>
+                    <p class="max-w-xl text-lg">Bring your team together with the apps and devices that keep work moving.</p>
+                    <TwButton Label="Shop for business" Color="Color.Light" Href="@Anchor("showcase-products")" />
+                </div>
+            </section>
+        </main>
+    </ChildContent>
+    <Footer>
+        <footer class="bg-neutral-100 text-xs text-neutral-700 dark:bg-neutral-900 dark:text-neutral-300">
+            <div class="mx-auto grid max-w-7xl grid-cols-2 gap-8 px-6 py-10 md:grid-cols-4">
+                @foreach (var (title, links) in footer)
+                {
+                    <div>
+                        <h2 class="text-[15px] font-semibold text-neutral-900 dark:text-white">@title</h2>
+                        <ul class="mt-3 flex flex-col gap-2">
+                            @foreach (var link in links)
+                            {
+                                <li><a href="@Anchor("showcase-main")" class="underline-offset-4 hover:underline @focusClass">@link</a></li>
+                            }
+                        </ul>
+                    </div>
+                }
+            </div>
+        </footer>
+    </Footer>
+</ShowcasePage>
+
+@code {
+    private const string focusClass = "rounded-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current";
+
+    private static readonly ShowcaseBrand brand = ShowcaseBrand.Microsoft;
+
+    private static readonly string[] navigation = ["Microsoft 365", "Teams", "Copilot", "Windows", "Surface", "Xbox", "Support"];
+
+    private static readonly (string Title, string[] Links)[] footer =
+    [
+        ("What's new", ["Surface Pro", "Surface Laptop", "Copilot for organisations", "Microsoft 365"]),
+        ("Microsoft Store", ["Account profile", "Download Center", "Returns", "Order tracking"]),
+        ("Education", ["Microsoft in education", "Devices for education", "Microsoft Teams for Education"]),
+        ("Business", ["Microsoft Cloud", "Microsoft Security", "Dynamics 365", "Small business"])
+    ];
+
+    private int basket;
+
+    // The icon buttons are for show: this example has no search, account or wishlist behind them.
+    private static void OnIconClick()
+    {
+    }
+
+    private static string Anchor(string id) => $"{brand.Path}#{id}";
+}

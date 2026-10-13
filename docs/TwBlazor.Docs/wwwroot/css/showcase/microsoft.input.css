@@ -15,27 +15,15 @@
 @theme {
     --font-fluent: "Segoe UI Variable", "Segoe UI", system-ui, -apple-system, sans-serif;
 
-    --color-fluentblue-50: oklch(97.5% 0.017 251.3);
-    --color-fluentblue-100: oklch(90.7% 0.029 251.3);
-    --color-fluentblue-200: oklch(83.9% 0.049 251.3);
-    --color-fluentblue-300: oklch(77.1% 0.073 251.3);
-    --color-fluentblue-400: oklch(70.3% 0.102 251.3);
-    --color-fluentblue-500: oklch(63.6% 0.133 251.3);
-    --color-fluentblue-600: oklch(56.8% 0.167 251.3);
-    --color-fluentblue-700: oklch(49.1% 0.152 251.3);
-    --color-fluentblue-800: oklch(41.4% 0.137 251.3);
-    --color-fluentblue-900: oklch(33.7% 0.123 251.3);
-    --color-fluentblue-950: oklch(26.0% 0.108 251.3);
-
-    --color-fluentgreen-50: oklch(97.5% 0.017 142.7);
-    --color-fluentgreen-100: oklch(89.8% 0.029 142.7);
-    --color-fluentgreen-200: oklch(82.0% 0.049 142.7);
-    --color-fluentgreen-300: oklch(74.3% 0.073 142.7);
-    --color-fluentgreen-400: oklch(66.5% 0.101 142.7);
-    --color-fluentgreen-500: oklch(58.8% 0.132 142.7);
-    --color-fluentgreen-600: oklch(51.0% 0.165 142.7);
-    --color-fluentgreen-700: oklch(43.5% 0.151 142.7);
-    --color-fluentgreen-800: oklch(36.0% 0.136 142.7);
-    --color-fluentgreen-900: oklch(28.5% 0.122 142.7);
-    --color-fluentgreen-950: oklch(21.0% 0.108 142.7);
+    --color-fluentblue-50: oklch(97.5% 0.015 251.5);
+    --color-fluentblue-100: oklch(89.7% 0.026 251.5);
+    --color-fluentblue-200: oklch(82.0% 0.044 251.5);
+    --color-fluentblue-300: oklch(74.2% 0.066 251.5);
+    --color-fluentblue-400: oklch(66.5% 0.092 251.5);
+    --color-fluentblue-500: oklch(58.7% 0.120 251.5);
+    --color-fluentblue-600: oklch(51.0% 0.150 251.5);
+    --color-fluentblue-700: oklch(43.5% 0.137 251.5);
+    --color-fluentblue-800: oklch(36.0% 0.124 251.5);
+    --color-fluentblue-900: oklch(28.5% 0.111 251.5);
+    --color-fluentblue-950: oklch(21.0% 0.098 251.5);
 }

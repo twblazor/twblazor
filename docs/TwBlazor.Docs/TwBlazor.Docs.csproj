@@ -27,6 +27,11 @@
     <EmbeddedResource Include="..\..\components.json" Link="components.json" />
   </ItemGroup>
 
+  <!-- Each showcase page shows its own Razor source, so the source is embedded in the assembly. -->
+  <ItemGroup>
+    <EmbeddedResource Include="Pages\Showcase\*Showcase.razor" LogicalName="Showcase.%(Filename).razor" />
+  </ItemGroup>
+
   <ItemGroup>
     <Content Update="wwwroot\css\codeblockDark.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

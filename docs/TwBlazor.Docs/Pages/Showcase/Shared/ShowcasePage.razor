@@ -1,5 +1,4 @@
 @using TwBlazor.Docs.Generated
-@using TwBlazor.Models
 @using IconEnum = TwBlazor.Enums.Icon
 @implements IDisposable
 @inject TwBlazorOptions Options
@@ -33,38 +32,13 @@
     else
     {
         <div class="@pageClass">
-            <TwNavbar AriaLabel="@($"{Brand.Name} example navigation")">
-                <BrandContent>
-                    <a href="@Brand.Path" class="flex items-center gap-2 rounded-sm text-lg font-bold tracking-tight focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current">
-                        @Brand.Name
-                        <span class="rounded-full border border-current px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide opacity-80">Example</span>
-                    </a>
-                </BrandContent>
-                <NavigationContent>
-                    <a href="@($"{Brand.Path}#showcase-products")" class="@Brand.NavLinkClass">@Brand.ProductsLabel</a>
-                    <a href="@($"{Brand.Path}#showcase-components")" class="@Brand.NavLinkClass">Components</a>
-                    <a href="@($"{Brand.Path}#showcase-theme")" class="@Brand.NavLinkClass">Theme.cs</a>
-                </NavigationContent>
-                <ActionsContent>
-                    <TwButton Label="Sign in" Variant="ButtonVariant.Text" Color="Color.Dark" />
-                </ActionsContent>
-            </TwNavbar>
+            @ChildContent
 
-            <main id="showcase-main">
-                <section class="@Brand.HeroClass" aria-labelledby="showcase-hero-heading">
-                    <div class="mx-auto flex max-w-6xl flex-col gap-5 px-6 py-16 md:py-24 @Brand.HeroAlignClass">
-                        <h1 id="showcase-hero-heading" class="max-w-3xl text-balance @Brand.HeroTitleClass">@Brand.HeroTitle</h1>
-                        <p class="max-w-xl text-lg/7 text-pretty opacity-90">@Brand.HeroText</p>
-                        <div class="mt-2 flex flex-wrap gap-3">
-                            <TwButton Label="@Brand.PrimaryAction" Color="@Brand.PrimaryActionColor" Href="@($"{Brand.Path}#showcase-products")" />
-                            <TwButton Label="See the theme" Color="@Brand.SecondaryActionColor" Variant="ButtonVariant.Outlined" Href="@($"{Brand.Path}#showcase-theme")" />
-                        </div>
-                    </div>
-                </section>
-
-                <div class="mx-auto flex max-w-6xl flex-col gap-16 px-6 py-16">
+            <div class="@Options.Theme.Colors.NeutralSurface.BackgroundSubtle">
+                <div class="mx-auto flex max-w-7xl flex-col gap-16 px-6 py-16">
                     <section aria-labelledby="showcase-traits-heading">
-                        <h2 id="showcase-traits-heading" class="@sectionHeadingClass">What this theme changes</h2>
+                        <p class="text-xs font-semibold uppercase tracking-wide @neutralText.Muted">About this example</p>
+                        <h2 id="showcase-traits-heading" class="mt-1 @sectionHeadingClass">What this theme changes</h2>
                         <p class="mt-2 max-w-2xl @neutralText.Secondary">@Brand.Summary</p>
                         <dl class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
                             @foreach (var trait in Brand.Traits)
@@ -77,47 +51,42 @@
                         </dl>
                     </section>
 
-                    <section id="showcase-products" class="scroll-mt-6" aria-labelledby="showcase-products-heading">
-                        <h2 id="showcase-products-heading" class="@sectionHeadingClass">@Brand.ProductsTitle</h2>
-                        <div class="mt-6 grid grid-cols-1 gap-6 md:grid-cols-3">
-                            @foreach (var product in Brand.Products)
-                            {
-                                <TwCard Title="@product.Name">
-                                    <div class="flex h-full flex-col gap-4">
-                                        <TwChip Label="@product.Tag" Color="Color.Accent" />
-                                        <p class="@neutralText.Secondary">@product.Description</p>
-                                        <div class="mt-auto flex flex-wrap items-center justify-between gap-3">
-                                            <span class="text-lg font-semibold tabular-nums @neutralText.Heading">@product.Price</span>
-                                            <TwButton Label="Add" AriaLabel="@($"Add {product.Name}")" Color="Color.Primary" StartIcon="IconEnum.Plus" OnClick="@(() => basketCount++)" />
-                                        </div>
-                                    </div>
-                                </TwCard>
-                            }
-                        </div>
-                        <p class="mt-4 text-sm @neutralText.Secondary" aria-live="polite">@basketText</p>
-                    </section>
-
                     <section id="showcase-components" class="scroll-mt-6" aria-labelledby="showcase-components-heading">
                         <h2 id="showcase-components-heading" class="@sectionHeadingClass">The same components, restyled</h2>
-                        <p class="mt-2 max-w-2xl @neutralText.Secondary">Nothing on this page sets a color, a corner or a shadow. Every component below takes its look from the theme file.</p>
+                        <p class="mt-2 max-w-2xl @neutralText.Secondary">None of the components below is given a color, a corner or a shadow. Each takes its look from the theme file.</p>
                         <div class="mt-6">
                             <ShowcaseGallery Brand="@Brand" />
                         </div>
                     </section>
 
                     <section id="showcase-theme" class="scroll-mt-6" aria-labelledby="showcase-theme-heading">
-                        <h2 id="showcase-theme-heading" class="@sectionHeadingClass">The Theme.cs behind this page</h2>
+                        <h2 id="showcase-theme-heading" class="@sectionHeadingClass">The code behind this page</h2>
                         <p class="mt-2 max-w-2xl @neutralText.Secondary">
-                            This is the whole theme, the same shape as the default <code>Theme.cs</code>. Its two brand colors are Tailwind theme colors, and this page's stylesheet is compiled by Tailwind from this file alone.
+                            The page is plain Razor using twblazor components, and its look comes from one theme file, the same shape as the default <code>Theme.cs</code>. This page's stylesheet is compiled by Tailwind from these two files.
                         </p>
-                        <TwCodeBlock Content="@CodeExamples.Get(Brand.CodeExample)" Language="csharp" Title="@($"{Brand.Name}Theme.cs")" Class="mt-6 max-h-150 overflow-y-scroll" />
+                        <div class="mt-6">
+                            <TwTabContainer TabColor="Color.Primary">
+                                <TwTab Label="@($"{Brand.PageName}.razor")">
+                                    <div id="showcase-razor">
+                                        <TwCodeBlock Content="@razorSource" Language="razor" Title="@($"{Brand.PageName}.razor")" Class="max-h-150 overflow-y-scroll" />
+                                    </div>
+                                </TwTab>
+                                <TwTab Label="Theme.cs">
+                                    <div id="showcase-theme-file">
+                                        <TwCodeBlock Content="@CodeExamples.Get(Brand.CodeExample)" Language="csharp" Title="Theme.cs" Class="max-h-150 overflow-y-scroll" />
+                                    </div>
+                                </TwTab>
+                            </TwTabContainer>
+                        </div>
                     </section>
                 </div>
-            </main>
+            </div>
+
+            @Footer
         </div>
     }
 
     <footer class="mt-auto border-t border-gray-200 bg-white px-6 py-6 dark:border-gray-800 dark:bg-gray-950">
-        <p id="showcase-disclaimer" class="mx-auto max-w-6xl text-xs text-gray-600 dark:text-gray-400">@ShowcaseBrand.Disclaimer</p>
+        <p id="showcase-disclaimer" class="mx-auto max-w-7xl text-xs text-gray-600 dark:text-gray-400">@ShowcaseBrand.Disclaimer</p>
     </footer>
 </div>

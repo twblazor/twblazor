@@ -9,7 +9,7 @@ using TwBlazor.Enums;
 namespace TwBlazor.Docs.Pages.Showcase.Themes;
 
 /// <summary>
-/// An example theme inspired by the look of Tesco's products. Clear and practical: confident blue, pill buttons with large touch targets, flat cards and a strong blue rule under the bar.
+/// An example theme inspired by the look of Tesco's products. Clear and practical: confident blue, pill buttons with large touch targets, flat bordered tiles and red for offers.
 /// </summary>
 /// <remarks>
 /// This is a complete theme file, the same shape as the default <c>Theme.cs</c>, shown in full on the
@@ -502,40 +502,40 @@ public static class TescoTheme
         {
             None = "rounded-none",
             Sm = "rounded-sm",
-            Md = "rounded-lg",
-            Lg = "rounded-xl",
+            Md = "rounded-md",
+            Lg = "rounded-lg",
             Full = "rounded-full",
             DefaultRounded = Rounded.Md,
             RoundedTop = new()
             {
                 None = "rounded-t-none",
                 Sm = "rounded-t-sm",
-                Md = "rounded-t-lg",
-                Lg = "rounded-t-xl",
+                Md = "rounded-t-md",
+                Lg = "rounded-t-lg",
                 Full = "rounded-t-full"
             },
             RoundedBottom = new()
             {
                 None = "rounded-b-none",
                 Sm = "rounded-b-sm",
-                Md = "rounded-b-lg",
-                Lg = "rounded-b-xl",
+                Md = "rounded-b-md",
+                Lg = "rounded-b-lg",
                 Full = "rounded-b-full"
             },
             RoundedStart = new()
             {
                 None = "rounded-s-none",
                 Sm = "rounded-s-sm",
-                Md = "rounded-s-lg",
-                Lg = "rounded-s-xl",
+                Md = "rounded-s-md",
+                Lg = "rounded-s-lg",
                 Full = "rounded-s-full"
             },
             RoundedEnd = new()
             {
                 None = "rounded-e-none",
                 Sm = "rounded-e-sm",
-                Md = "rounded-e-lg",
-                Lg = "rounded-e-xl",
+                Md = "rounded-e-md",
+                Lg = "rounded-e-lg",
                 Full = "rounded-e-full"
             }
         };
@@ -800,7 +800,7 @@ public static class TescoTheme
                     Base = $"{display.InlineFlex} {overflow.Hidden} {anchor.Center} min-h-11 {typography.Size.Sm} {typography.AlignCenter} {transition.ColorsFast} {interaction.FocusOutlineNone} focus-visible:outline-hidden touch-manipulation rounded-full!",
                     Padding = "px-6 py-2",
                     DensePadding = "px-3 py-1",
-                    IconButton = $"{display.InlineFlex} {anchor.Center} {sizing.Icon.Xl} {typography.Size.Sm} {rounded.Full} {interaction.FocusOutlineNone}",
+                    IconButton = $"{display.InlineFlex} {anchor.Center} size-11 {typography.Size.Sm} {rounded.Full} {interaction.FocusOutlineNone}",
                     Typography = typography.Weight.Semibold,
                     IconTypography = $"{typography.Size.Lg} leading-none",
                     Uppercase = $"{textTransform.Uppercase} tracking-wide",
@@ -813,9 +813,9 @@ public static class TescoTheme
                 },
                 new TwCardTheme
                 {
-                    Container = "px-5 py-5",
+                    Container = "px-4 py-4",
                     Bordered = $"{borderWidth.Thin} {neutralSurface.Border}",
-                    Title = $"{typography.Size.Lg} {typography.Weight.Semibold} {typography.WrapBreakWord} {neutralText.Heading}"
+                    Title = $"{typography.Size.Lg} {typography.Weight.Semibold} {typography.WrapBreakWord} {neutralText.Heading} mb-4"
                 },
                 new TwCarouselTheme
                 {
@@ -1189,16 +1189,18 @@ public static class TescoTheme
                     NavbarNavigationExpanded = "flex flex-1",
                     NavigationItemToggleLabel = "me-auto text-start",
                     NavigationItemToggleIcon = "transition-transform",
-                    Navbar = $"{display.Flex} z-40 {flexbox.Align.Center} {flexbox.ShrinkNone} {sizing.FullWidth} min-h-16 px-4 py-2 {neutralSurface.Background} text-grocerblue-700 dark:text-grocerblue-200 border-b-4 border-grocerblue-600",
+                    Navbar = $"{display.Flex} z-40 {flexbox.Align.Center} {flexbox.ShrinkNone} {sizing.FullWidth} min-h-18 px-4 py-2 {neutralSurface.Background} text-grocerblue-600",
                     NavbarContent = $"{display.Flex} {flexbox.Wrap} {flexbox.Align.Center} {spacing.Gap.Xl} {sizing.FullWidth}",
                     NavbarBrand = flexbox.ShrinkNone,
                     NavbarNavigation = $"{flexbox.Align.Center} {spacing.Gap.Md}",
                     NavbarActions = $"{display.Flex} {flexbox.Align.Center} {spacing.Gap.Md} {spacing.PushEnd}",
-                    NavbarToggle = $"lg:hidden order-first {flexbox.ShrinkNone} text-xl {neutralText.Secondary}",
+                    NavbarActionsCollapsible = "max-lg:ms-0 max-lg:mt-2 max-lg:flex-wrap max-lg:justify-center max-lg:border-t max-lg:border-current/15 max-lg:pt-3",
+                    NavbarToggle = $"lg:hidden {spacing.PushEnd} -me-2 size-11 {flexbox.ShrinkNone} text-2xl",
                     NavbarToggleIcon = $"text-xl {neutralText.Secondary} {neutralHoverText} {transition.ColorsFast}",
                     NavbarLink = $"{display.InlineFlex} {flexbox.Align.Center} {spacing.Gap.Md} px-3 py-1.5 {typography.Size.Sm} {typography.Weight.Medium} {neutralText.Secondary} {neutralHoverFill} {neutralHoverText} {rounded.Md} {transition.ColorsFast} {focusRing} {interaction.FocusOutlineNone}",
+                    NavbarLinkCollapsible = "max-lg:w-full max-lg:min-h-11 max-lg:px-3 max-lg:text-base",
                     NavbarLinkActive = $"{neutralTrack} {neutralText.Heading}",
-                    NavbarMobileMenu = $"{spacing.Padding.Lg} {overlayTheme.Popover.Background} border-b {neutralSurface.Border} {shadows.Lg}",
+                    NavbarMobileMenu = "max-lg:basis-full max-lg:-mx-4 max-lg:-mt-2 max-lg:-mb-2 max-lg:max-h-[calc(100dvh-3.5rem)] max-lg:overflow-y-auto max-lg:overscroll-contain max-lg:items-stretch max-lg:gap-1 max-lg:border-t max-lg:border-current/15 max-lg:px-2 max-lg:py-2 max-lg:[&>a]:flex max-lg:[&>a]:min-h-11 max-lg:[&>a]:w-full max-lg:[&>a]:items-center max-lg:[&>a]:px-3 max-lg:[&>a]:text-base",
                     Sidebar = $"z-100 overflow-auto scrollbar-gutter-stable overscroll-contain {flexbox.ShrinkNone} h-dvh w-64 {spacing.Padding.Xl} {neutralSurface.Background} border-e {neutralSurface.Border} {transition.TransformFast} {transition.EaseInOut}",
                     NavigationItemBase = $"{display.Flex} {flexbox.Align.Center} {spacing.Gap.Md} {sizing.MinWidthNone} px-3 py-2 {typography.Size.Sm} {neutralText.Secondary} {neutralSurface.Hover} {focusRingInset} {transition.ColorsFast} {interaction.FocusOutlineNone} {interaction.PointerCursor}",
                     NavigationItemActive = $"{neutralTrack} {neutralText.Heading}",

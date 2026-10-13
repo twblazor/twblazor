@@ -9,7 +9,7 @@ using TwBlazor.Enums;
 namespace TwBlazor.Docs.Pages.Showcase.Themes;
 
 /// <summary>
-/// An example theme inspired by the look of Microsoft's products. A crisp, quiet system look: small corners, hairline borders, subtle elevation and inputs that underline on focus.
+/// An example theme inspired by the look of Microsoft's products. A crisp, quiet system look: 2px corners, hairline borders, subtle elevation and inputs that underline on focus.
 /// </summary>
 /// <remarks>
 /// This is a complete theme file, the same shape as the default <c>Theme.cs</c>, shown in full on the
@@ -92,7 +92,7 @@ public static class MicrosoftTheme
             Light =
             {
                 Primary = "text-fluentblue-200",
-                Accent = "text-fluentgreen-200",
+                Accent = "text-neutral-200",
                 Success = "text-green-200",
                 Danger = "text-red-200",
                 Warning = "text-yellow-200",
@@ -103,7 +103,7 @@ public static class MicrosoftTheme
             Medium =
             {
                 Primary = "text-fluentblue-600",
-                Accent = "text-fluentgreen-600",
+                Accent = "text-neutral-600",
                 Success = "text-green-800",
                 Danger = "text-red-700",
                 Warning = "text-yellow-800",
@@ -114,7 +114,7 @@ public static class MicrosoftTheme
             Dark =
             {
                 Primary = "text-fluentblue-900",
-                Accent = "text-fluentgreen-900",
+                Accent = "text-neutral-900",
                 Success = "text-green-900",
                 Danger = "text-red-900",
                 Warning = "text-yellow-900",
@@ -129,7 +129,7 @@ public static class MicrosoftTheme
             Light =
             {
                 Primary = "dark:text-fluentblue-200",
-                Accent = "dark:text-fluentgreen-200",
+                Accent = "dark:text-neutral-200",
                 Success = "dark:text-green-200",
                 Danger = "dark:text-red-200",
                 Warning = "dark:text-yellow-200",
@@ -139,7 +139,7 @@ public static class MicrosoftTheme
             Medium =
             {
                 Primary = "dark:text-fluentblue-600",
-                Accent = "dark:text-fluentgreen-600",
+                Accent = "dark:text-neutral-600",
                 Success = "dark:text-green-600",
                 Danger = "dark:text-red-600",
                 Warning = "dark:text-yellow-600",
@@ -150,7 +150,7 @@ public static class MicrosoftTheme
             Dark =
             {
                 Primary = "dark:text-fluentblue-900",
-                Accent = "dark:text-fluentgreen-900",
+                Accent = "dark:text-neutral-900",
                 Success = "dark:text-green-900",
                 Danger = "dark:text-red-900",
                 Warning = "dark:text-yellow-900",
@@ -162,7 +162,7 @@ public static class MicrosoftTheme
         var borderColors = new TwBlazorPalette
         {
             Primary = "border-fluentblue-600 dark:border-fluentblue-500",
-            Accent = "border-fluentgreen-600 dark:border-fluentgreen-400",
+            Accent = "border-neutral-600 dark:border-neutral-400",
             Success = "border-green-600 dark:border-green-400",
             Danger = "border-red-600 dark:border-red-400",
             Warning = "border-yellow-700 dark:border-yellow-400",
@@ -174,7 +174,7 @@ public static class MicrosoftTheme
         var hoverColors = new TwBlazorPalette
         {
             Primary = "hover:bg-fluentblue-50 dark:hover:bg-fluentblue-900/20",
-            Accent = "hover:bg-fluentgreen-50 dark:hover:bg-fluentgreen-900/20",
+            Accent = "hover:bg-neutral-50 dark:hover:bg-neutral-900/20",
             Success = "hover:bg-green-50 dark:hover:bg-green-900/20",
             Danger = "hover:bg-red-50 dark:hover:bg-red-900/20",
             Warning = "hover:bg-yellow-50 dark:hover:bg-yellow-900/20",
@@ -188,7 +188,7 @@ public static class MicrosoftTheme
             Lightest = new()
             {
                 Primary = $"bg-fluentblue-50",
-                Accent = $"bg-fluentgreen-50",
+                Accent = $"bg-neutral-50",
                 Success = $"bg-green-50",
                 Danger = $"bg-red-50",
                 Warning = $"bg-yellow-50",
@@ -199,7 +199,7 @@ public static class MicrosoftTheme
             Light = new()
             {
                 Primary = $"bg-fluentblue-200",
-                Accent = $"bg-fluentgreen-200",
+                Accent = $"bg-neutral-200",
                 Success = $"bg-green-200",
                 Danger = $"bg-red-200",
                 Warning = $"bg-yellow-200",
@@ -210,7 +210,7 @@ public static class MicrosoftTheme
             Medium = new()
             {
                 Primary = $"bg-fluentblue-600",
-                Accent = $"bg-fluentgreen-600",
+                Accent = $"bg-neutral-600",
                 Success = $"bg-green-700",
                 Danger = $"bg-red-600",
                 Warning = $"bg-yellow-600",
@@ -221,7 +221,7 @@ public static class MicrosoftTheme
             Dark = new()
             {
                 Primary = $"bg-fluentblue-900",
-                Accent = $"bg-fluentgreen-900",
+                Accent = $"bg-neutral-900",
                 Success = $"bg-green-900",
                 Danger = $"bg-red-900",
                 Warning = $"bg-yellow-900",
@@ -232,7 +232,7 @@ public static class MicrosoftTheme
             Darkest = new()
             {
                 Primary = $"bg-fluentblue-950",
-                Accent = $"bg-fluentgreen-950",
+                Accent = $"bg-neutral-950",
                 Success = $"bg-green-950",
                 Danger = $"bg-red-950",
                 Warning = $"bg-yellow-950",
@@ -247,7 +247,7 @@ public static class MicrosoftTheme
             Lightest = new()
             {
                 Primary = $"dark:bg-fluentblue-50",
-                Accent = $"dark:bg-fluentgreen-50",
+                Accent = $"dark:bg-neutral-50",
                 Success = $"dark:bg-green-50",
                 Danger = $"dark:bg-red-50",
                 Warning = $"dark:bg-yellow-50",
@@ -257,7 +257,7 @@ public static class MicrosoftTheme
             Light = new()
             {
                 Primary = $"dark:bg-fluentblue-200",
-                Accent = $"dark:bg-fluentgreen-200",
+                Accent = $"dark:bg-neutral-200",
                 Success = $"dark:bg-green-200",
                 Danger = $"dark:bg-red-200",
                 Warning = $"dark:bg-yellow-200",
@@ -267,7 +267,7 @@ public static class MicrosoftTheme
             Medium = new()
             {
                 Primary = $"dark:bg-fluentblue-600",
-                Accent = $"dark:bg-fluentgreen-600",
+                Accent = $"dark:bg-neutral-600",
                 Success = $"dark:bg-green-600",
                 Danger = $"dark:bg-red-600",
                 Warning = $"dark:bg-yellow-600",
@@ -278,7 +278,7 @@ public static class MicrosoftTheme
             Dark = new()
             {
                 Primary = $"dark:bg-fluentblue-900",
-                Accent = $"dark:bg-fluentgreen-900",
+                Accent = $"dark:bg-neutral-900",
                 Success = $"dark:bg-green-900",
                 Danger = $"dark:bg-red-900",
                 Warning = $"dark:bg-yellow-900",
@@ -288,7 +288,7 @@ public static class MicrosoftTheme
             Darkest = new()
             {
                 Primary = $"dark:bg-fluentblue-950",
-                Accent = $"dark:bg-fluentgreen-950",
+                Accent = $"dark:bg-neutral-950",
                 Success = $"dark:bg-green-950",
                 Danger = $"dark:bg-red-950",
                 Warning = $"dark:bg-yellow-950",
@@ -300,7 +300,7 @@ public static class MicrosoftTheme
         var checkBoxRadioButtonColors = new TwBlazorPalette()
         {
             Primary = "checked:bg-fluentblue-600 checked:border-fluentblue-600 dark:checked:bg-fluentblue-500 dark:checked:border-fluentblue-500",
-            Accent = "checked:bg-fluentgreen-600 checked:border-fluentgreen-600 dark:checked:bg-fluentgreen-500 dark:checked:border-fluentgreen-500",
+            Accent = "checked:bg-neutral-600 checked:border-neutral-600 dark:checked:bg-neutral-500 dark:checked:border-neutral-500",
             Success = "checked:bg-green-600 checked:border-green-600 dark:checked:bg-green-500 dark:checked:border-green-500",
             Danger = "checked:bg-red-600 checked:border-red-600 dark:checked:bg-red-500 dark:checked:border-red-500",
             Warning = "checked:bg-yellow-700 checked:border-yellow-700 dark:checked:bg-yellow-500 dark:checked:border-yellow-500",
@@ -502,40 +502,40 @@ public static class MicrosoftTheme
         {
             None = "rounded-none",
             Sm = "rounded-xs",
-            Md = "rounded-sm",
-            Lg = "rounded-md",
+            Md = "rounded-xs",
+            Lg = "rounded-sm",
             Full = "rounded-full",
             DefaultRounded = Rounded.Md,
             RoundedTop = new()
             {
                 None = "rounded-t-none",
                 Sm = "rounded-t-xs",
-                Md = "rounded-t-sm",
-                Lg = "rounded-t-md",
+                Md = "rounded-t-xs",
+                Lg = "rounded-t-sm",
                 Full = "rounded-t-full"
             },
             RoundedBottom = new()
             {
                 None = "rounded-b-none",
                 Sm = "rounded-b-xs",
-                Md = "rounded-b-sm",
-                Lg = "rounded-b-md",
+                Md = "rounded-b-xs",
+                Lg = "rounded-b-sm",
                 Full = "rounded-b-full"
             },
             RoundedStart = new()
             {
                 None = "rounded-s-none",
                 Sm = "rounded-s-xs",
-                Md = "rounded-s-sm",
-                Lg = "rounded-s-md",
+                Md = "rounded-s-xs",
+                Lg = "rounded-s-sm",
                 Full = "rounded-s-full"
             },
             RoundedEnd = new()
             {
                 None = "rounded-e-none",
                 Sm = "rounded-e-xs",
-                Md = "rounded-e-sm",
-                Lg = "rounded-e-md",
+                Md = "rounded-e-xs",
+                Lg = "rounded-e-sm",
                 Full = "rounded-e-full"
             }
         };
@@ -674,7 +674,7 @@ public static class MicrosoftTheme
                 FocusColors = new()
                 {
                     Primary = "focus-visible:ring-fluentblue-500 dark:focus-visible:ring-fluentblue-400",
-                    Accent = "focus-visible:ring-fluentgreen-500 dark:focus-visible:ring-fluentgreen-400",
+                    Accent = "focus-visible:ring-neutral-500 dark:focus-visible:ring-neutral-400",
                     Success = "focus-visible:ring-green-600 dark:focus-visible:ring-green-400",
                     Danger = "focus-visible:ring-red-500 dark:focus-visible:ring-red-400",
                     Warning = "focus-visible:ring-yellow-500 dark:focus-visible:ring-yellow-400",
@@ -686,7 +686,7 @@ public static class MicrosoftTheme
                 PeerFocusColors = new()
                 {
                     Primary = "peer-focus-visible:ring-fluentblue-500 dark:peer-focus-visible:ring-fluentblue-400",
-                    Accent = "peer-focus-visible:ring-fluentgreen-500 dark:peer-focus-visible:ring-fluentgreen-400",
+                    Accent = "peer-focus-visible:ring-neutral-500 dark:peer-focus-visible:ring-neutral-400",
                     Success = "peer-focus-visible:ring-green-600 dark:peer-focus-visible:ring-green-400",
                     Danger = "peer-focus-visible:ring-red-500 dark:peer-focus-visible:ring-red-400",
                     Warning = "peer-focus-visible:ring-yellow-500 dark:peer-focus-visible:ring-yellow-400",
@@ -699,7 +699,7 @@ public static class MicrosoftTheme
                     Filled = new()
                     {
                         Primary = $"{background.Medium.Primary} hover:bg-fluentblue-700 active:bg-fluentblue-800 {text.Medium.Light}",
-                        Accent = "bg-fluentgreen-700 hover:bg-fluentgreen-800 active:bg-fluentgreen-900 text-gray-100",
+                        Accent = "bg-neutral-900 hover:bg-neutral-700 active:bg-neutral-800 text-gray-100",
                         Success = $"{background.Medium.Success} hover:bg-green-700 active:bg-green-800 text-white",
                         Danger = "bg-red-700 hover:bg-red-800 active:bg-red-900 text-gray-100",
                         Warning = $"{background.Medium.Warning} hover:bg-yellow-600 active:bg-yellow-700 {text.Medium.Dark}",
@@ -766,7 +766,7 @@ public static class MicrosoftTheme
                     Colors = new()
                     {
                         Primary = $"{background.Medium.Primary} {text.Medium.Light}",
-                        Accent = "bg-fluentgreen-700 text-gray-100",
+                        Accent = "bg-neutral-700 text-gray-100",
                         Success = $"{background.Medium.Success} text-white",
                         Danger = "bg-red-700 text-gray-100",
                         Warning = $"{background.Medium.Warning} {text.Medium.Dark}",
@@ -797,10 +797,10 @@ public static class MicrosoftTheme
                 },
                 new TwButtonTheme
                 {
-                    Base = $"{display.InlineFlex} {overflow.Hidden} {anchor.Center} min-h-8 {typography.Size.Sm} {typography.AlignCenter} {transition.ColorsFast} {interaction.FocusOutlineNone} focus-visible:outline-hidden touch-manipulation",
-                    Padding = "px-5 py-1",
+                    Base = $"{display.InlineFlex} {overflow.Hidden} {anchor.Center} min-h-9 {typography.Size.Sm} {typography.AlignCenter} {transition.ColorsFast} {interaction.FocusOutlineNone} focus-visible:outline-hidden touch-manipulation",
+                    Padding = "px-3 py-1.5",
                     DensePadding = "px-3 py-1",
-                    IconButton = $"{display.InlineFlex} {anchor.Center} {sizing.Icon.Xl} {typography.Size.Sm} {rounded.Full} {interaction.FocusOutlineNone}",
+                    IconButton = $"{display.InlineFlex} {anchor.Center} size-9 {typography.Size.Sm} {rounded.Full} {interaction.FocusOutlineNone}",
                     Typography = typography.Weight.Semibold,
                     IconTypography = $"{typography.Size.Lg} leading-none",
                     Uppercase = $"{textTransform.Uppercase} tracking-wide",
@@ -813,9 +813,9 @@ public static class MicrosoftTheme
                 },
                 new TwCardTheme
                 {
-                    Container = "px-5 py-4",
+                    Container = "px-6 py-6",
                     Bordered = $"{borderWidth.Thin} {neutralSurface.Border}",
-                    Title = $"{typography.Size.Lg} {typography.Weight.Semibold} {typography.WrapBreakWord} {neutralText.Heading}"
+                    Title = $"{typography.Size.Lg} {typography.Weight.Semibold} {typography.WrapBreakWord} {neutralText.Heading} mb-4"
                 },
                 new TwCarouselTheme
                 {
@@ -1031,7 +1031,7 @@ public static class MicrosoftTheme
                     Colors = new()
                     {
                         Primary = "text-fluentblue-600 dark:text-fluentblue-400",
-                        Accent = "text-fluentgreen-600 dark:text-fluentgreen-400",
+                        Accent = "text-neutral-600 dark:text-neutral-400",
                         Success = "text-green-600 dark:text-green-400",
                         Danger = "text-red-600 dark:text-red-400",
                         Warning = "text-[oklch(65%_0.004_67)] dark:text-yellow-400",
@@ -1139,7 +1139,7 @@ public static class MicrosoftTheme
                     Colors = new()
                     {
                         Primary = "[&::-webkit-progress-value]:bg-fluentblue-600 dark:[&::-webkit-progress-value]:bg-fluentblue-500 [&::-moz-progress-bar]:bg-fluentblue-600 dark:[&::-moz-progress-bar]:bg-fluentblue-500",
-                        Accent = "[&::-webkit-progress-value]:bg-fluentgreen-600 dark:[&::-webkit-progress-value]:bg-fluentgreen-500 [&::-moz-progress-bar]:bg-fluentgreen-600 dark:[&::-moz-progress-bar]:bg-fluentgreen-500",
+                        Accent = "[&::-webkit-progress-value]:bg-neutral-600 dark:[&::-webkit-progress-value]:bg-neutral-500 [&::-moz-progress-bar]:bg-neutral-600 dark:[&::-moz-progress-bar]:bg-neutral-500",
                         Success = "[&::-webkit-progress-value]:bg-green-600 dark:[&::-webkit-progress-value]:bg-green-500 [&::-moz-progress-bar]:bg-green-600 dark:[&::-moz-progress-bar]:bg-green-500",
                         Danger = "[&::-webkit-progress-value]:bg-red-600 dark:[&::-webkit-progress-value]:bg-red-500 [&::-moz-progress-bar]:bg-red-600 dark:[&::-moz-progress-bar]:bg-red-500",
                         Warning = "[&::-webkit-progress-value]:bg-yellow-500 dark:[&::-webkit-progress-value]:bg-yellow-400 [&::-moz-progress-bar]:bg-yellow-500 dark:[&::-moz-progress-bar]:bg-yellow-400",
@@ -1189,20 +1189,22 @@ public static class MicrosoftTheme
                     NavbarNavigationExpanded = "flex flex-1",
                     NavigationItemToggleLabel = "me-auto text-start",
                     NavigationItemToggleIcon = "transition-transform",
-                    Navbar = $"{display.Flex} z-40 {flexbox.Align.Center} {flexbox.ShrinkNone} {sizing.FullWidth} min-h-12 px-4 py-2 {neutralSurface.Background} {neutralText.Heading} border-b {neutralSurface.Border}",
+                    Navbar = $"{display.Flex} z-40 {flexbox.Align.Center} {flexbox.ShrinkNone} {sizing.FullWidth} min-h-14 px-4 py-2 {neutralSurface.Background} {neutralText.Heading} shadow-sm",
                     NavbarContent = $"{display.Flex} {flexbox.Wrap} {flexbox.Align.Center} {spacing.Gap.Xl} {sizing.FullWidth}",
                     NavbarBrand = flexbox.ShrinkNone,
                     NavbarNavigation = $"{flexbox.Align.Center} {spacing.Gap.Md}",
                     NavbarActions = $"{display.Flex} {flexbox.Align.Center} {spacing.Gap.Md} {spacing.PushEnd}",
-                    NavbarToggle = $"lg:hidden order-first {flexbox.ShrinkNone} text-xl {neutralText.Secondary}",
+                    NavbarActionsCollapsible = "max-lg:ms-0 max-lg:mt-2 max-lg:flex-wrap max-lg:justify-center max-lg:border-t max-lg:border-current/15 max-lg:pt-3",
+                    NavbarToggle = $"lg:hidden {spacing.PushEnd} -me-2 size-11 {flexbox.ShrinkNone} text-2xl",
                     NavbarToggleIcon = $"text-xl {neutralText.Secondary} {neutralHoverText} {transition.ColorsFast}",
                     NavbarLink = $"{display.InlineFlex} {flexbox.Align.Center} {spacing.Gap.Md} px-3 py-1.5 {typography.Size.Sm} {typography.Weight.Medium} {neutralText.Secondary} {neutralHoverFill} {neutralHoverText} {rounded.Md} {transition.ColorsFast} {focusRing} {interaction.FocusOutlineNone}",
+                    NavbarLinkCollapsible = "max-lg:w-full max-lg:min-h-11 max-lg:px-3 max-lg:text-base",
                     NavbarLinkActive = $"{neutralTrack} {neutralText.Heading}",
-                    NavbarMobileMenu = $"{spacing.Padding.Lg} {overlayTheme.Popover.Background} border-b {neutralSurface.Border} {shadows.Lg}",
+                    NavbarMobileMenu = "max-lg:basis-full max-lg:-mx-4 max-lg:-mt-2 max-lg:-mb-2 max-lg:max-h-[calc(100dvh-3.5rem)] max-lg:overflow-y-auto max-lg:overscroll-contain max-lg:items-stretch max-lg:gap-1 max-lg:border-t max-lg:border-current/15 max-lg:px-2 max-lg:py-2 max-lg:[&>a]:flex max-lg:[&>a]:min-h-11 max-lg:[&>a]:w-full max-lg:[&>a]:items-center max-lg:[&>a]:px-3 max-lg:[&>a]:text-base",
                     Sidebar = $"z-100 overflow-auto scrollbar-gutter-stable overscroll-contain {flexbox.ShrinkNone} h-dvh w-64 {spacing.Padding.Xl} {neutralSurface.Background} border-e {neutralSurface.Border} {transition.TransformFast} {transition.EaseInOut}",
                     NavigationItemBase = $"{display.Flex} {flexbox.Align.Center} {spacing.Gap.Md} {sizing.MinWidthNone} px-3 py-2 {typography.Size.Sm} {neutralText.Secondary} {neutralSurface.Hover} {focusRingInset} {transition.ColorsFast} {interaction.FocusOutlineNone} {interaction.PointerCursor}",
                     NavigationItemActive = $"{neutralTrack} {neutralText.Heading}",
-                    NavigationItemCurrent = $"{positioning.Relative} {overflow.Hidden} before:absolute before:inset-y-0 before:start-0 before:w-0.5 before:bg-linear-to-b before:from-fluentblue-600 before:to-fluentgreen-500 forced-colors:before:bg-[Highlight]",
+                    NavigationItemCurrent = $"{positioning.Relative} {overflow.Hidden} before:absolute before:inset-y-0 before:start-0 before:w-0.5 before:bg-linear-to-b before:from-fluentblue-600 before:to-neutral-500 forced-colors:before:bg-[Highlight]",
                     NavigationItemParent = typography.Weight.Semibold,
                     NavigationItemIcon = flexbox.ShrinkNone,
                     NavigationItemContent = $"{display.InlineFlex} {flexbox.Align.Center} {flexbox.ShrinkNone} {spacing.PushEnd}",
@@ -1293,7 +1295,7 @@ public static class MicrosoftTheme
                     Colors = new()
                     {
                         Primary = "peer-checked:bg-fluentblue-600 dark:peer-checked:bg-fluentblue-500",
-                        Accent = "peer-checked:bg-fluentgreen-600 dark:peer-checked:bg-fluentgreen-500",
+                        Accent = "peer-checked:bg-neutral-600 dark:peer-checked:bg-neutral-500",
                         Success = "peer-checked:bg-green-600 dark:peer-checked:bg-green-500",
                         Danger = "peer-checked:bg-red-600 dark:peer-checked:bg-red-500",
                         Warning = "peer-checked:bg-yellow-600 dark:peer-checked:bg-yellow-500",
@@ -1315,7 +1317,7 @@ public static class MicrosoftTheme
                     Colors = new()
                     {
                         Primary = "border-t-fluentblue-600 dark:border-t-fluentblue-500",
-                        Accent = "border-t-fluentgreen-600 dark:border-t-fluentgreen-500",
+                        Accent = "border-t-neutral-600 dark:border-t-neutral-500",
                         Success = "border-t-green-600 dark:border-t-green-500",
                         Danger = "border-t-red-600 dark:border-t-red-500",
                         Warning = "border-t-yellow-500 dark:border-t-yellow-500",

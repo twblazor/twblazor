@@ -1,0 +1,29 @@
+/* Tailwind input for the Trading 212-inspired example theme. It compiles only the classes used by that theme's
+   Theme.cs and its showcase page, the way an app builds its stylesheet from its own theme file. The page loads
+   the result on top of the docs stylesheet, which already carries the reset. */
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities) source(none);
+
+@source "../../../Pages/Showcase/Themes/Trading212Theme.cs";
+@source "../../../Pages/Showcase/Trading212Showcase.razor";
+@source "../../../Pages/Showcase/Shared/**/*.razor";
+@source "../../../Pages/Showcase/Shared/**/*.cs";
+
+@custom-variant dark (&:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)));
+
+@theme {
+    --font-trade: Inter, system-ui, "Segoe UI", Arial, sans-serif;
+
+    --color-tradeblue-50: oklch(97.5% 0.014 232.3);
+    --color-tradeblue-100: oklch(90.2% 0.032 232.3);
+    --color-tradeblue-200: oklch(83.0% 0.062 232.3);
+    --color-tradeblue-300: oklch(75.7% 0.098 232.3);
+    --color-tradeblue-400: oklch(68.4% 0.140 232.3);
+    --color-tradeblue-500: oklch(61.4% 0.132 232.3);
+    --color-tradeblue-600: oklch(54.3% 0.124 232.3);
+    --color-tradeblue-700: oklch(47.2% 0.116 232.3);
+    --color-tradeblue-800: oklch(40.1% 0.107 232.3);
+    --color-tradeblue-900: oklch(33.1% 0.099 232.3);
+    --color-tradeblue-950: oklch(26.0% 0.091 232.3);
+}

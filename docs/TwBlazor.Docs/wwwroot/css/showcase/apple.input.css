@@ -13,7 +13,7 @@
 @custom-variant dark (&:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)));
 
 @theme {
-    --font-cupertino: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", system-ui, sans-serif;
+    --font-cupertino: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", system-ui, "Segoe UI", sans-serif;
 
     --color-cupertino-50: oklch(97.5% 0.019 256.2);
     --color-cupertino-100: oklch(90.6% 0.033 256.2);

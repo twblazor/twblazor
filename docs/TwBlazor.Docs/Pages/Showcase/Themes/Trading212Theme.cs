@@ -9,16 +9,16 @@ using TwBlazor.Enums;
 namespace TwBlazor.Docs.Pages.Showcase.Themes;
 
 /// <summary>
-/// An example theme inspired by the look of Cadbury's products. Rich and warm: deep purple with gold accents, cream surfaces, serif headings, filled inputs and soft tinted shadows.
+/// An example theme inspired by the look of Trading 212's products. Clean and confident: bright blue pill buttons, large soft cards, cool neutral surfaces and green and red kept for gains and losses.
 /// </summary>
 /// <remarks>
 /// This is a complete theme file, the same shape as the default <c>Theme.cs</c>, shown in full on the
-/// <c>/showcase/cadbury</c> page. It is an independent example: twblazor is not affiliated with, endorsed by
+/// <c>/showcase/trading212</c> page. It is an independent example: twblazor is not affiliated with, endorsed by
 /// or sponsored by the brand, and uses none of its assets.
 /// </remarks>
-public static class CadburyTheme
+public static class Trading212Theme
 {
-    #region CodeExample ShowcaseCadburyTheme
+    #region CodeExample ShowcaseTrading212Theme
     public static TwBlazorTheme CreateTheme()
     {
         #region utility classes
@@ -91,8 +91,8 @@ public static class CadburyTheme
         {
             Light =
             {
-                Primary = "text-dairypurple-200",
-                Accent = "text-dairygold-200",
+                Primary = "text-tradeblue-200",
+                Accent = "text-slate-200",
                 Success = "text-green-200",
                 Danger = "text-red-200",
                 Warning = "text-yellow-200",
@@ -102,8 +102,8 @@ public static class CadburyTheme
             },
             Medium =
             {
-                Primary = "text-dairypurple-600",
-                Accent = "text-dairygold-600",
+                Primary = "text-tradeblue-600",
+                Accent = "text-slate-600",
                 Success = "text-green-800",
                 Danger = "text-red-700",
                 Warning = "text-yellow-800",
@@ -113,8 +113,8 @@ public static class CadburyTheme
             },
             Dark =
             {
-                Primary = "text-dairypurple-900",
-                Accent = "text-dairygold-900",
+                Primary = "text-tradeblue-900",
+                Accent = "text-slate-900",
                 Success = "text-green-900",
                 Danger = "text-red-900",
                 Warning = "text-yellow-900",
@@ -128,8 +128,8 @@ public static class CadburyTheme
         {
             Light =
             {
-                Primary = "dark:text-dairypurple-200",
-                Accent = "dark:text-dairygold-200",
+                Primary = "dark:text-tradeblue-200",
+                Accent = "dark:text-slate-200",
                 Success = "dark:text-green-200",
                 Danger = "dark:text-red-200",
                 Warning = "dark:text-yellow-200",
@@ -138,8 +138,8 @@ public static class CadburyTheme
             },
             Medium =
             {
-                Primary = "dark:text-dairypurple-600",
-                Accent = "dark:text-dairygold-600",
+                Primary = "dark:text-tradeblue-600",
+                Accent = "dark:text-slate-600",
                 Success = "dark:text-green-600",
                 Danger = "dark:text-red-600",
                 Warning = "dark:text-yellow-600",
@@ -149,8 +149,8 @@ public static class CadburyTheme
             },
             Dark =
             {
-                Primary = "dark:text-dairypurple-900",
-                Accent = "dark:text-dairygold-900",
+                Primary = "dark:text-tradeblue-900",
+                Accent = "dark:text-slate-900",
                 Success = "dark:text-green-900",
                 Danger = "dark:text-red-900",
                 Warning = "dark:text-yellow-900",
@@ -161,8 +161,8 @@ public static class CadburyTheme
 
         var borderColors = new TwBlazorPalette
         {
-            Primary = "border-dairypurple-600 dark:border-dairypurple-500",
-            Accent = "border-dairygold-600 dark:border-dairygold-400",
+            Primary = "border-tradeblue-600 dark:border-tradeblue-500",
+            Accent = "border-slate-600 dark:border-slate-400",
             Success = "border-green-600 dark:border-green-400",
             Danger = "border-red-600 dark:border-red-400",
             Warning = "border-yellow-700 dark:border-yellow-400",
@@ -173,8 +173,8 @@ public static class CadburyTheme
 
         var hoverColors = new TwBlazorPalette
         {
-            Primary = "hover:bg-dairypurple-50 dark:hover:bg-dairypurple-900/20",
-            Accent = "hover:bg-dairygold-50 dark:hover:bg-dairygold-900/20",
+            Primary = "hover:bg-tradeblue-50 dark:hover:bg-tradeblue-900/20",
+            Accent = "hover:bg-slate-50 dark:hover:bg-slate-900/20",
             Success = "hover:bg-green-50 dark:hover:bg-green-900/20",
             Danger = "hover:bg-red-50 dark:hover:bg-red-900/20",
             Warning = "hover:bg-yellow-50 dark:hover:bg-yellow-900/20",
@@ -187,8 +187,8 @@ public static class CadburyTheme
         {
             Lightest = new()
             {
-                Primary = $"bg-dairypurple-50",
-                Accent = $"bg-dairygold-50",
+                Primary = $"bg-tradeblue-50",
+                Accent = $"bg-slate-50",
                 Success = $"bg-green-50",
                 Danger = $"bg-red-50",
                 Warning = $"bg-yellow-50",
@@ -198,8 +198,8 @@ public static class CadburyTheme
             },
             Light = new()
             {
-                Primary = $"bg-dairypurple-200",
-                Accent = $"bg-dairygold-200",
+                Primary = $"bg-tradeblue-200",
+                Accent = $"bg-slate-200",
                 Success = $"bg-green-200",
                 Danger = $"bg-red-200",
                 Warning = $"bg-yellow-200",
@@ -209,8 +209,8 @@ public static class CadburyTheme
             },
             Medium = new()
             {
-                Primary = $"bg-dairypurple-600",
-                Accent = $"bg-dairygold-600",
+                Primary = $"bg-tradeblue-600",
+                Accent = $"bg-slate-600",
                 Success = $"bg-green-700",
                 Danger = $"bg-red-600",
                 Warning = $"bg-yellow-600",
@@ -220,8 +220,8 @@ public static class CadburyTheme
             },
             Dark = new()
             {
-                Primary = $"bg-dairypurple-900",
-                Accent = $"bg-dairygold-900",
+                Primary = $"bg-tradeblue-900",
+                Accent = $"bg-slate-900",
                 Success = $"bg-green-900",
                 Danger = $"bg-red-900",
                 Warning = $"bg-yellow-900",
@@ -231,8 +231,8 @@ public static class CadburyTheme
             },
             Darkest = new()
             {
-                Primary = $"bg-dairypurple-950",
-                Accent = $"bg-dairygold-950",
+                Primary = $"bg-tradeblue-950",
+                Accent = $"bg-slate-950",
                 Success = $"bg-green-950",
                 Danger = $"bg-red-950",
                 Warning = $"bg-yellow-950",
@@ -246,8 +246,8 @@ public static class CadburyTheme
         {
             Lightest = new()
             {
-                Primary = $"dark:bg-dairypurple-50",
-                Accent = $"dark:bg-dairygold-50",
+                Primary = $"dark:bg-tradeblue-50",
+                Accent = $"dark:bg-slate-50",
                 Success = $"dark:bg-green-50",
                 Danger = $"dark:bg-red-50",
                 Warning = $"dark:bg-yellow-50",
@@ -256,8 +256,8 @@ public static class CadburyTheme
             },
             Light = new()
             {
-                Primary = $"dark:bg-dairypurple-200",
-                Accent = $"dark:bg-dairygold-200",
+                Primary = $"dark:bg-tradeblue-200",
+                Accent = $"dark:bg-slate-200",
                 Success = $"dark:bg-green-200",
                 Danger = $"dark:bg-red-200",
                 Warning = $"dark:bg-yellow-200",
@@ -266,8 +266,8 @@ public static class CadburyTheme
             },
             Medium = new()
             {
-                Primary = $"dark:bg-dairypurple-600",
-                Accent = $"dark:bg-dairygold-600",
+                Primary = $"dark:bg-tradeblue-600",
+                Accent = $"dark:bg-slate-600",
                 Success = $"dark:bg-green-600",
                 Danger = $"dark:bg-red-600",
                 Warning = $"dark:bg-yellow-600",
@@ -277,8 +277,8 @@ public static class CadburyTheme
             },
             Dark = new()
             {
-                Primary = $"dark:bg-dairypurple-900",
-                Accent = $"dark:bg-dairygold-900",
+                Primary = $"dark:bg-tradeblue-900",
+                Accent = $"dark:bg-slate-900",
                 Success = $"dark:bg-green-900",
                 Danger = $"dark:bg-red-900",
                 Warning = $"dark:bg-yellow-900",
@@ -287,8 +287,8 @@ public static class CadburyTheme
             },
             Darkest = new()
             {
-                Primary = $"dark:bg-dairypurple-950",
-                Accent = $"dark:bg-dairygold-950",
+                Primary = $"dark:bg-tradeblue-950",
+                Accent = $"dark:bg-slate-950",
                 Success = $"dark:bg-green-950",
                 Danger = $"dark:bg-red-950",
                 Warning = $"dark:bg-yellow-950",
@@ -299,8 +299,8 @@ public static class CadburyTheme
 
         var checkBoxRadioButtonColors = new TwBlazorPalette()
         {
-            Primary = "checked:bg-dairypurple-600 checked:border-dairypurple-600 dark:checked:bg-dairypurple-500 dark:checked:border-dairypurple-500",
-            Accent = "checked:bg-dairygold-600 checked:border-dairygold-600 dark:checked:bg-dairygold-500 dark:checked:border-dairygold-500",
+            Primary = "checked:bg-tradeblue-600 checked:border-tradeblue-600 dark:checked:bg-tradeblue-500 dark:checked:border-tradeblue-500",
+            Accent = "checked:bg-slate-600 checked:border-slate-600 dark:checked:bg-slate-500 dark:checked:border-slate-500",
             Success = "checked:bg-green-600 checked:border-green-600 dark:checked:bg-green-500 dark:checked:border-green-500",
             Danger = "checked:bg-red-600 checked:border-red-600 dark:checked:bg-red-500 dark:checked:border-red-500",
             Warning = "checked:bg-yellow-700 checked:border-yellow-700 dark:checked:bg-yellow-500 dark:checked:border-yellow-500",
@@ -311,47 +311,47 @@ public static class CadburyTheme
 
         var neutralSurface = new TwSurfacePalette
         {
-            Background = "bg-[oklch(99.2%_0.012_85)] dark:bg-[oklch(25.33%_0.05_300)]",
-            BackgroundSubtle = "bg-[oklch(97.4%_0.012_85)] dark:bg-[oklch(23.26%_0.05_300)]",
-            Border = "border-[oklch(92%_0.012_85)] dark:border-[oklch(21.15%_0.05_300)]",
-            BorderSubtle = "border-[oklch(97.4%_0.012_85)] dark:border-[oklch(23.26%_0.05_300)]",
-            Hover = "hover:bg-[oklch(97.4%_0.012_85)] dark:hover:bg-[oklch(23.26%_0.05_300)]",
-            Elevated = "bg-[oklch(96.2%_0.012_85)] dark:bg-[oklch(34%_0.05_300)]",
-            Overlay = "bg-[oklch(99.2%_0.012_85)] dark:bg-[oklch(40%_0.05_300)]",
-            BorderStrong = "border-[oklch(21%_0.05_300)]/50 dark:border-[oklch(97.807%_0.03_300)]/45"
+            Background = "bg-[oklch(100%_0.004_250)] dark:bg-[oklch(25.33%_0.02_250)]",
+            BackgroundSubtle = "bg-[oklch(98%_0.004_250)] dark:bg-[oklch(23.26%_0.02_250)]",
+            Border = "border-[oklch(92%_0.004_250)] dark:border-[oklch(21.15%_0.02_250)]",
+            BorderSubtle = "border-[oklch(98%_0.004_250)] dark:border-[oklch(23.26%_0.02_250)]",
+            Hover = "hover:bg-[oklch(98%_0.004_250)] dark:hover:bg-[oklch(23.26%_0.02_250)]",
+            Elevated = "bg-[oklch(97%_0.004_250)] dark:bg-[oklch(34%_0.02_250)]",
+            Overlay = "bg-[oklch(100%_0.004_250)] dark:bg-[oklch(40%_0.02_250)]",
+            BorderStrong = "border-[oklch(21%_0.02_250)]/50 dark:border-[oklch(97.807%_0.012_250)]/45"
         };
 
         var neutralText = new TwNeutralTextPalette
         {
-            Heading = "text-[oklch(21%_0.05_300)] dark:text-[oklch(97.807%_0.03_300)]",
-            Secondary = "text-[oklch(40%_0.05_300)] dark:text-[oklch(88%_0.03_300)]",
-            Muted = "text-[oklch(50%_0.05_300)] dark:text-[oklch(78%_0.03_300)]",
-            Subtle = "text-[oklch(55%_0.05_300)] dark:text-[oklch(68%_0.03_300)]"
+            Heading = "text-[oklch(21%_0.02_250)] dark:text-[oklch(97.807%_0.012_250)]",
+            Secondary = "text-[oklch(40%_0.02_250)] dark:text-[oklch(88%_0.012_250)]",
+            Muted = "text-[oklch(50%_0.02_250)] dark:text-[oklch(78%_0.012_250)]",
+            Subtle = "text-[oklch(55%_0.02_250)] dark:text-[oklch(68%_0.012_250)]"
         };
 
         // One height for every single-line input (and the controls laid out beside them, e.g. pagination),
         // so they all line up whichever component renders them.
-        var inputHeight = "h-11";
+        var inputHeight = "h-12";
         var inputDenseHeight = "h-8";
 
         // Single focus language for every focusable surface: a 2px primary ring. The inset form is for rows
         // that sit flush against their container's edge and would otherwise have the ring clipped.
-        var focusRing = "focus-visible:ring-2 focus-visible:ring-dairypurple-500 dark:focus-visible:ring-dairypurple-400";
-        var focusRingInset = "focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-dairypurple-500 dark:focus-visible:ring-dairypurple-400";
+        var focusRing = "focus-visible:ring-2 focus-visible:ring-tradeblue-500 dark:focus-visible:ring-tradeblue-400";
+        var focusRingInset = "focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-tradeblue-500 dark:focus-visible:ring-tradeblue-400";
 
         // Neutral fills reused wherever a component needs a recessed track, a selected row or a pressed state.
-        var neutralTrack = "bg-[oklch(94.2%_0.012_85)] dark:bg-[oklch(21.15%_0.05_300)]";
+        var neutralTrack = "bg-[oklch(95%_0.004_250)] dark:bg-[oklch(21.15%_0.02_250)]";
 
         // A recessed track that stays visible on a white card: progress and slider tracks carry the value, so
         // they need more contrast than the page-chrome fill above.
-        var neutralTrackStrong = "bg-[oklch(91%_0.012_85)] dark:bg-[oklch(32%_0.05_300)]";
-        var neutralHoverText = "hover:text-[oklch(21%_0.05_300)] dark:hover:text-[oklch(97.807%_0.03_300)]";
-        var neutralRowHover = "hover:bg-[oklch(21%_0.05_300)]/5 dark:hover:bg-[oklch(97.807%_0.03_300)]/8";
-        var neutralHoverFill = "hover:bg-[oklch(21%_0.05_300)]/10 dark:hover:bg-[oklch(97.807%_0.03_300)]/10";
-        var neutralHairlineRing = "ring-1 ring-inset ring-[oklch(21%_0.05_300)]/10 dark:ring-[oklch(97.807%_0.03_300)]/15";
-        var disabledInk = "text-[oklch(21%_0.05_300)]/40 dark:text-[oklch(97.807%_0.03_300)]/40";
+        var neutralTrackStrong = "bg-[oklch(91%_0.004_250)] dark:bg-[oklch(32%_0.02_250)]";
+        var neutralHoverText = "hover:text-[oklch(21%_0.02_250)] dark:hover:text-[oklch(97.807%_0.012_250)]";
+        var neutralRowHover = "hover:bg-[oklch(21%_0.02_250)]/5 dark:hover:bg-[oklch(97.807%_0.012_250)]/8";
+        var neutralHoverFill = "hover:bg-[oklch(21%_0.02_250)]/10 dark:hover:bg-[oklch(97.807%_0.012_250)]/10";
+        var neutralHairlineRing = "ring-1 ring-inset ring-[oklch(21%_0.02_250)]/10 dark:ring-[oklch(97.807%_0.012_250)]/15";
+        var disabledInk = "text-[oklch(21%_0.02_250)]/40 dark:text-[oklch(97.807%_0.012_250)]/40";
 
-        var inputLabelText = $"text-xs font-medium uppercase tracking-widest {neutralText.Secondary}";
+        var inputLabelText = $"text-sm font-medium {neutralText.Secondary}";
 
         var display = new TwBlazorDisplay
         {
@@ -492,7 +492,7 @@ public static class CadburyTheme
             Weight = new()
             {
                 Medium = "font-medium",
-                Semibold = "font-semibold"
+                Semibold = "font-bold"
             },
             AlignCenter = "text-center",
             WrapBreakWord = "wrap-break-word"
@@ -503,7 +503,7 @@ public static class CadburyTheme
             None = "rounded-none",
             Sm = "rounded-md",
             Md = "rounded-lg",
-            Lg = "rounded-xl",
+            Lg = "rounded-2xl",
             Full = "rounded-full",
             DefaultRounded = Rounded.Lg,
             RoundedTop = new()
@@ -511,7 +511,7 @@ public static class CadburyTheme
                 None = "rounded-t-none",
                 Sm = "rounded-t-md",
                 Md = "rounded-t-lg",
-                Lg = "rounded-t-xl",
+                Lg = "rounded-t-2xl",
                 Full = "rounded-t-full"
             },
             RoundedBottom = new()
@@ -519,7 +519,7 @@ public static class CadburyTheme
                 None = "rounded-b-none",
                 Sm = "rounded-b-md",
                 Md = "rounded-b-lg",
-                Lg = "rounded-b-xl",
+                Lg = "rounded-b-2xl",
                 Full = "rounded-b-full"
             },
             RoundedStart = new()
@@ -527,7 +527,7 @@ public static class CadburyTheme
                 None = "rounded-s-none",
                 Sm = "rounded-s-md",
                 Md = "rounded-s-lg",
-                Lg = "rounded-s-xl",
+                Lg = "rounded-s-2xl",
                 Full = "rounded-s-full"
             },
             RoundedEnd = new()
@@ -535,7 +535,7 @@ public static class CadburyTheme
                 None = "rounded-e-none",
                 Sm = "rounded-e-md",
                 Md = "rounded-e-lg",
-                Lg = "rounded-e-xl",
+                Lg = "rounded-e-2xl",
                 Full = "rounded-e-full"
             }
         };
@@ -543,15 +543,15 @@ public static class CadburyTheme
         var shadows = new TwBlazorShadow
         {
             None = "shadow-none",
-            Sm = "shadow-sm shadow-dairypurple-900/10",
-            Md = "shadow-md shadow-dairypurple-900/15",
-            Lg = "shadow-xl shadow-dairypurple-900/20",
-            Xl = "shadow-2xl shadow-dairypurple-900/25",
-            HoverSm = "hover:shadow-sm hover:shadow-dairypurple-900/10",
-            HoverMd = "hover:shadow-md hover:shadow-dairypurple-900/15",
-            HoverLg = "hover:shadow-2xl hover:shadow-dairypurple-900/25",
-            ActiveMd = "active:shadow-md active:shadow-dairypurple-900/15",
-            DefaultShadow = Shadow.Md
+            Sm = "shadow-xs",
+            Md = "shadow-sm",
+            Lg = "shadow-lg",
+            Xl = "shadow-xl",
+            HoverSm = "hover:shadow-xs",
+            HoverMd = "hover:shadow-sm",
+            HoverLg = "hover:shadow-xl",
+            ActiveMd = "active:shadow-sm",
+            DefaultShadow = Shadow.Sm
         };
 
         var borderWidth = new TwBlazorBorderWidth
@@ -670,11 +670,11 @@ public static class CadburyTheme
                 Transparent = transparentBackground,
                 LightBackground = background,
                 DarkBackground = darkBackground,
-                FocusRingBase = "focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[oklch(99.2%_0.012_85)] dark:focus-visible:ring-offset-[oklch(25.33%_0.05_300)]",
+                FocusRingBase = "focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[oklch(100%_0.004_250)] dark:focus-visible:ring-offset-[oklch(25.33%_0.02_250)]",
                 FocusColors = new()
                 {
-                    Primary = "focus-visible:ring-dairypurple-500 dark:focus-visible:ring-dairypurple-400",
-                    Accent = "focus-visible:ring-dairygold-500 dark:focus-visible:ring-dairygold-400",
+                    Primary = "focus-visible:ring-tradeblue-500 dark:focus-visible:ring-tradeblue-400",
+                    Accent = "focus-visible:ring-slate-500 dark:focus-visible:ring-slate-400",
                     Success = "focus-visible:ring-green-600 dark:focus-visible:ring-green-400",
                     Danger = "focus-visible:ring-red-500 dark:focus-visible:ring-red-400",
                     Warning = "focus-visible:ring-yellow-500 dark:focus-visible:ring-yellow-400",
@@ -682,11 +682,11 @@ public static class CadburyTheme
                     Light = "focus-visible:ring-gray-400 dark:focus-visible:ring-gray-300",
                     Dark = "focus-visible:ring-gray-700 dark:focus-visible:ring-gray-300"
                 },
-                PeerFocusRingBase = "peer-focus-visible:ring-2 peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-[oklch(99.2%_0.012_85)] dark:peer-focus-visible:ring-offset-[oklch(25.33%_0.05_300)] forced-colors:peer-focus-visible:outline-2 forced-colors:peer-focus-visible:outline-offset-2 forced-colors:peer-focus-visible:outline-[Highlight]",
+                PeerFocusRingBase = "peer-focus-visible:ring-2 peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-[oklch(100%_0.004_250)] dark:peer-focus-visible:ring-offset-[oklch(25.33%_0.02_250)] forced-colors:peer-focus-visible:outline-2 forced-colors:peer-focus-visible:outline-offset-2 forced-colors:peer-focus-visible:outline-[Highlight]",
                 PeerFocusColors = new()
                 {
-                    Primary = "peer-focus-visible:ring-dairypurple-500 dark:peer-focus-visible:ring-dairypurple-400",
-                    Accent = "peer-focus-visible:ring-dairygold-500 dark:peer-focus-visible:ring-dairygold-400",
+                    Primary = "peer-focus-visible:ring-tradeblue-500 dark:peer-focus-visible:ring-tradeblue-400",
+                    Accent = "peer-focus-visible:ring-slate-500 dark:peer-focus-visible:ring-slate-400",
                     Success = "peer-focus-visible:ring-green-600 dark:peer-focus-visible:ring-green-400",
                     Danger = "peer-focus-visible:ring-red-500 dark:peer-focus-visible:ring-red-400",
                     Warning = "peer-focus-visible:ring-yellow-500 dark:peer-focus-visible:ring-yellow-400",
@@ -698,8 +698,8 @@ public static class CadburyTheme
                 {
                     Filled = new()
                     {
-                        Primary = $"{background.Medium.Primary} hover:bg-dairypurple-700 active:bg-dairypurple-800 {text.Medium.Light}",
-                        Accent = "bg-dairygold-400 hover:bg-dairygold-300 active:bg-dairygold-500 text-gray-950",
+                        Primary = $"{background.Medium.Primary} hover:bg-tradeblue-700 active:bg-tradeblue-800 {text.Medium.Light}",
+                        Accent = "bg-slate-900 hover:bg-slate-800 active:bg-slate-950 text-gray-100",
                         Success = $"{background.Medium.Success} hover:bg-green-700 active:bg-green-800 text-white",
                         Danger = "bg-red-700 hover:bg-red-800 active:bg-red-900 text-gray-100",
                         Warning = $"{background.Medium.Warning} hover:bg-yellow-600 active:bg-yellow-700 {text.Medium.Dark}",
@@ -766,7 +766,7 @@ public static class CadburyTheme
                     Colors = new()
                     {
                         Primary = $"{background.Medium.Primary} {text.Medium.Light}",
-                        Accent = "bg-dairygold-700 text-gray-100",
+                        Accent = "bg-slate-700 text-gray-100",
                         Success = $"{background.Medium.Success} text-white",
                         Danger = "bg-red-700 text-gray-100",
                         Warning = $"{background.Medium.Warning} {text.Medium.Dark}",
@@ -790,32 +790,32 @@ public static class CadburyTheme
                     Separator = $"{display.InlineFlex} {flexbox.Align.Center} {neutralText.Subtle} select-none",
                     SeparatorIcon = "text-[0.875em] leading-none",
                     Label = $"{display.InlineFlex} {flexbox.Align.Center} gap-1.5 px-1.5 py-1 {rounded.Md} {typography.WrapBreakWord}",
-                    Link = $"{typography.Weight.Medium} {neutralText.Muted} hover:text-dairypurple-700 dark:hover:text-dairypurple-300 hover:bg-dairypurple-50 dark:hover:bg-dairypurple-500/15 {transition.ColorsFast} {focusRing} {interaction.FocusOutlineNone}",
+                    Link = $"{typography.Weight.Medium} {neutralText.Muted} hover:text-tradeblue-700 dark:hover:text-tradeblue-300 hover:bg-tradeblue-50 dark:hover:bg-tradeblue-500/15 {transition.ColorsFast} {focusRing} {interaction.FocusOutlineNone}",
                     Current = $"{typography.Weight.Semibold} {neutralText.Heading}",
                     Icon = $"{flexbox.ShrinkNone} leading-none",
-                    CurrentIcon = "text-dairypurple-600 dark:text-dairypurple-400"
+                    CurrentIcon = "text-tradeblue-600 dark:text-tradeblue-400"
                 },
                 new TwButtonTheme
                 {
-                    Base = $"{display.InlineFlex} {overflow.Hidden} {anchor.Center} min-h-10 {typography.Size.Sm} {typography.AlignCenter} {transition.ColorsFast} {interaction.FocusOutlineNone} focus-visible:outline-hidden touch-manipulation tracking-wide",
-                    Padding = "px-7 py-2",
+                    Base = $"{display.InlineFlex} {overflow.Hidden} {anchor.Center} min-h-11 {typography.Size.Sm} {typography.AlignCenter} {transition.ColorsFast} {interaction.FocusOutlineNone} focus-visible:outline-hidden touch-manipulation rounded-full!",
+                    Padding = "px-6 py-2",
                     DensePadding = "px-3 py-1",
-                    IconButton = $"{display.InlineFlex} {anchor.Center} {sizing.Icon.Xl} {typography.Size.Sm} {rounded.Full} {interaction.FocusOutlineNone}",
-                    Typography = typography.Weight.Medium,
+                    IconButton = $"{display.InlineFlex} {anchor.Center} size-11 {typography.Size.Sm} {rounded.Full} {interaction.FocusOutlineNone}",
+                    Typography = typography.Weight.Semibold,
                     IconTypography = $"{typography.Size.Lg} leading-none",
                     Uppercase = $"{textTransform.Uppercase} tracking-wide",
                     DisabledCursor = interaction.DisabledCursor,
                     ReadonlyCursor = interaction.ReadonlyCursor,
                     DefaultCursor = interaction.PointerCursor,
-                    DisabledFilled = $"bg-[oklch(21%_0.05_300)]/15 dark:bg-[oklch(97.807%_0.03_300)]/15 {disabledInk} shadow-none {interaction.DisabledCursor}",
-                    DisabledOutlined = $"{disabledInk} {transparentBackground} {borderWidth.Thin} border-[oklch(21%_0.05_300)]/15 dark:border-[oklch(97.807%_0.03_300)]/15 {interaction.DisabledCursor}",
+                    DisabledFilled = $"bg-[oklch(21%_0.02_250)]/15 dark:bg-[oklch(97.807%_0.012_250)]/15 {disabledInk} shadow-none {interaction.DisabledCursor}",
+                    DisabledOutlined = $"{disabledInk} {transparentBackground} {borderWidth.Thin} border-[oklch(21%_0.02_250)]/15 dark:border-[oklch(97.807%_0.012_250)]/15 {interaction.DisabledCursor}",
                     DisabledText = $"{disabledInk} {transparentBackground} {interaction.DisabledCursor}"
                 },
                 new TwCardTheme
                 {
-                    Container = "px-7 py-6",
-                    Bordered = $"{borderWidth.Thin} border-dairygold-400/60",
-                    Title = $"text-xl font-chocolate {typography.Weight.Semibold} {typography.WrapBreakWord} {neutralText.Heading}"
+                    Container = "px-6 py-6",
+                    Bordered = $"{borderWidth.Thin} {neutralSurface.Border}",
+                    Title = $"{typography.Size.Lg} {typography.Weight.Semibold} {typography.WrapBreakWord} {neutralText.Heading} mb-4"
                 },
                 new TwCarouselTheme
                 {
@@ -828,16 +828,16 @@ public static class CadburyTheme
                     ArrowButtonEnd = "end-2",
                     PlayPauseButton = $"{positioning.Absolute} top-2 end-2 z-10 text-sm {shadows.Md}",
                     IndicatorContainer = $"{positioning.Absolute} bottom-2 inset-x-0 z-10 w-fit mx-auto {display.Flex} {flexbox.Justify.Center} {flexbox.Align.Center} gap-4 px-4 py-2 {rounded.Full} bg-white/45 dark:bg-black/60 {shadows.Md}",
-                    Indicator = $"{positioning.Relative} size-2.5 before:absolute before:-inset-2 before:content-[''] {rounded.Full} {interaction.PointerCursor} {interaction.FocusOutlineNone} {focusRing} focus-visible:ring-offset-2 focus-visible:ring-offset-[oklch(99.2%_0.012_85)] dark:focus-visible:ring-offset-[oklch(25.33%_0.05_300)] forced-colors:border forced-colors:border-[ButtonText] {transition.ColorsFast}",
-                    IndicatorActive = "bg-dairypurple-600 dark:bg-dairypurple-500 forced-colors:bg-[Highlight]",
-                    IndicatorInactive = "bg-[oklch(21%_0.05_300)]/45 dark:bg-[oklch(97.807%_0.03_300)]/50 hover:bg-[oklch(21%_0.05_300)]/65 dark:hover:bg-[oklch(97.807%_0.03_300)]/70"
+                    Indicator = $"{positioning.Relative} size-2.5 before:absolute before:-inset-2 before:content-[''] {rounded.Full} {interaction.PointerCursor} {interaction.FocusOutlineNone} {focusRing} focus-visible:ring-offset-2 focus-visible:ring-offset-[oklch(100%_0.004_250)] dark:focus-visible:ring-offset-[oklch(25.33%_0.02_250)] forced-colors:border forced-colors:border-[ButtonText] {transition.ColorsFast}",
+                    IndicatorActive = "bg-tradeblue-600 dark:bg-tradeblue-500 forced-colors:bg-[Highlight]",
+                    IndicatorInactive = "bg-[oklch(21%_0.02_250)]/45 dark:bg-[oklch(97.807%_0.012_250)]/50 hover:bg-[oklch(21%_0.02_250)]/65 dark:hover:bg-[oklch(97.807%_0.012_250)]/70"
                 },
                 new TwCheckboxTheme
                 {
                     Colors = checkBoxRadioButtonColors,
                     Base = $"peer {borderWidth.Thick} {neutralSurface.BorderStrong} {focusRing} {interaction.FocusOutlineNone} {transition.ColorsFast} {transition.EaseInOut} {interaction.PointerCursor} appearance-none",
                     Disabled = $"{interaction.DisabledOpacity} {interaction.DisabledCursor}",
-                    Hover = $"hover:border-[oklch(21%_0.05_300)]/40 dark:hover:border-[oklch(97.807%_0.03_300)]/40 {interaction.PointerCursor}",
+                    Hover = $"hover:border-[oklch(21%_0.02_250)]/40 dark:hover:border-[oklch(97.807%_0.012_250)]/40 {interaction.PointerCursor}",
                     LabelBase = $"{display.Flex} {positioning.Relative} {flexbox.Align.Center} {spacing.Gap.Md} min-h-[24px] {inputLabelText} select-none",
                     LabelInteractiveCursor = interaction.PointerCursor,
                     LabelNonInteractiveCursor = interaction.PointerEventsNone,
@@ -885,8 +885,8 @@ public static class CadburyTheme
                     RoundedLeft = "rounded-l-sm",
                     RoundedRight = "rounded-r-sm",
                     RoundedAll = rounded.Sm,
-                    SurfaceRing = "ring-1 ring-[oklch(99.2%_0.012_85)] dark:ring-[oklch(25.33%_0.05_300)]",
-                    Dot = $"{positioning.Absolute} {rounded.Full} ring-2 ring-[oklch(99.2%_0.012_85)] dark:ring-[oklch(25.33%_0.05_300)] forced-color-adjust-none",
+                    SurfaceRing = "ring-1 ring-[oklch(100%_0.004_250)] dark:ring-[oklch(25.33%_0.02_250)]",
+                    Dot = $"{positioning.Absolute} {rounded.Full} ring-2 ring-[oklch(100%_0.004_250)] dark:ring-[oklch(25.33%_0.02_250)] forced-color-adjust-none",
                     Glyph = $"{positioning.Absolute} {display.Flex} leading-none",
                     Text = $"{positioning.Absolute} {typography.Size.Xs} leading-none tabular-nums whitespace-nowrap",
                     TextMuted = neutralText.Muted,
@@ -899,13 +899,13 @@ public static class CadburyTheme
                     StrokeHairline = "stroke-1",
                     StrokeNormal = "stroke-2",
                     StrokeThick = "stroke-[6px]",
-                    SurfaceStroke = "stroke-2 stroke-[oklch(99.2%_0.012_85)] dark:stroke-[oklch(25.33%_0.05_300)]",
+                    SurfaceStroke = "stroke-2 stroke-[oklch(100%_0.004_250)] dark:stroke-[oklch(25.33%_0.02_250)]",
                     HitWrapper = "min-w-6 min-h-6 hover:z-10 focus-within:z-10",
                     HitWrapperShaped = interaction.PointerEventsNone,
                     HitShape = $"{positioning.Absolute} inset-0 pointer-events-auto",
-                    Hit = $"{positioning.Absolute} inset-0 {rounded.Sm} {interaction.FocusOutlineNone} {focusRing} dark:focus-visible:ring-offset-2 dark:focus-visible:ring-offset-[oklch(97.807%_0.03_300)]",
-                    HitHighlight = $"{positioning.Absolute} inset-0 {rounded.Sm} bg-[oklch(21%_0.05_300)]/8 dark:bg-[oklch(97.807%_0.03_300)]/10 invisible group-hover:visible group-has-[:focus-visible]:visible group-data-[tw-tooltip-open]:visible {interaction.PointerEventsNone}",
-                    Crosshair = $"{positioning.Absolute} inset-y-0 left-1/2 w-px bg-[oklch(21%_0.05_300)]/40 dark:bg-[oklch(97.807%_0.03_300)]/40 invisible group-hover:visible group-has-[:focus-visible]:visible group-data-[tw-tooltip-open]:visible {interaction.PointerEventsNone}",
+                    Hit = $"{positioning.Absolute} inset-0 {rounded.Sm} {interaction.FocusOutlineNone} {focusRing} dark:focus-visible:ring-offset-2 dark:focus-visible:ring-offset-[oklch(97.807%_0.012_250)]",
+                    HitHighlight = $"{positioning.Absolute} inset-0 {rounded.Sm} bg-[oklch(21%_0.02_250)]/8 dark:bg-[oklch(97.807%_0.012_250)]/10 invisible group-hover:visible group-has-[:focus-visible]:visible group-data-[tw-tooltip-open]:visible {interaction.PointerEventsNone}",
+                    Crosshair = $"{positioning.Absolute} inset-y-0 left-1/2 w-px bg-[oklch(21%_0.02_250)]/40 dark:bg-[oklch(97.807%_0.012_250)]/40 invisible group-hover:visible group-has-[:focus-visible]:visible group-data-[tw-tooltip-open]:visible {interaction.PointerEventsNone}",
                     TooltipTitle = $"{display.Block} {typography.Weight.Semibold}",
                     TooltipRow = $"{display.Flex} {flexbox.Align.Center} {spacing.Gap.Md} mt-1 font-normal",
                     TooltipKey = $"h-0.5 w-3 {rounded.Full} {flexbox.ShrinkNone}",
@@ -915,7 +915,7 @@ public static class CadburyTheme
                     TableRowHeader = typography.Weight.Medium,
                     Series =
                     [
-                        new() { Background = "bg-dairypurple-600 dark:bg-dairypurple-500", Fill = "fill-dairypurple-600 dark:fill-dairypurple-500", Stroke = "stroke-dairypurple-600 dark:stroke-dairypurple-500", Text = "text-dairypurple-600 dark:text-dairypurple-500" },
+                        new() { Background = "bg-tradeblue-600 dark:bg-tradeblue-500", Fill = "fill-tradeblue-600 dark:fill-tradeblue-500", Stroke = "stroke-tradeblue-600 dark:stroke-tradeblue-500", Text = "text-tradeblue-600 dark:text-tradeblue-500" },
                         new() { Background = "bg-orange-600", Fill = "fill-orange-600", Stroke = "stroke-orange-600", Text = "text-orange-600" },
                         new() { Background = "bg-teal-600", Fill = "fill-teal-600", Stroke = "stroke-teal-600", Text = "text-teal-600" },
                         new() { Background = "bg-yellow-700", Fill = "fill-yellow-700", Stroke = "stroke-yellow-700", Text = "text-yellow-700" },
@@ -927,11 +927,11 @@ public static class CadburyTheme
                     Positive = new() { Background = "bg-green-600", Fill = "fill-green-600", Stroke = "stroke-green-600", Text = "text-green-600" },
                     Negative = new() { Background = "bg-red-600 dark:bg-red-500", Fill = "fill-red-600 dark:fill-red-500", Stroke = "stroke-red-600 dark:stroke-red-500", Text = "text-red-600 dark:text-red-500" },
                     Total = new() { Background = "bg-slate-500 dark:bg-slate-400", Fill = "fill-slate-500 dark:fill-slate-400", Stroke = "stroke-slate-500 dark:stroke-slate-400", Text = "text-slate-500 dark:text-slate-400" },
-                    Sequential = new() { Background = "bg-dairypurple-600 dark:bg-dairypurple-500", Fill = "fill-dairypurple-600 dark:fill-dairypurple-500", Stroke = "stroke-dairypurple-600 dark:stroke-dairypurple-500", Text = "text-dairypurple-600 dark:text-dairypurple-500" },
-                    Track = new() { Background = "bg-[oklch(91%_0.012_85)] dark:bg-[oklch(34%_0.05_300)]", Fill = "fill-[oklch(91%_0.012_85)] dark:fill-[oklch(34%_0.05_300)]", Stroke = "stroke-[oklch(91%_0.012_85)] dark:stroke-[oklch(34%_0.05_300)]", Text = "text-[oklch(91%_0.012_85)] dark:text-[oklch(34%_0.05_300)]" },
-                    Grid = new() { Background = "bg-[oklch(92%_0.012_85)] dark:bg-[oklch(32%_0.05_300)]", Fill = "fill-[oklch(92%_0.012_85)] dark:fill-[oklch(32%_0.05_300)]", Stroke = "stroke-[oklch(92%_0.012_85)] dark:stroke-[oklch(32%_0.05_300)]", Text = "text-[oklch(92%_0.012_85)] dark:text-[oklch(32%_0.05_300)]" },
-                    Axis = new() { Background = "bg-[oklch(78%_0.03_300)] dark:bg-[oklch(48%_0.05_300)]", Fill = "fill-[oklch(78%_0.03_300)] dark:fill-[oklch(48%_0.05_300)]", Stroke = "stroke-[oklch(78%_0.03_300)] dark:stroke-[oklch(48%_0.05_300)]", Text = "text-[oklch(78%_0.03_300)] dark:text-[oklch(48%_0.05_300)]" },
-                    Ink = new() { Background = "bg-[oklch(21%_0.05_300)] dark:bg-[oklch(97.807%_0.03_300)]", Fill = "fill-[oklch(21%_0.05_300)] dark:fill-[oklch(97.807%_0.03_300)]", Stroke = "stroke-[oklch(21%_0.05_300)] dark:stroke-[oklch(97.807%_0.03_300)]", Text = neutralText.Heading }
+                    Sequential = new() { Background = "bg-tradeblue-600 dark:bg-tradeblue-500", Fill = "fill-tradeblue-600 dark:fill-tradeblue-500", Stroke = "stroke-tradeblue-600 dark:stroke-tradeblue-500", Text = "text-tradeblue-600 dark:text-tradeblue-500" },
+                    Track = new() { Background = "bg-[oklch(91%_0.004_250)] dark:bg-[oklch(34%_0.02_250)]", Fill = "fill-[oklch(91%_0.004_250)] dark:fill-[oklch(34%_0.02_250)]", Stroke = "stroke-[oklch(91%_0.004_250)] dark:stroke-[oklch(34%_0.02_250)]", Text = "text-[oklch(91%_0.004_250)] dark:text-[oklch(34%_0.02_250)]" },
+                    Grid = new() { Background = "bg-[oklch(92%_0.004_250)] dark:bg-[oklch(32%_0.02_250)]", Fill = "fill-[oklch(92%_0.004_250)] dark:fill-[oklch(32%_0.02_250)]", Stroke = "stroke-[oklch(92%_0.004_250)] dark:stroke-[oklch(32%_0.02_250)]", Text = "text-[oklch(92%_0.004_250)] dark:text-[oklch(32%_0.02_250)]" },
+                    Axis = new() { Background = "bg-[oklch(78%_0.012_250)] dark:bg-[oklch(48%_0.02_250)]", Fill = "fill-[oklch(78%_0.012_250)] dark:fill-[oklch(48%_0.02_250)]", Stroke = "stroke-[oklch(78%_0.012_250)] dark:stroke-[oklch(48%_0.02_250)]", Text = "text-[oklch(78%_0.012_250)] dark:text-[oklch(48%_0.02_250)]" },
+                    Ink = new() { Background = "bg-[oklch(21%_0.02_250)] dark:bg-[oklch(97.807%_0.012_250)]", Fill = "fill-[oklch(21%_0.02_250)] dark:fill-[oklch(97.807%_0.012_250)]", Stroke = "stroke-[oklch(21%_0.02_250)] dark:stroke-[oklch(97.807%_0.012_250)]", Text = neutralText.Heading }
                 },
                 new TwChipTheme
                 {
@@ -962,7 +962,7 @@ public static class CadburyTheme
                 {
                     Swatch = $"block {flexbox.ShrinkNone} h-7 w-7 {neutralHairlineRing} {shadows.Sm} transition-[box-shadow,opacity] {transition.DurationFast} motion-reduce:transition-none",
                     SwatchDisabled = interaction.DisabledOpacity,
-                    SwatchHover = "hover:ring-[oklch(21%_0.05_300)]/20 dark:hover:ring-[oklch(97.807%_0.03_300)]/25",
+                    SwatchHover = "hover:ring-[oklch(21%_0.02_250)]/20 dark:hover:ring-[oklch(97.807%_0.012_250)]/25",
                     InputContainer = $"{display.Flex} {flexbox.Align.Center} {spacing.Gap.Md}",
                     DialogPosition = $"{positioning.Fixed} z-120 {spacing.MarginTop.Md}",
                     PreviewSwatch =$"{flexbox.Flex1} {sizing.MinWidthNone} h-6 {rounded.Full} {neutralHairlineRing} {shadows.Sm}",
@@ -986,10 +986,10 @@ public static class CadburyTheme
                     WeekdaysHeader = $"{display.Flex} {anchor.Center} h-8 {typography.Size.Xs} font-normal {neutralText.Muted}",
                     Base = $"{positioning.Fixed} z-120 {flexbox.Row} md:flex-row {flexbox.Align.Center} mt-1 px-2 pb-2 {typography.AlignCenter} {typography.Size.Sm} {typography.Weight.Medium} {transition.ColorsFast} {interaction.PointerCursor}",
                     ActiveClass = $"{neutralTrack} {neutralText.Heading} {typography.Weight.Semibold}",
-                    SelectedClass = $"bg-dairypurple-600 hover:bg-dairypurple-700 text-white {typography.Weight.Semibold}",
+                    SelectedClass = $"bg-tradeblue-600 hover:bg-tradeblue-700 text-white {typography.Weight.Semibold}",
                     HoverClass = neutralHoverFill,
                     ButtonClass = $"{display.Flex} {flexbox.Align.Center} {flexbox.Justify.Center} h-8 {sizing.FullWidth} {spacing.Padding.Md} tabular-nums {focusRingInset} {interaction.FocusOutlineNone} {transition.ColorsFast}",
-                    RangeClass = "bg-dairypurple-100 text-dairypurple-900 dark:bg-dairypurple-500/20 dark:text-dairypurple-100",
+                    RangeClass = "bg-tradeblue-100 text-tradeblue-900 dark:bg-tradeblue-500/20 dark:text-tradeblue-100",
                     RangeMonthCaptionClass = $"mt-2 {typography.AlignCenter} {typography.Size.Sm} {typography.Weight.Semibold} {neutralText.Heading}",
                     PrevMonthClass = neutralText.Subtle,
                     DefaultFormat = "dd/MM/yyyy",
@@ -1016,7 +1016,7 @@ public static class CadburyTheme
                     PanelMaxWidth = "overflow-x-auto max-w-[calc(100vw-2rem)]",
                     DualMonthPanelWidth = "md:w-138",
                     StageTabBase = $"{flexbox.Flex1} py-1.5 {typography.Size.Sm} {typography.Weight.Medium} {typography.AlignCenter} {interaction.PointerCursor} {transition.ColorsFast} {focusRing} {interaction.FocusOutlineNone}",
-                    StageTabActive = $"bg-white dark:bg-[oklch(34%_0.05_300)] {neutralText.Heading} {shadows.Sm}",
+                    StageTabActive = $"bg-white dark:bg-[oklch(34%_0.02_250)] {neutralText.Heading} {shadows.Sm}",
                     HeaderNavButton = "py-2 px-4 text-xl"
                 },
                 new TwFileUploadTheme
@@ -1024,17 +1024,17 @@ public static class CadburyTheme
                     IconSpacing = "me-2",
                     FileList = $"{typography.Size.Sm} {neutralText.Secondary}",
                     ChipTextColor = "dark:text-white",
-                    FocusRing = "has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-dairypurple-500 dark:has-[:focus-visible]:ring-dairypurple-400 has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-offset-[oklch(99.2%_0.012_85)] dark:has-[:focus-visible]:ring-offset-[oklch(25.33%_0.05_300)] forced-colors:has-[:focus-visible]:outline-2 forced-colors:has-[:focus-visible]:outline-offset-2 forced-colors:has-[:focus-visible]:outline-[Highlight]"
+                    FocusRing = "has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-tradeblue-500 dark:has-[:focus-visible]:ring-tradeblue-400 has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-offset-[oklch(100%_0.004_250)] dark:has-[:focus-visible]:ring-offset-[oklch(25.33%_0.02_250)] forced-colors:has-[:focus-visible]:outline-2 forced-colors:has-[:focus-visible]:outline-offset-2 forced-colors:has-[:focus-visible]:outline-[Highlight]"
                 },
                 new TwIconTheme
                 {
                     Colors = new()
                     {
-                        Primary = "text-dairypurple-600 dark:text-dairypurple-400",
-                        Accent = "text-dairygold-600 dark:text-dairygold-400",
+                        Primary = "text-tradeblue-600 dark:text-tradeblue-400",
+                        Accent = "text-slate-600 dark:text-slate-400",
                         Success = "text-green-600 dark:text-green-400",
                         Danger = "text-red-600 dark:text-red-400",
-                        Warning = "text-[oklch(65%_0.03_300)] dark:text-yellow-400",
+                        Warning = "text-[oklch(65%_0.012_250)] dark:text-yellow-400",
                         Info = "text-blue-600 dark:text-blue-400",
                         Light = "text-gray-100 dark:text-white",
                         Dark = "text-gray-950 dark:text-gray-950",
@@ -1066,12 +1066,12 @@ public static class CadburyTheme
                 },
                 new TwInputTheme
                 {
-                    DefaultInputVariant = InputVariant.Filled,
-                    TextfieldBase = $"{display.Block} {sizing.FullWidth} {sizing.MinWidthNone} max-w-full {neutralText.Heading} placeholder:text-[oklch(21%_0.05_300)]/65 dark:placeholder:text-[oklch(97.807%_0.03_300)]/65 {transition.ColorsFast} {transition.EaseInOut} {interaction.FocusOutlineNone}",
-                    SelectBase = $"{display.Block} {sizing.FullWidth} pe-10 {neutralText.Heading} bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22none%22%20viewBox%3D%220%200%2020%2020%22%3E%3Cpath%20stroke%3D%22%236b7280%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%221.5%22%20d%3D%22m6%208%204%204%204-4%22%2F%3E%3C%2Fsvg%3E')] bg-[length:1.5em_1.5em] bg-[right_0.5rem_center] rtl:bg-[left_0.5rem_center] bg-no-repeat {transition.ColorsFast} appearance-none {interaction.FocusOutlineNone} supports-[appearance:base-select]:[appearance:base-select] supports-[appearance:base-select]:flex supports-[appearance:base-select]:items-center [&::picker(select)]:[appearance:base-select] [&::picker-icon]:hidden [&::picker(select)]:border-[oklch(21%_0.05_300)]/25 dark:[&::picker(select)]:border-[oklch(97.807%_0.03_300)]/20 [&::picker(select)]:bg-[oklch(99.2%_0.012_85)] dark:[&::picker(select)]:bg-[oklch(40%_0.05_300)]",
+                    DefaultInputVariant = InputVariant.Outlined,
+                    TextfieldBase = $"{display.Block} {sizing.FullWidth} {sizing.MinWidthNone} max-w-full {neutralText.Heading} placeholder:text-[oklch(21%_0.02_250)]/65 dark:placeholder:text-[oklch(97.807%_0.012_250)]/65 {transition.ColorsFast} {transition.EaseInOut} {interaction.FocusOutlineNone}",
+                    SelectBase = $"{display.Block} {sizing.FullWidth} pe-10 {neutralText.Heading} bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22none%22%20viewBox%3D%220%200%2020%2020%22%3E%3Cpath%20stroke%3D%22%236b7280%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%221.5%22%20d%3D%22m6%208%204%204%204-4%22%2F%3E%3C%2Fsvg%3E')] bg-[length:1.5em_1.5em] bg-[right_0.5rem_center] rtl:bg-[left_0.5rem_center] bg-no-repeat {transition.ColorsFast} appearance-none {interaction.FocusOutlineNone} supports-[appearance:base-select]:[appearance:base-select] supports-[appearance:base-select]:flex supports-[appearance:base-select]:items-center [&::picker(select)]:[appearance:base-select] [&::picker-icon]:hidden [&::picker(select)]:border-[oklch(21%_0.02_250)]/25 dark:[&::picker(select)]:border-[oklch(97.807%_0.012_250)]/20 [&::picker(select)]:bg-[oklch(100%_0.004_250)] dark:[&::picker(select)]:bg-[oklch(40%_0.02_250)]",
                     Size = $"{inputHeight} {typography.Size.Base}",
                     DenseSize = $"{inputDenseHeight} {typography.Size.Sm}",
-                    SelectOption = $"{spacing.Padding.Lg} dark:bg-gray-800 dark:text-white supports-[appearance:base-select]:[padding-inline:revert] supports-[appearance:base-select]:py-2 supports-[appearance:base-select]:bg-transparent dark:supports-[appearance:base-select]:bg-transparent supports-[appearance:base-select]:hover:bg-[oklch(96.2%_0.012_85)] dark:supports-[appearance:base-select]:hover:bg-[oklch(34%_0.05_300)] supports-[appearance:base-select]:checked:bg-dairypurple-50 supports-[appearance:base-select]:checked:text-dairypurple-700 dark:supports-[appearance:base-select]:checked:bg-dairypurple-500/20 dark:supports-[appearance:base-select]:checked:text-dairypurple-300",
+                    SelectOption = $"{spacing.Padding.Lg} dark:bg-gray-800 dark:text-white supports-[appearance:base-select]:[padding-inline:revert] supports-[appearance:base-select]:py-2 supports-[appearance:base-select]:bg-transparent dark:supports-[appearance:base-select]:bg-transparent supports-[appearance:base-select]:hover:bg-[oklch(97%_0.004_250)] dark:supports-[appearance:base-select]:hover:bg-[oklch(34%_0.02_250)] supports-[appearance:base-select]:checked:bg-tradeblue-50 supports-[appearance:base-select]:checked:text-tradeblue-700 dark:supports-[appearance:base-select]:checked:bg-tradeblue-500/20 dark:supports-[appearance:base-select]:checked:text-tradeblue-300",
                     SelectNativeBackground = "!bg-white dark:!bg-gray-800",
                     SelectDefaultPadding = "px-3",
                     SelectReadOnlyBackground = "!bg-none",
@@ -1080,24 +1080,24 @@ public static class CadburyTheme
                     SelectMultiOpenButton = $"{flexbox.Flex1} min-w-[2rem] min-h-8 truncate text-start bg-transparent border-0 {interaction.FocusOutlineNone}",
                     SelectPanelPosition = $"{positioning.Fixed} z-120 {spacing.MarginTop.Md}",
                     SelectPanelSurface = $"overflow-y-auto max-h-64 {spacing.Padding.Sm}",
-                    SelectPanelItemText = "[&_label]:!text-[oklch(21%_0.05_300)] dark:[&_label]:!text-[oklch(97.807%_0.03_300)] [&_fieldset]:gap-0 [&_label]:w-full [&_label]:gap-2 [&_label]:px-2 [&_label]:py-2 [&_label]:text-base [&_input]:sr-only [&_label>span]:hidden [&_label::before]:content-['✓'] [&_label::before]:invisible [&_label::before]:w-4 [&_label::before]:shrink-0 [&_label::before]:text-center [&_label:has(input:checked)::before]:visible [&_label:hover]:bg-[oklch(96.2%_0.012_85)] dark:[&_label:hover]:bg-[oklch(34%_0.05_300)] [&_label:has(input:checked)]:bg-dairypurple-50 dark:[&_label:has(input:checked)]:bg-dairypurple-500/20 [&_label:has(input:checked)]:!text-dairypurple-700 dark:[&_label:has(input:checked)]:!text-dairypurple-300 [&_label:has(input:focus-visible)]:ring-2 [&_label:has(input:focus-visible)]:ring-inset [&_label:has(input:focus-visible)]:ring-dairypurple-500 dark:[&_label:has(input:focus-visible)]:ring-dairypurple-400",
+                    SelectPanelItemText = "[&_label]:!text-[oklch(21%_0.02_250)] dark:[&_label]:!text-[oklch(97.807%_0.012_250)] [&_fieldset]:gap-0 [&_label]:w-full [&_label]:gap-2 [&_label]:px-2 [&_label]:py-2 [&_label]:text-base [&_input]:sr-only [&_label>span]:hidden [&_label::before]:content-['✓'] [&_label::before]:invisible [&_label::before]:w-4 [&_label::before]:shrink-0 [&_label::before]:text-center [&_label:has(input:checked)::before]:visible [&_label:hover]:bg-[oklch(97%_0.004_250)] dark:[&_label:hover]:bg-[oklch(34%_0.02_250)] [&_label:has(input:checked)]:bg-tradeblue-50 dark:[&_label:has(input:checked)]:bg-tradeblue-500/20 [&_label:has(input:checked)]:!text-tradeblue-700 dark:[&_label:has(input:checked)]:!text-tradeblue-300 [&_label:has(input:focus-visible)]:ring-2 [&_label:has(input:focus-visible)]:ring-inset [&_label:has(input:focus-visible)]:ring-tradeblue-500 dark:[&_label:has(input:focus-visible)]:ring-tradeblue-400",
                     SelectCustomTrigger = $"{display.Flex} {flexbox.Align.Center} {flexbox.Justify.Between} {spacing.Gap.Md} {sizing.FullWidth} {sizing.MinWidthNone} text-start {neutralText.Heading} {transition.ColorsFast} {interaction.FocusOutlineNone} {interaction.PointerCursor}",
                     SelectCustomPlaceholder = $"{neutralText.Muted}",
                     SelectCustomChevron = $"{display.Flex} {anchor.Center} {sizing.Icon.Sm} {flexbox.ShrinkNone} leading-none {neutralText.Muted} {transition.TransformFast}",
                     SelectCustomChevronOpen = "rotate-180",
                     SelectCustomListbox = $"{display.Flex} {flexbox.Col} gap-0.5 {interaction.FocusOutlineNone}",
-                    SelectCustomOption = $"{display.Flex} {flexbox.Align.Center} {flexbox.Justify.Between} {spacing.Gap.Md} {rounded.Md} px-2 py-2 {typography.Size.Sm} {neutralText.Heading} {interaction.PointerCursor} select-none data-[active=true]:bg-[oklch(94.2%_0.012_85)] dark:data-[active=true]:bg-[oklch(48%_0.05_300)] data-[active=true]:outline-2 data-[active=true]:-outline-offset-2 data-[active=true]:outline-dairypurple-600 dark:data-[active=true]:outline-dairypurple-300 aria-selected:font-semibold",
+                    SelectCustomOption = $"{display.Flex} {flexbox.Align.Center} {flexbox.Justify.Between} {spacing.Gap.Md} {rounded.Md} px-2 py-2 {typography.Size.Sm} {neutralText.Heading} {interaction.PointerCursor} select-none data-[active=true]:bg-[oklch(95%_0.004_250)] dark:data-[active=true]:bg-[oklch(48%_0.02_250)] data-[active=true]:outline-2 data-[active=true]:-outline-offset-2 data-[active=true]:outline-tradeblue-600 dark:data-[active=true]:outline-tradeblue-300 aria-selected:font-semibold",
                     SelectMultiTriggerBase = $"{positioning.Relative} {sizing.FullWidth} {sizing.MinWidthNone} text-start pe-10 {neutralText.Heading} {transition.ColorsFast} {interaction.FocusOutlineNone} {interaction.PointerCursor}",
                     SelectMultiChipsPadding = "ps-0.75",
                     SelectMultiChevron = $"{positioning.Absolute} end-3 top-1/2 -translate-y-1/2 {display.Flex} {sizing.Icon.Sm} leading-none {neutralText.Muted} {transition.TransformFast} {interaction.PointerEventsNone}",
-                    SelectCustomCheck = $"{sizing.Icon.Sm} {flexbox.ShrinkNone} text-dairypurple-600 dark:text-dairypurple-300",
+                    SelectCustomCheck = $"{sizing.Icon.Sm} {flexbox.ShrinkNone} text-tradeblue-600 dark:text-tradeblue-300",
                     InputLegendBase = $"mb-3 {typography.Size.Base} {typography.Weight.Medium} {neutralText.Secondary}",
                     LabelBase = $"{display.Block} mb-2 {inputLabelText}",
                     OutlinedBorder = $"{borderWidth.Thin} {neutralSurface.BorderStrong}",
                     FilledBorder = $"border-b {neutralSurface.BorderStrong}",
-                    FocusBorder = "focus:border-dairypurple-600 dark:focus:border-dairypurple-400 focus:ring-2 focus:ring-dairypurple-500 dark:focus:ring-dairypurple-400",
-                    FocusVisibleBorder = "focus-visible:border-dairypurple-600 dark:focus-visible:border-dairypurple-400 focus-visible:ring-2 focus-visible:ring-dairypurple-500 dark:focus-visible:ring-dairypurple-400",
-                    FocusWithinBorder = "has-[:focus-visible]:border-dairypurple-600 dark:has-[:focus-visible]:border-dairypurple-400 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-dairypurple-500 dark:has-[:focus-visible]:ring-dairypurple-400",
+                    FocusBorder = "focus:border-tradeblue-600 dark:focus:border-tradeblue-400 focus:ring-2 focus:ring-tradeblue-500 dark:focus:ring-tradeblue-400",
+                    FocusVisibleBorder = "focus-visible:border-tradeblue-600 dark:focus-visible:border-tradeblue-400 focus-visible:ring-2 focus-visible:ring-tradeblue-500 dark:focus-visible:ring-tradeblue-400",
+                    FocusWithinBorder = "has-[:focus-visible]:border-tradeblue-600 dark:has-[:focus-visible]:border-tradeblue-400 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-tradeblue-500 dark:has-[:focus-visible]:ring-tradeblue-400",
                     FilledBackgroundColor = neutralSurface.Elevated,
                     ErrorMessage = $"{spacing.MarginTop.Sm} {typography.Size.Xs} {text.Medium.Danger} {darkText.Medium.Danger}"
                 },
@@ -1105,8 +1105,8 @@ public static class CadburyTheme
                 {
                     Title = $"{spacing.MarginBottom.Lg} {typography.Weight.Semibold} {neutralText.Heading}",
                     List = $"border-s {neutralSurface.Border}",
-                    Link = $"{display.Block} -ms-px py-1 ps-4 border-s border-transparent {neutralText.Muted} {neutralHoverText} hover:border-[oklch(21%_0.05_300)]/45 dark:hover:border-[oklch(97.807%_0.03_300)]/45 {transition.ColorsFast} {focusRingInset} {interaction.FocusOutlineNone}",
-                    LinkCurrent = $"aria-[current=location]:font-medium aria-[current=location]:border-dairypurple-600 dark:aria-[current=location]:border-dairypurple-400 aria-[current=location]:text-[oklch(21%_0.05_300)] dark:aria-[current=location]:text-[oklch(97.807%_0.03_300)] forced-colors:aria-[current=location]:border-[Highlight]"
+                    Link = $"{display.Block} -ms-px py-1 ps-4 border-s border-transparent {neutralText.Muted} {neutralHoverText} hover:border-[oklch(21%_0.02_250)]/45 dark:hover:border-[oklch(97.807%_0.012_250)]/45 {transition.ColorsFast} {focusRingInset} {interaction.FocusOutlineNone}",
+                    LinkCurrent = $"aria-[current=location]:font-medium aria-[current=location]:border-tradeblue-600 dark:aria-[current=location]:border-tradeblue-400 aria-[current=location]:text-[oklch(21%_0.02_250)] dark:aria-[current=location]:text-[oklch(97.807%_0.012_250)] forced-colors:aria-[current=location]:border-[Highlight]"
                 },
                 new TwPaginationTheme
                 {
@@ -1114,9 +1114,9 @@ public static class CadburyTheme
                     Base = $"{display.Flex} {anchor.Center} tabular-nums select-none {transition.ColorsFast} {focusRingInset} {interaction.FocusOutlineNone}",
                     Size = $"{inputHeight} min-w-10 px-3 {typography.Size.Sm}",
                     DenseSize = $"{inputDenseHeight} min-w-8 px-2 {typography.Size.Sm}",
-                    ActiveButton = $"{typography.Weight.Semibold} bg-dairypurple-50 text-dairypurple-700 ring-1 ring-inset ring-dairypurple-600/20 dark:bg-dairypurple-500/20 dark:text-dairypurple-300 dark:ring-dairypurple-400/30 forced-colors:outline forced-colors:outline-2 forced-colors:-outline-offset-2 forced-colors:outline-[Highlight] {interaction.PointerCursor}",
+                    ActiveButton = $"{typography.Weight.Semibold} bg-tradeblue-50 text-tradeblue-700 ring-1 ring-inset ring-tradeblue-600/20 dark:bg-tradeblue-500/20 dark:text-tradeblue-300 dark:ring-tradeblue-400/30 forced-colors:outline forced-colors:outline-2 forced-colors:-outline-offset-2 forced-colors:outline-[Highlight] {interaction.PointerCursor}",
                     Buttons = $"{neutralText.Secondary} {neutralHoverFill} {neutralHoverText} {interaction.PointerCursor}",
-                    DisabledButton = "text-[oklch(21%_0.05_300)]/40 dark:text-[oklch(97.807%_0.03_300)]/40 cursor-not-allowed"
+                    DisabledButton = "text-[oklch(21%_0.02_250)]/40 dark:text-[oklch(97.807%_0.012_250)]/40 cursor-not-allowed"
                 },
                 new TwPickListTheme
                 {
@@ -1125,12 +1125,12 @@ public static class CadburyTheme
                     ColumnHeader = $"{display.Flex} {flexbox.Align.Center} {flexbox.Justify.Between} {spacing.Gap.Sm} min-h-8",
                     Label = $"{typography.Size.Sm} {typography.Weight.Medium} {neutralText.Heading}",
                     ReorderButtons = $"{display.Flex} {flexbox.Align.Center} {spacing.Gap.Sm}",
-                    ReorderButton = $"{neutralText.Muted} {neutralHoverFill} {neutralHoverText} {transition.ColorsFast} aria-disabled:text-[oklch(21%_0.05_300)]/40 dark:aria-disabled:text-[oklch(97.807%_0.03_300)]/40 aria-disabled:hover:bg-transparent dark:aria-disabled:hover:bg-transparent aria-disabled:cursor-not-allowed",
-                    TransferButton = $"{borderWidth.Thin} {neutralSurface.BorderStrong} {neutralText.Secondary} {neutralHoverFill} {neutralHoverText} {transition.ColorsFast} aria-disabled:text-[oklch(21%_0.05_300)]/40 dark:aria-disabled:text-[oklch(97.807%_0.03_300)]/40 aria-disabled:border-[oklch(21%_0.05_300)]/20 dark:aria-disabled:border-[oklch(97.807%_0.03_300)]/20 aria-disabled:hover:bg-transparent dark:aria-disabled:hover:bg-transparent aria-disabled:cursor-not-allowed",
+                    ReorderButton = $"{neutralText.Muted} {neutralHoverFill} {neutralHoverText} {transition.ColorsFast} aria-disabled:text-[oklch(21%_0.02_250)]/40 dark:aria-disabled:text-[oklch(97.807%_0.012_250)]/40 aria-disabled:hover:bg-transparent dark:aria-disabled:hover:bg-transparent aria-disabled:cursor-not-allowed",
+                    TransferButton = $"{borderWidth.Thin} {neutralSurface.BorderStrong} {neutralText.Secondary} {neutralHoverFill} {neutralHoverText} {transition.ColorsFast} aria-disabled:text-[oklch(21%_0.02_250)]/40 dark:aria-disabled:text-[oklch(97.807%_0.012_250)]/40 aria-disabled:border-[oklch(21%_0.02_250)]/20 dark:aria-disabled:border-[oklch(97.807%_0.012_250)]/20 aria-disabled:hover:bg-transparent dark:aria-disabled:hover:bg-transparent aria-disabled:cursor-not-allowed",
                     TransferButtonColumn = $"{display.Flex} {flexbox.Col} {flexbox.Align.Center} {flexbox.Justify.Center} {flexbox.AlignSelf.Center} {spacing.Gap.Md}",
                     ListBox = $"overflow-y-auto {sizing.FullWidth} h-64 {spacing.Padding.Sm} {neutralSurface.Background} {borderWidth.Thin} {neutralSurface.BorderStrong}",
                     ListBoxDisabled = $"{interaction.DisabledOpacity} {interaction.PointerEventsNone}",
-                    Item = $"{display.Flex} {flexbox.Align.Center} {spacing.Gap.Md} {rounded.Md} px-3 py-2 {typography.Size.Sm} {neutralText.Heading} {neutralRowHover} aria-selected:bg-dairypurple-50 aria-selected:text-dairypurple-700 aria-selected:hover:bg-dairypurple-100 dark:aria-selected:bg-dairypurple-500/20 dark:aria-selected:text-dairypurple-300 dark:aria-selected:hover:bg-dairypurple-500/30 {focusRingInset} {transition.ColorsFast} {interaction.PointerCursor} select-none {interaction.FocusOutlineNone}",
+                    Item = $"{display.Flex} {flexbox.Align.Center} {spacing.Gap.Md} {rounded.Md} px-3 py-2 {typography.Size.Sm} {neutralText.Heading} {neutralRowHover} aria-selected:bg-tradeblue-50 aria-selected:text-tradeblue-700 aria-selected:hover:bg-tradeblue-100 dark:aria-selected:bg-tradeblue-500/20 dark:aria-selected:text-tradeblue-300 dark:aria-selected:hover:bg-tradeblue-500/30 {focusRingInset} {transition.ColorsFast} {interaction.PointerCursor} select-none {interaction.FocusOutlineNone}",
                     ItemSelected = typography.Weight.Medium,
                     EmptyState = $"px-3 py-8 {typography.AlignCenter} {typography.Size.Sm} {neutralText.Subtle}"
                 },
@@ -1138,8 +1138,8 @@ public static class CadburyTheme
                 {
                     Colors = new()
                     {
-                        Primary = "[&::-webkit-progress-value]:bg-dairypurple-600 dark:[&::-webkit-progress-value]:bg-dairypurple-500 [&::-moz-progress-bar]:bg-dairypurple-600 dark:[&::-moz-progress-bar]:bg-dairypurple-500",
-                        Accent = "[&::-webkit-progress-value]:bg-dairygold-600 dark:[&::-webkit-progress-value]:bg-dairygold-500 [&::-moz-progress-bar]:bg-dairygold-600 dark:[&::-moz-progress-bar]:bg-dairygold-500",
+                        Primary = "[&::-webkit-progress-value]:bg-tradeblue-600 dark:[&::-webkit-progress-value]:bg-tradeblue-500 [&::-moz-progress-bar]:bg-tradeblue-600 dark:[&::-moz-progress-bar]:bg-tradeblue-500",
+                        Accent = "[&::-webkit-progress-value]:bg-slate-600 dark:[&::-webkit-progress-value]:bg-slate-500 [&::-moz-progress-bar]:bg-slate-600 dark:[&::-moz-progress-bar]:bg-slate-500",
                         Success = "[&::-webkit-progress-value]:bg-green-600 dark:[&::-webkit-progress-value]:bg-green-500 [&::-moz-progress-bar]:bg-green-600 dark:[&::-moz-progress-bar]:bg-green-500",
                         Danger = "[&::-webkit-progress-value]:bg-red-600 dark:[&::-webkit-progress-value]:bg-red-500 [&::-moz-progress-bar]:bg-red-600 dark:[&::-moz-progress-bar]:bg-red-500",
                         Warning = "[&::-webkit-progress-value]:bg-yellow-500 dark:[&::-webkit-progress-value]:bg-yellow-400 [&::-moz-progress-bar]:bg-yellow-500 dark:[&::-moz-progress-bar]:bg-yellow-400",
@@ -1178,7 +1178,7 @@ public static class CadburyTheme
                 },
                 new TwSidebarTheme
                 {
-                    SkipLink = "focus:not-sr-only focus:absolute focus:top-2 focus:start-2 focus:z-140 focus:px-3 focus:py-2 focus:text-sm focus:font-medium focus:bg-[oklch(99.2%_0.012_85)] dark:focus:bg-[oklch(40%_0.05_300)] focus:text-[oklch(21%_0.05_300)] dark:focus:text-[oklch(97.807%_0.03_300)] focus:rounded focus:shadow-lg",
+                    SkipLink = "focus:not-sr-only focus:absolute focus:top-2 focus:start-2 focus:z-140 focus:px-3 focus:py-2 focus:text-sm focus:font-medium focus:bg-[oklch(100%_0.004_250)] dark:focus:bg-[oklch(40%_0.02_250)] focus:text-[oklch(21%_0.02_250)] dark:focus:text-[oklch(97.807%_0.012_250)] focus:rounded focus:shadow-lg",
                     MobileOverlay = "inset-0 z-90 lg:hidden bg-black/50",
                     DrawerCloseButton = "lg:hidden absolute top-2 end-2 text-lg",
                     MobileClosed = "-translate-x-full rtl:translate-x-full",
@@ -1189,20 +1189,22 @@ public static class CadburyTheme
                     NavbarNavigationExpanded = "flex flex-1",
                     NavigationItemToggleLabel = "me-auto text-start",
                     NavigationItemToggleIcon = "transition-transform",
-                    Navbar = $"{display.Flex} z-40 {flexbox.Align.Center} {flexbox.ShrinkNone} {sizing.FullWidth} min-h-16 px-4 py-2 bg-dairypurple-600 text-dairygold-200 border-b border-dairygold-400/50",
+                    Navbar = $"{display.Flex} z-40 {flexbox.Align.Center} {flexbox.ShrinkNone} {sizing.FullWidth} min-h-16 px-4 py-2 bg-slate-950 text-white",
                     NavbarContent = $"{display.Flex} {flexbox.Wrap} {flexbox.Align.Center} {spacing.Gap.Xl} {sizing.FullWidth}",
                     NavbarBrand = flexbox.ShrinkNone,
                     NavbarNavigation = $"{flexbox.Align.Center} {spacing.Gap.Md}",
                     NavbarActions = $"{display.Flex} {flexbox.Align.Center} {spacing.Gap.Md} {spacing.PushEnd}",
-                    NavbarToggle = $"lg:hidden order-first {flexbox.ShrinkNone} text-xl {neutralText.Secondary}",
+                    NavbarActionsCollapsible = "max-lg:ms-0 max-lg:mt-2 max-lg:flex-wrap max-lg:justify-center max-lg:border-t max-lg:border-current/15 max-lg:pt-3",
+                    NavbarToggle = $"lg:hidden {spacing.PushEnd} -me-2 size-11 {flexbox.ShrinkNone} text-2xl",
                     NavbarToggleIcon = $"text-xl {neutralText.Secondary} {neutralHoverText} {transition.ColorsFast}",
                     NavbarLink = $"{display.InlineFlex} {flexbox.Align.Center} {spacing.Gap.Md} px-3 py-1.5 {typography.Size.Sm} {typography.Weight.Medium} {neutralText.Secondary} {neutralHoverFill} {neutralHoverText} {rounded.Md} {transition.ColorsFast} {focusRing} {interaction.FocusOutlineNone}",
+                    NavbarLinkCollapsible = "max-lg:w-full max-lg:min-h-11 max-lg:px-3 max-lg:text-base",
                     NavbarLinkActive = $"{neutralTrack} {neutralText.Heading}",
-                    NavbarMobileMenu = $"{spacing.Padding.Lg} {overlayTheme.Popover.Background} border-b {neutralSurface.Border} {shadows.Lg}",
+                    NavbarMobileMenu = "max-lg:basis-full max-lg:-mx-4 max-lg:-mt-2 max-lg:-mb-2 max-lg:max-h-[calc(100dvh-3.5rem)] max-lg:overflow-y-auto max-lg:overscroll-contain max-lg:items-stretch max-lg:gap-1 max-lg:border-t max-lg:border-current/15 max-lg:px-2 max-lg:py-2 max-lg:[&>a]:flex max-lg:[&>a]:min-h-11 max-lg:[&>a]:w-full max-lg:[&>a]:items-center max-lg:[&>a]:px-3 max-lg:[&>a]:text-base",
                     Sidebar = $"z-100 overflow-auto scrollbar-gutter-stable overscroll-contain {flexbox.ShrinkNone} h-dvh w-64 {spacing.Padding.Xl} {neutralSurface.Background} border-e {neutralSurface.Border} {transition.TransformFast} {transition.EaseInOut}",
                     NavigationItemBase = $"{display.Flex} {flexbox.Align.Center} {spacing.Gap.Md} {sizing.MinWidthNone} px-3 py-2 {typography.Size.Sm} {neutralText.Secondary} {neutralSurface.Hover} {focusRingInset} {transition.ColorsFast} {interaction.FocusOutlineNone} {interaction.PointerCursor}",
                     NavigationItemActive = $"{neutralTrack} {neutralText.Heading}",
-                    NavigationItemCurrent = $"{positioning.Relative} {overflow.Hidden} before:absolute before:inset-y-0 before:start-0 before:w-0.5 before:bg-linear-to-b before:from-dairypurple-600 before:to-dairygold-500 forced-colors:before:bg-[Highlight]",
+                    NavigationItemCurrent = $"{positioning.Relative} {overflow.Hidden} before:absolute before:inset-y-0 before:start-0 before:w-0.5 before:bg-linear-to-b before:from-tradeblue-600 before:to-slate-500 forced-colors:before:bg-[Highlight]",
                     NavigationItemParent = typography.Weight.Semibold,
                     NavigationItemIcon = flexbox.ShrinkNone,
                     NavigationItemContent = $"{display.InlineFlex} {flexbox.Align.Center} {flexbox.ShrinkNone} {spacing.PushEnd}",
@@ -1217,7 +1219,7 @@ public static class CadburyTheme
                 {
                     Container = $"{display.Flex} {flexbox.Col} {typography.Size.Sm}",
                     Group = $"{display.Flex} {flexbox.Col} gap-0.5 mt-0.5 ms-3 ps-2 border-s {neutralSurface.Border}",
-                    Row = $"group/row {display.Flex} {flexbox.Align.Center} {spacing.Gap.Sm} {sizing.MinWidthNone} {rounded.Md} px-2 py-1.5 {typography.Size.Sm} {neutralText.Heading} {neutralRowHover} [li:focus-visible>&]:ring-inset [li:focus-visible>&]:ring-2 [li:focus-visible>&]:ring-dairypurple-500 dark:[li:focus-visible>&]:ring-dairypurple-400 forced-colors:[li:focus-visible>&]:outline-2 forced-colors:[li:focus-visible>&]:-outline-offset-2 forced-colors:[li:focus-visible>&]:outline-[Highlight] {transition.ColorsFast} {interaction.PointerCursor}",
+                    Row = $"group/row {display.Flex} {flexbox.Align.Center} {spacing.Gap.Sm} {sizing.MinWidthNone} {rounded.Md} px-2 py-1.5 {typography.Size.Sm} {neutralText.Heading} {neutralRowHover} [li:focus-visible>&]:ring-inset [li:focus-visible>&]:ring-2 [li:focus-visible>&]:ring-tradeblue-500 dark:[li:focus-visible>&]:ring-tradeblue-400 forced-colors:[li:focus-visible>&]:outline-2 forced-colors:[li:focus-visible>&]:-outline-offset-2 forced-colors:[li:focus-visible>&]:outline-[Highlight] {transition.ColorsFast} {interaction.PointerCursor}",
                     RowDisabled = $"{interaction.DisabledOpacity} {interaction.PointerEventsNone}",
                     ToggleSlot = $"{display.InlineFlex} {flexbox.ShrinkNone} {flexbox.Align.Center} {flexbox.Justify.Center} size-6",
                     ToggleIcon = $"{display.InlineFlex} {flexbox.ShrinkNone} {flexbox.Align.Center} {flexbox.Justify.Center} size-6 {rounded.Full} {neutralText.Muted} {neutralHoverFill} {neutralHoverText} transition-[transform,background-color,color] {transition.DurationFast} motion-reduce:transition-none",
@@ -1232,7 +1234,7 @@ public static class CadburyTheme
                     Colors = checkBoxRadioButtonColors,
                     Base = $"peer {sizing.Icon.Md} {rounded.Full} {borderWidth.Thick} {neutralSurface.BorderStrong} {focusRing} {interaction.FocusOutlineNone} {transition.ColorsFast} {transition.EaseInOut} {interaction.PointerCursor} appearance-none",
                     Disabled = $"{interaction.DisabledOpacity} {interaction.DisabledCursor}",
-                    Hover = $"hover:border-[oklch(21%_0.05_300)]/40 dark:hover:border-[oklch(97.807%_0.03_300)]/40 {interaction.PointerCursor}",
+                    Hover = $"hover:border-[oklch(21%_0.02_250)]/40 dark:hover:border-[oklch(97.807%_0.012_250)]/40 {interaction.PointerCursor}",
                     LabelBase = $"{display.Flex} {positioning.Relative} {flexbox.Align.Center} {spacing.Gap.Md} min-h-[24px] {inputLabelText} select-none",
                     LabelInteractiveCursor = interaction.PointerCursor,
                     LabelNonInteractiveCursor = interaction.PointerEventsNone,
@@ -1276,7 +1278,7 @@ public static class CadburyTheme
                     CircleClickable = interaction.PointerCursor,
                     CircleFrame = $"{display.InlineFlex} shrink-0 p-0.5 border-2 {rounded.Full} {transition.ColorsFast}",
                     CircleFrameInactive = "border-transparent",
-                    CircleUpcomingClickable = $"{neutralRowHover} hover:border-[oklch(21%_0.05_300)]/45 dark:hover:border-[oklch(97.807%_0.03_300)]/45 {neutralHoverText}",
+                    CircleUpcomingClickable = $"{neutralRowHover} hover:border-[oklch(21%_0.02_250)]/45 dark:hover:border-[oklch(97.807%_0.012_250)]/45 {neutralHoverText}",
                     LabelActive = typography.Weight.Semibold,
                     CircleIcon = "leading-none",
                     Label = $"{typography.Size.Sm} {typography.Weight.Medium} {neutralText.Heading}",
@@ -1292,8 +1294,8 @@ public static class CadburyTheme
                 {
                     Colors = new()
                     {
-                        Primary = "peer-checked:bg-dairypurple-600 dark:peer-checked:bg-dairypurple-500",
-                        Accent = "peer-checked:bg-dairygold-600 dark:peer-checked:bg-dairygold-500",
+                        Primary = "peer-checked:bg-tradeblue-600 dark:peer-checked:bg-tradeblue-500",
+                        Accent = "peer-checked:bg-slate-600 dark:peer-checked:bg-slate-500",
                         Success = "peer-checked:bg-green-600 dark:peer-checked:bg-green-500",
                         Danger = "peer-checked:bg-red-600 dark:peer-checked:bg-red-500",
                         Warning = "peer-checked:bg-yellow-600 dark:peer-checked:bg-yellow-500",
@@ -1302,7 +1304,7 @@ public static class CadburyTheme
                         Dark = "peer-checked:bg-gray-900 dark:peer-checked:bg-gray-800",
                     },
                     Switch = $"{positioning.Absolute} top-1/2 start-0.5 {sizing.Icon.Md} bg-white {rounded.Full} -translate-y-1/2 {shadows.Md} ring-1 ring-black/15 forced-colors:bg-[ButtonText] peer-checked:translate-x-full rtl:peer-checked:-translate-x-full {transition.TransformFast} {transition.EaseInOut}",
-                    Track = $"{positioning.Absolute} inset-0 bg-[oklch(88%_0.03_300)] dark:bg-[oklch(34%_0.05_300)] {rounded.Full} {neutralHairlineRing} {borderWidth.Thin} {neutralSurface.BorderStrong} forced-colors:peer-checked:bg-[Highlight] peer-disabled:opacity-40 transition-[background-color,opacity] {transition.DurationFast} motion-reduce:transition-none {transition.EaseInOut} peer-disabled:pointer-events-none",
+                    Track = $"{positioning.Absolute} inset-0 bg-[oklch(88%_0.012_250)] dark:bg-[oklch(34%_0.02_250)] {rounded.Full} {neutralHairlineRing} {borderWidth.Thin} {neutralSurface.BorderStrong} forced-colors:peer-checked:bg-[Highlight] peer-disabled:opacity-40 transition-[background-color,opacity] {transition.DurationFast} motion-reduce:transition-none {transition.EaseInOut} peer-disabled:pointer-events-none",
                     WrapperSize = "w-10 h-6",
                     Base = "peer sr-only",
                     LabelBase = $"{display.InlineFlex} {flexbox.Align.Center} {spacing.Gap.Md} {inputLabelText} select-none",
@@ -1314,8 +1316,8 @@ public static class CadburyTheme
                 {
                     Colors = new()
                     {
-                        Primary = "border-t-dairypurple-600 dark:border-t-dairypurple-500",
-                        Accent = "border-t-dairygold-600 dark:border-t-dairygold-500",
+                        Primary = "border-t-tradeblue-600 dark:border-t-tradeblue-500",
+                        Accent = "border-t-slate-600 dark:border-t-slate-500",
                         Success = "border-t-green-600 dark:border-t-green-500",
                         Danger = "border-t-red-600 dark:border-t-red-500",
                         Warning = "border-t-yellow-500 dark:border-t-yellow-500",
@@ -1344,14 +1346,14 @@ public static class CadburyTheme
                     RangeStageTabsContainer = $"{display.Flex} {spacing.Gap.Sm} {spacing.Padding.Sm} {rounded.Lg} {neutralTrack} {spacing.MarginBottom.Md}",
                     RangeStageTabInactive = neutralText.Subtle,
                     StageTabBase = $"{flexbox.Flex1} py-1.5 {typography.Size.Sm} {typography.Weight.Medium} {typography.AlignCenter} {interaction.PointerCursor} {transition.ColorsFast} {focusRing} {interaction.FocusOutlineNone}",
-                    StageTabActive = $"bg-white dark:bg-[oklch(34%_0.05_300)] {neutralText.Heading} {shadows.Sm}",
+                    StageTabActive = $"bg-white dark:bg-[oklch(34%_0.02_250)] {neutralText.Heading} {shadows.Sm}",
                     StageTabHover = neutralHoverText,
                     BodySurface = $"{spacing.Padding.Xl} {typography.AlignCenter} {typography.Weight.Medium} {neutralText.Heading}",
                     BodyRoot = "",
                     BodyInner = $"{spacing.Padding.Md} {typography.AlignCenter} {typography.Weight.Medium} {neutralText.Heading}",
                     ContentRow = $"{display.Flex} {anchor.Center} {spacing.Gap.Lg}",
                     Column = $"{display.Flex} {flexbox.Col} {flexbox.Align.Center} {spacing.Gap.Sm}",
-                    StepButton = $"{neutralText.Subtle} hover:text-dairypurple-600 dark:hover:text-dairypurple-400 {interaction.PointerCursor}",
+                    StepButton = $"{neutralText.Subtle} hover:text-tradeblue-600 dark:hover:text-tradeblue-400 {interaction.PointerCursor}",
                     NumberWrapper = $"{display.Flex} {flexbox.Align.Center} {flexbox.Justify.Center}",
                     NumberInput = $"w-12 py-1 {typography.AlignCenter} {typography.Size.Lg} {typography.Weight.Semibold} {neutralText.Heading} {transition.ColorsFast} {rounded.Md} {focusRing} {interaction.FocusOutlineNone}",
                     Separator = $"self-center px-1 {typography.Size.Lg} {typography.Weight.Semibold} {neutralText.Subtle}",
@@ -1360,15 +1362,15 @@ public static class CadburyTheme
                 },
                 new TwTableTheme
                 {
-                    Wrapper = $"{positioning.Relative} overflow-auto focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-dairypurple-600 dark:focus-visible:outline-dairypurple-300",
+                    Wrapper = $"{positioning.Relative} overflow-auto focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-tradeblue-600 dark:focus-visible:outline-tradeblue-300",
                     ContainerClip = overflow.Hidden,
                     Base = $"{sizing.FullWidth} {typography.Size.Sm} text-start {neutralText.Heading}",
                     Bordered = $"{borderWidth.Thin} {neutralSurface.Border}",
                     Header = $"{typography.Size.Sm} {typography.Weight.Semibold} {neutralText.Secondary} {neutralSurface.BackgroundSubtle} border-b {neutralSurface.Border}",
                     Body = neutralSurface.Background,
-                    BodyStriped = "[&>tr:nth-child(even)]:bg-[oklch(97.4%_0.012_85)] [&>tr:nth-child(even)]:dark:bg-[oklch(23.26%_0.05_300)]",
-                    BodyHoverable = "[&>tr:hover]:!bg-[oklch(94.2%_0.012_85)] [&>tr:hover]:dark:!bg-[oklch(21.15%_0.05_300)] [&>tr]:transition-colors [&>tr]:duration-200 [&>tr]:motion-reduce:transition-none",
-                    RowDivider = "divide-y divide-[oklch(94%_0.012_85)] dark:divide-[oklch(21.15%_0.05_300)]",
+                    BodyStriped = "[&>tr:nth-child(even)]:bg-[oklch(98%_0.004_250)] [&>tr:nth-child(even)]:dark:bg-[oklch(23.26%_0.02_250)]",
+                    BodyHoverable = "[&>tr:hover]:!bg-[oklch(95%_0.004_250)] [&>tr:hover]:dark:!bg-[oklch(21.15%_0.02_250)] [&>tr]:transition-colors [&>tr]:duration-200 [&>tr]:motion-reduce:transition-none",
+                    RowDivider = "divide-y divide-[oklch(94%_0.004_250)] dark:divide-[oklch(21.15%_0.02_250)]",
                     Footer = $"border-t {neutralSurface.Border}",
                     SearchColumn = "md:w-1/2",
                     SortIcon = $"{typography.Size.Sm} {neutralText.Subtle} {neutralHoverText}",
@@ -1435,7 +1437,7 @@ public static class CadburyTheme
                     EventChipReadOnly = $"{interaction.ReadonlyCursor} opacity-90",
                     EventChipDraggable = "cursor-grab active:cursor-grabbing",
                     DropPlaceholder = $"{overflow.Hidden} {rounded.Sm} border-2 border-dashed {borderColors.Primary} {background.Lightest.Primary} {darkBackground.Dark.Primary} {text.Dark.Primary} {darkText.Light.Primary} {typography.Size.Xs} opacity-70 z-10",
-                    TodayHighlight = $"animate-pulse motion-reduce:animate-none [animation-iteration-count:1] {background.Light.Primary} dark:bg-dairypurple-500/50",
+                    TodayHighlight = $"animate-pulse motion-reduce:animate-none [animation-iteration-count:1] {background.Light.Primary} dark:bg-tradeblue-500/50",
                     AllDayRow = $"border-b {neutralSurface.Border}",
                     AllDayLabel = $"{flexbox.ShrinkNone} w-10 sm:w-16 {spacing.Padding.Sm} text-end text-[10px] sm:text-xs {neutralText.Subtle}",
                     AllDayGrid = "gap-y-1 py-1",
