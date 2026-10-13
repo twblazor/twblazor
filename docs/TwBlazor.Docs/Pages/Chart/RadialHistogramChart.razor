@@ -1,0 +1,64 @@
+@page "/chart/radial-histogram"
+@using TwBlazor.Models
+
+<PageContainer Title="TwRadialHistogramChart" Path="/chart/radial-histogram" Beta Description="TwRadialHistogramChart is a Blazor radial histogram that wraps equal-width bins around a circle, for cyclical values such as hours or bearings.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwRadialHistogramChart</code> takes raw <code>Values</code>, groups them into equal ranges and wraps the bars around a circle starting at the top. It suits values that cycle, where the last range sits naturally beside the first.</Description>
+
+        <CodeExample Name="RadialHistogramChartBasic" CSharpName="RadialHistogramChartData">
+            <TwChart Title="Support tickets by hour" Description="Hour of the day each ticket was opened">
+                <TwRadialHistogramChart Values="@ticketHours" BinCount="12" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Choosing the bins">
+        <Description><code>BinCount</code> sets how many ranges the values are split into, from 4 to 36. Match it to the cycle: 24 for hours of the day, 12 for months, 8 or 16 for compass points.</Description>
+
+        <CodeExample Name="RadialHistogramChartBins">
+            <TwChart Title="Support tickets by hour" Description="One bar per hour">
+                <TwRadialHistogramChart Values="@ticketHours" BinCount="24" RangeLabel="Hour" CountLabel="Tickets" Height="ChartHeight.Large" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Directions">
+        <Description>Bearings are the classic use: with eight bins each bar is a compass sector, north at the top.</Description>
+
+        <CodeExample Name="RadialHistogramChartWind" CSharpName="RadialHistogramChartWindData">
+            <TwChart Title="Wind direction" Description="Bearing in degrees, hourly readings">
+                <TwRadialHistogramChart Values="@bearings" BinCount="8" RangeLabel="Bearing" CountLabel="Readings" ValueFormat="0°" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="When to use">
+        <Description>Use a radial histogram for values that cycle, such as hours or bearings. Bars grow from an inner ring so small counts stay visible. For values that do not wrap around, prefer <TwLink Href="/chart/histogram" Class="underline">TwHistogramChart</TwLink>, whose bars are easier to compare.</Description>
+    </PageCard>
+
+    <PageCard Title="Summary">
+        <Description>Tooltips and the table view give the range and count of each bin.</Description>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart" Class="underline">TwChart</TwLink> for those options.</Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample RadialHistogramChartData
+    private readonly double[] ticketHours =
+    [
+        0.5, 2.2, 6.8, 7.4, 8.1, 8.3, 8.6, 9.0, 9.1, 9.2, 9.4, 9.7, 9.9, 10.1, 10.3, 10.4, 10.8, 11.2, 11.5, 11.9,
+        12.6, 13.1, 13.3, 13.8, 14.0, 14.2, 14.5, 14.9, 15.3, 15.6, 16.1, 16.4, 16.9, 17.5, 18.2, 19.6, 21.3, 23.9
+    ];
+    #endregion
+
+    #region CodeExample RadialHistogramChartWindData
+    private readonly double[] bearings =
+    [
+        0, 12, 198, 205, 211, 214, 219, 222, 225, 228, 230, 233, 236, 240, 244, 247, 251, 255, 262, 268,
+        271, 276, 284, 291, 302, 315, 334, 48, 95, 172, 186, 359.9
+    ];
+    #endregion
+}

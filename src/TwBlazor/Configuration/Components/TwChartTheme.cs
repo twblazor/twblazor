@@ -282,6 +282,11 @@ public class TwChartTheme
     public required string TextLarge { get; set; }
 
     /// <summary>
+    /// Gets or sets the extra classes for a text mark with a maximum width, which cut it short with an ellipsis.
+    /// </summary>
+    public string TextTruncate { get; set; } = string.Empty;
+
+    /// <summary>
     /// Gets or sets the classes that remove the fill from a stroked SVG path.
     /// </summary>
     public required string FillNone { get; set; }

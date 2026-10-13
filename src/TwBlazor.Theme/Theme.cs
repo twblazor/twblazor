@@ -886,6 +886,7 @@ public static class Theme
                     TextInverse = "text-white",
                     TextStrong = typography.Weight.Semibold,
                     TextLarge = "text-3xl",
+                    TextTruncate = "truncate",
                     FillNone = "fill-none",
                     StrokeHairline = "stroke-1",
                     StrokeNormal = "stroke-2",

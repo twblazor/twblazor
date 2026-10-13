@@ -289,6 +289,12 @@ public static class TwStrings
     /// <summary>The key for "Decrease".</summary>
     public const string Chart_Decrease = "Chart_Decrease";
 
+    /// <summary>The key for "Source".</summary>
+    public const string Chart_Source = "Chart_Source";
+
+    /// <summary>The key for "Target", the node a link in a graph points to.</summary>
+    public const string Chart_Destination = "Chart_Destination";
+
     /// <summary>The key for "Remove {0}".</summary>
     public const string Chip_Remove = "Chip_Remove";
 

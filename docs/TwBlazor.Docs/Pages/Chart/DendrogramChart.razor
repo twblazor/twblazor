@@ -1,0 +1,108 @@
+@page "/chart/dendrogram"
+@using TwBlazor.Models
+
+<PageContainer Title="TwDendrogramChart" Path="/chart/dendrogram" Beta Description="TwDendrogramChart is a Blazor dendrogram: a tree drawn from its root down to its leaves with a bracket joining every branch to its parent.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwDendrogramChart</code> draws a tree of <code>ChartHierarchyNode</code> values from the root at the top to the leaves along the bottom. Leaves are named on the axis under the plot, and branches are named beside the point where they split.</Description>
+
+        <CodeExample Name="DendrogramChartBasic" CSharpName="DendrogramChartData">
+            <TwChart Title="Document clusters">
+                <TwDendrogramChart Roots="@documents" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Uneven depth">
+        <Description>Leaves line up along the bottom whatever their depth, so a branch that splits again and again is easy to compare with one that ends early. This is the usual way to draw a classification.</Description>
+
+        <CodeExample Name="DendrogramChartTaxonomy" CSharpName="DendrogramChartTaxonomyData">
+            <TwChart Title="A classification of vertebrates">
+                <TwDendrogramChart Roots="@vertebrates" LabelHeader="Group" Height="ChartHeight.Large" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Values">
+        <Description>Give leaves a <code>Value</code> and every branch shows the total of the leaves beneath it in its tooltip and in the table view.</Description>
+
+        <CodeExample Name="DendrogramChartValues" CSharpName="DendrogramChartValuesData">
+            <TwChart Title="Where the build time goes" Description="Seconds">
+                <TwDendrogramChart Roots="@buildSteps" LabelHeader="Step" ValueHeader="Seconds" ValueFormat="0 s" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Several roots">
+        <Description>Pass more than one root to draw separate trees side by side.</Description>
+
+        <CodeExample Name="DendrogramChartForest" CSharpName="DendrogramChartForestData">
+            <TwChart Title="Reporting lines">
+                <TwDendrogramChart Roots="@teams" LabelHeader="Person" ShowTableToggle="false" Height="ChartHeight.Small" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="When to use">
+        <Description>Use a dendrogram to show how items group into clusters, when the structure matters more than the sizes. To compare sizes use <TwLink Href="/chart/sunburst" Class="underline">TwSunburstChart</TwLink> or <TwLink Href="/chart/convex-treemap" Class="underline">TwConvexTreemapChart</TwLink>.</Description>
+    </PageCard>
+
+    <PageCard Title="Summary">
+        <Description>Tooltips and the table view give the path and the value of each node. The arrow keys visit the nodes from the root down, a branch before its children.</Description>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart" Class="underline">TwChart</TwLink> for those options.</Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample DendrogramChartData
+    private readonly ChartHierarchyNode[] documents =
+    [
+        new("All documents", Children:
+        [
+            new("Research", Children: [new("Paper A", 1), new("Paper B", 1)]),
+            new("Guides", Children: [new("Guide A", 1), new("Guide B", 1)])
+        ])
+    ];
+    #endregion
+
+    #region CodeExample DendrogramChartTaxonomyData
+    private readonly ChartHierarchyNode[] vertebrates =
+    [
+        new("Vertebrates", Children:
+        [
+            new("Fish", Children: [new("Sharks", 1), new("Salmon", 1)]),
+            new("Tetrapods", Children:
+            [
+                new("Amphibians", Children: [new("Frogs", 1), new("Newts", 1)]),
+                new("Amniotes", Children:
+                [
+                    new("Mammals", Children: [new("Whales", 1), new("Bats", 1), new("Primates", 1)]),
+                    new("Reptiles", Children: [new("Lizards", 1), new("Birds", 1)])
+                ])
+            ])
+        ])
+    ];
+    #endregion
+
+    #region CodeExample DendrogramChartValuesData
+    private readonly ChartHierarchyNode[] buildSteps =
+    [
+        new("Build", Children:
+        [
+            new("Compile", Children: [new("Library", 42), new("Docs", 31), new("Tests", 18)]),
+            new("Verify", Children: [new("Unit", 64), new("Browser", 97)]),
+            new("Package", 12)
+        ])
+    ];
+    #endregion
+
+    #region CodeExample DendrogramChartForestData
+    private readonly ChartHierarchyNode[] teams =
+    [
+        new("Asha", Children: [new("Ben", 1), new("Chloe", 1)]),
+        new("Dmitri", Children: [new("Elena", 1), new("Farid", 1), new("Grace", 1)])
+    ];
+    #endregion
+}

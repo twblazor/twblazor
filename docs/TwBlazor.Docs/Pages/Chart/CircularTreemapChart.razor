@@ -1,0 +1,81 @@
+@page "/chart/circular-treemap"
+@using TwBlazor.Models
+
+<PageContainer Title="TwCircularTreemapChart" Path="/chart/circular-treemap" Beta Description="TwCircularTreemapChart is a Blazor circle packing chart: a circle per leaf of a tree, sized by value and packed inside its parent's circle.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwCircularTreemapChart</code> takes a tree of <code>ChartHierarchyNode</code> values. Every leaf becomes a circle whose area follows its <code>Value</code>, packed inside a circle for its parent. Each top-level node has its own color and legend entry.</Description>
+
+        <CodeExample Name="CircularTreemapChartBasic" CSharpName="CircularTreemapChartData">
+            <TwChart Title="Storage by folder" Description="Gigabytes">
+                <TwCircularTreemapChart Roots="@folders" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Deeper trees">
+        <Description>Nodes nest to any depth, and every level gets its own enclosing circle, so the grouping reads at a glance. A larger <code>Height</code> gives small circles room for their names.</Description>
+
+        <CodeExample Name="CircularTreemapChartDeep" CSharpName="CircularTreemapChartDeepData">
+            <TwChart Title="Headcount by division, department and team">
+                <TwCircularTreemapChart Roots="@organisation" LabelHeader="Team" ValueHeader="People" Height="ChartHeight.Large" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="A flat list">
+        <Description>Without children every node is a leaf, and the chart becomes a packed bubble chart: one circle and one color per value.</Description>
+
+        <CodeExample Name="CircularTreemapChartFlat" CSharpName="CircularTreemapChartFlatData">
+            <TwChart Title="Population of the largest cities" Description="Millions">
+                <TwCircularTreemapChart Roots="@cities" LabelHeader="City" ValueHeader="Population" ValueFormat="0.0" ShowLegend="false" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="When to use">
+        <Description>Circles leave gaps, so sizes are harder to compare than on <TwLink Href="/chart/convex-treemap" Class="underline">TwConvexTreemapChart</TwLink>; in return the nesting is easier to see. A name too long for its circle is cut short. Nodes with no value are left out.</Description>
+    </PageCard>
+
+    <PageCard Title="Summary">
+        <Description>Tooltips and the table view give the path and the value of each leaf. Tooltips also give its share of the whole.</Description>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart" Class="underline">TwChart</TwLink> for those options.</Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample CircularTreemapChartData
+    private readonly ChartHierarchyNode[] folders =
+    [
+        new("Documents", Children: [new("Reports", 32), new("Notes", 18), new("Invoices", 9)]),
+        new("Media", Children: [new("Images", 45), new("Audio", 20), new("Video", 64)])
+    ];
+    #endregion
+
+    #region CodeExample CircularTreemapChartDeepData
+    private readonly ChartHierarchyNode[] organisation =
+    [
+        new("Product", Children:
+        [
+            new("Engineering", Children: [new("Platform", 24), new("Web", 18), new("Mobile", 14), new("Data", 9)]),
+            new("Design", Children: [new("Research", 6), new("Interface", 11)])
+        ]),
+        new("Commercial", Children:
+        [
+            new("Sales", Children: [new("Enterprise", 16), new("Mid-market", 12), new("Partners", 5)]),
+            new("Marketing", Children: [new("Brand", 7), new("Growth", 10)])
+        ]),
+        new("Operations", Children: [new("Finance", 8), new("People", 6), new("Legal", 3)])
+    ];
+    #endregion
+
+    #region CodeExample CircularTreemapChartFlatData
+    private readonly ChartHierarchyNode[] cities =
+    [
+        new("Tokyo", 37.2), new("Delhi", 33.8), new("Shanghai", 29.9), new("Dhaka", 23.9),
+        new("Cairo", 22.6), new("Lagos", 16.5), new("London", 9.7), new("Sydney", 5.2)
+    ];
+    #endregion
+}

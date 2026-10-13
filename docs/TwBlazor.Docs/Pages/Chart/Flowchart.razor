@@ -1,0 +1,110 @@
+@page "/chart/flowchart"
+@using TwBlazor.Models
+
+<PageContainer Title="TwFlowchart" Path="/chart/flowchart" Beta Description="TwFlowchart is a Blazor flowchart: the steps of a process as boxes in columns, with an arrow for every link from one step to the next.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwFlowchart</code> draws each <code>ChartGraphNode</code> as a box and each <code>ChartGraphLink</code> as an arrow. Steps are set out in columns from left to right, each to the right of every step that leads to it. Links refer to nodes by <code>Id</code>.</Description>
+
+        <CodeExample Name="FlowchartBasic" CSharpName="FlowchartData">
+            <TwChart Title="Review process">
+                <TwFlowchart Nodes="@reviewSteps" Links="@reviewLinks" Height="ChartHeight.Small" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Branches">
+        <Description>Steps reached from the same step share a column and are stacked in the order given, so a decision fans out and its branches join again further on.</Description>
+
+        <CodeExample Name="FlowchartBranches" CSharpName="FlowchartBranchesData">
+            <TwChart Title="Handling a support ticket">
+                <TwFlowchart Nodes="@ticketSteps" Links="@ticketLinks" SourceHeader="Step" TargetHeader="Next step" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Parallel work">
+        <Description>A pipeline that runs several jobs at once shows as a column of boxes fed by one step and feeding the next.</Description>
+
+        <CodeExample Name="FlowchartPipeline" CSharpName="FlowchartPipelineData">
+            <TwChart Title="Release pipeline">
+                <TwFlowchart Nodes="@pipelineSteps" Links="@pipelineLinks" Height="ChartHeight.Large" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Setting the column">
+        <Description>Set a node's <code>Stage</code> to move it further right than its links alone would place it. Here the manual check is held back to line up with the final column of automatic checks.</Description>
+
+        <CodeExample Name="FlowchartStages" CSharpName="FlowchartStagesData">
+            <TwChart Title="Order checks">
+                <TwFlowchart Nodes="@orderSteps" Links="@orderLinks" Height="ChartHeight.Small" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="When to use">
+        <Description>Use a flowchart for the steps of a process. A name too long for its box is cut short; the tooltip has it in full. Link values are not shown: to show how much flows along each link, use <TwLink Href="/chart/sankey" Class="underline">TwSankeyChart</TwLink>.</Description>
+    </PageCard>
+
+    <PageCard Title="Summary">
+        <Description>Tooltips and the table view give the source and target of each link. The arrow keys move through the steps in the order given.</Description>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart" Class="underline">TwChart</TwLink> for those options.</Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample FlowchartData
+    private readonly ChartGraphNode[] reviewSteps = [new("submit", "Submit"), new("review", "Review"), new("publish", "Publish")];
+
+    private readonly ChartGraphLink[] reviewLinks = [new("submit", "review"), new("review", "publish")];
+    #endregion
+
+    #region CodeExample FlowchartBranchesData
+    private readonly ChartGraphNode[] ticketSteps =
+    [
+        new("open", "Opened"), new("triage", "Triage"),
+        new("answer", "Answer"), new("fix", "Fix"), new("refund", "Refund"),
+        new("close", "Closed")
+    ];
+
+    private readonly ChartGraphLink[] ticketLinks =
+    [
+        new("open", "triage"),
+        new("triage", "answer"), new("triage", "fix"), new("triage", "refund"),
+        new("answer", "close"), new("fix", "close"), new("refund", "close")
+    ];
+    #endregion
+
+    #region CodeExample FlowchartPipelineData
+    private readonly ChartGraphNode[] pipelineSteps =
+    [
+        new("commit", "Commit"), new("build", "Build"),
+        new("unit", "Unit tests"), new("browser", "Browser tests"), new("a11y", "Accessibility"), new("lint", "Lint"),
+        new("package", "Package"), new("deploy", "Deploy")
+    ];
+
+    private readonly ChartGraphLink[] pipelineLinks =
+    [
+        new("commit", "build"),
+        new("build", "unit"), new("build", "browser"), new("build", "a11y"), new("build", "lint"),
+        new("unit", "package"), new("browser", "package"), new("a11y", "package"), new("lint", "package"),
+        new("package", "deploy")
+    ];
+    #endregion
+
+    #region CodeExample FlowchartStagesData
+    private readonly ChartGraphNode[] orderSteps =
+    [
+        new("order", "Order"), new("stock", "Stock"), new("fraud", "Fraud"),
+        new("manual", "Manual check", Stage: 2), new("ship", "Ship")
+    ];
+
+    private readonly ChartGraphLink[] orderLinks =
+    [
+        new("order", "stock"), new("stock", "fraud"), new("order", "manual"), new("fraud", "ship"), new("manual", "ship")
+    ];
+    #endregion
+}

@@ -141,7 +141,7 @@ public abstract partial class TwChartBase : TwBlazorComponentBase, IAsyncDisposa
 
     private TwTableTheme tableTheme => options.Theme.Components.Require<TwTableTheme>();
 
-    private ChartHeight effectiveHeight => Height ?? Chart?.Height ?? ChartHeight.Medium;
+    private protected ChartHeight effectiveHeight => Height ?? Chart?.Height ?? ChartHeight.Medium;
 
     private string? effectiveAriaLabelledBy => AriaLabelledBy ?? (AriaLabel == null ? Chart?.titleId : null);
 
@@ -382,6 +382,7 @@ public abstract partial class TwChartBase : TwBlazorComponentBase, IAsyncDisposa
         })
         .AddClass(theme.TextStrong, text.Strong)
         .AddClass(theme.TextLarge, text.Large)
+        .AddClass(theme.TextTruncate, text.MaxWidth.HasValue)
         .Build();
 
     private static string Number(double value) => Math.Round(value, 3).ToString(CultureInfo.InvariantCulture);
@@ -401,7 +402,9 @@ public abstract partial class TwChartBase : TwBlazorComponentBase, IAsyncDisposa
     {
         var shiftX = text.Anchor switch { ChartAnchor.Start => 0, ChartAnchor.End => -100, _ => -50 };
         var shiftY = text.Baseline switch { ChartBaseline.Top => 0, ChartBaseline.Bottom => -100, _ => -50 };
-        return $"left:{Number(text.X)}%;top:{Number(text.Y)}%;transform:translate(calc({shiftX}% + {Number(text.OffsetX)}px),calc({shiftY}% + {Number(text.OffsetY)}px))";
+        var fontSize = text.FontSize is { } size ? $"font-size:{Number(size)}px;" : string.Empty;
+        var maxWidth = text.MaxWidth is { } width ? $"max-width:{Number(Math.Max(0, width))}%;" : string.Empty;
+        return $"left:{Number(text.X)}%;top:{Number(text.Y)}%;{fontSize}{maxWidth}transform:translate(calc({shiftX}% + {Number(text.OffsetX)}px),calc({shiftY}% + {Number(text.OffsetY)}px))";
     }
 
     // Inline rather than themed: TwTooltip's wrapper is "relative", and an "absolute" class beside it would leave

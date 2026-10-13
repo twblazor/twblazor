@@ -1,0 +1,71 @@
+@page "/chart/horizon"
+@using TwBlazor.Models
+
+<PageContainer Title="TwHorizonChart" Path="/chart/horizon" Beta Description="TwHorizonChart is a Blazor horizon chart that folds each series into a compact row of layered bands, fitting many series into little height.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwHorizonChart</code> gives each series its own short row. Values are cut into bands and the bands are layered, so a strong value shows as a darker color instead of a taller mark. Series are named on the axis.</Description>
+
+        <CodeExample Name="HorizonChartBasic" CSharpName="HorizonChartData">
+            <TwChart Title="Requests by service" Description="Thousands per hour">
+                <TwHorizonChart Categories="@hours" Series="@services" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Bands">
+        <Description><code>BandCount</code> sets how many bands the values are cut into, from 1 to 6. More bands show finer differences in the same height but are harder to tell apart; three is a good default.</Description>
+
+        <CodeExample Name="HorizonChartBands">
+            <TwChart Title="Requests by service" Description="Five bands">
+                <TwHorizonChart Categories="@hours" Series="@services" BandCount="5" CategoryHeader="Hour" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Above and below zero">
+        <Description>Negative values are drawn in the color for an unfavourable change, growing from the same baseline, so a row shows at a glance when a series was up and when it was down.</Description>
+
+        <CodeExample Name="HorizonChartNegative" CSharpName="HorizonChartNegativeData">
+            <TwChart Title="Change in sales against last year" Description="Percent, by week">
+                <TwHorizonChart Categories="@weeks" Series="@regions" ValueFormat="+0.0;-0.0" Height="ChartHeight.Small" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="When to use">
+        <Description>Use a horizon chart to fit many series into little height. Every row shares one scale, so the same darkness means the same magnitude in each. For a few series, <TwLink Href="/chart/line" Class="underline">TwLineChart</TwLink> is easier to read.</Description>
+    </PageCard>
+
+    <PageCard Title="Summary">
+        <Description>Tooltips and the table view give the value of every series for each category.</Description>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart" Class="underline">TwChart</TwLink> for those options.</Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample HorizonChartData
+    private readonly string[] hours = ["00", "02", "04", "06", "08", "10", "12", "14", "16", "18", "20", "22"];
+
+    private readonly ChartSeries[] services =
+    [
+        new("API", [12, 8, 6, 14, 38, 52, 47, 55, 49, 36, 24, 15]),
+        new("Web", [9, 5, 4, 11, 26, 31, 35, 33, 30, 28, 21, 12]),
+        new("Search", [3, 2, 1, 4, 12, 19, 22, 18, 15, 11, 8, 4]),
+        new("Reports", [1, 1, 22, 18, 3, 2, 2, 3, 2, 1, 1, 1])
+    ];
+    #endregion
+
+    #region CodeExample HorizonChartNegativeData
+    private readonly string[] weeks = ["W1", "W2", "W3", "W4", "W5", "W6", "W7", "W8"];
+
+    private readonly ChartSeries[] regions =
+    [
+        new("North", [2.1, 3.4, 1.2, -0.8, -2.6, -1.1, 1.9, 4.2]),
+        new("South", [-1.4, -2.2, -3.1, -1.9, 0.6, 2.4, 3.3, 2.8]),
+        new("West", [0.4, 0.9, 1.6, 2.2, 2.9, 1.4, -0.3, -1.7])
+    ];
+    #endregion
+}

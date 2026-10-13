@@ -294,6 +294,12 @@
   <data name="Chart_Decrease" xml:space="preserve">
     <value>হ্রাস</value>
   </data>
+  <data name="Chart_Source" xml:space="preserve">
+    <value>উৎস</value>
+  </data>
+  <data name="Chart_Destination" xml:space="preserve">
+    <value>গন্তব্য</value>
+  </data>
   <data name="Chip_Remove" xml:space="preserve">
     <value>{0} সরান</value>
   </data>

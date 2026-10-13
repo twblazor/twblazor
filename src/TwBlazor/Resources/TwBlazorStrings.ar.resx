@@ -297,6 +297,12 @@
   <data name="Chart_Decrease" xml:space="preserve">
     <value>نقصان</value>
   </data>
+  <data name="Chart_Source" xml:space="preserve">
+    <value>المصدر</value>
+  </data>
+  <data name="Chart_Destination" xml:space="preserve">
+    <value>الوجهة</value>
+  </data>
   <data name="Chip_Remove" xml:space="preserve">
     <value>إزالة {0}</value>
   </data>

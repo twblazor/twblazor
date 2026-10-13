@@ -297,6 +297,12 @@
   <data name="Chart_Decrease" xml:space="preserve">
     <value>減少</value>
   </data>
+  <data name="Chart_Source" xml:space="preserve">
+    <value>來源</value>
+  </data>
+  <data name="Chart_Destination" xml:space="preserve">
+    <value>目標</value>
+  </data>
   <data name="Chip_Remove" xml:space="preserve">
     <value>移除 {0}</value>
   </data>
