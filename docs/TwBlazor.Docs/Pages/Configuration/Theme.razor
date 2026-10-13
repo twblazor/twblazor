@@ -1,6 +1,5 @@
 @page "/theme"
 @using TwBlazor.Docs.Services.ThemeBuilder
-@using TwBlazor.Docs.Pages.Showcase.Shared
 
 <PageContainer Title="Theme" Path="/theme" Category="Configuration" HideOutline Description="Build your own TwBlazor Theme.cs: pick your brand colors, choose which components to include and copy the generated theme file." SeoTitle="Theme | twblazor - Generate a Custom Blazor Theme and Design Tokens">
     <PageCard Title="Example themes" NoMarginTop>
@@ -33,32 +32,6 @@
         <div class="mt-4 flex justify-center">
             <TwPagination TotalPages="@presetPageCount" ActivePage="@presetPage" ActivePageChanged="@((int page) => presetPage = page)" AriaLabel="Example themes pages" />
         </div>
-    </PageCard>
-
-    <PageCard Title="Brand-inspired examples">
-        <Description>
-            Colors and defaults are only the start. Each of these pages restyles the whole library with one hand-written <code>Theme.cs</code>, shown in full on the page, and its own Tailwind stylesheet built from that file.
-        </Description>
-
-        <ul class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5" aria-label="Brand-inspired example themes">
-            @foreach (var brand in ShowcaseBrand.All)
-            {
-                <li class="flex">
-                    <a id="@($"theme-example-{brand.Slug}")" href="@brand.Path" class="flex w-full flex-col items-start gap-2 rounded-lg border border-gray-200 px-4 py-3 text-sm transition-colors hover:bg-gray-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600 dark:border-gray-700 dark:hover:bg-gray-800">
-                        <span class="flex gap-1" aria-hidden="true">
-                            @foreach (var swatch in brand.Swatches)
-                            {
-                                <span class="size-3 rounded-full" style="@($"background-color: {swatch};")"></span>
-                            }
-                        </span>
-                        <span class="font-medium">@brand.Name-inspired</span>
-                        <span class="text-xs text-gray-600 dark:text-gray-400">@brand.Summary</span>
-                    </a>
-                </li>
-            }
-        </ul>
-
-        <p id="theme-examples-disclaimer" class="mt-4 text-xs text-gray-600 dark:text-gray-400">@ShowcaseBrand.Disclaimer</p>
     </PageCard>
 
     <PageCard Title="Customize your theme">

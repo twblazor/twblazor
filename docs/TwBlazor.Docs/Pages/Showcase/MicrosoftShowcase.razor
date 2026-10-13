@@ -46,16 +46,16 @@
                     @foreach (var product in brand.Products)
                     {
                         <TwCard>
-                        <article class="flex h-full flex-col">
-                            <ShowcaseImage Url="@product.Image" Alt="@product.Name" Icon="product.Icon" Class="aspect-video w-full object-cover" FallbackClass="bg-neutral-100 text-6xl text-neutral-500 dark:bg-neutral-800 dark:text-neutral-300" />
-                            <div class="mt-4"><TwChip Label="@product.Tag" Color="Color.Warning" Size="ChipSize.Small" Rounded="Rounded.None" Class="bg-[#FFB900] font-semibold text-black" /></div>
-                            <h3 class="mt-3 text-xl font-semibold">@product.Name</h3>
-                            <p class="mt-2 text-[15px]">@product.Description</p>
-                            <p class="mt-2 text-sm font-semibold">@product.Price</p>
-                            <div class="mt-auto pt-4">
-                                <TwButton Label="Buy now" AriaLabel="@($"Buy {product.Name}")" Color="Color.Primary" OnClick="@(() => basket++)" />
-                            </div>
-                        </article>
+                            <article class="flex h-full flex-col">
+                                <ShowcaseImage Url="@product.Image" Alt="@product.Name" Icon="product.Icon" Class="aspect-video w-full object-cover" FallbackClass="bg-neutral-100 text-6xl text-neutral-500 dark:bg-neutral-800 dark:text-neutral-300" />
+                                <div class="mt-4"><TwChip Label="@product.Tag" Color="Color.Warning" Size="ChipSize.Small" Rounded="Rounded.None" Class="bg-[#FFB900] font-semibold text-black" /></div>
+                                <h3 class="mt-3 text-xl font-semibold">@product.Name</h3>
+                                <p class="mt-2 text-[15px]">@product.Description</p>
+                                <p class="mt-2 text-sm font-semibold">@product.Price</p>
+                                <div class="mt-auto pt-4">
+                                    <TwButton Label="Buy now" AriaLabel="@($"Buy {product.Name}")" Color="Color.Primary" OnClick="@(() => basket++)" />
+                                </div>
+                            </article>
                         </TwCard>
                     }
                 </div>

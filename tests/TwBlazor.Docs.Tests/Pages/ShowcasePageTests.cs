@@ -8,7 +8,6 @@ using TwBlazor.Docs.Pages.Showcase;
 using TwBlazor.Docs.Pages.Showcase.Shared;
 using TwBlazor.Enums;
 using HomePage = TwBlazor.Docs.Pages.Home;
-using ThemePage = TwBlazor.Docs.Pages.ThemeBuilder.Theme;
 
 namespace TwBlazor.Docs.Tests.Pages;
 
@@ -233,7 +232,8 @@ public class ShowcasePageTests : DocsTestBase
 
         Assert.Contains($"@page \"{brand.Path}\"", cut.Find("#showcase-razor pre code").TextContent);
         Assert.Contains("<ShowcasePage Brand=\"brand\">", cut.Find("#showcase-razor pre code").TextContent);
-        Assert.Equal([$"{brand.PageName}.razor", "Theme.cs"], cut.FindAll("#showcase-theme [role='tab']").Select(tab => tab.TextContent.Trim()));
+        Assert.Equal(["Showcase.razor", "Theme.cs"], cut.FindAll("#showcase-theme [role='tab']").Select(tab => tab.TextContent.Trim()));
+        Assert.Contains("Showcase.razor", cut.Find("#showcase-razor").TextContent);
     }
 
     [Theory]
@@ -281,7 +281,9 @@ public class ShowcasePageTests : DocsTestBase
     public void Gallery_ChartsSixMonthsOfWeeklySales_BesideTheMonthlyTotals()
     {
         var cut = Render(ShowcaseBrand.Microsoft);
-        cut.FindAll("#showcase-components [role='tab']").Single(tab => tab.TextContent.Trim() == "Sales").Click();
+
+        // Sales is the first tab, so its charts are showing without a click.
+        Assert.Equal(["Sales", "Orders", "Help"], cut.FindAll("#showcase-components [role='tab']").Select(tab => tab.TextContent.Trim()));
 
         var line = cut.FindComponent<TwBlazor.Components.TwLineChart>().Instance;
         Assert.Equal(26, line.Categories.Count);
@@ -399,15 +401,6 @@ public class ShowcasePageTests : DocsTestBase
 
         Assert.Equal(ShowcaseBrand.All.Select(brand => brand.Path), page.FindAll("#theme-case-study ul a").Select(link => link.GetAttribute("href")));
         Assert.Equal(ShowcaseBrand.Disclaimer, page.Find("#theme-case-study-disclaimer").TextContent);
-    }
-
-    [Fact]
-    public void ThemePage_LinksToEveryExample_WithTheDisclaimer()
-    {
-        var page = TestContext.Render<ThemePage>();
-
-        Assert.Equal(ShowcaseBrand.All.Select(brand => brand.Path), page.FindAll("a[id^='theme-example-']").Select(link => link.GetAttribute("href")));
-        Assert.Equal(ShowcaseBrand.Disclaimer, page.Find("#theme-examples-disclaimer").TextContent);
     }
 
     [Fact]

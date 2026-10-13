@@ -68,25 +68,25 @@
                     @foreach (var product in brand.Products)
                     {
                         <TwCard>
-                        <article class="flex h-full flex-col">
-                            <div class="relative">
-                                <ShowcaseImage Url="@product.Image" Alt="@product.Name" Icon="product.Icon" Class="aspect-square w-full rounded-lg object-contain" FallbackClass="bg-neutral-100 text-7xl text-neutral-400" />
-                                <div class="absolute start-3 top-3"><TwChip Label="@product.Tag" Color="Color.Warning" Size="ChipSize.Small" Rounded="Rounded.Sm" Class="bg-brickyellow-400 font-bold text-black" /></div>
-                            </div>
-                            <h3 class="mt-3 font-bold">@product.Name</h3>
-                            <p class="mt-1 flex items-center gap-0.5 text-sm text-brickorange-500" aria-label="Rated 4.5 out of 5">
-                                @for (var star = 0; star < 4; star++)
-                                {
-                                    <TwIcon Icon="IconEnum.Star_Fill" Plain />
-                                }
-                                <TwIcon Icon="IconEnum.Star_Half" Plain />
-                            </p>
-                            <p class="mt-1 text-sm text-neutral-600">@product.Description</p>
-                            <p class="mt-2 text-lg font-bold">@product.Price</p>
-                            <div class="mt-auto pt-3">
-                                <TwButton Label="Add to Bag" AriaLabel="@($"Add {product.Name} to Bag")" Color="Color.Accent" StartIcon="IconEnum.Bag" Class="w-full justify-center" OnClick="@(() => basket++)" />
-                            </div>
-                        </article>
+                            <article class="flex h-full flex-col">
+                                <div class="relative">
+                                    <ShowcaseImage Url="@product.Image" Alt="@product.Name" Icon="product.Icon" Class="aspect-square w-full rounded-lg object-contain" FallbackClass="bg-neutral-100 text-7xl text-neutral-400" />
+                                    <div class="absolute start-3 top-3"><TwChip Label="@product.Tag" Color="Color.Warning" Size="ChipSize.Small" Rounded="Rounded.Sm" Class="bg-brickyellow-400 font-bold text-black" /></div>
+                                </div>
+                                <h3 class="mt-3 font-bold">@product.Name</h3>
+                                <p class="mt-1 flex items-center gap-0.5 text-sm text-brickorange-500" aria-label="Rated 4.5 out of 5">
+                                    @for (var star = 0; star < 4; star++)
+                                    {
+                                        <TwIcon Icon="IconEnum.Star_Fill" Plain />
+                                    }
+                                    <TwIcon Icon="IconEnum.Star_Half" Plain />
+                                </p>
+                                <p class="mt-1 text-sm text-neutral-600">@product.Description</p>
+                                <p class="mt-2 text-lg font-bold">@product.Price</p>
+                                <div class="mt-auto pt-3">
+                                    <TwButton Label="Add to Bag" AriaLabel="@($"Add {product.Name} to Bag")" Color="Color.Accent" StartIcon="IconEnum.Bag" Class="w-full justify-center" OnClick="@(() => basket++)" />
+                                </div>
+                            </article>
                         </TwCard>
                     }
                 </div>

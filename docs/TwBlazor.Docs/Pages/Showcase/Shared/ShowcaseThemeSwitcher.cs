@@ -13,7 +13,7 @@ namespace TwBlazor.Docs.Pages.Showcase.Shared;
 /// </remarks>
 internal static class ShowcaseThemeSwitcher
 {
-    private static TwBlazorTheme? _siteTheme;
+    private static TwBlazorTheme? siteTheme;
 
     /// <summary>
     /// Makes a showcase theme the application's theme, remembering the site's own the first time.
@@ -25,7 +25,7 @@ internal static class ShowcaseThemeSwitcher
         // Going straight from one showcase page to another, the current theme is the previous page's, not the site's.
         if (!ShowcaseBrand.All.Any(other => ReferenceEquals(other.Theme, options.Theme)))
         {
-            _siteTheme = options.Theme;
+            siteTheme = options.Theme;
         }
 
         options.Theme = brand.Theme;
@@ -39,9 +39,9 @@ internal static class ShowcaseThemeSwitcher
     public static void Restore(TwBlazorOptions options, ShowcaseBrand brand)
     {
         // A page that replaces this one applies its theme before this one is disposed, so only undo our own.
-        if (_siteTheme is not null && ReferenceEquals(options.Theme, brand.Theme))
+        if (siteTheme is not null && ReferenceEquals(options.Theme, brand.Theme))
         {
-            options.Theme = _siteTheme;
+            options.Theme = siteTheme;
         }
     }
 }

@@ -1,7 +1,7 @@
 using TwBlazor.Docs.Services;
 using TwBlazor.Docs.Services.ThemeBuilder;
 
-namespace TwBlazor.Docs.Pages.ThemeBuilder;
+namespace TwBlazor.Docs.Pages.Configuration;
 
 /// <summary>
 /// The theme builder page: pick colors and components, preview the result and copy the generated <c>Theme.cs</c>.

@@ -76,6 +76,16 @@
 
     <div class="lg:col-span-2">
         <TwTabContainer TabColor="Color.Primary">
+            <TwTab Label="Sales">
+                <div class="grid grid-cols-1 gap-8 xl:grid-cols-2">
+                    <TwChart Title="Weekly sales by channel" Description="Thousands of pounds, last 26 weeks">
+                        <TwLineChart Categories="@weeks" Series="@weeklySales" Curve="ChartCurve.Smooth" ShowMarkers="false" CategoryHeader="Week" ValueFormat="0.0" />
+                    </TwChart>
+                    <TwChart Title="Sales by month" Description="Thousands of pounds">
+                        <TwColumnChart Categories="@months" Series="@sales" CategoryHeader="Month" />
+                    </TwChart>
+                </div>
+            </TwTab>
             <TwTab Label="Orders">
                 <TwTable AriaLabel="Recent orders">
                     <TableHeader>
@@ -98,16 +108,6 @@
                         }
                     </TableBody>
                 </TwTable>
-            </TwTab>
-            <TwTab Label="Sales">
-                <div class="grid grid-cols-1 gap-8 xl:grid-cols-2">
-                    <TwChart Title="Weekly sales by channel" Description="Thousands of pounds, last 26 weeks">
-                        <TwLineChart Categories="@weeks" Series="@weeklySales" Curve="ChartCurve.Smooth" ShowMarkers="false" CategoryHeader="Week" ValueFormat="0.0" />
-                    </TwChart>
-                    <TwChart Title="Sales by month" Description="Thousands of pounds">
-                        <TwColumnChart Categories="@months" Series="@sales" CategoryHeader="Month" />
-                    </TwChart>
-                </div>
             </TwTab>
             <TwTab Label="Help">
                 <div class="flex flex-col gap-3">

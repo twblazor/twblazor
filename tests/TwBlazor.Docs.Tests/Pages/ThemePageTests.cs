@@ -2,7 +2,7 @@ using Bunit;
 using TwBlazor.Components;
 using TwBlazor.Docs.Services.ThemeBuilder;
 using TwBlazor.Enums;
-using ThemePage = TwBlazor.Docs.Pages.ThemeBuilder.Theme;
+using ThemePage = TwBlazor.Docs.Pages.Configuration.Theme;
 
 namespace TwBlazor.Docs.Tests.Pages;
 
