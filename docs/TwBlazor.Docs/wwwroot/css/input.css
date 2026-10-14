@@ -104,8 +104,11 @@ h1, h2, h3, h4, h5, h6 {
     color: inherit;
 }
 
+/* clip, not hidden: hidden turns body into a scroll container that never scrolls, which stops anything
+   position: sticky inside it from sticking. hidden stays first for browsers without clip. */
 html, body {
     overflow-x: hidden;
+    overflow-x: clip;
 }
 
 /* source-sans-3-regular - latin */

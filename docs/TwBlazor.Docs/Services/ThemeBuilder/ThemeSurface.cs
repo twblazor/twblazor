@@ -5,11 +5,16 @@ using System.Text.RegularExpressions;
 namespace TwBlazor.Docs.Services.ThemeBuilder;
 
 /// <summary>
-/// The picked neutral surface colors: the page and card background in light mode and in dark mode.
+/// The picked neutral surface colors: the card and panel background in light mode and in dark mode, and the page
+/// body behind them.
 /// </summary>
 /// <param name="Light">The light mode background as hex.</param>
 /// <param name="Dark">The dark mode background as hex.</param>
-internal sealed record ThemeSurfaces(string Light, string Dark)
+/// <param name="BodyLight">The light mode page body as hex, or <see langword="null"/> to keep the default body's
+/// distance from <paramref name="Light"/>.</param>
+/// <param name="BodyDark">The dark mode page body as hex, or <see langword="null"/> to keep the default body's
+/// distance from <paramref name="Dark"/>.</param>
+internal sealed record ThemeSurfaces(string Light, string Dark, string? BodyLight = null, string? BodyDark = null)
 {
     /// <summary>
     /// What the default theme uses.
@@ -38,6 +43,10 @@ internal static partial class ThemeSurface
     private static readonly OklchColor _defaultLight = new(1, 0, 0);
     private static readonly OklchColor _defaultDark = new(0.2533, 0.016, 252.42);
 
+    // The default theme's page body (NeutralSurface.Body), a step away from the background in each mode.
+    private static readonly OklchColor _defaultBodyLight = new(0.985, 0, 0);
+    private static readonly OklchColor _defaultBodyDark = new(0.222, 0.015, 253);
+
     // The default theme's heading text in each mode, which has to stay readable on the picked background.
     private static readonly OklchColor _lightText = new(0.21, 0.006, 285.885);
     private static readonly OklchColor _darkText = new(0.97807, 0.029, 256.847);
@@ -55,11 +64,50 @@ internal static partial class ThemeSurface
     private static partial Regex ColorTokenRegex();
 
     /// <summary>
+    /// Backgrounds faintly tinted toward a hue: a near-white for light mode and the default dark background's
+    /// lightness for dark mode, so the theme's text keeps its contrast while the page takes on a little color.
+    /// </summary>
+    /// <param name="hue">The OKLCH hue to lean toward, in degrees.</param>
+    /// <param name="strength">How strongly to tint, from 0 (no tint) to 1.</param>
+    /// <param name="lightnessShift">A small change in lightness, applied in full to the dark background and by half
+    /// to the light one, so themes of similar hue still get backgrounds of their own.</param>
+    /// <returns>The tinted light and dark backgrounds.</returns>
+    public static ThemeSurfaces Tinted(double hue, double strength, double lightnessShift = 0)
+    {
+        var amount = Math.Clamp(strength, 0, 1);
+        var shift = Math.Clamp(lightnessShift, -0.02, 0.02);
+
+        return new(
+            ToHex(new OklchColor(Math.Min(0.995, 0.985 + (shift / 2)), 0.012 * amount, hue)),
+            ToHex(new OklchColor(_defaultDark.Lightness + shift, 0.03 * amount, hue)));
+    }
+
+    /// <summary>
     /// Gets whether either background differs from the default theme's.
     /// </summary>
     /// <param name="surfaces">The picked backgrounds.</param>
     public static bool IsCustomized(ThemeSurfaces surfaces) =>
-        IsCustomized(surfaces.Light, DefaultLightHex) || IsCustomized(surfaces.Dark, DefaultDarkHex);
+        IsCustomized(surfaces.Light, DefaultLightHex)
+        || IsCustomized(surfaces.Dark, DefaultDarkHex)
+        || IsCustomized(surfaces.BodyLight, ToHex(_defaultBodyLight))
+        || IsCustomized(surfaces.BodyDark, ToHex(_defaultBodyDark));
+
+    /// <summary>
+    /// The page body a mode ends up with: the one picked for it, or else the default body moved along with the
+    /// picked background.
+    /// </summary>
+    /// <param name="surfaces">The picked backgrounds.</param>
+    /// <param name="dark">Whether to give the dark mode body.</param>
+    /// <returns>The body as hex.</returns>
+    public static string EffectiveBody(ThemeSurfaces surfaces, bool dark)
+    {
+        if ((dark ? surfaces.BodyDark : surfaces.BodyLight) is { } picked)
+            return picked;
+
+        var body = dark ? _defaultBodyDark : _defaultBodyLight;
+
+        return ToHex(Recolor(body, surfaces) ?? body);
+    }
 
     /// <summary>
     /// The WCAG contrast ratio of the default theme's heading text on a picked background, or
@@ -261,10 +309,20 @@ internal static partial class ThemeSurface
         return (parts, token[start..]);
     }
 
-    private static OklchColor? Recolor(Match value, ThemeSurfaces surfaces)
+    private static OklchColor? Recolor(Match value, ThemeSurfaces surfaces) => Recolor(Parse(value), surfaces);
+
+    private static OklchColor? Recolor(OklchColor original, ThemeSurfaces surfaces)
     {
-        var original = Parse(value);
         var dark = original.Chroma > 0;
+
+        // The page body follows its own pick when there is one, rather than the background's.
+        if (Same(original, dark ? _defaultBodyDark : _defaultBodyLight)
+            && (dark ? surfaces.BodyDark : surfaces.BodyLight) is { } bodyHex
+            && OklchColor.TryParseHex(bodyHex, out var body))
+        {
+            return body;
+        }
+
         var hex = dark ? surfaces.Dark : surfaces.Light;
         var defaultBase = dark ? _defaultDark : _defaultLight;
 
@@ -275,6 +333,9 @@ internal static partial class ThemeSurface
 
         return new OklchColor(lightness, picked.Chroma, picked.Hue);
     }
+
+    private static bool Same(OklchColor a, OklchColor b) =>
+        Math.Abs(a.Lightness - b.Lightness) < 0.0005 && Math.Abs(a.Chroma - b.Chroma) < 0.0005 && Math.Abs(a.Hue - b.Hue) < 0.05;
 
     private static OklchColor Parse(Match value) => new(
         double.Parse(value.Groups["l"].Value, CultureInfo.InvariantCulture) / 100,

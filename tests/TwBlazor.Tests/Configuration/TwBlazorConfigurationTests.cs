@@ -79,6 +79,32 @@ public class TwSurfaceColorTests
     }
 }
 
+public class TwSurfacePaletteTests
+{
+    [Fact]
+    public void Body_DefaultsToEmpty_AndRoundTrips()
+    {
+        var palette = new TwSurfacePalette();
+        Assert.Equal(string.Empty, palette.Body);
+
+        palette.Body = "bg-gray-50 dark:bg-gray-950";
+
+        Assert.Equal("bg-gray-50 dark:bg-gray-950", palette.Body);
+    }
+
+    [Fact]
+    public void TheDefaultTheme_GivesThePageBodyItsOwnColor_InBothModes()
+    {
+        var surface = TwBlazor.Theme.Theme.CreateDefaultTheme().Colors.NeutralSurface;
+        var body = surface.Body.Split(' ');
+        var background = surface.Background.Split(' ');
+
+        Assert.Contains(body, token => token.StartsWith("bg-", StringComparison.Ordinal));
+        Assert.Contains(body, token => token.StartsWith("dark:bg-", StringComparison.Ordinal));
+        Assert.Empty(body.Intersect(background));
+    }
+}
+
 public class TwBlazorRoundedTests
 {
     [Fact]

@@ -373,8 +373,27 @@ public class ShowcasePageTests : DocsTestBase
         var cut = Render(ShowcaseBrand.Tesco);
         var links = cut.FindAll("nav[aria-label='Example themes'] a");
 
-        Assert.Equal(ShowcaseBrand.All.Select(brand => brand.Path), links.Select(link => link.GetAttribute("href")));
+        Assert.Equal([.. ShowcaseBrand.All.Select(brand => brand.Path), "/theme"], links.Select(link => link.GetAttribute("href")));
         Assert.Equal("Tesco", Assert.Single(links, link => link.GetAttribute("aria-current") == "page").TextContent);
+    }
+
+    [Fact]
+    public void Page_EndsTheExamplesWithALinkToTheThemeBuilder()
+    {
+        var link = Render(ShowcaseBrand.Lego).Find("nav[aria-label='Example themes'] a:last-child");
+
+        Assert.Equal("showcase-create-your-own", link.Id);
+        Assert.Equal("/theme", link.GetAttribute("href"));
+        Assert.Equal("Create your own", link.TextContent.Trim());
+        Assert.Null(link.GetAttribute("aria-current"));
+    }
+
+    [Fact]
+    public void Page_StillLeadsBackToTheExamplesOnTheHomePage()
+    {
+        var back = Render(ShowcaseBrand.Lego).Find("a:contains('Back to twblazor')");
+
+        Assert.Equal("/#theme-case-study", back.GetAttribute("href"));
     }
 
     [Theory]

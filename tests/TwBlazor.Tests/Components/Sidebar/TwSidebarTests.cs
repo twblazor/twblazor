@@ -185,6 +185,20 @@ public class TwSidebarTests : TwBlazorTestBase
     }
 
     [Fact]
+    public void MainContent_SitsOnThePageBody_WhileTheSidebarPanelKeepsTheCardBackground()
+    {
+        var cut = TestContext.Render<TwSidebar>(p => p.Add(x => x.IsSidebarOpen, true));
+        var surface = Theme.Colors.NeutralSurface;
+
+        var root = cut.Find("#main-content-root").ClassList;
+        var panel = cut.Find("nav[aria-label='sidebar navigation']").ClassList;
+
+        Assert.All(surface.Body.Split(' '), token => Assert.Contains(token, root));
+        Assert.All(surface.Background.Split(' '), token => Assert.DoesNotContain(token, root));
+        Assert.All(surface.Background.Split(' '), token => Assert.Contains(token, panel));
+    }
+
+    [Fact]
     public void ShouldApply_CorrectSidebar_And_Toggle_And_MainClasses_WhenIsSidebarOpen_True()
     {
         // Arrange

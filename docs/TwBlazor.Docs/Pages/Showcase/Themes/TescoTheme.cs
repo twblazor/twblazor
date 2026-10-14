@@ -312,6 +312,7 @@ public static class TescoTheme
         var neutralSurface = new TwSurfacePalette
         {
             Background = "bg-[oklch(100%_0.004_255)] dark:bg-[oklch(25.33%_0.03_255)]",
+            Body = "bg-[oklch(100%_0.004_255)] dark:bg-[oklch(25.33%_0.03_255)]",
             BackgroundSubtle = "bg-[oklch(98%_0.004_255)] dark:bg-[oklch(23.26%_0.03_255)]",
             Border = "border-[oklch(92%_0.004_255)] dark:border-[oklch(21.15%_0.03_255)]",
             BorderSubtle = "border-[oklch(98%_0.004_255)] dark:border-[oklch(23.26%_0.03_255)]",
@@ -1228,7 +1229,7 @@ public static class TescoTheme
                     NavigationDropdownContainerDeep = string.Empty,
                     NavigationGroupRailDeep = $"border-s-2 {border.Neutral.Strong}",
                     MainContent = $"overflow-y-auto scrollbar-gutter-stable start-0 {flexbox.Flex1} {sizing.FullWidth} {focusRingInset} {interaction.FocusOutlineNone} transition-[margin] {transition.DurationFast} motion-reduce:transition-none {transition.EaseInOut}",
-                    MainContentRoot = $"{display.Flex} overflow-x-hidden {flexbox.Col} h-dvh {sizing.FullWidth} {transparentBackground} {neutralSurface.Background} {neutralText.Heading} transition-[margin] {transition.DurationFast} motion-reduce:transition-none {transition.EaseInOut}"
+                    MainContentRoot = $"{display.Flex} overflow-x-hidden {flexbox.Col} h-dvh {sizing.FullWidth} {transparentBackground} {neutralSurface.Body} {neutralText.Heading} transition-[margin] {transition.DurationFast} motion-reduce:transition-none {transition.EaseInOut}"
                 },
                 new TwTreeListTheme
                 {

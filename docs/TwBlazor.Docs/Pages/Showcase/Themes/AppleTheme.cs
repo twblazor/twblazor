@@ -312,6 +312,7 @@ public static class AppleTheme
         var neutralSurface = new TwSurfacePalette
         {
             Background = "bg-[oklch(100%_0.003_286)] dark:bg-[oklch(18%_0.004_286)]",
+            Body = "bg-[oklch(100%_0.003_286)] dark:bg-[oklch(18%_0.004_286)]",
             BackgroundSubtle = "bg-[oklch(97%_0.003_286)] dark:bg-[oklch(16%_0.004_286)]",
             Border = "border-[oklch(92%_0.003_286)] dark:border-[oklch(14%_0.004_286)]",
             BorderSubtle = "border-[oklch(97%_0.003_286)] dark:border-[oklch(16%_0.004_286)]",
@@ -1228,7 +1229,7 @@ public static class AppleTheme
                     NavigationDropdownContainerDeep = string.Empty,
                     NavigationGroupRailDeep = $"border-s-2 {border.Neutral.Strong}",
                     MainContent = $"overflow-y-auto scrollbar-gutter-stable start-0 {flexbox.Flex1} {sizing.FullWidth} {focusRingInset} {interaction.FocusOutlineNone} transition-[margin] {transition.DurationFast} motion-reduce:transition-none {transition.EaseInOut}",
-                    MainContentRoot = $"{display.Flex} overflow-x-hidden {flexbox.Col} h-dvh {sizing.FullWidth} {transparentBackground} {neutralSurface.Background} {neutralText.Heading} transition-[margin] {transition.DurationFast} motion-reduce:transition-none {transition.EaseInOut}"
+                    MainContentRoot = $"{display.Flex} overflow-x-hidden {flexbox.Col} h-dvh {sizing.FullWidth} {transparentBackground} {neutralSurface.Body} {neutralText.Heading} transition-[margin] {transition.DurationFast} motion-reduce:transition-none {transition.EaseInOut}"
                 },
                 new TwTreeListTheme
                 {

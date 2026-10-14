@@ -3,502 +3,466 @@
 @inject TwBlazorOptions Options
 
 <div class="@rootClass" data-testid="theme-preview">
-    @if (!_sections.Keys.Any(id => ShowsSection(id, Selected)))
+    <h2 class="sr-only">Component preview</h2>
+
+    @if (!SampledComponents.Any(Selected.Contains))
     {
         <p class="@secondaryText" role="status" data-testid="theme-preview-empty">None of the components you have ticked has a sample here. Tick a component in the panel to see it.</p>
     }
 
-    @if (ShowsSection("preview-actions", Selected))
+    @if (Has("TwNavbar"))
     {
-        <section id="preview-actions" class="@sectionClass" aria-labelledby="preview-actions-heading">
-            <h2 id="preview-actions-heading" class="@headingClass">Buttons and actions</h2>
-            <div class="@rowClass">
-                @if (Has("TwButton"))
-                {
-                    <TwCard Title="Buttons" Class="@cardClass" @attributes="look">
-                        <div class="flex flex-col gap-4">
-                            <div class="flex flex-wrap gap-3" data-testid="preview-default-buttons">
-                                @foreach (var family in ThemeColorFamily.All)
-                                {
-                                    <TwButton Label="@family.Name" Color="@ToColor(family)" Variant="@Defaults.ButtonVariant" @attributes="look" Style="@FilledStyle(family, Defaults.ButtonVariant == ButtonVariant.Filled)" />
-                                }
-                            </div>
-                            <div class="flex flex-wrap gap-3">
-                                @foreach (var family in ThemeColorFamily.All)
-                                {
-                                    <TwButton Label="@family.Name" Color="@ToColor(family)" Variant="ButtonVariant.Outlined" Rounded="@Defaults.Rounded" />
-                                }
-                            </div>
-                            <div class="flex flex-wrap gap-3">
-                                @foreach (var family in ThemeColorFamily.All)
-                                {
-                                    <TwButton Label="@family.Name" Color="@ToColor(family)" Variant="ButtonVariant.Text" Rounded="@Defaults.Rounded" />
-                                }
-                            </div>
-                        </div>
-                    </TwCard>
-
-                    <TwCard Title="Button states" Class="@cardClass" @attributes="look">
-                        <div class="flex flex-wrap items-center gap-3">
-                            <TwButton Label="Save" StartIcon="Icon.Check" Color="Color.Primary" Variant="@Defaults.ButtonVariant" @attributes="look" Style="@FilledStyle(ThemeColorFamily.All[0], Defaults.ButtonVariant == ButtonVariant.Filled)" />
-                            <TwButton Label="Next" EndIcon="Icon.Arrow_Right" Color="Color.Primary" Variant="ButtonVariant.Outlined" Rounded="@Defaults.Rounded" />
-                            <TwButton Label="Dense" Dense Color="Color.Primary" Variant="ButtonVariant.Outlined" Rounded="@Defaults.Rounded" />
-                            <TwButton Label="Disabled" Disabled Color="Color.Primary" Variant="@Defaults.ButtonVariant" Rounded="@Defaults.Rounded" />
-                        </div>
-                    </TwCard>
-                }
-
-                @if (Has("TwIcon", "TwTooltip", "TwFileUpload"))
-                {
-                    <TwCard Title="Icons, tooltips and uploads" Class="@cardClass" @attributes="look">
-                        <div class="flex flex-col gap-4">
-                            @if (Has("TwIcon"))
-                            {
-                                <div class="flex flex-wrap items-center gap-2">
-                                    <TwIcon Icon="Icon.Heart" AriaLabel="Add to favourites" OnClick="@(() => { })" />
-                                    <TwIcon Icon="Icon.Share" AriaLabel="Share" OnClick="@(() => { })" />
-                                    <TwIcon Icon="Icon.Gear" AriaLabel="Settings" OnClick="@(() => { })" />
-                                </div>
-                            }
-                            @if (Has("TwTooltip"))
-                            {
-                                <div>
-                                    <TwTooltip Text="Tooltips follow the theme too" @attributes="look">
-                                        <span class="text-sm underline decoration-dotted underline-offset-4 @secondaryText">Hover or focus for a tooltip</span>
-                                    </TwTooltip>
-                                </div>
-                            }
-                            @if (Has("TwFileUpload"))
-                            {
-                                <div class="flex flex-wrap gap-3">
-                                    <TwFileUpload Id="preview-upload" Icon="@Icon.Upload" Label="Upload file" Variant="ButtonVariant.Outlined" Color="Color.Primary" Rounded="@Defaults.Rounded" />
-                                    <TwFileUpload Id="preview-upload-many" Icon="@Icon.Files" Label="Upload several" Multiple Variant="ButtonVariant.Outlined" Color="Color.Accent" Rounded="@Defaults.Rounded" />
-                                </div>
-                            }
-                        </div>
-                    </TwCard>
-                }
-            </div>
-        </section>
+        <TwNavbar AriaLabel="Example site navigation" DisableResponsiveCollapse>
+            <BrandContent>
+                <span class="flex items-center gap-2 font-bold tracking-tight @Options.Theme.Colors.NeutralText.Heading">
+                    <TwIcon Icon="Icon.Lightning_Charge_Fill" /> Acme
+                </span>
+            </BrandContent>
+            <NavigationContent>
+                <a href="theme#main-content" class="@navLinkClass">Products</a>
+                <a href="theme#main-content" class="@navLinkClass">Pricing</a>
+                <a href="theme#main-content" class="@navLinkClass">Support</a>
+            </NavigationContent>
+            <ActionsContent>
+                <TwButton Label="Sign in" Variant="ButtonVariant.Text" Color="Color.Primary" Rounded="@Defaults.Rounded" />
+                <TwButton Label="Get started" Color="Color.Primary" Variant="@Defaults.ButtonVariant" @attributes="look" Style="@FilledStyle(ThemeColorFamily.All[0], Defaults.ButtonVariant == ButtonVariant.Filled)" />
+            </ActionsContent>
+        </TwNavbar>
     }
 
-    @if (ShowsSection("preview-forms", Selected))
-    {
-        <section id="preview-forms" class="@sectionClass" aria-labelledby="preview-forms-heading">
-            <h2 id="preview-forms-heading" class="@headingClass">Forms</h2>
-            <div class="@rowClass">
-                @if (Has("TwTextfield", "TwSelect", "TwColorPicker"))
-                {
-                    <TwCard Title="Text and choices" Class="@cardClass" @attributes="look">
-                        <div class="@fieldsClass">
-                            @if (Has("TwTextfield"))
-                            {
-                                <TwTextfield Id="preview-name" Label="Full name" @bind-Value="name" Placeholder="Jane Doe" autocomplete="name" @attributes="inputLook" />
-                                <TwTextfield Id="preview-email" Label="Email" @bind-Value="email" Placeholder="jane@example.com" type="email" autocomplete="email" @attributes="inputLook" />
-                            }
-                            @if (Has("TwSelect"))
-                            {
-                                <TwSelect T="string" Id="preview-plan" Label="Plan" Values="@plans" @bind-SelectedValue="plan" @attributes="inputLook" />
-                            }
-                            @if (Has("TwColorPicker"))
-                            {
-                                <TwColorPicker Id="preview-color" Label="Label color" @bind-Value="labelColor" @attributes="inputLook" />
-                            }
-                        </div>
-                    </TwCard>
-                }
+    @* One flow of cards in as many columns as fit. Cards keep their own height, so a short card never leaves a gap beside a tall one. *@
+    <div class="@masonryClass" data-testid="theme-preview-cards">
+        @if (Has("TwButton"))
+        {
+            <TwCard Title="Buttons" Class="@cardClass" @attributes="look">
+                <div class="flex flex-col gap-3">
+                    <div class="flex flex-wrap gap-2" data-testid="preview-default-buttons">
+                        @foreach (var family in ThemeColorFamily.All)
+                        {
+                            <TwButton Label="@family.Name" Color="@ToColor(family)" Variant="@Defaults.ButtonVariant" @attributes="look" Style="@FilledStyle(family, Defaults.ButtonVariant == ButtonVariant.Filled)" />
+                        }
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        @foreach (var family in ThemeColorFamily.All)
+                        {
+                            <TwButton Label="@family.Name" Color="@ToColor(family)" Variant="ButtonVariant.Outlined" Rounded="@Defaults.Rounded" />
+                        }
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        @foreach (var family in ThemeColorFamily.All)
+                        {
+                            <TwButton Label="@family.Name" Color="@ToColor(family)" Variant="ButtonVariant.Text" Rounded="@Defaults.Rounded" />
+                        }
+                    </div>
+                </div>
+            </TwCard>
+        }
 
-                @if (Has("TwDatePicker", "TwTimePicker", "TwDateTimePicker", "TwDateRangePicker", "TwTimeRangePicker", "TwDateTimeRangePicker"))
-                {
-                    <TwCard Title="Dates and times" Class="@cardClass" @attributes="look">
-                        <div class="@fieldsClass">
-                            @if (Has("TwDatePicker"))
-                            {
-                                <TwDatePicker Id="preview-date" Label="Date" @bind-SelectedDate="date" @attributes="inputLook" />
-                            }
-                            @if (Has("TwTimePicker"))
-                            {
-                                <TwTimePicker Id="preview-time" Label="Time" @bind-SelectedTime="time" @attributes="inputLook" />
-                            }
-                            @if (Has("TwDateTimePicker"))
-                            {
-                                <TwDateTimePicker Id="preview-date-time" Label="Date and time" @bind-SelectedDateTime="dateTime" @attributes="inputLook" />
-                            }
-                            @if (Has("TwDateRangePicker"))
-                            {
-                                <TwDateRangePicker Id="preview-date-range" Label="Date range" @bind-SelectedRange="dateRange" @attributes="inputLook" />
-                            }
-                            @if (Has("TwTimeRangePicker"))
-                            {
-                                <TwTimeRangePicker Id="preview-time-range" Label="Shift" @bind-SelectedRange="timeRange" @attributes="inputLook" />
-                            }
-                            @if (Has("TwDateTimeRangePicker"))
-                            {
-                                <TwDateTimeRangePicker Id="preview-date-time-range" Label="Stay" @bind-SelectedRange="dateTimeRange" @attributes="inputLook" />
-                            }
-                        </div>
-                    </TwCard>
-                }
-
-                @if (Has("TwSwitch", "TwCheckbox", "TwRadioButton"))
-                {
-                    <TwCard Title="Toggles" Class="@cardClass" @attributes="look">
-                        <div class="@fieldsClass">
-                            @if (Has("TwSwitch", "TwCheckbox"))
-                            {
-                                <div class="flex flex-col gap-2">
-                                    @if (Has("TwSwitch"))
-                                    {
-                                        <TwSwitch @bind-Value="switchOn" Label="Order updates" Color="Color.Primary" />
-                                        <TwSwitch @bind-Value="switchOff" Label="Marketing emails" Color="Color.Accent" />
-                                    }
-                                    @if (Has("TwCheckbox"))
-                                    {
-                                        <TwCheckbox @bind-Value="checkboxOn" Label="Remember me" Color="Color.Primary" Rounded="@Defaults.Rounded" />
-                                        <TwCheckbox @bind-Value="checkboxOff" Label="Gift wrap" Color="Color.Success" Rounded="@Defaults.Rounded" />
-                                    }
-                                </div>
-                            }
-                            @if (Has("TwRadioButton"))
-                            {
-                                <div class="flex flex-col gap-2" role="radiogroup" aria-label="Payment method">
-                                    <TwRadioButton T="string" Name="preview-payment" Value="@("card")" @bind-SelectedValue="payment" Label="Pay by card" Color="Color.Primary" />
-                                    <TwRadioButton T="string" Name="preview-payment" Value="@("collect")" @bind-SelectedValue="payment" Label="Pay on collection" Color="Color.Primary" />
-                                    <TwRadioButton T="string" Name="preview-payment" Value="@("invoice")" @bind-SelectedValue="payment" Label="Pay by invoice" Color="Color.Primary" />
-                                </div>
-                            }
-                        </div>
-                    </TwCard>
-                }
-
-                @if (Has("TwSlider"))
-                {
-                    <TwCard Title="Sliders" Class="@cardClass" @attributes="look">
-                        <div class="flex flex-col gap-6">
-                            <TwSlider T="int" Id="preview-quantity" Label="Quantity" AriaLabel="Quantity" Name="preview-quantity" @bind-Value="quantity" Min="1" Max="10" Step="1" Color="Color.Primary" Rounded="@Defaults.Rounded" />
-                            <TwSlider T="int" Id="preview-volume" Label="Volume" AriaLabel="Volume" Name="preview-volume" @bind-Value="volume" Min="0" Max="100" Step="5" Color="Color.Success" Rounded="@Defaults.Rounded" />
-                        </div>
-                    </TwCard>
-                }
-            </div>
-        </section>
-    }
-
-    @if (ShowsSection("preview-feedback", Selected))
-    {
-        <section id="preview-feedback" class="@sectionClass" aria-labelledby="preview-feedback-heading">
-            <h2 id="preview-feedback-heading" class="@headingClass">Feedback</h2>
-            <div class="@rowClass">
-                @if (Has("TwAlert"))
-                {
-                    <TwCard Title="Alerts" Class="@cardClass" @attributes="look">
-                        <div class="flex flex-col gap-3">
-                            @foreach (var family in ThemeColorFamily.All)
-                            {
-                                <TwAlert Color="@ToColor(family)" Text="@($"{family.Name} alert: something worth knowing.")" @attributes="look" />
-                            }
-                        </div>
-                    </TwCard>
-                }
-
-                @if (Has("TwChip", "TwAvatar"))
-                {
-                    <TwCard Title="Chips and avatars" Class="@cardClass" @attributes="look">
-                        <div class="flex flex-col gap-4">
-                            @if (Has("TwChip"))
-                            {
-                                <div class="flex flex-wrap gap-2" data-testid="preview-filled-chips">
-                                    @foreach (var family in ThemeColorFamily.All)
-                                    {
-                                        <TwChip Label="@family.Name" Color="@ToColor(family)" Rounded="@Defaults.Rounded" Style="@FilledStyle(family, true)" />
-                                    }
-                                </div>
-                                <div class="flex flex-wrap gap-2">
-                                    @foreach (var family in ThemeColorFamily.All)
-                                    {
-                                        <TwChip Label="@family.Name" Color="@ToColor(family)" Variant="ButtonVariant.Outlined" Rounded="@Defaults.Rounded" />
-                                    }
-                                </div>
-                            }
-                            @if (Has("TwAvatar"))
-                            {
-                                <div class="flex flex-wrap items-center gap-3">
-                                    <TwAvatar Name="Jane Doe" Color="Color.Primary" />
-                                    <TwAvatar Name="Sam Lee" Color="Color.Accent" />
-                                    <TwAvatar Name="Priya Shah" Color="Color.Success" />
-                                    <TwAvatar Name="Guest" Initials="G" />
-                                </div>
-                            }
-                        </div>
-                    </TwCard>
-                }
-
-                @if (Has("TwProgress", "TwSpinner"))
-                {
-                    <TwCard Title="Progress and loading" Class="@cardClass" @attributes="look">
-                        <div class="flex flex-col gap-5">
-                            @if (Has("TwProgress"))
-                            {
-                                <TwProgress T="int" Label="Upload" Value="60" Max="100" Color="Color.Primary" />
-                                <TwProgress T="int" Label="Storage used" Value="85" Max="100" Color="Color.Warning" />
-                            }
-                            @if (Has("TwSpinner"))
-                            {
-                                <div class="flex flex-wrap items-center gap-3">
-                                    @foreach (var family in ThemeColorFamily.All)
-                                    {
-                                        <TwSpinner Color="@ToColor(family)" />
-                                    }
-                                </div>
-                            }
-                        </div>
-                    </TwCard>
-                }
-
-                @if (Has("TwSkeleton"))
-                {
-                    <TwCard Title="Skeletons" Class="@cardClass" @attributes="look">
-                        <div class="flex items-start gap-4">
-                            <TwSkeleton Id="preview-skeleton-avatar" SkeletonType="SkeletonType.Circle" Width="48px" Height="48px" />
-                            <div class="flex flex-1 flex-col gap-2">
-                                <TwSkeleton Id="preview-skeleton-title" SkeletonType="SkeletonType.Text" Width="60%" />
-                                <TwSkeleton Id="preview-skeleton-line" SkeletonType="SkeletonType.Text" Width="90%" />
-                                <TwSkeleton Id="preview-skeleton-block" SkeletonType="SkeletonType.Rectangle" Height="72px" Rounded="@Defaults.Rounded" />
-                            </div>
-                        </div>
-                    </TwCard>
-                }
-            </div>
-        </section>
-    }
-
-    @if (ShowsSection("preview-navigation", Selected))
-    {
-        <section id="preview-navigation" class="@sectionClass" aria-labelledby="preview-navigation-heading">
-            <h2 id="preview-navigation-heading" class="@headingClass">Navigation and layout</h2>
-            <div class="flex flex-col gap-4">
-                @if (Has("TwNavbar"))
-                {
-                    <TwNavbar AriaLabel="Example site navigation" DisableResponsiveCollapse>
-                        <BrandContent>
-                            <span class="flex items-center gap-2 font-bold tracking-tight @Options.Theme.Colors.NeutralText.Heading">
-                                <TwIcon Icon="Icon.Lightning_Charge_Fill" /> Acme
-                            </span>
-                        </BrandContent>
-                        <NavigationContent>
-                            <a href="theme#preview-navigation" class="@navLinkClass">Products</a>
-                            <a href="theme#preview-navigation" class="@navLinkClass">Pricing</a>
-                            <a href="theme#preview-navigation" class="@navLinkClass">Support</a>
-                        </NavigationContent>
-                        <ActionsContent>
-                            <TwButton Label="Sign in" Variant="ButtonVariant.Text" Color="Color.Primary" Rounded="@Defaults.Rounded" />
-                            <TwButton Label="Get started" Color="Color.Primary" Variant="@Defaults.ButtonVariant" @attributes="look" Style="@FilledStyle(ThemeColorFamily.All[0], Defaults.ButtonVariant == ButtonVariant.Filled)" />
-                        </ActionsContent>
-                    </TwNavbar>
-                }
-
-                <div class="@rowClass">
-                    @if (Has("TwBreadcrumb", "TwStepper", "TwPagination"))
+        @if (Has("TwTextfield", "TwSelect", "TwColorPicker"))
+        {
+            <TwCard Title="Text and choices" Class="@cardClass" @attributes="look">
+                <div class="@fieldsClass">
+                    @if (Has("TwTextfield"))
                     {
-                        <TwCard Title="Finding your way" Class="@cardClass" @attributes="look">
-                            <div class="flex flex-col gap-6">
-                                @if (Has("TwBreadcrumb"))
-                                {
-                                    <TwBreadcrumb Breadcrumbs="@breadcrumbs" />
-                                }
-                                @if (Has("TwStepper"))
-                                {
-                                    <TwStepper @bind-ActiveStepIndex="step" Color="Color.Primary" AriaLabel="Checkout steps">
-                                        <TwStep Label="Basket" Description="Review your items"><p class="text-sm">Check what is in your basket.</p></TwStep>
-                                        <TwStep Label="Delivery" Description="Choose a slot"><p class="text-sm">Pick when it should arrive.</p></TwStep>
-                                        <TwStep Label="Payment" Description="Confirm and pay"><p class="text-sm">Pay securely.</p></TwStep>
-                                    </TwStepper>
-                                }
-                                @if (Has("TwPagination"))
-                                {
-                                    <TwPagination TotalPages="8" @bind-ActivePage="page" AriaLabel="Example pages" Rounded="@Defaults.Rounded" />
-                                }
-                            </div>
-                        </TwCard>
+                        <TwTextfield Id="preview-name" Label="Full name" @bind-Value="name" Placeholder="Jane Doe" autocomplete="name" @attributes="inputLook" />
+                        <TwTextfield Id="preview-email" Label="Email" @bind-Value="email" Placeholder="jane@example.com" type="email" autocomplete="email" @attributes="inputLook" />
                     }
-
-                    @if (Has("TwTabContainer", "TwCollapse"))
+                    @if (Has("TwSelect"))
                     {
-                        <TwCard Title="Tabs and collapses" Class="@cardClass" @attributes="look">
-                            <div class="flex flex-col gap-4">
-                                @if (Has("TwTabContainer"))
-                                {
-                                    <TwTabContainer TabColor="Color.Primary" Rounded="@Defaults.Rounded">
-                                        <TwTab Label="Overview"><p class="text-sm @secondaryText">The overview tab.</p></TwTab>
-                                        <TwTab Label="Activity"><p class="text-sm @secondaryText">The activity tab.</p></TwTab>
-                                        <TwTab Label="Settings"><p class="text-sm @secondaryText">The settings tab.</p></TwTab>
-                                    </TwTabContainer>
-                                }
-                                @if (Has("TwCollapse"))
-                                {
-                                    <TwCollapse Title="When will my order arrive?" @attributes="look">
-                                        <p class="px-4 py-3 text-sm">Most orders arrive within three working days.</p>
-                                    </TwCollapse>
-                                    <TwCollapse Title="Can I change my order?" @attributes="look">
-                                        <p class="px-4 py-3 text-sm">Yes, until it has been packed.</p>
-                                    </TwCollapse>
-                                }
-                            </div>
-                        </TwCard>
+                        <TwSelect T="string" Id="preview-plan" Label="Plan" Values="@plans" @bind-SelectedValue="plan" @attributes="inputLook" />
                     }
-
-                    @if (Has("TwTreeList"))
+                    @if (Has("TwColorPicker"))
                     {
-                        <TwCard Title="Tree list" Class="@cardClass" @attributes="look">
-                            <TwTreeList AriaLabel="Example files">
-                                <TwTreeListItem Label="Documents" Collapsed="false">
-                                    <TwTreeListItem Label="resume.pdf" />
-                                    <TwTreeListItem Label="cover-letter.docx" />
-                                </TwTreeListItem>
-                                <TwTreeListItem Label="Pictures">
-                                    <TwTreeListItem Label="holiday.jpg" />
-                                    <TwTreeListItem Label="profile.png" />
-                                </TwTreeListItem>
-                                <TwTreeListItem Label="readme.md" />
-                            </TwTreeList>
-                        </TwCard>
-                    }
-
-                    @if (Has("TwCarousel"))
-                    {
-                        <TwCard Title="Carousel" Class="@cardClass" @attributes="look">
-                            <TwCarousel AriaLabel="Example carousel" Style="height:200px;" Rounded="@Defaults.Rounded">
-                                @foreach (var slide in slides)
-                                {
-                                    <TwCarouselItem>
-                                        <div class="flex h-full items-center justify-center text-xl font-semibold text-white @slide.Class">@slide.Label</div>
-                                    </TwCarouselItem>
-                                }
-                            </TwCarousel>
-                        </TwCard>
+                        <TwColorPicker Id="preview-color" Label="Label color" @bind-Value="labelColor" @attributes="inputLook" />
                     }
                 </div>
+            </TwCard>
+        }
 
-                @if (Has("TwFooter"))
-                {
-                    <TwFooter Sections="@footerSections" BottomLinks="@footerLegal" Copyright="© 2026 Acme Ltd. An example footer." NavigationLabel="Example footer links" HeadingLevel="3" />
-                }
-            </div>
-        </section>
+        @if (Has("TwAlert"))
+        {
+            <TwCard Title="Alerts" Class="@cardClass" @attributes="look">
+                <div class="flex flex-col gap-2">
+                    @foreach (var family in ThemeColorFamily.All)
+                    {
+                        <TwAlert Color="@ToColor(family)" Text="@($"{family.Name} alert: something worth knowing.")" @attributes="look" />
+                    }
+                </div>
+            </TwCard>
+        }
+
+        @if (Has("TwButton"))
+        {
+            <TwCard Title="Button states" Class="@cardClass" @attributes="look">
+                <div class="flex flex-wrap items-center gap-2">
+                    <TwButton Label="Save" StartIcon="Icon.Check" Color="Color.Primary" Variant="@Defaults.ButtonVariant" @attributes="look" Style="@FilledStyle(ThemeColorFamily.All[0], Defaults.ButtonVariant == ButtonVariant.Filled)" />
+                    <TwButton Label="Next" EndIcon="Icon.Arrow_Right" Color="Color.Primary" Variant="ButtonVariant.Outlined" Rounded="@Defaults.Rounded" />
+                    <TwButton Label="Dense" Dense Color="Color.Primary" Variant="ButtonVariant.Outlined" Rounded="@Defaults.Rounded" />
+                    <TwButton Label="Disabled" Disabled Color="Color.Primary" Variant="@Defaults.ButtonVariant" Rounded="@Defaults.Rounded" />
+                </div>
+            </TwCard>
+        }
+
+        @if (Has("TwSwitch", "TwCheckbox", "TwRadioButton"))
+        {
+            <TwCard Title="Toggles" Class="@cardClass" @attributes="look">
+                <div class="@fieldsClass">
+                    @if (Has("TwSwitch", "TwCheckbox"))
+                    {
+                        <div class="flex flex-col gap-2">
+                            @if (Has("TwSwitch"))
+                            {
+                                <TwSwitch @bind-Value="switchOn" Label="Order updates" Color="Color.Primary" />
+                                <TwSwitch @bind-Value="switchOff" Label="Marketing emails" Color="Color.Accent" />
+                            }
+                            @if (Has("TwCheckbox"))
+                            {
+                                <TwCheckbox @bind-Value="checkboxOn" Label="Remember me" Color="Color.Primary" Rounded="@Defaults.Rounded" />
+                                <TwCheckbox @bind-Value="checkboxOff" Label="Gift wrap" Color="Color.Success" Rounded="@Defaults.Rounded" />
+                            }
+                        </div>
+                    }
+                    @if (Has("TwRadioButton"))
+                    {
+                        <div class="flex flex-col gap-2" role="radiogroup" aria-label="Payment method">
+                            <TwRadioButton T="string" Name="preview-payment" Value="@("card")" @bind-SelectedValue="payment" Label="Pay by card" Color="Color.Primary" />
+                            <TwRadioButton T="string" Name="preview-payment" Value="@("collect")" @bind-SelectedValue="payment" Label="Pay on collection" Color="Color.Primary" />
+                            <TwRadioButton T="string" Name="preview-payment" Value="@("invoice")" @bind-SelectedValue="payment" Label="Pay by invoice" Color="Color.Primary" />
+                        </div>
+                    }
+                </div>
+            </TwCard>
+        }
+
+        @if (Has("TwChip", "TwAvatar"))
+        {
+            <TwCard Title="Chips and avatars" Class="@cardClass" @attributes="look">
+                <div class="flex flex-col gap-3">
+                    @if (Has("TwChip"))
+                    {
+                        <div class="flex flex-wrap gap-2" data-testid="preview-filled-chips">
+                            @foreach (var family in ThemeColorFamily.All)
+                            {
+                                <TwChip Label="@family.Name" Color="@ToColor(family)" Rounded="@Defaults.Rounded" Style="@FilledStyle(family, true)" />
+                            }
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            @foreach (var family in ThemeColorFamily.All)
+                            {
+                                <TwChip Label="@family.Name" Color="@ToColor(family)" Variant="ButtonVariant.Outlined" Rounded="@Defaults.Rounded" />
+                            }
+                        </div>
+                    }
+                    @if (Has("TwAvatar"))
+                    {
+                        <div class="flex flex-wrap items-center gap-3">
+                            <TwAvatar Name="Jane Doe" Color="Color.Primary" />
+                            <TwAvatar Name="Sam Lee" Color="Color.Accent" />
+                            <TwAvatar Name="Priya Shah" Color="Color.Success" />
+                            <TwAvatar Name="Guest" Initials="G" />
+                        </div>
+                    }
+                </div>
+            </TwCard>
+        }
+
+        @if (Has("TwDatePicker", "TwTimePicker", "TwDateTimePicker", "TwDateRangePicker", "TwTimeRangePicker", "TwDateTimeRangePicker"))
+        {
+            <TwCard Title="Dates and times" Class="@cardClass" @attributes="look">
+                <div class="@fieldsClass">
+                    @if (Has("TwDatePicker"))
+                    {
+                        <TwDatePicker Id="preview-date" Label="Date" @bind-SelectedDate="date" @attributes="inputLook" />
+                    }
+                    @if (Has("TwTimePicker"))
+                    {
+                        <TwTimePicker Id="preview-time" Label="Time" @bind-SelectedTime="time" @attributes="inputLook" />
+                    }
+                    @if (Has("TwDateTimePicker"))
+                    {
+                        <TwDateTimePicker Id="preview-date-time" Label="Date and time" @bind-SelectedDateTime="dateTime" @attributes="inputLook" />
+                    }
+                    @if (Has("TwDateRangePicker"))
+                    {
+                        <TwDateRangePicker Id="preview-date-range" Label="Date range" @bind-SelectedRange="dateRange" @attributes="inputLook" />
+                    }
+                    @if (Has("TwTimeRangePicker"))
+                    {
+                        <TwTimeRangePicker Id="preview-time-range" Label="Shift" @bind-SelectedRange="timeRange" @attributes="inputLook" />
+                    }
+                    @if (Has("TwDateTimeRangePicker"))
+                    {
+                        <TwDateTimeRangePicker Id="preview-date-time-range" Label="Stay" @bind-SelectedRange="dateTimeRange" @attributes="inputLook" />
+                    }
+                </div>
+            </TwCard>
+        }
+
+        @if (Has("TwProgress", "TwSpinner"))
+        {
+            <TwCard Title="Progress and loading" Class="@cardClass" @attributes="look">
+                <div class="flex flex-col gap-4">
+                    @if (Has("TwProgress"))
+                    {
+                        <TwProgress T="int" Label="Upload" Value="60" Max="100" Color="Color.Primary" />
+                        <TwProgress T="int" Label="Storage used" Value="85" Max="100" Color="Color.Warning" />
+                    }
+                    @if (Has("TwSpinner"))
+                    {
+                        <div class="flex flex-wrap items-center gap-3">
+                            @foreach (var family in ThemeColorFamily.All)
+                            {
+                                <TwSpinner Color="@ToColor(family)" />
+                            }
+                        </div>
+                    }
+                </div>
+            </TwCard>
+        }
+
+        @if (Has("TwTabContainer", "TwCollapse"))
+        {
+            <TwCard Title="Tabs and collapses" Class="@cardClass" @attributes="look">
+                <div class="flex flex-col gap-3">
+                    @if (Has("TwTabContainer"))
+                    {
+                        <TwTabContainer TabColor="Color.Primary" Rounded="@Defaults.Rounded">
+                            <TwTab Label="Overview"><p class="text-sm @secondaryText">The overview tab.</p></TwTab>
+                            <TwTab Label="Activity"><p class="text-sm @secondaryText">The activity tab.</p></TwTab>
+                            <TwTab Label="Settings"><p class="text-sm @secondaryText">The settings tab.</p></TwTab>
+                        </TwTabContainer>
+                    }
+                    @if (Has("TwCollapse"))
+                    {
+                        <TwCollapse Title="When will my order arrive?" @attributes="look">
+                            <p class="px-4 py-3 text-sm">Most orders arrive within three working days.</p>
+                        </TwCollapse>
+                        <TwCollapse Title="Can I change my order?" @attributes="look">
+                            <p class="px-4 py-3 text-sm">Yes, until it has been packed.</p>
+                        </TwCollapse>
+                    }
+                </div>
+            </TwCard>
+        }
+
+        @if (Has("TwSlider"))
+        {
+            <TwCard Title="Sliders" Class="@cardClass" @attributes="look">
+                <div class="flex flex-col gap-5">
+                    <TwSlider T="int" Id="preview-quantity" Label="Quantity" AriaLabel="Quantity" Name="preview-quantity" @bind-Value="quantity" Min="1" Max="10" Step="1" Color="Color.Primary" Rounded="@Defaults.Rounded" />
+                    <TwSlider T="int" Id="preview-volume" Label="Volume" AriaLabel="Volume" Name="preview-volume" @bind-Value="volume" Min="0" Max="100" Step="5" Color="Color.Success" Rounded="@Defaults.Rounded" />
+                </div>
+            </TwCard>
+        }
+
+        @if (Has("TwBreadcrumb", "TwStepper", "TwPagination"))
+        {
+            <TwCard Title="Finding your way" Class="@cardClass" @attributes="look">
+                <div class="flex flex-col gap-5">
+                    @if (Has("TwBreadcrumb"))
+                    {
+                        <TwBreadcrumb Breadcrumbs="@breadcrumbs" />
+                    }
+                    @if (Has("TwStepper"))
+                    {
+                        <TwStepper @bind-ActiveStepIndex="step" Color="Color.Primary" AriaLabel="Checkout steps">
+                            <TwStep Label="Basket" Description="Review your items"><p class="text-sm">Check what is in your basket.</p></TwStep>
+                            <TwStep Label="Delivery" Description="Choose a slot"><p class="text-sm">Pick when it should arrive.</p></TwStep>
+                            <TwStep Label="Payment" Description="Confirm and pay"><p class="text-sm">Pay securely.</p></TwStep>
+                        </TwStepper>
+                    }
+                    @if (Has("TwPagination"))
+                    {
+                        <TwPagination TotalPages="8" @bind-ActivePage="page" AriaLabel="Example pages" Rounded="@Defaults.Rounded" />
+                    }
+                </div>
+            </TwCard>
+        }
+
+        @if (Has("TwIcon", "TwTooltip", "TwFileUpload"))
+        {
+            <TwCard Title="Icons, tooltips and uploads" Class="@cardClass" @attributes="look">
+                <div class="flex flex-col gap-3">
+                    @if (Has("TwIcon"))
+                    {
+                        <div class="flex flex-wrap items-center gap-2">
+                            <TwIcon Icon="Icon.Heart" AriaLabel="Add to favourites" OnClick="@(() => { })" />
+                            <TwIcon Icon="Icon.Share" AriaLabel="Share" OnClick="@(() => { })" />
+                            <TwIcon Icon="Icon.Gear" AriaLabel="Settings" OnClick="@(() => { })" />
+                        </div>
+                    }
+                    @if (Has("TwTooltip"))
+                    {
+                        <div>
+                            <TwTooltip Text="Tooltips follow the theme too" @attributes="look">
+                                <span class="text-sm underline decoration-dotted underline-offset-4 @secondaryText">Hover or focus for a tooltip</span>
+                            </TwTooltip>
+                        </div>
+                    }
+                    @if (Has("TwFileUpload"))
+                    {
+                        <div class="flex flex-wrap gap-2">
+                            <TwFileUpload Id="preview-upload" Icon="@Icon.Upload" Label="Upload file" Variant="ButtonVariant.Outlined" Color="Color.Primary" Rounded="@Defaults.Rounded" />
+                            <TwFileUpload Id="preview-upload-many" Icon="@Icon.Files" Label="Upload several" Multiple Variant="ButtonVariant.Outlined" Color="Color.Accent" Rounded="@Defaults.Rounded" />
+                        </div>
+                    }
+                </div>
+            </TwCard>
+        }
+
+        @if (Has("TwCarousel"))
+        {
+            <TwCard Title="Carousel" Class="@cardClass" @attributes="look">
+                <TwCarousel AriaLabel="Example carousel" Style="height:180px;" Rounded="@Defaults.Rounded">
+                    @foreach (var slide in slides)
+                    {
+                        <TwCarouselItem>
+                            <div class="flex h-full items-center justify-center text-xl font-semibold text-white @slide.Class">@slide.Label</div>
+                        </TwCarouselItem>
+                    }
+                </TwCarousel>
+            </TwCard>
+        }
+
+        @if (Has("TwTable"))
+        {
+            <TwCard Title="Table" Class="@cardClass" @attributes="look">
+                <TwTable AriaLabel="Plans" Rounded="@Defaults.Rounded">
+                    <TableHeader>
+                        <tr>
+                            <th scope="col" class="px-4 py-2">Plan</th>
+                            <th scope="col" class="px-4 py-2">Seats</th>
+                            <th scope="col" class="px-4 py-2 text-end">Monthly</th>
+                        </tr>
+                    </TableHeader>
+                    <TableBody>
+                        <tr><th scope="row" class="px-4 py-3 font-medium">Starter</th><td class="px-4 py-3 tabular-nums">3</td><td class="px-4 py-3 text-end tabular-nums">£9</td></tr>
+                        <tr><th scope="row" class="px-4 py-3 font-medium">Team</th><td class="px-4 py-3 tabular-nums">10</td><td class="px-4 py-3 text-end tabular-nums">£29</td></tr>
+                        <tr><th scope="row" class="px-4 py-3 font-medium">Business</th><td class="px-4 py-3 tabular-nums">50</td><td class="px-4 py-3 text-end tabular-nums">£99</td></tr>
+                    </TableBody>
+                </TwTable>
+            </TwCard>
+        }
+
+        @if (Has("TwSkeleton"))
+        {
+            <TwCard Title="Skeletons" Class="@cardClass" @attributes="look">
+                <div class="flex items-start gap-4">
+                    <TwSkeleton Id="preview-skeleton-avatar" SkeletonType="SkeletonType.Circle" Width="48px" Height="48px" />
+                    <div class="flex flex-1 flex-col gap-2">
+                        <TwSkeleton Id="preview-skeleton-title" SkeletonType="SkeletonType.Text" Width="60%" />
+                        <TwSkeleton Id="preview-skeleton-line" SkeletonType="SkeletonType.Text" Width="90%" />
+                        <TwSkeleton Id="preview-skeleton-block" SkeletonType="SkeletonType.Rectangle" Height="64px" Rounded="@Defaults.Rounded" />
+                    </div>
+                </div>
+            </TwCard>
+        }
+
+        @if (Has("TwTreeList"))
+        {
+            <TwCard Title="Tree list" Class="@cardClass" @attributes="look">
+                <TwTreeList AriaLabel="Example files">
+                    <TwTreeListItem Label="Documents" Collapsed="false">
+                        <TwTreeListItem Label="resume.pdf" />
+                        <TwTreeListItem Label="cover-letter.docx" />
+                    </TwTreeListItem>
+                    <TwTreeListItem Label="Pictures">
+                        <TwTreeListItem Label="holiday.jpg" />
+                        <TwTreeListItem Label="profile.png" />
+                    </TwTreeListItem>
+                    <TwTreeListItem Label="readme.md" />
+                </TwTreeList>
+            </TwCard>
+        }
+
+        @if (Has("TwPickList"))
+        {
+            <TwCard Title="Pick list" Class="@cardClass" @attributes="look">
+                <TwPickList TItem="string" @bind-SourceItems="availableToppings" @bind-TargetItems="chosenToppings" SourceLabel="Available" TargetLabel="Chosen" AriaLabel="Topping picker" Rounded="@Defaults.Rounded" />
+            </TwCard>
+        }
+    </div>
+
+    @if (Has(_charts))
+    {
+        @* The charts are all the same height, so a plain grid fills every row. *@
+        <div id="preview-charts" class="@chartGridClass">
+            @if (Has("TwLineChart"))
+            {
+                <TwCard Class="min-w-0" @attributes="look">
+                    <TwChart Title="Weekly sales by channel" Description="Thousands of pounds, last 26 weeks">
+                        <TwLineChart Categories="@weeks" Series="@weeklySales" Curve="ChartCurve.Smooth" ShowMarkers="false" CategoryHeader="Week" ValueFormat="0.0" />
+                    </TwChart>
+                </TwCard>
+            }
+            @if (Has("TwColumnChart"))
+            {
+                <TwCard Class="min-w-0" @attributes="look">
+                    <TwChart Title="Sales by month" Description="Thousands of pounds">
+                        <TwColumnChart Categories="@months" Series="@monthlySales" CategoryHeader="Month" />
+                    </TwChart>
+                </TwCard>
+            }
+            @if (Has("TwAreaChart"))
+            {
+                <TwCard Class="min-w-0" @attributes="look">
+                    <TwChart Title="Monthly visitors" Description="Thousands">
+                        <TwAreaChart Categories="@months" Series="@visitors" />
+                    </TwChart>
+                </TwCard>
+            }
+            @if (Has("TwBarChart"))
+            {
+                <TwCard Class="min-w-0" @attributes="look">
+                    <TwChart Title="Revenue by region" Description="Thousands of pounds">
+                        <TwBarChart Categories="@regions" Series="@revenue" />
+                    </TwChart>
+                </TwCard>
+            }
+            @if (Has("TwPieChart"))
+            {
+                <TwCard Class="min-w-0" @attributes="look">
+                    <TwChart Title="Traffic by source">
+                        <TwPieChart Data="@sources" InnerRadius="0.6" CenterText="950" />
+                    </TwChart>
+                </TwCard>
+            }
+            @if (Has("TwRadarChart"))
+            {
+                <TwCard Class="min-w-0" @attributes="look">
+                    <TwChart Title="Plan comparison" Description="Score out of 10">
+                        <TwRadarChart Categories="@qualities" Series="@planScores" />
+                    </TwChart>
+                </TwCard>
+            }
+        </div>
     }
 
-    @if (ShowsSection("preview-data", Selected))
+    @if (Has("TwDataTable"))
     {
-        <section id="preview-data" class="@sectionClass" aria-labelledby="preview-data-heading">
-            <h2 id="preview-data-heading" class="@headingClass">Data</h2>
-            <div class="@rowClass">
-                @if (Has("TwDataTable"))
-                {
-                    <TwCard Title="Data table" Class="@wideCardClass" @attributes="look">
-                        <TwDataTable TItem="Order" Items="@orders" Searchable Pageable RowsPerPage="5" Rounded="@Defaults.Rounded">
-                            <TableHeader>
-                                <tr>
-                                    <th scope="col" class="px-6 py-3">Order</th>
-                                    <th scope="col" class="px-6 py-3">Customer</th>
-                                    <th scope="col" class="px-6 py-3">Status</th>
-                                    <th scope="col" class="px-6 py-3 text-end">Total</th>
-                                </tr>
-                            </TableHeader>
-                            <TableRow Context="order">
-                                <th scope="row" class="px-6 py-4 font-medium tabular-nums">#@order.Number</th>
-                                <td class="px-6 py-4">@order.Customer</td>
-                                <td class="px-6 py-4">@(order.Delivered ? "Delivered" : "On its way")</td>
-                                <td class="px-6 py-4 text-end tabular-nums">@order.Total.ToString("C2", pounds)</td>
-                            </TableRow>
-                        </TwDataTable>
-                    </TwCard>
-                }
-
-                @if (Has("TwTable"))
-                {
-                    <TwCard Title="Table" Class="@cardClass" @attributes="look">
-                        <TwTable AriaLabel="Plans" Rounded="@Defaults.Rounded">
-                            <TableHeader>
-                                <tr>
-                                    <th scope="col" class="px-6 py-3">Plan</th>
-                                    <th scope="col" class="px-6 py-3">Seats</th>
-                                    <th scope="col" class="px-6 py-3 text-end">Monthly</th>
-                                </tr>
-                            </TableHeader>
-                            <TableBody>
-                                <tr><th scope="row" class="px-6 py-4 font-medium">Starter</th><td class="px-6 py-4 tabular-nums">3</td><td class="px-6 py-4 text-end tabular-nums">£9</td></tr>
-                                <tr><th scope="row" class="px-6 py-4 font-medium">Team</th><td class="px-6 py-4 tabular-nums">10</td><td class="px-6 py-4 text-end tabular-nums">£29</td></tr>
-                                <tr><th scope="row" class="px-6 py-4 font-medium">Business</th><td class="px-6 py-4 tabular-nums">50</td><td class="px-6 py-4 text-end tabular-nums">£99</td></tr>
-                            </TableBody>
-                        </TwTable>
-                    </TwCard>
-                }
-
-                @if (Has("TwPickList"))
-                {
-                    <TwCard Title="Pick list" Class="@cardClass" @attributes="look">
-                        <TwPickList TItem="string" @bind-SourceItems="availableToppings" @bind-TargetItems="chosenToppings" SourceLabel="Available" TargetLabel="Chosen" AriaLabel="Topping picker" Rounded="@Defaults.Rounded" />
-                    </TwCard>
-                }
-            </div>
-        </section>
+        <TwCard Title="Data table" Class="min-w-0" @attributes="look">
+            <TwDataTable TItem="Order" Items="@orders" Searchable Pageable RowsPerPage="5" Rounded="@Defaults.Rounded">
+                <TableHeader>
+                    <tr>
+                        <th scope="col" class="px-6 py-3">Order</th>
+                        <th scope="col" class="px-6 py-3">Customer</th>
+                        <th scope="col" class="px-6 py-3">Status</th>
+                        <th scope="col" class="px-6 py-3 text-end">Total</th>
+                    </tr>
+                </TableHeader>
+                <TableRow Context="order">
+                    <th scope="row" class="px-6 py-4 font-medium tabular-nums">#@order.Number</th>
+                    <td class="px-6 py-4">@order.Customer</td>
+                    <td class="px-6 py-4">@(order.Delivered ? "Delivered" : "On its way")</td>
+                    <td class="px-6 py-4 text-end tabular-nums">@order.Total.ToString("C2", pounds)</td>
+                </TableRow>
+            </TwDataTable>
+        </TwCard>
     }
 
-    @if (ShowsSection("preview-charts", Selected))
+    @if (Has("TwFooter"))
     {
-        <section id="preview-charts" class="@sectionClass" aria-labelledby="preview-charts-heading">
-            <h2 id="preview-charts-heading" class="@headingClass">Charts</h2>
-            <div class="@rowClass">
-                @if (Has("TwLineChart"))
-                {
-                    <TwCard Class="@cardClass" @attributes="look">
-                        <TwChart Title="Weekly sales by channel" Description="Thousands of pounds, last 26 weeks">
-                            <TwLineChart Categories="@weeks" Series="@weeklySales" Curve="ChartCurve.Smooth" ShowMarkers="false" CategoryHeader="Week" ValueFormat="0.0" />
-                        </TwChart>
-                    </TwCard>
-                }
-                @if (Has("TwColumnChart"))
-                {
-                    <TwCard Class="@cardClass" @attributes="look">
-                        <TwChart Title="Sales by month" Description="Thousands of pounds">
-                            <TwColumnChart Categories="@months" Series="@monthlySales" CategoryHeader="Month" />
-                        </TwChart>
-                    </TwCard>
-                }
-                @if (Has("TwAreaChart"))
-                {
-                    <TwCard Class="@cardClass" @attributes="look">
-                        <TwChart Title="Monthly visitors" Description="Thousands">
-                            <TwAreaChart Categories="@months" Series="@visitors" />
-                        </TwChart>
-                    </TwCard>
-                }
-                @if (Has("TwBarChart"))
-                {
-                    <TwCard Class="@cardClass" @attributes="look">
-                        <TwChart Title="Revenue by region" Description="Thousands of pounds">
-                            <TwBarChart Categories="@regions" Series="@revenue" />
-                        </TwChart>
-                    </TwCard>
-                }
-                @if (Has("TwPieChart"))
-                {
-                    <TwCard Class="@cardClass" @attributes="look">
-                        <TwChart Title="Traffic by source">
-                            <TwPieChart Data="@sources" InnerRadius="0.6" CenterText="950" />
-                        </TwChart>
-                    </TwCard>
-                }
-                @if (Has("TwRadarChart"))
-                {
-                    <TwCard Class="@cardClass" @attributes="look">
-                        <TwChart Title="Plan comparison" Description="Score out of 10">
-                            <TwRadarChart Categories="@qualities" Series="@planScores" />
-                        </TwChart>
-                    </TwCard>
-                }
-            </div>
-        </section>
+        <TwFooter Sections="@footerSections" BottomLinks="@footerLegal" Copyright="© 2026 Acme Ltd. An example footer." NavigationLabel="Example footer links" HeadingLevel="3" />
     }
 </div>
 
@@ -507,29 +471,22 @@
 
     private sealed record Slide(string Label, string Class);
 
-    // The components each group of samples can show. A group is left out when none of them is ticked.
-    private static readonly Dictionary<string, string[]> _sections = new()
-    {
-        ["preview-actions"] = ["TwButton", "TwIcon", "TwTooltip", "TwFileUpload"],
-        ["preview-forms"] = ["TwTextfield", "TwSelect", "TwColorPicker", "TwDatePicker", "TwTimePicker", "TwDateTimePicker", "TwDateRangePicker", "TwTimeRangePicker", "TwDateTimeRangePicker", "TwSwitch", "TwCheckbox", "TwRadioButton", "TwSlider"],
-        ["preview-feedback"] = ["TwAlert", "TwChip", "TwAvatar", "TwProgress", "TwSpinner", "TwSkeleton"],
-        ["preview-navigation"] = ["TwNavbar", "TwBreadcrumb", "TwStepper", "TwPagination", "TwTabContainer", "TwCollapse", "TwTreeList", "TwCarousel", "TwFooter"],
-        ["preview-data"] = ["TwDataTable", "TwTable", "TwPickList"],
-        ["preview-charts"] = ["TwLineChart", "TwColumnChart", "TwAreaChart", "TwBarChart", "TwPieChart", "TwRadarChart"],
-    };
+    private static readonly string[] _charts = ["TwLineChart", "TwColumnChart", "TwAreaChart", "TwBarChart", "TwPieChart", "TwRadarChart"];
+
+    private static readonly string[] _sampled =
+    [
+        "TwNavbar", "TwButton", "TwIcon", "TwTooltip", "TwFileUpload",
+        "TwTextfield", "TwSelect", "TwColorPicker", "TwDatePicker", "TwTimePicker", "TwDateTimePicker", "TwDateRangePicker", "TwTimeRangePicker", "TwDateTimeRangePicker", "TwSwitch", "TwCheckbox", "TwRadioButton", "TwSlider",
+        "TwAlert", "TwChip", "TwAvatar", "TwProgress", "TwSpinner", "TwSkeleton",
+        "TwBreadcrumb", "TwStepper", "TwPagination", "TwTabContainer", "TwCollapse", "TwTreeList", "TwCarousel", "TwFooter",
+        "TwDataTable", "TwTable", "TwPickList",
+        .. _charts
+    ];
 
     /// <summary>
     /// The components that have a sample, by name.
     /// </summary>
-    internal static IEnumerable<string> SampledComponents => _sections.Values.SelectMany(names => names);
-
-    /// <summary>
-    /// Gets whether a group of samples has anything to show for the ticked components.
-    /// </summary>
-    /// <param name="sectionId">The id of the group's section.</param>
-    /// <param name="selected">The ticked component names.</param>
-    internal static bool ShowsSection(string sectionId, IReadOnlySet<string> selected) =>
-        _sections.TryGetValue(sectionId, out var names) && names.Any(selected.Contains);
+    internal static IEnumerable<string> SampledComponents => _sampled;
 
     private static readonly System.Globalization.CultureInfo pounds = System.Globalization.CultureInfo.GetCultureInfo("en-GB");
 
@@ -574,28 +531,28 @@
 
     private static readonly FooterSection[] footerSections =
     [
-        new("Product", [("Features", "theme#preview-navigation"), ("Pricing", "theme#preview-navigation"), ("Changelog", "theme#preview-navigation")]),
-        new("Company", [("About", "theme#preview-navigation"), ("Careers", "theme#preview-navigation"), ("Contact", "theme#preview-navigation")]),
-        new("Resources", [("Documentation", "theme#preview-navigation"), ("Guides", "theme#preview-navigation"), ("Support", "theme#preview-navigation")])
+        new("Product", [("Features", "theme#main-content"), ("Pricing", "theme#main-content"), ("Changelog", "theme#main-content")]),
+        new("Company", [("About", "theme#main-content"), ("Careers", "theme#main-content"), ("Contact", "theme#main-content")]),
+        new("Resources", [("Documentation", "theme#main-content"), ("Guides", "theme#main-content"), ("Support", "theme#main-content")])
     ];
 
-    private static readonly FooterLink[] footerLegal = [("Privacy", "theme#preview-navigation"), ("Terms", "theme#preview-navigation")];
+    private static readonly FooterLink[] footerLegal = [("Privacy", "theme#main-content"), ("Terms", "theme#main-content")];
+
+    private const string rootClass = "@container flex flex-col gap-4";
 
     // Container queries: the samples share the page with the settings panel, so the room they have is not the viewport's.
-    private const string rootClass = "@container flex flex-col gap-8";
-    private const string sectionClass = "scroll-mt-4";
+    private const string masonryClass = "columns-1 gap-4 @2xl:columns-2 @4xl:columns-3 @7xl:columns-4 *:mb-4";
+    private const string chartGridClass = "grid grid-cols-1 gap-4 @2xl:grid-cols-2 @5xl:grid-cols-3";
 
-    // Cards wrap, and the cards on each line grow to share all of it, so a line with fewer cards leaves no gap.
-    private const string rowClass = "flex flex-wrap items-stretch gap-4";
-    private const string cardClass = "min-w-0 flex-1 basis-80 @3xl:basis-88";
-    private const string wideCardClass = "min-w-0 flex-1 basis-full @6xl:basis-[36rem]";
-    private const string fieldsClass = "grid grid-cols-1 gap-4 @md:grid-cols-2";
+    // Each card is its own container, so the fields inside it pair up only when that card has the room.
+    private const string cardClass = "@container inline-block w-full break-inside-avoid";
+    private const string fieldsClass = "grid grid-cols-1 gap-3 @sm:grid-cols-2";
     private const string navLinkClass = "rounded-md px-3 py-2 text-sm font-medium underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current";
 
     private readonly List<BreadcrumbItem> breadcrumbs =
     [
-        new() { Label = "Home", Href = "theme#preview-navigation" },
-        new() { Label = "Basket", Href = "theme#preview-navigation" },
+        new() { Label = "Home", Href = "theme#main-content" },
+        new() { Label = "Basket", Href = "theme#main-content" },
         new() { Label = "Checkout" }
     ];
 

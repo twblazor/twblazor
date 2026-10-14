@@ -22,6 +22,55 @@ public class ThemeSurfaceTests
         Assert.Equal(code, ThemeSurface.ApplyToCode(code, ThemeSurfaces.Default));
     }
 
+    private const string bodyCode = "bg-[oklch(100%_0_0)] bg-[oklch(98.5%_0_0)] dark:bg-[oklch(25.33%_0.016_252.42)] dark:bg-[oklch(22.2%_0.015_253)]";
+
+    [Fact]
+    public void ThePageBody_FollowsThePickedBackground_WhenItHasNoPickOfItsOwn()
+    {
+        var parts = ThemeSurface.ApplyToCode(bodyCode, _cream).Split(' ');
+
+        Assert.True(OklchColor.TryParseHex("#fdf6e3", out var picked));
+        Assert.Equal($"bg-{(picked with { Lightness = picked.Lightness - 0.015 }).ToTailwindValue()}", parts[1]);
+        Assert.Equal("dark:bg-[oklch(22.2%_0.015_253)]", parts[3]);
+    }
+
+    [Fact]
+    public void APickedPageBody_ReplacesOnlyTheBody_InItsOwnMode()
+    {
+        var surfaces = ThemeSurfaces.Default with { BodyDark = "#0b1020" };
+
+        var parts = ThemeSurface.ApplyToCode(bodyCode, surfaces).Split(' ');
+
+        Assert.True(ThemeSurface.IsCustomized(surfaces));
+        Assert.True(OklchColor.TryParseHex("#0b1020", out var body));
+        Assert.Equal("bg-[oklch(100%_0_0)]", parts[0]);
+        Assert.Equal("bg-[oklch(98.5%_0_0)]", parts[1]);
+        Assert.Equal("dark:bg-[oklch(25.33%_0.016_252.42)]", parts[2]);
+        Assert.Equal($"dark:bg-{body.ToTailwindValue()}", parts[3]);
+    }
+
+    [Fact]
+    public void TheEffectiveBody_IsThePickWhenThereIsOne_OrElseTheBodyMovedWithTheBackground()
+    {
+        Assert.Equal("#0b1020", ThemeSurface.EffectiveBody(ThemeSurfaces.Default with { BodyDark = "#0b1020" }, dark: true));
+
+        Assert.True(OklchColor.TryParseHex(ThemeSurface.EffectiveBody(ThemeSurfaces.Default, dark: false), out var light));
+        Assert.InRange(light.Lightness, 0.98, 0.99);
+
+        Assert.True(OklchColor.TryParseHex(ThemeSurface.EffectiveBody(_cream, dark: false), out var followed));
+        Assert.True(OklchColor.TryParseHex("#fdf6e3", out var cream));
+        Assert.InRange(followed.Lightness, cream.Lightness - 0.02, cream.Lightness - 0.01);
+    }
+
+    [Fact]
+    public void ATint_LeavesThePageBodyFollowingIt()
+    {
+        var tinted = ThemeSurface.Tinted(150, 1);
+
+        Assert.Null(tinted.BodyLight);
+        Assert.Null(tinted.BodyDark);
+    }
+
     [Fact]
     public void ALightBackground_MovesEveryLightSurface_KeepingEachOnesDistanceFromIt()
     {

@@ -1,6 +1,7 @@
 @page "/theme"
 @layout EmptyLayout
 @using Microsoft.JSInterop
+@using TwBlazor.Docs.Pages.Showcase.Shared
 @using TwBlazor.Docs.Services.ThemeBuilder
 @inject TwBlazorOptions Options
 @inject IJSRuntime JS
@@ -15,212 +16,218 @@
         <style id="theme-builder-surfaces">@((MarkupString)surfaceCss)</style>
     }
 
-    <TwSidebar @bind-IsSidebarOpen="isSidebarOpen" SidebarClass="@sidebarClass" NavbarClass="justify-between" MainContentClass="p-4 sm:p-6">
-        <HeaderContent>
-            <a href="/" aria-label="twblazor home" class="ml-1 inline-flex w-fit items-center justify-center rounded bg-linear-to-r from-purple-700 to-fuchsia-600 bg-clip-text text-2xl font-bold tracking-tight text-transparent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600 dark:from-purple-300 dark:to-fuchsia-300">
-                <img src="_content/TwBlazor.Docs/images/logo.svg" alt="" class="me-2 h-8" />
-                twblazor
-            </a>
-            <a href="/get-started" class="mt-3 inline-flex min-h-11 w-fit items-center gap-1 rounded-sm text-sm font-semibold underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current @text.Secondary">
-                <TwIcon Icon="Icon.Arrow_Left" Plain /> Back to the docs
-            </a>
-        </HeaderContent>
-        <NavbarNavigationContent>
-            @foreach (var type in visiblePreviewTypes)
-            {
-                <a href="@($"theme#{type.Id}")" data-jump class="@jumpLinkClass">@type.Label</a>
-            }
-            <a href="theme#theme-code" data-jump class="@jumpLinkClass font-semibold">Theme.cs</a>
-        </NavbarNavigationContent>
-        <NavbarActionsContent>
-            <TwIcon Id="theme-toggle" Icon="@themeIcon" AriaLabel="@themeToggleLabel" OnClick="ToggleThemeAsync" Class="@toggleIconClass" />
-            <span class="sr-only" role="status" aria-live="polite">@themeStatusMessage</span>
-        </NavbarActionsContent>
-        <SidebarContent>
-            <div class="flex flex-col gap-8">
-                <section aria-labelledby="theme-customize-heading">
-                    <h2 id="theme-customize-heading" class="@sectionHeadingClass">Customize your theme</h2>
-                    <p class="@ledeClass">This page follows your choices as you make them. Nothing outside this page changes.</p>
-                    <div class="flex flex-col gap-3">
-                        <TwCollapse Id="theme-section-colors" Title="Colors" @bind-IsOpen="colorsOpen" Class="@collapseClass">
-                            <div class="p-3">
-                                <p class="@noteClass">Pick the semantic colors your app uses. Each picked color becomes the 600 shade of a full 50 to 950 ramp, so every component that uses that color follows it. The text on filled buttons and chips is chosen for contrast automatically, so a light color gets dark text, and you can force light or dark text per color. The neutral backgrounds are set under Surfaces.</p>
+    <a href="theme#main-content" class="@skipLinkClass">Skip to the preview</a>
 
-                                <div class="flex flex-col gap-6">
-                                    @foreach (var family in ThemeColorFamily.All)
-                                    {
-                                        var name = family.Name;
-                                        <div class="flex flex-col gap-2">
-                                            <TwColorPicker Id="@($"theme-color-{name.ToLowerInvariant()}")"
-                                                           Label="@name"
-                                                           Value="@_colors[name]"
-                                                           ValueChanged="@((string value) => SetColor(name, value))" />
-                                            <TwSelect T="OnColorMode"
-                                                      Id="@($"theme-oncolor-{name.ToLowerInvariant()}")"
-                                                      Label="@($"Text on {name}")"
-                                                      Values="@(Enum.GetValues<OnColorMode>())"
-                                                      SelectedValue="@_onColors[name]"
-                                                      SelectedValueChanged="@((OnColorMode value) => SetOnColor(name, value))"
-                                                      AriaLabel="@($"Text color on {name}")" />
-                                            <p class="text-xs text-gray-700 dark:text-gray-300" data-testid="@($"theme-contrast-{name.ToLowerInvariant()}")" aria-live="polite">@FilledContrast(family)</p>
-                                            @if (ForegroundWarning(family) is { } warning)
-                                            {
-                                                <p class="text-xs text-amber-700 dark:text-amber-400">@warning</p>
-                                            }
-                                        </div>
-                                    }
-                                </div>
+    <ShowcaseBar>Pick colors and components, then copy your Theme.cs.</ShowcaseBar>
 
-                                <div class="mt-4">
-                                    <TwButton Label="Reset colors" Variant="ButtonVariant.Outlined" Color="Color.Primary" OnClick="ResetColors" />
-                                </div>
+    <div class="@layoutClass">
+        @* The column runs the full height of the page, so its color carries on below the panel once the panel stays put. *@
+        <div id="theme-controls-column" class="@panelColumnClass">
+        <aside id="theme-controls" class="@panelClass" aria-labelledby="theme-controls-heading">
+            <h2 id="theme-controls-heading" class="@panelHeadingClass">Customize</h2>
+
+            <section class="mt-3" aria-labelledby="theme-presets-heading">
+                <div class="flex items-center justify-between gap-2">
+                    <h3 id="theme-presets-heading" class="@subheadingClass">Start from</h3>
+                    <TwPagination Dense TotalPages="@presetPageCount" ActivePage="@presetPage" ActivePageChanged="@((int page) => presetPage = page)" AriaLabel="Example themes pages" />
+                </div>
+                <div id="theme-tone-filters" class="mt-2 flex flex-wrap gap-1.5" role="group" aria-label="Filter example themes by color">
+                    @foreach (var filter in _toneFilters)
+                    {
+                        var current = filter;
+                        var selected = current.Tone == toneFilter;
+                        <button type="button"
+                                id="@($"theme-tone-{current.Label.ToLowerInvariant()}")"
+                                aria-pressed="@(selected ? "true" : "false")"
+                                class="@ToneChipClass(selected)"
+                                @onclick="() => SetToneFilter(current.Tone)">
+                            @if (current.Swatch is not null)
+                            {
+                                <span class="size-2.5 rounded-full ring-1 ring-black/10 dark:ring-white/20" style="@($"background-color: {current.Swatch};")" aria-hidden="true"></span>
+                            }
+                            @current.Label
+                        </button>
+                    }
+                </div>
+                <p class="sr-only" role="status" aria-live="polite">@presetFilterStatus</p>
+                <div class="@presetGridClass" role="group" aria-label="@($"Example themes, page {presetPage} of {presetPageCount}")">
+                    @foreach (var preset in visiblePresets)
+                    {
+                        var current = preset;
+                        var active = IsActive(current);
+                        <button type="button"
+                                id="@($"theme-preset-{current.Name.ToLowerInvariant()}")"
+                                aria-pressed="@(active ? "true" : "false")"
+                                title="@current.Description"
+                                class="@PresetClass(active)"
+                                @onclick="() => ApplyPreset(current)">
+                            <span class="flex h-2 w-full overflow-hidden rounded-full" aria-hidden="true">
+                                @foreach (var family in ThemeColorFamily.All)
+                                {
+                                    <span class="flex-1" style="@($"background-color: {current.Colors[family.Name]};")"></span>
+                                }
+                            </span>
+                            <span class="w-full truncate font-medium">@current.Name</span>
+                            <span class="sr-only">@current.Description</span>
+                        </button>
+                    }
+                </div>
+            </section>
+
+            <TwTabContainer Id="theme-settings" Dense TabColor="Color.Primary" AriaLabel="Theme settings" Class="mt-5" ContainerClass="px-3 py-4">
+                <TwTab Label="Colors">
+                    <div class="flex flex-col gap-5">
+                        <fieldset>
+                            <legend class="@subheadingClass">Brand colors</legend>
+                            <div class="@columnCaptionClass" aria-hidden="true">
+                                <span></span>
+                                <span>Text on fill</span>
                             </div>
-                        </TwCollapse>
+                            <div class="@colorListClass">
+                                @foreach (var family in ThemeColorFamily.All)
+                                {
+                                    var name = family.Name;
+                                    var id = name.ToLowerInvariant();
+                                    <div class="@colorRowClass">
+                                        <TwColorPicker Dense
+                                                       Id="@($"theme-color-{id}")"
+                                                       Label="@name"
+                                                       Value="@_colors[name]"
+                                                       ValueChanged="@((string value) => SetColor(name, value))" />
+                                        <TwSelect T="OnColorMode"
+                                                  Dense
+                                                  Id="@($"theme-oncolor-{id}")"
+                                                  Values="@(Enum.GetValues<OnColorMode>())"
+                                                  SelectedValue="@_onColors[name]"
+                                                  SelectedValueChanged="@((OnColorMode value) => SetOnColor(name, value))"
+                                                  AriaLabel="@($"Text on fill for {name}")" />
+                                        <p class="@contrastClass" data-testid="@($"theme-contrast-{id}")" aria-live="polite">@FilledContrast(family)</p>
+                                        @if (ForegroundWarning(family) is { } warning)
+                                        {
+                                            <p class="@warningClass">@warning</p>
+                                        }
+                                    </div>
+                                }
+                            </div>
+                        </fieldset>
 
-                        <TwCollapse Id="theme-section-surfaces" Title="Surfaces" @bind-IsOpen="surfacesOpen" Class="@collapseClass">
-                        <div class="p-3">
-                            <p class="@noteClass">The neutral background that pages, cards and popovers sit on, one for light mode and one for dark. Borders, tracks, hovers and raised panels are worked out from it, each keeping its distance from the background.</p>
-
-                            <div class="flex flex-col gap-6">
+                        <fieldset>
+                            <legend class="@subheadingClass">Backgrounds</legend>
+                            <p class="@hintClass mt-1">Cards and panels sit on the page behind them.</p>
+                            <div class="mt-2 grid grid-cols-2 gap-3">
                                 @foreach (var dark in new[] { false, true })
                                 {
                                     var isDark = dark;
                                     var id = isDark ? "dark" : "light";
-                                    <div class="flex flex-col gap-2">
-                                        <TwColorPicker Id="@($"theme-surface-{id}")"
-                                                       Label="@(isDark ? "Dark mode background" : "Light mode background")"
+                                    var mode = isDark ? "Dark" : "Light";
+                                    <div class="flex min-w-0 flex-col gap-1">
+                                        <TwColorPicker Dense
+                                                       Id="@($"theme-surface-{id}")"
+                                                       Label="@($"{mode} cards")"
                                                        Value="@(isDark ? surfaces.Dark : surfaces.Light)"
                                                        ValueChanged="@((string value) => SetSurface(isDark, value))" />
-                                        <p class="text-xs text-gray-700 dark:text-gray-300" data-testid="@($"theme-surface-contrast-{id}")" aria-live="polite">@SurfaceContrast(isDark)</p>
+                                        <p class="@contrastClass" data-testid="@($"theme-surface-contrast-{id}")" aria-live="polite">@SurfaceContrast(isDark)</p>
+                                    </div>
+                                    <div class="flex min-w-0 flex-col gap-1">
+                                        <TwColorPicker Dense
+                                                       Id="@($"theme-body-{id}")"
+                                                       Label="@($"{mode} page")"
+                                                       Value="@ThemeSurface.EffectiveBody(surfaces, isDark)"
+                                                       ValueChanged="@((string value) => SetBody(isDark, value))" />
+                                        <p class="@contrastClass" data-testid="@($"theme-body-contrast-{id}")" aria-live="polite">@BodyContrast(isDark)</p>
                                     </div>
                                 }
                             </div>
+                        </fieldset>
 
-                            <div class="mt-4">
-                                <TwButton Label="Reset surfaces" Variant="ButtonVariant.Outlined" Color="Color.Primary" OnClick="ResetSurfaces" />
+                        <div class="flex flex-wrap gap-2">
+                            <TwButton Dense Label="Reset colors" Variant="ButtonVariant.Outlined" Color="Color.Primary" OnClick="ResetColors" />
+                            <TwButton Dense Label="Reset surfaces" Variant="ButtonVariant.Outlined" Color="Color.Primary" OnClick="ResetSurfaces" />
+                        </div>
+                    </div>
+                </TwTab>
+
+                <TwTab Label="Style">
+                    <div class="flex flex-col gap-4">
+                        <p class="@hintClass">What every component uses unless you say otherwise.</p>
+                        <div class="grid grid-cols-2 gap-3">
+                            <TwSelect T="Rounded" Dense Id="theme-default-rounded" Label="Rounding" Values="@(Enum.GetValues<Rounded>())" SelectedValue="@defaults.Rounded" SelectedValueChanged="@((Rounded value) => SetDefaults(defaults with { Rounded = value }))" />
+                            <TwSelect T="Shadow" Dense Id="theme-default-shadow" Label="Shadow" Values="@(Enum.GetValues<Shadow>())" SelectedValue="@defaults.Shadow" SelectedValueChanged="@((Shadow value) => SetDefaults(defaults with { Shadow = value }))" />
+                            <TwSelect T="InputVariant" Dense Id="theme-default-input" Label="Inputs" Values="@(Enum.GetValues<InputVariant>())" SelectedValue="@defaults.InputVariant" SelectedValueChanged="@((InputVariant value) => SetDefaults(defaults with { InputVariant = value }))" />
+                            <TwSelect T="ButtonVariant" Dense Id="theme-default-button" Label="Buttons" Values="@(Enum.GetValues<ButtonVariant>())" SelectedValue="@defaults.ButtonVariant" SelectedValueChanged="@((ButtonVariant value) => SetDefaults(defaults with { ButtonVariant = value }))" />
+                        </div>
+                        <div>
+                            <TwButton Dense Label="Reset defaults" Variant="ButtonVariant.Outlined" Color="Color.Primary" OnClick="ResetDefaults" />
+                        </div>
+                    </div>
+                </TwTab>
+
+                <TwTab Label="Components">
+                    <div class="flex flex-col gap-3">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <p id="theme-components-summary" class="text-sm font-medium tabular-nums" aria-live="polite">@_selected.Count of @totalComponents selected</p>
+                            <div class="flex gap-1">
+                                <TwButton Dense Label="Select all" Variant="ButtonVariant.Text" Color="Color.Primary" OnClick="SelectAll" />
+                                <TwButton Dense Label="Clear all" Variant="ButtonVariant.Text" Color="Color.Primary" OnClick="ClearAll" />
                             </div>
                         </div>
-                    </TwCollapse>
+                        <p class="@hintClass">Your Theme.cs only includes what these need.</p>
 
-                    <TwCollapse Id="theme-section-defaults" Title="Defaults" @bind-IsOpen="defaultsOpen" Class="@collapseClass">
-                            <div class="p-3">
-                                <p class="@noteClass">The values every component falls back to when you don't set them on that component. Each one is written into your theme, and the preview below uses them.</p>
-
-                                <div class="flex flex-col gap-4">
-                                    <TwSelect T="Rounded" Id="theme-default-rounded" Label="Rounding" Values="@(Enum.GetValues<Rounded>())" SelectedValue="@defaults.Rounded" SelectedValueChanged="@((Rounded value) => SetDefaults(defaults with { Rounded = value }))" AriaLabel="Default rounding" />
-                                    <TwSelect T="Shadow" Id="theme-default-shadow" Label="Shadow" Values="@(Enum.GetValues<Shadow>())" SelectedValue="@defaults.Shadow" SelectedValueChanged="@((Shadow value) => SetDefaults(defaults with { Shadow = value }))" AriaLabel="Default shadow" />
-                                    <TwSelect T="InputVariant" Id="theme-default-input" Label="Input style" Values="@(Enum.GetValues<InputVariant>())" SelectedValue="@defaults.InputVariant" SelectedValueChanged="@((InputVariant value) => SetDefaults(defaults with { InputVariant = value }))" AriaLabel="Default input style" />
-                                    <TwSelect T="ButtonVariant" Id="theme-default-button" Label="Button style" Values="@(Enum.GetValues<ButtonVariant>())" SelectedValue="@defaults.ButtonVariant" SelectedValueChanged="@((ButtonVariant value) => SetDefaults(defaults with { ButtonVariant = value }))" AriaLabel="Default button style" />
-                                </div>
-
-                                <div class="mt-4">
-                                    <TwButton Label="Reset defaults" Variant="ButtonVariant.Outlined" Color="Color.Primary" OnClick="ResetDefaults" />
-                                </div>
-                            </div>
-                        </TwCollapse>
-
-                        <TwCollapse Id="theme-section-components" Class="@collapseClass" @bind-IsOpen="componentsOpen">
-                            <HeaderContent>
-                                <span class="flex flex-wrap items-baseline gap-x-3">
-                                    <span>Components</span>
-                                    <span class="text-xs font-normal text-gray-600 dark:text-gray-400">@_selected.Count of @totalComponents selected</span>
-                                </span>
-                            </HeaderContent>
-                            <ChildContent>
-                                <div class="p-3">
-                                    <p class="@noteClass">Choose the components your app uses. The theme file will only contain what they need, and the samples on this page show only the ones you tick. Ticking a group includes all of its components. Components that render other components (a date picker uses buttons and textfields, for example) automatically pull in those themes too, so nothing throws for a missing theme at runtime.</p>
-
-                                    <div class="mb-4 flex flex-wrap gap-2">
-                                        <TwButton Label="Select all" Variant="ButtonVariant.Outlined" Color="Color.Primary" OnClick="SelectAll" />
-                                        <TwButton Label="Clear all" Variant="ButtonVariant.Outlined" Color="Color.Primary" OnClick="ClearAll" />
-                                    </div>
-
-                                    <div class="flex flex-col gap-4">
-                                        @foreach (var group in _groups)
-                                        {
-                                            var current = group;
-                                            <fieldset class="overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700" aria-label="@($"{current.Label} components")">
-                                                <div class="flex items-center justify-between gap-2 border-b border-gray-200 bg-gray-50 px-3 py-2 dark:border-gray-700 dark:bg-gray-800">
-                                                    <TwCheckbox T="bool?"
-                                                                Id="@($"theme-group-{current.Label.ToLowerInvariant()}")"
-                                                                Label="@current.Label"
-                                                                Color="Color.Primary"
-                                                                Value="@GroupState(current)"
-                                                                ValueChanged="@((bool? _) => ToggleGroup(current))" />
-                                                    <span class="text-xs tabular-nums text-gray-600 dark:text-gray-400">@GroupSelectedCount(current) / @current.Components.Count</span>
-                                                </div>
-                                                <div class="flex flex-col gap-2 p-3 ps-9">
-                                                    @foreach (var component in current.Components)
-                                                    {
-                                                        var name = component.Name;
-                                                        <TwCheckbox Id="@($"theme-component-{name.ToLowerInvariant()}")"
-                                                                    Label="@component.Display"
-                                                                    Color="Color.Primary"
-                                                                    Value="@_selected.Contains(name)"
-                                                                    ValueChanged="@((bool _) => ToggleComponent(name))" />
-                                                    }
-                                                </div>
-                                            </fieldset>
-                                        }
-                                    </div>
-
-                                    <p class="mt-4 text-sm text-gray-700 dark:text-gray-300" aria-live="polite">
-                                        @_selected.Count of @totalComponents components selected, including @includedThemeCount component themes in total.
-                                    </p>
-                                </div>
-                            </ChildContent>
-                        </TwCollapse>
-                    </div>
-                </section>
-            </div>
-        </SidebarContent>
-        <ChildContent>
-            <div class="flex flex-col gap-8">
-                <div class="flex flex-wrap items-end justify-between gap-x-8 gap-y-2">
-                    <h1 class="text-2xl font-bold tracking-tight md:text-3xl @text.Heading">Theme builder</h1>
-                    <p class="text-sm @text.Secondary">Pick colors, surfaces and defaults in the panel. Everything here follows, and the finished <code>Theme.cs</code> is at the bottom.</p>
-                </div>
-
-                <section class="@presetContainerClass" aria-labelledby="theme-presets-heading">
-                    <div class="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
-                        <h2 id="theme-presets-heading" class="@previewHeadingClass">Example themes</h2>
-                        <TwPagination TotalPages="@presetPageCount" ActivePage="@presetPage" ActivePageChanged="@((int page) => presetPage = page)" AriaLabel="Example themes pages" />
-                    </div>
-                    <div class="@presetGridClass" role="group" aria-label="@($"Example themes, page {presetPage} of {presetPageCount}")">
-                        @foreach (var preset in visiblePresets)
+                        @foreach (var group in _groups)
                         {
-                            var current = preset;
-                            var active = IsActive(current);
-                            <button type="button"
-                                    id="@($"theme-preset-{current.Name.ToLowerInvariant()}")"
-                                    aria-pressed="@(active ? "true" : "false")"
-                                    title="@current.Description"
-                                    class="@PresetClass(active)"
-                                    @onclick="() => ApplyPreset(current)">
-                                <span class="flex gap-1" aria-hidden="true">
-                                    @foreach (var family in ThemeColorFamily.All)
+                            var current = group;
+                            <fieldset class="@groupClass" aria-label="@($"{current.Label} components")">
+                                <div class="@groupHeaderClass">
+                                    <TwCheckbox T="bool?"
+                                                Id="@($"theme-group-{current.Label.ToLowerInvariant()}")"
+                                                Label="@current.Label"
+                                                Color="Color.Primary"
+                                                Value="@GroupState(current)"
+                                                ValueChanged="@((bool? _) => ToggleGroup(current))" />
+                                    <span class="@countClass">@GroupSelectedCount(current) / @current.Components.Count</span>
+                                </div>
+                                <div class="grid grid-cols-2 gap-x-3 gap-y-1.5 p-2.5">
+                                    @foreach (var component in current.Components)
                                     {
-                                        <span class="size-3 rounded-full" style="@($"background-color: {current.Colors[family.Name]};")"></span>
+                                        var name = component.Name;
+                                        <TwCheckbox Id="@($"theme-component-{name.ToLowerInvariant()}")"
+                                                    Label="@component.Display"
+                                                    Color="Color.Primary"
+                                                    Value="@_selected.Contains(name)"
+                                                    ValueChanged="@((bool _) => ToggleComponent(name))" />
                                     }
-                                </span>
-                                <span class="truncate font-medium">@current.Name</span>
-                                <span class="sr-only">@current.Description</span>
-                            </button>
+                                </div>
+                            </fieldset>
                         }
                     </div>
-                </section>
+                </TwTab>
+            </TwTabContainer>
+        </aside>
+        </div>
 
-                <ThemeBuilderPreview Colors="@_colors" OnColors="@_onColors" Defaults="@defaults" Selected="@_selected" />
+        <main id="main-content" tabindex="-1" class="@mainClass">
+            <header class="mb-5 flex flex-wrap items-center justify-between gap-3">
+                <div>
+                    <h1 class="@titleClass">Theme builder</h1>
+                    <p class="mt-1 text-sm @text.Secondary">Everything below follows your choices. Nothing outside this page changes.</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <a href="theme#theme-code" class="@codeLinkClass"><TwIcon Icon="Icon.Code_Slash" Plain /> Get Theme.cs</a>
+                    <TwIcon Id="theme-toggle" Icon="@themeIcon" AriaLabel="@themeToggleLabel" OnClick="ToggleThemeAsync" Class="@toggleIconClass" />
+                    <span class="sr-only" role="status" aria-live="polite">@themeStatusMessage</span>
+                </div>
+            </header>
 
-                <section id="theme-code" class="scroll-mt-4" aria-labelledby="theme-code-heading">
-                    <h2 id="theme-code-heading" class="@previewHeadingClass">Your Theme.cs</h2>
-                    <p class="mt-2 mb-4 max-w-3xl text-sm @text.Secondary">
-                        Replace the <code>Theme.cs</code> from <a href="/get-started" class="underline">Get Started</a> with this file, and register it with <code>Theme.CreateTheme</code> instead of <code>Theme.CreateDefaultTheme</code>. It updates as you change colors or components, and the colors are written as Tailwind arbitrary values so your own Tailwind build compiles them straight from this file.
-                    </p>
+            <ThemeBuilderPreview Colors="@_colors" OnColors="@_onColors" Defaults="@defaults" Selected="@_selected" />
 
-                    <TwCodeBlock @key="codeVersion" Content="@generatedCode" Language="csharp" Title="Theme.cs" Class="max-h-150 overflow-y-scroll" />
-                </section>
-            </div>
-        </ChildContent>
-    </TwSidebar>
+            <section id="theme-code" class="mt-10 scroll-mt-4" aria-labelledby="theme-code-heading">
+                <h2 id="theme-code-heading" class="@previewHeadingClass">Your Theme.cs</h2>
+                <p class="mt-1 mb-4 max-w-3xl text-sm @text.Secondary">
+                    Swap it for the <code>Theme.cs</code> from <a href="/get-started" class="underline">Get Started</a> and register it with <code>Theme.CreateTheme</code>.
+                </p>
+
+                <TwCodeBlock @key="codeVersion" Content="@generatedCode" Language="csharp" Title="Theme.cs" Class="max-h-150 overflow-y-scroll" />
+            </section>
+        </main>
+    </div>
 </div>

@@ -1,5 +1,4 @@
 @using TwBlazor.Docs.Generated
-@using IconEnum = TwBlazor.Enums.Icon
 @implements IDisposable
 @inject TwBlazorOptions Options
 
@@ -9,18 +8,7 @@
 <link rel="stylesheet" href="@Brand.Stylesheet" />
 
 <div id="showcase-@Brand.Slug" class="flex min-h-dvh flex-col">
-    <div class="flex flex-wrap items-center gap-x-4 gap-y-1 bg-gray-950 px-4 py-2 text-xs text-gray-200">
-        <a href="/#theme-case-study" class="inline-flex items-center gap-1 rounded-sm font-semibold text-white underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
-            <TwIcon Icon="IconEnum.Arrow_Left" Plain /> Back to twblazor
-        </a>
-        <span>An example theme inspired by @Brand.Name. Not affiliated with @Brand.Name.</span>
-        <nav class="ms-auto flex flex-wrap gap-x-3" aria-label="Example themes">
-            @foreach (var other in ShowcaseBrand.All)
-            {
-                <a href="@other.Path" aria-current="@(other == Brand ? "page" : null)" class="rounded-sm underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white aria-[current=page]:font-semibold aria-[current=page]:text-white aria-[current=page]:underline">@other.Name</a>
-            }
-        </nav>
-    </div>
+    <ShowcaseBar Current="@Brand" BackHref="/#theme-case-study">An example theme inspired by @Brand.Name. Not affiliated with @Brand.Name.</ShowcaseBar>
 
     @if (!isThemed)
     {
