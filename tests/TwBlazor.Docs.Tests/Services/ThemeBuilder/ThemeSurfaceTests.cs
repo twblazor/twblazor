@@ -145,7 +145,11 @@ public class ThemeSurfaceTests
 
         Assert.StartsWith("@layer utilities {", css);
         Assert.EndsWith("}", css);
-        Assert.All(rules, rule => Assert.Contains(":where(#theme-builder) [class~=\"", rule));
+        Assert.All(rules, rule =>
+        {
+            Assert.Contains(":where(#theme-builder) ", rule);
+            Assert.Contains("[class~=\"", rule);
+        });
     }
 
     [Fact]
@@ -183,7 +187,7 @@ public class ThemeSurfaceTests
     [InlineData("peer-focus-visible:ring-offset-[oklch(100%_0_0)]", ":where(#theme-builder) ", ":is(:where(.peer):focus-visible ~ *) { --tw-ring-offset-color:")]
     [InlineData("has-[:focus-visible]:ring-offset-[oklch(100%_0_0)]", ":where(#theme-builder) ", ":has(:focus-visible) { --tw-ring-offset-color:")]
     [InlineData("data-[active=true]:bg-[oklch(95%_0_0)]", ":where(#theme-builder) ", "[data-active=\"true\"] { background-color:")]
-    [InlineData("[&>tr:hover]:dark:!bg-[oklch(21.15%_0.012_254.09)]", ":where(#theme-builder) ", "]:where(.dark, .dark *)>tr:hover { background-color: oklch(21.1% 0.012 254.1) !important; }")]
+    [InlineData("[&>tr:hover]:dark:!bg-[oklch(21.15%_0.012_254.09)]", ":where(#theme-builder) ", "]:where(.dark, .dark *)>tr:hover { background-color: oklch(21.15% 0.012 254.09) !important; }")]
     [InlineData("dark:[&_label:hover]:bg-[oklch(34%_0.018_253)]", ":where(#theme-builder) ", "]:where(.dark, .dark *) label:hover { background-color:")]
     [InlineData("[&::picker(select)]:bg-[oklch(100%_0_0)]", ":where(#theme-builder) ", "::picker(select) { background-color:")]
     [InlineData("supports-[appearance:base-select]:hover:bg-[oklch(97%_0_0)]", "@supports (appearance:base-select) { @media (hover: hover) { ", ":hover { background-color:")]

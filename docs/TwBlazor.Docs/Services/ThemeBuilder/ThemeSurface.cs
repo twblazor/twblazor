@@ -201,7 +201,9 @@ internal static partial class ThemeSurface
         if (!value.Success || !utility.EndsWith(value.Value + "]", StringComparison.Ordinal) || Property(name) is not { } property)
             return null;
 
-        var color = (Recolor(value, surfaces) ?? Parse(value)).ToCss();
+        // A value that is not recolored is written exactly as the theme has it: reading it in and formatting it again
+        // can round it to a slightly different color.
+        var color = Recolor(value, surfaces)?.ToCss() ?? value.Value.Replace('_', ' ');
         var dark = variants.Contains("dark");
 
         // The mode test sits on the element that carries the class, so it reads the same whatever follows it.
