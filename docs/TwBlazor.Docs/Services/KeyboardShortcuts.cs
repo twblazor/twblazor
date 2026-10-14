@@ -194,6 +194,11 @@ internal static class KeyboardShortcuts
             Key("Activates a clickable icon.", Enter, Space),
             Key("Hides the icon's tooltip, if it has one.", Escape)),
 
+        ["/footer"] = Guide(
+            "The footer is the page's content information landmark. Its sections sit in a navigation landmark, each a heading and a list of ordinary links.",
+            Key("Moves to the next or previous link.", Tab, ShiftTab),
+            Key("Follows the focused link. A link that opens in a new tab says so before you follow it.", Enter)),
+
         ["/navbar"] = Guide(
             "The navbar is a navigation landmark holding ordinary links. On a narrow screen the links sit behind a menu button.",
             Key("Moves to the next link or button.", Tab),

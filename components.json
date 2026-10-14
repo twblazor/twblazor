@@ -31,6 +31,14 @@
         "theme": "TwCollapseTheme"
       },
       {
+        "id": "footer-navitem",
+        "display": "Footer",
+        "name": "TwFooter",
+        "url": "/footer",
+        "theme": "TwFooterTheme",
+        "isNew": true
+      },
+      {
         "id": "navbar-navitem",
         "display": "Navbar",
         "name": "TwNavbar",

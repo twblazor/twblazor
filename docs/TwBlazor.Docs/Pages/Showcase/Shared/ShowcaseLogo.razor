@@ -1,0 +1,28 @@
+@* The brand's logo when an address is set for it; otherwise its name as text, with the brand's mark beside it
+   where the icon set already has one. *@
+@if (Brand.LogoUrl is { } logo)
+{
+    <img src="@logo" alt="@Brand.Name" referrerpolicy="no-referrer" class="w-auto @Brand.LogoClass @Class" />
+}
+else
+{
+    <span class="inline-flex items-center gap-2 @Brand.WordmarkClass @Class">
+        @if (Brand.LogoIcon is { } icon)
+        {
+            <TwIcon Icon="icon" Plain />
+        }
+        <span class="@(Brand.LogoIconOnly ? "sr-only" : null)">@Brand.Name</span>
+    </span>
+}
+
+@code {
+    /// <summary>
+    /// Gets or sets the example whose logo to show.
+    /// </summary>
+    [Parameter, EditorRequired] public required ShowcaseBrand Brand { get; set; }
+
+    /// <summary>
+    /// Gets or sets extra classes for the logo.
+    /// </summary>
+    [Parameter] public string? Class { get; set; }
+}

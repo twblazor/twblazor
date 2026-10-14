@@ -465,6 +465,12 @@
   <data name="FileUpload_FilesSelected" xml:space="preserve">
     <value>Выбрано файлов: {0}. {1}</value>
   </data>
+  <data name="Footer_Label" xml:space="preserve">
+    <value>Ссылки в нижней части страницы</value>
+  </data>
+  <data name="Footer_OpensInNewTab" xml:space="preserve">
+    <value>откроется в новой вкладке</value>
+  </data>
   <data name="Navbar_Label" xml:space="preserve">
     <value>Верхняя навигация</value>
   </data>

@@ -459,6 +459,12 @@
   <data name="FileUpload_FilesSelected" xml:space="preserve">
     <value>{0} berkas dipilih: {1}</value>
   </data>
+  <data name="Footer_Label" xml:space="preserve">
+    <value>Pranala footer</value>
+  </data>
+  <data name="Footer_OpensInNewTab" xml:space="preserve">
+    <value>mbukak ing tab anyar</value>
+  </data>
   <data name="Navbar_Label" xml:space="preserve">
     <value>Navigasi ndhuwur</value>
   </data>

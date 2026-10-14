@@ -27,12 +27,14 @@ internal static partial class ThemeCodeGenerator
     /// <param name="colors">Picked hex color per <see cref="ThemeColorFamily.Name"/>; missing or default colors are left unchanged.</param>
     /// <param name="defaults">The enum defaults to set; <see langword="null"/> keeps the default theme's own.</param>
     /// <param name="onColors">Text mode on filled colors per <see cref="ThemeColorFamily.Name"/>; missing means <see cref="OnColorMode.Auto"/>.</param>
+    /// <param name="surfaces">The picked neutral surface backgrounds; <see langword="null"/> keeps the default theme's own.</param>
     public static string Generate(
         ThemeTemplate template,
         IReadOnlySet<string> themeTypes,
         IReadOnlyDictionary<string, string> colors,
         ThemeDefaults? defaults = null,
-        IReadOnlyDictionary<string, OnColorMode>? onColors = null)
+        IReadOnlyDictionary<string, OnColorMode>? onColors = null,
+        ThemeSurfaces? surfaces = null)
     {
         var blocks = template.Blocks.Where(b => themeTypes.Contains(b.TypeName)).Select(b => b with { Text = ApplyBlockDefaults(b, defaults) }).ToList();
 
@@ -48,7 +50,9 @@ internal static partial class ThemeCodeGenerator
         sb.Append(string.Join("\n\n", statements.Select(s => ApplyDefaults(s.Text, defaults)))).Append("\n\n");
         sb.Append(body).Append("\n    }\n}\n");
 
-        return ApplyColors(sb.ToString(), colors);
+        var code = ApplyColors(sb.ToString(), colors);
+
+        return surfaces is null ? code : ThemeSurface.ApplyToCode(code, surfaces);
     }
 
     [GeneratedRegex(@"Filled = new\(\)\s*\{.*?\n\s*\},", RegexOptions.Singleline, matchTimeoutMilliseconds: 5000)]

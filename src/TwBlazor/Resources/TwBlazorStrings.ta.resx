@@ -459,6 +459,12 @@
   <data name="FileUpload_FilesSelected" xml:space="preserve">
     <value>{0} கோப்புகள் தேர்ந்தெடுக்கப்பட்டன: {1}</value>
   </data>
+  <data name="Footer_Label" xml:space="preserve">
+    <value>அடிக்குறிப்பு இணைப்புகள்</value>
+  </data>
+  <data name="Footer_OpensInNewTab" xml:space="preserve">
+    <value>புதிய தாவலில் திறக்கும்</value>
+  </data>
   <data name="Navbar_Label" xml:space="preserve">
     <value>மேல் வழிசெலுத்தல்</value>
   </data>

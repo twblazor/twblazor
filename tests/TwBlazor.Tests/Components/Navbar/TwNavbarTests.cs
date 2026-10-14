@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 using TwBlazor.Components;
 using TwBlazor.Configuration.Components;
+using TwBlazor.Models;
 
 namespace TwBlazor.Tests.Components.Navbar;
 
@@ -135,20 +136,66 @@ public class TwNavbarTests : TwBlazorTestBase
     }
 
     [Fact]
-    public void ShouldApply_OpaqueBackground_WhenMenuOpen()
+    public void OpenMenu_SharesTheBarsSurface_AndSpansItsFullWidth()
     {
-        // Arrange - the open dropdown must carry its own background (matching the navbar's) so
-        // NavbarLink's light text stays legible instead of showing white-on-transparent over
-        // whatever the page happens to render behind it.
+        // Arrange - the open menu sits inside the bar, so the bar's own background is behind the links and
+        // they stay legible whatever color the bar is. A second surface would read as a box inside the bar.
         var cut = TestContext.Render<TwNavbar>();
 
         // Act
         cut.Find("button").Click();
 
         // Assert
+        var classes = (cut.Find("div[id$='-menu']").GetAttribute("class") ?? string.Empty).Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        Assert.DoesNotContain(classes, value => value.StartsWith("bg-", StringComparison.Ordinal));
+        Assert.DoesNotContain(classes, value => value.StartsWith("shadow", StringComparison.Ordinal));
+        Assert.Contains("max-lg:basis-full", classes);
+        Assert.Contains("max-lg:-mx-4", classes);
+        Assert.Contains("max-lg:border-t", classes);
+        Assert.Contains("max-lg:items-stretch", classes);
+    }
+
+    [Fact]
+    public void OpenMenu_ScrollsInsideTheViewport_WhenItIsTallerThanTheScreen()
+    {
+        var cut = TestContext.Render<TwNavbar>();
+        cut.Find("button").Click();
+
         var cls = cut.Find("div[id$='-menu']").GetAttribute("class") ?? string.Empty;
-        var expectedBackgroundToken = sidebarTheme.NavbarMobileMenu.Split(' ')[0];
-        Assert.Contains(expectedBackgroundToken, cls);
+        Assert.Contains("max-lg:overflow-y-auto", cls);
+        Assert.Contains("max-lg:max-h-[calc(100dvh-3.5rem)]", cls);
+    }
+
+    [Fact]
+    public void Toggle_SitsAtTheEndOfTheBar_AndIsLargeEnoughToTap()
+    {
+        var classes = (TestContext.Render<TwNavbar>().Find("button").GetAttribute("class") ?? string.Empty).Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+        Assert.Contains("ms-auto", classes);
+        Assert.Contains("size-11", classes);
+        Assert.Contains("lg:hidden", classes);
+        Assert.DoesNotContain("order-first", classes);
+    }
+
+    [Fact]
+    public void CollapsedLinksBecomeRows_AndActionsACenteredRow_OnlyWhileTheNavbarCanCollapse()
+    {
+        // Arrange
+        List<NavigationItem> items = [new() { Label = "Home", Href = "/" }];
+        RenderFragment actions = builder => builder.AddMarkupContent(0, "<button class=\"action\">Sign in</button>");
+
+        // Act
+        var collapsible = TestContext.Render<TwNavbar>(p => p.Add(x => x.NavigationItems, items).Add(x => x.ActionsContent, actions));
+        var expanded = TestContext.Render<TwNavbar>(p => p.Add(x => x.NavigationItems, items).Add(x => x.ActionsContent, actions).Add(x => x.DisableResponsiveCollapse, true));
+
+        // Assert - a navbar that never collapses keeps its links and actions inline at every width.
+        Assert.Contains("max-lg:min-h-11", collapsible.Find("div[id$='-menu'] > a").ClassName);
+        Assert.Contains("max-lg:w-full", collapsible.Find("div[id$='-menu'] > a").ClassName);
+        Assert.Contains("max-lg:justify-center", collapsible.Find(".action").ParentElement!.ClassName);
+        Assert.DoesNotContain("w-full", collapsible.Find(".action").ParentElement!.ClassName);
+        Assert.Contains("max-lg:border-t", collapsible.Find(".action").ParentElement!.ClassName);
+        Assert.DoesNotContain("max-lg:", expanded.Find("div[id$='-menu'] > a").ClassName);
+        Assert.DoesNotContain("max-lg:", expanded.Find(".action").ParentElement!.ClassName);
     }
 
     [Fact]

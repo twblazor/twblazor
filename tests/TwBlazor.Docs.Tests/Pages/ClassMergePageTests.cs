@@ -1,5 +1,5 @@
 using Bunit;
-using ClassMergePage = TwBlazor.Docs.Pages.ClassMerge.ClassMerge;
+using ClassMergePage = TwBlazor.Docs.Pages.Configuration.ClassMerge;
 
 namespace TwBlazor.Docs.Tests.Pages;
 

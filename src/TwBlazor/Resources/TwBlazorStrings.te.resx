@@ -459,6 +459,12 @@
   <data name="FileUpload_FilesSelected" xml:space="preserve">
     <value>{0} ఫైల్‌లు ఎంచుకోబడ్డాయి: {1}</value>
   </data>
+  <data name="Footer_Label" xml:space="preserve">
+    <value>ఫుటర్ లింక్‌లు</value>
+  </data>
+  <data name="Footer_OpensInNewTab" xml:space="preserve">
+    <value>కొత్త ట్యాబ్‌లో తెరుచుకుంటుంది</value>
+  </data>
   <data name="Navbar_Label" xml:space="preserve">
     <value>ఎగువ నావిగేషన్</value>
   </data>

@@ -304,6 +304,7 @@ public static class Theme
         var neutralSurface = new TwSurfacePalette
         {
             Background = "bg-[oklch(100%_0_0)] dark:bg-[oklch(25.33%_0.016_252.42)]",
+            Body = "bg-[oklch(98.5%_0_0)] dark:bg-[oklch(22.2%_0.015_253)]",
             BackgroundSubtle = "bg-[oklch(98%_0_0)] dark:bg-[oklch(23.26%_0.014_253.1)]",
             Border = "border-[oklch(92%_0_0)] dark:border-[oklch(21.15%_0.012_254.09)]",
             BorderSubtle = "border-[oklch(98%_0_0)] dark:border-[oklch(23.26%_0.014_253.1)]",
@@ -1018,6 +1019,21 @@ public static class Theme
                     ChipTextColor = "dark:text-white",
                     FocusRing = "has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-purple-500 dark:has-[:focus-visible]:ring-purple-400 has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-offset-[oklch(100%_0_0)] dark:has-[:focus-visible]:ring-offset-[oklch(25.33%_0.016_252.42)] forced-colors:has-[:focus-visible]:outline-2 forced-colors:has-[:focus-visible]:outline-offset-2 forced-colors:has-[:focus-visible]:outline-[Highlight]"
                 },
+                new TwFooterTheme
+                {
+                    Footer = $"{sizing.FullWidth} {neutralSurface.BackgroundSubtle} {neutralText.Secondary} border-t {neutralSurface.Border}",
+                    Container = "mx-auto w-full max-w-7xl px-6 py-10",
+                    Brand = "mb-8",
+                    Sections = $"{display.Grid} grid-cols-2 gap-8 md:grid-cols-4",
+                    Section = sizing.MinWidthNone,
+                    SectionTitle = $"{typography.Size.Sm} {typography.Weight.Semibold} {neutralText.Heading}",
+                    LinkList = $"mt-3 {display.Flex} {flexbox.Col} {spacing.Gap.Md} list-none m-0 p-0",
+                    Link = $"{display.InlineFlex} {flexbox.Align.Center} {spacing.Gap.Md} {typography.Size.Sm} {rounded.Sm} underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current",
+                    Content = "mt-8 first:mt-0",
+                    Bottom = $"mt-8 {display.Flex} {flexbox.Wrap} {flexbox.Align.Center} {flexbox.Justify.Between} gap-x-6 gap-y-3 border-t border-current/15 pt-6 first:mt-0 first:border-t-0 first:pt-0 {typography.Size.Xs}",
+                    Copyright = "m-0 max-w-3xl",
+                    BottomLinks = $"{display.Flex} {flexbox.Wrap} gap-x-4 gap-y-2 list-none m-0 p-0"
+                },
                 new TwIconTheme
                 {
                     Colors = new()
@@ -1190,11 +1206,13 @@ public static class Theme
                     NavbarBrand = flexbox.ShrinkNone,
                     NavbarNavigation = $"{flexbox.Align.Center} {spacing.Gap.Md}",
                     NavbarActions = $"{display.Flex} {flexbox.Align.Center} {spacing.Gap.Md} {spacing.PushEnd}",
-                    NavbarToggle = $"lg:hidden order-first {flexbox.ShrinkNone} text-xl {neutralText.Secondary}",
+                    NavbarActionsCollapsible = "max-lg:ms-0 max-lg:mt-2 max-lg:flex-wrap max-lg:justify-center max-lg:border-t max-lg:border-current/15 max-lg:pt-3",
+                    NavbarToggle = $"lg:hidden {spacing.PushEnd} -me-2 size-11 {flexbox.ShrinkNone} text-2xl",
                     NavbarToggleIcon = $"text-xl {neutralText.Secondary} {neutralHoverText} {transition.ColorsFast}",
                     NavbarLink = $"{display.InlineFlex} {flexbox.Align.Center} {spacing.Gap.Md} px-3 py-1.5 {typography.Size.Sm} {typography.Weight.Medium} {neutralText.Secondary} {neutralHoverFill} {neutralHoverText} {rounded.Md} {transition.ColorsFast} {focusRing} {interaction.FocusOutlineNone}",
+                    NavbarLinkCollapsible = "max-lg:w-full max-lg:min-h-11 max-lg:px-3 max-lg:text-base",
                     NavbarLinkActive = $"{neutralTrack} {neutralText.Heading}",
-                    NavbarMobileMenu = $"{spacing.Padding.Lg} {overlayTheme.Popover.Background} border-b {neutralSurface.Border} {shadows.Lg}",
+                    NavbarMobileMenu = "max-lg:basis-full max-lg:-mx-4 max-lg:-mt-2 max-lg:-mb-2 max-lg:max-h-[calc(100dvh-3.5rem)] max-lg:overflow-y-auto max-lg:overscroll-contain max-lg:items-stretch max-lg:gap-1 max-lg:border-t max-lg:border-current/15 max-lg:px-2 max-lg:py-2 max-lg:[&>a]:flex max-lg:[&>a]:min-h-11 max-lg:[&>a]:w-full max-lg:[&>a]:items-center max-lg:[&>a]:px-3 max-lg:[&>a]:text-base",
                     Sidebar = $"z-100 overflow-auto scrollbar-gutter-stable overscroll-contain {flexbox.ShrinkNone} h-dvh w-64 {spacing.Padding.Xl} {neutralSurface.Background} border-e {neutralSurface.Border} {transition.TransformFast} {transition.EaseInOut}",
                     NavigationItemBase = $"{display.Flex} {flexbox.Align.Center} {spacing.Gap.Md} {sizing.MinWidthNone} px-3 py-2 {typography.Size.Sm} {neutralText.Secondary} {neutralSurface.Hover} {focusRingInset} {transition.ColorsFast} {interaction.FocusOutlineNone} {interaction.PointerCursor}",
                     NavigationItemActive = $"{neutralTrack} {neutralText.Heading}",
@@ -1207,7 +1225,7 @@ public static class Theme
                     NavigationDropdownContainerDeep = string.Empty,
                     NavigationGroupRailDeep = $"border-s-2 {border.Neutral.Strong}",
                     MainContent = $"overflow-y-auto scrollbar-gutter-stable start-0 {flexbox.Flex1} {sizing.FullWidth} {focusRingInset} {interaction.FocusOutlineNone} transition-[margin] {transition.DurationFast} motion-reduce:transition-none {transition.EaseInOut}",
-                    MainContentRoot = $"{display.Flex} overflow-x-hidden {flexbox.Col} h-dvh {sizing.FullWidth} {transparentBackground} {neutralSurface.Background} {neutralText.Heading} transition-[margin] {transition.DurationFast} motion-reduce:transition-none {transition.EaseInOut}"
+                    MainContentRoot = $"{display.Flex} overflow-x-hidden {flexbox.Col} h-dvh {sizing.FullWidth} {transparentBackground} {neutralSurface.Body} {neutralText.Heading} transition-[margin] {transition.DurationFast} motion-reduce:transition-none {transition.EaseInOut}"
                 },
                 new TwTreeListTheme
                 {

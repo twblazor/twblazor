@@ -459,6 +459,12 @@
   <data name="FileUpload_FilesSelected" xml:space="preserve">
     <value>Đã chọn {0} tệp: {1}</value>
   </data>
+  <data name="Footer_Label" xml:space="preserve">
+    <value>Liên kết chân trang</value>
+  </data>
+  <data name="Footer_OpensInNewTab" xml:space="preserve">
+    <value>mở trong thẻ mới</value>
+  </data>
   <data name="Navbar_Label" xml:space="preserve">
     <value>Điều hướng trên cùng</value>
   </data>

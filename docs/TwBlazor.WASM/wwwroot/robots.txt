@@ -1,5 +1,8 @@
+# The pages under /showcase are example themes inspired by other companies' websites. They are demos of
+# theming, not content of this site, so they are kept out of search engines and assistants.
 User-agent: *
 Allow: /
+Disallow: /showcase/
 
 # A crawler with its own group ignores the "*" group above, so each AI crawler is listed explicitly.
 # Training crawlers (GPTBot, Google-Extended, Applebot-Extended, CCBot) are allowed too: the docs are
@@ -17,5 +20,6 @@ User-agent: Applebot-Extended
 User-agent: CCBot
 User-agent: Meta-ExternalAgent
 Allow: /
+Disallow: /showcase/
 
 Sitemap: https://twblazor.com/sitemap.xml

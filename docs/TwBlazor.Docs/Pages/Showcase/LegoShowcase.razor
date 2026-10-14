@@ -1,0 +1,139 @@
+@page "/showcase/lego"
+@layout EmptyLayout
+@using TwBlazor.Docs.Pages.Showcase.Shared
+@using TwBlazor.Models
+@using IconEnum = TwBlazor.Enums.Icon
+
+<ShowcasePage Brand="brand">
+    <ChildContent>
+        <p class="bg-neutral-100 px-4 py-2 text-center text-sm">
+            <span class="font-bold">FREE Shipping</span> with orders over £50!
+            <a href="@Anchor("showcase-products")" class="ms-1 font-bold text-brickblue-600 underline underline-offset-4 @focusClass">Learn more</a>
+        </p>
+
+        <TwNavbar AriaLabel="LEGO example navigation">
+            <BrandContent>
+                <a href="@brand.Path" class="@focusClass"><ShowcaseLogo Brand="brand" /></a>
+            </BrandContent>
+            <NavigationContent>
+                @foreach (var link in navigation)
+                {
+                    <a href="@Anchor("showcase-products")" class="rounded-full px-4 py-2 text-base font-bold hover:bg-black/10 @focusClass">@link</a>
+                }
+            </NavigationContent>
+            <ActionsContent>
+                <label class="flex h-10 items-center gap-2 rounded-full bg-white px-4 text-sm ring-black focus-within:ring-2">
+                    <TwIcon Icon="IconEnum.Search" Plain />
+                    <span class="sr-only">Search</span>
+                    <input type="search" placeholder="Search..." class="w-28 bg-transparent placeholder:text-neutral-600 focus:outline-hidden lg:w-40" />
+                </label>
+                <TwIcon Icon="IconEnum.Heart" AriaLabel="Wishlist" OnClick="@OnIconClick" />
+                <TwIcon Icon="IconEnum.Bag" AriaLabel="@($"My Bag, {basket} items")" OnClick="@OnIconClick" />
+            </ActionsContent>
+        </TwNavbar>
+
+        <main id="showcase-main">
+            <section class="relative isolate overflow-hidden bg-brickblue-700 text-white" aria-labelledby="showcase-hero-heading">
+                @if (brand.HeroImage is { } heroImage)
+                {
+                    @* Decorative: the heading says what the banner is for. The tint keeps the text readable over the picture. *@
+                    <img src="@heroImage" alt="" decoding="async" class="absolute inset-0 -z-20 size-full object-cover" />
+                    <div class="absolute inset-0 -z-10 bg-linear-to-r from-brickblue-900/90 via-brickblue-800/60 to-transparent" aria-hidden="true"></div>
+                }
+                <div class="mx-auto flex max-w-7xl flex-col items-start gap-4 px-6 py-16 md:py-28">
+                    <h1 id="showcase-hero-heading" class="max-w-xl text-4xl font-black text-balance md:text-6xl">Build your next adventure</h1>
+                    <p class="max-w-md text-lg font-medium">New sets have landed. Find the one that gets the whole family building.</p>
+                    <TwButton Label="Shop now" Color="Color.Light" EndIcon="IconEnum.Chevron_Right" Href="@Anchor("showcase-products")" />
+                </div>
+            </section>
+
+            <section class="mx-auto max-w-7xl px-6 pt-12" aria-labelledby="showcase-themes-heading">
+                <h2 id="showcase-themes-heading" class="text-2xl font-black">Shop by theme</h2>
+                <ul class="mt-6 grid grid-cols-2 gap-4 md:grid-cols-4">
+                    @foreach (var (label, classes, image) in themes)
+                    {
+                        <li>
+                            <a href="@Anchor("showcase-products")" class="relative flex h-36 items-end overflow-hidden rounded-xl p-4 text-lg font-black transition-transform hover:-translate-y-0.5 motion-reduce:transition-none @classes @focusClass">
+                                <span class="relative z-10">@label</span>
+                                <img src="@($"{ShowcaseBrand.LocalImages}/{image}")" alt="" loading="lazy" decoding="async" class="absolute end-0 top-0 h-full w-2/3 object-contain object-right" />
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </section>
+
+            <section id="showcase-products" class="mx-auto max-w-7xl scroll-mt-6 px-6 py-12" aria-labelledby="showcase-products-heading">
+                <h2 id="showcase-products-heading" class="text-2xl font-black">Recommended for you</h2>
+                <div class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                    @foreach (var product in brand.Products)
+                    {
+                        <TwCard>
+                            <article class="flex h-full flex-col">
+                                <div class="relative">
+                                    <ShowcaseImage Url="@product.Image" Alt="@product.Name" Icon="product.Icon" Class="aspect-square w-full rounded-lg object-contain" FallbackClass="bg-neutral-100 text-7xl text-neutral-400" />
+                                    <div class="absolute start-3 top-3"><TwChip Label="@product.Tag" Color="Color.Warning" Size="ChipSize.Small" Rounded="Rounded.Sm" Class="bg-brickyellow-400 font-bold text-black" /></div>
+                                </div>
+                                <h3 class="mt-3 font-bold">@product.Name</h3>
+                                <p class="mt-1 flex items-center gap-0.5 text-sm text-brickorange-500" aria-label="Rated 4.5 out of 5">
+                                    @for (var star = 0; star < 4; star++)
+                                    {
+                                        <TwIcon Icon="IconEnum.Star_Fill" Plain />
+                                    }
+                                    <TwIcon Icon="IconEnum.Star_Half" Plain />
+                                </p>
+                                <p class="mt-1 text-sm text-neutral-600">@product.Description</p>
+                                <p class="mt-2 text-lg font-bold">@product.Price</p>
+                                <div class="mt-auto pt-3">
+                                    <TwButton Label="Add to Bag" AriaLabel="@($"Add {product.Name} to Bag")" Color="Color.Accent" StartIcon="IconEnum.Bag" Class="w-full justify-center" OnClick="@(() => basket++)" />
+                                </div>
+                            </article>
+                        </TwCard>
+                    }
+                </div>
+                <p class="mt-6 text-sm font-medium" aria-live="polite">@(basket == 0 ? "Your bag is empty." : $"{basket} in your bag.")</p>
+            </section>
+        </main>
+    </ChildContent>
+    <Footer>
+        <TwFooter Sections="@footer" BottomLinks="@legal" Copyright="An example page, not a LEGO website." NavigationLabel="LEGO example footer" />
+    </Footer>
+</ShowcasePage>
+
+@code {
+    private const string focusClass = "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current";
+
+    private static readonly ShowcaseBrand brand = ShowcaseBrand.Lego;
+
+    private static readonly string[] navigation = ["Shop", "Discover", "Help"];
+
+    private static readonly (string Label, string Classes, string Image)[] themes =
+    [
+        ("City", "bg-brickblue-600 text-white", "city-section.png"),
+        ("Technic", "bg-brickred-600 text-white", "section-technic.png"),
+        ("Icons", "bg-brickyellow-400 text-black", "icons-section.png"),
+        ("Classic", "bg-brickorange-400 text-black", "section-classic.png")
+    ];
+
+    private static readonly (string Title, string[] Links)[] footerColumns =
+    [
+        ("About us", ["About the LEGO Group", "LEGO News", "Sustainability", "Careers"]),
+        ("Support", ["Contact us", "Find building instructions", "Replacement parts", "Deliveries and returns"]),
+        ("Attractions", ["LEGO House", "LEGOLAND Parks", "LEGO Discovery Centres"]),
+        ("More from us", ["LEGO Catalogues", "LEGO Insiders", "Gift cards", "Find a LEGO Store"])
+    ];
+
+    // The same columns as the component's own models. Every link leads back to the top of this example.
+    private static readonly FooterSection[] footer =
+        [.. footerColumns.Select(column => new FooterSection(column.Title, [.. column.Links.Select(link => new FooterLink(link, Anchor("showcase-main")))]))];
+
+    private static readonly FooterLink[] legal = [("Privacy", Anchor("showcase-main")), ("Terms of use", Anchor("showcase-main")), ("Accessibility", Anchor("showcase-main"))];
+
+    private int basket;
+
+    private static void OnIconClick()
+    {
+        // The icon buttons are for show: this example has no search, account or wishlist behind them.
+    }
+
+    private static string Anchor(string id) => $"{brand.Path}#{id}";
+}

@@ -27,6 +27,13 @@ public class TwSurfacePalette
     public string Background { get; set; } = string.Empty;
 
     /// <summary>
+    /// Gets or sets the page background that layouts such as <c>TwSidebar</c>'s main content sit on. It is set
+    /// a step away from <see cref="Background"/> so cards, panels and bars stand out from the page behind them
+    /// (e.g. <c>bg-gray-50 dark:bg-gray-950</c>).
+    /// </summary>
+    public string Body { get; set; } = string.Empty;
+
+    /// <summary>
     /// Gets or sets a dimmer background for muted panels, striped rows, or nested sections
     /// (e.g. <c>bg-gray-50 dark:bg-gray-900</c>).
     /// </summary>

@@ -459,6 +459,12 @@
   <data name="FileUpload_FilesSelected" xml:space="preserve">
     <value>{0} फाइल निवडल्या: {1}</value>
   </data>
+  <data name="Footer_Label" xml:space="preserve">
+    <value>फूटर दुवे</value>
+  </data>
+  <data name="Footer_OpensInNewTab" xml:space="preserve">
+    <value>नवीन टॅबमध्ये उघडते</value>
+  </data>
   <data name="Navbar_Label" xml:space="preserve">
     <value>वरचे नेव्हिगेशन</value>
   </data>

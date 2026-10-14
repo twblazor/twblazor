@@ -465,6 +465,12 @@
   <data name="FileUpload_FilesSelected" xml:space="preserve">
     <value>Wybrane pliki ({0}): {1}</value>
   </data>
+  <data name="Footer_Label" xml:space="preserve">
+    <value>Linki w stopce</value>
+  </data>
+  <data name="Footer_OpensInNewTab" xml:space="preserve">
+    <value>otwiera się w nowej karcie</value>
+  </data>
   <data name="Navbar_Label" xml:space="preserve">
     <value>Górna nawigacja</value>
   </data>

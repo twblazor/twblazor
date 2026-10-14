@@ -1,0 +1,29 @@
+/* Tailwind input for the Microsoft-inspired example theme. It compiles only the classes used by that theme's
+   Theme.cs and its showcase page, the way an app builds its stylesheet from its own theme file. The page loads
+   the result on top of the docs stylesheet, which already carries the reset. */
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities) source(none);
+
+@source "../../../Pages/Showcase/Themes/MicrosoftTheme.cs";
+@source "../../../Pages/Showcase/MicrosoftShowcase.razor";
+@source "../../../Pages/Showcase/Shared/**/*.razor";
+@source "../../../Pages/Showcase/Shared/**/*.cs";
+
+@custom-variant dark (&:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)));
+
+@theme {
+    --font-fluent: "Segoe UI Variable", "Segoe UI", system-ui, -apple-system, sans-serif;
+
+    --color-fluentblue-50: oklch(97.5% 0.015 251.5);
+    --color-fluentblue-100: oklch(89.7% 0.026 251.5);
+    --color-fluentblue-200: oklch(82.0% 0.044 251.5);
+    --color-fluentblue-300: oklch(74.2% 0.066 251.5);
+    --color-fluentblue-400: oklch(66.5% 0.092 251.5);
+    --color-fluentblue-500: oklch(58.7% 0.120 251.5);
+    --color-fluentblue-600: oklch(51.0% 0.150 251.5);
+    --color-fluentblue-700: oklch(43.5% 0.137 251.5);
+    --color-fluentblue-800: oklch(36.0% 0.124 251.5);
+    --color-fluentblue-900: oklch(28.5% 0.111 251.5);
+    --color-fluentblue-950: oklch(21.0% 0.098 251.5);
+}

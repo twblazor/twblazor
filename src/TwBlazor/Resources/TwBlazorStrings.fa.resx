@@ -465,6 +465,12 @@
   <data name="FileUpload_FilesSelected" xml:space="preserve">
     <value>{0} فایل انتخاب شد: {1}</value>
   </data>
+  <data name="Footer_Label" xml:space="preserve">
+    <value>پیوندهای پانویس</value>
+  </data>
+  <data name="Footer_OpensInNewTab" xml:space="preserve">
+    <value>در زبانهٔ جدید باز می‌شود</value>
+  </data>
   <data name="Navbar_Label" xml:space="preserve">
     <value>پیمایش بالایی</value>
   </data>

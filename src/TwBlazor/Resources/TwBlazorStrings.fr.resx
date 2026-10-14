@@ -462,6 +462,12 @@
   <data name="FileUpload_FilesSelected" xml:space="preserve">
     <value>{0} fichiers sélectionnés : {1}</value>
   </data>
+  <data name="Footer_Label" xml:space="preserve">
+    <value>Liens de pied de page</value>
+  </data>
+  <data name="Footer_OpensInNewTab" xml:space="preserve">
+    <value>s'ouvre dans un nouvel onglet</value>
+  </data>
   <data name="Navbar_Label" xml:space="preserve">
     <value>Navigation supérieure</value>
   </data>

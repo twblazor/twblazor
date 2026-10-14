@@ -462,6 +462,12 @@
   <data name="FileUpload_FilesSelected" xml:space="preserve">
     <value>파일 {0}개 선택됨: {1}</value>
   </data>
+  <data name="Footer_Label" xml:space="preserve">
+    <value>바닥글 링크</value>
+  </data>
+  <data name="Footer_OpensInNewTab" xml:space="preserve">
+    <value>새 탭에서 열림</value>
+  </data>
   <data name="Navbar_Label" xml:space="preserve">
     <value>상단 탐색</value>
   </data>
