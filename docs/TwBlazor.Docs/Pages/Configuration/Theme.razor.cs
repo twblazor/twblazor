@@ -1,10 +1,14 @@
+using TwBlazor.Configuration.Color;
+using Microsoft.JSInterop;
 using TwBlazor.Docs.Services;
 using TwBlazor.Docs.Services.ThemeBuilder;
+using IconEnum = TwBlazor.Enums.Icon;
 
 namespace TwBlazor.Docs.Pages.Configuration;
 
 /// <summary>
-/// The theme builder page: pick colors and components, preview the result and copy the generated <c>Theme.cs</c>.
+/// The theme builder page: pick colors and components, see every sample component follow and copy the generated
+/// <c>Theme.cs</c>. The choices are applied to this page's own element, never to the application's theme.
 /// </summary>
 public partial class Theme
 {
@@ -22,11 +26,65 @@ public partial class Theme
     /// <param name="Components">The category's components.</param>
     private sealed record ComponentGroup(string Label, IReadOnlyList<ComponentOption> Components);
 
-    // A container query, so the light and dark panes sit side by side whenever the card is wide enough (36rem),
-    // however much room the sidebar and the "On this page" list take from the viewport.
-    // The container and the grid it sizes must be different elements: a container query can't style its own container.
-    private const string previewContainerClass = "@container";
-    private const string previewGridClass = "grid grid-cols-1 gap-4 @lg:grid-cols-2";
+    /// <summary>
+    /// A group of sample components on the page, linked from the bar at the top.
+    /// </summary>
+    /// <param name="Id">The id of the group's section.</param>
+    /// <param name="Label">The name shown in the bar.</param>
+    private sealed record PreviewType(string Id, string Label);
+
+    private static readonly PreviewType[] _previewTypes =
+    [
+        new("preview-actions", "Buttons"),
+        new("preview-forms", "Forms"),
+        new("preview-feedback", "Feedback"),
+        new("preview-navigation", "Navigation"),
+        new("preview-data", "Data"),
+        new("preview-charts", "Charts"),
+    ];
+
+    private const string ledeClass = "mt-1 mb-3 text-xs text-gray-700 dark:text-gray-300";
+    private const string noteClass = "mb-4 text-xs text-gray-700 dark:text-gray-300";
+
+    // Wider than the docs' sidebar, so a color picker and its text select fit without crowding.
+    private const string sidebarClass = "max-lg:w-80 lg:w-88";
+
+    private bool isSidebarOpen = true;
+    private bool colorsOpen = true;
+
+    private TwSurfacePalette surface => Options.Theme.Colors.NeutralSurface;
+
+    private TwNeutralTextPalette text => Options.Theme.Colors.NeutralText;
+
+    private string sectionHeadingClass => $"text-sm font-semibold uppercase tracking-wide {text.Heading}";
+
+    private string previewHeadingClass => $"text-xl font-bold tracking-tight {text.Heading}";
+
+    private string jumpLinkClass => $"inline-flex min-h-11 items-center whitespace-nowrap rounded-sm px-1 text-sm underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-current {text.Secondary}";
+
+    private string pageClass => $"{surface.Background} {text.Heading}";
+
+    // The picked colors, as custom properties scoped to the page's own element.
+    private string pageStyle => ThemePreviewStyle.Build(_colors);
+
+    private IEnumerable<PreviewType> visiblePreviewTypes => _previewTypes.Where(type => ThemeBuilderPreview.ShowsSection(type.Id, _selected));
+
+    // A container query, so the row holds as many themes as the page has room for beside the settings panel.
+    private const string presetContainerClass = "@container flex flex-col gap-3";
+    private const string presetGridClass = "grid grid-cols-2 gap-2 @xl:grid-cols-4 @5xl:grid-cols-8";
+
+    private const string toggleIconClass = "text-xl";
+
+    private ThemeSurfaces surfaces = ThemeSurfaces.Default;
+    private string surfaceCss = string.Empty;
+    private bool surfacesOpen;
+
+    private IconEnum themeIcon = IconEnum.Moon;
+
+    private string themeToggleLabel => themeIcon == IconEnum.Sun ? "Switch to light theme" : "Switch to dark theme";
+
+    // Announced after the theme is switched: nothing else about the change reaches a screen reader.
+    private string themeStatusMessage = string.Empty;
 
     private static readonly ThemeTemplate _template = ThemeTemplate.Default;
 
@@ -36,7 +94,6 @@ public partial class Theme
 
     private readonly Dictionary<string, OnColorMode> _onColors = ThemeColorFamily.All.ToDictionary(f => f.Name, _ => OnColorMode.Auto);
 
-    private bool colorsOpen;
     private bool defaultsOpen;
     private bool componentsOpen;
 
@@ -119,7 +176,7 @@ public partial class Theme
         Regenerate();
     }
 
-    // Two rows of four on a wide screen.
+    // One row on a wide screen.
     private const int presetsPerPage = 8;
 
     private int presetPage = 1;
@@ -129,10 +186,10 @@ public partial class Theme
     private IEnumerable<ThemePreset> visiblePresets => ThemePreset._all.Skip((presetPage - 1) * presetsPerPage).Take(presetsPerPage);
 
     private bool IsActive(ThemePreset preset) =>
-        preset.Matches(_colors, defaults) && _onColors.Values.All(mode => mode == OnColorMode.Auto);
+        preset.Matches(_colors, defaults) && _onColors.Values.All(mode => mode == OnColorMode.Auto) && !ThemeSurface.IsCustomized(surfaces);
 
     private static string PresetClass(bool active) =>
-        "flex w-full flex-col items-start gap-1 rounded-lg border px-4 py-3 text-start text-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600 "
+        "flex w-full min-w-0 items-center gap-2 rounded-lg border px-3 py-2 text-start text-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600 "
         + (active
             ? "border-purple-600 bg-purple-50 dark:border-purple-400 dark:bg-purple-950"
             : "border-gray-200 hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-800");
@@ -146,6 +203,7 @@ public partial class Theme
         }
 
         defaults = preset.Defaults;
+        surfaces = ThemeSurfaces.Default;
         Regenerate();
     }
 
@@ -203,6 +261,69 @@ public partial class Theme
             : null;
     }
 
+    /// <summary>
+    /// Reads the site's light or dark setting for the toggle, and closes the settings panel on a small screen,
+    /// where it is a drawer over the page, the same way the docs do.
+    /// </summary>
+    /// <param name="firstRender">Whether this is the first render.</param>
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender)
+            return;
+
+        try
+        {
+            themeIcon = await JS.InvokeAsync<bool>("themeToggle.isDarkMode") ? IconEnum.Sun : IconEnum.Moon;
+            isSidebarOpen = !await JS.InvokeAsync<bool>("twSidebar.isMobileViewport");
+            StateHasChanged();
+        }
+        catch (Exception exception) when (exception is JSException or JSDisconnectedException or InvalidOperationException or OperationCanceledException)
+        {
+            // Prerendering, or the visitor has left: the panel keeps its default.
+        }
+    }
+
+    private void SetSurface(bool dark, string value)
+    {
+        surfaces = dark ? surfaces with { Dark = value } : surfaces with { Light = value };
+        Regenerate();
+    }
+
+    private void ResetSurfaces()
+    {
+        surfaces = ThemeSurfaces.Default;
+        Regenerate();
+    }
+
+    /// <summary>
+    /// Describes how readable the theme's own text is on a picked background.
+    /// </summary>
+    private string SurfaceContrast(bool dark)
+    {
+        if (ThemeSurface.TextContrast(dark ? surfaces.Dark : surfaces.Light, dark) is not { } ratio)
+            return "Enter a valid hex color.";
+
+        var grade = ratio switch
+        {
+            >= 7 => "AAA",
+            >= 4.5 => "AA",
+            >= 3 => "large text only",
+            _ => "fails contrast",
+        };
+
+        return string.Create(System.Globalization.CultureInfo.InvariantCulture, $"Text on this background: {ratio:0.0}:1 ({grade})");
+    }
+
+    /// <summary>
+    /// Switches the site between light and dark, exactly as the button in the docs' own top bar does.
+    /// </summary>
+    private async Task ToggleThemeAsync()
+    {
+        var isDark = await JS.InvokeAsync<bool>("themeToggle.toggle");
+        themeIcon = isDark ? IconEnum.Sun : IconEnum.Moon;
+        themeStatusMessage = isDark ? "Dark theme on" : "Light theme on";
+    }
+
     private void SetDefaults(ThemeDefaults value)
     {
         defaults = value;
@@ -215,7 +336,8 @@ public partial class Theme
     {
         var themeTypes = _template.ResolveThemeTypes(_selected);
 
-        generatedCode = ThemeCodeGenerator.Generate(_template, themeTypes, _colors, defaults, _onColors);
+        generatedCode = ThemeCodeGenerator.Generate(_template, themeTypes, _colors, defaults, _onColors, surfaces);
+        surfaceCss = ThemeSurface.BuildCss(_template, surfaces);
         includedThemeCount = _template.Blocks.Count(b => themeTypes.Contains(b.TypeName));
 
         // The code block highlights only on first render, so a new key makes it render (and highlight) afresh.

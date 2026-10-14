@@ -1,5 +1,7 @@
 using Bunit;
+using Microsoft.Extensions.DependencyInjection;
 using TwBlazor.Components;
+using TwBlazor.Docs.Pages.Configuration;
 using TwBlazor.Docs.Services.ThemeBuilder;
 using TwBlazor.Enums;
 using ThemePage = TwBlazor.Docs.Pages.Configuration.Theme;
@@ -97,16 +99,6 @@ public class ThemePageTests : DocsTestBase
     }
 
     [Fact]
-    public void Preview_LeavesTheColorVariablesAlone_ByDefault()
-    {
-        var cut = Render();
-
-        var style = cut.Find("[data-testid='theme-preview-light']").GetAttribute("style");
-
-        Assert.True(string.IsNullOrEmpty(style));
-    }
-
-    [Fact]
     public void ResetColors_RestoresTheDefaultPreview_AndCode()
     {
         var cut = Render();
@@ -123,53 +115,6 @@ public class ThemePageTests : DocsTestBase
         var route = Assert.Single(typeof(ThemePage).GetCustomAttributes(typeof(Microsoft.AspNetCore.Components.RouteAttribute), false));
 
         Assert.Equal("/theme", ((Microsoft.AspNetCore.Components.RouteAttribute)route).Template);
-    }
-
-    [Fact]
-    public void Preview_SitsSideBySide_WheneverTheCardIsWideEnough()
-    {
-        var cut = Render();
-
-        var grid = cut.Find("[data-testid='theme-preview-light']").ParentElement!;
-
-        Assert.Contains("@lg:grid-cols-2", grid.ClassList);
-        Assert.DoesNotContain("@container", grid.ClassList);
-        Assert.Contains("@container", grid.ParentElement!.ClassList);
-        Assert.Same(grid, cut.Find("[data-testid='theme-preview-dark']").ParentElement);
-    }
-
-    [Fact]
-    public void Preview_ShowsLightAndDarkModeAtOnce()
-    {
-        var cut = Render();
-
-        var light = cut.Find("[data-testid='theme-preview-light']");
-        var dark = cut.Find("[data-testid='theme-preview-dark']");
-
-        Assert.Contains("theme-light", light.ClassList);
-        Assert.Contains("dark", dark.ClassList);
-        Assert.DoesNotContain("dark", light.ClassList);
-    }
-
-    [Fact]
-    public void Preview_GivesEachPaneItsOwnRadioGroup()
-    {
-        var cut = Render();
-
-        var names = cut.FindAll("input[type=radio]").Select(r => r.GetAttribute("name")).Distinct().ToList();
-
-        Assert.Equal(2, names.Count);
-    }
-
-    [Fact]
-    public void Preview_ShowsMoreThanTheBasics()
-    {
-        var cut = Render();
-        var light = cut.Find("[data-testid='theme-preview-light']");
-
-        Assert.NotEmpty(light.QuerySelectorAll("[role=tablist]"));
-        Assert.NotEmpty(light.QuerySelectorAll("nav"));
-        Assert.NotEmpty(light.QuerySelectorAll("label"));
     }
 
     [Fact]
@@ -218,7 +163,7 @@ public class ThemePageTests : DocsTestBase
         Assert.Contains("Dark text on filled", cut.Find("[data-testid='theme-contrast-accent']").TextContent);
         Assert.Contains("text-gray-950", Code(cut));
         Assert.Contains("hard to see", cut.Markup);
-        Assert.Contains("color: #030712;", cut.Find("[data-testid='theme-preview-light']").InnerHtml);
+        Assert.Contains("color: #030712;", cut.Find("[data-testid='theme-preview']").InnerHtml);
     }
 
     [Fact]
@@ -244,7 +189,7 @@ public class ThemePageTests : DocsTestBase
     }
 
     [Fact]
-    public void ExampleThemes_AreOfferedFirst_WithPurpleSelected()
+    public void ExampleThemes_AreOfferedAboveTheSamples_WithPurpleSelected()
     {
         var cut = Render();
 
@@ -253,20 +198,22 @@ public class ThemePageTests : DocsTestBase
         Assert.Equal(ThemePreset._all.Take(8).Select(p => $"theme-preset-{p.Name.ToLowerInvariant()}"), presets.Select(p => p.Id));
         Assert.Equal("true", cut.Find("#theme-preset-purple").GetAttribute("aria-pressed"));
         Assert.Equal("false", cut.Find("#theme-preset-ocean").GetAttribute("aria-pressed"));
-        Assert.True(cut.Markup.IndexOf("theme-preset-purple", StringComparison.Ordinal) < cut.Markup.IndexOf("theme-color-primary", StringComparison.Ordinal));
+        Assert.True(cut.Markup.IndexOf("theme-preset-purple", StringComparison.Ordinal) < cut.Markup.IndexOf("data-testid=\"theme-preview\"", StringComparison.Ordinal));
+        Assert.True(cut.Find("#main-content").Contains(cut.Find("#theme-preset-purple")));
     }
 
     private static Task GoToPresetPageAsync(IRenderedComponent<ThemePage> cut, int page) =>
         cut.InvokeAsync(() => cut.FindComponent<TwPagination>().Instance.ActivePageChanged.InvokeAsync(page));
 
     [Fact]
-    public void ExampleThemes_AreShownEightAtATime_WithPaginationButtonsBelow()
+    public void ExampleThemes_AreOneRowOfEight_WithPaginationButtonsBesideTheHeading()
     {
         var cut = Render();
 
         Assert.Equal(8, cut.FindAll("button[id^='theme-preset-']").Count);
         Assert.Equal((int)Math.Ceiling(ThemePreset._all.Count / 8d), cut.FindComponent<TwPagination>().Instance.TotalPages);
-        Assert.True(cut.Markup.IndexOf("theme-preset-purple", StringComparison.Ordinal) < cut.Markup.IndexOf("Example themes pages", StringComparison.Ordinal));
+        Assert.Contains("@5xl:grid-cols-8", cut.Find("#theme-preset-purple").ParentElement!.ClassList);
+        Assert.Same(cut.Find("#theme-presets-heading").ParentElement, cut.Find("nav[aria-label='Example themes pages']").ParentElement);
     }
 
     [Fact]
@@ -343,17 +290,19 @@ public class ThemePageTests : DocsTestBase
 
         var triggers = cut.FindAll("[id^='theme-section-'][id$='-trigger']");
 
-        Assert.Equal(["theme-section-colors-trigger", "theme-section-defaults-trigger", "theme-section-components-trigger"], triggers.Select(t => t.Id));
+        Assert.Equal(["theme-section-colors-trigger", "theme-section-surfaces-trigger", "theme-section-defaults-trigger", "theme-section-components-trigger"], triggers.Select(t => t.Id));
         Assert.Equal(1, cut.FindAll("h2").Count(h => h.TextContent == "Customize your theme"));
         Assert.DoesNotContain(cut.FindAll("h2"), h => h.TextContent is "Colors" or "Defaults" or "Components");
     }
 
     [Fact]
-    public void AllSectionsStartClosed()
+    public void ColorsStartOpen_AndTheOtherSectionsClosed_SoThePanelStaysShort()
     {
         var cut = Render();
 
-        foreach (var id in new[] { "colors", "defaults", "components" })
+        Assert.Equal("true", cut.Find("#theme-section-colors-trigger").GetAttribute("aria-expanded"));
+
+        foreach (var id in new[] { "surfaces", "defaults", "components" })
             Assert.Equal("false", cut.Find($"#theme-section-{id}-trigger").GetAttribute("aria-expanded"));
     }
 
@@ -385,7 +334,7 @@ public class ThemePageTests : DocsTestBase
     {
         var cut = Render();
 
-        foreach (var section in new[] { "colors", "defaults", "components" })
+        foreach (var section in new[] { "colors", "surfaces", "defaults", "components" })
             Assert.Contains("[&>[role=region]]:overflow-visible", cut.Find($"#theme-section-{section}").ClassList);
     }
 
@@ -411,20 +360,7 @@ public class ThemePageTests : DocsTestBase
 
         var markup = cut.Markup;
 
-        Assert.True(markup.IndexOf("theme-group-forms", StringComparison.Ordinal) < markup.IndexOf("theme-preview-light", StringComparison.Ordinal));
-    }
-
-    [Fact]
-    public void BothPreviewPanes_SetTheirOwnTextColor_SoInheritingTextIsReadableInEither()
-    {
-        var cut = Render();
-        var heading = Theme.Colors.NeutralText.Heading.Split(' ');
-
-        foreach (var mode in new[] { "light", "dark" })
-        {
-            var classes = cut.Find($"[data-testid='theme-preview-{mode}']").ClassList;
-            Assert.All(heading, token => Assert.Contains(token, classes));
-        }
+        Assert.True(markup.IndexOf("theme-group-forms", StringComparison.Ordinal) < markup.IndexOf("data-testid=\"theme-preview\"", StringComparison.Ordinal));
     }
 
     [Fact]
@@ -438,4 +374,298 @@ public class ThemePageTests : DocsTestBase
         Assert.Empty(cut.FindAll("#theme-color-light"));
         Assert.Empty(cut.FindAll("#theme-color-dark"));
     }
+
+    #region Live page
+
+    [Fact]
+    public void Page_HasItsOwnFrame_NotTheDocsLayout()
+    {
+        var layout = Assert.Single(typeof(ThemePage).GetCustomAttributes(typeof(Microsoft.AspNetCore.Components.LayoutAttribute), false));
+
+        Assert.Equal(typeof(TwBlazor.Docs.Layout.EmptyLayout), ((Microsoft.AspNetCore.Components.LayoutAttribute)layout).LayoutType);
+        Assert.Equal("Theme builder", Assert.Single(Render().FindAll("h1")).TextContent);
+    }
+
+    [Fact]
+    public void Page_LeavesTheColorVariablesAlone_ByDefault()
+    {
+        Assert.True(string.IsNullOrEmpty(Render().Find("#theme-builder").GetAttribute("style")));
+    }
+
+    [Fact]
+    public async Task PickingAColor_RecolorsThisPageOnly_AndNeverReplacesTheSitesTheme()
+    {
+        var options = TestContext.Services.GetRequiredService<TwBlazor.Configuration.TwBlazorOptions>();
+        var before = options.Theme;
+        var cut = Render();
+
+        await PickAsync(cut, 0, "#112233");
+
+        var styled = cut.FindAll("[style*='--color-']");
+        Assert.Equal("theme-builder", Assert.Single(styled).Id);
+        Assert.Contains("--color-purple-600:", styled[0].GetAttribute("style"));
+        Assert.Same(before, options.Theme);
+        Assert.Same(Theme, options.Theme);
+    }
+
+    [Fact]
+    public void TheControlsAndTheSamples_SitInsideTheRecoloredElement_SoTheWholePageFollows()
+    {
+        var cut = Render();
+        var page = cut.Find("#theme-builder");
+
+        Assert.True(page.Contains(cut.Find("#theme-preset-purple")));
+        Assert.True(page.Contains(cut.Find("#theme-section-colors")));
+        Assert.True(page.Contains(cut.Find("[data-testid='theme-preview']")));
+        Assert.True(page.Contains(cut.Find("pre code")));
+    }
+
+    [Fact]
+    public async Task ChangingADefault_ReachesTheSampleComponents()
+    {
+        var cut = Render();
+
+        await cut.InvokeAsync(() => cut.FindComponent<TwSelect<Rounded>>().Instance.SelectedValueChanged.InvokeAsync(Rounded.Full));
+        await cut.InvokeAsync(() => cut.FindComponent<TwSelect<InputVariant>>().Instance.SelectedValueChanged.InvokeAsync(InputVariant.Filled));
+        await cut.InvokeAsync(() => cut.FindComponent<TwSelect<ButtonVariant>>().Instance.SelectedValueChanged.InvokeAsync(ButtonVariant.Outlined));
+
+        var preview = cut.FindComponent<ThemeBuilderPreview>();
+        Assert.All(preview.FindComponents<TwAlert>(), alert => Assert.Equal(Rounded.Full, alert.Instance.Rounded));
+        Assert.All(preview.FindComponents<TwCard>(), card => Assert.Equal(Rounded.Full, card.Instance.Rounded));
+        Assert.All(preview.FindComponents<TwTextfield<string>>().Where(field => field.Instance.Id is "preview-name" or "preview-email"), field => Assert.Equal(InputVariant.Filled, field.Instance.Variant));
+        Assert.Equal(InputVariant.Filled, preview.FindComponent<TwDatePicker>().Instance.Variant);
+        Assert.All(preview.Find("[data-testid='preview-default-buttons']").QuerySelectorAll("button"), button => Assert.DoesNotContain("text-white", button.ClassList));
+    }
+
+    [Fact]
+    public void TheSamples_AreGroupedByType_AndEachGroupIsLinkedFromTheBar()
+    {
+        var cut = Render();
+
+        var links = cut.FindAll("#main-content-root a[data-jump]").Select(link => link.GetAttribute("href")!).ToList();
+        var sections = cut.FindAll("[data-testid='theme-preview'] > section");
+
+        Assert.Equal(6, sections.Count);
+        Assert.Equal([.. sections.Select(section => $"theme#{section.Id}"), "theme#theme-code"], links);
+        Assert.All(sections, section => Assert.Equal("H2", cut.Find($"#{section.GetAttribute("aria-labelledby")}").TagName));
+    }
+
+    [Fact]
+    public void TheSamples_CoverFarMoreThanTheBasics()
+    {
+        var preview = Render().FindComponent<ThemeBuilderPreview>();
+
+        Assert.NotEmpty(preview.FindComponents<TwNavbar>());
+        Assert.NotEmpty(preview.FindComponents<TwFooter>());
+        Assert.NotEmpty(preview.FindComponents<TwDateRangePicker>());
+        Assert.NotEmpty(preview.FindComponents<TwDateTimeRangePicker>());
+        Assert.NotEmpty(preview.FindComponents<TwTimePicker>());
+        Assert.NotEmpty(preview.FindComponents<TwColorPicker>());
+        Assert.NotEmpty(preview.FindComponents<TwFileUpload>());
+        Assert.NotEmpty(preview.FindComponents<TwSkeleton>());
+        Assert.NotEmpty(preview.FindComponents<TwTreeList>());
+        Assert.NotEmpty(preview.FindComponents<TwCarousel>());
+        Assert.NotEmpty(preview.FindComponents<TwTable>());
+        Assert.NotEmpty(preview.FindComponents<TwPickList<string>>());
+        Assert.Equal(6, preview.FindComponents<TwChart>().Count);
+        Assert.Single(preview.FindAll("input[type=radio]").Select(radio => radio.GetAttribute("name")).Distinct());
+    }
+
+    [Fact]
+    public void ThePage_SetsItsOwnSurfaceAndTextColor_SoItReadsInEitherMode()
+    {
+        var classes = Render().Find("#theme-builder").ClassList;
+
+        Assert.All(Theme.Colors.NeutralText.Heading.Split(' '), token => Assert.Contains(token, classes));
+        Assert.All(Theme.Colors.NeutralSurface.Background.Split(' '), token => Assert.Contains(token, classes));
+    }
+
+    [Fact]
+    public void TheThemeFile_ComesLast()
+    {
+        var markup = Render().Markup;
+
+        Assert.True(markup.IndexOf("id=\"preview-charts\"", StringComparison.Ordinal) < markup.IndexOf("id=\"theme-code\"", StringComparison.Ordinal));
+    }
+
+    [Fact]
+    public void TheSettings_SitInTheSidebar_AndTheSamplesInTheMainContent_SoBothAreInViewAtOnce()
+    {
+        var cut = Render();
+        var sidebar = cut.FindComponent<TwSidebar>();
+        var panel = cut.Find($"#{sidebar.Instance.Id} > nav");
+        var main = cut.Find("#main-content");
+
+        Assert.True(panel.Contains(cut.Find("#theme-section-colors")));
+        Assert.True(panel.Contains(cut.Find("#theme-section-defaults")));
+        Assert.True(panel.Contains(cut.Find("#theme-section-components")));
+        Assert.True(main.Contains(cut.Find("[data-testid='theme-preview']")));
+        Assert.True(main.Contains(cut.Find("#theme-code")));
+        Assert.False(main.Contains(cut.Find("#theme-section-colors")));
+    }
+
+    [Fact]
+    public void TheSidebar_StartsOpen_AndHasAWayBackToTheDocs()
+    {
+        var cut = Render();
+        var sidebar = cut.FindComponent<TwSidebar>();
+
+        Assert.True(sidebar.Instance.IsSidebarOpen);
+        Assert.Contains(cut.FindAll($"#{sidebar.Instance.Id} > nav a"), link => link.TextContent.Contains("Back to the docs"));
+    }
+
+    [Fact]
+    public void TheCardsOnALine_GrowToShareIt_SoNoLineIsLeftPartlyEmpty()
+    {
+        var preview = Render().Find("[data-testid='theme-preview']");
+        var rows = preview.QuerySelectorAll("section div.flex.flex-wrap.items-stretch");
+
+        Assert.Contains("@container", preview.ClassList);
+        Assert.True(rows.Length >= 6);
+        Assert.All(rows, row => Assert.All(row.Children, card => Assert.Contains("flex-1", card.ClassList)));
+    }
+
+    [Fact]
+    public void TheThemeToggle_IsTheDocsOwn_AndSaysWhatItDid()
+    {
+        TestContext.JSInterop.Setup<bool>("themeToggle.toggle").SetResult(true);
+        var cut = Render();
+        Assert.Equal("Switch to dark theme", cut.Find("#theme-toggle").GetAttribute("aria-label"));
+        Assert.Empty(cut.FindAll("[id^='theme-mode-']"));
+
+        cut.Find("#theme-toggle").Click();
+
+        Assert.Equal("Switch to light theme", cut.Find("#theme-toggle").GetAttribute("aria-label"));
+        Assert.Equal("Dark theme on", cut.Find("#theme-toggle ~ [role=status]").TextContent);
+        Assert.DoesNotContain("dark", cut.Find("#theme-builder").ClassList);
+    }
+
+    #endregion
+
+    #region Showing only the ticked components
+
+    [Fact]
+    public void UntickingAComponent_HidesItsSample_AndTickingItBringsItBack()
+    {
+        var cut = Render();
+        Assert.NotEmpty(cut.FindComponent<ThemeBuilderPreview>().FindComponents<TwSlider<int>>());
+
+        cut.Find("#theme-component-twslider").Change(false);
+
+        var preview = cut.FindComponent<ThemeBuilderPreview>();
+        Assert.Empty(preview.FindComponents<TwSlider<int>>());
+        Assert.DoesNotContain(preview.FindAll("h3"), heading => heading.TextContent == "Sliders");
+        Assert.NotEmpty(preview.FindComponents<TwSwitch>());
+
+        cut.Find("#theme-component-twslider").Change(true);
+
+        Assert.NotEmpty(cut.FindComponent<ThemeBuilderPreview>().FindComponents<TwSlider<int>>());
+    }
+
+    [Fact]
+    public void UntickingAWholeGroup_RemovesItsSection_AndItsLinkInTheBar()
+    {
+        var cut = Render();
+
+        cut.Find("#theme-group-charts").Change(false);
+
+        Assert.Empty(cut.FindAll("#preview-charts"));
+        Assert.DoesNotContain("theme#preview-charts", cut.FindAll("#main-content-root a[data-jump]").Select(link => link.GetAttribute("href")));
+        Assert.NotEmpty(cut.FindAll("#preview-forms"));
+    }
+
+    [Fact]
+    public void WithNothingTicked_TheSamplesAreReplacedByANote()
+    {
+        var cut = Render();
+
+        cut.Find("button:contains('Clear all')").Click();
+
+        Assert.Empty(cut.FindAll("[data-testid='theme-preview'] > section"));
+        Assert.Equal("status", cut.Find("[data-testid='theme-preview-empty']").GetAttribute("role"));
+    }
+
+    [Fact]
+    public void EverySampledComponent_IsOneTheListOffers()
+    {
+        var offered = Render().FindAll("input[id^='theme-component-']").Select(box => box.Id!["theme-component-".Length..]).ToHashSet();
+
+        Assert.All(ThemeBuilderPreview.SampledComponents, name => Assert.Contains(name.ToLowerInvariant(), offered));
+    }
+
+    #endregion
+
+    #region Surfaces
+
+    private static Task PickSurfaceAsync(IRenderedComponent<ThemePage> cut, bool dark, string hex) =>
+        cut.InvokeAsync(() => cut.FindComponents<TwColorPicker>().Single(picker => picker.Instance.Id == (dark ? "theme-surface-dark" : "theme-surface-light")).Instance.ValueChanged.InvokeAsync(hex));
+
+    [Fact]
+    public void Surfaces_StartOnTheDefaultThemes_AndAddNothingToThePage()
+    {
+        var cut = Render();
+
+        Assert.Empty(cut.FindAll("#theme-builder-surfaces"));
+        Assert.Contains("bg-[oklch(100%_0_0)] dark:bg-[oklch(25.33%_0.016_252.42)]", Code(cut));
+        Assert.Contains("AAA", cut.Find("[data-testid='theme-surface-contrast-light']").TextContent);
+        Assert.Contains("AAA", cut.Find("[data-testid='theme-surface-contrast-dark']").TextContent);
+    }
+
+    [Fact]
+    public async Task PickingALightBackground_RewritesTheLightSurfaces_AndLeavesDarkModeAlone()
+    {
+        var cut = Render();
+
+        await PickSurfaceAsync(cut, dark: false, "#fdf6e3");
+
+        var code = Code(cut);
+        Assert.DoesNotContain("oklch(100%_0_0)", code);
+        Assert.DoesNotContain("oklch(92%_0_0)", code);
+        Assert.Contains("dark:bg-[oklch(25.33%_0.016_252.42)]", code);
+        Assert.Equal("false", cut.Find("#theme-preset-purple").GetAttribute("aria-pressed"));
+    }
+
+    [Fact]
+    public async Task PickingABackground_RecolorsThisPageOnly()
+    {
+        var before = TestContext.Services.GetRequiredService<TwBlazor.Configuration.TwBlazorOptions>().Theme;
+        var cut = Render();
+
+        await PickSurfaceAsync(cut, dark: true, "#101820");
+
+        var style = cut.Find("#theme-builder > style#theme-builder-surfaces").TextContent;
+        var rules = style.Split('\n').Where(line => line.Contains("[class~=")).ToList();
+        Assert.StartsWith("@layer utilities {", style);
+        Assert.NotEmpty(rules);
+        Assert.All(rules, rule => Assert.Contains(":where(#theme-builder) ", rule));
+        Assert.Same(before, TestContext.Services.GetRequiredService<TwBlazor.Configuration.TwBlazorOptions>().Theme);
+    }
+
+    [Fact]
+    public async Task ABackgroundTheTextCannotBeReadOn_IsCalledOut()
+    {
+        var cut = Render();
+
+        await PickSurfaceAsync(cut, dark: false, "#333333");
+
+        Assert.Contains("fails contrast", cut.Find("[data-testid='theme-surface-contrast-light']").TextContent);
+    }
+
+    [Fact]
+    public async Task ResetSurfaces_AndChoosingAnExample_BothPutTheDefaultSurfacesBack()
+    {
+        var cut = Render();
+        var original = Code(cut);
+
+        await PickSurfaceAsync(cut, dark: false, "#fdf6e3");
+        cut.Find("button:contains('Reset surfaces')").Click();
+        Assert.Equal(original, Code(cut));
+        Assert.Empty(cut.FindAll("#theme-builder-surfaces"));
+
+        await PickSurfaceAsync(cut, dark: true, "#101820");
+        cut.Find("#theme-preset-purple").Click();
+        Assert.Equal(original, Code(cut));
+    }
+
+    #endregion
 }
