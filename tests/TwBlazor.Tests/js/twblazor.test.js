@@ -1,3 +1,9 @@
+        function mockPanel(width, height, block = null) {
+            const el = document.createElement('div');
+            layoutAsFixed(el, width, height, block);
+            return el;
+        }
+
 // @vitest-environment jsdom
 
 import { beforeEach, afterEach, describe, expect, test, vi } from 'vitest';
@@ -8,6 +14,32 @@ import { beforeEach, afterEach, describe, expect, test, vi } from 'vitest';
 await import('../../../src/TwBlazor/wwwroot/js/twblazor.js');
 
 describe('twPicker', () => {
+    // Gives el a getBoundingClientRect that follows its own inline left/top/right/bottom/width and
+    // margins, laid out against `block` (the viewport unless a test says otherwise) the way a browser
+    // lays out a fixed element against its containing block - a fixed-position panel has no rendered
+    // position to read until positionPanelFixed sets one.
+    function layoutAsFixed(el, width, height, block = null) {
+        const px = (value) => (value && value !== 'auto' ? parseFloat(value) : null);
+        el.getBoundingClientRect = () => {
+            const cb = block ?? {
+                left: 0,
+                top: 0,
+                right: document.documentElement.clientWidth,
+                bottom: document.documentElement.clientHeight,
+            };
+            const w = px(el.style.width) ?? width;
+            const marginTop = px(el.style.marginTop) ?? 0;
+            const marginBottom = px(el.style.marginBottom) ?? 0;
+            const l = px(el.style.left);
+            const r = px(el.style.right);
+            const t = px(el.style.top);
+            const b = px(el.style.bottom);
+            const left = l !== null ? cb.left + l : r !== null ? cb.right - r - w : cb.left;
+            const top = t !== null ? cb.top + t + marginTop : b !== null ? cb.bottom - b - marginBottom - height : cb.top;
+            return { left, top, right: left + w, bottom: top + height, width: w, height };
+        };
+    }
+
     afterEach(() => {
         vi.restoreAllMocks();
     });
@@ -517,10 +549,6 @@ describe('twPicker', () => {
     });
 
     describe('positionPanelFixed', () => {
-        // Anchor and panel are both plain elements with a stubbed getBoundingClientRect - the panel's
-        // "starts" wherever positionPanelFixed itself just placed it (top/left), unlike positionPanel's
-        // mockPanel which is handed a fixed rect up front, since a fixed-position panel has no
-        // pre-existing rendered position to read until this function sets one.
         function mockElement(rect) {
             const el = document.createElement('div');
             el.getBoundingClientRect = () => ({
@@ -528,6 +556,34 @@ describe('twPicker', () => {
                 width: rect.right - rect.left,
                 height: rect.bottom - rect.top,
             });
+            return el;
+        }
+
+        // A panel whose rect follows its own inline left/top/right/bottom/width and margins, laid out
+        // against `block` (the viewport unless a test says otherwise) the way a browser lays out a fixed
+        // element against its containing block - a fixed-position panel has no rendered position to
+        // read until positionPanelFixed sets one.
+        function mockPanel(width, height, block = null) {
+            const el = document.createElement('div');
+            const px = (value) => (value && value !== 'auto' ? parseFloat(value) : null);
+            el.getBoundingClientRect = () => {
+                const cb = block ?? {
+                    left: 0,
+                    top: 0,
+                    right: document.documentElement.clientWidth,
+                    bottom: document.documentElement.clientHeight,
+                };
+                const w = px(el.style.width) ?? width;
+                const marginTop = px(el.style.marginTop) ?? 0;
+                const marginBottom = px(el.style.marginBottom) ?? 0;
+                const l = px(el.style.left);
+                const r = px(el.style.right);
+                const t = px(el.style.top);
+                const b = px(el.style.bottom);
+                const left = l !== null ? cb.left + l : r !== null ? cb.right - r - w : cb.left;
+                const top = t !== null ? cb.top + t + marginTop : b !== null ? cb.bottom - b - marginBottom - height : cb.top;
+                return { left, top, right: left + w, bottom: top + height, width: w, height };
+            };
             return el;
         }
 
@@ -542,7 +598,7 @@ describe('twPicker', () => {
         });
 
         test('does nothing when anchor is null', () => {
-            const panel = mockElement({ left: 0, right: 100, top: 0, bottom: 50 });
+            const panel = mockPanel(100, 50);
             expect(() => window.twPicker.positionPanelFixed(null, panel)).not.toThrow();
         });
 
@@ -554,24 +610,22 @@ describe('twPicker', () => {
         test('sets position:fixed and places the panel directly below the anchor when it fits', () => {
             setViewport(1000, 800);
             const anchor = mockElement({ left: 50, right: 250, top: 100, bottom: 130 });
-            // The panel's own natural size (200px wide, 150px tall) once placed at that provisional
-            // position - well within the viewport either way.
-            const panel = mockElement({ left: 50, right: 250, top: 130, bottom: 280 });
+            const panel = mockPanel(200, 150);
 
             window.twPicker.positionPanelFixed(anchor, panel);
 
             expect(panel.style.position).toBe('fixed');
             expect(panel.style.top).toBe('130px');
             expect(panel.style.left).toBe('50px');
-            expect(panel.style.right).toBe('');
-            expect(panel.style.bottom).toBe('');
+            expect(panel.style.right).toBe('auto');
+            expect(panel.style.bottom).toBe('auto');
             expect(panel.style.maxHeight).toBe('');
         });
 
         test('sets the panel width to match the anchor when matchAnchorWidth is true', () => {
             setViewport(1000, 800);
             const anchor = mockElement({ left: 50, right: 350, top: 100, bottom: 130 }); // 300px wide
-            const panel = mockElement({ left: 50, right: 350, top: 130, bottom: 200 });
+            const panel = mockPanel(300, 70);
 
             window.twPicker.positionPanelFixed(anchor, panel, true);
 
@@ -581,7 +635,7 @@ describe('twPicker', () => {
         test('leaves the panel width alone when matchAnchorWidth is not set', () => {
             setViewport(1000, 800);
             const anchor = mockElement({ left: 50, right: 350, top: 100, bottom: 130 });
-            const panel = mockElement({ left: 50, right: 350, top: 130, bottom: 200 });
+            const panel = mockPanel(300, 70);
 
             window.twPicker.positionPanelFixed(anchor, panel);
 
@@ -591,7 +645,7 @@ describe('twPicker', () => {
         test('flips to the right edge when the panel would overflow it', () => {
             setViewport(1000, 800);
             const anchor = mockElement({ left: 900, right: 950, top: 100, bottom: 130 });
-            const panel = mockElement({ left: 900, right: 1100, top: 130, bottom: 230 });
+            const panel = mockPanel(200, 100);
 
             window.twPicker.positionPanelFixed(anchor, panel);
 
@@ -602,7 +656,7 @@ describe('twPicker', () => {
         test('flips upward when overflowing the bottom edge and there is more room above', () => {
             setViewport(1000, 800);
             const anchor = mockElement({ left: 10, right: 200, top: 700, bottom: 730 });
-            const panel = mockElement({ left: 10, right: 200, top: 730, bottom: 830 });
+            const panel = mockPanel(190, 100);
 
             window.twPicker.positionPanelFixed(anchor, panel);
 
@@ -613,19 +667,19 @@ describe('twPicker', () => {
         test('does not flip upward when there is not more room above than below', () => {
             setViewport(1000, 800);
             const anchor = mockElement({ left: 10, right: 200, top: 50, bottom: 80 });
-            // Panel taller than the space below (750px), but there's even less room above (50px).
-            const panel = mockElement({ left: 10, right: 200, top: 80, bottom: 840 });
+            // Panel taller than the space below (720px), but there's even less room above (50px).
+            const panel = mockPanel(190, 760);
 
             window.twPicker.positionPanelFixed(anchor, panel);
 
             expect(panel.style.top).toBe('80px');
-            expect(panel.style.bottom).toBe('');
+            expect(panel.style.bottom).toBe('auto');
         });
 
         test('clamps panel height to the room available when it is taller than the space below', () => {
             setViewport(1000, 800);
             const anchor = mockElement({ left: 10, right: 200, top: 50, bottom: 80 });
-            const panel = mockElement({ left: 10, right: 200, top: 80, bottom: 840 }); // 760px tall
+            const panel = mockPanel(190, 760);
 
             window.twPicker.positionPanelFixed(anchor, panel);
 
@@ -633,16 +687,17 @@ describe('twPicker', () => {
             expect(panel.style.maxHeight).toBe('712px');
         });
 
-        test('uses visualViewport.height instead of clientHeight when available', () => {
+        test('uses visualViewport.height instead of clientHeight to decide whether to flip', () => {
             setViewport(1000, 800);
             vi.stubGlobal('visualViewport', { height: 400 });
             const anchor = mockElement({ left: 10, right: 200, top: 350, bottom: 380 });
-            const panel = mockElement({ left: 10, right: 200, top: 380, bottom: 480 });
+            const panel = mockPanel(190, 100);
 
             window.twPicker.positionPanelFixed(anchor, panel);
 
+            // Fits within clientHeight, but not within the 400px visual viewport.
             expect(panel.style.top).toBe('auto');
-            expect(panel.style.bottom).toBe('50px'); // 400 - anchorRect.top(350)
+            expect(panel.getBoundingClientRect().bottom).toBe(350); // anchorRect.top
 
             vi.unstubAllGlobals();
         });
@@ -651,7 +706,7 @@ describe('twPicker', () => {
             setViewport(1000, 800);
             const anchor = mockElement({ left: 700, right: 900, top: 100, bottom: 130 });
             anchor.setAttribute('dir', 'rtl');
-            const panel = mockElement({ left: 600, right: 900, top: 130, bottom: 280 });
+            const panel = mockPanel(300, 150);
 
             window.twPicker.positionPanelFixed(anchor, panel);
 
@@ -664,7 +719,7 @@ describe('twPicker', () => {
             setViewport(1000, 800);
             const anchor = mockElement({ left: 40, right: 140, top: 100, bottom: 130 });
             anchor.setAttribute('dir', 'rtl');
-            const panel = mockElement({ left: -160, right: 140, top: 130, bottom: 230 });
+            const panel = mockPanel(300, 100);
 
             window.twPicker.positionPanelFixed(anchor, panel);
 
@@ -678,11 +733,67 @@ describe('twPicker', () => {
             wrapper.setAttribute('dir', 'rtl');
             const anchor = mockElement({ left: 700, right: 900, top: 100, bottom: 130 });
             wrapper.appendChild(anchor);
-            const panel = mockElement({ left: 600, right: 900, top: 130, bottom: 280 });
+            const panel = mockPanel(300, 150);
 
             window.twPicker.positionPanelFixed(anchor, panel);
 
             expect(panel.style.right).toBe('100px');
+        });
+
+        test('keeps the panel margin as a gap below the anchor', () => {
+            setViewport(1000, 800);
+            const anchor = mockElement({ left: 50, right: 250, top: 100, bottom: 130 });
+            const panel = mockPanel(200, 150);
+            panel.style.marginTop = '8px';
+
+            window.twPicker.positionPanelFixed(anchor, panel);
+
+            expect(panel.style.top).toBe('130px');
+            expect(panel.getBoundingClientRect().top).toBe(138);
+        });
+
+        describe('inside a transformed ancestor', () => {
+            // A translated drawer (e.g. TwSidebar) 320px wide, scrolled 400px down its content: the
+            // panel's containing block is that drawer's content, not the viewport.
+            const scrolledDrawer = { left: 0, top: -400, right: 320, bottom: 400 };
+
+            test('places the panel directly below the anchor once the ancestor has scrolled', () => {
+                setViewport(1000, 800);
+                const anchor = mockElement({ left: 20, right: 300, top: 500, bottom: 530 });
+                const panel = mockPanel(280, 200, scrolledDrawer);
+
+                window.twPicker.positionPanelFixed(anchor, panel, true);
+
+                const rect = panel.getBoundingClientRect();
+                expect(rect.top).toBe(530);
+                expect(rect.left).toBe(20);
+                expect(panel.style.top).toBe('930px');
+            });
+
+            test('places the panel directly above the anchor when it flips upward', () => {
+                setViewport(1000, 800);
+                const anchor = mockElement({ left: 20, right: 300, top: 700, bottom: 730 });
+                const panel = mockPanel(280, 200, scrolledDrawer);
+
+                window.twPicker.positionPanelFixed(anchor, panel, true);
+
+                expect(panel.style.top).toBe('auto');
+                expect(panel.getBoundingClientRect().bottom).toBe(700);
+            });
+
+            test('aligns the panel with the anchor right edge when it flips away from the viewport edge', () => {
+                setViewport(1000, 800);
+                const offsetBlock = { left: 600, top: 50, right: 1000, bottom: 650 };
+                const anchor = mockElement({ left: 850, right: 950, top: 100, bottom: 130 });
+                const panel = mockPanel(300, 100, offsetBlock);
+
+                window.twPicker.positionPanelFixed(anchor, panel);
+
+                const rect = panel.getBoundingClientRect();
+                expect(panel.style.left).toBe('auto');
+                expect(rect.right).toBe(950);
+                expect(rect.top).toBe(130);
+            });
         });
     });
 
@@ -732,7 +843,7 @@ describe('twPicker', () => {
             const anchor = document.createElement('div');
             anchor.getBoundingClientRect = () => ({ left: 20, right: 220, top: 40, bottom: 70, width: 200, height: 30 });
             const panel = document.createElement('div');
-            panel.getBoundingClientRect = () => ({ left: 20, right: 220, top: 70, bottom: 170, width: 200, height: 100 });
+            layoutAsFixed(panel, 200, 100);
             document.body.appendChild(panel);
 
             window.twPicker.registerScrollReposition(anchor, panel);
@@ -773,7 +884,7 @@ describe('twPicker', () => {
             const anchor = document.createElement('div');
             anchor.getBoundingClientRect = () => ({ left: 20, right: 220, top: 40, bottom: 70, width: 200, height: 30 });
             const panel = document.createElement('div');
-            panel.getBoundingClientRect = () => ({ left: 20, right: 220, top: 70, bottom: 170, width: 200, height: 100 });
+            layoutAsFixed(panel, 200, 100);
             document.body.appendChild(panel);
 
             window.twPicker.registerScrollReposition(anchor, panel);
@@ -793,7 +904,7 @@ describe('twPicker', () => {
             const anchor = document.createElement('div');
             anchor.getBoundingClientRect = () => ({ left: 20, right: 220, top: 40, bottom: 70, width: 200, height: 30 });
             const panel = document.createElement('div');
-            panel.getBoundingClientRect = () => ({ left: 20, right: 220, top: 70, bottom: 170, width: 200, height: 100 });
+            layoutAsFixed(panel, 200, 100);
             document.body.appendChild(panel);
 
             window.twPicker.registerScrollReposition(anchor, panel);
@@ -817,7 +928,7 @@ describe('twPicker', () => {
             const anchor = document.createElement('div');
             anchor.getBoundingClientRect = () => ({ left: 20, right: 220, top: 40, bottom: 70, width: 200, height: 30 });
             const panel = document.createElement('div');
-            panel.getBoundingClientRect = () => ({ left: 20, right: 220, top: 70, bottom: 170, width: 200, height: 100 });
+            layoutAsFixed(panel, 200, 100);
             document.body.appendChild(panel);
 
             window.twPicker.registerScrollReposition(anchor, panel);
@@ -836,7 +947,7 @@ describe('twPicker', () => {
             const anchor = document.createElement('div');
             anchor.getBoundingClientRect = () => ({ left: 20, right: 220, top: 40, bottom: 70, width: 200, height: 30 });
             const panel = document.createElement('div');
-            panel.getBoundingClientRect = () => ({ left: 20, right: 220, top: 70, bottom: 170, width: 200, height: 100 });
+            layoutAsFixed(panel, 200, 100);
             document.body.appendChild(panel);
             const dotnetRef = { invokeMethodAsync: vi.fn() };
 
@@ -858,7 +969,7 @@ describe('twPicker', () => {
                 const anchor = document.createElement('div');
                 anchor.getBoundingClientRect = () => ({ left: 20, right: 220, top: 40, bottom: 70, width: 200, height: 30 });
                 const panel = document.createElement('div');
-                panel.getBoundingClientRect = () => ({ left: 20, right: 220, top: 70, bottom: 170, width: 200, height: 100 });
+                layoutAsFixed(panel, 200, 100);
                 document.body.appendChild(panel);
                 const dotnetRef = { invokeMethodAsync: vi.fn() };
 
@@ -880,7 +991,7 @@ describe('twPicker', () => {
                 const anchor = document.createElement('div');
                 anchor.getBoundingClientRect = () => ({ left: 20, right: 220, top: 40, bottom: 70, width: 200, height: 30 });
                 const panel = document.createElement('div');
-                panel.getBoundingClientRect = () => ({ left: 20, right: 220, top: 70, bottom: 170, width: 200, height: 100 });
+                layoutAsFixed(panel, 200, 100);
                 document.body.appendChild(panel);
                 const dotnetRef = { invokeMethodAsync: vi.fn().mockRejectedValue(new Error('no tracked object')) };
 
@@ -900,7 +1011,7 @@ describe('twPicker', () => {
                 const anchor = document.createElement('div');
                 anchor.getBoundingClientRect = () => ({ left: 20, right: 220, top: 40, bottom: 70, width: 200, height: 30 });
                 const panel = document.createElement('div');
-                panel.getBoundingClientRect = () => ({ left: 20, right: 220, top: 70, bottom: 170, width: 200, height: 100 });
+                layoutAsFixed(panel, 200, 100);
                 document.body.appendChild(panel);
                 const dotnetRef = { invokeMethodAsync: vi.fn() };
 
@@ -917,7 +1028,7 @@ describe('twPicker', () => {
                 const anchor = document.createElement('div');
                 anchor.getBoundingClientRect = () => ({ left: 20, right: 220, top: 40, bottom: 70, width: 200, height: 30 });
                 const panel = document.createElement('div');
-                panel.getBoundingClientRect = () => ({ left: 20, right: 220, top: 70, bottom: 170, width: 200, height: 100 });
+                layoutAsFixed(panel, 200, 100);
                 document.body.appendChild(panel);
                 const dotnetRef = { invokeMethodAsync: vi.fn() };
 
@@ -941,7 +1052,7 @@ describe('twPicker', () => {
                 const anchor = document.createElement('div');
                 anchor.getBoundingClientRect = () => ({ left: 20, right: 220, top: 40, bottom: 70, width: 200, height: 30 });
                 const panel = document.createElement('div');
-                panel.getBoundingClientRect = () => ({ left: 20, right: 220, top: 70, bottom: 170, width: 200, height: 100 });
+                layoutAsFixed(panel, 200, 100);
                 const list = document.createElement('div');
                 panel.appendChild(list);
                 document.body.appendChild(panel);
@@ -966,7 +1077,7 @@ describe('twPicker', () => {
                 const anchor = document.createElement('div');
                 anchor.getBoundingClientRect = () => ({ left: 20, right: 220, top: 40, bottom: 70, width: 200, height: 30 });
                 const panel = document.createElement('div');
-                panel.getBoundingClientRect = () => ({ left: 20, right: 220, top: 70, bottom: 170, width: 200, height: 100 });
+                layoutAsFixed(panel, 200, 100);
                 const sibling = document.createElement('div');
                 document.body.append(panel, sibling);
                 const dotnetRef = { invokeMethodAsync: vi.fn() };
@@ -991,7 +1102,7 @@ describe('twPicker', () => {
                 const anchor = document.createElement('div');
                 anchor.getBoundingClientRect = () => ({ left: 20, right: 220, top: 40, bottom: 70, width: 200, height: 30 });
                 const panel = document.createElement('div');
-                panel.getBoundingClientRect = () => ({ left: 20, right: 220, top: 70, bottom: 170, width: 200, height: 100 });
+                layoutAsFixed(panel, 200, 100);
                 document.body.appendChild(panel);
                 const dotnetRef = { invokeMethodAsync: vi.fn() };
 
@@ -1017,7 +1128,7 @@ describe('twPicker', () => {
                 const anchor = document.createElement('div');
                 anchor.getBoundingClientRect = () => ({ left: 20, right: 220, top: 40, bottom: 70, width: 200, height: 30 });
                 const panel = document.createElement('div');
-                panel.getBoundingClientRect = () => ({ left: 20, right: 220, top: 70, bottom: 170, width: 200, height: 100 });
+                layoutAsFixed(panel, 200, 100);
                 document.body.appendChild(panel);
                 const dotnetRef = { invokeMethodAsync: vi.fn() };
 
@@ -1041,7 +1152,7 @@ describe('twPicker', () => {
                 const anchor = document.createElement('div');
                 anchor.getBoundingClientRect = () => ({ left: 20, right: 220, top: 40, bottom: 70, width: 200, height: 30 });
                 const panel = document.createElement('div');
-                panel.getBoundingClientRect = () => ({ left: 20, right: 220, top: 70, bottom: 170, width: 200, height: 100 });
+                layoutAsFixed(panel, 200, 100);
                 document.body.appendChild(panel);
                 const dotnetRef = { invokeMethodAsync: vi.fn() };
 
@@ -1059,7 +1170,7 @@ describe('twPicker', () => {
                 const anchor = document.createElement('div');
                 anchor.getBoundingClientRect = () => ({ left: 20, right: 220, top: 40, bottom: 70, width: 200, height: 30 });
                 const panel = document.createElement('div');
-                panel.getBoundingClientRect = () => ({ left: 20, right: 220, top: 70, bottom: 170, width: 200, height: 100 });
+                layoutAsFixed(panel, 200, 100);
                 document.body.appendChild(panel);
                 const dotnetRef = { invokeMethodAsync: vi.fn() };
 
@@ -1076,7 +1187,7 @@ describe('twPicker', () => {
                 const anchor = document.createElement('div');
                 anchor.getBoundingClientRect = () => ({ left: 20, right: 220, top: 40, bottom: 70, width: 200, height: 30 });
                 const panel = document.createElement('div');
-                panel.getBoundingClientRect = () => ({ left: 20, right: 220, top: 70, bottom: 170, width: 200, height: 100 });
+                layoutAsFixed(panel, 200, 100);
                 document.body.appendChild(panel);
                 const dotnetRef = { invokeMethodAsync: vi.fn() };
 
@@ -1096,7 +1207,7 @@ describe('twPicker', () => {
                 const anchor = document.createElement('div');
                 anchor.getBoundingClientRect = () => ({ left: 20, right: 220, top: 40, bottom: 70, width: 200, height: 30 });
                 const panel = document.createElement('div');
-                panel.getBoundingClientRect = () => ({ left: 20, right: 220, top: 70, bottom: 170, width: 200, height: 100 });
+                layoutAsFixed(panel, 200, 100);
                 document.body.appendChild(panel);
                 const dotnetRef = { invokeMethodAsync: vi.fn(() => { throw new Error('circuit gone'); }) };
 
