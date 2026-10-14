@@ -101,14 +101,6 @@ public sealed class ShowcaseBrand
     /// <summary>Gets the stylesheet Tailwind compiles from the theme's own source file.</summary>
     public string Stylesheet => $"_content/TwBlazor.Docs/css/showcase/{Slug}.css";
 
-    private const string microsoftMedia = "https://cdn-dynmedia-1.microsoft.com/is/image/microsoftcorp";
-
-    private const string microsoftCard = "resMode=sharp2&op_usm=1.5,0.65,15,0&wid=800&hei=450&qlt=85&fit=constrain";
-
-    private const string microsoftLogo = "https://uhf.microsoft.com/images/microsoft/RE1Mu3b.png";
-
-    private const string legoLogo = "https://assets.lego.com/logos/v4.10.0/brand-lego.svg";
-
     private const string elevationTrait = "Elevation";
 
     /// <summary>The folder of the pictures and logos kept with the site.</summary>
@@ -126,15 +118,15 @@ public sealed class ShowcaseBrand
         FontClass = "font-fluent",
         WordmarkClass = "text-xl font-semibold text-neutral-600 dark:text-neutral-300",
         LogoIcon = IconEnum.Microsoft,
-        LogoUrl = microsoftLogo,
-        HeroImage = $"{microsoftMedia}/Hero-Featured-Mobile-Surface-Laptop-Ultra-Nightfall-Angle-Photo-No-Badge?resMode=sharp2&op_usm=1.5,0.65,15,0&wid=1600&hei=900&qlt=90&fit=constrain",
+        LogoUrl = $"{LocalImages}/microsoft-logo.png",
+        HeroImage = $"{LocalImages}/microsoft-hero.avif",
         PageName = "MicrosoftShowcase",
         Products =
         [
-            new("Surface Laptop, 13-inch", "Thin, light and built for all-day work.", "From £899", "New", IconEnum.Laptop, $"{microsoftMedia}/Card-Feature-Surface-Laptop-SnapdragonX2-13-2Ed-Violet?{microsoftCard}"),
-            new("Microsoft 365", "Word, Excel, PowerPoint and more, with Copilot built in.", "£8.49 a month", "Popular", IconEnum.Windows, $"{microsoftMedia}/Content-Card-M365-Icon-Bounce-Premium?{microsoftCard}"),
-            new("Xbox Game Pass Ultimate", "Hundreds of games on console, PC and cloud.", "£14.99 a month", "Gaming", IconEnum.Box_Seam, $"{microsoftMedia}/455251-Card-Feature-Xbox-Game-Pass?{microsoftCard}"),
-            new("Surface Mouse", "Sculpted for comfort, built to travel.", "£44.99", "New", IconEnum.Laptop, $"{microsoftMedia}/Card-Feature-Surface-Mouse-2Ed-Platinum-Homepage?{microsoftCard}")
+            new("Surface Laptop, 13-inch", "Thin, light and built for all-day work.", "From £899", "New", IconEnum.Laptop, $"{LocalImages}/microsoft-surface-laptop.avif"),
+            new("Microsoft 365", "Word, Excel, PowerPoint and more, with Copilot built in.", "£8.49 a month", "Popular", IconEnum.Windows, $"{LocalImages}/microsoft-365.avif"),
+            new("Xbox Game Pass Ultimate", "Hundreds of games on console, PC and cloud.", "£14.99 a month", "Gaming", IconEnum.Box_Seam, $"{LocalImages}/microsoft-game-pass.avif"),
+            new("Surface Mouse", "Sculpted for comfort, built to travel.", "£44.99", "New", IconEnum.Laptop, $"{LocalImages}/microsoft-surface-mouse.avif")
         ]
     };
 
@@ -155,10 +147,10 @@ public sealed class ShowcaseBrand
         PageName = "AppleShowcase",
         Products =
         [
-            new("iPhone Air", "The thinnest iPhone ever.", "From £999", "New", IconEnum.Phone, "https://www.apple.com/v/iphone/home/ck/images/overview/select/iphone_air__b5qmgl05ojyq_large.jpg"),
-            new("iPhone 17", "Even more delightful. Even more durable.", "From £799", "iPhone", IconEnum.Phone, "https://www.apple.com/v/iphone/home/ck/images/overview/select/iphone_17__fb1277oq3eaa_large.jpg"),
-            new("Apple Watch Ultra 3", "Personal beast.", "From £749", "Watch", IconEnum.Smartwatch, "https://www.apple.com/v/iphone/home/ck/images/overview/augment/watch__co62o3s4jn6u_large.jpg"),
-            new("MacBook", "iPhone and Mac. Better together.", "From £999", "Mac", IconEnum.Laptop, "https://www.apple.com/uk/iphone/home/images/overview/augment/mac__e1itm725bz8m_large.jpg")
+            new("iPhone Air", "The thinnest iPhone ever.", "From £999", "New", IconEnum.Phone, $"{LocalImages}/iphone-air.jpg"),
+            new("iPhone 17", "Even more delightful. Even more durable.", "From £799", "iPhone", IconEnum.Phone, $"{LocalImages}/iphone-17.jpg"),
+            new("Apple Watch Ultra 3", "Personal beast.", "From £749", "Watch", IconEnum.Smartwatch, $"{LocalImages}/apple-watch-ultra-3.jpg"),
+            new("MacBook", "iPhone and Mac. Better together.", "From £999", "Mac", IconEnum.Laptop, $"{LocalImages}/macbook.jpg")
         ]
     };
 
@@ -174,7 +166,7 @@ public sealed class ShowcaseBrand
         FontClass = "font-brick",
         WordmarkClass = "text-2xl font-black tracking-tight",
         LightOnly = true,
-        LogoUrl = legoLogo,
+        LogoUrl = $"{LocalImages}/lego-logo.svg",
         LogoClass = "h-11",
         HeroImage = $"{LocalImages}/lego-hero.webp",
         PageName = "LegoShowcase",
