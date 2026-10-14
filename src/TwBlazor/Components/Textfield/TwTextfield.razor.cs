@@ -15,7 +15,8 @@ namespace TwBlazor.Components;
 /// <typeparam name="T">The type of value bound to the text field. Common types include string, int, decimal, and DateTime.</typeparam>
 /// <remarks>
 /// The TwTextfield component is a flexible input control that supports various input types (text, password, email, number, etc.)
-/// and provides customizable styling for both the input field and its label. It implements two-way binding through the
+/// and provides customizable styling for both the input field and its label. Set <see cref="Multiline"/> to render a
+/// &lt;textarea&gt; for longer, multi-line text instead. It implements two-way binding through the
 /// <see cref="Value"/> and <see cref="ValueChanged"/> parameters, allowing seamless integration with Blazor's @bind directive.
 /// The component can be configured to trigger data binding on different DOM events using the <see cref="BindEvent"/> parameter.
 /// </remarks>
@@ -26,7 +27,7 @@ public partial class TwTextfield<T> : TwBlazorTextInputComponentBase
     private ElementReference inputRef;
 
     /// <summary>
-    /// Reference to the rendered &lt;input&gt; element itself. Lets consumers (e.g. picker components
+    /// Reference to the rendered &lt;input&gt; (or &lt;textarea&gt; when <see cref="Multiline"/> is set) element itself. Lets consumers (e.g. picker components
     /// with a decorative trigger icon that sits ahead of the input in DOM order) focus this specific
     /// element directly, rather than searching a wider container where the first focusable descendant
     /// found might not be this input.
@@ -111,6 +112,38 @@ public partial class TwTextfield<T> : TwBlazorTextInputComponentBase
     [Parameter] public bool Required { get; set; }
 
     /// <summary>
+    /// Gets or sets whether the field accepts multiple lines of text, rendering a &lt;textarea&gt; instead of an &lt;input&gt;.
+    /// </summary>
+    /// <remarks>
+    /// <see cref="InputType"/> is ignored while this is set. <kbd>Enter</kbd> inserts a new line rather than
+    /// submitting the form, and <kbd>Tab</kbd> still moves focus out of the field.
+    /// </remarks>
+    [Parameter] public bool Multiline { get; set; }
+
+    /// <summary>
+    /// Gets or sets the number of visible lines of text in a <see cref="Multiline"/> field. Defaults to 3.
+    /// </summary>
+    /// <remarks>
+    /// With <see cref="AutoGrow"/> set, this is the minimum height the field starts at before growing.
+    /// </remarks>
+    [Parameter] public int Rows { get; set; } = 3;
+
+    /// <summary>
+    /// Gets or sets whether a <see cref="Multiline"/> field grows taller as the user types instead of scrolling.
+    /// </summary>
+    /// <remarks>
+    /// Uses the CSS <c>field-sizing</c> property, so in browsers without support the field keeps its
+    /// <see cref="Rows"/> height and scrolls. Manual resizing is turned off while this is set.
+    /// </remarks>
+    [Parameter] public bool AutoGrow { get; set; }
+
+    /// <summary>
+    /// Gets or sets the most lines an <see cref="AutoGrow"/> field grows to before it scrolls.
+    /// <see langword="null"/> (the default) lets it grow without limit.
+    /// </summary>
+    [Parameter] public int? MaxRows { get; set; }
+
+    /// <summary>
     /// Gets the CSS classes applied to the input element.
     /// </summary>
     /// <remarks>
@@ -120,9 +153,41 @@ public partial class TwTextfield<T> : TwBlazorTextInputComponentBase
     private string classes => new ClassBuilder(theme.TextfieldBase)
         .AddClass(inputVariantBuilder.GetClasses(effectiveVariant, theme))
         .AddClass(Disabled ? "opacity-40 cursor-not-allowed" : string.Empty)
-        .AddClass(inputSizeClasses)
+        .AddClass(Multiline ? multilineClasses : inputSizeClasses)
         .AddClass(Class)
         .Build();
+
+    private string multilineClasses => new ClassBuilder(Dense ? theme.MultilineDenseSize : theme.MultilineSize)
+        .AddClass(AutoGrow ? theme.MultilineAutoGrow : theme.MultilineResize)
+        .Build();
+
+    /// <summary>
+    /// Gets the inline sizing for an <see cref="AutoGrow"/> field, or <see langword="null"/> when none applies.
+    /// </summary>
+    /// <remarks>
+    /// <c>field-sizing: content</c> ignores the <c>rows</c> attribute, so the minimum and maximum heights are
+    /// given in lines (<c>lh</c>) plus the theme's vertical padding instead.
+    /// </remarks>
+    private string? multilineStyle
+    {
+        get
+        {
+            if (!AutoGrow)
+            {
+                return null;
+            }
+
+            var style = $"min-block-size: {GetRowsHeight(Rows)};";
+            if (MaxRows is int maxRows)
+            {
+                style += $" max-block-size: {GetRowsHeight(Math.Max(maxRows, Rows))};";
+            }
+
+            return style;
+        }
+    }
+
+    private static string GetRowsHeight(int rows) => FormattableString.Invariant($"calc({Math.Max(rows, 1)}lh + 2 * var(--textarea-py, 0px))");
 
     protected override void OnParametersSet()
     {
@@ -147,6 +212,11 @@ public partial class TwTextfield<T> : TwBlazorTextInputComponentBase
         if (!Attributes.ContainsKey("name") && !string.IsNullOrEmpty(Id))
         {
             Attributes["name"] = Id;
+        }
+
+        if (Multiline)
+        {
+            return;
         }
 
         var autoComplete = GetAutoCompleteForInputType(InputType);

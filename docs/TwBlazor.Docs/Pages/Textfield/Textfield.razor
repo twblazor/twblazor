@@ -1,7 +1,7 @@
-@page "/textfield"
+﻿@page "/textfield"
 @using TwBlazor.Enums
 
-<PageContainer Title="TwTextfield" Path="/textfield" Description="TwTextfield is a Blazor text input component. Bind Value, set InputType, Placeholder and Dense, and validate synchronously or asynchronously with Validator." ThemeType="typeof(TwInputTheme)">
+<PageContainer Title="TwTextfield" Path="/textfield" Description="TwTextfield is a Blazor text input component. Bind Value, set InputType, Placeholder and Dense, switch to a multiline textarea with Multiline, Rows and AutoGrow, and validate synchronously or asynchronously with Validator." ThemeType="typeof(TwInputTheme)">
     <PageCard Title="Textfield">
         <Description>Bind <code>Value</code> to a labeled text input with a placeholder.</Description>
         <CodeExample Name="TextfieldBasic">
@@ -75,6 +75,60 @@
             <TwTextfield Label="New Username" @bind-Value="NewUsername" Placeholder="Enter a username" AriaLabel="New username textfield" Validator="ValidateUsernameAvailabilityAsync" />
         </CodeExample>
     </PageCard>
+    <PageCard Title="Multiline textfield">
+        <Description>Set <code>Multiline</code> to render a <code>&lt;textarea&gt;</code> for longer text such as comments or descriptions. It shows three lines by default and can be resized vertically by dragging its corner.</Description>
+        <CodeExample Name="TextfieldMultiline">
+            <TwTextfield Label="Comments" @bind-Value="Comments" Placeholder="Tell us what you think" Multiline />
+        </CodeExample>
+    </PageCard>
+    <PageCard Title="Multiline rows">
+        <Description>Use <code>Rows</code> to set how many lines of text are visible before the field scrolls.</Description>
+        <CodeExample Name="TextfieldMultilineRows">
+            <div class="md:flex-col flex-row flex gap-2">
+                <TwTextfield Label="Summary" @bind-Value="Summary" Placeholder="A one or two line summary" Multiline Rows="2" />
+                <TwTextfield Label="Description" @bind-Value="IssueDescription" Placeholder="Describe the issue in detail" Multiline Rows="6" />
+            </div>
+        </CodeExample>
+    </PageCard>
+    <PageCard Title="Auto-growing multiline">
+        <Description>Set <code>AutoGrow</code> to have the field grow taller as the user types instead of scrolling. <code>Rows</code> sets the starting height and <code>MaxRows</code> caps how tall it can grow, after which it scrolls. Browsers without support for the CSS <code>field-sizing</code> property keep the <code>Rows</code> height and scroll.</Description>
+        <CodeExample Name="TextfieldMultilineAutoGrow">
+            <TwTextfield Label="Message" @bind-Value="Message" Placeholder="Start typing and the field grows with you" Multiline AutoGrow Rows="2" MaxRows="8" BindEvent="oninput" />
+        </CodeExample>
+    </PageCard>
+    <PageCard Title="Multiline variants">
+        <Description>Multiline fields support every <code>Variant</code>, so they match the single-line fields beside them.</Description>
+        <CodeExample Name="TextfieldMultilineVariants">
+            <div class="flex flex-col gap-4">
+                <TwTextfield Label="Default" @bind-Value="DefaultNotes" Placeholder="Notes" Multiline Variant="InputVariant.Default" />
+                <TwTextfield Label="Outlined" @bind-Value="OutlinedNotes" Placeholder="Notes" Multiline Variant="InputVariant.Outlined" />
+                <TwTextfield Label="Filled" @bind-Value="FilledNotes" Placeholder="Notes" Multiline Variant="InputVariant.Filled" />
+            </div>
+        </CodeExample>
+    </PageCard>
+    <PageCard Title="Dense multiline">
+        <Description>Combine <code>Multiline</code> with <code>Dense</code> for tighter padding and a smaller text size.</Description>
+        <CodeExample Name="TextfieldMultilineDense">
+            <TwTextfield Label="Notes" @bind-Value="DenseNotes" Placeholder="Add a short note" Multiline Dense Rows="2" />
+        </CodeExample>
+    </PageCard>
+    <PageCard Title="Multiline character limit">
+        <Description>Pass <code>maxlength</code> through <code>Attributes</code> to limit how much can be typed, and bind on <code>oninput</code> to show a live count below the field.</Description>
+        <CodeExample Name="TextfieldMultilineCharacterLimit" CSharpName="TextfieldMultilineCharacterLimitCode">
+            <TwTextfield Label="Bio" @bind-Value="Bio" Placeholder="A few words about yourself" Multiline Rows="4" BindEvent="oninput" Attributes="@bioAttributes" />
+            <p class="mt-1 text-xs text-end">@Bio.Length / @BioMaxLength</p>
+        </CodeExample>
+    </PageCard>
+    <PageCard Title="Multiline validation">
+        <Description><code>Validator</code>, <code>Required</code>, <code>Disabled</code> and <code>ReadOnly</code> work the same way on a multiline field. The error message is linked to the textarea with <code>aria-describedby</code>.</Description>
+        <CodeExample Name="TextfieldMultilineValidator" CSharpName="TextfieldMultilineValidatorCode">
+            <div class="flex flex-col gap-4">
+                <TwTextfield Label="Feedback" @bind-Value="Feedback" Placeholder="At least 20 characters" Multiline Required Validator="ValidateFeedback" />
+                <TwTextfield Label="Terms" @bind-Value="Terms" Multiline Rows="2" ReadOnly />
+                <TwTextfield Label="Archived notes" @bind-Value="ArchivedNotes" Multiline Rows="2" Disabled />
+            </div>
+        </CodeExample>
+    </PageCard>
 </PageContainer>
 
 @code {
@@ -84,6 +138,38 @@
     public string AccountId { get; set; } = "ACC-2049-7731";
     public string Password { get; set; } = string.Empty;
     public string InvalidEmail { get; set; } = "not-an-email";
+    public string Comments { get; set; } = string.Empty;
+    public string Summary { get; set; } = string.Empty;
+    public string IssueDescription { get; set; } = string.Empty;
+    public string Message { get; set; } = string.Empty;
+    public string DefaultNotes { get; set; } = string.Empty;
+    public string OutlinedNotes { get; set; } = string.Empty;
+    public string FilledNotes { get; set; } = string.Empty;
+    public string DenseNotes { get; set; } = string.Empty;
+
+    #region CodeExample TextfieldMultilineCharacterLimitCode
+    private const int BioMaxLength = 160;
+
+    public string Bio { get; set; } = string.Empty;
+
+    private readonly Dictionary<string, object> bioAttributes = new() { ["maxlength"] = BioMaxLength };
+    #endregion
+
+    #region CodeExample TextfieldMultilineValidatorCode
+    public string Feedback { get; set; } = string.Empty;
+    public string Terms { get; set; } = "By continuing you agree to the terms of service.\nThese terms can't be changed here.";
+    public string ArchivedNotes { get; set; } = "Archived on 1 March 2026.";
+
+    private static Task<string?> ValidateFeedback(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return Task.FromResult<string?>("Feedback is required.");
+        }
+
+        return Task.FromResult<string?>(value.Trim().Length < 20 ? "Feedback must be at least 20 characters." : null);
+    }
+    #endregion
 
     #region CodeExample TextfieldValidatorCode
     public string Username { get; set; } = string.Empty;

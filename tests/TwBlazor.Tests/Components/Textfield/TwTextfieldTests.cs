@@ -643,4 +643,240 @@ public class TwTextfieldTests : TwBlazorTestBase
         cut.WaitForState(() => cut.FindAll("p[role='alert']").Count > 0);
         Assert.Equal("'taken-username' is already taken.", cut.Find("p[role='alert']").TextContent);
     }
+
+    [Fact]
+    public void TwTextfield_Multiline_RendersTextarea_InsteadOfInput()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwTextfield<string>>(parameters => parameters
+            .Add(p => p.Multiline, true));
+
+        // Assert
+        var textarea = cut.Find("textarea");
+        Assert.Empty(cut.FindAll("input"));
+        Assert.False(textarea.HasAttribute("type"));
+        Assert.Equal("3", textarea.GetAttribute("rows"));
+    }
+
+    [Fact]
+    public void TwTextfield_Multiline_Renders_WithRows()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwTextfield<string>>(parameters => parameters
+            .Add(p => p.Multiline, true)
+            .Add(p => p.Rows, 6));
+
+        // Assert
+        Assert.Equal("6", cut.Find("textarea").GetAttribute("rows"));
+    }
+
+    [Fact]
+    public void TwTextfield_Multiline_ClampsRows_ToAtLeastOne()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwTextfield<string>>(parameters => parameters
+            .Add(p => p.Multiline, true)
+            .Add(p => p.Rows, 0));
+
+        // Assert
+        Assert.Equal("1", cut.Find("textarea").GetAttribute("rows"));
+    }
+
+    [Fact]
+    public void TwTextfield_Multiline_Renders_WithInitialValue()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwTextfield<string>>(parameters => parameters
+            .Add(p => p.Multiline, true)
+            .Add(p => p.Value, "First line\nSecond line"));
+
+        // Assert
+        Assert.Equal("First line\nSecond line", cut.Find("textarea").GetAttribute("value"));
+    }
+
+    [Fact]
+    public void TwTextfield_Multiline_TriggersValueChanged_OnChange()
+    {
+        // Arrange
+        var newValue = string.Empty;
+        var cut = TestContext.Render<TwTextfield<string>>(parameters => parameters
+            .Add(p => p.Multiline, true)
+            .Add(p => p.Value, string.Empty)
+            .Add(p => p.ValueChanged, value => newValue = value));
+
+        // Act
+        cut.Find("textarea").Change("Line one\nLine two");
+
+        // Assert
+        Assert.Equal("Line one\nLine two", newValue);
+    }
+
+    [Fact]
+    public void TwTextfield_Multiline_AssociatesLabel()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwTextfield<string>>(parameters => parameters
+            .Add(p => p.Id, "comments")
+            .Add(p => p.Label, "Comments")
+            .Add(p => p.Multiline, true));
+
+        // Assert
+        Assert.Equal("comments", cut.Find("label").GetAttribute("for"));
+        Assert.Equal("comments", cut.Find("textarea").GetAttribute("id"));
+    }
+
+    [Fact]
+    public void TwTextfield_Multiline_UsesMultilineSize_InsteadOfSingleLineHeight()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwTextfield<string>>(parameters => parameters
+            .Add(p => p.Multiline, true));
+
+        // Assert
+        var classes = cut.Find("textarea").GetAttribute("class");
+        Assert.Contains(inputTheme.TextfieldBase, classes);
+        Assert.Contains(inputTheme.MultilineSize, classes);
+        Assert.Contains(inputTheme.MultilineResize, classes);
+        Assert.DoesNotContain(inputTheme.Size, classes);
+    }
+
+    [Fact]
+    public void TwTextfield_Multiline_UsesMultilineDenseSize_WhenDense()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwTextfield<string>>(parameters => parameters
+            .Add(p => p.Multiline, true)
+            .Add(p => p.Dense, true));
+
+        // Assert
+        var classes = cut.Find("textarea").GetAttribute("class");
+        Assert.Contains(inputTheme.MultilineDenseSize, classes);
+        Assert.DoesNotContain(inputTheme.DenseSize, classes);
+    }
+
+    [Fact]
+    public void TwTextfield_Multiline_DoesNotSetStyle_WithoutAutoGrow()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwTextfield<string>>(parameters => parameters
+            .Add(p => p.Multiline, true)
+            .Add(p => p.MaxRows, 8));
+
+        // Assert
+        Assert.False(cut.Find("textarea").HasAttribute("style"));
+    }
+
+    [Fact]
+    public void TwTextfield_Multiline_AutoGrow_AppliesAutoGrowClasses_AndMinHeight()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwTextfield<string>>(parameters => parameters
+            .Add(p => p.Multiline, true)
+            .Add(p => p.AutoGrow, true)
+            .Add(p => p.Rows, 2));
+
+        // Assert
+        var textarea = cut.Find("textarea");
+        Assert.Contains(inputTheme.MultilineAutoGrow, textarea.GetAttribute("class"));
+        Assert.DoesNotContain(inputTheme.MultilineResize, textarea.GetAttribute("class"));
+        var style = textarea.GetAttribute("style");
+        Assert.Contains("min-block-size: calc(2lh + 2 * var(--textarea-py, 0px))", style);
+        Assert.DoesNotContain("max-block-size", style);
+    }
+
+    [Fact]
+    public void TwTextfield_Multiline_AutoGrow_AppliesMaxHeight_WhenMaxRowsSet()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwTextfield<string>>(parameters => parameters
+            .Add(p => p.Multiline, true)
+            .Add(p => p.AutoGrow, true)
+            .Add(p => p.MaxRows, 6));
+
+        // Assert
+        Assert.Contains("max-block-size: calc(6lh + 2 * var(--textarea-py, 0px))", cut.Find("textarea").GetAttribute("style"));
+    }
+
+    [Fact]
+    public void TwTextfield_Multiline_AutoGrow_MaxRowsNeverBelowRows()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwTextfield<string>>(parameters => parameters
+            .Add(p => p.Multiline, true)
+            .Add(p => p.AutoGrow, true)
+            .Add(p => p.Rows, 4)
+            .Add(p => p.MaxRows, 2));
+
+        // Assert
+        Assert.Contains("max-block-size: calc(4lh + 2 * var(--textarea-py, 0px))", cut.Find("textarea").GetAttribute("style"));
+    }
+
+    [Fact]
+    public void TwTextfield_Multiline_SetsAccessibilityAttributes()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwTextfield<string>>(parameters => parameters
+            .Add(p => p.Id, "bio")
+            .Add(p => p.Multiline, true)
+            .Add(p => p.Required, true)
+            .Add(p => p.Invalid, true)
+            .Add(p => p.ErrorMessage, "Please tell us about yourself."));
+
+        // Assert
+        var textarea = cut.Find("textarea");
+        Assert.True(textarea.HasAttribute("required"));
+        Assert.Equal("true", textarea.GetAttribute("aria-required"));
+        Assert.Equal("true", textarea.GetAttribute("aria-invalid"));
+        Assert.Equal("bio-error", textarea.GetAttribute("aria-describedby"));
+    }
+
+    [Fact]
+    public void TwTextfield_Multiline_Renders_DisabledAndReadOnly()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwTextfield<string>>(parameters => parameters
+            .Add(p => p.Multiline, true)
+            .Add(p => p.Disabled, true)
+            .Add(p => p.ReadOnly, true));
+
+        // Assert
+        var textarea = cut.Find("textarea");
+        Assert.True(textarea.HasAttribute("disabled"));
+        Assert.True(textarea.HasAttribute("readonly"));
+    }
+
+    [Fact]
+    public void TwTextfield_Multiline_IgnoresInputTypeMappings()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwTextfield<string>>(parameters => parameters
+            .Add(p => p.Multiline, true)
+            .Add(p => p.InputType, "email"));
+
+        // Assert
+        var textarea = cut.Find("textarea");
+        Assert.False(textarea.HasAttribute("type"));
+        Assert.False(textarea.HasAttribute("autocomplete"));
+        Assert.False(textarea.HasAttribute("inputmode"));
+        Assert.Equal(textarea.GetAttribute("id"), textarea.GetAttribute("name"));
+    }
+
+    [Fact]
+    public void TwTextfield_Multiline_Validator_MarksInvalid()
+    {
+        // Arrange
+        var cut = TestContext.Render<TwTextfield<string>>(parameters => parameters
+            .Add(p => p.Multiline, true)
+            .Add(p => p.Value, string.Empty)
+            .Add(p => p.ValueChanged, _ => { })
+            .Add(p => p.Validator, (string value) => Task.FromResult<string?>(
+                value.Length > 10 ? "Keep it under 10 characters." : null)));
+
+        // Act
+        cut.Find("textarea").Change("This is far too long");
+
+        // Assert
+        Assert.Equal("Keep it under 10 characters.", cut.Find("p[role='alert']").TextContent);
+        Assert.Equal("true", cut.Find("textarea").GetAttribute("aria-invalid"));
+    }
 }

@@ -49,6 +49,33 @@ public class TwInputTheme
     public required string DenseSize { get; set; }
 
     /// <summary>
+    /// Gets or sets the vertical padding and text size applied instead of <see cref="Size"/> to a multiline
+    /// text field (<see cref="TwBlazor.Components.TwTextfield{T}.Multiline"/>), whose height comes from its rows.
+    /// </summary>
+    /// <remarks>
+    /// Set the vertical padding through the <c>--textarea-py</c> custom property so an
+    /// <see cref="TwBlazor.Components.TwTextfield{T}.AutoGrow"/> field can include it when sizing itself in rows.
+    /// </remarks>
+    public string MultilineSize { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the vertical padding and text size applied instead of <see cref="MultilineSize"/> when a
+    /// multiline text field's <see cref="TwBlazor.TwBlazorTextInputComponentBase.Dense"/> is enabled.
+    /// </summary>
+    public string MultilineDenseSize { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes that let the user resize a multiline text field.
+    /// </summary>
+    public string MultilineResize { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes that make a multiline text field grow with its content
+    /// (<see cref="TwBlazor.Components.TwTextfield{T}.AutoGrow"/>).
+    /// </summary>
+    public string MultilineAutoGrow { get; set; } = string.Empty;
+
+    /// <summary>
     /// Gets or sets the classes applied to each <c>&lt;option&gt;</c> in a select.
     /// </summary>
     public required string SelectOption { get; set; }
