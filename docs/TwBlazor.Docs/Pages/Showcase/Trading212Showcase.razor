@@ -1,0 +1,201 @@
+@page "/showcase/trading212"
+@layout EmptyLayout
+@using TwBlazor.Docs.Pages.Showcase.Shared
+@using TwBlazor.Models
+@using IconEnum = TwBlazor.Enums.Icon
+
+<ShowcasePage Brand="brand">
+    <ChildContent>
+        <TwNavbar AriaLabel="Trading 212 example navigation">
+            <BrandContent>
+                <a href="@brand.Path" class="@focusClass"><ShowcaseLogo Brand="brand" /></a>
+            </BrandContent>
+            <NavigationContent>
+                @foreach (var link in navigation)
+                {
+                    <a href="@Anchor("showcase-products")" class="px-3 py-2 text-sm font-medium text-slate-200 hover:text-white @focusClass">@link</a>
+                }
+            </NavigationContent>
+            <ActionsContent>
+                <TwButton Label="Log in" Variant="ButtonVariant.Text" Color="Color.Light" />
+                <TwButton Label="Open account" Color="Color.Primary" Href="@Anchor("showcase-products")" />
+            </ActionsContent>
+        </TwNavbar>
+
+        <main id="showcase-main">
+            <section class="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-6 py-14 lg:grid-cols-2 lg:py-20" aria-labelledby="showcase-hero-heading">
+                <div class="flex flex-col items-start gap-5">
+                    <h1 id="showcase-hero-heading" class="text-4xl font-black tracking-tight text-balance md:text-6xl">Invest in stocks and ETFs. <span class="text-tradeblue-600 dark:text-tradeblue-300">Commission-free.</span></h1>
+                    <p class="max-w-lg text-lg">Fractional shares from £1, a Stocks and Shares ISA and interest on your uninvested cash, all in one app.</p>
+                    <div class="flex flex-wrap gap-3">
+                        <TwButton Label="Open account" Color="Color.Primary" Href="@Anchor("showcase-products")" />
+                        <TwButton Label="Practise for free" Color="Color.Primary" Variant="ButtonVariant.Outlined" Href="@Anchor("showcase-components")" />
+                    </div>
+                    <p class="text-xs opacity-70">When investing, your capital is at risk. The figures on this page are made up.</p>
+                </div>
+
+                <TwCard Title="Your portfolio">
+                    <div class="flex flex-col gap-5">
+                        <div>
+                            <p class="text-4xl font-black tabular-nums">£12,480.36</p>
+                            <div class="mt-2 flex flex-wrap items-center gap-2">
+                                <TwChip Label="Up £342.18 (2.82%) today" Color="Color.Success" StartIcon="IconEnum.Arrow_Up_Right" />
+                                <span class="text-sm opacity-70">Invested £10,950.00</span>
+                            </div>
+                        </div>
+                        <TwProgress T="int" Label="ISA allowance used this tax year" Value="62" Max="100" Color="Color.Primary" />
+                        <div class="grid grid-cols-3 gap-3 text-sm">
+                            @foreach (var (label, value) in holdings)
+                            {
+                                <div>
+                                    <p class="opacity-70">@label</p>
+                                    <p class="font-bold tabular-nums">@value</p>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </TwCard>
+            </section>
+
+            <section id="showcase-products" class="mx-auto max-w-7xl scroll-mt-6 px-6 pb-14" aria-labelledby="showcase-products-heading">
+                <h2 id="showcase-products-heading" class="text-2xl font-black tracking-tight md:text-3xl">Markets</h2>
+                <div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
+                    <div class="lg:col-span-2">
+                        <TwCard>
+                            <TwChart Title="Apple (AAPL)" Description="Daily candles for the last eight weeks, US dollars">
+                                <TwCandlestickChart Items="@candles" ValueFormat="0.00" LabelHeader="Day" Height="ChartHeight.Large" />
+                            </TwChart>
+                        </TwCard>
+                    </div>
+
+                    <TwCard Title="Watchlist" TitleLevel="3">
+                        <ul class="flex flex-col divide-y divide-current/10">
+                            @foreach (var instrument in brand.Products)
+                            {
+                                var rising = instrument.Tag.StartsWith('+');
+                                <li>
+                                    <article class="flex items-center gap-3 py-3">
+                                        <span class="flex size-10 shrink-0 items-center justify-center rounded-full bg-tradeblue-50 text-lg text-tradeblue-700 dark:bg-tradeblue-900/40 dark:text-tradeblue-200" aria-hidden="true">
+                                            <TwIcon Icon="instrument.Icon" Plain />
+                                        </span>
+                                        <div class="min-w-0 flex-1">
+                                            <h4 class="truncate font-bold">@instrument.Name</h4>
+                                            <p class="text-xs opacity-70">@instrument.Description</p>
+                                        </div>
+                                        <div class="text-end">
+                                            <p class="font-bold tabular-nums">@instrument.Price</p>
+                                            @* The sign and the arrow carry the direction as well as the color. *@
+                                            <TwChip Label="@instrument.Tag" Color="@(rising ? Color.Success : Color.Danger)" Size="ChipSize.Small" StartIcon="@(rising ? IconEnum.Arrow_Up_Right : IconEnum.Arrow_Down_Right)" />
+                                        </div>
+                                        <TwButton Label="Buy" AriaLabel="@($"Buy {instrument.Name}")" Color="Color.Primary" Dense OnClick="@(() => orders++)" />
+                                    </article>
+                                </li>
+                            }
+                        </ul>
+                        <p class="mt-4 text-sm font-medium" aria-live="polite">@(orders == 0 ? "Your order ticket is empty." : $"{orders} in your order ticket.")</p>
+                    </TwCard>
+                </div>
+
+                <div class="mt-6 grid grid-cols-1 gap-6 md:grid-cols-3">
+                    @foreach (var (title, text, icon) in features)
+                    {
+                        <TwCard>
+                            <div class="flex flex-col gap-2">
+                                <span class="text-3xl text-tradeblue-600 dark:text-tradeblue-300" aria-hidden="true"><TwIcon Icon="icon" Plain /></span>
+                                <p class="text-lg font-bold">@title</p>
+                                <p class="text-sm opacity-80">@text</p>
+                            </div>
+                        </TwCard>
+                    }
+                </div>
+            </section>
+        </main>
+    </ChildContent>
+    <Footer>
+        <TwFooter Sections="@footer" BottomLinks="@legal" Copyright="This page is a design example. It is not an offer or a recommendation to buy or sell any investment, and every price, holding and chart on it is invented." NavigationLabel="Trading 212 example footer" />
+    </Footer>
+</ShowcasePage>
+
+@code {
+    private const string focusClass = "rounded-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current";
+
+    private static readonly ShowcaseBrand brand = ShowcaseBrand.Trading212;
+
+    private static readonly string[] navigation = ["Invest", "Stocks ISA", "Cash ISA", "Pies & AutoInvest", "Learn", "Help"];
+
+    private static readonly (string Label, string Value)[] holdings = [("Stocks", "£7,912.40"), ("ETFs", "£3,405.16"), ("Cash", "£1,162.80")];
+
+    private static readonly (string Title, string Text, IconEnum Icon)[] features =
+    [
+        ("Zero commission", "Buy and sell thousands of stocks and ETFs without paying a commission.", IconEnum.Tag_Fill),
+        ("Fractional shares", "Own a slice of the companies you believe in from as little as £1.", IconEnum.Credit_Card),
+        ("Protected and regulated", "Your assets are held separately from ours, in your name.", IconEnum.Shield_Check)
+    ];
+
+    private static readonly (string Title, string[] Links)[] footerColumns =
+    [
+        ("Products", ["Invest", "Stocks and Shares ISA", "Cash ISA", "Pies & AutoInvest"]),
+        ("Learn", ["Investing 101", "Help centre", "Community", "Glossary"]),
+        ("Company", ["About us", "Careers", "Press", "Contact"]),
+        ("Legal", ["Terms", "Privacy", "Risk disclosure", "Complaints"])
+    ];
+
+    // The same columns as the component's own models. Every link leads back to the top of this example.
+    private static readonly FooterSection[] footer =
+        [.. footerColumns.Select(column => new FooterSection(column.Title, [.. column.Links.Select(link => new FooterLink(link, Anchor("showcase-main")))]))];
+
+    private static readonly FooterLink[] legal = [("Privacy", Anchor("showcase-main")), ("Terms of use", Anchor("showcase-main")), ("Accessibility", Anchor("showcase-main"))];
+
+    // Forty repeatable trading days from a fixed-seed random walk. Overnight gaps, uneven wicks and a handful of
+    // scripted shock days give the chart sharp sell-offs and rallies rather than a smooth wave.
+    private static readonly Dictionary<int, double> shocks = new()
+    {
+        [6] = 5.8,
+        [11] = -8.4,
+        [12] = -4.1,
+        [19] = 7.2,
+        [27] = -9.6,
+        [33] = 6.5,
+        [37] = -5.2,
+    };
+
+    private static readonly ChartOhlc[] candles = BuildCandles();
+
+    private int orders;
+
+    private static string Anchor(string id) => $"{brand.Path}#{id}";
+
+    private static ChartOhlc[] BuildCandles()
+    {
+        var day = new DateTime(2026, 8, 17, 0, 0, 0, DateTimeKind.Unspecified);
+        var close = 198.4;
+        List<ChartOhlc> result = [];
+
+        // Made-up prices, so the noise is a fixed blend of waves rather than a random generator: the chart reads as
+        // a market, and comes out the same every time.
+        static double Noise(int step, int salt) => Math.Sin(step * 2.399 + salt * 1.618) * 0.7 + Math.Sin(step * 0.731 + salt * 4.1) * 0.5;
+
+        static double Spread(int step, int salt) => (Math.Sin(step * 1.913 + salt * 2.7) + 1) / 2;
+
+        while (result.Count < 40)
+        {
+            if (day.DayOfWeek is not (DayOfWeek.Saturday or DayOfWeek.Sunday))
+            {
+                var step = result.Count;
+                var shock = shocks.GetValueOrDefault(step);
+
+                // Each day opens where the last one closed.
+                var open = close;
+                close = Math.Round(open + Noise(step, 1) * 2.4 + shock + 0.15, 2);
+                var range = Math.Abs(shock) * 0.25 + 0.3;
+                var high = Math.Round(Math.Max(open, close) + range + Spread(step, 2) * 2.6, 2);
+                var low = Math.Round(Math.Min(open, close) - range - Spread(step, 3) * 2.6, 2);
+                result.Add(new ChartOhlc(day.ToString("d MMM", System.Globalization.CultureInfo.GetCultureInfo("en-GB")), open, high, low, close));
+            }
+
+            day = day.AddDays(1);
+        }
+
+        return [.. result];
+    }
+}

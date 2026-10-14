@@ -1,0 +1,64 @@
+@page "/chart/barcode"
+@using TwBlazor.Models
+
+<PageContainer Title="TwBarcodeChart" Path="/chart/barcode" Beta Description="TwBarcodeChart is a Blazor barcode chart that draws a thin line for every raw observation along one axis, so clusters and gaps stand out.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwBarcodeChart</code> draws a thin vertical line for every value in <code>Values</code> along a single horizontal axis. Clusters show as dense stripes and gaps as white space, without the values being grouped into ranges first.</Description>
+
+        <CodeExample Name="BarcodeChartBasic" CSharpName="BarcodeChartData">
+            <TwChart Title="Response times" Description="Milliseconds">
+                <TwBarcodeChart Values="@responseTimes" Height="ChartHeight.Small" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Clusters and gaps">
+        <Description>Two tight groups with nothing between them is a pattern a histogram can blur if a bin happens to straddle the gap. On a barcode chart it is unmistakable.</Description>
+
+        <CodeExample Name="BarcodeChartClusters" CSharpName="BarcodeChartClustersData">
+            <TwChart Title="Eruption length" Description="Minutes">
+                <TwBarcodeChart Values="@eruptions" ValueFormat="0.0 min" ValueLabel="Length" CountLabel="Eruptions" Height="ChartHeight.Small" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Repeated values">
+        <Description>Values that repeat share one line, and its tooltip and table row give how many observations it stands for. Use <code>ValueLabel</code> and <code>CountLabel</code> to name the two columns.</Description>
+
+        <CodeExample Name="BarcodeChartRepeats" CSharpName="BarcodeChartRepeatsData">
+            <TwChart Title="Order sizes" Description="Items per order">
+                <TwBarcodeChart Values="@orderSizes" ValueLabel="Items" CountLabel="Orders" Height="ChartHeight.Small" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="When to use">
+        <Description>A barcode chart suits a few dozen to a few hundred observations. Beyond that the lines merge, and <TwLink Href="/chart/histogram" Class="underline">TwHistogramChart</TwLink> or <TwLink Href="/chart/density-plot" Class="underline">TwDensityPlotChart</TwLink> is the better choice.</Description>
+    </PageCard>
+
+    <PageCard Title="Summary">
+        <Description>Tooltips and the table view give each value and the count of observations that share it. The arrow keys step through the values from lowest to highest.</Description>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart" Class="underline">TwChart</TwLink> for those options.</Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample BarcodeChartData
+    private readonly double[] responseTimes = [112, 118, 121, 123, 127, 131, 135, 138, 142, 144, 149, 151, 153, 168, 190, 245, 290];
+    #endregion
+
+    #region CodeExample BarcodeChartClustersData
+    private readonly double[] eruptions =
+    [
+        1.7, 1.8, 1.8, 1.9, 1.9, 2.0, 2.0, 2.1, 2.2, 2.3, 2.4, 3.6, 3.8, 3.9, 4.0, 4.1, 4.1, 4.2, 4.3, 4.3,
+        4.4, 4.5, 4.5, 4.6, 4.7, 4.8, 4.9, 5.0
+    ];
+    #endregion
+
+    #region CodeExample BarcodeChartRepeatsData
+    private readonly double[] orderSizes = [1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 4, 4, 5, 6, 6, 8, 12, 12, 24];
+    #endregion
+}

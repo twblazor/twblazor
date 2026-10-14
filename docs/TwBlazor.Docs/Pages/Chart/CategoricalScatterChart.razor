@@ -1,0 +1,79 @@
+@page "/chart/categorical-scatter"
+@using TwBlazor.Models
+
+<PageContainer Title="TwCategoricalScatterChart" Path="/chart/categorical-scatter" Beta Description="TwCategoricalScatterChart is a Blazor chart that places a dot where two categories meet and sizes it by a value.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwCategoricalScatterChart</code> places a dot where a horizontal category meets a vertical one and sizes it by a value. Each <code>ChartCategoricalPoint</code> names its two categories, so you only list the combinations that exist.</Description>
+
+        <CodeExample Name="CategoricalScatterChartBasic" CSharpName="CategoricalScatterChartData">
+            <TwChart Title="Survey responses" Description="Number of comments by topic and sentiment">
+                <TwCategoricalScatterChart Points="@responses" XTitle="Topic" YTitle="Sentiment" ValueTitle="Comments" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Sparse combinations">
+        <Description>The chart is most useful when many combinations are empty, where a heatmap would be mostly blank cells. Categories appear in the order they are first used, so list the points in the order you want the axes to read.</Description>
+
+        <CodeExample Name="CategoricalScatterChartSparse" CSharpName="CategoricalScatterChartSparseData">
+            <TwChart Title="Incidents by team and severity" Description="Last quarter">
+                <TwCategoricalScatterChart Points="@incidents" XTitle="Team" YTitle="Severity" ValueTitle="Incidents" Height="ChartHeight.Large" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Named points">
+        <Description>Give a point a <code>Label</code> to title its tooltip and add a label column to the table view.</Description>
+
+        <CodeExample Name="CategoricalScatterChartLabels" CSharpName="CategoricalScatterChartLabelsData">
+            <TwChart Title="Conference talks" Description="Audience size by track and day">
+                <TwCategoricalScatterChart Points="@talks" XTitle="Day" YTitle="Track" ValueTitle="Audience" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="When to use">
+        <Description>Use a categorical scatter plot when most combinations of the two categories are empty. The area of a dot, not its diameter, follows the value. For a full grid of values use <TwLink Href="/chart/matrix" Class="underline">TwMatrixChart</TwLink> or <TwLink Href="/chart/heatmap" Class="underline">TwHeatmapChart</TwLink>.</Description>
+    </PageCard>
+
+    <PageCard Title="Summary">
+        <Description>Tooltips and the table view give the two categories and the value of each point.</Description>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart" Class="underline">TwChart</TwLink> for those options.</Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample CategoricalScatterChartData
+    private readonly ChartCategoricalPoint[] responses =
+    [
+        new("Service", "Positive", 48), new("Price", "Positive", 12), new("Quality", "Positive", 62),
+        new("Service", "Neutral", 15), new("Price", "Neutral", 20), new("Quality", "Neutral", 9),
+        new("Service", "Negative", 7), new("Price", "Negative", 34)
+    ];
+    #endregion
+
+    #region CodeExample CategoricalScatterChartSparseData
+    private readonly ChartCategoricalPoint[] incidents =
+    [
+        new("Payments", "Critical", 2), new("Search", "Critical", 1),
+        new("Payments", "High", 5), new("Accounts", "High", 3), new("Mobile", "High", 8),
+        new("Search", "Medium", 11), new("Mobile", "Medium", 14), new("Reports", "Medium", 4),
+        new("Payments", "Low", 9), new("Accounts", "Low", 17), new("Search", "Low", 6), new("Reports", "Low", 21)
+    ];
+    #endregion
+
+    #region CodeExample CategoricalScatterChartLabelsData
+    private readonly ChartCategoricalPoint[] talks =
+    [
+        new("Monday", "Design", 180, "Design systems at scale"),
+        new("Monday", "Engineering", 420, "Keynote: ten years of Blazor"),
+        new("Tuesday", "Design", 95, "Color for everyone"),
+        new("Tuesday", "Engineering", 260, "Rendering without script"),
+        new("Tuesday", "Product", 140, "Roadmaps that survive"),
+        new("Wednesday", "Product", 210, "Pricing experiments")
+    ];
+    #endregion
+}

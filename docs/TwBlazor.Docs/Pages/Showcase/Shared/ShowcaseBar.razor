@@ -1,0 +1,43 @@
+@using IconEnum = TwBlazor.Enums.Icon
+
+@* The strip across the top of every example theme and the theme builder: a way back to the docs, a short note and links between them. *@
+<div class="flex flex-wrap items-center gap-x-4 gap-y-1 bg-gray-950 px-4 py-2 text-xs text-gray-200">
+    <a href="@BackHref" class="@($"{linkClass} font-semibold text-white")">
+        <TwIcon Icon="IconEnum.Arrow_Left" Plain /> Back to twblazor
+    </a>
+    @if (ChildContent is not null)
+    {
+        <span>@ChildContent</span>
+    }
+    <nav class="ms-auto flex flex-wrap items-center gap-x-3 gap-y-1" aria-label="Example themes">
+        @foreach (var brand in ShowcaseBrand.All)
+        {
+            <a href="@brand.Path" aria-current="@(brand == Current ? "page" : null)" class="@($"{linkClass} {currentClass}")">@brand.Name</a>
+        }
+        <a id="showcase-create-your-own" href="/theme" aria-current="@(Current is null ? "page" : null)" class="@createClass">
+            <TwIcon Icon="IconEnum.Palette" Plain /> Create your own
+        </a>
+    </nav>
+</div>
+
+@code {
+    private const string linkClass = "inline-flex min-h-6 items-center gap-1 rounded-sm underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white";
+    private const string currentClass = "aria-[current=page]:font-semibold aria-[current=page]:text-white aria-[current=page]:underline";
+    private const string createClass = "inline-flex min-h-6 items-center gap-1 rounded-full border border-white/30 px-2.5 font-semibold text-white hover:bg-white/15 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white aria-[current=page]:bg-white aria-[current=page]:text-gray-950";
+
+    /// <summary>
+    /// Gets or sets the example being shown, marked as the current page. Leave it unset on the theme builder,
+    /// which marks "Create your own" as the current page instead.
+    /// </summary>
+    [Parameter] public ShowcaseBrand? Current { get; set; }
+
+    /// <summary>
+    /// Gets or sets where "Back to twblazor" goes.
+    /// </summary>
+    [Parameter] public string BackHref { get; set; } = "/";
+
+    /// <summary>
+    /// Gets or sets the short note shown beside the way back.
+    /// </summary>
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+}

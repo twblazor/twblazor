@@ -294,6 +294,12 @@
   <data name="Chart_Decrease" xml:space="preserve">
     <value>Mudhun</value>
   </data>
+  <data name="Chart_Source" xml:space="preserve">
+    <value>Sumber</value>
+  </data>
+  <data name="Chart_Destination" xml:space="preserve">
+    <value>Tujuan</value>
+  </data>
   <data name="Chip_Remove" xml:space="preserve">
     <value>Copot {0}</value>
   </data>
@@ -452,6 +458,12 @@
   </data>
   <data name="FileUpload_FilesSelected" xml:space="preserve">
     <value>{0} berkas dipilih: {1}</value>
+  </data>
+  <data name="Footer_Label" xml:space="preserve">
+    <value>Pranala footer</value>
+  </data>
+  <data name="Footer_OpensInNewTab" xml:space="preserve">
+    <value>mbukak ing tab anyar</value>
   </data>
   <data name="Navbar_Label" xml:space="preserve">
     <value>Navigasi ndhuwur</value>

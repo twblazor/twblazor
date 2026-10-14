@@ -194,6 +194,11 @@ internal static class KeyboardShortcuts
             Key("Activates a clickable icon.", Enter, Space),
             Key("Hides the icon's tooltip, if it has one.", Escape)),
 
+        ["/footer"] = Guide(
+            "The footer is the page's content information landmark. Its sections sit in a navigation landmark, each a heading and a list of ordinary links.",
+            Key("Moves to the next or previous link.", Tab, ShiftTab),
+            Key("Follows the focused link. A link that opens in a new tab says so before you follow it.", Enter)),
+
         ["/navbar"] = Guide(
             "The navbar is a navigation landmark holding ordinary links. On a narrow screen the links sit behind a menu button.",
             Key("Moves to the next link or button.", Tab),
@@ -289,8 +294,11 @@ internal static class KeyboardShortcuts
 
         ["/textfield"] = Guide(
             "A text field is a native input, so every text editing key works as usual. An error message is announced when it appears.",
-            Key("Moves focus to the field.", Tab),
-            Key("Commits the value, when the field binds on change.", Enter)),
+            Key("Moves focus into or out of the field, including a multiline field.", Tab, ShiftTab),
+            Key("Commits the value, when the field binds on change. In a multiline field, inserts a new line instead.", Enter),
+            Key("Moves the caret through the text, line by line in a multiline field.", Up, Down, Left, Right),
+            Key("Moves the caret to the start or end of the line.", Home, End),
+            Key("In a multiline field: moves the caret up or down by a visible page of text.", PageUp, PageDown)),
 
         ["/time-picker"] = Guide(
             "Type a time straight into the field, or open the panel. The panel does not open just because the field has focus.",

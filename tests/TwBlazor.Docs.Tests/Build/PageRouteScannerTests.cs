@@ -60,6 +60,18 @@ public sealed class PageRouteScannerTests : IDisposable
     }
 
     [Fact]
+    public void Scan_SkipsRoutesUnderAnExcludedPrefix()
+    {
+        WritePage("Card.razor", "@page \"/card\"\n");
+        WritePage("Showcase/Example.razor", "@page \"/showcase/example\"\n");
+        WritePage("Showcases.razor", "@page \"/showcases\"\n");
+
+        var routes = PageRouteScanner.Scan(_pagesPath, "/showcase/").Select(r => r.Route).ToList();
+
+        Assert.Equal(["/card", "/showcases"], routes);
+    }
+
+    [Fact]
     public void Scan_SkipsParameterisedRoutes()
     {
         // Arrange

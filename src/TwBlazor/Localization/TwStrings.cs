@@ -289,6 +289,12 @@ public static class TwStrings
     /// <summary>The key for "Decrease".</summary>
     public const string Chart_Decrease = "Chart_Decrease";
 
+    /// <summary>The key for "Source".</summary>
+    public const string Chart_Source = "Chart_Source";
+
+    /// <summary>The key for "Target", the node a link in a graph points to.</summary>
+    public const string Chart_Destination = "Chart_Destination";
+
     /// <summary>The key for "Remove {0}".</summary>
     public const string Chip_Remove = "Chip_Remove";
 
@@ -453,6 +459,12 @@ public static class TwStrings
 
     /// <summary>The key for "Top navigation".</summary>
     public const string Navbar_Label = "Navbar_Label";
+
+    /// <summary>The key for "Footer links", the name of the navigation landmark inside a footer.</summary>
+    public const string Footer_Label = "Footer_Label";
+
+    /// <summary>The key for "opens in a new tab", read after a link that does.</summary>
+    public const string Footer_OpensInNewTab = "Footer_OpensInNewTab";
 
     /// <summary>The key for "Open navigation menu".</summary>
     public const string Navbar_OpenMenu = "Navbar_OpenMenu";

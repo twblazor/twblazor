@@ -35,6 +35,17 @@ Write-Host "Running initial Tailwind build..." -ForegroundColor Yellow
 $minifyArgs = if ($Release) { @("--minify") } else { @() }
 Write-Host "Building TwBlazor.Docs..." -ForegroundColor Cyan
 npx @tailwindcss/cli -i $twDocsInput -o $twDocsOutput @minifyArgs
+
+# Each brand-inspired example theme (docs/TwBlazor.Docs/Pages/Showcase) has its own stylesheet, built from its
+# own Theme.cs the way a consuming app would build one. They change rarely, so they are built once here and
+# not watched: run this script again after editing one of those themes.
+$showcaseCss = ".\docs\TwBlazor.Docs\wwwroot\css\showcase"
+foreach ($showcaseInput in Get-ChildItem -Path $showcaseCss -Filter "*.input.css") {
+    $showcaseOutput = Join-Path $showcaseCss ($showcaseInput.Name -replace "\.input\.css$", ".css")
+    Write-Host "Building example theme $($showcaseInput.Name)..." -ForegroundColor Cyan
+    npx @tailwindcss/cli -i $showcaseInput.FullName -o $showcaseOutput @minifyArgs
+}
+
 Write-Host "Initial build complete!" -ForegroundColor Green
 Write-Host ""
 

@@ -1,0 +1,83 @@
+@page "/chart/sunburst"
+@using TwBlazor.Models
+
+<PageContainer Title="TwSunburstChart" Path="/chart/sunburst" Beta Description="TwSunburstChart is a Blazor sunburst chart: a tree drawn as rings, each segment sized by its share of the whole.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwSunburstChart</code> draws a tree of <code>ChartHierarchyNode</code> values as rings. The top-level nodes form the inner ring and each node's children sit around it in the next ring out, every segment sized by its share of the whole.</Description>
+
+        <CodeExample Name="SunburstChartBasic" CSharpName="SunburstChartData">
+            <TwChart Title="Sales by region and product" Description="Thousands of pounds">
+                <TwSunburstChart Roots="@sales" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Three rings">
+        <Description>Each top-level node has its own color and its descendants are lighter tints of it, so a branch reads as one family all the way out. A larger <code>Height</code> leaves more segments room for their names.</Description>
+
+        <CodeExample Name="SunburstChartDeep" CSharpName="SunburstChartDeepData">
+            <TwChart Title="Website visits by channel, source and device">
+                <TwSunburstChart Roots="@visits" LabelHeader="Segment" ValueHeader="Visits" Height="ChartHeight.Large" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Uneven branches">
+        <Description>Branches need not be the same depth. A node without children simply ends at its own ring, leaving the rings beyond it empty.</Description>
+
+        <CodeExample Name="SunburstChartUneven" CSharpName="SunburstChartUnevenData">
+            <TwChart Title="Monthly household spending" Description="Pounds">
+                <TwSunburstChart Roots="@spending" ValueFormat="C0" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="When to use">
+        <Description>Use a sunburst chart to show shares at every level of a tree. Names that do not fit are cut short or left off. Nodes with no value are left out.</Description>
+    </PageCard>
+
+    <PageCard Title="Summary">
+        <Description>Tooltips and the table view give the path and the value of each segment. Tooltips also give its share of the whole. The arrow keys visit a segment, then its children, then the next segment.</Description>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart" Class="underline">TwChart</TwLink> for those options.</Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample SunburstChartData
+    private readonly ChartHierarchyNode[] sales =
+    [
+        new("North", Children: [new("Hardware", 38), new("Software", 24)]),
+        new("South", Children: [new("Hardware", 28), new("Software", 16)])
+    ];
+    #endregion
+
+    #region CodeExample SunburstChartDeepData
+    private readonly ChartHierarchyNode[] visits =
+    [
+        new("Search", Children:
+        [
+            new("Organic", Children: [new("Mobile", 4200), new("Desktop", 3100)]),
+            new("Paid", Children: [new("Mobile", 1800), new("Desktop", 900)])
+        ]),
+        new("Social", Children:
+        [
+            new("Video", Children: [new("Mobile", 2600), new("Desktop", 400)]),
+            new("Posts", Children: [new("Mobile", 1500), new("Desktop", 700)])
+        ]),
+        new("Direct", Children: [new("Mobile", 1900), new("Desktop", 2400)])
+    ];
+    #endregion
+
+    #region CodeExample SunburstChartUnevenData
+    private readonly ChartHierarchyNode[] spending =
+    [
+        new("Housing", Children: [new("Rent", 1150), new("Energy", 180), new("Water", 45)]),
+        new("Food", Children: [new("Groceries", 420), new("Eating out", Children: [new("Lunches", 90), new("Dinners", 140)])]),
+        new("Transport", Children: [new("Rail", 210), new("Car", 130)]),
+        new("Savings", 400)
+    ];
+    #endregion
+}

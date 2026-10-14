@@ -1,0 +1,81 @@
+@page "/chart/bump-area"
+@using TwBlazor.Models
+
+<PageContainer Title="TwBumpAreaChart" Path="/chart/bump-area" Beta Description="TwBumpAreaChart is a Blazor bump area chart: a band per series that is as thick as its value and moves as its rank changes.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwBumpAreaChart</code> draws a band for each series. At every category the bands are stacked from the largest value at the top to the smallest at the bottom, so a band climbs when its series overtakes another and its thickness shows by how much it leads.</Description>
+
+        <CodeExample Name="BumpAreaChartBasic" CSharpName="BumpAreaChartData">
+            <TwChart Title="Market share by platform" Description="Percent">
+                <TwBumpAreaChart Categories="@years" Series="@platforms" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Changing leaders">
+        <Description>With more series and more crossings the chart tells the story of a race. Where a <TwLink Href="/chart/bump" Class="underline">TwBumpChart</TwLink> shows only the order, the band thickness here also shows when the leader was far ahead and when the field was close.</Description>
+
+        <CodeExample Name="BumpAreaChartRace" CSharpName="BumpAreaChartRaceData">
+            <TwChart Title="Browser usage" Description="Percent of sessions">
+                <TwBumpAreaChart Categories="@quarters" Series="@browsers" CategoryHeader="Quarter" ValueFormat="0'%'" Height="ChartHeight.Large" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Late arrivals">
+        <Description>Use <code>null</code> where a series has no value. Its band starts, stops or breaks there, and the other bands close the gap.</Description>
+
+        <CodeExample Name="BumpAreaChartGaps" CSharpName="BumpAreaChartGapsData">
+            <TwChart Title="Revenue by product line" Description="Millions of pounds">
+                <TwBumpAreaChart Categories="@years" Series="@products" ValueFormat="C1" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="When to use">
+        <Description>Use a bump area chart when both the order of the series and the size of the lead matter. When only the order matters, <TwLink Href="/chart/bump" Class="underline">TwBumpChart</TwLink> is simpler. Negative values count as zero.</Description>
+    </PageCard>
+
+    <PageCard Title="Summary">
+        <Description>Tooltips and the table view give the value of every series for each category. Tooltips also give the rank of each series. The arrow keys move down each category in rank order, then on to the next.</Description>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart" Class="underline">TwChart</TwLink> for those options.</Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample BumpAreaChartData
+    private readonly string[] years = ["2021", "2022", "2023", "2024", "2025"];
+
+    private readonly ChartSeries[] platforms =
+    [
+        new("Atlas", [42, 38, 33, 30, 26]),
+        new("Beacon", [30, 32, 36, 39, 44]),
+        new("Comet", [28, 30, 31, 31, 30])
+    ];
+    #endregion
+
+    #region CodeExample BumpAreaChartRaceData
+    private readonly string[] quarters = ["Q1 23", "Q2 23", "Q3 23", "Q4 23", "Q1 24", "Q2 24", "Q3 24", "Q4 24"];
+
+    private readonly ChartSeries[] browsers =
+    [
+        new("Falcon", [38, 36, 33, 30, 27, 25, 22, 20]),
+        new("Otter", [24, 26, 29, 32, 35, 37, 40, 43]),
+        new("Lynx", [20, 19, 19, 18, 17, 17, 16, 15]),
+        new("Heron", [12, 13, 12, 13, 14, 13, 14, 13]),
+        new("Wren", [6, 6, 7, 7, 7, 8, 8, 9])
+    ];
+    #endregion
+
+    #region CodeExample BumpAreaChartGapsData
+    private readonly ChartSeries[] products =
+    [
+        new("Hardware", [4.2, 4.0, 3.6, 3.1, 2.8]),
+        new("Software", [2.1, 2.9, 3.8, 4.6, 5.2]),
+        new("Services", [null, null, 0.9, 1.8, 3.4])
+    ];
+    #endregion
+}

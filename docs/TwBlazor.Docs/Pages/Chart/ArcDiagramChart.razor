@@ -1,0 +1,78 @@
+@page "/chart/arc-diagram"
+@using TwBlazor.Models
+
+<PageContainer Title="TwArcDiagramChart" Path="/chart/arc-diagram" Beta Description="TwArcDiagramChart is a Blazor arc diagram: nodes set out along a line and joined by an arc for every link.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwArcDiagramChart</code> sets <code>ChartGraphNode</code> values out along a line in the order given and draws an arc above it for every <code>ChartGraphLink</code>. The further apart two linked nodes are, the higher their arc. Links refer to nodes by <code>Id</code>.</Description>
+
+        <CodeExample Name="ArcDiagramChartBasic" CSharpName="ArcDiagramChartData">
+            <TwChart Title="Related topics">
+                <TwArcDiagramChart Nodes="@topics" Links="@related" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Order reveals structure">
+        <Description>The order of the nodes is the design. With the members of each group listed together, links inside a group are short low arcs and the few links between groups rise above them.</Description>
+
+        <CodeExample Name="ArcDiagramChartClusters" CSharpName="ArcDiagramChartClustersData">
+            <TwChart Title="Who reviews whose code" Description="Two squads and the reviews between them">
+                <TwArcDiagramChart Nodes="@engineers" Links="@reviews" SourceHeader="Author" TargetHeader="Reviewer" ValueHeader="Reviews" Height="ChartHeight.Large" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="A sequence">
+        <Description>When the nodes have a natural order, such as chapters or stops on a route, arcs show what jumps ahead and what calls back.</Description>
+
+        <CodeExample Name="ArcDiagramChartSequence" CSharpName="ArcDiagramChartSequenceData">
+            <TwChart Title="Chapters that refer to one another">
+                <TwArcDiagramChart Nodes="@chapters" Links="@references" ShowTableToggle="false" Height="ChartHeight.Small" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="When to use">
+        <Description>Use an arc diagram when the order of the nodes matters, or to show clusters as runs of short arcs. Links that name a missing node, or join a node to itself, are left out. To show how much flows along each link, use <TwLink Href="/chart/chord-diagram" Class="underline">TwChordDiagramChart</TwLink>.</Description>
+    </PageCard>
+
+    <PageCard Title="Summary">
+        <Description>Tooltips and the table view give the source, target and value of each link.</Description>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart" Class="underline">TwChart</TwLink> for those options.</Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample ArcDiagramChartData
+    private readonly ChartGraphNode[] topics = [new("a", "Layout"), new("b", "Color"), new("c", "Type"), new("d", "Motion")];
+
+    private readonly ChartGraphLink[] related = [new("a", "b", 2), new("a", "c", 1), new("b", "c", 3), new("a", "d", 1)];
+    #endregion
+
+    #region CodeExample ArcDiagramChartClustersData
+    private readonly ChartGraphNode[] engineers =
+    [
+        new("ana", "Ana"), new("bo", "Bo"), new("cy", "Cy"), new("di", "Di"),
+        new("eli", "Eli"), new("fay", "Fay"), new("gus", "Gus"), new("hal", "Hal")
+    ];
+
+    private readonly ChartGraphLink[] reviews =
+    [
+        new("ana", "bo", 14), new("bo", "cy", 9), new("cy", "di", 11), new("ana", "cy", 6), new("bo", "di", 4),
+        new("eli", "fay", 12), new("fay", "gus", 8), new("gus", "hal", 10), new("eli", "gus", 5),
+        new("di", "eli", 3), new("ana", "hal", 1)
+    ];
+    #endregion
+
+    #region CodeExample ArcDiagramChartSequenceData
+    private readonly ChartGraphNode[] chapters =
+    [
+        new("1", "Ch. 1"), new("2", "Ch. 2"), new("3", "Ch. 3"), new("4", "Ch. 4"), new("5", "Ch. 5"), new("6", "Ch. 6")
+    ];
+
+    private readonly ChartGraphLink[] references = [new("1", "2"), new("2", "3"), new("1", "5"), new("3", "4"), new("4", "6"), new("2", "6")];
+    #endregion
+}

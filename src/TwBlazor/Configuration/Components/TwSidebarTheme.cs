@@ -88,6 +88,12 @@ public class TwSidebarTheme
     public required string NavbarActions { get; set; }
 
     /// <summary>
+    /// Gets or sets the extra classes for the navbar actions slot while the navbar can collapse. Below the
+    /// breakpoint they set the actions apart under the links, centered in a row at their own size.
+    /// </summary>
+    public string NavbarActionsCollapsible { get; set; } = string.Empty;
+
+    /// <summary>
     /// Gets or sets the classes for the navbar menu toggle.
     /// </summary>
     public required string NavbarToggle { get; set; }
@@ -103,6 +109,12 @@ public class TwSidebarTheme
     public required string NavbarLink { get; set; }
 
     /// <summary>
+    /// Gets or sets the extra classes for navbar navigation links while the navbar can collapse. Below the
+    /// breakpoint they turn each link into a full-width row tall enough to tap.
+    /// </summary>
+    public string NavbarLinkCollapsible { get; set; } = string.Empty;
+
+    /// <summary>
     /// Gets or sets the classes for the active navbar navigation link.
     /// </summary>
     public required string NavbarLinkActive { get; set; }
@@ -110,8 +122,8 @@ public class TwSidebarTheme
     /// <summary>
     /// Gets or sets the classes for the mobile dropdown panel shown when the responsive menu is open.
     /// </summary>
-    /// <remarks>Should include a background that matches (or complements) <see cref="Navbar"/> so that
-    /// <see cref="NavbarLink"/>'s text color stays legible against it.</remarks>
+    /// <remarks>The panel sits inside the bar and shares its surface, so <see cref="NavbarLink"/>'s text color
+    /// stays legible whatever color <see cref="Navbar"/> is. Give it a background of its own only if it should differ.</remarks>
     public required string NavbarMobileMenu { get; set; }
 
     /// <summary>

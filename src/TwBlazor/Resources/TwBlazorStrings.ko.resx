@@ -297,6 +297,12 @@
   <data name="Chart_Decrease" xml:space="preserve">
     <value>감소</value>
   </data>
+  <data name="Chart_Source" xml:space="preserve">
+    <value>소스</value>
+  </data>
+  <data name="Chart_Destination" xml:space="preserve">
+    <value>대상</value>
+  </data>
   <data name="Chip_Remove" xml:space="preserve">
     <value>{0} 제거</value>
   </data>
@@ -455,6 +461,12 @@
   </data>
   <data name="FileUpload_FilesSelected" xml:space="preserve">
     <value>파일 {0}개 선택됨: {1}</value>
+  </data>
+  <data name="Footer_Label" xml:space="preserve">
+    <value>바닥글 링크</value>
+  </data>
+  <data name="Footer_OpensInNewTab" xml:space="preserve">
+    <value>새 탭에서 열림</value>
   </data>
   <data name="Navbar_Label" xml:space="preserve">
     <value>상단 탐색</value>

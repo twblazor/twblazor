@@ -297,6 +297,12 @@
   <data name="Chart_Decrease" xml:space="preserve">
     <value>کمی</value>
   </data>
+  <data name="Chart_Source" xml:space="preserve">
+    <value>ماخذ</value>
+  </data>
+  <data name="Chart_Destination" xml:space="preserve">
+    <value>منزل</value>
+  </data>
   <data name="Chip_Remove" xml:space="preserve">
     <value>{0} ہٹاؤ</value>
   </data>
@@ -455,6 +461,12 @@
   </data>
   <data name="FileUpload_FilesSelected" xml:space="preserve">
     <value>{0} فائلاں چُنیاں گئیاں: {1}</value>
+  </data>
+  <data name="Footer_Label" xml:space="preserve">
+    <value>فوٹر لنکس</value>
+  </data>
+  <data name="Footer_OpensInNewTab" xml:space="preserve">
+    <value>نویں ٹیب وچ کھلدا اے</value>
   </data>
   <data name="Navbar_Label" xml:space="preserve">
     <value>اُتلی نیویگیشن</value>

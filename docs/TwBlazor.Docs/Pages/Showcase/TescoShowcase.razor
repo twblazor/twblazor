@@ -1,0 +1,118 @@
+@page "/showcase/tesco"
+@layout EmptyLayout
+@using TwBlazor.Docs.Pages.Showcase.Shared
+@using TwBlazor.Models
+@using IconEnum = TwBlazor.Enums.Icon
+
+<ShowcasePage Brand="brand">
+    <ChildContent>
+        <nav class="flex flex-wrap justify-end gap-x-5 gap-y-1 border-b border-neutral-200 px-6 py-1.5 text-xs text-grocerblue-600" aria-label="Tesco example services">
+            @foreach (var link in services)
+            {
+                <a href="@Anchor("showcase-main")" class="underline-offset-4 hover:underline @focusClass">@link</a>
+            }
+        </nav>
+
+        <TwNavbar AriaLabel="Tesco example header">
+            <BrandContent>
+                <a href="@brand.Path" class="@focusClass"><ShowcaseLogo Brand="brand" /></a>
+            </BrandContent>
+            <NavigationContent>
+                <label class="flex h-11 w-full max-w-xl items-center gap-2 rounded-full border border-neutral-400 bg-white px-4 text-neutral-800 focus-within:border-grocerblue-600 focus-within:ring-2 focus-within:ring-grocerblue-600">
+                    <span class="sr-only">Search groceries</span>
+                    <input type="search" placeholder="Search" class="min-w-0 flex-1 bg-transparent placeholder:text-neutral-600 focus:outline-hidden" />
+                    <span class="text-grocerblue-600" aria-hidden="true"><TwIcon Icon="IconEnum.Search" Plain /></span>
+                </label>
+            </NavigationContent>
+            <ActionsContent>
+                <TwButton Label="Sign in" Color="Color.Primary" Variant="ButtonVariant.Outlined" StartIcon="IconEnum.Person" />
+                <TwButton Label="@($"Basket ({basket})")" Color="Color.Primary" StartIcon="IconEnum.Basket2" Href="@Anchor("showcase-products")" />
+            </ActionsContent>
+        </TwNavbar>
+
+        <nav class="bg-grocerblue-600 text-white" aria-label="Tesco example departments">
+            <ul class="mx-auto flex max-w-7xl flex-wrap gap-x-1 px-4">
+                @foreach (var link in departments)
+                {
+                    <li><a href="@Anchor("showcase-products")" class="block px-3 py-3 text-sm font-bold underline-offset-4 hover:underline @focusClass">@link</a></li>
+                }
+            </ul>
+        </nav>
+
+        <main id="showcase-main">
+            <section class="mx-auto grid max-w-7xl grid-cols-1 gap-6 px-6 py-10 md:grid-cols-3" aria-labelledby="showcase-hero-heading">
+                <div class="flex flex-col items-start justify-center gap-4 md:col-span-2">
+                    <h1 id="showcase-hero-heading" class="text-4xl font-bold text-balance text-grocerblue-600 md:text-5xl">Your weekly shop, sorted</h1>
+                    <p class="max-w-lg text-lg text-neutral-800">Book a delivery or Click+Collect slot, fill your basket and leave the rest to us.</p>
+                    <div class="flex flex-wrap gap-3">
+                        <TwButton Label="Book a slot" Color="Color.Primary" Href="@Anchor("showcase-products")" />
+                        <TwButton Label="Shop groceries" Color="Color.Primary" Variant="ButtonVariant.Outlined" Href="@Anchor("showcase-products")" />
+                    </div>
+                </div>
+                <div class="flex flex-col justify-between gap-4 rounded-md bg-clubyellow-400 p-6 text-grocerblue-700">
+                    <p class="text-sm font-bold uppercase tracking-wide">Clubcard Prices</p>
+                    <p class="text-3xl font-black text-balance">Better baskets with Clubcard</p>
+                    <a href="@Anchor("showcase-products")" class="inline-flex items-center gap-1 self-start font-bold underline underline-offset-4 @focusClass">See this week's offers <TwIcon Icon="IconEnum.Chevron_Right" Plain /></a>
+                </div>
+            </section>
+
+            <section id="showcase-products" class="mx-auto max-w-7xl scroll-mt-6 px-6 pb-12" aria-labelledby="showcase-products-heading">
+                <h2 id="showcase-products-heading" class="text-2xl font-bold text-grocerblue-600">This week's Clubcard Prices</h2>
+                <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                    @foreach (var product in brand.Products)
+                    {
+                        <TwCard>
+                            <article class="flex h-full flex-col gap-3">
+                                <ShowcaseImage Url="@product.Image" Alt="@($"Tesco {product.Name}")" Icon="product.Icon" Class="aspect-4/3 w-full rounded-sm object-contain" FallbackClass="bg-neutral-100 text-6xl text-neutral-400" />
+                                <h3 class="font-bold text-grocerblue-600">Tesco @product.Name</h3>
+                                <p class="flex items-baseline gap-2">
+                                    <span class="text-xl font-bold text-neutral-900">@product.Price</span>
+                                    <span class="text-sm text-neutral-600">@product.Description</span>
+                                </p>
+                                <p class="flex items-center gap-2 self-start bg-clubyellow-400 pe-3 text-sm font-bold text-grocerblue-700">
+                                    <TwChip Label="Clubcard" Color="Color.Primary" Size="ChipSize.Small" Rounded="Rounded.None" />
+                                    @product.Tag
+                                </p>
+                                <div class="mt-auto">
+                                    <TwButton Label="Add" AriaLabel="@($"Add Tesco {product.Name} to basket")" Color="Color.Primary" Class="w-full justify-center" OnClick="@(() => basket++)" />
+                                </div>
+                            </article>
+                        </TwCard>
+                    }
+                </div>
+                <p class="mt-6 text-sm font-bold text-grocerblue-600" aria-live="polite">@(basket == 0 ? "Your basket is empty." : $"{basket} in your basket.")</p>
+            </section>
+        </main>
+    </ChildContent>
+    <Footer>
+        <TwFooter Sections="@footer" BottomLinks="@legal" Copyright="An example page, not a Tesco website." NavigationLabel="Tesco example footer" />
+    </Footer>
+</ShowcasePage>
+
+@code {
+    private const string focusClass = "rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current";
+
+    private static readonly ShowcaseBrand brand = ShowcaseBrand.Tesco;
+
+    private static readonly string[] services = ["Tesco.com", "Tesco Bank", "Tesco Mobile", "Delivery Saver", "Store locator", "Help"];
+
+    private static readonly string[] departments = ["Groceries", "Clubcard", "F&F Clothing", "Recipes", "Offers", "Marketplace"];
+
+    private static readonly (string Title, string[] Links)[] footerColumns =
+    [
+        ("Here to help", ["Help", "Contact us", "Product recall", "Store locator"]),
+        ("About Tesco", ["Our services", "Careers", "Sustainability", "Tesco PLC"]),
+        ("Our website", ["Privacy Centre", "Terms and conditions", "Accessibility", "Site map"]),
+        ("Ways to shop", ["Delivery", "Click+Collect", "Whoosh", "Delivery Saver"])
+    ];
+
+    // The same columns as the component's own models. Every link leads back to the top of this example.
+    private static readonly FooterSection[] footer =
+        [.. footerColumns.Select(column => new FooterSection(column.Title, [.. column.Links.Select(link => new FooterLink(link, Anchor("showcase-main")))]))];
+
+    private static readonly FooterLink[] legal = [("Privacy", Anchor("showcase-main")), ("Terms of use", Anchor("showcase-main")), ("Accessibility", Anchor("showcase-main"))];
+
+    private int basket;
+
+    private static string Anchor(string id) => $"{brand.Path}#{id}";
+}

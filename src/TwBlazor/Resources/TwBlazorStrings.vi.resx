@@ -294,6 +294,12 @@
   <data name="Chart_Decrease" xml:space="preserve">
     <value>Giảm</value>
   </data>
+  <data name="Chart_Source" xml:space="preserve">
+    <value>Nguồn</value>
+  </data>
+  <data name="Chart_Destination" xml:space="preserve">
+    <value>Đích</value>
+  </data>
   <data name="Chip_Remove" xml:space="preserve">
     <value>Xóa {0}</value>
   </data>
@@ -452,6 +458,12 @@
   </data>
   <data name="FileUpload_FilesSelected" xml:space="preserve">
     <value>Đã chọn {0} tệp: {1}</value>
+  </data>
+  <data name="Footer_Label" xml:space="preserve">
+    <value>Liên kết chân trang</value>
+  </data>
+  <data name="Footer_OpensInNewTab" xml:space="preserve">
+    <value>mở trong thẻ mới</value>
   </data>
   <data name="Navbar_Label" xml:space="preserve">
     <value>Điều hướng trên cùng</value>

@@ -297,6 +297,12 @@
   <data name="Chart_Decrease" xml:space="preserve">
     <value>減少</value>
   </data>
+  <data name="Chart_Source" xml:space="preserve">
+    <value>來源</value>
+  </data>
+  <data name="Chart_Destination" xml:space="preserve">
+    <value>目標</value>
+  </data>
   <data name="Chip_Remove" xml:space="preserve">
     <value>移除 {0}</value>
   </data>
@@ -455,6 +461,12 @@
   </data>
   <data name="FileUpload_FilesSelected" xml:space="preserve">
     <value>已選擇 {0} 個檔案：{1}</value>
+  </data>
+  <data name="Footer_Label" xml:space="preserve">
+    <value>頁尾連結</value>
+  </data>
+  <data name="Footer_OpensInNewTab" xml:space="preserve">
+    <value>在新分頁中開啟</value>
   </data>
   <data name="Navbar_Label" xml:space="preserve">
     <value>頂部導覽</value>

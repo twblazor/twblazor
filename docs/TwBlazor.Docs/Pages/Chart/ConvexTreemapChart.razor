@@ -1,0 +1,83 @@
+@page "/chart/convex-treemap"
+@using TwBlazor.Models
+
+<PageContainer Title="TwConvexTreemapChart" Path="/chart/convex-treemap" Beta Description="TwConvexTreemapChart is a Blazor treemap for trees: cut-cornered tiles sized by value and grouped with the other leaves of their parent.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwConvexTreemapChart</code> takes a tree of <code>ChartHierarchyNode</code> values and fills the plot with a tile for every leaf, sized by its <code>Value</code>. The leaves of one parent sit together and share its color, with a gap around the group.</Description>
+
+        <CodeExample Name="ConvexTreemapChartBasic" CSharpName="ConvexTreemapChartData">
+            <TwChart Title="Budget by team" Description="Thousands of pounds">
+                <TwConvexTreemapChart Roots="@budget" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Many leaves">
+        <Description>Tiles are laid out largest first and kept close to square, so a long tail of small values stays readable. Tiles with room show their name; every tile has a tooltip.</Description>
+
+        <CodeExample Name="ConvexTreemapChartMany" CSharpName="ConvexTreemapChartManyData">
+            <TwChart Title="Bundle size by package" Description="Kilobytes">
+                <TwConvexTreemapChart Roots="@bundle" LabelHeader="Package" ValueHeader="Size" ValueFormat="#,0 kB" Height="ChartHeight.Large" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Three levels">
+        <Description>Groups nest inside groups. Each level is inset a little further, and the tooltip and table view give a leaf's full path so two leaves with the same name stay distinct.</Description>
+
+        <CodeExample Name="ConvexTreemapChartDeep" CSharpName="ConvexTreemapChartDeepData">
+            <TwChart Title="Sales by region, country and product" Description="Millions of pounds">
+                <TwConvexTreemapChart Roots="@sales" ValueFormat="C1" Height="ChartHeight.Large" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="When to use">
+        <Description>Use a convex treemap to compare the leaves of a tree by size. Nodes with no value are left out. For a single flat list of values, <TwLink Href="/chart/treemap" Class="underline">TwTreemapChart</TwLink> does the same job without the grouping.</Description>
+    </PageCard>
+
+    <PageCard Title="Summary">
+        <Description>Tooltips and the table view give the path and the value of each leaf. Tooltips also give its share of the whole.</Description>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart" Class="underline">TwChart</TwLink> for those options.</Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample ConvexTreemapChartData
+    private readonly ChartHierarchyNode[] budget =
+    [
+        new("Product", Children: [new("Research", 36), new("Design", 24), new("Engineering", 58)]),
+        new("Operations", Children: [new("Support", 22), new("Hosting", 18)])
+    ];
+    #endregion
+
+    #region CodeExample ConvexTreemapChartManyData
+    private readonly ChartHierarchyNode[] bundle =
+    [
+        new("Framework", Children: [new("Runtime", 412), new("Router", 96), new("Forms", 74), new("Http", 38)]),
+        new("Interface", Children: [new("Components", 268), new("Icons", 142), new("Charts", 118), new("Theme", 44)]),
+        new("Application", Children: [new("Pages", 186), new("Services", 92), new("Models", 31), new("Resources", 27), new("Utilities", 12)])
+    ];
+    #endregion
+
+    #region CodeExample ConvexTreemapChartDeepData
+    private readonly ChartHierarchyNode[] sales =
+    [
+        new("Europe", Children:
+        [
+            new("United Kingdom", Children: [new("Hardware", 4.2), new("Software", 6.8), new("Services", 2.4)]),
+            new("Germany", Children: [new("Hardware", 3.1), new("Software", 4.4)]),
+            new("France", Children: [new("Hardware", 1.9), new("Software", 2.7)])
+        ]),
+        new("Americas", Children:
+        [
+            new("United States", Children: [new("Hardware", 7.5), new("Software", 11.3), new("Services", 5.1)]),
+            new("Canada", Children: [new("Hardware", 1.4), new("Software", 2.2)])
+        ]),
+        new("Asia Pacific", Children: [new("Japan", 5.6), new("Australia", 3.3), new("Singapore", 1.8)])
+    ];
+    #endregion
+}

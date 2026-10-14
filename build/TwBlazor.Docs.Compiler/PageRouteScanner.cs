@@ -25,8 +25,11 @@ public static partial class PageRouteScanner
     /// <c>@page</c> shown inside a code sample is never mistaken for a real route.
     /// </remarks>
     /// <param name="pagesPath">The docs project's <c>Pages</c> directory.</param>
+    /// <param name="excludedPrefixes">
+    /// Route prefixes to leave out, for sections that <c>robots.txt</c> keeps crawlers away from.
+    /// </param>
     /// <returns>The discovered routes, one per distinct route template.</returns>
-    public static IReadOnlyList<PageRoute> Scan(string pagesPath)
+    public static IReadOnlyList<PageRoute> Scan(string pagesPath, params string[] excludedPrefixes)
     {
         var routes = new Dictionary<string, PageRoute>(StringComparer.Ordinal);
 
@@ -41,7 +44,7 @@ public static partial class PageRouteScanner
             foreach (Match match in PageDirectivePattern().Matches(text))
             {
                 var route = match.Groups["route"].Value;
-                if (!route.Contains('{'))
+                if (!route.Contains('{') && !excludedPrefixes.Any(prefix => route.StartsWith(prefix, StringComparison.Ordinal)))
                 {
                     routes.TryAdd(route, new PageRoute(route, file));
                 }

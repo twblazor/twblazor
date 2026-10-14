@@ -294,6 +294,12 @@
   <data name="Chart_Decrease" xml:space="preserve">
     <value>Azalış</value>
   </data>
+  <data name="Chart_Source" xml:space="preserve">
+    <value>Kaynak</value>
+  </data>
+  <data name="Chart_Destination" xml:space="preserve">
+    <value>Hedef</value>
+  </data>
   <data name="Chip_Remove" xml:space="preserve">
     <value>{0} öğesini kaldır</value>
   </data>
@@ -455,6 +461,12 @@
   </data>
   <data name="FileUpload_FilesSelected" xml:space="preserve">
     <value>{0} dosya seçildi: {1}</value>
+  </data>
+  <data name="Footer_Label" xml:space="preserve">
+    <value>Alt bilgi bağlantıları</value>
+  </data>
+  <data name="Footer_OpensInNewTab" xml:space="preserve">
+    <value>yeni sekmede açılır</value>
   </data>
   <data name="Navbar_Label" xml:space="preserve">
     <value>Üst gezinme</value>

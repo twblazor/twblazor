@@ -1,0 +1,71 @@
+@page "/chart/density-plot"
+@using TwBlazor.Models
+
+<PageContainer Title="TwDensityPlotChart" Path="/chart/density-plot" Beta Description="TwDensityPlotChart is a Blazor density plot that draws a smooth curve per group showing where its raw values concentrate.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwDensityPlotChart</code> takes groups of raw observations as <code>ChartSample</code> values and draws a smooth curve for each, tall where its values cluster. You pass the observations; the chart estimates the curve.</Description>
+
+        <CodeExample Name="DensityPlotChartBasic" CSharpName="DensityPlotChartData">
+            <TwChart Title="Checkout time" Description="Seconds">
+                <TwDensityPlotChart Samples="@checkout" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Comparing groups">
+        <Description>Several groups share one axis and one vertical scale, so a taller curve always means a tighter cluster. Each group gets a legend entry; click one to hide its curve and let the axis refit the rest.</Description>
+
+        <CodeExample Name="DensityPlotChartGroups" CSharpName="DensityPlotChartGroupsData">
+            <TwChart Title="Page load time by release" Description="Milliseconds">
+                <TwDensityPlotChart Samples="@releases" LabelHeader="Release" ValueFormat="#,0 ms" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Two peaks">
+        <Description>A density plot shows shapes that a box plot hides. Here the same service has a fast cached path and a slow uncached one, which appear as two separate humps.</Description>
+
+        <CodeExample Name="DensityPlotChartBimodal" CSharpName="DensityPlotChartBimodalData">
+            <TwChart Title="API latency" Description="Milliseconds, cached and uncached requests together">
+                <TwDensityPlotChart Samples="@latency" Height="ChartHeight.Small" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="When to use">
+        <Description>Use a density plot to compare the shape of a few distributions. Curves run a little past the lowest and highest observation so they can fall back to zero, and there is no vertical axis because density has no unit a reader needs. For many groups use <TwLink Href="/chart/ridgeline" Class="underline">TwRidgelinePlotChart</TwLink>.</Description>
+    </PageCard>
+
+    <PageCard Title="Summary">
+        <Description>Tooltips and the table view give the count, minimum, median and maximum of each group.</Description>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart" Class="underline">TwChart</TwLink> for those options.</Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample DensityPlotChartData
+    private readonly ChartSample[] checkout =
+    [
+        new("Checkout", [31, 34, 36, 38, 39, 41, 42, 42, 44, 45, 47, 48, 51, 55, 62, 74])
+    ];
+    #endregion
+
+    #region CodeExample DensityPlotChartGroupsData
+    private readonly ChartSample[] releases =
+    [
+        new("v1.8", [820, 860, 905, 930, 960, 990, 1010, 1040, 1080, 1150, 1230, 1400]),
+        new("v1.9", [640, 690, 720, 745, 760, 790, 805, 830, 870, 910, 980]),
+        new("v2.0", [410, 430, 445, 450, 462, 470, 478, 490, 505, 530, 560])
+    ];
+    #endregion
+
+    #region CodeExample DensityPlotChartBimodalData
+    private readonly ChartSample[] latency =
+    [
+        new("Latency", [18, 20, 21, 22, 22, 23, 24, 25, 26, 28, 31, 140, 152, 158, 161, 165, 170, 174, 181, 190])
+    ];
+    #endregion
+}

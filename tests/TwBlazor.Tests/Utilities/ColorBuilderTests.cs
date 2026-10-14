@@ -9,7 +9,7 @@ public class ColorBuilderTests : TwBlazorTestBase
 
     [Theory]
     [InlineData(Color.Primary, "text-purple-600", "dark:text-purple-200")]
-    [InlineData(Color.Accent, "text-fuchsia-600", "dark:text-fuchsia-200")]
+    [InlineData(Color.Accent, "text-fuchsia-700", "dark:text-fuchsia-200")]
     [InlineData(Color.Success, "text-green-800", "dark:text-green-600")]
     [InlineData(Color.Danger, "text-red-700", "dark:text-red-200")]
     [InlineData(Color.Warning, "text-yellow-800", "dark:text-yellow-600")]
@@ -154,7 +154,7 @@ public class ColorBuilderTests : TwBlazorTestBase
 
     [Theory]
     [InlineData(Color.Primary, "border-purple-600", "text-purple-600")]
-    [InlineData(Color.Accent, "border-fuchsia-600", "text-fuchsia-600")]
+    [InlineData(Color.Accent, "border-fuchsia-600", "text-fuchsia-700")]
     [InlineData(Color.Success, "border-green-600", "text-green-800")]
     [InlineData(Color.Danger, "border-red-600", "text-red-700")]
     [InlineData(Color.Warning, "border-yellow-700", "text-yellow-800")]
@@ -210,7 +210,7 @@ public class ColorBuilderTests : TwBlazorTestBase
 
     [Theory]
     [InlineData(Color.Primary, "text-purple-600")]
-    [InlineData(Color.Accent, "text-fuchsia-600")]
+    [InlineData(Color.Accent, "text-fuchsia-700")]
     [InlineData(Color.Success, "text-green-800")]
     [InlineData(Color.Danger, "text-red-700")]
     [InlineData(Color.Warning, "text-yellow-800")]

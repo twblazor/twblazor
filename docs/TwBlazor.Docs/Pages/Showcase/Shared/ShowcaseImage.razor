@@ -1,0 +1,41 @@
+@using IconEnum = TwBlazor.Enums.Icon
+
+@* A picture loaded from the brand's own website by its address. Nothing is copied into this repository, so a
+   picture with no address falls back to an icon. *@
+@if (Url is not null)
+{
+    <img src="@Url" alt="@Alt" loading="lazy" decoding="async" referrerpolicy="no-referrer" class="@Class" />
+}
+else
+{
+    <span class="flex items-center justify-center @Class @FallbackClass" aria-hidden="true">
+        <TwIcon Icon="Icon" Plain />
+    </span>
+}
+
+@code {
+    /// <summary>
+    /// Gets or sets the address of the picture, or <see langword="null"/> to show the icon.
+    /// </summary>
+    [Parameter] public string? Url { get; set; }
+
+    /// <summary>
+    /// Gets or sets the text alternative for the picture.
+    /// </summary>
+    [Parameter, EditorRequired] public required string Alt { get; set; }
+
+    /// <summary>
+    /// Gets or sets the icon shown when there is no picture.
+    /// </summary>
+    [Parameter] public IconEnum Icon { get; set; } = IconEnum.Box_Seam;
+
+    /// <summary>
+    /// Gets or sets the classes that size the picture or the icon standing in for it.
+    /// </summary>
+    [Parameter] public string? Class { get; set; }
+
+    /// <summary>
+    /// Gets or sets extra classes for the icon fallback only, such as its size and color.
+    /// </summary>
+    [Parameter] public string? FallbackClass { get; set; }
+}

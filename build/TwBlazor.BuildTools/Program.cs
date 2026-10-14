@@ -109,7 +109,8 @@ static class Program
 
             try
             {
-                var entries = PageRouteScanner.Scan(Paths.PagesPath)
+                // The example themes under /showcase are disallowed in robots.txt, so they stay out of the sitemap too.
+                var entries = PageRouteScanner.Scan(Paths.PagesPath, "/showcase/")
                     .Select(route => new PageEntry(route.Route, GitHistory.GetLastModified(solutionDir, route.SourcePath)))
                     .ToList();
 

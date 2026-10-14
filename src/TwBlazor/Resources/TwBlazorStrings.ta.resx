@@ -294,6 +294,12 @@
   <data name="Chart_Decrease" xml:space="preserve">
     <value>குறைவு</value>
   </data>
+  <data name="Chart_Source" xml:space="preserve">
+    <value>மூலம்</value>
+  </data>
+  <data name="Chart_Destination" xml:space="preserve">
+    <value>இலக்கு</value>
+  </data>
   <data name="Chip_Remove" xml:space="preserve">
     <value>{0} அகற்று</value>
   </data>
@@ -452,6 +458,12 @@
   </data>
   <data name="FileUpload_FilesSelected" xml:space="preserve">
     <value>{0} கோப்புகள் தேர்ந்தெடுக்கப்பட்டன: {1}</value>
+  </data>
+  <data name="Footer_Label" xml:space="preserve">
+    <value>அடிக்குறிப்பு இணைப்புகள்</value>
+  </data>
+  <data name="Footer_OpensInNewTab" xml:space="preserve">
+    <value>புதிய தாவலில் திறக்கும்</value>
   </data>
   <data name="Navbar_Label" xml:space="preserve">
     <value>மேல் வழிசெலுத்தல்</value>

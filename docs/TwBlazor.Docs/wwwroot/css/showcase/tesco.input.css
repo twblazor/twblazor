@@ -1,0 +1,53 @@
+/* Tailwind input for the Tesco-inspired example theme. It compiles only the classes used by that theme's
+   Theme.cs and its showcase page, the way an app builds its stylesheet from its own theme file. The page loads
+   the result on top of the docs stylesheet, which already carries the reset. */
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities) source(none);
+
+@source "../../../Pages/Showcase/Themes/TescoTheme.cs";
+@source "../../../Pages/Showcase/TescoShowcase.razor";
+@source "../../../Pages/Showcase/Shared/**/*.razor";
+@source "../../../Pages/Showcase/Shared/**/*.cs";
+
+@custom-variant dark (&:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)));
+
+@theme {
+    --font-grocer: "TESCO Modern", system-ui, "Segoe UI", Arial, sans-serif;
+
+    --color-grocerblue-50: oklch(97.5% 0.014 253.9);
+    --color-grocerblue-100: oklch(88.7% 0.024 253.9);
+    --color-grocerblue-200: oklch(79.8% 0.041 253.9);
+    --color-grocerblue-300: oklch(71.0% 0.062 253.9);
+    --color-grocerblue-400: oklch(62.2% 0.086 253.9);
+    --color-grocerblue-500: oklch(53.4% 0.112 253.9);
+    --color-grocerblue-600: oklch(44.5% 0.141 253.9);
+    --color-grocerblue-700: oklch(37.0% 0.129 253.9);
+    --color-grocerblue-800: oklch(29.5% 0.116 253.9);
+    --color-grocerblue-900: oklch(22.0% 0.104 253.9);
+    --color-grocerblue-950: oklch(14.5% 0.092 253.9);
+
+    --color-grocerred-50: oklch(97.5% 0.023 25.1);
+    --color-grocerred-100: oklch(89.9% 0.045 25.1);
+    --color-grocerred-200: oklch(82.3% 0.080 25.1);
+    --color-grocerred-300: oklch(74.7% 0.124 25.1);
+    --color-grocerred-400: oklch(67.1% 0.174 25.1);
+    --color-grocerred-500: oklch(59.5% 0.230 25.1);
+    --color-grocerred-600: oklch(52.8% 0.214 25.1);
+    --color-grocerred-700: oklch(46.1% 0.198 25.1);
+    --color-grocerred-800: oklch(39.4% 0.182 25.1);
+    --color-grocerred-900: oklch(32.7% 0.165 25.1);
+    --color-grocerred-950: oklch(26.0% 0.149 25.1);
+
+    --color-clubyellow-50: oklch(97.5% 0.018 92.7);
+    --color-clubyellow-100: oklch(95.0% 0.041 92.7);
+    --color-clubyellow-200: oklch(92.5% 0.079 92.7);
+    --color-clubyellow-300: oklch(90.0% 0.126 92.7);
+    --color-clubyellow-400: oklch(87.5% 0.179 92.7);
+    --color-clubyellow-500: oklch(66.0% 0.169 92.7);
+    --color-clubyellow-600: oklch(56.0% 0.158 92.7);
+    --color-clubyellow-700: oklch(46.0% 0.148 92.7);
+    --color-clubyellow-800: oklch(36.0% 0.137 92.7);
+    --color-clubyellow-900: oklch(27.0% 0.127 92.7);
+    --color-clubyellow-950: oklch(27.0% 0.116 92.7);
+}

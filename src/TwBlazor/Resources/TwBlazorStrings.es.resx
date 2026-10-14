@@ -294,6 +294,12 @@
   <data name="Chart_Decrease" xml:space="preserve">
     <value>Disminución</value>
   </data>
+  <data name="Chart_Source" xml:space="preserve">
+    <value>Origen</value>
+  </data>
+  <data name="Chart_Destination" xml:space="preserve">
+    <value>Destino</value>
+  </data>
   <data name="Chip_Remove" xml:space="preserve">
     <value>Quitar {0}</value>
   </data>
@@ -455,6 +461,12 @@
   </data>
   <data name="FileUpload_FilesSelected" xml:space="preserve">
     <value>{0} archivos seleccionados: {1}</value>
+  </data>
+  <data name="Footer_Label" xml:space="preserve">
+    <value>Enlaces del pie de página</value>
+  </data>
+  <data name="Footer_OpensInNewTab" xml:space="preserve">
+    <value>se abre en una pestaña nueva</value>
   </data>
   <data name="Navbar_Label" xml:space="preserve">
     <value>Navegación superior</value>

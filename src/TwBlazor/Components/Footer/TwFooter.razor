@@ -1,0 +1,56 @@
+@namespace TwBlazor.Components
+@inherits TwBlazorComponentBase
+
+<footer id="@Id" class="@footerClasses" style="@Style" @attributes="Attributes" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy">
+    <div class="@theme.Container">
+        @if (BrandContent is not null)
+        {
+            <div class="@theme.Brand">@BrandContent</div>
+        }
+
+        @if (visibleSections.Count > 0)
+        {
+            <nav class="@theme.Sections" aria-label="@effectiveNavigationLabel">
+                @for (var i = 0; i < visibleSections.Count; i++)
+                {
+                    var section = visibleSections[i];
+                    var headingId = $"{Id}-section-{i}";
+                    <div class="@theme.Section">
+                        @RenderHeading(section.Title, headingId)
+                        <ul class="@theme.LinkList" aria-labelledby="@headingId">
+                            @foreach (var link in GetVisibleLinks(section.Links))
+                            {
+                                <li>@RenderLink(link)</li>
+                            }
+                        </ul>
+                    </div>
+                }
+            </nav>
+        }
+
+        @if (ChildContent is not null)
+        {
+            <div class="@theme.Content">@ChildContent</div>
+        }
+
+        @if (hasBottom)
+        {
+            <div class="@theme.Bottom">
+                @if (!string.IsNullOrWhiteSpace(Copyright))
+                {
+                    <p class="@theme.Copyright">@Copyright</p>
+                }
+                @if (visibleBottomLinks.Count > 0)
+                {
+                    <ul class="@theme.BottomLinks">
+                        @foreach (var link in visibleBottomLinks)
+                        {
+                            <li>@RenderLink(link)</li>
+                        }
+                    </ul>
+                }
+                @BottomContent
+            </div>
+        }
+    </div>
+</footer>

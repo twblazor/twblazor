@@ -1,6 +1,7 @@
 @page "/"
 @layout LandingLayout
 @using IconEnum = TwBlazor.Enums.Icon
+@using TwBlazor.Docs.Pages.Showcase.Shared
 
 <PageSeo Title="twblazor | Tailwind Blazor Component Library" Description="twblazor is a free, open-source Blazor components library built on Tailwind CSS. Accessible, themeable, with dark mode, for Server and WebAssembly." Path="/" JsonLd="_jsonLd" />
 
@@ -273,6 +274,37 @@
                     <div class="min-w-0">
                         <TwCodeBlock Language="csharp" Content="@themingSnippet" Class="rounded-xl" PanelClass="rounded-lg" />
                     </div>
+                </div>
+
+                <div id="theme-case-study" class="mt-14 border-t border-white/15 pt-12">
+                    <p class="text-sm font-semibold uppercase tracking-wide text-fuchsia-300">See it in action</p>
+                    <h3 id="theme-case-study-heading" class="mt-2 max-w-2xl text-xl font-bold tracking-tight text-white text-balance md:text-2xl">Five well-known looks, one component library</h3>
+                    <p class="mt-3 max-w-2xl text-purple-200">
+                        Each of these pages is the same twblazor components with a different <code>Theme.cs</code>. No component
+                        was changed and no CSS was overridden: the colors, corners, shadows, type and spacing all come from the theme file,
+                        which is shown in full on each page.
+                    </p>
+
+                    <ul class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5" aria-labelledby="theme-case-study-heading">
+                        @foreach (var brand in ShowcaseBrand.All)
+                        {
+                            <li class="flex">
+                                <a id="@($"theme-case-study-{brand.Slug}")" href="@brand.Path" class="group flex w-full flex-col gap-3 rounded-xl border border-white/15 bg-white/5 p-5 transition-colors hover:border-fuchsia-300/60 hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
+                                    <span class="flex gap-1.5" aria-hidden="true">
+                                        @foreach (var swatch in brand.Swatches)
+                                        {
+                                            <span class="size-5 rounded-full ring-1 ring-white/40" style="@($"background-color: {swatch};")"></span>
+                                        }
+                                    </span>
+                                    <span class="font-semibold text-white">@brand.Name<span class="font-normal text-purple-200">-inspired</span></span>
+                                    <span class="text-sm text-purple-200">@brand.Summary</span>
+                                    <span class="mt-auto inline-flex items-center gap-1 text-sm font-semibold text-fuchsia-200 underline-offset-4 group-hover:underline">See the theme <TwIcon Icon="IconEnum.Arrow_Right" Plain /></span>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+
+                    <p id="theme-case-study-disclaimer" class="mt-6 max-w-4xl text-xs text-purple-200">@ShowcaseBrand.Disclaimer</p>
                 </div>
             </div>
         </div>

@@ -1,0 +1,82 @@
+@page "/chart/marimekko"
+@using TwBlazor.Models
+
+<PageContainer Title="TwMarimekkoChart" Path="/chart/marimekko" Beta Description="TwMarimekkoChart is a Blazor Marimekko chart: columns whose widths show each category's total and whose segments show each series' share of it.">
+    <PageCard Title="Basic usage">
+        <Description><code>TwMarimekkoChart</code> takes the same <code>Categories</code> and <code>Series</code> as a column chart. Each column is as wide as its category's total and is split into segments by each series' share, so the area of a segment is its value.</Description>
+
+        <CodeExample Name="MarimekkoChartBasic" CSharpName="MarimekkoChartData">
+            <TwChart Title="Sales by region and product" Description="Thousands of pounds">
+                <TwMarimekkoChart Categories="@regions" Series="@products" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="A market map">
+        <Description>The classic use is a market map: segments of a market across the bottom, sized by how big they are, and competitors up the side. A large block is a big prize; a tall segment in a narrow column is a strong position in a small market.</Description>
+
+        <CodeExample Name="MarimekkoChartMarket" CSharpName="MarimekkoChartMarketData">
+            <TwChart Title="Cloud spend by industry and provider" Description="Millions of pounds per year">
+                <TwMarimekkoChart Categories="@industries" Series="@providers" CategoryHeader="Industry" ValueFormat="C0" Height="ChartHeight.Large" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Uneven categories">
+        <Description>A column too narrow for its name loses the label under it but keeps its tooltip and its row in the table view. Segments with room show their share.</Description>
+
+        <CodeExample Name="MarimekkoChartUneven" CSharpName="MarimekkoChartUnevenData">
+            <TwChart Title="Support tickets by channel and outcome">
+                <TwMarimekkoChart Categories="@channels" Series="@outcomes" CategoryHeader="Channel" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="When to use">
+        <Description>Use a Marimekko chart when both the size of each category and its make-up matter. Missing and negative values count as zero. When the categories are similar in size, a 100% stacked <TwLink Href="/chart/column" Class="underline">TwColumnChart</TwLink> is easier to read.</Description>
+    </PageCard>
+
+    <PageCard Title="Summary">
+        <Description>Tooltips and the table view give the value of every series for each category. Tooltips also give the total of each category and its share of the whole.</Description>
+    </PageCard>
+
+    <PageCard Title="Shared features">
+        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart" Class="underline">TwChart</TwLink> for those options.</Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample MarimekkoChartData
+    private readonly string[] regions = ["North", "South", "West"];
+
+    private readonly ChartSeries[] products =
+    [
+        new("Core", [50, 30, 20]),
+        new("Plus", [25, 40, 35]),
+        new("Pro", [15, 50, 10])
+    ];
+    #endregion
+
+    #region CodeExample MarimekkoChartMarketData
+    private readonly string[] industries = ["Finance", "Retail", "Healthcare", "Media", "Public sector"];
+
+    private readonly ChartSeries[] providers =
+    [
+        new("Northwind", [420, 180, 150, 60, 90]),
+        new("Contoso", [260, 240, 90, 110, 40]),
+        new("Fabrikam", [140, 120, 160, 30, 70]),
+        new("Others", [80, 60, 50, 40, 20])
+    ];
+    #endregion
+
+    #region CodeExample MarimekkoChartUnevenData
+    private readonly string[] channels = ["Email", "Chat", "Phone", "Post"];
+
+    private readonly ChartSeries[] outcomes =
+    [
+        new("Solved first time", [640, 410, 95, 4]),
+        new("Solved later", [280, 120, 60, 9]),
+        new("Escalated", [80, 30, 45, 7])
+    ];
+    #endregion
+}
