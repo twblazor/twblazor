@@ -146,8 +146,19 @@
 
     private static readonly FooterLink[] legal = [("Privacy", Anchor("showcase-main")), ("Terms of use", Anchor("showcase-main")), ("Accessibility", Anchor("showcase-main"))];
 
-    // Forty repeatable trading days. Each candle opens where the last one closed, drifts with a slow wave and
-    // swings by a smaller, faster one, so the chart shows a believable mix of rising and falling days.
+    // Forty repeatable trading days from a fixed-seed random walk. Overnight gaps, uneven wicks and a handful of
+    // scripted shock days give the chart sharp sell-offs and rallies rather than a smooth wave.
+    private static readonly Dictionary<int, double> shocks = new()
+    {
+        [6] = 5.8,
+        [11] = -8.4,
+        [12] = -4.1,
+        [19] = 7.2,
+        [27] = -9.6,
+        [33] = 6.5,
+        [37] = -5.2,
+    };
+
     private static readonly ChartOhlc[] candles = BuildCandles();
 
     private int orders;
@@ -158,17 +169,22 @@
     {
         var day = new DateTime(2026, 8, 17);
         var close = 198.4;
+        var random = new Random(212);
         List<ChartOhlc> result = [];
+
+        double Noise() => Math.Sqrt(-2 * Math.Log(1 - random.NextDouble())) * Math.Cos(2 * Math.PI * random.NextDouble());
 
         while (result.Count < 40)
         {
             if (day.DayOfWeek is not (DayOfWeek.Saturday or DayOfWeek.Sunday))
             {
                 var step = result.Count;
-                var open = close;
-                close = Math.Round(open + Math.Sin(step * 0.45) * 2.6 + Math.Cos(step * 1.9) * 1.7 + 0.35, 2);
-                var high = Math.Round(Math.Max(open, close) + 0.6 + Math.Abs(Math.Sin(step * 2.3)) * 1.8, 2);
-                var low = Math.Round(Math.Min(open, close) - 0.6 - Math.Abs(Math.Cos(step * 1.3)) * 1.8, 2);
+                var shock = shocks.GetValueOrDefault(step);
+                var open = Math.Round(close + Noise() * 0.9 + shock * 0.4, 2);
+                close = Math.Round(open + Noise() * 2.4 + shock * 0.6 + 0.15, 2);
+                var range = Math.Abs(shock) * 0.25 + 0.3;
+                var high = Math.Round(Math.Max(open, close) + range + random.NextDouble() * 2.6, 2);
+                var low = Math.Round(Math.Min(open, close) - range - random.NextDouble() * 2.6, 2);
                 result.Add(new ChartOhlc(day.ToString("d MMM", System.Globalization.CultureInfo.GetCultureInfo("en-GB")), open, high, low, close));
             }
 
