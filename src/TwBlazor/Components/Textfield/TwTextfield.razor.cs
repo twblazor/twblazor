@@ -1,6 +1,7 @@
 ﻿// Copyright (c) 2025 Jack Shuter @ TwBlazor - twblazor.com
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
+using System.Globalization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using TwBlazor.Builders;
@@ -187,7 +188,7 @@ public partial class TwTextfield<T> : TwBlazorTextInputComponentBase
         }
     }
 
-    private static string GetRowsHeight(int rows) => FormattableString.Invariant($"calc({Math.Max(rows, 1)}lh + 2 * var(--textarea-py, 0px))");
+    private static string GetRowsHeight(int rows) => string.Create(CultureInfo.InvariantCulture, $"calc({Math.Max(rows, 1)}lh + 2 * var(--textarea-py, 0px))");
 
     protected override void OnParametersSet()
     {
@@ -214,43 +215,41 @@ public partial class TwTextfield<T> : TwBlazorTextInputComponentBase
             Attributes["name"] = Id;
         }
 
-        if (Multiline)
-        {
-            return;
-        }
-
-        var autoComplete = GetAutoCompleteForInputType(InputType);
-        if (autoComplete is not null && !Attributes.ContainsKey("autocomplete"))
-        {
-            Attributes["autocomplete"] = autoComplete;
-        }
-
-        var inputMode = GetInputModeForInputType(InputType);
-        if (inputMode is not null && !Attributes.ContainsKey("inputmode"))
-        {
-            Attributes["inputmode"] = inputMode;
-        }
+        autoCompleteAdded = SyncAttribute("autocomplete", Multiline ? null : GetAutoCompleteForInputType(InputType), autoCompleteAdded);
+        inputModeAdded = SyncAttribute("inputmode", Multiline ? null : GetInputModeForInputType(InputType), inputModeAdded);
     }
 
-    /// <summary>
-    /// Maps an HTML input <c>type</c> to the "autocomplete" token browsers use to key
-    /// autofill/password-manager suggestions, for the subset of types with an unambiguous standard
-    /// mapping. Returns <see langword="null"/> for types (like "text" or "password", whose correct
-    /// autocomplete token depends on context this component can't know) where no safe default applies.
-    /// </summary>
     private bool disabledAdded;
     private bool readOnlyAdded;
+    private bool autoCompleteAdded;
+    private bool inputModeAdded;
 
-    private bool SyncAttribute(string name, bool enabled, bool addedByComponent)
+    /// <summary>
+    /// Adds or removes a boolean attribute the component manages, leaving one the consumer supplied untouched.
+    /// </summary>
+    /// <param name="name">The attribute name.</param>
+    /// <param name="enabled">Whether the attribute should be present.</param>
+    /// <param name="addedByComponent">Whether the component added the attribute on a previous parameter set.</param>
+    /// <returns>Whether the component now owns the attribute.</returns>
+    private bool SyncAttribute(string name, bool enabled, bool addedByComponent) => SyncAttribute(name, enabled ? (object)true : null, addedByComponent);
+
+    /// <summary>
+    /// Sets or removes an attribute the component manages, leaving one the consumer supplied untouched.
+    /// </summary>
+    /// <param name="name">The attribute name.</param>
+    /// <param name="value">The value to set, or <see langword="null"/> to remove the attribute.</param>
+    /// <param name="addedByComponent">Whether the component added the attribute on a previous parameter set.</param>
+    /// <returns>Whether the component now owns the attribute.</returns>
+    private bool SyncAttribute(string name, object? value, bool addedByComponent)
     {
-        if (enabled)
+        if (value is not null)
         {
-            if (Attributes.ContainsKey(name))
+            if (Attributes.ContainsKey(name) && !addedByComponent)
             {
-                return addedByComponent;
+                return false;
             }
 
-            Attributes[name] = true;
+            Attributes[name] = value;
             return true;
         }
 
@@ -262,6 +261,12 @@ public partial class TwTextfield<T> : TwBlazorTextInputComponentBase
         return false;
     }
 
+    /// <summary>
+    /// Maps an HTML input <c>type</c> to the "autocomplete" token browsers use to key
+    /// autofill/password-manager suggestions, for the subset of types with an unambiguous standard
+    /// mapping. Returns <see langword="null"/> for types (like "text" or "password", whose correct
+    /// autocomplete token depends on context this component can't know) where no safe default applies.
+    /// </summary>
     private static string? GetAutoCompleteForInputType(string inputType) => inputType switch
     {
         emailInputType => emailInputType,

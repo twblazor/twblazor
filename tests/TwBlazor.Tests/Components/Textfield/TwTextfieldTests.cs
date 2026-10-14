@@ -879,4 +879,135 @@ public class TwTextfieldTests : TwBlazorTestBase
         Assert.Equal("Keep it under 10 characters.", cut.Find("p[role='alert']").TextContent);
         Assert.Equal("true", cut.Find("textarea").GetAttribute("aria-invalid"));
     }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public void TwTextfield_InputRef_ReferencesRenderedElement(bool multiline)
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwTextfield<string>>(parameters => parameters
+            .Add(p => p.Multiline, multiline));
+
+        // Assert
+        Assert.False(string.IsNullOrEmpty(cut.Instance.InputRef.Id));
+    }
+
+    [Theory]
+    [InlineData(false, "input")]
+    [InlineData(true, "textarea")]
+    public void TwTextfield_KeepsConsumerSuppliedName(bool multiline, string selector)
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwTextfield<string>>(parameters => parameters
+            .Add(p => p.Id, "comments")
+            .Add(p => p.Multiline, multiline)
+            .Add(p => p.Attributes, new Dictionary<string, object> { ["name"] = "user-comments" }));
+
+        // Assert
+        Assert.Equal("user-comments", cut.Find(selector).GetAttribute("name"));
+    }
+
+    [Fact]
+    public void TwTextfield_Multiline_InvokesFocusClickAndKeyDownCallbacks()
+    {
+        // Arrange
+        var focused = false;
+        var clicked = false;
+        string? key = null;
+        var cut = TestContext.Render<TwTextfield<string>>(parameters => parameters
+            .Add(p => p.Multiline, true)
+            .Add(p => p.OnFocus, _ => focused = true)
+            .Add(p => p.OnClick, _ => clicked = true)
+            .Add(p => p.OnKeyDown, args => key = args.Key));
+
+        // Act
+        var textarea = cut.Find("textarea");
+        textarea.Focus();
+        textarea.Click();
+        textarea.KeyDown("Enter");
+
+        // Assert
+        Assert.True(focused);
+        Assert.True(clicked);
+        Assert.Equal("Enter", key);
+    }
+
+    [Fact]
+    public void TwTextfield_RemovesDisabled_WhenSwitchedOff()
+    {
+        // Arrange
+        var cut = TestContext.Render<TwTextfield<string>>(parameters => parameters
+            .Add(p => p.Multiline, true)
+            .Add(p => p.Disabled, true));
+
+        // Act
+        cut.Render(parameters => parameters.Add(p => p.Disabled, false));
+
+        // Assert
+        Assert.False(cut.Find("textarea").HasAttribute("disabled"));
+    }
+
+    [Fact]
+    public void TwTextfield_KeepsConsumerSuppliedReadOnly_WhenSwitchedOff()
+    {
+        // Arrange - the consumer supplied readonly themselves, so switching ReadOnly off must not remove it.
+        var cut = TestContext.Render<TwTextfield<string>>(parameters => parameters
+            .Add(p => p.Attributes, new Dictionary<string, object> { ["readonly"] = true })
+            .Add(p => p.ReadOnly, true));
+
+        // Act
+        cut.Render(parameters => parameters.Add(p => p.ReadOnly, false));
+
+        // Assert
+        Assert.True(cut.Find("input").HasAttribute("readonly"));
+    }
+
+    [Fact]
+    public void TwTextfield_RemovesInputTypeMappings_WhenSwitchedToMultiline()
+    {
+        // Arrange
+        var cut = TestContext.Render<TwTextfield<string>>(parameters => parameters
+            .Add(p => p.InputType, "email"));
+        Assert.Equal("email", cut.Find("input").GetAttribute("autocomplete"));
+
+        // Act
+        cut.Render(parameters => parameters.Add(p => p.Multiline, true));
+
+        // Assert
+        var textarea = cut.Find("textarea");
+        Assert.False(textarea.HasAttribute("autocomplete"));
+        Assert.False(textarea.HasAttribute("inputmode"));
+    }
+
+    [Fact]
+    public void TwTextfield_UpdatesInputTypeMappings_WhenInputTypeChanges()
+    {
+        // Arrange
+        var cut = TestContext.Render<TwTextfield<string>>(parameters => parameters
+            .Add(p => p.InputType, "email"));
+
+        // Act
+        cut.Render(parameters => parameters.Add(p => p.InputType, "tel"));
+
+        // Assert
+        var input = cut.Find("input");
+        Assert.Equal("tel", input.GetAttribute("autocomplete"));
+        Assert.Equal("tel", input.GetAttribute("inputmode"));
+    }
+
+    [Fact]
+    public void TwTextfield_KeepsConsumerSuppliedAutocomplete_WhenSwitchedToMultiline()
+    {
+        // Arrange
+        var cut = TestContext.Render<TwTextfield<string>>(parameters => parameters
+            .Add(p => p.InputType, "email")
+            .Add(p => p.Attributes, new Dictionary<string, object> { ["autocomplete"] = "off" }));
+
+        // Act
+        cut.Render(parameters => parameters.Add(p => p.Multiline, true));
+
+        // Assert
+        Assert.Equal("off", cut.Find("textarea").GetAttribute("autocomplete"));
+    }
 }
