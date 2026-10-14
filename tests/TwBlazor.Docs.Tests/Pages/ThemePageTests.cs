@@ -12,6 +12,8 @@ public class ThemePageTests : DocsTestBase
 {
     private static readonly string[] _colorIds = ["primary", "accent", "success", "danger", "warning", "info"];
 
+    private static readonly string[] _stickyPanelClasses = ["lg:sticky", "lg:top-0", "lg:h-dvh", "lg:overflow-y-auto"];
+
     private IRenderedComponent<ThemePage> Render() => TestContext.Render<ThemePage>();
 
     private static string Code(IRenderedComponent<ThemePage> cut) => cut.Find("pre code").TextContent;
@@ -625,7 +627,7 @@ public class ThemePageTests : DocsTestBase
         var cut = Render();
         var panel = cut.Find("#theme-controls");
 
-        Assert.All(new[] { "lg:sticky", "lg:top-0", "lg:h-dvh", "lg:overflow-y-auto" }, token => Assert.Contains(token, panel.ClassList));
+        Assert.All(_stickyPanelClasses, token => Assert.Contains(token, panel.ClassList));
         var column = panel.ParentElement!;
         Assert.Equal("theme-controls", column.FirstElementChild!.Id);
         Assert.Equal("theme-controls-column", column.ParentElement!.FirstElementChild!.Id);

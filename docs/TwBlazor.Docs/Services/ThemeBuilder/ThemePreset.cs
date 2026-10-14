@@ -154,8 +154,12 @@ internal sealed record ThemePreset(string Name, string Description, ThemeTone To
     /// <param name="accentHex">The accent color.</param>
     private static ThemeSurfaces TintFor(string primaryHex, string accentHex)
     {
-        OklchColor.TryParseHex(primaryHex, out var primary);
-        OklchColor.TryParseHex(accentHex, out var accent);
+        if (!OklchColor.TryParseHex(primaryHex, out var primary))
+            return ThemeSurfaces.Default;
+
+        // Without a readable accent the tint leans on the primary alone.
+        if (!OklchColor.TryParseHex(accentHex, out var accent))
+            accent = primary;
 
         // Hues are angles, so they are averaged as points on the color wheel, each weighted by how colorful it is.
         var x = (0.75 * primary.Chroma * Math.Cos(Radians(primary.Hue))) + (0.25 * accent.Chroma * Math.Cos(Radians(accent.Hue)));

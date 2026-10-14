@@ -103,7 +103,6 @@ public partial class Theme
 
     private string generatedCode = string.Empty;
     private int codeVersion;
-    private int includedThemeCount;
     private int totalComponents;
 
     /// <inheritdoc />
@@ -399,7 +398,6 @@ public partial class Theme
 
         generatedCode = ThemeCodeGenerator.Generate(_template, themeTypes, _colors, defaults, _onColors, surfaces);
         surfaceCss = ThemeSurface.BuildCss(_template, surfaces);
-        includedThemeCount = _template.Blocks.Count(b => themeTypes.Contains(b.TypeName));
 
         // The code block highlights only on first render, so a new key makes it render (and highlight) afresh.
         codeVersion++;

@@ -196,7 +196,7 @@ public class ShowcasePageTests : DocsTestBase
                 Assert.Equal("no-referrer", picture.GetAttribute("referrerpolicy"));
             }
         });
-        Assert.Equal(Brand(slug).Products.Count(product => product.Image is not null) > 0, pictures.Count > 0);
+        Assert.Equal(Brand(slug).Products.Any(product => product.Image is not null), pictures.Count > 0);
     }
 
     [Theory]
@@ -242,7 +242,7 @@ public class ShowcasePageTests : DocsTestBase
     {
         var cut = Render(Brand(slug));
 
-        Assert.Empty(cut.FindComponents<TwBlazor.Components.TwButton>().Where(button => button.Instance.IconButton && button.Instance.StartIcon is not null && cut.Find("#showcase-main").Contains(button.Find("button, a"))));
+        Assert.DoesNotContain(cut.FindComponents<TwBlazor.Components.TwButton>(), button => button.Instance.IconButton && button.Instance.StartIcon is not null && cut.Find("#showcase-main").Contains(button.Find("button, a")));
         Assert.True(cut.FindComponents<TwBlazor.Components.TwCard>().Count >= Brand(slug).Products.Count);
     }
 
@@ -425,8 +425,10 @@ public class ShowcasePageTests : DocsTestBase
     [Fact]
     public void Disclaimer_NamesEveryBrand()
     {
-        Assert.All((string[])["Microsoft", "Apple", "LEGO", "Tesco", "Trading 212"], name => Assert.Contains(name, ShowcaseBrand.Disclaimer));
-        Assert.Contains("not affiliated", ShowcaseBrand.Disclaimer);
+        var disclaimer = ShowcaseBrand.Disclaimer;
+
+        Assert.All((string[])["Microsoft", "Apple", "LEGO", "Tesco", "Trading 212"], name => Assert.Contains(name, disclaimer));
+        Assert.Contains("not affiliated", disclaimer);
     }
 
     #endregion

@@ -167,12 +167,15 @@
 
     private static ChartOhlc[] BuildCandles()
     {
-        var day = new DateTime(2026, 8, 17);
+        var day = new DateTime(2026, 8, 17, 0, 0, 0, DateTimeKind.Unspecified);
         var close = 198.4;
-        var random = new Random(212);
         List<ChartOhlc> result = [];
 
-        double Noise() => Math.Sqrt(-2 * Math.Log(1 - random.NextDouble())) * Math.Cos(2 * Math.PI * random.NextDouble());
+        // Made-up prices, so the noise is a fixed blend of waves rather than a random generator: the chart reads as
+        // a market, and comes out the same every time.
+        static double Noise(int step, int salt) => Math.Sin(step * 2.399 + salt * 1.618) * 0.7 + Math.Sin(step * 0.731 + salt * 4.1) * 0.5;
+
+        static double Spread(int step, int salt) => (Math.Sin(step * 1.913 + salt * 2.7) + 1) / 2;
 
         while (result.Count < 40)
         {
@@ -180,11 +183,13 @@
             {
                 var step = result.Count;
                 var shock = shocks.GetValueOrDefault(step);
-                var open = Math.Round(close + Noise() * 0.9 + shock * 0.4, 2);
-                close = Math.Round(open + Noise() * 2.4 + shock * 0.6 + 0.15, 2);
+
+                // Each day opens where the last one closed.
+                var open = close;
+                close = Math.Round(open + Noise(step, 1) * 2.4 + shock + 0.15, 2);
                 var range = Math.Abs(shock) * 0.25 + 0.3;
-                var high = Math.Round(Math.Max(open, close) + range + random.NextDouble() * 2.6, 2);
-                var low = Math.Round(Math.Min(open, close) - range - random.NextDouble() * 2.6, 2);
+                var high = Math.Round(Math.Max(open, close) + range + Spread(step, 2) * 2.6, 2);
+                var low = Math.Round(Math.Min(open, close) - range - Spread(step, 3) * 2.6, 2);
                 result.Add(new ChartOhlc(day.ToString("d MMM", System.Globalization.CultureInfo.GetCultureInfo("en-GB")), open, high, low, close));
             }
 

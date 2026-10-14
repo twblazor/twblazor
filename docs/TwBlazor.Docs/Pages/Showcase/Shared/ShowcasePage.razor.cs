@@ -8,7 +8,7 @@ namespace TwBlazor.Docs.Pages.Showcase.Shared;
 /// storefront markup, then the component gallery and the theme's source file, with the notice that the page
 /// is an independent example.
 /// </summary>
-public partial class ShowcasePage
+public sealed partial class ShowcasePage
 {
     private bool isThemed;
 
@@ -75,7 +75,5 @@ public partial class ShowcasePage
         {
             ShowcaseThemeSwitcher.Restore(Options, Brand);
         }
-
-        GC.SuppressFinalize(this);
     }
 }

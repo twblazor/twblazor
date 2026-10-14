@@ -115,8 +115,15 @@ internal static partial class ThemeSurface
     /// </summary>
     /// <param name="hex">The picked background.</param>
     /// <param name="dark">Whether it is the dark mode background.</param>
-    public static double? TextContrast(string? hex, bool dark) =>
-        OklchColor.TryParseHex(hex, out var background) ? (dark ? _darkText : _lightText).ContrastWith(background.ToRgb()) : null;
+    public static double? TextContrast(string? hex, bool dark)
+    {
+        if (!OklchColor.TryParseHex(hex, out var background))
+            return null;
+
+        var text = dark ? _darkText : _lightText;
+
+        return text.ContrastWith(background.ToRgb());
+    }
 
     /// <summary>
     /// Rewrites every neutral surface value in a theme file for the picked backgrounds. A background left on

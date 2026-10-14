@@ -64,16 +64,16 @@
                 <div class="@fieldsClass">
                     @if (Has("TwTextfield"))
                     {
-                        <TwTextfield Id="preview-name" Label="Full name" @bind-Value="name" Placeholder="Jane Doe" autocomplete="name" @attributes="inputLook" />
-                        <TwTextfield Id="preview-email" Label="Email" @bind-Value="email" Placeholder="jane@example.com" type="email" autocomplete="email" @attributes="inputLook" />
+                        <TwTextfield Id="preview-name" Label="Full name" @bind-Value="name" Placeholder="Jane Doe" autocomplete="name" @attributes="InputLook()" />
+                        <TwTextfield Id="preview-email" Label="Email" @bind-Value="email" Placeholder="jane@example.com" type="email" autocomplete="email" @attributes="InputLook()" />
                     }
                     @if (Has("TwSelect"))
                     {
-                        <TwSelect T="string" Id="preview-plan" Label="Plan" Values="@plans" @bind-SelectedValue="plan" @attributes="inputLook" />
+                        <TwSelect T="string" Id="preview-plan" Label="Plan" Values="@plans" @bind-SelectedValue="plan" @attributes="InputLook()" />
                     }
                     @if (Has("TwColorPicker"))
                     {
-                        <TwColorPicker Id="preview-color" Label="Label color" @bind-Value="labelColor" @attributes="inputLook" />
+                        <TwColorPicker Id="preview-color" Label="Label color" @bind-Value="labelColor" @attributes="InputLook()" />
                     }
                 </div>
             </TwCard>
@@ -172,27 +172,27 @@
                 <div class="@fieldsClass">
                     @if (Has("TwDatePicker"))
                     {
-                        <TwDatePicker Id="preview-date" Label="Date" @bind-SelectedDate="date" @attributes="inputLook" />
+                        <TwDatePicker Id="preview-date" Label="Date" @bind-SelectedDate="date" @attributes="InputLook()" />
                     }
                     @if (Has("TwTimePicker"))
                     {
-                        <TwTimePicker Id="preview-time" Label="Time" @bind-SelectedTime="time" @attributes="inputLook" />
+                        <TwTimePicker Id="preview-time" Label="Time" @bind-SelectedTime="time" @attributes="InputLook()" />
                     }
                     @if (Has("TwDateTimePicker"))
                     {
-                        <TwDateTimePicker Id="preview-date-time" Label="Date and time" @bind-SelectedDateTime="dateTime" @attributes="inputLook" />
+                        <TwDateTimePicker Id="preview-date-time" Label="Date and time" @bind-SelectedDateTime="dateTime" @attributes="InputLook()" />
                     }
                     @if (Has("TwDateRangePicker"))
                     {
-                        <TwDateRangePicker Id="preview-date-range" Label="Date range" @bind-SelectedRange="dateRange" @attributes="inputLook" />
+                        <TwDateRangePicker Id="preview-date-range" Label="Date range" @bind-SelectedRange="dateRange" @attributes="InputLook()" />
                     }
                     @if (Has("TwTimeRangePicker"))
                     {
-                        <TwTimeRangePicker Id="preview-time-range" Label="Shift" @bind-SelectedRange="timeRange" @attributes="inputLook" />
+                        <TwTimeRangePicker Id="preview-time-range" Label="Shift" @bind-SelectedRange="timeRange" @attributes="InputLook()" />
                     }
                     @if (Has("TwDateTimeRangePicker"))
                     {
-                        <TwDateTimeRangePicker Id="preview-date-time-range" Label="Stay" @bind-SelectedRange="dateTimeRange" @attributes="inputLook" />
+                        <TwDateTimeRangePicker Id="preview-date-time-range" Label="Stay" @bind-SelectedRange="dateTimeRange" @attributes="InputLook()" />
                     }
                 </div>
             </TwCard>
@@ -560,11 +560,11 @@
     private string email = string.Empty;
     private string plan = "Team";
     private string labelColor = "#0ea5e9";
-    private DateTime date = new(2026, 11, 2);
+    private DateTime date = new(2026, 11, 2, 0, 0, 0, DateTimeKind.Unspecified);
     private TimeOnly time = new(9, 30);
-    private DateTime dateTime = new(2026, 11, 2, 14, 0, 0);
-    private KeyValuePair<DateTime?, DateTime?> dateRange = new(new DateTime(2026, 11, 2), new DateTime(2026, 11, 9));
-    private KeyValuePair<DateTime?, DateTime?> dateTimeRange = new(new DateTime(2026, 11, 2, 15, 0, 0), new DateTime(2026, 11, 5, 11, 0, 0));
+    private DateTime dateTime = new(2026, 11, 2, 14, 0, 0, DateTimeKind.Unspecified);
+    private KeyValuePair<DateTime?, DateTime?> dateRange = new(new DateTime(2026, 11, 2, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2026, 11, 9, 0, 0, 0, DateTimeKind.Unspecified));
+    private KeyValuePair<DateTime?, DateTime?> dateTimeRange = new(new DateTime(2026, 11, 2, 15, 0, 0, DateTimeKind.Unspecified), new DateTime(2026, 11, 5, 11, 0, 0, DateTimeKind.Unspecified));
     private KeyValuePair<TimeOnly?, TimeOnly?> timeRange = new(new TimeOnly(9, 0), new TimeOnly(17, 30));
     private bool switchOn = true;
     private bool switchOff;
@@ -599,8 +599,6 @@
     /// </summary>
     [Parameter, EditorRequired] public IReadOnlySet<string> Selected { get; set; } = new HashSet<string>();
 
-    private string headingClass => $"mb-3 text-xl font-bold tracking-tight {Options.Theme.Colors.NeutralText.Heading}";
-
     private string secondaryText => Options.Theme.Colors.NeutralText.Secondary;
 
     private Dictionary<string, object> look => new()
@@ -609,7 +607,7 @@
         [nameof(TwCard.Shadow)] = Defaults.Shadow
     };
 
-    private Dictionary<string, object> inputLook => new(look) { [nameof(TwTextfield<string>.Variant)] = Defaults.InputVariant };
+    private Dictionary<string, object> InputLook() => new(look) { [nameof(TwTextfield<string>.Variant)] = Defaults.InputVariant };
 
     private bool Has(params string[] names) => names.Any(Selected.Contains);
 

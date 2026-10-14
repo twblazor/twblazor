@@ -105,6 +105,12 @@ public sealed class ShowcaseBrand
 
     private const string microsoftCard = "resMode=sharp2&op_usm=1.5,0.65,15,0&wid=800&hei=450&qlt=85&fit=constrain";
 
+    private const string microsoftLogo = "https://uhf.microsoft.com/images/microsoft/RE1Mu3b.png";
+
+    private const string legoLogo = "https://assets.lego.com/logos/v4.10.0/brand-lego.svg";
+
+    private const string elevationTrait = "Elevation";
+
     /// <summary>The folder of the pictures and logos kept with the site.</summary>
     public const string LocalImages = "_content/TwBlazor.Docs/images/showcase";
 
@@ -116,11 +122,11 @@ public sealed class ShowcaseBrand
         Summary = "A crisp, quiet system look: 2px corners, hairline borders, subtle elevation and inputs that underline on focus.",
         CodeExample = "ShowcaseMicrosoftTheme",
         Swatches = ["#0067B8", "#F25022", "#7FBA00", "#FFB900"],
-        Traits = [new("Corners", "2px"), new("Elevation", "Hairline shadows"), new("Inputs", "Underline on focus"), new("Type", "Segoe UI, semibold labels")],
+        Traits = [new("Corners", "2px"), new(elevationTrait, "Hairline shadows"), new("Inputs", "Underline on focus"), new("Type", "Segoe UI, semibold labels")],
         FontClass = "font-fluent",
         WordmarkClass = "text-xl font-semibold text-neutral-600 dark:text-neutral-300",
         LogoIcon = IconEnum.Microsoft,
-        LogoUrl = "https://uhf.microsoft.com/images/microsoft/RE1Mu3b.png",
+        LogoUrl = microsoftLogo,
         HeroImage = $"{microsoftMedia}/Hero-Featured-Mobile-Surface-Laptop-Ultra-Nightfall-Angle-Photo-No-Badge?resMode=sharp2&op_usm=1.5,0.65,15,0&wid=1600&hei=900&qlt=90&fit=constrain",
         PageName = "MicrosoftShowcase",
         Products =
@@ -140,7 +146,7 @@ public sealed class ShowcaseBrand
         Summary = "Generous space and soft geometry: pill buttons, large rounded tiles, no shadows and a translucent navigation bar.",
         CodeExample = "ShowcaseAppleTheme",
         Swatches = ["#0071E3", "#1D1D1F", "#F5F5F7"],
-        Traits = [new("Corners", "Pills and 24px tiles"), new("Elevation", "None"), new("Navigation", "Translucent, blurred"), new("Type", "System font, tight headings")],
+        Traits = [new("Corners", "Pills and 24px tiles"), new(elevationTrait, "None"), new("Navigation", "Translucent, blurred"), new("Type", "System font, tight headings")],
         FontClass = "font-cupertino",
         WordmarkClass = "text-lg",
         LogoIcon = IconEnum.Apple,
@@ -164,11 +170,11 @@ public sealed class ShowcaseBrand
         Summary = "Bright and friendly: a yellow bar, orange pill buttons with dark text, blue links, bold type and flat white cards.",
         CodeExample = "ShowcaseLegoTheme",
         Swatches = ["#FFD502", "#E3000B", "#FD8024", "#006DB7"],
-        Traits = [new("Navigation", "Yellow bar"), new("Buttons", "Orange pills, dark text"), new("Elevation", "Flat"), new("Type", "Rounded and bold")],
+        Traits = [new("Navigation", "Yellow bar"), new("Buttons", "Orange pills, dark text"), new(elevationTrait, "Flat"), new("Type", "Rounded and bold")],
         FontClass = "font-brick",
         WordmarkClass = "text-2xl font-black tracking-tight",
         LightOnly = true,
-        LogoUrl = "https://assets.lego.com/logos/v4.10.0/brand-lego.svg",
+        LogoUrl = legoLogo,
         LogoClass = "h-11",
         HeroImage = $"{LocalImages}/lego-hero.webp",
         PageName = "LegoShowcase",
@@ -189,7 +195,7 @@ public sealed class ShowcaseBrand
         Summary = "Clear and practical: confident blue, pill buttons with large touch targets, flat bordered tiles and red for offers.",
         CodeExample = "ShowcaseTescoTheme",
         Swatches = ["#00539F", "#E81C2D", "#FFD100"],
-        Traits = [new("Buttons", "Pills, 44px tall"), new("Elevation", "Flat, bordered"), new("Offers", "Red and yellow"), new("Type", "Bold labels and headings")],
+        Traits = [new("Buttons", "Pills, 44px tall"), new(elevationTrait, "Flat, bordered"), new("Offers", "Red and yellow"), new("Type", "Bold labels and headings")],
         FontClass = "font-grocer",
         WordmarkClass = "text-3xl font-black uppercase tracking-widest text-grocerred-500",
         LightOnly = true,
