@@ -423,7 +423,7 @@ public class ButtonBuilderTests : TwBlazorTestBase
 
     [Theory]
     [InlineData(Color.Primary, "border-purple-600", "text-purple-600")]
-    [InlineData(Color.Accent, "border-fuchsia-600", "text-fuchsia-600")]
+    [InlineData(Color.Accent, "border-fuchsia-600", "text-fuchsia-700")]
     [InlineData(Color.Success, "border-green-600", "text-green-800")]
     [InlineData(Color.Danger, "border-red-600", "text-red-700")]
     [InlineData(Color.Warning, "border-yellow-700", "text-yellow-800")]
@@ -471,7 +471,7 @@ public class ButtonBuilderTests : TwBlazorTestBase
 
     [Theory]
     [InlineData(Color.Primary, "text-purple-600")]
-    [InlineData(Color.Accent, "text-fuchsia-600")]
+    [InlineData(Color.Accent, "text-fuchsia-700")]
     [InlineData(Color.Success, "text-green-800")]
     [InlineData(Color.Danger, "text-red-700")]
     [InlineData(Color.Warning, "text-yellow-800")]
