@@ -95,7 +95,7 @@ public class ChipBuilderTests : TwBlazorTestBase
         var result = ChipBuilder.GetVariantClasses(ButtonVariant.Text, Color.Accent, false);
 
         // Assert
-        Assert.Contains("text-fuchsia-600", result);
+        Assert.Contains("text-fuchsia-700", result);
         Assert.Contains("bg-transparent", result);
     }
 
