@@ -95,7 +95,7 @@ public static class Theme
             Medium =
             {
                 Primary = "text-purple-600",
-                Accent = "text-fuchsia-600",
+                Accent = "text-fuchsia-700",
                 Success = "text-green-800",
                 Danger = "text-red-700",
                 Warning = "text-yellow-800",

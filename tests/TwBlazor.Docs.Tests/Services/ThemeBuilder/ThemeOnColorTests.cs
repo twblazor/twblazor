@@ -174,6 +174,19 @@ public partial class ThemeOnColorTests
     }
 
     [Fact]
+    public void TheAccentText_ReachesFourAndAHalfToOne_OnTheDefaultPageBody()
+    {
+        var theme = ThemeBase.CreateDefaultTheme();
+        var body = Parse(ThemeSurface.EffectiveBody(ThemeSurfaces.Default, dark: false));
+
+        // Tailwind's fuchsia-700. Its 600 shade only reaches 4.46:1 on the body, so outlined and text accent controls failed.
+        var fuchsia700 = Parse("#a800b7");
+
+        Assert.Equal("text-fuchsia-700", theme.Colors.TextColors.Medium.Accent);
+        Assert.True(fuchsia700.ContrastWith(body.ToRgb()) >= 4.5);
+    }
+
+    [Fact]
     public void PreviewText_FollowsTheSameDecision_AsTheGeneratedTheme()
     {
         var family = ThemeColorFamily.All.Single(f => f.Name == "Accent");
