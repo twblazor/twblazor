@@ -216,10 +216,46 @@ globalThis.twPicker = {
         }
     },
 
+    // Edges of a fixed panel's containing block, in viewport coordinates. That is normally the
+    // viewport itself, but an ancestor with a transform, translate, filter or similar (e.g.
+    // TwSidebar's open drawer, which keeps translate-x-0) becomes the containing block instead, and
+    // the panel then also moves with that ancestor's scroll position. Rather than hunting for such an
+    // ancestor, the panel is pinned to each pair of edges in turn and measured where it lands.
+    _fixedContainingBlock: function (panel) {
+        const style = getComputedStyle(panel);
+        const margin = function (value) {
+            return parseFloat(value) || 0;
+        };
+
+        panel.style.left = '0px';
+        panel.style.top = '0px';
+        panel.style.right = 'auto';
+        panel.style.bottom = 'auto';
+        const start = panel.getBoundingClientRect();
+
+        panel.style.left = 'auto';
+        panel.style.top = 'auto';
+        panel.style.right = '0px';
+        panel.style.bottom = '0px';
+        const end = panel.getBoundingClientRect();
+
+        panel.style.right = '';
+        panel.style.bottom = '';
+
+        return {
+            left: start.left - margin(style.marginLeft),
+            top: start.top - margin(style.marginTop),
+            right: end.right + margin(style.marginRight),
+            bottom: end.bottom + margin(style.marginBottom)
+        };
+    },
+
     // Same flip/clamp job as positionPanel, but for `position: fixed` panels (used by every
     // popover-style picker). Unlike absolute, fixed has no inherent relationship to its trigger,
     // so this takes the trigger ("anchor") explicitly and computes coordinates from scratch. Payoff:
     // a fixed panel isn't clipped by an ancestor's overflow (e.g. TwDialog's scrollable body).
+    // Coordinates are worked out against the viewport, then converted into the panel's actual
+    // containing block (see _fixedContainingBlock) as they are applied.
     //
     // matchAnchorWidth (TwSelect only) sets the panel's width in px, since `w-full` would resolve
     // to 100% of the viewport instead of the trigger once the panel is fixed.
@@ -243,32 +279,35 @@ globalThis.twPicker = {
             panel.style.width = anchorRect.width + 'px';
         }
 
+        const block = globalThis.twPicker._fixedContainingBlock(panel);
+
         // Place provisionally below the anchor's starting edge (its left edge, or its right edge in a
         // right to left layout), then measure natural size - a fixed element has no rendered position
         // to read until one is set.
-        const alignLeft = function () {
-            panel.style.left = Math.max(anchorRect.left, 0) + 'px';
+        const setLeft = function (x) {
+            panel.style.left = (x - block.left) + 'px';
             panel.style.right = 'auto';
         };
-        const alignRight = function () {
+        const setRight = function (x) {
             panel.style.left = 'auto';
-            panel.style.right = Math.max(viewportWidth - anchorRect.right, 0) + 'px';
+            panel.style.right = (block.right - x) + 'px';
         };
         const rtl = globalThis.twDirection.isRtl(anchor);
 
-        panel.style.top = anchorRect.bottom + 'px';
+        panel.style.top = (anchorRect.bottom - block.top) + 'px';
+        panel.style.bottom = 'auto';
         if (rtl) {
-            alignRight();
+            setRight(Math.min(anchorRect.right, viewportWidth));
         } else {
-            panel.style.left = anchorRect.left + 'px';
+            setLeft(anchorRect.left);
         }
 
         const rect = panel.getBoundingClientRect();
 
         if (rtl) {
-            if (rect.left < 0) alignLeft();
+            if (rect.left < 0) setLeft(Math.max(anchorRect.left, 0));
         } else if (rect.right > viewportWidth) {
-            alignRight();
+            setRight(Math.min(anchorRect.right, viewportWidth));
         }
 
         // Measured from the anchor's edges, not the panel's, so a tall panel can't skew which
@@ -279,7 +318,7 @@ globalThis.twPicker = {
 
         if (flipUp) {
             panel.style.top = 'auto';
-            panel.style.bottom = (viewportHeight - anchorRect.top) + 'px';
+            panel.style.bottom = (block.bottom - anchorRect.top) + 'px';
         }
 
         const availableSpace = (flipUp ? spaceAbove : spaceBelow) - globalThis.twPicker._panelEdgeGapPx;
