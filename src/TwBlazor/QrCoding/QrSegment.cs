@@ -85,36 +85,14 @@ internal sealed class QrSegment
     /// </summary>
     /// <param name="text">The text to check.</param>
     /// <returns><see langword="true"/> when the text can use <see cref="QrSegmentMode.Numeric"/>.</returns>
-    internal static bool IsNumeric(string text)
-    {
-        foreach (var c in text)
-        {
-            if (!char.IsAsciiDigit(c))
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
+    internal static bool IsNumeric(string text) => text.All(char.IsAsciiDigit);
 
     /// <summary>
     /// Gets whether every character is in the alphanumeric set.
     /// </summary>
     /// <param name="text">The text to check.</param>
     /// <returns><see langword="true"/> when the text can use <see cref="QrSegmentMode.Alphanumeric"/>.</returns>
-    internal static bool IsAlphanumeric(string text)
-    {
-        foreach (var c in text)
-        {
-            if (!alphanumericCharset.Contains(c))
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
+    internal static bool IsAlphanumeric(string text) => text.All(alphanumericCharset.Contains);
 
     /// <summary>
     /// Packs a string of digits, three digits to every 10 bits.
@@ -201,7 +179,12 @@ internal sealed class QrSegment
     /// <returns>The width of the character count field.</returns>
     internal static int GetCharacterCountBits(QrSegmentMode mode, int version)
     {
-        var band = version <= 9 ? 0 : version <= 26 ? 1 : 2;
+        var band = version switch
+        {
+            <= 9 => 0,
+            <= 26 => 1,
+            _ => 2
+        };
         return (mode, band) switch
         {
             (QrSegmentMode.Numeric, _) => 10 + (band * 2),
