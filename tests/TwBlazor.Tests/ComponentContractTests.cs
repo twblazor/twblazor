@@ -368,6 +368,7 @@ public class ComponentContractTests : TwBlazorTestBase
     private static readonly Dictionary<Type, Dictionary<string, object>> _requiredParameters = new()
     {
         [typeof(TwBlazor.Components.TwQrCode)] = new() { ["Value"] = "https://twblazor.com" },
+        [typeof(TwBlazor.Components.TwBarcode)] = new() { ["Value"] = "TWBLAZOR" },
     };
 
     private IRenderedComponent<IComponent> RenderComponentWithParameters(Type componentType, Dictionary<string, object> parameters)

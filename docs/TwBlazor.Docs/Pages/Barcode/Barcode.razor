@@ -1,0 +1,110 @@
+@page "/barcode"
+@using TwBlazor.Barcoding
+@using TwBlazor.Services
+
+@* #region CodeExample BarcodeInject *@
+@inject ITwBarcodeService BarcodeService
+@* #endregion *@
+
+<PageContainer Title="TwBarcode" Path="/barcode" Beta Description="TwBarcode is a dependency-free Blazor barcode component. Set Value and Format for Code 128, Code 39, EAN-13, EAN-8 or UPC-A, or use ITwBarcodeService." ThemeType="typeof(TwBarcodeTheme)">
+    <PageCard Title="Basic usage">
+        <Description>Give <code>TwBarcode</code> a <code>Value</code> and it draws a Code 128 barcode, which holds any ASCII text. The bars are a single SVG path, so they stay sharp at any size, and the text is printed underneath so it can be typed in if a scan fails.</Description>
+
+        <CodeExample Name="BarcodeBasic">
+            <TwBarcode Id="basic-barcode" Value="TWB-2026-0042" />
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Formats">
+        <Description>
+            Use <code>Format</code> to pick the symbology. <code>Code128</code> (the default) suits shipping labels, tickets and tracking numbers. <code>Code39</code> holds upper case letters, digits, space and <code>-.$/+%</code>, and is read by almost every scanner.
+            <code>Ean13</code>, <code>Ean8</code> and <code>UpcA</code> are retail product codes: give them the digits without the check digit and it is added for you, or with it and it is verified.
+        </Description>
+
+        <CodeExample Name="BarcodeFormats">
+            <div class="flex flex-wrap items-end gap-6">
+                <TwBarcode Id="code128-barcode" Value="Order 1234" Format="BarcodeFormat.Code128" />
+                <TwBarcode Id="code39-barcode" Value="TWBLAZOR" Format="BarcodeFormat.Code39" />
+                <TwBarcode Id="ean13-barcode" Value="501234567890" Format="BarcodeFormat.Ean13" />
+                <TwBarcode Id="ean8-barcode" Value="9638507" Format="BarcodeFormat.Ean8" />
+                <TwBarcode Id="upca-barcode" Value="03600029145" Format="BarcodeFormat.UpcA" />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Live value">
+        <Description>The barcode is only rebuilt when <code>Value</code>, <code>Format</code> or <code>QuietZone</code> change, so it is cheap to bind to an input. Nothing is drawn while the value is empty or does not suit the format, such as lower case letters in Code 39.</Description>
+
+        <CodeExample Name="BarcodeLive" CSharpName="BarcodeLiveCode">
+            <div class="flex flex-col gap-4">
+                <div class="max-w-sm">
+                    <TwTextfield Label="Text to encode" @bind-Value="liveValue" BindEvent="oninput" />
+                </div>
+                <TwBarcode Id="live-barcode" Value="@liveValue" />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Sizes">
+        <Description>Use <code>Size</code> to set the height of the bars. The width follows from the height and the length of the value, and never grows past its container.</Description>
+
+        <CodeExample Name="BarcodeSizes">
+            <div class="flex flex-wrap items-end gap-6">
+                <TwBarcode Id="small-barcode" Value="501234567890" Format="BarcodeFormat.Ean13" Size="BarcodeSize.Small" />
+                <TwBarcode Id="medium-barcode" Value="501234567890" Format="BarcodeFormat.Ean13" Size="BarcodeSize.Medium" />
+                <TwBarcode Id="large-barcode" Value="501234567890" Format="BarcodeFormat.Ean13" Size="BarcodeSize.Large" />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Text and quiet zone">
+        <Description>Set <code>ShowText="false"</code> to leave out the printed text. Scanners find the bars by the plain margin either side, called the quiet zone; each format has its own minimum, which is used by default. Only reduce <code>QuietZone</code> when the barcode already sits on a plain light background.</Description>
+
+        <CodeExample Name="BarcodeTextQuietZone">
+            <div class="flex flex-wrap items-end gap-6">
+                <TwBarcode Id="no-text-barcode" Value="TWB-2026-0042" ShowText="false" />
+                <TwBarcode Id="small-quiet-zone-barcode" Value="TWB-2026-0042" QuietZone="4" Rounded="Rounded.Md" Shadow="Shadow.Sm" />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Using the service">
+        <Description>
+            <code>ITwBarcodeService</code> is registered by <code>AddTwBlazor</code>. Call it directly to build a barcode outside a component: <code>Encode</code> returns a <code>Barcode</code> of dark and light modules for your own renderer,
+            <code>ToSvg</code> writes a standalone SVG (with optional text) for a file, a label or inline markup, and <code>ToSvgDataUri</code> gives a download link or image source. <code>TryEncode</code> tells you whether a value suits a format without throwing.
+        </Description>
+
+        <CodeExample Name="BarcodeService" CSharpName="BarcodeServiceCode">
+            <div class="flex flex-wrap items-center gap-6">
+                <div class="w-64">@((MarkupString)serviceSvg)</div>
+                <TwButton Href="@serviceDataUri" download="twblazor-barcode.svg" Color="Color.Primary" Label="Download SVG" />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Accessibility">
+        <Description>
+            A barcode is exposed as an image (<code>role="img"</code>) named "Barcode: " followed by its text, or after <code>AriaLabel</code> or <code>AriaLabelledBy</code> when set, and it is not a Tab stop. The printed text is hidden from screen readers so it is not read twice.
+            Its colors opt out of forced colors mode (<code>forced-color-adjust: none</code>) and it stays dark on light in dark mode, because recolored or inverted bars may not scan.
+        </Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample BarcodeLiveCode
+    private string liveValue = "Hello, TwBlazor";
+    #endregion
+
+    #region CodeExample BarcodeServiceCode
+    private string serviceSvg = string.Empty;
+    private string serviceDataUri = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        var barcode = BarcodeService.Encode("501234567890", BarcodeFormat.Ean13);
+        var svgOptions = new BarcodeSvgOptions { ShowText = true, Title = $"Barcode: {barcode.Text}" };
+        serviceSvg = BarcodeService.ToSvg(barcode, svgOptions);
+        serviceDataUri = BarcodeService.ToSvgDataUri(barcode, svgOptions);
+    }
+    #endregion
+}

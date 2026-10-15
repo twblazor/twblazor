@@ -280,6 +280,14 @@
         "theme": "TwPickListTheme"
       },
       {
+        "id": "barcode-navitem",
+        "display": "Barcode",
+        "name": "TwBarcode",
+        "url": "/barcode",
+        "isNew": true,
+        "theme": "TwBarcodeTheme"
+      },
+      {
         "id": "qr-code-navitem",
         "display": "QR Code",
         "name": "TwQrCode",

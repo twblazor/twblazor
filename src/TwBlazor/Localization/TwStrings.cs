@@ -112,6 +112,9 @@ public static class TwStrings
     /// <summary>The key for "QR code: {0}", the accessible name of a QR code.</summary>
     public const string QrCode_Label = "QrCode_Label";
 
+    /// <summary>The key for "Barcode: {0}", the accessible name of a barcode.</summary>
+    public const string Barcode_Label = "Barcode_Label";
+
     /// <summary>The key for "New event".</summary>
     public const string Calendar_NewEvent = "Calendar_NewEvent";
 
