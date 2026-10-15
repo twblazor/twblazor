@@ -1182,6 +1182,16 @@ public static class Trading212Theme
                     PanelContainer = $"px-6 py-5 border-x border-b {neutralSurface.Border} {focusRingInset} {interaction.FocusOutlineNone}",
                     Background = neutralSurface.Background,
                 },
+                new TwQrCodeTheme
+                {
+                    Base = $"{display.InlineBlock} {flexbox.ShrinkNone} forced-color-adjust-none",
+                    Light = "fill-white",
+                    Dark = "fill-black",
+                    Small = "size-24",
+                    Medium = "size-40",
+                    Large = "size-56",
+                    ExtraLarge = "size-72"
+                },
                 new TwSkeletonTheme
                 {
                     Base = $"{display.Block} {positioning.Relative} {overflow.Hidden} {neutralTrack}",
