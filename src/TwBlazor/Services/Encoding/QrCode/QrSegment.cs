@@ -1,9 +1,9 @@
 // Copyright (c) 2025 Jack Shuter @ TwBlazor - twblazor.com
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
-using System.Text;
+using System.Buffers;
 
-namespace TwBlazor.QrCoding;
+namespace TwBlazor.Services.Encoding;
 
 /// <summary>
 /// The ways a run of data can be packed into a QR code. Denser modes fit more characters in the same code.
@@ -32,6 +32,8 @@ internal enum QrSegmentMode
 internal sealed class QrSegment
 {
     private const string alphanumericCharset = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ $%*+-./:";
+
+    private static readonly SearchValues<char> _alphanumeric = SearchValues.Create(alphanumericCharset);
 
     private QrSegment(QrSegmentMode mode, int characterCount, QrBitBuffer data)
     {
@@ -77,7 +79,7 @@ internal sealed class QrSegment
             return [MakeAlphanumeric(text)];
         }
 
-        return [MakeBytes(Encoding.UTF8.GetBytes(text))];
+        return [MakeBytes(System.Text.Encoding.UTF8.GetBytes(text))];
     }
 
     /// <summary>
@@ -85,14 +87,14 @@ internal sealed class QrSegment
     /// </summary>
     /// <param name="text">The text to check.</param>
     /// <returns><see langword="true"/> when the text can use <see cref="QrSegmentMode.Numeric"/>.</returns>
-    internal static bool IsNumeric(string text) => text.All(char.IsAsciiDigit);
+    internal static bool IsNumeric(string text) => !text.AsSpan().ContainsAnyExceptInRange('0', '9');
 
     /// <summary>
     /// Gets whether every character is in the alphanumeric set.
     /// </summary>
     /// <param name="text">The text to check.</param>
     /// <returns><see langword="true"/> when the text can use <see cref="QrSegmentMode.Alphanumeric"/>.</returns>
-    internal static bool IsAlphanumeric(string text) => text.All(alphanumericCharset.Contains);
+    internal static bool IsAlphanumeric(string text) => !text.AsSpan().ContainsAnyExcept(_alphanumeric);
 
     /// <summary>
     /// Packs a string of digits, three digits to every 10 bits.

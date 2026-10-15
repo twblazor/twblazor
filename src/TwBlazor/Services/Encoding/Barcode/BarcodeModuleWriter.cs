@@ -1,7 +1,7 @@
 // Copyright (c) 2025 Jack Shuter @ TwBlazor - twblazor.com
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
-namespace TwBlazor.Barcoding;
+namespace TwBlazor.Services.Encoding;
 
 /// <summary>
 /// Builds the row of modules for a barcode from bar and space widths or from bit patterns.

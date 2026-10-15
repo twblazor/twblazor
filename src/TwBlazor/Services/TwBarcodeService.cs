@@ -2,8 +2,8 @@
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using System.Diagnostics.CodeAnalysis;
-using TwBlazor.Barcoding;
 using TwBlazor.Enums;
+using TwBlazor.Services.Encoding;
 
 namespace TwBlazor.Services;
 
@@ -20,37 +20,6 @@ public sealed class TwBarcodeService : ITwBarcodeService
     }
 
     /// <inheritdoc />
-    public bool TryEncode(string? value, BarcodeFormat format, [NotNullWhen(true)] out Barcode? barcode)
-    {
-        if (value is null)
-        {
-            barcode = null;
-            return false;
-        }
-
-        try
-        {
-            barcode = Encode(value, format);
-            return true;
-        }
-        catch (BarcodeValueException)
-        {
-            barcode = null;
-            return false;
-        }
-    }
-
-    /// <inheritdoc />
-    public string GetSvgPath(Barcode barcode, int? quietZone = null, int height = BarcodeSvgWriter.defaultHeight)
-    {
-        ArgumentNullException.ThrowIfNull(barcode);
-        return BarcodeSvgWriter.GetPath(barcode, quietZone ?? barcode.QuietZone, height);
-    }
-
-    /// <inheritdoc />
-    public string ToSvg(Barcode barcode, BarcodeSvgOptions? options = null) => BarcodeSvgWriter.ToSvg(barcode, options ?? BarcodeSvgOptions.Default);
-
-    /// <inheritdoc />
-    public string ToSvgDataUri(Barcode barcode, BarcodeSvgOptions? options = null) =>
-        "data:image/svg+xml;charset=utf-8," + Uri.EscapeDataString(ToSvg(barcode, options));
+    public bool TryEncode(string? value, BarcodeFormat format, [NotNullWhen(true)] out Barcode? barcode) =>
+        SymbolEncodingException.TryEncode(value, text => Encode(text, format), out barcode);
 }

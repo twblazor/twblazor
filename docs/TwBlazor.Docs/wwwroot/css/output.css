@@ -3114,9 +3114,6 @@
   .fill-\[oklch\(92\%_0_0\)\] {
     fill: oklch(92% 0 0);
   }
-  .fill-black {
-    fill: var(--color-black);
-  }
   .fill-blue-600 {
     fill: var(--color-blue-600);
   }
@@ -3143,9 +3140,6 @@
   }
   .fill-teal-600 {
     fill: var(--color-teal-600);
-  }
-  .fill-white {
-    fill: var(--color-white);
   }
   .fill-yellow-700 {
     fill: var(--color-yellow-700);
@@ -7513,6 +7507,9 @@
   }
   .dark\:text-amber-400:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
     color: var(--color-amber-400);
+  }
+  .dark\:text-black:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+    color: var(--color-black);
   }
   .dark\:text-blue-200:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
     color: var(--color-blue-200);

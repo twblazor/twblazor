@@ -1184,10 +1184,10 @@ public static class MicrosoftTheme
                 },
                 new TwBarcodeTheme
                 {
-                    Base = $"{display.InlineFlex} {flexbox.Col} {flexbox.Align.Center} {flexbox.ShrinkNone} max-w-full bg-white forced-color-adjust-none",
-                    Light = "fill-white",
-                    Dark = "fill-black",
-                    Text = $"font-mono {typography.Size.Xs} tracking-widest text-black pb-1",
+                    Base = $"{display.InlineFlex} {flexbox.Col} {flexbox.Align.Center} {flexbox.ShrinkNone} max-w-full forced-color-adjust-none",
+                    Background = "bg-white",
+                    Foreground = "text-black",
+                    Text = $"font-mono {typography.Size.Xs} tracking-widest pb-1",
                     Small = "h-10 max-w-full",
                     Medium = "h-16 max-w-full",
                     Large = "h-24 max-w-full"
@@ -1195,8 +1195,8 @@ public static class MicrosoftTheme
                 new TwQrCodeTheme
                 {
                     Base = $"{display.InlineBlock} {flexbox.ShrinkNone} forced-color-adjust-none",
-                    Light = "fill-white",
-                    Dark = "fill-black",
+                    Background = "bg-white dark:bg-transparent",
+                    Foreground = "text-black dark:text-white",
                     Small = "size-24",
                     Medium = "size-40",
                     Large = "size-56",

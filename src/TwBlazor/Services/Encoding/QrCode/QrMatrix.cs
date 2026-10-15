@@ -3,7 +3,7 @@
 
 using TwBlazor.Enums;
 
-namespace TwBlazor.QrCoding;
+namespace TwBlazor.Services.Encoding;
 
 /// <summary>
 /// An encoded QR code: a square grid of dark and light modules, ready to be drawn by any renderer.
@@ -11,9 +11,9 @@ namespace TwBlazor.QrCoding;
 /// <remarks>
 /// The matrix is immutable, so it can be cached and shared freely. Coordinates start at the top-left,
 /// with <c>x</c> running right and <c>y</c> running down. It does not include the quiet zone; a renderer
-/// adds that margin itself.
+/// adds that margin itself. Draw it with the <see cref="SymbolSvg"/> methods.
 /// </remarks>
-public sealed class QrMatrix
+public sealed class QrMatrix : IEncodedSymbol
 {
     private readonly bool[] _modules;
 
@@ -47,12 +47,18 @@ public sealed class QrMatrix
     /// </summary>
     public int Size { get; }
 
+    /// <inheritdoc />
+    public int Width => Size;
+
+    /// <inheritdoc />
+    public int Height => Size;
+
     /// <summary>
-    /// Gets whether the module at a position is dark.
+    /// Gets the light margin the standard asks for around a QR code: 4 modules.
     /// </summary>
-    /// <param name="x">The column, from 0 at the left.</param>
-    /// <param name="y">The row, from 0 at the top.</param>
-    /// <returns><see langword="true"/> for a dark module; <see langword="false"/> for a light one or a position outside the grid.</returns>
+    public int QuietZone => 4;
+
+    /// <inheritdoc />
     public bool this[int x, int y] => x >= 0 && y >= 0 && x < Size && y < Size && _modules[(y * Size) + x];
 
     /// <summary>

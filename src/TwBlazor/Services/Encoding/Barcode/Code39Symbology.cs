@@ -1,9 +1,10 @@
 // Copyright (c) 2025 Jack Shuter @ TwBlazor - twblazor.com
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
+using System.Buffers;
 using TwBlazor.Enums;
 
-namespace TwBlazor.Barcoding;
+namespace TwBlazor.Services.Encoding;
 
 /// <summary>
 /// Code 39 (ISO/IEC 16388). Each character is five bars and four spaces, three of them wide, framed by
@@ -30,6 +31,9 @@ internal sealed class Code39Symbology : IBarcodeSymbology
         ['/'] = "010100010", ['+'] = "010001010", ['%'] = "000101010", ['*'] = "010010100",
     };
 
+    // Every character a value may hold; "*" only frames the barcode.
+    private static readonly SearchValues<char> _dataCharacters = SearchValues.Create("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. $/+%");
+
     /// <inheritdoc />
     public BarcodeFormat Format => BarcodeFormat.Code39;
 
@@ -45,15 +49,13 @@ internal sealed class Code39Symbology : IBarcodeSymbology
     {
         if (value.Length == 0)
         {
-            throw new BarcodeValueException("Code 39 needs at least one character.");
+            throw new SymbolEncodingException("Code 39 needs at least one character.");
         }
 
-        foreach (var c in value)
+        var invalid = value.AsSpan().IndexOfAnyExcept(_dataCharacters);
+        if (invalid >= 0)
         {
-            if (c == '*' || !_patterns.ContainsKey(c))
-            {
-                throw new BarcodeValueException($"Code 39 only holds A-Z, 0-9, space and -.$/+%; '{c}' is not one of them.");
-            }
+            throw new SymbolEncodingException($"Code 39 only holds A-Z, 0-9, space and -.$/+%; '{value[invalid]}' is not one of them.");
         }
 
         var writer = new BarcodeModuleWriter((value.Length + 2) * 16);

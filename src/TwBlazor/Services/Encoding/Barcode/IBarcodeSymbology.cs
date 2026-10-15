@@ -3,7 +3,7 @@
 
 using TwBlazor.Enums;
 
-namespace TwBlazor.Barcoding;
+namespace TwBlazor.Services.Encoding;
 
 /// <summary>
 /// Encodes values in one barcode format. Add a format by implementing this, adding a
@@ -21,6 +21,6 @@ internal interface IBarcodeSymbology
     /// </summary>
     /// <param name="value">The value to encode.</param>
     /// <returns>The encoded barcode.</returns>
-    /// <exception cref="BarcodeValueException">The value cannot be encoded in this format.</exception>
+    /// <exception cref="SymbolEncodingException">The value cannot be encoded in this format.</exception>
     Barcode Encode(string value);
 }

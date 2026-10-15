@@ -1,9 +1,9 @@
 using System.Text;
-using TwBlazor.Barcoding;
+using TwBlazor.Services.Encoding;
 using TwBlazor.Enums;
 using TwBlazor.Services;
 
-namespace TwBlazor.Tests.Barcoding;
+namespace TwBlazor.Tests.Services.Encoding;
 
 public class BarcodeEncoderTests
 {
@@ -119,7 +119,7 @@ public class BarcodeEncoderTests
     [InlineData("café")]
     public void Code128_RejectsEmptyOrNonAsciiValues(string value)
     {
-        Assert.Throws<BarcodeValueException>(() => service.Encode(value));
+        Assert.Throws<SymbolEncodingException>(() => service.Encode(value));
     }
 
     [Fact]
@@ -140,7 +140,7 @@ public class BarcodeEncoderTests
     [InlineData("A*B")]
     public void Code39_RejectsCharactersItCannotHold(string value)
     {
-        Assert.Throws<BarcodeValueException>(() => service.Encode(value, BarcodeFormat.Code39));
+        Assert.Throws<SymbolEncodingException>(() => service.Encode(value, BarcodeFormat.Code39));
     }
 
     [Theory]
@@ -159,7 +159,7 @@ public class BarcodeEncoderTests
     [InlineData(BarcodeFormat.UpcA, "036000291453")]
     public void RetailFormats_RejectAWrongCheckDigit(BarcodeFormat format, string value)
     {
-        var exception = Assert.Throws<BarcodeValueException>(() => service.Encode(value, format));
+        var exception = Assert.Throws<SymbolEncodingException>(() => service.Encode(value, format));
 
         Assert.Contains("check digit", exception.Message);
     }
@@ -172,7 +172,7 @@ public class BarcodeEncoderTests
     [InlineData(BarcodeFormat.UpcA, "1234567890")]
     public void RetailFormats_RejectTheWrongNumberOfDigits(BarcodeFormat format, string value)
     {
-        Assert.Throws<BarcodeValueException>(() => service.Encode(value, format));
+        Assert.Throws<SymbolEncodingException>(() => service.Encode(value, format));
     }
 
     [Fact]

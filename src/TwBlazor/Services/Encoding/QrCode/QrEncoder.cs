@@ -3,7 +3,7 @@
 
 using TwBlazor.Enums;
 
-namespace TwBlazor.QrCoding;
+namespace TwBlazor.Services.Encoding;
 
 /// <summary>
 /// Turns segments of data into a <see cref="QrMatrix"/>, following ISO/IEC 18004 (model 2 QR codes).
@@ -26,7 +26,7 @@ internal static class QrEncoder
     /// <param name="segments">The data, as one or more segments.</param>
     /// <param name="options">The encoding settings.</param>
     /// <returns>The encoded matrix.</returns>
-    /// <exception cref="QrDataTooLongException">The data does not fit in <see cref="QrEncodeOptions.MaxVersion"/>.</exception>
+    /// <exception cref="SymbolEncodingException">The data does not fit in <see cref="QrEncodeOptions.MaxVersion"/>.</exception>
     internal static QrMatrix Encode(IReadOnlyList<QrSegment> segments, QrEncodeOptions options)
     {
         Validate(options);
@@ -38,7 +38,7 @@ internal static class QrEncoder
         {
             if (version >= options.MaxVersion)
             {
-                throw new QrDataTooLongException(
+                throw new SymbolEncodingException(
                     $"The data needs more space than a version {options.MaxVersion} QR code holds at {level} error correction.");
             }
 
@@ -48,19 +48,19 @@ internal static class QrEncoder
 
         if (options.BoostErrorCorrection)
         {
-            foreach (var higher in (ReadOnlySpan<QrErrorCorrection>)[QrErrorCorrection.Medium, QrErrorCorrection.Quartile, QrErrorCorrection.High])
-            {
-                if (higher > level && usedBits <= QrTables.GetDataCodewords(version, higher) * 8)
-                {
-                    level = higher;
-                }
-            }
+            level = GetHighestLevelThatFits(level, version, usedBits);
         }
 
         var codewords = BuildCodewords(segments, version, level);
         var interleaved = AddErrorCorrectionAndInterleave(codewords, version, level);
         return Draw(interleaved, version, level, options.Mask);
     }
+
+    private static QrErrorCorrection GetHighestLevelThatFits(QrErrorCorrection level, int version, int usedBits) =>
+        Enum.GetValues<QrErrorCorrection>()
+            .Where(higher => higher > level && usedBits <= QrTables.GetDataCodewords(version, higher) * 8)
+            .DefaultIfEmpty(level)
+            .Max();
 
     private static void Validate(QrEncodeOptions options)
     {
@@ -334,13 +334,10 @@ internal static class QrEncoder
             {
                 for (var j = 0; j < count; j++)
                 {
-                    // Skip the three corners the finder patterns already occupy.
-                    if ((i == 0 && j == 0) || (i == 0 && j == count - 1) || (i == count - 1 && j == 0))
+                    if (!IsFinderCorner(i, j, count - 1))
                     {
-                        continue;
+                        DrawAlignment(positions[i], positions[j]);
                     }
-
-                    DrawAlignment(positions[i], positions[j]);
                 }
             }
 
@@ -508,5 +505,8 @@ internal static class QrEncoder
         }
 
         private static bool GetBit(int value, int index) => ((value >> index) & 1) != 0;
+
+        // The three corners of the alignment grid that the finder patterns already occupy.
+        private static bool IsFinderCorner(int i, int j, int last) => (i == 0 && (j == 0 || j == last)) || (i == last && j == 0);
     }
 }

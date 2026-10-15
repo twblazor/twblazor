@@ -2,11 +2,11 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Bunit;
 using Microsoft.Extensions.DependencyInjection;
-using TwBlazor.Barcoding;
 using TwBlazor.Components;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Enums;
 using TwBlazor.Services;
+using TwBlazor.Services.Encoding;
 using ThemeBase = TwBlazor.Theme.Theme;
 
 namespace TwBlazor.Tests.Components.Barcode;
@@ -32,9 +32,9 @@ public class TwBarcodeTests : TwBlazorTestBase
         Assert.Equal("0 0 117 50", svg.GetAttribute("viewBox"));
         Assert.Equal("true", svg.GetAttribute("aria-hidden"));
         Assert.Equal("false", svg.GetAttribute("focusable"));
-        Assert.Equal(theme.Light, svg.QuerySelector("rect")!.GetAttribute("class"));
-        Assert.Equal(theme.Dark, svg.QuerySelector("path")!.GetAttribute("class"));
-        Assert.Equal(service.GetSvgPath(service.Encode("5012345678900", BarcodeFormat.Ean13)), svg.QuerySelector("path")!.GetAttribute("d"));
+        Assert.Empty(svg.QuerySelectorAll("rect"));
+        Assert.Equal("currentColor", svg.QuerySelector("path")!.GetAttribute("fill"));
+        Assert.Equal(service.Encode("5012345678900", BarcodeFormat.Ean13).GetSvgPath(), svg.QuerySelector("path")!.GetAttribute("d"));
         Assert.Equal("5012345678900", cut.Find("span").TextContent);
         Assert.Equal(theme.Text, cut.Find("span").GetAttribute("class"));
     }
@@ -148,6 +148,24 @@ public class TwBarcodeTests : TwBlazorTestBase
     }
 
     [Fact]
+    public void TwBarcode_TakesItsColorsFromTheTheme()
+    {
+        var cut = TestContext.Render<TwBarcode>(p => p.Add(x => x.Value, "a"));
+
+        var classes = cut.Find("div").GetAttribute("class");
+        Assert.Contains(theme.Background, classes);
+        Assert.Contains(theme.Foreground, classes);
+    }
+
+    [Fact]
+    public void TwBarcode_DefaultTheme_StaysDarkOnLight_InDarkMode()
+    {
+        // Inverted one-dimensional barcodes are not read reliably, unlike inverted QR codes.
+        Assert.Equal("bg-white", theme.Background);
+        Assert.Equal("text-black", theme.Foreground);
+    }
+
+    [Fact]
     public void TwBarcode_KeepsItsColors_InForcedColorsMode()
     {
         var cut = TestContext.Render<TwBarcode>(p => p.Add(x => x.Value, "a"));
@@ -181,18 +199,12 @@ public class TwBarcodeTests : TwBlazorTestBase
 
         public int EncodeCount { get; private set; }
 
-        public TwBlazor.Barcoding.Barcode Encode(string value, BarcodeFormat format = BarcodeFormat.Code128) => inner.Encode(value, format);
+        public TwBlazor.Services.Encoding.Barcode Encode(string value, BarcodeFormat format = BarcodeFormat.Code128) => inner.Encode(value, format);
 
-        public bool TryEncode(string? value, BarcodeFormat format, [NotNullWhen(true)] out TwBlazor.Barcoding.Barcode? barcode)
+        public bool TryEncode(string? value, BarcodeFormat format, [NotNullWhen(true)] out TwBlazor.Services.Encoding.Barcode? barcode)
         {
             EncodeCount++;
             return inner.TryEncode(value, format, out barcode);
         }
-
-        public string GetSvgPath(TwBlazor.Barcoding.Barcode barcode, int? quietZone = null, int height = 50) => inner.GetSvgPath(barcode, quietZone, height);
-
-        public string ToSvg(TwBlazor.Barcoding.Barcode barcode, BarcodeSvgOptions? options = null) => inner.ToSvg(barcode, options);
-
-        public string ToSvgDataUri(TwBlazor.Barcoding.Barcode barcode, BarcodeSvgOptions? options = null) => inner.ToSvgDataUri(barcode, options);
     }
 }

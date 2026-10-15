@@ -7,34 +7,15 @@ namespace TwBlazor.Configuration.Components;
 
 /// <summary>
 /// Theme configuration for the barcode component (<see cref="TwBlazor.Components.TwBarcode"/>).
-/// Override any property to customize barcode styles globally.
+/// Override any property to customize barcode styles globally. The colors are shared with the QR code; see
+/// <see cref="TwEncodedSymbolTheme"/>.
 /// </summary>
-/// <remarks>
-/// Keep <see cref="Dark"/> much darker than <see cref="Light"/>, in dark mode too: scanners need dark bars on a
-/// light background.
-/// </remarks>
 [ExcludeFromCodeCoverage]
-public class TwBarcodeTheme
+public class TwBarcodeTheme : TwEncodedSymbolTheme
 {
     /// <summary>
-    /// Gets or sets the base classes for the wrapper holding the bars and text. Include a light background and
-    /// <c>forced-color-adjust-none</c> so high contrast modes do not recolor the barcode into something a
-    /// scanner cannot read.
-    /// </summary>
-    public required string Base { get; set; }
-
-    /// <summary>
-    /// Gets or sets the fill classes for the spaces and quiet zone.
-    /// </summary>
-    public required string Light { get; set; }
-
-    /// <summary>
-    /// Gets or sets the fill classes for the bars.
-    /// </summary>
-    public required string Dark { get; set; }
-
-    /// <summary>
-    /// Gets or sets the classes for the human readable text under the bars.
+    /// Gets or sets the classes for the human readable text under the bars. Its color comes from
+    /// <see cref="TwEncodedSymbolTheme.Foreground"/>.
     /// </summary>
     public required string Text { get; set; }
 

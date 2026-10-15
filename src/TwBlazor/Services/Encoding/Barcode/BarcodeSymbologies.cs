@@ -3,7 +3,7 @@
 
 using TwBlazor.Enums;
 
-namespace TwBlazor.Barcoding;
+namespace TwBlazor.Services.Encoding;
 
 /// <summary>
 /// The registry of supported barcode formats.

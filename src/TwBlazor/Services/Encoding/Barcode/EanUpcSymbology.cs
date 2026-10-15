@@ -3,7 +3,7 @@
 
 using TwBlazor.Enums;
 
-namespace TwBlazor.Barcoding;
+namespace TwBlazor.Services.Encoding;
 
 /// <summary>
 /// The EAN/UPC retail family (ISO/IEC 15420): EAN-13, EAN-8 and UPC-A. Each is a fixed number of digits ending
@@ -77,13 +77,13 @@ internal sealed class EanUpcSymbology : IBarcodeSymbology
 
         if (!value.All(char.IsAsciiDigit) || (value.Length != length && value.Length != length - 1))
         {
-            throw new BarcodeValueException($"{name} takes {length - 1} digits, or {length} digits including the check digit.");
+            throw new SymbolEncodingException($"{name} takes {length - 1} digits, or {length} digits including the check digit.");
         }
 
         var check = (char)('0' + GetCheckDigit(value.AsSpan(0, length - 1)));
         if (value.Length == length && value[^1] != check)
         {
-            throw new BarcodeValueException($"The check digit of {value} should be {check}.");
+            throw new SymbolEncodingException($"The check digit of {value} should be {check}.");
         }
 
         var digits = value[..(length - 1)] + check;

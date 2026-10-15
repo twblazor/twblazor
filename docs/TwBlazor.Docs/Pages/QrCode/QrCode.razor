@@ -1,5 +1,5 @@
 @page "/qr-code"
-@using TwBlazor.QrCoding
+@using TwBlazor.Services.Encoding
 @using TwBlazor.Services
 
 @* #region CodeExample QrCodeInject *@
@@ -84,10 +84,27 @@
         </CodeExample>
     </PageCard>
 
+    <PageCard Title="Colors and dark mode">
+        <Description>
+            The modules are drawn in the current text color over a background, both set by <code>Foreground</code> and <code>Background</code> in <code>TwQrCodeTheme</code>, the same settings the barcode uses.
+            By default the code is black on white, and in dark mode it turns light on the page's own background. Most phone camera apps read these inverted symbols, but some dedicated scanners do not:
+            to keep a code dark on light in dark mode, set <code>Background</code> to <code>bg-white</code> and <code>Foreground</code> to <code>text-black</code> in your theme, or override a single code with <code>Class</code>.
+            Whatever colors you choose, keep strong contrast between them.
+        </Description>
+
+        <CodeExample Name="QrCodeColors">
+            <div class="flex flex-wrap items-end gap-6">
+                <TwQrCode Id="default-colors-qr-code" Value="https://twblazor.com" Size="QrCodeSize.Small" />
+                <TwQrCode Id="always-light-qr-code" Value="https://twblazor.com" Size="QrCodeSize.Small" Class="dark:bg-white dark:text-black" />
+                <TwQrCode Id="brand-colors-qr-code" Value="https://twblazor.com" Size="QrCodeSize.Small" Class="bg-purple-50 text-purple-900 dark:bg-transparent dark:text-purple-200" />
+            </div>
+        </CodeExample>
+    </PageCard>
+
     <PageCard Title="Using the service">
         <Description>
-            <code>ITwQrCodeService</code> is registered by <code>AddTwBlazor</code>. Call it directly to build a code outside a component: <code>Encode</code> returns a <code>QrMatrix</code> of dark and light modules for your own renderer,
-            <code>ToSvg</code> writes a standalone SVG for a file, an email or inline markup, and <code>ToSvgDataUri</code> gives a download link or image source. <code>TryEncode</code> tells you whether a value fits without throwing.
+            <code>ITwQrCodeService</code> is registered by <code>AddTwBlazor</code>. Call it directly to build a code outside a component: <code>Encode</code> returns a <code>QrMatrix</code> of dark and light modules.
+            Draw it with the shared <code>SymbolSvg</code> methods from <code>TwBlazor.Services.Encoding</code>, which draw barcodes too: <code>ToSvg</code> writes a standalone SVG for a file, an email or inline markup, <code>ToSvgDataUri</code> gives a download link or image source, and <code>GetSvgPath</code> gives the path data for your own markup. <code>TryEncode</code> tells you whether a value fits without throwing.
         </Description>
 
         <CodeExample Name="QrCodeService" CSharpName="QrCodeServiceCode">
@@ -104,7 +121,7 @@
     <PageCard Title="Accessibility">
         <Description>
             A QR code is exposed as an image (<code>role="img"</code>) named after the text it holds, or after <code>AriaLabel</code> or <code>AriaLabelledBy</code> when set, and it is not a Tab stop.
-            Its colors opt out of forced colors mode (<code>forced-color-adjust: none</code>) because a recolored code may not scan, and it stays dark on light in dark mode for the same reason.
+            Its colors opt out of forced colors mode (<code>forced-color-adjust: none</code>) because a recolored code may not scan.
             A code alone cannot be used by someone without a camera, so put the link or text it holds beside it.
         </Description>
     </PageCard>
@@ -124,9 +141,9 @@
     protected override void OnInitialized()
     {
         serviceMatrix = QrCodeService.Encode(serviceValue, new QrEncodeOptions { ErrorCorrection = QrErrorCorrection.Quartile });
-        var svgOptions = new QrSvgOptions { Title = $"QR code: {serviceValue}" };
-        serviceSvg = QrCodeService.ToSvg(serviceMatrix, svgOptions);
-        serviceDataUri = QrCodeService.ToSvgDataUri(serviceMatrix, svgOptions);
+        var svgOptions = new SymbolSvgOptions { Title = $"QR code: {serviceValue}" };
+        serviceSvg = serviceMatrix.ToSvg(svgOptions);
+        serviceDataUri = serviceMatrix.ToSvgDataUri(svgOptions);
     }
     #endregion
 }
