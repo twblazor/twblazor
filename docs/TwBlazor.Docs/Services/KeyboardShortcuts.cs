@@ -96,6 +96,10 @@ internal static class KeyboardShortcuts
 
         ["/avatar"] = _notInteractive,
 
+        ["/barcode"] = Guide(
+            "A barcode is not interactive and is not a Tab stop. Screen readers announce it as an image named after the text it holds, "
+            + "unless it is given a label of its own."),
+
         ["/breadcrumb"] = Guide(
             "The breadcrumb is a navigation landmark holding ordinary links. The current page is text, not a link.",
             Key("Moves to the next link.", Tab),

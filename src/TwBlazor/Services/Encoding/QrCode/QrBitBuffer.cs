@@ -1,7 +1,7 @@
 // Copyright (c) 2025 Jack Shuter @ TwBlazor - twblazor.com
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
-namespace TwBlazor.QrCoding;
+namespace TwBlazor.Services.Encoding;
 
 /// <summary>
 /// An append-only sequence of bits, packed most significant bit first.

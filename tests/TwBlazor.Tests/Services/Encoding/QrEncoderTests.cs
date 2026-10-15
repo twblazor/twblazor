@@ -1,10 +1,10 @@
 using System.Security.Cryptography;
 using System.Text;
 using TwBlazor.Enums;
-using TwBlazor.QrCoding;
+using TwBlazor.Services.Encoding;
 using TwBlazor.Services;
 
-namespace TwBlazor.Tests.QrCoding;
+namespace TwBlazor.Tests.Services.Encoding;
 
 public class QrEncoderTests
 {
@@ -54,7 +54,7 @@ public class QrEncoderTests
     }
 
     private static string Fingerprint(QrMatrix matrix) =>
-        Convert.ToHexStringLower(SHA256.HashData(Encoding.ASCII.GetBytes(string.Concat(ToRows(matrix)))));
+        Convert.ToHexStringLower(SHA256.HashData(System.Text.Encoding.ASCII.GetBytes(string.Concat(ToRows(matrix)))));
 
     [Fact]
     public void Encode_HelloWorld_MatchesTheReferenceMatrix()
@@ -133,7 +133,7 @@ public class QrEncoderTests
         var options = new QrEncodeOptions { ErrorCorrection = level, BoostErrorCorrection = false, MinVersion = version, MaxVersion = version };
 
         Assert.Equal(version, service.Encode(new string('a', capacity), options).Version);
-        Assert.Throws<QrDataTooLongException>(() => service.Encode(new string('a', capacity + 1), options));
+        Assert.Throws<SymbolEncodingException>(() => service.Encode(new string('a', capacity + 1), options));
     }
 
     [Theory]
@@ -144,7 +144,7 @@ public class QrEncoderTests
         var options = new QrEncodeOptions { ErrorCorrection = QrErrorCorrection.Low, MinVersion = 40 };
 
         Assert.Equal(40, service.Encode(new string(character, capacity), options).Version);
-        Assert.Throws<QrDataTooLongException>(() => service.Encode(new string(character, capacity + 1), options));
+        Assert.Throws<SymbolEncodingException>(() => service.Encode(new string(character, capacity + 1), options));
     }
 
     [Fact]

@@ -5,8 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 using TwBlazor.Components;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Enums;
-using TwBlazor.QrCoding;
 using TwBlazor.Services;
+using TwBlazor.Services.Encoding;
 using ThemeBase = TwBlazor.Theme.Theme;
 
 namespace TwBlazor.Tests.Components.QrCode;
@@ -28,12 +28,11 @@ public class TwQrCodeTests : TwBlazorTestBase
         var cut = TestContext.Render<TwQrCode>(p => p.Add(x => x.Value, "HELLO WORLD"));
 
         var svg = cut.Find("svg");
-        var expected = new TwQrCodeService().GetSvgPath(new TwQrCodeService().Encode("HELLO WORLD"));
+        var expected = new TwQrCodeService().Encode("HELLO WORLD").GetSvgPath();
         Assert.Equal("0 0 29 29", svg.GetAttribute("viewBox"));
         Assert.Equal("crispEdges", svg.GetAttribute("shape-rendering"));
-        Assert.Single(svg.QuerySelectorAll("rect"));
-        Assert.Equal(theme.Light, svg.QuerySelector("rect")!.GetAttribute("class"));
-        Assert.Equal(theme.Dark, svg.QuerySelector("path")!.GetAttribute("class"));
+        Assert.Empty(svg.QuerySelectorAll("rect"));
+        Assert.Equal("currentColor", svg.QuerySelector("path")!.GetAttribute("fill"));
         Assert.Equal(expected, svg.QuerySelector("path")!.GetAttribute("d"));
     }
 
@@ -167,6 +166,23 @@ public class TwQrCodeTests : TwBlazorTestBase
     }
 
     [Fact]
+    public void TwQrCode_TakesItsColorsFromTheTheme()
+    {
+        var cut = TestContext.Render<TwQrCode>(p => p.Add(x => x.Value, "a"));
+
+        var classes = cut.Find("svg").GetAttribute("class");
+        Assert.Contains(theme.Background, classes);
+        Assert.Contains(theme.Foreground, classes);
+    }
+
+    [Fact]
+    public void TwQrCode_DefaultTheme_DrawsLightModulesOnThePageBackground_InDarkMode()
+    {
+        Assert.Contains("dark:bg-transparent", theme.Background);
+        Assert.Contains("dark:text-white", theme.Foreground);
+    }
+
+    [Fact]
     public void TwQrCode_KeepsItsColors_InForcedColorsMode()
     {
         var cut = TestContext.Render<TwQrCode>(p => p.Add(x => x.Value, "a"));
@@ -219,11 +235,5 @@ public class TwQrCodeTests : TwBlazorTestBase
             LastOptions = options;
             return inner.TryEncode(value, options, out matrix);
         }
-
-        public string GetSvgPath(QrMatrix matrix, int quietZone = 4) => inner.GetSvgPath(matrix, quietZone);
-
-        public string ToSvg(QrMatrix matrix, QrSvgOptions? options = null) => inner.ToSvg(matrix, options);
-
-        public string ToSvgDataUri(QrMatrix matrix, QrSvgOptions? options = null) => inner.ToSvgDataUri(matrix, options);
     }
 }

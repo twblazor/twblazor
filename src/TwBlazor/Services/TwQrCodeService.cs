@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using System.Diagnostics.CodeAnalysis;
-using TwBlazor.QrCoding;
+using TwBlazor.Services.Encoding;
 
 namespace TwBlazor.Services;
 
@@ -27,33 +27,6 @@ public sealed class TwQrCodeService : ITwQrCodeService
     }
 
     /// <inheritdoc />
-    public bool TryEncode(string? value, QrEncodeOptions? options, [NotNullWhen(true)] out QrMatrix? matrix)
-    {
-        if (value is null)
-        {
-            matrix = null;
-            return false;
-        }
-
-        try
-        {
-            matrix = Encode(value, options);
-            return true;
-        }
-        catch (QrDataTooLongException)
-        {
-            matrix = null;
-            return false;
-        }
-    }
-
-    /// <inheritdoc />
-    public string GetSvgPath(QrMatrix matrix, int quietZone = QrSvgWriter.defaultQuietZone) => QrSvgWriter.GetPath(matrix, quietZone);
-
-    /// <inheritdoc />
-    public string ToSvg(QrMatrix matrix, QrSvgOptions? options = null) => QrSvgWriter.ToSvg(matrix, options ?? QrSvgOptions.Default);
-
-    /// <inheritdoc />
-    public string ToSvgDataUri(QrMatrix matrix, QrSvgOptions? options = null) =>
-        "data:image/svg+xml;charset=utf-8," + Uri.EscapeDataString(ToSvg(matrix, options));
+    public bool TryEncode(string? value, QrEncodeOptions? options, [NotNullWhen(true)] out QrMatrix? matrix) =>
+        SymbolEncodingException.TryEncode(value, text => Encode(text, options), out matrix);
 }

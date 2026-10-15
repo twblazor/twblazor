@@ -3,7 +3,7 @@
 
 using TwBlazor.Enums;
 
-namespace TwBlazor.QrCoding;
+namespace TwBlazor.Services.Encoding;
 
 /// <summary>
 /// Settings that control how data is encoded into a <see cref="QrMatrix"/>.

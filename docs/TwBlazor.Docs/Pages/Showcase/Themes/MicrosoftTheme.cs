@@ -1170,16 +1170,6 @@ public static class MicrosoftTheme
                     Wrapper = $"{positioning.Relative} {display.Block}",
                     Animated = $"{positioning.Absolute} inset-y-0 start-0 {overflow.Hidden} {rounded.Full} {interaction.PointerEventsNone} transition-[width] {transition.DurationSlow} tw-wave [--tw-wave-color:rgb(255_255_255/0.7)] dark:[--tw-wave-color:rgb(255_255_255/0.4)]"
                 },
-                new TwQrCodeTheme
-                {
-                    Base = $"{display.InlineBlock} {flexbox.ShrinkNone} forced-color-adjust-none",
-                    Light = "fill-white",
-                    Dark = "fill-black",
-                    Small = "size-24",
-                    Medium = "size-40",
-                    Large = "size-56",
-                    ExtraLarge = "size-72"
-                },
                 new TwTabTheme
                 {
                     TabBase = $"{positioning.Relative} {display.InlineFlex} {anchor.Center} {typography.Weight.Medium} {typography.Size.Sm} {transition.ColorsFast} {focusRingInset} {interaction.FocusOutlineNone} touch-manipulation",
@@ -1191,6 +1181,26 @@ public static class MicrosoftTheme
                     TabListContainer = $"{display.Flex} {flexbox.Wrap} {overflow.Hidden} {borderWidth.Thin} {neutralSurface.Border}",
                     PanelContainer = $"px-6 py-5 border-x border-b {neutralSurface.Border} {focusRingInset} {interaction.FocusOutlineNone}",
                     Background = neutralSurface.Background,
+                },
+                new TwBarcodeTheme
+                {
+                    Base = $"{display.InlineFlex} {flexbox.Col} {flexbox.Align.Center} {flexbox.ShrinkNone} max-w-full forced-color-adjust-none",
+                    Background = "bg-white",
+                    Foreground = "text-black",
+                    Text = $"font-mono {typography.Size.Xs} tracking-widest pb-1",
+                    Small = "h-10 max-w-full",
+                    Medium = "h-16 max-w-full",
+                    Large = "h-24 max-w-full"
+                },
+                new TwQrCodeTheme
+                {
+                    Base = $"{display.InlineBlock} {flexbox.ShrinkNone} forced-color-adjust-none",
+                    Background = "bg-white dark:bg-transparent",
+                    Foreground = "text-black dark:text-white",
+                    Small = "size-24",
+                    Medium = "size-40",
+                    Large = "size-56",
+                    ExtraLarge = "size-72"
                 },
                 new TwSkeletonTheme
                 {

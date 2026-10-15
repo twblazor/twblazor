@@ -3,7 +3,7 @@
 
 using TwBlazor.Enums;
 
-namespace TwBlazor.QrCoding;
+namespace TwBlazor.Services.Encoding;
 
 /// <summary>
 /// The fixed capacity tables and layout formulas from the QR code standard (ISO/IEC 18004).

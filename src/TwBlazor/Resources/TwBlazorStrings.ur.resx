@@ -651,4 +651,7 @@
   <data name="QrCode_Label" xml:space="preserve">
     <value>QR کوڈ: {0}</value>
   </data>
+  <data name="Barcode_Label" xml:space="preserve">
+    <value>بارکوڈ: {0}</value>
+  </data>
 </root>

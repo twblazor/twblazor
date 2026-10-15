@@ -795,4 +795,8 @@
     <value>QR code: {0}</value>
     <comment>{0} = the text the QR code holds, for example a URL.</comment>
   </data>
+  <data name="Barcode_Label" xml:space="preserve">
+    <value>Barcode: {0}</value>
+    <comment>{0} = the text the barcode holds.</comment>
+  </data>
 </root>
