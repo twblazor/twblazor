@@ -645,4 +645,7 @@
   <data name="TreeList_Select" xml:space="preserve">
     <value>{0} தேர்ந்தெடு</value>
   </data>
+  <data name="QrCode_Label" xml:space="preserve">
+    <value>QR குறியீடு: {0}</value>
+  </data>
 </root>

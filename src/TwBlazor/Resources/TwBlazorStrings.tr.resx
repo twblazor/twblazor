@@ -648,4 +648,7 @@
   <data name="TreeList_Select" xml:space="preserve">
     <value>{0} öğesini seç</value>
   </data>
+  <data name="QrCode_Label" xml:space="preserve">
+    <value>QR kodu: {0}</value>
+  </data>
 </root>

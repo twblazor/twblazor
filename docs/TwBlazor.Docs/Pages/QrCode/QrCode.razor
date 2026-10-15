@@ -1,0 +1,132 @@
+@page "/qr-code"
+@using TwBlazor.QrCoding
+@using TwBlazor.Services
+
+@* #region CodeExample QrCodeInject *@
+@inject ITwQrCodeService QrCodeService
+@* #endregion *@
+
+<PageContainer Title="TwQrCode" Path="/qr-code" Beta Description="TwQrCode is a Blazor QR code component with no third-party dependencies. Set Value, ErrorCorrection, Size and QuietZone, or use ITwQrCodeService to build codes yourself." ThemeType="typeof(TwQrCodeTheme)">
+    <PageCard Title="Basic usage">
+        <Description>Give <code>TwQrCode</code> a <code>Value</code>, such as a URL, and it draws a QR code for it. The code is a single SVG path, so it stays sharp at any size.</Description>
+
+        <CodeExample Name="QrCodeBasic">
+            <TwQrCode Id="basic-qr-code" Value="https://twblazor.com" />
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Live value">
+        <Description>The code is only rebuilt when the <code>Value</code> or an encoding setting changes, so it is cheap to bind to an input. Nothing is drawn while the value is empty or too long to fit.</Description>
+
+        <CodeExample Name="QrCodeLive" CSharpName="QrCodeLiveCode">
+            <div class="flex flex-wrap items-center gap-6">
+                <TwQrCode Id="live-qr-code" Value="@liveValue" />
+                <div class="min-w-64 flex-1">
+                    <TwTextfield Label="Text to encode" @bind-Value="liveValue" BindEvent="oninput" />
+                </div>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Error correction">
+        <Description>
+            QR codes carry extra recovery data, so they still scan when part of the code is dirty, damaged or covered. <code>ErrorCorrection</code> sets how much:
+            <code>Low</code> recovers about 7% of the code, <code>Medium</code> (the default) about 15%, <code>Quartile</code> about 25% and <code>High</code> about 30%.
+            More recovery data means a denser code for the same text. Use <code>Medium</code> on screens, and <code>Quartile</code> or <code>High</code> for printed codes that may get worn.
+            By default the level is raised for free whenever that does not make the code any denser; set <code>BoostErrorCorrection="false"</code> to keep exactly the level you chose.
+        </Description>
+
+        <CodeExample Name="QrCodeErrorCorrection">
+            <div class="flex flex-wrap items-end gap-6">
+                @foreach (var level in Enum.GetValues<QrErrorCorrection>())
+                {
+                    <figure class="flex flex-col items-center gap-2">
+                        <TwQrCode Id="@($"error-correction-{level.ToString().ToLowerInvariant()}")" Value="https://twblazor.com/qr-code" ErrorCorrection="@level" BoostErrorCorrection="false" Size="QrCodeSize.Small" />
+                        <figcaption class="text-sm">@level</figcaption>
+                    </figure>
+                }
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Sizes">
+        <Description>Use <code>Size</code> to set the dimensions. Every module scales with it, so a longer value packs smaller modules into the same space; give dense codes more room so they are easy to scan.</Description>
+
+        <CodeExample Name="QrCodeSizes">
+            <div class="flex flex-wrap items-end gap-6">
+                <TwQrCode Id="small-qr-code" Value="https://twblazor.com" Size="QrCodeSize.Small" />
+                <TwQrCode Id="medium-qr-code" Value="https://twblazor.com" Size="QrCodeSize.Medium" />
+                <TwQrCode Id="large-qr-code" Value="https://twblazor.com" Size="QrCodeSize.Large" />
+                <TwQrCode Id="extra-large-qr-code" Value="https://twblazor.com" Size="QrCodeSize.ExtraLarge" />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Quiet zone and shape">
+        <Description>Scanners find a code by the plain margin around it, called the quiet zone. <code>QuietZone</code> sets it in modules and defaults to 4, the minimum the standard asks for. Only reduce it when the code already sits on a plain light background. <code>Rounded</code> and <code>Shadow</code> style the outer edge.</Description>
+
+        <CodeExample Name="QrCodeQuietZone">
+            <div class="flex flex-wrap items-end gap-6">
+                <TwQrCode Id="quiet-zone-default" Value="https://twblazor.com" Size="QrCodeSize.Small" />
+                <TwQrCode Id="quiet-zone-two" Value="https://twblazor.com" Size="QrCodeSize.Small" QuietZone="2" Rounded="Rounded.Lg" Shadow="Shadow.Md" />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Describing the code">
+        <Description>By default the code is announced as "QR code: " followed by its value. Set <code>AriaLabel</code> to say what scanning it does instead, and always show the link or text beside the code, so people without a camera can use it too.</Description>
+
+        <CodeExample Name="QrCodeDescribed">
+            <div class="flex flex-wrap items-center gap-4">
+                <TwQrCode Id="described-qr-code" Value="https://twblazor.com/get-started" AriaLabel="QR code that opens the TwBlazor get started guide" Size="QrCodeSize.Small" />
+                <p class="text-sm">Scan to read the guide, or go to <TwLink Href="/get-started">twblazor.com/get-started</TwLink>.</p>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Using the service">
+        <Description>
+            <code>ITwQrCodeService</code> is registered by <code>AddTwBlazor</code>. Call it directly to build a code outside a component: <code>Encode</code> returns a <code>QrMatrix</code> of dark and light modules for your own renderer,
+            <code>ToSvg</code> writes a standalone SVG for a file, an email or inline markup, and <code>ToSvgDataUri</code> gives a download link or image source. <code>TryEncode</code> tells you whether a value fits without throwing.
+        </Description>
+
+        <CodeExample Name="QrCodeService" CSharpName="QrCodeServiceCode">
+            <div class="flex flex-wrap items-center gap-6">
+                <div class="size-32">@((MarkupString)serviceSvg)</div>
+                <div class="flex flex-col gap-2 text-sm">
+                    <p>Version @serviceMatrix.Version, @serviceMatrix.Size x @serviceMatrix.Size modules, @serviceMatrix.ErrorCorrection error correction.</p>
+                    <TwButton Href="@serviceDataUri" download="twblazor-qr-code.svg" Color="Color.Primary" Label="Download SVG" />
+                </div>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Accessibility">
+        <Description>
+            A QR code is exposed as an image (<code>role="img"</code>) named after the text it holds, or after <code>AriaLabel</code> or <code>AriaLabelledBy</code> when set, and it is not a Tab stop.
+            Its colors opt out of forced colors mode (<code>forced-color-adjust: none</code>) because a recolored code may not scan, and it stays dark on light in dark mode for the same reason.
+            A code alone cannot be used by someone without a camera, so put the link or text it holds beside it.
+        </Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample QrCodeLiveCode
+    private string liveValue = "https://twblazor.com";
+    #endregion
+
+    #region CodeExample QrCodeServiceCode
+    private const string serviceValue = "https://twblazor.com/qr-code";
+    private QrMatrix serviceMatrix = null!;
+    private string serviceSvg = string.Empty;
+    private string serviceDataUri = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        serviceMatrix = QrCodeService.Encode(serviceValue, new QrEncodeOptions { ErrorCorrection = QrErrorCorrection.Quartile });
+        var svgOptions = new QrSvgOptions { Title = $"QR code: {serviceValue}" };
+        serviceSvg = QrCodeService.ToSvg(serviceMatrix, svgOptions);
+        serviceDataUri = QrCodeService.ToSvgDataUri(serviceMatrix, svgOptions);
+    }
+    #endregion
+}
