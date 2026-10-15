@@ -119,8 +119,8 @@ public class SymbolSvgTests
     [Fact]
     public void Symbols_ShareOneGridShape()
     {
-        IEncodedSymbol matrix = qrCodes.Encode("HELLO");
-        IEncodedSymbol barcode = barcodes.Encode("HELLO");
+        var matrix = qrCodes.Encode("HELLO");
+        var barcode = barcodes.Encode("HELLO");
 
         Assert.Equal((21, 21, 4), (matrix.Width, matrix.Height, matrix.QuietZone));
         Assert.Equal(1, barcode.Height);

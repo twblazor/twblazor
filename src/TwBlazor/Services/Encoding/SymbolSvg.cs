@@ -136,8 +136,12 @@ public static class SymbolSvg
         {
             ArgumentNullException.ThrowIfNull(symbol);
             ArgumentOutOfRangeException.ThrowIfLessThan(barHeight, 1);
+            if (quietZone < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(quietZone), quietZone, "The quiet zone cannot be negative.");
+            }
+
             var margin = quietZone ?? symbol.QuietZone;
-            ArgumentOutOfRangeException.ThrowIfNegative(margin, nameof(quietZone));
 
             var oneDimensional = symbol.Height == 1;
             var rowHeight = oneDimensional ? barHeight : 1;

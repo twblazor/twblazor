@@ -110,32 +110,6 @@ internal sealed class Code128Symbology : IBarcodeSymbology
         return writer.Finish();
     }
 
-    private static int CountDigits(string value, int start)
-    {
-        var end = start;
-        while (end < value.Length && char.IsAsciiDigit(value[end]))
-        {
-            end++;
-        }
-
-        return end - start;
-    }
-
-    private static bool IsControl(char c) => c < 32;
-
-    private static bool IsInSet(CodeSet set, char c) => set == CodeSet.A ? c < 96 : c >= 32;
-
-    private static int GetValue(CodeSet set, char c) => set == CodeSet.A && c < 32 ? c + 64 : c - 32;
-
-    private static CodeSet GetTextSet(char c) => IsControl(c) ? CodeSet.A : CodeSet.B;
-
-    private static int GetSwitch(CodeSet set) => set switch
-    {
-        CodeSet.A => switchToA,
-        CodeSet.B => switchToB,
-        _ => switchToC
-    };
-
     /// <summary>
     /// Walks through a value, writing symbol values and switching code sets as it goes.
     /// </summary>
@@ -242,5 +216,31 @@ internal sealed class Code128Symbology : IBarcodeSymbology
             set = next;
             _symbols.Add(GetSwitch(next));
         }
+
+        private static int CountDigits(string value, int start)
+        {
+            var end = start;
+            while (end < value.Length && char.IsAsciiDigit(value[end]))
+            {
+                end++;
+            }
+
+            return end - start;
+        }
+
+        private static bool IsControl(char c) => c < 32;
+
+        private static bool IsInSet(CodeSet set, char c) => set == CodeSet.A ? c < 96 : c >= 32;
+
+        private static int GetValue(CodeSet set, char c) => set == CodeSet.A && c < 32 ? c + 64 : c - 32;
+
+        private static CodeSet GetTextSet(char c) => IsControl(c) ? CodeSet.A : CodeSet.B;
+
+        private static int GetSwitch(CodeSet set) => set switch
+        {
+            CodeSet.A => switchToA,
+            CodeSet.B => switchToB,
+            _ => switchToC
+        };
     }
 }
