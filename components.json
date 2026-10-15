@@ -280,6 +280,14 @@
         "theme": "TwPickListTheme"
       },
       {
+        "id": "qr-code-navitem",
+        "display": "QR Code",
+        "name": "TwQrCode",
+        "url": "/qr-code",
+        "isNew": true,
+        "theme": "TwQrCodeTheme"
+      },
+      {
         "id": "calendar-navitem",
         "display": "Calendar",
         "name": "TwCalendar",

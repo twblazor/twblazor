@@ -1170,6 +1170,16 @@ public static class Trading212Theme
                     Wrapper = $"{positioning.Relative} {display.Block}",
                     Animated = $"{positioning.Absolute} inset-y-0 start-0 {overflow.Hidden} {rounded.Full} {interaction.PointerEventsNone} transition-[width] {transition.DurationSlow} tw-wave [--tw-wave-color:rgb(255_255_255/0.7)] dark:[--tw-wave-color:rgb(255_255_255/0.4)]"
                 },
+                new TwQrCodeTheme
+                {
+                    Base = $"{display.InlineBlock} {flexbox.ShrinkNone} forced-color-adjust-none",
+                    Light = "fill-white",
+                    Dark = "fill-black",
+                    Small = "size-24",
+                    Medium = "size-40",
+                    Large = "size-56",
+                    ExtraLarge = "size-72"
+                },
                 new TwTabTheme
                 {
                     TabBase = $"{positioning.Relative} {display.InlineFlex} {anchor.Center} {typography.Weight.Medium} {typography.Size.Sm} {transition.ColorsFast} {focusRingInset} {interaction.FocusOutlineNone} touch-manipulation",

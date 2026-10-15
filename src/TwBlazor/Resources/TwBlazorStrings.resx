@@ -791,4 +791,8 @@
     <value></value>
     <comment>Optional .NET format string the date time pickers type and parse (for example dd.MM.yyyy HH:mm). Leave empty to use the theme's default.</comment>
   </data>
+  <data name="QrCode_Label" xml:space="preserve">
+    <value>QR code: {0}</value>
+    <comment>{0} = the text the QR code holds, for example a URL.</comment>
+  </data>
 </root>
