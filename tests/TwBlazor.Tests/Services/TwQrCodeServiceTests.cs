@@ -98,7 +98,7 @@ public class TwQrCodeServiceTests : TwBlazorTestBase
 
         // The top row of the reference matrix is 111111101100001111111.
         Assert.StartsWith("M4 4h7v1h-7zM12 4h2v1h-2zM18 4h7v1h-7z", path);
-        Assert.Equal(CountRuns(matrix), Regex.Count(path, "M"));
+        Assert.Equal(CountRuns(matrix), path.Count(c => c == 'M'));
     }
 
     [Fact]

@@ -32,21 +32,18 @@ internal static class QrEncoder
         Validate(options);
 
         var level = options.ErrorCorrection;
-        int version;
-        int usedBits;
-        for (version = options.MinVersion; ; version++)
+        var version = options.MinVersion;
+        var usedBits = QrSegment.GetTotalBits(segments, version);
+        while (usedBits == -1 || usedBits > QrTables.GetDataCodewords(version, level) * 8)
         {
-            usedBits = QrSegment.GetTotalBits(segments, version);
-            if (usedBits != -1 && usedBits <= QrTables.GetDataCodewords(version, level) * 8)
-            {
-                break;
-            }
-
             if (version >= options.MaxVersion)
             {
                 throw new QrDataTooLongException(
                     $"The data needs more space than a version {options.MaxVersion} QR code holds at {level} error correction.");
             }
+
+            version++;
+            usedBits = QrSegment.GetTotalBits(segments, version);
         }
 
         if (options.BoostErrorCorrection)
@@ -99,9 +96,11 @@ internal static class QrEncoder
 
         buffer.Append(0, Math.Min(4, capacityBits - buffer.length));
         buffer.Append(0, (8 - (buffer.length & 7)) & 7);
-        for (var pad = 0xEC; buffer.length < capacityBits; pad ^= 0xEC ^ 0x11)
+        var pad = 0xEC;
+        while (buffer.length < capacityBits)
         {
             buffer.Append(pad, 8);
+            pad ^= 0xEC ^ 0x11;
         }
 
         return buffer.ToBytes();
@@ -190,47 +189,58 @@ internal static class QrEncoder
     {
         var result = 0;
         Span<int> history = stackalloc int[7];
-
-        for (var pass = 0; pass < 2; pass++)
+        for (var line = 0; line < size; line++)
         {
-            var horizontal = pass == 0;
-            for (var line = 0; line < size; line++)
-            {
-                var runColor = false;
-                var runLength = 0;
-                history.Clear();
-                for (var position = 0; position < size; position++)
-                {
-                    var dark = horizontal ? modules[(line * size) + position] : modules[(position * size) + line];
-                    if (dark == runColor)
-                    {
-                        runLength++;
-                        if (runLength == 5)
-                        {
-                            result += penaltyRun;
-                        }
-                        else if (runLength > 5)
-                        {
-                            result++;
-                        }
-                    }
-                    else
-                    {
-                        AddRunToHistory(runLength, history, size);
-                        if (!runColor)
-                        {
-                            result += CountFinderLikePatterns(history) * penaltyFinderLike;
-                        }
+            result += GetLinePenalty(modules, size, line, true, history);
+            result += GetLinePenalty(modules, size, line, false, history);
+        }
 
-                        runColor = dark;
-                        runLength = 1;
-                    }
+        return result + GetBoxPenalty(modules, size) + GetBalancePenalty(modules, size);
+    }
+
+    /// <summary>
+    /// Scores the long runs and finder-like patterns along one row or column.
+    /// </summary>
+    private static int GetLinePenalty(bool[] modules, int size, int line, bool horizontal, Span<int> history)
+    {
+        var result = 0;
+        var runColor = false;
+        var runLength = 0;
+        history.Clear();
+        for (var position = 0; position < size; position++)
+        {
+            var dark = horizontal ? modules[(line * size) + position] : modules[(position * size) + line];
+            if (dark == runColor)
+            {
+                runLength++;
+                if (runLength == 5)
+                {
+                    result += penaltyRun;
+                }
+                else if (runLength > 5)
+                {
+                    result++;
+                }
+            }
+            else
+            {
+                AddRunToHistory(runLength, history, size);
+                if (!runColor)
+                {
+                    result += CountFinderLikePatterns(history) * penaltyFinderLike;
                 }
 
-                result += TerminateAndCountFinderLikePatterns(runColor, runLength, history, size) * penaltyFinderLike;
+                runColor = dark;
+                runLength = 1;
             }
         }
 
+        return result + (TerminateAndCountFinderLikePatterns(runColor, runLength, history, size) * penaltyFinderLike);
+    }
+
+    private static int GetBoxPenalty(bool[] modules, int size)
+    {
+        var result = 0;
         for (var y = 0; y < size - 1; y++)
         {
             for (var x = 0; x < size - 1; x++)
@@ -243,18 +253,15 @@ internal static class QrEncoder
             }
         }
 
-        var darkCount = 0;
-        foreach (var module in modules)
-        {
-            if (module)
-            {
-                darkCount++;
-            }
-        }
+        return result;
+    }
 
+    private static int GetBalancePenalty(bool[] modules, int size)
+    {
+        var darkCount = modules.Count(module => module);
         var total = size * size;
         var k = ((Math.Abs((darkCount * 20) - (total * 10)) + total - 1) / total) - 1;
-        return result + (k * penaltyBalance);
+        return k * penaltyBalance;
     }
 
     private static int CountFinderLikePatterns(ReadOnlySpan<int> history)
@@ -381,31 +388,37 @@ internal static class QrEncoder
 
         internal void DrawCodewords(byte[] codewords)
         {
-            var totalBits = codewords.Length * 8;
             var bit = 0;
-            for (var right = size - 1; right >= 1; right -= 2)
+            for (var column = size - 1; column >= 1; column -= 2)
             {
-                // Column 6 is the vertical timing pattern, so the zigzag steps over it.
-                if (right == 6)
-                {
-                    right = 5;
-                }
+                // Column 6 is the vertical timing pattern, so from there on the zigzag shifts one column left.
+                var right = column <= 6 ? column - 1 : column;
+                bit = DrawColumnPair(codewords, right, bit);
+            }
+        }
 
-                var upward = ((right + 1) & 2) == 0;
-                for (var vertical = 0; vertical < size; vertical++)
+        /// <summary>
+        /// Fills the two columns ending at <paramref name="right"/>, zigzagging up or down, and returns the next bit to draw.
+        /// </summary>
+        private int DrawColumnPair(byte[] codewords, int right, int bit)
+        {
+            var totalBits = codewords.Length * 8;
+            var upward = ((right + 1) & 2) == 0;
+            for (var vertical = 0; vertical < size; vertical++)
+            {
+                var y = upward ? size - 1 - vertical : vertical;
+                for (var j = 0; j < 2; j++)
                 {
-                    var y = upward ? size - 1 - vertical : vertical;
-                    for (var j = 0; j < 2; j++)
+                    var index = (y * size) + right - j;
+                    if (!_isFunction[index] && bit < totalBits)
                     {
-                        var index = (y * size) + right - j;
-                        if (!_isFunction[index] && bit < totalBits)
-                        {
-                            modules[index] = ((codewords[bit >> 3] >> (7 - (bit & 7))) & 1) != 0;
-                            bit++;
-                        }
+                        modules[index] = ((codewords[bit >> 3] >> (7 - (bit & 7))) & 1) != 0;
+                        bit++;
                     }
                 }
             }
+
+            return bit;
         }
 
         internal void ApplyMask(int mask)
