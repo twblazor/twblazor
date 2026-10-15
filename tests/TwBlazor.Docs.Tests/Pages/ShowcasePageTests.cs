@@ -181,6 +181,22 @@ public class ShowcasePageTests : DocsTestBase
 
     [Theory]
     [MemberData(nameof(Slugs))]
+    public void Pictures_AreAllServedFromTheSite(string slug)
+    {
+        var brand = Brand(slug);
+        var images = Path.Combine(Paths.DocsProjectPath, "wwwroot", "images", "showcase");
+        string?[] sources = [brand.LogoUrl, brand.HeroImage, .. brand.Products.Select(product => product.Image)];
+
+        // Another site's picture would need its host in the content security policy, and breaks if that site moves it.
+        Assert.All(sources.OfType<string>(), source =>
+        {
+            Assert.StartsWith($"{ShowcaseBrand.LocalImages}/", source);
+            Assert.True(File.Exists(Path.Combine(images, source[(ShowcaseBrand.LocalImages.Length + 1)..])), source);
+        });
+    }
+
+    [Theory]
+    [MemberData(nameof(Slugs))]
     public void Page_GivesEveryPictureATextAlternative_AndSendsNoReferrerToOtherSites(string slug)
     {
         var pictures = Render(Brand(slug)).FindAll("#showcase-main img");

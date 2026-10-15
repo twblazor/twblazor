@@ -651,4 +651,10 @@
   <data name="TreeList_Select" xml:space="preserve">
     <value>Выбрать: {0}</value>
   </data>
+  <data name="QrCode_Label" xml:space="preserve">
+    <value>QR-код: {0}</value>
+  </data>
+  <data name="Barcode_Label" xml:space="preserve">
+    <value>Штрихкод: {0}</value>
+  </data>
 </root>

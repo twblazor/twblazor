@@ -1,0 +1,9 @@
+@namespace TwBlazor.Components
+@inherits TwEncodedSymbolBase<TwBlazor.Services.Encoding.QrMatrix>
+
+@if (symbol is not null)
+{
+    <svg id="@Id" class="@classes" style="@Style" xmlns="http://www.w3.org/2000/svg" viewBox="@viewBox" shape-rendering="crispEdges" focusable="false" role="img" aria-label="@accessibleName" aria-labelledby="@AriaLabelledBy" @attributes="Attributes">
+        <path fill="currentColor" d="@path" />
+    </svg>
+}

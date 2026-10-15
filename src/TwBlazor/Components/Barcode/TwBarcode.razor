@@ -1,0 +1,15 @@
+@namespace TwBlazor.Components
+@inherits TwEncodedSymbolBase<TwBlazor.Services.Encoding.Barcode>
+
+@if (symbol is not null)
+{
+    <div id="@Id" class="@classes" style="@Style" role="img" aria-label="@accessibleName" aria-labelledby="@AriaLabelledBy" @attributes="Attributes">
+        <svg class="@sizeClasses" xmlns="http://www.w3.org/2000/svg" viewBox="@viewBox" shape-rendering="crispEdges" focusable="false" aria-hidden="true">
+            <path fill="currentColor" d="@path" />
+        </svg>
+        @if (ShowText)
+        {
+            <span class="@theme.Text" aria-hidden="true">@symbol.Text</span>
+        }
+    </div>
+}

@@ -358,6 +358,23 @@
             </TwCard>
         }
 
+        @if (Has("TwBarcode"))
+        {
+            <TwCard Title="Barcode" Class="@cardClass" @attributes="look">
+                <TwBarcode Id="preview-barcode" Value="5012345678900" Format="BarcodeFormat.Ean13" Size="BarcodeSize.Small" />
+            </TwCard>
+        }
+
+        @if (Has("TwQrCode"))
+        {
+            <TwCard Title="QR code" Class="@cardClass" @attributes="look">
+                <div class="flex items-center gap-4">
+                    <TwQrCode Id="preview-qr-code" Value="https://twblazor.com" Size="QrCodeSize.Small" Rounded="@Defaults.Rounded" />
+                    <p class="text-sm">Scan to visit twblazor.com</p>
+                </div>
+            </TwCard>
+        }
+
         @if (Has("TwTreeList"))
         {
             <TwCard Title="Tree list" Class="@cardClass" @attributes="look">
@@ -479,7 +496,7 @@
         "TwTextfield", "TwSelect", "TwColorPicker", "TwDatePicker", "TwTimePicker", "TwDateTimePicker", "TwDateRangePicker", "TwTimeRangePicker", "TwDateTimeRangePicker", "TwSwitch", "TwCheckbox", "TwRadioButton", "TwSlider",
         "TwAlert", "TwChip", "TwAvatar", "TwProgress", "TwSpinner", "TwSkeleton",
         "TwBreadcrumb", "TwStepper", "TwPagination", "TwTabContainer", "TwCollapse", "TwTreeList", "TwCarousel", "TwFooter",
-        "TwDataTable", "TwTable", "TwPickList",
+        "TwDataTable", "TwTable", "TwPickList", "TwBarcode", "TwQrCode",
         .. _charts
     ];
 

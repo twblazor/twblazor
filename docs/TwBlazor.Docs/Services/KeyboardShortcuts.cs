@@ -96,6 +96,10 @@ internal static class KeyboardShortcuts
 
         ["/avatar"] = _notInteractive,
 
+        ["/barcode"] = Guide(
+            "A barcode is not interactive and is not a Tab stop. Screen readers announce it as an image named after the text it holds, "
+            + "unless it is given a label of its own."),
+
         ["/breadcrumb"] = Guide(
             "The breadcrumb is a navigation landmark holding ordinary links. The current page is text, not a link.",
             Key("Moves to the next link.", Tab),
@@ -225,6 +229,10 @@ internal static class KeyboardShortcuts
 
         ["/progress"] = Guide(
             "A progress bar is not interactive and is not a Tab stop. Screen readers announce its label and value, or that it is busy when it is indeterminate."),
+
+        ["/qr-code"] = Guide(
+            "A QR code is not interactive and is not a Tab stop. Screen readers announce it as an image named after the text it holds, "
+            + "unless it is given a label of its own."),
 
         ["/radio-button"] = Guide(
             "Radio buttons are native radio inputs. A group is a single Tab stop.",

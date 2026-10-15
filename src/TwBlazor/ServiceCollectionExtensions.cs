@@ -74,6 +74,8 @@ public static class ServiceCollectionExtensions
         services.TryAddSingleton<ITwLocalizer, TwLocalizer>();
         services.AddScoped<ITwToastService, TwToastService>();
         services.AddScoped<ITwDialogService, TwDialogService>();
+        services.TryAddSingleton<ITwQrCodeService, TwQrCodeService>();
+        services.TryAddSingleton<ITwBarcodeService, TwBarcodeService>();
         services.AddScoped<ColorBuilder>();
         services.AddScoped<IconColorBuilder>();
         services.AddScoped<ShadowBuilder>();

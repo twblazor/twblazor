@@ -648,4 +648,10 @@
   <data name="TreeList_Select" xml:space="preserve">
     <value>选择 {0}</value>
   </data>
+  <data name="QrCode_Label" xml:space="preserve">
+    <value>二维码：{0}</value>
+  </data>
+  <data name="Barcode_Label" xml:space="preserve">
+    <value>条形码：{0}</value>
+  </data>
 </root>

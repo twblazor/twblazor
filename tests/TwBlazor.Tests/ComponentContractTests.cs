@@ -364,14 +364,23 @@ public class ComponentContractTests : TwBlazorTestBase
         return data;
     }
 
+    // Components that render nothing until they are given something to show.
+    private static readonly Dictionary<Type, Dictionary<string, object>> _requiredParameters = new()
+    {
+        [typeof(TwBlazor.Components.TwQrCode)] = new() { ["Value"] = "https://twblazor.com" },
+        [typeof(TwBlazor.Components.TwBarcode)] = new() { ["Value"] = "TWBLAZOR" },
+    };
+
     private IRenderedComponent<IComponent> RenderComponentWithParameters(Type componentType, Dictionary<string, object> parameters)
     {
+        var required = _requiredParameters.GetValueOrDefault(componentType) ?? [];
+
         // Build component using RenderFragment
         RenderFragment fragment = builder =>
         {
             builder.OpenComponent(0, componentType);
             var sequence = 1;
-            foreach (var param in parameters)
+            foreach (var param in required.Concat(parameters))
             {
                 builder.AddAttribute(sequence++, param.Key, param.Value);
             }

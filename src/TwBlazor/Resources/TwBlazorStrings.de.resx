@@ -651,4 +651,10 @@
   <data name="TreeList_Select" xml:space="preserve">
     <value>{0} auswählen</value>
   </data>
+  <data name="QrCode_Label" xml:space="preserve">
+    <value>QR-Code: {0}</value>
+  </data>
+  <data name="Barcode_Label" xml:space="preserve">
+    <value>Barcode: {0}</value>
+  </data>
 </root>

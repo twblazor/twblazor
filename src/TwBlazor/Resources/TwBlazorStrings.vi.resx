@@ -645,4 +645,10 @@
   <data name="TreeList_Select" xml:space="preserve">
     <value>Chọn {0}</value>
   </data>
+  <data name="QrCode_Label" xml:space="preserve">
+    <value>Mã QR: {0}</value>
+  </data>
+  <data name="Barcode_Label" xml:space="preserve">
+    <value>Mã vạch: {0}</value>
+  </data>
 </root>

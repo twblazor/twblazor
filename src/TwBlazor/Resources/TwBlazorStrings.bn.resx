@@ -645,4 +645,10 @@
   <data name="TreeList_Select" xml:space="preserve">
     <value>{0} নির্বাচন করুন</value>
   </data>
+  <data name="QrCode_Label" xml:space="preserve">
+    <value>QR কোড: {0}</value>
+  </data>
+  <data name="Barcode_Label" xml:space="preserve">
+    <value>বারকোড: {0}</value>
+  </data>
 </root>

@@ -903,6 +903,18 @@
     width: calc(var(--spacing) * 24);
     height: calc(var(--spacing) * 24);
   }
+  .size-32 {
+    width: calc(var(--spacing) * 32);
+    height: calc(var(--spacing) * 32);
+  }
+  .size-40 {
+    width: calc(var(--spacing) * 40);
+    height: calc(var(--spacing) * 40);
+  }
+  .size-56 {
+    width: calc(var(--spacing) * 56);
+    height: calc(var(--spacing) * 56);
+  }
   .size-72 {
     width: calc(var(--spacing) * 72);
     height: calc(var(--spacing) * 72);
@@ -1221,6 +1233,9 @@
   }
   .min-w-12 {
     min-width: calc(var(--spacing) * 12);
+  }
+  .min-w-64 {
+    min-width: calc(var(--spacing) * 64);
   }
   .min-w-\[2rem\] {
     min-width: 2rem;
@@ -3467,6 +3482,9 @@
   }
   .pb-0 {
     padding-bottom: 0px;
+  }
+  .pb-1 {
+    padding-bottom: var(--spacing);
   }
   .pb-2 {
     padding-bottom: calc(var(--spacing) * 2);
@@ -7489,6 +7507,9 @@
   }
   .dark\:text-amber-400:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
     color: var(--color-amber-400);
+  }
+  .dark\:text-black:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+    color: var(--color-black);
   }
   .dark\:text-blue-200:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
     color: var(--color-blue-200);
