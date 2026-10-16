@@ -934,4 +934,54 @@ public class TwTimePickerTests : TwBlazorTestBase
     }
 
     #endregion
+
+    [Fact]
+    public void Step_CascadesToThePanel()
+    {
+        // Arrange
+        TimeOnly? callbackTime = null;
+        var cut = TestContext.Render<TwTimePicker>(p => p
+            .Add(x => x.SelectedTime, new TimeOnly(10, 30))
+            .Add(x => x.Step, 15)
+            .Add(x => x.PreferNativePicker, false)
+            .Add(x => x.SelectedTimeChanged, EventCallback.Factory.Create<TimeOnly>(this, t => callbackTime = t)));
+
+        cut.Find("input[type='text']").Click();
+
+        // Act
+        cut.FindAll("[data-tw-popover] button[type='button']")[2].Click(); // Minute increment button
+
+        // Assert
+        Assert.Equal(new TimeOnly(10, 45), callbackTime);
+    }
+
+    [Theory]
+    [InlineData(15, "900")]
+    [InlineData(120, "7200")]
+    public void Step_SetsNativeStepInSeconds_WhenUsingNativePicker(int step, string expected)
+    {
+        // Act
+        var cut = TestContext.Render<TwTimePicker>(p => p
+            .Add(x => x.Step, step)
+            .Add(x => x.PreferNativePicker, true));
+
+        // Assert
+        Assert.Equal(expected, cut.Find("input[type='time']").GetAttribute("step"));
+    }
+
+    [Fact]
+    public void Step_Default_OmitsNativeStep()
+    {
+        // Act
+        var cut = TestContext.Render<TwTimePicker>(p => p.Add(x => x.PreferNativePicker, true));
+
+        // Assert
+        Assert.False(cut.Find("input[type='time']").HasAttribute("step"));
+    }
+
+    [Fact]
+    public void Step_Unsupported_Throws()
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() => TestContext.Render<TwTimePicker>(p => p.Add(x => x.Step, 7)));
+    }
 }

@@ -1439,4 +1439,97 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
     }
 
     #endregion
+
+    #region Step
+
+    [Fact]
+    public void Step_StepButtons_MoveMinutesByTheStep()
+    {
+        // Arrange
+        TimeOnly? callbackTime = null;
+        var cut = TestContext.Render<TwTimePickerBody>(p => p
+            .Add(x => x.SelectedTime, new TimeOnly(10, 30))
+            .Add(x => x.Step, 15)
+            .Add(x => x.SelectedTimeChanged, EventCallback.Factory.Create<TimeOnly>(this, t => callbackTime = t)));
+
+        // Act
+        cut.FindAll("button")[2].Click();
+
+        // Assert
+        Assert.Equal(new TimeOnly(10, 45), callbackTime);
+    }
+
+    [Fact]
+    public void Step_StepButtons_MoveHoursByTheStep_WhenStepIsWholeHours()
+    {
+        // Arrange
+        TimeOnly? callbackTime = null;
+        var cut = TestContext.Render<TwTimePickerBody>(p => p
+            .Add(x => x.SelectedTime, new TimeOnly(10, 0))
+            .Add(x => x.Step, 120)
+            .Add(x => x.SelectedTimeChanged, EventCallback.Factory.Create<TimeOnly>(this, t => callbackTime = t)));
+
+        // Act
+        cut.FindAll("button")[0].Click();
+
+        // Assert
+        Assert.Equal(new TimeOnly(12, 0), callbackTime);
+    }
+
+    [Fact]
+    public void Step_StepButton_AnnouncesTheSteppedTime()
+    {
+        // Arrange
+        var cut = TestContext.Render<TwTimePickerBody>(p => p
+            .Add(x => x.SelectedTime, new TimeOnly(10, 30))
+            .Add(x => x.Step, 15));
+
+        // Act
+        cut.FindAll("button")[2].Click();
+
+        // Assert
+        Assert.Equal("10:45", cut.Find("[role='status']").TextContent);
+    }
+
+    [Fact]
+    public void Step_WholeHours_ShowsTheMinutesAsFixedText()
+    {
+        // Act
+        var cut = TestContext.Render<TwTimePickerBody>(p => p
+            .Add(x => x.Id, "tp")
+            .Add(x => x.SelectedTime, new TimeOnly(10, 0))
+            .Add(x => x.Step, 120));
+
+        // Assert
+        var minute = cut.Find("#tp-minute");
+        Assert.Equal("SPAN", minute.TagName);
+        Assert.Equal("00", minute.TextContent);
+        Assert.Single(cut.FindAll("[role='spinbutton']"));
+        var buttons = cut.FindAll("button");
+        Assert.Equal(2, buttons.Count);
+        Assert.Equal("Increase hour", buttons[0].GetAttribute("aria-label"));
+        Assert.Equal("Decrease hour", buttons[1].GetAttribute("aria-label"));
+    }
+
+    [Fact]
+    public void Step_UnderAnHour_KeepsTheMinuteSpinbuttonAndButtons()
+    {
+        // Act
+        var cut = TestContext.Render<TwTimePickerBody>(p => p.Add(x => x.Step, 15));
+
+        // Assert
+        Assert.Equal(2, cut.FindAll("[role='spinbutton']").Count);
+        Assert.Equal(4, cut.FindAll("button").Count);
+    }
+
+    [Theory]
+    [InlineData(0)]
+    [InlineData(45)]
+    [InlineData(90)]
+    public void Step_Unsupported_Throws(int step)
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() => TestContext.Render<TwTimePickerBody>(p => p.Add(x => x.Step, step)));
+    }
+
+    #endregion
 }

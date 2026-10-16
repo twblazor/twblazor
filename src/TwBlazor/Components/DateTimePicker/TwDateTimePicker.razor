@@ -15,6 +15,7 @@
     PreferNativePicker="@PreferNativePicker"
     NativeInputType="datetime-local"
     NativeFormat="yyyy-MM-ddTHH:mm"
+    NativeStep="@nativeStep"
     Value="@Value"
     ValueChanged="@OnValueChangedAsync"
     SelectedDate="@SelectedDateTime"
@@ -35,6 +36,7 @@
             <TwTimePickerBody Id="@($"{Id}-time")"
                               Variant="@effectiveVariant"
                               Is12HourFormat="@effectiveIs12HourFormat"
+                              Step="@Step"
                               SelectedTime="@currentTime"
                               SelectedTimeChanged="@OnTimePickerChanged" />
         </TwDatePickerBody>
