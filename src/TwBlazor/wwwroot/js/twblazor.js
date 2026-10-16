@@ -216,6 +216,11 @@ globalThis.twPicker = {
         }
     },
 
+    // A computed margin in pixels, or 0 when it isn't a number (e.g. "auto").
+    _marginPx: function (value) {
+        return Number.parseFloat(value) || 0;
+    },
+
     // Edges of a fixed panel's containing block, in viewport coordinates. That is normally the
     // viewport itself, but an ancestor with a transform, translate, filter or similar (e.g.
     // TwSidebar's open drawer, which keeps translate-x-0) becomes the containing block instead, and
@@ -223,9 +228,7 @@ globalThis.twPicker = {
     // ancestor, the panel is pinned to each pair of edges in turn and measured where it lands.
     _fixedContainingBlock: function (panel) {
         const style = getComputedStyle(panel);
-        const margin = function (value) {
-            return parseFloat(value) || 0;
-        };
+        const margin = globalThis.twPicker._marginPx;
 
         panel.style.left = '0px';
         panel.style.top = '0px';
