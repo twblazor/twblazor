@@ -84,9 +84,8 @@
                                 <span>Text on fill</span>
                             </div>
                             <div class="@colorListClass">
-                                @foreach (var family in ThemeColorFamily.All)
+                                @foreach (var name in ThemeColorFamily.All.Select(family => family.Name))
                                 {
-                                    var name = family.Name;
                                     var id = name.ToLowerInvariant();
                                     <div class="@colorRowClass">
                                         <TwColorPicker Dense

@@ -232,6 +232,9 @@ public partial class Theme
         new(ThemeTone.Red, "Red", "#dc2626"),
         new(ThemeTone.Orange, "Orange", "#ea580c"),
         new(ThemeTone.Neutral, "Neutral", "#6b7280"),
+        new(ThemeTone.Pastel, "Pastel", "#c4b5fd"),
+        new(ThemeTone.Vivid, "Vivid", "#ff3eaf"),
+        new(ThemeTone.Fun, "Fun", "#17a805"),
     ];
 
     private ThemeTone? toneFilter;

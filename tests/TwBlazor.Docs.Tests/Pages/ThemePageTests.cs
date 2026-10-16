@@ -329,10 +329,23 @@ public class ThemePageTests : DocsTestBase
         var cut = await RenderAsync();
         var chips = cut.FindAll("#theme-tone-filters button");
 
-        Assert.Equal(["All", "Purple", "Blue", "Green", "Pink", "Red", "Orange", "Neutral"], chips.Select(chip => chip.TextContent.Trim()));
+        Assert.Equal(["All", "Purple", "Blue", "Green", "Pink", "Red", "Orange", "Neutral", "Pastel", "Vivid", "Fun"], chips.Select(chip => chip.TextContent.Trim()));
         Assert.Equal("true", chips[0].GetAttribute("aria-pressed"));
         Assert.All(chips.Skip(1), chip => Assert.Equal("false", chip.GetAttribute("aria-pressed")));
         Assert.All(chips.Skip(1), chip => Assert.Equal("true", chip.QuerySelector("span")!.GetAttribute("aria-hidden")));
+    }
+
+    [Fact]
+    public async Task ThePastelFilter_ShowsThePastelThemes_AcrossThreePages()
+    {
+        var cut = await RenderAsync();
+
+        cut.Find("#theme-tone-pastel").Click();
+
+        var pastels = ThemePreset._all.Where(p => p.Tone == ThemeTone.Pastel).ToList();
+        Assert.Equal(pastels.Take(8).Select(p => $"theme-preset-{p.Name.ToLowerInvariant()}"), cut.FindAll("button[id^='theme-preset-']").Select(b => b.Id));
+        Assert.Equal(3, cut.FindComponent<TwPagination>().Instance.TotalPages);
+        Assert.Equal("Showing 20 pastel example themes", cut.Find("#theme-controls p[role=status]").TextContent);
     }
 
     [Fact]
