@@ -48,8 +48,10 @@
     <PageCard Title="Disabled and readonly date range picker">
         <Description>Use the <code>Disabled</code> and <code>ReadOnly</code> properties to restrict interaction with the date range picker.</Description>
         <CodeExample Name="DateRangePickerReadonlyDisabled" CSharpName="DateRangePickerBasicCode">
-            <TwDateRangePicker Id="disabled-daterangepicker" @bind-SelectedRange="SelectedRange" Label="Disabled Date Range Picker" Disabled Class="mt-3" />
-            <TwDateRangePicker Id="readonly-daterangepicker" @bind-SelectedRange="SelectedRange" Label="Readonly Date Range Picker" ReadOnly Class="mt-3" />
+            <div class="space-y-4">
+                <TwDateRangePicker Id="disabled-daterangepicker" @bind-SelectedRange="SelectedRange" Label="Disabled Date Range Picker" Disabled />
+                <TwDateRangePicker Id="readonly-daterangepicker" @bind-SelectedRange="SelectedRange" Label="Readonly Date Range Picker" ReadOnly />
+            </div>
         </CodeExample>
     </PageCard>
 </PageContainer>

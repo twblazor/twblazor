@@ -24,7 +24,7 @@
                         ValueChanged="@((e) => OnTextValueChanged(e))"
                         AriaLabel="@AriaLabel"
                         AriaLabelledBy="@AriaLabelledBy"
-                        Attributes="@triggerAttributes"
+                        Attributes="@inputAttributes"
                         Variant="@Variant"
                         Dense="@Dense"
                         ReadOnly="@ReadOnly"
@@ -39,6 +39,7 @@
                                     Id="@($"{Id}-time")"
                                     Variant="@effectiveVariant"
                                     Is12HourFormat="@effectiveIs12HourFormat"
+                                    Step="@Step"
                                     SelectedTime="@SelectedTime"
                                     SelectedTimeChanged="@OnTimePickerChanged" />
             </div>

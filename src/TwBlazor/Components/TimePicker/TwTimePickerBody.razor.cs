@@ -41,6 +41,19 @@ public partial class TwTimePickerBody
     [Parameter] public bool Is12HourFormat { get; set; }
 
     /// <summary>
+    /// Gets or sets the step, in minutes, that the step buttons and Arrow Up/Arrow Down move the time by.
+    /// Steps under an hour move the minute field; steps of an hour or more (e.g. 120 for two hours) move
+    /// the hour field and show the minutes as fixed text. Must divide an hour or, for whole hours, a day. Defaults to 1.
+    /// </summary>
+    [Parameter] public int Step { get; set; } = 1;
+
+    /// <summary>
+    /// Gets whether <see cref="Step"/> is a whole number of hours, in which case every stepped time falls on
+    /// the hour, so the minutes render as fixed text with no step buttons.
+    /// </summary>
+    private bool isMinuteLocked => Step >= 60;
+
+    /// <summary>
     /// The selected time value to display.
     /// </summary>
     [Parameter] public TimeOnly SelectedTime { get; set; } = TimeOnly.FromDateTime(DateTime.Now);
@@ -79,6 +92,13 @@ public partial class TwTimePickerBody
     /// Event callback invoked when the minute input value changes.
     /// </summary>
     [Parameter] public EventCallback<string> OnMinuteValueChanged { get; set; }
+
+    /// <inheritdoc />
+    protected override void OnParametersSet()
+    {
+        TimeStepHelpers.ValidateStep(Step);
+        base.OnParametersSet();
+    }
 
     private string rootClasses => new ClassBuilder(theme.BodyRoot).Build();
 
@@ -161,7 +181,8 @@ public partial class TwTimePickerBody
     }
 
     /// <summary>
-    /// Increments the hour of the selected time by one hour.
+    /// Increments the hour of the selected time by one hour, or to the next <see cref="Step"/> when the
+    /// step is a whole number of hours.
     /// </summary>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     private async Task IncrementHour()
@@ -172,13 +193,15 @@ public partial class TwTimePickerBody
         }
         else
         {
-            var hour = (SelectedTime.Hour + 1) % 24;
-            await UpdateSelectedTime(new TimeOnly(hour, SelectedTime.Minute, SelectedTime.Second));
+            await UpdateSelectedTime(isMinuteLocked
+                ? TimeStepHelpers.StepUp(SelectedTime, Step)
+                : new TimeOnly((SelectedTime.Hour + 1) % 24, SelectedTime.Minute, SelectedTime.Second));
         }
     }
 
     /// <summary>
-    /// Decrements the hour of the selected time by one hour.
+    /// Decrements the hour of the selected time by one hour, or to the previous <see cref="Step"/> when the
+    /// step is a whole number of hours.
     /// </summary>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     private async Task DecrementHour()
@@ -189,13 +212,14 @@ public partial class TwTimePickerBody
         }
         else
         {
-            var hour = (SelectedTime.Hour + 23) % 24;
-            await UpdateSelectedTime(new TimeOnly(hour, SelectedTime.Minute, SelectedTime.Second));
+            await UpdateSelectedTime(isMinuteLocked
+                ? TimeStepHelpers.StepDown(SelectedTime, Step)
+                : new TimeOnly((SelectedTime.Hour + 23) % 24, SelectedTime.Minute, SelectedTime.Second));
         }
     }
 
     /// <summary>
-    /// Increments the minute of the selected time by one minute.
+    /// Increments the minute of the selected time to the next <see cref="Step"/>.
     /// </summary>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     private async Task IncrementMinute()
@@ -206,19 +230,12 @@ public partial class TwTimePickerBody
         }
         else
         {
-            var minute = SelectedTime.Minute + 1;
-            var hour = SelectedTime.Hour;
-            if (minute >= 60)
-            {
-                minute = 0;
-                hour = (hour + 1) % 24;
-            }
-            await UpdateSelectedTime(new TimeOnly(hour, minute, SelectedTime.Second));
+            await UpdateSelectedTime(TimeStepHelpers.StepUp(SelectedTime, Step));
         }
     }
 
     /// <summary>
-    /// Decrements the minute of the selected time by one minute.
+    /// Decrements the minute of the selected time to the previous <see cref="Step"/>.
     /// </summary>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     private async Task DecrementMinute()
@@ -229,14 +246,7 @@ public partial class TwTimePickerBody
         }
         else
         {
-            var minute = SelectedTime.Minute - 1;
-            var hour = SelectedTime.Hour;
-            if (minute < 0)
-            {
-                minute = 59;
-                hour = (hour + 23) % 24;
-            }
-            await UpdateSelectedTime(new TimeOnly(hour, minute, SelectedTime.Second));
+            await UpdateSelectedTime(TimeStepHelpers.StepDown(SelectedTime, Step));
         }
     }
 

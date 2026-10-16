@@ -44,7 +44,7 @@
                         @localizer[TwStrings.Common_End]
                     </button>
                 </div>
-                <TwTimePickerBody Id="@($"{Id}-time")" Variant="@effectiveVariant" Is12HourFormat="@effectiveIs12HourFormat" SelectedTime="@stageTime" SelectedTimeChanged="@OnStageTimeChanged" />
+                <TwTimePickerBody Id="@($"{Id}-time")" Variant="@effectiveVariant" Is12HourFormat="@effectiveIs12HourFormat" Step="@Step" SelectedTime="@stageTime" SelectedTimeChanged="@OnStageTimeChanged" />
             </div>
         </div>
     }

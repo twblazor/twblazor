@@ -33,6 +33,16 @@
         </CodeExample>
     </PageCard>
 
+    <PageCard Title="Step">
+        <Description>Set <code>Step</code> to the number of minutes the panel's arrow buttons and the <kbd>Arrow Up</kbd>/<kbd>Arrow Down</kbd> keys move by. Under an hour, the minutes step (15 gives :00, :15, :30 and :45). From 60 upwards, the hours step instead (120 moves two hours at a time) and the minutes are shown as fixed text with no arrow buttons. The step must divide an hour (1, 2, 3, 4, 5, 6, 10, 12, 15, 20 or 30) or be a whole number of hours that divides a day (60, 120, 180, 240, 360, 480 or 720). A time typed into the field is kept as entered. When the browser's native picker is used, the step is passed on to it.</Description>
+        <CodeExample Name="TimePickerStep" CSharpName="TimePickerBasicCode">
+            <div class="space-y-4">
+                <TwTimePicker Id="step-15-timepicker" @bind-SelectedTime="SelectedTime" Label="Every 15 minutes" Step="15" />
+                <TwTimePicker Id="step-120-timepicker" @bind-SelectedTime="SelectedTime" Label="Every 2 hours" Step="120" />
+            </div>
+        </CodeExample>
+    </PageCard>
+
     <PageCard Title="Dense time picker">
         <Description>Set <code>Dense</code> for a more compact input with a smaller height and text size. Every single-line input shares the same dense height, so they line up when used side by side.</Description>
         <CodeExample Name="TimePickerDense">
@@ -43,8 +53,10 @@
     <PageCard Title="Disabled and readonly time picker">
         <Description>Use the <code>Disabled</code> and <code>ReadOnly</code> properties to restrict interaction with the time picker.</Description>
         <CodeExample Name="TimePickerReadonlyDisabled">
-            <TwTimePicker Id="disabled-timepicker" @bind-SelectedTime="SelectedTime" Label="Disabled Time Picker" Disabled Class="mt-3" />
-            <TwTimePicker Id="readonly-timepicker" @bind-SelectedTime="SelectedTime" Label="Readonly Time Picker" ReadOnly Class="mt-3" />
+            <div class="space-y-4">
+                <TwTimePicker Id="disabled-timepicker" @bind-SelectedTime="SelectedTime" Label="Disabled Time Picker" Disabled />
+                <TwTimePicker Id="readonly-timepicker" @bind-SelectedTime="SelectedTime" Label="Readonly Time Picker" ReadOnly />
+            </div>
         </CodeExample>
     </PageCard>
 </PageContainer>
