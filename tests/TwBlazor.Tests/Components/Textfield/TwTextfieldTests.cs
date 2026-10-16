@@ -624,7 +624,7 @@ public class TwTextfieldTests : TwBlazorTestBase
     }
 
     [Fact]
-    public void TwTextfield_Validator_SupportsAsynchronousValidation()
+    public async Task TwTextfield_Validator_SupportsAsynchronousValidation()
     {
         // Arrange - a validator that doesn't complete synchronously (e.g. simulating a server call)
         // should still be awaited and its result reflected once it completes.
@@ -640,7 +640,7 @@ public class TwTextfieldTests : TwBlazorTestBase
         validationCompletionSource.SetResult("'taken-username' is already taken.");
 
         // Assert
-        cut.WaitForState(() => cut.FindAll("p[role='alert']").Count > 0);
+        await cut.WaitForStateAsync(() => cut.FindAll("p[role='alert']").Count > 0);
         Assert.Equal("'taken-username' is already taken.", cut.Find("p[role='alert']").TextContent);
     }
 

@@ -7,12 +7,12 @@ namespace TwBlazor.Docs.Tests.Layout;
 public class ThemeConfigurationCardTests : DocsTestBase
 {
     [Fact]
-    public void FriendlyTypeName_CoversPrimitivesNullablesEnumsAndGlobalTokenTypes()
+    public async Task FriendlyTypeName_CoversPrimitivesNullablesEnumsAndGlobalTokenTypes()
     {
         // Arrange & Act
         var cut = TestContext.Render<ThemeConfigurationCard>(parameters => parameters
             .Add(p => p.ThemeType, typeof(ThemeConfigurationCardTestTheme)));
-        cut.WaitForState(() => cut.Markup.Contains("StringValue"));
+        await cut.WaitForStateAsync(() => cut.Markup.Contains("StringValue"));
 
         // Assert
         Assert.Equal("string", TypeDisplayFor(cut, "StringValue"));
@@ -29,12 +29,12 @@ public class ThemeConfigurationCardTests : DocsTestBase
     }
 
     [Fact]
-    public void PropertyNames_StayOnOneLine_InBothTables()
+    public async Task PropertyNames_StayOnOneLine_InBothTables()
     {
         // Arrange & Act
         var cut = TestContext.Render<ThemeConfigurationCard>(parameters => parameters
             .Add(p => p.ThemeType, typeof(ThemeConfigurationCardTestTheme)));
-        cut.WaitForState(() => cut.Markup.Contains("StringValue"));
+        await cut.WaitForStateAsync(() => cut.Markup.Contains("StringValue"));
 
         // Assert - a long name must not break mid-word inside its code chip
         var nameCells = cut.FindAll("tbody tr > td:first-child");
@@ -43,27 +43,27 @@ public class ThemeConfigurationCardTests : DocsTestBase
     }
 
     [Fact]
-    public void InheritedFrom_IsNotShown_WhenComponentIsTheCanonicalOwner()
+    public async Task InheritedFrom_IsNotShown_WhenComponentIsTheCanonicalOwner()
     {
         // Arrange & Act
         var cut = TestContext.Render<ThemeConfigurationCard>(parameters => parameters
             .Add(p => p.ThemeType, typeof(TwButtonTheme))
             .Add(p => p.ComponentTitle, "TwButton"));
-        cut.WaitForState(() => cut.Markup.Contains("ButtonUppercase"));
+        await cut.WaitForStateAsync(() => cut.Markup.Contains("ButtonUppercase"));
 
         // Assert
         Assert.DoesNotContain("Inherited from", cut.Markup);
     }
 
     [Fact]
-    public void InheritedFrom_ShowsCanonicalOwner_WhenThemeIsReusedByAnotherComponent()
+    public async Task InheritedFrom_ShowsCanonicalOwner_WhenThemeIsReusedByAnotherComponent()
     {
         // Arrange & Act - TwButtonTheme's canonical owner is TwButton, so rendering it under a
         // different component's page should surface the "inherited from" callout.
         var cut = TestContext.Render<ThemeConfigurationCard>(parameters => parameters
             .Add(p => p.ThemeType, typeof(TwButtonTheme))
             .Add(p => p.ComponentTitle, "TwSelect"));
-        cut.WaitForState(() => cut.Markup.Contains("Inherited from"));
+        await cut.WaitForStateAsync(() => cut.Markup.Contains("Inherited from"));
 
         // Assert
         var link = cut.Find("a[href='/button']");

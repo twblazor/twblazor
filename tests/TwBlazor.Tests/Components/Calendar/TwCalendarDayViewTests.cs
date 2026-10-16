@@ -107,7 +107,7 @@ public class TwCalendarDayViewTests : TwBlazorTestBase
     }
 
     [Fact]
-    public void NowTick_RefreshesTheCurrentTime()
+    public async Task NowTick_RefreshesTheCurrentTime()
     {
         var cut = Render();
         SetNow(cut, day.AddHours(1));
@@ -115,7 +115,7 @@ public class TwCalendarDayViewTests : TwBlazorTestBase
 
         typeof(TwCalendarDayView<string>).GetMethod("OnNowTick", BindingFlags.NonPublic | BindingFlags.Instance)!.Invoke(cut.Instance, [null]);
 
-        cut.WaitForAssertion(() => Assert.Empty(cut.FindAll("div[style='top:6rem;']")));
+        await cut.WaitForAssertionAsync(() => Assert.Empty(cut.FindAll("div[style='top:6rem;']")));
     }
 
     [Fact]

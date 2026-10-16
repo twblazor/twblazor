@@ -615,7 +615,7 @@ public class TwCarouselTests : TwBlazorTestBase
         var resumedAt = cut.Instance.SelectedIndex;
 
         // Assert
-        cut.WaitForState(() => cut.Instance.SelectedIndex != resumedAt, TimeSpan.FromSeconds(2));
+        await cut.WaitForStateAsync(() => cut.Instance.SelectedIndex != resumedAt, TimeSpan.FromSeconds(2));
         Assert.NotEqual(resumedAt, cut.Instance.SelectedIndex);
     }
 
@@ -629,7 +629,7 @@ public class TwCarouselTests : TwBlazorTestBase
             .Add(x => x.ChildContent, ThreeSlides()));
 
         // Act & Assert - left running, it advances on its own
-        cut.WaitForState(() => cut.Instance.SelectedIndex != 0, TimeSpan.FromSeconds(2));
+        await cut.WaitForStateAsync(() => cut.Instance.SelectedIndex != 0, TimeSpan.FromSeconds(2));
 
         // Act - pausing stops further advancement
         await cut.InvokeAsync(() => cut.Find("button[aria-label='Pause automatic slideshow']").Click());

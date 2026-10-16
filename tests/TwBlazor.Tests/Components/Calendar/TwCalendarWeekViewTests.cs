@@ -152,7 +152,7 @@ public class TwCalendarWeekViewTests : TwBlazorTestBase
     }
 
     [Fact]
-    public void NowTick_RefreshesTheCurrentTime()
+    public async Task NowTick_RefreshesTheCurrentTime()
     {
         var cut = Render();
         SetNow(cut, DateTime.Today.AddHours(1));
@@ -160,7 +160,7 @@ public class TwCalendarWeekViewTests : TwBlazorTestBase
 
         typeof(TwCalendarWeekView<string>).GetMethod("OnNowTick", BindingFlags.NonPublic | BindingFlags.Instance)!.Invoke(cut.Instance, [null]);
 
-        cut.WaitForAssertion(() => Assert.Empty(cut.FindAll("div[style='top:6rem;']")));
+        await cut.WaitForAssertionAsync(() => Assert.Empty(cut.FindAll("div[style='top:6rem;']")));
     }
 
     [Fact]

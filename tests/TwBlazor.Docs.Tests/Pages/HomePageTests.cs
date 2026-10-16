@@ -8,14 +8,14 @@ namespace TwBlazor.Docs.Tests.Pages;
 public class HomePageTests : DocsTestBase
 {
     [Fact]
-    public void Render_TargetsTheTailwindBlazorComponentLibrarySearchTerms()
+    public async Task Render_TargetsTheTailwindBlazorComponentLibrarySearchTerms()
     {
         // Arrange
         var head = TestContext.Render<HeadOutlet>();
 
         // Act
         var page = TestContext.Render<Home>();
-        head.WaitForState(() => head.Markup.Contains("canonical"));
+        await head.WaitForStateAsync(() => head.Markup.Contains("canonical"));
 
         // Assert
         var title = head.Find("title").TextContent;
@@ -27,14 +27,14 @@ public class HomePageTests : DocsTestBase
     }
 
     [Fact]
-    public void Render_EmitsWebSiteAndLibraryJsonLd()
+    public async Task Render_EmitsWebSiteAndLibraryJsonLd()
     {
         // Arrange
         var head = TestContext.Render<HeadOutlet>();
 
         // Act
         TestContext.Render<Home>();
-        head.WaitForState(() => head.Markup.Contains("ld+json"));
+        await head.WaitForStateAsync(() => head.Markup.Contains("ld+json"));
 
         // Assert
         var json = head.Find("script[type='application/ld+json']").TextContent;

@@ -49,7 +49,7 @@ public class TwNavbarNavigationTests : TwBlazorTestBase
     }
 
     [Fact]
-    public void Navigating_MovesTheCurrentPageMarker_AndClosesTheMenu()
+    public async Task Navigating_MovesTheCurrentPageMarker_AndClosesTheMenu()
     {
         // Arrange
         var cut = TestContext.Render<TwNavbar>(p => p.Add(x => x.NavigationItems, Items()));
@@ -60,7 +60,7 @@ public class TwNavbarNavigationTests : TwBlazorTestBase
         Navigation.NavigateTo("reports");
 
         // Assert
-        cut.WaitForAssertion(() =>
+        await cut.WaitForAssertionAsync(() =>
         {
             Assert.Equal("false", cut.Find("button").GetAttribute("aria-expanded"));
             Assert.Equal("page", cut.Find("#reports").GetAttribute("aria-current"));

@@ -307,13 +307,13 @@ public class TwCodeBlockTests : TwBlazorTestBase
         var clickTask = cut.Find("button").ClickAsync(new MouseEventArgs());
 
         // Assert
-        cut.WaitForAssertion(() =>
+        await cut.WaitForAssertionAsync(() =>
         {
             Assert.Equal("Copied", cut.Find("button").GetAttribute("aria-label"));
             Assert.NotNull(cut.Find("i.bi-check2"));
         });
         await clickTask;
-        cut.WaitForAssertion(() => Assert.Equal("Copy code", cut.Find("button").GetAttribute("aria-label")));
+        await cut.WaitForAssertionAsync(() => Assert.Equal("Copy code", cut.Find("button").GetAttribute("aria-label")));
     }
 
     [Fact]

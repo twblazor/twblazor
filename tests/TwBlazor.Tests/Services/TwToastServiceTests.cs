@@ -239,18 +239,13 @@ public class TwToastServiceTests
     }
 
     [Fact]
-    public void Timer_AutomaticallyRemovesBurntToasts()
+    public async Task Timer_AutomaticallyRemovesBurntToasts()
     {
         // Arrange
         using var service = new TwToastService();
 
-        var eventRaised = false;
-        var resetEvent = new System.Threading.ManualResetEventSlim(false);
-        service.ToasterTimerElapsed += (sender, e) =>
-        {
-            eventRaised = true;
-            resetEvent.Set();
-        };
+        var timerFired = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        service.ToasterTimerElapsed += (sender, e) => timerFired.TrySetResult();
 
         var toast = new ToastModel
         {
@@ -262,11 +257,10 @@ public class TwToastServiceTests
 
         // Act - Wait for at least 2 timer ticks to ensure burnt toast is processed
         // Timer interval is 1000ms, so wait up to 2500ms for timer to fire
-        var timerFired = resetEvent.Wait(2500, TestContext.Current.CancellationToken);
+        await timerFired.Task.WaitAsync(TimeSpan.FromMilliseconds(2500), TestContext.Current.CancellationToken);
 
         // Assert
-        Assert.True(timerFired, "Timer did not fire within expected time");
-        Assert.True(eventRaised);
+        Assert.True(timerFired.Task.IsCompletedSuccessfully, "Timer did not fire within expected time");
     }
 
     [Fact]

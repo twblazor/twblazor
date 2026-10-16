@@ -8,20 +8,20 @@ namespace TwBlazor.Docs.Tests.Pages;
 
 public class GuidePageTests : DocsTestBase
 {
-    private (IRenderedComponent<TComponent> Page, IRenderedComponent<HeadOutlet> Head) Render<TComponent>()
+    private async Task<(IRenderedComponent<TComponent> Page, IRenderedComponent<HeadOutlet> Head)> RenderAsync<TComponent>()
         where TComponent : IComponent
     {
         var head = TestContext.Render<HeadOutlet>();
         var page = TestContext.Render<TComponent>();
-        head.WaitForState(() => head.Markup.Contains("canonical"));
+        await head.WaitForStateAsync(() => head.Markup.Contains("canonical"));
         return (page, head);
     }
 
     [Fact]
-    public void TailwindBlazor_TargetsTheTailwindBlazorSearchTerm()
+    public async Task TailwindBlazor_TargetsTheTailwindBlazorSearchTerm()
     {
         // Arrange & Act
-        var (page, head) = Render<TailwindBlazor>();
+        var (page, head) = await RenderAsync<TailwindBlazor>();
 
         // Assert
         var title = head.Find("title").TextContent;
@@ -32,10 +32,10 @@ public class GuidePageTests : DocsTestBase
     }
 
     [Fact]
-    public void WhyTwBlazor_TargetsTheTailwindBlazorComponentsSearchTerm()
+    public async Task WhyTwBlazor_TargetsTheTailwindBlazorComponentsSearchTerm()
     {
         // Arrange & Act
-        var (page, head) = Render<WhyTwBlazor>();
+        var (page, head) = await RenderAsync<WhyTwBlazor>();
 
         // Assert
         var title = head.Find("title").TextContent;
@@ -46,10 +46,10 @@ public class GuidePageTests : DocsTestBase
     }
 
     [Fact]
-    public void WhyTwBlazor_ListsTheLibrariesInAnAccessibleTable()
+    public async Task WhyTwBlazor_ListsTheLibrariesInAnAccessibleTable()
     {
         // Arrange & Act
-        var (page, _) = Render<WhyTwBlazor>();
+        var (page, _) = await RenderAsync<WhyTwBlazor>();
 
         // Assert
         Assert.NotEmpty(page.Find("table caption").TextContent);
@@ -59,10 +59,10 @@ public class GuidePageTests : DocsTestBase
     }
 
     [Fact]
-    public void WhyTwBlazor_HighlightsTwBlazorAsMitAndTailwindNative()
+    public async Task WhyTwBlazor_HighlightsTwBlazorAsMitAndTailwindNative()
     {
         // Arrange & Act
-        var (page, _) = Render<WhyTwBlazor>();
+        var (page, _) = await RenderAsync<WhyTwBlazor>();
 
         // Assert
         var cells = page.FindAll("#library-features tbody tr")
@@ -73,10 +73,10 @@ public class GuidePageTests : DocsTestBase
     }
 
     [Fact]
-    public void TailwindBlazor_EmitsFaqJsonLdAndLinksToGetStarted()
+    public async Task TailwindBlazor_EmitsFaqJsonLdAndLinksToGetStarted()
     {
         // Arrange & Act
-        var (page, head) = Render<TailwindBlazor>();
+        var (page, head) = await RenderAsync<TailwindBlazor>();
 
         // Assert
         Assert.Contains(head.FindAll("script[type='application/ld+json']"), s => s.TextContent.Contains("FAQPage"));
@@ -84,10 +84,10 @@ public class GuidePageTests : DocsTestBase
     }
 
     [Fact]
-    public void WhyTwBlazor_LinksToGetStarted()
+    public async Task WhyTwBlazor_LinksToGetStarted()
     {
         // Arrange & Act
-        var (page, _) = Render<WhyTwBlazor>();
+        var (page, _) = await RenderAsync<WhyTwBlazor>();
 
         // Assert
         Assert.Contains(page.FindAll("a"), a => a.GetAttribute("href") == "/get-started");

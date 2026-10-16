@@ -92,13 +92,13 @@ public class TwAvatarTests : TwBlazorTestBase
     }
 
     [Fact]
-    public void TwAvatar_FallsBackToInitials_WhenThePictureHadAlreadyFailedBeforeRendering()
+    public async Task TwAvatar_FallsBackToInitials_WhenThePictureHadAlreadyFailedBeforeRendering()
     {
         TestContext.JSInterop.Setup<bool>("twAvatar.isBroken", _ => true).SetResult(true);
 
         var cut = TestContext.Render<TwAvatar>(p => p.Add(x => x.Src, "/missing.png").Add(x => x.Name, "Jane Doe"));
 
-        cut.WaitForAssertion(() => Assert.Empty(cut.FindAll("img")));
+        await cut.WaitForAssertionAsync(() => Assert.Empty(cut.FindAll("img")));
         Assert.Equal("JD", cut.Find("span").TextContent.Trim());
     }
 
