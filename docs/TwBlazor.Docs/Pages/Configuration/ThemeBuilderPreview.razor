@@ -255,6 +255,17 @@
             </TwCard>
         }
 
+        @if (Has("TwRating"))
+        {
+            @* No Id: the preview is drawn twice, light and dark, and each rating's radios need a name of their own. *@
+            <TwCard Title="Ratings" Class="@cardClass" @attributes="look">
+                <div class="flex flex-col gap-4">
+                    <TwRating Label="Your rating" @bind-Value="rating" />
+                    <TwRating Label="Average review" Value="4.5" ReadOnly Color="Color.Primary" Size="Size.Sm" />
+                </div>
+            </TwCard>
+        }
+
         @if (Has("TwBreadcrumb", "TwStepper", "TwPagination"))
         {
             <TwCard Title="Finding your way" Class="@cardClass" @attributes="look">
@@ -493,7 +504,7 @@
     private static readonly string[] _sampled =
     [
         "TwNavbar", "TwButton", "TwIcon", "TwTooltip", "TwFileUpload",
-        "TwTextfield", "TwSelect", "TwColorPicker", "TwDatePicker", "TwTimePicker", "TwDateTimePicker", "TwDateRangePicker", "TwTimeRangePicker", "TwDateTimeRangePicker", "TwSwitch", "TwCheckbox", "TwRadioButton", "TwSlider",
+        "TwTextfield", "TwSelect", "TwColorPicker", "TwDatePicker", "TwTimePicker", "TwDateTimePicker", "TwDateRangePicker", "TwTimeRangePicker", "TwDateTimeRangePicker", "TwSwitch", "TwCheckbox", "TwRadioButton", "TwRating", "TwSlider",
         "TwAlert", "TwChip", "TwAvatar", "TwProgress", "TwSpinner", "TwSkeleton",
         "TwBreadcrumb", "TwStepper", "TwPagination", "TwTabContainer", "TwCollapse", "TwTreeList", "TwCarousel", "TwFooter",
         "TwDataTable", "TwTable", "TwPickList", "TwBarcode", "TwQrCode",
@@ -590,6 +601,7 @@
     private string? payment = "card";
     private int quantity = 2;
     private int volume = 40;
+    private double rating = 3.5;
     private int step = 1;
     private int page = 3;
     private IEnumerable<string> availableToppings = ["Mushroom", "Olives", "Peppers", "Sweetcorn"];

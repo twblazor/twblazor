@@ -1,0 +1,100 @@
+@namespace TwBlazor.Components
+@inherits TwBlazorInputComponentBase
+@typeparam T where T : System.Numerics.INumber<T>
+
+<TwInputRoot RootId="@RootId" RootClass="@RootClass" RootAttributes="@RootAttributes" RootStyle="@Style" RootAriaLabel="@AriaLabel" RootAriaLabelledBy="@AriaLabelledBy" RootErrorMessage="@ErrorMessage" RootErrorId="@errorId">
+    @if (hasLabel)
+    {
+        <TwInputLabel Id="@labelId" Label="@Label" Class="@LabelClass" @attributes="@LabelAttributes" />
+    }
+    @if (ReadOnly)
+    {
+        <div id="@Id"
+             class="@groupClasses"
+             role="img"
+             aria-label="@readOnlyLabel"
+             aria-labelledby="@readOnlyLabelledBy"
+             aria-describedby="@errorId"
+             @attributes="@Attributes">
+            @if (readOnlyLabelledBy is not null)
+            {
+                <span id="@valueTextId" class="@theme.Input">@readOnlyText</span>
+            }
+            @for (var i = 1; i <= iconCount; i++)
+            {
+                var position = i;
+                <span class="@itemClasses">
+                    <span class="@VisualClasses(false)" aria-hidden="true">
+                        <TwIcon Icon="@(EmptyIcon ?? Icon)" Class="@emptyClasses" />
+                        <span class="@theme.Clip" style="width:@(Percent(Fill(shown, position)))%">
+                            <TwIcon Icon="@Icon" Class="@filledClasses" />
+                        </span>
+                    </span>
+                </span>
+            }
+        </div>
+    }
+    else
+    {
+        <div id="@Id"
+             class="@groupClasses"
+             role="radiogroup"
+             aria-label="@AriaLabel"
+             aria-labelledby="@nameIds"
+             aria-disabled="@(Disabled ? "true" : null)"
+             aria-invalid="@(Invalid ? "true" : null)"
+             aria-describedby="@errorId"
+             @onmouseleave="@EndPreview"
+             @attributes="@Attributes">
+            @if (min <= 0)
+            {
+                <input type="radio"
+                       id="@($"{Id}-none")"
+                       name="@groupName"
+                       value="0"
+                       class="@theme.Input"
+                       data-rating-empty
+                       checked="@(current == 0)"
+                       disabled="@Disabled"
+                       aria-label="@localizer[TwStrings.Rating_None]"
+                       @onchange="@(() => SelectAsync(0))" />
+            }
+            @for (var i = 1; i <= iconCount; i++)
+            {
+                var position = i;
+                var pops = _popOrder.TryGetValue(position, out var order);
+                <span class="@itemClasses">
+                    <span class="@VisualClasses(pops)"
+                          data-pop="@(pops ? (popGeneration % 2).ToString(System.Globalization.CultureInfo.InvariantCulture) : null)"
+                          style="@(pops ? PopStyle(order) : null)"
+                          aria-hidden="true">
+                        <TwIcon Icon="@(EmptyIcon ?? Icon)" Class="@emptyClasses" />
+                        <span class="@theme.Clip" style="width:@(Percent(Fill(shown, position)))%">
+                            <TwIcon Icon="@Icon" Class="@filledClasses" />
+                        </span>
+                    </span>
+                    @foreach (var option in ValuesFor(position))
+                    {
+                        var value = option;
+                        <input type="radio"
+                               id="@RadioId(value)"
+                               name="@groupName"
+                               value="@Invariant(value)"
+                               class="@theme.Input"
+                               checked="@(current == value)"
+                               disabled="@Disabled"
+                               aria-label="@OptionLabel(value)"
+                               @onchange="@(() => SelectAsync(value))" />
+                        @if (interactive)
+                        {
+                            <label for="@RadioId(value)"
+                                   class="@(IsHalf(value) ? theme.HalfTarget : theme.FullTarget)"
+                                   @onclick="@(() => ClearIfSelectedAsync(value))"
+                                   @onmouseenter="@(() => Preview(value))"></label>
+                        }
+                    }
+                </span>
+            }
+        </div>
+    }
+</TwInputRoot>

@@ -657,4 +657,13 @@
   <data name="Barcode_Label" xml:space="preserve">
     <value>バーコード: {0}</value>
   </data>
+  <data name="Rating_Value" xml:space="preserve">
+    <value>{1} 中 {0}</value>
+  </data>
+  <data name="Rating_None" xml:space="preserve">
+    <value>評価なし</value>
+  </data>
+  <data name="Rating_ReadOnly" xml:space="preserve">
+    <value>評価 {1} 中 {0}</value>
+  </data>
 </root>

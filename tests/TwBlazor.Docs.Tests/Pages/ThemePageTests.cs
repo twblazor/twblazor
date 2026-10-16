@@ -586,7 +586,8 @@ public class ThemePageTests : DocsTestBase
         Assert.NotEmpty(preview.FindComponents<TwTable>());
         Assert.NotEmpty(preview.FindComponents<TwPickList<string>>());
         Assert.Equal(6, preview.FindComponents<TwChart>().Count);
-        Assert.Single(preview.FindAll("input[type=radio]").Select(radio => radio.GetAttribute("name")).Distinct());
+        Assert.Single(preview.FindAll("input[type=radio]:not([name^='rating-'])").Select(radio => radio.GetAttribute("name")).Distinct());
+        Assert.Equal(2, preview.FindComponents<TwRating<double>>().Count);
     }
 
     [Fact]

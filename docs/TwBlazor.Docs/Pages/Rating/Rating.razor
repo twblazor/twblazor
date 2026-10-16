@@ -1,0 +1,152 @@
+@page "/rating"
+
+<PageContainer Title="TwRating" Path="/rating" Beta Description="TwRating is a Blazor star rating component. Bind Value, set Min and Max, rate in whole or half steps and swap in any icon." ThemeType="typeof(TwRatingTheme)">
+    <PageCard Title="Basic usage">
+        <Description>Bind <code>Value</code> with <code>@@bind-Value</code>. The rating is a group of native radio inputs, so it is one Tab stop and the arrow keys change the value.</Description>
+
+        <CodeExample Name="RatingBasic" CSharpName="RatingBasicCode">
+            <TwRating Label="How was your stay?" @bind-Value="stayRating" />
+            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">You rated it <strong>@stayRating</strong> out of 5.</p>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Whole and half steps">
+        <Description>The type of <code>T</code> sets the precision: an integer rates in whole icons, while <code>double</code>, <code>decimal</code> or <code>float</code> rate in half icons. Hover over the first half of an icon to pick the half.</Description>
+
+        <CodeExample Name="RatingSteps" CSharpName="RatingStepsCode">
+            <div class="space-y-6">
+                <div>
+                    <TwRating T="int" Label="Whole stars (int)" @bind-Value="wholeRating" />
+                    <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Value: <strong>@wholeRating</strong></p>
+                </div>
+                <div>
+                    <TwRating T="decimal" Label="Half stars (decimal)" @bind-Value="halfRating" />
+                    <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Value: <strong>@halfRating</strong></p>
+                </div>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Rounding">
+        <Description>A value between steps is displayed rounded to the nearest half, or whole, icon. Set <code>Rounding</code> to change how: <code>AwayFromZero</code> (the default) rounds to the nearest, <code>ToNegativeInfinity</code> always rounds down and <code>ToPositiveInfinity</code> always rounds up. The bound value is never rewritten.</Description>
+
+        <CodeExample Name="RatingRounding" CSharpName="RatingRoundingCode">
+            <div class="space-y-4">
+                <TwRating Label="3.7 rounded to the nearest" Value="averageRating" ReadOnly />
+                <TwRating Label="3.7 rounded down" Value="averageRating" Rounding="MidpointRounding.ToNegativeInfinity" ReadOnly />
+                <TwRating Label="3.7 rounded up" Value="averageRating" Rounding="MidpointRounding.ToPositiveInfinity" ReadOnly />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Icons and colors">
+        <Description>Any <code>Icon</code> works: a half step clips the filled icon to half its width. Set <code>EmptyIcon</code> to an outline icon to give unfilled steps a different shape as well as a different color, and <code>Color</code> to change the fill.</Description>
+
+        <CodeExample Name="RatingIcons" CSharpName="RatingIconsCode">
+            <div class="space-y-4">
+                <TwRating Label="Hearts" Icon="Icon.Heart_Fill" EmptyIcon="Icon.Heart" Color="Color.Danger" @bind-Value="heartRating" />
+                <TwRating Label="Outlined stars" Icon="Icon.Star_Fill" EmptyIcon="Icon.Star" @bind-Value="outlinedRating" />
+                <TwRating T="int" Label="Spice level" Icon="Icon.Fire" Color="Color.Danger" Max="3" @bind-Value="spiceLevel" />
+                <TwRating Label="Energy" Icon="Icon.Lightning_Fill" Color="Color.Primary" @bind-Value="energyRating" />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Sizes">
+        <Description>Use <code>Size</code> to pick small, medium (the default) or large icons.</Description>
+
+        <CodeExample Name="RatingSizes" CSharpName="RatingSizesCode">
+            <div class="space-y-4">
+                <TwRating Label="Small" Size="Size.Sm" @bind-Value="sizeRating" />
+                <TwRating Label="Medium" Size="Size.Md" @bind-Value="sizeRating" />
+                <TwRating Label="Large" Size="Size.Lg" @bind-Value="sizeRating" />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Min & max">
+        <Description><code>Max</code> sets the number of icons. <code>Min</code> is the lowest value that can be picked: while it is 0 the rating can be cleared by clicking the selected icon again, or by choosing No rating from the keyboard.</Description>
+
+        <CodeExample Name="RatingMinMax" CSharpName="RatingMinMaxCode">
+            <div class="space-y-6">
+                <div>
+                    <TwRating T="int" Label="Out of 10" Max="10" Size="Size.Sm" @bind-Value="tenRating" />
+                    <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Value: <strong>@tenRating</strong> / 10</p>
+                </div>
+                <div>
+                    <TwRating T="int" Label="At least one star" Min="1" @bind-Value="requiredRating" />
+                    <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Value: <strong>@requiredRating</strong></p>
+                </div>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Animation">
+        <Description>Hovering grows an icon slightly and picking a value makes the newly filled icons pop. Set <code>DisableAnimation</code> to turn both off. They are always off for anyone whose system asks for reduced motion.</Description>
+
+        <CodeExample Name="RatingAnimation" CSharpName="RatingAnimationCode">
+            <div class="space-y-4">
+                <TwRating Label="Animated" @bind-Value="animatedRating" />
+                <TwRating Label="No animation" DisableAnimation @bind-Value="animatedRating" />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Disabled & readonly">
+        <Description><code>Disabled</code> dims the rating and locks it. <code>ReadOnly</code> keeps its colors and is announced as a single image, such as "Rated 4.5 out of 5", which suits showing a review score.</Description>
+
+        <CodeExample Name="RatingDisabledReadonly" CSharpName="RatingDisabledReadonlyCode">
+            <div class="space-y-4">
+                <TwRating Label="Disabled" Value="2.5" Disabled />
+                <TwRating Label="Readonly" Value="4.5" ReadOnly />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Validation">
+        <Description>Set <code>Invalid</code> and <code>ErrorMessage</code> to show an error. The message is tied to the group with <code>aria-describedby</code>, so screen readers read it with the rating.</Description>
+
+        <CodeExample Name="RatingValidation" CSharpName="RatingValidationCode">
+            <TwRating T="int" Label="Rate your order" @bind-Value="orderRating" Invalid="@(orderRating == 0)" ErrorMessage="Please pick a rating." />
+        </CodeExample>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample RatingBasicCode
+    private double stayRating = 4;
+    #endregion
+
+    #region CodeExample RatingStepsCode
+    private int wholeRating = 3;
+    private decimal halfRating = 3.5m;
+    #endregion
+
+    #region CodeExample RatingRoundingCode
+    private double averageRating = 3.7;
+    #endregion
+
+    #region CodeExample RatingIconsCode
+    private double heartRating = 3.5;
+    private double outlinedRating = 2.5;
+    private int spiceLevel = 2;
+    private double energyRating = 4;
+    #endregion
+
+    #region CodeExample RatingSizesCode
+    private double sizeRating = 3.5;
+    #endregion
+
+    #region CodeExample RatingMinMaxCode
+    private int tenRating = 7;
+    private int requiredRating = 1;
+    #endregion
+
+    #region CodeExample RatingAnimationCode
+    private double animatedRating = 3;
+    #endregion
+
+    #region CodeExample RatingValidationCode
+    private int orderRating;
+    #endregion
+}

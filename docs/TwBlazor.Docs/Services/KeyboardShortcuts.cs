@@ -241,6 +241,13 @@ internal static class KeyboardShortcuts
             Key("Moves to the previous option and selects it.", Up, Left),
             Key("Selects the focused option when none is selected yet.", Space)),
 
+        ["/rating"] = Guide(
+            "A rating is a group of native radio inputs, one for each value, and is a single Tab stop. A read-only rating is not a Tab stop: "
+            + "screen readers announce it as an image named after its value.",
+            Key("Moves focus into the rating, onto the selected value.", Tab),
+            Key("Selects the next value, half an icon or a whole icon at a time.", Right, Up),
+            Key("Selects the previous value. Going below the first value selects No rating, when the rating can be cleared.", Left, Down)),
+
         ["/select"] = Guide(
             "The list opens below the field and focus moves into it. On a phone or tablet the browser's own picker is used.",
             Key("Opens the list.", Enter, Space, Down, Up),

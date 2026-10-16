@@ -657,4 +657,13 @@
   <data name="Barcode_Label" xml:space="preserve">
     <value>باركود: {0}</value>
   </data>
+  <data name="Rating_Value" xml:space="preserve">
+    <value>{0} من {1}</value>
+  </data>
+  <data name="Rating_None" xml:space="preserve">
+    <value>بدون تقييم</value>
+  </data>
+  <data name="Rating_ReadOnly" xml:space="preserve">
+    <value>التقييم {0} من {1}</value>
+  </data>
 </root>

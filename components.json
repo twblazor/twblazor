@@ -164,6 +164,14 @@
         "theme": "TwRadioButtonTheme"
       },
       {
+        "id": "rating-navitem",
+        "display": "Rating",
+        "name": "TwRating",
+        "url": "/rating",
+        "isNew": true,
+        "theme": "TwRatingTheme"
+      },
+      {
         "id": "select-navitem",
         "display": "Select",
         "name": "TwSelect",
