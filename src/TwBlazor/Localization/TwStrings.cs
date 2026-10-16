@@ -112,6 +112,15 @@ public static class TwStrings
     /// <summary>The key for "QR code: {0}", the accessible name of a QR code.</summary>
     public const string QrCode_Label = "QrCode_Label";
 
+    /// <summary>The key for "{0} out of {1}", the accessible name of one of a rating's values.</summary>
+    public const string Rating_Value = "Rating_Value";
+
+    /// <summary>The key for "No rating", the accessible name of the option that clears a rating.</summary>
+    public const string Rating_None = "Rating_None";
+
+    /// <summary>The key for "Rated {0} out of {1}", the accessible name of a read-only rating.</summary>
+    public const string Rating_ReadOnly = "Rating_ReadOnly";
+
     /// <summary>The key for "Barcode: {0}", the accessible name of a barcode.</summary>
     public const string Barcode_Label = "Barcode_Label";
 

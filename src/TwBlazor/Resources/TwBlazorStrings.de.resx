@@ -657,4 +657,13 @@
   <data name="Barcode_Label" xml:space="preserve">
     <value>Barcode: {0}</value>
   </data>
+  <data name="Rating_Value" xml:space="preserve">
+    <value>{0} von {1}</value>
+  </data>
+  <data name="Rating_None" xml:space="preserve">
+    <value>Keine Bewertung</value>
+  </data>
+  <data name="Rating_ReadOnly" xml:space="preserve">
+    <value>Bewertet mit {0} von {1}</value>
+  </data>
 </root>

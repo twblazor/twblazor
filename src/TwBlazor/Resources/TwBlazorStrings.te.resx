@@ -651,4 +651,13 @@
   <data name="Barcode_Label" xml:space="preserve">
     <value>బార్‌కోడ్: {0}</value>
   </data>
+  <data name="Rating_Value" xml:space="preserve">
+    <value>{1} లో {0}</value>
+  </data>
+  <data name="Rating_None" xml:space="preserve">
+    <value>రేటింగ్ లేదు</value>
+  </data>
+  <data name="Rating_ReadOnly" xml:space="preserve">
+    <value>రేటింగ్ {1} లో {0}</value>
+  </data>
 </root>

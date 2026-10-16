@@ -654,4 +654,13 @@
   <data name="Barcode_Label" xml:space="preserve">
     <value>Code-barres : {0}</value>
   </data>
+  <data name="Rating_Value" xml:space="preserve">
+    <value>{0} sur {1}</value>
+  </data>
+  <data name="Rating_None" xml:space="preserve">
+    <value>Aucune note</value>
+  </data>
+  <data name="Rating_ReadOnly" xml:space="preserve">
+    <value>Noté {0} sur {1}</value>
+  </data>
 </root>

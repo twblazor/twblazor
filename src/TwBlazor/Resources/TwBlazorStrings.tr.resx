@@ -654,4 +654,13 @@
   <data name="Barcode_Label" xml:space="preserve">
     <value>Barkod: {0}</value>
   </data>
+  <data name="Rating_Value" xml:space="preserve">
+    <value>{1} üzerinden {0}</value>
+  </data>
+  <data name="Rating_None" xml:space="preserve">
+    <value>Puan yok</value>
+  </data>
+  <data name="Rating_ReadOnly" xml:space="preserve">
+    <value>Puan: {1} üzerinden {0}</value>
+  </data>
 </root>
