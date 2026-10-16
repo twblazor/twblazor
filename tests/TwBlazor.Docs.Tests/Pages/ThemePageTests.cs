@@ -591,6 +591,26 @@ public class ThemePageTests : DocsTestBase
     }
 
     [Fact]
+    public void TheBarcodeAndQrCode_ShareOneEncodingCard_AtTheEndOfTheCards()
+    {
+        var cards = Render().Find("[data-testid='theme-preview-cards']").Children;
+
+        var encoding = cards[^1];
+        Assert.Contains("Encoding", encoding.TextContent);
+        Assert.NotNull(encoding.QuerySelector("#preview-barcode"));
+        Assert.NotNull(encoding.QuerySelector("#preview-qr-code"));
+    }
+
+    [Fact]
+    public void TheNavbar_CollapsesBehindAMenuButton_OnSmallScreens()
+    {
+        var navbar = Render().FindComponent<ThemeBuilderPreview>().FindComponent<TwNavbar>();
+
+        Assert.False(navbar.Instance.DisableResponsiveCollapse);
+        Assert.NotNull(navbar.Find("[aria-controls$='-menu']"));
+    }
+
+    [Fact]
     public void ThePage_SetsItsOwnSurfaceAndTextColor_SoItReadsInEitherMode()
     {
         var classes = Render().Find("#theme-builder").ClassList;

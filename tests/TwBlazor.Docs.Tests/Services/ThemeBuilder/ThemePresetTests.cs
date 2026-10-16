@@ -149,6 +149,14 @@ public class ThemePresetTests
         Assert.Equal(Enum.Parse<ThemeTone>(tone), ThemePreset._all.Single(p => p.Name == name).Tone);
     }
 
+    [Theory]
+    [InlineData("Flamingo")]
+    [InlineData("Tangerine")]
+    public void APreset_UsesLargeCorners_RatherThanPills(string name)
+    {
+        Assert.Equal(TwBlazor.Enums.Rounded.Lg, ThemePreset._all.Single(p => p.Name == name).Defaults.Rounded);
+    }
+
     [Fact]
     public void ThereAreSomeNewOnesForFun()
     {
