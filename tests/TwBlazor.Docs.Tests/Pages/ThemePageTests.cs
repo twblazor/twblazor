@@ -783,15 +783,20 @@ public class ThemePageTests : DocsTestBase
     }
 
     [Fact]
-    public void ThePreview_OnlyRerenders_WhenItsVersionChanges()
+    public async Task ThePreview_OnlyRerenders_WhenItsVersionChanges()
     {
-        var selected = new HashSet<string> { "TwButton" };
+        var selected = new HashSet<string> { "TwButton", "TwLineChart" };
         var preview = TestContext.Render<ThemeBuilderPreview>(parameters => parameters
             .Add(p => p.Version, 1)
             .Add(p => p.Colors, ThemeColorFamily.All.ToDictionary(f => f.Name, f => f.DefaultHex))
             .Add(p => p.OnColors, ThemeColorFamily.All.ToDictionary(f => f.Name, _ => OnColorMode.Auto))
             .Add(p => p.Defaults, ThemeDefaults.Default)
             .Add(p => p.Selected, selected));
+
+        // The charts follow in a render of the preview's own just after the first, which would pick up the set
+        // changed below. Waiting for it means only the parent's renders are left to skip.
+        await preview.WaitForElementAsync("#preview-charts");
+        await preview.InvokeAsync(() => { });
         Assert.Empty(preview.FindAll("h3:contains('Alerts')"));
 
         selected.Add("TwAlert");
