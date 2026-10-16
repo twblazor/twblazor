@@ -21,14 +21,14 @@ public class NotFoundContentTests : DocsTestBase
     }
 
     [Fact]
-    public void Render_SetsTheTitle_AndKeepsThePageOutOfSearchResults()
+    public async Task Render_SetsTheTitle_AndKeepsThePageOutOfSearchResults()
     {
         // Arrange
         var head = TestContext.Render<HeadOutlet>();
 
         // Act
         TestContext.Render<NotFoundContent>();
-        head.WaitForState(() => head.Markup.Contains("robots"));
+        await head.WaitForStateAsync(() => head.Markup.Contains("robots"));
 
         // Assert
         Assert.Equal("Page not found | twblazor", head.Find("title").TextContent);
@@ -49,7 +49,7 @@ public class NotFoundContentTests : DocsTestBase
     }
 
     [Fact]
-    public void Search_OpensTheSearchDialog()
+    public async Task Search_OpensTheSearchDialog()
     {
         // Arrange
         var provider = TestContext.Render<TwDialogProvider>();
@@ -59,7 +59,7 @@ public class NotFoundContentTests : DocsTestBase
         cut.Find("#not-found-search").Click();
 
         // Assert
-        provider.WaitForAssertion(() => Assert.NotEmpty(provider.FindAll("[role='dialog']")));
+        await provider.WaitForAssertionAsync(() => Assert.NotEmpty(provider.FindAll("[role='dialog']")));
     }
 
     [Fact]
