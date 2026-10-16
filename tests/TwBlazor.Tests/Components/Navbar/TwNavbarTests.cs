@@ -218,7 +218,7 @@ public class TwNavbarTests : TwBlazorTestBase
     #region Navigation
 
     [Fact]
-    public void ShouldCloseMobileMenu_OnLocationChanged()
+    public async Task ShouldCloseMobileMenu_OnLocationChanged()
     {
         // Arrange - opening the menu, then navigating client-side (e.g. following a nav link),
         // must close it again since the hosting layout isn't re-rendered by the navigation itself.
@@ -232,12 +232,12 @@ public class TwNavbarTests : TwBlazorTestBase
         navigationManager.NavigateTo("/some-other-page");
 
         // Assert
-        cut.WaitForAssertion(() =>
+        await cut.WaitForAssertionAsync(() =>
             Assert.Contains("hidden", cut.Find("div[id$='-menu']").GetAttribute("class")));
     }
 
     [Fact]
-    public void ShouldUpdate_ActiveLink_AfterClientSideNavigation()
+    public async Task ShouldUpdate_ActiveLink_AfterClientSideNavigation()
     {
         // Arrange
         var cut = TestContext.Render<TwNavbar>(p => p
@@ -254,7 +254,7 @@ public class TwNavbarTests : TwBlazorTestBase
         navigationManager.NavigateTo("/products");
 
         // Assert
-        cut.WaitForAssertion(() =>
+        await cut.WaitForAssertionAsync(() =>
             Assert.Equal("page", cut.Find("a[href='/products']").GetAttribute("aria-current")));
     }
 

@@ -1,4 +1,4 @@
-using Bunit;
+﻿using Bunit;
 using Microsoft.Extensions.DependencyInjection;
 using TwBlazor.Components;
 using TwBlazor.Docs.Pages.Configuration;
@@ -14,24 +14,37 @@ public class ThemePageTests : DocsTestBase
 
     private static readonly string[] _stickyPanelClasses = ["lg:sticky", "lg:top-0", "lg:h-dvh", "lg:overflow-y-auto"];
 
-    private IRenderedComponent<ThemePage> Render() => TestContext.Render<ThemePage>();
+    // The charts and data table render just after the first paint, so a test starts once they are in and that
+    // render has finished. bUnit renders off the test thread, so an event fired mid-render could otherwise be lost.
+    private async Task<IRenderedComponent<ThemePage>> RenderAsync()
+    {
+        var cut = TestContext.Render<ThemePage>();
+        await cut.WaitForElementAsync("#preview-charts");
+        await cut.InvokeAsync(() => { });
+        return cut;
+    }
 
-    private static string Code(IRenderedComponent<ThemePage> cut) => cut.Find("pre code").TextContent;
+    // The theme is only generated on request, so reading it means asking for it with the current settings.
+    private static string Code(IRenderedComponent<ThemePage> cut)
+    {
+        cut.Find("#theme-generate-panel").Click();
+        return cut.Find("pre code").TextContent;
+    }
 
     private static void OpenTab(IRenderedComponent<ThemePage> cut, string label) =>
         cut.Find($"#theme-settings [role=tab]:contains('{label}')").Click();
 
-    private IRenderedComponent<ThemePage> RenderOnTab(string label)
+    private async Task<IRenderedComponent<ThemePage>> RenderOnTabAsync(string label)
     {
-        var cut = Render();
+        var cut = await RenderAsync();
         OpenTab(cut, label);
         return cut;
     }
 
     [Fact]
-    public void Page_StartsWithEveryComponentSelected_AndShowsTheGeneratedTheme()
+    public async Task Page_StartsWithEveryComponentSelected_AndShowsTheGeneratedTheme()
     {
-        var cut = RenderOnTab("Components");
+        var cut = await RenderOnTabAsync("Components");
 
         var boxes = cut.FindAll("input[id^='theme-component-']");
         Assert.NotEmpty(boxes);
@@ -41,9 +54,9 @@ public class ThemePageTests : DocsTestBase
     }
 
     [Fact]
-    public void UncheckingAComponent_RemovesItsTheme_ButKeepsThemesOtherComponentsStillNeed()
+    public async Task UncheckingAComponent_RemovesItsTheme_ButKeepsThemesOtherComponentsStillNeed()
     {
-        var cut = RenderOnTab("Components");
+        var cut = await RenderOnTabAsync("Components");
 
         cut.FindAll("input[id^='theme-group-']").ToList().ForEach(g => { if (g.HasAttribute("checked")) g.Change(false); });
         cut.Find("#theme-component-twslider").Change(true);
@@ -54,9 +67,9 @@ public class ThemePageTests : DocsTestBase
     }
 
     [Fact]
-    public void CheckingAGroup_SelectsAllItsComponents()
+    public async Task CheckingAGroup_SelectsAllItsComponents()
     {
-        var cut = RenderOnTab("Components");
+        var cut = await RenderOnTabAsync("Components");
         cut.Find("button:contains('Clear all')").Click();
         Assert.DoesNotContain("new TwSliderTheme", Code(cut));
 
@@ -68,9 +81,9 @@ public class ThemePageTests : DocsTestBase
     }
 
     [Fact]
-    public void UncheckingAFullGroup_ClearsAllItsComponents()
+    public async Task UncheckingAFullGroup_ClearsAllItsComponents()
     {
-        var cut = RenderOnTab("Components");
+        var cut = await RenderOnTabAsync("Components");
 
         cut.Find("#theme-group-feedback").Change(false);
 
@@ -79,9 +92,9 @@ public class ThemePageTests : DocsTestBase
     }
 
     [Fact]
-    public void AGroupWithMixedChildren_ShowsAsIndeterminate()
+    public async Task AGroupWithMixedChildren_ShowsAsIndeterminate()
     {
-        var cut = RenderOnTab("Components");
+        var cut = await RenderOnTabAsync("Components");
 
         cut.Find("#theme-component-twchip").Change(false);
 
@@ -91,9 +104,9 @@ public class ThemePageTests : DocsTestBase
     }
 
     [Fact]
-    public void ClearAll_RemovesEveryComponentTheme()
+    public async Task ClearAll_RemovesEveryComponentTheme()
     {
-        var cut = RenderOnTab("Components");
+        var cut = await RenderOnTabAsync("Components");
 
         cut.Find("button:contains('Clear all')").Click();
 
@@ -102,9 +115,9 @@ public class ThemePageTests : DocsTestBase
     }
 
     [Fact]
-    public void SelectAll_RestoresEveryComponentTheme()
+    public async Task SelectAll_RestoresEveryComponentTheme()
     {
-        var cut = RenderOnTab("Components");
+        var cut = await RenderOnTabAsync("Components");
         cut.Find("button:contains('Clear all')").Click();
 
         cut.Find("button:contains('Select all')").Click();
@@ -113,9 +126,9 @@ public class ThemePageTests : DocsTestBase
     }
 
     [Fact]
-    public void ResetColors_RestoresTheDefaultPreview_AndCode()
+    public async Task ResetColors_RestoresTheDefaultPreview_AndCode()
     {
-        var cut = Render();
+        var cut = await RenderAsync();
 
         cut.Find("button:contains('Reset colors')").Click();
 
@@ -132,9 +145,9 @@ public class ThemePageTests : DocsTestBase
     }
 
     [Fact]
-    public void Defaults_StartOnTheDefaultThemesOwnValues()
+    public async Task Defaults_StartOnTheDefaultThemesOwnValues()
     {
-        var cut = Render();
+        var cut = await RenderAsync();
 
         Assert.Contains("DefaultRounded = Rounded.Lg", Code(cut));
         Assert.Contains("DefaultShadow = Shadow.Sm", Code(cut));
@@ -145,7 +158,7 @@ public class ThemePageTests : DocsTestBase
     [Fact]
     public async Task ChangingTheButtonDefault_IsWrittenIntoTheButtonTheme()
     {
-        var cut = RenderOnTab("Style");
+        var cut = await RenderOnTabAsync("Style");
 
         await cut.InvokeAsync(() => cut.FindComponent<TwSelect<ButtonVariant>>().Instance.SelectedValueChanged.InvokeAsync(ButtonVariant.Outlined));
 
@@ -155,7 +168,7 @@ public class ThemePageTests : DocsTestBase
     [Fact]
     public async Task ResetDefaults_RestoresTheDefaultTheme()
     {
-        var cut = RenderOnTab("Style");
+        var cut = await RenderOnTabAsync("Style");
         await cut.InvokeAsync(() => cut.FindComponent<TwSelect<Rounded>>().Instance.SelectedValueChanged.InvokeAsync(Rounded.Full));
         Assert.Contains("DefaultRounded = Rounded.Full", Code(cut));
 
@@ -170,7 +183,7 @@ public class ThemePageTests : DocsTestBase
     [Fact]
     public async Task PickingAWhiteColor_GivesItDarkTextOnFilledSurfaces_AndExplainsWhy()
     {
-        var cut = Render();
+        var cut = await RenderAsync();
 
         await PickAsync(cut, 1, "#ffffff");
 
@@ -183,7 +196,7 @@ public class ThemePageTests : DocsTestBase
     [Fact]
     public async Task TheTextOnColorSelect_OverridesTheAutomaticChoice()
     {
-        var cut = Render();
+        var cut = await RenderAsync();
         await PickAsync(cut, 1, "#ffffff");
 
         await cut.InvokeAsync(() => cut.FindComponents<TwSelect<OnColorMode>>()[1].Instance.SelectedValueChanged.InvokeAsync(OnColorMode.Light));
@@ -193,9 +206,9 @@ public class ThemePageTests : DocsTestBase
     }
 
     [Fact]
-    public void DefaultColors_ShowAPassingContrast_AndNoWarning()
+    public async Task DefaultColors_ShowAPassingContrast_AndNoWarning()
     {
-        var cut = Render();
+        var cut = await RenderAsync();
 
         Assert.All(_colorIds,
             name => Assert.Contains("AA", cut.Find($"[data-testid='theme-contrast-{name}']").TextContent));
@@ -203,9 +216,9 @@ public class ThemePageTests : DocsTestBase
     }
 
     [Fact]
-    public void ExampleThemes_AreOfferedAboveTheSamples_WithPurpleSelected()
+    public async Task ExampleThemes_AreOfferedAboveTheSamples_WithPurpleSelected()
     {
-        var cut = Render();
+        var cut = await RenderAsync();
 
         var presets = cut.FindAll("button[id^='theme-preset-']");
 
@@ -220,9 +233,9 @@ public class ThemePageTests : DocsTestBase
         cut.InvokeAsync(() => cut.FindComponent<TwPagination>().Instance.ActivePageChanged.InvokeAsync(page));
 
     [Fact]
-    public void ExampleThemes_AreTwoRowsOfFour_WithDensePaginationBesideTheHeading()
+    public async Task ExampleThemes_AreTwoRowsOfFour_WithDensePaginationBesideTheHeading()
     {
-        var cut = Render();
+        var cut = await RenderAsync();
         var pagination = cut.FindComponent<TwPagination>();
 
         Assert.Equal(8, cut.FindAll("button[id^='theme-preset-']").Count);
@@ -233,9 +246,9 @@ public class ThemePageTests : DocsTestBase
     }
 
     [Fact]
-    public void TheChosenExampleTheme_StandsOutByMoreThanColor()
+    public async Task TheChosenExampleTheme_StandsOutByMoreThanColor()
     {
-        var cut = Render();
+        var cut = await RenderAsync();
 
         Assert.Contains("ring-1", cut.Find("#theme-preset-purple").ClassList);
         Assert.DoesNotContain("ring-1", cut.Find("#theme-preset-ocean").ClassList);
@@ -244,7 +257,7 @@ public class ThemePageTests : DocsTestBase
     [Fact]
     public async Task ThePaginationButtons_ShowTheOtherExampleThemes_UntilEveryOneHasBeenSeenOnce()
     {
-        var cut = Render();
+        var cut = await RenderAsync();
         var seen = new List<string>();
 
         for (var page = 1; page <= cut.FindComponent<TwPagination>().Instance.TotalPages; page++)
@@ -259,7 +272,7 @@ public class ThemePageTests : DocsTestBase
     [Fact]
     public async Task AnExampleThemeOnALaterPage_CanBeChosen_AndStaysSelected()
     {
-        var cut = Render();
+        var cut = await RenderAsync();
         var last = ThemePreset._all[^1];
         await GoToPresetPageAsync(cut, cut.FindComponent<TwPagination>().Instance.TotalPages);
 
@@ -270,9 +283,9 @@ public class ThemePageTests : DocsTestBase
     }
 
     [Fact]
-    public void ChoosingAnExampleTheme_AppliesItsColorsAndDefaults_AndSelectsIt()
+    public async Task ChoosingAnExampleTheme_AppliesItsColorsAndDefaults_AndSelectsIt()
     {
-        var cut = Render();
+        var cut = await RenderAsync();
         var ocean = ThemePreset._all.Single(p => p.Name == "Ocean");
 
         cut.Find("#theme-preset-ocean").Click();
@@ -286,9 +299,9 @@ public class ThemePageTests : DocsTestBase
     }
 
     [Fact]
-    public void ChoosingAnExampleTheme_AlsoTintsTheBackgrounds()
+    public async Task ChoosingAnExampleTheme_AlsoTintsTheBackgrounds()
     {
-        var cut = Render();
+        var cut = await RenderAsync();
         var ocean = ThemePreset._all.Single(p => p.Name == "Ocean");
 
         cut.Find("#theme-preset-ocean").Click();
@@ -302,7 +315,7 @@ public class ThemePageTests : DocsTestBase
     [Fact]
     public async Task ChangingABackgroundAfterChoosingAnExample_DeselectsIt()
     {
-        var cut = Render();
+        var cut = await RenderAsync();
         cut.Find("#theme-preset-ocean").Click();
 
         await cut.InvokeAsync(() => cut.FindComponents<TwColorPicker>().Single(p => p.Instance.Id == "theme-surface-light").Instance.ValueChanged.InvokeAsync("#ffffff"));
@@ -311,20 +324,34 @@ public class ThemePageTests : DocsTestBase
     }
 
     [Fact]
-    public void TheColorFilters_StartOnAll_AndOfferEveryColorFamily()
+    public async Task TheColorFilters_StartOnAll_AndOfferEveryColorFamily()
     {
-        var chips = Render().FindAll("#theme-tone-filters button");
+        var cut = await RenderAsync();
+        var chips = cut.FindAll("#theme-tone-filters button");
 
-        Assert.Equal(["All", "Purple", "Blue", "Green", "Pink", "Red", "Orange", "Neutral"], chips.Select(chip => chip.TextContent.Trim()));
+        Assert.Equal(["All", "Purple", "Blue", "Green", "Pink", "Red", "Orange", "Neutral", "Pastel", "Vivid", "Fun"], chips.Select(chip => chip.TextContent.Trim()));
         Assert.Equal("true", chips[0].GetAttribute("aria-pressed"));
         Assert.All(chips.Skip(1), chip => Assert.Equal("false", chip.GetAttribute("aria-pressed")));
         Assert.All(chips.Skip(1), chip => Assert.Equal("true", chip.QuerySelector("span")!.GetAttribute("aria-hidden")));
     }
 
     [Fact]
+    public async Task ThePastelFilter_ShowsThePastelThemes_AcrossThreePages()
+    {
+        var cut = await RenderAsync();
+
+        cut.Find("#theme-tone-pastel").Click();
+
+        var pastels = ThemePreset._all.Where(p => p.Tone == ThemeTone.Pastel).ToList();
+        Assert.Equal(pastels.Take(8).Select(p => $"theme-preset-{p.Name.ToLowerInvariant()}"), cut.FindAll("button[id^='theme-preset-']").Select(b => b.Id));
+        Assert.Equal(3, cut.FindComponent<TwPagination>().Instance.TotalPages);
+        Assert.Equal("Showing 20 pastel example themes", cut.Find("#theme-controls p[role=status]").TextContent);
+    }
+
+    [Fact]
     public async Task AColorFilter_ShowsOnlyThatColorsThemes_FromTheFirstPage()
     {
-        var cut = Render();
+        var cut = await RenderAsync();
         await GoToPresetPageAsync(cut, 2);
 
         cut.Find("#theme-tone-green").Click();
@@ -338,9 +365,9 @@ public class ThemePageTests : DocsTestBase
     }
 
     [Fact]
-    public void All_BringsEveryThemeBack()
+    public async Task All_BringsEveryThemeBack()
     {
-        var cut = Render();
+        var cut = await RenderAsync();
         cut.Find("#theme-tone-neutral").Click();
 
         cut.Find("#theme-tone-all").Click();
@@ -352,7 +379,7 @@ public class ThemePageTests : DocsTestBase
     [Fact]
     public async Task ChangingAColorAfterChoosingAnExample_DeselectsIt()
     {
-        var cut = Render();
+        var cut = await RenderAsync();
         cut.Find("#theme-preset-ocean").Click();
 
         await PickAsync(cut, 0, "#112233");
@@ -361,9 +388,9 @@ public class ThemePageTests : DocsTestBase
     }
 
     [Fact]
-    public void ChoosingPurpleAgain_RestoresTheDefaultTheme()
+    public async Task ChoosingPurpleAgain_RestoresTheDefaultTheme()
     {
-        var cut = Render();
+        var cut = await RenderAsync();
         var original = Code(cut);
         cut.Find("#theme-preset-ocean").Click();
 
@@ -373,9 +400,9 @@ public class ThemePageTests : DocsTestBase
     }
 
     [Fact]
-    public void TheSettings_AreDenseTabs_ColorsStyleAndComponents_UnderOneHeading()
+    public async Task TheSettings_AreDenseTabs_ColorsStyleAndComponents_UnderOneHeading()
     {
-        var cut = Render();
+        var cut = await RenderAsync();
 
         var tabs = cut.FindAll("#theme-settings [role=tab]");
 
@@ -385,18 +412,18 @@ public class ThemePageTests : DocsTestBase
     }
 
     [Fact]
-    public void TheColorsTab_StartsSelected()
+    public async Task TheColorsTab_StartsSelected()
     {
-        var cut = Render();
+        var cut = await RenderAsync();
 
         Assert.Equal("true", cut.Find("#theme-settings [role=tab]:contains('Colors')").GetAttribute("aria-selected"));
         Assert.NotEmpty(cut.FindAll("#theme-color-primary"));
     }
 
     [Fact]
-    public void TheChosenTab_StaysChosen_WhenAnEditRerendersThePage()
+    public async Task TheChosenTab_StaysChosen_WhenAnEditRerendersThePage()
     {
-        var cut = RenderOnTab("Components");
+        var cut = await RenderOnTabAsync("Components");
 
         cut.Find("button:contains('Clear all')").Click();
 
@@ -404,9 +431,9 @@ public class ThemePageTests : DocsTestBase
     }
 
     [Fact]
-    public void TheComponentsTab_SummarisesHowManyAreSelected()
+    public async Task TheComponentsTab_SummarisesHowManyAreSelected()
     {
-        var cut = RenderOnTab("Components");
+        var cut = await RenderOnTabAsync("Components");
         Assert.Matches(@"(\d+) of \1 selected", cut.Find("#theme-components-summary").TextContent);
 
         cut.Find("button:contains('Clear all')").Click();
@@ -416,9 +443,9 @@ public class ThemePageTests : DocsTestBase
     }
 
     [Fact]
-    public void TheControls_UseTheirDenseVariants()
+    public async Task TheControls_UseTheirDenseVariants()
     {
-        var cut = Render();
+        var cut = await RenderAsync();
 
         Assert.All(cut.FindComponents<TwColorPicker>().Where(picker => picker.Instance.Id!.StartsWith("theme-", StringComparison.Ordinal)), picker => Assert.True(picker.Instance.Dense));
         Assert.All(cut.FindComponents<TwSelect<OnColorMode>>(), select => Assert.True(select.Instance.Dense));
@@ -430,17 +457,17 @@ public class ThemePageTests : DocsTestBase
     }
 
     [Fact]
-    public void EachTextOnFillSelect_IsNamedForItsColor()
+    public async Task EachTextOnFillSelect_IsNamedForItsColor()
     {
-        var cut = Render();
+        var cut = await RenderAsync();
 
         Assert.Equal(_colorIds.Select(id => $"Text on fill for {char.ToUpperInvariant(id[0])}{id[1..]}"), cut.FindComponents<TwSelect<OnColorMode>>().Select(select => select.Instance.AriaLabel));
     }
 
     [Fact]
-    public void EachComponentGroup_IsABorderedPanel_WithAHeaderAndASelectedCount()
+    public async Task EachComponentGroup_IsABorderedPanel_WithAHeaderAndASelectedCount()
     {
-        var cut = RenderOnTab("Components");
+        var cut = await RenderOnTabAsync("Components");
 
         var panel = cut.Find("fieldset[aria-label='Feedback components']");
         Assert.Contains("border", panel.ClassList);
@@ -453,9 +480,9 @@ public class ThemePageTests : DocsTestBase
     }
 
     [Fact]
-    public void Components_ComeBeforeThePreview()
+    public async Task Components_ComeBeforeThePreview()
     {
-        var cut = RenderOnTab("Components");
+        var cut = await RenderOnTabAsync("Components");
 
         var markup = cut.Markup;
 
@@ -463,9 +490,9 @@ public class ThemePageTests : DocsTestBase
     }
 
     [Fact]
-    public void Page_OffersAColorPickerForEverySemanticColor_AndNoneForTheNeutrals()
+    public async Task Page_OffersAColorPickerForEverySemanticColor_AndNoneForTheNeutrals()
     {
-        var cut = Render();
+        var cut = await RenderAsync();
 
         foreach (var name in new[] { "primary", "accent", "success", "danger", "warning", "info" })
             Assert.NotEmpty(cut.FindAll($"#theme-color-{name}"));
@@ -477,18 +504,20 @@ public class ThemePageTests : DocsTestBase
     #region Live page
 
     [Fact]
-    public void Page_HasItsOwnFrame_NotTheDocsLayout()
+    public async Task Page_HasItsOwnFrame_NotTheDocsLayout()
     {
         var layout = Assert.Single(typeof(ThemePage).GetCustomAttributes(typeof(Microsoft.AspNetCore.Components.LayoutAttribute), false));
 
         Assert.Equal(typeof(TwBlazor.Docs.Layout.EmptyLayout), ((Microsoft.AspNetCore.Components.LayoutAttribute)layout).LayoutType);
-        Assert.Equal("Theme builder", Assert.Single(Render().FindAll("h1")).TextContent);
+        var cut = await RenderAsync();
+        Assert.Equal("Theme builder", Assert.Single(cut.FindAll("h1")).TextContent);
     }
 
     [Fact]
-    public void Page_LeavesTheColorVariablesAlone_ByDefault()
+    public async Task Page_LeavesTheColorVariablesAlone_ByDefault()
     {
-        Assert.True(string.IsNullOrEmpty(Render().Find("#theme-builder").GetAttribute("style")));
+        var cut = await RenderAsync();
+        Assert.True(string.IsNullOrEmpty(cut.Find("#theme-builder").GetAttribute("style")));
     }
 
     [Fact]
@@ -496,7 +525,7 @@ public class ThemePageTests : DocsTestBase
     {
         var options = TestContext.Services.GetRequiredService<TwBlazor.Configuration.TwBlazorOptions>();
         var before = options.Theme;
-        var cut = Render();
+        var cut = await RenderAsync();
 
         await PickAsync(cut, 0, "#112233");
 
@@ -508,21 +537,21 @@ public class ThemePageTests : DocsTestBase
     }
 
     [Fact]
-    public void TheControlsAndTheSamples_SitInsideTheRecoloredElement_SoTheWholePageFollows()
+    public async Task TheControlsAndTheSamples_SitInsideTheRecoloredElement_SoTheWholePageFollows()
     {
-        var cut = Render();
+        var cut = await RenderAsync();
         var page = cut.Find("#theme-builder");
 
         Assert.True(page.Contains(cut.Find("#theme-preset-purple")));
         Assert.True(page.Contains(cut.Find("#theme-controls")));
         Assert.True(page.Contains(cut.Find("[data-testid='theme-preview']")));
-        Assert.True(page.Contains(cut.Find("pre code")));
+        Assert.True(page.Contains(cut.Find("#theme-code")));
     }
 
     [Fact]
     public async Task ChangingADefault_ReachesTheSampleComponents()
     {
-        var cut = RenderOnTab("Style");
+        var cut = await RenderOnTabAsync("Style");
 
         await cut.InvokeAsync(() => cut.FindComponent<TwSelect<Rounded>>().Instance.SelectedValueChanged.InvokeAsync(Rounded.Full));
         await cut.InvokeAsync(() => cut.FindComponent<TwSelect<InputVariant>>().Instance.SelectedValueChanged.InvokeAsync(InputVariant.Filled));
@@ -537,9 +566,10 @@ public class ThemePageTests : DocsTestBase
     }
 
     [Fact]
-    public void TheSamples_AreOneFlowOfCards_InColumns_WithNoSectionHeadings()
+    public async Task TheSamples_AreOneFlowOfCards_InColumns_WithNoSectionHeadings()
     {
-        var preview = Render().Find("[data-testid='theme-preview']");
+        var cut = await RenderAsync();
+        var preview = cut.Find("[data-testid='theme-preview']");
         var cards = preview.QuerySelector("[data-testid='theme-preview-cards']")!;
 
         Assert.Empty(preview.QuerySelectorAll("section"));
@@ -551,27 +581,30 @@ public class ThemePageTests : DocsTestBase
     }
 
     [Fact]
-    public void ThePreview_HasOneHeadingForScreenReaders_AboveTheCardTitles()
+    public async Task ThePreview_HasOneHeadingForScreenReaders_AboveTheCardTitles()
     {
-        var heading = Render().Find("[data-testid='theme-preview'] > h2");
+        var cut = await RenderAsync();
+        var heading = cut.Find("[data-testid='theme-preview'] > h2");
 
         Assert.Equal("Component preview", heading.TextContent);
         Assert.Contains("sr-only", heading.ClassList);
     }
 
     [Fact]
-    public void TheCharts_ShareAGrid_SoEveryRowIsFull()
+    public async Task TheCharts_ShareAGrid_SoEveryRowIsFull()
     {
-        var charts = Render().Find("#preview-charts");
+        var cut = await RenderAsync();
+        var charts = cut.Find("#preview-charts");
 
         Assert.Contains("grid", charts.ClassList);
         Assert.Equal(6, charts.Children.Length);
     }
 
     [Fact]
-    public void TheSamples_CoverFarMoreThanTheBasics()
+    public async Task TheSamples_CoverFarMoreThanTheBasics()
     {
-        var preview = Render().FindComponent<ThemeBuilderPreview>();
+        var cut = await RenderAsync();
+        var preview = cut.FindComponent<ThemeBuilderPreview>();
 
         Assert.NotEmpty(preview.FindComponents<TwNavbar>());
         Assert.NotEmpty(preview.FindComponents<TwFooter>());
@@ -591,26 +624,50 @@ public class ThemePageTests : DocsTestBase
     }
 
     [Fact]
-    public void ThePage_SetsItsOwnSurfaceAndTextColor_SoItReadsInEitherMode()
+    public async Task TheBarcodeAndQrCode_ShareOneEncodingCard_AtTheEndOfTheCards()
     {
-        var classes = Render().Find("#theme-builder").ClassList;
+        var cut = await RenderAsync();
+        var cards = cut.Find("[data-testid='theme-preview-cards']").Children;
+
+        var encoding = cards[^1];
+        Assert.Contains("Encoding", encoding.TextContent);
+        Assert.NotNull(encoding.QuerySelector("#preview-barcode"));
+        Assert.NotNull(encoding.QuerySelector("#preview-qr-code"));
+    }
+
+    [Fact]
+    public async Task TheNavbar_CollapsesBehindAMenuButton_OnSmallScreens()
+    {
+        var cut = await RenderAsync();
+        var navbar = cut.FindComponent<ThemeBuilderPreview>().FindComponent<TwNavbar>();
+
+        Assert.False(navbar.Instance.DisableResponsiveCollapse);
+        Assert.NotNull(navbar.Find("[aria-controls$='-menu']"));
+    }
+
+    [Fact]
+    public async Task ThePage_SetsItsOwnSurfaceAndTextColor_SoItReadsInEitherMode()
+    {
+        var cut = await RenderAsync();
+        var classes = cut.Find("#theme-builder").ClassList;
 
         Assert.All(Theme.Colors.NeutralText.Heading.Split(' '), token => Assert.Contains(token, classes));
         Assert.All(Theme.Colors.NeutralSurface.Background.Split(' '), token => Assert.Contains(token, classes));
     }
 
     [Fact]
-    public void TheThemeFile_ComesLast()
+    public async Task TheThemeFile_ComesLast()
     {
-        var markup = Render().Markup;
+        var cut = await RenderAsync();
+        var markup = cut.Markup;
 
         Assert.True(markup.IndexOf("id=\"preview-charts\"", StringComparison.Ordinal) < markup.IndexOf("id=\"theme-code\"", StringComparison.Ordinal));
     }
 
     [Fact]
-    public void TheSettings_SitInTheirOwnPanel_AndTheSamplesInTheMainContent()
+    public async Task TheSettings_SitInTheirOwnPanel_AndTheSamplesInTheMainContent()
     {
-        var cut = Render();
+        var cut = await RenderAsync();
         var panel = cut.Find("aside#theme-controls");
         var main = cut.Find("main#main-content");
 
@@ -623,9 +680,9 @@ public class ThemePageTests : DocsTestBase
     }
 
     [Fact]
-    public void ThePanel_StaysInViewBesideTheSamplesOnAWideScreen_AndComesFirstOnANarrowOne()
+    public async Task ThePanel_StaysInViewBesideTheSamplesOnAWideScreen_AndComesFirstOnANarrowOne()
     {
-        var cut = Render();
+        var cut = await RenderAsync();
         var panel = cut.Find("#theme-controls");
 
         Assert.All(_stickyPanelClasses, token => Assert.Contains(token, panel.ClassList));
@@ -636,9 +693,9 @@ public class ThemePageTests : DocsTestBase
     }
 
     [Fact]
-    public void ThePanelsColumn_CarriesItsBackground_TheFullHeightOfThePage()
+    public async Task ThePanelsColumn_CarriesItsBackground_TheFullHeightOfThePage()
     {
-        var cut = Render();
+        var cut = await RenderAsync();
         var column = cut.Find("#theme-controls").ParentElement!;
 
         Assert.All(Theme.Colors.NeutralSurface.BackgroundSubtle.Split(' '), token => Assert.Contains(token, column.ClassList));
@@ -647,9 +704,9 @@ public class ThemePageTests : DocsTestBase
     }
 
     [Fact]
-    public void ASkipLink_JumpsPastTheSettings_ToThePreview()
+    public async Task ASkipLink_JumpsPastTheSettings_ToThePreview()
     {
-        var cut = Render();
+        var cut = await RenderAsync();
         var skip = cut.Find("#theme-builder > a.sr-only");
 
         Assert.Equal("theme#main-content", skip.GetAttribute("href"));
@@ -658,9 +715,9 @@ public class ThemePageTests : DocsTestBase
     }
 
     [Fact]
-    public void ThePage_SharesTheExampleThemesBar_WithCreateYourOwnAsTheCurrentPage()
+    public async Task ThePage_SharesTheExampleThemesBar_WithCreateYourOwnAsTheCurrentPage()
     {
-        var cut = Render();
+        var cut = await RenderAsync();
         var links = cut.FindAll("nav[aria-label='Example themes'] a");
 
         Assert.Equal([.. TwBlazor.Docs.Pages.Showcase.Shared.ShowcaseBrand.All.Select(brand => brand.Path), "/theme"], links.Select(link => link.GetAttribute("href")));
@@ -669,18 +726,111 @@ public class ThemePageTests : DocsTestBase
     }
 
     [Fact]
-    public void TheThemeFile_IsLinkedFromTheTopOfThePreview()
+    public async Task TheThemeFile_CanBeGenerated_FromTheTopOfThePreview_AndFromThePanel()
     {
-        var link = Render().Find("main header a[href='theme#theme-code']");
+        var cut = await RenderAsync();
 
-        Assert.Contains("Get Theme.cs", link.TextContent);
+        Assert.Contains("Generate Theme", cut.Find("main header button#theme-generate-header").TextContent);
+        Assert.True(cut.Find("aside#theme-controls").Contains(cut.Find("#theme-generate-panel")));
     }
 
     [Fact]
-    public void TheThemeToggle_IsTheDocsOwn_AndSaysWhatItDid()
+    public async Task TheThemeFile_IsNotGenerated_UntilItIsAskedFor()
+    {
+        var cut = await RenderAsync();
+
+        Assert.Empty(cut.FindAll("pre code"));
+        Assert.NotNull(cut.Find("#theme-code-empty #theme-generate-code"));
+
+        cut.Find("#theme-generate-code").Click();
+
+        Assert.Contains("public static class Theme", cut.Find("pre code").TextContent);
+        Assert.Empty(cut.FindAll("#theme-code-empty"));
+        Assert.Equal("Theme.cs generated", cut.Find("#theme-code [role=status]").TextContent);
+    }
+
+    [Theory]
+    [InlineData("#theme-generate-header")]
+    [InlineData("#theme-generate-panel")]
+    public async Task GeneratingTheTheme_MovesFocusToIt(string button)
+    {
+        var cut = await RenderAsync();
+
+        cut.Find(button).Click();
+
+        var heading = cut.Find("#theme-code-heading");
+        Assert.Equal("-1", heading.GetAttribute("tabindex"));
+        Assert.Contains(TestContext.JSInterop.Invocations, invocation => invocation.Identifier == "Blazor._internal.domWrapper.focus");
+    }
+
+    [Fact]
+    public async Task ChangingASetting_AfterGenerating_MarksTheThemeOutOfDate_UntilItIsGeneratedAgain()
+    {
+        var cut = await RenderAsync();
+        cut.Find("#theme-generate-panel").Click();
+        Assert.Empty(cut.FindAll("#theme-code-stale"));
+        var before = cut.Find("pre code").TextContent;
+
+        cut.Find("#theme-preset-ocean").Click();
+
+        Assert.Contains("changed since this was generated", cut.Find("#theme-code-stale").TextContent);
+        Assert.Equal(before, cut.Find("pre code").TextContent);
+
+        cut.Find("#theme-generate-code").Click();
+
+        Assert.Empty(cut.FindAll("#theme-code-stale"));
+        Assert.NotEqual(before, cut.Find("pre code").TextContent);
+    }
+
+    [Fact]
+    public async Task ThePreview_OnlyRerenders_WhenItsVersionChanges()
+    {
+        var selected = new HashSet<string> { "TwButton", "TwLineChart" };
+        var preview = TestContext.Render<ThemeBuilderPreview>(parameters => parameters
+            .Add(p => p.Version, 1)
+            .Add(p => p.Colors, ThemeColorFamily.All.ToDictionary(f => f.Name, f => f.DefaultHex))
+            .Add(p => p.OnColors, ThemeColorFamily.All.ToDictionary(f => f.Name, _ => OnColorMode.Auto))
+            .Add(p => p.Defaults, ThemeDefaults.Default)
+            .Add(p => p.Selected, selected));
+
+        // The charts follow in a render of the preview's own just after the first, which would pick up the set
+        // changed below. Waiting for it means only the parent's renders are left to skip.
+        await preview.WaitForElementAsync("#preview-charts");
+        await preview.InvokeAsync(() => { });
+        Assert.Empty(preview.FindAll("h3:contains('Alerts')"));
+
+        selected.Add("TwAlert");
+        preview.Render(parameters => parameters.Add(p => p.Version, 1));
+
+        Assert.Empty(preview.FindAll("h3:contains('Alerts')"));
+
+        preview.Render(parameters => parameters.Add(p => p.Version, 2));
+
+        Assert.NotEmpty(preview.FindAll("h3:contains('Alerts')"));
+    }
+
+    [Fact]
+    public async Task TheChartsAndDataTable_RenderJustAfterTheRestOfThePreview()
+    {
+        var preview = TestContext.Render<ThemeBuilderPreview>(parameters => parameters
+            .Add(p => p.Version, 1)
+            .Add(p => p.Colors, ThemeColorFamily.All.ToDictionary(f => f.Name, f => f.DefaultHex))
+            .Add(p => p.OnColors, ThemeColorFamily.All.ToDictionary(f => f.Name, _ => OnColorMode.Auto))
+            .Add(p => p.Defaults, ThemeDefaults.Default)
+            .Add(p => p.Selected, ThemeBuilderPreview.SampledComponents.ToHashSet()));
+
+        await preview.WaitForAssertionAsync(() =>
+        {
+            Assert.Equal(6, preview.FindComponents<TwChart>().Count);
+            Assert.Contains(preview.FindAll("h3"), heading => heading.TextContent == "Data table");
+        });
+    }
+
+    [Fact]
+    public async Task TheThemeToggle_IsTheDocsOwn_AndSaysWhatItDid()
     {
         TestContext.JSInterop.Setup<bool>("themeToggle.toggle").SetResult(true);
-        var cut = Render();
+        var cut = await RenderAsync();
         Assert.Equal("Switch to dark theme", cut.Find("#theme-toggle").GetAttribute("aria-label"));
         Assert.Empty(cut.FindAll("[id^='theme-mode-']"));
 
@@ -696,9 +846,9 @@ public class ThemePageTests : DocsTestBase
     #region Showing only the ticked components
 
     [Fact]
-    public void UntickingAComponent_HidesItsSample_AndTickingItBringsItBack()
+    public async Task UntickingAComponent_HidesItsSample_AndTickingItBringsItBack()
     {
-        var cut = RenderOnTab("Components");
+        var cut = await RenderOnTabAsync("Components");
         Assert.NotEmpty(cut.FindComponent<ThemeBuilderPreview>().FindComponents<TwSlider<int>>());
 
         cut.Find("#theme-component-twslider").Change(false);
@@ -714,9 +864,9 @@ public class ThemePageTests : DocsTestBase
     }
 
     [Fact]
-    public void UntickingAWholeGroup_RemovesItsSamples_AndLeavesTheRest()
+    public async Task UntickingAWholeGroup_RemovesItsSamples_AndLeavesTheRest()
     {
-        var cut = RenderOnTab("Components");
+        var cut = await RenderOnTabAsync("Components");
 
         cut.Find("#theme-group-charts").Change(false);
 
@@ -727,9 +877,9 @@ public class ThemePageTests : DocsTestBase
     }
 
     [Fact]
-    public void WithNothingTicked_TheSamplesAreReplacedByANote()
+    public async Task WithNothingTicked_TheSamplesAreReplacedByANote()
     {
-        var cut = RenderOnTab("Components");
+        var cut = await RenderOnTabAsync("Components");
 
         cut.Find("button:contains('Clear all')").Click();
 
@@ -738,9 +888,10 @@ public class ThemePageTests : DocsTestBase
     }
 
     [Fact]
-    public void EverySampledComponent_IsOneTheListOffers()
+    public async Task EverySampledComponent_IsOneTheListOffers()
     {
-        var offered = RenderOnTab("Components").FindAll("input[id^='theme-component-']").Select(box => box.Id!["theme-component-".Length..]).ToHashSet();
+        var cut = await RenderOnTabAsync("Components");
+        var offered = cut.FindAll("input[id^='theme-component-']").Select(box => box.Id!["theme-component-".Length..]).ToHashSet();
 
         Assert.All(ThemeBuilderPreview.SampledComponents, name => Assert.Contains(name.ToLowerInvariant(), offered));
     }
@@ -753,9 +904,9 @@ public class ThemePageTests : DocsTestBase
         cut.InvokeAsync(() => cut.FindComponents<TwColorPicker>().Single(picker => picker.Instance.Id == (dark ? "theme-surface-dark" : "theme-surface-light")).Instance.ValueChanged.InvokeAsync(hex));
 
     [Fact]
-    public void Surfaces_StartOnTheDefaultThemes_AndAddNothingToThePage()
+    public async Task Surfaces_StartOnTheDefaultThemes_AndAddNothingToThePage()
     {
-        var cut = Render();
+        var cut = await RenderAsync();
 
         Assert.Empty(cut.FindAll("#theme-builder-surfaces"));
         Assert.Contains("bg-[oklch(100%_0_0)] dark:bg-[oklch(25.33%_0.016_252.42)]", Code(cut));
@@ -766,7 +917,7 @@ public class ThemePageTests : DocsTestBase
     [Fact]
     public async Task PickingALightBackground_RewritesTheLightSurfaces_AndLeavesDarkModeAlone()
     {
-        var cut = Render();
+        var cut = await RenderAsync();
 
         await PickSurfaceAsync(cut, dark: false, "#fdf6e3");
 
@@ -781,7 +932,7 @@ public class ThemePageTests : DocsTestBase
     public async Task PickingABackground_RecolorsThisPageOnly()
     {
         var before = TestContext.Services.GetRequiredService<TwBlazor.Configuration.TwBlazorOptions>().Theme;
-        var cut = Render();
+        var cut = await RenderAsync();
 
         await PickSurfaceAsync(cut, dark: true, "#101820");
 
@@ -794,9 +945,9 @@ public class ThemePageTests : DocsTestBase
     }
 
     [Fact]
-    public void EachMode_HasACardsPicker_AndAPagePicker()
+    public async Task EachMode_HasACardsPicker_AndAPagePicker()
     {
-        var cut = Render();
+        var cut = await RenderAsync();
 
         var labels = cut.FindComponents<TwColorPicker>().Where(p => p.Instance.Id!.StartsWith("theme-surface-", StringComparison.Ordinal) || p.Instance.Id!.StartsWith("theme-body-", StringComparison.Ordinal)).Select(p => p.Instance.Label);
 
@@ -808,7 +959,7 @@ public class ThemePageTests : DocsTestBase
     [Fact]
     public async Task PickingAPageColor_WritesItIntoTheBodyToken_AndDeselectsTheExample()
     {
-        var cut = Render();
+        var cut = await RenderAsync();
         var before = Code(cut);
 
         await cut.InvokeAsync(() => cut.FindComponents<TwColorPicker>().Single(p => p.Instance.Id == "theme-body-dark").Instance.ValueChanged.InvokeAsync("#0b1020"));
@@ -825,7 +976,7 @@ public class ThemePageTests : DocsTestBase
     [Fact]
     public async Task ThePagePicker_ShowsWhereTheBodyEndsUp_WhenOnlyTheCardsChange()
     {
-        var cut = Render();
+        var cut = await RenderAsync();
 
         await PickSurfaceAsync(cut, dark: false, "#fdf6e3");
 
@@ -837,7 +988,7 @@ public class ThemePageTests : DocsTestBase
     [Fact]
     public async Task ResetSurfaces_AlsoPutsThePageBack()
     {
-        var cut = Render();
+        var cut = await RenderAsync();
         var original = Code(cut);
         await cut.InvokeAsync(() => cut.FindComponents<TwColorPicker>().Single(p => p.Instance.Id == "theme-body-light").Instance.ValueChanged.InvokeAsync("#eeeeee"));
 
@@ -847,9 +998,9 @@ public class ThemePageTests : DocsTestBase
     }
 
     [Fact]
-    public void TheSamples_SitOnThePageBody_SoTheCardsStandOut()
+    public async Task TheSamples_SitOnThePageBody_SoTheCardsStandOut()
     {
-        var cut = Render();
+        var cut = await RenderAsync();
 
         Assert.All(Theme.Colors.NeutralSurface.Body.Split(' '), token => Assert.Contains(token, cut.Find("#main-content").ClassList));
     }
@@ -857,7 +1008,7 @@ public class ThemePageTests : DocsTestBase
     [Fact]
     public async Task ABackgroundTheTextCannotBeReadOn_IsCalledOut()
     {
-        var cut = Render();
+        var cut = await RenderAsync();
 
         await PickSurfaceAsync(cut, dark: false, "#333333");
 
@@ -867,7 +1018,7 @@ public class ThemePageTests : DocsTestBase
     [Fact]
     public async Task ResetSurfaces_AndChoosingAnExample_BothPutTheDefaultSurfacesBack()
     {
-        var cut = Render();
+        var cut = await RenderAsync();
         var original = Code(cut);
 
         await PickSurfaceAsync(cut, dark: false, "#fdf6e3");

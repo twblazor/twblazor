@@ -801,7 +801,7 @@ public class TwSidebarTests : TwBlazorTestBase
     #region Navigation
 
     [Fact]
-    public void ShouldUpdate_ActiveLink_AfterClientSideNavigation()
+    public async Task ShouldUpdate_ActiveLink_AfterClientSideNavigation()
     {
         // Arrange - a layout hosting TwSidebar isn't re-rendered by client-side navigation, so
         // without a LocationChanged subscription the active-link highlight would never refresh.
@@ -818,12 +818,12 @@ public class TwSidebarTests : TwBlazorTestBase
         navigationManager.NavigateTo("/products");
 
         // Assert
-        cut.WaitForAssertion(() =>
+        await cut.WaitForAssertionAsync(() =>
             Assert.Equal("page", cut.Find("a[href='/products']").GetAttribute("aria-current")));
     }
 
     [Fact]
-    public void ShouldCloseSidebar_OnLocationChanged_WhenMobileViewport()
+    public async Task ShouldCloseSidebar_OnLocationChanged_WhenMobileViewport()
     {
         // Arrange - on mobile, IsSidebarOpen represents a transient overlay that should close once
         // a link inside it is followed, matching TwNavbar's own close-on-navigate behavior.
@@ -839,12 +839,12 @@ public class TwSidebarTests : TwBlazorTestBase
         navigationManager.NavigateTo("/some-other-page");
 
         // Assert
-        cut.WaitForAssertion(() =>
+        await cut.WaitForAssertionAsync(() =>
             Assert.Contains("-translate-x-full", cut.Find("nav[aria-label='sidebar navigation']").GetAttribute("class")));
     }
 
     [Fact]
-    public void ShouldNotCloseSidebar_OnLocationChanged_WhenDesktopViewport()
+    public async Task ShouldNotCloseSidebar_OnLocationChanged_WhenDesktopViewport()
     {
         // Arrange - on desktop, IsSidebarOpen represents a persistent panel (sidebarClasses has no
         // lg: reset), so navigating must never auto-close it there.
@@ -860,12 +860,12 @@ public class TwSidebarTests : TwBlazorTestBase
         navigationManager.NavigateTo("/some-other-page");
 
         // Assert
-        cut.WaitForAssertion(() =>
+        await cut.WaitForAssertionAsync(() =>
             Assert.Contains("translate-x-0", cut.Find("nav[aria-label='sidebar navigation']").GetAttribute("class")));
     }
 
     [Fact]
-    public void ShouldInvoke_IsSidebarOpenChanged_WhenClosedByLocationChanged()
+    public async Task ShouldInvoke_IsSidebarOpenChanged_WhenClosedByLocationChanged()
     {
         // Arrange
         TestContext.JSInterop.Setup<bool>("twSidebar.isMobileViewport").SetResult(true);
@@ -888,7 +888,7 @@ public class TwSidebarTests : TwBlazorTestBase
         navigationManager.NavigateTo("/some-other-page");
 
         // Assert
-        cut.WaitForAssertion(() =>
+        await cut.WaitForAssertionAsync(() =>
         {
             Assert.True(invoked);
             Assert.False(received);
@@ -896,7 +896,7 @@ public class TwSidebarTests : TwBlazorTestBase
     }
 
     [Fact]
-    public void ShouldScrollMainContentToTop_OnLocationChanged()
+    public async Task ShouldScrollMainContentToTop_OnLocationChanged()
     {
         // Arrange
         var cut = TestContext.Render<TwSidebar>();
@@ -906,12 +906,12 @@ public class TwSidebarTests : TwBlazorTestBase
         navigationManager.NavigateTo("/some-other-page");
 
         // Assert
-        cut.WaitForAssertion(() =>
+        await cut.WaitForAssertionAsync(() =>
             Assert.Single(TestContext.JSInterop.Invocations["twSidebar.scrollToTop"]));
     }
 
     [Fact]
-    public void ShouldNotScrollMainContentToTop_OnLocationChanged_WhenNavigatingToFragment()
+    public async Task ShouldNotScrollMainContentToTop_OnLocationChanged_WhenNavigatingToFragment()
     {
         // Arrange
         TestContext.JSInterop.Setup<bool>("twSidebar.isMobileViewport").SetResult(false);
@@ -925,7 +925,7 @@ public class TwSidebarTests : TwBlazorTestBase
         navigationManager.NavigateTo("/some-other-page#section");
 
         // Assert - the location handler has run once its viewport check was invoked
-        cut.WaitForAssertion(() =>
+        await cut.WaitForAssertionAsync(() =>
             Assert.Single(TestContext.JSInterop.Invocations["twSidebar.isMobileViewport"]));
         Assert.Empty(TestContext.JSInterop.Invocations["twSidebar.scrollToTop"]);
     }

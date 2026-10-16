@@ -145,14 +145,14 @@ public class TwCalendarAllDayTests : TwBlazorTestBase
     }
 
     [Fact]
-    public void AllDayBar_OpensTheEventDialog_WhenClicked()
+    public async Task AllDayBar_OpensTheEventDialog_WhenClicked()
     {
         var provider = TestContext.Render<TwDialogProvider>();
         var cut = Render(TwCalendarView.Day, true, Event("Holiday", wednesday, wednesday.AddDays(1)));
 
         Strip(cut)!.QuerySelector("button")!.Click();
 
-        var dialog = provider.WaitForElement("[role='dialog']");
+        var dialog = await provider.WaitForElementAsync("[role='dialog']");
         Assert.Contains("Edit event", dialog.TextContent);
     }
 
@@ -196,18 +196,18 @@ public class TwCalendarAllDayTests : TwBlazorTestBase
     /// Re-finds and triggers until it lands: the drag-start handler's own renders can replace the
     /// strip's event handlers between a Find and the trigger, which bUnit reports as an unknown handler.
     /// </summary>
-    private static void DragEnterCell(IRenderedComponent<TwCalendar<string>> cut, int column) =>
-        cut.WaitForAssertion(() => Strip(cut)!.QuerySelectorAll("div[aria-hidden='true']")
+    private static Task DragEnterCellAsync(IRenderedComponent<TwCalendar<string>> cut, int column) =>
+        cut.WaitForAssertionAsync(() => Strip(cut)!.QuerySelectorAll("div[aria-hidden='true']")
             .Single(d => d.GetAttribute("style")!.StartsWith($"grid-column:{column};")).DragEnter(new DragEventArgs()));
 
-    private static void StartDrag(IRenderedComponent<TwCalendar<string>> cut, string name)
+    private static async Task StartDragAsync(IRenderedComponent<TwCalendar<string>> cut, string name)
     {
         cut.Find($"button[aria-label^='{name}']").DragStart(new DragEventArgs());
-        cut.WaitForAssertion(() => Assert.Contains("pointer-events-none", cut.Find($"button[aria-label^='{name}']").GetAttribute("class")));
+        await cut.WaitForAssertionAsync(() => Assert.Contains("pointer-events-none", cut.Find($"button[aria-label^='{name}']").GetAttribute("class")));
     }
 
     [Fact]
-    public void DraggingAnAllDayEvent_ToAnotherDay_MovesIt_KeepingMidnightAndLength()
+    public async Task DraggingAnAllDayEvent_ToAnotherDay_MovesIt_KeepingMidnightAndLength()
     {
         List<Schedule<string>>? saved = null;
         var evt = Event("Conference", wednesday, wednesday.AddDays(2));
@@ -218,17 +218,17 @@ public class TwCalendarAllDayTests : TwBlazorTestBase
             .Add(x => x.Schedules, [evt])
             .Add(x => x.SchedulesChanged, EventCallback.Factory.Create<List<Schedule<string>>>(this, l => saved = l)));
 
-        StartDrag(cut, "Conference");
-        cut.WaitForAssertion(() => Strip(cut)!.QuerySelectorAll("div[aria-hidden='true']").ToList()[4].Drop(new DragEventArgs())); // Friday
+        await StartDragAsync(cut, "Conference");
+        await cut.WaitForAssertionAsync(() => Strip(cut)!.QuerySelectorAll("div[aria-hidden='true']").ToList()[4].Drop(new DragEventArgs())); // Friday
 
-        cut.WaitForAssertion(() => Assert.NotNull(saved));
+        await cut.WaitForAssertionAsync(() => Assert.NotNull(saved));
         var moved = Assert.Single(saved!);
         Assert.Equal(new DateTimeOffset(wednesday.AddDays(2), TimeSpan.Zero), moved.DateTimeStart);
         Assert.Equal(new DateTimeOffset(wednesday.AddDays(4), TimeSpan.Zero), moved.DateTimeEnd);
     }
 
     [Fact]
-    public void DraggingAnAllDayEvent_OverTheTimeGrid_MovesItToThatDay_NotThatTime()
+    public async Task DraggingAnAllDayEvent_OverTheTimeGrid_MovesItToThatDay_NotThatTime()
     {
         List<Schedule<string>>? saved = null;
         var evt = Event("Conference", wednesday, wednesday.AddDays(1));
@@ -239,24 +239,24 @@ public class TwCalendarAllDayTests : TwBlazorTestBase
             .Add(x => x.Schedules, [evt])
             .Add(x => x.SchedulesChanged, EventCallback.Factory.Create<List<Schedule<string>>>(this, l => saved = l)));
 
-        StartDrag(cut, "Conference");
+        await StartDragAsync(cut, "Conference");
         var thursday = cut.FindComponents<TwCalendarDayColumn<string>>()[3];
         thursday.Find("button[aria-label='14:00']").Drop(new DragEventArgs());
 
-        cut.WaitForAssertion(() => Assert.NotNull(saved));
+        await cut.WaitForAssertionAsync(() => Assert.NotNull(saved));
         Assert.Equal(new DateTimeOffset(wednesday.AddDays(1), TimeSpan.Zero), Assert.Single(saved!).DateTimeStart);
     }
 
     [Fact]
-    public void DraggingAnAllDayEvent_ShowsAPlaceholderInTheStrip_AtTheHoveredDay_SizedToItsLength()
+    public async Task DraggingAnAllDayEvent_ShowsAPlaceholderInTheStrip_AtTheHoveredDay_SizedToItsLength()
     {
         var evt = Event("Conference", wednesday, wednesday.AddDays(2)); // two days
         var cut = Render(TwCalendarView.Week, true, evt);
 
-        StartDrag(cut, "Conference");
-        DragEnterCell(cut, 6); // Saturday
+        await StartDragAsync(cut, "Conference");
+        await DragEnterCellAsync(cut, 6); // Saturday
 
-        cut.WaitForAssertion(() =>
+        await cut.WaitForAssertionAsync(() =>
         {
             var placeholder = Strip(cut)!.QuerySelectorAll("div[aria-hidden='true']").Single(d => d.ClassList.Contains("border-dashed"));
             Assert.Contains("grid-column:6 / span 2", placeholder.GetAttribute("style"));
@@ -264,15 +264,15 @@ public class TwCalendarAllDayTests : TwBlazorTestBase
     }
 
     [Fact]
-    public void DraggingAnAllDayEvent_PlaceholderIsClippedAtTheEndOfTheWeek()
+    public async Task DraggingAnAllDayEvent_PlaceholderIsClippedAtTheEndOfTheWeek()
     {
         var evt = Event("Conference", wednesday, wednesday.AddDays(3)); // three days
         var cut = Render(TwCalendarView.Week, true, evt);
 
-        StartDrag(cut, "Conference");
-        DragEnterCell(cut, 7); // Sunday
+        await StartDragAsync(cut, "Conference");
+        await DragEnterCellAsync(cut, 7); // Sunday
 
-        cut.WaitForAssertion(() =>
+        await cut.WaitForAssertionAsync(() =>
         {
             var placeholder = Strip(cut)!.QuerySelectorAll("div[aria-hidden='true']").Single(d => d.ClassList.Contains("border-dashed"));
             Assert.Contains("grid-column:7 / span 1", placeholder.GetAttribute("style"));
@@ -280,19 +280,19 @@ public class TwCalendarAllDayTests : TwBlazorTestBase
     }
 
     [Fact]
-    public void DraggingAnAllDayEvent_DoesNotShowATimedPlaceholderInTheGrid()
+    public async Task DraggingAnAllDayEvent_DoesNotShowATimedPlaceholderInTheGrid()
     {
         var evt = Event("Conference", wednesday, wednesday.AddDays(1));
         var cut = Render(TwCalendarView.Day, true, evt);
 
-        StartDrag(cut, "Conference");
+        await StartDragAsync(cut, "Conference");
         cut.FindComponent<TwCalendarDayColumn<string>>().Find("button[aria-label='10:00']").DragEnter(new DragEventArgs());
 
         Assert.Empty(cut.FindComponent<TwCalendarDayColumn<string>>().FindAll("div[aria-hidden='true']"));
     }
 
     [Fact]
-    public void DraggingATimedEvent_OverTheStrip_DoesNotMoveIt()
+    public async Task DraggingATimedEvent_OverTheStrip_DoesNotMoveIt()
     {
         List<Schedule<string>>? saved = null;
         var timed = Event("Standup", wednesday.AddHours(9), wednesday.AddHours(10));
@@ -304,7 +304,7 @@ public class TwCalendarAllDayTests : TwBlazorTestBase
             .Add(x => x.Schedules, [timed, allDay])
             .Add(x => x.SchedulesChanged, EventCallback.Factory.Create<List<Schedule<string>>>(this, l => saved = l)));
 
-        StartDrag(cut, "Standup");
+        await StartDragAsync(cut, "Standup");
         Strip(cut)!.QuerySelectorAll("div[aria-hidden='true']")[0].Drop(new DragEventArgs());
 
         Assert.Null(saved);
@@ -327,18 +327,18 @@ public class TwCalendarAllDayTests : TwBlazorTestBase
     }
 
     [Fact]
-    public void DragEnd_ClearsTheStripPlaceholder_AndRestoresBars()
+    public async Task DragEnd_ClearsTheStripPlaceholder_AndRestoresBars()
     {
         var evt = Event("Conference", wednesday, wednesday.AddDays(1));
         var cut = Render(TwCalendarView.Week, true, evt);
 
-        StartDrag(cut, "Conference");
-        DragEnterCell(cut, 2);
-        cut.WaitForAssertion(() => Assert.Contains(Strip(cut)!.QuerySelectorAll("div[aria-hidden='true']"), d => d.ClassList.Contains("border-dashed")));
+        await StartDragAsync(cut, "Conference");
+        await DragEnterCellAsync(cut, 2);
+        await cut.WaitForAssertionAsync(() => Assert.Contains(Strip(cut)!.QuerySelectorAll("div[aria-hidden='true']"), d => d.ClassList.Contains("border-dashed")));
 
         Strip(cut)!.QuerySelector("button")!.DragEnd(new DragEventArgs());
 
-        cut.WaitForAssertion(() =>
+        await cut.WaitForAssertionAsync(() =>
         {
             Assert.DoesNotContain(Strip(cut)!.QuerySelectorAll("div[aria-hidden='true']"), d => d.ClassList.Contains("border-dashed"));
             Assert.DoesNotContain("pointer-events-none", Strip(cut)!.QuerySelector("button")!.GetAttribute("class"));

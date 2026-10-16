@@ -31,7 +31,7 @@ public class TwDialogProviderTests : TwBlazorTestBase
 
         // Act
         await DialogService.ShowAsync<DialogTestContent>("Greeting", new TwDialogParameters { ["Message"] = "Hello" });
-        cut.WaitForState(() => cut.FindAll("[role='dialog']").Count > 0);
+        await cut.WaitForStateAsync(() => cut.FindAll("[role='dialog']").Count > 0);
 
         // Assert
         Assert.Single(cut.FindAll("[role='dialog']"));
@@ -48,7 +48,7 @@ public class TwDialogProviderTests : TwBlazorTestBase
         // Act
         await DialogService.ShowAsync<DialogTestContent>("First", new TwDialogParameters { ["Message"] = "One" });
         await DialogService.ShowAsync<DialogTestContent>("Second", new TwDialogParameters { ["Message"] = "Two" });
-        cut.WaitForState(() => cut.FindAll("[role='dialog']").Count == 2);
+        await cut.WaitForStateAsync(() => cut.FindAll("[role='dialog']").Count == 2);
 
         // Assert
         Assert.Equal(2, cut.FindAll("[role='dialog']").Count);
@@ -62,11 +62,11 @@ public class TwDialogProviderTests : TwBlazorTestBase
         // Arrange
         var cut = TestContext.Render<TwDialogProvider>();
         var reference = await DialogService.ShowAsync<DialogTestContent>("Closable");
-        cut.WaitForState(() => cut.FindAll("[role='dialog']").Count > 0);
+        await cut.WaitForStateAsync(() => cut.FindAll("[role='dialog']").Count > 0);
 
         // Act
         reference.Close();
-        cut.WaitForState(() => cut.FindAll("[role='dialog']").Count == 0);
+        await cut.WaitForStateAsync(() => cut.FindAll("[role='dialog']").Count == 0);
 
         // Assert
         Assert.Empty(cut.FindAll("[role='dialog']"));
@@ -79,11 +79,11 @@ public class TwDialogProviderTests : TwBlazorTestBase
         var cut = TestContext.Render<TwDialogProvider>();
         var reference1 = await DialogService.ShowAsync<DialogTestContent>("Keep me visible");
         await DialogService.ShowAsync<DialogTestContent>("Close me");
-        cut.WaitForState(() => cut.FindAll("[role='dialog']").Count == 2);
+        await cut.WaitForStateAsync(() => cut.FindAll("[role='dialog']").Count == 2);
 
         // Act
         reference1.Close();
-        cut.WaitForState(() => cut.FindAll("[role='dialog']").Count == 1);
+        await cut.WaitForStateAsync(() => cut.FindAll("[role='dialog']").Count == 1);
 
         // Assert
         Assert.Single(cut.FindAll("[role='dialog']"));
@@ -97,11 +97,11 @@ public class TwDialogProviderTests : TwBlazorTestBase
         // Arrange
         var cut = TestContext.Render<TwDialogProvider>();
         var reference = await DialogService.ShowAsync<DialogTestContent>();
-        cut.WaitForState(() => cut.FindAll("[role='dialog']").Count > 0);
+        await cut.WaitForStateAsync(() => cut.FindAll("[role='dialog']").Count > 0);
 
         // Act
         reference.Close(TwDialogResult.Ok("done"));
-        cut.WaitForState(() => reference.Result.IsCompleted);
+        await cut.WaitForStateAsync(() => reference.Result.IsCompleted);
 
         // Assert
         var result = await reference.Result;
@@ -255,7 +255,7 @@ public class TwDialogProviderTests : TwBlazorTestBase
 
         // Act
         await DialogService.ShowAsync<DialogTestContent>("Greeting");
-        cut.WaitForState(() => cut.FindAll("[role='dialog']").Count > 0);
+        await cut.WaitForStateAsync(() => cut.FindAll("[role='dialog']").Count > 0);
 
         // Assert
         Assert.Contains(TestContext.JSInterop.Invocations, i => i.Identifier == "twDialog.captureFocus");
@@ -270,9 +270,9 @@ public class TwDialogProviderTests : TwBlazorTestBase
 
         // Act
         await DialogService.ShowAsync<DialogTestContent>("First");
-        cut.WaitForState(() => cut.FindAll("[role='dialog']").Count == 1);
+        await cut.WaitForStateAsync(() => cut.FindAll("[role='dialog']").Count == 1);
         await DialogService.ShowAsync<DialogTestContent>("Second");
-        cut.WaitForState(() => cut.FindAll("[role='dialog']").Count == 2);
+        await cut.WaitForStateAsync(() => cut.FindAll("[role='dialog']").Count == 2);
 
         // Assert
         Assert.Single(TestContext.JSInterop.Invocations, i => i.Identifier == "twDialog.setBackgroundInert");
@@ -285,11 +285,11 @@ public class TwDialogProviderTests : TwBlazorTestBase
         TestContext.JSInterop.Setup<string?>("twDialog.captureFocus").SetResult("tw-focus-token");
         var cut = TestContext.Render<TwDialogProvider>();
         var reference = await DialogService.ShowAsync<DialogTestContent>("Closable");
-        cut.WaitForState(() => cut.FindAll("[role='dialog']").Count > 0);
+        await cut.WaitForStateAsync(() => cut.FindAll("[role='dialog']").Count > 0);
 
         // Act
         reference.Close();
-        cut.WaitForState(() => cut.FindAll("[role='dialog']").Count == 0);
+        await cut.WaitForStateAsync(() => cut.FindAll("[role='dialog']").Count == 0);
 
         // Assert
         Assert.Contains(TestContext.JSInterop.Invocations, i => i.Identifier == "twDialog.clearBackgroundInert");
@@ -304,11 +304,11 @@ public class TwDialogProviderTests : TwBlazorTestBase
         var cut = TestContext.Render<TwDialogProvider>();
         var reference1 = await DialogService.ShowAsync<DialogTestContent>("Keep me visible");
         await DialogService.ShowAsync<DialogTestContent>("Close me");
-        cut.WaitForState(() => cut.FindAll("[role='dialog']").Count == 2);
+        await cut.WaitForStateAsync(() => cut.FindAll("[role='dialog']").Count == 2);
 
         // Act
         reference1.Close();
-        cut.WaitForState(() => cut.FindAll("[role='dialog']").Count == 1);
+        await cut.WaitForStateAsync(() => cut.FindAll("[role='dialog']").Count == 1);
 
         // Assert
         Assert.DoesNotContain(TestContext.JSInterop.Invocations, i => i.Identifier == "twDialog.clearBackgroundInert");
@@ -321,11 +321,11 @@ public class TwDialogProviderTests : TwBlazorTestBase
         TestContext.JSInterop.Setup<string?>("twDialog.captureFocus").SetResult(null);
         var cut = TestContext.Render<TwDialogProvider>();
         var reference = await DialogService.ShowAsync<DialogTestContent>("Closable");
-        cut.WaitForState(() => cut.FindAll("[role='dialog']").Count > 0);
+        await cut.WaitForStateAsync(() => cut.FindAll("[role='dialog']").Count > 0);
 
         // Act
         reference.Close();
-        cut.WaitForState(() => cut.FindAll("[role='dialog']").Count == 0);
+        await cut.WaitForStateAsync(() => cut.FindAll("[role='dialog']").Count == 0);
 
         // Assert
         Assert.DoesNotContain(TestContext.JSInterop.Invocations, i => i.Identifier == "twDialog.restoreFocus");
@@ -363,13 +363,13 @@ public class TwDialogProviderTests : TwBlazorTestBase
         // Arrange
         var cut = TestContext.Render<TwDialogProvider>();
         var reference = await DialogService.ShowAsync<DialogTestContent>("Closable");
-        cut.WaitForState(() => cut.FindAll("[role='dialog']").Count > 0);
+        await cut.WaitForStateAsync(() => cut.FindAll("[role='dialog']").Count > 0);
         TestContext.JSInterop.SetupVoid("twDialog.clearBackgroundInert")
             .SetException(new JSDisconnectedException("Circuit disconnected"));
 
         // Act & Assert - should not throw
         reference.Close();
-        cut.WaitForState(() => cut.FindAll("[role='dialog']").Count == 0);
+        await cut.WaitForStateAsync(() => cut.FindAll("[role='dialog']").Count == 0);
 
         // Verify dialogs are fully cleared despite exception
         Assert.Empty(cut.FindAll("[role='dialog']"));
@@ -381,7 +381,7 @@ public class TwDialogProviderTests : TwBlazorTestBase
         // Arrange
         var cut = TestContext.Render<TwDialogProvider>();
         await DialogService.ShowAsync<DialogTestContent>("Still open");
-        cut.WaitForState(() => cut.FindAll("[role='dialog']").Count > 0);
+        await cut.WaitForStateAsync(() => cut.FindAll("[role='dialog']").Count > 0);
 
         // Act
         cut.Instance.Dispose();
@@ -409,7 +409,7 @@ public class TwDialogProviderTests : TwBlazorTestBase
         // Arrange
         var cut = TestContext.Render<TwDialogProvider>();
         await DialogService.ShowAsync<DialogTestContent>("Still open");
-        cut.WaitForState(() => cut.FindAll("[role='dialog']").Count > 0);
+        await cut.WaitForStateAsync(() => cut.FindAll("[role='dialog']").Count > 0);
         TestContext.JSInterop.SetupVoid("twDialog.clearBackgroundInert")
             .SetException(new JSDisconnectedException("Circuit disconnected"));
 

@@ -100,15 +100,22 @@ public partial class TwCodeBlock : TwBlazorComponentBase, IAsyncDisposable
     private ElementReference codeBlock { get; set; }
 
     /// <summary>
-    /// Highlights the code element on first render. Interop failures are suppressed so rendering never fails.
+    /// The content the code element was last highlighted with, or <see langword="null"/> before the first highlight.
+    /// </summary>
+    private string? highlightedContent;
+
+    /// <summary>
+    /// Highlights the code element on first render and again whenever <see cref="Content"/> changes. Interop
+    /// failures are suppressed so rendering never fails.
     /// </summary>
     /// <param name="firstRender">Whether this is the first time the component has rendered.</param>
     /// <returns>A task that completes once highlighting has finished or been abandoned.</returns>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (!firstRender)
+        if (!firstRender && highlightedContent == Content)
             return;
 
+        highlightedContent = Content;
         cancellationTokenSource ??= new CancellationTokenSource();
 
         try

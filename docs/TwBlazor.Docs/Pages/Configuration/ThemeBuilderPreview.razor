@@ -12,7 +12,7 @@
 
     @if (Has("TwNavbar"))
     {
-        <TwNavbar AriaLabel="Example site navigation" DisableResponsiveCollapse>
+        <TwNavbar AriaLabel="Example site navigation">
             <BrandContent>
                 <span class="flex items-center gap-2 font-bold tracking-tight @Options.Theme.Colors.NeutralText.Heading">
                     <TwIcon Icon="Icon.Lightning_Charge_Fill" /> Acme
@@ -369,23 +369,6 @@
             </TwCard>
         }
 
-        @if (Has("TwBarcode"))
-        {
-            <TwCard Title="Barcode" Class="@cardClass" @attributes="look">
-                <TwBarcode Id="preview-barcode" Value="5012345678900" Format="BarcodeFormat.Ean13" Size="BarcodeSize.Small" />
-            </TwCard>
-        }
-
-        @if (Has("TwQrCode"))
-        {
-            <TwCard Title="QR code" Class="@cardClass" @attributes="look">
-                <div class="flex items-center gap-4">
-                    <TwQrCode Id="preview-qr-code" Value="https://twblazor.com" Size="QrCodeSize.Small" Rounded="@Defaults.Rounded" />
-                    <p class="text-sm">Scan to visit twblazor.com</p>
-                </div>
-            </TwCard>
-        }
-
         @if (Has("TwTreeList"))
         {
             <TwCard Title="Tree list" Class="@cardClass" @attributes="look">
@@ -409,9 +392,28 @@
                 <TwPickList TItem="string" @bind-SourceItems="availableToppings" @bind-TargetItems="chosenToppings" SourceLabel="Available" TargetLabel="Chosen" AriaLabel="Topping picker" Rounded="@Defaults.Rounded" />
             </TwCard>
         }
+
+        @if (Has("TwBarcode", "TwQrCode"))
+        {
+            <TwCard Title="Encoding" Class="@cardClass" @attributes="look">
+                <div class="flex flex-col gap-4">
+                    @if (Has("TwBarcode"))
+                    {
+                        <TwBarcode Id="preview-barcode" Value="5012345678900" Format="BarcodeFormat.Ean13" Size="BarcodeSize.Small" />
+                    }
+                    @if (Has("TwQrCode"))
+                    {
+                        <div class="flex items-center gap-4">
+                            <TwQrCode Id="preview-qr-code" Value="https://twblazor.com" Size="QrCodeSize.Small" Rounded="@Defaults.Rounded" />
+                            <p class="text-sm">Scan to visit twblazor.com</p>
+                        </div>
+                    }
+                </div>
+            </TwCard>
+        }
     </div>
 
-    @if (Has(_charts))
+    @if (showLateSamples && Has(_charts))
     {
         @* The charts are all the same height, so a plain grid fills every row. *@
         <div id="preview-charts" class="@chartGridClass">
@@ -466,7 +468,7 @@
         </div>
     }
 
-    @if (Has("TwDataTable"))
+    @if (showLateSamples && Has("TwDataTable"))
     {
         <TwCard Title="Data table" Class="min-w-0" @attributes="look">
             <TwDataTable TItem="Order" Items="@orders" Searchable Pageable RowsPerPage="5" Rounded="@Defaults.Rounded">
@@ -628,13 +630,64 @@
     /// </summary>
     [Parameter, EditorRequired] public IReadOnlySet<string> Selected { get; set; } = new HashSet<string>();
 
+    /// <summary>
+    /// Changes whenever anything this preview shows changes. The other parameters are mutable collections, which
+    /// Blazor always treats as changed, so this is what tells a real change from the page re-rendering for an
+    /// unrelated reason such as a tab, a filter or the dark mode toggle.
+    /// </summary>
+    [Parameter] public int Version { get; set; }
+
     private string secondaryText => Options.Theme.Colors.NeutralText.Secondary;
 
-    private Dictionary<string, object> look => new()
+    private int renderedVersion = -1;
+
+    private bool skipRender;
+
+    // The charts and data table are the heaviest samples, so they follow once the rest has been painted.
+    private bool showLateSamples;
+
+    private Dictionary<string, object> look = [];
+
+    /// <inheritdoc />
+    protected override void OnParametersSet()
     {
-        [nameof(TwCard.Rounded)] = Defaults.Rounded,
-        [nameof(TwCard.Shadow)] = Defaults.Shadow
-    };
+        // Renders from the samples' own events still go through: only a parent render with nothing new is skipped.
+        skipRender = Version == renderedVersion;
+        if (skipRender)
+            return;
+
+        renderedVersion = Version;
+        look = new()
+        {
+            [nameof(TwCard.Rounded)] = Defaults.Rounded,
+            [nameof(TwCard.Shadow)] = Defaults.Shadow
+        };
+    }
+
+    /// <inheritdoc />
+    protected override bool ShouldRender()
+    {
+        if (!skipRender)
+            return true;
+
+        skipRender = false;
+        return false;
+    }
+
+    /// <inheritdoc />
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender)
+            return;
+
+        // A real delay rather than a yield, so the browser gets to paint the first samples before the rest render.
+        await Task.Delay(1);
+        await InvokeAsync(() =>
+        {
+            showLateSamples = true;
+            StateHasChanged();
+        });
+    }
 
     private Dictionary<string, object> InputLook() => new(look) { [nameof(TwTextfield<string>.Variant)] = Defaults.InputVariant };
 

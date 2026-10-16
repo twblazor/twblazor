@@ -6,22 +6,22 @@ namespace TwBlazor.Docs.Tests.Layout;
 
 public class PageSeoTests : DocsTestBase
 {
-    private IRenderedComponent<HeadOutlet> RenderHead(string path = "/card")
+    private async Task<IRenderedComponent<HeadOutlet>> RenderHeadAsync(string path = "/card")
     {
         var head = TestContext.Render<HeadOutlet>();
         TestContext.Render<PageSeo>(parameters => parameters
             .Add(p => p.Title, "TwCard | twblazor - Blazor Card Component")
             .Add(p => p.Description, "TwCard is a Blazor card component.")
             .Add(p => p.Path, path));
-        head.WaitForState(() => head.Markup.Contains("canonical"));
+        await head.WaitForStateAsync(() => head.Markup.Contains("canonical"));
         return head;
     }
 
     [Fact]
-    public void Render_EmitsTheCanonicalUrlAsAnAbsoluteAddress()
+    public async Task Render_EmitsTheCanonicalUrlAsAnAbsoluteAddress()
     {
         // Arrange & Act
-        var head = RenderHead("/card");
+        var head = await RenderHeadAsync("/card");
 
         // Assert
         Assert.Equal("https://twblazor.com/card", head.Find("link[rel='canonical']").GetAttribute("href"));
@@ -29,10 +29,10 @@ public class PageSeoTests : DocsTestBase
     }
 
     [Fact]
-    public void Render_UsesOneDescriptionAndTitleAcrossMetaOpenGraphAndTwitter()
+    public async Task Render_UsesOneDescriptionAndTitleAcrossMetaOpenGraphAndTwitter()
     {
         // Arrange & Act
-        var head = RenderHead();
+        var head = await RenderHeadAsync();
 
         // Assert
         Assert.Equal("TwCard is a Blazor card component.", head.Find("meta[name='description']").GetAttribute("content"));
@@ -43,10 +43,10 @@ public class PageSeoTests : DocsTestBase
     }
 
     [Fact]
-    public void Render_UsesTheLargePngSocialImageWithItsDimensionsAndAltText()
+    public async Task Render_UsesTheLargePngSocialImageWithItsDimensionsAndAltText()
     {
         // Arrange & Act
-        var head = RenderHead();
+        var head = await RenderHeadAsync();
 
         // Assert - Facebook, LinkedIn and X don't render SVG, and "summary_large_image" needs a wide image.
         var image = head.Find("meta[property='og:image']").GetAttribute("content");
@@ -60,10 +60,10 @@ public class PageSeoTests : DocsTestBase
     }
 
     [Fact]
-    public void Render_DeclaresTheSiteNameAndLocale()
+    public async Task Render_DeclaresTheSiteNameAndLocale()
     {
         // Arrange & Act
-        var head = RenderHead();
+        var head = await RenderHeadAsync();
 
         // Assert
         Assert.Equal("twblazor", head.Find("meta[property='og:site_name']").GetAttribute("content"));
@@ -71,7 +71,7 @@ public class PageSeoTests : DocsTestBase
     }
 
     [Fact]
-    public void Render_EmitsEachJsonLdDocumentInItsOwnScript()
+    public async Task Render_EmitsEachJsonLdDocumentInItsOwnScript()
     {
         // Arrange
         var head = TestContext.Render<HeadOutlet>();
@@ -82,7 +82,7 @@ public class PageSeoTests : DocsTestBase
             .Add(p => p.Description, "D")
             .Add(p => p.Path, "/card")
             .Add(p => p.JsonLd, ["{\"a\":1}", "{\"b\":2}"]));
-        head.WaitForState(() => head.Markup.Contains("ld+json"));
+        await head.WaitForStateAsync(() => head.Markup.Contains("ld+json"));
 
         // Assert
         var scripts = head.FindAll("script[type='application/ld+json']");
@@ -90,20 +90,20 @@ public class PageSeoTests : DocsTestBase
     }
 
     [Fact]
-    public void Render_EmitsNoJsonLd_WhenNoneIsGiven()
+    public async Task Render_EmitsNoJsonLd_WhenNoneIsGiven()
     {
         // Arrange & Act
-        var head = RenderHead();
+        var head = await RenderHeadAsync();
 
         // Assert
         Assert.Empty(head.FindAll("script[type='application/ld+json']"));
     }
 
     [Fact]
-    public void Render_OmitsUpdatedTime_WhenNoDateIsKnownForThePage()
+    public async Task Render_OmitsUpdatedTime_WhenNoDateIsKnownForThePage()
     {
         // Arrange & Act
-        var head = RenderHead("/no-such-page");
+        var head = await RenderHeadAsync("/no-such-page");
 
         // Assert
         Assert.Empty(head.FindAll("meta[property='og:updated_time']"));

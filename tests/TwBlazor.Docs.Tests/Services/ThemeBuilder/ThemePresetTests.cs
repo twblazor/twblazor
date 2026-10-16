@@ -109,12 +109,70 @@ public class ThemePresetTests
     [Fact]
     public void EveryPresetsSurfaces_AreOnlySlightlyTinted_AndKeepTheTextAAA()
     {
-        foreach (var preset in ThemePreset._all)
+        foreach (var preset in ThemePreset._all.Where(p => !ThemePreset.HasClearlyTintedSurfaces(p.Tone)))
         {
             Assert.True(OklchColor.TryParseHex(preset.Surfaces.Light, out var light));
             Assert.True(light.Lightness >= 0.98, $"{preset.Name} light {light.Lightness}");
             Assert.True(light.Chroma <= 0.015, $"{preset.Name} light chroma {light.Chroma}");
             Assert.True(ThemeSurface.TextContrast(preset.Surfaces.Light, dark: false) >= 7, $"{preset.Name} light");
+            Assert.True(ThemeSurface.TextContrast(preset.Surfaces.Dark, dark: true) >= 7, $"{preset.Name} dark");
+        }
+    }
+
+    [Fact]
+    public void ThereAreTwentyPastelThemes()
+    {
+        Assert.Equal(20, ThemePreset._all.Count(p => p.Tone == ThemeTone.Pastel));
+    }
+
+    [Theory]
+    [InlineData("Vivid", 10)]
+    [InlineData("Fun", 10)]
+    public void ThereAreVividAndFunThemes(string tone, int count)
+    {
+        Assert.Equal(count, ThemePreset._all.Count(p => p.Tone == Enum.Parse<ThemeTone>(tone)));
+    }
+
+    [Theory]
+    [InlineData("Terminal")]
+    [InlineData("Synthwave")]
+    [InlineData("Handheld")]
+    public void TheFunThemes_IncludeTheRetroOnes(string name)
+    {
+        Assert.Equal(ThemeTone.Fun, ThemePreset._all.Single(p => p.Name == name).Tone);
+    }
+
+    [Fact]
+    public void VividThemes_AreMoreSaturatedThanPastelOnes()
+    {
+        static double Chroma(ThemePreset preset) =>
+            OklchColor.TryParseHex(preset.Colors["Primary"], out var color) ? color.Chroma : 0;
+
+        var weakestVivid = ThemePreset._all.Where(p => p.Tone == ThemeTone.Vivid).Min(Chroma);
+        var strongestPastel = ThemePreset._all.Where(p => p.Tone == ThemeTone.Pastel).Max(Chroma);
+
+        Assert.True(weakestVivid > strongestPastel, $"{weakestVivid} vs {strongestPastel}");
+    }
+
+    [Fact]
+    public void ThePresets_AreGroupedByCategory_InTheOrderTheFiltersOffer()
+    {
+        var tones = ThemePreset._all.Skip(1).Select(p => p.Tone).ToList();
+
+        Assert.Equal(Enum.GetValues<ThemeTone>(), tones.Distinct());
+        Assert.Equal(tones.Distinct().Count(), tones.Zip(tones.Skip(1)).Count(pair => pair.First != pair.Second) + 1);
+    }
+
+    [Fact]
+    public void ClearlyTintedSurfaces_StillKeepTheTextAAA()
+    {
+        foreach (var preset in ThemePreset._all.Where(p => ThemePreset.HasClearlyTintedSurfaces(p.Tone)))
+        {
+            Assert.True(OklchColor.TryParseHex(preset.Surfaces.Light, out var light));
+            Assert.True(light.Lightness >= 0.96, $"{preset.Name} light {light.Lightness}");
+            Assert.True(light.Chroma >= 0.015, $"{preset.Name} light chroma {light.Chroma}");
+            Assert.True(ThemeSurface.TextContrast(preset.Surfaces.Light, dark: false) >= 7, $"{preset.Name} light");
+            Assert.True(ThemeSurface.TextContrast(ThemeSurface.EffectiveBody(preset.Surfaces, dark: false), dark: false) >= 7, $"{preset.Name} light body");
             Assert.True(ThemeSurface.TextContrast(preset.Surfaces.Dark, dark: true) >= 7, $"{preset.Name} dark");
         }
     }
@@ -147,6 +205,14 @@ public class ThemePresetTests
     public void APreset_IsFiledUnderItsColor(string name, string tone)
     {
         Assert.Equal(Enum.Parse<ThemeTone>(tone), ThemePreset._all.Single(p => p.Name == name).Tone);
+    }
+
+    [Theory]
+    [InlineData("Flamingo")]
+    [InlineData("Tangerine")]
+    public void APreset_UsesLargeCorners_RatherThanPills(string name)
+    {
+        Assert.Equal(TwBlazor.Enums.Rounded.Lg, ThemePreset._all.Single(p => p.Name == name).Defaults.Rounded);
     }
 
     [Fact]

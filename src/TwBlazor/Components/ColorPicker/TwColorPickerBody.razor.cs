@@ -124,6 +124,35 @@ public partial class TwColorPickerBody : TwBlazorComponentBase
     private bool isHueDragging = false;
     private bool isAlphaDragging = false;
 
+    // Mouse moves only reach .NET while a drag is in progress: an unconditional @onmousemove sent every
+    // pointer movement over the picker through interop and re-rendered it, even with no button held.
+    private EventCallback<MouseEventArgs> selectorMouseMove => WhileDragging<MouseEventArgs>(isSelectorDragging, OnSelectorMouseMove);
+
+    private EventCallback<MouseEventArgs> hueMouseMove => WhileDragging<MouseEventArgs>(isHueDragging, OnHueMouseMove);
+
+    private EventCallback<MouseEventArgs> alphaMouseMove => WhileDragging<MouseEventArgs>(isAlphaDragging, OnAlphaMouseMove);
+
+    private EventCallback<MouseEventArgs> selectorMouseLeave => WhileDragging<MouseEventArgs>(isSelectorDragging, OnSelectorMouseUp);
+
+    private EventCallback<MouseEventArgs> hueMouseLeave => WhileDragging<MouseEventArgs>(isHueDragging, OnHueMouseUp);
+
+    private EventCallback<MouseEventArgs> alphaMouseLeave => WhileDragging<MouseEventArgs>(isAlphaDragging, OnAlphaMouseUp);
+
+    /// <summary>
+    /// Gets <paramref name="handler"/> as an event callback while <paramref name="dragging"/>, otherwise an empty
+    /// callback, which leaves the listener off the element entirely.
+    /// </summary>
+    /// <typeparam name="TArgs">The event arguments type.</typeparam>
+    /// <param name="dragging">Whether a drag is in progress.</param>
+    /// <param name="handler">The handler to attach while dragging.</param>
+    /// <returns>The callback to bind.</returns>
+    private EventCallback<TArgs> WhileDragging<TArgs>(bool dragging, Func<TArgs, Task> handler) =>
+        dragging ? EventCallback.Factory.Create(this, handler) : default;
+
+    /// <inheritdoc cref="WhileDragging{TArgs}(bool, Func{TArgs, Task})"/>
+    private EventCallback<TArgs> WhileDragging<TArgs>(bool dragging, Action handler) =>
+        dragging ? EventCallback.Factory.Create<TArgs>(this, handler) : default;
+
     /// <summary>
     /// Reference to the saturation/lightness selector square, used by the parent <see cref="TwColorPicker"/>
     /// (via <c>twDialog.focusSurface</c>) as the first focusable control when the dialog opens.
@@ -293,17 +322,17 @@ public partial class TwColorPickerBody : TwBlazorComponentBase
         }
     }
 
-    private void UpdateColorFromHsl()
+    private async Task UpdateColorFromHsl()
     {
         (r, g, b) = ColorConverter.HslToRgb(hue, saturation, lightness);
-        UpdateAndNotify();
+        await UpdateAndNotify();
     }
 
-    private void UpdateAndNotify()
+    private async Task UpdateAndNotify()
     {
         var output = FormatColorOutput();
         hexInput = $"#{r:X2}{g:X2}{b:X2}";
-        ValueChanged.InvokeAsync(output);
+        await ValueChanged.InvokeAsync(output);
     }
 
     private string FormatColorOutput()
@@ -379,17 +408,17 @@ public partial class TwColorPickerBody : TwBlazorComponentBase
         return (position[0], position[1]);
     }
 
-    private void OnSelectorMouseDown(MouseEventArgs e)
+    private async Task OnSelectorMouseDown(MouseEventArgs e)
     {
         isSelectorDragging = true;
-        UpdateSelectorPosition(e.OffsetX, e.OffsetY);
+        await UpdateSelectorPosition(e.OffsetX, e.OffsetY);
     }
 
-    private void OnSelectorMouseMove(MouseEventArgs e)
+    private async Task OnSelectorMouseMove(MouseEventArgs e)
     {
         if (isSelectorDragging)
         {
-            UpdateSelectorPosition(e.OffsetX, e.OffsetY);
+            await UpdateSelectorPosition(e.OffsetX, e.OffsetY);
         }
     }
 
@@ -402,7 +431,7 @@ public partial class TwColorPickerBody : TwBlazorComponentBase
     {
         isSelectorDragging = true;
         (var x, var y) = await GetRelativeTouchPositionAsync(selectorRef, e);
-        UpdateSelectorPosition(x, y);
+        await UpdateSelectorPosition(x, y);
     }
 
     private async Task OnSelectorTouchMove(TouchEventArgs e)
@@ -413,16 +442,16 @@ public partial class TwColorPickerBody : TwBlazorComponentBase
         }
 
         (var x, var y) = await GetRelativeTouchPositionAsync(selectorRef, e);
-        UpdateSelectorPosition(x, y);
+        await UpdateSelectorPosition(x, y);
     }
 
     private void OnSelectorTouchEnd() => isSelectorDragging = false;
 
-    private void UpdateSelectorPosition(double offsetX, double offsetY)
+    private async Task UpdateSelectorPosition(double offsetX, double offsetY)
     {
         saturation = Math.Clamp(offsetX / selectorWidth, 0, 1);
         lightness = Math.Clamp(1 - (offsetY / selectorHeight), 0, 1);
-        UpdateColorFromHsl();
+        await UpdateColorFromHsl();
     }
 
     /// <summary>
@@ -430,7 +459,7 @@ public partial class TwColorPickerBody : TwBlazorComponentBase
     /// slider pattern: ArrowRight/ArrowLeft adjust saturation, ArrowUp/ArrowDown adjust lightness, and
     /// Home/End jump saturation to its minimum/maximum.
     /// </summary>
-    private void OnSelectorKeyDown(KeyboardEventArgs e)
+    private async Task OnSelectorKeyDown(KeyboardEventArgs e)
     {
         switch (e.Key)
         {
@@ -456,20 +485,20 @@ public partial class TwColorPickerBody : TwBlazorComponentBase
                 return;
         }
 
-        UpdateColorFromHsl();
+        await UpdateColorFromHsl();
     }
 
-    private void OnHueMouseDown(MouseEventArgs e)
+    private async Task OnHueMouseDown(MouseEventArgs e)
     {
         isHueDragging = true;
-        UpdateHuePosition(e.OffsetX);
+        await UpdateHuePosition(e.OffsetX);
     }
 
-    private void OnHueMouseMove(MouseEventArgs e)
+    private async Task OnHueMouseMove(MouseEventArgs e)
     {
         if (isHueDragging)
         {
-            UpdateHuePosition(e.OffsetX);
+            await UpdateHuePosition(e.OffsetX);
         }
     }
 
@@ -479,7 +508,7 @@ public partial class TwColorPickerBody : TwBlazorComponentBase
     {
         isHueDragging = true;
         (var x, var _) = await GetRelativeTouchPositionAsync(hueRef, e);
-        UpdateHuePosition(x);
+        await UpdateHuePosition(x);
     }
 
     private async Task OnHueTouchMove(TouchEventArgs e)
@@ -490,22 +519,22 @@ public partial class TwColorPickerBody : TwBlazorComponentBase
         }
 
         (var x, var _) = await GetRelativeTouchPositionAsync(hueRef, e);
-        UpdateHuePosition(x);
+        await UpdateHuePosition(x);
     }
 
     private void OnHueTouchEnd() => isHueDragging = false;
 
-    private void UpdateHuePosition(double offsetX)
+    private async Task UpdateHuePosition(double offsetX)
     {
         hue = Math.Clamp((offsetX / hueSliderWidth) * 360, 0, 360);
-        UpdateColorFromHsl();
+        await UpdateColorFromHsl();
     }
 
     /// <summary>
     /// Keyboard support for the hue role="slider", required by the WAI-ARIA APG slider pattern:
     /// ArrowRight/ArrowUp increase, ArrowLeft/ArrowDown decrease, Home/End jump to min/max.
     /// </summary>
-    private void OnHueKeyDown(KeyboardEventArgs e)
+    private async Task OnHueKeyDown(KeyboardEventArgs e)
     {
         switch (e.Key)
         {
@@ -527,20 +556,20 @@ public partial class TwColorPickerBody : TwBlazorComponentBase
                 return;
         }
 
-        UpdateColorFromHsl();
+        await UpdateColorFromHsl();
     }
 
-    private void OnAlphaMouseDown(MouseEventArgs e)
+    private async Task OnAlphaMouseDown(MouseEventArgs e)
     {
         isAlphaDragging = true;
-        UpdateAlphaPosition(e.OffsetX);
+        await UpdateAlphaPosition(e.OffsetX);
     }
 
-    private void OnAlphaMouseMove(MouseEventArgs e)
+    private async Task OnAlphaMouseMove(MouseEventArgs e)
     {
         if (isAlphaDragging)
         {
-            UpdateAlphaPosition(e.OffsetX);
+            await UpdateAlphaPosition(e.OffsetX);
         }
     }
 
@@ -550,7 +579,7 @@ public partial class TwColorPickerBody : TwBlazorComponentBase
     {
         isAlphaDragging = true;
         (var x, var _) = await GetRelativeTouchPositionAsync(alphaRef, e);
-        UpdateAlphaPosition(x);
+        await UpdateAlphaPosition(x);
     }
 
     private async Task OnAlphaTouchMove(TouchEventArgs e)
@@ -561,22 +590,22 @@ public partial class TwColorPickerBody : TwBlazorComponentBase
         }
 
         (var x, var _) = await GetRelativeTouchPositionAsync(alphaRef, e);
-        UpdateAlphaPosition(x);
+        await UpdateAlphaPosition(x);
     }
 
     private void OnAlphaTouchEnd() => isAlphaDragging = false;
 
-    private void UpdateAlphaPosition(double offsetX)
+    private async Task UpdateAlphaPosition(double offsetX)
     {
         alpha = Math.Clamp(offsetX / alphaSliderWidth, 0, 1);
-        UpdateAndNotify();
+        await UpdateAndNotify();
     }
 
     /// <summary>
     /// Keyboard support for the alpha role="slider", required by the WAI-ARIA APG slider pattern:
     /// ArrowRight/ArrowUp increase, ArrowLeft/ArrowDown decrease, Home/End jump to min/max.
     /// </summary>
-    private void OnAlphaKeyDown(KeyboardEventArgs e)
+    private async Task OnAlphaKeyDown(KeyboardEventArgs e)
     {
         switch (e.Key)
         {
@@ -598,10 +627,10 @@ public partial class TwColorPickerBody : TwBlazorComponentBase
                 return;
         }
 
-        UpdateAndNotify();
+        await UpdateAndNotify();
     }
 
-    private void OnRInputChanged(string red)
+    private async Task OnRInputChanged(string red)
     {
         var valid = int.TryParse(red, out r);
 
@@ -609,10 +638,10 @@ public partial class TwColorPickerBody : TwBlazorComponentBase
 
         r = Math.Clamp(r, 0, 255);
         (hue, saturation, lightness) = ColorConverter.RgbToHsl(r, g, b);
-        UpdateAndNotify();
+        await UpdateAndNotify();
     }
 
-    private void OnGInputChanged(string green)
+    private async Task OnGInputChanged(string green)
     {
         var valid = int.TryParse(green, out g);
 
@@ -620,10 +649,10 @@ public partial class TwColorPickerBody : TwBlazorComponentBase
 
         g = Math.Clamp(g, 0, 255);
         (hue, saturation, lightness) = ColorConverter.RgbToHsl(r, g, b);
-        UpdateAndNotify();
+        await UpdateAndNotify();
     }
 
-    private void OnBInputChanged(string blue)
+    private async Task OnBInputChanged(string blue)
     {
         var valid = int.TryParse(blue, out b);
 
@@ -631,12 +660,12 @@ public partial class TwColorPickerBody : TwBlazorComponentBase
 
         b = Math.Clamp(b, 0, 255);
         (hue, saturation, lightness) = ColorConverter.RgbToHsl(r, g, b);
-        UpdateAndNotify();
+        await UpdateAndNotify();
     }
 
     private void OnHexInputChanged(ChangeEventArgs e) => hexInput = e.Value?.ToString() ?? defaultColor;
 
-    private void OnHexInputCommitted()
+    private async Task OnHexInputCommitted()
     {
         var hex = hexInput?.Trim() ?? defaultColor;
         if (!hex.StartsWith('#')) hex = "#" + hex;
@@ -650,7 +679,7 @@ public partial class TwColorPickerBody : TwBlazorComponentBase
                 g = Convert.ToInt32(hexPart[2..4], 16);
                 b = Convert.ToInt32(hexPart[4..6], 16);
                 (hue, saturation, lightness) = ColorConverter.RgbToHsl(r, g, b);
-                UpdateAndNotify();
+                await UpdateAndNotify();
             }
             catch (FormatException)
             {
@@ -685,7 +714,7 @@ public partial class TwColorPickerBody : TwBlazorComponentBase
         b = Convert.ToInt32(hex[4..6], 16);
         (hue, saturation, lightness) = ColorConverter.RgbToHsl(r, g, b);
         UpdateInputsFromCurrentColor();
-        UpdateAndNotify();
+        await UpdateAndNotify();
     }
 
     private void OnCancel() => OnClose.InvokeAsync(false);
@@ -711,33 +740,33 @@ public partial class TwColorPickerBody : TwBlazorComponentBase
         l = (int)Math.Round(lightness * 100);
     }
 
-    private void OnHInputChanged(string hueValue)
+    private async Task OnHInputChanged(string hueValue)
     {
         if (int.TryParse(hueValue, out h))
         {
             h = Math.Clamp(h, 0, 360);
             hue = h;
-            UpdateColorFromHsl();
+            await UpdateColorFromHsl();
         }
     }
 
-    private void OnSInputChanged(string satValue)
+    private async Task OnSInputChanged(string satValue)
     {
         if (int.TryParse(satValue, out s))
         {
             s = Math.Clamp(s, 0, 100);
             saturation = s / 100.0;
-            UpdateColorFromHsl();
+            await UpdateColorFromHsl();
         }
     }
 
-    private void OnLInputChanged(string lightValue)
+    private async Task OnLInputChanged(string lightValue)
     {
         if (int.TryParse(lightValue, out l))
         {
             l = Math.Clamp(l, 0, 100);
             lightness = l / 100.0;
-            UpdateColorFromHsl();
+            await UpdateColorFromHsl();
         }
     }
 }

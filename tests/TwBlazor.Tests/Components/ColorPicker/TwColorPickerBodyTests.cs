@@ -1120,11 +1120,11 @@ public class TwColorPickerBodyTests : TwBlazorTestBase
             .Add(p => p.Value, "#FF0000")
             .Add(p => p.ValueChanged, value => changedValue = value));
 
-        // Act - mousemove WITHOUT prior mousedown (isSelectorDragging = false)
+        // Act - no prior mousedown (isSelectorDragging = false)
         var selector = cut.Find(".relative.w-full.h-48");
-        selector.MouseMove(new Microsoft.AspNetCore.Components.Web.MouseEventArgs { OffsetX = 100, OffsetY = 50 });
 
-        // Assert - no value change triggered
+        // Assert - with no drag in progress there is no listener, so a move never reaches .NET
+        Assert.Throws<Bunit.MissingEventHandlerException>(() => selector.MouseMove(new Microsoft.AspNetCore.Components.Web.MouseEventArgs { OffsetX = 60, OffsetY = 50 }));
         Assert.Null(changedValue);
     }
 
@@ -1137,11 +1137,11 @@ public class TwColorPickerBodyTests : TwBlazorTestBase
             .Add(p => p.Value, "#FF0000")
             .Add(p => p.ValueChanged, value => changedValue = value));
 
-        // Act - mousemove on hue slider WITHOUT prior mousedown (isHueDragging = false)
+        // Act - no prior mousedown (isHueDragging = false)
         var hueSlider = cut.FindAll(".relative.h-6")[0];
-        hueSlider.MouseMove(new Microsoft.AspNetCore.Components.Web.MouseEventArgs { OffsetX = 110 });
 
-        // Assert - no value change triggered
+        // Assert - with no drag in progress there is no listener, so a move never reaches .NET
+        Assert.Throws<Bunit.MissingEventHandlerException>(() => hueSlider.MouseMove(new Microsoft.AspNetCore.Components.Web.MouseEventArgs { OffsetX = 60, OffsetY = 50 }));
         Assert.Null(changedValue);
     }
 
@@ -1155,11 +1155,11 @@ public class TwColorPickerBodyTests : TwBlazorTestBase
             .Add(p => p.ShowAlpha, true)
             .Add(p => p.ValueChanged, value => changedValue = value));
 
-        // Act - mousemove on alpha slider WITHOUT prior mousedown (isAlphaDragging = false)
+        // Act - no prior mousedown (isAlphaDragging = false)
         var alphaSlider = cut.FindAll(".relative.h-6")[1];
-        alphaSlider.MouseMove(new Microsoft.AspNetCore.Components.Web.MouseEventArgs { OffsetX = 60 });
 
-        // Assert - no value change triggered
+        // Assert - with no drag in progress there is no listener, so a move never reaches .NET
+        Assert.Throws<Bunit.MissingEventHandlerException>(() => alphaSlider.MouseMove(new Microsoft.AspNetCore.Components.Web.MouseEventArgs { OffsetX = 60, OffsetY = 50 }));
         Assert.Null(changedValue);
     }
 
@@ -1331,8 +1331,8 @@ public class TwColorPickerBodyTests : TwBlazorTestBase
         hueSlider.MouseDown(new MouseEventArgs { OffsetX = 55 });
         changedValue = null; // reset after the mousedown's own update
 
-        // Act
-        hueSlider.MouseMove(new MouseEventArgs { OffsetX = 110 });
+        // Act - re-found: the move listener is only attached by the render that follows the mousedown.
+        cut.FindAll(".relative.h-6")[0].MouseMove(new MouseEventArgs { OffsetX = 110 });
 
         // Assert
         Assert.NotNull(changedValue);
@@ -1352,8 +1352,8 @@ public class TwColorPickerBodyTests : TwBlazorTestBase
         alphaSlider.MouseDown(new MouseEventArgs { OffsetX = 30 });
         changedValue = null; // reset after the mousedown's own update
 
-        // Act
-        alphaSlider.MouseMove(new MouseEventArgs { OffsetX = 60 });
+        // Act - re-found: the move listener is only attached by the render that follows the mousedown.
+        cut.FindAll(".relative.h-6")[1].MouseMove(new MouseEventArgs { OffsetX = 60 });
 
         // Assert
         Assert.NotNull(changedValue);
@@ -2473,5 +2473,34 @@ public class TwColorPickerBodyTests : TwBlazorTestBase
             Assert.Contains("focus-visible:ring-purple-500", slider.ClassList);
             Assert.Contains("focus:outline-hidden", slider.ClassList);
         });
+    }
+
+    [Fact]
+    public void MouseMoveListeners_AreOnlyAttachedWhileDragging()
+    {
+        // Arrange - every mouse move over an idle picker used to be sent to .NET and re-render it.
+        var cut = TestContext.Render<TwColorPickerBody>(parameters => parameters
+            .Add(p => p.Value, "#FF0000")
+            .Add(p => p.ShowAlpha, true));
+
+        Assert.All(cut.FindAll("[role='slider']"), slider =>
+        {
+            Assert.False(slider.HasAttribute("blazor:onmousemove"));
+            Assert.False(slider.HasAttribute("blazor:onmouseleave"));
+        });
+
+        // Act
+        cut.FindAll(".relative.h-6")[0].MouseDown(new MouseEventArgs { OffsetX = 55 });
+
+        // Assert
+        var hueSlider = cut.FindAll(".relative.h-6")[0];
+        Assert.True(hueSlider.HasAttribute("blazor:onmousemove"));
+        Assert.True(hueSlider.HasAttribute("blazor:onmouseleave"));
+
+        // Act
+        hueSlider.MouseUp();
+
+        // Assert
+        Assert.False(cut.FindAll(".relative.h-6")[0].HasAttribute("blazor:onmousemove"));
     }
 }
