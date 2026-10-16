@@ -37,6 +37,7 @@
                 <TwIcon OnClick="@(() => StepAsync(IncrementMinute))"
                         Icon="Icon.Caret_Up_Fill"
                         Class="@theme.StepButton"
+                        Disabled="@isMinuteLocked"
                         AriaLabel="@localizer[TwStrings.TimePicker_IncreaseMinute]" />
 
                 <div class="@theme.NumberWrapper">
@@ -49,6 +50,8 @@
                            aria-valuemin="0"
                            aria-valuemax="59"
                            aria-valuenow="@SelectedTime.Minute"
+                           readonly="@isMinuteLocked"
+                           aria-readonly="@(isMinuteLocked ? "true" : null)"
                            @onkeydown="OnMinuteKeyDown"
                            @onchange="@((e) => SetMinuteValue(e.Value?.ToString() ?? string.Empty))">
                 </div>
@@ -56,6 +59,7 @@
                 <TwIcon OnClick="@(() => StepAsync(DecrementMinute))"
                         Icon="Icon.Caret_Down_Fill"
                         Class="@theme.StepButton"
+                        Disabled="@isMinuteLocked"
                         AriaLabel="@localizer[TwStrings.TimePicker_DecreaseMinute]" />
             </div>
 

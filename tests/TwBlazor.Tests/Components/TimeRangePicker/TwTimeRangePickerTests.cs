@@ -378,4 +378,22 @@ public class TwTimeRangePickerTests : TwBlazorTestBase
         Assert.DoesNotContain("role=\"dialog\"", cut.Markup);
         Assert.Contains(TestContext.JSInterop.Invocations, i => i.Identifier == "twPicker.unregisterOutsideClick");
     }
+
+    [Fact]
+    public void Step_CascadesToTheTimeControls()
+    {
+        // Act
+        var cut = TestContext.Render<TwTimeRangePicker>(p => p.Add(x => x.Step, 120));
+
+        cut.Find("input").Click();
+
+        // Assert
+        Assert.Equal("true", cut.Find("[id$='-time-minute']").GetAttribute("aria-readonly"));
+    }
+
+    [Fact]
+    public void Step_Unsupported_Throws()
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() => TestContext.Render<TwTimeRangePicker>(p => p.Add(x => x.Step, 45)));
+    }
 }

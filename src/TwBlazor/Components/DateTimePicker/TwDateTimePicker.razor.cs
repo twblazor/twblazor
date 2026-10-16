@@ -3,7 +3,9 @@
 
 using Microsoft.AspNetCore.Components;
 using TwBlazor.Configuration.Components;
+using System.Globalization;
 using TwBlazor.Localization;
+using TwBlazor.Utilities;
 
 namespace TwBlazor.Components;
 
@@ -44,6 +46,26 @@ public partial class TwDateTimePicker : TwBlazorTextInputComponentBase
     /// Gets whether a 12 hour clock is used: <see cref="Is12HourFormat"/> when set, otherwise the localization options.
     /// </summary>
     private bool effectiveIs12HourFormat => Is12HourFormat ?? localizer.Formats.Use12HourInput;
+    /// <summary>
+    /// Gets or sets the step, in minutes, that the time step buttons and Arrow Up/Arrow Down move the time
+    /// by. Steps under an hour move the minutes (e.g. 15 gives :00, :15, :30, :45); steps of an hour or more
+    /// move the hours (e.g. 120 steps two hours at a time) and lock the minutes. Must divide an hour or, for
+    /// whole hours, a day. Defaults to 1. Typed times are not rounded to the step.
+    /// </summary>
+    [Parameter] public int Step { get; set; } = 1;
+
+    /// <summary>
+    /// Gets the native <c>datetime-local</c> step in seconds, or <see langword="null"/> for the browser default.
+    /// </summary>
+    private string? nativeStep => Step == 1 ? null : (Step * 60).ToString(CultureInfo.InvariantCulture);
+
+    /// <inheritdoc />
+    protected override void OnParametersSet()
+    {
+        TimeStepHelpers.ValidateStep(Step);
+        base.OnParametersSet();
+    }
+
     /// <summary>
     /// The selected <see cref="DateTime"/> value.
     /// </summary>

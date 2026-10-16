@@ -359,4 +359,46 @@ public class TwDateTimePickerTests : TwBlazorTestBase
         // Assert
         Assert.Equal("2025-11-24 14:30", cut.Find("input").GetAttribute("value"));
     }
+
+    [Fact]
+    public void Step_CascadesToTheTimeControls()
+    {
+        // Act
+        var cut = TestContext.Render<TwDateTimePicker>(p => p
+            .Add(x => x.Step, 120)
+            .Add(x => x.PreferNativePicker, false));
+
+        cut.Find("input").Click();
+
+        // Assert
+        Assert.Equal("true", cut.Find("[id$='-time-minute']").GetAttribute("aria-readonly"));
+    }
+
+    [Fact]
+    public void Step_SetsNativeStepInSeconds_WhenUsingNativePicker()
+    {
+        // Act
+        var cut = TestContext.Render<TwDateTimePicker>(p => p
+            .Add(x => x.Step, 15)
+            .Add(x => x.PreferNativePicker, true));
+
+        // Assert
+        Assert.Equal("900", cut.Find("input[type='datetime-local']").GetAttribute("step"));
+    }
+
+    [Fact]
+    public void Step_Default_OmitsNativeStep()
+    {
+        // Act
+        var cut = TestContext.Render<TwDateTimePicker>(p => p.Add(x => x.PreferNativePicker, true));
+
+        // Assert
+        Assert.False(cut.Find("input[type='datetime-local']").HasAttribute("step"));
+    }
+
+    [Fact]
+    public void Step_Unsupported_Throws()
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() => TestContext.Render<TwDateTimePicker>(p => p.Add(x => x.Step, 90)));
+    }
 }

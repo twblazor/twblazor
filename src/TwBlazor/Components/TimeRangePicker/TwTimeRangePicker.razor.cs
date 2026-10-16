@@ -80,6 +80,14 @@ public partial class TwTimeRangePicker : TwPopoverPickerComponentBase
     [Parameter] public EventCallback<string> ValueChanged { get; set; }
 
     /// <summary>
+    /// Gets or sets the step, in minutes, that the time step buttons and Arrow Up/Arrow Down move the start and
+    /// end times by. Steps under an hour move the minutes (e.g. 15 gives :00, :15, :30, :45); steps of an hour or
+    /// more move the hours (e.g. 120 steps two hours at a time) and lock the minutes. Must divide an hour or, for
+    /// whole hours, a day. Defaults to 1. Typed times are not rounded to the step.
+    /// </summary>
+    [Parameter] public int Step { get; set; } = 1;
+
+    /// <summary>
     /// Gets or sets a value indicating whether the time should be displayed in 12-hour format.
     /// Has no effect when <see cref="Format"/> is explicitly set.
     /// </summary>
@@ -151,6 +159,13 @@ public partial class TwTimeRangePicker : TwPopoverPickerComponentBase
     {
         base.OnInitialized();
         Value = FormatRange(SelectedRange);
+    }
+
+    /// <inheritdoc />
+    protected override void OnParametersSet()
+    {
+        TimeStepHelpers.ValidateStep(Step);
+        base.OnParametersSet();
     }
 
     /// <summary>
