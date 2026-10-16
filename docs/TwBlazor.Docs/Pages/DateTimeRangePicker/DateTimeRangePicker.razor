@@ -53,8 +53,10 @@
     <PageCard Title="Disabled and readonly DateTime range picker">
         <Description>Use the <code>Disabled</code> and <code>ReadOnly</code> properties to restrict interaction with the datetime range picker.</Description>
         <CodeExample Name="DateTimeRangePickerReadonlyDisabled" CSharpName="DateTimeRangePickerBasicCode">
-            <TwDateTimeRangePicker Id="disabled-datetimerangepicker" @bind-SelectedRange="SelectedRange" Label="Disabled DateTime Range Picker" Disabled Class="mt-3" />
-            <TwDateTimeRangePicker Id="readonly-datetimerangepicker" @bind-SelectedRange="SelectedRange" Label="Readonly DateTime Range Picker" ReadOnly Class="mt-3" />
+            <div class="space-y-4">
+                <TwDateTimeRangePicker Id="disabled-datetimerangepicker" @bind-SelectedRange="SelectedRange" Label="Disabled DateTime Range Picker" Disabled />
+                <TwDateTimeRangePicker Id="readonly-datetimerangepicker" @bind-SelectedRange="SelectedRange" Label="Readonly DateTime Range Picker" ReadOnly />
+            </div>
         </CodeExample>
     </PageCard>
 </PageContainer>

@@ -53,8 +53,10 @@
     <PageCard Title="Disabled and readonly time picker">
         <Description>Use the <code>Disabled</code> and <code>ReadOnly</code> properties to restrict interaction with the time picker.</Description>
         <CodeExample Name="TimePickerReadonlyDisabled">
-            <TwTimePicker Id="disabled-timepicker" @bind-SelectedTime="SelectedTime" Label="Disabled Time Picker" Disabled Class="mt-3" />
-            <TwTimePicker Id="readonly-timepicker" @bind-SelectedTime="SelectedTime" Label="Readonly Time Picker" ReadOnly Class="mt-3" />
+            <div class="space-y-4">
+                <TwTimePicker Id="disabled-timepicker" @bind-SelectedTime="SelectedTime" Label="Disabled Time Picker" Disabled />
+                <TwTimePicker Id="readonly-timepicker" @bind-SelectedTime="SelectedTime" Label="Readonly Time Picker" ReadOnly />
+            </div>
         </CodeExample>
     </PageCard>
 </PageContainer>

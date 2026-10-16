@@ -39,8 +39,10 @@
     <PageCard Title="Disabled and readonly DateTime picker">
         <Description>Use the <code>Disabled</code> and <code>ReadOnly</code> properties to restrict interaction with the datetime picker.</Description>
         <CodeExample Name="DateTimePickerReadonlyDisabled" CSharpName="DateTimePickerBasicCode">
-            <TwDateTimePicker @bind-SelectedDateTime="SelectedDateTime" @bind-Value="SelectedDateTimeTextValue" Label="Disabled DateTime Picker" Disabled Class="mt-3" />
-            <TwDateTimePicker @bind-SelectedDateTime="SelectedDateTime" @bind-Value="SelectedDateTimeTextValue" Label="Readonly DateTime Picker" ReadOnly Class="mt-3" />
+            <div class="space-y-4">
+                <TwDateTimePicker @bind-SelectedDateTime="SelectedDateTime" @bind-Value="SelectedDateTimeTextValue" Label="Disabled DateTime Picker" Disabled />
+                <TwDateTimePicker @bind-SelectedDateTime="SelectedDateTime" @bind-Value="SelectedDateTimeTextValue" Label="Readonly DateTime Picker" ReadOnly />
+            </div>
         </CodeExample>
     </PageCard>
 </PageContainer>

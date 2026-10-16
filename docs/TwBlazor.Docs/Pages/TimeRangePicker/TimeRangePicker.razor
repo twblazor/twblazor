@@ -46,8 +46,10 @@
     <PageCard Title="Disabled and readonly time range picker">
         <Description>Use the <code>Disabled</code> and <code>ReadOnly</code> properties to restrict interaction with the time range picker.</Description>
         <CodeExample Name="TimeRangePickerReadonlyDisabled" CSharpName="TimeRangePickerBasicCode">
-            <TwTimeRangePicker Id="disabled-timerangepicker" @bind-SelectedRange="SelectedRange" Label="Disabled Time Range Picker" Disabled Class="mt-3" />
-            <TwTimeRangePicker Id="readonly-timerangepicker" @bind-SelectedRange="SelectedRange" Label="Readonly Time Range Picker" ReadOnly Class="mt-3" />
+            <div class="space-y-4">
+                <TwTimeRangePicker Id="disabled-timerangepicker" @bind-SelectedRange="SelectedRange" Label="Disabled Time Range Picker" Disabled />
+                <TwTimeRangePicker Id="readonly-timerangepicker" @bind-SelectedRange="SelectedRange" Label="Readonly Time Range Picker" ReadOnly />
+            </div>
         </CodeExample>
     </PageCard>
 </PageContainer>

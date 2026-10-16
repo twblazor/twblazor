@@ -46,8 +46,10 @@
     <PageCard Title="Disabled and readonly date picker">
         <Description>Use the <code>Disabled</code> and <code>ReadOnly</code> properties to restrict interaction with the date picker.</Description>
         <CodeExample Name="DatePickerReadonlyDisabled" CSharpName="DatePickerBasicCode">
-            <TwDatePicker Id="disabled-datepicker" @bind-SelectedDate="SelectedDate" Label="Disabled Date Picker" Disabled Class="mt-3" />
-            <TwDatePicker Id="readonly-datepicker" @bind-SelectedDate="SelectedDate" Label="Readonly Date Picker" ReadOnly Class="mt-3" />
+            <div class="space-y-4">
+                <TwDatePicker Id="disabled-datepicker" @bind-SelectedDate="SelectedDate" Label="Disabled Date Picker" Disabled />
+                <TwDatePicker Id="readonly-datepicker" @bind-SelectedDate="SelectedDate" Label="Readonly Date Picker" ReadOnly />
+            </div>
         </CodeExample>
     </PageCard>
 </PageContainer>
