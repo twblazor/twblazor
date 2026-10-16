@@ -34,6 +34,10 @@ public partial class TwRating<T> : TwBlazorInputComponentBase where T : INumber<
     // Gap between each icon starting its pop, so a fill that spans several icons ripples outwards.
     private const int popStaggerMilliseconds = 50;
 
+    // The most steps a value is turned into: half of int.MaxValue, so adding a step or an icon's worth of steps to
+    // it can never overflow.
+    private const double maxStepCount = int.MaxValue / 2d;
+
     // How many steps make up one icon. Integer types truncate a half to zero, which is how the precision is read
     // from T: whole icons for integers, halves for everything else.
     private static readonly int _stepsPerIcon = T.IsZero(T.CreateTruncating(0.5)) ? 1 : 2;
@@ -274,7 +278,7 @@ public partial class TwRating<T> : TwBlazorInputComponentBase where T : INumber<
     /// Converts a value to a whole, non-negative number of steps, rounding with <paramref name="rounding"/>.
     /// </summary>
     private static int ToSteps(T value, MidpointRounding rounding) =>
-        (int)Math.Clamp(Math.Round(double.CreateSaturating(value) * _stepsPerIcon, rounding), 0, int.MaxValue / 2);
+        (int)Math.Clamp(Math.Round(double.CreateSaturating(value) * _stepsPerIcon, rounding), 0, maxStepCount);
 
     /// <inheritdoc />
     protected override void OnParametersSet()

@@ -138,7 +138,8 @@ public class TwRatingTests : TwBlazorTestBase
 
         // Assert
         Assert.Equal(5, cut.FindAll("[role='radiogroup'] > span").Count);
-        Assert.Equal("4.5", cut.FindAll("input[type='radio']").Last().GetAttribute("value"));
+        var radios = cut.FindAll("input[type='radio']");
+        Assert.Equal("4.5", radios[^1].GetAttribute("value"));
         Assert.Equal(["width:100%", "width:100%", "width:100%", "width:100%", "width:50%"], Widths(cut));
     }
 
