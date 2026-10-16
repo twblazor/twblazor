@@ -34,8 +34,9 @@ public partial class TwRating<T> : TwBlazorInputComponentBase where T : INumber<
     // Gap between each icon starting its pop, so a fill that spans several icons ripples outwards.
     private const int popStaggerMilliseconds = 50;
 
-    // Integer types truncate a half to zero, which is how the precision is read from T.
-    private static readonly double _step = T.CreateTruncating(0.5) == T.Zero ? 1 : 0.5;
+    // How many steps make up one icon. Integer types truncate a half to zero, which is how the precision is read
+    // from T: whole icons for integers, halves for everything else.
+    private static readonly int _stepsPerIcon = T.IsZero(T.CreateTruncating(0.5)) ? 1 : 2;
 
     private TwRatingTheme theme => options.Theme.Components.Require<TwRatingTheme>();
 
@@ -120,9 +121,9 @@ public partial class TwRating<T> : TwBlazorInputComponentBase where T : INumber<
     [Parameter] public string Name { get; set; } = string.Empty;
 
     /// <summary>
-    /// The value the pointer is resting on, previewed in place of <see cref="Value"/> until the pointer leaves.
+    /// The step the pointer is resting on, previewed in place of <see cref="Value"/> until the pointer leaves.
     /// </summary>
-    private double? hoverValue;
+    private int? hoverSteps;
 
     /// <summary>
     /// The icons that pop after the last pick, mapped to their place in the ripple.
@@ -137,18 +138,20 @@ public partial class TwRating<T> : TwBlazorInputComponentBase where T : INumber<
 
     private bool interactive => !ReadOnly && !Disabled;
 
-    private double max => Math.Max(RoundDown(double.CreateSaturating(Max)), _step);
+    // Every value is handled as a whole number of steps (halves or wholes), so values are compared exactly as
+    // integers and only turned back into numbers for display and for T.
+    private int maxSteps => Math.Max(ToSteps(Max, MidpointRounding.ToNegativeInfinity), 1);
 
-    private double min => Math.Clamp(RoundUp(double.CreateSaturating(Min)), 0, max);
+    private int minSteps => Math.Min(ToSteps(Min, MidpointRounding.ToPositiveInfinity), maxSteps);
 
-    private int iconCount => (int)Math.Ceiling(max);
+    private int iconCount => (maxSteps + _stepsPerIcon - 1) / _stepsPerIcon;
 
     /// <summary>
     /// Gets the bound value as it is displayed: rounded to a step and kept between 0 and <see cref="Max"/>.
     /// </summary>
-    private double current => Math.Clamp(Math.Round(double.CreateSaturating(Value) / _step, Rounding) * _step, 0, max);
+    private int currentSteps => Math.Min(ToSteps(Value, Rounding), maxSteps);
 
-    private double shown => hoverValue ?? current;
+    private int shownSteps => hoverSteps ?? currentSteps;
 
     private string groupName => string.IsNullOrEmpty(Name) ? Id! : Name;
 
@@ -158,24 +161,46 @@ public partial class TwRating<T> : TwBlazorInputComponentBase where T : INumber<
 
     private bool hasLabel => !string.IsNullOrWhiteSpace(Label);
 
-    private bool canClear => interactive && min <= 0;
+    private bool hasEmptyOption => minSteps == 0;
+
+    private bool canClear => interactive && hasEmptyOption;
 
     /// <summary>
     /// Gets the id(s) that name the rating: the consumer's own, or the visible label's.
     /// </summary>
-    private string? nameIds => !string.IsNullOrEmpty(AriaLabelledBy) ? AriaLabelledBy : hasLabel ? labelId : null;
+    private string? nameIds
+    {
+        get
+        {
+            if (!string.IsNullOrEmpty(AriaLabelledBy))
+                return AriaLabelledBy;
 
-    private string readOnlyText => localizer[TwStrings.Rating_ReadOnly, current, max];
+            return hasLabel ? labelId : null;
+        }
+    }
+
+    private string readOnlyText => localizer[TwStrings.Rating_ReadOnly, ToNumber(currentSteps), ToNumber(maxSteps)];
 
     /// <summary>
     /// Gets the read-only rating's accessible name, used when no element names it. When one does, the name is built
     /// from that element and the value text instead, through <see cref="readOnlyLabelledBy"/>.
     /// </summary>
-    private string? readOnlyLabel => nameIds is not null
-        ? null
-        : string.IsNullOrWhiteSpace(AriaLabel) ? readOnlyText : $"{AriaLabel}, {readOnlyText}";
+    private string? readOnlyLabel
+    {
+        get
+        {
+            if (nameIds is not null)
+                return null;
+
+            return string.IsNullOrWhiteSpace(AriaLabel) ? readOnlyText : $"{AriaLabel}, {readOnlyText}";
+        }
+    }
 
     private string? readOnlyLabelledBy => nameIds is null ? null : $"{nameIds} {valueTextId}";
+
+    private string emptyOptionId => $"{Id}-none";
+
+    private string emptyOptionLabel => localizer[TwStrings.Rating_None];
 
     private string filledColor => ColorBuilder.GetPaletteColor(Color, theme.Colors, theme.Colors.Warning);
 
@@ -204,45 +229,52 @@ public partial class TwRating<T> : TwBlazorInputComponentBase where T : INumber<
         .AddClass(filledColor)
         .Build();
 
-    private string VisualClasses(bool pops) => new ClassBuilder(theme.Visual)
-        .AddClass(theme.Pop, pops)
+    private Icon emptyIcon => EmptyIcon ?? Icon;
+
+    private string VisualClasses(int position) => new ClassBuilder(theme.Visual)
+        .AddClass(theme.Pop, _popOrder.ContainsKey(position))
         .Build();
 
-    /// <summary>
-    /// Gets how much of the icon at <paramref name="position"/> (1-based) a rating of <paramref name="rating"/> fills:
-    /// 0, 0.5 or 1.
-    /// </summary>
-    private static double Fill(double rating, int position) => Math.Clamp(rating - (position - 1), 0, 1);
-
-    private static string Percent(double fill) => (fill * 100).ToString("0.###", CultureInfo.InvariantCulture);
+    private string TargetClasses(int steps) => IsHalf(steps) ? theme.HalfTarget : theme.FullTarget;
 
     /// <summary>
-    /// Gets the values the icon at <paramref name="position"/> (1-based) can be set to, its half first.
+    /// Gets the inline width of the filled icon at <paramref name="position"/> (1-based): 0%, 50% or 100%.
     /// </summary>
-    private IEnumerable<double> ValuesFor(int position)
+    private string FillStyle(int position)
     {
-        if (_step < 1)
-        {
-            var half = position - 0.5;
-            if (half >= min && half > 0 && half <= max)
-                yield return half;
-        }
-
-        if (position >= min && position <= max)
-            yield return position;
+        var filled = Math.Clamp(shownSteps - (position - 1) * _stepsPerIcon, 0, _stepsPerIcon);
+        return $"width:{(filled * 100 / _stepsPerIcon).ToString(CultureInfo.InvariantCulture)}%";
     }
 
-    private bool IsHalf(double value) => value % 1 != 0;
+    /// <summary>
+    /// Gets the steps the icon at <paramref name="position"/> (1-based) can be set to, its half first.
+    /// </summary>
+    private IEnumerable<int> StepsFor(int position)
+    {
+        var first = Math.Max((position - 1) * _stepsPerIcon + 1, minSteps);
+        var last = Math.Min(position * _stepsPerIcon, maxSteps);
 
-    private string RadioId(double value) => $"{Id}-{(int)Math.Round(value / _step)}";
+        for (var steps = first; steps <= last; steps++)
+            yield return steps;
+    }
 
-    private static string Invariant(double value) => value.ToString(CultureInfo.InvariantCulture);
+    private bool IsChecked(int steps) => steps == currentSteps;
 
-    private string OptionLabel(double value) => localizer[TwStrings.Rating_Value, value, max];
+    private string RadioId(int steps) => $"{Id}-{steps.ToString(CultureInfo.InvariantCulture)}";
 
-    private static double RoundDown(double value) => Math.Floor(value / _step) * _step;
+    private string OptionLabel(int steps) => localizer[TwStrings.Rating_Value, ToNumber(steps), ToNumber(maxSteps)];
 
-    private static double RoundUp(double value) => Math.Ceiling(value / _step) * _step;
+    private static bool IsHalf(int steps) => steps % _stepsPerIcon != 0;
+
+    private static double ToNumber(int steps) => (double)steps / _stepsPerIcon;
+
+    private static string ToInvariant(int steps) => ToNumber(steps).ToString(CultureInfo.InvariantCulture);
+
+    /// <summary>
+    /// Converts a value to a whole, non-negative number of steps, rounding with <paramref name="rounding"/>.
+    /// </summary>
+    private static int ToSteps(T value, MidpointRounding rounding) =>
+        (int)Math.Clamp(Math.Round(double.CreateSaturating(value) * _stepsPerIcon, rounding), 0, int.MaxValue / 2);
 
     /// <inheritdoc />
     protected override void OnParametersSet()
@@ -250,46 +282,43 @@ public partial class TwRating<T> : TwBlazorInputComponentBase where T : INumber<
         base.OnParametersSet();
 
         if (!interactive)
-            hoverValue = null;
+            hoverSteps = null;
     }
 
-    private void Preview(double value)
-    {
-        if (interactive)
-            hoverValue = value;
-    }
+    // Only reachable from the pointer targets, which are only rendered while the rating is interactive.
+    private void Preview(int steps) => hoverSteps = steps;
 
-    private void EndPreview() => hoverValue = null;
+    private void EndPreview() => hoverSteps = null;
 
     /// <summary>
     /// Clears the rating when the user clicks the icon half that is already selected. A radio input fires no change
     /// for that click, so it is picked up from the pointer target instead, which only a pointer can reach.
     /// </summary>
-    private async Task ClearIfSelectedAsync(double value)
+    private async Task ClearIfSelectedAsync(int steps)
     {
-        if (canClear && value == current)
+        if (canClear && IsChecked(steps))
         {
-            hoverValue = null;
+            hoverSteps = null;
             await SelectAsync(0);
         }
     }
 
-    private async Task SelectAsync(double value)
+    private async Task SelectAsync(int steps)
     {
-        if (!interactive || value == current)
+        if (!interactive || IsChecked(steps))
             return;
 
-        QueuePop(current, value);
+        QueuePop(currentSteps, steps);
 
-        Value = T.CreateSaturating(value);
+        Value = T.CreateSaturating(ToNumber(steps));
         await ValueChanged.InvokeAsync(Value);
     }
 
     /// <summary>
-    /// Marks the icons that pop for a change from <paramref name="from"/> to <paramref name="to"/>: those that gained
-    /// fill, plus the icon that was picked, in order so the pop ripples from the start.
+    /// Marks the icons that pop for a change from <paramref name="from"/> to <paramref name="to"/> steps: those that
+    /// gained fill, plus the icon that was picked, in order so the pop ripples from the start.
     /// </summary>
-    private void QueuePop(double from, double to)
+    private void QueuePop(int from, int to)
     {
         _popOrder.Clear();
 
@@ -297,17 +326,29 @@ public partial class TwRating<T> : TwBlazorInputComponentBase where T : INumber<
             return;
 
         popGeneration++;
-        var picked = (int)Math.Ceiling(to);
+        var picked = (to + _stepsPerIcon - 1) / _stepsPerIcon;
         var order = 0;
 
-        for (var position = 1; position <= iconCount; position++)
+        for (var position = 1; position <= picked; position++)
         {
-            var after = Fill(to, position);
-            if (after > 0 && (after > Fill(from, position) || position == picked))
+            var gainedFill = from < Math.Min(to, position * _stepsPerIcon);
+            if (gainedFill || position == picked)
                 _popOrder[position] = order++;
         }
     }
 
-    private string? PopStyle(int order) =>
+    /// <summary>
+    /// Gets the keyframe switch for the icon at <paramref name="position"/>, or null when it is not popping.
+    /// </summary>
+    private string? PopKey(int position) =>
+        _popOrder.ContainsKey(position) ? (popGeneration % 2).ToString(CultureInfo.InvariantCulture) : null;
+
+    /// <summary>
+    /// Gets the delay that places the icon at <paramref name="position"/> in the ripple, or null when it is not popping.
+    /// </summary>
+    private string? PopStyle(int position) =>
+        _popOrder.TryGetValue(position, out var order) ? PopDelay(order) : null;
+
+    private static string PopDelay(int order) =>
         $"animation-delay:{(order * popStaggerMilliseconds).ToString(CultureInfo.InvariantCulture)}ms";
 }

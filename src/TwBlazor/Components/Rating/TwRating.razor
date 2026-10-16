@@ -22,11 +22,10 @@
             }
             @for (var i = 1; i <= iconCount; i++)
             {
-                var position = i;
                 <span class="@itemClasses">
-                    <span class="@VisualClasses(false)" aria-hidden="true">
-                        <TwIcon Icon="@(EmptyIcon ?? Icon)" Class="@emptyClasses" />
-                        <span class="@theme.Clip" style="width:@(Percent(Fill(shown, position)))%">
+                    <span class="@theme.Visual" aria-hidden="true">
+                        <TwIcon Icon="@emptyIcon" Class="@emptyClasses" />
+                        <span class="@theme.Clip" style="@FillStyle(i)">
                             <TwIcon Icon="@Icon" Class="@filledClasses" />
                         </span>
                     </span>
@@ -46,51 +45,47 @@
              aria-describedby="@errorId"
              @onmouseleave="@EndPreview"
              @attributes="@Attributes">
-            @if (min <= 0)
+            @if (hasEmptyOption)
             {
                 <input type="radio"
-                       id="@($"{Id}-none")"
+                       id="@emptyOptionId"
                        name="@groupName"
                        value="0"
                        class="@theme.Input"
                        data-rating-empty
-                       checked="@(current == 0)"
+                       checked="@IsChecked(0)"
                        disabled="@Disabled"
-                       aria-label="@localizer[TwStrings.Rating_None]"
+                       aria-label="@emptyOptionLabel"
                        @onchange="@(() => SelectAsync(0))" />
             }
             @for (var i = 1; i <= iconCount; i++)
             {
                 var position = i;
-                var pops = _popOrder.TryGetValue(position, out var order);
                 <span class="@itemClasses">
-                    <span class="@VisualClasses(pops)"
-                          data-pop="@(pops ? (popGeneration % 2).ToString(System.Globalization.CultureInfo.InvariantCulture) : null)"
-                          style="@(pops ? PopStyle(order) : null)"
-                          aria-hidden="true">
-                        <TwIcon Icon="@(EmptyIcon ?? Icon)" Class="@emptyClasses" />
-                        <span class="@theme.Clip" style="width:@(Percent(Fill(shown, position)))%">
+                    <span class="@VisualClasses(position)" data-pop="@PopKey(position)" style="@PopStyle(position)" aria-hidden="true">
+                        <TwIcon Icon="@emptyIcon" Class="@emptyClasses" />
+                        <span class="@theme.Clip" style="@FillStyle(position)">
                             <TwIcon Icon="@Icon" Class="@filledClasses" />
                         </span>
                     </span>
-                    @foreach (var option in ValuesFor(position))
+                    @foreach (var steps in StepsFor(position))
                     {
-                        var value = option;
+                        var option = steps;
                         <input type="radio"
-                               id="@RadioId(value)"
+                               id="@RadioId(option)"
                                name="@groupName"
-                               value="@Invariant(value)"
+                               value="@ToInvariant(option)"
                                class="@theme.Input"
-                               checked="@(current == value)"
+                               checked="@IsChecked(option)"
                                disabled="@Disabled"
-                               aria-label="@OptionLabel(value)"
-                               @onchange="@(() => SelectAsync(value))" />
+                               aria-label="@OptionLabel(option)"
+                               @onchange="@(() => SelectAsync(option))" />
                         @if (interactive)
                         {
-                            <label for="@RadioId(value)"
-                                   class="@(IsHalf(value) ? theme.HalfTarget : theme.FullTarget)"
-                                   @onclick="@(() => ClearIfSelectedAsync(value))"
-                                   @onmouseenter="@(() => Preview(value))"></label>
+                            <label for="@RadioId(option)"
+                                   class="@TargetClasses(option)"
+                                   @onclick="@(() => ClearIfSelectedAsync(option))"
+                                   @onmouseenter="@(() => Preview(option))"></label>
                         }
                     }
                 </span>

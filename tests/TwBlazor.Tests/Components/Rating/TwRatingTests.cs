@@ -128,6 +128,74 @@ public class TwRatingTests : TwBlazorTestBase
         Assert.Contains(expected, cut.Find("[role='radiogroup']").ClassName);
     }
 
+    [Fact]
+    public void FractionalMax_EndsOnAHalfIcon()
+    {
+        // Act
+        var cut = TestContext.Render<TwRating<double>>(p => p
+            .Add(x => x.Max, 4.5)
+            .Add(x => x.Value, 9));
+
+        // Assert
+        Assert.Equal(5, cut.FindAll("[role='radiogroup'] > span").Count);
+        Assert.Equal("4.5", cut.FindAll("input[type='radio']").Last().GetAttribute("value"));
+        Assert.Equal(["width:100%", "width:100%", "width:100%", "width:100%", "width:50%"], Widths(cut));
+    }
+
+    [Fact]
+    public void MaxBelowOneStep_StillShowsOneStep()
+    {
+        // Act
+        var cut = TestContext.Render<TwRating<int>>(p => p.Add(x => x.Max, 0));
+
+        // Assert
+        Assert.Single(cut.FindAll("[role='radiogroup'] > span"));
+        Assert.Equal("1 out of 1", cut.Find("input[value='1']").GetAttribute("aria-label"));
+    }
+
+    [Fact]
+    public void NegativeMin_IsTreatedAsZero()
+    {
+        // Act
+        var cut = TestContext.Render<TwRating<int>>(p => p.Add(x => x.Min, -3));
+
+        // Assert
+        Assert.NotNull(cut.Find("input[data-rating-empty]"));
+        Assert.Equal("1", cut.FindAll("input[type='radio']")[1].GetAttribute("value"));
+    }
+
+    [Fact]
+    public void MinAboveMax_LeavesOnlyTheTopValue()
+    {
+        // Act
+        var cut = TestContext.Render<TwRating<int>>(p => p.Add(x => x.Min, 8));
+
+        // Assert
+        Assert.Equal(["5"], cut.FindAll("input[type='radio']").Select(input => input.GetAttribute("value")).ToArray());
+    }
+
+    [Fact]
+    public void HugeAndNegativeValues_AreDisplayedClamped()
+    {
+        // Act
+        var huge = TestContext.Render<TwRating<double>>(p => p.Add(x => x.Value, double.MaxValue));
+        var negative = TestContext.Render<TwRating<double>>(p => p.Add(x => x.Value, -2));
+
+        // Assert
+        Assert.Equal("5", huge.Find("input:checked").GetAttribute("value"));
+        Assert.NotNull(negative.Find("input[data-rating-empty]:checked"));
+    }
+
+    [Fact]
+    public void Class_IsAddedToTheGroup()
+    {
+        // Act
+        var cut = TestContext.Render<TwRating<double>>(p => p.Add(x => x.Class, "my-rating"));
+
+        // Assert
+        Assert.Contains("my-rating", cut.Find("[role='radiogroup']").ClassName);
+    }
+
     #endregion
 
     #region Rounding
@@ -400,6 +468,73 @@ public class TwRatingTests : TwBlazorTestBase
         var group = cut.Find("[role='radiogroup']");
         Assert.Equal("stay-label", group.GetAttribute("aria-labelledby"));
         Assert.Equal("How was your stay?", cut.Find("#stay-label").TextContent.Trim());
+    }
+
+    [Fact]
+    public void LabelId_IsUsedForTheLabel()
+    {
+        // Act
+        var cut = TestContext.Render<TwRating<double>>(p => p
+            .Add(x => x.Label, "Score")
+            .Add(x => x.LabelId, "score-heading"));
+
+        // Assert
+        Assert.Equal("score-heading", cut.Find("[role='radiogroup']").GetAttribute("aria-labelledby"));
+        Assert.NotNull(cut.Find("#score-heading"));
+    }
+
+    [Fact]
+    public void AriaLabelledBy_TakesPrecedenceOverTheLabel()
+    {
+        // Act
+        var cut = TestContext.Render<TwRating<double>>(p => p
+            .Add(x => x.Label, "Score")
+            .Add(x => x.AriaLabelledBy, "external-heading"));
+
+        // Assert
+        Assert.Equal("external-heading", cut.Find("[role='radiogroup']").GetAttribute("aria-labelledby"));
+    }
+
+    [Fact]
+    public void AriaLabel_NamesAnUnlabelledGroup()
+    {
+        // Act
+        var cut = TestContext.Render<TwRating<double>>(p => p.Add(x => x.AriaLabel, "Product rating"));
+
+        // Assert
+        var group = cut.Find("[role='radiogroup']");
+        Assert.Equal("Product rating", group.GetAttribute("aria-label"));
+        Assert.Null(group.GetAttribute("aria-labelledby"));
+        Assert.Empty(cut.FindAll("label:not([for])"));
+    }
+
+    [Fact]
+    public void ReadOnly_WithAriaLabelledBy_IsNamedByThatElementAndTheValue()
+    {
+        // Act
+        var cut = TestContext.Render<TwRating<double>>(p => p
+            .Add(x => x.Id, "average")
+            .Add(x => x.AriaLabelledBy, "external-heading")
+            .Add(x => x.Value, 3)
+            .Add(x => x.ReadOnly, true));
+
+        // Assert
+        Assert.Equal("external-heading average-value", cut.Find("[role='img']").GetAttribute("aria-labelledby"));
+    }
+
+    [Fact]
+    public void BecomingReadOnly_DropsTheHoverPreview()
+    {
+        // Arrange
+        var cut = TestContext.Render<TwRating<double>>(p => p.Add(x => x.Value, 1));
+        cut.Find($"label[for='{cut.Find("input[value='4']").Id}']").TriggerEvent("onmouseenter", new MouseEventArgs());
+
+        // Act
+        cut.Render(p => p.Add(x => x.ReadOnly, true));
+
+        // Assert
+        Assert.Equal(["width:100%", "width:0%", "width:0%", "width:0%", "width:0%"],
+            cut.FindAll("[aria-hidden='true'] > span").Select(clip => clip.GetAttribute("style")!).ToArray());
     }
 
     [Fact]
