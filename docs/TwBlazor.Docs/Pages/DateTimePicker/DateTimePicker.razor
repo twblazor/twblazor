@@ -24,7 +24,7 @@
         </CodeExample>
     </PageCard>
     <PageCard Title="Step">
-        <Description>Set <code>Step</code> to the number of minutes the time arrow buttons and the <kbd>Arrow Up</kbd>/<kbd>Arrow Down</kbd> keys move by. Under an hour, the minutes step (15 gives :00, :15, :30 and :45). From 60 upwards, the hours step instead (120 moves two hours at a time) and the minute field is locked. The step must divide an hour (1, 2, 3, 4, 5, 6, 10, 12, 15, 20 or 30) or be a whole number of hours that divides a day (60, 120, 180, 240, 360, 480 or 720). A time typed into the field is kept as entered. When the browser's native picker is used, the step is passed on to it.</Description>
+        <Description>Set <code>Step</code> to the number of minutes the time arrow buttons and the <kbd>Arrow Up</kbd>/<kbd>Arrow Down</kbd> keys move by. Under an hour, the minutes step (15 gives :00, :15, :30 and :45). From 60 upwards, the hours step instead (120 moves two hours at a time) and the minutes are shown as fixed text with no arrow buttons. The step must divide an hour (1, 2, 3, 4, 5, 6, 10, 12, 15, 20 or 30) or be a whole number of hours that divides a day (60, 120, 180, 240, 360, 480 or 720). A time typed into the field is kept as entered. When the browser's native picker is used, the step is passed on to it.</Description>
         <CodeExample Name="DateTimePickerStep" CSharpName="DateTimePickerBasicCode">
             <TwDateTimePicker Id="step-datetimepicker" @bind-SelectedDateTime="SelectedDateTime" Label="Every 30 minutes" Step="30" />
         </CodeExample>

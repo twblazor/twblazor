@@ -43,13 +43,13 @@ public partial class TwTimePickerBody
     /// <summary>
     /// Gets or sets the step, in minutes, that the step buttons and Arrow Up/Arrow Down move the time by.
     /// Steps under an hour move the minute field; steps of an hour or more (e.g. 120 for two hours) move
-    /// the hour field and lock the minute field. Must divide an hour or, for whole hours, a day. Defaults to 1.
+    /// the hour field and show the minutes as fixed text. Must divide an hour or, for whole hours, a day. Defaults to 1.
     /// </summary>
     [Parameter] public int Step { get; set; } = 1;
 
     /// <summary>
-    /// Gets whether <see cref="Step"/> is a whole number of hours, in which case the minute field is locked
-    /// because every stepped time falls on the hour.
+    /// Gets whether <see cref="Step"/> is a whole number of hours, in which case every stepped time falls on
+    /// the hour, so the minutes render as fixed text with no step buttons.
     /// </summary>
     private bool isMinuteLocked => Step >= 60;
 
@@ -272,7 +272,7 @@ public partial class TwTimePickerBody
         _ => Task.CompletedTask
     };
 
-    private Task OnMinuteKeyDown(KeyboardEventArgs e) => isMinuteLocked ? Task.CompletedTask : e.Key switch
+    private Task OnMinuteKeyDown(KeyboardEventArgs e) => e.Key switch
     {
         "ArrowUp" => IncrementMinute(),
         "ArrowDown" => DecrementMinute(),

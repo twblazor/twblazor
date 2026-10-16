@@ -34,33 +34,39 @@
             <div class="@theme.Separator">:</div>
 
             <div class="@theme.Column">
-                <TwIcon OnClick="@(() => StepAsync(IncrementMinute))"
-                        Icon="Icon.Caret_Up_Fill"
-                        Class="@theme.StepButton"
-                        Disabled="@isMinuteLocked"
-                        AriaLabel="@localizer[TwStrings.TimePicker_IncreaseMinute]" />
+                @if (isMinuteLocked)
+                {
+                    @* Every stepped time falls on the hour, so the minutes are shown as fixed text rather than a control. *@
+                    <div class="@theme.NumberWrapper">
+                        <span id="@($"{Id}-minute")" class="@theme.NumberInput">@SelectedTime.ToString("mm")</span>
+                    </div>
+                }
+                else
+                {
+                    <TwIcon OnClick="@(() => StepAsync(IncrementMinute))"
+                            Icon="Icon.Caret_Up_Fill"
+                            Class="@theme.StepButton"
+                            AriaLabel="@localizer[TwStrings.TimePicker_IncreaseMinute]" />
 
-                <div class="@theme.NumberWrapper">
-                    <input id="@($"{Id}-minute")" type="text"
-                           class="@numberInputClasses"
-                           value="@SelectedTime.ToString("mm")"
-                           role="spinbutton"
-                           inputmode="numeric"
-                           aria-label="@localizer[TwStrings.TimePicker_Minutes]"
-                           aria-valuemin="0"
-                           aria-valuemax="59"
-                           aria-valuenow="@SelectedTime.Minute"
-                           readonly="@isMinuteLocked"
-                           aria-readonly="@(isMinuteLocked ? "true" : null)"
-                           @onkeydown="OnMinuteKeyDown"
-                           @onchange="@((e) => SetMinuteValue(e.Value?.ToString() ?? string.Empty))">
-                </div>
+                    <div class="@theme.NumberWrapper">
+                        <input id="@($"{Id}-minute")" type="text"
+                               class="@numberInputClasses"
+                               value="@SelectedTime.ToString("mm")"
+                               role="spinbutton"
+                               inputmode="numeric"
+                               aria-label="@localizer[TwStrings.TimePicker_Minutes]"
+                               aria-valuemin="0"
+                               aria-valuemax="59"
+                               aria-valuenow="@SelectedTime.Minute"
+                               @onkeydown="OnMinuteKeyDown"
+                               @onchange="@((e) => SetMinuteValue(e.Value?.ToString() ?? string.Empty))">
+                    </div>
 
-                <TwIcon OnClick="@(() => StepAsync(DecrementMinute))"
-                        Icon="Icon.Caret_Down_Fill"
-                        Class="@theme.StepButton"
-                        Disabled="@isMinuteLocked"
-                        AriaLabel="@localizer[TwStrings.TimePicker_DecreaseMinute]" />
+                    <TwIcon OnClick="@(() => StepAsync(DecrementMinute))"
+                            Icon="Icon.Caret_Down_Fill"
+                            Class="@theme.StepButton"
+                            AriaLabel="@localizer[TwStrings.TimePicker_DecreaseMinute]" />
+                }
             </div>
 
             @if (Is12HourFormat)

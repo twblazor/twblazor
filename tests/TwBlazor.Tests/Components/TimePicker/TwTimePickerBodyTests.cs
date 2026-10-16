@@ -1492,33 +1492,34 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
     }
 
     [Fact]
-    public void Step_WholeHours_LocksTheMinuteField()
+    public void Step_WholeHours_ShowsTheMinutesAsFixedText()
     {
         // Act
-        var cut = TestContext.Render<TwTimePickerBody>(p => p.Add(x => x.Step, 120));
+        var cut = TestContext.Render<TwTimePickerBody>(p => p
+            .Add(x => x.Id, "tp")
+            .Add(x => x.SelectedTime, new TimeOnly(10, 0))
+            .Add(x => x.Step, 120));
 
         // Assert
-        var minute = cut.FindAll("input[type='text']")[1];
-        Assert.True(minute.HasAttribute("readonly"));
-        Assert.Equal("true", minute.GetAttribute("aria-readonly"));
+        var minute = cut.Find("#tp-minute");
+        Assert.Equal("SPAN", minute.TagName);
+        Assert.Equal("00", minute.TextContent);
+        Assert.Single(cut.FindAll("[role='spinbutton']"));
         var buttons = cut.FindAll("button");
-        Assert.False(buttons[0].HasAttribute("disabled"));
-        Assert.False(buttons[1].HasAttribute("disabled"));
-        Assert.True(buttons[2].HasAttribute("disabled"));
-        Assert.True(buttons[3].HasAttribute("disabled"));
+        Assert.Equal(2, buttons.Count);
+        Assert.Equal("Increase hour", buttons[0].GetAttribute("aria-label"));
+        Assert.Equal("Decrease hour", buttons[1].GetAttribute("aria-label"));
     }
 
     [Fact]
-    public void Step_UnderAnHour_LeavesTheMinuteFieldEditable()
+    public void Step_UnderAnHour_KeepsTheMinuteSpinbuttonAndButtons()
     {
         // Act
         var cut = TestContext.Render<TwTimePickerBody>(p => p.Add(x => x.Step, 15));
 
         // Assert
-        var minute = cut.FindAll("input[type='text']")[1];
-        Assert.False(minute.HasAttribute("readonly"));
-        Assert.False(minute.HasAttribute("aria-readonly"));
-        Assert.All(cut.FindAll("button"), b => Assert.False(b.HasAttribute("disabled")));
+        Assert.Equal(2, cut.FindAll("[role='spinbutton']").Count);
+        Assert.Equal(4, cut.FindAll("button").Count);
     }
 
     [Theory]

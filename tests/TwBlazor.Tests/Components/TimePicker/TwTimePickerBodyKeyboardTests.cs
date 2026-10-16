@@ -68,21 +68,6 @@ public class TwTimePickerBodyKeyboardTests : TwBlazorTestBase
     }
 
     [Theory]
-    [InlineData("ArrowUp")]
-    [InlineData("ArrowDown")]
-    public void ArrowUpAndDown_WithHourStep_LeaveTheLockedMinuteAlone(string key)
-    {
-        // Arrange
-        var cut = Render(step: 120);
-
-        // Act
-        cut.FindAll("input[type='text']")[1].KeyDown(new KeyboardEventArgs { Key = key });
-
-        // Assert
-        Assert.Null(changedTo);
-    }
-
-    [Theory]
     [InlineData(0, "ArrowLeft")]
     [InlineData(0, "a")]
     [InlineData(1, "ArrowRight")]

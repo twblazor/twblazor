@@ -73,7 +73,7 @@ internal static class KeyboardShortcuts
 
     private static readonly KeyboardShortcut[] _timeFields =
     [
-        Key("In the hour or minute field: increases or decreases the value by one, or moves to the next or previous step when Step is set. When Step is a whole number of hours, the minute field is read only and its arrow buttons are disabled.", Up, Down),
+        Key("In the hour or minute field: increases or decreases the value by one, or moves to the next or previous step when Step is set. When Step is a whole number of hours, the minutes are fixed text and are skipped by Tab.", Up, Down),
         Key("On an arrow button or the AM/PM button: presses it.", Enter, Space),
     ];
 

@@ -388,7 +388,7 @@ public class TwTimeRangePickerTests : TwBlazorTestBase
         cut.Find("input").Click();
 
         // Assert
-        Assert.Equal("true", cut.Find("[id$='-time-minute']").GetAttribute("aria-readonly"));
+        Assert.Equal("SPAN", cut.Find("[id$='-time-minute']").TagName);
     }
 
     [Fact]
