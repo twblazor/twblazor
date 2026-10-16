@@ -538,7 +538,7 @@ public class AccessibilityBehaviourTests : TwBlazorTestBase
     }
 
     [Fact]
-    public void Sidebar_Escape_ClosesTheDrawer_OnANarrowViewport()
+    public async Task Sidebar_Escape_ClosesTheDrawer_OnANarrowViewport()
     {
         // Arrange
         TestContext.JSInterop.Setup<bool>("twSidebar.isMobileViewport").SetResult(true);
@@ -548,11 +548,11 @@ public class AccessibilityBehaviourTests : TwBlazorTestBase
             .Add(x => x.IsSidebarOpenChanged, EventCallback.Factory.Create<bool>(this, v => isOpen = v)));
 
         // Act
-        cut.InvokeAsync(() => cut.Instance.CloseDrawerFromEscapeAsync());
+        await cut.InvokeAsync(() => cut.Instance.CloseDrawerFromEscapeAsync());
 
         // Assert
         Assert.False(isOpen);
-        cut.WaitForAssertion(() => Assert.True(WasInvoked("twSidebar.focusById")));
+        await cut.WaitForAssertionAsync(() => Assert.True(WasInvoked("twSidebar.focusById")));
     }
 
     [Fact]
@@ -685,7 +685,7 @@ public class AccessibilityBehaviourTests : TwBlazorTestBase
     }
 
     [Fact]
-    public void Carousel_AutoPlay_StartsPaused_ForReducedMotion_AndThePauseButtonComesFirst()
+    public async Task Carousel_AutoPlay_StartsPaused_ForReducedMotion_AndThePauseButtonComesFirst()
     {
         // Arrange
         TestContext.JSInterop.Setup<bool>("twCarousel.prefersReducedMotion").SetResult(true);
@@ -697,7 +697,7 @@ public class AccessibilityBehaviourTests : TwBlazorTestBase
             .AddChildContent<TwCarouselItem>(item => item.AddChildContent("Two")));
 
         // Assert
-        cut.WaitForAssertion(() => Assert.True(cut.Instance.IsAutoPlayManuallyPaused));
+        await cut.WaitForAssertionAsync(() => Assert.True(cut.Instance.IsAutoPlayManuallyPaused));
         Assert.Equal("Play automatic slideshow", cut.FindAll("button")[0].GetAttribute("aria-label"));
         Assert.Equal("polite", cut.Find("[aria-live]").GetAttribute("aria-live"));
     }
@@ -1064,7 +1064,7 @@ public class AccessibilityBehaviourTests : TwBlazorTestBase
     }
 
     [Fact]
-    public void Tooltip_AroundAControl_DescribesTheControl_AndAddsNoTabStop()
+    public async Task Tooltip_AroundAControl_DescribesTheControl_AndAddsNoTabStop()
     {
         // Arrange
         TestContext.JSInterop.Setup<bool>("twTooltip.describeControl", _ => true).SetResult(true);
@@ -1075,7 +1075,7 @@ public class AccessibilityBehaviourTests : TwBlazorTestBase
             .AddChildContent("<button>Save</button>"));
 
         // Assert
-        cut.WaitForAssertion(() => Assert.Null(cut.Find("div").GetAttribute("tabindex")));
+        await cut.WaitForAssertionAsync(() => Assert.Null(cut.Find("div").GetAttribute("tabindex")));
         Assert.Null(cut.Find("div").GetAttribute("aria-describedby"));
     }
 

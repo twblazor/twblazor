@@ -177,7 +177,7 @@ public class TwToastProviderTests : TwBlazorTestBase
     }
 
     [Fact]
-    public void TwToastProvider_UpdatesWhenToastAdded()
+    public async Task TwToastProvider_UpdatesWhenToastAdded()
     {
         // Arrange
         var toastService = TestContext.Services.GetRequiredService<ITwToastService>();
@@ -186,14 +186,14 @@ public class TwToastProviderTests : TwBlazorTestBase
 
         // Act
         toastService.AddToast(new ToastModel { Title = "New Toast" });
-        cut.WaitForState(() => !string.IsNullOrEmpty(cut.Markup));
+        await cut.WaitForStateAsync(() => !string.IsNullOrEmpty(cut.Markup));
 
         // Assert
         Assert.Contains("New Toast", cut.Markup);
     }
 
     [Fact]
-    public void TwToastProvider_UpdatesWhenToastCleared()
+    public async Task TwToastProvider_UpdatesWhenToastCleared()
     {
         // Arrange
         var toastService = TestContext.Services.GetRequiredService<ITwToastService>();
@@ -203,7 +203,7 @@ public class TwToastProviderTests : TwBlazorTestBase
 
         // Act
         toastService.ClearToast(toast);
-        cut.WaitForState(() => string.IsNullOrEmpty(cut.Markup));
+        await cut.WaitForStateAsync(() => string.IsNullOrEmpty(cut.Markup));
 
         // Assert
         Assert.Empty(cut.Markup);

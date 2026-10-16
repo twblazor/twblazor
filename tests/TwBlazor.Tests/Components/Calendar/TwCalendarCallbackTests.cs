@@ -23,8 +23,8 @@ public class TwCalendarCallbackTests : TwBlazorTestBase
         DateTimeEnd = end
     };
 
-    private static AngleSharp.Dom.IElement DialogButton(IRenderedComponent<TwDialogProvider> provider, string text) =>
-        provider.WaitForElement("[role='dialog']").QuerySelectorAll("button").First(b => b.TextContent.Trim() == text);
+    private static async Task<AngleSharp.Dom.IElement> DialogButtonAsync(IRenderedComponent<TwDialogProvider> provider, string text) =>
+        (await provider.WaitForElementAsync("[role='dialog']")).QuerySelectorAll("button").First(b => b.TextContent.Trim() == text);
 
     [Fact]
     public void SearchIcon_InvokesOnSearch()
@@ -39,7 +39,7 @@ public class TwCalendarCallbackTests : TwBlazorTestBase
     }
 
     [Fact]
-    public void SavingANewEvent_RaisesOnEventCreated()
+    public async Task SavingANewEvent_RaisesOnEventCreated()
     {
         Schedule<string>? created = null;
         var provider = TestContext.Render<TwDialogProvider>();
@@ -50,15 +50,15 @@ public class TwCalendarCallbackTests : TwBlazorTestBase
             .Add(x => x.OnEventCreated, EventCallback.Factory.Create<Schedule<string>>(this, e => created = e)));
 
         cut.Find("button[aria-label='09:00']").Click();
-        DialogButton(provider, "Save").Click();
+        (await DialogButtonAsync(provider, "Save")).Click();
 
-        provider.WaitForAssertion(() => Assert.NotNull(created));
+        await provider.WaitForAssertionAsync(() => Assert.NotNull(created));
         Assert.Equal(new DateTimeOffset(_day.AddHours(9)), created!.DateTimeStart);
         Assert.Equal(new DateTimeOffset(_day.AddHours(9).AddMinutes(30)), created.DateTimeEnd);
     }
 
     [Fact]
-    public void SavingAnEditedEvent_RaisesOnEventUpdated()
+    public async Task SavingAnEditedEvent_RaisesOnEventUpdated()
     {
         var evt = Event("Design review", _day.AddHours(10), _day.AddHours(11));
         Schedule<string>? updated = null;
@@ -71,14 +71,14 @@ public class TwCalendarCallbackTests : TwBlazorTestBase
             .Add(x => x.OnEventUpdated, EventCallback.Factory.Create<Schedule<string>>(this, e => updated = e)));
 
         cut.Find("button[aria-label^='Design review']").Click();
-        DialogButton(provider, "Save").Click();
+        (await DialogButtonAsync(provider, "Save")).Click();
 
-        provider.WaitForAssertion(() => Assert.NotNull(updated));
+        await provider.WaitForAssertionAsync(() => Assert.NotNull(updated));
         Assert.Equal("Design review", updated!.Name);
     }
 
     [Fact]
-    public void DeletingAnEvent_RemovesItAndRaisesOnEventDeleted()
+    public async Task DeletingAnEvent_RemovesItAndRaisesOnEventDeleted()
     {
         var evt = Event("Design review", _day.AddHours(10), _day.AddHours(11));
         var schedules = new List<Schedule<string>> { evt };
@@ -92,9 +92,9 @@ public class TwCalendarCallbackTests : TwBlazorTestBase
             .Add(x => x.OnEventDeleted, EventCallback.Factory.Create<Schedule<string>>(this, e => deleted = e)));
 
         cut.Find("button[aria-label^='Design review']").Click();
-        DialogButton(provider, "Delete").Click();
+        (await DialogButtonAsync(provider, "Delete")).Click();
 
-        provider.WaitForAssertion(() => Assert.Same(evt, deleted));
+        await provider.WaitForAssertionAsync(() => Assert.Same(evt, deleted));
         Assert.Empty(schedules);
     }
 
@@ -113,20 +113,20 @@ public class TwCalendarCallbackTests : TwBlazorTestBase
             .Add(x => x.OnEventUpdated, EventCallback.Factory.Create<Schedule<string>>(this, e => updated = e)));
 
         cut.Find("button[aria-label^='Design review']").DragStart(new DragEventArgs());
-        cut.WaitForAssertion(() => Assert.Contains("pointer-events-none", cut.Find("button[aria-label^='Design review']").GetAttribute("class")));
+        await cut.WaitForAssertionAsync(() => Assert.Contains("pointer-events-none", cut.Find("button[aria-label^='Design review']").GetAttribute("class")));
 
         // The drag start re-renders the column twice, a moment apart, and each render replaces the slot's drop
         // handler. Finding and dropping on the renderer's own thread stops a render landing between the two.
         await cut.InvokeAsync(() => cut.Find("button[aria-label='13:00']").Drop(new DragEventArgs()));
 
-        cut.WaitForAssertion(() => Assert.DoesNotContain("pointer-events-none", cut.Find("button[aria-label^='Design review']").GetAttribute("class")));
+        await cut.WaitForAssertionAsync(() => Assert.DoesNotContain("pointer-events-none", cut.Find("button[aria-label^='Design review']").GetAttribute("class")));
         Assert.Null(changed);
         Assert.Null(updated);
         Assert.Equal(new DateTimeOffset(_day.AddHours(13)), evt.DateTimeStart);
     }
 
     [Fact]
-    public void DroppingAnEventOnAnotherDayInMonthView_KeepsItsTimeOfDay_AndRaisesOnEventUpdated()
+    public async Task DroppingAnEventOnAnotherDayInMonthView_KeepsItsTimeOfDay_AndRaisesOnEventUpdated()
     {
         var evt = Event("Design review", _day.AddHours(13), _day.AddHours(14));
         Schedule<string>? updated = null;
@@ -140,13 +140,13 @@ public class TwCalendarCallbackTests : TwBlazorTestBase
         cut.Find("button[aria-label^='Design review']").DragStart(new DragEventArgs());
         cut.Find("button[aria-label='Friday, 20 March 2026']").ParentElement!.Drop(new DragEventArgs());
 
-        cut.WaitForAssertion(() => Assert.NotNull(updated));
+        await cut.WaitForAssertionAsync(() => Assert.NotNull(updated));
         Assert.Equal(new DateTimeOffset(_day.AddDays(2).AddHours(13)), updated!.DateTimeStart);
         Assert.Equal(new DateTimeOffset(_day.AddDays(2).AddHours(14)), updated.DateTimeEnd);
     }
 
     [Fact]
-    public void ClickingAnEvent_WhenNotEditable_OpensAReadOnlyDialog()
+    public async Task ClickingAnEvent_WhenNotEditable_OpensAReadOnlyDialog()
     {
         var evt = Event("Design review", _day.AddHours(10), _day.AddHours(11));
         var provider = TestContext.Render<TwDialogProvider>();
@@ -157,7 +157,7 @@ public class TwCalendarCallbackTests : TwBlazorTestBase
 
         cut.Find("button[aria-label^='Design review']").Click();
 
-        var dialog = provider.WaitForElement("[role='dialog']");
+        var dialog = await provider.WaitForElementAsync("[role='dialog']");
         Assert.DoesNotContain(dialog.QuerySelectorAll("button"), b => b.TextContent.Trim() == "Save");
     }
 

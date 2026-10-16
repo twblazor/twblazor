@@ -1,4 +1,4 @@
-// Copyright (c) 2025 Jack Shuter @ TwBlazor - twblazor.com
+﻿// Copyright (c) 2025 Jack Shuter @ TwBlazor - twblazor.com
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Components;
@@ -49,6 +49,14 @@ public partial class TwTimePicker : TwPopoverPickerComponentBase
     /// Gets whether a 12 hour clock is used: <see cref="Is12HourFormat"/> when set, otherwise the localization options.
     /// </summary>
     private bool effectiveIs12HourFormat => Is12HourFormat ?? localizer.Formats.Use12HourInput;
+
+    /// <summary>
+    /// Gets or sets the step, in minutes, that the picker's step buttons and Arrow Up/Arrow Down move the time
+    /// by. Steps under an hour move the minutes (e.g. 15 gives :00, :15, :30, :45); steps of an hour or more
+    /// move the hours (e.g. 120 steps two hours at a time) and the minutes show as fixed text. Must divide an hour or, for
+    /// whole hours, a day. Defaults to 1. Typed times are not rounded to the step.
+    /// </summary>
+    [Parameter] public int Step { get; set; } = 1;
 
     /// <summary>
     /// The selected time value.
@@ -114,6 +122,8 @@ public partial class TwTimePicker : TwPopoverPickerComponentBase
 
     protected override Task OnParametersSetAsync()
     {
+        TimeStepHelpers.ValidateStep(Step);
+
         // The native time input always needs a 24-hour HH:mm value no matter what effectiveIs12HourFormat
         // says, since the browser renders its own localized 12/24-hour UI on top of that.
         format = UseNativePicker ? twentyFourHourFormat : popoverFormat;
@@ -222,6 +232,24 @@ public partial class TwTimePicker : TwPopoverPickerComponentBase
 
         if (SelectedTimeChanged.HasDelegate)
             await SelectedTimeChanged.InvokeAsync(SelectedTime);
+    }
+
+    /// <summary>
+    /// Gets the attributes forwarded onto the trigger input: the popover ARIA attributes, or the native
+    /// <c>step</c> (in seconds) so the browser's own time picker honours <see cref="Step"/>.
+    /// </summary>
+    private Dictionary<string, object> inputAttributes
+    {
+        get
+        {
+            var attributes = triggerAttributes;
+            if (UseNativePicker && Step != 1)
+            {
+                attributes["step"] = Step * 60;
+            }
+
+            return attributes;
+        }
     }
 
     private string classes => new ClassBuilder(theme.PickerRoot).AddClass(Class).Build();

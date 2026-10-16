@@ -83,6 +83,34 @@ internal static partial class ThemeSurface
     }
 
     /// <summary>
+    /// Pastel backgrounds: a clearly tinted light mode page that still keeps the theme's text at AAA, and the same
+    /// dark mode background as <see cref="Tinted"/> at full strength.
+    /// </summary>
+    /// <param name="hue">The OKLCH hue to lean toward, in degrees.</param>
+    /// <param name="lightnessShift">A small change in lightness, as for <see cref="Tinted"/>.</param>
+    /// <param name="darkChroma">How colorful the dark background is.</param>
+    /// <returns>The pastel light and dark backgrounds.</returns>
+    public static ThemeSurfaces Pastel(double hue, double lightnessShift = 0, double darkChroma = 0.03)
+    {
+        var shift = Math.Clamp(lightnessShift, -0.02, 0.02);
+        var light = new OklchColor(0.972 + (shift / 2), 0.024, hue);
+
+        // Near white, some hues (blues and violets especially) fall outside sRGB at this chroma, and rounding to hex
+        // would quietly drop most of the tint. A touch darker makes room for it; past that the chroma eases instead,
+        // so the page stays light.
+        while (!KeepsItsTint(light) && light.Chroma > 0.016)
+        {
+            light = light.Lightness - 0.002 >= 0.962
+                ? light with { Lightness = light.Lightness - 0.002 }
+                : light with { Chroma = light.Chroma - 0.001 };
+        }
+
+        return new(
+            ToHex(light),
+            ToHex(new OklchColor(_defaultDark.Lightness + shift, darkChroma, hue)));
+    }
+
+    /// <summary>
     /// Gets whether either background differs from the default theme's.
     /// </summary>
     /// <param name="surfaces">The picked backgrounds.</param>
@@ -362,4 +390,8 @@ internal static partial class ThemeSurface
     }
 
     private static int Channel(double value) => (int)Math.Clamp(Math.Round(value), 0, 255);
+
+    // Checked on the stored hex rather than the raw conversion, which clamps out of range channels.
+    private static bool KeepsItsTint(OklchColor color) =>
+        OklchColor.TryParseHex(ToHex(color), out var stored) && stored.Chroma >= color.Chroma * 0.9;
 }

@@ -66,6 +66,53 @@
     transition: transform 120ms ease-out, opacity 80ms ease-out;
 }
 
+/* Powers TwRating's "pop" when a rating is picked: a quick overshoot that settles back. Each pick flips the
+   element's data-pop between 0 and 1, and with it the keyframe name, because re-applying the same animation to
+   an element does not replay it. */
+@keyframes tw-rating-pop {
+    0% {
+        transform: scale(1);
+    }
+
+    35% {
+        transform: scale(1.35);
+    }
+
+    65% {
+        transform: scale(0.92);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes tw-rating-pop-alt {
+    0% {
+        transform: scale(1);
+    }
+
+    35% {
+        transform: scale(1.35);
+    }
+
+    65% {
+        transform: scale(0.92);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.tw-rating-pop {
+    animation: tw-rating-pop 420ms ease-out both;
+}
+
+.tw-rating-pop[data-pop="1"] {
+    animation-name: tw-rating-pop-alt;
+}
+
 @media (prefers-reduced-motion: reduce) {
     .tw-wave::after {
         animation: none;
@@ -73,5 +120,9 @@
 
     .tw-icon-pulse::after {
         transition: none;
+    }
+
+    .tw-rating-pop {
+        animation: none;
     }
 }

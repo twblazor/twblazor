@@ -799,4 +799,16 @@
     <value>Barcode: {0}</value>
     <comment>{0} = the text the barcode holds.</comment>
   </data>
+  <data name="Rating_Value" xml:space="preserve">
+    <value>{0} out of {1}</value>
+    <comment>{0} = a rating value, for example 3.5. {1} = the highest rating, for example 5. Read out for each value of a rating input.</comment>
+  </data>
+  <data name="Rating_None" xml:space="preserve">
+    <value>No rating</value>
+    <comment>Read out for the option that clears a rating input.</comment>
+  </data>
+  <data name="Rating_ReadOnly" xml:space="preserve">
+    <value>Rated {0} out of {1}</value>
+    <comment>{0} = the rating, for example 3.5. {1} = the highest rating, for example 5. Read out for a rating that cannot be changed.</comment>
+  </data>
 </root>

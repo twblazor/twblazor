@@ -230,7 +230,7 @@ public class TwCalendarMonthSpanTests : TwBlazorTestBase
     }
 
     [Fact]
-    public void DraggingABar_ToAnotherDay_MovesTheWholeEvent_KeepingItsLength()
+    public async Task DraggingABar_ToAnotherDay_MovesTheWholeEvent_KeepingItsLength()
     {
         List<Schedule<string>>? saved = null;
         var evt = Event("Conference", new DateTime(2026, 3, 11), new DateTime(2026, 3, 14)); // three days
@@ -242,9 +242,9 @@ public class TwCalendarMonthSpanTests : TwBlazorTestBase
             .Add(x => x.SchedulesChanged, EventCallback.Factory.Create<List<Schedule<string>>>(this, l => saved = l)));
 
         cut.Find("button[aria-label^='Conference']").DragStart(new DragEventArgs());
-        cut.WaitForAssertion(() => cut.FindAll("button").First(b => b.TextContent.Trim() == "20").Closest("td")!.Drop(new DragEventArgs()));
+        await cut.WaitForAssertionAsync(() => cut.FindAll("button").First(b => b.TextContent.Trim() == "20").Closest("td")!.Drop(new DragEventArgs()));
 
-        cut.WaitForAssertion(() => Assert.NotNull(saved));
+        await cut.WaitForAssertionAsync(() => Assert.NotNull(saved));
         var moved = Assert.Single(saved!);
         Assert.Equal(new DateTimeOffset(2026, 3, 20, 0, 0, 0, TimeSpan.Zero), moved.DateTimeStart);
         Assert.Equal(new DateTimeOffset(2026, 3, 23, 0, 0, 0, TimeSpan.Zero), moved.DateTimeEnd);

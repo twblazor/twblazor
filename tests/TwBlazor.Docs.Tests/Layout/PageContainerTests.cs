@@ -27,42 +27,42 @@ public class PageContainerTests : DocsTestBase
     }
 
     [Fact]
-    public void Render_TitlesThePageWithTheNamePipeSiteDashSummaryShape()
+    public async Task Render_TitlesThePageWithTheNamePipeSiteDashSummaryShape()
     {
         // Arrange
         var head = TestContext.Render<Microsoft.AspNetCore.Components.Web.HeadOutlet>();
 
         // Act
         Render();
-        head.WaitForState(() => head.Markup.Contains("<title>"));
+        await head.WaitForStateAsync(() => head.Markup.Contains("<title>"));
 
         // Assert
         Assert.Equal("TwCard | twblazor - Blazor Card Component", head.Find("title").TextContent);
     }
 
     [Fact]
-    public void Render_UsesTheExplicitSeoTitle_WhenOneIsGiven()
+    public async Task Render_UsesTheExplicitSeoTitle_WhenOneIsGiven()
     {
         // Arrange
         var head = TestContext.Render<Microsoft.AspNetCore.Components.Web.HeadOutlet>();
 
         // Act
         Render(seoTitle: "Get Started | twblazor - Install Tailwind CSS Components for Blazor");
-        head.WaitForState(() => head.Markup.Contains("<title>"));
+        await head.WaitForStateAsync(() => head.Markup.Contains("<title>"));
 
         // Assert
         Assert.Equal("Get Started | twblazor - Install Tailwind CSS Components for Blazor", head.Find("title").TextContent);
     }
 
     [Fact]
-    public void Render_EmitsBreadcrumbJsonLd()
+    public async Task Render_EmitsBreadcrumbJsonLd()
     {
         // Arrange
         var head = TestContext.Render<Microsoft.AspNetCore.Components.Web.HeadOutlet>();
 
         // Act
         Render("/card");
-        head.WaitForState(() => head.Markup.Contains("ld+json"));
+        await head.WaitForStateAsync(() => head.Markup.Contains("ld+json"));
 
         // Assert
         var scripts = head.FindAll("script[type='application/ld+json']");
@@ -72,7 +72,7 @@ public class PageContainerTests : DocsTestBase
     }
 
     [Fact]
-    public void Render_ShowsTheFaqAndEmitsFaqJsonLd_WhenQuestionsAreGiven()
+    public async Task Render_ShowsTheFaqAndEmitsFaqJsonLd_WhenQuestionsAreGiven()
     {
         // Arrange
         var head = TestContext.Render<Microsoft.AspNetCore.Components.Web.HeadOutlet>();
@@ -83,7 +83,7 @@ public class PageContainerTests : DocsTestBase
             .Add(p => p.Path, "/card")
             .Add(p => p.Description, "TwCard is a Blazor card component.")
             .Add(p => p.Faq, [new FaqItem("Is it free?", "Yes.")]));
-        head.WaitForState(() => head.Markup.Contains("FAQPage"));
+        await head.WaitForStateAsync(() => head.Markup.Contains("FAQPage"));
 
         // Assert
         Assert.Equal("Is it free?", cut.Find("button[aria-expanded]").TextContent.Trim());

@@ -1,0 +1,95 @@
+@namespace TwBlazor.Components
+@inherits TwBlazorInputComponentBase
+@typeparam T where T : System.Numerics.INumber<T>
+
+<TwInputRoot RootId="@RootId" RootClass="@RootClass" RootAttributes="@RootAttributes" RootStyle="@Style" RootAriaLabel="@AriaLabel" RootAriaLabelledBy="@AriaLabelledBy" RootErrorMessage="@ErrorMessage" RootErrorId="@errorId">
+    @if (hasLabel)
+    {
+        <TwInputLabel Id="@labelId" Label="@Label" Class="@LabelClass" @attributes="@LabelAttributes" />
+    }
+    @if (ReadOnly)
+    {
+        <div id="@Id"
+             class="@groupClasses"
+             role="img"
+             aria-label="@readOnlyLabel"
+             aria-labelledby="@readOnlyLabelledBy"
+             aria-describedby="@errorId"
+             @attributes="@Attributes">
+            @if (readOnlyLabelledBy is not null)
+            {
+                <span id="@valueTextId" class="@theme.Input">@readOnlyText</span>
+            }
+            @for (var i = 1; i <= iconCount; i++)
+            {
+                <span class="@itemClasses">
+                    <span class="@theme.Visual" aria-hidden="true">
+                        <TwIcon Icon="@emptyIcon" Class="@emptyClasses" />
+                        <span class="@theme.Clip" style="@FillStyle(i)">
+                            <TwIcon Icon="@Icon" Class="@filledClasses" />
+                        </span>
+                    </span>
+                </span>
+            }
+        </div>
+    }
+    else
+    {
+        <div id="@Id"
+             class="@groupClasses"
+             role="radiogroup"
+             aria-label="@AriaLabel"
+             aria-labelledby="@nameIds"
+             aria-disabled="@(Disabled ? "true" : null)"
+             aria-invalid="@(Invalid ? "true" : null)"
+             aria-describedby="@errorId"
+             @onmouseleave="@EndPreview"
+             @attributes="@Attributes">
+            @if (hasEmptyOption)
+            {
+                <input type="radio"
+                       id="@emptyOptionId"
+                       name="@groupName"
+                       value="0"
+                       class="@theme.Input"
+                       data-rating-empty
+                       checked="@IsChecked(0)"
+                       disabled="@Disabled"
+                       aria-label="@emptyOptionLabel"
+                       @onchange="@(() => SelectAsync(0))" />
+            }
+            @for (var i = 1; i <= iconCount; i++)
+            {
+                var position = i;
+                <span class="@itemClasses">
+                    <span class="@VisualClasses(position)" data-pop="@PopKey(position)" style="@PopStyle(position)" aria-hidden="true">
+                        <TwIcon Icon="@emptyIcon" Class="@emptyClasses" />
+                        <span class="@theme.Clip" style="@FillStyle(position)">
+                            <TwIcon Icon="@Icon" Class="@filledClasses" />
+                        </span>
+                    </span>
+                    @foreach (var steps in StepsFor(position))
+                    {
+                        var option = steps;
+                        <input type="radio"
+                               id="@RadioId(option)"
+                               name="@groupName"
+                               value="@ToInvariant(option)"
+                               class="@theme.Input"
+                               checked="@IsChecked(option)"
+                               disabled="@Disabled"
+                               aria-label="@OptionLabel(option)"
+                               @onchange="@(() => SelectAsync(option))" />
+                        @if (interactive)
+                        {
+                            <label for="@RadioId(option)"
+                                   class="@TargetClasses(option)"
+                                   @onclick="@(() => ClearIfSelectedAsync(option))"
+                                   @onmouseenter="@(() => Preview(option))"></label>
+                        }
+                    }
+                </span>
+            }
+        </div>
+    }
+</TwInputRoot>

@@ -651,4 +651,13 @@
   <data name="Barcode_Label" xml:space="preserve">
     <value>பார்கோடு: {0}</value>
   </data>
+  <data name="Rating_Value" xml:space="preserve">
+    <value>{1} இல் {0}</value>
+  </data>
+  <data name="Rating_None" xml:space="preserve">
+    <value>மதிப்பீடு இல்லை</value>
+  </data>
+  <data name="Rating_ReadOnly" xml:space="preserve">
+    <value>மதிப்பீடு {1} இல் {0}</value>
+  </data>
 </root>

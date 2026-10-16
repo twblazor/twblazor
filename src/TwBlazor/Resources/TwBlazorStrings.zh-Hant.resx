@@ -654,4 +654,13 @@
   <data name="Barcode_Label" xml:space="preserve">
     <value>條碼：{0}</value>
   </data>
+  <data name="Rating_Value" xml:space="preserve">
+    <value>{0}/{1}</value>
+  </data>
+  <data name="Rating_None" xml:space="preserve">
+    <value>無評分</value>
+  </data>
+  <data name="Rating_ReadOnly" xml:space="preserve">
+    <value>評分 {0}/{1}</value>
+  </data>
 </root>

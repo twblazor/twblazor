@@ -117,6 +117,31 @@ public partial class TwDatePicker : TwPopoverPickerComponentBase
     [Parameter] public string NativeFormat { get; set; } = "yyyy-MM-dd";
 
     /// <summary>
+    /// The HTML <c>step</c> attribute applied to the input when the native picker is active, in the units
+    /// <see cref="NativeInputType"/> expects (days for 'date', seconds for 'datetime-local'). Set by
+    /// <see cref="TwDateTimePicker"/> from its <see cref="TwDateTimePicker.Step"/>. Leave unset for the browser default.
+    /// </summary>
+    [Parameter] public string? NativeStep { get; set; }
+
+    /// <summary>
+    /// Gets the attributes forwarded onto the trigger input: the popover ARIA attributes, plus
+    /// <see cref="NativeStep"/> when the native picker is active.
+    /// </summary>
+    private Dictionary<string, object> inputAttributes
+    {
+        get
+        {
+            var attributes = triggerAttributes;
+            if (UseNativePicker && NativeStep is not null)
+            {
+                attributes["step"] = NativeStep;
+            }
+
+            return attributes;
+        }
+    }
+
+    /// <summary>
     /// Gets the format currently used to parse and render <see cref="Value"/>, switching to
     /// <see cref="NativeFormat"/> when the native picker is active.
     /// </summary>

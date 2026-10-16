@@ -657,4 +657,13 @@
   <data name="Barcode_Label" xml:space="preserve">
     <value>Штрихкод: {0}</value>
   </data>
+  <data name="Rating_Value" xml:space="preserve">
+    <value>{0} из {1}</value>
+  </data>
+  <data name="Rating_None" xml:space="preserve">
+    <value>Нет оценки</value>
+  </data>
+  <data name="Rating_ReadOnly" xml:space="preserve">
+    <value>Оценка {0} из {1}</value>
+  </data>
 </root>

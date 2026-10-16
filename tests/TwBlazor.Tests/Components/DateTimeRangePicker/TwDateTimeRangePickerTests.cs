@@ -597,4 +597,37 @@ public class TwDateTimeRangePickerTests : TwBlazorTestBase
         cut.Find("input").Click();
         Assert.DoesNotContain("datepicker-grid", cut.Markup);
     }
+
+    [Fact]
+    public void Step_CascadesToTheTimeControls()
+    {
+        // Act
+        var cut = TestContext.Render<TwDateTimeRangePicker>(p => p.Add(x => x.Step, 120));
+
+        cut.Find("input").Click();
+
+        // Assert
+        Assert.Equal("SPAN", cut.Find("[id$='-time-minute']").TagName);
+    }
+
+    [Fact]
+    public void Step_Unsupported_Throws()
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() => TestContext.Render<TwDateTimeRangePicker>(p => p.Add(x => x.Step, 45)));
+    }
+
+    [Fact]
+    public void Panel_InsetsTheStageTabsFromTheTopEdge()
+    {
+        // Arrange - the shared date picker panel only pads the sides and bottom, which left the Start/End
+        // tabs touching the panel's top border.
+        var cut = TestContext.Render<TwDateTimeRangePicker>();
+
+        // Act
+        cut.Find("input").Click();
+
+        // Assert
+        var tabsParent = cut.Find("[data-tw-popover] [role='group']").ParentElement!;
+        Assert.Contains(Theme.Spacing.PaddingTop.Md, tabsParent.ClassList);
+    }
 }

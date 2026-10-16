@@ -651,4 +651,13 @@
   <data name="Barcode_Label" xml:space="preserve">
     <value>Kode bar: {0}</value>
   </data>
+  <data name="Rating_Value" xml:space="preserve">
+    <value>{0} saka {1}</value>
+  </data>
+  <data name="Rating_None" xml:space="preserve">
+    <value>Ora ana rating</value>
+  </data>
+  <data name="Rating_ReadOnly" xml:space="preserve">
+    <value>Rating {0} saka {1}</value>
+  </data>
 </root>

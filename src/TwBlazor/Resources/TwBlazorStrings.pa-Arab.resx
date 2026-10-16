@@ -654,4 +654,13 @@
   <data name="Barcode_Label" xml:space="preserve">
     <value>بارکوڈ: {0}</value>
   </data>
+  <data name="Rating_Value" xml:space="preserve">
+    <value>{1} وچوں {0}</value>
+  </data>
+  <data name="Rating_None" xml:space="preserve">
+    <value>کوئی ریٹنگ نہیں</value>
+  </data>
+  <data name="Rating_ReadOnly" xml:space="preserve">
+    <value>ریٹنگ {1} وچوں {0}</value>
+  </data>
 </root>

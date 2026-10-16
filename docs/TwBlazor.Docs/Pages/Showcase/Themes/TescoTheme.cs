@@ -1277,6 +1277,37 @@ public static class TescoTheme
                     LabelDisabled = interaction.DisabledOpacity,
                     IconWrapper = $"{positioning.Absolute} start-0 {display.Flex} {flexbox.Align.Center} {flexbox.Justify.Center} {sizing.Icon.Md} opacity-0 peer-checked:opacity-100 {interaction.PointerEventsNone}"
                 },
+                new TwRatingTheme
+                {
+                    Colors = new()
+                    {
+                        Primary = "text-grocerblue-600 dark:text-grocerblue-400",
+                        Accent = "text-grocerred-600 dark:text-grocerred-400",
+                        Success = "text-green-600 dark:text-green-400",
+                        Danger = "text-red-600 dark:text-red-400",
+                        Warning = "text-amber-600 dark:text-amber-400",
+                        Info = "text-blue-600 dark:text-blue-400",
+                        Light = "text-gray-100 dark:text-white",
+                        Dark = "text-gray-950 dark:text-gray-950",
+                    },
+                    Base = $"{display.InlineFlex} {flexbox.Align.Center} gap-0.5 {rounded.Sm} select-none touch-manipulation",
+                    EmptyFocusRing = "has-[input[data-rating-empty]:focus-visible]:ring-2 has-[input[data-rating-empty]:focus-visible]:ring-grocerblue-500 dark:has-[input[data-rating-empty]:focus-visible]:ring-grocerblue-400",
+                    Item = $"{positioning.Relative} {display.InlineFlex} {flexbox.ShrinkNone} {rounded.Sm} leading-none",
+                    ItemFocusRing = "has-[input:focus-visible]:ring-2 has-[input:focus-visible]:ring-grocerblue-500 dark:has-[input:focus-visible]:ring-grocerblue-400",
+                    ItemHover = $"{transition.TransformFast} {transition.EaseInOut} hover:scale-115 motion-reduce:hover:scale-100",
+                    Visual = $"{positioning.Relative} {display.InlineFlex} {interaction.PointerEventsNone}",
+                    Empty = "text-[oklch(21%_0.006_285.885)]/30 dark:text-[oklch(97.807%_0.029_256.847)]/30 forced-colors:text-[GrayText]",
+                    Clip = $"{positioning.Absolute} inset-y-0 start-0 {display.Flex} {overflow.Hidden} whitespace-nowrap",
+                    Filled = $"{flexbox.ShrinkNone} forced-colors:text-[Highlight]",
+                    Pop = "tw-rating-pop",
+                    Input = "sr-only",
+                    HalfTarget = $"{positioning.Absolute} inset-y-0 start-0 z-10 w-1/2 {interaction.PointerCursor}",
+                    FullTarget = $"{positioning.Absolute} inset-0 {interaction.PointerCursor}",
+                    Disabled = $"{interaction.DisabledOpacity} {interaction.DisabledCursor}",
+                    Small = "text-lg",
+                    Medium = "text-2xl",
+                    Large = "text-4xl"
+                },
                 new TwSliderTheme
                 {
                     Colors = new()

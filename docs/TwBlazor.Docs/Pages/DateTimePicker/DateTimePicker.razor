@@ -23,6 +23,12 @@
             </div>
         </CodeExample>
     </PageCard>
+    <PageCard Title="Step">
+        <Description>Set <code>Step</code> to the number of minutes the time arrow buttons and the <kbd>Arrow Up</kbd>/<kbd>Arrow Down</kbd> keys move by. Under an hour, the minutes step (15 gives :00, :15, :30 and :45). From 60 upwards, the hours step instead (120 moves two hours at a time) and the minutes are shown as fixed text with no arrow buttons. The step must divide an hour (1, 2, 3, 4, 5, 6, 10, 12, 15, 20 or 30) or be a whole number of hours that divides a day (60, 120, 180, 240, 360, 480 or 720). A time typed into the field is kept as entered. When the browser's native picker is used, the step is passed on to it.</Description>
+        <CodeExample Name="DateTimePickerStep" CSharpName="DateTimePickerBasicCode">
+            <TwDateTimePicker Id="step-datetimepicker" @bind-SelectedDateTime="SelectedDateTime" Label="Every 30 minutes" Step="30" />
+        </CodeExample>
+    </PageCard>
     <PageCard Title="Dense DateTime picker">
         <Description>Set <code>Dense</code> for a more compact input with a smaller height and text size. Every single-line input shares the same dense height, so they line up when used side by side.</Description>
         <CodeExample Name="DateTimePickerDense" CSharpName="DateTimePickerBasicCode">
@@ -33,8 +39,10 @@
     <PageCard Title="Disabled and readonly DateTime picker">
         <Description>Use the <code>Disabled</code> and <code>ReadOnly</code> properties to restrict interaction with the datetime picker.</Description>
         <CodeExample Name="DateTimePickerReadonlyDisabled" CSharpName="DateTimePickerBasicCode">
-            <TwDateTimePicker @bind-SelectedDateTime="SelectedDateTime" @bind-Value="SelectedDateTimeTextValue" Label="Disabled DateTime Picker" Disabled Class="mt-3" />
-            <TwDateTimePicker @bind-SelectedDateTime="SelectedDateTime" @bind-Value="SelectedDateTimeTextValue" Label="Readonly DateTime Picker" ReadOnly Class="mt-3" />
+            <div class="space-y-4">
+                <TwDateTimePicker @bind-SelectedDateTime="SelectedDateTime" @bind-Value="SelectedDateTimeTextValue" Label="Disabled DateTime Picker" Disabled />
+                <TwDateTimePicker @bind-SelectedDateTime="SelectedDateTime" @bind-Value="SelectedDateTimeTextValue" Label="Readonly DateTime Picker" ReadOnly />
+            </div>
         </CodeExample>
     </PageCard>
 </PageContainer>

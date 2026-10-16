@@ -35,7 +35,7 @@
     @if (isFocused)
     {
         <div class="@datepickerContainerClasses" role="dialog" aria-label="@(stage == DateTimeRangePickerStage.Start ? localizer[TwStrings.DateTimeRangePicker_DialogStart] : localizer[TwStrings.DateTimeRangePicker_DialogEnd])" id="@panelId" data-tw-popover tabindex="-1" @ref="PanelRef" @onkeydown="OnPanelKeyDownAsync">
-            <div class="@theme.PanelWidth">
+            <div class="@panelWidthClasses">
                 <div class="@stageTabsClasses" role="group" aria-label="@localizer[TwStrings.DateTimeRangePicker_RangeStep]">
                     <button type="button" class="@GetStageTabClasses(DateTimeRangePickerStage.Start)" aria-pressed="@(stage == DateTimeRangePickerStage.Start ? "true" : "false")" @onclick="@(() => SwitchStage(DateTimeRangePickerStage.Start))">
                         @localizer[TwStrings.Common_Start]
@@ -48,7 +48,7 @@
                 @if (view == DatePickerCalendarView.Day)
                 {
                     <TwDatePickerBody Class="time">
-                        <TwTimePickerBody Id="@($"{Id}-time")" Variant="@effectiveVariant" Is12HourFormat="@effectiveIs12HourFormat" SelectedTime="@pendingTime" SelectedTimeChanged="@OnPendingTimeChanged" />
+                        <TwTimePickerBody Id="@($"{Id}-time")" Variant="@effectiveVariant" Is12HourFormat="@effectiveIs12HourFormat" Step="@Step" SelectedTime="@pendingTime" SelectedTimeChanged="@OnPendingTimeChanged" />
                     </TwDatePickerBody>
                 }
             </div>
