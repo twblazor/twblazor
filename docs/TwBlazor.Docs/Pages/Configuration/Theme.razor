@@ -101,8 +101,8 @@
                                                   SelectedValue="@_onColors[name]"
                                                   SelectedValueChanged="@((OnColorMode value) => SetOnColor(name, value))"
                                                   AriaLabel="@($"Text on fill for {name}")" />
-                                        <p class="@contrastClass" data-testid="@($"theme-contrast-{id}")" aria-live="polite">@FilledContrast(family)</p>
-                                        @if (ForegroundWarning(family) is { } warning)
+                                        <p class="@contrastClass" data-testid="@($"theme-contrast-{id}")" aria-live="polite">@_colorNotes[name].Contrast</p>
+                                        @if (_colorNotes[name].Warning is { } warning)
                                         {
                                             <p class="@warningClass">@warning</p>
                                         }
@@ -126,7 +126,7 @@
                                                        Label="@($"{mode} cards")"
                                                        Value="@(isDark ? surfaces.Dark : surfaces.Light)"
                                                        ValueChanged="@((string value) => SetSurface(isDark, value))" />
-                                        <p class="@contrastClass" data-testid="@($"theme-surface-contrast-{id}")" aria-live="polite">@SurfaceContrast(isDark)</p>
+                                        <p class="@contrastClass" data-testid="@($"theme-surface-contrast-{id}")" aria-live="polite">@(isDark ? darkSurfaceContrast : lightSurfaceContrast)</p>
                                     </div>
                                     <div class="flex min-w-0 flex-col gap-1">
                                         <TwColorPicker Dense
@@ -134,7 +134,7 @@
                                                        Label="@($"{mode} page")"
                                                        Value="@ThemeSurface.EffectiveBody(surfaces, isDark)"
                                                        ValueChanged="@((string value) => SetBody(isDark, value))" />
-                                        <p class="@contrastClass" data-testid="@($"theme-body-contrast-{id}")" aria-live="polite">@BodyContrast(isDark)</p>
+                                        <p class="@contrastClass" data-testid="@($"theme-body-contrast-{id}")" aria-live="polite">@(isDark ? darkBodyContrast : lightBodyContrast)</p>
                                     </div>
                                 }
                             </div>
@@ -202,6 +202,8 @@
                     </div>
                 </TwTab>
             </TwTabContainer>
+
+            <TwButton Id="theme-generate-panel" Label="Generate Theme" Color="Color.Primary" Class="mt-4 w-full" OnClick="GenerateTheme" />
         </aside>
         </div>
 
@@ -212,21 +214,41 @@
                     <p class="mt-1 text-sm @text.Secondary">Everything below follows your choices. Nothing outside this page changes.</p>
                 </div>
                 <div class="flex items-center gap-3">
-                    <a href="theme#theme-code" class="@codeLinkClass"><TwIcon Icon="Icon.Code_Slash" Plain /> Get Theme.cs</a>
+                    <button type="button" id="theme-generate-header" class="@codeLinkClass" @onclick="GenerateTheme"><TwIcon Icon="Icon.Code_Slash" Plain /> Generate Theme</button>
                     <TwIcon Id="theme-toggle" Icon="@themeIcon" AriaLabel="@themeToggleLabel" OnClick="ToggleThemeAsync" Class="@toggleIconClass" />
                     <span class="sr-only" role="status" aria-live="polite">@themeStatusMessage</span>
                 </div>
             </header>
 
-            <ThemeBuilderPreview Colors="@_colors" OnColors="@_onColors" Defaults="@defaults" Selected="@_selected" />
+            <ThemeBuilderPreview Version="@previewVersion" Colors="@_colors" OnColors="@_onColors" Defaults="@defaults" Selected="@_selected" />
 
             <section id="theme-code" class="mt-10 scroll-mt-4" aria-labelledby="theme-code-heading">
-                <h2 id="theme-code-heading" class="@previewHeadingClass">Your Theme.cs</h2>
+                @* Focusable from script only, so generating the theme can move focus (and the view) here. *@
+                <h2 id="theme-code-heading" tabindex="-1" class="@previewHeadingClass focus:outline-none" @ref="codeHeading">Your Theme.cs</h2>
                 <p class="mt-1 mb-4 max-w-3xl text-sm @text.Secondary">
                     Swap it for the <code>Theme.cs</code> from <a href="/get-started" class="underline">Get Started</a> and register it with <code>Theme.CreateTheme</code>.
                 </p>
+                <p class="sr-only" role="status" aria-live="polite">@codeStatusMessage</p>
 
-                <TwCodeBlock @key="codeVersion" Content="@generatedCode" Language="csharp" Title="Theme.cs" Class="max-h-150 overflow-y-scroll" />
+                @if (generatedCode.Length == 0)
+                {
+                    <div id="theme-code-empty" class="@codeEmptyClass">
+                        <p class="text-sm @text.Secondary">Your theme is generated when you ask for it, so changing settings stays quick.</p>
+                        <TwButton Id="theme-generate-code" Label="Generate Theme" Color="Color.Primary" OnClick="GenerateTheme" />
+                    </div>
+                }
+                else
+                {
+                    @if (codeIsStale)
+                    {
+                        <div id="theme-code-stale" class="@codeStaleClass">
+                            <p class="text-sm">Your settings have changed since this was generated.</p>
+                            <TwButton Id="theme-generate-code" Label="Generate Theme" Color="Color.Primary" Dense OnClick="GenerateTheme" />
+                        </div>
+                    }
+
+                    <TwCodeBlock Content="@generatedCode" Language="csharp" Title="Theme.cs" Class="max-h-150 overflow-y-scroll" />
+                }
             </section>
         </main>
     </div>

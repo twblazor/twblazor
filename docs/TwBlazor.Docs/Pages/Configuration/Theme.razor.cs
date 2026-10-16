@@ -1,4 +1,5 @@
 using TwBlazor.Configuration.Color;
+using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using TwBlazor.Docs.Services;
 using TwBlazor.Docs.Services.ThemeBuilder;
@@ -76,10 +77,14 @@ public partial class Theme
 
     private string previewHeadingClass => $"text-xl font-bold tracking-tight {text.Heading}";
 
+    private string codeEmptyClass => $"flex flex-col items-start gap-3 rounded-lg border border-dashed p-6 {surface.Border} {surface.Background}";
+
+    private string codeStaleClass => $"mb-3 flex flex-wrap items-center justify-between gap-3 rounded-lg border px-4 py-3 {surface.Border} {surface.Background}";
+
     private string codeLinkClass => $"inline-flex min-h-9 items-center gap-1.5 rounded-lg border px-3 text-sm font-medium {surface.Border} {surface.Hover} focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600";
 
-    // The picked colors, as custom properties scoped to the page's own element.
-    private string pageStyle => ThemePreviewStyle.Build(_colors);
+    // The picked colors, as custom properties scoped to the page's own element. Rebuilt only when a color changes.
+    private string pageStyle = string.Empty;
 
     private ThemeSurfaces surfaces = ThemeSurfaces.Default;
     private string surfaceCss = string.Empty;
@@ -101,14 +106,44 @@ public partial class Theme
 
     private ThemeDefaults defaults = ThemeDefaults.Default;
 
+    /// <summary>
+    /// The readability notes shown under one brand color.
+    /// </summary>
+    /// <param name="Contrast">The filled text contrast line.</param>
+    /// <param name="Warning">The faint color warning, or <see langword="null"/> for none.</param>
+    private sealed record ColorNotes(string Contrast, string? Warning);
+
+    // Worked out when a color changes rather than on every render, since each one builds a color ramp.
+    private readonly Dictionary<string, ColorNotes> _colorNotes = [];
+
+    private string lightSurfaceContrast = string.Empty;
+    private string darkSurfaceContrast = string.Empty;
+    private string lightBodyContrast = string.Empty;
+    private string darkBodyContrast = string.Empty;
+
     private string generatedCode = string.Empty;
-    private int codeVersion;
+
+    // Set when a setting changes after the theme was generated, so the code is marked out of date.
+    private bool codeIsStale;
+
+    private string codeStatusMessage = string.Empty;
+
+    private bool focusCodeHeading;
+
+    private ElementReference codeHeading;
+
+    // Bumped whenever something the preview shows changes, so it can skip renders caused by anything else.
+    private int previewVersion;
+
     private int totalComponents;
 
     /// <inheritdoc />
     protected override void OnInitialized()
     {
         totalComponents = _groups.Sum(g => g.Components.Count);
+        filteredPresets = FilterPresets();
+        RefreshColors();
+        RefreshSurfaces();
         SelectAll();
     }
 
@@ -145,7 +180,7 @@ public partial class Theme
                 _selected.Remove(name);
         }
 
-        Regenerate();
+        PreviewChanged();
     }
 
     private void ToggleComponent(string name)
@@ -153,25 +188,26 @@ public partial class Theme
         if (!_selected.Remove(name))
             _selected.Add(name);
 
-        Regenerate();
+        PreviewChanged();
     }
 
     private void SelectAll()
     {
         _selected.UnionWith(_groups.SelectMany(g => g.Components).Select(c => c.Name));
-        Regenerate();
+        PreviewChanged();
     }
 
     private void ClearAll()
     {
         _selected.Clear();
-        Regenerate();
+        PreviewChanged();
     }
 
     private void SetColor(string name, string value)
     {
         _colors[name] = value;
-        Regenerate();
+        RefreshColors();
+        PreviewChanged();
     }
 
     private const int presetsPerPage = 8;
@@ -200,7 +236,9 @@ public partial class Theme
 
     private ThemeTone? toneFilter;
 
-    private List<ThemePreset> filteredPresets => [.. ThemePreset._all.Where(preset => toneFilter is null || preset.Tone == toneFilter)];
+    private List<ThemePreset> filteredPresets = [];
+
+    private List<ThemePreset> FilterPresets() => [.. ThemePreset._all.Where(preset => toneFilter is null || preset.Tone == toneFilter)];
 
     private int presetPageCount => Math.Max(1, (int)Math.Ceiling(filteredPresets.Count / (double)presetsPerPage));
 
@@ -220,6 +258,7 @@ public partial class Theme
     private void SetToneFilter(ThemeTone? tone)
     {
         toneFilter = tone;
+        filteredPresets = FilterPresets();
         presetPage = 1;
     }
 
@@ -250,13 +289,16 @@ public partial class Theme
 
         defaults = preset.Defaults;
         surfaces = preset.Surfaces;
-        Regenerate();
+        RefreshColors();
+        RefreshSurfaces();
+        PreviewChanged();
     }
 
     private void SetOnColor(string name, OnColorMode value)
     {
         _onColors[name] = value;
-        Regenerate();
+        RefreshColors();
+        PreviewChanged();
     }
 
     private void ResetColors()
@@ -267,7 +309,8 @@ public partial class Theme
             _onColors[family.Name] = OnColorMode.Auto;
         }
 
-        Regenerate();
+        RefreshColors();
+        PreviewChanged();
     }
 
     /// <summary>
@@ -313,6 +356,12 @@ public partial class Theme
     /// <param name="firstRender">Whether this is the first render.</param>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        if (focusCodeHeading)
+        {
+            focusCodeHeading = false;
+            await FocusCodeHeadingAsync();
+        }
+
         if (!firstRender)
             return;
 
@@ -330,13 +379,15 @@ public partial class Theme
     private void SetSurface(bool dark, string value)
     {
         surfaces = dark ? surfaces with { Dark = value } : surfaces with { Light = value };
-        Regenerate();
+        RefreshSurfaces();
+        SettingsChanged();
     }
 
     private void SetBody(bool dark, string value)
     {
         surfaces = dark ? surfaces with { BodyDark = value } : surfaces with { BodyLight = value };
-        Regenerate();
+        RefreshSurfaces();
+        SettingsChanged();
     }
 
     /// <summary>
@@ -347,7 +398,8 @@ public partial class Theme
     private void ResetSurfaces()
     {
         surfaces = ThemeSurfaces.Default;
-        Regenerate();
+        RefreshSurfaces();
+        SettingsChanged();
     }
 
     /// <summary>
@@ -387,19 +439,74 @@ public partial class Theme
     private void SetDefaults(ThemeDefaults value)
     {
         defaults = value;
-        Regenerate();
+        PreviewChanged();
     }
 
     private void ResetDefaults() => SetDefaults(ThemeDefaults.Default);
 
-    private void Regenerate()
+    /// <summary>
+    /// Rebuilds the page style and each color's readability notes after a brand color or its text mode changes.
+    /// </summary>
+    private void RefreshColors()
+    {
+        pageStyle = ThemePreviewStyle.Build(_colors);
+
+        foreach (var family in ThemeColorFamily.All)
+            _colorNotes[family.Name] = new(FilledContrast(family), ForegroundWarning(family));
+    }
+
+    /// <summary>
+    /// Rebuilds the surface stylesheet and the background contrast notes after a background changes.
+    /// </summary>
+    private void RefreshSurfaces()
+    {
+        surfaceCss = ThemeSurface.BuildCss(_template, surfaces);
+        lightSurfaceContrast = SurfaceContrast(false);
+        darkSurfaceContrast = SurfaceContrast(true);
+        lightBodyContrast = BodyContrast(false);
+        darkBodyContrast = BodyContrast(true);
+    }
+
+    /// <summary>
+    /// Records a change the preview shows, then marks the generated theme out of date.
+    /// </summary>
+    private void PreviewChanged()
+    {
+        previewVersion++;
+        SettingsChanged();
+    }
+
+    /// <summary>
+    /// Marks the generated theme out of date. The code itself is only rebuilt on request, since generating and
+    /// highlighting the whole file on every change made the page slow.
+    /// </summary>
+    private void SettingsChanged() => codeIsStale = generatedCode.Length > 0;
+
+    /// <summary>
+    /// Generates <c>Theme.cs</c> from the current settings, then moves focus to it.
+    /// </summary>
+    private void GenerateTheme()
     {
         var themeTypes = _template.ResolveThemeTypes(_selected);
 
         generatedCode = ThemeCodeGenerator.Generate(_template, themeTypes, _colors, defaults, _onColors, surfaces);
-        surfaceCss = ThemeSurface.BuildCss(_template, surfaces);
+        codeIsStale = false;
+        codeStatusMessage = "Theme.cs generated";
+        focusCodeHeading = true;
+    }
 
-        // The code block highlights only on first render, so a new key makes it render (and highlight) afresh.
-        codeVersion++;
+    /// <summary>
+    /// Moves focus to the generated theme's heading, which also scrolls it into view.
+    /// </summary>
+    private async Task FocusCodeHeadingAsync()
+    {
+        try
+        {
+            await codeHeading.FocusAsync();
+        }
+        catch (Exception exception) when (exception is JSException or JSDisconnectedException or InvalidOperationException or OperationCanceledException)
+        {
+            // The visitor has left, or there is no browser to focus in.
+        }
     }
 }

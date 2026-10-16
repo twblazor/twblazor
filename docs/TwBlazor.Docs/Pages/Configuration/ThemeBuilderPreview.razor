@@ -413,7 +413,7 @@
         }
     </div>
 
-    @if (Has(_charts))
+    @if (showLateSamples && Has(_charts))
     {
         @* The charts are all the same height, so a plain grid fills every row. *@
         <div id="preview-charts" class="@chartGridClass">
@@ -468,7 +468,7 @@
         </div>
     }
 
-    @if (Has("TwDataTable"))
+    @if (showLateSamples && Has("TwDataTable"))
     {
         <TwCard Title="Data table" Class="min-w-0" @attributes="look">
             <TwDataTable TItem="Order" Items="@orders" Searchable Pageable RowsPerPage="5" Rounded="@Defaults.Rounded">
@@ -630,13 +630,64 @@
     /// </summary>
     [Parameter, EditorRequired] public IReadOnlySet<string> Selected { get; set; } = new HashSet<string>();
 
+    /// <summary>
+    /// Changes whenever anything this preview shows changes. The other parameters are mutable collections, which
+    /// Blazor always treats as changed, so this is what tells a real change from the page re-rendering for an
+    /// unrelated reason such as a tab, a filter or the dark mode toggle.
+    /// </summary>
+    [Parameter] public int Version { get; set; }
+
     private string secondaryText => Options.Theme.Colors.NeutralText.Secondary;
 
-    private Dictionary<string, object> look => new()
+    private int renderedVersion = -1;
+
+    private bool skipRender;
+
+    // The charts and data table are the heaviest samples, so they follow once the rest has been painted.
+    private bool showLateSamples;
+
+    private Dictionary<string, object> look = [];
+
+    /// <inheritdoc />
+    protected override void OnParametersSet()
     {
-        [nameof(TwCard.Rounded)] = Defaults.Rounded,
-        [nameof(TwCard.Shadow)] = Defaults.Shadow
-    };
+        // Renders from the samples' own events still go through: only a parent render with nothing new is skipped.
+        skipRender = Version == renderedVersion;
+        if (skipRender)
+            return;
+
+        renderedVersion = Version;
+        look = new()
+        {
+            [nameof(TwCard.Rounded)] = Defaults.Rounded,
+            [nameof(TwCard.Shadow)] = Defaults.Shadow
+        };
+    }
+
+    /// <inheritdoc />
+    protected override bool ShouldRender()
+    {
+        if (!skipRender)
+            return true;
+
+        skipRender = false;
+        return false;
+    }
+
+    /// <inheritdoc />
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender)
+            return;
+
+        // A real delay rather than a yield, so the browser gets to paint the first samples before the rest render.
+        await Task.Delay(1);
+        await InvokeAsync(() =>
+        {
+            showLateSamples = true;
+            StateHasChanged();
+        });
+    }
 
     private Dictionary<string, object> InputLook() => new(look) { [nameof(TwTextfield<string>.Variant)] = Defaults.InputVariant };
 

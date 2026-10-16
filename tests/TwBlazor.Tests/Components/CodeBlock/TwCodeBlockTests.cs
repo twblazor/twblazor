@@ -769,4 +769,33 @@ public class TwCodeBlockTests : TwBlazorTestBase
         Assert.Equal("Install", cut.Find("span").TextContent);
         Assert.Contains("uppercase", header.ClassList);
     }
+
+    [Fact]
+    public void NewContent_IsHighlightedAgain_InAFreshCodeElement()
+    {
+        // Arrange
+        var cut = TestContext.Render<TwCodeBlock>(parameters => parameters.Add(p => p.Content, "var a = 1;"));
+        var first = cut.Find("code");
+
+        // Act
+        cut.Render(parameters => parameters.Add(p => p.Content, "var b = 2;"));
+
+        // Assert
+        Assert.Equal(2, TestContext.JSInterop.Invocations["twCodeBlock.highlightElement"].Count);
+        Assert.NotSame(first, cut.Find("code"));
+        Assert.Contains("var b = 2;", cut.Find("code").TextContent);
+    }
+
+    [Fact]
+    public void UnchangedContent_IsNotHighlightedAgain()
+    {
+        // Arrange
+        var cut = TestContext.Render<TwCodeBlock>(parameters => parameters.Add(p => p.Content, "var a = 1;"));
+
+        // Act
+        cut.Render(parameters => parameters.Add(p => p.Content, "var a = 1;").Add(p => p.Title, "Example"));
+
+        // Assert
+        Assert.Single(TestContext.JSInterop.Invocations["twCodeBlock.highlightElement"]);
+    }
 }
