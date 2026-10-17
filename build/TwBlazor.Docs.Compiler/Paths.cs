@@ -54,7 +54,23 @@ public static class Paths
     public static string GeneratedPath => CombineDir(DocsProjectPath, "Generated");
     public static string PagesPath => CombineDir(DocsProjectPath, "Pages");
     public static string LayoutPath => CombineDir(DocsProjectPath, "Layout");
-    public static string SitemapPath => Path.Combine(GetSolutionDirectory(), "docs", "TwBlazor.WASM", "wwwroot", "sitemap.xml");
+    public static string WasmWwwrootPath => Path.Combine(GetSolutionDirectory(), "docs", "TwBlazor.WASM", "wwwroot");
+    public static string SitemapPath => Path.Combine(WasmWwwrootPath, "sitemap.xml");
+    public static string LlmsPath => Path.Combine(DocsProjectPath, "Llms");
+    public static string LlmsTemplatePath => Path.Combine(LlmsPath, "llms.template.txt");
+    public static string LlmsPartialsPath => Path.Combine(LlmsPath, "Partials");
+    public static string SkillTemplatesPath => Path.Combine(LlmsPath, "Skills");
+
+    /// <summary>
+    /// Reads the <c>llms.txt</c> template, its partials and the skill templates, each keyed by file name.
+    /// </summary>
+    public static LlmsTemplates ReadLlmsTemplates()
+    {
+        static Dictionary<string, string> ReadFolder(string folder) =>
+            Directory.GetFiles(folder, "*.txt").ToDictionary(f => Path.GetFileNameWithoutExtension(f), File.ReadAllText, StringComparer.Ordinal);
+
+        return new LlmsTemplates(File.ReadAllText(LlmsTemplatePath), ReadFolder(LlmsPartialsPath), ReadFolder(SkillTemplatesPath));
+    }
     public static string ThemeCsFilePath => Path.Combine(GetSolutionDirectory(), "src", "TwBlazor.Theme", "Theme.cs");
     public static string ComponentsJsonPath => Path.Combine(GetSolutionDirectory(), "components.json");
     public static string LibrarySourcePath => Path.Combine(GetSolutionDirectory(), "src", "TwBlazor");

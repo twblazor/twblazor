@@ -99,6 +99,21 @@ public class NavigationTests : DocsTestBase
     }
 
     [Fact]
+    public void Sidebar_ListsAiAgentsAndSkills_AsTheLastTopLevelLink_WithARobotIcon()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<Navigation>();
+
+        // Assert
+        var sidebarLinks = cut.FindAll("nav[aria-label='sidebar navigation'] a");
+        var aiAgents = sidebarLinks[^1];
+        Assert.Equal("/ai-agents", aiAgents.GetAttribute("href"));
+        Assert.Contains("AI Agents & Skills", aiAgents.TextContent);
+        Assert.NotNull(aiAgents.QuerySelector("i.bi-robot"));
+        Assert.True(sidebarLinks.ToList().FindIndex(a => a.GetAttribute("href") == "https://twblazor.github.io/twblazor/") < sidebarLinks.Count - 1);
+    }
+
+    [Fact]
     public void Sidebar_HasNoSeparateThemeBuilderEntry()
     {
         // Arrange & Act

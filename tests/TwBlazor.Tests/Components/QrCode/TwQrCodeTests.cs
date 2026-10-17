@@ -1,7 +1,7 @@
-using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
 using Bunit;
 using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using TwBlazor.Components;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Enums;

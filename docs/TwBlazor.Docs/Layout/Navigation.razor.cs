@@ -116,6 +116,7 @@ public partial class Navigation : IDisposable
         }
 
         items.Add(new() { Id = "api-doc", Label = "API Documentation", Href = _apiDocumentationUri, Icon = Icon.Journal_Code });
+        items.Add(new() { Id = "ai-agents", Label = "AI Agents & Skills", Href = "/ai-agents", Icon = Icon.Robot });
 
         return items;
     }

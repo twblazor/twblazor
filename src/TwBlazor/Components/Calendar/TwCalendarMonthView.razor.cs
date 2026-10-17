@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using TwBlazor.Configuration.Components;
-using TwBlazor.Utilities;
 using TwBlazor.Localization;
+using TwBlazor.Utilities;
 
 namespace TwBlazor.Components;
 

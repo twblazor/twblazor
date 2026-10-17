@@ -6,8 +6,8 @@ using Microsoft.JSInterop;
 using System.Globalization;
 using TwBlazor.Components.DatePicker;
 using TwBlazor.Configuration.Components;
-using TwBlazor.Utilities;
 using TwBlazor.Localization;
+using TwBlazor.Utilities;
 
 namespace TwBlazor.Components;
 

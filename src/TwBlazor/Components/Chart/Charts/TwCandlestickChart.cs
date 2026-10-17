@@ -4,8 +4,8 @@
 using Microsoft.AspNetCore.Components;
 using TwBlazor.Charting;
 using TwBlazor.Enums;
-using TwBlazor.Models;
 using TwBlazor.Localization;
+using TwBlazor.Models;
 
 namespace TwBlazor.Components;
 

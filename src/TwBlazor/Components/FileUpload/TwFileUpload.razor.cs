@@ -2,13 +2,13 @@
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.JSInterop;
 using TwBlazor.Builders;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Enums;
-using TwBlazor.Utilities;
 using TwBlazor.Localization;
+using TwBlazor.Utilities;
 
 namespace TwBlazor.Components;
 

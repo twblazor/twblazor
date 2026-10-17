@@ -6,9 +6,9 @@ using Microsoft.JSInterop;
 using System.Globalization;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Enums;
+using TwBlazor.Localization;
 using TwBlazor.Models;
 using TwBlazor.Utilities;
-using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 

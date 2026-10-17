@@ -1,0 +1,72 @@
+Full guide with both hosting models: {{link:/get-started}}
+
+1. Create a Blazor Web App:
+   - Interactive Server: `dotnet new blazor -o {YourProjectName}`
+   - Interactive WebAssembly: `dotnet new blazor -o {YourProjectName} --interactivity WebAssembly` (this creates a host project `{YourProjectName}` and a client project `{YourProjectName}.Client`)
+2. Install the package. With WebAssembly, install it in BOTH projects.
+   ```bash
+   dotnet add package twblazor --version {{version}}
+   ```
+3. In `Components/App.razor` (always in the host project) add to `<head>`:
+   ```html
+   <link rel="stylesheet" href="@Assets["_content/twblazor/icons/bootstrap-icons.min.css"]">
+   <link rel="stylesheet" href="@Assets["css/output.css"]" />
+   ```
+   and before the Blazor script at the end of `<body>`:
+   ```html
+   <script src="@Assets["_content/twblazor/js/twblazor.js"]"></script>
+   ```
+   `css/output.css` is the app's own Tailwind build from step 8, so it 404s until then.
+4. Add to `_Imports.razor` (`Components/_Imports.razor` for Server, `{YourProjectName}.Client/_Imports.razor` for WebAssembly):
+   ```razor
+   @using TwBlazor.Components
+   @using TwBlazor.Enums
+   @using TwBlazor
+   ```
+5. Add the providers to the top of `MainLayout.razor` (`Components/Layout/MainLayout.razor` for Server, `{YourProjectName}.Client/Layout/MainLayout.razor` for WebAssembly):
+   ```razor
+   <TwToastProvider />
+   <TwDialogProvider />
+   ```
+6. Generate a theme at https://twblazor.com/theme and save it as `Theme.cs` at the root of the project that compiles the components: `{YourProjectName}` for Server, `{YourProjectName}.Client` for WebAssembly. See the rules above.
+7. Register the services in `Program.cs`. With WebAssembly, do this in BOTH `Program.cs` files and add `using {YourProjectName}.Client;` to the host project's.
+   ```csharp
+   using TwBlazor;
+
+   builder.Services.AddTwBlazor(_ => { }, Theme.CreateTheme);
+   ```
+8. Build Tailwind CSS (v4, Tailwind CLI) from the solution root:
+   ```bash
+   npm init -y
+   npm install tailwindcss @tailwindcss/cli
+   ```
+   Create `{YourProjectName}/wwwroot/css/input.css`. Server:
+   ```css
+   @import "tailwindcss";
+
+   @source "../../**/*.razor";
+   @source "../../Theme.cs";
+   ```
+   WebAssembly (the sources must reach into the client project):
+   ```css
+   @import "tailwindcss";
+
+   @source "../../**/*.razor";
+   @source "../../../{YourProjectName}.Client/**/*.razor";
+   @source "../../../{YourProjectName}.Client/Theme.cs";
+   ```
+   Then copy the keyframes (`tw-wave`, `tw-icon-pulse`, `tw-rating-pop`) from step 8 of {{link:/get-started}} into the end of `input.css`. They power `TwSkeleton`'s wave, `TwProgress`'s shimmer, `TwIcon`'s pulse and `TwRating`'s pop animations.
+   Build it (add `--watch` while developing):
+   - Server: `npx @tailwindcss/cli -i ./wwwroot/css/input.css -o ./wwwroot/css/output.css`
+   - WebAssembly: `npx @tailwindcss/cli -i ./{YourProjectName}/wwwroot/css/input.css -o ./{YourProjectName}/wwwroot/css/output.css`
+9. Check it works with a page using `@rendermode InteractiveServer` (or `InteractiveWebAssembly`, placed in the client project):
+   ```razor
+   <TwAlert Color="Color.Success">It works.</TwAlert>
+   <TwButton Label="@($"Clicked {count} times")" Color="Color.Primary" OnClick="() => count++" />
+   <TwSwitch @bind-Value="enabled" Label="Enabled" Color="Color.Primary" />
+
+   @code {
+       private int count;
+       private bool enabled;
+   }
+   ```

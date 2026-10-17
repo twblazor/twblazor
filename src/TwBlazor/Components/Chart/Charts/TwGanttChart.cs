@@ -1,11 +1,10 @@
 // Copyright (c) 2025 Jack Shuter @ TwBlazor - twblazor.com
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
-using System.Globalization;
 using Microsoft.AspNetCore.Components;
 using TwBlazor.Charting;
-using TwBlazor.Models;
 using TwBlazor.Localization;
+using TwBlazor.Models;
 
 namespace TwBlazor.Components;
 

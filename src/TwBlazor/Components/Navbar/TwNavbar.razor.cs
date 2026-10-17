@@ -4,9 +4,9 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Routing;
 using TwBlazor.Configuration.Components;
+using TwBlazor.Localization;
 using TwBlazor.Models;
 using TwBlazor.Utilities;
-using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 

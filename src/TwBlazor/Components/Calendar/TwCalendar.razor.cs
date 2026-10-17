@@ -5,10 +5,10 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Enums;
+using TwBlazor.Localization;
 using TwBlazor.Models;
 using TwBlazor.Services;
 using TwBlazor.Utilities;
-using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 
