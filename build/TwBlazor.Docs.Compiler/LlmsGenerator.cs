@@ -177,7 +177,7 @@ public static partial class LlmsGenerator
     /// Returns the component a page documents: its <c>components.json</c> entry, or else a library component named
     /// by the page title (such as <c>TwDirectionProvider</c>), or <see langword="null"/> for a guide.
     /// </summary>
-    private static string? PrimaryComponent(string route, RazorPageContent content, IReadOnlyDictionary<string, string> componentByRoute, IReadOnlyDictionary<string, ComponentInfo> components)
+    private static string? PrimaryComponent(string route, RazorPageContent content, Dictionary<string, string> componentByRoute, IReadOnlyDictionary<string, ComponentInfo> components)
     {
         if (componentByRoute.TryGetValue(route, out var name) && name.Length > 0)
             return name;
@@ -189,7 +189,7 @@ public static partial class LlmsGenerator
         pages.Where(p => p.Route == getStartedRoute).Select(p => InstallVersionRegex().Match(p.Source)).FirstOrDefault(m => m.Success)?.Groups["version"].Value
             ?? throw new InvalidOperationException("No 'dotnet add package twblazor --version <version>' line found on the Get Started page.");
 
-    private static AgentSkill BuildSkill(string name, string template, SiteContent site, IReadOnlyDictionary<string, string> markdown, Func<string, string> siteLink)
+    private static AgentSkill BuildSkill(string name, string template, SiteContent site, SortedDictionary<string, string> markdown, Func<string, string> siteLink)
     {
         var parts = FrontmatterRegex().Match(template.Replace("\r\n", "\n"));
         if (!parts.Success)
@@ -357,7 +357,7 @@ public static partial class LlmsGenerator
         return sb.ToString().TrimEnd();
     }
 
-    private static string RenderSkillList(IReadOnlyList<AgentSkill> skills, string origin)
+    private static string RenderSkillList(List<AgentSkill> skills, string origin)
     {
         if (skills.Count == 0)
             return string.Empty;

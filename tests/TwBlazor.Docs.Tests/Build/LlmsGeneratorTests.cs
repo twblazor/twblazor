@@ -46,7 +46,7 @@ public class LlmsGeneratorTests
     private static LlmsTemplates Templates(string? skill = SetupSkill, string llms = LlmsTemplate) => new(
         llms,
         new Dictionary<string, string> { ["rules"] = "- Use the [guide]({{link:/get-started}})." },
-        skill is null ? new Dictionary<string, string>() : new Dictionary<string, string> { ["twblazor-setup"] = skill });
+        skill is null ? [] : new Dictionary<string, string> { ["twblazor-setup"] = skill });
 
     private static LlmsOutput Generate(LlmsTemplates? templates = null) =>
         LlmsGenerator.Generate(templates ?? Templates(), ComponentsJson, _pages, new Dictionary<string, string>(), _components);

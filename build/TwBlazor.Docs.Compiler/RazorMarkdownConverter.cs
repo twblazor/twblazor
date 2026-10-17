@@ -25,7 +25,7 @@ public sealed record RazorPageContent(string Title, string Description, string T
 /// </remarks>
 public static partial class RazorMarkdownConverter
 {
-    private const string fenceToken = "\u0002";
+    private const char fenceToken = '\u0002';
     private const string razorLanguage = "razor";
     private const string codeExampleTag = "CodeExample";
 
@@ -135,7 +135,7 @@ public static partial class RazorMarkdownConverter
         markup = ReplaceCodeSamples(markup, examples, fields, fences, exampleComponents);
 
         var container = TagRegex().Matches(markup).FirstOrDefault(m => m.Groups["name"].Value == "PageContainer" && m.Groups["close"].Length == 0);
-        var attributes = container is null ? new Dictionary<string, string>() : Attributes(container.Groups["attrs"].Value);
+        Dictionary<string, string> attributes = container is null ? [] : Attributes(container.Groups["attrs"].Value);
 
         // Runtime values (often quoted strings inside quoted attributes) are dropped before tags are read, so
         // they can neither break a tag apart nor leak into the text.
@@ -162,7 +162,7 @@ public static partial class RazorMarkdownConverter
             Decode(attributes.GetValueOrDefault("Description", string.Empty)),
             attributes.TryGetValue("ThemeType", out var themeType) && TypeofRegex().Match(themeType) is { Success: true } typeOf ? typeOf.Groups["type"].Value.Split('.')[^1] : string.Empty,
             body,
-            exampleComponents.Distinct(StringComparer.Ordinal).ToList());
+            [.. exampleComponents.Distinct(StringComparer.Ordinal)]);
     }
 
     private static Dictionary<string, string> RawStringFields(string code) =>
@@ -376,7 +376,7 @@ public static partial class RazorMarkdownConverter
             match.Groups["name"].Value.ToLowerInvariant(),
             isClose,
             match.Groups["self"].Length > 0,
-            isClose ? new Dictionary<string, string>() : Attributes(match.Groups["attrs"].Value));
+            isClose ? [] : Attributes(match.Groups["attrs"].Value));
 
         if (TrackSkippedContent(tag, state) || state.SkipDepth > 0)
             return;

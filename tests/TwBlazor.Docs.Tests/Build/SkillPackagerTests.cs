@@ -27,7 +27,7 @@ public class SkillPackagerTests
             ["twblazor-setup/SKILL.md", "twblazor-theming/SKILL.md", "twblazor-theming/references/class-merge.md"],
             archive.Entries.Select(e => e.FullName));
 
-        using var reader = new StreamReader(archive.GetEntry("twblazor-theming/references/class-merge.md")!.Open());
+        using var reader = new StreamReader(await archive.GetEntry("twblazor-theming/references/class-merge.md")!.OpenAsync(TestContext.Current.CancellationToken));
         Assert.Equal("merge", await reader.ReadToEndAsync(TestContext.Current.CancellationToken));
     }
 
