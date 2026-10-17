@@ -1,5 +1,5 @@
-using System.Globalization;
 using Bunit;
+using System.Globalization;
 using TwBlazor.Charting;
 using TwBlazor.Components;
 using TwBlazor.Enums;

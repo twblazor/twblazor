@@ -135,7 +135,7 @@ public static partial class RazorMarkdownConverter
         markup = ReplaceCodeSamples(markup, examples, fields, fences, exampleComponents);
 
         var container = TagRegex().Matches(markup).FirstOrDefault(m => m.Groups["name"].Value == "PageContainer" && m.Groups["close"].Length == 0);
-        Dictionary<string, string> attributes = container is null ? [] : Attributes(container.Groups["attrs"].Value);
+        var attributes = container is null ? [] : Attributes(container.Groups["attrs"].Value);
 
         // Runtime values (often quoted strings inside quoted attributes) are dropped before tags are read, so
         // they can neither break a tag apart nor leak into the text.
@@ -255,7 +255,7 @@ public static partial class RazorMarkdownConverter
     {
         var depth = 1;
 
-        foreach (Match tag in TagRegex().Matches(markup[from..]).Where(t => t.Groups["name"].Value == name && t.Groups["self"].Length == 0))
+        foreach (var tag in TagRegex().Matches(markup[from..]).Where(t => t.Groups["name"].Value == name && t.Groups["self"].Length == 0))
         {
             depth += tag.Groups["close"].Length > 0 ? -1 : 1;
             if (depth == 0)

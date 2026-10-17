@@ -1,7 +1,7 @@
 using System.Text;
-using TwBlazor.Services.Encoding;
 using TwBlazor.Enums;
 using TwBlazor.Services;
+using TwBlazor.Services.Encoding;
 
 namespace TwBlazor.Tests.Services.Encoding;
 

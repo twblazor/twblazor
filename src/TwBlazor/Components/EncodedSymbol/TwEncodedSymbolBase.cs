@@ -1,8 +1,8 @@
 // Copyright (c) 2025 Jack Shuter @ TwBlazor - twblazor.com
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
-using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Components;
+using System.Diagnostics.CodeAnalysis;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Services.Encoding;
 using TwBlazor.Utilities;

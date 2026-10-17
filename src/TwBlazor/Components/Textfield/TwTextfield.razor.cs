@@ -1,9 +1,9 @@
 ﻿// Copyright (c) 2025 Jack Shuter @ TwBlazor - twblazor.com
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
-using System.Globalization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using System.Globalization;
 using TwBlazor.Builders;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Utilities;
@@ -231,7 +231,7 @@ public partial class TwTextfield<T> : TwBlazorTextInputComponentBase
     /// <param name="enabled">Whether the attribute should be present.</param>
     /// <param name="addedByComponent">Whether the component added the attribute on a previous parameter set.</param>
     /// <returns>Whether the component now owns the attribute.</returns>
-    private bool SyncAttribute(string name, bool enabled, bool addedByComponent) => SyncAttribute(name, enabled ? (object)true : null, addedByComponent);
+    private bool SyncAttribute(string name, bool enabled, bool addedByComponent) => SyncAttribute(name, enabled ? true : null, addedByComponent);
 
     /// <summary>
     /// Sets or removes an attribute the component manages, leaving one the consumer supplied untouched.
