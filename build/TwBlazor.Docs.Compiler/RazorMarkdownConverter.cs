@@ -26,6 +26,8 @@ public sealed record RazorPageContent(string Title, string Description, string T
 public static partial class RazorMarkdownConverter
 {
     private const string fenceToken = "\u0002";
+    private const string razorLanguage = "razor";
+    private const string codeExampleTag = "CodeExample";
 
     [GeneratedRegex(@"^@code\b", RegexOptions.Multiline, matchTimeoutMilliseconds: 5000)]
     private static partial Regex CodeBlockStartRegex();
@@ -176,61 +178,16 @@ public static partial class RazorMarkdownConverter
         var sb = new StringBuilder();
         var pos = 0;
 
-        while (true)
+        for (var match = CodeSampleStartRegex().Match(markup, pos); match.Success; match = CodeSampleStartRegex().Match(markup, pos))
         {
-            var match = CodeSampleStartRegex().Match(markup, pos);
-            if (!match.Success)
-            {
-                sb.Append(markup, pos, markup.Length - pos);
-                return sb.ToString();
-            }
-
-            var start = match.Index;
             var name = match.Groups["name"].Value;
+            var (end, attributes) = ReadCodeSampleTag(markup, match.Index, name);
 
-            // Attribute values such as Content="@CodeExamples.Get("Name")" nest quotes, which a general tag
-            // pattern cannot pair up. The code block tags are always self-closing and their values may hold a ">"
-            // (a Tailwind selector such as [&>*]), so they run to "/>"; CodeExample runs to its first ">".
-            var selfClose = name == "CodeExample" ? -1 : markup.IndexOf("/>", start, StringComparison.Ordinal);
-            var close = selfClose >= 0 ? selfClose + 1 : markup.IndexOf('>', start);
-            var end = close < 0 ? markup.Length : close + 1;
-            var openTag = markup[start..end];
-            var selfClosing = openTag.EndsWith("/>", StringComparison.Ordinal);
-            var attributes = Attributes(openTag);
-            if (ContentAttributeRegex().Match(openTag) is { Success: true } contentAttribute)
-                attributes["Content"] = contentAttribute.Groups["value"].Value;
+            sb.Append(markup, pos, match.Index - pos);
 
-            sb.Append(markup, pos, start - pos);
-
-            var samples = new List<(string Language, string Code)>();
-
-            if (!selfClosing)
-                end = SkipToClose(markup, end, name);
-
-            if (name == "CodeExample")
+            foreach (var (language, code) in CodeSamples(name, attributes, examples, fields))
             {
-
-                if (attributes.TryGetValue("Name", out var exampleName) && examples.TryGetValue(exampleName, out var razor))
-                    samples.Add(("razor", razor));
-
-                if (attributes.TryGetValue("CSharpName", out var csharpName) && examples.TryGetValue(csharpName, out var csharp))
-                    samples.Add(("csharp", csharp));
-            }
-            else
-            {
-                var language = name == "ExampleCodeBlock" ? "razor" : FenceLanguage(attributes.GetValueOrDefault("Language"));
-                var razorKey = name == "ExampleCodeBlock" ? "Razor" : "Content";
-
-                if (attributes.TryGetValue(razorKey, out var content) && ResolveValue(content, examples, fields) is { Length: > 0 } code)
-                    samples.Add((language, code));
-
-                if (name == "ExampleCodeBlock" && attributes.TryGetValue("CSharp", out var csharpContent) && ResolveValue(csharpContent, examples, fields) is { Length: > 0 } csharpCode)
-                    samples.Add(("csharp", csharpCode));
-            }
-
-            foreach (var (language, code) in samples)
-            {
-                if (language == "razor")
+                if (language == razorLanguage)
                     exampleComponents.AddRange(ComponentTagRegex().Matches(code).Select(m => m.Groups["name"].Value));
 
                 sb.Append(fenceToken).Append(fences.Count).Append(fenceToken);
@@ -239,6 +196,59 @@ public static partial class RazorMarkdownConverter
 
             pos = end;
         }
+
+        sb.Append(markup, pos, markup.Length - pos);
+        return sb.ToString();
+    }
+
+    /// <summary>
+    /// Reads a code sample's opening tag and returns where the whole element ends, past its closing tag if it has one.
+    /// </summary>
+    /// <remarks>
+    /// Attribute values such as <c>Content="@CodeExamples.Get("Name")"</c> nest quotes, which a general tag pattern
+    /// cannot pair up. The code block tags are always self-closing and their values may hold a <c>&gt;</c> (a Tailwind
+    /// selector such as <c>[&amp;&gt;*]</c>), so they run to <c>/&gt;</c>; <c>CodeExample</c> runs to its first <c>&gt;</c>.
+    /// </remarks>
+    private static (int End, Dictionary<string, string> Attributes) ReadCodeSampleTag(string markup, int start, string name)
+    {
+        var selfClose = name == codeExampleTag ? -1 : markup.IndexOf("/>", start, StringComparison.Ordinal);
+        var close = selfClose >= 0 ? selfClose + 1 : markup.IndexOf('>', start);
+        var end = close < 0 ? markup.Length : close + 1;
+        var openTag = markup[start..end];
+
+        var attributes = Attributes(openTag);
+        if (ContentAttributeRegex().Match(openTag) is { Success: true } contentAttribute)
+            attributes["Content"] = contentAttribute.Groups["value"].Value;
+
+        return (openTag.EndsWith("/>", StringComparison.Ordinal) ? end : SkipToClose(markup, end, name), attributes);
+    }
+
+    private static List<(string Language, string Code)> CodeSamples(string name, Dictionary<string, string> attributes, IReadOnlyDictionary<string, string> examples, Dictionary<string, string> fields)
+    {
+        var samples = new List<(string Language, string Code)>();
+
+        void Add(string language, string? code)
+        {
+            if (!string.IsNullOrEmpty(code))
+                samples.Add((language, code));
+        }
+
+        switch (name)
+        {
+            case codeExampleTag:
+                Add(razorLanguage, examples.GetValueOrDefault(attributes.GetValueOrDefault("Name") ?? string.Empty));
+                Add("csharp", examples.GetValueOrDefault(attributes.GetValueOrDefault("CSharpName") ?? string.Empty));
+                break;
+            case "ExampleCodeBlock":
+                Add(razorLanguage, ResolveValue(attributes.GetValueOrDefault("Razor"), examples, fields));
+                Add("csharp", ResolveValue(attributes.GetValueOrDefault("CSharp"), examples, fields));
+                break;
+            default:
+                Add(FenceLanguage(attributes.GetValueOrDefault("Language")), ResolveValue(attributes.GetValueOrDefault("Content"), examples, fields));
+                break;
+        }
+
+        return samples;
     }
 
     private static int SkipToClose(string markup, int from, string name)
@@ -255,8 +265,11 @@ public static partial class RazorMarkdownConverter
         return markup.Length;
     }
 
-    private static string? ResolveValue(string value, IReadOnlyDictionary<string, string> examples, Dictionary<string, string> fields)
+    private static string? ResolveValue(string? value, IReadOnlyDictionary<string, string> examples, Dictionary<string, string> fields)
     {
+        if (value is null)
+            return null;
+
         if (CodeExampleReferenceRegex().Match(value) is { Success: true } reference)
             return examples.GetValueOrDefault(reference.Groups["name"].Value);
 
@@ -266,7 +279,7 @@ public static partial class RazorMarkdownConverter
 
     private static string FenceLanguage(string? language) => language switch
     {
-        null or "" or "html" => "razor",
+        null or "" or "html" => razorLanguage,
         _ => language,
     };
 
@@ -323,18 +336,9 @@ public static partial class RazorMarkdownConverter
 
         while (i < text.Length)
         {
-            if (text[i] == '@' && i + 1 < text.Length && text[i + 1] == '(' && (i == 0 || !char.IsLetterOrDigit(text[i - 1])))
+            if (IsParenthesisedExpression(text, i))
             {
-                var depth = 0;
-                var j = i + 1;
-                for (; j < text.Length; j++)
-                {
-                    depth += text[j] switch { '(' => 1, ')' => -1, _ => 0 };
-                    if (depth == 0)
-                        break;
-                }
-
-                i = j + 1;
+                i = EndOfParentheses(text, i + 1) + 1;
                 continue;
             }
 
@@ -345,122 +349,184 @@ public static partial class RazorMarkdownConverter
         return RazorExpressionRegex().Replace(sb.ToString(), string.Empty);
     }
 
-    private static void ApplyTag(Match tag, State state)
+    // Only an "@(" that starts a word: Razor itself treats an "@" inside a word as text.
+    private static bool IsParenthesisedExpression(string text, int i) =>
+        text[i] == '@' && i + 1 < text.Length && text[i + 1] == '(' && (i == 0 || !char.IsLetterOrDigit(text[i - 1]));
+
+    private static int EndOfParentheses(string text, int open)
     {
-        var name = tag.Groups["name"].Value;
-        var isClose = tag.Groups["close"].Length > 0;
-        var isSelfClosing = tag.Groups["self"].Length > 0;
-        var lower = name.ToLowerInvariant();
+        var depth = 0;
 
-        if (lower is "script" or "style" or "svg" or "pageseo" or "headcontent")
+        for (var j = open; j < text.Length; j++)
         {
-            if (!isSelfClosing)
-                state.SkipDepth += isClose ? -1 : 1;
-            return;
+            depth += text[j] switch { '(' => 1, ')' => -1, _ => 0 };
+            if (depth == 0)
+                return j;
         }
 
-        // Screen reader only text, such as "(opens in a new tab)", describes the rendered page rather than its content.
-        if (lower == "span" && !isSelfClosing)
+        return text.Length;
+    }
+
+    private sealed record Tag(string Name, bool IsClose, bool IsSelfClosing, Dictionary<string, string> AttributeValues);
+
+    private static void ApplyTag(Match match, State state)
+    {
+        var isClose = match.Groups["close"].Length > 0;
+        var tag = new Tag(
+            match.Groups["name"].Value.ToLowerInvariant(),
+            isClose,
+            match.Groups["self"].Length > 0,
+            isClose ? new Dictionary<string, string>() : Attributes(match.Groups["attrs"].Value));
+
+        if (TrackSkippedContent(tag, state) || state.SkipDepth > 0)
+            return;
+
+        _ = ApplyBlockTag(tag, state) || ApplyInlineTag(tag, state) || ApplyTableTag(tag, state);
+    }
+
+    /// <summary>
+    /// Follows the elements whose content never reaches the Markdown: scripts and styles, and screen reader only
+    /// text such as "(opens in a new tab)", which describes the rendered page rather than its content.
+    /// </summary>
+    /// <returns><see langword="true"/> when the tag was one of them.</returns>
+    private static bool TrackSkippedContent(Tag tag, State state)
+    {
+        if (tag.Name is "script" or "style" or "svg" or "pageseo" or "headcontent")
         {
-            var srOnly = !isClose && Attributes(tag.Groups["attrs"].Value).GetValueOrDefault("class")?.Split(' ').Contains("sr-only") == true;
-            var wasSrOnly = isClose && state.Spans.Count > 0 && state.Spans.Pop();
+            if (!tag.IsSelfClosing)
+                state.SkipDepth += tag.IsClose ? -1 : 1;
+            return true;
+        }
 
-            if (!isClose)
-                state.Spans.Push(srOnly);
+        if (tag.Name != "span" || tag.IsSelfClosing)
+            return false;
 
-            if (srOnly)
-                state.SkipDepth++;
-            else if (wasSrOnly)
+        if (tag.IsClose)
+        {
+            if (state.Spans.Count > 0 && state.Spans.Pop())
                 state.SkipDepth--;
-
-            return;
+            return true;
         }
 
-        if (state.SkipDepth > 0)
-            return;
+        var srOnly = tag.AttributeValues.GetValueOrDefault("class")?.Split(' ').Contains("sr-only") == true;
+        state.Spans.Push(srOnly);
+        if (srOnly)
+            state.SkipDepth++;
 
+        return true;
+    }
+
+    private static bool ApplyBlockTag(Tag tag, State state)
+    {
         var output = state.Output;
-        var attributes = isClose ? new Dictionary<string, string>() : Attributes(tag.Groups["attrs"].Value);
 
-        switch (lower)
+        switch (tag.Name)
         {
-            case "pagecard" when !isClose:
-                output.Append("\n\n").Append(state.TabDepth > 0 ? "### " : "## ").Append(Decode(attributes.GetValueOrDefault("Title", string.Empty))).Append("\n\n");
-                break;
-            case "twtab" when !isClose:
-                output.Append("\n\n## ").Append(Decode(attributes.GetValueOrDefault("Label", string.Empty))).Append("\n\n");
+            case "pagecard" when !tag.IsClose:
+                output.Append("\n\n").Append(state.TabDepth > 0 ? "### " : "## ").Append(Decode(tag.AttributeValues.GetValueOrDefault("Title", string.Empty))).Append("\n\n");
+                return true;
+            case "twtab" when !tag.IsClose:
+                output.Append("\n\n## ").Append(Decode(tag.AttributeValues.GetValueOrDefault("Label", string.Empty))).Append("\n\n");
                 state.TabDepth++;
-                break;
+                return true;
             case "twtab":
                 state.TabDepth = Math.Max(0, state.TabDepth - 1);
                 output.Append("\n\n");
-                break;
-            case "twcollapse" when !isClose && attributes.TryGetValue("Title", out var collapseTitle):
+                return true;
+            case "twcollapse" when !tag.IsClose && tag.AttributeValues.TryGetValue("Title", out var collapseTitle):
                 output.Append("\n\n**").Append(Decode(collapseTitle)).Append("**\n\n");
-                break;
-            case "h1" or "h2" or "h3" or "h4" or "h5" when !isClose:
-                output.Append("\n\n").Append(new string('#', Math.Min(6, lower[1] - '0' + 2))).Append(' ');
-                break;
-            case "li" when !isClose:
+                return true;
+            case "h1" or "h2" or "h3" or "h4" or "h5" when !tag.IsClose:
+                output.Append("\n\n").Append(new string('#', Math.Min(6, tag.Name[1] - '0' + 2))).Append(' ');
+                return true;
+            case "li" when !tag.IsClose:
                 output.Append("\n- ");
-                break;
-            case "br":
-                output.Append('\n');
-                break;
-            case "code" or "kbd":
-                output.Append('`');
-                break;
-            case "strong" or "b":
-                output.Append("**");
-                break;
-            case "em":
-                output.Append('*');
-                break;
-            case "a" or "twlink" when !isClose:
-                var href = attributes.GetValueOrDefault("href") ?? attributes.GetValueOrDefault("Href");
-                if (string.IsNullOrWhiteSpace(href) || href.Contains('@'))
-                    href = null;
-                state.Links.Push(href);
-                if (href is not null)
-                    output.Append('[');
-                break;
-            case "a" or "twlink":
-                if (state.Links.Count > 0 && state.Links.Pop() is { } target)
-                    output.Append("](").Append(state.ResolveLink(target)).Append(')');
-                break;
-            case "caption":
-                output.Append(isClose ? "**\n\n" : "\n\n**");
-                break;
-            case "dt" when !isClose:
-                output.Append("\n\n**");
-                break;
+                return true;
             case "dt":
-                output.Append("**: ");
-                break;
-            case "table" or "twtable":
-                output.Append("\n\n");
-                state.InTable = !isClose;
-                state.TableRow = 0;
-                break;
-            case "tr" when !isClose:
-                output.Append("\n|");
-                state.RowCells = 0;
-                break;
-            case "tr":
-                if (state.TableRow++ == 0)
-                    output.Append("\n|").Append(string.Concat(Enumerable.Repeat(" --- |", Math.Max(1, state.RowCells))));
-                break;
-            case "th" or "td" when !isClose:
-                output.Append(' ');
-                state.RowCells++;
-                break;
-            case "th" or "td":
-                output.Append(" |");
-                break;
+                output.Append(tag.IsClose ? "**: " : "\n\n**");
+                return true;
             case "p" or "div" or "section" or "article" or "ul" or "ol" or "dl" or "dd" or "description" or "pagecard"
                 or "twalert" or "twcard" or "twcollapse" or "h1" or "h2" or "h3" or "h4" or "h5" or "header" or "footer" or "main" or "nav" or "aside":
                 output.Append("\n\n");
-                break;
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    private static bool ApplyInlineTag(Tag tag, State state)
+    {
+        var output = state.Output;
+
+        switch (tag.Name)
+        {
+            case "br":
+                output.Append('\n');
+                return true;
+            case "code" or "kbd":
+                output.Append('`');
+                return true;
+            case "strong" or "b":
+                output.Append("**");
+                return true;
+            case "em":
+                output.Append('*');
+                return true;
+            case "a" or "twlink" when !tag.IsClose:
+                OpenLink(tag, state);
+                return true;
+            case "a" or "twlink":
+                if (state.Links.Count > 0 && state.Links.Pop() is { } target)
+                    output.Append("](").Append(state.ResolveLink(target)).Append(')');
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    // A link whose target only exists at runtime keeps its text and drops the link.
+    private static void OpenLink(Tag tag, State state)
+    {
+        var href = tag.AttributeValues.GetValueOrDefault("href") ?? tag.AttributeValues.GetValueOrDefault("Href");
+        if (string.IsNullOrWhiteSpace(href) || href.Contains('@'))
+            href = null;
+
+        state.Links.Push(href);
+        if (href is not null)
+            state.Output.Append('[');
+    }
+
+    private static bool ApplyTableTag(Tag tag, State state)
+    {
+        var output = state.Output;
+
+        switch (tag.Name)
+        {
+            case "caption":
+                output.Append(tag.IsClose ? "**\n\n" : "\n\n**");
+                return true;
+            case "table" or "twtable":
+                output.Append("\n\n");
+                state.InTable = !tag.IsClose;
+                state.TableRow = 0;
+                return true;
+            case "tr" when !tag.IsClose:
+                output.Append("\n|");
+                state.RowCells = 0;
+                return true;
+            case "tr":
+                if (state.TableRow++ == 0)
+                    output.Append("\n|").Append(string.Concat(Enumerable.Repeat(" --- |", Math.Max(1, state.RowCells))));
+                return true;
+            case "th" or "td" when !tag.IsClose:
+                output.Append(' ');
+                state.RowCells++;
+                return true;
+            case "th" or "td":
+                output.Append(" |");
+                return true;
+            default:
+                return false;
         }
     }
 

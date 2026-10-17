@@ -66,7 +66,7 @@ public class AiAgentsPageTests : DocsTestBase
 
         // Assert
         var links = page.FindAll("#llms-files a");
-        Assert.Equal(["https://twblazor.com/llms.txt", "https://twblazor.com/llms-full.txt", "https://twblazor.com/button.md"], links.Select(a => a.GetAttribute("href")));
+        Assert.Equal(["/llms.txt", "/llms-full.txt", "/button.md"], links.Select(a => a.GetAttribute("href")));
         Assert.All(links, a =>
         {
             Assert.Equal("_blank", a.GetAttribute("target"));

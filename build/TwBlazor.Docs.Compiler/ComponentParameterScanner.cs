@@ -67,26 +67,12 @@ public static partial class ComponentParameterScanner
     private static void Collect(TypeDeclarationSyntax declaration, string folder, Dictionary<string, TypeSource> types, Dictionary<string, string> memberDocs)
     {
         var name = declaration.Identifier.Text;
-        var isPublic = declaration.Modifiers.Any(SyntaxKind.PublicKeyword);
-        var isAbstract = declaration.Modifiers.Any(SyntaxKind.AbstractKeyword);
-        var baseName = declaration is ClassDeclarationSyntax ? declaration.BaseList?.Types.Select(t => StripGenerics(t.Type.ToString())).FirstOrDefault(n => !IsInterfaceName(n)) : null;
-
-        if (!types.TryGetValue(name, out var type))
-        {
-            type = new TypeSource(name, folder, baseName, Summary(declaration), declaration is ClassDeclarationSyntax && isPublic && !isAbstract && name.StartsWith("Tw", StringComparison.Ordinal), []);
-            types[name] = type;
-        }
-        else if ((type.BaseName is null && baseName is not null) || type.Summary.Length == 0)
-        {
-            // Partial classes: the base list and summary may sit on any one of the parts.
-            type = type with { BaseName = type.BaseName ?? baseName, Summary = type.Summary.Length > 0 ? type.Summary : Summary(declaration) };
-            types[name] = type;
-        }
+        var type = MergeDeclaration(declaration, folder, types);
 
         foreach (var property in declaration.Members.OfType<PropertyDeclarationSyntax>())
         {
             var propertyName = property.Identifier.Text;
-            var summary = Summary(property);
+            var summary = SummaryOf(property);
             if (summary.Length > 0)
                 memberDocs[$"{name}.{propertyName}"] = summary;
 
@@ -94,6 +80,40 @@ public static partial class ComponentParameterScanner
                 type.Parameters.Add(new ComponentParameter(propertyName, property.Type.ToString(), InheritDocCref(property) is { } cref ? "@inherit:" + cref : summary, name));
         }
     }
+
+    /// <summary>
+    /// Records a type the first time one of its declarations is seen. A partial class may carry its base list and
+    /// summary on any one of its parts, so a later part fills in whatever an earlier one left out.
+    /// </summary>
+    private static TypeSource MergeDeclaration(TypeDeclarationSyntax declaration, string folder, Dictionary<string, TypeSource> types)
+    {
+        var name = declaration.Identifier.Text;
+        var baseName = BaseClassName(declaration);
+
+        if (!types.TryGetValue(name, out var type))
+        {
+            type = new TypeSource(name, folder, baseName, SummaryOf(declaration), IsPublicComponentClass(declaration), []);
+        }
+        else
+        {
+            var summary = type.Summary.Length > 0 ? type.Summary : SummaryOf(declaration);
+            type = type with { BaseName = type.BaseName ?? baseName, Summary = summary };
+        }
+
+        types[name] = type;
+        return type;
+    }
+
+    private static string? BaseClassName(TypeDeclarationSyntax declaration) =>
+        declaration is ClassDeclarationSyntax
+            ? declaration.BaseList?.Types.Select(t => StripGenerics(t.Type.ToString())).FirstOrDefault(n => !IsInterfaceName(n))
+            : null;
+
+    private static bool IsPublicComponentClass(TypeDeclarationSyntax declaration) =>
+        declaration is ClassDeclarationSyntax
+        && declaration.Modifiers.Any(SyntaxKind.PublicKeyword)
+        && !declaration.Modifiers.Any(SyntaxKind.AbstractKeyword)
+        && declaration.Identifier.Text.StartsWith("Tw", StringComparison.Ordinal);
 
     private static List<ComponentParameter> Resolve(TypeSource type, Dictionary<string, TypeSource> types, Dictionary<string, string> memberDocs)
     {
@@ -141,7 +161,7 @@ public static partial class ComponentParameterScanner
         return xml?.Descendants("inheritdoc").Select(e => (string?)e.Attribute("cref")).FirstOrDefault(c => c is not null);
     }
 
-    private static string Summary(SyntaxNode node)
+    private static string SummaryOf(SyntaxNode node)
     {
         var summary = DocXml(node)?.Element("summary");
         return summary is null ? string.Empty : ToPlainText(summary);

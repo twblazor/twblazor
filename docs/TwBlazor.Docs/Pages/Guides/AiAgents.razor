@@ -25,15 +25,15 @@
             </TableHeader>
             <TableBody>
                 <tr>
-                    <th scope="row" class="px-4 py-3 text-left font-normal"><a href="@llmsTxtUrl" target="_blank" rel="noopener noreferrer" class="@linkClass"><code>/llms.txt</code><span class="sr-only"> (opens in a new tab)</span></a></th>
+                    <th scope="row" class="px-4 py-3 text-left font-normal"><a href="/llms.txt" target="_blank" rel="noopener noreferrer" class="@linkClass"><code>/llms.txt</code><span class="sr-only"> (opens in a new tab)</span></a></th>
                     <td class="px-4 py-3">The rules, the setup steps and a link to every page. Start here.</td>
                 </tr>
                 <tr>
-                    <th scope="row" class="px-4 py-3 text-left font-normal"><a href="@llmsFullTxtUrl" target="_blank" rel="noopener noreferrer" class="@linkClass"><code>/llms-full.txt</code><span class="sr-only"> (opens in a new tab)</span></a></th>
+                    <th scope="row" class="px-4 py-3 text-left font-normal"><a href="/llms-full.txt" target="_blank" rel="noopener noreferrer" class="@linkClass"><code>/llms-full.txt</code><span class="sr-only"> (opens in a new tab)</span></a></th>
                     <td class="px-4 py-3"><code>llms.txt</code> followed by every page in full, for assistants that read one file.</td>
                 </tr>
                 <tr>
-                    <th scope="row" class="px-4 py-3 text-left font-normal"><a href="@buttonMarkdownUrl" target="_blank" rel="noopener noreferrer" class="@linkClass"><code>/button.md</code><span class="sr-only"> (opens in a new tab)</span></a></th>
+                    <th scope="row" class="px-4 py-3 text-left font-normal"><a href="/button.md" target="_blank" rel="noopener noreferrer" class="@linkClass"><code>/button.md</code><span class="sr-only"> (opens in a new tab)</span></a></th>
                     <td class="px-4 py-3">Any docs page as Markdown: add <code>.md</code> to its address. Component pages list their examples, keyboard navigation, theme and every parameter.</td>
                 </tr>
             </TableBody>
@@ -114,12 +114,6 @@
 </PageContainer>
 
 @code {
-#pragma warning disable S1075 // The site's fixed public files, not environment-specific
-    private const string llmsTxtUrl = "https://twblazor.com/llms.txt";
-    private const string llmsFullTxtUrl = "https://twblazor.com/llms-full.txt";
-    private const string buttonMarkdownUrl = "https://twblazor.com/button.md";
-#pragma warning restore S1075
-
     private const string linkClass = "font-semibold underline";
 
     /// <summary>
