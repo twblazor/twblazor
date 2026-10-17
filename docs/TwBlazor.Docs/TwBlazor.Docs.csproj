@@ -96,6 +96,7 @@
     <Compile Include="Generated\CodeExamples.cs" />
     <Compile Include="Generated\PageLastModified.cs" />
     <Compile Include="Generated\ThemeTemplateData.cs" />
+    <Compile Include="Generated\AgentSkills.cs" />
   </ItemGroup>
 
   <!-- Copy TwBlazor's generated XML doc comments into wwwroot so ThemeConfigurationCard can fetch

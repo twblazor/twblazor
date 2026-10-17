@@ -69,6 +69,12 @@ public static partial class RazorMarkdownConverter
     [GeneratedRegex(@"(?<![\w])@[A-Za-z_][\w.]*(?:\([^()]*\))?", RegexOptions.None, matchTimeoutMilliseconds: 5000)]
     private static partial Regex RazorExpressionRegex();
 
+    [GeneratedRegex("""const\s+string\s+(?<name>\w+)\s*=\s*"(?<value>[^"\\\r\n]*)"\s*;""", RegexOptions.None, matchTimeoutMilliseconds: 5000)]
+    private static partial Regex StringConstantRegex();
+
+    [GeneratedRegex(@"=\s*""@(?<name>\w+)""", RegexOptions.None, matchTimeoutMilliseconds: 5000)]
+    private static partial Regex ConstantAttributeRegex();
+
     [GeneratedRegex("""\s@[\w:-]+\s*=\s*"[^"]*"\s*""", RegexOptions.None, matchTimeoutMilliseconds: 5000)]
     private static partial Regex DirectiveAttributeRegex();
 
@@ -97,6 +103,7 @@ public static partial class RazorMarkdownConverter
     {
         public StringBuilder Output { get; } = new();
         public Stack<string?> Links { get; } = new();
+        public Stack<bool> Spans { get; } = new();
         public Func<string, string> ResolveLink { get; } = resolveLink;
         public int TabDepth { get; set; }
         public int SkipDepth { get; set; }
@@ -130,6 +137,12 @@ public static partial class RazorMarkdownConverter
 
         // Runtime values (often quoted strings inside quoted attributes) are dropped before tags are read, so
         // they can neither break a tag apart nor leak into the text.
+        // An attribute naming one of the page's own string constants, such as href="@docsUrl", keeps its value.
+        var constants = StringConstantRegex().Matches(codeStart.Success ? source[codeStart.Index..] : string.Empty)
+            .GroupBy(m => m.Groups["name"].Value, StringComparer.Ordinal)
+            .ToDictionary(g => g.Key, g => g.First().Groups["value"].Value, StringComparer.Ordinal);
+        markup = ConstantAttributeRegex().Replace(markup, m => constants.TryGetValue(m.Groups["name"].Value, out var value) ? $"=\"{value}\"" : m.Value);
+
         markup = RazorControlLineRegex().Replace(markup, " ");
         markup = markup.Replace("@@", "\u0001", StringComparison.Ordinal);
         markup = DirectiveAttributeRegex().Replace(markup, " ");
@@ -346,6 +359,23 @@ public static partial class RazorMarkdownConverter
             return;
         }
 
+        // Screen reader only text, such as "(opens in a new tab)", describes the rendered page rather than its content.
+        if (lower == "span" && !isSelfClosing)
+        {
+            var srOnly = !isClose && Attributes(tag.Groups["attrs"].Value).GetValueOrDefault("class")?.Split(' ').Contains("sr-only") == true;
+            var wasSrOnly = isClose && state.Spans.Count > 0 && state.Spans.Pop();
+
+            if (!isClose)
+                state.Spans.Push(srOnly);
+
+            if (srOnly)
+                state.SkipDepth++;
+            else if (wasSrOnly)
+                state.SkipDepth--;
+
+            return;
+        }
+
         if (state.SkipDepth > 0)
             return;
 
@@ -397,6 +427,9 @@ public static partial class RazorMarkdownConverter
             case "a" or "twlink":
                 if (state.Links.Count > 0 && state.Links.Pop() is { } target)
                     output.Append("](").Append(state.ResolveLink(target)).Append(')');
+                break;
+            case "caption":
+                output.Append(isClose ? "**\n\n" : "\n\n**");
                 break;
             case "dt" when !isClose:
                 output.Append("\n\n**");

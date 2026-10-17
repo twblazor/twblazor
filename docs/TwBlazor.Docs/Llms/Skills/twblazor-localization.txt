@@ -1,0 +1,23 @@
+---
+name: twblazor-localization
+description: Translates twblazor components and configures date and time formats and right to left layouts, using the 24 built-in languages, the app's own .resx files, options.Localization in AddTwBlazor, a custom ITwLocalizer and TwDirectionProvider. Use when localizing a twblazor app, rewording built-in component text, or supporting Arabic, Hebrew or other right to left languages.
+references: /localization, /direction-provider
+---
+# twblazor localization
+
+The text twblazor components render by themselves (button labels, placeholders, validation messages, screen reader names) comes from resource files. English and 23 more languages ship with the package. Text the app passes in, such as a `Label`, is rendered as it is and is translated by the app.
+
+## Rules
+
+- twblazor never picks a language. It follows the culture the app runs under. In Blazor WebAssembly set the culture in `Program.cs` before the app runs. In a server app use request localization. Read `references/localization.md` for both.
+- Date and time formats (first day of the week, 12 or 24 hour clock, date patterns) are set through `options.Localization.Formats` in the `AddTwBlazor` call.
+- To reword a built-in string or add a language twblazor does not ship, add `.resx` files to the app whose entry names are keys from `TwStrings`, such as `Pagination_NextPage`. Never edit the package.
+- To change the text of one component, set its own parameter (such as `Placeholder`). A parameter always wins over the resource files.
+- When strings live elsewhere (a database, an `IStringLocalizer`), register your own `ITwLocalizer`. `AddTwBlazor` leaves it in place.
+- For right to left languages, wrap the app or one part of a page in `TwDirectionProvider` with `Direction="TextDirection.RightToLeft"`. Alternatively set the `dir` attribute on the `html` element from the same culture twblazor reads, so the layout and the arrow keys agree.
+- In your own markup around the components, use Tailwind's logical classes (`ms-`, `pe-`, `start-`) so it follows the direction too, and pair sideways transforms with the `rtl:` variant.
+
+## Reference
+
+- `references/localization.md`: languages, choosing the culture, resource files and keys, per-component text, date and time formats and custom localizers.
+- `references/direction-provider.md`: right to left layouts, following the language, what is mirrored and how to make your own theme and markup follow the direction.

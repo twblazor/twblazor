@@ -406,6 +406,8 @@ docfx.log
 /docs/TwBlazor.WASM/wwwroot/llms.txt
 /docs/TwBlazor.WASM/wwwroot/llms-full.txt
 /docs/TwBlazor.WASM/wwwroot/**/*.md
+/docs/TwBlazor.WASM/wwwroot/skills/
+/docs/TwBlazor.Docs/Generated/AgentSkills.cs
 
 # Cloudflare Wrangler local state and cache
 .wrangler/

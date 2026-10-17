@@ -152,15 +152,20 @@ static class Program
                     .ToList();
 
                 var output = LlmsGenerator.Generate(
-                    File.ReadAllText(Paths.LlmsTemplatePath),
+                    Paths.ReadLlmsTemplates(),
                     File.ReadAllText(Paths.ComponentsJsonPath),
                     pages,
                     examples,
                     ComponentParameterScanner.Scan(Paths.LibrarySourcePath));
 
                 var wwwroot = Paths.WasmWwwrootPath;
+                var skillsRoot = Path.Combine(wwwroot, "skills");
 
-                // Every .md under wwwroot is generated (and gitignored), so clearing them drops pages that were removed.
+                // Every .md under wwwroot and everything under skills/ is generated (and gitignored), so clearing them
+                // drops pages and skills that were removed.
+                if (Directory.Exists(skillsRoot))
+                    Directory.Delete(skillsRoot, recursive: true);
+
                 foreach (var stale in Directory.GetFiles(wwwroot, "*.md", SearchOption.AllDirectories))
                     File.Delete(stale);
 
@@ -174,6 +179,25 @@ static class Program
                 File.WriteAllText(Path.Combine(wwwroot, "llms.txt"), output.LlmsTxt);
                 File.WriteAllText(Path.Combine(wwwroot, "llms-full.txt"), output.LlmsFullTxt);
                 Console.WriteLine($"Generated: llms.txt, llms-full.txt and {output.Pages.Count} Markdown pages in {wwwroot}");
+
+                foreach (var skill in output.Skills)
+                {
+                    foreach (var (relativePath, text) in skill.Files)
+                    {
+                        var path = Path.Combine(skillsRoot, skill.Name, relativePath.Replace('/', Path.DirectorySeparatorChar));
+                        Directory.CreateDirectory(Path.GetDirectoryName(path)!);
+                        File.WriteAllText(path, text);
+                    }
+
+                    using var zip = File.Create(Path.Combine(skillsRoot, $"{skill.Name}.zip"));
+                    SkillPackager.WriteZip([skill], zip);
+                }
+
+                using (var bundle = File.Create(Path.Combine(skillsRoot, $"{LlmsGenerator.SkillsBundleName}.zip")))
+                    SkillPackager.WriteZip(output.Skills, bundle);
+
+                File.WriteAllText(Path.Combine(Paths.GeneratedPath, "AgentSkills.cs"), CodeGenerator.GenerateAgentSkillsClass(output.Skills));
+                Console.WriteLine($"Generated: {output.Skills.Count} agent skills and their zips in {skillsRoot}");
             }
             catch (Exception ex) when (ex is IOException or InvalidOperationException or System.Text.Json.JsonException)
             {

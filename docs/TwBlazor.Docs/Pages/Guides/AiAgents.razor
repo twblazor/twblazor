@@ -1,0 +1,151 @@
+@page "/ai-agents"
+@using TwBlazor.Docs.Generated
+
+<PageContainer Title="AI Agents & Skills" Path="/ai-agents" Category="Guides" Description="Help AI coding assistants write correct twblazor code with llms.txt, a Markdown copy of every docs page and Agent Skills for Claude Code." SeoTitle="AI Agents & Skills | twblazor - llms.txt and Claude Skills">
+    <PageCard Title="Overview">
+        <p class="mb-3">
+            AI coding assistants often guess at a component library: they invent parameters, borrow another library's setup steps or write a theme by hand. twblazor publishes everything an assistant needs in the formats assistants read, so it can use the real components from the first try.
+        </p>
+        <p>
+            All of it is generated from these docs every time the site is built. Each component's parameters come straight from the library's own source, so an assistant only ever sees components and parameters that exist in the current release.
+        </p>
+    </PageCard>
+
+    <PageCard Title="llms.txt">
+        <p class="mb-3">
+            <code>llms.txt</code> is a plain text index written for language models. It sets out the rules for using twblazor, the setup steps and a link to the Markdown page of every component and guide.
+        </p>
+        <TwTable Id="llms-files" Bordered>
+            <Caption>The files published for AI assistants</Caption>
+            <TableHeader>
+                <tr>
+                    <th scope="col" class="px-4 py-3">File</th>
+                    <th scope="col" class="px-4 py-3">What it holds</th>
+                </tr>
+            </TableHeader>
+            <TableBody>
+                <tr>
+                    <th scope="row" class="px-4 py-3 text-left font-normal"><a href="@llmsTxtUrl" target="_blank" rel="noopener noreferrer" class="@linkClass"><code>/llms.txt</code><span class="sr-only"> (opens in a new tab)</span></a></th>
+                    <td class="px-4 py-3">The rules, the setup steps and a link to every page. Start here.</td>
+                </tr>
+                <tr>
+                    <th scope="row" class="px-4 py-3 text-left font-normal"><a href="@llmsFullTxtUrl" target="_blank" rel="noopener noreferrer" class="@linkClass"><code>/llms-full.txt</code><span class="sr-only"> (opens in a new tab)</span></a></th>
+                    <td class="px-4 py-3"><code>llms.txt</code> followed by every page in full, for assistants that read one file.</td>
+                </tr>
+                <tr>
+                    <th scope="row" class="px-4 py-3 text-left font-normal"><a href="@buttonMarkdownUrl" target="_blank" rel="noopener noreferrer" class="@linkClass"><code>/button.md</code><span class="sr-only"> (opens in a new tab)</span></a></th>
+                    <td class="px-4 py-3">Any docs page as Markdown: add <code>.md</code> to its address. Component pages list their examples, keyboard navigation, theme and every parameter.</td>
+                </tr>
+            </TableBody>
+        </TwTable>
+    </PageCard>
+
+    <PageCard Title="Point your assistant at llms.txt">
+        <p class="mb-3">
+            Add these lines to the instructions file your assistant reads, such as <code>CLAUDE.md</code>, <code>AGENTS.md</code>, <code>.github/copilot-instructions.md</code> or a Cursor rule. Any assistant that can fetch a web page will then look things up instead of guessing.
+        </p>
+        <TwCodeBlock Content="@_instructions" Language="markdown" />
+    </PageCard>
+
+    <PageCard Title="Agent skills">
+        <p class="mb-3">
+            A skill is a folder with a <code>SKILL.md</code> file and the reference pages it needs. The assistant reads only each skill's short description up front, and loads the rest when a task calls for it, so a skill adds detailed guidance without filling the context. Each twblazor skill bundles the Markdown pages it refers to, so it also works offline.
+        </p>
+        <TwTable Id="agent-skills" Bordered>
+            <Caption>The twblazor agent skills</Caption>
+            <TableHeader>
+                <tr>
+                    <th scope="col" class="px-4 py-3">Skill</th>
+                    <th scope="col" class="px-4 py-3">What it covers</th>
+                    <th scope="col" class="px-4 py-3">Download</th>
+                </tr>
+            </TableHeader>
+            <TableBody>
+                @foreach (var skill in AgentSkills.All)
+                {
+                    <tr>
+                        <th scope="row" class="px-4 py-3 text-left align-top font-normal"><code>@skill.Name</code></th>
+                        <td class="px-4 py-3 align-top">@skill.Description</td>
+                        <td class="px-4 py-3 align-top whitespace-nowrap">
+                            <a href="@SkillZipPath(skill.Name)" download class="@linkClass" aria-label="@($"Download the {skill.Name} skill as a zip")">.zip</a>
+                        </td>
+                    </tr>
+                }
+            </TableBody>
+        </TwTable>
+        <p class="mt-3">
+            <a id="download-all-skills" href="@SkillZipPath(AgentSkills.BundleName)" download class="@linkClass">Download every skill in one zip</a>
+        </p>
+    </PageCard>
+
+    <PageCard Title="Install the skills in Claude Code">
+        <p class="mb-3">
+            Extract the zip into <code>.claude/skills</code> at the root of your project. Commit the folder and everyone working on the project gets the skills too. To use them in every project instead, extract it into <code>~/.claude/skills</code> in your home folder.
+        </p>
+        <p class="mb-2 font-medium">macOS and Linux:</p>
+        <TwCodeBlock Content="@_installBash" Language="bash" />
+        <p class="mt-3 mb-2 font-medium">Windows PowerShell:</p>
+        <TwCodeBlock Content="@_installPowerShell" Language="powershell" />
+        <p class="mt-3">
+            Claude Code finds the skills when a session starts and uses them whenever a task matches their descriptions, such as adding twblazor to a project or building a form. Run the same commands again after upgrading twblazor to pick up the new release.
+        </p>
+    </PageCard>
+
+    <PageCard Title="Use the skills in the Claude apps">
+        <p>
+            Download a single skill's zip from the table above and upload it in the skills section of Claude's settings. Upload each skill you want separately, since an upload holds one skill.
+        </p>
+    </PageCard>
+
+    <PageCard Title="Other assistants">
+        <p>
+            The skills use the open Agent Skills format: a folder holding a <code>SKILL.md</code> with a name and description. Assistants that support the format can read the same folders from their own skills directory. For an assistant that does not, use the <code>llms.txt</code> instructions above.
+        </p>
+    </PageCard>
+
+    <PageCard Title="How they stay accurate">
+        <ul class="list-disc space-y-2 ps-5">
+            <li>The pages, the component list and the descriptions come from these docs and from <code>components.json</code>, the same source as the sidebar.</li>
+            <li>Every parameter table is read from the <code>[Parameter]</code> properties and XML documentation in the library's source.</li>
+            <li>The install command names the same version as the <a href="/get-started" class="@linkClass">Get started</a> guide, which moves with every release.</li>
+            <li>The code samples are the same samples these pages render live, so they compile with the current release.</li>
+        </ul>
+    </PageCard>
+</PageContainer>
+
+@code {
+#pragma warning disable S1075 // The site's fixed public files, not environment-specific
+    private const string llmsTxtUrl = "https://twblazor.com/llms.txt";
+    private const string llmsFullTxtUrl = "https://twblazor.com/llms-full.txt";
+    private const string buttonMarkdownUrl = "https://twblazor.com/button.md";
+#pragma warning restore S1075
+
+    private const string linkClass = "font-semibold underline";
+
+    /// <summary>
+    /// Returns the site path of a skill zip. The <c>download</c> attribute on its link keeps the Blazor router from handling it.
+    /// </summary>
+    /// <param name="name">The skill or bundle name.</param>
+    private static string SkillZipPath(string name) => $"/skills/{name}.zip";
+
+    private const string _instructions = """
+        ## twblazor
+
+        This project uses the twblazor component library. Before writing or changing twblazor code, read
+        https://twblazor.com/llms.txt and the Markdown page of each component you use. Use only the parameters
+        those pages list, and never write Theme.cs by hand: generate it at https://twblazor.com/theme.
+        """;
+
+    private const string _installBash = """
+        curl -L -o twblazor-skills.zip https://twblazor.com/skills/twblazor-skills.zip
+        mkdir -p .claude/skills
+        unzip -o twblazor-skills.zip -d .claude/skills
+        rm twblazor-skills.zip
+        """;
+
+    private const string _installPowerShell = """
+        Invoke-WebRequest https://twblazor.com/skills/twblazor-skills.zip -OutFile twblazor-skills.zip
+        Expand-Archive twblazor-skills.zip -DestinationPath .claude/skills -Force
+        Remove-Item twblazor-skills.zip
+        """;
+}
