@@ -12,7 +12,7 @@ public class RazorMarkdownConverterTests
     };
 
     private static RazorPageContent Convert(string source) =>
-        RazorMarkdownConverter.Convert(source, _examples, href => "https://twblazor.com" + href + ".md");
+        RazorMarkdownConverter.Convert(source, _examples, href => href.StartsWith("https://", StringComparison.Ordinal) ? href : "https://twblazor.com" + href + ".md");
 
     [Fact]
     public void Convert_ReadsTheTitleDescriptionAndThemeFromThePageContainer()
@@ -92,6 +92,38 @@ public class RazorMarkdownConverterTests
             """);
 
         Assert.Equal("See [TwChart](https://twblazor.com/chart.md) or .", page.Body);
+    }
+
+    [Fact]
+    public void Convert_DropsScreenReaderOnlyText_AndKeepsLinksToThePagesOwnConstants()
+    {
+        var page = Convert("""
+            <PageContainer Title="AI Agents">
+                <p><a href="@llmsUrl" target="_blank"><code>/llms.txt</code><span class="sr-only"> (opens in a new tab)</span></a> <span class="font-bold">stays</span></p>
+            </PageContainer>
+
+            @code {
+                private const string llmsUrl = "https://twblazor.com/llms.txt";
+            }
+            """);
+
+        Assert.Equal("[`/llms.txt`](https://twblazor.com/llms.txt) stays", page.Body);
+    }
+
+    [Fact]
+    public void Convert_WritesATableCaption_AsABoldLineAboveTheTable()
+    {
+        var page = Convert("""
+            <PageContainer Title="Files">
+                <TwTable>
+                    <Caption>The files</Caption>
+                    <TableHeader><tr><th>File</th></tr></TableHeader>
+                    <TableBody><tr><td>llms.txt</td></tr></TableBody>
+                </TwTable>
+            </PageContainer>
+            """);
+
+        Assert.Equal("**The files**\n\n| File |\n| --- |\n| llms.txt |", page.Body);
     }
 
     [Fact]

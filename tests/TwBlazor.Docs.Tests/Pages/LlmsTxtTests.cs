@@ -34,7 +34,7 @@ public partial class LlmsTxtTests
 
         var routes = PageRouteScanner.Scan(Paths.PagesPath, "/showcase/");
         var output = LlmsGenerator.Generate(
-            File.ReadAllText(Paths.LlmsTemplatePath),
+            Paths.ReadLlmsTemplates(),
             File.ReadAllText(Paths.ComponentsJsonPath),
             [.. routes.Select(r => (r.Route, File.ReadAllText(r.SourcePath)))],
             examples,
@@ -101,7 +101,10 @@ public partial class LlmsTxtTests
     public void EverySiteLink_ReachesARealPageOrGeneratedFile()
     {
         var routes = _generated.Value.Routes.Select(r => r.Route).ToHashSet(StringComparer.Ordinal);
-        var files = Output.Pages.Keys.Select(path => "/" + path).Append("/llms.txt").Append("/llms-full.txt").ToHashSet(StringComparer.Ordinal);
+        var files = Output.Pages.Keys.Select(path => "/" + path)
+            .Concat(["/llms.txt", "/llms-full.txt", $"/skills/{LlmsGenerator.SkillsBundleName}.zip"])
+            .Concat(Output.Skills.Select(s => $"/skills/{s.Name}/SKILL.md"))
+            .ToHashSet(StringComparer.Ordinal);
 
         var broken = SiteLinkPattern().Matches(Output.LlmsFullTxt)
             .Select(match => match.Groups["path"].Value.TrimEnd('.'))
@@ -160,7 +163,7 @@ public partial class LlmsTxtTests
         var leaks = Output.Pages
             .SelectMany(page => ProseLines(page.Value)
                 .Where(line => !line.StartsWith("| `", StringComparison.Ordinal))
-                .Select(line => InlineCodePattern().Replace(line, string.Empty))
+                .Select(line => InlineCodePattern().Replace(line, "code"))
                 .Where(line => MarkupLeakPattern().IsMatch(line))
                 .Select(line => $"{page.Key}: {line}"))
             .ToList();
@@ -172,7 +175,66 @@ public partial class LlmsTxtTests
     public void Output_NeverUsesAnEmDash()
     {
         Assert.DoesNotContain('—', Output.LlmsFullTxt);
+        Assert.All(Output.Skills.SelectMany(s => s.Files.Values), text => Assert.DoesNotContain('—', text));
     }
+
+    [Fact]
+    public void Skills_CoverSetupThemingComponentsAndLocalization()
+    {
+        Assert.Equal(["twblazor-components", "twblazor-localization", "twblazor-setup", "twblazor-theming"], Output.Skills.Select(s => s.Name));
+    }
+
+    [Fact]
+    public void Skills_FollowTheAgentSkillsFormat()
+    {
+        Assert.All(Output.Skills, skill =>
+        {
+            var lines = skill.Files["SKILL.md"].Split('\n');
+
+            Assert.Equal("---", lines[0]);
+            Assert.Equal($"name: {skill.Name}", lines[1]);
+            Assert.StartsWith("description: \"", lines[2]);
+            Assert.Equal("---", lines[3]);
+            Assert.InRange(skill.Description.Length, 1, LlmsGenerator.MaxSkillDescriptionLength);
+            Assert.DoesNotContain("{{", skill.Files["SKILL.md"]);
+        });
+    }
+
+    [Fact]
+    public void ComponentsSkill_BundlesEveryComponentPage_AndLinksToTheBundledCopies()
+    {
+        var skill = Output.Skills.Single(s => s.Name == "twblazor-components");
+
+        var missing = ComponentCatalog.LoadLeafEntries()
+            .Where(leaf => !skill.Files.ContainsKey($"references{leaf.Entry.Url}.md") || !skill.Files["SKILL.md"].Contains($"](references{leaf.Entry.Url}.md) `{leaf.Entry.Name}`", StringComparison.Ordinal))
+            .Select(leaf => leaf.Entry.Url)
+            .ToList();
+
+        Assert.True(missing.Count == 0, $"Components missing from the components skill: {string.Join(", ", missing)}");
+    }
+
+    [Fact]
+    public void Skills_LinkOnlyToFilesTheyBundle()
+    {
+        var broken = Output.Skills
+            .SelectMany(skill => SkillReferencePattern().Matches(skill.Files["SKILL.md"])
+                .Select(m => m.Value)
+                .Where(path => !skill.Files.ContainsKey(path))
+                .Select(path => $"{skill.Name}: {path}"))
+            .ToList();
+
+        Assert.True(broken.Count == 0, $"Skills link to files they do not bundle: {string.Join(", ", broken)}");
+    }
+
+    [Fact]
+    public void LlmsTxt_ListsEverySkill()
+    {
+        Assert.All(Output.Skills, skill => Assert.Contains($"]({SiteUrl}/skills/{skill.Name}/SKILL.md): ", Output.LlmsTxt));
+        Assert.Contains($"{SiteUrl}/skills/{LlmsGenerator.SkillsBundleName}.zip", Output.LlmsTxt);
+    }
+
+    [GeneratedRegex(@"references/[\w\-/]+\.md")]
+    private static partial Regex SkillReferencePattern();
 
     [GeneratedRegex(@"https://twblazor\.com(?<path>/[\w\-/.]*)")]
     private static partial Regex SiteLinkPattern();

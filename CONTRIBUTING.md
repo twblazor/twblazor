@@ -169,7 +169,9 @@ Code snippets shown on the documentation site are extracted from real source (do
 dotnet run --project build/TwBlazor.BuildTools
 ```
 
-The same run writes `llms.txt`, `llms-full.txt` and a Markdown copy of every docs page (e.g. `button.md`) into `docs/TwBlazor.WASM/wwwroot` for AI assistants. They are gitignored and built from the docs pages, `components.json` and the library's `[Parameter]` XML docs, so they update themselves. To change the rules or setup steps at the top of `llms.txt`, edit [llms.template.txt](docs/TwBlazor.Docs/Llms/llms.template.txt).
+The same run writes `llms.txt`, `llms-full.txt` and a Markdown copy of every docs page (e.g. `button.md`) into `docs/TwBlazor.WASM/wwwroot` for AI assistants. They are gitignored and built from the docs pages, `components.json` and the library's `[Parameter]` XML docs, so they update themselves. To change the rules or setup steps at the top of `llms.txt`, edit [llms.template.txt](docs/TwBlazor.Docs/Llms/llms.template.txt) and the shared text in [Partials](docs/TwBlazor.Docs/Llms/Partials).
+
+The agent skills under `/skills` are built the same way, one per template in [Skills](docs/TwBlazor.Docs/Llms/Skills). A template starts with `name`, `description` and `references` frontmatter: the routes of the docs pages to bundle with the skill, or `components` for every component page. Add a template to add a skill; the AI Agents & Skills page lists it automatically.
 
 ---
 
