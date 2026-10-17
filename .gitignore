@@ -401,6 +401,12 @@ docfx.log
 /docs/TwBlazor.Docs/Generated/ThemeTemplateData.cs
 /docs/TwBlazor.WASM/wwwroot/sitemap.xml
 
+# Generated for AI assistants by TwBlazor.BuildTools from the docs pages, components.json and the
+# library source (the hand-written part lives in docs/TwBlazor.Docs/Llms/llms.template.txt).
+/docs/TwBlazor.WASM/wwwroot/llms.txt
+/docs/TwBlazor.WASM/wwwroot/llms-full.txt
+/docs/TwBlazor.WASM/wwwroot/**/*.md
+
 # Cloudflare Wrangler local state and cache
 .wrangler/
 

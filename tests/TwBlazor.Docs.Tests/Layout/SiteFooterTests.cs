@@ -77,14 +77,28 @@ public class SiteFooterTests : DocsTestBase
     }
 
     [Fact]
-    public void Render_ShowsDiscordGitHubDocumentationAndLicenseLinks()
+    public void Render_ShowsDiscordGitHubDocumentationLicenseAndLlmsLinks()
     {
         // Arrange & Act
         var cut = TestContext.Render<SiteFooter>();
 
         // Assert
         var hrefs = cut.FindAll("footer a").Select(a => a.GetAttribute("href")).ToList();
-        Assert.Equal([SiteFooter.DiscordUrl, SiteFooter.GitHubUrl, SiteFooter.DocumentationUrl, SiteFooter.LicenseUrl], hrefs);
+        Assert.Equal([SiteFooter.DiscordUrl, SiteFooter.GitHubUrl, SiteFooter.DocumentationUrl, SiteFooter.LicenseUrl, SiteFooter.LlmsTxtUrl], hrefs);
+    }
+
+    [Fact]
+    public void Render_LinksToLlmsTxt_WithADecorativeIcon()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<SiteFooter>();
+
+        // Assert
+        var llms = cut.Find("#footer-llms");
+        Assert.Equal("https://twblazor.com/llms.txt", llms.GetAttribute("href"));
+        Assert.StartsWith("llms.txt", llms.TextContent.Trim());
+        Assert.Contains("bi-robot", llms.QuerySelector("i")!.GetAttribute("class"));
+        Assert.Equal("true", llms.QuerySelector("i")!.GetAttribute("aria-hidden"));
     }
 
     [Fact]
@@ -95,7 +109,7 @@ public class SiteFooterTests : DocsTestBase
 
         // Assert
         var separators = cut.FindAll("footer span[aria-hidden='true']");
-        Assert.Equal(3, separators.Count);
+        Assert.Equal(4, separators.Count);
         Assert.All(separators, s => Assert.Equal("•", s.TextContent));
     }
 
@@ -122,7 +136,7 @@ public class SiteFooterTests : DocsTestBase
 
         // Assert
         var links = cut.FindAll("footer a");
-        Assert.Equal(4, links.Count);
+        Assert.Equal(5, links.Count);
         Assert.All(links, a =>
         {
             Assert.StartsWith("https://", a.GetAttribute("href"));

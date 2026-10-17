@@ -19,6 +19,8 @@ $ dotnet add package twblazor --version 2.1.2
 ```
 2. Head to the [Get Started guide](https://twblazor.com/get-started) for the rest of the setup - stylesheets, imports, providers, theming and dependency injection - covering both Interactive Server and WebAssembly Blazor Web Apps step by step.
 
+Using an AI coding assistant? Point it at [twblazor.com/llms.txt](https://twblazor.com/llms.txt) so it uses the real components, setup steps and Theme builder instead of guessing.
+
 ## Dependencies
 
 - [Tailwind CSS](https://tailwindcss.com/) - A utility-first CSS framework for styling components.

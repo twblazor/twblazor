@@ -169,6 +169,8 @@ Code snippets shown on the documentation site are extracted from real source (do
 dotnet run --project build/TwBlazor.BuildTools
 ```
 
+The same run writes `llms.txt`, `llms-full.txt` and a Markdown copy of every docs page (e.g. `button.md`) into `docs/TwBlazor.WASM/wwwroot` for AI assistants. They are gitignored and built from the docs pages, `components.json` and the library's `[Parameter]` XML docs, so they update themselves. To change the rules or setup steps at the top of `llms.txt`, edit [llms.template.txt](docs/TwBlazor.Docs/Llms/llms.template.txt).
+
 ---
 
 ## CSS

@@ -6,7 +6,8 @@ namespace TwBlazor.BuildTools;
 /// Build-time tool for TwBlazor that handles code generation and asset management.
 /// Extracts &lt;CodeExample&gt; tags and "#region CodeExample" blocks from the docs pages
 /// (and a handful of real source files) and generates CodeExamples.cs, plus the sitemap and
-/// PageLastModified.cs from the pages' routes and git history.
+/// PageLastModified.cs from the pages' routes and git history, and llms.txt, llms-full.txt and a
+/// Markdown copy of every page for AI assistants.
 /// </summary>
 static class Program
 {
@@ -29,10 +30,10 @@ static class Program
             Console.WriteLine("=== CodeExample Extraction ===");
             Console.WriteLine("Extracting CodeExample blocks from docs pages...");
 
+            var examples = new Dictionary<string, string>(StringComparer.Ordinal);
+
             try
             {
-                var examples = new Dictionary<string, string>(StringComparer.Ordinal);
-
                 foreach (var kvp in CodeExampleExtractor.Extract(Paths.PagesPath))
                     examples[kvp.Key] = kvp.Value;
 
@@ -135,6 +136,49 @@ static class Program
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"ERROR generating sitemap: {ex.Message}");
+                Console.ResetColor();
+                hasErrors = true;
+            }
+
+            Console.WriteLine();
+
+            // llms.txt, llms-full.txt and a Markdown copy of every docs page, for AI assistants
+            Console.WriteLine("=== llms.txt and Markdown Pages ===");
+
+            try
+            {
+                var pages = PageRouteScanner.Scan(Paths.PagesPath, "/showcase/")
+                    .Select(route => (route.Route, File.ReadAllText(route.SourcePath)))
+                    .ToList();
+
+                var output = LlmsGenerator.Generate(
+                    File.ReadAllText(Paths.LlmsTemplatePath),
+                    File.ReadAllText(Paths.ComponentsJsonPath),
+                    pages,
+                    examples,
+                    ComponentParameterScanner.Scan(Paths.LibrarySourcePath));
+
+                var wwwroot = Paths.WasmWwwrootPath;
+
+                // Every .md under wwwroot is generated (and gitignored), so clearing them drops pages that were removed.
+                foreach (var stale in Directory.GetFiles(wwwroot, "*.md", SearchOption.AllDirectories))
+                    File.Delete(stale);
+
+                foreach (var (relativePath, markdown) in output.Pages)
+                {
+                    var path = Path.Combine(wwwroot, relativePath.Replace('/', Path.DirectorySeparatorChar));
+                    Directory.CreateDirectory(Path.GetDirectoryName(path)!);
+                    File.WriteAllText(path, markdown);
+                }
+
+                File.WriteAllText(Path.Combine(wwwroot, "llms.txt"), output.LlmsTxt);
+                File.WriteAllText(Path.Combine(wwwroot, "llms-full.txt"), output.LlmsFullTxt);
+                Console.WriteLine($"Generated: llms.txt, llms-full.txt and {output.Pages.Count} Markdown pages in {wwwroot}");
+            }
+            catch (Exception ex) when (ex is IOException or InvalidOperationException or System.Text.Json.JsonException)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"ERROR generating llms.txt: {ex.Message}");
                 Console.ResetColor();
                 hasErrors = true;
             }
