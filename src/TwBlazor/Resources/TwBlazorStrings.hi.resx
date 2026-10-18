@@ -708,4 +708,16 @@
   <data name="DataTable_ColumnResized" xml:space="preserve">
     <value>{0} की चौड़ाई {1} पिक्सेल है</value>
   </data>
+  <data name="DataTable_ExportCsv" xml:space="preserve">
+    <value>CSV निर्यात करें</value>
+  </data>
+  <data name="DataTable_ExportExcel" xml:space="preserve">
+    <value>Excel निर्यात करें</value>
+  </data>
+  <data name="DataTable_ExportedOne" xml:space="preserve">
+    <value>{0} पंक्ति निर्यात की गई</value>
+  </data>
+  <data name="DataTable_ExportedOther" xml:space="preserve">
+    <value>{0} पंक्तियाँ निर्यात की गईं</value>
+  </data>
 </root>

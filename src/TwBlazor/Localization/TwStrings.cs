@@ -448,6 +448,18 @@ public static class TwStrings
     /// <summary>The key for "{0} is {1} pixels wide".</summary>
     public const string DataTable_ColumnResized = "DataTable_ColumnResized";
 
+    /// <summary>The key for "Export CSV".</summary>
+    public const string DataTable_ExportCsv = "DataTable_ExportCsv";
+
+    /// <summary>The key for "Export Excel".</summary>
+    public const string DataTable_ExportExcel = "DataTable_ExportExcel";
+
+    /// <summary>The key for "Exported {0} row".</summary>
+    public const string DataTable_ExportedOne = "DataTable_ExportedOne";
+
+    /// <summary>The key for "Exported {0} rows".</summary>
+    public const string DataTable_ExportedOther = "DataTable_ExportedOther";
+
     /// <summary>The key for "Open date picker".</summary>
     public const string DatePicker_Open = "DatePicker_Open";
 

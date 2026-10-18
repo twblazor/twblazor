@@ -19,15 +19,34 @@
                         ValueChanged="@OnSearchAsync" />
                 </div>
             }
-            @if (showColumnPanelButton)
+            @if (showColumnPanelButton || showExportButtons)
             {
                 <div class="@toolbarActionsClasses">
-                    <TwButton Id="@columnPanelToggleId"
-                              Label="@effectiveColumnPanelLabel"
-                              StartIcon="Icon.Layout_Three_Columns"
-                              Variant="ButtonVariant.Outlined"
-                              Attributes="@columnPanelToggleAttributes"
-                              OnClick="@ToggleColumnPanel" />
+                    @if (showExportButtons && ExportFormats.HasFlag(TwDataTableExportFormats.Csv))
+                    {
+                        <TwButton Id="@($"{Id}-export-csv")"
+                                  Label="@localizer[TwStrings.DataTable_ExportCsv]"
+                                  StartIcon="Icon.Filetype_Csv"
+                                  Variant="ButtonVariant.Outlined"
+                                  OnClick="@(() => ExportCsvAsync())" />
+                    }
+                    @if (showExportButtons && ExportFormats.HasFlag(TwDataTableExportFormats.Excel))
+                    {
+                        <TwButton Id="@($"{Id}-export-excel")"
+                                  Label="@localizer[TwStrings.DataTable_ExportExcel]"
+                                  StartIcon="Icon.Filetype_Xlsx"
+                                  Variant="ButtonVariant.Outlined"
+                                  OnClick="@(() => ExportExcelAsync())" />
+                    }
+                    @if (showColumnPanelButton)
+                    {
+                        <TwButton Id="@columnPanelToggleId"
+                                  Label="@effectiveColumnPanelLabel"
+                                  StartIcon="Icon.Layout_Three_Columns"
+                                  Variant="ButtonVariant.Outlined"
+                                  Attributes="@columnPanelToggleAttributes"
+                                  OnClick="@ToggleColumnPanel" />
+                    }
                 </div>
             }
         </div>

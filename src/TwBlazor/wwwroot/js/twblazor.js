@@ -1805,6 +1805,20 @@ globalThis.twDataTable = {
         root.__twDataTableResize = onPointerDown;
     },
 
+    download: async function (fileName, contentType, streamReference) {
+        const buffer = await streamReference.arrayBuffer();
+        const url = URL.createObjectURL(new Blob([buffer], { type: contentType }));
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = fileName;
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        // Revoking straight away can cancel the download in some browsers, so wait a turn.
+        setTimeout(function () { URL.revokeObjectURL(url); }, 0);
+    },
+
     detachResize: function (root) {
         if (!root?.__twDataTableResize) return;
         root.removeEventListener('pointerdown', root.__twDataTableResize);

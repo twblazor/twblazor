@@ -875,4 +875,20 @@
     <value>{0} is {1} pixels wide</value>
     <comment>{0} = column title, {1} = width in pixels. Announced after a column is resized from the column panel.</comment>
   </data>
+  <data name="DataTable_ExportCsv" xml:space="preserve">
+    <value>Export CSV</value>
+    <comment>The data table button that downloads its rows as a CSV file.</comment>
+  </data>
+  <data name="DataTable_ExportExcel" xml:space="preserve">
+    <value>Export Excel</value>
+    <comment>The data table button that downloads its rows as an Excel workbook.</comment>
+  </data>
+  <data name="DataTable_ExportedOne" xml:space="preserve">
+    <value>Exported {0} row</value>
+    <comment>{0} = number of rows (1). Announced after a data table is downloaded.</comment>
+  </data>
+  <data name="DataTable_ExportedOther" xml:space="preserve">
+    <value>Exported {0} rows</value>
+    <comment>{0} = number of rows. Announced after a data table is downloaded.</comment>
+  </data>
 </root>

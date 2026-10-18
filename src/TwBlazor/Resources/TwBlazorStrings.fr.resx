@@ -711,4 +711,16 @@
   <data name="DataTable_ColumnResized" xml:space="preserve">
     <value>{0} fait {1} pixels de large</value>
   </data>
+  <data name="DataTable_ExportCsv" xml:space="preserve">
+    <value>Exporter en CSV</value>
+  </data>
+  <data name="DataTable_ExportExcel" xml:space="preserve">
+    <value>Exporter en Excel</value>
+  </data>
+  <data name="DataTable_ExportedOne" xml:space="preserve">
+    <value>{0} ligne exportée</value>
+  </data>
+  <data name="DataTable_ExportedOther" xml:space="preserve">
+    <value>{0} lignes exportées</value>
+  </data>
 </root>

@@ -711,4 +711,16 @@
   <data name="DataTable_ColumnResized" xml:space="preserve">
     <value>{0} genişliği {1} piksel</value>
   </data>
+  <data name="DataTable_ExportCsv" xml:space="preserve">
+    <value>CSV olarak dışa aktar</value>
+  </data>
+  <data name="DataTable_ExportExcel" xml:space="preserve">
+    <value>Excel olarak dışa aktar</value>
+  </data>
+  <data name="DataTable_ExportedOne" xml:space="preserve">
+    <value>{0} satır dışa aktarıldı</value>
+  </data>
+  <data name="DataTable_ExportedOther" xml:space="preserve">
+    <value>{0} satır dışa aktarıldı</value>
+  </data>
 </root>

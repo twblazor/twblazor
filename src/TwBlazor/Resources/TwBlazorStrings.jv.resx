@@ -708,4 +708,16 @@
   <data name="DataTable_ColumnResized" xml:space="preserve">
     <value>Ambane {0} yaiku {1} piksel</value>
   </data>
+  <data name="DataTable_ExportCsv" xml:space="preserve">
+    <value>Ekspor CSV</value>
+  </data>
+  <data name="DataTable_ExportExcel" xml:space="preserve">
+    <value>Ekspor Excel</value>
+  </data>
+  <data name="DataTable_ExportedOne" xml:space="preserve">
+    <value>{0} baris wis diekspor</value>
+  </data>
+  <data name="DataTable_ExportedOther" xml:space="preserve">
+    <value>{0} baris wis diekspor</value>
+  </data>
 </root>

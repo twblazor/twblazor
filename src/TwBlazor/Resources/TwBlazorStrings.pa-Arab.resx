@@ -711,4 +711,16 @@
   <data name="DataTable_ColumnResized" xml:space="preserve">
     <value>{0} دی چوڑائی {1} پکسل اے</value>
   </data>
+  <data name="DataTable_ExportCsv" xml:space="preserve">
+    <value>CSV برآمد کرو</value>
+  </data>
+  <data name="DataTable_ExportExcel" xml:space="preserve">
+    <value>Excel برآمد کرو</value>
+  </data>
+  <data name="DataTable_ExportedOne" xml:space="preserve">
+    <value>{0} قطار برآمد ہوئی</value>
+  </data>
+  <data name="DataTable_ExportedOther" xml:space="preserve">
+    <value>{0} قطاراں برآمد ہوئیاں</value>
+  </data>
 </root>

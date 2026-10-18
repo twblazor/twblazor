@@ -711,4 +711,16 @@
   <data name="DataTable_ColumnResized" xml:space="preserve">
     <value>{0} 너비는 {1}픽셀입니다</value>
   </data>
+  <data name="DataTable_ExportCsv" xml:space="preserve">
+    <value>CSV 내보내기</value>
+  </data>
+  <data name="DataTable_ExportExcel" xml:space="preserve">
+    <value>Excel 내보내기</value>
+  </data>
+  <data name="DataTable_ExportedOne" xml:space="preserve">
+    <value>{0}개 행을 내보냈습니다</value>
+  </data>
+  <data name="DataTable_ExportedOther" xml:space="preserve">
+    <value>{0}개 행을 내보냈습니다</value>
+  </data>
 </root>
