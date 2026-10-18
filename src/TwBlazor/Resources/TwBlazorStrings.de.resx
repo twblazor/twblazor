@@ -768,4 +768,31 @@
   <data name="DataTable_Loading" xml:space="preserve">
     <value>Wird geladen…</value>
   </data>
+  <data name="DataTable_Actions" xml:space="preserve">
+    <value>Aktionen</value>
+  </data>
+  <data name="DataTable_EditRow" xml:space="preserve">
+    <value>{0} bearbeiten</value>
+  </data>
+  <data name="DataTable_SaveRow" xml:space="preserve">
+    <value>{0} speichern</value>
+  </data>
+  <data name="DataTable_CancelEdit" xml:space="preserve">
+    <value>Bearbeiten von {0} abbrechen</value>
+  </data>
+  <data name="DataTable_Editing" xml:space="preserve">
+    <value>{0} wird bearbeitet</value>
+  </data>
+  <data name="DataTable_RowSaved" xml:space="preserve">
+    <value>{0} gespeichert</value>
+  </data>
+  <data name="DataTable_EditCancelled" xml:space="preserve">
+    <value>Bearbeiten von {0} abgebrochen</value>
+  </data>
+  <data name="DataTable_EditInvalidOne" xml:space="preserve">
+    <value>Vor dem Speichern muss {0} Feld korrigiert werden</value>
+  </data>
+  <data name="DataTable_EditInvalidOther" xml:space="preserve">
+    <value>Vor dem Speichern müssen {0} Felder korrigiert werden</value>
+  </data>
 </root>

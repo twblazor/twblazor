@@ -762,4 +762,31 @@
   <data name="DataTable_Loading" xml:space="preserve">
     <value>Đang tải…</value>
   </data>
+  <data name="DataTable_Actions" xml:space="preserve">
+    <value>Thao tác</value>
+  </data>
+  <data name="DataTable_EditRow" xml:space="preserve">
+    <value>Sửa {0}</value>
+  </data>
+  <data name="DataTable_SaveRow" xml:space="preserve">
+    <value>Lưu {0}</value>
+  </data>
+  <data name="DataTable_CancelEdit" xml:space="preserve">
+    <value>Hủy sửa {0}</value>
+  </data>
+  <data name="DataTable_Editing" xml:space="preserve">
+    <value>Đang sửa {0}</value>
+  </data>
+  <data name="DataTable_RowSaved" xml:space="preserve">
+    <value>Đã lưu {0}</value>
+  </data>
+  <data name="DataTable_EditCancelled" xml:space="preserve">
+    <value>Đã hủy sửa {0}</value>
+  </data>
+  <data name="DataTable_EditInvalidOne" xml:space="preserve">
+    <value>Cần sửa {0} trường trước khi lưu</value>
+  </data>
+  <data name="DataTable_EditInvalidOther" xml:space="preserve">
+    <value>Cần sửa {0} trường trước khi lưu</value>
+  </data>
 </root>

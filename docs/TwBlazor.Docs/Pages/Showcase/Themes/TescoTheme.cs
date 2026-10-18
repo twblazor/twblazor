@@ -1465,7 +1465,9 @@ public static class TescoTheme
                     GroupRow = $"{neutralSurface.BackgroundSubtle} {neutralText.Heading}",
                     GroupToggle = $"{display.InlineFlex} {flexbox.Align.Center} {spacing.Gap.Sm} {rounded.Md} -mx-1 px-1 {typography.Weight.Semibold} {interaction.PointerCursor} focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-grocerblue-600 dark:focus-visible:outline-grocerblue-300",
                     GroupCount = $"{typography.Weight.Medium} {neutralText.Muted}",
-                    LoadingCell = $"py-2.5 {typography.AlignCenter} {neutralText.Muted}"
+                    LoadingCell = $"py-2.5 {typography.AlignCenter} {neutralText.Muted}",
+                    ActionsCell = "w-px whitespace-nowrap",
+                    EditingRow = "!bg-grocerblue-50 dark:!bg-grocerblue-500/10"
                 },
                 new TwToastTheme
                 {

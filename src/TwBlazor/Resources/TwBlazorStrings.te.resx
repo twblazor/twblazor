@@ -762,4 +762,31 @@
   <data name="DataTable_Loading" xml:space="preserve">
     <value>లోడ్ అవుతోంది…</value>
   </data>
+  <data name="DataTable_Actions" xml:space="preserve">
+    <value>చర్యలు</value>
+  </data>
+  <data name="DataTable_EditRow" xml:space="preserve">
+    <value>{0}ను సవరించండి</value>
+  </data>
+  <data name="DataTable_SaveRow" xml:space="preserve">
+    <value>{0}ను సేవ్ చేయండి</value>
+  </data>
+  <data name="DataTable_CancelEdit" xml:space="preserve">
+    <value>{0} సవరణను రద్దు చేయండి</value>
+  </data>
+  <data name="DataTable_Editing" xml:space="preserve">
+    <value>{0} సవరించబడుతోంది</value>
+  </data>
+  <data name="DataTable_RowSaved" xml:space="preserve">
+    <value>{0} సేవ్ అయింది</value>
+  </data>
+  <data name="DataTable_EditCancelled" xml:space="preserve">
+    <value>{0} సవరణ రద్దు అయింది</value>
+  </data>
+  <data name="DataTable_EditInvalidOne" xml:space="preserve">
+    <value>సేవ్ చేయడానికి ముందు {0} ఫీల్డ్‌ను సరిచేయాలి</value>
+  </data>
+  <data name="DataTable_EditInvalidOther" xml:space="preserve">
+    <value>సేవ్ చేయడానికి ముందు {0} ఫీల్డ్‌లను సరిచేయాలి</value>
+  </data>
 </root>

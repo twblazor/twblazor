@@ -160,4 +160,15 @@ public class TwTableTheme
     /// <see cref="TwBlazor.Components.TwDataTable{TItem}"/> loads it.
     /// </summary>
     public string LoadingCell { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes for <see cref="TwBlazor.Components.TwDataTable{TItem}"/>'s Actions column, which
+    /// holds each row's Edit button, or its Save and Cancel buttons while it is edited.
+    /// </summary>
+    public string ActionsCell { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes for the row being edited, which set it apart from the rows around it.
+    /// </summary>
+    public string EditingRow { get; set; } = string.Empty;
 }

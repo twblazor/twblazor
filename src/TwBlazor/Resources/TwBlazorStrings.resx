@@ -947,4 +947,40 @@
     <value>Loading…</value>
     <comment>Shown in a data table while its rows load.</comment>
   </data>
+  <data name="DataTable_Actions" xml:space="preserve">
+    <value>Actions</value>
+    <comment>The heading of a data table's column of row buttons, such as Edit.</comment>
+  </data>
+  <data name="DataTable_EditRow" xml:space="preserve">
+    <value>Edit {0}</value>
+    <comment>{0} = the row's name. The button that starts editing a row.</comment>
+  </data>
+  <data name="DataTable_SaveRow" xml:space="preserve">
+    <value>Save {0}</value>
+    <comment>{0} = the row's name. The button that saves an edited row.</comment>
+  </data>
+  <data name="DataTable_CancelEdit" xml:space="preserve">
+    <value>Cancel editing {0}</value>
+    <comment>{0} = the row's name. The button that discards the changes to a row.</comment>
+  </data>
+  <data name="DataTable_Editing" xml:space="preserve">
+    <value>Editing {0}</value>
+    <comment>{0} = the row's name. Announced when a row turns into editors.</comment>
+  </data>
+  <data name="DataTable_RowSaved" xml:space="preserve">
+    <value>{0} saved</value>
+    <comment>{0} = the row's name. Announced after an edited row is saved.</comment>
+  </data>
+  <data name="DataTable_EditCancelled" xml:space="preserve">
+    <value>Editing {0} cancelled</value>
+    <comment>{0} = the row's name. Announced after the changes to a row are discarded.</comment>
+  </data>
+  <data name="DataTable_EditInvalidOne" xml:space="preserve">
+    <value>{0} field needs fixing before saving</value>
+    <comment>{0} = number of fields (1). Announced when an edited row cannot be saved yet.</comment>
+  </data>
+  <data name="DataTable_EditInvalidOther" xml:space="preserve">
+    <value>{0} fields need fixing before saving</value>
+    <comment>{0} = number of fields. Announced when an edited row cannot be saved yet.</comment>
+  </data>
 </root>

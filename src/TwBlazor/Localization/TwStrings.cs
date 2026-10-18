@@ -502,6 +502,33 @@ public static class TwStrings
     /// <summary>The key for "Loading…".</summary>
     public const string DataTable_Loading = "DataTable_Loading";
 
+    /// <summary>The key for "Actions".</summary>
+    public const string DataTable_Actions = "DataTable_Actions";
+
+    /// <summary>The key for "Edit {0}".</summary>
+    public const string DataTable_EditRow = "DataTable_EditRow";
+
+    /// <summary>The key for "Save {0}".</summary>
+    public const string DataTable_SaveRow = "DataTable_SaveRow";
+
+    /// <summary>The key for "Cancel editing {0}".</summary>
+    public const string DataTable_CancelEdit = "DataTable_CancelEdit";
+
+    /// <summary>The key for "Editing {0}".</summary>
+    public const string DataTable_Editing = "DataTable_Editing";
+
+    /// <summary>The key for "{0} saved".</summary>
+    public const string DataTable_RowSaved = "DataTable_RowSaved";
+
+    /// <summary>The key for "Editing {0} cancelled".</summary>
+    public const string DataTable_EditCancelled = "DataTable_EditCancelled";
+
+    /// <summary>The key for "{0} field needs fixing before saving".</summary>
+    public const string DataTable_EditInvalidOne = "DataTable_EditInvalidOne";
+
+    /// <summary>The key for "{0} fields need fixing before saving".</summary>
+    public const string DataTable_EditInvalidOther = "DataTable_EditInvalidOther";
+
     /// <summary>The key for "Open date picker".</summary>
     public const string DatePicker_Open = "DatePicker_Open";
 

@@ -762,4 +762,31 @@
   <data name="DataTable_Loading" xml:space="preserve">
     <value>ஏற்றுகிறது…</value>
   </data>
+  <data name="DataTable_Actions" xml:space="preserve">
+    <value>செயல்கள்</value>
+  </data>
+  <data name="DataTable_EditRow" xml:space="preserve">
+    <value>{0} ஐத் திருத்து</value>
+  </data>
+  <data name="DataTable_SaveRow" xml:space="preserve">
+    <value>{0} ஐச் சேமி</value>
+  </data>
+  <data name="DataTable_CancelEdit" xml:space="preserve">
+    <value>{0} திருத்தத்தை ரத்துசெய்</value>
+  </data>
+  <data name="DataTable_Editing" xml:space="preserve">
+    <value>{0} திருத்தப்படுகிறது</value>
+  </data>
+  <data name="DataTable_RowSaved" xml:space="preserve">
+    <value>{0} சேமிக்கப்பட்டது</value>
+  </data>
+  <data name="DataTable_EditCancelled" xml:space="preserve">
+    <value>{0} திருத்தம் ரத்துசெய்யப்பட்டது</value>
+  </data>
+  <data name="DataTable_EditInvalidOne" xml:space="preserve">
+    <value>சேமிப்பதற்கு முன் {0} புலத்தைச் சரிசெய்ய வேண்டும்</value>
+  </data>
+  <data name="DataTable_EditInvalidOther" xml:space="preserve">
+    <value>சேமிப்பதற்கு முன் {0} புலங்களைச் சரிசெய்ய வேண்டும்</value>
+  </data>
 </root>

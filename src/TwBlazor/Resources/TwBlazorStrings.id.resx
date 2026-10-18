@@ -762,4 +762,31 @@
   <data name="DataTable_Loading" xml:space="preserve">
     <value>Memuat…</value>
   </data>
+  <data name="DataTable_Actions" xml:space="preserve">
+    <value>Tindakan</value>
+  </data>
+  <data name="DataTable_EditRow" xml:space="preserve">
+    <value>Edit {0}</value>
+  </data>
+  <data name="DataTable_SaveRow" xml:space="preserve">
+    <value>Simpan {0}</value>
+  </data>
+  <data name="DataTable_CancelEdit" xml:space="preserve">
+    <value>Batalkan edit {0}</value>
+  </data>
+  <data name="DataTable_Editing" xml:space="preserve">
+    <value>Mengedit {0}</value>
+  </data>
+  <data name="DataTable_RowSaved" xml:space="preserve">
+    <value>{0} disimpan</value>
+  </data>
+  <data name="DataTable_EditCancelled" xml:space="preserve">
+    <value>Edit {0} dibatalkan</value>
+  </data>
+  <data name="DataTable_EditInvalidOne" xml:space="preserve">
+    <value>{0} kolom perlu diperbaiki sebelum disimpan</value>
+  </data>
+  <data name="DataTable_EditInvalidOther" xml:space="preserve">
+    <value>{0} kolom perlu diperbaiki sebelum disimpan</value>
+  </data>
 </root>

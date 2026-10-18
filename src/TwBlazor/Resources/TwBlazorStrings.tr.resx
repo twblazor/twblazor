@@ -765,4 +765,31 @@
   <data name="DataTable_Loading" xml:space="preserve">
     <value>Yükleniyor…</value>
   </data>
+  <data name="DataTable_Actions" xml:space="preserve">
+    <value>İşlemler</value>
+  </data>
+  <data name="DataTable_EditRow" xml:space="preserve">
+    <value>{0} öğesini düzenle</value>
+  </data>
+  <data name="DataTable_SaveRow" xml:space="preserve">
+    <value>{0} öğesini kaydet</value>
+  </data>
+  <data name="DataTable_CancelEdit" xml:space="preserve">
+    <value>{0} düzenlemesini iptal et</value>
+  </data>
+  <data name="DataTable_Editing" xml:space="preserve">
+    <value>{0} düzenleniyor</value>
+  </data>
+  <data name="DataTable_RowSaved" xml:space="preserve">
+    <value>{0} kaydedildi</value>
+  </data>
+  <data name="DataTable_EditCancelled" xml:space="preserve">
+    <value>{0} düzenlemesi iptal edildi</value>
+  </data>
+  <data name="DataTable_EditInvalidOne" xml:space="preserve">
+    <value>Kaydetmeden önce {0} alanın düzeltilmesi gerekiyor</value>
+  </data>
+  <data name="DataTable_EditInvalidOther" xml:space="preserve">
+    <value>Kaydetmeden önce {0} alanın düzeltilmesi gerekiyor</value>
+  </data>
 </root>

@@ -762,4 +762,31 @@
   <data name="DataTable_Loading" xml:space="preserve">
     <value>লোড হচ্ছে…</value>
   </data>
+  <data name="DataTable_Actions" xml:space="preserve">
+    <value>কার্যক্রম</value>
+  </data>
+  <data name="DataTable_EditRow" xml:space="preserve">
+    <value>{0} সম্পাদনা করুন</value>
+  </data>
+  <data name="DataTable_SaveRow" xml:space="preserve">
+    <value>{0} সংরক্ষণ করুন</value>
+  </data>
+  <data name="DataTable_CancelEdit" xml:space="preserve">
+    <value>{0} সম্পাদনা বাতিল করুন</value>
+  </data>
+  <data name="DataTable_Editing" xml:space="preserve">
+    <value>{0} সম্পাদনা হচ্ছে</value>
+  </data>
+  <data name="DataTable_RowSaved" xml:space="preserve">
+    <value>{0} সংরক্ষিত</value>
+  </data>
+  <data name="DataTable_EditCancelled" xml:space="preserve">
+    <value>{0} সম্পাদনা বাতিল হয়েছে</value>
+  </data>
+  <data name="DataTable_EditInvalidOne" xml:space="preserve">
+    <value>সংরক্ষণের আগে {0}টি ঘর ঠিক করতে হবে</value>
+  </data>
+  <data name="DataTable_EditInvalidOther" xml:space="preserve">
+    <value>সংরক্ষণের আগে {0}টি ঘর ঠিক করতে হবে</value>
+  </data>
 </root>
