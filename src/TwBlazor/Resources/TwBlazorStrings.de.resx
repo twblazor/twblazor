@@ -765,4 +765,7 @@
   <data name="DataTable_GroupNoValue" xml:space="preserve">
     <value>(Kein Wert)</value>
   </data>
+  <data name="DataTable_Loading" xml:space="preserve">
+    <value>Wird geladen…</value>
+  </data>
 </root>

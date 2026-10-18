@@ -279,6 +279,7 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
 
         var groupingChanged = GroupBy != lastGroupByParameter;
         SyncGroupByParameter();
+        SyncItemsProvider();
 
         var stateApplied = ApplyIncomingState();
 
@@ -300,6 +301,19 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
     /// <param name="resetPage">Whether to go back to the first page, as a new search or sort does.</param>
     private void RefreshView(bool resetPage = false)
     {
+        if (usesProvider)
+        {
+            // The provider searches and sorts; the table only asks it for the rows again.
+            if (resetPage)
+            {
+                currentPage = 1;
+            }
+
+            loadRequested = true;
+            UpdateDisplay();
+            return;
+        }
+
         IEnumerable<TItem> rows = Items.Where(item => !EqualityComparer<TItem>.Default.Equals(item, default));
 
         if (!string.IsNullOrWhiteSpace(currentSearchQuery))
@@ -318,6 +332,7 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
 
         viewItems = rows.ToList();
         BuildGroups();
+        BuildVirtualRows();
 
         if (resetPage)
         {
@@ -329,12 +344,26 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
 
     private void UpdateDisplay()
     {
+        if (usesProvider)
+        {
+            displayedSegments = [];
+            totalCount = providerTotalCount;
+            displayedRows = loadedItems;
+
+            // Until the first rows arrive the total is unknown, so a restored page is kept rather than clamped.
+            if (providerHasLoaded)
+            {
+                currentPage = Math.Clamp(currentPage, 1, TotalPages());
+            }
+            return;
+        }
+
         if (isGrouped)
         {
             totalCount = lines.Count;
             currentPage = Math.Clamp(currentPage, 1, TotalPages());
 
-            var pageLines = Pageable ? lines.Skip((currentPage - 1) * rowsPerPage).Take(rowsPerPage).ToList() : lines;
+            var pageLines = isPaged ? lines.Skip((currentPage - 1) * rowsPerPage).Take(rowsPerPage).ToList() : lines;
             BuildDisplayedSegments(pageLines);
             displayedRows = [.. pageLines.Where(l => !l.IsHeader).Select(l => l.Item!)];
             return;
@@ -344,7 +373,7 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
         totalCount = viewItems.Count;
         currentPage = Math.Clamp(currentPage, 1, TotalPages());
 
-        displayedRows = Pageable
+        displayedRows = isPaged
             ? viewItems
                 .Skip((currentPage - 1) * rowsPerPage)
                 .Take(rowsPerPage)
@@ -366,8 +395,9 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
     private async Task OnActivePageChanged(int page)
     {
         currentPage = page;
+        loadRequested = usesProvider;
         UpdateDisplay();
-        sortStatusMessage = localizer.Plural(displayedRows.Count, TwStrings.DataTable_PageStatusOne, TwStrings.DataTable_PageStatusOther, currentPage, TotalPages(), displayedRows.Count);
+        Announce(() => localizer.Plural(displayedRows.Count, TwStrings.DataTable_PageStatusOne, TwStrings.DataTable_PageStatusOther, currentPage, TotalPages(), displayedRows.Count));
         await NotifyStateChangedAsync();
     }
 
@@ -376,7 +406,8 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
         currentSearchQuery = string.IsNullOrWhiteSpace(value) ? null : value;
         RefreshView(resetPage: true);
 
-        sortStatusMessage = SearchStatusMessage(viewItems.Count);
+        // Worked out when announced, so a provider's total is the one its new rows arrived with.
+        Announce(() => SearchStatusMessage(usesProvider ? providerTotalCount : viewItems.Count));
 
         await NotifyStateChangedAsync();
     }
@@ -598,6 +629,7 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
         {
             rowsPerPage = newRowsPerPage;
             currentPage = 1;
+            loadRequested = usesProvider;
             UpdateDisplay();
             await RowsPerPageChanged.InvokeAsync(newRowsPerPage);
             await NotifyStateChangedAsync();

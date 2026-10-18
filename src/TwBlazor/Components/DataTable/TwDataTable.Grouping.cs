@@ -41,9 +41,9 @@ public partial class TwDataTable<TItem>
 
     private string effectiveGroupByLabel => GroupByLabel ?? localizer[TwStrings.DataTable_GroupBy];
 
-    private bool isGrouped => currentGroupBy is not null && hasColumns;
+    private bool isGrouped => currentGroupBy is not null && hasColumns && !usesProvider;
 
-    private bool showGroupBySelect => hasColumns && Columns!.Any(c => c.Groupable && c.PropertySelector is not null);
+    private bool showGroupBySelect => hasColumns && !usesProvider && Columns!.Any(c => c.Groupable && c.PropertySelector is not null);
 
     private List<GroupOption> groupOptions =>
     [

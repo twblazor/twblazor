@@ -1447,6 +1447,7 @@ public static class MicrosoftTheme
                     FixedLayout = "table-fixed",
                     Bordered = $"{borderWidth.Thin} {neutralSurface.Border}",
                     Header = $"{typography.Size.Sm} {typography.Weight.Semibold} {neutralText.Secondary} {neutralSurface.BackgroundSubtle} border-b {neutralSurface.Border}",
+                    StickyHeader = $"{positioning.Sticky} top-0 z-10",
                     Body = neutralSurface.Background,
                     BodyStriped = "[&>tr:nth-child(even)]:bg-[oklch(98%_0.003_67)] [&>tr:nth-child(even)]:dark:bg-[oklch(23.26%_0.006_67)]",
                     BodyHoverable = "[&>tr:hover]:!bg-[oklch(95%_0.003_67)] [&>tr:hover]:dark:!bg-[oklch(21.15%_0.006_67)] [&>tr]:transition-colors [&>tr]:duration-200 [&>tr]:motion-reduce:transition-none",
@@ -1463,7 +1464,8 @@ public static class MicrosoftTheme
                     GroupByColumn = "w-full sm:w-56",
                     GroupRow = $"{neutralSurface.BackgroundSubtle} {neutralText.Heading}",
                     GroupToggle = $"{display.InlineFlex} {flexbox.Align.Center} {spacing.Gap.Sm} {rounded.Md} -mx-1 px-1 {typography.Weight.Semibold} {interaction.PointerCursor} focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fluentblue-600 dark:focus-visible:outline-fluentblue-300",
-                    GroupCount = $"{typography.Weight.Medium} {neutralText.Muted}"
+                    GroupCount = $"{typography.Weight.Medium} {neutralText.Muted}",
+                    LoadingCell = $"py-2.5 {typography.AlignCenter} {neutralText.Muted}"
                 },
                 new TwToastTheme
                 {

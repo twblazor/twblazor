@@ -56,6 +56,12 @@ public class TwTableTheme
     public required string Header { get; set; }
 
     /// <summary>
+    /// Gets or sets the classes applied to the table header when the table's <c>StickyHeader</c> parameter is
+    /// <c>true</c>, which keep it at the top of the scrolling table (e.g. <c>sticky top-0 z-10</c>).
+    /// </summary>
+    public string StickyHeader { get; set; } = string.Empty;
+
+    /// <summary>
     /// Gets or sets the base background classes applied to the table body.
     /// </summary>
     public required string Body { get; set; }
@@ -148,4 +154,10 @@ public class TwTableTheme
     /// Gets or sets the classes for the row count beside a group's name.
     /// </summary>
     public string GroupCount { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes for the cell shown in place of a row while
+    /// <see cref="TwBlazor.Components.TwDataTable{TItem}"/> loads it.
+    /// </summary>
+    public string LoadingCell { get; set; } = string.Empty;
 }

@@ -42,7 +42,8 @@ public partial class TwDataTable<TItem>
 
     /// <summary>
     /// Writes the table's rows as CSV text. The columns are the ones on screen, in the order they are shown,
-    /// leaving out any column whose <see cref="TwDataTableColumn{TItem}.Exportable"/> is <c>false</c>.
+    /// leaving out any column whose <see cref="TwDataTableColumn{TItem}.Exportable"/> is <c>false</c>. With an
+    /// <see cref="ItemsProvider"/> it writes the rows already loaded; <see cref="ExportCsvAsync"/> loads the rest.
     /// </summary>
     /// <param name="scope">Which rows to write, or <c>null</c> for <see cref="ExportScope"/>.</param>
     /// <returns>The CSV text.</returns>
@@ -64,7 +65,7 @@ public partial class TwDataTable<TItem>
     /// <returns>A task that completes once the download has been handed to the browser.</returns>
     public async Task ExportCsvAsync(TwDataTableExportScope? scope = null)
     {
-        var rows = ExportRows(scope ?? ExportScope);
+        var rows = await ExportRowsAsync(scope ?? ExportScope);
 
         // The byte order mark tells Excel the file is UTF-8, so accented and non Latin text opens correctly.
         var bytes = Encoding.UTF8.GetPreamble().Concat(Encoding.UTF8.GetBytes(TwDataTableExport.ToCsv(rows, visibleColumns))).ToArray();
@@ -78,11 +79,26 @@ public partial class TwDataTable<TItem>
     /// <returns>A task that completes once the download has been handed to the browser.</returns>
     public async Task ExportExcelAsync(TwDataTableExportScope? scope = null)
     {
-        var rows = ExportRows(scope ?? ExportScope);
+        var rows = await ExportRowsAsync(scope ?? ExportScope);
         await DownloadAsync($"{ExportFileName}.xlsx", TwDataTableExport.ExcelContentType, TwDataTableExport.ToExcel(rows, visibleColumns, ExportFileName), rows.Count);
     }
 
-    private List<TItem> ExportRows(TwDataTableExportScope scope) => scope switch
+    /// <summary>
+    /// Gathers the rows for a download. With an <see cref="ItemsProvider"/> the table only holds the rows it shows,
+    /// so the provider is asked for the rest.
+    /// </summary>
+    private async Task<List<TItem>> ExportRowsAsync(TwDataTableExportScope scope)
+    {
+        if (!usesProvider || scope == TwDataTableExportScope.CurrentPage)
+        {
+            return ExportRows(scope);
+        }
+
+        var result = await ItemsProvider!(BuildRequest(0, null, CancellationToken.None, ignoreSearch: scope == TwDataTableExportScope.All));
+        return [.. result.Items];
+    }
+
+    private List<TItem> ExportRows(TwDataTableExportScope scope) => usesProvider ? [.. displayedRows] : scope switch
     {
         TwDataTableExportScope.CurrentPage => [.. displayedRows],
         TwDataTableExportScope.All => [.. Items.Where(item => !EqualityComparer<TItem>.Default.Equals(item, default))],

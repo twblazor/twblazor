@@ -943,4 +943,8 @@
     <value>(No value)</value>
     <comment>The name of the group of rows that have no value in the grouped column.</comment>
   </data>
+  <data name="DataTable_Loading" xml:space="preserve">
+    <value>Loading…</value>
+    <comment>Shown in a data table while its rows load.</comment>
+  </data>
 </root>

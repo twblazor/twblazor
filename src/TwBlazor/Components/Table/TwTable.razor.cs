@@ -97,6 +97,23 @@ public partial class TwTable : TwBlazorComponentBase
     public bool FixedLayout { get; set; }
 
     /// <summary>
+    /// Gets or sets the tallest the table can grow before its rows scroll inside it, as any CSS length such as
+    /// <c>24rem</c> or <c>60vh</c>. Leave it unset for the table to be as tall as its rows. Pair it with
+    /// <see cref="StickyHeader"/> to keep the column headings in view.
+    /// </summary>
+    [Parameter]
+    public string? MaxHeight { get; set; }
+
+    /// <summary>
+    /// Whether the header row stays at the top of the table while its rows scroll beneath it. Only has an effect
+    /// when the table scrolls, for example with <see cref="MaxHeight"/>. Defaults to <c>false</c>.
+    /// </summary>
+    [Parameter]
+    public bool StickyHeader { get; set; }
+
+    private string? wrapperStyle => string.IsNullOrWhiteSpace(MaxHeight) ? null : $"max-height:{MaxHeight.Trim()}";
+
+    /// <summary>
     /// Content to render in the table header (thead).
     /// </summary>
     [Parameter]
@@ -197,6 +214,7 @@ public partial class TwTable : TwBlazorComponentBase
 
     private string headerClasses => new ClassBuilder()
         .AddClass(theme.Header)
+        .AddClass(theme.StickyHeader, StickyHeader)
         .AddClass(HeaderClass ?? string.Empty)
         .Build();
 

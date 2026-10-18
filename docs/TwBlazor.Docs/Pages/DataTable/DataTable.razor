@@ -214,6 +214,39 @@
         </CodeExample>
     </PageCard>
 
+    <PageCard Title="Virtualizing thousands of rows">
+        <Description>
+            Set <code>Virtualize</code> and the table renders only the rows scrolled into view, so it stays fast with tens of thousands of rows. The rows scroll inside the table instead of being paged, and the header stays in view. Change the height with <code>Height</code>. Keep each row to one line, about <code>ItemSize</code> pixels tall. Screen readers are told the full row count and each row's place, so they still read "row 5000 of 10000". Sorting, searching, the column panel and grouping all work as before.
+        </Description>
+
+        <CodeExample Name="DataTableVirtualize" CSharpName="DataTableVirtualizeCode">
+            <TwDataTable TItem="Order"
+                         Id="virtualized-table"
+                         Items="@orders"
+                         Columns="@_orderColumns"
+                         Virtualize
+                         Searchable
+                         Height="24rem"
+                         AriaLabel="Ten thousand orders" />
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Loading rows from a server">
+        <Description>
+            For data that is too big to load at once, give the table an <code>ItemsProvider</code> in place of <code>Items</code>. The table asks it for one page at a time, passing the sort and search, so your database or API does the work and returns just those rows with the total count. Combine it with <code>Virtualize</code> to load rows as they scroll into view. While rows load the table is marked busy, and the search result count is announced once they arrive. Call <code>RefreshDataAsync</code> after the data changes elsewhere.
+        </Description>
+
+        <CodeExample Name="DataTableItemsProvider" CSharpName="DataTableItemsProviderCode">
+            <TwDataTable TItem="Order"
+                         Id="provider-table"
+                         Columns="@_orderColumns"
+                         ItemsProvider="@LoadOrdersAsync"
+                         Searchable
+                         RowsPerPage="5"
+                         AriaLabel="Orders loaded from the server" />
+        </CodeExample>
+    </PageCard>
+
     <PageCard Title="Exporting to CSV and Excel">
         <Description>
             Set <code>Exportable</code> to add Export CSV and Export Excel buttons. An export holds the columns on screen in their current order, and by default every row that matches the search in its current sort, across all pages. Change that with <code>ExportScope</code>, or pick the buttons with <code>ExportFormats</code>. The Excel file keeps numbers, dates and true or false values as their own types, so they can be summed and filtered. Give a column an <code>ExportFormatter</code> to write a different value from the one on screen, or set <code>Exportable = false</code> to leave it out. Text that a spreadsheet would run as a formula is escaped.
@@ -340,6 +373,54 @@
         // Starts hidden; people can show it from the panel.
         new TwDataTableColumn<Product> { Name = "stock", Title = "Stock", PropertySelector = p => p.Stock, IsSortable = true, Visible = false }
     };
+    #endregion
+
+    #region CodeExample DataTableVirtualizeCode
+    private readonly List<Order> orders = [.. Enumerable.Range(1, 10_000).Select(i => new Order(
+        i,
+        $"Customer {(i * 37) % 900 + 1}",
+        new DateTime(2026, 1, 1).AddHours(i * 7),
+        Math.Round(5 + (i * 7919 % 50_000) / 100m, 2)))];
+
+    private readonly List<TwDataTableColumn<Order>> _orderColumns = new()
+    {
+        new TwDataTableColumn<Order> { Name = "number", Title = "Order", PropertySelector = o => o.Number, IsSortable = true },
+        new TwDataTableColumn<Order> { Name = "customer", Title = "Customer", PropertySelector = o => o.Customer, IsSortable = true },
+        new TwDataTableColumn<Order> { Name = "placed", Title = "Placed", PropertySelector = o => o.Placed, IsSortable = true, CellFormatter = o => o.Placed.ToString("dd/MM/yyyy HH:mm") },
+        new TwDataTableColumn<Order> { Name = "total", Title = "Total", PropertySelector = o => o.Total, IsSortable = true, CellFormatter = o => $"£{o.Total:N2}" }
+    };
+
+    public record Order(int Number, string Customer, DateTime Placed, decimal Total);
+    #endregion
+
+    #region CodeExample DataTableItemsProviderCode
+    // Stands in for a database query: in a real app, pass the request on to your API or Entity Framework.
+    private async ValueTask<TwDataTableItemsResult<Order>> LoadOrdersAsync(TwDataTableItemsRequest request)
+    {
+        await Task.Delay(300, request.CancellationToken);
+
+        IEnumerable<Order> query = orders;
+        if (!string.IsNullOrWhiteSpace(request.SearchQuery))
+        {
+            query = query.Where(o => o.Customer.Contains(request.SearchQuery, StringComparison.OrdinalIgnoreCase));
+        }
+
+        query = (request.SortColumn, request.SortDirection) switch
+        {
+            ("number", SortDirection.Descending) => query.OrderByDescending(o => o.Number),
+            ("customer", SortDirection.Ascending) => query.OrderBy(o => o.Customer),
+            ("customer", SortDirection.Descending) => query.OrderByDescending(o => o.Customer),
+            ("placed", SortDirection.Ascending) => query.OrderBy(o => o.Placed),
+            ("placed", SortDirection.Descending) => query.OrderByDescending(o => o.Placed),
+            ("total", SortDirection.Ascending) => query.OrderBy(o => o.Total),
+            ("total", SortDirection.Descending) => query.OrderByDescending(o => o.Total),
+            _ => query
+        };
+
+        var matching = query.ToList();
+        var page = matching.Skip(request.StartIndex).Take(request.Count ?? matching.Count).ToList();
+        return new TwDataTableItemsResult<Order>(page, matching.Count);
+    }
     #endregion
 
     #region CodeExample DataTableGroupColumns

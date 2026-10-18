@@ -762,4 +762,7 @@
   <data name="DataTable_GroupNoValue" xml:space="preserve">
     <value>(값 없음)</value>
   </data>
+  <data name="DataTable_Loading" xml:space="preserve">
+    <value>불러오는 중…</value>
+  </data>
 </root>
