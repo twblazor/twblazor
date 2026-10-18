@@ -52,6 +52,13 @@ function pointer(type, target, clientX, extra = {}) {
     return event;
 }
 
+// Drag moves are applied once per animation frame.
+function nextFrame() {
+    return new Promise(function (resolve) {
+        (globalThis.requestAnimationFrame ?? setTimeout)(resolve);
+    });
+}
+
 function key(target, keyName, extra = {}) {
     const event = new KeyboardEvent('keydown', { key: keyName, bubbles: true, cancelable: true, ...extra });
     target.dispatchEvent(event);
@@ -151,7 +158,7 @@ describe('twTable', () => {
     });
 
     describe('attachResize', () => {
-        test('dragging a separator resizes its column and commits every column width', () => {
+        test('dragging a separator resizes its column and commits every column width', async () => {
             const wrapper = buildTable([{ id: 'name', width: 200 }, { id: 'price', width: 120 }]);
             const dotnetRef = { invokeMethodAsync: vi.fn() };
             globalThis.twTable.attachResize(wrapper, dotnetRef);
@@ -159,6 +166,7 @@ describe('twTable', () => {
 
             const down = pointer('pointerdown', handle, 300);
             pointer('pointermove', handle, 350);
+            await nextFrame();
 
             expect(down.defaultPrevented).toBe(true);
             expect(wrapper.querySelector('#name').style.width).toBe('250px');
@@ -182,17 +190,94 @@ describe('twTable', () => {
             expect(dotnetRef.invokeMethodAsync).toHaveBeenCalledWith('CommitColumnWidths', { name: 240 });
         });
 
-        test('keeps the width within the column limits', () => {
+        test('keeps the width within the column limits', async () => {
             const wrapper = buildTable([{ id: 'name', width: 200, min: 150, max: 260 }]);
             globalThis.twTable.attachResize(wrapper, { invokeMethodAsync: vi.fn() });
             const handle = handles(wrapper)[0];
 
             pointer('pointerdown', handle, 300);
             pointer('pointermove', handle, 0);
+            await nextFrame();
             expect(wrapper.querySelector('#name').style.width).toBe('150px');
 
             pointer('pointermove', handle, 900);
+            await nextFrame();
             expect(wrapper.querySelector('#name').style.width).toBe('260px');
+            pointer('pointerup', handle, 900);
+        });
+
+        test('follows the pointer off the separator and stops when it is released anywhere', async () => {
+            const wrapper = buildTable([{ id: 'name', width: 200 }]);
+            const dotnetRef = { invokeMethodAsync: vi.fn() };
+            globalThis.twTable.attachResize(wrapper, dotnetRef);
+            const handle = handles(wrapper)[0];
+
+            pointer('pointerdown', handle, 300);
+            pointer('pointermove', document.body, 340);
+            await nextFrame();
+            expect(wrapper.querySelector('#name').style.width).toBe('240px');
+
+            pointer('pointerup', document.body, 340);
+            expect(dotnetRef.invokeMethodAsync).toHaveBeenCalledTimes(1);
+
+            pointer('pointermove', handle, 500);
+            await nextFrame();
+            expect(wrapper.querySelector('#name').style.width).toBe('240px');
+            expect(dotnetRef.invokeMethodAsync).toHaveBeenCalledTimes(1);
+        });
+
+        test('applies the last position of a frame once and leaves the dragged separator in place', async () => {
+            const wrapper = buildTable([{ id: 'name', width: 200 }, { id: 'price', width: 120 }]);
+            globalThis.twTable.attachResize(wrapper, { invokeMethodAsync: vi.fn() });
+            const layer = wrapper.querySelector('[data-tw-resize-layer]');
+            const handle = handles(wrapper)[0];
+            const insert = vi.spyOn(layer, 'insertBefore');
+            const layout = vi.spyOn(globalThis.twTable, 'layoutResize');
+
+            pointer('pointerdown', handle, 300);
+            pointer('pointermove', handle, 310);
+            pointer('pointermove', handle, 320);
+            pointer('pointermove', handle, 330);
+            await nextFrame();
+
+            expect(layout).toHaveBeenCalledTimes(1);
+            expect(insert).not.toHaveBeenCalled();
+            expect(handles(wrapper)[0]).toBe(handle);
+            expect(wrapper.querySelector('#name').style.width).toBe('230px');
+            layout.mockRestore();
+            pointer('pointerup', handle, 330);
+        });
+
+        test('sizes the table to its columns, so the others keep their widths', async () => {
+            const wrapper = buildTable([{ id: 'name', width: 200 }, { id: 'price', width: 120 }]);
+            globalThis.twTable.attachResize(wrapper, { invokeMethodAsync: vi.fn() });
+            const handle = handles(wrapper)[0];
+
+            pointer('pointerdown', handle, 300);
+            pointer('pointermove', handle, 250);
+            await nextFrame();
+            pointer('pointerup', handle, 250);
+
+            expect(wrapper.querySelector('table').style.width).toBe('270px');
+            expect(wrapper.querySelector('#price').style.width).toBe('120px');
+
+            wrapper.querySelector('#price').style.width = '';
+            globalThis.twTable.layoutResize(wrapper);
+            expect(wrapper.querySelector('table').style.width).toBe('');
+        });
+
+        test('shows the resize cursor across the page while dragging', () => {
+            const wrapper = buildTable([{ id: 'name', width: 200 }]);
+            globalThis.twTable.attachResize(wrapper, { invokeMethodAsync: vi.fn() });
+            const handle = handles(wrapper)[0];
+
+            pointer('pointerdown', handle, 300);
+            expect(document.documentElement.style.cursor).toBe('col-resize');
+            expect(handle.hasAttribute('data-tw-resizing')).toBe(true);
+
+            pointer('pointerup', handle, 300);
+            expect(document.documentElement.style.cursor).toBe('');
+            expect(handle.hasAttribute('data-tw-resizing')).toBe(false);
         });
 
         test('the arrow keys resize the focused separator, with Shift for bigger steps', () => {

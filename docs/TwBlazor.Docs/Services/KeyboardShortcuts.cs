@@ -38,8 +38,8 @@ internal static class KeyboardShortcuts
     private const string right = "Arrow Right";
     private const string home = "Home";
     private const string end = "End";
-    private const string pageUp = "Pg Up";
-    private const string pageDown = "Pg Down";
+    private const string pageUp = "Pg.Up";
+    private const string pageDown = "Pg.Down";
 
     private static KeyboardShortcut Key(string action, params string[] keys) => new(keys, action);
 

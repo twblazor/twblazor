@@ -1453,11 +1453,15 @@ globalThis.twSkeleton = {
 // styles never reveal a bubble there. One document listener opens the tooltip under a touch or pen tap by
 // marking its wrapper (the theme reveals the bubble for a marked wrapper) and closes it on the next tap
 // anywhere, so at most one is open. Mouse input is left to the hover styles.
+// A bubble is absolutely positioned inside its wrapper, so a scrolling ancestor such as a table's scroll area would
+// cut it off. While a bubble inside one is showing it is fixed to the viewport instead, next to its control.
 globalThis.twTooltip = {
     _wrapperSelector: '[data-tw-tooltip]',
     _openAttribute: 'data-tw-tooltip-open',
     _edgeMargin: 8,
+    _gap: 8,
     _registered: false,
+    _floating: new Set(),
 
     _parts: function (wrapper) {
         const bubble = Array.from(wrapper.children).find(child => child.getAttribute('role') === 'tooltip') ?? null;
@@ -1488,16 +1492,135 @@ globalThis.twTooltip = {
         if (arrow) arrow.style.marginLeft = `${-shift}px`;
     },
 
+    // Whether an ancestor between the wrapper and the page clips its overflow, which would cut the bubble off.
+    _isClipped: function (wrapper) {
+        for (let el = wrapper.parentElement; el && el !== document.body && el !== document.documentElement; el = el.parentElement) {
+            const style = getComputedStyle(el);
+            const clips = [style.overflow, style.overflowX, style.overflowY].some(function (value) { return value && value !== 'visible'; });
+            if (clips) return true;
+        }
+        return false;
+    },
+
+    _reset: function (wrapper) {
+        globalThis.twTooltip._floating.delete(wrapper);
+        const { bubble, arrow } = globalThis.twTooltip._parts(wrapper);
+        if (bubble) {
+            ['position', 'inset', 'top', 'left', 'margin', 'translate', 'transform', 'margin-left'].forEach(function (name) {
+                bubble.style.removeProperty(name);
+            });
+        }
+        if (arrow) arrow.style.marginLeft = '';
+    },
+
+    // Fixes a showing bubble to the viewport on its placement's side of the wrapper, kept on screen.
+    _float: function (wrapper) {
+        const tooltip = globalThis.twTooltip;
+        const { bubble, arrow } = tooltip._parts(wrapper);
+        if (!bubble) return false;
+
+        bubble.style.position = 'fixed';
+        bubble.style.inset = '0 auto auto 0';
+        bubble.style.margin = '0';
+        bubble.style.translate = 'none';
+        bubble.style.transform = 'none';
+        if (arrow) arrow.style.marginLeft = '';
+
+        const size = bubble.getBoundingClientRect();
+        if (size.width === 0 && size.height === 0) {
+            tooltip._reset(wrapper);
+            return false;
+        }
+
+        const rect = wrapper.getBoundingClientRect();
+        const gap = tooltip._gap;
+        const rtl = globalThis.twDirection.isRtl(wrapper);
+        const placement = (bubble.dataset.twPlacement || 'top').toLowerCase();
+        const centreX = rect.left + (rect.width - size.width) / 2;
+        const centreY = rect.top + (rect.height - size.height) / 2;
+        const before = rect.left - size.width - gap;
+        const after = rect.right + gap;
+
+        let left = centreX;
+        let top = rect.top - size.height - gap;
+        if (placement === 'bottom') {
+            top = rect.bottom + gap;
+        } else if (placement === 'left') {
+            left = rtl ? after : before;
+            top = centreY;
+        } else if (placement === 'right') {
+            left = rtl ? before : after;
+            top = centreY;
+        }
+
+        const margin = tooltip._edgeMargin;
+        const viewportWidth = document.documentElement.clientWidth;
+        const fitted = viewportWidth > 0 ? Math.max(margin, Math.min(left, viewportWidth - margin - size.width)) : left;
+        bubble.style.left = fitted + 'px';
+        bubble.style.top = top + 'px';
+        if (arrow && fitted !== left && (placement === 'top' || placement === 'bottom')) {
+            arrow.style.marginLeft = (left - fitted) + 'px';
+        }
+        tooltip._floating.add(wrapper);
+        return true;
+    },
+
+    // Called when a wrapper may have started showing its bubble. The hover or focus styles may not apply until the
+    // next frame, so a bubble that is not showing yet is tried once more then.
+    _show: function (wrapper) {
+        const tooltip = globalThis.twTooltip;
+        if (!tooltip._isClipped(wrapper)) return;
+        if (tooltip._float(wrapper)) return;
+        const schedule = globalThis.requestAnimationFrame ?? function (fn) { return setTimeout(fn, 0); };
+        schedule(function () {
+            if (wrapper.isConnected) tooltip._float(wrapper);
+        });
+    },
+
     open: function (wrapper) {
         wrapper.setAttribute(globalThis.twTooltip._openAttribute, '');
-        globalThis.twTooltip._fit(wrapper);
+        if (globalThis.twTooltip._isClipped(wrapper)) {
+            globalThis.twTooltip._float(wrapper);
+        } else {
+            globalThis.twTooltip._fit(wrapper);
+        }
     },
 
     close: function (wrapper) {
         wrapper.removeAttribute(globalThis.twTooltip._openAttribute);
-        const { bubble, arrow } = globalThis.twTooltip._parts(wrapper);
-        if (bubble) bubble.style.marginLeft = '';
-        if (arrow) arrow.style.marginLeft = '';
+        globalThis.twTooltip._reset(wrapper);
+    },
+
+    _wrapperOf: function (target) {
+        return target?.closest?.(globalThis.twTooltip._wrapperSelector) ?? null;
+    },
+
+    _onEnter: function (e) {
+        const tooltip = globalThis.twTooltip;
+        const wrapper = tooltip._wrapperOf(e.target);
+        if (wrapper && !(e.relatedTarget instanceof Node && wrapper.contains(e.relatedTarget))) {
+            tooltip._show(wrapper);
+        }
+    },
+
+    _onLeave: function (e) {
+        const tooltip = globalThis.twTooltip;
+        const wrapper = tooltip._wrapperOf(e.target);
+        if (!wrapper || !tooltip._floating.has(wrapper)) return;
+        if (e.relatedTarget instanceof Node && wrapper.contains(e.relatedTarget)) return;
+        if (wrapper.hasAttribute(tooltip._openAttribute)) return;
+        tooltip._reset(wrapper);
+    },
+
+    // A fixed bubble does not move with its control, so it follows it on any scroll or resize.
+    _onViewportChange: function () {
+        globalThis.twTooltip._floating.forEach(function (wrapper) {
+            if (wrapper.isConnected) {
+                globalThis.twTooltip._float(wrapper);
+            } else {
+                globalThis.twTooltip._floating.delete(wrapper);
+            }
+        });
     },
 
     _onPointerDown: function (e) {
@@ -1532,8 +1655,15 @@ globalThis.twTooltip = {
 
     register: function () {
         if (globalThis.twTooltip._registered || typeof document === 'undefined') return;
-        document.addEventListener('pointerdown', globalThis.twTooltip._onPointerDown);
-        globalThis.twTooltip._registered = true;
+        const tooltip = globalThis.twTooltip;
+        document.addEventListener('pointerdown', tooltip._onPointerDown);
+        document.addEventListener('pointerover', tooltip._onEnter);
+        document.addEventListener('focusin', tooltip._onEnter);
+        document.addEventListener('pointerout', tooltip._onLeave);
+        document.addEventListener('focusout', tooltip._onLeave);
+        document.addEventListener('scroll', tooltip._onViewportChange, true);
+        globalThis.addEventListener?.('resize', tooltip._onViewportChange);
+        tooltip._registered = true;
     }
 };
 
@@ -1711,6 +1841,8 @@ globalThis.twTable = {
         const existing = new Map(Array.from(layer.children).map(function (handle) { return [handle.dataset.twResizeKey, handle]; }));
         const wrapperRect = wrapper.getBoundingClientRect();
         const rtl = globalThis.twDirection.isRtl(wrapper);
+        let order = 0;
+        if (wrapper.__twTableResize?.resized) globalThis.twTable._fitTable(wrapper);
 
         resizable.forEach(function (entry) {
             const key = entry.col.id;
@@ -1724,8 +1856,10 @@ globalThis.twTable = {
                 handle.setAttribute('tabindex', '0');
             }
             handle.className = layer.dataset.handleClass || '';
-            // Appending in column order moves an existing separator to its column's place in the Tab order.
-            layer.appendChild(handle);
+            // Keeps the separators in column order, which is their Tab order. A separator already in place is left
+            // alone: moving the one being dragged would drop its pointer capture.
+            const place = layer.children[order++] ?? null;
+            if (place !== handle) layer.insertBefore(handle, place);
 
             const label = entry.col.dataset.twLabel || String(entry.index + 1);
             handle.setAttribute('aria-label', globalThis.twTable._format(layer.dataset.labelFormat, label));
@@ -1753,16 +1887,41 @@ globalThis.twTable = {
         existing.forEach(function (handle) { handle.remove(); });
     },
 
+    _table: function (wrapper) {
+        return wrapper?.querySelector(':scope > table') ?? null;
+    },
+
+    // A full width table shares any spare width between its columns, so the other columns would grow or shrink as
+    // one is resized and the border would drift away from the pointer. Once resized, the table is exactly as wide
+    // as its columns.
+    _fitTable: function (wrapper) {
+        const table = globalThis.twTable._table(wrapper);
+        if (!table) return;
+        let total = 0;
+        const sized = globalThis.twTable._columns(wrapper).every(function (entry) {
+            const width = Number.parseFloat(entry.col.style.width);
+            if (!entry.col.style.width.endsWith('px') || Number.isNaN(width)) return false;
+            total += width;
+            return true;
+        });
+        const fitted = sized && total > 0;
+        table.style.width = fitted ? total + 'px' : '';
+        if (wrapper.__twTableResize) wrapper.__twTableResize.resized = fitted;
+    },
+
     // Gives every column its current width in pixels, so resizing one does not reflow the others, and returns them.
     _freezeWidths: function (wrapper) {
         const widths = {};
-        globalThis.twTable._columns(wrapper).forEach(function (entry) {
+        const measured = globalThis.twTable._columns(wrapper).map(function (entry) {
             const cell = globalThis.twTable._headerCell(wrapper, entry.index);
-            if (!cell || !entry.col.id) return;
-            const width = Math.round(cell.getBoundingClientRect().width);
-            entry.col.style.width = width + 'px';
-            widths[entry.col.id] = width;
+            return { entry: entry, width: cell ? Math.round(cell.getBoundingClientRect().width) : null };
         });
+        measured.forEach(function (item) {
+            if (item.width === null || !item.entry.col.id) return;
+            item.entry.col.style.width = item.width + 'px';
+            widths[item.entry.col.id] = item.width;
+        });
+        globalThis.twTable._fitTable(wrapper);
         return widths;
     },
 
@@ -1773,6 +1932,7 @@ globalThis.twTable = {
         const max = Number(col.dataset.twMax || 2000);
         const clamped = Math.min(max, Math.max(min, Math.round(width)));
         col.style.width = clamped + 'px';
+        globalThis.twTable._fitTable(wrapper);
         return clamped;
     },
 
@@ -1801,27 +1961,63 @@ globalThis.twTable = {
             const key = handle.dataset.twResizeKey;
             const startX = e.clientX;
             const startWidth = widths[key] ?? 0;
+            const pointerId = e.pointerId;
             // The separator sits on the column's end border, so dragging towards the end widens it either way round.
             const towardsEnd = globalThis.twDirection.isRtl(wrapper) ? -1 : 1;
-            handle.setPointerCapture?.(e.pointerId);
+            try {
+                handle.setPointerCapture?.(pointerId);
+            } catch {
+                // The pointer is already gone; the document listeners below still end the drag.
+            }
 
-            const onMove = function (ev) {
-                const width = globalThis.twTable._resize(wrapper, handle, startWidth + (ev.clientX - startX) * towardsEnd);
+            // Pointer events can arrive many times a frame, so the column is resized once per frame at the latest position.
+            const schedule = globalThis.requestAnimationFrame ?? function (fn) { return setTimeout(fn, 0); };
+            const cancel = globalThis.cancelAnimationFrame ?? clearTimeout;
+            let latestX = startX;
+            let frame = 0;
+            const apply = function () {
+                frame = 0;
+                const width = globalThis.twTable._resize(wrapper, handle, startWidth + (latestX - startX) * towardsEnd);
                 if (width !== null) {
                     widths[key] = width;
                     globalThis.twTable.layoutResize(wrapper);
                 }
             };
-            const onEnd = function () {
-                handle.removeEventListener('pointermove', onMove);
-                handle.removeEventListener('pointerup', onEnd);
-                handle.removeEventListener('pointercancel', onEnd);
+
+            const root = document.documentElement;
+            const previousCursor = root.style.cursor;
+            const previousSelect = root.style.userSelect;
+            root.style.cursor = 'col-resize';
+            root.style.userSelect = 'none';
+            handle.dataset.twResizing = '';
+
+            const onMove = function (ev) {
+                if (ev.pointerId !== pointerId) return;
+                latestX = ev.clientX;
+                if (!frame) frame = schedule(apply);
+            };
+            // Listening on the document, not the separator, still ends the drag if pointer capture is lost.
+            const onEnd = function (ev) {
+                if (ev.pointerId !== undefined && ev.pointerId !== pointerId) return;
+                document.removeEventListener('pointermove', onMove);
+                document.removeEventListener('pointerup', onEnd);
+                document.removeEventListener('pointercancel', onEnd);
+                if (frame) {
+                    cancel(frame);
+                    frame = 0;
+                }
+                if (ev.type !== 'pointercancel' && ev.clientX !== undefined) latestX = ev.clientX;
+                apply();
+                root.style.cursor = previousCursor;
+                root.style.userSelect = previousSelect;
+                delete handle.dataset.twResizing;
+                if (handle.hasPointerCapture?.(pointerId)) handle.releasePointerCapture(pointerId);
                 globalThis.twTable._commit(wrapper, widths);
             };
 
-            handle.addEventListener('pointermove', onMove);
-            handle.addEventListener('pointerup', onEnd);
-            handle.addEventListener('pointercancel', onEnd);
+            document.addEventListener('pointermove', onMove);
+            document.addEventListener('pointerup', onEnd);
+            document.addEventListener('pointercancel', onEnd);
         };
 
         const onKeyDown = function (e) {
