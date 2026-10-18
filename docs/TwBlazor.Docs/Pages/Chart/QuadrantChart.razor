@@ -7,7 +7,7 @@
 
         <CodeExample Name="QuadrantChartBasic" CSharpName="QuadrantChartData">
             <TwChart Title="Backlog priorities">
-                <TwQuadrantChart Series="@backlog" XTitle="Effort" YTitle="Impact" />
+                <TwQuadrantChart Series="@_backlog" XTitle="Effort" YTitle="Impact" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -17,7 +17,7 @@
 
         <CodeExample Name="QuadrantChartLabels">
             <TwChart Title="Backlog priorities">
-                <TwQuadrantChart Series="@backlog" XTitle="Effort" YTitle="Impact"
+                <TwQuadrantChart Series="@_backlog" XTitle="Effort" YTitle="Impact"
                                  TopLeftLabel="Quick wins" TopRightLabel="Major projects"
                                  BottomLeftLabel="Fill-ins" BottomRightLabel="Reconsider" />
             </TwChart>
@@ -29,7 +29,7 @@
 
         <CodeExample Name="QuadrantChartThresholds">
             <TwChart Title="Backlog priorities">
-                <TwQuadrantChart Series="@backlog" XTitle="Effort" YTitle="Impact" XThreshold="3.5" YThreshold="7"
+                <TwQuadrantChart Series="@_backlog" XTitle="Effort" YTitle="Impact" XThreshold="3.5" YThreshold="7"
                                  TopLeftLabel="Quick wins" TopRightLabel="Major projects"
                                  BottomLeftLabel="Fill-ins" BottomRightLabel="Reconsider" />
             </TwChart>
@@ -51,7 +51,7 @@
 
 @code {
     #region CodeExample QuadrantChartData
-    private readonly ChartPointSeries[] backlog =
+    private readonly ChartPointSeries[] _backlog =
     [
         new("Features", [new(2, 8, "Search"), new(8, 9, "Billing"), new(3, 3, "Themes"), new(7, 2, "Importer"), new(4, 6, "Exports")])
     ];

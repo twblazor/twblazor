@@ -7,7 +7,7 @@
 
         <CodeExample Name="ColumnChartBasic" CSharpName="ColumnChartData">
             <TwChart Title="Revenue by region" Description="Thousands of pounds">
-                <TwColumnChart Categories="@regions" Series="@revenue" />
+                <TwColumnChart Categories="@_regions" Series="@_revenue" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -17,7 +17,7 @@
 
         <CodeExample Name="ColumnChartValues">
             <TwChart Title="Revenue by region">
-                <TwColumnChart Categories="@regions" Series="@revenue" ShowValues="true" />
+                <TwColumnChart Categories="@_regions" Series="@_revenue" ShowValues="true" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -27,7 +27,7 @@
 
         <CodeExample Name="ColumnChartGrouped">
             <TwChart Title="Revenue by region and year">
-                <TwColumnChart Categories="@regions" Series="@yearly" />
+                <TwColumnChart Categories="@_regions" Series="@_yearly" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -37,7 +37,7 @@
 
         <CodeExample Name="ColumnChartStacked">
             <TwChart Title="Revenue by region and year">
-                <TwColumnChart Categories="@regions" Series="@yearly" Stacking="ChartStacking.Stacked" />
+                <TwColumnChart Categories="@_regions" Series="@_yearly" Stacking="ChartStacking.Stacked" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -47,7 +47,7 @@
 
         <CodeExample Name="ColumnChartPercent">
             <TwChart Title="Share of revenue by year">
-                <TwColumnChart Categories="@regions" Series="@yearly" Stacking="ChartStacking.Percent" />
+                <TwColumnChart Categories="@_regions" Series="@_yearly" Stacking="ChartStacking.Percent" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -57,7 +57,7 @@
 
         <CodeExample Name="ColumnChartDiverging" CSharpName="ColumnChartDivergingData">
             <TwChart Title="The new layout is easier to use" Description="Percent of responses">
-                <TwColumnChart Categories="@teams" Series="@sentiment" Stacking="ChartStacking.Stacked" />
+                <TwColumnChart Categories="@_teams" Series="@_sentiment" Stacking="ChartStacking.Stacked" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -73,11 +73,11 @@
 
 @code {
     #region CodeExample ColumnChartData
-    private readonly string[] regions = ["North", "South", "East", "West"];
+    private readonly string[] _regions = ["North", "South", "East", "West"];
 
-    private readonly ChartSeries[] revenue = [new("Revenue", [420, 310, 275, 380])];
+    private readonly ChartSeries[] _revenue = [new("Revenue", [420, 310, 275, 380])];
 
-    private readonly ChartSeries[] yearly =
+    private readonly ChartSeries[] _yearly =
     [
         new("2024", [360, 290, 240, 330]),
         new("2025", [420, 310, 275, 380])
@@ -85,9 +85,9 @@
     #endregion
 
     #region CodeExample ColumnChartDivergingData
-    private readonly string[] teams = ["Design", "Engineering", "Sales", "Support"];
+    private readonly string[] _teams = ["Design", "Engineering", "Sales", "Support"];
 
-    private readonly ChartSeries[] sentiment =
+    private readonly ChartSeries[] _sentiment =
     [
         new("Agree", [62, 48, 35, 54]),
         new("Disagree", [-18, -30, -41, -22])

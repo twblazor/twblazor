@@ -7,7 +7,7 @@
 
         <CodeExample Name="SlopeChartBasic" CSharpName="SlopeChartData">
             <TwChart Title="Market share" Description="Percent">
-                <TwSlopeChart Categories="@years" Series="@share" />
+                <TwSlopeChart Categories="@_years" Series="@_share" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -17,7 +17,7 @@
 
         <CodeExample Name="SlopeChartThree" CSharpName="SlopeChartThreeData">
             <TwChart Title="Market share">
-                <TwSlopeChart Categories="@threeYears" Series="@shareByYear" />
+                <TwSlopeChart Categories="@_threeYears" Series="@_shareByYear" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -27,7 +27,7 @@
 
         <CodeExample Name="SlopeChartFormat">
             <TwChart Title="Market share">
-                <TwSlopeChart Categories="@years" Series="@share" ValueFormat="0\%" />
+                <TwSlopeChart Categories="@_years" Series="@_share" ValueFormat="0\%" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -43,9 +43,9 @@
 
 @code {
     #region CodeExample SlopeChartData
-    private readonly string[] years = ["2020", "2025"];
+    private readonly string[] _years = ["2020", "2025"];
 
-    private readonly ChartSeries[] share =
+    private readonly ChartSeries[] _share =
     [
         new("Aster", [34, 41]),
         new("Birch", [28, 19]),
@@ -54,9 +54,9 @@
     #endregion
 
     #region CodeExample SlopeChartThreeData
-    private readonly string[] threeYears = ["2015", "2020", "2025"];
+    private readonly string[] _threeYears = ["2015", "2020", "2025"];
 
-    private readonly ChartSeries[] shareByYear =
+    private readonly ChartSeries[] _shareByYear =
     [
         new("Aster", [22, 34, 41]),
         new("Birch", [37, 28, 19]),

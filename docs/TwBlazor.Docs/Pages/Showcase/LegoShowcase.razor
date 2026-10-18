@@ -4,7 +4,7 @@
 @using TwBlazor.Models
 @using IconEnum = TwBlazor.Enums.Icon
 
-<ShowcasePage Brand="brand">
+<ShowcasePage Brand="_brand">
     <ChildContent>
         <p class="bg-neutral-100 px-4 py-2 text-center text-sm">
             <span class="font-bold">FREE Shipping</span> with orders over £50!
@@ -13,10 +13,10 @@
 
         <TwNavbar AriaLabel="LEGO example navigation">
             <BrandContent>
-                <a href="@brand.Path" class="@focusClass"><ShowcaseLogo Brand="brand" /></a>
+                <a href="@_brand.Path" class="@focusClass"><ShowcaseLogo Brand="_brand" /></a>
             </BrandContent>
             <NavigationContent>
-                @foreach (var link in navigation)
+                @foreach (var link in _navigation)
                 {
                     <a href="@Anchor("showcase-products")" class="rounded-full px-4 py-2 text-base font-bold hover:bg-black/10 @focusClass">@link</a>
                 }
@@ -34,7 +34,7 @@
 
         <main id="showcase-main">
             <section class="relative isolate overflow-hidden bg-brickblue-700 text-white" aria-labelledby="showcase-hero-heading">
-                @if (brand.HeroImage is { } heroImage)
+                @if (_brand.HeroImage is { } heroImage)
                 {
                     @* Decorative: the heading says what the banner is for. The tint keeps the text readable over the picture. *@
                     <img src="@heroImage" alt="" decoding="async" class="absolute inset-0 -z-20 size-full object-cover" />
@@ -50,7 +50,7 @@
             <section class="mx-auto max-w-7xl px-6 pt-12" aria-labelledby="showcase-themes-heading">
                 <h2 id="showcase-themes-heading" class="text-2xl font-black">Shop by theme</h2>
                 <ul class="mt-6 grid grid-cols-2 gap-4 md:grid-cols-4">
-                    @foreach (var (label, classes, image) in themes)
+                    @foreach (var (label, classes, image) in _themes)
                     {
                         <li>
                             <a href="@Anchor("showcase-products")" class="relative flex h-36 items-end overflow-hidden rounded-xl p-4 text-lg font-black transition-transform hover:-translate-y-0.5 motion-reduce:transition-none @classes @focusClass">
@@ -65,7 +65,7 @@
             <section id="showcase-products" class="mx-auto max-w-7xl scroll-mt-6 px-6 py-12" aria-labelledby="showcase-products-heading">
                 <h2 id="showcase-products-heading" class="text-2xl font-black">Recommended for you</h2>
                 <div class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                    @foreach (var product in brand.Products)
+                    @foreach (var product in _brand.Products)
                     {
                         <TwCard>
                             <article class="flex h-full flex-col">
@@ -95,18 +95,18 @@
         </main>
     </ChildContent>
     <Footer>
-        <TwFooter Sections="@footer" BottomLinks="@legal" Copyright="An example page, not a LEGO website." NavigationLabel="LEGO example footer" />
+        <TwFooter Sections="@_footer" BottomLinks="@_legal" Copyright="An example page, not a LEGO website." NavigationLabel="LEGO example footer" />
     </Footer>
 </ShowcasePage>
 
 @code {
     private const string focusClass = "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current";
 
-    private static readonly ShowcaseBrand brand = ShowcaseBrand.Lego;
+    private static readonly ShowcaseBrand _brand = ShowcaseBrand.Lego;
 
-    private static readonly string[] navigation = ["Shop", "Discover", "Help"];
+    private static readonly string[] _navigation = ["Shop", "Discover", "Help"];
 
-    private static readonly (string Label, string Classes, string Image)[] themes =
+    private static readonly (string Label, string Classes, string Image)[] _themes =
     [
         ("City", "bg-brickblue-600 text-white", "city-section.png"),
         ("Technic", "bg-brickred-600 text-white", "section-technic.png"),
@@ -114,7 +114,7 @@
         ("Classic", "bg-brickorange-400 text-black", "section-classic.png")
     ];
 
-    private static readonly (string Title, string[] Links)[] footerColumns =
+    private static readonly (string Title, string[] Links)[] _footerColumns =
     [
         ("About us", ["About the LEGO Group", "LEGO News", "Sustainability", "Careers"]),
         ("Support", ["Contact us", "Find building instructions", "Replacement parts", "Deliveries and returns"]),
@@ -123,10 +123,10 @@
     ];
 
     // The same columns as the component's own models. Every link leads back to the top of this example.
-    private static readonly FooterSection[] footer =
-        [.. footerColumns.Select(column => new FooterSection(column.Title, [.. column.Links.Select(link => new FooterLink(link, Anchor("showcase-main")))]))];
+    private static readonly FooterSection[] _footer =
+        [.. _footerColumns.Select(column => new FooterSection(column.Title, [.. column.Links.Select(link => new FooterLink(link, Anchor("showcase-main")))]))];
 
-    private static readonly FooterLink[] legal = [("Privacy", Anchor("showcase-main")), ("Terms of use", Anchor("showcase-main")), ("Accessibility", Anchor("showcase-main"))];
+    private static readonly FooterLink[] _legal = [("Privacy", Anchor("showcase-main")), ("Terms of use", Anchor("showcase-main")), ("Accessibility", Anchor("showcase-main"))];
 
     private int basket;
 
@@ -135,5 +135,5 @@
         // The icon buttons are for show: this example has no search, account or wishlist behind them.
     }
 
-    private static string Anchor(string id) => $"{brand.Path}#{id}";
+    private static string Anchor(string id) => $"{_brand.Path}#{id}";
 }

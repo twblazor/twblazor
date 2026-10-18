@@ -7,7 +7,7 @@
 
         <CodeExample Name="SunburstChartBasic" CSharpName="SunburstChartData">
             <TwChart Title="Sales by region and product" Description="Thousands of pounds">
-                <TwSunburstChart Roots="@sales" />
+                <TwSunburstChart Roots="@_sales" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -17,7 +17,7 @@
 
         <CodeExample Name="SunburstChartDeep" CSharpName="SunburstChartDeepData">
             <TwChart Title="Website visits by channel, source and device">
-                <TwSunburstChart Roots="@visits" LabelHeader="Segment" ValueHeader="Visits" Height="ChartHeight.Large" />
+                <TwSunburstChart Roots="@_visits" LabelHeader="Segment" ValueHeader="Visits" Height="ChartHeight.Large" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -27,7 +27,7 @@
 
         <CodeExample Name="SunburstChartUneven" CSharpName="SunburstChartUnevenData">
             <TwChart Title="Monthly household spending" Description="Pounds">
-                <TwSunburstChart Roots="@spending" ValueFormat="C0" />
+                <TwSunburstChart Roots="@_spending" ValueFormat="C0" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -47,7 +47,7 @@
 
 @code {
     #region CodeExample SunburstChartData
-    private readonly ChartHierarchyNode[] sales =
+    private readonly ChartHierarchyNode[] _sales =
     [
         new("North", Children: [new("Hardware", 38), new("Software", 24)]),
         new("South", Children: [new("Hardware", 28), new("Software", 16)])
@@ -55,7 +55,7 @@
     #endregion
 
     #region CodeExample SunburstChartDeepData
-    private readonly ChartHierarchyNode[] visits =
+    private readonly ChartHierarchyNode[] _visits =
     [
         new("Search", Children:
         [
@@ -72,7 +72,7 @@
     #endregion
 
     #region CodeExample SunburstChartUnevenData
-    private readonly ChartHierarchyNode[] spending =
+    private readonly ChartHierarchyNode[] _spending =
     [
         new("Housing", Children: [new("Rent", 1150), new("Energy", 180), new("Water", 45)]),
         new("Food", Children: [new("Groceries", 420), new("Eating out", Children: [new("Lunches", 90), new("Dinners", 140)])]),

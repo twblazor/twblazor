@@ -7,7 +7,7 @@
 
         <CodeExample Name="StreamGraphChartBasic" CSharpName="StreamGraphChartData">
             <TwChart Title="Visits by source" Description="Thousands per month">
-                <TwStreamGraphChart Categories="@months" Series="@sources" />
+                <TwStreamGraphChart Categories="@_months" Series="@_sources" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -17,7 +17,7 @@
 
         <CodeExample Name="StreamGraphChartGenres" CSharpName="StreamGraphChartGenresData">
             <TwChart Title="Listening hours by genre" Description="Millions of hours per year">
-                <TwStreamGraphChart Categories="@years" Series="@genres" CategoryHeader="Year" Height="ChartHeight.Large" />
+                <TwStreamGraphChart Categories="@_years" Series="@_genres" CategoryHeader="Year" Height="ChartHeight.Large" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -27,7 +27,7 @@
 
         <CodeExample Name="StreamGraphChartLegend">
             <TwChart Title="Visits by source">
-                <TwStreamGraphChart Categories="@months" Series="@sources" InteractiveLegend="false" Height="ChartHeight.Small" />
+                <TwStreamGraphChart Categories="@_months" Series="@_sources" InteractiveLegend="false" Height="ChartHeight.Small" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -47,9 +47,9 @@
 
 @code {
     #region CodeExample StreamGraphChartData
-    private readonly string[] months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
+    private readonly string[] _months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
 
-    private readonly ChartSeries[] sources =
+    private readonly ChartSeries[] _sources =
     [
         new("Search", [24, 28, 26, 34, 38, 41]),
         new("Direct", [16, 18, 22, 20, 19, 23]),
@@ -58,9 +58,9 @@
     #endregion
 
     #region CodeExample StreamGraphChartGenresData
-    private readonly string[] years = ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025"];
+    private readonly string[] _years = ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025"];
 
-    private readonly ChartSeries[] genres =
+    private readonly ChartSeries[] _genres =
     [
         new("Rock", [42, 40, 36, 31, 27, 24, 22, 20, 19, 18]),
         new("Pop", [35, 38, 44, 48, 46, 41, 37, 35, 34, 33]),

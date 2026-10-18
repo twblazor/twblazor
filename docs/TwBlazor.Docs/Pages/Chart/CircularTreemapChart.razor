@@ -7,7 +7,7 @@
 
         <CodeExample Name="CircularTreemapChartBasic" CSharpName="CircularTreemapChartData">
             <TwChart Title="Storage by folder" Description="Gigabytes">
-                <TwCircularTreemapChart Roots="@folders" />
+                <TwCircularTreemapChart Roots="@_folders" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -17,7 +17,7 @@
 
         <CodeExample Name="CircularTreemapChartDeep" CSharpName="CircularTreemapChartDeepData">
             <TwChart Title="Headcount by division, department and team">
-                <TwCircularTreemapChart Roots="@organisation" LabelHeader="Team" ValueHeader="People" Height="ChartHeight.Large" />
+                <TwCircularTreemapChart Roots="@_organisation" LabelHeader="Team" ValueHeader="People" Height="ChartHeight.Large" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -27,7 +27,7 @@
 
         <CodeExample Name="CircularTreemapChartFlat" CSharpName="CircularTreemapChartFlatData">
             <TwChart Title="Population of the largest cities" Description="Millions">
-                <TwCircularTreemapChart Roots="@cities" LabelHeader="City" ValueHeader="Population" ValueFormat="0.0" ShowLegend="false" />
+                <TwCircularTreemapChart Roots="@_cities" LabelHeader="City" ValueHeader="Population" ValueFormat="0.0" ShowLegend="false" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -47,7 +47,7 @@
 
 @code {
     #region CodeExample CircularTreemapChartData
-    private readonly ChartHierarchyNode[] folders =
+    private readonly ChartHierarchyNode[] _folders =
     [
         new("Documents", Children: [new("Reports", 32), new("Notes", 18), new("Invoices", 9)]),
         new("Media", Children: [new("Images", 45), new("Audio", 20), new("Video", 64)])
@@ -55,7 +55,7 @@
     #endregion
 
     #region CodeExample CircularTreemapChartDeepData
-    private readonly ChartHierarchyNode[] organisation =
+    private readonly ChartHierarchyNode[] _organisation =
     [
         new("Product", Children:
         [
@@ -72,7 +72,7 @@
     #endregion
 
     #region CodeExample CircularTreemapChartFlatData
-    private readonly ChartHierarchyNode[] cities =
+    private readonly ChartHierarchyNode[] _cities =
     [
         new("Tokyo", 37.2), new("Delhi", 33.8), new("Shanghai", 29.9), new("Dhaka", 23.9),
         new("Cairo", 22.6), new("Lagos", 16.5), new("London", 9.7), new("Sydney", 5.2)

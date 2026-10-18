@@ -7,7 +7,7 @@
             <code>TwFooter</code> draws a page footer from data. Pass <code>Sections</code>, each a title and its links, and every section becomes a column. A link can be written as a label and an address, so a whole footer fits in a few lines.
         </Description>
         <CodeExample Name="FooterBasic" CSharpName="FooterBasicCode">
-            <TwFooter Sections="@sections" />
+            <TwFooter Sections="@_sections" />
         </CodeExample>
     </PageCard>
 
@@ -16,10 +16,10 @@
             <code>Copyright</code> and <code>BottomLinks</code> fill a row along the bottom, under a divider. Either can be used alone, and with no sections the row is the whole footer.
         </Description>
         <CodeExample Name="FooterBottom" CSharpName="FooterBottomCode">
-            <TwFooter Sections="@sections" Copyright="© 2026 Acme Ltd. All rights reserved." BottomLinks="@legal" />
+            <TwFooter Sections="@_sections" Copyright="© 2026 Acme Ltd. All rights reserved." BottomLinks="@_legal" />
         </CodeExample>
         <CodeExample Name="FooterBottomOnly">
-            <TwFooter Copyright="© 2026 Acme Ltd. All rights reserved." BottomLinks="@legal" />
+            <TwFooter Copyright="© 2026 Acme Ltd. All rights reserved." BottomLinks="@_legal" />
         </CodeExample>
     </PageCard>
 
@@ -28,7 +28,7 @@
             Three slots take your own markup. <code>BrandContent</code> sits above the sections, for a logo and a line about the company. <code>ChildContent</code> comes after the sections, for anything the data model does not cover, such as a newsletter form. <code>BottomContent</code> joins the bottom row, for social links or a language picker.
         </Description>
         <CodeExample Name="FooterSlots">
-            <TwFooter Sections="@sections" Copyright="© 2026 Acme Ltd." BottomLinks="@legal">
+            <TwFooter Sections="@_sections" Copyright="© 2026 Acme Ltd." BottomLinks="@_legal">
                 <BrandContent>
                     <p class="flex items-center gap-2 text-lg font-bold text-gray-900 dark:text-white"><TwIcon Icon="Icon.Lightning_Charge_Fill" /> Acme</p>
                     <p class="mt-2 max-w-sm text-sm">Tools that help small teams ship faster.</p>
@@ -57,7 +57,7 @@
             Use the full <code>FooterLink</code> to give a link an <code>Icon</code> or set <code>OpensInNewTab</code>. A link that opens in a new tab tells assistive technology so, and is given <code>rel="noopener noreferrer"</code>.
         </Description>
         <CodeExample Name="FooterLinks" CSharpName="FooterLinksCode">
-            <TwFooter Sections="@community" NavigationLabel="Community links" />
+            <TwFooter Sections="@_community" NavigationLabel="Community links" />
         </CodeExample>
     </PageCard>
 
@@ -66,7 +66,7 @@
             Section titles are real headings, so they appear in a screen reader's heading list. They are level 2 by default. Set <code>HeadingLevel</code> so they follow on from the headings above the footer on your page.
         </Description>
         <CodeExample Name="FooterHeadingLevel">
-            <TwFooter Sections="@sections" HeadingLevel="3" />
+            <TwFooter Sections="@_sections" HeadingLevel="3" />
         </CodeExample>
     </PageCard>
 
@@ -82,7 +82,7 @@
 
 @code {
     #region CodeExample FooterBasicCode
-    private readonly FooterSection[] sections =
+    private readonly FooterSection[] _sections =
     [
         new("Product", [("Features", "/footer"), ("Pricing", "/footer"), ("Changelog", "/footer")]),
         new("Company", [("About", "/footer"), ("Careers", "/footer"), ("Contact", "/footer")]),
@@ -92,11 +92,11 @@
     #endregion
 
     #region CodeExample FooterBottomCode
-    private readonly FooterLink[] legal = [("Privacy", "/footer"), ("Terms", "/footer"), ("Cookies", "/footer")];
+    private readonly FooterLink[] _legal = [("Privacy", "/footer"), ("Terms", "/footer"), ("Cookies", "/footer")];
     #endregion
 
     #region CodeExample FooterLinksCode
-    private readonly FooterSection[] community =
+    private readonly FooterSection[] _community =
     [
         new("Community",
         [

@@ -4,10 +4,10 @@
 @using TwBlazor.Models
 @using IconEnum = TwBlazor.Enums.Icon
 
-<ShowcasePage Brand="brand">
+<ShowcasePage Brand="_brand">
     <ChildContent>
         <nav class="flex flex-wrap justify-end gap-x-5 gap-y-1 border-b border-neutral-200 px-6 py-1.5 text-xs text-grocerblue-600" aria-label="Tesco example services">
-            @foreach (var link in services)
+            @foreach (var link in _services)
             {
                 <a href="@Anchor("showcase-main")" class="underline-offset-4 hover:underline @focusClass">@link</a>
             }
@@ -15,7 +15,7 @@
 
         <TwNavbar AriaLabel="Tesco example header">
             <BrandContent>
-                <a href="@brand.Path" class="@focusClass"><ShowcaseLogo Brand="brand" /></a>
+                <a href="@_brand.Path" class="@focusClass"><ShowcaseLogo Brand="_brand" /></a>
             </BrandContent>
             <NavigationContent>
                 <label class="flex h-11 w-full max-w-xl items-center gap-2 rounded-full border border-neutral-400 bg-white px-4 text-neutral-800 focus-within:border-grocerblue-600 focus-within:ring-2 focus-within:ring-grocerblue-600">
@@ -32,7 +32,7 @@
 
         <nav class="bg-grocerblue-600 text-white" aria-label="Tesco example departments">
             <ul class="mx-auto flex max-w-7xl flex-wrap gap-x-1 px-4">
-                @foreach (var link in departments)
+                @foreach (var link in _departments)
                 {
                     <li><a href="@Anchor("showcase-products")" class="block px-3 py-3 text-sm font-bold underline-offset-4 hover:underline @focusClass">@link</a></li>
                 }
@@ -59,7 +59,7 @@
             <section id="showcase-products" class="mx-auto max-w-7xl scroll-mt-6 px-6 pb-12" aria-labelledby="showcase-products-heading">
                 <h2 id="showcase-products-heading" class="text-2xl font-bold text-grocerblue-600">This week's Clubcard Prices</h2>
                 <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                    @foreach (var product in brand.Products)
+                    @foreach (var product in _brand.Products)
                     {
                         <TwCard>
                             <article class="flex h-full flex-col gap-3">
@@ -85,20 +85,20 @@
         </main>
     </ChildContent>
     <Footer>
-        <TwFooter Sections="@footer" BottomLinks="@legal" Copyright="An example page, not a Tesco website." NavigationLabel="Tesco example footer" />
+        <TwFooter Sections="@_footer" BottomLinks="@_legal" Copyright="An example page, not a Tesco website." NavigationLabel="Tesco example footer" />
     </Footer>
 </ShowcasePage>
 
 @code {
     private const string focusClass = "rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current";
 
-    private static readonly ShowcaseBrand brand = ShowcaseBrand.Tesco;
+    private static readonly ShowcaseBrand _brand = ShowcaseBrand.Tesco;
 
-    private static readonly string[] services = ["Tesco.com", "Tesco Bank", "Tesco Mobile", "Delivery Saver", "Store locator", "Help"];
+    private static readonly string[] _services = ["Tesco.com", "Tesco Bank", "Tesco Mobile", "Delivery Saver", "Store locator", "Help"];
 
-    private static readonly string[] departments = ["Groceries", "Clubcard", "F&F Clothing", "Recipes", "Offers", "Marketplace"];
+    private static readonly string[] _departments = ["Groceries", "Clubcard", "F&F Clothing", "Recipes", "Offers", "Marketplace"];
 
-    private static readonly (string Title, string[] Links)[] footerColumns =
+    private static readonly (string Title, string[] Links)[] _footerColumns =
     [
         ("Here to help", ["Help", "Contact us", "Product recall", "Store locator"]),
         ("About Tesco", ["Our services", "Careers", "Sustainability", "Tesco PLC"]),
@@ -107,12 +107,12 @@
     ];
 
     // The same columns as the component's own models. Every link leads back to the top of this example.
-    private static readonly FooterSection[] footer =
-        [.. footerColumns.Select(column => new FooterSection(column.Title, [.. column.Links.Select(link => new FooterLink(link, Anchor("showcase-main")))]))];
+    private static readonly FooterSection[] _footer =
+        [.. _footerColumns.Select(column => new FooterSection(column.Title, [.. column.Links.Select(link => new FooterLink(link, Anchor("showcase-main")))]))];
 
-    private static readonly FooterLink[] legal = [("Privacy", Anchor("showcase-main")), ("Terms of use", Anchor("showcase-main")), ("Accessibility", Anchor("showcase-main"))];
+    private static readonly FooterLink[] _legal = [("Privacy", Anchor("showcase-main")), ("Terms of use", Anchor("showcase-main")), ("Accessibility", Anchor("showcase-main"))];
 
     private int basket;
 
-    private static string Anchor(string id) => $"{brand.Path}#{id}";
+    private static string Anchor(string id) => $"{_brand.Path}#{id}";
 }

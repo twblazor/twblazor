@@ -44,8 +44,8 @@
         <Description>Set <code>Disabled</code> to prevent selection, transferring, and reordering.</Description>
         <CodeExample Name="PickListDisabled">
             <TwPickList TItem="string"
-                        SourceItems="@disabledSource"
-                        TargetItems="@disabledTarget"
+                        SourceItems="@_disabledSource"
+                        TargetItems="@_disabledTarget"
                         Disabled="true"
                         SourceLabel="Available"
                         TargetLabel="Selected"
@@ -84,6 +84,6 @@
     private IEnumerable<string> availableColors = ["Red", "Blue", "Green", "Yellow"];
     private IEnumerable<string> selectedColors = [];
 
-    private readonly List<string> disabledSource = ["Locked A", "Locked B"];
-    private readonly List<string> disabledTarget = ["Locked C"];
+    private readonly List<string> _disabledSource = ["Locked A", "Locked B"];
+    private readonly List<string> _disabledTarget = ["Locked C"];
 }

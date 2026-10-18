@@ -7,7 +7,7 @@
 
         <CodeExample Name="FlowchartBasic" CSharpName="FlowchartData">
             <TwChart Title="Review process">
-                <TwFlowchart Nodes="@reviewSteps" Links="@reviewLinks" Height="ChartHeight.Small" />
+                <TwFlowchart Nodes="@_reviewSteps" Links="@_reviewLinks" Height="ChartHeight.Small" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -17,7 +17,7 @@
 
         <CodeExample Name="FlowchartBranches" CSharpName="FlowchartBranchesData">
             <TwChart Title="Handling a support ticket">
-                <TwFlowchart Nodes="@ticketSteps" Links="@ticketLinks" SourceHeader="Step" TargetHeader="Next step" />
+                <TwFlowchart Nodes="@_ticketSteps" Links="@_ticketLinks" SourceHeader="Step" TargetHeader="Next step" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -27,7 +27,7 @@
 
         <CodeExample Name="FlowchartPipeline" CSharpName="FlowchartPipelineData">
             <TwChart Title="Release pipeline">
-                <TwFlowchart Nodes="@pipelineSteps" Links="@pipelineLinks" Height="ChartHeight.Large" />
+                <TwFlowchart Nodes="@_pipelineSteps" Links="@_pipelineLinks" Height="ChartHeight.Large" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -37,7 +37,7 @@
 
         <CodeExample Name="FlowchartStages" CSharpName="FlowchartStagesData">
             <TwChart Title="Order checks">
-                <TwFlowchart Nodes="@orderSteps" Links="@orderLinks" Height="ChartHeight.Small" />
+                <TwFlowchart Nodes="@_orderSteps" Links="@_orderLinks" Height="ChartHeight.Small" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -57,20 +57,20 @@
 
 @code {
     #region CodeExample FlowchartData
-    private readonly ChartGraphNode[] reviewSteps = [new("submit", "Submit"), new("review", "Review"), new("publish", "Publish")];
+    private readonly ChartGraphNode[] _reviewSteps = [new("submit", "Submit"), new("review", "Review"), new("publish", "Publish")];
 
-    private readonly ChartGraphLink[] reviewLinks = [new("submit", "review"), new("review", "publish")];
+    private readonly ChartGraphLink[] _reviewLinks = [new("submit", "review"), new("review", "publish")];
     #endregion
 
     #region CodeExample FlowchartBranchesData
-    private readonly ChartGraphNode[] ticketSteps =
+    private readonly ChartGraphNode[] _ticketSteps =
     [
         new("open", "Opened"), new("triage", "Triage"),
         new("answer", "Answer"), new("fix", "Fix"), new("refund", "Refund"),
         new("close", "Closed")
     ];
 
-    private readonly ChartGraphLink[] ticketLinks =
+    private readonly ChartGraphLink[] _ticketLinks =
     [
         new("open", "triage"),
         new("triage", "answer"), new("triage", "fix"), new("triage", "refund"),
@@ -79,14 +79,14 @@
     #endregion
 
     #region CodeExample FlowchartPipelineData
-    private readonly ChartGraphNode[] pipelineSteps =
+    private readonly ChartGraphNode[] _pipelineSteps =
     [
         new("commit", "Commit"), new("build", "Build"),
         new("unit", "Unit tests"), new("browser", "Browser tests"), new("a11y", "Accessibility"), new("lint", "Lint"),
         new("package", "Package"), new("deploy", "Deploy")
     ];
 
-    private readonly ChartGraphLink[] pipelineLinks =
+    private readonly ChartGraphLink[] _pipelineLinks =
     [
         new("commit", "build"),
         new("build", "unit"), new("build", "browser"), new("build", "a11y"), new("build", "lint"),
@@ -96,13 +96,13 @@
     #endregion
 
     #region CodeExample FlowchartStagesData
-    private readonly ChartGraphNode[] orderSteps =
+    private readonly ChartGraphNode[] _orderSteps =
     [
         new("order", "Order"), new("stock", "Stock"), new("fraud", "Fraud"),
         new("manual", "Manual check", Stage: 2), new("ship", "Ship")
     ];
 
-    private readonly ChartGraphLink[] orderLinks =
+    private readonly ChartGraphLink[] _orderLinks =
     [
         new("order", "stock"), new("stock", "fraud"), new("order", "manual"), new("fraud", "ship"), new("manual", "ship")
     ];

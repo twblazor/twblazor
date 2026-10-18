@@ -10,7 +10,7 @@
 </TwCard>
 
 @code {
-    [CascadingParameter] private PageOutline? Outline { get; set; }
+    [CascadingParameter] private PageOutline? outline { get; set; }
 
     /// <summary>
     /// The section's DOM id, which the "On this page" list links to. Defaults to a slug of <see cref="Title"/>.
@@ -34,9 +34,9 @@
 
     protected override void OnInitialized()
     {
-        if (Outline is not null && hasTitle)
+        if (outline is not null && hasTitle)
         {
-            sectionId = Outline.Register(Title!, Id);
+            sectionId = outline.Register(Title!, Id);
             registered = true;
         }
         else
@@ -49,7 +49,7 @@
     {
         if (registered)
         {
-            Outline!.Unregister(sectionId!);
+            outline!.Unregister(sectionId!);
         }
     }
 }

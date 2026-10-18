@@ -110,7 +110,7 @@
         <Description>A node is just a component, so a tree built from your own data is a normal <code>@@foreach</code> - no separate model type to learn. <code>OnClick</code> works the same regardless of how a node was created, so clicking a team here calls into <code>ITwDialogService</code> to show its members.</Description>
         <CodeExample Name="TreeListFromData" CSharpName="TreeListFromDataCode">
             <TwTreeList AriaLabel="Departments">
-                @foreach (var department in departments)
+                @foreach (var department in _departments)
                 {
                     @if (department.Teams.Count > 0)
                     {
@@ -145,7 +145,7 @@
         public List<string> Teams { get; set; } = [];
     }
 
-    private readonly List<Department> departments =
+    private readonly List<Department> _departments =
     [
         new() { Name = "Engineering", Teams = ["Platform", "Mobile"] },
         new() { Name = "Marketing", Teams = ["Content", "Growth"] },

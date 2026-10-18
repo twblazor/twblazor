@@ -40,7 +40,7 @@
         <CodeExample Name="NumericFormat" CSharpName="NumericFormatCode">
             <div class="grid gap-4 sm:grid-cols-2">
                 <TwNumeric T="decimal" Label="Budget (N2)" Format="N2" Step="100m" @bind-Value="budget" />
-                <TwNumeric T="decimal" Label="Budget (German)" Format="N2" Step="100m" Culture="@german" @bind-Value="budget" />
+                <TwNumeric T="decimal" Label="Budget (German)" Format="N2" Step="100m" Culture="@_german" @bind-Value="budget" />
             </div>
             <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Value: <strong>@budget.ToString(CultureInfo.InvariantCulture)</strong></p>
         </CodeExample>
@@ -151,7 +151,7 @@
 
     #region CodeExample NumericFormatCode
     private decimal budget = 1250m;
-    private readonly CultureInfo german = CultureInfo.GetCultureInfo("de-DE");
+    private readonly CultureInfo _german = CultureInfo.GetCultureInfo("de-DE");
     #endregion
 
     #region CodeExample NumericAdornmentsCode

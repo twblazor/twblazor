@@ -7,7 +7,7 @@
 
         <CodeExample Name="WaffleChartBasic" CSharpName="WaffleChartData">
             <TwChart Title="Traffic by source">
-                <TwWaffleChart Data="@sources" />
+                <TwWaffleChart Data="@_sources" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -17,7 +17,7 @@
 
         <CodeExample Name="WaffleChartTwo" CSharpName="WaffleChartTwoData">
             <TwChart Title="Survey response rate">
-                <TwWaffleChart Data="@responses" Height="ChartHeight.Small" />
+                <TwWaffleChart Data="@_responses" Height="ChartHeight.Small" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -37,7 +37,7 @@
 
 @code {
     #region CodeExample WaffleChartData
-    private readonly ChartValue[] sources =
+    private readonly ChartValue[] _sources =
     [
         new("Search", 430),
         new("Direct", 260),
@@ -48,7 +48,7 @@
     #endregion
 
     #region CodeExample WaffleChartTwoData
-    private readonly ChartValue[] responses =
+    private readonly ChartValue[] _responses =
     [
         new("Responded", 62),
         new("No response", 38)

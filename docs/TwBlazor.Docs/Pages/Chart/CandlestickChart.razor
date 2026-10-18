@@ -7,7 +7,7 @@
 
         <CodeExample Name="CandlestickChartBasic" CSharpName="CandlestickChartData">
             <TwChart Title="Share price" Description="Pounds">
-                <TwCandlestickChart Items="@prices" />
+                <TwCandlestickChart Items="@_prices" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -17,7 +17,7 @@
 
         <CodeExample Name="CandlestickChartOhlc">
             <TwChart Title="Share price">
-                <TwCandlestickChart Items="@prices" Kind="CandlestickStyle.Ohlc" />
+                <TwCandlestickChart Items="@_prices" Kind="CandlestickStyle.Ohlc" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -27,7 +27,7 @@
 
         <CodeExample Name="CandlestickChartLabels">
             <TwChart Title="Share price">
-                <TwCandlestickChart Items="@prices" RisingLabel="Up" FallingLabel="Down" ValueFormat="C2" LabelHeader="Day" />
+                <TwCandlestickChart Items="@_prices" RisingLabel="Up" FallingLabel="Down" ValueFormat="C2" LabelHeader="Day" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -43,7 +43,7 @@
 
 @code {
     #region CodeExample CandlestickChartData
-    private readonly ChartOhlc[] prices =
+    private readonly ChartOhlc[] _prices =
     [
         new("Jan 02", 102.00, 103.76, 101.42, 103.40),
         new("Jan 03", 104.68, 105.31, 102.88, 104.80),

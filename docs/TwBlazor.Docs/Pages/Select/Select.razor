@@ -8,7 +8,7 @@
                 <div class="flex-col lg:flex-row flex grow gap-4 mb-4">
                     <TwSelect T="string"
                               Label="Country"
-                              Values="@countries"
+                              Values="@_countries"
                               Variant="InputVariant.Default"
                               @bind-SelectedValue="@selectedCountry"
                               Placeholder="Select a country..."
@@ -17,7 +17,7 @@
 
                     <TwSelect T="string"
                               Label="Country"
-                              Values="@countries"
+                              Values="@_countries"
                               Variant="InputVariant.Filled"
                               @bind-SelectedValue="@selectedCountry"
                               Placeholder="Select a city..."
@@ -26,7 +26,7 @@
 
                     <TwSelect T="string"
                               Label="Country"
-                              Values="@countries"
+                              Values="@_countries"
                               Variant="InputVariant.Outlined"
                               @bind-SelectedValue="@selectedCountry"
                               Placeholder="Select a city..."
@@ -55,7 +55,7 @@
         <CodeExample Name="SelectComplexObjects" CSharpName="SelectComplexObjectsCode">
             <TwSelect T="Person"
                       Label="Select Person"
-                      Values="@people"
+                      Values="@_people"
                       @bind-SelectedValue="@selectedPerson"
                       PropertyName="Name"
                       Placeholder="Choose a person..."
@@ -77,7 +77,7 @@
         <CodeExample Name="SelectRequired">
             <TwSelect T="string"
                       Label="Favourite Color"
-                      Values="@colors"
+                      Values="@_colors"
                       @bind-SelectedValue="@selectedColor"
                       Required
                       AriaLabel="Color select" />
@@ -95,7 +95,7 @@
             <div class="flex flex-col gap-3">
                 <TwSelect T="string"
                           Label="Disabled Select"
-                          Values="@countries"
+                          Values="@_countries"
                           @bind-SelectedValue="@selectedCountry"
                           Placeholder="Cannot select..."
                           Disabled
@@ -103,8 +103,8 @@
 
                 <TwSelect T="string"
                           Label="Readonly Select"
-                          Values="@countries"
-                          SelectedValue="@readonlyValue"
+                          Values="@_countries"
+                          SelectedValue="@_readonlyValue"
                           Placeholder="Cannot change..."
                           ReadOnly
                           AriaLabel="Readonly select" />
@@ -117,7 +117,7 @@
         <CodeExample Name="SelectNumeric">
             <TwSelect T="int"
                       Label="Quantity"
-                      Values="@quantities"
+                      Values="@_quantities"
                       @bind-SelectedValue="@selectedQuantity"
                       Placeholder="Select quantity..."
                       AriaLabel="Quantity select" />
@@ -135,7 +135,7 @@
         <CodeExample Name="SelectDense" CSharpName="SelectDenseCode">
             <TwSelect T="string"
                       Label="Country"
-                      Values="@countries"
+                      Values="@_countries"
                       Dense
                       @bind-SelectedValue="@denseCountry"
                       AriaLabel="Dense country select" />
@@ -151,7 +151,7 @@
         <CodeExample Name="SelectMultiple">
             <TwSelect T="string"
                       Label="Skills"
-                      Values="@skills"
+                      Values="@_skills"
                       Multiple
                       @bind-SelectedValues="@selectedSkills"
                       AriaLabel="Skills select" />
@@ -167,7 +167,7 @@
 @code {
     #region CodeExample SelectBasicCode
     private string selectedCountry = string.Empty;
-    private readonly string[] countries = ["USA", "Canada", "UK", "Germany", "France", "Japan", "Australia"];
+    private readonly string[] _countries = ["USA", "Canada", "UK", "Germany", "France", "Japan", "Australia"];
     #endregion
 
     #region CodeExample SelectDenseCode
@@ -177,7 +177,7 @@
     #region CodeExample SelectComplexObjectsCode
     private Person? selectedPerson = null;
 
-    private readonly Person[] people =
+    private readonly Person[] _people =
     [
         new Person { Id = 1, Name = "John Doe", City = "London", Age = 30 },
         new Person { Id = 2, Name = "Jane Smith", City = "Toronto", Age = 25 },
@@ -194,16 +194,16 @@
     }
     #endregion
 
-    private readonly string readonlyValue = "Canada";
+    private readonly string _readonlyValue = "Canada";
 
     private string selectedColor = string.Empty;
-    private readonly string[] colors = ["Red", "Blue", "Green", "Yellow", "Purple", "Orange"];
+    private readonly string[] _colors = ["Red", "Blue", "Green", "Yellow", "Purple", "Orange"];
 
     private int selectedQuantity = 0;
-    private readonly int[] quantities = [1, 2, 3, 4, 5, 10, 15, 20, 25, 50];
+    private readonly int[] _quantities = [1, 2, 3, 4, 5, 10, 15, 20, 25, 50];
 
     private IEnumerable<string> selectedSkills = ["C#"];
-    private readonly string[] skills =
+    private readonly string[] _skills =
     [
         "C#", "JavaScript", "TypeScript", "Python", "Go", "Rust", "SQL", "HTML", "CSS", "Docker"
     ];

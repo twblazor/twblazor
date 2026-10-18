@@ -7,7 +7,7 @@
 
         <CodeExample Name="WordCloudChartBasic" CSharpName="WordCloudChartData">
             <TwChart Title="Search terms" Description="Searches last month">
-                <TwWordCloudChart Data="@terms" />
+                <TwWordCloudChart Data="@_terms" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -17,7 +17,7 @@
 
         <CodeExample Name="WordCloudChartMany" CSharpName="WordCloudChartManyData">
             <TwChart Title="Words in customer feedback" Description="Mentions this quarter">
-                <TwWordCloudChart Data="@feedback" LabelHeader="Word" ValueHeader="Mentions" Height="ChartHeight.Large" />
+                <TwWordCloudChart Data="@_feedback" LabelHeader="Word" ValueHeader="Mentions" Height="ChartHeight.Large" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -27,7 +27,7 @@
 
         <CodeExample Name="WordCloudChartSmall" CSharpName="WordCloudChartSmallData">
             <TwChart Title="Top tags">
-                <TwWordCloudChart Data="@tags" Height="ChartHeight.Small" ShowTableToggle="false" />
+                <TwWordCloudChart Data="@_tags" Height="ChartHeight.Small" ShowTableToggle="false" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -47,7 +47,7 @@
 
 @code {
     #region CodeExample WordCloudChartData
-    private readonly ChartValue[] terms =
+    private readonly ChartValue[] _terms =
     [
         new("pricing", 50), new("login", 38), new("invoice", 30), new("export", 24),
         new("api", 20), new("refund", 14), new("password", 12), new("teams", 9)
@@ -55,7 +55,7 @@
     #endregion
 
     #region CodeExample WordCloudChartManyData
-    private readonly ChartValue[] feedback =
+    private readonly ChartValue[] _feedback =
     [
         new("fast", 182), new("support", 164), new("easy", 151), new("price", 139), new("reliable", 118),
         new("dashboard", 104), new("setup", 96), new("mobile", 88), new("reports", 81), new("slow", 74),
@@ -67,7 +67,7 @@
     #endregion
 
     #region CodeExample WordCloudChartSmallData
-    private readonly ChartValue[] tags =
+    private readonly ChartValue[] _tags =
     [
         new("blazor", 40), new("tailwind", 32), new("charts", 21), new("a11y", 18), new("dotnet", 15), new("css", 9)
     ];

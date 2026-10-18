@@ -12,7 +12,7 @@
             For example, to darken the backdrop further and use fully rounded dialogs by default:
         </p>
 
-        <ExampleCodeBlock CSharp="@_themeExample" />
+        <ExampleCodeBlock CSharp="@themeExample" />
     </ThemeContent>
     <ChildContent>
 
@@ -129,7 +129,7 @@
 
 @code {
     // Illustrative only - not wired up to a live control on this page.
-    private const string _themeExample = """
+    private const string themeExample = """
         builder.Services.AddTwBlazor(options =>
         {
             options.Theme.Dialog.Backdrop = "fixed inset-0 z-[110] flex p-4 bg-black/70 overflow-y-auto"; // Darker backdrop

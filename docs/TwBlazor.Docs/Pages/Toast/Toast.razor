@@ -12,7 +12,7 @@
             For example, to move toasts to the top-right and make them fully rounded:
         </p>
 
-        <ExampleCodeBlock CSharp="@_themeExample" />
+        <ExampleCodeBlock CSharp="@themeExample" />
 
         <p class="text-xs text-gray-500 dark:text-gray-500 mt-4">
             Duration isn't themed - it's passed per call via <code>Show(..., duration)</code> or
@@ -135,7 +135,7 @@
 
 @code {
     // Illustrative only - not wired up to a live control on this page.
-    private const string _themeExample = """
+    private const string themeExample = """
         builder.Services.AddTwBlazor(options =>
         {
             options.Theme.Toast.Container = "fixed top-0 right-0 p-4 z-50 flex flex-col gap-2 max-w-md"; // Move to top-right

@@ -7,7 +7,7 @@
 
         <CodeExample Name="DendrogramChartBasic" CSharpName="DendrogramChartData">
             <TwChart Title="Document clusters">
-                <TwDendrogramChart Roots="@documents" />
+                <TwDendrogramChart Roots="@_documents" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -17,7 +17,7 @@
 
         <CodeExample Name="DendrogramChartTaxonomy" CSharpName="DendrogramChartTaxonomyData">
             <TwChart Title="A classification of vertebrates">
-                <TwDendrogramChart Roots="@vertebrates" LabelHeader="Group" Height="ChartHeight.Large" />
+                <TwDendrogramChart Roots="@_vertebrates" LabelHeader="Group" Height="ChartHeight.Large" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -27,7 +27,7 @@
 
         <CodeExample Name="DendrogramChartValues" CSharpName="DendrogramChartValuesData">
             <TwChart Title="Where the build time goes" Description="Seconds">
-                <TwDendrogramChart Roots="@buildSteps" LabelHeader="Step" ValueHeader="Seconds" ValueFormat="0 s" />
+                <TwDendrogramChart Roots="@_buildSteps" LabelHeader="Step" ValueHeader="Seconds" ValueFormat="0 s" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -37,7 +37,7 @@
 
         <CodeExample Name="DendrogramChartForest" CSharpName="DendrogramChartForestData">
             <TwChart Title="Reporting lines">
-                <TwDendrogramChart Roots="@teams" LabelHeader="Person" ShowTableToggle="false" Height="ChartHeight.Small" />
+                <TwDendrogramChart Roots="@_teams" LabelHeader="Person" ShowTableToggle="false" Height="ChartHeight.Small" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -57,7 +57,7 @@
 
 @code {
     #region CodeExample DendrogramChartData
-    private readonly ChartHierarchyNode[] documents =
+    private readonly ChartHierarchyNode[] _documents =
     [
         new("All documents", Children:
         [
@@ -68,7 +68,7 @@
     #endregion
 
     #region CodeExample DendrogramChartTaxonomyData
-    private readonly ChartHierarchyNode[] vertebrates =
+    private readonly ChartHierarchyNode[] _vertebrates =
     [
         new("Vertebrates", Children:
         [
@@ -87,7 +87,7 @@
     #endregion
 
     #region CodeExample DendrogramChartValuesData
-    private readonly ChartHierarchyNode[] buildSteps =
+    private readonly ChartHierarchyNode[] _buildSteps =
     [
         new("Build", Children:
         [
@@ -99,7 +99,7 @@
     #endregion
 
     #region CodeExample DendrogramChartForestData
-    private readonly ChartHierarchyNode[] teams =
+    private readonly ChartHierarchyNode[] _teams =
     [
         new("Asha", Children: [new("Ben", 1), new("Chloe", 1)]),
         new("Dmitri", Children: [new("Elena", 1), new("Farid", 1), new("Grace", 1)])

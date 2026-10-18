@@ -137,8 +137,8 @@
     <PageCard Title="Multiline character limit">
         <Description>Pass <code>maxlength</code> through <code>Attributes</code> to limit how much can be typed, and bind on <code>oninput</code> to show a live count below the field.</Description>
         <CodeExample Name="TextfieldMultilineCharacterLimit" CSharpName="TextfieldMultilineCharacterLimitCode">
-            <TwTextfield Label="Bio" @bind-Value="Bio" Placeholder="A few words about yourself" Multiline Rows="4" BindEvent="oninput" Attributes="@bioAttributes" />
-            <p class="mt-1 text-xs text-end">@Bio.Length / @BioMaxLength</p>
+            <TwTextfield Label="Bio" @bind-Value="Bio" Placeholder="A few words about yourself" Multiline Rows="4" BindEvent="oninput" Attributes="@_bioAttributes" />
+            <p class="mt-1 text-xs text-end">@Bio.Length / @bioMaxLength</p>
         </CodeExample>
     </PageCard>
     <PageCard Title="Multiline validation">
@@ -179,11 +179,11 @@
     #endregion
 
     #region CodeExample TextfieldMultilineCharacterLimitCode
-    private const int BioMaxLength = 160;
+    private const int bioMaxLength = 160;
 
     public string Bio { get; set; } = string.Empty;
 
-    private readonly Dictionary<string, object> bioAttributes = new() { ["maxlength"] = BioMaxLength };
+    private readonly Dictionary<string, object> _bioAttributes = new() { ["maxlength"] = bioMaxLength };
     #endregion
 
     #region CodeExample TextfieldMultilineValidatorCode
@@ -224,7 +224,7 @@
     #region CodeExample TextfieldAsyncValidatorCode
     public string NewUsername { get; set; } = string.Empty;
 
-    private readonly HashSet<string> takenUsernames = new(StringComparer.OrdinalIgnoreCase) { "admin", "root", "jack" };
+    private readonly HashSet<string> _takenUsernames = new(StringComparer.OrdinalIgnoreCase) { "admin", "root", "jack" };
 
     private async Task<string?> ValidateUsernameAvailabilityAsync(string value)
     {
@@ -236,7 +236,7 @@
         // Simulate a network call to check availability against a server.
         await Task.Delay(300);
 
-        return takenUsernames.Contains(value) ? $"'{value}' is already taken." : null;
+        return _takenUsernames.Contains(value) ? $"'{value}' is already taken." : null;
     }
     #endregion
 }

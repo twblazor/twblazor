@@ -44,7 +44,7 @@
         <p class="mb-3">
             Add these lines to the instructions file your assistant reads, such as <code>CLAUDE.md</code>, <code>AGENTS.md</code>, <code>.github/copilot-instructions.md</code> or a Cursor rule. Any assistant that can fetch a web page will then look things up instead of guessing.
         </p>
-        <TwCodeBlock Content="@_instructions" Language="markdown" />
+        <TwCodeBlock Content="@instructions" Language="markdown" />
     </PageCard>
 
     <PageCard Title="Agent skills">
@@ -83,9 +83,9 @@
             Extract the zip into <code>.claude/skills</code> at the root of your project. Commit the folder and everyone working on the project gets the skills too. To use them in every project instead, extract it into <code>~/.claude/skills</code> in your home folder.
         </p>
         <p class="mb-2 font-medium">macOS and Linux:</p>
-        <TwCodeBlock Content="@_installBash" Language="bash" />
+        <TwCodeBlock Content="@installBash" Language="bash" />
         <p class="mt-3 mb-2 font-medium">Windows PowerShell:</p>
-        <TwCodeBlock Content="@_installPowerShell" Language="powershell" />
+        <TwCodeBlock Content="@installPowerShell" Language="powershell" />
         <p class="mt-3">
             Claude Code finds the skills when a session starts and uses them whenever a task matches their descriptions, such as adding twblazor to a project or building a form. Run the same commands again after upgrading twblazor to pick up the new release.
         </p>
@@ -122,7 +122,7 @@
     /// <param name="name">The skill or bundle name.</param>
     private static string SkillZipPath(string name) => $"/skills/{name}.zip";
 
-    private const string _instructions = """
+    private const string instructions = """
         ## twblazor
 
         This project uses the twblazor component library. Before writing or changing twblazor code, read
@@ -130,14 +130,14 @@
         those pages list, and never write Theme.cs by hand: generate it at https://twblazor.com/theme.
         """;
 
-    private const string _installBash = """
+    private const string installBash = """
         curl -L -o twblazor-skills.zip https://twblazor.com/skills/twblazor-skills.zip
         mkdir -p .claude/skills
         unzip -o twblazor-skills.zip -d .claude/skills
         rm twblazor-skills.zip
         """;
 
-    private const string _installPowerShell = """
+    private const string installPowerShell = """
         Invoke-WebRequest https://twblazor.com/skills/twblazor-skills.zip -OutFile twblazor-skills.zip
         Expand-Archive twblazor-skills.zip -DestinationPath .claude/skills -Force
         Remove-Item twblazor-skills.zip

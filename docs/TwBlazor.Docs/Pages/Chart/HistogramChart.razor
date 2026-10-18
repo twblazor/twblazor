@@ -7,7 +7,7 @@
 
         <CodeExample Name="HistogramChartBasic" CSharpName="HistogramChartData">
             <TwChart Title="Response times" Description="Milliseconds">
-                <TwHistogramChart Values="@responseTimes" />
+                <TwHistogramChart Values="@_responseTimes" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -17,7 +17,7 @@
 
         <CodeExample Name="HistogramChartBins">
             <TwChart Title="Response times">
-                <TwHistogramChart Values="@responseTimes" BinCount="12" />
+                <TwHistogramChart Values="@_responseTimes" BinCount="12" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -27,7 +27,7 @@
 
         <CodeExample Name="HistogramChartLabels">
             <TwChart Title="Response times">
-                <TwHistogramChart Values="@responseTimes" BinCount="6" RangeLabel="Milliseconds" CountLabel="Requests" Height="ChartHeight.Small" />
+                <TwHistogramChart Values="@_responseTimes" BinCount="6" RangeLabel="Milliseconds" CountLabel="Requests" Height="ChartHeight.Small" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -43,7 +43,7 @@
 
 @code {
     #region CodeExample HistogramChartData
-    private readonly double[] responseTimes =
+    private readonly double[] _responseTimes =
     [
         112, 120, 131, 135, 138, 142, 144, 149, 151, 153, 156, 158, 160, 163, 167,
         170, 172, 176, 181, 185, 190, 196, 204, 215, 228, 240, 262, 290

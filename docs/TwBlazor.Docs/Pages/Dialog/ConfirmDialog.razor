@@ -9,9 +9,9 @@
 @code {
     [Parameter] public string Message { get; set; } = string.Empty;
 
-    [CascadingParameter] private TwDialogInstance? DialogInstance { get; set; }
+    [CascadingParameter] private TwDialogInstance? dialogInstance { get; set; }
 
-    private void Confirm() => DialogInstance?.Close(true);
+    private void Confirm() => dialogInstance?.Close(true);
 
-    private void Cancel() => DialogInstance?.Cancel();
+    private void Cancel() => dialogInstance?.Cancel();
 }

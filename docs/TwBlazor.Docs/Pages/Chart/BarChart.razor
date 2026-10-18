@@ -7,7 +7,7 @@
 
         <CodeExample Name="BarChartBasic" CSharpName="BarChartData">
             <TwChart Title="Revenue by region" Description="Thousands of pounds">
-                <TwBarChart Categories="@regions" Series="@revenue" />
+                <TwBarChart Categories="@_regions" Series="@_revenue" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -17,7 +17,7 @@
 
         <CodeExample Name="BarChartValues">
             <TwChart Title="Revenue by region">
-                <TwBarChart Categories="@regions" Series="@revenue" ShowValues="true" />
+                <TwBarChart Categories="@_regions" Series="@_revenue" ShowValues="true" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -27,7 +27,7 @@
 
         <CodeExample Name="BarChartGrouped">
             <TwChart Title="Revenue by region and year">
-                <TwBarChart Categories="@regions" Series="@yearly" />
+                <TwBarChart Categories="@_regions" Series="@_yearly" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -37,7 +37,7 @@
 
         <CodeExample Name="BarChartStacked">
             <TwChart Title="Revenue by region and year">
-                <TwBarChart Categories="@regions" Series="@yearly" Stacking="ChartStacking.Stacked" />
+                <TwBarChart Categories="@_regions" Series="@_yearly" Stacking="ChartStacking.Stacked" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -47,7 +47,7 @@
 
         <CodeExample Name="BarChartPercent">
             <TwChart Title="Share of revenue by year">
-                <TwBarChart Categories="@regions" Series="@yearly" Stacking="ChartStacking.Percent" />
+                <TwBarChart Categories="@_regions" Series="@_yearly" Stacking="ChartStacking.Percent" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -57,7 +57,7 @@
 
         <CodeExample Name="BarChartDiverging" CSharpName="BarChartDivergingData">
             <TwChart Title="The new layout is easier to use" Description="Percent of responses">
-                <TwBarChart Categories="@teams" Series="@sentiment" Stacking="ChartStacking.Stacked" />
+                <TwBarChart Categories="@_teams" Series="@_sentiment" Stacking="ChartStacking.Stacked" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -73,11 +73,11 @@
 
 @code {
     #region CodeExample BarChartData
-    private readonly string[] regions = ["North", "South", "East", "West"];
+    private readonly string[] _regions = ["North", "South", "East", "West"];
 
-    private readonly ChartSeries[] revenue = [new("Revenue", [420, 310, 275, 380])];
+    private readonly ChartSeries[] _revenue = [new("Revenue", [420, 310, 275, 380])];
 
-    private readonly ChartSeries[] yearly =
+    private readonly ChartSeries[] _yearly =
     [
         new("2024", [360, 290, 240, 330]),
         new("2025", [420, 310, 275, 380])
@@ -85,9 +85,9 @@
     #endregion
 
     #region CodeExample BarChartDivergingData
-    private readonly string[] teams = ["Design", "Engineering", "Sales", "Support"];
+    private readonly string[] _teams = ["Design", "Engineering", "Sales", "Support"];
 
-    private readonly ChartSeries[] sentiment =
+    private readonly ChartSeries[] _sentiment =
     [
         new("Agree", [62, 48, 35, 54]),
         new("Disagree", [-18, -30, -41, -22])

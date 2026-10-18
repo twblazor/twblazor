@@ -817,7 +817,7 @@ public class ThemePageTests : DocsTestBase
             .Add(p => p.Colors, ThemeColorFamily.All.ToDictionary(f => f.Name, f => f.DefaultHex))
             .Add(p => p.OnColors, ThemeColorFamily.All.ToDictionary(f => f.Name, _ => OnColorMode.Auto))
             .Add(p => p.Defaults, ThemeDefaults.Default)
-            .Add(p => p.Selected, ThemeBuilderPreview.SampledComponents.ToHashSet()));
+            .Add(p => p.Selected, ThemeBuilderPreview.sampledComponents.ToHashSet()));
 
         await preview.WaitForAssertionAsync(() =>
         {
@@ -893,7 +893,7 @@ public class ThemePageTests : DocsTestBase
         var cut = await RenderOnTabAsync("Components");
         var offered = cut.FindAll("input[id^='theme-component-']").Select(box => box.Id!["theme-component-".Length..]).ToHashSet();
 
-        Assert.All(ThemeBuilderPreview.SampledComponents, name => Assert.Contains(name.ToLowerInvariant(), offered));
+        Assert.All(ThemeBuilderPreview.sampledComponents, name => Assert.Contains(name.ToLowerInvariant(), offered));
     }
 
     #endregion

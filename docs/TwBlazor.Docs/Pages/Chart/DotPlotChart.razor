@@ -7,7 +7,7 @@
 
         <CodeExample Name="DotPlotChartBasic" CSharpName="DotPlotChartData">
             <TwChart Title="Revenue by region and year" Description="Thousands of pounds">
-                <TwDotPlotChart Categories="@regions" Series="@yearly" />
+                <TwDotPlotChart Categories="@_regions" Series="@_yearly" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -17,7 +17,7 @@
 
         <CodeExample Name="DotPlotChartVertical">
             <TwChart Title="Revenue by region and year">
-                <TwDotPlotChart Categories="@regions" Series="@yearly" Vertical="true" />
+                <TwDotPlotChart Categories="@_regions" Series="@_yearly" Vertical="true" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -37,9 +37,9 @@
 
 @code {
     #region CodeExample DotPlotChartData
-    private readonly string[] regions = ["North", "South", "East", "West"];
+    private readonly string[] _regions = ["North", "South", "East", "West"];
 
-    private readonly ChartSeries[] yearly =
+    private readonly ChartSeries[] _yearly =
     [
         new("2024", [360, 290, 240, 330]),
         new("2025", [420, 310, 275, 380])

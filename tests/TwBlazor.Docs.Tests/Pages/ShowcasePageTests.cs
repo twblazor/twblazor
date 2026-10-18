@@ -247,7 +247,7 @@ public class ShowcasePageTests : DocsTestBase
         var cut = Render(brand);
 
         Assert.Contains($"@page \"{brand.Path}\"", cut.Find("#showcase-razor pre code").TextContent);
-        Assert.Contains("<ShowcasePage Brand=\"brand\">", cut.Find("#showcase-razor pre code").TextContent);
+        Assert.Contains("<ShowcasePage Brand=\"_brand\">", cut.Find("#showcase-razor pre code").TextContent);
         Assert.Equal(["Showcase.razor", "Theme.cs"], cut.FindAll("#showcase-theme [role='tab']").Select(tab => tab.TextContent.Trim()));
         Assert.Contains("Showcase.razor", cut.Find("#showcase-razor").TextContent);
     }

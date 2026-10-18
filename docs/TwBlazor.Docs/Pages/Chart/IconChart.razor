@@ -7,7 +7,7 @@
 
         <CodeExample Name="IconChartBasic" CSharpName="IconChartData">
             <TwChart Title="Team size by office">
-                <TwIconChart Data="@offices" Icon="Icon.Person" LabelHeader="Office" ValueHeader="People" Height="ChartHeight.Small" />
+                <TwIconChart Data="@_offices" Icon="Icon.Person" LabelHeader="Office" ValueHeader="People" Height="ChartHeight.Small" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -17,7 +17,7 @@
 
         <CodeExample Name="IconChartUnit">
             <TwChart Title="Team size by office">
-                <TwIconChart Data="@offices" Icon="Icon.Person" UnitValue="2" Height="ChartHeight.Small" />
+                <TwIconChart Data="@_offices" Icon="Icon.Person" UnitValue="2" Height="ChartHeight.Small" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -27,7 +27,7 @@
 
         <CodeExample Name="IconChartSize">
             <TwChart Title="Team size by office">
-                <TwIconChart Data="@offices" Icon="Icon.Person" Mode="IconChartMode.Size" Height="ChartHeight.Small" />
+                <TwIconChart Data="@_offices" Icon="Icon.Person" Mode="IconChartMode.Size" Height="ChartHeight.Small" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -47,7 +47,7 @@
 
 @code {
     #region CodeExample IconChartData
-    private readonly ChartValue[] offices =
+    private readonly ChartValue[] _offices =
     [
         new("London", 48),
         new("Leeds", 22),

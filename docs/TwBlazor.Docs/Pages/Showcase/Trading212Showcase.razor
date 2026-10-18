@@ -4,14 +4,14 @@
 @using TwBlazor.Models
 @using IconEnum = TwBlazor.Enums.Icon
 
-<ShowcasePage Brand="brand">
+<ShowcasePage Brand="_brand">
     <ChildContent>
         <TwNavbar AriaLabel="Trading 212 example navigation">
             <BrandContent>
-                <a href="@brand.Path" class="@focusClass"><ShowcaseLogo Brand="brand" /></a>
+                <a href="@_brand.Path" class="@focusClass"><ShowcaseLogo Brand="_brand" /></a>
             </BrandContent>
             <NavigationContent>
-                @foreach (var link in navigation)
+                @foreach (var link in _navigation)
                 {
                     <a href="@Anchor("showcase-products")" class="px-3 py-2 text-sm font-medium text-slate-200 hover:text-white @focusClass">@link</a>
                 }
@@ -45,7 +45,7 @@
                         </div>
                         <TwProgress T="int" Label="ISA allowance used this tax year" Value="62" Max="100" Color="Color.Primary" />
                         <div class="grid grid-cols-3 gap-3 text-sm">
-                            @foreach (var (label, value) in holdings)
+                            @foreach (var (label, value) in _holdings)
                             {
                                 <div>
                                     <p class="opacity-70">@label</p>
@@ -63,14 +63,14 @@
                     <div class="lg:col-span-2">
                         <TwCard>
                             <TwChart Title="Apple (AAPL)" Description="Daily candles for the last eight weeks, US dollars">
-                                <TwCandlestickChart Items="@candles" ValueFormat="0.00" LabelHeader="Day" Height="ChartHeight.Large" />
+                                <TwCandlestickChart Items="@_candles" ValueFormat="0.00" LabelHeader="Day" Height="ChartHeight.Large" />
                             </TwChart>
                         </TwCard>
                     </div>
 
                     <TwCard Title="Watchlist" TitleLevel="3">
                         <ul class="flex flex-col divide-y divide-current/10">
-                            @foreach (var instrument in brand.Products)
+                            @foreach (var instrument in _brand.Products)
                             {
                                 var rising = instrument.Tag.StartsWith('+');
                                 <li>
@@ -97,7 +97,7 @@
                 </div>
 
                 <div class="mt-6 grid grid-cols-1 gap-6 md:grid-cols-3">
-                    @foreach (var (title, text, icon) in features)
+                    @foreach (var (title, text, icon) in _features)
                     {
                         <TwCard>
                             <div class="flex flex-col gap-2">
@@ -112,27 +112,27 @@
         </main>
     </ChildContent>
     <Footer>
-        <TwFooter Sections="@footer" BottomLinks="@legal" Copyright="This page is a design example. It is not an offer or a recommendation to buy or sell any investment, and every price, holding and chart on it is invented." NavigationLabel="Trading 212 example footer" />
+        <TwFooter Sections="@_footer" BottomLinks="@_legal" Copyright="This page is a design example. It is not an offer or a recommendation to buy or sell any investment, and every price, holding and chart on it is invented." NavigationLabel="Trading 212 example footer" />
     </Footer>
 </ShowcasePage>
 
 @code {
     private const string focusClass = "rounded-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current";
 
-    private static readonly ShowcaseBrand brand = ShowcaseBrand.Trading212;
+    private static readonly ShowcaseBrand _brand = ShowcaseBrand.Trading212;
 
-    private static readonly string[] navigation = ["Invest", "Stocks ISA", "Cash ISA", "Pies & AutoInvest", "Learn", "Help"];
+    private static readonly string[] _navigation = ["Invest", "Stocks ISA", "Cash ISA", "Pies & AutoInvest", "Learn", "Help"];
 
-    private static readonly (string Label, string Value)[] holdings = [("Stocks", "£7,912.40"), ("ETFs", "£3,405.16"), ("Cash", "£1,162.80")];
+    private static readonly (string Label, string Value)[] _holdings = [("Stocks", "£7,912.40"), ("ETFs", "£3,405.16"), ("Cash", "£1,162.80")];
 
-    private static readonly (string Title, string Text, IconEnum Icon)[] features =
+    private static readonly (string Title, string Text, IconEnum Icon)[] _features =
     [
         ("Zero commission", "Buy and sell thousands of stocks and ETFs without paying a commission.", IconEnum.Tag_Fill),
         ("Fractional shares", "Own a slice of the companies you believe in from as little as £1.", IconEnum.Credit_Card),
         ("Protected and regulated", "Your assets are held separately from ours, in your name.", IconEnum.Shield_Check)
     ];
 
-    private static readonly (string Title, string[] Links)[] footerColumns =
+    private static readonly (string Title, string[] Links)[] _footerColumns =
     [
         ("Products", ["Invest", "Stocks and Shares ISA", "Cash ISA", "Pies & AutoInvest"]),
         ("Learn", ["Investing 101", "Help centre", "Community", "Glossary"]),
@@ -141,14 +141,14 @@
     ];
 
     // The same columns as the component's own models. Every link leads back to the top of this example.
-    private static readonly FooterSection[] footer =
-        [.. footerColumns.Select(column => new FooterSection(column.Title, [.. column.Links.Select(link => new FooterLink(link, Anchor("showcase-main")))]))];
+    private static readonly FooterSection[] _footer =
+        [.. _footerColumns.Select(column => new FooterSection(column.Title, [.. column.Links.Select(link => new FooterLink(link, Anchor("showcase-main")))]))];
 
-    private static readonly FooterLink[] legal = [("Privacy", Anchor("showcase-main")), ("Terms of use", Anchor("showcase-main")), ("Accessibility", Anchor("showcase-main"))];
+    private static readonly FooterLink[] _legal = [("Privacy", Anchor("showcase-main")), ("Terms of use", Anchor("showcase-main")), ("Accessibility", Anchor("showcase-main"))];
 
     // Forty repeatable trading days from a fixed-seed random walk. Overnight gaps, uneven wicks and a handful of
     // scripted shock days give the chart sharp sell-offs and rallies rather than a smooth wave.
-    private static readonly Dictionary<int, double> shocks = new()
+    private static readonly Dictionary<int, double> _shocks = new()
     {
         [6] = 5.8,
         [11] = -8.4,
@@ -159,11 +159,11 @@
         [37] = -5.2,
     };
 
-    private static readonly ChartOhlc[] candles = BuildCandles();
+    private static readonly ChartOhlc[] _candles = BuildCandles();
 
     private int orders;
 
-    private static string Anchor(string id) => $"{brand.Path}#{id}";
+    private static string Anchor(string id) => $"{_brand.Path}#{id}";
 
     private static ChartOhlc[] BuildCandles()
     {
@@ -182,7 +182,7 @@
             if (day.DayOfWeek is not (DayOfWeek.Saturday or DayOfWeek.Sunday))
             {
                 var step = result.Count;
-                var shock = shocks.GetValueOrDefault(step);
+                var shock = _shocks.GetValueOrDefault(step);
 
                 // Each day opens where the last one closed.
                 var open = close;

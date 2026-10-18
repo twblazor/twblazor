@@ -7,7 +7,7 @@
 
         <CodeExample Name="EulerDiagramChartBasic" CSharpName="EulerDiagramChartData">
             <TwChart Title="Shared interests" Description="Members of each group">
-                <TwEulerDiagramChart Sets="@groups" Intersections="@sharedMembers" />
+                <TwEulerDiagramChart Sets="@_groups" Intersections="@_sharedMembers" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -17,7 +17,7 @@
 
         <CodeExample Name="EulerDiagramChartApart" CSharpName="EulerDiagramChartApartData">
             <TwChart Title="Customers by product" Description="Thousands">
-                <TwEulerDiagramChart Sets="@products" Intersections="@sharedCustomers" LabelHeader="Product" ValueHeader="Customers" />
+                <TwEulerDiagramChart Sets="@_products" Intersections="@_sharedCustomers" LabelHeader="Product" ValueHeader="Customers" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -27,7 +27,7 @@
 
         <CodeExample Name="EulerDiagramChartSubset" CSharpName="EulerDiagramChartSubsetData">
             <TwChart Title="Accounts" Description="Thousands">
-                <TwEulerDiagramChart Sets="@accounts" Intersections="@accountOverlap" Height="ChartHeight.Small" />
+                <TwEulerDiagramChart Sets="@_accounts" Intersections="@_accountOverlap" Height="ChartHeight.Small" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -37,7 +37,7 @@
 
         <CodeExample Name="EulerDiagramChartThree" CSharpName="EulerDiagramChartThreeData">
             <TwChart Title="Languages spoken by staff">
-                <TwEulerDiagramChart Sets="@languages" Intersections="@bilingual" LabelHeader="Language" ValueHeader="Speakers" Height="ChartHeight.Large" />
+                <TwEulerDiagramChart Sets="@_languages" Intersections="@_bilingual" LabelHeader="Language" ValueHeader="Speakers" Height="ChartHeight.Large" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -57,27 +57,27 @@
 
 @code {
     #region CodeExample EulerDiagramChartData
-    private readonly ChartSet[] groups = [new("Design", 42), new("Research", 35)];
+    private readonly ChartSet[] _groups = [new("Design", 42), new("Research", 35)];
 
-    private readonly ChartSetIntersection[] sharedMembers = [new("Design", "Research", 18)];
+    private readonly ChartSetIntersection[] _sharedMembers = [new("Design", "Research", 18)];
     #endregion
 
     #region CodeExample EulerDiagramChartApartData
-    private readonly ChartSet[] products = [new("Accounts", 64), new("Payroll", 38), new("Rostering", 12)];
+    private readonly ChartSet[] _products = [new("Accounts", 64), new("Payroll", 38), new("Rostering", 12)];
 
-    private readonly ChartSetIntersection[] sharedCustomers = [new("Accounts", "Payroll", 22)];
+    private readonly ChartSetIntersection[] _sharedCustomers = [new("Accounts", "Payroll", 22)];
     #endregion
 
     #region CodeExample EulerDiagramChartSubsetData
-    private readonly ChartSet[] accounts = [new("Registered", 90), new("Premium", 18)];
+    private readonly ChartSet[] _accounts = [new("Registered", 90), new("Premium", 18)];
 
-    private readonly ChartSetIntersection[] accountOverlap = [new("Registered", "Premium", 18)];
+    private readonly ChartSetIntersection[] _accountOverlap = [new("Registered", "Premium", 18)];
     #endregion
 
     #region CodeExample EulerDiagramChartThreeData
-    private readonly ChartSet[] languages = [new("English", 120), new("Spanish", 55), new("French", 30)];
+    private readonly ChartSet[] _languages = [new("English", 120), new("Spanish", 55), new("French", 30)];
 
-    private readonly ChartSetIntersection[] bilingual =
+    private readonly ChartSetIntersection[] _bilingual =
     [
         new("English", "Spanish", 32),
         new("English", "French", 18),

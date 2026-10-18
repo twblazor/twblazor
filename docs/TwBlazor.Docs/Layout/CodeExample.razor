@@ -1,12 +1,12 @@
 @ChildContent
 
-<ExampleCodeBlock Razor="@Code" CSharp="@CSharpCode" />
+<ExampleCodeBlock Razor="@exampleCode" CSharp="@cSharpCode" />
 
 @code {
     [Parameter, EditorRequired] public string Name { get; set; } = string.Empty;
     [Parameter] public string? CSharpName { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
 
-    private string Code => CodeExamples.Get(Name);
-    private string CSharpCode => CSharpName is null ? string.Empty : CodeExamples.Get(CSharpName);
+    private string exampleCode => CodeExamples.Get(Name);
+    private string cSharpCode => CSharpName is null ? string.Empty : CodeExamples.Get(CSharpName);
 }
