@@ -768,4 +768,31 @@
   <data name="DataTable_Loading" xml:space="preserve">
     <value>読み込み中…</value>
   </data>
+  <data name="DataTable_Actions" xml:space="preserve">
+    <value>操作</value>
+  </data>
+  <data name="DataTable_EditRow" xml:space="preserve">
+    <value>{0} を編集</value>
+  </data>
+  <data name="DataTable_SaveRow" xml:space="preserve">
+    <value>{0} を保存</value>
+  </data>
+  <data name="DataTable_CancelEdit" xml:space="preserve">
+    <value>{0} の編集をキャンセル</value>
+  </data>
+  <data name="DataTable_Editing" xml:space="preserve">
+    <value>{0} を編集中</value>
+  </data>
+  <data name="DataTable_RowSaved" xml:space="preserve">
+    <value>{0} を保存しました</value>
+  </data>
+  <data name="DataTable_EditCancelled" xml:space="preserve">
+    <value>{0} の編集をキャンセルしました</value>
+  </data>
+  <data name="DataTable_EditInvalidOne" xml:space="preserve">
+    <value>保存する前に {0} 個のフィールドを修正してください</value>
+  </data>
+  <data name="DataTable_EditInvalidOther" xml:space="preserve">
+    <value>保存する前に {0} 個のフィールドを修正してください</value>
+  </data>
 </root>

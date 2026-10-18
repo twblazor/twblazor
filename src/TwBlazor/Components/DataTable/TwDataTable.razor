@@ -188,6 +188,10 @@
                             }
                         </th>
                     }
+                    @if (showActionsColumn)
+                    {
+                        <th scope="col" class="@($"{theme.HeaderCellPadding} {theme.ActionsCell}")">@localizer[TwStrings.DataTable_Actions]</th>
+                    }
                 </tr>
             }
             else if (TableHeader != null)
@@ -302,23 +306,152 @@
             @foreach (var column in visibleColumns)
             {
                 <td class="@($"{theme.BodyCellPadding} {column.CellClass}")">
-                    @if (column.CellFormatter != null)
+                    @displayValue((row, column))
+                </td>
+            }
+            @if (showActionsColumn)
+            {
+                <td class="@($"{theme.BodyCellPadding} {theme.ActionsCell}")">
+                    @if (CanEdit(row))
                     {
-                        @column.CellFormatter(row)
-                    }
-                    else if (column.PropertySelector != null)
-                    {
-                        @column.PropertySelector(row)?.ToString()
+                        <TwIcon Id="@EditButtonId(row)"
+                                Icon="Icon.Pencil"
+                                AriaLabel="@localizer[TwStrings.DataTable_EditRow, LabelFor(row)]"
+                                Tooltip="@localizer[TwStrings.DataTable_EditRow, LabelFor(row)]"
+                                Disabled="@isEditing"
+                                OnClick="@(() => StartEdit(row))" />
                     }
                 </td>
             }
         </text>;
 
+    private static RenderFragment<(TItem Row, TwDataTableColumn<TItem> Column)> displayValue => context =>
+        @<text>
+            @if (context.Column.CellFormatter != null)
+            {
+                @context.Column.CellFormatter(context.Row)
+            }
+            else if (context.Column.PropertySelector != null)
+            {
+                @context.Column.PropertySelector(context.Row)?.ToString()
+            }
+        </text>;
+
     private RenderFragment<TItem> columnsRow => row =>
-        @<tr class="@RowClass">@cells(row)</tr>;
+        @<text>
+            @if (IsEditingRow(row))
+            {
+                @editingRow((row, null))
+            }
+            else
+            {
+                <tr class="@RowClass">@cells(row)</tr>
+            }
+        </text>;
 
     private RenderFragment<IndexedRow> virtualRow => indexed =>
-        @<tr class="@RowClass" aria-rowindex="@RowIndex(indexed.Index)">@cells(indexed.Item)</tr>;
+        @<text>
+            @if (IsEditingRow(indexed.Item))
+            {
+                @editingRow((indexed.Item, RowIndex(indexed.Index)))
+            }
+            else
+            {
+                <tr class="@RowClass" aria-rowindex="@RowIndex(indexed.Index)">@cells(indexed.Item)</tr>
+            }
+        </text>;
+
+    private RenderFragment<(TItem Row, string? RowIndex)> editingRow => context =>
+        @<tr class="@($"{RowClass} {theme.EditingRow}")" aria-rowindex="@context.RowIndex" @ref="editingRowRef">
+            @foreach (var column in visibleColumns)
+            {
+                <td class="@($"{theme.BodyCellPadding} {column.CellClass}")">
+                    @if (IsEditableColumn(column))
+                    {
+                        @EditorFor(column)
+                    }
+                    else
+                    {
+                        @displayValue((context.Row, column))
+                    }
+                </td>
+            }
+            <td class="@($"{theme.BodyCellPadding} {theme.ActionsCell}")">
+                <div class="@actionButtonsClasses">
+                    <TwIcon Id="@saveButtonId"
+                            Icon="Icon.Check_Lg"
+                            AriaLabel="@localizer[TwStrings.DataTable_SaveRow, LabelFor(context.Row)]"
+                            Tooltip="@localizer[TwStrings.DataTable_SaveRow, LabelFor(context.Row)]"
+                            OnClick="@SaveEditAsync" />
+                    <TwIcon Id="@cancelButtonId"
+                            Icon="Icon.X_Lg"
+                            AriaLabel="@localizer[TwStrings.DataTable_CancelEdit, LabelFor(context.Row)]"
+                            Tooltip="@localizer[TwStrings.DataTable_CancelEdit, LabelFor(context.Row)]"
+                            OnClick="@CancelEditAsync" />
+                </div>
+            </td>
+        </tr>;
+
+    private RenderFragment EditorFor(TwDataTableColumn<TItem> column)
+    {
+        if (column.EditTemplate is { } template)
+        {
+            return template(EditContextFor(column));
+        }
+
+        var type = EditValueType(column);
+        return type switch
+        {
+            _ when type == typeof(bool) => @<TwCheckbox T="bool"
+                                                   Id="@EditorId(column)"
+                                                   AriaLabel="@column.Title"
+                                                   Value="@(EditValue(column) is true)"
+                                                   Invalid="@(EditError(column) is not null)"
+                                                   ErrorMessage="@(EditError(column) ?? string.Empty)"
+                                                   ValueChanged="@(value => SetEditValue(column, value))" />,
+            _ when type == typeof(int) => NumericEditor<int>(column),
+            _ when type == typeof(long) => NumericEditor<long>(column),
+            _ when type == typeof(short) => NumericEditor<short>(column),
+            _ when type == typeof(decimal) => NumericEditor<decimal>(column),
+            _ when type == typeof(double) => NumericEditor<double>(column),
+            _ when type == typeof(float) => NumericEditor<float>(column),
+            _ when type == typeof(DateTime) => @<TwDatePicker Id="@EditorId(column)"
+                                                       AriaLabel="@column.Title"
+                                                       Dense
+                                                       SelectedDate="@(EditValue(column) is DateTime date ? date : DateTime.Today)"
+                                                       Invalid="@(EditError(column) is not null)"
+                                                       ErrorMessage="@(EditError(column) ?? string.Empty)"
+                                                       SelectedDateChanged="@(value => SetEditValue(column, value))" />,
+            { IsEnum: true } enumType => @<TwSelect T="object"
+                                                Id="@EditorId(column)"
+                                                AriaLabel="@column.Title"
+                                                Dense
+                                                Required
+                                                Values="@(Enum.GetValues(enumType).Cast<object>())"
+                                                SelectedValue="@(EditValue(column)!)"
+                                                Invalid="@(EditError(column) is not null)"
+                                                ErrorMessage="@(EditError(column) ?? string.Empty)"
+                                                SelectedValueChanged="@(value => SetEditValue(column, value))" />,
+            _ => @<TwTextfield T="string"
+                               Id="@EditorId(column)"
+                               AriaLabel="@column.Title"
+                               Dense
+                               Value="@(EditValue(column)?.ToString())"
+                               Invalid="@(EditError(column) is not null)"
+                               ErrorMessage="@(EditError(column) ?? string.Empty)"
+                               ValueChanged="@(value => SetEditValue(column, value))" />
+        };
+    }
+
+    private RenderFragment NumericEditor<TValue>(TwDataTableColumn<TItem> column) =>
+        @<TwNumeric T="TValue"
+                    Id="@EditorId(column)"
+                    AriaLabel="@column.Title"
+                    Dense
+                    Value="@(EditValue(column) is TValue number ? number : default!)"
+                    Invalid="@(EditError(column) is not null)"
+                    ErrorMessage="@(EditError(column) ?? string.Empty)"
+                    ValueChanged="@((TValue value) => SetEditValue(column, value))" />;
 
     private RenderFragment emptyRow =>
         @<tr>
@@ -351,7 +484,7 @@
     // A grouped row header. Inside a virtualized table every row shares one body, so the header cannot head a
     // row group there and the scope is left off.
     private RenderFragment<(TwDataTableGroup<TItem> Group, string? Scope)> groupHeaderCell => context =>
-        @<th scope="@context.Scope" colspan="@visibleColumns.Count" class="@theme.HeaderCellPadding">
+        @<th scope="@context.Scope" colspan="@renderedColumnCount" class="@theme.HeaderCellPadding">
             <div class="@groupHeaderRowClasses">
                 <button type="button"
                         class="@theme.GroupToggle"

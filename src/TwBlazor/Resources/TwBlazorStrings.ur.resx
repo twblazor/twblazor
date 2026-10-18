@@ -765,4 +765,31 @@
   <data name="DataTable_Loading" xml:space="preserve">
     <value>لوڈ ہو رہا ہے…</value>
   </data>
+  <data name="DataTable_Actions" xml:space="preserve">
+    <value>کارروائیاں</value>
+  </data>
+  <data name="DataTable_EditRow" xml:space="preserve">
+    <value>{0} میں ترمیم کریں</value>
+  </data>
+  <data name="DataTable_SaveRow" xml:space="preserve">
+    <value>{0} محفوظ کریں</value>
+  </data>
+  <data name="DataTable_CancelEdit" xml:space="preserve">
+    <value>{0} کی ترمیم منسوخ کریں</value>
+  </data>
+  <data name="DataTable_Editing" xml:space="preserve">
+    <value>{0} میں ترمیم ہو رہی ہے</value>
+  </data>
+  <data name="DataTable_RowSaved" xml:space="preserve">
+    <value>{0} محفوظ ہو گیا</value>
+  </data>
+  <data name="DataTable_EditCancelled" xml:space="preserve">
+    <value>{0} کی ترمیم منسوخ ہو گئی</value>
+  </data>
+  <data name="DataTable_EditInvalidOne" xml:space="preserve">
+    <value>محفوظ کرنے سے پہلے {0} خانہ درست کریں</value>
+  </data>
+  <data name="DataTable_EditInvalidOther" xml:space="preserve">
+    <value>محفوظ کرنے سے پہلے {0} خانے درست کریں</value>
+  </data>
 </root>

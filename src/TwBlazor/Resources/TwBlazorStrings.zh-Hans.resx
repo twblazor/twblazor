@@ -765,4 +765,31 @@
   <data name="DataTable_Loading" xml:space="preserve">
     <value>正在加载…</value>
   </data>
+  <data name="DataTable_Actions" xml:space="preserve">
+    <value>操作</value>
+  </data>
+  <data name="DataTable_EditRow" xml:space="preserve">
+    <value>编辑“{0}”</value>
+  </data>
+  <data name="DataTable_SaveRow" xml:space="preserve">
+    <value>保存“{0}”</value>
+  </data>
+  <data name="DataTable_CancelEdit" xml:space="preserve">
+    <value>取消编辑“{0}”</value>
+  </data>
+  <data name="DataTable_Editing" xml:space="preserve">
+    <value>正在编辑“{0}”</value>
+  </data>
+  <data name="DataTable_RowSaved" xml:space="preserve">
+    <value>已保存“{0}”</value>
+  </data>
+  <data name="DataTable_EditCancelled" xml:space="preserve">
+    <value>已取消编辑“{0}”</value>
+  </data>
+  <data name="DataTable_EditInvalidOne" xml:space="preserve">
+    <value>保存前需要修正 {0} 个字段</value>
+  </data>
+  <data name="DataTable_EditInvalidOther" xml:space="preserve">
+    <value>保存前需要修正 {0} 个字段</value>
+  </data>
 </root>

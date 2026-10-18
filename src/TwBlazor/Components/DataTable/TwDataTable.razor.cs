@@ -257,7 +257,7 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
 
     // The empty row has to cross every column. Without column definitions the count is unknown, and a colspan
     // larger than the table is harmless.
-    private int emptyStateColumnSpan => hasColumns ? Math.Max(visibleColumns.Count, 1) : 100;
+    private int emptyStateColumnSpan => hasColumns ? Math.Max(renderedColumnCount, 1) : 100;
 
     private string effectiveEmptyMessage => string.IsNullOrWhiteSpace(currentSearchQuery)
         ? localizer[TwStrings.DataTable_NoData]

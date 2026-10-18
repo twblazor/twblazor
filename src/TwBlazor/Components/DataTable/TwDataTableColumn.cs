@@ -1,6 +1,8 @@
 // Copyright (c) 2025 Jack Shuter @ TwBlazor - twblazor.com
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
+using Microsoft.AspNetCore.Components;
+
 namespace TwBlazor.Components;
 
 /// <summary>
@@ -73,6 +75,31 @@ public class TwDataTableColumn<TItem>
     /// the column has one.
     /// </summary>
     public bool Groupable { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the column can be changed when a row is edited, with
+    /// <see cref="TwDataTable{TItem}.Editable"/> set. The editor follows the value's type: a text field for text, a
+    /// number field for numbers, a checkbox for <see cref="bool"/>, a date picker for <see cref="DateTime"/> and a
+    /// list for an enum. Use <see cref="EditTemplate"/> for any other editor.
+    /// </summary>
+    public bool Editable { get; set; }
+
+    /// <summary>
+    /// Gets or sets how a saved value is written back to the row, such as <c>(product, value) =&gt; product.Price =
+    /// (decimal)value!</c>. Without it the new values only reach <see cref="TwDataTable{TItem}.RowSaved"/>.
+    /// </summary>
+    public Action<TItem, object?>? ValueSetter { get; set; }
+
+    /// <summary>
+    /// Gets or sets a custom editor for the column, in place of the one chosen from the value's type.
+    /// </summary>
+    public RenderFragment<TwDataTableCellEditContext<TItem>>? EditTemplate { get; set; }
+
+    /// <summary>
+    /// Gets or sets a check run on the new value when a row is saved. Return a message saying what to fix, or
+    /// <c>null</c> when the value is fine. The row is not saved while any column reports a problem.
+    /// </summary>
+    public Func<TItem, object?, string?>? Validator { get; set; }
 
     /// <summary>
     /// Gets or sets additional CSS classes for the header cell.

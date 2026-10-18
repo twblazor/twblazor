@@ -768,4 +768,31 @@
   <data name="DataTable_Loading" xml:space="preserve">
     <value>در حال بارگذاری…</value>
   </data>
+  <data name="DataTable_Actions" xml:space="preserve">
+    <value>اقدامات</value>
+  </data>
+  <data name="DataTable_EditRow" xml:space="preserve">
+    <value>ویرایش {0}</value>
+  </data>
+  <data name="DataTable_SaveRow" xml:space="preserve">
+    <value>ذخیره {0}</value>
+  </data>
+  <data name="DataTable_CancelEdit" xml:space="preserve">
+    <value>لغو ویرایش {0}</value>
+  </data>
+  <data name="DataTable_Editing" xml:space="preserve">
+    <value>در حال ویرایش {0}</value>
+  </data>
+  <data name="DataTable_RowSaved" xml:space="preserve">
+    <value>{0} ذخیره شد</value>
+  </data>
+  <data name="DataTable_EditCancelled" xml:space="preserve">
+    <value>ویرایش {0} لغو شد</value>
+  </data>
+  <data name="DataTable_EditInvalidOne" xml:space="preserve">
+    <value>پیش از ذخیره {0} فیلد باید اصلاح شود</value>
+  </data>
+  <data name="DataTable_EditInvalidOther" xml:space="preserve">
+    <value>پیش از ذخیره {0} فیلد باید اصلاح شوند</value>
+  </data>
 </root>

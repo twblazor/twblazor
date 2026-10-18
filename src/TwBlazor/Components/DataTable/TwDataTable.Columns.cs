@@ -103,6 +103,13 @@ public partial class TwDataTable<TItem> : IAsyncDisposable
                     builder.AddComponentParameter(2, "data-column", column.Name);
                     builder.CloseComponent();
                 }
+
+                if (showActionsColumn)
+                {
+                    builder.OpenComponent<TwTableColumn>(3);
+                    builder.SetKey("tw-actions");
+                    builder.CloseComponent();
+                }
             }
             : ColumnGroup;
 
@@ -320,6 +327,7 @@ public partial class TwDataTable<TItem> : IAsyncDisposable
         }
 
         await LoadIfRequestedAsync(firstRender);
+        await RegisterEditEscapeAsync();
 
         if (ResizableColumns && hasColumns && !resizeAttached)
         {
@@ -360,6 +368,11 @@ public partial class TwDataTable<TItem> : IAsyncDisposable
         if (resizeAttached)
         {
             await InvokeScriptAsync("twDataTable.detachResize", rootRef);
+        }
+
+        if (escapeRegistered)
+        {
+            await InvokeScriptAsync("twDialog.unregisterEscape", editingRowRef);
         }
 
         selfReference?.Dispose();

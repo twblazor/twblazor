@@ -765,4 +765,31 @@
   <data name="DataTable_Loading" xml:space="preserve">
     <value>Chargement…</value>
   </data>
+  <data name="DataTable_Actions" xml:space="preserve">
+    <value>Actions</value>
+  </data>
+  <data name="DataTable_EditRow" xml:space="preserve">
+    <value>Modifier {0}</value>
+  </data>
+  <data name="DataTable_SaveRow" xml:space="preserve">
+    <value>Enregistrer {0}</value>
+  </data>
+  <data name="DataTable_CancelEdit" xml:space="preserve">
+    <value>Annuler la modification de {0}</value>
+  </data>
+  <data name="DataTable_Editing" xml:space="preserve">
+    <value>Modification de {0}</value>
+  </data>
+  <data name="DataTable_RowSaved" xml:space="preserve">
+    <value>{0} enregistré</value>
+  </data>
+  <data name="DataTable_EditCancelled" xml:space="preserve">
+    <value>Modification de {0} annulée</value>
+  </data>
+  <data name="DataTable_EditInvalidOne" xml:space="preserve">
+    <value>{0} champ doit être corrigé avant l'enregistrement</value>
+  </data>
+  <data name="DataTable_EditInvalidOther" xml:space="preserve">
+    <value>{0} champs doivent être corrigés avant l'enregistrement</value>
+  </data>
 </root>

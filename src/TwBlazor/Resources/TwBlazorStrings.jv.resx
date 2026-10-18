@@ -762,4 +762,31 @@
   <data name="DataTable_Loading" xml:space="preserve">
     <value>Lagi dimuat…</value>
   </data>
+  <data name="DataTable_Actions" xml:space="preserve">
+    <value>Tumindak</value>
+  </data>
+  <data name="DataTable_EditRow" xml:space="preserve">
+    <value>Owahi {0}</value>
+  </data>
+  <data name="DataTable_SaveRow" xml:space="preserve">
+    <value>Simpen {0}</value>
+  </data>
+  <data name="DataTable_CancelEdit" xml:space="preserve">
+    <value>Batalake ngowahi {0}</value>
+  </data>
+  <data name="DataTable_Editing" xml:space="preserve">
+    <value>Lagi ngowahi {0}</value>
+  </data>
+  <data name="DataTable_RowSaved" xml:space="preserve">
+    <value>{0} wis disimpen</value>
+  </data>
+  <data name="DataTable_EditCancelled" xml:space="preserve">
+    <value>Ngowahi {0} wis dibatalake</value>
+  </data>
+  <data name="DataTable_EditInvalidOne" xml:space="preserve">
+    <value>{0} kolom kudu didandani sadurunge disimpen</value>
+  </data>
+  <data name="DataTable_EditInvalidOther" xml:space="preserve">
+    <value>{0} kolom kudu didandani sadurunge disimpen</value>
+  </data>
 </root>

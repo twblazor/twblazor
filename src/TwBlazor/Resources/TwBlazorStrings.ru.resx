@@ -768,4 +768,31 @@
   <data name="DataTable_Loading" xml:space="preserve">
     <value>Загрузка…</value>
   </data>
+  <data name="DataTable_Actions" xml:space="preserve">
+    <value>Действия</value>
+  </data>
+  <data name="DataTable_EditRow" xml:space="preserve">
+    <value>Изменить «{0}»</value>
+  </data>
+  <data name="DataTable_SaveRow" xml:space="preserve">
+    <value>Сохранить «{0}»</value>
+  </data>
+  <data name="DataTable_CancelEdit" xml:space="preserve">
+    <value>Отменить изменение «{0}»</value>
+  </data>
+  <data name="DataTable_Editing" xml:space="preserve">
+    <value>Изменение «{0}»</value>
+  </data>
+  <data name="DataTable_RowSaved" xml:space="preserve">
+    <value>«{0}» сохранено</value>
+  </data>
+  <data name="DataTable_EditCancelled" xml:space="preserve">
+    <value>Изменение «{0}» отменено</value>
+  </data>
+  <data name="DataTable_EditInvalidOne" xml:space="preserve">
+    <value>Перед сохранением исправьте {0} поле</value>
+  </data>
+  <data name="DataTable_EditInvalidOther" xml:space="preserve">
+    <value>Перед сохранением исправьте поля: {0}</value>
+  </data>
 </root>

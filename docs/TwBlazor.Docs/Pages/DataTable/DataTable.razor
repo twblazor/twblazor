@@ -247,6 +247,24 @@
         </CodeExample>
     </PageCard>
 
+    <PageCard Title="Editing rows">
+        <Description>
+            Set <code>Editable</code> to add an Actions column with an Edit button on each row. Editing turns the row's <code>Editable</code> columns into editors that match their values: a text field, a number field, a checkbox, a date picker or a list for an enum. Give a column an <code>EditTemplate</code> for any other editor. Save runs each column's <code>Validator</code>, marks any field that needs fixing and moves focus to it. Once every value is fine, each <code>ValueSetter</code> writes its value to the row and <code>RowSaved</code> is raised with the old and new values, ready to send to your API. Escape or Cancel leaves the row as it was, and focus goes back to the row's Edit button.
+        </Description>
+
+        <CodeExample Name="DataTableEditing" CSharpName="DataTableEditingCode">
+            <TwDataTable TItem="Product"
+                         Id="editable-table"
+                         Items="@editableProducts"
+                         Columns="@_editableColumns"
+                         Editable
+                         RowSaved="OnProductSaved"
+                         RowsPerPage="5"
+                         AriaLabel="Products you can edit" />
+            <p class="mt-4" role="status">@lastSaved</p>
+        </CodeExample>
+    </PageCard>
+
     <PageCard Title="Exporting to CSV and Excel">
         <Description>
             Set <code>Exportable</code> to add Export CSV and Export Excel buttons. An export holds the columns on screen in their current order, and by default every row that matches the search in its current sort, across all pages. Change that with <code>ExportScope</code>, or pick the buttons with <code>ExportFormats</code>. The Excel file keeps numbers, dates and true or false values as their own types, so they can be summed and filtered. Give a column an <code>ExportFormatter</code> to write a different value from the one on screen, or set <code>Exportable = false</code> to leave it out. Text that a spreadsheet would run as a formula is escaped.
@@ -373,6 +391,48 @@
         // Starts hidden; people can show it from the panel.
         new TwDataTableColumn<Product> { Name = "stock", Title = "Stock", PropertySelector = p => p.Stock, IsSortable = true, Visible = false }
     };
+    #endregion
+
+    #region CodeExample DataTableEditingCode
+    private readonly List<Product> editableProducts =
+    [
+        new Product { Id = 1, Name = "Kettle", Category = "Kitchen", Price = 30, Stock = 14 },
+        new Product { Id = 2, Name = "Armchair", Category = "Furniture", Price = 250, Stock = 3 },
+        new Product { Id = 3, Name = "Desk lamp", Category = "Lighting", Price = 45, Stock = 22 },
+        new Product { Id = 4, Name = "Blender", Category = "Kitchen", Price = 60, Stock = 8 }
+    ];
+
+    private readonly List<TwDataTableColumn<Product>> _editableColumns = new()
+    {
+        new TwDataTableColumn<Product>
+        {
+            Name = "name", Title = "Product Name", PropertySelector = p => p.Name, IsSortable = true, Editable = true,
+            ValueSetter = (p, value) => p.Name = (string?)value ?? string.Empty,
+            Validator = (_, value) => string.IsNullOrWhiteSpace(value as string) ? "Enter a product name" : null
+        },
+        new TwDataTableColumn<Product> { Name = "category", Title = "Category", PropertySelector = p => p.Category },
+        new TwDataTableColumn<Product>
+        {
+            Name = "price", Title = "Price", PropertySelector = p => p.Price, Editable = true,
+            ValueSetter = (p, value) => p.Price = (decimal)value!,
+            Validator = (_, value) => value is decimal price && price <= 0 ? "Enter a price above £0" : null
+        },
+        new TwDataTableColumn<Product>
+        {
+            Name = "stock", Title = "Stock", PropertySelector = p => p.Stock, Editable = true,
+            ValueSetter = (p, value) => p.Stock = (int)value!
+        }
+    };
+
+    private string lastSaved = string.Empty;
+
+    private Task OnProductSaved(TwDataTableRowEdit<Product> edit)
+    {
+        // Send the change to your API here; OriginalValues can put the row back if that fails.
+        var changed = string.Join(", ", edit.ChangedColumns);
+        lastSaved = changed.Length == 0 ? $"{edit.Item.Name} saved with no changes." : $"{edit.Item.Name} saved: {changed} changed.";
+        return Task.CompletedTask;
+    }
     #endregion
 
     #region CodeExample DataTableVirtualizeCode

@@ -765,4 +765,31 @@
   <data name="DataTable_Loading" xml:space="preserve">
     <value>불러오는 중…</value>
   </data>
+  <data name="DataTable_Actions" xml:space="preserve">
+    <value>작업</value>
+  </data>
+  <data name="DataTable_EditRow" xml:space="preserve">
+    <value>{0} 편집</value>
+  </data>
+  <data name="DataTable_SaveRow" xml:space="preserve">
+    <value>{0} 저장</value>
+  </data>
+  <data name="DataTable_CancelEdit" xml:space="preserve">
+    <value>{0} 편집 취소</value>
+  </data>
+  <data name="DataTable_Editing" xml:space="preserve">
+    <value>{0} 편집 중</value>
+  </data>
+  <data name="DataTable_RowSaved" xml:space="preserve">
+    <value>{0} 저장됨</value>
+  </data>
+  <data name="DataTable_EditCancelled" xml:space="preserve">
+    <value>{0} 편집을 취소했습니다</value>
+  </data>
+  <data name="DataTable_EditInvalidOne" xml:space="preserve">
+    <value>저장하기 전에 {0}개 필드를 수정해야 합니다</value>
+  </data>
+  <data name="DataTable_EditInvalidOther" xml:space="preserve">
+    <value>저장하기 전에 {0}개 필드를 수정해야 합니다</value>
+  </data>
 </root>

@@ -762,4 +762,31 @@
   <data name="DataTable_Loading" xml:space="preserve">
     <value>लोड होत आहे…</value>
   </data>
+  <data name="DataTable_Actions" xml:space="preserve">
+    <value>क्रिया</value>
+  </data>
+  <data name="DataTable_EditRow" xml:space="preserve">
+    <value>{0} संपादित करा</value>
+  </data>
+  <data name="DataTable_SaveRow" xml:space="preserve">
+    <value>{0} जतन करा</value>
+  </data>
+  <data name="DataTable_CancelEdit" xml:space="preserve">
+    <value>{0} चे संपादन रद्द करा</value>
+  </data>
+  <data name="DataTable_Editing" xml:space="preserve">
+    <value>{0} संपादित होत आहे</value>
+  </data>
+  <data name="DataTable_RowSaved" xml:space="preserve">
+    <value>{0} जतन झाले</value>
+  </data>
+  <data name="DataTable_EditCancelled" xml:space="preserve">
+    <value>{0} चे संपादन रद्द झाले</value>
+  </data>
+  <data name="DataTable_EditInvalidOne" xml:space="preserve">
+    <value>जतन करण्यापूर्वी {0} फील्ड दुरुस्त करा</value>
+  </data>
+  <data name="DataTable_EditInvalidOther" xml:space="preserve">
+    <value>जतन करण्यापूर्वी {0} फील्ड दुरुस्त करा</value>
+  </data>
 </root>
