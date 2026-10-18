@@ -90,7 +90,7 @@ jobs:
             /o:"twblazor" `
             /d:sonar.host.url="https://sonarcloud.io" `
             /d:sonar.token="$env:SONAR_TOKEN" `
-            /d:sonar.exclusions="docs/TwBlazor.Docs/Examples/**,**/*.css,**/*.woff,**/*.woff2,**/*.ttf,**/*.eot,**/*.png,**/*.jpg,**/*.jpeg,**/*.gif,**/*.ico" `
+            /d:sonar.exclusions="docs/TwBlazor.Docs/Examples/**,docs/TwBlazor.Docs/wwwroot/images/**,**/*.css,**/*.woff,**/*.woff2,**/*.ttf,**/*.eot,**/*.png,**/*.jpg,**/*.jpeg,**/*.gif,**/*.ico" `
             /d:sonar.cpd.exclusions="**/wwwroot/404.html,docs/TwBlazor.Docs/Pages/Showcase/Themes/**" `
             /d:sonar.javascript.lcov.reportPaths="${{ github.workspace }}/coverage/lcov.info" `
             /d:sonar.coverage.exclusions="docs/TwBlazor.Docs/**,docs/TwBlazor.Server/**,docs/TwBlazor.WASM/**,docs/TwBlazor.WasmHost/**,build/TwBlazor.BuildTools/**,src/TwBlazor.Theme/**,build/TwBlazor.Docs.Compiler/**,scripts/**,**/*.ps1,tests/vitest.config.js" `

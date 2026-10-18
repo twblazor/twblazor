@@ -23,8 +23,22 @@
 ![Alt](https://repobeats.axiom.co/api/embed/e0dc678b816b4fc2767b56d42291540a4d63beb0.svg "Repobeats analytics image")
 
 <p align="center">
-    <a href="https://twblazor.github.io/twblazor/" target="_blank">API Documentation (docfx)</a> &bullet; <a href="https://twblazor.com/" target="_blank">Component Documentation (twblazor.com)</a> &bullet; <a href="https://twblazor.com/get-started" target="_blank">Get Started</a>
+    <a href="https://twblazor.github.io/twblazor/" target="_blank">API Documentation (docfx)</a> &bullet; <a href="https://twblazor.com/" target="_blank">Component Documentation (twblazor.com)</a> &bullet; <a href="https://twblazor.com/get-started" target="_blank">Get Started</a> &bullet; <a href="https://twblazor.com/ai-agents" target="_blank">AI Agents &amp; Skills</a>
 </p>
+
+**Using Claude Code or another AI agent?** Install the twblazor skills so it sets up, themes and uses twblazor with the real components and parameters instead of guessing. Run from your project root:
+
+```bash
+curl -L -o twblazor-skills.zip https://twblazor.com/skills/twblazor-skills.zip
+mkdir -p .claude/skills && unzip -o twblazor-skills.zip -d .claude/skills && rm twblazor-skills.zip
+```
+
+```pwsh
+Invoke-WebRequest https://twblazor.com/skills/twblazor-skills.zip -OutFile twblazor-skills.zip
+Expand-Archive twblazor-skills.zip -DestinationPath .claude/skills -Force; Remove-Item twblazor-skills.zip
+```
+
+See [AI Agents & Skills](https://twblazor.com/ai-agents) for each skill, the Claude apps and `llms.txt`.
 
 ## Contents
 

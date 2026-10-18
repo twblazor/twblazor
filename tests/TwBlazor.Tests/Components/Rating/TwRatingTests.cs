@@ -3,10 +3,8 @@ using Bunit;
 using Microsoft.AspNetCore.Components.Web;
 using System.Globalization;
 using TwBlazor.Components;
-using TwBlazor.Configuration;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Enums;
-using Enums = TwBlazor.Enums;
 using ThemeBase = TwBlazor.Theme.Theme;
 
 namespace TwBlazor.Tests.Components.Rating;

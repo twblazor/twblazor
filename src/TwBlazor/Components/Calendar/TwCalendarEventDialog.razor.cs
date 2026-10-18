@@ -3,9 +3,9 @@
 
 using Microsoft.AspNetCore.Components;
 using TwBlazor.Configuration.Components;
+using TwBlazor.Localization;
 using TwBlazor.Services;
 using TwBlazor.Utilities;
-using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 

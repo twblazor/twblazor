@@ -24,6 +24,7 @@
         ],
         "exclude": [
           "_site/**",
+          "docs/TwBlazor.WASM/wwwroot/**",
           "obj/**",
           "bin/**"
         ]

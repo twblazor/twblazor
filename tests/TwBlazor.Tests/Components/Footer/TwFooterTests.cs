@@ -1,9 +1,8 @@
 using Bunit;
-using Microsoft.AspNetCore.Components;
 using TwBlazor.Components;
 using TwBlazor.Configuration.Components;
-using IconEnum = TwBlazor.Enums.Icon;
 using TwBlazor.Models;
+using IconEnum = TwBlazor.Enums.Icon;
 
 namespace TwBlazor.Tests.Components.Footer;
 
@@ -82,9 +81,9 @@ public class TwFooterTests : TwBlazorTestBase
     public void RendersTheSlots_InReadingOrder()
     {
         var cut = Render(p => p
-            .Add(x => x.BrandContent, (RenderFragment)(b => b.AddMarkupContent(0, "<span id=\"brand\">Acme</span>")))
-            .Add(x => x.ChildContent, (RenderFragment)(b => b.AddMarkupContent(0, "<span id=\"extra\">Newsletter</span>")))
-            .Add(x => x.BottomContent, (RenderFragment)(b => b.AddMarkupContent(0, "<span id=\"social\">Social</span>")))
+            .Add(x => x.BrandContent, b => b.AddMarkupContent(0, "<span id=\"brand\">Acme</span>"))
+            .Add(x => x.ChildContent, b => b.AddMarkupContent(0, "<span id=\"extra\">Newsletter</span>"))
+            .Add(x => x.BottomContent, b => b.AddMarkupContent(0, "<span id=\"social\">Social</span>"))
             .Add(x => x.Copyright, "2026 Acme"));
 
         var markup = cut.Markup;
@@ -123,7 +122,7 @@ public class TwFooterTests : TwBlazorTestBase
     [Fact]
     public void BottomContentAlone_StillRendersTheBottomRow()
     {
-        var cut = TestContext.Render<TwFooter>(p => p.Add(x => x.BottomContent, (RenderFragment)(b => b.AddMarkupContent(0, "<span id=\"social\">Social</span>"))));
+        var cut = TestContext.Render<TwFooter>(p => p.Add(x => x.BottomContent, b => b.AddMarkupContent(0, "<span id=\"social\">Social</span>")));
 
         Assert.Contains(theme.Bottom.Split(' ')[0], cut.Find("#social").ParentElement!.ClassName);
     }

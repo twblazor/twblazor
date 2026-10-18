@@ -1,0 +1,45 @@
+---
+name: twblazor-theming
+description: Creates and changes the Theme.cs that styles every twblazor component, using the twblazor Theme builder for brand colours, surfaces, rounding, shadows, default variants and the components to include, plus dark mode and per-instance Class overrides. Use when theming twblazor, changing its look, adding a component to the theme or fixing a missing component theme.
+references: /get-started, /class-merge
+---
+# twblazor theming
+
+Every twblazor component is styled by one `Theme.cs` file in the app. Tailwind CSS cannot read classes from a .dll, so every class a component uses is a literal string in that file, where the app's own Tailwind build can find it.
+
+## Rules
+
+{{include:rules}}
+
+## Create or change a theme
+
+1. Open https://twblazor.com/theme.
+2. Pick the brand colours and surfaces on the "Colors" tab. The builder shows the contrast of each pick, so keep text readable.
+3. Set the rounding, shadow, input style and button style every component should use on the "Style" tab.
+4. Tick every component the app uses on the "Components" tab. A component that is not ticked has no theme and throws at runtime.
+5. Press "Generate Theme" and replace the whole `Theme.cs` with the output. Save it at the root of the project that compiles the components (`{YourProjectName}.Client` with WebAssembly).
+6. Register it: `builder.Services.AddTwBlazor(_ => { }, Theme.CreateTheme);`
+7. Rebuild `output.css` with the Tailwind CLI so the new classes are generated.
+
+Never write a component theme by hand, never add properties to a theme class and never patch colours into the generated file. Go back to the builder and generate again instead.
+
+## Change one instance
+
+Pass a `Class` to the component. Conflicting Tailwind utilities are merged so the last one wins, so `Class="px-2"` replaces the theme's `px-4` instead of both reaching the element. See `references/class-merge.md` for every rule, and for turning merging off or teaching it your own utilities.
+
+Prefer the component's own parameters (`Color`, `Variant`, `Dense`, `Rounded`, `Shadow`) over classes where one exists.
+
+## Dark mode
+
+Every component ships with `dark:` variants. Dark mode works as soon as the app toggles the `dark` class on the root element. There is nothing to configure in `Theme.cs`.
+
+## Component themes
+
+The theme type that styles each component. Tick the component on the Theme builder to include its theme.
+
+{{themes}}
+
+## Reference
+
+- `references/get-started.md`: setup, including the default `Theme.cs`.
+- `references/class-merge.md`: how a `Class` parameter merges with theme classes.

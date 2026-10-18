@@ -2,8 +2,8 @@
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Components;
-using TwBlazor.Configuration.Components;
 using System.Globalization;
+using TwBlazor.Configuration.Components;
 using TwBlazor.Localization;
 using TwBlazor.Utilities;
 

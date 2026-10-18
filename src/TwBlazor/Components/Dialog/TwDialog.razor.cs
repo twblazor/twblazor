@@ -5,15 +5,14 @@
 // (https://github.com/MudBlazor/MudBlazor/tree/dev/src/MudBlazor/Components/Dialog), MIT License.
 
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using System.Diagnostics;
 using TwBlazor.Builders;
 using TwBlazor.Configuration.Components;
+using TwBlazor.Localization;
 using TwBlazor.Models;
 using TwBlazor.Services;
 using TwBlazor.Utilities;
-using TwBlazor.Localization;
 
 namespace TwBlazor.Components;
 

@@ -1,6 +1,6 @@
-using TwBlazor.Configuration.Color;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using TwBlazor.Configuration.Color;
 using TwBlazor.Docs.Services;
 using TwBlazor.Docs.Services.ThemeBuilder;
 using IconEnum = TwBlazor.Enums.Icon;
@@ -30,7 +30,7 @@ public partial class Theme
     // The settings panel sits beside the samples on a wide screen and stays put while they scroll. On a narrow
     // screen it comes first, above them.
     private const string layoutClass = "lg:grid lg:grid-cols-[22rem_minmax(0,1fr)] xl:grid-cols-[24rem_minmax(0,1fr)]";
-    
+
     private const string skipLinkClass = "sr-only focus:not-sr-only focus:fixed focus:top-2 focus:start-2 focus:z-50 focus:rounded focus:bg-white focus:px-3 focus:py-2 focus:text-sm focus:font-medium focus:text-gray-950 focus:shadow-lg";
 
     // Two rows of four, so a whole page of example themes fits in the panel.

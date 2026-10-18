@@ -1,8 +1,8 @@
 using System.Security.Cryptography;
 using System.Text;
 using TwBlazor.Enums;
-using TwBlazor.Services.Encoding;
 using TwBlazor.Services;
+using TwBlazor.Services.Encoding;
 
 namespace TwBlazor.Tests.Services.Encoding;
 

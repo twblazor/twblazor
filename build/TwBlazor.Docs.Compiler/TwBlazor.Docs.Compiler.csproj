@@ -12,4 +12,9 @@
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.9.0" />
   </ItemGroup>
 
+  <!-- The keyboard tables in the generated Markdown pages come from the same source as the docs site's own. -->
+  <ItemGroup>
+    <Compile Include="..\..\docs\TwBlazor.Docs\Services\KeyboardShortcuts.cs" Link="Shared\KeyboardShortcuts.cs" />
+  </ItemGroup>
+
 </Project>

@@ -1,0 +1,29 @@
+---
+name: twblazor-setup
+description: Installs and sets up the twblazor Tailwind CSS component library in a Blazor Server or Blazor WebAssembly app, covering the NuGet package, App.razor links, imports, toast and dialog providers, Theme.cs, AddTwBlazor and the Tailwind build. Use when adding twblazor to a project, or when twblazor components render unstyled or throw on startup.
+references: /get-started
+---
+# twblazor setup
+
+Takes a Blazor Web App from empty to a working, themed twblazor page. twblazor is not MudBlazor, Radzen or Blazorise, so never borrow their setup steps or service names.
+
+## Rules
+
+{{include:rules}}
+
+## Steps
+
+{{include:getting-started}}
+
+## When something is wrong
+
+- **Components render with no styling:** `input.css` is missing an `@source` line for `Theme.cs`, or `output.css` was not rebuilt after `Theme.cs` changed. With WebAssembly, the `@source` paths must reach into `{YourProjectName}.Client`.
+- **`InvalidOperationException: No Tw...Theme has been configured on the theme`:** the component was not ticked when `Theme.cs` was generated. Regenerate it at https://twblazor.com/theme with the component ticked and replace the whole file.
+- **Toasts or dialogs never appear:** `<TwToastProvider />` and `<TwDialogProvider />` must be in `MainLayout.razor`, which must render interactively. With WebAssembly that layout lives in the client project.
+- **WebAssembly build cannot find `Theme`:** the host project's `Program.cs` needs `using {YourProjectName}.Client;`, and both projects need the twblazor package.
+- **Icons show as empty squares:** the Bootstrap Icons stylesheet link from step 3 is missing from `App.razor`.
+
+## Reference
+
+- `references/get-started.md`: the full Get Started guide for both hosting models, including the default `Theme.cs` and the complete `input.css`.
+- Every component and its parameters: the `twblazor-components` skill, or https://twblazor.com/llms.txt.

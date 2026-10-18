@@ -1,2 +1,11 @@
 /_framework/*.wasm
   Cache-Control: public, max-age=14400, immutable
+
+/llms.txt
+  Content-Type: text/plain; charset=utf-8
+
+/llms-full.txt
+  Content-Type: text/plain; charset=utf-8
+
+/*.md
+  Content-Type: text/markdown; charset=utf-8

@@ -6,7 +6,8 @@ namespace TwBlazor.BuildTools;
 /// Build-time tool for TwBlazor that handles code generation and asset management.
 /// Extracts &lt;CodeExample&gt; tags and "#region CodeExample" blocks from the docs pages
 /// (and a handful of real source files) and generates CodeExamples.cs, plus the sitemap and
-/// PageLastModified.cs from the pages' routes and git history.
+/// PageLastModified.cs from the pages' routes and git history, and llms.txt, llms-full.txt and a
+/// Markdown copy of every page for AI assistants.
 /// </summary>
 static class Program
 {
@@ -29,10 +30,10 @@ static class Program
             Console.WriteLine("=== CodeExample Extraction ===");
             Console.WriteLine("Extracting CodeExample blocks from docs pages...");
 
+            var examples = new Dictionary<string, string>(StringComparer.Ordinal);
+
             try
             {
-                var examples = new Dictionary<string, string>(StringComparer.Ordinal);
-
                 foreach (var kvp in CodeExampleExtractor.Extract(Paths.PagesPath))
                     examples[kvp.Key] = kvp.Value;
 
@@ -141,6 +142,14 @@ static class Program
 
             Console.WriteLine();
 
+            // llms.txt, llms-full.txt and a Markdown copy of every docs page, for AI assistants
+            Console.WriteLine("=== llms.txt and Markdown Pages ===");
+
+            if (!GenerateLlmsFiles(examples))
+                hasErrors = true;
+
+            Console.WriteLine();
+
             if (hasErrors)
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
@@ -162,6 +171,88 @@ static class Program
             Console.WriteLine(ex.StackTrace);
             Console.ResetColor();
             Environment.Exit(1);
+        }
+    }
+
+    /// <summary>
+    /// Writes llms.txt, llms-full.txt, a Markdown copy of every docs page and the agent skills into the WASM
+    /// project's wwwroot, plus the AgentSkills class the AI Agents and Skills page lists them from.
+    /// </summary>
+    /// <param name="examples">The extracted code samples by name.</param>
+    /// <returns><see langword="true"/> when every file was written.</returns>
+    private static bool GenerateLlmsFiles(Dictionary<string, string> examples)
+    {
+        try
+        {
+            var pages = PageRouteScanner.Scan(Paths.PagesPath, "/showcase/")
+                .Select(route => (route.Route, File.ReadAllText(route.SourcePath)))
+                .ToList();
+
+            var output = LlmsGenerator.Generate(
+                Paths.ReadLlmsTemplates(),
+                File.ReadAllText(Paths.ComponentsJsonPath),
+                pages,
+                examples,
+                ComponentParameterScanner.Scan(Paths.LibrarySourcePath));
+
+            var wwwroot = Paths.WasmWwwrootPath;
+            var skillsRoot = Path.Combine(wwwroot, "skills");
+
+            // Every .md under wwwroot and everything under skills/ is generated (and gitignored), so clearing them
+            // drops pages and skills that were removed.
+            if (Directory.Exists(skillsRoot))
+                Directory.Delete(skillsRoot, recursive: true);
+
+            foreach (var stale in Directory.GetFiles(wwwroot, "*.md", SearchOption.AllDirectories))
+                File.Delete(stale);
+
+            WriteFiles(wwwroot, output.Pages);
+            File.WriteAllText(Path.Combine(wwwroot, "llms.txt"), output.LlmsTxt);
+            File.WriteAllText(Path.Combine(wwwroot, "llms-full.txt"), output.LlmsFullTxt);
+            Console.WriteLine($"Generated: llms.txt, llms-full.txt and {output.Pages.Count} Markdown pages in {wwwroot}");
+
+            WriteSkills(skillsRoot, output.Skills);
+            File.WriteAllText(Path.Combine(Paths.GeneratedPath, "AgentSkills.cs"), CodeGenerator.GenerateAgentSkillsClass(output.Skills));
+            Console.WriteLine($"Generated: {output.Skills.Count} agent skills and their zips in {skillsRoot}");
+
+            return true;
+        }
+        catch (Exception ex) when (ex is IOException or InvalidOperationException or System.Text.Json.JsonException)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"ERROR generating llms.txt: {ex.Message}");
+            Console.ResetColor();
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Writes each skill's folder, a zip of each skill and a zip of every skill.
+    /// </summary>
+    private static void WriteSkills(string skillsRoot, IReadOnlyList<AgentSkill> skills)
+    {
+        foreach (var skill in skills)
+        {
+            WriteFiles(Path.Combine(skillsRoot, skill.Name), skill.Files);
+
+            using var zip = File.Create(Path.Combine(skillsRoot, $"{skill.Name}.zip"));
+            SkillPackager.WriteZip([skill], zip);
+        }
+
+        using var bundle = File.Create(Path.Combine(skillsRoot, $"{LlmsGenerator.SkillsBundleName}.zip"));
+        SkillPackager.WriteZip(skills, bundle);
+    }
+
+    /// <summary>
+    /// Writes each file under <paramref name="root"/>, creating its folders.
+    /// </summary>
+    private static void WriteFiles(string root, IReadOnlyDictionary<string, string> files)
+    {
+        foreach (var (relativePath, text) in files)
+        {
+            var path = Path.Combine(root, relativePath.Replace('/', Path.DirectorySeparatorChar));
+            Directory.CreateDirectory(Path.GetDirectoryName(path)!);
+            File.WriteAllText(path, text);
         }
     }
 }

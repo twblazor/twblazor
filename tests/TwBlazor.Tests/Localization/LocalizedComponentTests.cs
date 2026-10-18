@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using Bunit;
-using Microsoft.Extensions.DependencyInjection;
 using System.Globalization;
 using TwBlazor.Components;
 using TwBlazor.Components.DatePicker;
