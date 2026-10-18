@@ -6,7 +6,7 @@ namespace TwBlazor.Docs.Tests.Pages;
 public partial class PageMetadataTests
 {
     // Search engines cut a meta description off at about this length, and SEO audit tools flag anything longer.
-    private const int MaxDescriptionLength = 160;
+    private const int maxDescriptionLength = 160;
 
     private static List<(string Page, string Description)> ReadDescriptions()
     {
@@ -51,8 +51,8 @@ public partial class PageMetadataTests
     {
         // Assert
         Assert.True(
-            description.Length <= MaxDescriptionLength,
-            $"{page}: description is {description.Length} characters, over the {MaxDescriptionLength} limit: \"{description}\"");
+            description.Length <= maxDescriptionLength,
+            $"{page}: description is {description.Length} characters, over the {maxDescriptionLength} limit: \"{description}\"");
     }
 
     [GeneratedRegex("""<(?:PageContainer|PageSeo)\b[^>]*?\bDescription="(?<description>[^"]*)"[^>]*/?>""", RegexOptions.Singleline)]

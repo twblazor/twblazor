@@ -49,7 +49,7 @@
         <CodeExample Name="RadioButtonDataDriven" CSharpName="RadioButtonDataDrivenCode">
             <div class="mb-6">
                 <TwRadioGroup Legend="Select a size"
-                              Items="@sizeItems"
+                              Items="@_sizeItems"
                               Name="auto-size"
                               @bind-Value="selectedSize"
                               ItemColor="Color.Primary" />
@@ -58,7 +58,7 @@
 
             <div>
                 <TwRadioGroup Legend="Rate your experience"
-                              Items="@ratingItems"
+                              Items="@_ratingItems"
                               Name="rating"
                               @bind-Value="rating"
                               ItemColor="Color.Accent" />
@@ -73,7 +73,7 @@
         <CodeExample Name="RadioButtonHorizontalSpacing" CSharpName="RadioButtonHorizontalSpacingCode">
             <div class="mb-6">
                 <TwRadioGroup Legend="Payment method"
-                              Items="@paymentItems"
+                              Items="@_paymentItems"
                               Name="payment"
                               @bind-Value="payment"
                               ItemColor="Color.Primary"
@@ -106,7 +106,7 @@
 
         <CodeExample Name="RadioButtonProgrammatic" CSharpName="RadioButtonProgrammaticCode">
             <TwRadioGroup Legend="Subscription plan"
-                          Items="@planItems"
+                          Items="@_planItems"
                           Name="dynamic-plan"
                           @bind-Value="dynamicPlan"
                           ItemColor="Color.Accent" />
@@ -131,7 +131,7 @@
     private string selectedSize = "medium";
     private int rating = 3;
 
-    private readonly List<RadioGroupItem<string>> sizeItems = new()
+    private readonly List<RadioGroupItem<string>> _sizeItems = new()
     {
         new() { Label = "Small", Value = "small" },
         new() { Label = "Medium", Value = "medium" },
@@ -139,7 +139,7 @@
         new() { Label = "Extra Large", Value = "xl" }
     };
 
-    private readonly List<RadioGroupItem<int>> ratingItems = new()
+    private readonly List<RadioGroupItem<int>> _ratingItems = new()
     {
         new() { Label = "⭐ Poor", Value = 1 },
         new() { Label = "⭐⭐ Fair", Value = 2 },
@@ -153,7 +153,7 @@
     private string payment = "credit";
     private string billing = "monthly";
 
-    private readonly List<RadioGroupItem<string>> paymentItems = new()
+    private readonly List<RadioGroupItem<string>> _paymentItems = new()
     {
         new() { Label = "Credit Card", Value = "credit" },
         new() { Label = "PayPal", Value = "paypal" },
@@ -164,7 +164,7 @@
     #region CodeExample RadioButtonProgrammaticCode
     private string dynamicPlan = "free";
 
-    private readonly List<RadioGroupItem<string>> planItems = new()
+    private readonly List<RadioGroupItem<string>> _planItems = new()
     {
         new() { Label = "Free - £0/month", Value = "free" },
         new() { Label = "Basic - £9/month", Value = "basic" },

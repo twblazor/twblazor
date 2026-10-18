@@ -219,21 +219,21 @@ public class TwQrCodeTests : TwBlazorTestBase
 
     private sealed class SpyQrCodeService : ITwQrCodeService
     {
-        private readonly TwQrCodeService inner = new();
+        private readonly TwQrCodeService _inner = new();
 
         public int EncodeCount { get; private set; }
 
         public QrEncodeOptions? LastOptions { get; private set; }
 
-        public QrMatrix Encode(string value, QrEncodeOptions? options = null) => inner.Encode(value, options);
+        public QrMatrix Encode(string value, QrEncodeOptions? options = null) => _inner.Encode(value, options);
 
-        public QrMatrix Encode(byte[] data, QrEncodeOptions? options = null) => inner.Encode(data, options);
+        public QrMatrix Encode(byte[] data, QrEncodeOptions? options = null) => _inner.Encode(data, options);
 
         public bool TryEncode(string? value, QrEncodeOptions? options, [NotNullWhen(true)] out QrMatrix? matrix)
         {
             EncodeCount++;
             LastOptions = options;
-            return inner.TryEncode(value, options, out matrix);
+            return _inner.TryEncode(value, options, out matrix);
         }
     }
 }

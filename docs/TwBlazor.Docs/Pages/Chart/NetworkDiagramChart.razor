@@ -7,7 +7,7 @@
 
         <CodeExample Name="NetworkDiagramChartBasic" CSharpName="NetworkDiagramChartData">
             <TwChart Title="Service dependencies">
-                <TwNetworkDiagramChart Nodes="@services" Links="@dependencies" />
+                <TwNetworkDiagramChart Nodes="@_services" Links="@_dependencies" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -17,7 +17,7 @@
 
         <CodeExample Name="NetworkDiagramChartClusters" CSharpName="NetworkDiagramChartClustersData">
             <TwChart Title="Who works with whom" Description="People who shared a project this year">
-                <TwNetworkDiagramChart Nodes="@people" Links="@collaborations" SourceHeader="Person" TargetHeader="Worked with" ValueHeader="Projects" Height="ChartHeight.Large" />
+                <TwNetworkDiagramChart Nodes="@_people" Links="@_collaborations" SourceHeader="Person" TargetHeader="Worked with" ValueHeader="Projects" Height="ChartHeight.Large" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -27,7 +27,7 @@
 
         <CodeExample Name="NetworkDiagramChartStar" CSharpName="NetworkDiagramChartStarData">
             <TwChart Title="Office network">
-                <TwNetworkDiagramChart Nodes="@devices" Links="@cables" ShowTableToggle="false" />
+                <TwNetworkDiagramChart Nodes="@_devices" Links="@_cables" ShowTableToggle="false" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -47,22 +47,22 @@
 
 @code {
     #region CodeExample NetworkDiagramChartData
-    private readonly ChartGraphNode[] services = [new("ui", "UI"), new("api", "API"), new("auth", "Auth"), new("db", "Database"), new("cache", "Cache")];
+    private readonly ChartGraphNode[] _services = [new("ui", "UI"), new("api", "API"), new("auth", "Auth"), new("db", "Database"), new("cache", "Cache")];
 
-    private readonly ChartGraphLink[] dependencies =
+    private readonly ChartGraphLink[] _dependencies =
     [
         new("ui", "api"), new("ui", "auth"), new("api", "auth"), new("api", "db"), new("api", "cache")
     ];
     #endregion
 
     #region CodeExample NetworkDiagramChartClustersData
-    private readonly ChartGraphNode[] people =
+    private readonly ChartGraphNode[] _people =
     [
         new("ana", "Ana"), new("bo", "Bo"), new("cy", "Cy"), new("di", "Di"), new("eli", "Eli"),
         new("fay", "Fay"), new("gus", "Gus"), new("hal", "Hal"), new("ivy", "Ivy")
     ];
 
-    private readonly ChartGraphLink[] collaborations =
+    private readonly ChartGraphLink[] _collaborations =
     [
         new("ana", "bo", 3), new("ana", "cy", 2), new("bo", "cy", 4), new("bo", "di", 1), new("cy", "di", 2),
         new("eli", "di", 2),
@@ -71,13 +71,13 @@
     #endregion
 
     #region CodeExample NetworkDiagramChartStarData
-    private readonly ChartGraphNode[] devices =
+    private readonly ChartGraphNode[] _devices =
     [
         new("switch", "Switch"), new("router", "Router"), new("printer", "Printer"), new("nas", "Storage"),
         new("desk1", "Desk 1"), new("desk2", "Desk 2"), new("desk3", "Desk 3"), new("spare", "Spare laptop")
     ];
 
-    private readonly ChartGraphLink[] cables =
+    private readonly ChartGraphLink[] _cables =
     [
         new("switch", "router"), new("switch", "printer"), new("switch", "nas"),
         new("switch", "desk1"), new("switch", "desk2"), new("switch", "desk3")

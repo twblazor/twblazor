@@ -11,11 +11,11 @@ namespace TwBlazor.Docs.Tests.Pages;
 /// </summary>
 public partial class LlmsTxtTests
 {
-    private const string SiteUrl = "https://twblazor.com";
+    private const string siteUrl = "https://twblazor.com";
 
     private static readonly Lazy<(LlmsOutput Output, IReadOnlyList<PageRoute> Routes)> _generated = new(Generate);
 
-    private static LlmsOutput Output => _generated.Value.Output;
+    private static LlmsOutput generatedOutput => _generated.Value.Output;
 
     private static (LlmsOutput, IReadOnlyList<PageRoute>) Generate()
     {
@@ -62,12 +62,12 @@ public partial class LlmsTxtTests
     [Fact]
     public void LlmsTxt_FollowsTheLlmsTxtFormat_WithATitleThenASummary()
     {
-        var lines = Output.LlmsTxt.Split('\n');
+        var lines = generatedOutput.LlmsTxt.Split('\n');
 
         Assert.Equal("# twblazor", lines[0]);
         Assert.Equal(string.Empty, lines[1]);
         Assert.StartsWith("> ", lines[2]);
-        Assert.DoesNotContain("{{", Output.LlmsTxt);
+        Assert.DoesNotContain("{{", generatedOutput.LlmsTxt);
     }
 
     [Fact]
@@ -78,7 +78,7 @@ public partial class LlmsTxtTests
         Assert.NotEmpty(components); // guards against the catalog read silently returning nothing
 
         var missing = components
-            .Where(leaf => !Output.LlmsTxt.Contains($"]({SiteUrl}{leaf.Entry.Url}.md) `{leaf.Entry.Name}`", StringComparison.Ordinal))
+            .Where(leaf => !generatedOutput.LlmsTxt.Contains($"]({siteUrl}{leaf.Entry.Url}.md) `{leaf.Entry.Name}`", StringComparison.Ordinal))
             .Select(leaf => $"{leaf.Entry.Name} ({leaf.Entry.Url})")
             .ToList();
 
@@ -91,7 +91,7 @@ public partial class LlmsTxtTests
         var missing = _generated.Value.Routes
             .Where(r => !LlmsGenerator.ExcludedRoutes.Contains(r.Route))
             .Select(r => LlmsGenerator.MarkdownPath(r.Route).TrimStart('/'))
-            .Where(path => !Output.Pages.ContainsKey(path))
+            .Where(path => !generatedOutput.Pages.ContainsKey(path))
             .ToList();
 
         Assert.True(missing.Count == 0, $"Pages without a Markdown copy: {string.Join(", ", missing)}");
@@ -101,12 +101,12 @@ public partial class LlmsTxtTests
     public void EverySiteLink_ReachesARealPageOrGeneratedFile()
     {
         var routes = _generated.Value.Routes.Select(r => r.Route).ToHashSet(StringComparer.Ordinal);
-        var files = Output.Pages.Keys.Select(path => "/" + path)
+        var files = generatedOutput.Pages.Keys.Select(path => "/" + path)
             .Concat(["/llms.txt", "/llms-full.txt", $"/skills/{LlmsGenerator.SkillsBundleName}.zip"])
-            .Concat(Output.Skills.Select(s => $"/skills/{s.Name}/SKILL.md"))
+            .Concat(generatedOutput.Skills.Select(s => $"/skills/{s.Name}/SKILL.md"))
             .ToHashSet(StringComparer.Ordinal);
 
-        var broken = SiteLinkPattern().Matches(Output.LlmsFullTxt)
+        var broken = SiteLinkPattern().Matches(generatedOutput.LlmsFullTxt)
             .Select(match => match.Groups["path"].Value.TrimEnd('.'))
             .Where(path => !routes.Contains(path) && !files.Contains(path))
             .Distinct()
@@ -122,22 +122,22 @@ public partial class LlmsTxtTests
         var expected = InstallVersionPattern().Match(getStarted).Groups["version"].Value;
 
         Assert.NotEmpty(expected);
-        Assert.Contains($"dotnet add package twblazor --version {expected}\n", Output.LlmsTxt);
+        Assert.Contains($"dotnet add package twblazor --version {expected}\n", generatedOutput.LlmsTxt);
     }
 
     [Fact]
     public void ThemeRules_SendAssistantsToTheThemeBuilder()
     {
-        Assert.Contains("## Rules for AI assistants", Output.LlmsTxt);
-        Assert.Contains($"{SiteUrl}/theme", Output.LlmsTxt);
-        Assert.Contains("Theme.CreateTheme", Output.LlmsTxt);
-        Assert.Contains("@source", Output.LlmsTxt);
+        Assert.Contains("## Rules for AI assistants", generatedOutput.LlmsTxt);
+        Assert.Contains($"{siteUrl}/theme", generatedOutput.LlmsTxt);
+        Assert.Contains("Theme.CreateTheme", generatedOutput.LlmsTxt);
+        Assert.Contains("@source", generatedOutput.LlmsTxt);
     }
 
     [Fact]
     public void ComponentPages_ListTheLibrarysOwnParameters_AndTheirCompanions()
     {
-        var button = Output.Pages["button.md"];
+        var button = generatedOutput.Pages["button.md"];
 
         Assert.StartsWith("# TwButton\n", button);
         Assert.Contains("## Parameters", button);
@@ -150,7 +150,7 @@ public partial class LlmsTxtTests
     [Fact]
     public void Pages_WriteCodeSamplesInFull()
     {
-        var getStarted = Output.Pages["get-started.md"];
+        var getStarted = generatedOutput.Pages["get-started.md"];
 
         Assert.Contains("```bash\ndotnet new blazor -o {YourProjectName}\n```", getStarted);
         Assert.Contains("<TwToastProvider />", getStarted);
@@ -160,7 +160,7 @@ public partial class LlmsTxtTests
     [Fact]
     public void Pages_LeakNoRazorOrHtml_OutsideCodeSamples()
     {
-        var leaks = Output.Pages
+        var leaks = generatedOutput.Pages
             .SelectMany(page => ProseLines(page.Value)
                 .Where(line => !line.StartsWith("| `", StringComparison.Ordinal))
                 .Select(line => InlineCodePattern().Replace(line, "code"))
@@ -174,20 +174,20 @@ public partial class LlmsTxtTests
     [Fact]
     public void Output_NeverUsesAnEmDash()
     {
-        Assert.DoesNotContain('—', Output.LlmsFullTxt);
-        Assert.All(Output.Skills.SelectMany(s => s.Files.Values), text => Assert.DoesNotContain('—', text));
+        Assert.DoesNotContain('—', generatedOutput.LlmsFullTxt);
+        Assert.All(generatedOutput.Skills.SelectMany(s => s.Files.Values), text => Assert.DoesNotContain('—', text));
     }
 
     [Fact]
     public void Skills_CoverSetupThemingComponentsAndLocalization()
     {
-        Assert.Equal(["twblazor-components", "twblazor-localization", "twblazor-setup", "twblazor-theming"], Output.Skills.Select(s => s.Name));
+        Assert.Equal(["twblazor-components", "twblazor-localization", "twblazor-setup", "twblazor-theming"], generatedOutput.Skills.Select(s => s.Name));
     }
 
     [Fact]
     public void Skills_FollowTheAgentSkillsFormat()
     {
-        Assert.All(Output.Skills, skill =>
+        Assert.All(generatedOutput.Skills, skill =>
         {
             var lines = skill.Files["SKILL.md"].Split('\n');
 
@@ -203,7 +203,7 @@ public partial class LlmsTxtTests
     [Fact]
     public void ComponentsSkill_BundlesEveryComponentPage_AndLinksToTheBundledCopies()
     {
-        var skill = Output.Skills.Single(s => s.Name == "twblazor-components");
+        var skill = generatedOutput.Skills.Single(s => s.Name == "twblazor-components");
 
         var missing = ComponentCatalog.LoadLeafEntries()
             .Where(leaf => !skill.Files.ContainsKey($"references{leaf.Entry.Url}.md") || !skill.Files["SKILL.md"].Contains($"](references{leaf.Entry.Url}.md) `{leaf.Entry.Name}`", StringComparison.Ordinal))
@@ -216,7 +216,7 @@ public partial class LlmsTxtTests
     [Fact]
     public void Skills_LinkOnlyToFilesTheyBundle()
     {
-        var broken = Output.Skills
+        var broken = generatedOutput.Skills
             .SelectMany(skill => SkillReferencePattern().Matches(skill.Files["SKILL.md"])
                 .Select(m => m.Value)
                 .Where(path => !skill.Files.ContainsKey(path))
@@ -229,8 +229,8 @@ public partial class LlmsTxtTests
     [Fact]
     public void LlmsTxt_ListsEverySkill()
     {
-        Assert.All(Output.Skills, skill => Assert.Contains($"]({SiteUrl}/skills/{skill.Name}/SKILL.md): ", Output.LlmsTxt));
-        Assert.Contains($"{SiteUrl}/skills/{LlmsGenerator.SkillsBundleName}.zip", Output.LlmsTxt);
+        Assert.All(generatedOutput.Skills, skill => Assert.Contains($"]({siteUrl}/skills/{skill.Name}/SKILL.md): ", generatedOutput.LlmsTxt));
+        Assert.Contains($"{siteUrl}/skills/{LlmsGenerator.SkillsBundleName}.zip", generatedOutput.LlmsTxt);
     }
 
     [GeneratedRegex(@"references/[\w\-/]+\.md")]

@@ -666,4 +666,16 @@
   <data name="Rating_ReadOnly" xml:space="preserve">
     <value>التقييم {0} من {1}</value>
   </data>
+  <data name="Numeric_Increase" xml:space="preserve">
+    <value>زيادة القيمة</value>
+  </data>
+  <data name="Numeric_Decrease" xml:space="preserve">
+    <value>إنقاص القيمة</value>
+  </data>
+  <data name="Textfield_Clear" xml:space="preserve">
+    <value>مسح القيمة</value>
+  </data>
+  <data name="Numeric_Invalid" xml:space="preserve">
+    <value>أدخل رقمًا صالحًا.</value>
+  </data>
 </root>

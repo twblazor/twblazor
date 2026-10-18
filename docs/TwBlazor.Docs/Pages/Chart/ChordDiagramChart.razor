@@ -7,7 +7,7 @@
 
         <CodeExample Name="ChordDiagramChartBasic" CSharpName="ChordDiagramChartData">
             <TwChart Title="Cross-team collaboration" Description="Shared projects last year">
-                <TwChordDiagramChart Nodes="@teams" Links="@projects" />
+                <TwChordDiagramChart Nodes="@_teams" Links="@_projects" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -17,7 +17,7 @@
 
         <CodeExample Name="ChordDiagramChartMigration" CSharpName="ChordDiagramChartMigrationData">
             <TwChart Title="Customers switching between plans" Description="Accounts that changed plan last year">
-                <TwChordDiagramChart Nodes="@plans" Links="@switches" SourceHeader="From" TargetHeader="To" ValueHeader="Accounts" Height="ChartHeight.Large" />
+                <TwChordDiagramChart Nodes="@_plans" Links="@_switches" SourceHeader="From" TargetHeader="To" ValueHeader="Accounts" Height="ChartHeight.Large" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -27,7 +27,7 @@
 
         <CodeExample Name="ChordDiagramChartTrade" CSharpName="ChordDiagramChartTradeData">
             <TwChart Title="Trade between regions" Description="Billions of pounds">
-                <TwChordDiagramChart Nodes="@regions" Links="@trade" ValueFormat="C0" />
+                <TwChordDiagramChart Nodes="@_regions" Links="@_trade" ValueFormat="C0" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -47,15 +47,15 @@
 
 @code {
     #region CodeExample ChordDiagramChartData
-    private readonly ChartGraphNode[] teams = [new("design", "Design"), new("eng", "Engineering"), new("sales", "Sales")];
+    private readonly ChartGraphNode[] _teams = [new("design", "Design"), new("eng", "Engineering"), new("sales", "Sales")];
 
-    private readonly ChartGraphLink[] projects = [new("design", "eng", 8), new("eng", "sales", 5), new("sales", "design", 3)];
+    private readonly ChartGraphLink[] _projects = [new("design", "eng", 8), new("eng", "sales", 5), new("sales", "design", 3)];
     #endregion
 
     #region CodeExample ChordDiagramChartMigrationData
-    private readonly ChartGraphNode[] plans = [new("free", "Free"), new("team", "Team"), new("business", "Business"), new("enterprise", "Enterprise")];
+    private readonly ChartGraphNode[] _plans = [new("free", "Free"), new("team", "Team"), new("business", "Business"), new("enterprise", "Enterprise")];
 
-    private readonly ChartGraphLink[] switches =
+    private readonly ChartGraphLink[] _switches =
     [
         new("free", "team", 420), new("team", "free", 90),
         new("team", "business", 260), new("business", "team", 70),
@@ -65,12 +65,12 @@
     #endregion
 
     #region CodeExample ChordDiagramChartTradeData
-    private readonly ChartGraphNode[] regions =
+    private readonly ChartGraphNode[] _regions =
     [
         new("eu", "Europe"), new("na", "North America"), new("as", "Asia"), new("sa", "South America"), new("af", "Africa")
     ];
 
-    private readonly ChartGraphLink[] trade =
+    private readonly ChartGraphLink[] _trade =
     [
         new("eu", "na", 620), new("as", "na", 540), new("as", "eu", 480),
         new("na", "sa", 90), new("eu", "af", 70), new("as", "af", 55), new("sa", "eu", 40)

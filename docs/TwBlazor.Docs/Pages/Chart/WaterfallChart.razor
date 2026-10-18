@@ -7,7 +7,7 @@
 
         <CodeExample Name="WaterfallChartBasic" CSharpName="WaterfallChartData">
             <TwChart Title="Profit bridge" Description="Thousands of pounds">
-                <TwWaterfallChart Data="@bridge" />
+                <TwWaterfallChart Data="@_bridge" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -17,7 +17,7 @@
 
         <CodeExample Name="WaterfallChartValues">
             <TwChart Title="Profit bridge">
-                <TwWaterfallChart Data="@bridge" ShowValues="true" />
+                <TwWaterfallChart Data="@_bridge" ShowValues="true" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -27,7 +27,7 @@
 
         <CodeExample Name="WaterfallChartLabels">
             <TwChart Title="Profit bridge">
-                <TwWaterfallChart Data="@bridge" TotalLabel="Profit" IncreaseLabel="Income" DecreaseLabel="Cost" />
+                <TwWaterfallChart Data="@_bridge" TotalLabel="Profit" IncreaseLabel="Income" DecreaseLabel="Cost" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -43,7 +43,7 @@
 
 @code {
     #region CodeExample WaterfallChartData
-    private readonly ChartValue[] bridge =
+    private readonly ChartValue[] _bridge =
     [
         new("Sales", 520),
         new("Services", 140),

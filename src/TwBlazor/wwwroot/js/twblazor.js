@@ -742,6 +742,88 @@ globalThis.twSlider = {
     }
 };
 
+// Numeric field: the stepping itself runs in C#, this only does what C# can't do per keystroke.
+// - Arrow Up/Down and Page Up/Down would move the caret or scroll the page, so their default is prevented.
+// - The wheel would scroll the page while it steps a focused field, so its default is prevented too.
+// - Before a step, a "change" is raised so Blazor commits any typed but uncommitted text first and the
+//   step starts from what the user sees, not from the last committed value.
+// - A printable key that the allowed pattern rejects is blocked. Pasted text is not, C# parses it instead.
+globalThis.twNumeric = {
+    _stepKeys: ['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown'],
+
+    _commit: function (el) {
+        el.dispatchEvent(new Event('change', { bubbles: true }));
+    },
+
+    _canStep: function (el) {
+        return !el.readOnly && !el.disabled;
+    },
+
+    attach: function (el, allowedPattern, wheelDisabled) {
+        if (!el) return;
+        globalThis.twNumeric.update(el, allowedPattern, wheelDisabled);
+        if (el.__twNumeric) return;
+
+        const keydown = function (e) {
+            if (e.ctrlKey || e.metaKey || e.altKey) return;
+
+            if (globalThis.twNumeric._stepKeys.includes(e.key)) {
+                e.preventDefault();
+                if (globalThis.twNumeric._canStep(el)) {
+                    globalThis.twNumeric._commit(el);
+                }
+                return;
+            }
+
+            const allowed = el.__twNumericAllowed;
+            if (allowed && e.key.length === 1 && !allowed.test(e.key)) {
+                e.preventDefault();
+            }
+        };
+
+        const wheel = function (e) {
+            if (document.activeElement !== el || !globalThis.twNumeric._canStep(el) || el.__twNumericWheelDisabled) return;
+            e.preventDefault();
+            globalThis.twNumeric._commit(el);
+        };
+
+        // Pressing a button keeps focus in the field, so the keys and wheel carry on working after a click.
+        const root = el.closest('[data-tw-numeric]');
+        const mousedown = function (e) {
+            if (!e.target.closest?.('[data-tw-field-button]')) return;
+            e.preventDefault();
+            if (document.activeElement === el) {
+                globalThis.twNumeric._commit(el);
+            }
+        };
+
+        el.__twNumeric = { keydown, wheel, root, mousedown };
+        el.addEventListener('keydown', keydown);
+        el.addEventListener('wheel', wheel, { passive: false });
+        root?.addEventListener('mousedown', mousedown);
+    },
+
+    update: function (el, allowedPattern, wheelDisabled) {
+        if (!el) return;
+        try {
+            el.__twNumericAllowed = allowedPattern ? new RegExp('^(?:' + allowedPattern + ')$', 'u') : null;
+        } catch {
+            el.__twNumericAllowed = null;
+        }
+        el.__twNumericWheelDisabled = !!wheelDisabled;
+    },
+
+    detach: function (el) {
+        if (!el?.__twNumeric) return;
+        el.removeEventListener('keydown', el.__twNumeric.keydown);
+        el.removeEventListener('wheel', el.__twNumeric.wheel);
+        el.__twNumeric.root?.removeEventListener('mousedown', el.__twNumeric.mousedown);
+        delete el.__twNumeric;
+        delete el.__twNumericAllowed;
+        delete el.__twNumericWheelDisabled;
+    }
+};
+
 // Tabs: prevents native scroll for the WAI-ARIA APG tablist navigation keys (arrows, Home, End)
 // without ever preventDefault-ing Tab, whose default action (moving focus out) must stay intact.
 // Runs alongside Blazor's own keydown binding (which does the actual tab-switching in C#); a

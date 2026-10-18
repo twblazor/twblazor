@@ -7,7 +7,7 @@
 
         <CodeExample Name="ParallelCoordinatesChartBasic" CSharpName="ParallelCoordinatesChartData">
             <TwChart Title="Laptop comparison" Description="Score out of 10">
-                <TwParallelCoordinatesChart Categories="@attributes" Series="@laptops" />
+                <TwParallelCoordinatesChart Categories="@_attributes" Series="@_laptops" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -17,7 +17,7 @@
 
         <CodeExample Name="ParallelCoordinatesChartUnits" CSharpName="ParallelCoordinatesChartUnitsData">
             <TwChart Title="Car comparison">
-                <TwParallelCoordinatesChart Categories="@specs" Series="@cars" CategoryHeader="Specification" />
+                <TwParallelCoordinatesChart Categories="@_specs" Series="@_cars" CategoryHeader="Specification" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -37,9 +37,9 @@
 
 @code {
     #region CodeExample ParallelCoordinatesChartData
-    private readonly string[] attributes = ["Battery", "Display", "Speed", "Weight", "Price"];
+    private readonly string[] _attributes = ["Battery", "Display", "Speed", "Weight", "Price"];
 
-    private readonly ChartSeries[] laptops =
+    private readonly ChartSeries[] _laptops =
     [
         new("Aero 13", [9, 7, 6, 9, 5]),
         new("Titan 16", [5, 9, 9, 4, 6])
@@ -47,9 +47,9 @@
     #endregion
 
     #region CodeExample ParallelCoordinatesChartUnitsData
-    private readonly string[] specs = ["Price (£k)", "Range (miles)", "0-60 (s)", "Boot (litres)"];
+    private readonly string[] _specs = ["Price (£k)", "Range (miles)", "0-60 (s)", "Boot (litres)"];
 
-    private readonly ChartSeries[] cars =
+    private readonly ChartSeries[] _cars =
     [
         new("Volt", [32, 250, 7.9, 380]),
         new("Halo", [45, 330, 5.6, 420]),

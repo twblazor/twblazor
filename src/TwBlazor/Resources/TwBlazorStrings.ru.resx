@@ -666,4 +666,16 @@
   <data name="Rating_ReadOnly" xml:space="preserve">
     <value>Оценка {0} из {1}</value>
   </data>
+  <data name="Numeric_Increase" xml:space="preserve">
+    <value>Увеличить значение</value>
+  </data>
+  <data name="Numeric_Decrease" xml:space="preserve">
+    <value>Уменьшить значение</value>
+  </data>
+  <data name="Textfield_Clear" xml:space="preserve">
+    <value>Очистить значение</value>
+  </data>
+  <data name="Numeric_Invalid" xml:space="preserve">
+    <value>Введите допустимое число.</value>
+  </data>
 </root>

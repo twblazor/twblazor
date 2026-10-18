@@ -20,7 +20,7 @@ public class ShowcasePageTests : DocsTestBase
 
     private static ShowcaseBrand Brand(string slug) => ShowcaseBrand.All.Single(brand => brand.Slug == slug);
 
-    private TwBlazorOptions Options => TestContext.Services.GetRequiredService<TwBlazorOptions>();
+    private TwBlazorOptions options => TestContext.Services.GetRequiredService<TwBlazorOptions>();
 
     private IRenderedComponent<IComponent> Render(ShowcaseBrand brand, bool interactive = true)
     {
@@ -120,7 +120,7 @@ public class ShowcasePageTests : DocsTestBase
         var brand = Brand(slug);
         var cut = Render(brand);
 
-        Assert.Same(brand.Theme, Options.Theme);
+        Assert.Same(brand.Theme, options.Theme);
         Assert.Equal(brand.Stylesheet, cut.Find("link[rel='stylesheet']").GetAttribute("href"));
         Assert.Single(cut.FindAll("h1"));
         Assert.Equal(brand.Products.Count, cut.FindAll("#showcase-products article :is(h3, h4)").Count);
@@ -247,7 +247,7 @@ public class ShowcasePageTests : DocsTestBase
         var cut = Render(brand);
 
         Assert.Contains($"@page \"{brand.Path}\"", cut.Find("#showcase-razor pre code").TextContent);
-        Assert.Contains("<ShowcasePage Brand=\"brand\">", cut.Find("#showcase-razor pre code").TextContent);
+        Assert.Contains("<ShowcasePage Brand=\"_brand\">", cut.Find("#showcase-razor pre code").TextContent);
         Assert.Equal(["Showcase.razor", "Theme.cs"], cut.FindAll("#showcase-theme [role='tab']").Select(tab => tab.TextContent.Trim()));
         Assert.Contains("Showcase.razor", cut.Find("#showcase-razor").TextContent);
     }
@@ -338,7 +338,7 @@ public class ShowcasePageTests : DocsTestBase
     {
         var cut = Render(ShowcaseBrand.Lego, interactive: false);
 
-        Assert.Same(Theme, Options.Theme);
+        Assert.Same(Theme, options.Theme);
         Assert.Contains("Loading the LEGO-inspired theme", cut.Find("[role='status']").TextContent);
         Assert.Empty(cut.FindAll("h1"));
         Assert.Equal(ShowcaseBrand.Disclaimer, cut.Find("#showcase-disclaimer").TextContent);
@@ -348,25 +348,25 @@ public class ShowcasePageTests : DocsTestBase
     public async Task Page_PutsTheSiteThemeBack_WhenTheVisitorLeaves()
     {
         Render(ShowcaseBrand.Tesco);
-        Assert.Same(ShowcaseBrand.Tesco.Theme, Options.Theme);
+        Assert.Same(ShowcaseBrand.Tesco.Theme, options.Theme);
 
         await TestContext.DisposeComponentsAsync();
 
-        Assert.Same(Theme, Options.Theme);
+        Assert.Same(Theme, options.Theme);
     }
 
     [Fact]
     public void ThemeSwitcher_KeepsTheNextPagesTheme_WhenOneShowcasePageReplacesAnother()
     {
-        ShowcaseThemeSwitcher.Apply(Options, ShowcaseBrand.Apple);
+        ShowcaseThemeSwitcher.Apply(options, ShowcaseBrand.Apple);
 
         // The page being navigated to starts before the page being left is disposed.
-        ShowcaseThemeSwitcher.Apply(Options, ShowcaseBrand.Tesco);
-        ShowcaseThemeSwitcher.Restore(Options, ShowcaseBrand.Apple);
-        Assert.Same(ShowcaseBrand.Tesco.Theme, Options.Theme);
+        ShowcaseThemeSwitcher.Apply(options, ShowcaseBrand.Tesco);
+        ShowcaseThemeSwitcher.Restore(options, ShowcaseBrand.Apple);
+        Assert.Same(ShowcaseBrand.Tesco.Theme, options.Theme);
 
-        ShowcaseThemeSwitcher.Restore(Options, ShowcaseBrand.Tesco);
-        Assert.Same(Theme, Options.Theme);
+        ShowcaseThemeSwitcher.Restore(options, ShowcaseBrand.Tesco);
+        Assert.Same(Theme, options.Theme);
     }
 
     [Theory]

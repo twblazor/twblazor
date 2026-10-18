@@ -7,7 +7,7 @@
 
         <CodeExample Name="BoxPlotChartBasic" CSharpName="BoxPlotChartData">
             <TwChart Title="Response times by service" Description="Milliseconds">
-                <TwBoxPlotChart Samples="@services" />
+                <TwBoxPlotChart Samples="@_services" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -17,7 +17,7 @@
 
         <CodeExample Name="BoxPlotChartHorizontal">
             <TwChart Title="Response times by service">
-                <TwBoxPlotChart Samples="@services" Horizontal="true" Height="ChartHeight.Small" />
+                <TwBoxPlotChart Samples="@_services" Horizontal="true" Height="ChartHeight.Small" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -33,7 +33,7 @@
 
 @code {
     #region CodeExample BoxPlotChartData
-    private readonly ChartSample[] services =
+    private readonly ChartSample[] _services =
     [
         new("Search", [112, 120, 131, 135, 138, 142, 144, 149, 151, 153, 290]),
         new("Checkout", [156, 158, 160, 163, 167, 170, 172, 176, 181, 185]),

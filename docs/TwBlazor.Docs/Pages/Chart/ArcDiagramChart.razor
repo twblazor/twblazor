@@ -7,7 +7,7 @@
 
         <CodeExample Name="ArcDiagramChartBasic" CSharpName="ArcDiagramChartData">
             <TwChart Title="Related topics">
-                <TwArcDiagramChart Nodes="@topics" Links="@related" />
+                <TwArcDiagramChart Nodes="@_topics" Links="@_related" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -17,7 +17,7 @@
 
         <CodeExample Name="ArcDiagramChartClusters" CSharpName="ArcDiagramChartClustersData">
             <TwChart Title="Who reviews whose code" Description="Two squads and the reviews between them">
-                <TwArcDiagramChart Nodes="@engineers" Links="@reviews" SourceHeader="Author" TargetHeader="Reviewer" ValueHeader="Reviews" Height="ChartHeight.Large" />
+                <TwArcDiagramChart Nodes="@_engineers" Links="@_reviews" SourceHeader="Author" TargetHeader="Reviewer" ValueHeader="Reviews" Height="ChartHeight.Large" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -27,7 +27,7 @@
 
         <CodeExample Name="ArcDiagramChartSequence" CSharpName="ArcDiagramChartSequenceData">
             <TwChart Title="Chapters that refer to one another">
-                <TwArcDiagramChart Nodes="@chapters" Links="@references" ShowTableToggle="false" Height="ChartHeight.Small" />
+                <TwArcDiagramChart Nodes="@_chapters" Links="@_references" ShowTableToggle="false" Height="ChartHeight.Small" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -47,19 +47,19 @@
 
 @code {
     #region CodeExample ArcDiagramChartData
-    private readonly ChartGraphNode[] topics = [new("a", "Layout"), new("b", "Color"), new("c", "Type"), new("d", "Motion")];
+    private readonly ChartGraphNode[] _topics = [new("a", "Layout"), new("b", "Color"), new("c", "Type"), new("d", "Motion")];
 
-    private readonly ChartGraphLink[] related = [new("a", "b", 2), new("a", "c", 1), new("b", "c", 3), new("a", "d", 1)];
+    private readonly ChartGraphLink[] _related = [new("a", "b", 2), new("a", "c", 1), new("b", "c", 3), new("a", "d", 1)];
     #endregion
 
     #region CodeExample ArcDiagramChartClustersData
-    private readonly ChartGraphNode[] engineers =
+    private readonly ChartGraphNode[] _engineers =
     [
         new("ana", "Ana"), new("bo", "Bo"), new("cy", "Cy"), new("di", "Di"),
         new("eli", "Eli"), new("fay", "Fay"), new("gus", "Gus"), new("hal", "Hal")
     ];
 
-    private readonly ChartGraphLink[] reviews =
+    private readonly ChartGraphLink[] _reviews =
     [
         new("ana", "bo", 14), new("bo", "cy", 9), new("cy", "di", 11), new("ana", "cy", 6), new("bo", "di", 4),
         new("eli", "fay", 12), new("fay", "gus", 8), new("gus", "hal", 10), new("eli", "gus", 5),
@@ -68,11 +68,11 @@
     #endregion
 
     #region CodeExample ArcDiagramChartSequenceData
-    private readonly ChartGraphNode[] chapters =
+    private readonly ChartGraphNode[] _chapters =
     [
         new("1", "Ch. 1"), new("2", "Ch. 2"), new("3", "Ch. 3"), new("4", "Ch. 4"), new("5", "Ch. 5"), new("6", "Ch. 6")
     ];
 
-    private readonly ChartGraphLink[] references = [new("1", "2"), new("2", "3"), new("1", "5"), new("3", "4"), new("4", "6"), new("2", "6")];
+    private readonly ChartGraphLink[] _references = [new("1", "2"), new("2", "3"), new("1", "5"), new("3", "4"), new("4", "6"), new("2", "6")];
     #endregion
 }

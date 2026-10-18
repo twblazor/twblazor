@@ -666,4 +666,16 @@
   <data name="Rating_ReadOnly" xml:space="preserve">
     <value>評価 {1} 中 {0}</value>
   </data>
+  <data name="Numeric_Increase" xml:space="preserve">
+    <value>値を増やす</value>
+  </data>
+  <data name="Numeric_Decrease" xml:space="preserve">
+    <value>値を減らす</value>
+  </data>
+  <data name="Textfield_Clear" xml:space="preserve">
+    <value>値をクリア</value>
+  </data>
+  <data name="Numeric_Invalid" xml:space="preserve">
+    <value>有効な数値を入力してください。</value>
+  </data>
 </root>

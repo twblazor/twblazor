@@ -13,9 +13,9 @@ namespace TwBlazor.Tests.Components.Calendar;
 /// </summary>
 public class TwCalendarDialogPropertiesTests : TwBlazorTestBase
 {
-    private static readonly DateTime day = new(2026, 3, 18);
+    private static readonly DateTime _day = new(2026, 3, 18);
 
-    private static readonly Dictionary<string, string> properties = new()
+    private static readonly Dictionary<string, string> _properties = new()
     {
         ["Notes"] = "Notes",
         ["Attendees"] = "Guests",
@@ -27,8 +27,8 @@ public class TwCalendarDialogPropertiesTests : TwBlazorTestBase
     private static Schedule<EventDetailsStub> Event(bool readOnly = false) => new()
     {
         Name = "Design review",
-        DateTimeStart = new DateTimeOffset(day.AddHours(10), TimeSpan.Zero),
-        DateTimeEnd = new DateTimeOffset(day.AddHours(11), TimeSpan.Zero),
+        DateTimeStart = new DateTimeOffset(_day.AddHours(10), TimeSpan.Zero),
+        DateTimeEnd = new DateTimeOffset(_day.AddHours(11), TimeSpan.Zero),
         ReadOnly = readOnly,
         Value = new EventDetailsStub { Notes = "Bring the mockups", Attendees = 4, IsOnline = true, Priority = EventPriority.High }
     };
@@ -42,10 +42,10 @@ public class TwCalendarDialogPropertiesTests : TwBlazorTestBase
         Action<List<Schedule<EventDetailsStub>>>? onChanged = null) =>
         TestContext.Render<TwCalendar<EventDetailsStub>>(p =>
         {
-            p.Add(x => x.SelectedDate, day)
+            p.Add(x => x.SelectedDate, _day)
              .Add(x => x.View, TwCalendarView.Day)
              .Add(x => x.Editable, editable)
-             .Add(x => x.DialogProperties, dialogProperties ?? properties)
+             .Add(x => x.DialogProperties, dialogProperties ?? _properties)
              .Add(x => x.Schedules, schedules);
 
             if (onChanged is not null)

@@ -368,7 +368,7 @@
                         <div>
                             <dt class="text-xs font-semibold uppercase tracking-wide text-gray-600 dark:text-gray-400">Theme</dt>
                             <dd class="mt-2 flex flex-wrap gap-1.5">
-                                @foreach (var themeClass in MergeThemeClasses)
+                                @foreach (var themeClass in mergeThemeClassResults)
                                 {
                                     if (themeClass.Kept)
                                     {
@@ -400,9 +400,9 @@
 
                     <div class="mt-5 rounded-xl border border-purple-200/70 bg-purple-50/60 p-4 dark:border-white/10 dark:bg-white/5" aria-live="polite">
                         <p class="text-xs font-semibold uppercase tracking-wide text-gray-600 dark:text-gray-400">Rendered</p>
-                        <p id="merge-result" class="mt-2 font-mono text-sm break-words text-purple-950 dark:text-purple-100">@MergedClasses</p>
+                        <p id="merge-result" class="mt-2 font-mono text-sm break-words text-purple-950 dark:text-purple-100">@mergedClasses</p>
                         <div class="mt-4 flex min-h-14 items-center justify-center rounded-lg border border-dashed border-purple-300/70 bg-white p-3 dark:border-white/15 dark:bg-gray-950">
-                            <span id="merge-preview" class="@MergedClasses">Save changes</span>
+                            <span id="merge-preview" class="@mergedClasses">Save changes</span>
                         </div>
                     </div>
                 </div>

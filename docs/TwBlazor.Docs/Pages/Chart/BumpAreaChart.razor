@@ -7,7 +7,7 @@
 
         <CodeExample Name="BumpAreaChartBasic" CSharpName="BumpAreaChartData">
             <TwChart Title="Market share by platform" Description="Percent">
-                <TwBumpAreaChart Categories="@years" Series="@platforms" />
+                <TwBumpAreaChart Categories="@_years" Series="@_platforms" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -17,7 +17,7 @@
 
         <CodeExample Name="BumpAreaChartRace" CSharpName="BumpAreaChartRaceData">
             <TwChart Title="Browser usage" Description="Percent of sessions">
-                <TwBumpAreaChart Categories="@quarters" Series="@browsers" CategoryHeader="Quarter" ValueFormat="0'%'" Height="ChartHeight.Large" />
+                <TwBumpAreaChart Categories="@_quarters" Series="@_browsers" CategoryHeader="Quarter" ValueFormat="0'%'" Height="ChartHeight.Large" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -27,7 +27,7 @@
 
         <CodeExample Name="BumpAreaChartGaps" CSharpName="BumpAreaChartGapsData">
             <TwChart Title="Revenue by product line" Description="Millions of pounds">
-                <TwBumpAreaChart Categories="@years" Series="@products" ValueFormat="C1" />
+                <TwBumpAreaChart Categories="@_years" Series="@_products" ValueFormat="C1" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -47,9 +47,9 @@
 
 @code {
     #region CodeExample BumpAreaChartData
-    private readonly string[] years = ["2021", "2022", "2023", "2024", "2025"];
+    private readonly string[] _years = ["2021", "2022", "2023", "2024", "2025"];
 
-    private readonly ChartSeries[] platforms =
+    private readonly ChartSeries[] _platforms =
     [
         new("Atlas", [42, 38, 33, 30, 26]),
         new("Beacon", [30, 32, 36, 39, 44]),
@@ -58,9 +58,9 @@
     #endregion
 
     #region CodeExample BumpAreaChartRaceData
-    private readonly string[] quarters = ["Q1 23", "Q2 23", "Q3 23", "Q4 23", "Q1 24", "Q2 24", "Q3 24", "Q4 24"];
+    private readonly string[] _quarters = ["Q1 23", "Q2 23", "Q3 23", "Q4 23", "Q1 24", "Q2 24", "Q3 24", "Q4 24"];
 
-    private readonly ChartSeries[] browsers =
+    private readonly ChartSeries[] _browsers =
     [
         new("Falcon", [38, 36, 33, 30, 27, 25, 22, 20]),
         new("Otter", [24, 26, 29, 32, 35, 37, 40, 43]),
@@ -71,7 +71,7 @@
     #endregion
 
     #region CodeExample BumpAreaChartGapsData
-    private readonly ChartSeries[] products =
+    private readonly ChartSeries[] _products =
     [
         new("Hardware", [4.2, 4.0, 3.6, 3.1, 2.8]),
         new("Software", [2.1, 2.9, 3.8, 4.6, 5.2]),

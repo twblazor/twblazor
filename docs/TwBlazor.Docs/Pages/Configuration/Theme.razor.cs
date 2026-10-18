@@ -241,7 +241,7 @@ public partial class Theme
 
     private List<ThemePreset> filteredPresets = [];
 
-    private List<ThemePreset> FilterPresets() => [.. ThemePreset._all.Where(preset => toneFilter is null || preset.Tone == toneFilter)];
+    private List<ThemePreset> FilterPresets() => [.. ThemePreset.All.Where(preset => toneFilter is null || preset.Tone == toneFilter)];
 
     private int presetPageCount => Math.Max(1, (int)Math.Ceiling(filteredPresets.Count / (double)presetsPerPage));
 

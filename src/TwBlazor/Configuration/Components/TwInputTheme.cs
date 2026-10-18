@@ -76,6 +76,46 @@ public class TwInputTheme
     public string MultilineAutoGrow { get; set; } = string.Empty;
 
     /// <summary>
+    /// Gets or sets the classes for the box that wraps a single-line text field when it has content drawn over it
+    /// (<see cref="TwBlazor.Components.TwTextfield{T}.StartContent"/>, <see cref="TwBlazor.Components.TwTextfield{T}.EndContent"/>
+    /// or the clear button).
+    /// </summary>
+    public string FieldWrapper { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes for the area over the start of a text field that holds its
+    /// <see cref="TwBlazor.Components.TwTextfield{T}.StartContent"/>. It is given the height of the field.
+    /// </summary>
+    public string FieldStartContent { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes for the row over the end of a text field that holds its
+    /// <see cref="TwBlazor.Components.TwTextfield{T}.EndContent"/> and clear button. It is given the height of the field.
+    /// </summary>
+    /// <remarks>
+    /// Keep the gap between items at 0.25rem (<c>gap-1</c>): <see cref="TwBlazor.Components.TwNumeric{T}"/> widens its
+    /// padding by that much per item.
+    /// </remarks>
+    public string FieldEndContent { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the end padding that keeps a clearable text field's text clear of its clear button
+    /// (<see cref="TwBlazor.Components.TwTextfield{T}.Clearable"/>).
+    /// </summary>
+    public string ClearablePadding { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes for a text field's clear button, including its hover and disabled states. It is 2rem wide and as tall
+    /// as the field.
+    /// </summary>
+    public string ClearButton { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes for the icon inside a text field's clear button.
+    /// </summary>
+    public string ClearButtonIcon { get; set; } = string.Empty;
+
+    /// <summary>
     /// Gets or sets the classes applied to each <c>&lt;option&gt;</c> in a select.
     /// </summary>
     public required string SelectOption { get; set; }

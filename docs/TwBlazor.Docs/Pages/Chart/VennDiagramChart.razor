@@ -7,7 +7,7 @@
 
         <CodeExample Name="VennDiagramChartBasic" CSharpName="VennDiagramChartData">
             <TwChart Title="Skills on the team" Description="People with each skill">
-                <TwVennDiagramChart Sets="@skills" Intersections="@sharedSkills" />
+                <TwVennDiagramChart Sets="@_skills" Intersections="@_sharedSkills" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -17,7 +17,7 @@
 
         <CodeExample Name="VennDiagramChartTwo" CSharpName="VennDiagramChartTwoData">
             <TwChart Title="Newsletter and app users" Description="Thousands of customers">
-                <TwVennDiagramChart Sets="@audiences" Intersections="@sharedAudience" LabelHeader="Audience" ValueHeader="Customers" Height="ChartHeight.Small" />
+                <TwVennDiagramChart Sets="@_audiences" Intersections="@_sharedAudience" LabelHeader="Audience" ValueHeader="Customers" Height="ChartHeight.Small" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -27,7 +27,7 @@
 
         <CodeExample Name="VennDiagramChartPartial" CSharpName="VennDiagramChartPartialData">
             <TwChart Title="Features used last month" Description="Accounts">
-                <TwVennDiagramChart Sets="@features" Intersections="@sharedFeatures" ValueFormat="#,0" />
+                <TwVennDiagramChart Sets="@_features" Intersections="@_sharedFeatures" ValueFormat="#,0" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -47,9 +47,9 @@
 
 @code {
     #region CodeExample VennDiagramChartData
-    private readonly ChartSet[] skills = [new("Research", 38), new("Design", 32), new("Engineering", 44)];
+    private readonly ChartSet[] _skills = [new("Research", 38), new("Design", 32), new("Engineering", 44)];
 
-    private readonly ChartSetIntersection[] sharedSkills =
+    private readonly ChartSetIntersection[] _sharedSkills =
     [
         new("Research", "Design", 14),
         new("Design", "Engineering", 9),
@@ -58,14 +58,14 @@
     #endregion
 
     #region CodeExample VennDiagramChartTwoData
-    private readonly ChartSet[] audiences = [new("Newsletter", 120), new("App", 85)];
+    private readonly ChartSet[] _audiences = [new("Newsletter", 120), new("App", 85)];
 
-    private readonly ChartSetIntersection[] sharedAudience = [new("App", "Newsletter", 40)];
+    private readonly ChartSetIntersection[] _sharedAudience = [new("App", "Newsletter", 40)];
     #endregion
 
     #region CodeExample VennDiagramChartPartialData
-    private readonly ChartSet[] features = [new("Reports", 2400), new("Exports", 1100), new("Alerts", 860)];
+    private readonly ChartSet[] _features = [new("Reports", 2400), new("Exports", 1100), new("Alerts", 860)];
 
-    private readonly ChartSetIntersection[] sharedFeatures = [new("Reports", "Exports", 940), new("Reports", "Alerts", 310)];
+    private readonly ChartSetIntersection[] _sharedFeatures = [new("Reports", "Exports", 940), new("Reports", "Alerts", 310)];
     #endregion
 }

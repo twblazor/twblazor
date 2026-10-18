@@ -7,7 +7,7 @@
 
         <CodeExample Name="AreaChartBasic" CSharpName="AreaChartData">
             <TwChart Title="Monthly visitors" Description="Thousands">
-                <TwAreaChart Categories="@months" Series="@organic" />
+                <TwAreaChart Categories="@_months" Series="@_organic" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -17,7 +17,7 @@
 
         <CodeExample Name="AreaChartStacked" CSharpName="AreaChartStackedData">
             <TwChart Title="Monthly visitors by channel">
-                <TwAreaChart Categories="@months" Series="@visitors" Stacked="true" />
+                <TwAreaChart Categories="@_months" Series="@_visitors" Stacked="true" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -27,7 +27,7 @@
 
         <CodeExample Name="AreaChartSmooth">
             <TwChart Title="Monthly visitors">
-                <TwAreaChart Categories="@months" Series="@organic" Curve="ChartCurve.Smooth" />
+                <TwAreaChart Categories="@_months" Series="@_organic" Curve="ChartCurve.Smooth" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -37,7 +37,7 @@
 
         <CodeExample Name="AreaChartOverlap">
             <TwChart Title="Monthly visitors by channel">
-                <TwAreaChart Categories="@months" Series="@visitors" />
+                <TwAreaChart Categories="@_months" Series="@_visitors" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -53,13 +53,13 @@
 
 @code {
     #region CodeExample AreaChartData
-    private readonly string[] months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
+    private readonly string[] _months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
 
-    private readonly ChartSeries[] organic = [new("Organic", [42, 48, 55, 61, 58, 70])];
+    private readonly ChartSeries[] _organic = [new("Organic", [42, 48, 55, 61, 58, 70])];
     #endregion
 
     #region CodeExample AreaChartStackedData
-    private readonly ChartSeries[] visitors =
+    private readonly ChartSeries[] _visitors =
     [
         new("Organic", [42, 48, 55, 61, 58, 70]),
         new("Paid", [30, 34, 31, 45, 52, 49]),

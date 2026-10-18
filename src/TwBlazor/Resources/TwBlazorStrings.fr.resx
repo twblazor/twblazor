@@ -663,4 +663,16 @@
   <data name="Rating_ReadOnly" xml:space="preserve">
     <value>Noté {0} sur {1}</value>
   </data>
+  <data name="Numeric_Increase" xml:space="preserve">
+    <value>Augmenter la valeur</value>
+  </data>
+  <data name="Numeric_Decrease" xml:space="preserve">
+    <value>Diminuer la valeur</value>
+  </data>
+  <data name="Textfield_Clear" xml:space="preserve">
+    <value>Effacer la valeur</value>
+  </data>
+  <data name="Numeric_Invalid" xml:space="preserve">
+    <value>Saisissez un nombre valide.</value>
+  </data>
 </root>

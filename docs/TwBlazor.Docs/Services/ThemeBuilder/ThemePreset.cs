@@ -53,7 +53,7 @@ internal sealed record ThemePreset(string Name, string Description, ThemeTone To
     /// <summary>
     /// The example themes, with the default (purple) theme first.
     /// </summary>
-    public static readonly IReadOnlyList<ThemePreset> _all =
+    public static readonly IReadOnlyList<ThemePreset> All =
     [
         new("Purple", "The default theme", ThemeTone.Purple, ThemeColorFamily.All.ToDictionary(f => f.Name, f => f.DefaultHex), ThemeDefaults.Default, ThemeSurfaces.Default),
 

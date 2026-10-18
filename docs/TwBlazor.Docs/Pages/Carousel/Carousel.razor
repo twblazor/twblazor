@@ -22,7 +22,7 @@
         <Description>When a slide's content (e.g. an <code>&lt;img&gt;</code>) doesn't match the carousel's aspect ratio, use Tailwind's <code>object-fit</code> utilities to control how it fills the slide's <code>h-full w-full</code> space.</Description>
         <CodeExample Name="CarouselObjectFit" CSharpName="CarouselObjectFitCode">
             <div class="flex flex-wrap gap-2 mb-4">
-                @foreach (var fit in objectFitOptions)
+                @foreach (var fit in _objectFitOptions)
                 {
                     <TwButton Label="@fit.Label" Color="Color.Primary" Variant="@(selectedObjectFit == fit.Class ? ButtonVariant.Filled : ButtonVariant.Outlined)" OnClick="@(() => selectedObjectFit = fit.Class)" />
                 }
@@ -191,7 +191,7 @@
     private int selectedIndex;
 
     #region CodeExample CarouselObjectFitCode
-    private static readonly (string Label, string Class)[] objectFitOptions =
+    private static readonly (string Label, string Class)[] _objectFitOptions =
     [
         ("Cover", "object-cover"),
         ("Contain", "object-contain"),

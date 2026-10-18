@@ -214,7 +214,7 @@
     private const int pageSize = 3;
     private int activePage = 1;
 
-    private readonly List<(string Name, string Category, int Price)> products = new()
+    private readonly List<(string Name, string Category, int Price)> _products = new()
     {
         ("Apple MacBook Pro 17\"", "Laptop", 2999),
         ("Microsoft Surface Pro", "Laptop", 1999),
@@ -226,9 +226,9 @@
         ("AirPods Pro", "Accessories", 249),
     };
 
-    private int totalPages => (int)Math.Ceiling(products.Count / (double)pageSize);
+    private int totalPages => (int)Math.Ceiling(_products.Count / (double)pageSize);
 
     private IEnumerable<(string Name, string Category, int Price)> pagedProducts =>
-        products.Skip((activePage - 1) * pageSize).Take(pageSize);
+        _products.Skip((activePage - 1) * pageSize).Take(pageSize);
     #endregion
 }

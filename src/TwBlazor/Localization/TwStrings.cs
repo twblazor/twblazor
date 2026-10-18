@@ -121,6 +121,18 @@ public static class TwStrings
     /// <summary>The key for "Rated {0} out of {1}", the accessible name of a read-only rating.</summary>
     public const string Rating_ReadOnly = "Rating_ReadOnly";
 
+    /// <summary>The key for "Increase value", the accessible name of a numeric field's increase button.</summary>
+    public const string Numeric_Increase = "Numeric_Increase";
+
+    /// <summary>The key for "Decrease value", the accessible name of a numeric field's decrease button.</summary>
+    public const string Numeric_Decrease = "Numeric_Decrease";
+
+    /// <summary>The key for "Clear value", the accessible name of a text field's clear button.</summary>
+    public const string Textfield_Clear = "Textfield_Clear";
+
+    /// <summary>The key for "Enter a valid number.", shown when a numeric field holds text that is not a number.</summary>
+    public const string Numeric_Invalid = "Numeric_Invalid";
+
     /// <summary>The key for "Barcode: {0}", the accessible name of a barcode.</summary>
     public const string Barcode_Label = "Barcode_Label";
 

@@ -10,7 +10,7 @@
         </Description>
 
         <CodeExample Name="OnThisPageBasic" CSharpName="OnThisPageBasicCode">
-            <TwOnThisPage Items="@sections" BasePath="/on-this-page" Class="max-w-xs" />
+            <TwOnThisPage Items="@_sections" BasePath="/on-this-page" Class="max-w-xs" />
         </CodeExample>
     </PageCard>
 
@@ -21,7 +21,7 @@
         </Description>
 
         <CodeExample Name="OnThisPageBasePath">
-            <TwOnThisPage Items="@sections" BasePath="/on-this-page" Class="max-w-xs" />
+            <TwOnThisPage Items="@_sections" BasePath="/on-this-page" Class="max-w-xs" />
         </CodeExample>
     </PageCard>
 
@@ -32,7 +32,7 @@
         </Description>
 
         <CodeExample Name="OnThisPageTitle">
-            <TwOnThisPage Items="@sections" BasePath="/on-this-page" Title="Contents" HeadingLevel="3" Class="max-w-xs" />
+            <TwOnThisPage Items="@_sections" BasePath="/on-this-page" Title="Contents" HeadingLevel="3" Class="max-w-xs" />
         </CodeExample>
     </PageCard>
 
@@ -43,7 +43,7 @@
         </Description>
 
         <CodeExample Name="OnThisPageHideTitle">
-            <TwOnThisPage Items="@sections" BasePath="/on-this-page" HideTitle Class="max-w-xs" />
+            <TwOnThisPage Items="@_sections" BasePath="/on-this-page" HideTitle Class="max-w-xs" />
         </CodeExample>
     </PageCard>
 
@@ -54,14 +54,14 @@
         </Description>
 
         <CodeExample Name="OnThisPageOffset">
-            <TwOnThisPage Items="@sections" BasePath="/on-this-page" Offset="240" Class="max-w-xs" />
+            <TwOnThisPage Items="@_sections" BasePath="/on-this-page" Offset="240" Class="max-w-xs" />
         </CodeExample>
     </PageCard>
 </PageContainer>
 
 @code {
     #region CodeExample OnThisPageBasicCode
-    private readonly List<OnThisPageItem> sections =
+    private readonly List<OnThisPageItem> _sections =
     [
         new("basic-usage", "Basic usage"),
         new("link-paths", "Link paths"),

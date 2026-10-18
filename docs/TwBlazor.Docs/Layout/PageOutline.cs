@@ -15,12 +15,12 @@ public sealed record PageOutlineItem(string Id, string Title);
 /// </summary>
 public sealed class PageOutline
 {
-    private readonly List<PageOutlineItem> items = [];
+    private readonly List<PageOutlineItem> _items = [];
 
     /// <summary>
     /// The registered sections, in the order they were registered.
     /// </summary>
-    public IReadOnlyList<PageOutlineItem> Items => items;
+    public IReadOnlyList<PageOutlineItem> Items => _items;
 
     /// <summary>
     /// Raised after a section is added or removed.
@@ -40,12 +40,12 @@ public sealed class PageOutline
 
         var suffix = 2;
 
-        while (items.Exists(item => item.Id == uniqueId))
+        while (_items.Exists(item => item.Id == uniqueId))
         {
             uniqueId = $"{baseId}-{suffix++}";
         }
 
-        items.Add(new PageOutlineItem(uniqueId, title));
+        _items.Add(new PageOutlineItem(uniqueId, title));
         Changed?.Invoke();
         return uniqueId;
     }
@@ -56,7 +56,7 @@ public sealed class PageOutline
     /// <param name="id">The id returned by <see cref="Register"/>.</param>
     public void Unregister(string id)
     {
-        if (items.RemoveAll(item => item.Id == id) > 0)
+        if (_items.RemoveAll(item => item.Id == id) > 0)
         {
             Changed?.Invoke();
         }

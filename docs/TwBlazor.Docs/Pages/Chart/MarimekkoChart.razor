@@ -7,7 +7,7 @@
 
         <CodeExample Name="MarimekkoChartBasic" CSharpName="MarimekkoChartData">
             <TwChart Title="Sales by region and product" Description="Thousands of pounds">
-                <TwMarimekkoChart Categories="@regions" Series="@products" />
+                <TwMarimekkoChart Categories="@_regions" Series="@_products" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -17,7 +17,7 @@
 
         <CodeExample Name="MarimekkoChartMarket" CSharpName="MarimekkoChartMarketData">
             <TwChart Title="Cloud spend by industry and provider" Description="Millions of pounds per year">
-                <TwMarimekkoChart Categories="@industries" Series="@providers" CategoryHeader="Industry" ValueFormat="C0" Height="ChartHeight.Large" />
+                <TwMarimekkoChart Categories="@_industries" Series="@_providers" CategoryHeader="Industry" ValueFormat="C0" Height="ChartHeight.Large" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -27,7 +27,7 @@
 
         <CodeExample Name="MarimekkoChartUneven" CSharpName="MarimekkoChartUnevenData">
             <TwChart Title="Support tickets by channel and outcome">
-                <TwMarimekkoChart Categories="@channels" Series="@outcomes" CategoryHeader="Channel" />
+                <TwMarimekkoChart Categories="@_channels" Series="@_outcomes" CategoryHeader="Channel" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -47,9 +47,9 @@
 
 @code {
     #region CodeExample MarimekkoChartData
-    private readonly string[] regions = ["North", "South", "West"];
+    private readonly string[] _regions = ["North", "South", "West"];
 
-    private readonly ChartSeries[] products =
+    private readonly ChartSeries[] _products =
     [
         new("Core", [50, 30, 20]),
         new("Plus", [25, 40, 35]),
@@ -58,9 +58,9 @@
     #endregion
 
     #region CodeExample MarimekkoChartMarketData
-    private readonly string[] industries = ["Finance", "Retail", "Healthcare", "Media", "Public sector"];
+    private readonly string[] _industries = ["Finance", "Retail", "Healthcare", "Media", "Public sector"];
 
-    private readonly ChartSeries[] providers =
+    private readonly ChartSeries[] _providers =
     [
         new("Northwind", [420, 180, 150, 60, 90]),
         new("Contoso", [260, 240, 90, 110, 40]),
@@ -70,9 +70,9 @@
     #endregion
 
     #region CodeExample MarimekkoChartUnevenData
-    private readonly string[] channels = ["Email", "Chat", "Phone", "Post"];
+    private readonly string[] _channels = ["Email", "Chat", "Phone", "Post"];
 
-    private readonly ChartSeries[] outcomes =
+    private readonly ChartSeries[] _outcomes =
     [
         new("Solved first time", [640, 410, 95, 4]),
         new("Solved later", [280, 120, 60, 9]),

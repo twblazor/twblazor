@@ -7,7 +7,7 @@
 
         <CodeExample Name="FunnelChartBasic" CSharpName="FunnelChartData">
             <TwChart Title="Checkout funnel">
-                <TwFunnelChart Data="@funnel" LabelHeader="Stage" ValueHeader="Visitors" />
+                <TwFunnelChart Data="@_funnel" LabelHeader="Stage" ValueHeader="Visitors" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -17,7 +17,7 @@
 
         <CodeExample Name="FunnelChartPyramid" CSharpName="FunnelChartPyramidData">
             <TwChart Title="Support tiers">
-                <TwFunnelChart Data="@tiers" Inverted="true" LabelHeader="Tier" ValueHeader="Tickets" />
+                <TwFunnelChart Data="@_tiers" Inverted="true" LabelHeader="Tier" ValueHeader="Tickets" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -27,7 +27,7 @@
 
         <CodeExample Name="FunnelChartLabels">
             <TwChart Title="Checkout funnel">
-                <TwFunnelChart Data="@funnel" ShareLabel="Conversion" Height="ChartHeight.Small" />
+                <TwFunnelChart Data="@_funnel" ShareLabel="Conversion" Height="ChartHeight.Small" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -43,7 +43,7 @@
 
 @code {
     #region CodeExample FunnelChartData
-    private readonly ChartValue[] funnel =
+    private readonly ChartValue[] _funnel =
     [
         new("Visited", 12000),
         new("Added to basket", 5400),
@@ -53,7 +53,7 @@
     #endregion
 
     #region CodeExample FunnelChartPyramidData
-    private readonly ChartValue[] tiers =
+    private readonly ChartValue[] _tiers =
     [
         new("Self service", 900),
         new("Front line", 520),

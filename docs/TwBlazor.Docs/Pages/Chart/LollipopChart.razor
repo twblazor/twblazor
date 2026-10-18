@@ -7,7 +7,7 @@
 
         <CodeExample Name="LollipopChartBasic" CSharpName="LollipopChartData">
             <TwChart Title="Revenue by region" Description="Thousands of pounds">
-                <TwLollipopChart Categories="@regions" Series="@revenue" />
+                <TwLollipopChart Categories="@_regions" Series="@_revenue" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -17,7 +17,7 @@
 
         <CodeExample Name="LollipopChartHorizontal">
             <TwChart Title="Revenue by region">
-                <TwLollipopChart Categories="@regions" Series="@revenue" Horizontal="true" ShowValues="true" />
+                <TwLollipopChart Categories="@_regions" Series="@_revenue" Horizontal="true" ShowValues="true" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -27,7 +27,7 @@
 
         <CodeExample Name="LollipopChartGrouped">
             <TwChart Title="Revenue by region and year">
-                <TwLollipopChart Categories="@regions" Series="@yearly" />
+                <TwLollipopChart Categories="@_regions" Series="@_yearly" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -43,11 +43,11 @@
 
 @code {
     #region CodeExample LollipopChartData
-    private readonly string[] regions = ["North", "South", "East", "West"];
+    private readonly string[] _regions = ["North", "South", "East", "West"];
 
-    private readonly ChartSeries[] revenue = [new("Revenue", [420, 310, 275, 380])];
+    private readonly ChartSeries[] _revenue = [new("Revenue", [420, 310, 275, 380])];
 
-    private readonly ChartSeries[] yearly =
+    private readonly ChartSeries[] _yearly =
     [
         new("2024", [360, 290, 240, 330]),
         new("2025", [420, 310, 275, 380])

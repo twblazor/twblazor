@@ -21,7 +21,7 @@ internal static class ThemeColorRamp
     private const double darkestLightness = 0.291;
     private const double anchorLightness = 0.558;
 
-    private static readonly Dictionary<int, double> referenceLightness = new()
+    private static readonly Dictionary<int, double> _referenceLightness = new()
     {
         [50] = 0.977,
         [100] = 0.946,
@@ -36,7 +36,7 @@ internal static class ThemeColorRamp
         [950] = darkestLightness,
     };
 
-    private static readonly Dictionary<int, double> chromaFactor = new()
+    private static readonly Dictionary<int, double> _chromaFactor = new()
     {
         [50] = 0.05,
         [100] = 0.10,
@@ -65,12 +65,12 @@ internal static class ThemeColorRamp
 
         return Shades.ToDictionary(shade => shade, shade => shade == AnchorShade
             ? anchor
-            : new OklchColor(LightnessFor(shade, anchor.Lightness, lightTarget, darkTarget), anchor.Chroma * chromaFactor[shade], anchor.Hue));
+            : new OklchColor(LightnessFor(shade, anchor.Lightness, lightTarget, darkTarget), anchor.Chroma * _chromaFactor[shade], anchor.Hue));
     }
 
     private static double LightnessFor(int shade, double anchor, double lightTarget, double darkTarget)
     {
-        var reference = referenceLightness[shade];
+        var reference = _referenceLightness[shade];
 
         return shade < AnchorShade
             ? anchor + (reference - anchorLightness) / (lightestLightness - anchorLightness) * (lightTarget - anchor)

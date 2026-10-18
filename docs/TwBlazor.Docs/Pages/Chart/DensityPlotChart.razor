@@ -7,7 +7,7 @@
 
         <CodeExample Name="DensityPlotChartBasic" CSharpName="DensityPlotChartData">
             <TwChart Title="Checkout time" Description="Seconds">
-                <TwDensityPlotChart Samples="@checkout" />
+                <TwDensityPlotChart Samples="@_checkout" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -17,7 +17,7 @@
 
         <CodeExample Name="DensityPlotChartGroups" CSharpName="DensityPlotChartGroupsData">
             <TwChart Title="Page load time by release" Description="Milliseconds">
-                <TwDensityPlotChart Samples="@releases" LabelHeader="Release" ValueFormat="#,0 ms" />
+                <TwDensityPlotChart Samples="@_releases" LabelHeader="Release" ValueFormat="#,0 ms" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -27,7 +27,7 @@
 
         <CodeExample Name="DensityPlotChartBimodal" CSharpName="DensityPlotChartBimodalData">
             <TwChart Title="API latency" Description="Milliseconds, cached and uncached requests together">
-                <TwDensityPlotChart Samples="@latency" Height="ChartHeight.Small" />
+                <TwDensityPlotChart Samples="@_latency" Height="ChartHeight.Small" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -47,14 +47,14 @@
 
 @code {
     #region CodeExample DensityPlotChartData
-    private readonly ChartSample[] checkout =
+    private readonly ChartSample[] _checkout =
     [
         new("Checkout", [31, 34, 36, 38, 39, 41, 42, 42, 44, 45, 47, 48, 51, 55, 62, 74])
     ];
     #endregion
 
     #region CodeExample DensityPlotChartGroupsData
-    private readonly ChartSample[] releases =
+    private readonly ChartSample[] _releases =
     [
         new("v1.8", [820, 860, 905, 930, 960, 990, 1010, 1040, 1080, 1150, 1230, 1400]),
         new("v1.9", [640, 690, 720, 745, 760, 790, 805, 830, 870, 910, 980]),
@@ -63,7 +63,7 @@
     #endregion
 
     #region CodeExample DensityPlotChartBimodalData
-    private readonly ChartSample[] latency =
+    private readonly ChartSample[] _latency =
     [
         new("Latency", [18, 20, 21, 22, 22, 23, 24, 25, 26, 28, 31, 140, 152, 158, 161, 165, 170, 174, 181, 190])
     ];

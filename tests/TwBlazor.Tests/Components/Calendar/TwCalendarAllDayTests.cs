@@ -11,7 +11,7 @@ namespace TwBlazor.Tests.Components.Calendar;
 public class TwCalendarAllDayTests : TwBlazorTestBase
 {
     // Wednesday 18 March 2026; its Monday-Sunday week is 16-22 March.
-    private static readonly DateTime wednesday = new(2026, 3, 18);
+    private static readonly DateTime _wednesday = new(2026, 3, 18);
 
     private static Schedule<string> Event(string name, DateTime start, DateTime end, bool readOnly = false) => new()
     {
@@ -23,7 +23,7 @@ public class TwCalendarAllDayTests : TwBlazorTestBase
 
     private IRenderedComponent<TwCalendar<string>> Render(TwCalendarView view, bool editable, params Schedule<string>[] events) =>
         TestContext.Render<TwCalendar<string>>(p => p
-            .Add(x => x.SelectedDate, wednesday)
+            .Add(x => x.SelectedDate, _wednesday)
             .Add(x => x.View, view)
             .Add(x => x.Editable, editable)
             .Add(x => x.Schedules, [.. events]));
@@ -36,7 +36,7 @@ public class TwCalendarAllDayTests : TwBlazorTestBase
     [InlineData(TwCalendarView.Week)]
     public void NoStrip_WhenNoEventNeedsIt(TwCalendarView view)
     {
-        var cut = Render(view, false, Event("Standup", wednesday.AddHours(9), wednesday.AddHours(10)));
+        var cut = Render(view, false, Event("Standup", _wednesday.AddHours(9), _wednesday.AddHours(10)));
 
         Assert.Null(Strip(cut));
         Assert.DoesNotContain("All day", cut.Markup);
@@ -47,7 +47,7 @@ public class TwCalendarAllDayTests : TwBlazorTestBase
     [InlineData(TwCalendarView.Week)]
     public void AllDayEvent_ShowsInTheStrip_NotInTheTimeGrid(TwCalendarView view)
     {
-        var cut = Render(view, false, Event("Holiday", wednesday, wednesday.AddDays(1)));
+        var cut = Render(view, false, Event("Holiday", _wednesday, _wednesday.AddDays(1)));
 
         var strip = Strip(cut);
         Assert.NotNull(strip);
@@ -62,8 +62,8 @@ public class TwCalendarAllDayTests : TwBlazorTestBase
     public void TimedEvent_StaysInTheGrid_WhileAnAllDayEventSitsInTheStrip()
     {
         var cut = Render(TwCalendarView.Day, false,
-            Event("Holiday", wednesday, wednesday.AddDays(1)),
-            Event("Standup", wednesday.AddHours(9), wednesday.AddHours(10)));
+            Event("Holiday", _wednesday, _wednesday.AddDays(1)),
+            Event("Standup", _wednesday.AddHours(9), _wednesday.AddHours(10)));
 
         Assert.DoesNotContain("Standup", Strip(cut)!.TextContent);
         Assert.Contains("Standup", cut.Find("div.overflow-y-auto").TextContent);
@@ -73,7 +73,7 @@ public class TwCalendarAllDayTests : TwBlazorTestBase
     public void WeekView_MultiDayEvent_IsOneBarAcrossItsColumns()
     {
         // Wednesday to Friday, all day: columns 3-5 of the week.
-        var cut = Render(TwCalendarView.Week, false, Event("Conference", wednesday, wednesday.AddDays(3)));
+        var cut = Render(TwCalendarView.Week, false, Event("Conference", _wednesday, _wednesday.AddDays(3)));
 
         var bar = Strip(cut)!.QuerySelector("button")!;
 
@@ -85,7 +85,7 @@ public class TwCalendarAllDayTests : TwBlazorTestBase
     [Fact]
     public void WeekView_StripGridHasOneColumnPerDay()
     {
-        var cut = Render(TwCalendarView.Week, false, Event("Conference", wednesday, wednesday.AddDays(3)));
+        var cut = Render(TwCalendarView.Week, false, Event("Conference", _wednesday, _wednesday.AddDays(3)));
 
         Assert.Contains("grid-template-columns:repeat(7,minmax(0,1fr))", Strip(cut)!.GetAttribute("style"));
     }
@@ -93,7 +93,7 @@ public class TwCalendarAllDayTests : TwBlazorTestBase
     [Fact]
     public void DayView_StripGridHasOneColumn()
     {
-        var cut = Render(TwCalendarView.Day, false, Event("Holiday", wednesday, wednesday.AddDays(1)));
+        var cut = Render(TwCalendarView.Day, false, Event("Holiday", _wednesday, _wednesday.AddDays(1)));
 
         Assert.Contains("grid-template-columns:repeat(1,minmax(0,1fr))", Strip(cut)!.GetAttribute("style"));
     }
@@ -101,7 +101,7 @@ public class TwCalendarAllDayTests : TwBlazorTestBase
     [Fact]
     public void WeekView_BarStartingBeforeTheWeek_IsClippedAndSquaredOff()
     {
-        var cut = Render(TwCalendarView.Week, false, Event("Long", wednesday.AddDays(-5), wednesday.AddDays(1)));
+        var cut = Render(TwCalendarView.Week, false, Event("Long", _wednesday.AddDays(-5), _wednesday.AddDays(1)));
 
         var bar = Strip(cut)!.QuerySelector("button")!;
 
@@ -114,8 +114,8 @@ public class TwCalendarAllDayTests : TwBlazorTestBase
     public void WeekView_OverlappingBars_UseSeparateRows()
     {
         var cut = Render(TwCalendarView.Week, false,
-            Event("First", wednesday, wednesday.AddDays(2)),
-            Event("Second", wednesday.AddDays(1), wednesday.AddDays(3)));
+            Event("First", _wednesday, _wednesday.AddDays(2)),
+            Event("Second", _wednesday.AddDays(1), _wednesday.AddDays(3)));
 
         var rows = Strip(cut)!.QuerySelectorAll("button").Select(b => b.GetAttribute("style")!).ToList();
 
@@ -127,7 +127,7 @@ public class TwCalendarAllDayTests : TwBlazorTestBase
     public void DayView_ShowsAnEventThatStartedTheDayBefore_InTheStrip()
     {
         // 17 March to 20 March all day, viewed on the 18th.
-        var cut = Render(TwCalendarView.Day, false, Event("Trip", wednesday.AddDays(-1), wednesday.AddDays(2)));
+        var cut = Render(TwCalendarView.Day, false, Event("Trip", _wednesday.AddDays(-1), _wednesday.AddDays(2)));
 
         Assert.Contains("Trip", Strip(cut)!.TextContent);
     }
@@ -135,7 +135,7 @@ public class TwCalendarAllDayTests : TwBlazorTestBase
     [Fact]
     public void AllDayBar_UsesTheEventsColor()
     {
-        var evt = Event("Holiday", wednesday, wednesday.AddDays(1));
+        var evt = Event("Holiday", _wednesday, _wednesday.AddDays(1));
         evt.Color = "#2563eb";
         var cut = Render(TwCalendarView.Day, false, evt);
 
@@ -148,7 +148,7 @@ public class TwCalendarAllDayTests : TwBlazorTestBase
     public async Task AllDayBar_OpensTheEventDialog_WhenClicked()
     {
         var provider = TestContext.Render<TwDialogProvider>();
-        var cut = Render(TwCalendarView.Day, true, Event("Holiday", wednesday, wednesday.AddDays(1)));
+        var cut = Render(TwCalendarView.Day, true, Event("Holiday", _wednesday, _wednesday.AddDays(1)));
 
         Strip(cut)!.QuerySelector("button")!.Click();
 
@@ -159,7 +159,7 @@ public class TwCalendarAllDayTests : TwBlazorTestBase
     [Fact]
     public void AllDayBar_HasAnAccessibleName_WithItsDates()
     {
-        var cut = Render(TwCalendarView.Day, false, Event("Holiday", wednesday, wednesday.AddDays(3)));
+        var cut = Render(TwCalendarView.Day, false, Event("Holiday", _wednesday, _wednesday.AddDays(3)));
 
         Assert.Equal("Holiday, 18 Mar 2026 - 20 Mar 2026 (all day)", Strip(cut)!.QuerySelector("button")!.GetAttribute("aria-label"));
     }
@@ -167,14 +167,14 @@ public class TwCalendarAllDayTests : TwBlazorTestBase
     [Fact]
     public void TimedEventCrossingMidnight_ShowsOnBothDaysInTheGrid()
     {
-        var evt = Event("Night shift", wednesday.AddHours(22), wednesday.AddDays(1).AddHours(3));
+        var evt = Event("Night shift", _wednesday.AddHours(22), _wednesday.AddDays(1).AddHours(3));
 
         var first = Render(TwCalendarView.Day, false, evt);
         Assert.Contains("Night shift", first.Find("div.overflow-y-auto").TextContent);
         Assert.Null(Strip(first));
 
         var secondDay = TestContext.Render<TwCalendar<string>>(p => p
-            .Add(x => x.SelectedDate, wednesday.AddDays(1))
+            .Add(x => x.SelectedDate, _wednesday.AddDays(1))
             .Add(x => x.View, TwCalendarView.Day)
             .Add(x => x.Schedules, [evt]));
         var chip = secondDay.Find("button[aria-label^='Night shift']");
@@ -184,7 +184,7 @@ public class TwCalendarAllDayTests : TwBlazorTestBase
     [Fact]
     public void TimedEventCrossingMidnight_ShowsOnBothDaysInTheWeekGrid()
     {
-        var evt = Event("Night shift", wednesday.AddHours(22), wednesday.AddDays(1).AddHours(3));
+        var evt = Event("Night shift", _wednesday.AddHours(22), _wednesday.AddDays(1).AddHours(3));
         var cut = Render(TwCalendarView.Week, false, evt);
 
         Assert.Equal(2, cut.FindAll("button[aria-label^='Night shift']").Count);
@@ -210,9 +210,9 @@ public class TwCalendarAllDayTests : TwBlazorTestBase
     public async Task DraggingAnAllDayEvent_ToAnotherDay_MovesIt_KeepingMidnightAndLength()
     {
         List<Schedule<string>>? saved = null;
-        var evt = Event("Conference", wednesday, wednesday.AddDays(2));
+        var evt = Event("Conference", _wednesday, _wednesday.AddDays(2));
         var cut = TestContext.Render<TwCalendar<string>>(p => p
-            .Add(x => x.SelectedDate, wednesday)
+            .Add(x => x.SelectedDate, _wednesday)
             .Add(x => x.View, TwCalendarView.Week)
             .Add(x => x.Editable, true)
             .Add(x => x.Schedules, [evt])
@@ -223,17 +223,17 @@ public class TwCalendarAllDayTests : TwBlazorTestBase
 
         await cut.WaitForAssertionAsync(() => Assert.NotNull(saved));
         var moved = Assert.Single(saved!);
-        Assert.Equal(new DateTimeOffset(wednesday.AddDays(2), TimeSpan.Zero), moved.DateTimeStart);
-        Assert.Equal(new DateTimeOffset(wednesday.AddDays(4), TimeSpan.Zero), moved.DateTimeEnd);
+        Assert.Equal(new DateTimeOffset(_wednesday.AddDays(2), TimeSpan.Zero), moved.DateTimeStart);
+        Assert.Equal(new DateTimeOffset(_wednesday.AddDays(4), TimeSpan.Zero), moved.DateTimeEnd);
     }
 
     [Fact]
     public async Task DraggingAnAllDayEvent_OverTheTimeGrid_MovesItToThatDay_NotThatTime()
     {
         List<Schedule<string>>? saved = null;
-        var evt = Event("Conference", wednesday, wednesday.AddDays(1));
+        var evt = Event("Conference", _wednesday, _wednesday.AddDays(1));
         var cut = TestContext.Render<TwCalendar<string>>(p => p
-            .Add(x => x.SelectedDate, wednesday)
+            .Add(x => x.SelectedDate, _wednesday)
             .Add(x => x.View, TwCalendarView.Week)
             .Add(x => x.Editable, true)
             .Add(x => x.Schedules, [evt])
@@ -244,13 +244,13 @@ public class TwCalendarAllDayTests : TwBlazorTestBase
         thursday.Find("button[aria-label='14:00']").Drop(new DragEventArgs());
 
         await cut.WaitForAssertionAsync(() => Assert.NotNull(saved));
-        Assert.Equal(new DateTimeOffset(wednesday.AddDays(1), TimeSpan.Zero), Assert.Single(saved!).DateTimeStart);
+        Assert.Equal(new DateTimeOffset(_wednesday.AddDays(1), TimeSpan.Zero), Assert.Single(saved!).DateTimeStart);
     }
 
     [Fact]
     public async Task DraggingAnAllDayEvent_ShowsAPlaceholderInTheStrip_AtTheHoveredDay_SizedToItsLength()
     {
-        var evt = Event("Conference", wednesday, wednesday.AddDays(2)); // two days
+        var evt = Event("Conference", _wednesday, _wednesday.AddDays(2)); // two days
         var cut = Render(TwCalendarView.Week, true, evt);
 
         await StartDragAsync(cut, "Conference");
@@ -266,7 +266,7 @@ public class TwCalendarAllDayTests : TwBlazorTestBase
     [Fact]
     public async Task DraggingAnAllDayEvent_PlaceholderIsClippedAtTheEndOfTheWeek()
     {
-        var evt = Event("Conference", wednesday, wednesday.AddDays(3)); // three days
+        var evt = Event("Conference", _wednesday, _wednesday.AddDays(3)); // three days
         var cut = Render(TwCalendarView.Week, true, evt);
 
         await StartDragAsync(cut, "Conference");
@@ -282,7 +282,7 @@ public class TwCalendarAllDayTests : TwBlazorTestBase
     [Fact]
     public async Task DraggingAnAllDayEvent_DoesNotShowATimedPlaceholderInTheGrid()
     {
-        var evt = Event("Conference", wednesday, wednesday.AddDays(1));
+        var evt = Event("Conference", _wednesday, _wednesday.AddDays(1));
         var cut = Render(TwCalendarView.Day, true, evt);
 
         await StartDragAsync(cut, "Conference");
@@ -295,10 +295,10 @@ public class TwCalendarAllDayTests : TwBlazorTestBase
     public async Task DraggingATimedEvent_OverTheStrip_DoesNotMoveIt()
     {
         List<Schedule<string>>? saved = null;
-        var timed = Event("Standup", wednesday.AddHours(9), wednesday.AddHours(10));
-        var allDay = Event("Holiday", wednesday, wednesday.AddDays(1));
+        var timed = Event("Standup", _wednesday.AddHours(9), _wednesday.AddHours(10));
+        var allDay = Event("Holiday", _wednesday, _wednesday.AddDays(1));
         var cut = TestContext.Render<TwCalendar<string>>(p => p
-            .Add(x => x.SelectedDate, wednesday)
+            .Add(x => x.SelectedDate, _wednesday)
             .Add(x => x.View, TwCalendarView.Day)
             .Add(x => x.Editable, true)
             .Add(x => x.Schedules, [timed, allDay])
@@ -313,7 +313,7 @@ public class TwCalendarAllDayTests : TwBlazorTestBase
     [Fact]
     public void ReadOnlyAllDayEvent_IsNotDraggable()
     {
-        var cut = Render(TwCalendarView.Day, true, Event("Holiday", wednesday, wednesday.AddDays(1), readOnly: true));
+        var cut = Render(TwCalendarView.Day, true, Event("Holiday", _wednesday, _wednesday.AddDays(1), readOnly: true));
 
         Assert.Equal("false", Strip(cut)!.QuerySelector("button")!.GetAttribute("draggable"));
     }
@@ -321,7 +321,7 @@ public class TwCalendarAllDayTests : TwBlazorTestBase
     [Fact]
     public void AllDayEvent_IsNotDraggable_WhenTheCalendarIsNotEditable()
     {
-        var cut = Render(TwCalendarView.Day, false, Event("Holiday", wednesday, wednesday.AddDays(1)));
+        var cut = Render(TwCalendarView.Day, false, Event("Holiday", _wednesday, _wednesday.AddDays(1)));
 
         Assert.Equal("false", Strip(cut)!.QuerySelector("button")!.GetAttribute("draggable"));
     }
@@ -329,7 +329,7 @@ public class TwCalendarAllDayTests : TwBlazorTestBase
     [Fact]
     public async Task DragEnd_ClearsTheStripPlaceholder_AndRestoresBars()
     {
-        var evt = Event("Conference", wednesday, wednesday.AddDays(1));
+        var evt = Event("Conference", _wednesday, _wednesday.AddDays(1));
         var cut = Render(TwCalendarView.Week, true, evt);
 
         await StartDragAsync(cut, "Conference");

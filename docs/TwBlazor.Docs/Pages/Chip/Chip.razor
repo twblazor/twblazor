@@ -58,7 +58,7 @@
 
         <CodeExample Name="ChipClosable" CSharpName="ChipClosableCode">
             <TwChipGroup>
-                @foreach (var tag in tags)
+                @foreach (var tag in _tags)
                 {
                     <TwChip Label="@tag"
                             Color="Color.Primary"
@@ -171,11 +171,11 @@
 
 @code {
     #region CodeExample ChipClosableCode
-    private readonly List<string> tags = new() { "JavaScript", "TypeScript", "React", "Node.js", "MongoDB" };
+    private readonly List<string> _tags = new() { "JavaScript", "TypeScript", "React", "Node.js", "MongoDB" };
 
     private void RemoveTag(string tag)
     {
-        tags.Remove(tag);
+        _tags.Remove(tag);
     }
     #endregion
 }

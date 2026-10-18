@@ -32,9 +32,9 @@
 
         <CodeExample Name="RatingRounding" CSharpName="RatingRoundingCode">
             <div class="space-y-4">
-                <TwRating Label="3.7 rounded to the nearest" Value="averageRating" ReadOnly />
-                <TwRating Label="3.7 rounded down" Value="averageRating" Rounding="MidpointRounding.ToNegativeInfinity" ReadOnly />
-                <TwRating Label="3.7 rounded up" Value="averageRating" Rounding="MidpointRounding.ToPositiveInfinity" ReadOnly />
+                <TwRating Label="3.7 rounded to the nearest" Value="_averageRating" ReadOnly />
+                <TwRating Label="3.7 rounded down" Value="_averageRating" Rounding="MidpointRounding.ToNegativeInfinity" ReadOnly />
+                <TwRating Label="3.7 rounded up" Value="_averageRating" Rounding="MidpointRounding.ToPositiveInfinity" ReadOnly />
             </div>
         </CodeExample>
     </PageCard>
@@ -123,7 +123,7 @@
     #endregion
 
     #region CodeExample RatingRoundingCode
-    private readonly double averageRating = 3.7;
+    private readonly double _averageRating = 3.7;
     #endregion
 
     #region CodeExample RatingIconsCode

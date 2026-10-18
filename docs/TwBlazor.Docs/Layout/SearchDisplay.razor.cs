@@ -11,7 +11,7 @@ namespace TwBlazor.Docs.Layout;
 /// </summary>
 public partial class SearchDisplay : ComponentBase
 {
-    [CascadingParameter] private TwDialogInstance? DialogInstance { get; set; }
+    [CascadingParameter] private TwDialogInstance? dialogInstance { get; set; }
 
     private string searchTerm = string.Empty;
     private bool hasSearched;
@@ -69,5 +69,5 @@ public partial class SearchDisplay : ComponentBase
     // Internal component/theme links navigate via the anchor's own href (Blazor's client-side routing
     // intercepts it); external docfx links open in a new tab via target="_blank". Either way the
     // dialog itself should close so it isn't left open behind the new page/tab.
-    private void SelectResult() => DialogInstance?.Close();
+    private void SelectResult() => dialogInstance?.Close();
 }

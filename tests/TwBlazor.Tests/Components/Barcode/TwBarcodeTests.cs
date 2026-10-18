@@ -195,16 +195,16 @@ public class TwBarcodeTests : TwBlazorTestBase
 
     private sealed class SpyBarcodeService : ITwBarcodeService
     {
-        private readonly TwBarcodeService inner = new();
+        private readonly TwBarcodeService _inner = new();
 
         public int EncodeCount { get; private set; }
 
-        public TwBlazor.Services.Encoding.Barcode Encode(string value, BarcodeFormat format = BarcodeFormat.Code128) => inner.Encode(value, format);
+        public TwBlazor.Services.Encoding.Barcode Encode(string value, BarcodeFormat format = BarcodeFormat.Code128) => _inner.Encode(value, format);
 
         public bool TryEncode(string? value, BarcodeFormat format, [NotNullWhen(true)] out TwBlazor.Services.Encoding.Barcode? barcode)
         {
             EncodeCount++;
-            return inner.TryEncode(value, format, out barcode);
+            return _inner.TryEncode(value, format, out barcode);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace TwBlazor.Tests.Components.Rating;
 
 public class TwRatingTests : TwBlazorTestBase
 {
-    private TwRatingTheme RatingTheme => Theme.Components.Require<TwRatingTheme>();
+    private TwRatingTheme ratingTheme => Theme.Components.Require<TwRatingTheme>();
 
     private static string[] Widths(IRenderedComponent<TwRating<double>> cut) =>
         [.. cut.FindAll("[aria-hidden='true'] > span").Select(clip => clip.GetAttribute("style")!)];
@@ -108,8 +108,8 @@ public class TwRatingTests : TwBlazorTestBase
         var colored = TestContext.Render<TwRating<double>>(p => p.Add(x => x.Color, Color.Danger));
 
         // Assert
-        Assert.Contains(RatingTheme.Colors.Warning.Split(' ')[0], plain.Find("[aria-hidden='true'] > span > i").ClassName);
-        Assert.Contains(RatingTheme.Colors.Danger.Split(' ')[0], colored.Find("[aria-hidden='true'] > span > i").ClassName);
+        Assert.Contains(ratingTheme.Colors.Warning.Split(' ')[0], plain.Find("[aria-hidden='true'] > span > i").ClassName);
+        Assert.Contains(ratingTheme.Colors.Danger.Split(' ')[0], colored.Find("[aria-hidden='true'] > span > i").ClassName);
     }
 
     [Theory]
@@ -122,7 +122,7 @@ public class TwRatingTests : TwBlazorTestBase
         var cut = TestContext.Render<TwRating<double>>(p => p.Add(x => x.Size, size));
 
         // Assert
-        var expected = size switch { Size.Sm => RatingTheme.Small, Size.Lg => RatingTheme.Large, _ => RatingTheme.Medium };
+        var expected = size switch { Size.Sm => ratingTheme.Small, Size.Lg => ratingTheme.Large, _ => ratingTheme.Medium };
         Assert.Contains(expected, cut.Find("[role='radiogroup']").ClassName);
     }
 
@@ -388,7 +388,7 @@ public class TwRatingTests : TwBlazorTestBase
         cut.Find("input[value='4']").Change(true);
 
         // Assert
-        var popping = cut.FindAll($".{RatingTheme.Pop}");
+        var popping = cut.FindAll($".{ratingTheme.Pop}");
         Assert.Equal(2, popping.Count);
         Assert.Equal("animation-delay:0ms", popping[0].GetAttribute("style"));
         Assert.Equal("animation-delay:50ms", popping[1].GetAttribute("style"));
@@ -404,7 +404,7 @@ public class TwRatingTests : TwBlazorTestBase
         cut.Find("input[value='2']").Change(true);
 
         // Assert
-        Assert.Single(cut.FindAll($".{RatingTheme.Pop}"));
+        Assert.Single(cut.FindAll($".{ratingTheme.Pop}"));
     }
 
     [Fact]
@@ -415,12 +415,12 @@ public class TwRatingTests : TwBlazorTestBase
 
         // Act
         cut.Find("input[value='3']").Change(true);
-        var first = cut.Find($".{RatingTheme.Pop}").GetAttribute("data-pop");
+        var first = cut.Find($".{ratingTheme.Pop}").GetAttribute("data-pop");
         cut.Find("input[value='2']").Change(true);
         cut.Find("input[value='3']").Change(true);
-        var third = cut.Find($".{RatingTheme.Pop}").GetAttribute("data-pop");
+        var third = cut.Find($".{ratingTheme.Pop}").GetAttribute("data-pop");
         cut.Find("input[value='2']").Change(true);
-        var fourth = cut.Find($".{RatingTheme.Pop}").GetAttribute("data-pop");
+        var fourth = cut.Find($".{ratingTheme.Pop}").GetAttribute("data-pop");
 
         // Assert
         Assert.Equal(first, third);
@@ -437,8 +437,8 @@ public class TwRatingTests : TwBlazorTestBase
         cut.Find("input[value='3']").Change(true);
 
         // Assert
-        Assert.Empty(cut.FindAll($".{RatingTheme.Pop}"));
-        Assert.DoesNotContain(RatingTheme.ItemHover, cut.Find("[role='radiogroup'] > span").ClassName);
+        Assert.Empty(cut.FindAll($".{ratingTheme.Pop}"));
+        Assert.DoesNotContain(ratingTheme.ItemHover, cut.Find("[role='radiogroup'] > span").ClassName);
     }
 
     [Fact]
@@ -448,7 +448,7 @@ public class TwRatingTests : TwBlazorTestBase
         var cut = TestContext.Render<TwRating<double>>();
 
         // Assert
-        Assert.Contains(RatingTheme.ItemHover, cut.Find("[role='radiogroup'] > span").ClassName);
+        Assert.Contains(ratingTheme.ItemHover, cut.Find("[role='radiogroup'] > span").ClassName);
     }
 
     #endregion
@@ -619,7 +619,7 @@ public class TwRatingTests : TwBlazorTestBase
         Assert.Equal("Rated 4.5 out of 5", image.GetAttribute("aria-label"));
         Assert.Empty(cut.FindAll("input"));
         Assert.Empty(cut.FindAll("label[for]"));
-        Assert.DoesNotContain(RatingTheme.ItemHover, cut.Find("[role='img'] > span").ClassName);
+        Assert.DoesNotContain(ratingTheme.ItemHover, cut.Find("[role='img'] > span").ClassName);
     }
 
     [Fact]

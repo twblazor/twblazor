@@ -6,21 +6,21 @@
     <PageCard Title="Basic color picker">
         <Description>Bind <code>Value</code> to let users pick a color from a labeled color picker input.</Description>
         <CodeExample Name="ColorPickerBasic" CSharpName="ColorPickerBasicCode">
-            <TwColorPicker Label="Choose Color" @bind-Value="SelectedColor" />
+            <TwColorPicker Label="Choose Color" @bind-Value="selectedColor" />
         </CodeExample>
     </PageCard>
 
     <PageCard Title="With mode switch">
         <Description>Set <code>ShowModeSwitch</code> to let users toggle between color input modes (e.g. hex and RGB).</Description>
         <CodeExample Name="ColorPickerMode" CSharpName="ColorPickerModeCode">
-            <TwColorPicker Label="Primary Color" @bind-Value="PrimaryColor" ShowModeSwitch />
+            <TwColorPicker Label="Primary Color" @bind-Value="primaryColor" ShowModeSwitch />
         </CodeExample>
     </PageCard>
 
     <PageCard Title="With alpha channel">
         <Description>Set <code>ShowAlpha</code> to add an alpha channel slider for transparency.</Description>
         <CodeExample Name="ColorPickerAlpha" CSharpName="ColorPickerAlphaCode">
-            <TwColorPicker Label="Overlay Color" @bind-Value="OverlayColor" ShowAlpha ShowModeSwitch />
+            <TwColorPicker Label="Overlay Color" @bind-Value="overlayColor" ShowAlpha ShowModeSwitch />
         </CodeExample>
     </PageCard>
 
@@ -28,9 +28,9 @@
         <Description>Use the <code>Variant</code> property to switch between default, outlined and filled input styles.</Description>
         <CodeExample Name="ColorPickerVariants" CSharpName="ColorPickerVariantsCode">
             <div class="grid gap-4">
-                <TwColorPicker Label="Primary Color" @bind-Value="PrimaryColor" Variant="InputVariant.Default" ShowModeSwitch />
-                <TwColorPicker Label="Accent Color" @bind-Value="AccentColor" Variant="InputVariant.Outlined" ShowModeSwitch />
-                <TwColorPicker Label="Theme Color" @bind-Value="ThemeColor" Variant="InputVariant.Filled" />
+                <TwColorPicker Label="Primary Color" @bind-Value="primaryColor" Variant="InputVariant.Default" ShowModeSwitch />
+                <TwColorPicker Label="Accent Color" @bind-Value="accentColor" Variant="InputVariant.Outlined" ShowModeSwitch />
+                <TwColorPicker Label="Theme Color" @bind-Value="themeColor" Variant="InputVariant.Filled" />
             </div>
         </CodeExample>
     </PageCard>
@@ -38,7 +38,7 @@
     <PageCard Title="Dense color picker">
         <Description>Set <code>Dense</code> for a more compact input with a smaller height and text size. Every single-line input shares the same dense height, so they line up when used side by side.</Description>
         <CodeExample Name="ColorPickerDense">
-            <TwColorPicker Label="Dense Color" @bind-Value="PrimaryColor" Dense />
+            <TwColorPicker Label="Dense Color" @bind-Value="primaryColor" Dense />
         </CodeExample>
     </PageCard>
 
@@ -55,25 +55,25 @@
             <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 @* Output as Hex (default) *@
                 <div>
-                    <TwColorPicker Label="Hex (default)" @bind-Value="HexColor" />
-                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">Value: @HexColor</p>
+                    <TwColorPicker Label="Hex (default)" @bind-Value="hexColor" />
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">Value: @hexColor</p>
                 </div>
 
                 @* Output as RGB with alpha *@
                 <div>
                     <TwColorPicker Label="RGB with Alpha"
-                                   @bind-Value="RgbColor"
+                                   @bind-Value="rgbColor"
                                    OutputFormat="ColorMode.Rgb"
                                    ShowAlpha="true" />
-                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">Value: @RgbColor</p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">Value: @rgbColor</p>
                 </div>
 
                 @* Input format is auto-detected, independent of output format *@
                 <div>
                     <TwColorPicker Label="HSL Input → RGB Output"
-                                   @bind-Value="HslToRgbColor"
+                                   @bind-Value="hslToRgbColor"
                                    OutputFormat="ColorMode.Rgb" />
-                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">Value: @HslToRgbColor</p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">Value: @hslToRgbColor</p>
                 </div>
             </div>
         </CodeExample>
@@ -82,25 +82,25 @@
 
 @code {
     #region CodeExample ColorPickerBasicCode
-    private string SelectedColor { get; set; } = "#3b82f6";
+    private string selectedColor { get; set; } = "#3b82f6";
     #endregion
 
     #region CodeExample ColorPickerModeCode
-    private string PrimaryColor { get; set; } = "#10b981";
+    private string primaryColor { get; set; } = "#10b981";
     #endregion
 
     #region CodeExample ColorPickerVariantsCode
-    private string ThemeColor { get; set; } = "#8b5cf6";
-    private string AccentColor { get; set; } = "#ec4899";
+    private string themeColor { get; set; } = "#8b5cf6";
+    private string accentColor { get; set; } = "#ec4899";
     #endregion
 
     #region CodeExample ColorPickerAlphaCode
-    private string OverlayColor { get; set; } = "#f59e0bff";
+    private string overlayColor { get; set; } = "#f59e0bff";
     #endregion
 
     #region CodeExample ColorPickerOutputCode
-    private string HexColor { get; set; } = "#3b82f6";
-    private string RgbColor { get; set; } = "rgba(16, 185, 129, 0.8)";
-    private string HslToRgbColor { get; set; } = "hsl(262, 83%, 58%)";
+    private string hexColor { get; set; } = "#3b82f6";
+    private string rgbColor { get; set; } = "rgba(16, 185, 129, 0.8)";
+    private string hslToRgbColor { get; set; } = "hsl(262, 83%, 58%)";
     #endregion
 }

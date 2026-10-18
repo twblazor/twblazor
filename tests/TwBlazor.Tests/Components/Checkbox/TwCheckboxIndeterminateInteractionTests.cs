@@ -48,12 +48,12 @@ public class TwCheckboxIndeterminateInteractionTests : TwBlazorTestBase
 
     private sealed class SelectAllHost : ComponentBase
     {
-        private bool _apples = true;
-        private bool _bananas = true;
-        private bool _cherries = true;
+        private bool apples = true;
+        private bool bananas = true;
+        private bool cherries = true;
 
-        private bool? SelectAllState =>
-            (_apples, _bananas, _cherries) switch
+        private bool? selectAllState =>
+            (apples, bananas, cherries) switch
             {
                 (true, true, true) => true,
                 (false, false, false) => false,
@@ -63,35 +63,35 @@ public class TwCheckboxIndeterminateInteractionTests : TwBlazorTestBase
         private void OnSelectAllChanged(bool? value)
         {
             var newValue = value ?? false;
-            _apples = newValue;
-            _bananas = newValue;
-            _cherries = newValue;
+            apples = newValue;
+            bananas = newValue;
+            cherries = newValue;
         }
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {
             builder.OpenComponent<TwCheckbox<bool?>>(0);
             builder.AddComponentParameter(1, "Id", "select-all");
-            builder.AddComponentParameter(2, "Value", SelectAllState);
+            builder.AddComponentParameter(2, "Value", selectAllState);
             builder.AddComponentParameter(3, "ValueChanged", EventCallback.Factory.Create<bool?>(this, OnSelectAllChanged));
             builder.CloseComponent();
 
             builder.OpenComponent<TwCheckbox<bool>>(4);
             builder.AddComponentParameter(5, "Id", "apples");
-            builder.AddComponentParameter(6, "Value", _apples);
-            builder.AddComponentParameter(7, "ValueChanged", EventCallback.Factory.Create<bool>(this, v => _apples = v));
+            builder.AddComponentParameter(6, "Value", apples);
+            builder.AddComponentParameter(7, "ValueChanged", EventCallback.Factory.Create<bool>(this, v => apples = v));
             builder.CloseComponent();
 
             builder.OpenComponent<TwCheckbox<bool>>(8);
             builder.AddComponentParameter(9, "Id", "bananas");
-            builder.AddComponentParameter(10, "Value", _bananas);
-            builder.AddComponentParameter(11, "ValueChanged", EventCallback.Factory.Create<bool>(this, v => _bananas = v));
+            builder.AddComponentParameter(10, "Value", bananas);
+            builder.AddComponentParameter(11, "ValueChanged", EventCallback.Factory.Create<bool>(this, v => bananas = v));
             builder.CloseComponent();
 
             builder.OpenComponent<TwCheckbox<bool>>(12);
             builder.AddComponentParameter(13, "Id", "cherries");
-            builder.AddComponentParameter(14, "Value", _cherries);
-            builder.AddComponentParameter(15, "ValueChanged", EventCallback.Factory.Create<bool>(this, v => _cherries = v));
+            builder.AddComponentParameter(14, "Value", cherries);
+            builder.AddComponentParameter(15, "ValueChanged", EventCallback.Factory.Create<bool>(this, v => cherries = v));
             builder.CloseComponent();
         }
     }

@@ -11,7 +11,7 @@
 
         <CodeExample Name="ChartBasic" CSharpName="ChartData">
             <TwChart Title="Revenue by region" Description="Thousands of pounds, last quarter">
-                <TwColumnChart Categories="@regions" Series="@yearly" />
+                <TwColumnChart Categories="@_regions" Series="@_yearly" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -30,7 +30,7 @@
                 </tr>
             </TableHeader>
             <TableBody>
-                @foreach (var (purpose, charts) in chartTypes)
+                @foreach (var (purpose, charts) in _chartTypes)
                 {
                     <tr>
                         <th scope="row" class="px-4 py-2.5 font-medium align-top">@purpose</th>
@@ -57,7 +57,7 @@
 
         <CodeExample Name="ChartTitle">
             <TwChart Title="Revenue by region" Description="Thousands of pounds, last quarter">
-                <TwBarChart Categories="@regions" Series="@revenue" />
+                <TwBarChart Categories="@_regions" Series="@_revenue" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -72,7 +72,7 @@
 
         <CodeExample Name="ChartHeight">
             <TwChart Title="Revenue by region" Height="ChartHeight.Small">
-                <TwColumnChart Categories="@regions" Series="@revenue" />
+                <TwColumnChart Categories="@_regions" Series="@_revenue" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -86,13 +86,13 @@
 
         <CodeExample Name="ChartFormat">
             <TwChart Title="Revenue by region">
-                <TwColumnChart Categories="@regions" Series="@revenue" ValueFormat="C0" ShowValues="true" />
+                <TwColumnChart Categories="@_regions" Series="@_revenue" ValueFormat="C0" ShowValues="true" />
             </TwChart>
         </CodeExample>
 
         <CodeExample Name="ChartFormatter" CSharpName="ChartFormatterCode">
             <TwChart Title="Revenue by region">
-                <TwColumnChart Categories="@regions" Series="@revenue" ValueFormatter="FormatThousands" ShowValues="true" />
+                <TwColumnChart Categories="@_regions" Series="@_revenue" ValueFormatter="FormatThousands" ShowValues="true" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -107,7 +107,7 @@
 
         <CodeExample Name="ChartLegend">
             <TwChart Title="Monthly visitors" Description="Thousands">
-                <TwLineChart Categories="@months" Series="@visitors" InteractiveLegend="false" />
+                <TwLineChart Categories="@_months" Series="@_visitors" InteractiveLegend="false" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -122,7 +122,7 @@
 
         <CodeExample Name="ChartTable">
             <TwChart Title="Revenue by region and year">
-                <TwColumnChart Categories="@regions" Series="@yearly" CategoryHeader="Region" TableViewLabel="Show the numbers" ChartViewLabel="Show the chart" />
+                <TwColumnChart Categories="@_regions" Series="@_yearly" CategoryHeader="Region" TableViewLabel="Show the numbers" ChartViewLabel="Show the chart" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -166,7 +166,7 @@
         </Description>
 
         <TwChart Title="Onboarding progress" Description="Percent complete" Class="mt-4">
-            <CompletionChart Data="@onboarding" LabelHeader="Step" ValueHeader="Complete" Height="ChartHeight.Small" />
+            <CompletionChart Data="@_onboarding" LabelHeader="Step" ValueHeader="Complete" Height="ChartHeight.Small" />
         </TwChart>
 
         <TwCodeBlock Content="@CodeExamples.Get("ChartCustomCode")" Language="csharp" Class="mt-4" />
@@ -175,11 +175,11 @@
 
 @code {
     #region CodeExample ChartData
-    private readonly string[] regions = ["North", "South", "East", "West"];
+    private readonly string[] _regions = ["North", "South", "East", "West"];
 
-    private readonly ChartSeries[] revenue = [new("Revenue", [420, 310, 275, 380])];
+    private readonly ChartSeries[] _revenue = [new("Revenue", [420, 310, 275, 380])];
 
-    private readonly ChartSeries[] yearly =
+    private readonly ChartSeries[] _yearly =
     [
         new("2024", [360, 290, 240, 330]),
         new("2025", [420, 310, 275, 380])
@@ -190,18 +190,18 @@
     private static string FormatThousands(double value) => $"£{value:0}k";
     #endregion
 
-    private readonly string[] months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
+    private readonly string[] _months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
 
-    private readonly ChartSeries[] visitors =
+    private readonly ChartSeries[] _visitors =
     [
         new("Organic", [42, 48, 55, 61, 58, 70]),
         new("Paid", [30, 34, 31, 45, 52, 49]),
         new("Referral", [12, 15, 21, 19, 26, 33])
     ];
 
-    private readonly ChartValue[] onboarding = [new("Profile", 100), new("Billing", 60), new("Team invites", 25)];
+    private readonly ChartValue[] _onboarding = [new("Profile", 100), new("Billing", 60), new("Team invites", 25)];
 
-    private static readonly (string Purpose, (string Name, string Url)[] Charts)[] chartTypes =
+    private static readonly (string Purpose, (string Name, string Url)[] Charts)[] _chartTypes =
     [
         ("A comparison between categories",
         [

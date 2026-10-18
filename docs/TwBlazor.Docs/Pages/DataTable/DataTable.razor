@@ -133,7 +133,7 @@
         <CodeExample Name="DataTableSortableColumns" CSharpName="DataTableProductColumns">
             <TwDataTable TItem="Product"
                          Items="@products"
-                         Columns="@productColumns"
+                         Columns="@_productColumns"
                          Searchable
                          Pageable
                          RowsPerPage="10">
@@ -153,7 +153,7 @@
 
     #region CodeExample DataTableProductColumns
     // Define columns with per-column sortability
-    private readonly List<TwDataTableColumn<Product>> productColumns = new()
+    private readonly List<TwDataTableColumn<Product>> _productColumns = new()
     {
         new TwDataTableColumn<Product>
         {

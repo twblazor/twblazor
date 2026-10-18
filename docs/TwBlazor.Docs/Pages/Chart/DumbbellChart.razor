@@ -7,7 +7,7 @@
 
         <CodeExample Name="DumbbellChartBasic" CSharpName="DumbbellChartData">
             <TwChart Title="Revenue change by region" Description="Thousands of pounds">
-                <TwDumbbellChart Categories="@regions" Series="@yearly" />
+                <TwDumbbellChart Categories="@_regions" Series="@_yearly" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -17,7 +17,7 @@
 
         <CodeExample Name="DumbbellChartVertical">
             <TwChart Title="Revenue change by region">
-                <TwDumbbellChart Categories="@regions" Series="@yearly" Vertical="true" />
+                <TwDumbbellChart Categories="@_regions" Series="@_yearly" Vertical="true" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -27,7 +27,7 @@
 
         <CodeExample Name="DumbbellChartThree" CSharpName="DumbbellChartTrendData">
             <TwChart Title="Monthly visitors by channel" Description="Thousands">
-                <TwDumbbellChart Categories="@months" Series="@visitors" />
+                <TwDumbbellChart Categories="@_months" Series="@_visitors" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -43,9 +43,9 @@
 
 @code {
     #region CodeExample DumbbellChartData
-    private readonly string[] regions = ["North", "South", "East", "West"];
+    private readonly string[] _regions = ["North", "South", "East", "West"];
 
-    private readonly ChartSeries[] yearly =
+    private readonly ChartSeries[] _yearly =
     [
         new("2024", [360, 290, 240, 330]),
         new("2025", [420, 310, 275, 380])
@@ -53,9 +53,9 @@
     #endregion
 
     #region CodeExample DumbbellChartTrendData
-    private readonly string[] months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
+    private readonly string[] _months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
 
-    private readonly ChartSeries[] visitors =
+    private readonly ChartSeries[] _visitors =
     [
         new("Organic", [42, 48, 55, 61, 58, 70]),
         new("Paid", [30, 34, 31, 45, 52, 49]),

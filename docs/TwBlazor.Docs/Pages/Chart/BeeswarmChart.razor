@@ -7,7 +7,7 @@
 
         <CodeExample Name="BeeswarmChartBasic" CSharpName="BeeswarmChartData">
             <TwChart Title="Customer satisfaction by plan" Description="Score out of 10">
-                <TwBeeswarmChart Samples="@plans" />
+                <TwBeeswarmChart Samples="@_plans" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -17,7 +17,7 @@
 
         <CodeExample Name="BeeswarmChartClusters" CSharpName="BeeswarmChartClustersData">
             <TwChart Title="Build duration by branch" Description="Minutes">
-                <TwBeeswarmChart Samples="@builds" LabelHeader="Branch" ValueFormat="0.0 min" Height="ChartHeight.Large" />
+                <TwBeeswarmChart Samples="@_builds" LabelHeader="Branch" ValueFormat="0.0 min" Height="ChartHeight.Large" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -27,7 +27,7 @@
 
         <CodeExample Name="BeeswarmChartHorizontal">
             <TwChart Title="Customer satisfaction by plan">
-                <TwBeeswarmChart Samples="@plans" Horizontal="true" />
+                <TwBeeswarmChart Samples="@_plans" Horizontal="true" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -47,7 +47,7 @@
 
 @code {
     #region CodeExample BeeswarmChartData
-    private readonly ChartSample[] plans =
+    private readonly ChartSample[] _plans =
     [
         new("Free", [3, 4, 5, 5, 6, 6, 6, 7, 7, 7, 7, 8, 8, 9]),
         new("Team", [5, 6, 7, 7, 8, 8, 8, 8, 9, 9, 9, 10]),
@@ -56,7 +56,7 @@
     #endregion
 
     #region CodeExample BeeswarmChartClustersData
-    private readonly ChartSample[] builds =
+    private readonly ChartSample[] _builds =
     [
         new("main", [3.8, 3.9, 4.0, 4.0, 4.1, 4.1, 4.1, 4.2, 4.2, 4.3, 4.3, 4.4, 4.6, 7.9, 8.4, 11.2]),
         new("release", [4.4, 4.5, 4.6, 4.6, 4.7, 4.8, 4.8, 4.9, 5.0, 5.2]),

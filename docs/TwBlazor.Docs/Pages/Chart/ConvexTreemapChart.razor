@@ -7,7 +7,7 @@
 
         <CodeExample Name="ConvexTreemapChartBasic" CSharpName="ConvexTreemapChartData">
             <TwChart Title="Budget by team" Description="Thousands of pounds">
-                <TwConvexTreemapChart Roots="@budget" />
+                <TwConvexTreemapChart Roots="@_budget" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -17,7 +17,7 @@
 
         <CodeExample Name="ConvexTreemapChartMany" CSharpName="ConvexTreemapChartManyData">
             <TwChart Title="Bundle size by package" Description="Kilobytes">
-                <TwConvexTreemapChart Roots="@bundle" LabelHeader="Package" ValueHeader="Size" ValueFormat="#,0 kB" Height="ChartHeight.Large" />
+                <TwConvexTreemapChart Roots="@_bundle" LabelHeader="Package" ValueHeader="Size" ValueFormat="#,0 kB" Height="ChartHeight.Large" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -27,7 +27,7 @@
 
         <CodeExample Name="ConvexTreemapChartDeep" CSharpName="ConvexTreemapChartDeepData">
             <TwChart Title="Sales by region, country and product" Description="Millions of pounds">
-                <TwConvexTreemapChart Roots="@sales" ValueFormat="C1" Height="ChartHeight.Large" />
+                <TwConvexTreemapChart Roots="@_sales" ValueFormat="C1" Height="ChartHeight.Large" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -47,7 +47,7 @@
 
 @code {
     #region CodeExample ConvexTreemapChartData
-    private readonly ChartHierarchyNode[] budget =
+    private readonly ChartHierarchyNode[] _budget =
     [
         new("Product", Children: [new("Research", 36), new("Design", 24), new("Engineering", 58)]),
         new("Operations", Children: [new("Support", 22), new("Hosting", 18)])
@@ -55,7 +55,7 @@
     #endregion
 
     #region CodeExample ConvexTreemapChartManyData
-    private readonly ChartHierarchyNode[] bundle =
+    private readonly ChartHierarchyNode[] _bundle =
     [
         new("Framework", Children: [new("Runtime", 412), new("Router", 96), new("Forms", 74), new("Http", 38)]),
         new("Interface", Children: [new("Components", 268), new("Icons", 142), new("Charts", 118), new("Theme", 44)]),
@@ -64,7 +64,7 @@
     #endregion
 
     #region CodeExample ConvexTreemapChartDeepData
-    private readonly ChartHierarchyNode[] sales =
+    private readonly ChartHierarchyNode[] _sales =
     [
         new("Europe", Children:
         [
