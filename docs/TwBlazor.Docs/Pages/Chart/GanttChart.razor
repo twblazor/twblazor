@@ -7,7 +7,7 @@
 
         <CodeExample Name="GanttChartBasic" CSharpName="GanttChartData">
             <TwChart Title="Release plan">
-                <TwGanttChart Tasks="@tasks" />
+                <TwGanttChart Tasks="@_tasks" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -17,7 +17,7 @@
 
         <CodeExample Name="GanttChartFormat">
             <TwChart Title="Release plan">
-                <TwGanttChart Tasks="@tasks" DateFormat="MMM yyyy" />
+                <TwGanttChart Tasks="@_tasks" DateFormat="MMM yyyy" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -27,7 +27,7 @@
 
         <CodeExample Name="GanttChartLabels">
             <TwChart Title="Release plan">
-                <TwGanttChart Tasks="@tasks" StartLabel="Begins" EndLabel="Due" LabelHeader="Phase" Height="ChartHeight.Small" />
+                <TwGanttChart Tasks="@_tasks" StartLabel="Begins" EndLabel="Due" LabelHeader="Phase" Height="ChartHeight.Small" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -43,7 +43,7 @@
 
 @code {
     #region CodeExample GanttChartData
-    private readonly ChartTask[] tasks =
+    private readonly ChartTask[] _tasks =
     [
         new("Research", new DateTime(2026, 1, 5, 0, 0, 0, DateTimeKind.Local), new DateTime(2026, 1, 23, 0, 0, 0, DateTimeKind.Local)),
         new("Design", new DateTime(2026, 1, 19, 0, 0, 0, DateTimeKind.Local), new DateTime(2026, 2, 13, 0, 0, 0, DateTimeKind.Local)),

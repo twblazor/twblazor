@@ -146,7 +146,7 @@ public class NavigationTests : DocsTestBase
         var cut = TestContext.Render<Navigation>();
 
         // Assert
-        Assert.Single(cut.FindAll("a[href='/skeleton'] [aria-label='New']"));
+        Assert.Single(cut.FindAll("a[href='/numeric'] [aria-label='New']"));
         Assert.Empty(cut.FindAll("a[href='/card'] [aria-label='New']"));
     }
 }

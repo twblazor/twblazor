@@ -8,7 +8,7 @@ public partial class ThemeTemplateExtractorTests
     [GeneratedRegex(@"^                new (Tw\w+Theme)\b", RegexOptions.Multiline)]
     private static partial Regex ComponentListEntryRegex();
 
-    private const string Source = """
+    private const string source = """
         using System.Reflection.Metadata;
         using TwBlazor.Configuration;
         using TwBlazor.Enums;
@@ -68,7 +68,7 @@ public partial class ThemeTemplateExtractorTests
         }
         """;
 
-    private static ThemeTemplate Extract() => ThemeTemplateExtractor.Extract(Source);
+    private static ThemeTemplate Extract() => ThemeTemplateExtractor.Extract(source);
 
     [Fact]
     public void Extract_ReadsUsings_ExceptTheHotReloadOne()

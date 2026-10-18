@@ -30,18 +30,18 @@
         <Description>
             Leave <code>Direction</code> unset and the provider follows the language the application is running in: right to left for a culture such as Arabic, Hebrew, Persian or Urdu, left to right for everything else. Wrap the layout once and the whole application turns with the culture. Keep the toast and dialog providers inside it, so toasts and dialogs turn too.
         </Description>
-        <TwCodeBlock Content="@_layoutExample" Language="razor" />
+        <TwCodeBlock Content="@layoutExample" Language="razor" />
         <p class="my-3">
             To pin the direction whatever the culture, set it once in <code>AddTwBlazor</code>.
         </p>
-        <TwCodeBlock Content="@_optionsExample" Language="csharp" />
+        <TwCodeBlock Content="@optionsExample" Language="csharp" />
     </PageCard>
 
     <PageCard Title="Without the provider" Id="direction-provider-html">
         <Description>
             The provider is a convenience. What the styles react to is the <code>dir</code> attribute, so an application that already sets it on the <code>html</code> element does not need one. Set it from the same culture twblazor reads, so the layout and the arrow keys agree.
         </Description>
-        <TwCodeBlock Content="@_htmlExample" Language="razor" />
+        <TwCodeBlock Content="@htmlExample" Language="razor" />
         <TwAlert Color="Color.Info" Class="mt-3">
             The <code>dir</code> attribute has to be there. Setting <code>direction: rtl</code> in CSS alone turns the text but not the parts of the theme that are mirrored with Tailwind's <code>rtl:</code> variant.
         </TwAlert>
@@ -152,7 +152,7 @@
         new("rounded-l-md, rounded-r-md", "rounded-s-md, rounded-e-md"),
     ];
 
-    private const string _layoutExample = """
+    private const string layoutExample = """
         @* MainLayout.razor *@
         <TwDirectionProvider>
             <TwSidebar>
@@ -163,14 +163,14 @@
         </TwDirectionProvider>
         """;
 
-    private const string _optionsExample = """
+    private const string optionsExample = """
         builder.Services.AddTwBlazor(options =>
         {
             options.Localization.Direction = TextDirection.RightToLeft;
         }, Theme.CreateTheme);
         """;
 
-    private const string _htmlExample = """
+    private const string htmlExample = """
         @* App.razor *@
         @inject ITwLocalizer Localizer
 

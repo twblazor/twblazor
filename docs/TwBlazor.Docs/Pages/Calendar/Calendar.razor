@@ -23,7 +23,7 @@
             below).
         </Description>
         <CodeExample Name="CalendarBasic" CSharpName="CalendarBasicCode">
-            <TwCalendar T="EventDetails" @bind-SelectedDate="selectedDate" @bind-View="view" Schedules="Schedules" DialogProperties="dialogProperties" />
+            <TwCalendar T="EventDetails" @bind-SelectedDate="selectedDate" @bind-View="view" Schedules="_schedules" DialogProperties="_dialogProperties" />
         </CodeExample>
     </PageCard>
 
@@ -37,7 +37,7 @@
             or Month view only selects the date. This example offers just Week and Month.
         </Description>
         <CodeExample Name="CalendarEnabledViews" CSharpName="CalendarEnabledViewsCode">
-            <TwCalendar T="EventDetails" @bind-SelectedDate="enabledViewsSelectedDate" @bind-View="enabledViewsView" EnabledViews="enabledViews" Schedules="Schedules" DialogProperties="dialogProperties" />
+            <TwCalendar T="EventDetails" @bind-SelectedDate="enabledViewsSelectedDate" @bind-View="enabledViewsView" EnabledViews="_enabledViews" Schedules="_schedules" DialogProperties="_dialogProperties" />
         </CodeExample>
     </PageCard>
 
@@ -58,7 +58,7 @@
             events.
         </Description>
         <CodeExample Name="CalendarAllDay" CSharpName="CalendarAllDayCode">
-            <TwCalendar T="EventDetails" @bind-SelectedDate="allDaySelectedDate" @bind-View="allDayView" Editable="true" DialogProperties="dialogProperties" @bind-Schedules="AllDaySchedules" />
+            <TwCalendar T="EventDetails" @bind-SelectedDate="allDaySelectedDate" @bind-View="allDayView" Editable="true" DialogProperties="_dialogProperties" @bind-Schedules="allDaySchedules" />
         </CodeExample>
     </PageCard>
 
@@ -75,7 +75,7 @@
             the theme color.
         </Description>
         <CodeExample Name="CalendarEditable" CSharpName="CalendarEditableCode">
-            <TwCalendar T="EventDetails" @bind-SelectedDate="editableSelectedDate" @bind-View="editableView" Editable="true" DialogProperties="dialogProperties" @bind-Schedules="EditableSchedules" />
+            <TwCalendar T="EventDetails" @bind-SelectedDate="editableSelectedDate" @bind-View="editableView" Editable="true" DialogProperties="_dialogProperties" @bind-Schedules="editableSchedules" />
         </CodeExample>
     </PageCard>
 
@@ -98,7 +98,7 @@
             "Priority" and <code>Attendees</code> is relabeled "Guests".
         </Description>
         <CodeExample Name="CalendarDialogProperties" CSharpName="CalendarDialogPropertiesCode">
-            <TwCalendar T="EventDetails" @bind-SelectedDate="detailsSelectedDate" @bind-View="detailsView" Editable="true" DialogProperties="detailsDialogProperties" @bind-Schedules="DetailsSchedules" />
+            <TwCalendar T="EventDetails" @bind-SelectedDate="detailsSelectedDate" @bind-View="detailsView" Editable="true" DialogProperties="_detailsDialogProperties" @bind-Schedules="detailsSchedules" />
         </CodeExample>
     </PageCard>
 
@@ -107,7 +107,7 @@
             Use <code>EventContentTemplate</code> to change how each event looks in all three views.
         </Description>
         <CodeExample Name="CalendarCustomContent" CSharpName="CalendarCustomContentCode">
-            <TwCalendar T="EventDetails" @bind-SelectedDate="customContentSelectedDate" @bind-View="customContentView" Schedules="Schedules" DialogProperties="dialogProperties">
+            <TwCalendar T="EventDetails" @bind-SelectedDate="customContentSelectedDate" @bind-View="customContentView" Schedules="_schedules" DialogProperties="_dialogProperties">
                 <EventContentTemplate>
                     <span class="text-xs font-semibold">@context.Name</span>
                     <span class="block text-xs opacity-80">@context.DateTimeStart.ToString("h:mm tt")</span>
@@ -125,7 +125,7 @@
             <code>@@bind-View</code> on the calendar.
         </Description>
         <CodeExample Name="CalendarSearch" CSharpName="CalendarSearchCode">
-            <TwCalendar T="EventDetails" @bind-SelectedDate="searchSelectedDate" @bind-View="searchView" Schedules="Schedules" DialogProperties="dialogProperties" OnSearch="OnSearchAsync" />
+            <TwCalendar T="EventDetails" @bind-SelectedDate="searchSelectedDate" @bind-View="searchView" Schedules="_schedules" DialogProperties="_dialogProperties" OnSearch="OnSearchAsync" />
         </CodeExample>
     </PageCard>
 </PageContainer>
@@ -135,7 +135,7 @@
     private DateTime selectedDate = DateTime.Today;
     private TwCalendarView view = TwCalendarView.Week;
 
-    private readonly List<Schedule<EventDetails>> Schedules = BuildSampleSchedules();
+    private readonly List<Schedule<EventDetails>> _schedules = BuildSampleSchedules();
 
     public enum EventPriority
     {
@@ -154,7 +154,7 @@
         public bool IsOnline { get; set; }
     }
 
-    private readonly Dictionary<string, string> dialogProperties = new()
+    private readonly Dictionary<string, string> _dialogProperties = new()
     {
         [nameof(EventDetails.Notes)] = "Notes",
         [nameof(EventDetails.Location)] = "Location",
@@ -219,30 +219,30 @@
     private DateTime enabledViewsSelectedDate = DateTime.Today;
     private TwCalendarView enabledViewsView = TwCalendarView.Week;
 
-    private readonly TwCalendarView[] enabledViews = [TwCalendarView.Week, TwCalendarView.Month];
+    private readonly TwCalendarView[] _enabledViews = [TwCalendarView.Week, TwCalendarView.Month];
     #endregion
 
     #region CodeExample CalendarAllDayCode
     private DateTime allDaySelectedDate = DateTime.Today.AddDays(1);
     private TwCalendarView allDayView = TwCalendarView.Week;
 
-    private List<Schedule<EventDetails>> AllDaySchedules = BuildSampleSchedules();
+    private List<Schedule<EventDetails>> allDaySchedules = BuildSampleSchedules();
     #endregion
 
     #region CodeExample CalendarEditableCode
     private DateTime editableSelectedDate = DateTime.Today;
     private TwCalendarView editableView = TwCalendarView.Day;
 
-    private List<Schedule<EventDetails>> EditableSchedules = BuildSampleSchedules();
+    private List<Schedule<EventDetails>> editableSchedules = BuildSampleSchedules();
     #endregion
 
     #region CodeExample CalendarDialogPropertiesCode
     private DateTime detailsSelectedDate = DateTime.Today;
     private TwCalendarView detailsView = TwCalendarView.Day;
 
-    private List<Schedule<EventDetails>> DetailsSchedules = BuildSampleSchedules();
+    private List<Schedule<EventDetails>> detailsSchedules = BuildSampleSchedules();
 
-    private readonly Dictionary<string, string> detailsDialogProperties = new()
+    private readonly Dictionary<string, string> _detailsDialogProperties = new()
     {
         [nameof(EventDetails.Notes)] = "Notes",
         [nameof(EventDetails.Location)] = "Location",
@@ -265,7 +265,7 @@
     {
         var reference = await DialogService.ShowAsync<CalendarSearchDialog<EventDetails>>("Search events", new TwDialogParameters
         {
-            ["Schedules"] = Schedules
+            ["Schedules"] = _schedules
         });
 
         var selected = await reference.GetReturnValueAsync<Schedule<EventDetails>>();

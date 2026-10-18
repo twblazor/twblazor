@@ -22,7 +22,7 @@ public class TwDataTableManualRenderingTests : TwBlazorTestBase
         var cut = TestContext.Render<TwDataTable<TestProduct>>(parameters => parameters
             .Add(p => p.Items, products)
             .Add(p => p.TableHeader, tableHeader)
-            .Add(p => p.TableRow, RenderTableRow));
+            .Add(p => p.TableRow, renderTableRow));
 
         // Assert
         var header = cut.Find("th");
@@ -45,7 +45,7 @@ public class TwDataTableManualRenderingTests : TwBlazorTestBase
         var cut = TestContext.Render<TwDataTable<TestProduct>>(parameters => parameters
             .Add(p => p.Items, products)
             .Add(p => p.TableHeader, tableHeader)
-            .Add(p => p.TableRow, RenderTableRow));
+            .Add(p => p.TableRow, renderTableRow));
 
         // Assert
         var cells = cut.FindAll("td");
@@ -103,7 +103,7 @@ public class TwDataTableManualRenderingTests : TwBlazorTestBase
         var cut = TestContext.Render<TwDataTable<TestProduct>>(parameters => parameters
             .Add(p => p.Items, products)
             .Add(p => p.TableHeader, tableHeader)
-            .Add(p => p.TableRow, RenderTableRow)
+            .Add(p => p.TableRow, renderTableRow)
             .Add(p => p.RowClass, "my-row-class"));
 
         // Assert
@@ -147,9 +147,9 @@ public class TwDataTableManualRenderingTests : TwBlazorTestBase
         var cut = TestContext.Render<TwDataTable<TestProduct>>(parameters => parameters
             .Add(p => p.Items, [null!]));
 
-        // Assert - Should not throw, should render without the null item
-        var rows = cut.FindAll("tbody tr");
-        Assert.Empty(rows);
+        // Assert - the null item is skipped, so the table reads as empty
+        var row = Assert.Single(cut.FindAll("tbody tr"));
+        Assert.Equal("No data available.", row.TextContent.Trim());
     }
 
     [Fact]
@@ -252,7 +252,7 @@ public class TwDataTableManualRenderingTests : TwBlazorTestBase
             .Add(p => p.Items, products)
             .Add(p => p.Columns, [])
             .Add(p => p.TableHeader, tableHeader)
-            .Add(p => p.TableRow, RenderTableRow));
+            .Add(p => p.TableRow, renderTableRow));
 
         // Assert
         var header = cut.Find("th");
@@ -260,7 +260,7 @@ public class TwDataTableManualRenderingTests : TwBlazorTestBase
     }
 
     // Helper methods
-    private static RenderFragment<TestProduct> RenderTableRow => context => builder =>
+    private static RenderFragment<TestProduct> renderTableRow => context => builder =>
     {
         builder.OpenElement(0, "td");
         builder.AddContent(1, context.Name);

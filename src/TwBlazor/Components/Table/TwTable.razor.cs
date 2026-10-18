@@ -44,23 +44,20 @@ public partial class TwTable : TwBlazorComponentBase
     {
         await base.OnAfterRenderAsync(firstRender);
 
-        if (!firstRender)
+        if (firstRender)
         {
-            return;
+            // If the script cannot run (prerendering, or the circuit has gone) the wrapper stays focusable.
+            await InvokeScriptAsync("twScrollRegion.observe", wrapperRef);
         }
 
-        try
-        {
-            await jsRuntime.InvokeVoidAsync("twScrollRegion.observe", wrapperRef);
-        }
-        catch (JSDisconnectedException)
-        {
-            // The circuit disconnected before the script could run; the wrapper stays focusable.
-        }
-        catch (InvalidOperationException)
-        {
-            // JS interop is not available (prerendering); the wrapper stays focusable.
-        }
+        await SyncResizeScriptAsync();
+    }
+
+    /// <inheritdoc />
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        SyncPagingParameters();
     }
 
     private TwTableTheme theme => options.Theme.Components.Require<TwTableTheme>();
@@ -81,6 +78,39 @@ public partial class TwTable : TwBlazorComponentBase
     public bool CaptionVisible { get; set; } = false;
 
     /// <summary>
+    /// Optional column definitions, rendered inside a <c>&lt;colgroup&gt;</c> before the table sections. Use
+    /// <see cref="TwTableColumn"/> to give columns a width, so long or breakable content (such as inline code)
+    /// cannot squeeze a column narrower than its content needs.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ColumnGroup { get; set; }
+
+    /// <summary>
+    /// Whether column widths come from the <see cref="ColumnGroup"/> and the header row instead of the cell
+    /// content (CSS <c>table-layout: fixed</c>). Columns keep the same width however their content changes,
+    /// which suits tables whose rows are paged, filtered or loaded on demand. Defaults to <c>false</c>.
+    /// </summary>
+    [Parameter]
+    public bool FixedLayout { get; set; }
+
+    /// <summary>
+    /// Gets or sets the tallest the table can grow before its rows scroll inside it, as any CSS length such as
+    /// <c>24rem</c> or <c>60vh</c>. Leave it unset for the table to be as tall as its rows. Pair it with
+    /// <see cref="StickyHeader"/> to keep the column headings in view.
+    /// </summary>
+    [Parameter]
+    public string? MaxHeight { get; set; }
+
+    /// <summary>
+    /// Whether the header row stays at the top of the table while its rows scroll beneath it. Only has an effect
+    /// when the table scrolls, for example with <see cref="MaxHeight"/>. Defaults to <c>false</c>.
+    /// </summary>
+    [Parameter]
+    public bool StickyHeader { get; set; }
+
+    private string? wrapperStyle => string.IsNullOrWhiteSpace(effectiveMaxHeight) ? null : $"max-height:{effectiveMaxHeight.Trim()}";
+
+    /// <summary>
     /// Content to render in the table header (thead).
     /// </summary>
     [Parameter]
@@ -91,6 +121,16 @@ public partial class TwTable : TwBlazorComponentBase
     /// </summary>
     [Parameter]
     public RenderFragment? TableBody { get; set; }
+
+    /// <summary>
+    /// Content made of several <c>&lt;tbody&gt;</c> elements, one for each group of rows, rendered in place of
+    /// <see cref="TableBody"/>. The context is the body's CSS classes (including <see cref="Striped"/>,
+    /// <see cref="Hoverable"/> and <see cref="Bordered"/>), so put it on every <c>&lt;tbody&gt;</c> to style the groups
+    /// like a single body. Start each group with a header cell that has <c>scope="rowgroup"</c>, and assistive
+    /// technology announces it with every row in the group.
+    /// </summary>
+    [Parameter]
+    public RenderFragment<string>? RowGroups { get; set; }
 
     /// <summary>
     /// Content to render in the table footer (tfoot).
@@ -166,10 +206,12 @@ public partial class TwTable : TwBlazorComponentBase
 
     private string tableClasses => new ClassBuilder()
         .AddClass(theme.Base)
+        .AddClass(theme.FixedLayout, effectiveFixedLayout)
         .Build();
 
     private string headerClasses => new ClassBuilder()
         .AddClass(theme.Header)
+        .AddClass(theme.StickyHeader, effectiveStickyHeader)
         .AddClass(HeaderClass ?? string.Empty)
         .Build();
 

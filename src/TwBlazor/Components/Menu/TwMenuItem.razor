@@ -1,0 +1,20 @@
+﻿@namespace TwBlazor.Components
+@inherits TwBlazorComponentBase
+
+<button type="button"
+        id="@Id"
+        role="menuitem"
+        tabindex="-1"
+        class="@itemClasses"
+        style="@Style"
+        aria-disabled="@(Disabled ? "true" : null)"
+        aria-label="@AriaLabel"
+        aria-labelledby="@AriaLabelledBy"
+        @onclick="@ActivateAsync"
+        @attributes="Attributes">
+    @if (StartIcon is { } icon)
+    {
+        <TwIcon Icon="@icon" Class="@theme.ItemIcon" />
+    }
+    <span>@if (ChildContent != null) { @ChildContent } else { @Label }</span>
+</button>

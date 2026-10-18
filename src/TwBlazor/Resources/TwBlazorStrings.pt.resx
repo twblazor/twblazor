@@ -348,7 +348,7 @@
   <data name="DataTable_SearchPlaceholder" xml:space="preserve">
     <value>Pesquisar…</value>
   </data>
-  <data name="DataTable_Pagination" xml:space="preserve">
+  <data name="Table_Pagination" xml:space="preserve">
     <value>Paginação da tabela</value>
   </data>
   <data name="DataTable_PageStatusOne" xml:space="preserve">
@@ -659,5 +659,239 @@
   </data>
   <data name="Rating_ReadOnly" xml:space="preserve">
     <value>Avaliação {0} de {1}</value>
+  </data>
+  <data name="Numeric_Increase" xml:space="preserve">
+    <value>Aumentar valor</value>
+  </data>
+  <data name="Numeric_Decrease" xml:space="preserve">
+    <value>Diminuir valor</value>
+  </data>
+  <data name="Textfield_Clear" xml:space="preserve">
+    <value>Limpar valor</value>
+  </data>
+  <data name="Numeric_Invalid" xml:space="preserve">
+    <value>Insira um número válido.</value>
+  </data>
+  <data name="DataTable_NoData" xml:space="preserve">
+    <value>Não há dados disponíveis.</value>
+  </data>
+  <data name="DataTable_Columns" xml:space="preserve">
+    <value>Colunas</value>
+  </data>
+  <data name="DataTable_ResetColumns" xml:space="preserve">
+    <value>Repor colunas</value>
+  </data>
+  <data name="DataTable_ColumnsReset" xml:space="preserve">
+    <value>Colunas repostas</value>
+  </data>
+  <data name="DataTable_ColumnShown" xml:space="preserve">
+    <value>Coluna {0} mostrada</value>
+  </data>
+  <data name="DataTable_ColumnHidden" xml:space="preserve">
+    <value>Coluna {0} ocultada</value>
+  </data>
+  <data name="DataTable_ColumnMoved" xml:space="preserve">
+    <value>{0} movida para a posição {1} de {2}</value>
+  </data>
+  <data name="DataTable_ExportCsv" xml:space="preserve">
+    <value>Exportar CSV</value>
+  </data>
+  <data name="DataTable_ExportExcel" xml:space="preserve">
+    <value>Exportar Excel</value>
+  </data>
+  <data name="DataTable_ExportedOne" xml:space="preserve">
+    <value>{0} linha exportada</value>
+  </data>
+  <data name="DataTable_ExportedOther" xml:space="preserve">
+    <value>{0} linhas exportadas</value>
+  </data>
+  <data name="DataTable_GroupBy" xml:space="preserve">
+    <value>Agrupar por</value>
+  </data>
+  <data name="DataTable_NoGrouping" xml:space="preserve">
+    <value>Sem agrupamento</value>
+  </data>
+  <data name="DataTable_GroupedBy" xml:space="preserve">
+    <value>Agrupado por {0}</value>
+  </data>
+  <data name="DataTable_GroupingRemoved" xml:space="preserve">
+    <value>Agrupamento removido</value>
+  </data>
+  <data name="DataTable_GroupRowsOne" xml:space="preserve">
+    <value>{0} linha</value>
+  </data>
+  <data name="DataTable_GroupRowsOther" xml:space="preserve">
+    <value>{0} linhas</value>
+  </data>
+  <data name="DataTable_GroupExpanded" xml:space="preserve">
+    <value>{0} expandido</value>
+  </data>
+  <data name="DataTable_GroupCollapsed" xml:space="preserve">
+    <value>{0} recolhido</value>
+  </data>
+  <data name="DataTable_ExpandAllGroups" xml:space="preserve">
+    <value>Expandir todos os grupos</value>
+  </data>
+  <data name="DataTable_CollapseAllGroups" xml:space="preserve">
+    <value>Recolher todos os grupos</value>
+  </data>
+  <data name="DataTable_AllGroupsExpanded" xml:space="preserve">
+    <value>Todos os grupos expandidos</value>
+  </data>
+  <data name="DataTable_AllGroupsCollapsed" xml:space="preserve">
+    <value>Todos os grupos recolhidos</value>
+  </data>
+  <data name="DataTable_GroupNoValue" xml:space="preserve">
+    <value>(Sem valor)</value>
+  </data>
+  <data name="DataTable_Loading" xml:space="preserve">
+    <value>A carregar…</value>
+  </data>
+  <data name="DataTable_Actions" xml:space="preserve">
+    <value>Ações</value>
+  </data>
+  <data name="DataTable_EditRow" xml:space="preserve">
+    <value>Editar {0}</value>
+  </data>
+  <data name="DataTable_SaveRow" xml:space="preserve">
+    <value>Guardar {0}</value>
+  </data>
+  <data name="DataTable_CancelEdit" xml:space="preserve">
+    <value>Cancelar a edição de {0}</value>
+  </data>
+  <data name="DataTable_Editing" xml:space="preserve">
+    <value>A editar {0}</value>
+  </data>
+  <data name="DataTable_RowSaved" xml:space="preserve">
+    <value>{0} guardado</value>
+  </data>
+  <data name="DataTable_EditCancelled" xml:space="preserve">
+    <value>Edição de {0} cancelada</value>
+  </data>
+  <data name="DataTable_EditInvalidOne" xml:space="preserve">
+    <value>É preciso corrigir {0} campo antes de guardar</value>
+  </data>
+  <data name="DataTable_EditInvalidOther" xml:space="preserve">
+    <value>É preciso corrigir {0} campos antes de guardar</value>
+  </data>
+  <data name="Table_ResizeColumn" xml:space="preserve">
+    <value>Redimensionar {0}</value>
+  </data>
+  <data name="Table_ColumnWidthValue" xml:space="preserve">
+    <value>{0} píxeis</value>
+  </data>
+  <data name="Menu_Options" xml:space="preserve">
+    <value>Opções</value>
+  </data>
+  <data name="DataTable_ColumnOptions" xml:space="preserve">
+    <value>Opções da coluna {0}</value>
+  </data>
+  <data name="DataTable_SortAscending" xml:space="preserve">
+    <value>Ordenar por ordem crescente</value>
+  </data>
+  <data name="DataTable_SortDescending" xml:space="preserve">
+    <value>Ordenar por ordem decrescente</value>
+  </data>
+  <data name="DataTable_RemoveSort" xml:space="preserve">
+    <value>Remover ordenação</value>
+  </data>
+  <data name="DataTable_GroupByColumn" xml:space="preserve">
+    <value>Agrupar por esta coluna</value>
+  </data>
+  <data name="DataTable_StopGrouping" xml:space="preserve">
+    <value>Deixar de agrupar</value>
+  </data>
+  <data name="DataTable_MoveColumnLeft" xml:space="preserve">
+    <value>Mover para a esquerda</value>
+  </data>
+  <data name="DataTable_MoveColumnRight" xml:space="preserve">
+    <value>Mover para a direita</value>
+  </data>
+  <data name="DataTable_HideColumn" xml:space="preserve">
+    <value>Ocultar coluna</value>
+  </data>
+  <data name="DataTable_FilterColumn" xml:space="preserve">
+    <value>Filtrar {0}</value>
+  </data>
+  <data name="DataTable_FilterColumnActive" xml:space="preserve">
+    <value>Filtrar {0}, filtrado</value>
+  </data>
+  <data name="DataTable_FirstCondition" xml:space="preserve">
+    <value>Primeira condição</value>
+  </data>
+  <data name="DataTable_FirstValue" xml:space="preserve">
+    <value>Primeiro valor</value>
+  </data>
+  <data name="DataTable_SecondCondition" xml:space="preserve">
+    <value>Segunda condição</value>
+  </data>
+  <data name="DataTable_SecondValue" xml:space="preserve">
+    <value>Segundo valor</value>
+  </data>
+  <data name="DataTable_FilterLogic" xml:space="preserve">
+    <value>Combinar condições</value>
+  </data>
+  <data name="DataTable_FilterAnd" xml:space="preserve">
+    <value>E</value>
+  </data>
+  <data name="DataTable_FilterOr" xml:space="preserve">
+    <value>Ou</value>
+  </data>
+  <data name="DataTable_ApplyFilter" xml:space="preserve">
+    <value>Filtrar</value>
+  </data>
+  <data name="DataTable_ClearFilter" xml:space="preserve">
+    <value>Limpar</value>
+  </data>
+  <data name="DataTable_FilterAppliedOne" xml:space="preserve">
+    <value>Filtro aplicado a {0}, a mostrar {1} linha</value>
+  </data>
+  <data name="DataTable_FilterAppliedOther" xml:space="preserve">
+    <value>Filtro aplicado a {0}, a mostrar {1} linhas</value>
+  </data>
+  <data name="DataTable_FilterRemoved" xml:space="preserve">
+    <value>Filtro removido de {0}</value>
+  </data>
+  <data name="DataTable_Yes" xml:space="preserve">
+    <value>Sim</value>
+  </data>
+  <data name="DataTable_No" xml:space="preserve">
+    <value>Não</value>
+  </data>
+  <data name="DataTable_OperatorContains" xml:space="preserve">
+    <value>Contém</value>
+  </data>
+  <data name="DataTable_OperatorDoesNotContain" xml:space="preserve">
+    <value>Não contém</value>
+  </data>
+  <data name="DataTable_OperatorStartsWith" xml:space="preserve">
+    <value>Começa por</value>
+  </data>
+  <data name="DataTable_OperatorEndsWith" xml:space="preserve">
+    <value>Termina em</value>
+  </data>
+  <data name="DataTable_OperatorIsEqualTo" xml:space="preserve">
+    <value>É igual a</value>
+  </data>
+  <data name="DataTable_OperatorIsNotEqualTo" xml:space="preserve">
+    <value>Não é igual a</value>
+  </data>
+  <data name="DataTable_OperatorIsGreaterThan" xml:space="preserve">
+    <value>É maior que</value>
+  </data>
+  <data name="DataTable_OperatorIsGreaterThanOrEqualTo" xml:space="preserve">
+    <value>É maior ou igual a</value>
+  </data>
+  <data name="DataTable_OperatorIsLessThan" xml:space="preserve">
+    <value>É menor que</value>
+  </data>
+  <data name="DataTable_OperatorIsLessThanOrEqualTo" xml:space="preserve">
+    <value>É menor ou igual a</value>
+  </data>
+  <data name="DataTable_OperatorIsEmpty" xml:space="preserve">
+    <value>Está vazio</value>
+  </data>
+  <data name="DataTable_OperatorIsNotEmpty" xml:space="preserve">
+    <value>Não está vazio</value>
   </data>
 </root>

@@ -74,7 +74,7 @@
         <CodeExample Name="CheckboxDataDriven" CSharpName="CheckboxDataDrivenCode">
             <div class="mb-6">
                 <TwCheckboxGroup Legend="Select programming languages"
-                                 Items="@languageItems"
+                                 Items="@_languageItems"
                                  @bind-SelectedValues="selectedLanguages"
                                  ItemColor="Color.Accent"
                                  Horizontal />
@@ -85,7 +85,7 @@
 
             <div>
                 <TwCheckboxGroup Legend="Notification preferences"
-                                 Items="@notificationItems"
+                                 Items="@_notificationItems"
                                  @bind-SelectedValues="selectedNotifications"
                                  ItemColor="Color.Accent" />
                 <div class="mt-4 p-3 bg-gray-100 dark:bg-gray-800 rounded">
@@ -140,7 +140,7 @@
 
         <CodeExample Name="CheckboxProgrammatic" CSharpName="CheckboxProgrammaticCode">
             <TwCheckboxGroup Legend="Select days"
-                             Items="@dayItems"
+                             Items="@_dayItems"
                              @bind-SelectedValues="selectedDays"
                              ItemColor="Color.Accent"
                              Horizontal />
@@ -208,7 +208,7 @@
         Java
     }
 
-    private readonly List<CheckboxGroupItem<ProgrammingLanguage>> languageItems = new()
+    private readonly List<CheckboxGroupItem<ProgrammingLanguage>> _languageItems = new()
     {
         new() { Label = "C#", Value = ProgrammingLanguage.CSharp, IsSelected = true },
         new() { Label = "JavaScript", Value = ProgrammingLanguage.JavaScript, IsSelected = true },
@@ -218,7 +218,7 @@
     };
     private IEnumerable<ProgrammingLanguage>? selectedLanguages = new[] { ProgrammingLanguage.CSharp, ProgrammingLanguage.JavaScript };
 
-    private readonly List<CheckboxGroupItem<string>> notificationItems = new()
+    private readonly List<CheckboxGroupItem<string>> _notificationItems = new()
     {
         new() { Label = "Email notifications", Value = "Email", IsSelected = true },
         new() { Label = "SMS notifications", Value = "SMS", IsSelected = false },
@@ -228,7 +228,7 @@
     #endregion
 
     #region CodeExample CheckboxProgrammaticCode
-    private readonly List<CheckboxGroupItem<DayOfWeek>> dayItems = new()
+    private readonly List<CheckboxGroupItem<DayOfWeek>> _dayItems = new()
     {
         new() { Label = "Monday", Value = DayOfWeek.Monday, IsSelected = false },
         new() { Label = "Tuesday", Value = DayOfWeek.Tuesday, IsSelected = false },

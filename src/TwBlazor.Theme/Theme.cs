@@ -1083,6 +1083,12 @@ public static class Theme
                     MultilineDenseSize = $"[--textarea-py:0.5rem] py-(--textarea-py) {typography.Size.Sm}",
                     MultilineResize = "resize-y",
                     MultilineAutoGrow = "field-sizing-content resize-none",
+                    FieldWrapper = positioning.Relative,
+                    FieldStartContent = $"{positioning.Absolute} top-0 start-0 {display.Flex} {flexbox.Align.Center} {interaction.PointerEventsNone}",
+                    FieldEndContent = $"{positioning.Absolute} top-0 end-0 {display.Flex} {flexbox.Align.Stretch} gap-1 py-px pe-px",
+                    ClearablePadding = "pe-10",
+                    ClearButton = $"{display.InlineFlex} w-8 {flexbox.Align.Center} {flexbox.Justify.Center} {flexbox.ShrinkNone} {rounded.Md} {neutralText.Secondary} {neutralHoverText} {neutralHoverFill} {interaction.PointerCursor} {transition.ColorsFast} {focusRing} {interaction.FocusOutlineNone} disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent forced-colors:text-[ButtonText] forced-colors:disabled:text-[GrayText]",
+                    ClearButtonIcon = $"{typography.Size.Sm} leading-none",
                     SelectOption = $"{spacing.Padding.Lg} dark:bg-gray-800 dark:text-white supports-[appearance:base-select]:[padding-inline:revert] supports-[appearance:base-select]:py-2 supports-[appearance:base-select]:bg-transparent dark:supports-[appearance:base-select]:bg-transparent supports-[appearance:base-select]:hover:bg-[oklch(97%_0_0)] dark:supports-[appearance:base-select]:hover:bg-[oklch(34%_0.018_253)] supports-[appearance:base-select]:checked:bg-purple-50 supports-[appearance:base-select]:checked:text-purple-700 dark:supports-[appearance:base-select]:checked:bg-purple-500/20 dark:supports-[appearance:base-select]:checked:text-purple-300",
                     SelectNativeBackground = "!bg-white dark:!bg-gray-800",
                     SelectDefaultPadding = "px-3",
@@ -1112,6 +1118,24 @@ public static class Theme
                     FocusWithinBorder = "has-[:focus-visible]:border-purple-600 dark:has-[:focus-visible]:border-purple-400 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-purple-500 dark:has-[:focus-visible]:ring-purple-400",
                     FilledBackgroundColor = neutralSurface.Elevated,
                     ErrorMessage = $"{spacing.MarginTop.Sm} {typography.Size.Xs} {text.Medium.Danger} {darkText.Medium.Danger}"
+                },
+                new TwNumericTheme
+                {
+                    Adornment = $"self-center whitespace-nowrap select-none {neutralText.Secondary}",
+                    Button = $"{display.InlineFlex} {flexbox.Align.Center} {flexbox.Justify.Center} {flexbox.ShrinkNone} {rounded.Md} {neutralText.Secondary} {neutralHoverText} {neutralHoverFill} {interaction.PointerCursor} {transition.ColorsFast} {focusRing} {interaction.FocusOutlineNone} disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent forced-colors:text-[ButtonText] forced-colors:disabled:text-[GrayText]",
+                    ButtonIcon = $"{typography.Size.Sm} leading-none"
+                },
+                new TwMenuTheme
+                {
+                    Root = $"{positioning.Relative} {display.InlineFlex}",
+                    Panel = $"z-50 min-w-48 max-w-xs overflow-y-auto {rounded.Lg} {borderWidth.Thin} {neutralSurface.Border} {neutralSurface.Background} shadow-lg py-1 {interaction.FocusOutlineNone}",
+                    Item = $"{display.Flex} {sizing.FullWidth} {flexbox.Align.Center} {spacing.Gap.Sm} px-3 py-2 text-start {typography.Size.Sm} {neutralText.Heading} {neutralRowHover} focus-visible:bg-[oklch(21%_0.006_285.885)]/5 dark:focus-visible:bg-[oklch(97.807%_0.029_256.847)]/8 {interaction.PointerCursor} {transition.ColorsFast} {interaction.FocusOutlineNone} {focusRingInset}",
+                    ItemDisabled = $"{interaction.DisabledOpacity} {interaction.DisabledCursor}",
+                    ItemIcon = $"{typography.Size.Base} {flexbox.ShrinkNone} {neutralText.Subtle}",
+                    CheckIcon = $"{typography.Size.Base} {flexbox.ShrinkNone} text-purple-600 dark:text-purple-300",
+                    CheckIconHidden = "invisible",
+                    Divider = $"my-1 border-t {neutralSurface.Border}",
+                    GroupLabel = $"px-3 pt-2 pb-1 {typography.Size.Xs} {typography.Weight.Semibold} {neutralText.Muted}"
                 },
                 new TwOnThisPageTheme
                 {
@@ -1428,8 +1452,10 @@ public static class Theme
                     Wrapper = $"{positioning.Relative} overflow-auto focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-purple-600 dark:focus-visible:outline-purple-300",
                     ContainerClip = overflow.Hidden,
                     Base = $"{sizing.FullWidth} {typography.Size.Sm} text-start {neutralText.Heading}",
+                    FixedLayout = "table-fixed",
                     Bordered = $"{borderWidth.Thin} {neutralSurface.Border}",
                     Header = $"{typography.Size.Sm} {typography.Weight.Semibold} {neutralText.Secondary} {neutralSurface.BackgroundSubtle} border-b {neutralSurface.Border}",
+                    StickyHeader = $"{positioning.Sticky} top-0 z-10",
                     Body = neutralSurface.Background,
                     BodyStriped = "[&>tr:nth-child(even)]:bg-[oklch(98%_0_0)] [&>tr:nth-child(even)]:dark:bg-[oklch(23.26%_0.014_253.1)]",
                     BodyHoverable = "[&>tr:hover]:!bg-[oklch(95%_0_0)] [&>tr:hover]:dark:!bg-[oklch(21.15%_0.012_254.09)] [&>tr]:transition-colors [&>tr]:duration-200 [&>tr]:motion-reduce:transition-none",
@@ -1439,7 +1465,17 @@ public static class Theme
                     SortIcon = $"{typography.Size.Sm} {neutralText.Subtle} {neutralHoverText}",
                     HeaderCellPadding = "px-4 py-2.5",
                     BodyCellPadding = $"px-4 py-2.5 {typography.WrapBreakWord}",
-                    EmptyState = $"py-8 {typography.AlignCenter} {neutralText.Muted}"
+                    EmptyState = $"py-8 {typography.AlignCenter} {neutralText.Muted}",
+                    ResizeHandle = $"{positioning.Absolute} z-20 flex w-3 -translate-x-1/2 justify-center cursor-col-resize touch-none select-none before:block before:h-full before:w-px before:bg-gray-300 dark:before:bg-gray-600 hover:before:w-0.5 hover:before:bg-purple-500 active:before:bg-purple-600 dark:hover:before:bg-purple-400 focus-visible:outline-none focus-visible:before:w-0.5 focus-visible:before:bg-purple-600 dark:focus-visible:before:bg-purple-300",
+                    GroupByColumn = "w-full sm:w-56",
+                    GroupRow = $"{neutralSurface.BackgroundSubtle} {neutralText.Heading}",
+                    GroupToggle = $"{display.InlineFlex} {flexbox.Align.Center} {spacing.Gap.Sm} {rounded.Md} -mx-1 px-1 {typography.Weight.Semibold} {interaction.PointerCursor} focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600 dark:focus-visible:outline-purple-300",
+                    GroupCount = $"{typography.Weight.Medium} {neutralText.Muted}",
+                    LoadingCell = $"py-2.5 {typography.AlignCenter} {neutralText.Muted}",
+                    ActionsCell = "w-px whitespace-nowrap",
+                    EditingRow = "!bg-purple-50 dark:!bg-purple-500/10",
+                    FilterPanel = $"z-50 w-72 max-w-[calc(100vw-1rem)] {rounded.Lg} {borderWidth.Thin} {neutralSurface.Border} {neutralSurface.Background} shadow-lg {spacing.Padding.Md} {interaction.FocusOutlineNone}",
+                    FilterHeading = $"{display.Flex} {flexbox.Align.Center} {spacing.Gap.Sm} {spacing.MarginBottom.Md} {typography.Size.Sm} {typography.Weight.Semibold} {neutralText.Heading}"
                 },
                 new TwToastTheme
                 {

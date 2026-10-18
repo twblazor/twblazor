@@ -7,7 +7,7 @@
 
         <CodeExample Name="PieChartBasic" CSharpName="PieChartData">
             <TwChart Title="Traffic by source">
-                <TwPieChart Data="@sources" />
+                <TwPieChart Data="@_sources" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -17,7 +17,7 @@
 
         <CodeExample Name="PieChartDonut">
             <TwChart Title="Traffic by source">
-                <TwPieChart Data="@sources" InnerRadius="0.6" CenterText="1,000" />
+                <TwPieChart Data="@_sources" InnerRadius="0.6" CenterText="1,000" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -27,7 +27,7 @@
 
         <CodeExample Name="PieChartSemicircle">
             <TwChart Title="Traffic by source">
-                <TwPieChart Data="@sources" InnerRadius="0.6" Semicircle="true" CenterText="1,000" />
+                <TwPieChart Data="@_sources" InnerRadius="0.6" Semicircle="true" CenterText="1,000" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -37,7 +37,7 @@
 
         <CodeExample Name="PieChartOther" CSharpName="PieChartOtherData">
             <TwChart Title="Visits by country">
-                <TwPieChart Data="@countries" OtherLabel="Rest of world" ShowPercentages="false" />
+                <TwPieChart Data="@_countries" OtherLabel="Rest of world" ShowPercentages="false" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -57,7 +57,7 @@
 
 @code {
     #region CodeExample PieChartData
-    private readonly ChartValue[] sources =
+    private readonly ChartValue[] _sources =
     [
         new("Search", 430),
         new("Direct", 260),
@@ -68,7 +68,7 @@
     #endregion
 
     #region CodeExample PieChartOtherData
-    private readonly ChartValue[] countries =
+    private readonly ChartValue[] _countries =
     [
         new("United Kingdom", 320), new("United States", 280), new("Germany", 150), new("France", 120),
         new("Spain", 90), new("Italy", 70), new("Canada", 60), new("Japan", 40), new("Brazil", 30), new("India", 20)

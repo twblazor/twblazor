@@ -7,7 +7,7 @@
 
         <CodeExample Name="LineChartBasic" CSharpName="LineChartData">
             <TwChart Title="Monthly visitors" Description="Thousands">
-                <TwLineChart Categories="@months" Series="@visitors" />
+                <TwLineChart Categories="@_months" Series="@_visitors" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -17,7 +17,7 @@
 
         <CodeExample Name="LineChartSmooth">
             <TwChart Title="Monthly visitors">
-                <TwLineChart Categories="@months" Series="@visitors" Curve="ChartCurve.Smooth" />
+                <TwLineChart Categories="@_months" Series="@_visitors" Curve="ChartCurve.Smooth" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -27,7 +27,7 @@
 
         <CodeExample Name="LineChartStep" CSharpName="LineChartStepData">
             <TwChart Title="Plan price">
-                <TwLineChart Categories="@months" Series="@price" Curve="ChartCurve.Step" ValueFormat="C0" />
+                <TwLineChart Categories="@_months" Series="@_price" Curve="ChartCurve.Step" ValueFormat="C0" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -37,7 +37,7 @@
 
         <CodeExample Name="LineChartMarkers">
             <TwChart Title="Monthly visitors">
-                <TwLineChart Categories="@months" Series="@visitors" ShowMarkers="false" />
+                <TwLineChart Categories="@_months" Series="@_visitors" ShowMarkers="false" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -47,7 +47,7 @@
 
         <CodeExample Name="LineChartGaps" CSharpName="LineChartGapData">
             <TwChart Title="Sensor readings">
-                <TwLineChart Categories="@months" Series="@readings" />
+                <TwLineChart Categories="@_months" Series="@_readings" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -63,9 +63,9 @@
 
 @code {
     #region CodeExample LineChartData
-    private readonly string[] months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
+    private readonly string[] _months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
 
-    private readonly ChartSeries[] visitors =
+    private readonly ChartSeries[] _visitors =
     [
         new("Organic", [42, 48, 55, 61, 58, 70]),
         new("Paid", [30, 34, 31, 45, 52, 49]),
@@ -74,10 +74,10 @@
     #endregion
 
     #region CodeExample LineChartStepData
-    private readonly ChartSeries[] price = [new("Price", [20, 20, 25, 25, 25, 30])];
+    private readonly ChartSeries[] _price = [new("Price", [20, 20, 25, 25, 25, 30])];
     #endregion
 
     #region CodeExample LineChartGapData
-    private readonly ChartSeries[] readings = [new("Temperature", [18, 21, null, null, 24, 22])];
+    private readonly ChartSeries[] _readings = [new("Temperature", [18, 21, null, null, 24, 22])];
     #endregion
 }

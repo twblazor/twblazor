@@ -55,9 +55,13 @@ public partial class TwInputRoot
     [Parameter] public string? RootAriaLabelledBy { get; set; }
 
     /// <summary>
-    /// Optional validation error message. When set, rendered below the input and given the id
-    /// <see cref="RootErrorId"/> so the input's aria-describedby can reference it.
+    /// Optional validation error message. Rendered below the input, with the id <see cref="RootErrorId"/> so the
+    /// input's aria-describedby can reference it, only while <see cref="RootErrorId"/> is also set.
     /// </summary>
+    /// <remarks>
+    /// Input components only set <see cref="RootErrorId"/> while they are invalid, so a message passed alongside
+    /// <c>Invalid="false"</c> stays hidden rather than showing without being linked to the input.
+    /// </remarks>
     [Parameter] public string? RootErrorMessage { get; set; }
 
     /// <summary>

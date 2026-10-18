@@ -197,7 +197,7 @@ public class TwDataTableSortingTests : TwBlazorTestBase
         var cut = TestContext.Render<TwDataTable<TestProduct>>(parameters => parameters
             .Add(p => p.Items, products)
             .Add(p => p.Columns, columns)
-            .Add(p => p.Pageable, true)
+            .Add(p => p.EnablePagination, true)
             .Add(p => p.RowsPerPage, 5));
 
         // Navigate to page 2 - TwPagination renders Previous/page-numbers/Next as a single link list; Next is last.

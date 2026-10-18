@@ -7,7 +7,7 @@
 
         <CodeExample Name="SankeyChartBasic" CSharpName="SankeyChartData">
             <TwChart Title="Energy flow" Description="Gigawatt hours">
-                <TwSankeyChart Nodes="@energyNodes" Links="@energyLinks" />
+                <TwSankeyChart Nodes="@_energyNodes" Links="@_energyLinks" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -17,7 +17,7 @@
 
         <CodeExample Name="SankeyChartBudget" CSharpName="SankeyChartBudgetData">
             <TwChart Title="Where a monthly salary goes" Description="Pounds">
-                <TwSankeyChart Nodes="@budgetNodes" Links="@budgetLinks" ValueFormat="C0" SourceHeader="From" TargetHeader="To" ValueHeader="Amount" Height="ChartHeight.Large" />
+                <TwSankeyChart Nodes="@_budgetNodes" Links="@_budgetLinks" ValueFormat="C0" SourceHeader="From" TargetHeader="To" ValueHeader="Amount" Height="ChartHeight.Large" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -27,7 +27,7 @@
 
         <CodeExample Name="SankeyChartStages" CSharpName="SankeyChartStagesData">
             <TwChart Title="Checkout funnel" Description="Sessions last week">
-                <TwSankeyChart Nodes="@funnelNodes" Links="@funnelLinks" ValueHeader="Sessions" />
+                <TwSankeyChart Nodes="@_funnelNodes" Links="@_funnelLinks" ValueHeader="Sessions" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -47,14 +47,14 @@
 
 @code {
     #region CodeExample SankeyChartData
-    private readonly ChartGraphNode[] energyNodes =
+    private readonly ChartGraphNode[] _energyNodes =
     [
         new("solar", "Solar"), new("wind", "Wind"), new("gas", "Gas"),
         new("grid", "Grid"),
         new("homes", "Homes"), new("industry", "Industry")
     ];
 
-    private readonly ChartGraphLink[] energyLinks =
+    private readonly ChartGraphLink[] _energyLinks =
     [
         new("solar", "grid", 25), new("wind", "grid", 40), new("gas", "grid", 35),
         new("grid", "homes", 45), new("grid", "industry", 55)
@@ -62,7 +62,7 @@
     #endregion
 
     #region CodeExample SankeyChartBudgetData
-    private readonly ChartGraphNode[] budgetNodes =
+    private readonly ChartGraphNode[] _budgetNodes =
     [
         new("salary", "Salary"), new("bonus", "Bonus"),
         new("income", "Income"),
@@ -70,7 +70,7 @@
         new("rent", "Rent"), new("energy", "Energy"), new("food", "Food"), new("travel", "Travel"), new("leisure", "Leisure")
     ];
 
-    private readonly ChartGraphLink[] budgetLinks =
+    private readonly ChartGraphLink[] _budgetLinks =
     [
         new("salary", "income", 3200), new("bonus", "income", 400),
         new("income", "housing", 1400), new("income", "living", 1300), new("income", "savings", 900),
@@ -80,14 +80,14 @@
     #endregion
 
     #region CodeExample SankeyChartStagesData
-    private readonly ChartGraphNode[] funnelNodes =
+    private readonly ChartGraphNode[] _funnelNodes =
     [
         new("home", "Home page"), new("product", "Product page"),
         new("saved", "Saved link", Stage: 1),
         new("basket", "Basket"), new("paid", "Paid"), new("left", "Abandoned")
     ];
 
-    private readonly ChartGraphLink[] funnelLinks =
+    private readonly ChartGraphLink[] _funnelLinks =
     [
         new("home", "product", 5200), new("product", "basket", 1900), new("saved", "basket", 600),
         new("basket", "paid", 1400), new("basket", "left", 1100)

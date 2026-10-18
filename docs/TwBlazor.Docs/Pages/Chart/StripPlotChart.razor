@@ -7,7 +7,7 @@
 
         <CodeExample Name="StripPlotChartBasic" CSharpName="StripPlotChartData">
             <TwChart Title="Response times by service" Description="Milliseconds">
-                <TwStripPlotChart Samples="@services" />
+                <TwStripPlotChart Samples="@_services" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -17,7 +17,7 @@
 
         <CodeExample Name="StripPlotChartJitter">
             <TwChart Title="Response times by service">
-                <TwStripPlotChart Samples="@services" Jitter="true" />
+                <TwStripPlotChart Samples="@_services" Jitter="true" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -27,7 +27,7 @@
 
         <CodeExample Name="StripPlotChartHorizontal">
             <TwChart Title="Response times by service">
-                <TwStripPlotChart Samples="@services" Horizontal="true" Height="ChartHeight.Small" />
+                <TwStripPlotChart Samples="@_services" Horizontal="true" Height="ChartHeight.Small" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -47,7 +47,7 @@
 
 @code {
     #region CodeExample StripPlotChartData
-    private readonly ChartSample[] services =
+    private readonly ChartSample[] _services =
     [
         new("Search", [112, 120, 131, 135, 138, 142, 144, 149, 151, 153, 290]),
         new("Checkout", [156, 158, 160, 163, 167, 170, 172, 176, 181, 185]),

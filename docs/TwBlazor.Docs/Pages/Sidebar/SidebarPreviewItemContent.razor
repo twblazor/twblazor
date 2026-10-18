@@ -31,7 +31,7 @@
 @* #endregion *@
 
 @code {
-    private IDisposable? _navigationHandler;
+    private IDisposable? navigationHandler;
 
     #region CodeExample SidebarItemContentCode
     private readonly List<NavigationItem> _navigationItems =
@@ -64,7 +64,7 @@
     {
         if (firstRender)
         {
-            _navigationHandler = NavigationManager.RegisterLocationChangingHandler(ctx =>
+            navigationHandler = NavigationManager.RegisterLocationChangingHandler(ctx =>
             {
                 ctx.PreventNavigation();
                 return ValueTask.CompletedTask;
@@ -72,5 +72,5 @@
         }
     }
 
-    public void Dispose() => _navigationHandler?.Dispose();
+    public void Dispose() => navigationHandler?.Dispose();
 }

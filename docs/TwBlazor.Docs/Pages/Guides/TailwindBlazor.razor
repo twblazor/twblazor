@@ -15,7 +15,7 @@
         <p class="mb-3">
             Tailwind scans the files you point it at with <code>@@source</code> directives and generates CSS for every class name it finds. In a Blazor project that means your <code>.razor</code> files and any C# file that holds class names.
         </p>
-        <TwCodeBlock Content="@_sourceExample" Language="css" />
+        <TwCodeBlock Content="@sourceExample" Language="css" />
         <p class="mt-3">
             Run the Tailwind CLI against that input file to produce <code>output.css</code>, then link it from <code>App.razor</code> (Blazor Server and Web App) or <code>index.html</code> (standalone WebAssembly). Nothing about Tailwind needs a Node server at runtime, only at build time.
         </p>
@@ -25,7 +25,7 @@
         <p class="mb-3">
             twblazor is a Tailwind Blazor component library, so it solves the problem above directly. Every class a component uses is declared as a literal string in a <code>Theme.cs</code> file that lives in <strong>your</strong> project. Your Tailwind build scans that file alongside your Razor files and produces one stylesheet containing everything.
         </p>
-        <TwCodeBlock Content="@_themeExample" Language="csharp" />
+        <TwCodeBlock Content="@themeExample" Language="csharp" />
         <p class="mt-3">
             Because the classes are plain C# strings in your own code, you can change a component's look by editing one property, with no CSS overrides and no <code>!important</code>. The <a href="/theme" class="font-semibold underline">Theme builder</a> generates a <code>Theme.cs</code> with your brand colors and only the components you use.
         </p>
@@ -59,14 +59,14 @@
         new("Which Tailwind version does twblazor use?", "twblazor is built for Tailwind CSS v4 and its @source directive based configuration, as shown in the Get started guide."),
     ];
 
-    private const string _sourceExample = """
+    private const string sourceExample = """
         @import "tailwindcss";
 
         @source "../../**/*.razor";
         @source "../../Theme.cs";
         """;
 
-    private const string _themeExample = """
+    private const string themeExample = """
         builder.Services.AddTwBlazor(_ => { }, Theme.CreateDefaultTheme);
         """;
 }

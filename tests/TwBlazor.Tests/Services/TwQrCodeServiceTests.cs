@@ -7,18 +7,18 @@ namespace TwBlazor.Tests.Services;
 
 public class TwQrCodeServiceTests : TwBlazorTestBase
 {
-    private readonly ITwQrCodeService service;
+    private readonly ITwQrCodeService _service;
 
     public TwQrCodeServiceTests()
     {
-        service = TestContext.Services.GetRequiredService<ITwQrCodeService>();
+        _service = TestContext.Services.GetRequiredService<ITwQrCodeService>();
     }
 
     [Fact]
     public void AddTwBlazor_RegistersTheService_AsASingleton()
     {
-        Assert.IsType<TwQrCodeService>(service);
-        Assert.Same(service, TestContext.Services.GetRequiredService<ITwQrCodeService>());
+        Assert.IsType<TwQrCodeService>(_service);
+        Assert.Same(_service, TestContext.Services.GetRequiredService<ITwQrCodeService>());
     }
 
     [Fact]
@@ -36,8 +36,8 @@ public class TwQrCodeServiceTests : TwBlazorTestBase
     [Fact]
     public void Encode_RejectsNull()
     {
-        Assert.Throws<ArgumentNullException>(() => service.Encode((string)null!));
-        Assert.Throws<ArgumentNullException>(() => service.Encode((byte[])null!));
+        Assert.Throws<ArgumentNullException>(() => _service.Encode((string)null!));
+        Assert.Throws<ArgumentNullException>(() => _service.Encode((byte[])null!));
     }
 
     [Fact]
@@ -45,8 +45,8 @@ public class TwQrCodeServiceTests : TwBlazorTestBase
     {
         const string value = "https://twblazor.com/qr-code?ref=docs";
 
-        var fromText = service.Encode(value);
-        var fromBytes = service.Encode(System.Text.Encoding.UTF8.GetBytes(value));
+        var fromText = _service.Encode(value);
+        var fromBytes = _service.Encode(System.Text.Encoding.UTF8.GetBytes(value));
 
         Assert.Equal(fromText.Version, fromBytes.Version);
         Assert.Equal(fromText.Mask, fromBytes.Mask);
@@ -62,28 +62,28 @@ public class TwQrCodeServiceTests : TwBlazorTestBase
     [Fact]
     public void Encode_EmptyBytes_GivesAVersion1Code()
     {
-        Assert.Equal(1, service.Encode([]).Version);
+        Assert.Equal(1, _service.Encode([]).Version);
     }
 
     [Fact]
     public void TryEncode_ReturnsTheMatrix_WhenTheTextFits()
     {
-        Assert.True(service.TryEncode("hello", null, out var matrix));
+        Assert.True(_service.TryEncode("hello", null, out var matrix));
         Assert.Equal(1, matrix.Version);
     }
 
     [Fact]
     public void TryEncode_ReturnsFalse_WhenTheTextIsTooLongOrNull()
     {
-        Assert.False(service.TryEncode(new string('a', 1274), new QrEncodeOptions { ErrorCorrection = QrErrorCorrection.High }, out var tooLong));
+        Assert.False(_service.TryEncode(new string('a', 1274), new QrEncodeOptions { ErrorCorrection = QrErrorCorrection.High }, out var tooLong));
         Assert.Null(tooLong);
-        Assert.False(service.TryEncode(null, null, out var missing));
+        Assert.False(_service.TryEncode(null, null, out var missing));
         Assert.Null(missing);
     }
 
     [Fact]
     public void TryEncode_StillThrows_ForInvalidOptions()
     {
-        Assert.Throws<ArgumentOutOfRangeException>(() => service.TryEncode("x", new QrEncodeOptions { Mask = 9 }, out _));
+        Assert.Throws<ArgumentOutOfRangeException>(() => _service.TryEncode("x", new QrEncodeOptions { Mask = 9 }, out _));
     }
 }

@@ -7,7 +7,7 @@
         <CodeExample Name="DataTablePagination" CSharpName="DataTableProduct">
             <TwDataTable TItem="Product"
                          Items="@products"
-                         Pageable
+                         EnablePagination
                          RowsPerPage="5">
                 <TableHeader>
                     <tr>
@@ -34,7 +34,7 @@
             <TwDataTable TItem="Product"
                          Items="@products"
                          Searchable
-                         Pageable
+                         EnablePagination
                          RowsPerPage="10">
                 <TableHeader>
                     <tr>
@@ -65,7 +65,7 @@
         <CodeExample Name="DataTableWithoutPagination" CSharpName="DataTableUser">
             <TwDataTable TItem="User"
                          Items="@users"
-                         Pageable="false"
+                         EnablePagination="false"
                          Searchable
                          SearchPlaceholder="Search users...">
                 <TableHeader>
@@ -91,7 +91,7 @@
             <TwDataTable TItem="Product"
                          Items="@products"
                          RowsPerPage="5"
-                         Pageable
+                         EnablePagination
                          DefineTableRows>
                 <TableHeader>
                     <tr>
@@ -133,9 +133,9 @@
         <CodeExample Name="DataTableSortableColumns" CSharpName="DataTableProductColumns">
             <TwDataTable TItem="Product"
                          Items="@products"
-                         Columns="@productColumns"
+                         Columns="@_productColumns"
                          Searchable
-                         Pageable
+                         EnablePagination
                          RowsPerPage="10">
                 <EmptyContent>
                     <div class="text-center py-8">
@@ -143,6 +143,204 @@
                     </div>
                 </EmptyContent>
             </TwDataTable>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Column widths and fixed layout">
+        <Description>
+            Give a column a <code>Width</code> to size it. Any CSS length works, such as <code>40%</code> or <code>8rem</code>, and columns without a width share the rest. Add <code>FixedLayout</code> so the columns keep their widths as you page, sort and search, instead of jumping to fit each page's content. With <code>TableHeader</code> and <code>TableRow</code>, pass a <code>ColumnGroup</code> of <code>TwTableColumn</code> elements instead, as on <code>TwTable</code>.
+        </Description>
+
+        <CodeExample Name="DataTableColumnWidths" CSharpName="DataTableSizedColumns">
+            <TwDataTable TItem="Product"
+                         Items="@products"
+                         Columns="@_sizedColumns"
+                         FixedLayout
+                         Searchable
+                         RowsPerPage="5"
+                         AriaLabel="Products with fixed column widths" />
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Column menu">
+        <Description>
+            Set <code>ColumnMenu</code> and each column header gains an options button that opens a <a href="/menu" class="underline">TwMenu</a>. It sorts the column, groups by it when it is <code>Groupable</code>, moves it left or right, and hides it. Its Columns group ticks any column on or off, so a hidden column can be shown again, and Reset columns puts everything back. Set <code>Hideable = false</code> on a column that identifies each row so it cannot be hidden, and <code>Visible = false</code> on a column that should start hidden. Every change is announced to screen readers.
+        </Description>
+
+        <CodeExample Name="DataTableColumnMenu" CSharpName="DataTablePanelColumns">
+            <TwDataTable TItem="Product"
+                         Id="column-menu-table"
+                         Items="@products"
+                         Columns="@_panelColumns"
+                         ColumnMenu
+                         RowsPerPage="5"
+                         AriaLabel="Products with column menus" />
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Filtering columns">
+        <Description>
+            Set <code>Filterable</code> on a column and its header gains a filter button. It opens a filter with up to two conditions, joined with And or Or, then Filter applies them and Clear removes them. The conditions and the value field suit the column's values: text conditions such as Contains and Starts with, comparisons such as Is greater than for numbers and dates, and a list for true or false values and enums. Set <code>FilterType</code> when the type cannot be worked out, such as before an <code>ItemsProvider</code> has loaded any rows, and <code>FilterOperators</code> to choose the conditions on offer. Filters are saved with the table's state, sent to an <code>ItemsProvider</code> in <code>Filters</code>, and announced with the number of rows they leave.
+        </Description>
+
+        <CodeExample Name="DataTableFiltering" CSharpName="DataTableFilterColumns">
+            <TwDataTable TItem="Product"
+                         Id="filtering-table"
+                         Items="@products"
+                         Columns="@_filterColumns"
+                         ColumnMenu
+                         RowsPerPage="5"
+                         AriaLabel="Products you can filter" />
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Resizable columns">
+        <Description>
+            Set <code>ResizableColumns</code> and every column's border becomes a resize handle, from <a href="/table#resizable-columns" class="underline">TwTable</a>. Drag it, or focus it with <kbd>Tab</kbd> and press <kbd>Arrow Left</kbd> or <kbd>Arrow Right</kbd>, holding <kbd>Shift</kbd> for bigger steps. Screen readers hear each border as "Resize Price" with the column's width. The widths are saved with the table's state. <code>Resizable = false</code> keeps a column at its width.
+        </Description>
+
+        <CodeExample Name="DataTableResizableColumns">
+            <TwDataTable TItem="Product"
+                         Id="resizable-columns-table"
+                         Items="@products"
+                         Columns="@_productColumns"
+                         ResizableColumns
+                         RowsPerPage="5"
+                         AriaLabel="Products with resizable columns" />
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Grouping rows">
+        <Description>
+            Set <code>Groupable</code> on the columns people can group by, and a Group by list appears above the table. <code>GroupBy</code> picks the grouping the table starts with. Each group sits under a header row with a button that expands or collapses it, and Expand all groups and Collapse all groups work on every group at once. Rows keep the table's sort inside each group. A page that starts part way through a group repeats its header. Use <code>GroupHeaderTemplate</code> to add a summary to each header, such as a total.
+        </Description>
+
+        <CodeExample Name="DataTableGrouping" CSharpName="DataTableGroupColumns">
+            <TwDataTable TItem="Product"
+                         Id="grouped-table"
+                         Items="@products"
+                         Columns="@_groupColumns"
+                         GroupBy="category"
+                         RowsPerPage="10"
+                         AriaLabel="Products grouped by category">
+                <GroupHeaderTemplate Context="group">
+                    <span class="text-sm text-gray-600 dark:text-gray-300">Stock value £@group.Items.Sum(p => p.Price * p.Stock).ToString("N0")</span>
+                </GroupHeaderTemplate>
+            </TwDataTable>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Virtualizing thousands of rows">
+        <Description>
+            Set <code>EnableVirtualization</code> and the table renders only the rows scrolled into view, so it stays fast with tens of thousands of rows. The rows scroll inside the table instead of being paged, and the header stays in view. Change the height with <code>Height</code>. Keep each row to one line, about <code>ItemSize</code> pixels tall. Screen readers are told the full row count and each row's place, so they still read "row 5000 of 10000". Sorting, searching, filtering, the column menu and grouping all work as before.
+        </Description>
+
+        <CodeExample Name="DataTableVirtualize" CSharpName="DataTableVirtualizeCode">
+            <TwDataTable TItem="Order"
+                         Id="virtualized-table"
+                         Items="@orders"
+                         Columns="@_orderColumns"
+                         EnableVirtualization
+                         Searchable
+                         Height="24rem"
+                         AriaLabel="Ten thousand orders" />
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Loading rows from a server">
+        <Description>
+            For data that is too big to load at once, give the table an <code>ItemsProvider</code> in place of <code>Items</code>. The table asks it for one page at a time, passing the sort, search and column filters, so your database or API does the work and returns just those rows with the total count. Combine it with <code>EnableVirtualization</code> to load rows as they scroll into view. While rows load the table is marked busy, and the search result count is announced once they arrive. Call <code>RefreshDataAsync</code> after the data changes elsewhere.
+        </Description>
+
+        <CodeExample Name="DataTableItemsProvider" CSharpName="DataTableItemsProviderCode">
+            <TwDataTable TItem="Order"
+                         Id="provider-table"
+                         Columns="@_orderColumns"
+                         ItemsProvider="@LoadOrdersAsync"
+                         Searchable
+                         RowsPerPage="5"
+                         AriaLabel="Orders loaded from the server" />
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Editing rows">
+        <Description>
+            Set <code>Editable</code> to add an Actions column with an Edit button on each row. Editing turns the row's <code>Editable</code> columns into editors that match their values: a text field, a number field, a checkbox, a date picker or a list for an enum. Give a column an <code>EditTemplate</code> for any other editor. Save runs each column's <code>Validator</code>, marks any field that needs fixing and moves focus to it. Once every value is fine, each <code>ValueSetter</code> writes its value to the row and <code>RowSaved</code> is raised with the old and new values, ready to send to your API. Escape or Cancel leaves the row as it was, and focus goes back to the row's Edit button.
+        </Description>
+
+        <CodeExample Name="DataTableEditing" CSharpName="DataTableEditingCode">
+            <TwDataTable TItem="Product"
+                         Id="editable-table"
+                         Items="@editableProducts"
+                         Columns="@_editableColumns"
+                         Editable
+                         RowSaved="OnProductSaved"
+                         RowsPerPage="5"
+                         AriaLabel="Products you can edit" />
+            <p class="mt-4" role="status">@lastSaved</p>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Exporting to CSV and Excel">
+        <Description>
+            Set <code>Exportable</code> to add Export CSV and Export Excel buttons. An export holds the columns on screen in their current order, and by default every row that matches the search in its current sort, across all pages. Change that with <code>ExportScope</code>, or pick the buttons with <code>ExportFormats</code>. The Excel file keeps numbers, dates and true or false values as their own types, so they can be summed and filtered. Give a column an <code>ExportFormatter</code> to write a different value from the one on screen, or set <code>Exportable = false</code> to leave it out. Text that a spreadsheet would run as a formula is escaped.
+        </Description>
+
+        <CodeExample Name="DataTableExport" CSharpName="DataTableExportColumns">
+            <TwDataTable TItem="Product"
+                         Id="export-table"
+                         Items="@products"
+                         Columns="@_exportColumns"
+                         Exportable
+                         ExportFileName="products"
+                         Searchable
+                         RowsPerPage="5"
+                         AriaLabel="Products you can export" />
+        </CodeExample>
+
+        <p class="mt-4 mb-2">
+            To build the file yourself, call <code>GetCsv</code> or <code>GetExcel</code> on the table, or use <code>TwDataTableExport</code> with any rows and columns, for example to send a report from the server.
+        </p>
+        <TwCodeBlock Content="@exportServerExample" Language="csharp" />
+    </PageCard>
+
+    <PageCard Title="Saving the table's state">
+        <Description>
+            Give the table a <code>StateStorageKey</code> and it remembers its sort, search, page, page size and columns in the browser, so it comes back the way the person left it. Sort or hide a column below, then reload the page. <code>ResetStateAsync</code> puts it back to how the parameters define it.
+        </Description>
+
+        <CodeExample Name="DataTableStateStorage" CSharpName="DataTableStateStorageCode">
+            <TwDataTable @ref="storedTable"
+                         TItem="Product"
+                         Id="stored-state-table"
+                         Items="@products"
+                         Columns="@_panelColumns"
+                         StateStorageKey="docs-products-table"
+                         ColumnMenu
+                         ResizableColumns
+                         Searchable
+                         RowsPerPage="5"
+                         AriaLabel="Products that remember their state" />
+            <TwButton Class="mt-4" Label="Reset table" Variant="ButtonVariant.Outlined" OnClick="ResetStoredTableAsync" />
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Managing the state yourself">
+        <Description>
+            To keep the state somewhere else, such as a user's profile or the page address, bind <code>@@bind-State</code>. The table raises a new <code>TwDataTableState</code> after every change, and restores whichever state you pass in. It is made of plain values, so it serializes to JSON as it is. Columns are matched by <code>Name</code>, so a saved state survives columns being added or removed.
+        </Description>
+
+        <CodeExample Name="DataTableBoundState" CSharpName="DataTableBoundStateCode">
+            <TwDataTable TItem="Product"
+                         Id="bound-state-table"
+                         Items="@products"
+                         Columns="@_productColumns"
+                         @bind-State="tableState"
+                         Searchable
+                         RowsPerPage="5"
+                         AriaLabel="Products with state you manage" />
+            <p class="mt-4 mb-2 font-medium">The current state:</p>
+            <TwCodeBlock Content="@tableStateJson" Language="json" />
         </CodeExample>
     </PageCard>
 </PageContainer>
@@ -153,7 +351,7 @@
 
     #region CodeExample DataTableProductColumns
     // Define columns with per-column sortability
-    private readonly List<TwDataTableColumn<Product>> productColumns = new()
+    private readonly List<TwDataTableColumn<Product>> _productColumns = new()
     {
         new TwDataTableColumn<Product>
         {
@@ -188,6 +386,175 @@
             IsSortable = true
         }
     };
+    #endregion
+
+    #region CodeExample DataTableSizedColumns
+    private readonly List<TwDataTableColumn<Product>> _sizedColumns = new()
+    {
+        new TwDataTableColumn<Product> { Name = "name", Title = "Product Name", PropertySelector = p => p.Name, IsSortable = true },
+        new TwDataTableColumn<Product> { Name = "category", Title = "Category", PropertySelector = p => p.Category, Width = "25%" },
+        new TwDataTableColumn<Product> { Name = "price", Title = "Price", PropertySelector = p => p.Price, IsSortable = true, Width = "8rem", CellFormatter = p => $"£{p.Price:N2}" }
+    };
+    #endregion
+
+    #region CodeExample DataTablePanelColumns
+    private readonly List<TwDataTableColumn<Product>> _panelColumns = new()
+    {
+        // The name identifies each row, so it always stays visible.
+        new TwDataTableColumn<Product> { Name = "name", Title = "Product Name", PropertySelector = p => p.Name, IsSortable = true, Hideable = false },
+        new TwDataTableColumn<Product> { Name = "category", Title = "Category", PropertySelector = p => p.Category },
+        new TwDataTableColumn<Product> { Name = "price", Title = "Price", PropertySelector = p => p.Price, IsSortable = true, CellFormatter = p => $"£{p.Price:N2}" },
+        // Starts hidden; people can show it from the panel.
+        new TwDataTableColumn<Product> { Name = "stock", Title = "Stock", PropertySelector = p => p.Stock, IsSortable = true, Visible = false }
+    };
+    #endregion
+
+    #region CodeExample DataTableEditingCode
+    private readonly List<Product> editableProducts =
+    [
+        new Product { Id = 1, Name = "Kettle", Category = "Kitchen", Price = 30, Stock = 14 },
+        new Product { Id = 2, Name = "Armchair", Category = "Furniture", Price = 250, Stock = 3 },
+        new Product { Id = 3, Name = "Desk lamp", Category = "Lighting", Price = 45, Stock = 22 },
+        new Product { Id = 4, Name = "Blender", Category = "Kitchen", Price = 60, Stock = 8 }
+    ];
+
+    private readonly List<TwDataTableColumn<Product>> _editableColumns = new()
+    {
+        new TwDataTableColumn<Product>
+        {
+            Name = "name", Title = "Product Name", PropertySelector = p => p.Name, IsSortable = true, Editable = true,
+            ValueSetter = (p, value) => p.Name = (string?)value ?? string.Empty,
+            Validator = (_, value) => string.IsNullOrWhiteSpace(value as string) ? "Enter a product name" : null
+        },
+        new TwDataTableColumn<Product> { Name = "category", Title = "Category", PropertySelector = p => p.Category },
+        new TwDataTableColumn<Product>
+        {
+            Name = "price", Title = "Price", PropertySelector = p => p.Price, Editable = true,
+            ValueSetter = (p, value) => p.Price = (decimal)value!,
+            Validator = (_, value) => value is decimal price && price <= 0 ? "Enter a price above £0" : null
+        },
+        new TwDataTableColumn<Product>
+        {
+            Name = "stock", Title = "Stock", PropertySelector = p => p.Stock, Editable = true,
+            ValueSetter = (p, value) => p.Stock = (int)value!
+        }
+    };
+
+    private string lastSaved = string.Empty;
+
+    private Task OnProductSaved(TwDataTableRowEdit<Product> edit)
+    {
+        // Send the change to your API here; OriginalValues can put the row back if that fails.
+        var changed = string.Join(", ", edit.ChangedColumns);
+        lastSaved = changed.Length == 0 ? $"{edit.Item.Name} saved with no changes." : $"{edit.Item.Name} saved: {changed} changed.";
+        return Task.CompletedTask;
+    }
+    #endregion
+
+    #region CodeExample DataTableVirtualizeCode
+    private readonly List<Order> orders = [.. Enumerable.Range(1, 10_000).Select(i => new Order(
+        i,
+        $"Customer {(i * 37) % 900 + 1}",
+        new DateTime(2026, 1, 1, 0, 0, 0, DateTimeKind.Local).AddHours(i * 7),
+        Math.Round(5 + (i * 7919 % 50_000) / 100m, 2)))];
+
+    private readonly List<TwDataTableColumn<Order>> _orderColumns = new()
+    {
+        new TwDataTableColumn<Order> { Name = "number", Title = "Order", PropertySelector = o => o.Number, IsSortable = true },
+        new TwDataTableColumn<Order> { Name = "customer", Title = "Customer", PropertySelector = o => o.Customer, IsSortable = true },
+        new TwDataTableColumn<Order> { Name = "placed", Title = "Placed", PropertySelector = o => o.Placed, IsSortable = true, CellFormatter = o => o.Placed.ToString("dd/MM/yyyy HH:mm") },
+        new TwDataTableColumn<Order> { Name = "total", Title = "Total", PropertySelector = o => o.Total, IsSortable = true, CellFormatter = o => $"£{o.Total:N2}" }
+    };
+
+    public record Order(int Number, string Customer, DateTime Placed, decimal Total);
+    #endregion
+
+    #region CodeExample DataTableItemsProviderCode
+    // Stands in for a database query: in a real app, pass the request on to your API or Entity Framework.
+    private async ValueTask<TwDataTableItemsResult<Order>> LoadOrdersAsync(TwDataTableItemsRequest request)
+    {
+        await Task.Delay(300, request.CancellationToken);
+
+        IEnumerable<Order> query = orders;
+        if (!string.IsNullOrWhiteSpace(request.SearchQuery))
+        {
+            query = query.Where(o => o.Customer.Contains(request.SearchQuery, StringComparison.OrdinalIgnoreCase));
+        }
+
+        query = (request.SortColumn, request.SortDirection) switch
+        {
+            ("number", SortDirection.Descending) => query.OrderByDescending(o => o.Number),
+            ("customer", SortDirection.Ascending) => query.OrderBy(o => o.Customer),
+            ("customer", SortDirection.Descending) => query.OrderByDescending(o => o.Customer),
+            ("placed", SortDirection.Ascending) => query.OrderBy(o => o.Placed),
+            ("placed", SortDirection.Descending) => query.OrderByDescending(o => o.Placed),
+            ("total", SortDirection.Ascending) => query.OrderBy(o => o.Total),
+            ("total", SortDirection.Descending) => query.OrderByDescending(o => o.Total),
+            _ => query
+        };
+
+        var matching = query.ToList();
+        var page = matching.Skip(request.StartIndex).Take(request.Count ?? matching.Count).ToList();
+        return new TwDataTableItemsResult<Order>(page, matching.Count);
+    }
+    #endregion
+
+    #region CodeExample DataTableGroupColumns
+    private readonly List<TwDataTableColumn<Product>> _groupColumns = new()
+    {
+        new TwDataTableColumn<Product> { Name = "name", Title = "Product Name", PropertySelector = p => p.Name, IsSortable = true },
+        new TwDataTableColumn<Product> { Name = "category", Title = "Category", PropertySelector = p => p.Category, IsSortable = true, Groupable = true },
+        new TwDataTableColumn<Product> { Name = "price", Title = "Price", PropertySelector = p => p.Price, IsSortable = true, CellFormatter = p => $"£{p.Price:N2}" },
+        // Groups by the stock level's label rather than every distinct number.
+        new TwDataTableColumn<Product> { Name = "level", Title = "Stock level", PropertySelector = p => p.Stock < 10 ? "Low" : "In stock", Groupable = true }
+    };
+    #endregion
+
+    #region CodeExample DataTableExportColumns
+    private readonly List<TwDataTableColumn<Product>> _exportColumns = new()
+    {
+        new TwDataTableColumn<Product> { Name = "name", Title = "Product Name", PropertySelector = p => p.Name, IsSortable = true },
+        new TwDataTableColumn<Product> { Name = "category", Title = "Category", PropertySelector = p => p.Category },
+        // On screen the price reads "£2,999.00"; the export keeps the number so a spreadsheet can total it.
+        new TwDataTableColumn<Product> { Name = "price", Title = "Price", PropertySelector = p => p.Price, IsSortable = true, CellFormatter = p => $"£{p.Price:N2}" },
+        new TwDataTableColumn<Product> { Name = "stock", Title = "Stock", PropertySelector = p => p.Stock, ExportFormatter = p => p.Stock < 10 ? "Low" : "In stock" }
+    };
+    #endregion
+
+    private const string exportServerExample = """
+        byte[] workbook = TwDataTableExport.ToExcel(orders, columns, sheetName: "Orders");
+        string csv = TwDataTableExport.ToCsv(orders, columns);
+        """;
+
+    #region CodeExample DataTableFilterColumns
+    private readonly List<TwDataTableColumn<Product>> _filterColumns = new()
+    {
+        new TwDataTableColumn<Product> { Name = "name", Title = "Product Name", PropertySelector = p => p.Name, IsSortable = true, Filterable = true },
+        new TwDataTableColumn<Product> { Name = "category", Title = "Category", PropertySelector = p => p.Category, Filterable = true },
+        // Numbers get comparisons such as "is greater than", and the value is a number field.
+        new TwDataTableColumn<Product> { Name = "price", Title = "Price", PropertySelector = p => p.Price, IsSortable = true, Filterable = true, CellFormatter = p => $"£{p.Price:N2}" },
+        new TwDataTableColumn<Product> { Name = "stock", Title = "Stock", PropertySelector = p => p.Stock, IsSortable = true, Filterable = true }
+    };
+    #endregion
+
+    #region CodeExample DataTableStateStorageCode
+    private TwDataTable<Product>? storedTable;
+
+    private async Task ResetStoredTableAsync()
+    {
+        if (storedTable is not null)
+        {
+            await storedTable.ResetStateAsync();
+        }
+    }
+    #endregion
+
+    #region CodeExample DataTableBoundStateCode
+    private TwDataTableState? tableState;
+
+    private string tableStateJson => tableState is null
+        ? "Sort, search or change page to see the state."
+        : System.Text.Json.JsonSerializer.Serialize(tableState, new System.Text.Json.JsonSerializerOptions(System.Text.Json.JsonSerializerDefaults.Web) { WriteIndented = true });
     #endregion
 
     protected override void OnInitialized()

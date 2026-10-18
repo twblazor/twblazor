@@ -1,7 +1,7 @@
 ﻿<CascadingValue Value="this" IsFixed="true">
     <div id="@(string.IsNullOrEmpty(RootId) ? null : RootId)" class="@RootClass" style="@RootStyle" @attributes="@RootAttributes" @ref="@RootRef">
         @ChildContent
-        @if (!string.IsNullOrWhiteSpace(RootErrorMessage))
+        @if (!string.IsNullOrEmpty(RootErrorId) && !string.IsNullOrWhiteSpace(RootErrorMessage))
         {
             <p id="@RootErrorId" class="@theme.ErrorMessage" role="alert">@RootErrorMessage</p>
         }

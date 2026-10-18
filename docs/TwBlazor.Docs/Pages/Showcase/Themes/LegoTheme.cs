@@ -1087,6 +1087,12 @@ public static class LegoTheme
                     SelectBase = $"{display.Block} {sizing.FullWidth} pe-10 {neutralText.Heading} bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22none%22%20viewBox%3D%220%200%2020%2020%22%3E%3Cpath%20stroke%3D%22%236b7280%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%221.5%22%20d%3D%22m6%208%204%204%204-4%22%2F%3E%3C%2Fsvg%3E')] bg-[length:1.5em_1.5em] bg-[right_0.5rem_center] rtl:bg-[left_0.5rem_center] bg-no-repeat {transition.ColorsFast} appearance-none {interaction.FocusOutlineNone} supports-[appearance:base-select]:[appearance:base-select] supports-[appearance:base-select]:flex supports-[appearance:base-select]:items-center [&::picker(select)]:[appearance:base-select] [&::picker-icon]:hidden [&::picker(select)]:border-[oklch(15%_0_0)]/25 dark:[&::picker(select)]:border-[oklch(97.807%_0_0)]/20 [&::picker(select)]:bg-[oklch(100%_0_0)] dark:[&::picker(select)]:bg-[oklch(40%_0_0)]",
                     Size = $"{inputHeight} {typography.Size.Base}",
                     DenseSize = $"{inputDenseHeight} {typography.Size.Sm}",
+                    FieldWrapper = positioning.Relative,
+                    FieldStartContent = $"{positioning.Absolute} top-0 start-0 {display.Flex} {flexbox.Align.Center} {interaction.PointerEventsNone}",
+                    FieldEndContent = $"{positioning.Absolute} top-0 end-0 {display.Flex} {flexbox.Align.Stretch} gap-1 py-px pe-px",
+                    ClearablePadding = "pe-10",
+                    ClearButton = $"{display.InlineFlex} w-8 {flexbox.Align.Center} {flexbox.Justify.Center} {flexbox.ShrinkNone} {rounded.Md} {neutralText.Secondary} {neutralHoverText} {neutralHoverFill} {interaction.PointerCursor} {transition.ColorsFast} {focusRing} {interaction.FocusOutlineNone} disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent forced-colors:text-[ButtonText] forced-colors:disabled:text-[GrayText]",
+                    ClearButtonIcon = $"{typography.Size.Sm} leading-none",
                     SelectOption = $"{spacing.Padding.Lg} dark:bg-gray-800 dark:text-white supports-[appearance:base-select]:[padding-inline:revert] supports-[appearance:base-select]:py-2 supports-[appearance:base-select]:bg-transparent dark:supports-[appearance:base-select]:bg-transparent supports-[appearance:base-select]:hover:bg-[oklch(97%_0_0)] dark:supports-[appearance:base-select]:hover:bg-[oklch(34%_0_0)] supports-[appearance:base-select]:checked:bg-brickblue-50 supports-[appearance:base-select]:checked:text-brickblue-700 dark:supports-[appearance:base-select]:checked:bg-brickblue-500/20 dark:supports-[appearance:base-select]:checked:text-brickblue-300",
                     SelectNativeBackground = "!bg-white dark:!bg-gray-800",
                     SelectDefaultPadding = "px-3",
@@ -1116,6 +1122,24 @@ public static class LegoTheme
                     FocusWithinBorder = "has-[:focus-visible]:border-brickblue-600 dark:has-[:focus-visible]:border-brickblue-400 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-brickblue-500 dark:has-[:focus-visible]:ring-brickblue-400",
                     FilledBackgroundColor = neutralSurface.Elevated,
                     ErrorMessage = $"{spacing.MarginTop.Sm} {typography.Size.Xs} {text.Medium.Danger} {darkText.Medium.Danger}"
+                },
+                new TwNumericTheme
+                {
+                    Adornment = $"self-center whitespace-nowrap select-none {neutralText.Secondary}",
+                    Button = $"{display.InlineFlex} {flexbox.Align.Center} {flexbox.Justify.Center} {flexbox.ShrinkNone} {rounded.Md} {neutralText.Secondary} {neutralHoverText} {neutralHoverFill} {interaction.PointerCursor} {transition.ColorsFast} {focusRing} {interaction.FocusOutlineNone} disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent forced-colors:text-[ButtonText] forced-colors:disabled:text-[GrayText]",
+                    ButtonIcon = $"{typography.Size.Sm} leading-none"
+                },
+                new TwMenuTheme
+                {
+                    Root = $"{positioning.Relative} {display.InlineFlex}",
+                    Panel = $"z-50 min-w-48 max-w-xs overflow-y-auto {rounded.Lg} {borderWidth.Thin} {neutralSurface.Border} {neutralSurface.Background} shadow-lg py-1 {interaction.FocusOutlineNone}",
+                    Item = $"{display.Flex} {sizing.FullWidth} {flexbox.Align.Center} {spacing.Gap.Sm} px-3 py-2 text-start {typography.Size.Sm} {neutralText.Heading} {neutralRowHover} focus-visible:bg-[oklch(21%_0.006_285.885)]/5 dark:focus-visible:bg-[oklch(97.807%_0.029_256.847)]/8 {interaction.PointerCursor} {transition.ColorsFast} {interaction.FocusOutlineNone} {focusRingInset}",
+                    ItemDisabled = $"{interaction.DisabledOpacity} {interaction.DisabledCursor}",
+                    ItemIcon = $"{typography.Size.Base} {flexbox.ShrinkNone} {neutralText.Subtle}",
+                    CheckIcon = $"{typography.Size.Base} {flexbox.ShrinkNone} text-brickblue-600 dark:text-brickblue-300",
+                    CheckIconHidden = "invisible",
+                    Divider = $"my-1 border-t {neutralSurface.Border}",
+                    GroupLabel = $"px-3 pt-2 pb-1 {typography.Size.Xs} {typography.Weight.Semibold} {neutralText.Muted}"
                 },
                 new TwOnThisPageTheme
                 {
@@ -1432,8 +1456,10 @@ public static class LegoTheme
                     Wrapper = $"{positioning.Relative} overflow-auto focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-brickblue-600 dark:focus-visible:outline-brickblue-300",
                     ContainerClip = overflow.Hidden,
                     Base = $"{sizing.FullWidth} {typography.Size.Sm} text-start {neutralText.Heading}",
+                    FixedLayout = "table-fixed",
                     Bordered = $"{borderWidth.Thin} {neutralSurface.Border}",
                     Header = $"{typography.Size.Sm} {typography.Weight.Semibold} {neutralText.Secondary} {neutralSurface.BackgroundSubtle} border-b {neutralSurface.Border}",
+                    StickyHeader = $"{positioning.Sticky} top-0 z-10",
                     Body = neutralSurface.Background,
                     BodyStriped = "[&>tr:nth-child(even)]:bg-[oklch(98%_0_0)] [&>tr:nth-child(even)]:dark:bg-[oklch(23.26%_0_0)]",
                     BodyHoverable = "[&>tr:hover]:!bg-[oklch(95%_0_0)] [&>tr:hover]:dark:!bg-[oklch(21.15%_0_0)] [&>tr]:transition-colors [&>tr]:duration-200 [&>tr]:motion-reduce:transition-none",
@@ -1443,7 +1469,17 @@ public static class LegoTheme
                     SortIcon = $"{typography.Size.Sm} {neutralText.Subtle} {neutralHoverText}",
                     HeaderCellPadding = "px-4 py-2.5",
                     BodyCellPadding = $"px-4 py-2.5 {typography.WrapBreakWord}",
-                    EmptyState = $"py-8 {typography.AlignCenter} {neutralText.Muted}"
+                    EmptyState = $"py-8 {typography.AlignCenter} {neutralText.Muted}",
+                    ResizeHandle = $"{positioning.Absolute} z-20 flex w-3 -translate-x-1/2 justify-center cursor-col-resize touch-none select-none before:block before:h-full before:w-px before:bg-gray-300 dark:before:bg-gray-600 hover:before:w-0.5 hover:before:bg-brickblue-500 active:before:bg-brickblue-600 dark:hover:before:bg-brickblue-400 focus-visible:outline-none focus-visible:before:w-0.5 focus-visible:before:bg-brickblue-600 dark:focus-visible:before:bg-brickblue-300",
+                    GroupByColumn = "w-full sm:w-56",
+                    GroupRow = $"{neutralSurface.BackgroundSubtle} {neutralText.Heading}",
+                    GroupToggle = $"{display.InlineFlex} {flexbox.Align.Center} {spacing.Gap.Sm} {rounded.Md} -mx-1 px-1 {typography.Weight.Semibold} {interaction.PointerCursor} focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brickblue-600 dark:focus-visible:outline-brickblue-300",
+                    GroupCount = $"{typography.Weight.Medium} {neutralText.Muted}",
+                    LoadingCell = $"py-2.5 {typography.AlignCenter} {neutralText.Muted}",
+                    ActionsCell = "w-px whitespace-nowrap",
+                    EditingRow = "!bg-brickblue-50 dark:!bg-brickblue-500/10",
+                    FilterPanel = $"z-50 w-72 max-w-[calc(100vw-1rem)] {rounded.Lg} {borderWidth.Thin} {neutralSurface.Border} {neutralSurface.Background} shadow-lg {spacing.Padding.Md} {interaction.FocusOutlineNone}",
+                    FilterHeading = $"{display.Flex} {flexbox.Align.Center} {spacing.Gap.Sm} {spacing.MarginBottom.Md} {typography.Size.Sm} {typography.Weight.Semibold} {neutralText.Heading}"
                 },
                 new TwToastTheme
                 {

@@ -383,7 +383,7 @@
   <data name="DataTable_SearchPlaceholder" xml:space="preserve">
     <value>Search…</value>
   </data>
-  <data name="DataTable_Pagination" xml:space="preserve">
+  <data name="Table_Pagination" xml:space="preserve">
     <value>Table pagination</value>
   </data>
   <data name="DataTable_PageStatusOne" xml:space="preserve">
@@ -810,5 +810,317 @@
   <data name="Rating_ReadOnly" xml:space="preserve">
     <value>Rated {0} out of {1}</value>
     <comment>{0} = the rating, for example 3.5. {1} = the highest rating, for example 5. Read out for a rating that cannot be changed.</comment>
+  </data>
+  <data name="Numeric_Increase" xml:space="preserve">
+    <value>Increase value</value>
+    <comment>Read out for the button that raises a numeric field's value by one step.</comment>
+  </data>
+  <data name="Numeric_Decrease" xml:space="preserve">
+    <value>Decrease value</value>
+    <comment>Read out for the button that lowers a numeric field's value by one step.</comment>
+  </data>
+  <data name="Textfield_Clear" xml:space="preserve">
+    <value>Clear value</value>
+    <comment>Read out for the button that empties a text or numeric field.</comment>
+  </data>
+  <data name="Numeric_Invalid" xml:space="preserve">
+    <value>Enter a valid number.</value>
+    <comment>Shown below a numeric field when the text typed into it is not a number.</comment>
+  </data>
+  <data name="DataTable_NoData" xml:space="preserve">
+    <value>No data available.</value>
+    <comment>Shown in a data table that has no rows, when nothing is being searched for.</comment>
+  </data>
+  <data name="DataTable_Columns" xml:space="preserve">
+    <value>Columns</value>
+    <comment>The button that opens a data table's column panel, and the panel's heading.</comment>
+  </data>
+  <data name="DataTable_ResetColumns" xml:space="preserve">
+    <value>Reset columns</value>
+    <comment>The button in a data table's column panel that puts the columns back to their original order, visibility and widths.</comment>
+  </data>
+  <data name="DataTable_ColumnsReset" xml:space="preserve">
+    <value>Columns reset</value>
+    <comment>Announced after the columns of a data table are reset.</comment>
+  </data>
+  <data name="DataTable_ColumnShown" xml:space="preserve">
+    <value>{0} column shown</value>
+    <comment>{0} = column title. Announced after a column is shown from the column panel.</comment>
+  </data>
+  <data name="DataTable_ColumnHidden" xml:space="preserve">
+    <value>{0} column hidden</value>
+    <comment>{0} = column title. Announced after a column is hidden from the column panel.</comment>
+  </data>
+  <data name="DataTable_ColumnMoved" xml:space="preserve">
+    <value>{0} moved to position {1} of {2}</value>
+    <comment>{0} = column title, {1} = new position, {2} = number of columns. Announced after a column is moved.</comment>
+  </data>
+  <data name="DataTable_ExportCsv" xml:space="preserve">
+    <value>Export CSV</value>
+    <comment>The data table button that downloads its rows as a CSV file.</comment>
+  </data>
+  <data name="DataTable_ExportExcel" xml:space="preserve">
+    <value>Export Excel</value>
+    <comment>The data table button that downloads its rows as an Excel workbook.</comment>
+  </data>
+  <data name="DataTable_ExportedOne" xml:space="preserve">
+    <value>Exported {0} row</value>
+    <comment>{0} = number of rows (1). Announced after a data table is downloaded.</comment>
+  </data>
+  <data name="DataTable_ExportedOther" xml:space="preserve">
+    <value>Exported {0} rows</value>
+    <comment>{0} = number of rows. Announced after a data table is downloaded.</comment>
+  </data>
+  <data name="DataTable_GroupBy" xml:space="preserve">
+    <value>Group by</value>
+    <comment>The label of a data table's list for choosing the column its rows are grouped by.</comment>
+  </data>
+  <data name="DataTable_NoGrouping" xml:space="preserve">
+    <value>No grouping</value>
+    <comment>The entry in the Group by list that turns grouping off.</comment>
+  </data>
+  <data name="DataTable_GroupedBy" xml:space="preserve">
+    <value>Grouped by {0}</value>
+    <comment>{0} = column title. Announced after the rows are grouped.</comment>
+  </data>
+  <data name="DataTable_GroupingRemoved" xml:space="preserve">
+    <value>Grouping removed</value>
+    <comment>Announced after grouping is turned off.</comment>
+  </data>
+  <data name="DataTable_GroupRowsOne" xml:space="preserve">
+    <value>{0} row</value>
+    <comment>{0} = number of rows (1). Shown beside a group's name.</comment>
+  </data>
+  <data name="DataTable_GroupRowsOther" xml:space="preserve">
+    <value>{0} rows</value>
+    <comment>{0} = number of rows. Shown beside a group's name.</comment>
+  </data>
+  <data name="DataTable_GroupExpanded" xml:space="preserve">
+    <value>{0} expanded</value>
+    <comment>{0} = group name. Announced after a group is expanded.</comment>
+  </data>
+  <data name="DataTable_GroupCollapsed" xml:space="preserve">
+    <value>{0} collapsed</value>
+    <comment>{0} = group name. Announced after a group is collapsed.</comment>
+  </data>
+  <data name="DataTable_ExpandAllGroups" xml:space="preserve">
+    <value>Expand all groups</value>
+    <comment>The data table button that expands every group.</comment>
+  </data>
+  <data name="DataTable_CollapseAllGroups" xml:space="preserve">
+    <value>Collapse all groups</value>
+    <comment>The data table button that collapses every group.</comment>
+  </data>
+  <data name="DataTable_AllGroupsExpanded" xml:space="preserve">
+    <value>All groups expanded</value>
+    <comment>Announced after every group is expanded.</comment>
+  </data>
+  <data name="DataTable_AllGroupsCollapsed" xml:space="preserve">
+    <value>All groups collapsed</value>
+    <comment>Announced after every group is collapsed.</comment>
+  </data>
+  <data name="DataTable_GroupNoValue" xml:space="preserve">
+    <value>(No value)</value>
+    <comment>The name of the group of rows that have no value in the grouped column.</comment>
+  </data>
+  <data name="DataTable_Loading" xml:space="preserve">
+    <value>Loading…</value>
+    <comment>Shown in a data table while its rows load.</comment>
+  </data>
+  <data name="DataTable_Actions" xml:space="preserve">
+    <value>Actions</value>
+    <comment>The heading of a data table's column of row buttons, such as Edit.</comment>
+  </data>
+  <data name="DataTable_EditRow" xml:space="preserve">
+    <value>Edit {0}</value>
+    <comment>{0} = the row's name. The button that starts editing a row.</comment>
+  </data>
+  <data name="DataTable_SaveRow" xml:space="preserve">
+    <value>Save {0}</value>
+    <comment>{0} = the row's name. The button that saves an edited row.</comment>
+  </data>
+  <data name="DataTable_CancelEdit" xml:space="preserve">
+    <value>Cancel editing {0}</value>
+    <comment>{0} = the row's name. The button that discards the changes to a row.</comment>
+  </data>
+  <data name="DataTable_Editing" xml:space="preserve">
+    <value>Editing {0}</value>
+    <comment>{0} = the row's name. Announced when a row turns into editors.</comment>
+  </data>
+  <data name="DataTable_RowSaved" xml:space="preserve">
+    <value>{0} saved</value>
+    <comment>{0} = the row's name. Announced after an edited row is saved.</comment>
+  </data>
+  <data name="DataTable_EditCancelled" xml:space="preserve">
+    <value>Editing {0} cancelled</value>
+    <comment>{0} = the row's name. Announced after the changes to a row are discarded.</comment>
+  </data>
+  <data name="DataTable_EditInvalidOne" xml:space="preserve">
+    <value>{0} field needs fixing before saving</value>
+    <comment>{0} = number of fields (1). Announced when an edited row cannot be saved yet.</comment>
+  </data>
+  <data name="DataTable_EditInvalidOther" xml:space="preserve">
+    <value>{0} fields need fixing before saving</value>
+    <comment>{0} = number of fields. Announced when an edited row cannot be saved yet.</comment>
+  </data>
+  <data name="Table_ResizeColumn" xml:space="preserve">
+    <value>Resize {0}</value>
+    <comment>{0} = column heading. The name of the border a person drags or focuses to resize a table column.</comment>
+  </data>
+  <data name="Table_ColumnWidthValue" xml:space="preserve">
+    <value>{0} pixels</value>
+    <comment>{0} = a column's width in pixels. Read out for a column's resize border.</comment>
+  </data>
+  <data name="Menu_Options" xml:space="preserve">
+    <value>Options</value>
+    <comment>The name of an icon only button that opens a menu, when the app gives it no name of its own.</comment>
+  </data>
+  <data name="DataTable_ColumnOptions" xml:space="preserve">
+    <value>{0} column options</value>
+    <comment>{0} = column heading. The name of the button that opens a column's menu.</comment>
+  </data>
+  <data name="DataTable_SortAscending" xml:space="preserve">
+    <value>Sort ascending</value>
+    <comment>Column menu item that sorts the column from lowest to highest.</comment>
+  </data>
+  <data name="DataTable_SortDescending" xml:space="preserve">
+    <value>Sort descending</value>
+    <comment>Column menu item that sorts the column from highest to lowest.</comment>
+  </data>
+  <data name="DataTable_RemoveSort" xml:space="preserve">
+    <value>Remove sort</value>
+    <comment>Column menu item that returns the rows to their original order.</comment>
+  </data>
+  <data name="DataTable_GroupByColumn" xml:space="preserve">
+    <value>Group by this column</value>
+    <comment>Column menu item that groups the rows by the column.</comment>
+  </data>
+  <data name="DataTable_StopGrouping" xml:space="preserve">
+    <value>Stop grouping</value>
+    <comment>Column menu item that turns grouping off.</comment>
+  </data>
+  <data name="DataTable_MoveColumnLeft" xml:space="preserve">
+    <value>Move left</value>
+    <comment>Column menu item that moves the column one place to the left.</comment>
+  </data>
+  <data name="DataTable_MoveColumnRight" xml:space="preserve">
+    <value>Move right</value>
+    <comment>Column menu item that moves the column one place to the right.</comment>
+  </data>
+  <data name="DataTable_HideColumn" xml:space="preserve">
+    <value>Hide column</value>
+    <comment>Column menu item that hides the column.</comment>
+  </data>
+  <data name="DataTable_FilterColumn" xml:space="preserve">
+    <value>Filter {0}</value>
+    <comment>{0} = column heading. The button that opens a column's filter, and the filter's heading.</comment>
+  </data>
+  <data name="DataTable_FilterColumnActive" xml:space="preserve">
+    <value>Filter {0}, filtered</value>
+    <comment>{0} = column heading. The filter button's name while the column is filtered.</comment>
+  </data>
+  <data name="DataTable_FirstCondition" xml:space="preserve">
+    <value>First condition</value>
+    <comment>Label of the first condition list in a column filter.</comment>
+  </data>
+  <data name="DataTable_FirstValue" xml:space="preserve">
+    <value>First value</value>
+    <comment>Label of the first value field in a column filter.</comment>
+  </data>
+  <data name="DataTable_SecondCondition" xml:space="preserve">
+    <value>Second condition</value>
+    <comment>Label of the second condition list in a column filter.</comment>
+  </data>
+  <data name="DataTable_SecondValue" xml:space="preserve">
+    <value>Second value</value>
+    <comment>Label of the second value field in a column filter.</comment>
+  </data>
+  <data name="DataTable_FilterLogic" xml:space="preserve">
+    <value>Combine conditions</value>
+    <comment>Name of the And and Or buttons in a column filter.</comment>
+  </data>
+  <data name="DataTable_FilterAnd" xml:space="preserve">
+    <value>And</value>
+    <comment>Both conditions of a column filter must match.</comment>
+  </data>
+  <data name="DataTable_FilterOr" xml:space="preserve">
+    <value>Or</value>
+    <comment>Either condition of a column filter may match.</comment>
+  </data>
+  <data name="DataTable_ApplyFilter" xml:space="preserve">
+    <value>Filter</value>
+    <comment>The button that applies a column filter.</comment>
+  </data>
+  <data name="DataTable_ClearFilter" xml:space="preserve">
+    <value>Clear</value>
+    <comment>The button that removes a column filter.</comment>
+  </data>
+  <data name="DataTable_FilterAppliedOne" xml:space="preserve">
+    <value>Filter applied to {0}, showing {1} row</value>
+    <comment>{0} = column heading, {1} = number of rows (1). Announced after a column filter is applied.</comment>
+  </data>
+  <data name="DataTable_FilterAppliedOther" xml:space="preserve">
+    <value>Filter applied to {0}, showing {1} rows</value>
+    <comment>{0} = column heading, {1} = number of rows. Announced after a column filter is applied.</comment>
+  </data>
+  <data name="DataTable_FilterRemoved" xml:space="preserve">
+    <value>Filter removed from {0}</value>
+    <comment>{0} = column heading. Announced after a column filter is cleared.</comment>
+  </data>
+  <data name="DataTable_Yes" xml:space="preserve">
+    <value>Yes</value>
+    <comment>A true value in a column filter.</comment>
+  </data>
+  <data name="DataTable_No" xml:space="preserve">
+    <value>No</value>
+    <comment>A false value in a column filter.</comment>
+  </data>
+  <data name="DataTable_OperatorContains" xml:space="preserve">
+    <value>Contains</value>
+    <comment>Column filter condition.</comment>
+  </data>
+  <data name="DataTable_OperatorDoesNotContain" xml:space="preserve">
+    <value>Does not contain</value>
+    <comment>Column filter condition.</comment>
+  </data>
+  <data name="DataTable_OperatorStartsWith" xml:space="preserve">
+    <value>Starts with</value>
+    <comment>Column filter condition.</comment>
+  </data>
+  <data name="DataTable_OperatorEndsWith" xml:space="preserve">
+    <value>Ends with</value>
+    <comment>Column filter condition.</comment>
+  </data>
+  <data name="DataTable_OperatorIsEqualTo" xml:space="preserve">
+    <value>Is equal to</value>
+    <comment>Column filter condition.</comment>
+  </data>
+  <data name="DataTable_OperatorIsNotEqualTo" xml:space="preserve">
+    <value>Is not equal to</value>
+    <comment>Column filter condition.</comment>
+  </data>
+  <data name="DataTable_OperatorIsGreaterThan" xml:space="preserve">
+    <value>Is greater than</value>
+    <comment>Column filter condition.</comment>
+  </data>
+  <data name="DataTable_OperatorIsGreaterThanOrEqualTo" xml:space="preserve">
+    <value>Is greater than or equal to</value>
+    <comment>Column filter condition.</comment>
+  </data>
+  <data name="DataTable_OperatorIsLessThan" xml:space="preserve">
+    <value>Is less than</value>
+    <comment>Column filter condition.</comment>
+  </data>
+  <data name="DataTable_OperatorIsLessThanOrEqualTo" xml:space="preserve">
+    <value>Is less than or equal to</value>
+    <comment>Column filter condition.</comment>
+  </data>
+  <data name="DataTable_OperatorIsEmpty" xml:space="preserve">
+    <value>Is empty</value>
+    <comment>Column filter condition: the cell has no value.</comment>
+  </data>
+  <data name="DataTable_OperatorIsNotEmpty" xml:space="preserve">
+    <value>Is not empty</value>
+    <comment>Column filter condition: the cell has a value.</comment>
   </data>
 </root>

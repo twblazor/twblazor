@@ -7,7 +7,7 @@
 
         <CodeExample Name="TreemapChartBasic" CSharpName="TreemapChartData">
             <TwChart Title="Traffic by source">
-                <TwTreemapChart Data="@sources" />
+                <TwTreemapChart Data="@_sources" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -17,7 +17,7 @@
 
         <CodeExample Name="TreemapChartMany" CSharpName="TreemapChartManyData">
             <TwChart Title="Disk usage by folder">
-                <TwTreemapChart Data="@folders" ValueFormat="0 GB" LabelHeader="Folder" ValueHeader="Size" Height="ChartHeight.Large" />
+                <TwTreemapChart Data="@_folders" ValueFormat="0 GB" LabelHeader="Folder" ValueHeader="Size" Height="ChartHeight.Large" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -37,7 +37,7 @@
 
 @code {
     #region CodeExample TreemapChartData
-    private readonly ChartValue[] sources =
+    private readonly ChartValue[] _sources =
     [
         new("Search", 430),
         new("Direct", 260),
@@ -48,7 +48,7 @@
     #endregion
 
     #region CodeExample TreemapChartManyData
-    private readonly ChartValue[] folders =
+    private readonly ChartValue[] _folders =
     [
         new("Videos", 180), new("Photos", 120), new("Projects", 75), new("Music", 48), new("Documents", 30),
         new("Downloads", 22), new("Backups", 16), new("Apps", 12), new("Fonts", 5), new("Temp", 3)

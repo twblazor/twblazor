@@ -4,14 +4,14 @@
 @using TwBlazor.Models
 @using IconEnum = TwBlazor.Enums.Icon
 
-<ShowcasePage Brand="brand">
+<ShowcasePage Brand="_brand">
     <ChildContent>
         <TwNavbar AriaLabel="Microsoft example navigation">
             <BrandContent>
-                <a href="@brand.Path" class="@focusClass"><ShowcaseLogo Brand="brand" /></a>
+                <a href="@_brand.Path" class="@focusClass"><ShowcaseLogo Brand="_brand" /></a>
             </BrandContent>
             <NavigationContent>
-                @foreach (var link in navigation)
+                @foreach (var link in _navigation)
                 {
                     <a href="@Anchor("showcase-products")" class="px-2 py-2 text-[13px] underline-offset-4 hover:underline @focusClass">@link</a>
                 }
@@ -36,14 +36,14 @@
                             <a href="@Anchor("showcase-products")" class="inline-flex items-center gap-1 text-sm font-semibold text-fluentblue-600 underline-offset-4 hover:underline dark:text-fluentblue-300 @focusClass">Learn more <TwIcon Icon="IconEnum.Chevron_Right" Plain /></a>
                         </div>
                     </div>
-                    <ShowcaseImage Url="@brand.HeroImage" Alt="Surface Laptop Ultra" Icon="IconEnum.Laptop" Class="aspect-video w-full object-cover" FallbackClass="bg-linear-to-br from-fluentblue-200 via-fluentblue-400 to-fluentblue-700 text-8xl text-white" />
+                    <ShowcaseImage Url="@_brand.HeroImage" Alt="Surface Laptop Ultra" Icon="IconEnum.Laptop" Class="aspect-video w-full object-cover" FallbackClass="bg-linear-to-br from-fluentblue-200 via-fluentblue-400 to-fluentblue-700 text-8xl text-white" />
                 </div>
             </section>
 
             <section id="showcase-products" class="mx-auto max-w-7xl scroll-mt-6 px-6 py-12" aria-labelledby="showcase-products-heading">
                 <h2 id="showcase-products-heading" class="sr-only">Featured products</h2>
                 <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                    @foreach (var product in brand.Products)
+                    @foreach (var product in _brand.Products)
                     {
                         <TwCard>
                             <article class="flex h-full flex-col">
@@ -72,18 +72,18 @@
         </main>
     </ChildContent>
     <Footer>
-        <TwFooter Sections="@footer" BottomLinks="@legal" Copyright="An example page, not a Microsoft website." NavigationLabel="Microsoft example footer" />
+        <TwFooter Sections="@_footer" BottomLinks="@_legal" Copyright="An example page, not a Microsoft website." NavigationLabel="Microsoft example footer" />
     </Footer>
 </ShowcasePage>
 
 @code {
     private const string focusClass = "rounded-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current";
 
-    private static readonly ShowcaseBrand brand = ShowcaseBrand.Microsoft;
+    private static readonly ShowcaseBrand _brand = ShowcaseBrand.Microsoft;
 
-    private static readonly string[] navigation = ["Microsoft 365", "Teams", "Copilot", "Windows", "Surface", "Xbox", "Support"];
+    private static readonly string[] _navigation = ["Microsoft 365", "Teams", "Copilot", "Windows", "Surface", "Xbox", "Support"];
 
-    private static readonly (string Title, string[] Links)[] footerColumns =
+    private static readonly (string Title, string[] Links)[] _footerColumns =
     [
         ("What's new", ["Surface Pro", "Surface Laptop", "Copilot for organisations", "Microsoft 365"]),
         ("Microsoft Store", ["Account profile", "Download Center", "Returns", "Order tracking"]),
@@ -92,10 +92,10 @@
     ];
 
     // The same columns as the component's own models. Every link leads back to the top of this example.
-    private static readonly FooterSection[] footer =
-        [.. footerColumns.Select(column => new FooterSection(column.Title, [.. column.Links.Select(link => new FooterLink(link, Anchor("showcase-main")))]))];
+    private static readonly FooterSection[] _footer =
+        [.. _footerColumns.Select(column => new FooterSection(column.Title, [.. column.Links.Select(link => new FooterLink(link, Anchor("showcase-main")))]))];
 
-    private static readonly FooterLink[] legal = [("Privacy", Anchor("showcase-main")), ("Terms of use", Anchor("showcase-main")), ("Accessibility", Anchor("showcase-main"))];
+    private static readonly FooterLink[] _legal = [("Privacy", Anchor("showcase-main")), ("Terms of use", Anchor("showcase-main")), ("Accessibility", Anchor("showcase-main"))];
 
     private int basket;
 
@@ -104,5 +104,5 @@
         // The icon buttons are for show: this example has no search, account or wishlist behind them.
     }
 
-    private static string Anchor(string id) => $"{brand.Path}#{id}";
+    private static string Anchor(string id) => $"{_brand.Path}#{id}";
 }

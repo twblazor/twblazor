@@ -7,7 +7,7 @@
 
         <CodeExample Name="NightingaleChartBasic" CSharpName="NightingaleChartData">
             <TwChart Title="Traffic by source">
-                <TwNightingaleChart Data="@sources" />
+                <TwNightingaleChart Data="@_sources" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -17,7 +17,7 @@
 
         <CodeExample Name="NightingaleChartCycle" CSharpName="NightingaleChartCycleData">
             <TwChart Title="Orders by day">
-                <TwNightingaleChart Data="@orders" LabelHeader="Day" ValueHeader="Orders" />
+                <TwNightingaleChart Data="@_orders" LabelHeader="Day" ValueHeader="Orders" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -37,7 +37,7 @@
 
 @code {
     #region CodeExample NightingaleChartData
-    private readonly ChartValue[] sources =
+    private readonly ChartValue[] _sources =
     [
         new("Search", 430),
         new("Direct", 260),
@@ -48,7 +48,7 @@
     #endregion
 
     #region CodeExample NightingaleChartCycleData
-    private readonly ChartValue[] orders =
+    private readonly ChartValue[] _orders =
     [
         new("Mon", 120), new("Tue", 135), new("Wed", 150), new("Thu", 170),
         new("Fri", 240), new("Sat", 310), new("Sun", 190)

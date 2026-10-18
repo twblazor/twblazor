@@ -1,14 +1,21 @@
 ﻿@namespace TwBlazor.Components
 @inherits TwBlazorComponentBase
 
+<CascadingValue Value="this">
 <div class="@containerClasses">
-    <div class="@theme.Wrapper" tabindex="0" role="group" aria-label="@scrollRegionLabel" @ref="wrapperRef">
-        <table id="@Id" class="@tableClasses" style="@Style" @attributes="Attributes" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy">
+    <div class="@theme.Wrapper" style="@wrapperStyle" tabindex="0" role="group" aria-label="@scrollRegionLabel" @ref="wrapperRef">
+        <table id="@Id" class="@tableClasses" style="@Style" aria-rowcount="@ariaRowCount" aria-busy="@ariaBusy" @attributes="Attributes" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy">
             @if (Caption != null)
             {
                 <caption class="@captionClasses">
                     @Caption
                 </caption>
+            }
+            @if (ColumnGroup != null)
+            {
+                <colgroup>
+                    @ColumnGroup
+                </colgroup>
             }
             @if (TableHeader != null)
             {
@@ -16,7 +23,11 @@
                     @TableHeader
                 </thead>
             }
-            @if (TableBody != null)
+            @if (RowGroups != null)
+            {
+                @RowGroups(bodyClasses)
+            }
+            else if (TableBody != null)
             {
                 <tbody class="@bodyClasses">
                     @TableBody
@@ -29,5 +40,27 @@
                 </tfoot>
             }
         </table>
+        @if (ResizableColumns)
+        {
+            @* The resize script draws a focusable separator on each resizable column's border here, outside the
+               header cells, so the separators' names do not become part of the column headings. *@
+            <div data-tw-resize-layer data-handle-class="@theme.ResizeHandle" data-label-format="@resizeLabelFormat" data-value-format="@resizeValueFormat"></div>
+        }
     </div>
 </div>
+@if (isPaged)
+{
+    <TwPagination Id="@($"{Id}-pagination")"
+                  Class="@paginationClasses"
+                  TotalPages="@totalPages"
+                  ActivePage="@currentPage"
+                  ActivePageChanged="@ChangePageAsync"
+                  ShowPageSize="@ShowPageSize"
+                  PageSize="@pageSize"
+                  PageSizeChanged="@OnPageSizeChangedAsync"
+                  PageSizeOptions="@PageSizeOptions"
+                  Dense="@(!ComfortablePagination)"
+                  AnnouncePageChanges="@AnnouncePageChanges"
+                  AriaLabel="@effectivePaginationLabel" />
+}
+</CascadingValue>

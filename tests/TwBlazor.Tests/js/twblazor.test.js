@@ -2553,3 +2553,146 @@ describe('twDirection', () => {
         expect(window.twDirection.isRtl(el)).toBe(true);
     });
 });
+
+describe('twNumeric', () => {
+    let input;
+    let button;
+
+    const key = (target, name, init = {}) => {
+        const event = new KeyboardEvent('keydown', { key: name, bubbles: true, cancelable: true, ...init });
+        target.dispatchEvent(event);
+        return event;
+    };
+
+    beforeEach(() => {
+        document.body.innerHTML = `
+            <div data-tw-numeric>
+                <input id="field" type="text" value="5" />
+                <button id="increase" data-tw-field-button>+</button>
+                <button id="other">Other</button>
+            </div>`;
+        input = document.getElementById('field');
+        button = document.getElementById('increase');
+        window.twNumeric.attach(input, '[0-9\u{002E}]', false);
+    });
+
+    afterEach(() => {
+        window.twNumeric.detach(input);
+    });
+
+    test.each(['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown'])('%s is prevented and commits typed text first', (name) => {
+        const changes = vi.fn();
+        input.addEventListener('change', changes);
+
+        const event = key(input, name);
+
+        expect(event.defaultPrevented).toBe(true);
+        expect(changes).toHaveBeenCalledTimes(1);
+    });
+
+    test('a step key does not commit while the field is read-only', () => {
+        const changes = vi.fn();
+        input.addEventListener('change', changes);
+        input.readOnly = true;
+
+        expect(key(input, 'ArrowUp').defaultPrevented).toBe(true);
+        expect(changes).not.toHaveBeenCalled();
+    });
+
+    test('a step key with a modifier is left alone', () => {
+        expect(key(input, 'ArrowUp', { ctrlKey: true }).defaultPrevented).toBe(false);
+    });
+
+    test('characters outside the pattern are blocked', () => {
+        expect(key(input, 'a').defaultPrevented).toBe(true);
+        expect(key(input, '-').defaultPrevented).toBe(true);
+        expect(key(input, '7').defaultPrevented).toBe(false);
+        expect(key(input, '.').defaultPrevented).toBe(false);
+    });
+
+    test('editing and navigation keys are never blocked', () => {
+        for (const name of ['Backspace', 'Delete', 'Tab', 'ArrowLeft', 'Home', 'Enter']) {
+            expect(key(input, name).defaultPrevented).toBe(false);
+        }
+    });
+
+    test('shortcuts such as Ctrl+V are not filtered', () => {
+        expect(key(input, 'v', { ctrlKey: true }).defaultPrevented).toBe(false);
+    });
+
+    test('update swaps the pattern', () => {
+        window.twNumeric.update(input, '[a-z]', false);
+
+        expect(key(input, 'a').defaultPrevented).toBe(false);
+        expect(key(input, '7').defaultPrevented).toBe(true);
+    });
+
+    test('an invalid pattern turns filtering off rather than throwing', () => {
+        window.twNumeric.update(input, '[', false);
+
+        expect(key(input, 'a').defaultPrevented).toBe(false);
+    });
+
+    const wheel = () => {
+        const event = new WheelEvent('wheel', { deltaY: -100, bubbles: true, cancelable: true });
+        input.dispatchEvent(event);
+        return event;
+    };
+
+    test('the wheel is prevented and commits only while the field has focus', () => {
+        const changes = vi.fn();
+        input.addEventListener('change', changes);
+
+        expect(wheel().defaultPrevented).toBe(false);
+
+        input.focus();
+        expect(wheel().defaultPrevented).toBe(true);
+        expect(changes).toHaveBeenCalledTimes(1);
+    });
+
+    test('the wheel scrolls the page when it is disabled', () => {
+        window.twNumeric.update(input, null, true);
+        input.focus();
+
+        expect(wheel().defaultPrevented).toBe(false);
+    });
+
+    test('pressing a field button keeps focus in the field and commits typed text', () => {
+        const changes = vi.fn();
+        input.addEventListener('change', changes);
+        input.focus();
+
+        const event = new MouseEvent('mousedown', { bubbles: true, cancelable: true });
+        button.dispatchEvent(event);
+
+        expect(event.defaultPrevented).toBe(true);
+        expect(changes).toHaveBeenCalledTimes(1);
+    });
+
+    test('pressing anything else in the root is left alone', () => {
+        const event = new MouseEvent('mousedown', { bubbles: true, cancelable: true });
+        document.getElementById('other').dispatchEvent(event);
+
+        expect(event.defaultPrevented).toBe(false);
+    });
+
+    test('attaching twice registers the listeners once', () => {
+        const changes = vi.fn();
+        input.addEventListener('change', changes);
+        window.twNumeric.attach(input, null, false);
+
+        key(input, 'ArrowUp');
+
+        expect(changes).toHaveBeenCalledTimes(1);
+    });
+
+    test('detach removes every listener', () => {
+        window.twNumeric.detach(input);
+
+        expect(key(input, 'ArrowUp').defaultPrevented).toBe(false);
+        expect(key(input, 'a').defaultPrevented).toBe(false);
+        const event = new MouseEvent('mousedown', { bubbles: true, cancelable: true });
+        button.dispatchEvent(event);
+        expect(event.defaultPrevented).toBe(false);
+    });
+});

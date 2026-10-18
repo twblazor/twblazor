@@ -121,6 +121,18 @@ public static class TwStrings
     /// <summary>The key for "Rated {0} out of {1}", the accessible name of a read-only rating.</summary>
     public const string Rating_ReadOnly = "Rating_ReadOnly";
 
+    /// <summary>The key for "Increase value", the accessible name of a numeric field's increase button.</summary>
+    public const string Numeric_Increase = "Numeric_Increase";
+
+    /// <summary>The key for "Decrease value", the accessible name of a numeric field's decrease button.</summary>
+    public const string Numeric_Decrease = "Numeric_Decrease";
+
+    /// <summary>The key for "Clear value", the accessible name of a text field's clear button.</summary>
+    public const string Textfield_Clear = "Textfield_Clear";
+
+    /// <summary>The key for "Enter a valid number.", shown when a numeric field holds text that is not a number.</summary>
+    public const string Numeric_Invalid = "Numeric_Invalid";
+
     /// <summary>The key for "Barcode: {0}", the accessible name of a barcode.</summary>
     public const string Barcode_Label = "Barcode_Label";
 
@@ -362,7 +374,7 @@ public static class TwStrings
     public const string DataTable_SearchPlaceholder = "DataTable_SearchPlaceholder";
 
     /// <summary>The key for "Table pagination".</summary>
-    public const string DataTable_Pagination = "DataTable_Pagination";
+    public const string Table_Pagination = "Table_Pagination";
 
     /// <summary>The key for "Page {0} of {1}, showing {2} row".</summary>
     public const string DataTable_PageStatusOne = "DataTable_PageStatusOne";
@@ -399,6 +411,224 @@ public static class TwStrings
 
     /// <summary>The key for "Sort by {0}, currently descending".</summary>
     public const string DataTable_SortByDescending = "DataTable_SortByDescending";
+
+    /// <summary>The key for "No data available.".</summary>
+    public const string DataTable_NoData = "DataTable_NoData";
+
+    /// <summary>The key for "Columns".</summary>
+    public const string DataTable_Columns = "DataTable_Columns";
+
+    /// <summary>The key for "Reset columns".</summary>
+    public const string DataTable_ResetColumns = "DataTable_ResetColumns";
+
+    /// <summary>The key for "Columns reset".</summary>
+    public const string DataTable_ColumnsReset = "DataTable_ColumnsReset";
+
+    /// <summary>The key for "{0} column shown".</summary>
+    public const string DataTable_ColumnShown = "DataTable_ColumnShown";
+
+    /// <summary>The key for "{0} column hidden".</summary>
+    public const string DataTable_ColumnHidden = "DataTable_ColumnHidden";
+
+
+
+    /// <summary>The key for "{0} moved to position {1} of {2}".</summary>
+    public const string DataTable_ColumnMoved = "DataTable_ColumnMoved";
+
+
+
+
+    /// <summary>The key for "Export CSV".</summary>
+    public const string DataTable_ExportCsv = "DataTable_ExportCsv";
+
+    /// <summary>The key for "Export Excel".</summary>
+    public const string DataTable_ExportExcel = "DataTable_ExportExcel";
+
+    /// <summary>The key for "Exported {0} row".</summary>
+    public const string DataTable_ExportedOne = "DataTable_ExportedOne";
+
+    /// <summary>The key for "Exported {0} rows".</summary>
+    public const string DataTable_ExportedOther = "DataTable_ExportedOther";
+
+    /// <summary>The key for "Group by".</summary>
+    public const string DataTable_GroupBy = "DataTable_GroupBy";
+
+    /// <summary>The key for "No grouping".</summary>
+    public const string DataTable_NoGrouping = "DataTable_NoGrouping";
+
+    /// <summary>The key for "Grouped by {0}".</summary>
+    public const string DataTable_GroupedBy = "DataTable_GroupedBy";
+
+    /// <summary>The key for "Grouping removed".</summary>
+    public const string DataTable_GroupingRemoved = "DataTable_GroupingRemoved";
+
+    /// <summary>The key for "{0} row".</summary>
+    public const string DataTable_GroupRowsOne = "DataTable_GroupRowsOne";
+
+    /// <summary>The key for "{0} rows".</summary>
+    public const string DataTable_GroupRowsOther = "DataTable_GroupRowsOther";
+
+    /// <summary>The key for "{0} expanded".</summary>
+    public const string DataTable_GroupExpanded = "DataTable_GroupExpanded";
+
+    /// <summary>The key for "{0} collapsed".</summary>
+    public const string DataTable_GroupCollapsed = "DataTable_GroupCollapsed";
+
+    /// <summary>The key for "Expand all groups".</summary>
+    public const string DataTable_ExpandAllGroups = "DataTable_ExpandAllGroups";
+
+    /// <summary>The key for "Collapse all groups".</summary>
+    public const string DataTable_CollapseAllGroups = "DataTable_CollapseAllGroups";
+
+    /// <summary>The key for "All groups expanded".</summary>
+    public const string DataTable_AllGroupsExpanded = "DataTable_AllGroupsExpanded";
+
+    /// <summary>The key for "All groups collapsed".</summary>
+    public const string DataTable_AllGroupsCollapsed = "DataTable_AllGroupsCollapsed";
+
+    /// <summary>The key for "(No value)".</summary>
+    public const string DataTable_GroupNoValue = "DataTable_GroupNoValue";
+
+    /// <summary>The key for "Loading…".</summary>
+    public const string DataTable_Loading = "DataTable_Loading";
+
+    /// <summary>The key for "Actions".</summary>
+    public const string DataTable_Actions = "DataTable_Actions";
+
+    /// <summary>The key for "Edit {0}".</summary>
+    public const string DataTable_EditRow = "DataTable_EditRow";
+
+    /// <summary>The key for "Save {0}".</summary>
+    public const string DataTable_SaveRow = "DataTable_SaveRow";
+
+    /// <summary>The key for "Cancel editing {0}".</summary>
+    public const string DataTable_CancelEdit = "DataTable_CancelEdit";
+
+    /// <summary>The key for "Editing {0}".</summary>
+    public const string DataTable_Editing = "DataTable_Editing";
+
+    /// <summary>The key for "{0} saved".</summary>
+    public const string DataTable_RowSaved = "DataTable_RowSaved";
+
+    /// <summary>The key for "Editing {0} cancelled".</summary>
+    public const string DataTable_EditCancelled = "DataTable_EditCancelled";
+
+    /// <summary>The key for "{0} field needs fixing before saving".</summary>
+    public const string DataTable_EditInvalidOne = "DataTable_EditInvalidOne";
+
+    /// <summary>The key for "{0} fields need fixing before saving".</summary>
+    public const string DataTable_EditInvalidOther = "DataTable_EditInvalidOther";
+
+    /// <summary>The key for "{0} column options".</summary>
+    public const string DataTable_ColumnOptions = "DataTable_ColumnOptions";
+
+    /// <summary>The key for "Sort ascending".</summary>
+    public const string DataTable_SortAscending = "DataTable_SortAscending";
+
+    /// <summary>The key for "Sort descending".</summary>
+    public const string DataTable_SortDescending = "DataTable_SortDescending";
+
+    /// <summary>The key for "Remove sort".</summary>
+    public const string DataTable_RemoveSort = "DataTable_RemoveSort";
+
+    /// <summary>The key for "Group by this column".</summary>
+    public const string DataTable_GroupByColumn = "DataTable_GroupByColumn";
+
+    /// <summary>The key for "Stop grouping".</summary>
+    public const string DataTable_StopGrouping = "DataTable_StopGrouping";
+
+    /// <summary>The key for "Move left".</summary>
+    public const string DataTable_MoveColumnLeft = "DataTable_MoveColumnLeft";
+
+    /// <summary>The key for "Move right".</summary>
+    public const string DataTable_MoveColumnRight = "DataTable_MoveColumnRight";
+
+    /// <summary>The key for "Hide column".</summary>
+    public const string DataTable_HideColumn = "DataTable_HideColumn";
+
+    /// <summary>The key for "Filter {0}".</summary>
+    public const string DataTable_FilterColumn = "DataTable_FilterColumn";
+
+    /// <summary>The key for "Filter {0}, filtered".</summary>
+    public const string DataTable_FilterColumnActive = "DataTable_FilterColumnActive";
+
+    /// <summary>The key for "First condition".</summary>
+    public const string DataTable_FirstCondition = "DataTable_FirstCondition";
+
+    /// <summary>The key for "First value".</summary>
+    public const string DataTable_FirstValue = "DataTable_FirstValue";
+
+    /// <summary>The key for "Second condition".</summary>
+    public const string DataTable_SecondCondition = "DataTable_SecondCondition";
+
+    /// <summary>The key for "Second value".</summary>
+    public const string DataTable_SecondValue = "DataTable_SecondValue";
+
+    /// <summary>The key for "Combine conditions".</summary>
+    public const string DataTable_FilterLogic = "DataTable_FilterLogic";
+
+    /// <summary>The key for "And".</summary>
+    public const string DataTable_FilterAnd = "DataTable_FilterAnd";
+
+    /// <summary>The key for "Or".</summary>
+    public const string DataTable_FilterOr = "DataTable_FilterOr";
+
+    /// <summary>The key for "Filter".</summary>
+    public const string DataTable_ApplyFilter = "DataTable_ApplyFilter";
+
+    /// <summary>The key for "Clear".</summary>
+    public const string DataTable_ClearFilter = "DataTable_ClearFilter";
+
+    /// <summary>The key for "Filter applied to {0}, showing {1} row".</summary>
+    public const string DataTable_FilterAppliedOne = "DataTable_FilterAppliedOne";
+
+    /// <summary>The key for "Filter applied to {0}, showing {1} rows".</summary>
+    public const string DataTable_FilterAppliedOther = "DataTable_FilterAppliedOther";
+
+    /// <summary>The key for "Filter removed from {0}".</summary>
+    public const string DataTable_FilterRemoved = "DataTable_FilterRemoved";
+
+    /// <summary>The key for "Yes".</summary>
+    public const string DataTable_Yes = "DataTable_Yes";
+
+    /// <summary>The key for "No".</summary>
+    public const string DataTable_No = "DataTable_No";
+
+    /// <summary>The key for "Contains".</summary>
+    public const string DataTable_OperatorContains = "DataTable_OperatorContains";
+
+    /// <summary>The key for "Does not contain".</summary>
+    public const string DataTable_OperatorDoesNotContain = "DataTable_OperatorDoesNotContain";
+
+    /// <summary>The key for "Starts with".</summary>
+    public const string DataTable_OperatorStartsWith = "DataTable_OperatorStartsWith";
+
+    /// <summary>The key for "Ends with".</summary>
+    public const string DataTable_OperatorEndsWith = "DataTable_OperatorEndsWith";
+
+    /// <summary>The key for "Is equal to".</summary>
+    public const string DataTable_OperatorIsEqualTo = "DataTable_OperatorIsEqualTo";
+
+    /// <summary>The key for "Is not equal to".</summary>
+    public const string DataTable_OperatorIsNotEqualTo = "DataTable_OperatorIsNotEqualTo";
+
+    /// <summary>The key for "Is greater than".</summary>
+    public const string DataTable_OperatorIsGreaterThan = "DataTable_OperatorIsGreaterThan";
+
+    /// <summary>The key for "Is greater than or equal to".</summary>
+    public const string DataTable_OperatorIsGreaterThanOrEqualTo = "DataTable_OperatorIsGreaterThanOrEqualTo";
+
+    /// <summary>The key for "Is less than".</summary>
+    public const string DataTable_OperatorIsLessThan = "DataTable_OperatorIsLessThan";
+
+    /// <summary>The key for "Is less than or equal to".</summary>
+    public const string DataTable_OperatorIsLessThanOrEqualTo = "DataTable_OperatorIsLessThanOrEqualTo";
+
+    /// <summary>The key for "Is empty".</summary>
+    public const string DataTable_OperatorIsEmpty = "DataTable_OperatorIsEmpty";
+
+    /// <summary>The key for "Is not empty".</summary>
+    public const string DataTable_OperatorIsNotEmpty = "DataTable_OperatorIsNotEmpty";
 
     /// <summary>The key for "Open date picker".</summary>
     public const string DatePicker_Open = "DatePicker_Open";
@@ -595,6 +825,12 @@ public static class TwStrings
     /// <summary>The key for "Scrollable table".</summary>
     public const string Table_ScrollRegion = "Table_ScrollRegion";
 
+    /// <summary>The key for "Resize {0}".</summary>
+    public const string Table_ResizeColumn = "Table_ResizeColumn";
+
+    /// <summary>The key for "{0} pixels".</summary>
+    public const string Table_ColumnWidthValue = "Table_ColumnWidthValue";
+
     /// <summary>The key for "Open time picker".</summary>
     public const string TimePicker_Open = "TimePicker_Open";
 
@@ -696,4 +932,7 @@ public static class TwStrings
 
     /// <summary>The key for the optional .NET format string the date time pickers type and parse (for example dd.MM.yyyy HH:mm).</summary>
     public const string Format_DateTimeInput = "Format_DateTimeInput";
+
+    /// <summary>The key for "Options".</summary>
+    public const string Menu_Options = "Menu_Options";
 }

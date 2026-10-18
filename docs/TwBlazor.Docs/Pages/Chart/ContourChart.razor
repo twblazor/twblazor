@@ -7,7 +7,7 @@
 
         <CodeExample Name="ContourChartBasic" CSharpName="ContourChartData">
             <TwChart Title="Room temperature" Description="Degrees Celsius across the floor, metres from the corner">
-                <TwContourChart Series="@temperatures" XTitle="East" YTitle="North" ValueTitle="Temperature" />
+                <TwContourChart Series="@_temperatures" XTitle="East" YTitle="North" ValueTitle="Temperature" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -18,10 +18,10 @@
         <CodeExample Name="ContourChartLevels">
             <div class="grid gap-8 md:grid-cols-2">
                 <TwChart Title="Three levels">
-                    <TwContourChart Series="@temperatures" Levels="3" XTitle="East" YTitle="North" Height="ChartHeight.Small" />
+                    <TwContourChart Series="@_temperatures" Levels="3" XTitle="East" YTitle="North" Height="ChartHeight.Small" />
                 </TwChart>
                 <TwChart Title="Nine levels">
-                    <TwContourChart Series="@temperatures" Levels="9" XTitle="East" YTitle="North" Height="ChartHeight.Small" />
+                    <TwContourChart Series="@_temperatures" Levels="9" XTitle="East" YTitle="North" Height="ChartHeight.Small" />
                 </TwChart>
             </div>
         </CodeExample>
@@ -32,7 +32,7 @@
 
         <CodeExample Name="ContourChartPeaks" CSharpName="ContourChartPeaksData">
             <TwChart Title="Signal strength" Description="Decibels across the site, with the two transmitters named">
-                <TwContourChart Series="@signal" Levels="7" XTitle="X" YTitle="Y" ValueTitle="Signal" ValueFormat="0.#" Height="ChartHeight.Large" />
+                <TwContourChart Series="@_signal" Levels="7" XTitle="X" YTitle="Y" ValueTitle="Signal" ValueFormat="0.#" Height="ChartHeight.Large" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -52,7 +52,7 @@
 
 @code {
     #region CodeExample ContourChartData
-    private readonly ChartPointSeries[] temperatures =
+    private readonly ChartPointSeries[] _temperatures =
     [
         new("Sensors",
         [
@@ -65,7 +65,7 @@
 
     #region CodeExample ContourChartPeaksData
     // A 7 by 5 grid of readings that fall away from two transmitters.
-    private readonly ChartPointSeries[] signal =
+    private readonly ChartPointSeries[] _signal =
     [
         new("Transmitters", [new(2, 3, "North mast", 60), new(8, 1.5, "South mast", 52)]),
         new("Survey", [.. Enumerable.Range(0, 35).Select(index =>

@@ -7,7 +7,7 @@
 
         <CodeExample Name="CategoricalScatterChartBasic" CSharpName="CategoricalScatterChartData">
             <TwChart Title="Survey responses" Description="Number of comments by topic and sentiment">
-                <TwCategoricalScatterChart Points="@responses" XTitle="Topic" YTitle="Sentiment" ValueTitle="Comments" />
+                <TwCategoricalScatterChart Points="@_responses" XTitle="Topic" YTitle="Sentiment" ValueTitle="Comments" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -17,7 +17,7 @@
 
         <CodeExample Name="CategoricalScatterChartSparse" CSharpName="CategoricalScatterChartSparseData">
             <TwChart Title="Incidents by team and severity" Description="Last quarter">
-                <TwCategoricalScatterChart Points="@incidents" XTitle="Team" YTitle="Severity" ValueTitle="Incidents" Height="ChartHeight.Large" />
+                <TwCategoricalScatterChart Points="@_incidents" XTitle="Team" YTitle="Severity" ValueTitle="Incidents" Height="ChartHeight.Large" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -27,7 +27,7 @@
 
         <CodeExample Name="CategoricalScatterChartLabels" CSharpName="CategoricalScatterChartLabelsData">
             <TwChart Title="Conference talks" Description="Audience size by track and day">
-                <TwCategoricalScatterChart Points="@talks" XTitle="Day" YTitle="Track" ValueTitle="Audience" />
+                <TwCategoricalScatterChart Points="@_talks" XTitle="Day" YTitle="Track" ValueTitle="Audience" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -47,7 +47,7 @@
 
 @code {
     #region CodeExample CategoricalScatterChartData
-    private readonly ChartCategoricalPoint[] responses =
+    private readonly ChartCategoricalPoint[] _responses =
     [
         new("Service", "Positive", 48), new("Price", "Positive", 12), new("Quality", "Positive", 62),
         new("Service", "Neutral", 15), new("Price", "Neutral", 20), new("Quality", "Neutral", 9),
@@ -56,7 +56,7 @@
     #endregion
 
     #region CodeExample CategoricalScatterChartSparseData
-    private readonly ChartCategoricalPoint[] incidents =
+    private readonly ChartCategoricalPoint[] _incidents =
     [
         new("Payments", "Critical", 2), new("Search", "Critical", 1),
         new("Payments", "High", 5), new("Accounts", "High", 3), new("Mobile", "High", 8),
@@ -66,7 +66,7 @@
     #endregion
 
     #region CodeExample CategoricalScatterChartLabelsData
-    private readonly ChartCategoricalPoint[] talks =
+    private readonly ChartCategoricalPoint[] _talks =
     [
         new("Monday", "Design", 180, "Design systems at scale"),
         new("Monday", "Engineering", 420, "Keynote: ten years of Blazor"),

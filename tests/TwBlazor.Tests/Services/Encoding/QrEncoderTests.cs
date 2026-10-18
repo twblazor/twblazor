@@ -8,7 +8,7 @@ namespace TwBlazor.Tests.Services.Encoding;
 
 public class QrEncoderTests
 {
-    private readonly TwQrCodeService service = new();
+    private readonly TwQrCodeService _service = new();
 
     // Verified module for module against an independent encoder and decoded with ZXing.
     private static readonly string[] _helloWorldVersion1Quartile =
@@ -59,7 +59,7 @@ public class QrEncoderTests
     [Fact]
     public void Encode_HelloWorld_MatchesTheReferenceMatrix()
     {
-        var matrix = service.Encode("HELLO WORLD", new QrEncodeOptions { ErrorCorrection = QrErrorCorrection.Quartile, BoostErrorCorrection = false });
+        var matrix = _service.Encode("HELLO WORLD", new QrEncodeOptions { ErrorCorrection = QrErrorCorrection.Quartile, BoostErrorCorrection = false });
 
         Assert.Equal(1, matrix.Version);
         Assert.Equal(QrErrorCorrection.Quartile, matrix.ErrorCorrection);
@@ -73,7 +73,7 @@ public class QrEncoderTests
     [InlineData("héllo wörld \U0001F600 日本", QrErrorCorrection.High, false, 4, 2, "4abd39558df9ef4ddf035aa2392cf34922f1e201d61462c431422ba899c51ff2")]
     public void Encode_MatchesTheReferenceMatrices(string value, QrErrorCorrection level, bool boost, int version, int mask, string fingerprint)
     {
-        var matrix = service.Encode(value, new QrEncodeOptions { ErrorCorrection = level, BoostErrorCorrection = boost });
+        var matrix = _service.Encode(value, new QrEncodeOptions { ErrorCorrection = level, BoostErrorCorrection = boost });
 
         Assert.Equal(version, matrix.Version);
         Assert.Equal(mask, matrix.Mask);
@@ -85,7 +85,7 @@ public class QrEncoderTests
     {
         var value = string.Concat(Enumerable.Repeat("The quick brown fox jumps over the lazy dog. ", 7));
 
-        var matrix = service.Encode(value, new QrEncodeOptions { ErrorCorrection = QrErrorCorrection.Low, BoostErrorCorrection = false });
+        var matrix = _service.Encode(value, new QrEncodeOptions { ErrorCorrection = QrErrorCorrection.Low, BoostErrorCorrection = false });
 
         Assert.Equal(11, matrix.Version);
         Assert.Equal("48c8fcd458979d46ecf51f0d44987deb009e5a141670dae9bedee83d7494fb90", Fingerprint(matrix));
@@ -94,7 +94,7 @@ public class QrEncoderTests
     [Fact]
     public void Encode_TheLargestVersion_MatchesTheReferenceMatrix()
     {
-        var matrix = service.Encode(new string('a', 2953), new QrEncodeOptions { ErrorCorrection = QrErrorCorrection.Low });
+        var matrix = _service.Encode(new string('a', 2953), new QrEncodeOptions { ErrorCorrection = QrErrorCorrection.Low });
 
         Assert.Equal(40, matrix.Version);
         Assert.Equal(177, matrix.Size);
@@ -112,7 +112,7 @@ public class QrEncoderTests
     [InlineData(7, "c55b196e646e3d6d4e3129ad4f9b32cd1b6e10af12ee8b759325d3951d149e5b")]
     public void Encode_WithAFixedMask_MatchesTheReferenceMatrix(int mask, string fingerprint)
     {
-        var matrix = service.Encode("Mask test 123", new QrEncodeOptions { Mask = mask, BoostErrorCorrection = false });
+        var matrix = _service.Encode("Mask test 123", new QrEncodeOptions { Mask = mask, BoostErrorCorrection = false });
 
         Assert.Equal(mask, matrix.Mask);
         Assert.Equal(fingerprint, Fingerprint(matrix));
@@ -132,8 +132,8 @@ public class QrEncoderTests
     {
         var options = new QrEncodeOptions { ErrorCorrection = level, BoostErrorCorrection = false, MinVersion = version, MaxVersion = version };
 
-        Assert.Equal(version, service.Encode(new string('a', capacity), options).Version);
-        Assert.Throws<SymbolEncodingException>(() => service.Encode(new string('a', capacity + 1), options));
+        Assert.Equal(version, _service.Encode(new string('a', capacity), options).Version);
+        Assert.Throws<SymbolEncodingException>(() => _service.Encode(new string('a', capacity + 1), options));
     }
 
     [Theory]
@@ -143,22 +143,22 @@ public class QrEncoderTests
     {
         var options = new QrEncodeOptions { ErrorCorrection = QrErrorCorrection.Low, MinVersion = 40 };
 
-        Assert.Equal(40, service.Encode(new string(character, capacity), options).Version);
-        Assert.Throws<SymbolEncodingException>(() => service.Encode(new string(character, capacity + 1), options));
+        Assert.Equal(40, _service.Encode(new string(character, capacity), options).Version);
+        Assert.Throws<SymbolEncodingException>(() => _service.Encode(new string(character, capacity + 1), options));
     }
 
     [Fact]
     public void Encode_PicksTheSmallestVersionThatFits()
     {
-        Assert.Equal(1, service.Encode(new string('a', 14)).Version);
-        Assert.Equal(2, service.Encode(new string('a', 15)).Version);
+        Assert.Equal(1, _service.Encode(new string('a', 14)).Version);
+        Assert.Equal(2, _service.Encode(new string('a', 15)).Version);
     }
 
     [Fact]
     public void Encode_BoostsErrorCorrection_OnlyWhenTheCodeStaysTheSameSize()
     {
-        var boosted = service.Encode("A", new QrEncodeOptions { ErrorCorrection = QrErrorCorrection.Low });
-        var notBoosted = service.Encode("A", new QrEncodeOptions { ErrorCorrection = QrErrorCorrection.Low, BoostErrorCorrection = false });
+        var boosted = _service.Encode("A", new QrEncodeOptions { ErrorCorrection = QrErrorCorrection.Low });
+        var notBoosted = _service.Encode("A", new QrEncodeOptions { ErrorCorrection = QrErrorCorrection.Low, BoostErrorCorrection = false });
 
         Assert.Equal(QrErrorCorrection.High, boosted.ErrorCorrection);
         Assert.Equal(QrErrorCorrection.Low, notBoosted.ErrorCorrection);
@@ -170,8 +170,8 @@ public class QrEncoderTests
     {
         var value = new string('a', 100);
 
-        var low = service.Encode(value, new QrEncodeOptions { ErrorCorrection = QrErrorCorrection.Low, BoostErrorCorrection = false });
-        var high = service.Encode(value, new QrEncodeOptions { ErrorCorrection = QrErrorCorrection.High, BoostErrorCorrection = false });
+        var low = _service.Encode(value, new QrEncodeOptions { ErrorCorrection = QrErrorCorrection.Low, BoostErrorCorrection = false });
+        var high = _service.Encode(value, new QrEncodeOptions { ErrorCorrection = QrErrorCorrection.High, BoostErrorCorrection = false });
 
         Assert.True(high.Version > low.Version);
     }
@@ -179,7 +179,7 @@ public class QrEncoderTests
     [Fact]
     public void Encode_MinVersion_KeepsShortValuesAtAFixedSize()
     {
-        var matrix = service.Encode("hi", new QrEncodeOptions { MinVersion = 5 });
+        var matrix = _service.Encode("hi", new QrEncodeOptions { MinVersion = 5 });
 
         Assert.Equal(5, matrix.Version);
         Assert.Equal(37, matrix.Size);
@@ -188,7 +188,7 @@ public class QrEncoderTests
     [Fact]
     public void Encode_EmptyText_GivesAValidVersion1Code()
     {
-        var matrix = service.Encode(string.Empty);
+        var matrix = _service.Encode(string.Empty);
 
         Assert.Equal(1, matrix.Version);
         Assert.True(matrix[0, 0]);
@@ -204,19 +204,19 @@ public class QrEncoderTests
     {
         var options = new QrEncodeOptions { MinVersion = minVersion, MaxVersion = maxVersion, Mask = mask };
 
-        Assert.Throws<ArgumentOutOfRangeException>(() => service.Encode("x", options));
+        Assert.Throws<ArgumentOutOfRangeException>(() => _service.Encode("x", options));
     }
 
     [Fact]
     public void Encode_RejectsAnUndefinedErrorCorrectionLevel()
     {
-        Assert.Throws<ArgumentOutOfRangeException>(() => service.Encode("x", new QrEncodeOptions { ErrorCorrection = (QrErrorCorrection)9 }));
+        Assert.Throws<ArgumentOutOfRangeException>(() => _service.Encode("x", new QrEncodeOptions { ErrorCorrection = (QrErrorCorrection)9 }));
     }
 
     [Fact]
     public void Matrix_DrawsTheThreeFinderPatterns_AndReportsTheirArea()
     {
-        var matrix = service.Encode("HELLO");
+        var matrix = _service.Encode("HELLO");
         var last = matrix.Size - 1;
 
         Assert.True(matrix[0, 0] && matrix[last, 0] && matrix[0, last]);
@@ -231,7 +231,7 @@ public class QrEncoderTests
     [Fact]
     public void Matrix_TreatsPositionsOutsideTheGridAsLight()
     {
-        var matrix = service.Encode("HELLO");
+        var matrix = _service.Encode("HELLO");
 
         Assert.False(matrix[-1, 0]);
         Assert.False(matrix[0, -1]);

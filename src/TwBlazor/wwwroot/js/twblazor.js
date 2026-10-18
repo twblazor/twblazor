@@ -742,6 +742,88 @@ globalThis.twSlider = {
     }
 };
 
+// Numeric field: the stepping itself runs in C#, this only does what C# can't do per keystroke.
+// - Arrow Up/Down and Page Up/Down would move the caret or scroll the page, so their default is prevented.
+// - The wheel would scroll the page while it steps a focused field, so its default is prevented too.
+// - Before a step, a "change" is raised so Blazor commits any typed but uncommitted text first and the
+//   step starts from what the user sees, not from the last committed value.
+// - A printable key that the allowed pattern rejects is blocked. Pasted text is not, C# parses it instead.
+globalThis.twNumeric = {
+    _stepKeys: ['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown'],
+
+    _commit: function (el) {
+        el.dispatchEvent(new Event('change', { bubbles: true }));
+    },
+
+    _canStep: function (el) {
+        return !el.readOnly && !el.disabled;
+    },
+
+    attach: function (el, allowedPattern, wheelDisabled) {
+        if (!el) return;
+        globalThis.twNumeric.update(el, allowedPattern, wheelDisabled);
+        if (el.__twNumeric) return;
+
+        const keydown = function (e) {
+            if (e.ctrlKey || e.metaKey || e.altKey) return;
+
+            if (globalThis.twNumeric._stepKeys.includes(e.key)) {
+                e.preventDefault();
+                if (globalThis.twNumeric._canStep(el)) {
+                    globalThis.twNumeric._commit(el);
+                }
+                return;
+            }
+
+            const allowed = el.__twNumericAllowed;
+            if (allowed && e.key.length === 1 && !allowed.test(e.key)) {
+                e.preventDefault();
+            }
+        };
+
+        const wheel = function (e) {
+            if (document.activeElement !== el || !globalThis.twNumeric._canStep(el) || el.__twNumericWheelDisabled) return;
+            e.preventDefault();
+            globalThis.twNumeric._commit(el);
+        };
+
+        // Pressing a button keeps focus in the field, so the keys and wheel carry on working after a click.
+        const root = el.closest('[data-tw-numeric]');
+        const mousedown = function (e) {
+            if (!e.target.closest?.('[data-tw-field-button]')) return;
+            e.preventDefault();
+            if (document.activeElement === el) {
+                globalThis.twNumeric._commit(el);
+            }
+        };
+
+        el.__twNumeric = { keydown, wheel, root, mousedown };
+        el.addEventListener('keydown', keydown);
+        el.addEventListener('wheel', wheel, { passive: false });
+        root?.addEventListener('mousedown', mousedown);
+    },
+
+    update: function (el, allowedPattern, wheelDisabled) {
+        if (!el) return;
+        try {
+            el.__twNumericAllowed = allowedPattern ? new RegExp('^(?:' + allowedPattern + ')$', 'u') : null;
+        } catch {
+            el.__twNumericAllowed = null;
+        }
+        el.__twNumericWheelDisabled = !!wheelDisabled;
+    },
+
+    detach: function (el) {
+        if (!el?.__twNumeric) return;
+        el.removeEventListener('keydown', el.__twNumeric.keydown);
+        el.removeEventListener('wheel', el.__twNumeric.wheel);
+        el.__twNumeric.root?.removeEventListener('mousedown', el.__twNumeric.mousedown);
+        delete el.__twNumeric;
+        delete el.__twNumericAllowed;
+        delete el.__twNumericWheelDisabled;
+    }
+};
+
 // Tabs: prevents native scroll for the WAI-ARIA APG tablist navigation keys (arrows, Home, End)
 // without ever preventDefault-ing Tab, whose default action (moving focus out) must stay intact.
 // Runs alongside Blazor's own keydown binding (which does the actual tab-switching in C#); a
@@ -1371,11 +1453,15 @@ globalThis.twSkeleton = {
 // styles never reveal a bubble there. One document listener opens the tooltip under a touch or pen tap by
 // marking its wrapper (the theme reveals the bubble for a marked wrapper) and closes it on the next tap
 // anywhere, so at most one is open. Mouse input is left to the hover styles.
+// A bubble is absolutely positioned inside its wrapper, so a scrolling ancestor such as a table's scroll area would
+// cut it off. While a bubble inside one is showing it is fixed to the viewport instead, next to its control.
 globalThis.twTooltip = {
     _wrapperSelector: '[data-tw-tooltip]',
     _openAttribute: 'data-tw-tooltip-open',
     _edgeMargin: 8,
+    _gap: 8,
     _registered: false,
+    _floating: new Set(),
 
     _parts: function (wrapper) {
         const bubble = Array.from(wrapper.children).find(child => child.getAttribute('role') === 'tooltip') ?? null;
@@ -1406,16 +1492,135 @@ globalThis.twTooltip = {
         if (arrow) arrow.style.marginLeft = `${-shift}px`;
     },
 
+    // Whether an ancestor between the wrapper and the page clips its overflow, which would cut the bubble off.
+    _isClipped: function (wrapper) {
+        for (let el = wrapper.parentElement; el && el !== document.body && el !== document.documentElement; el = el.parentElement) {
+            const style = getComputedStyle(el);
+            const clips = [style.overflow, style.overflowX, style.overflowY].some(function (value) { return value && value !== 'visible'; });
+            if (clips) return true;
+        }
+        return false;
+    },
+
+    _reset: function (wrapper) {
+        globalThis.twTooltip._floating.delete(wrapper);
+        const { bubble, arrow } = globalThis.twTooltip._parts(wrapper);
+        if (bubble) {
+            ['position', 'inset', 'top', 'left', 'margin', 'translate', 'transform', 'margin-left'].forEach(function (name) {
+                bubble.style.removeProperty(name);
+            });
+        }
+        if (arrow) arrow.style.marginLeft = '';
+    },
+
+    // Fixes a showing bubble to the viewport on its placement's side of the wrapper, kept on screen.
+    _float: function (wrapper) {
+        const tooltip = globalThis.twTooltip;
+        const { bubble, arrow } = tooltip._parts(wrapper);
+        if (!bubble) return false;
+
+        bubble.style.position = 'fixed';
+        bubble.style.inset = '0 auto auto 0';
+        bubble.style.margin = '0';
+        bubble.style.translate = 'none';
+        bubble.style.transform = 'none';
+        if (arrow) arrow.style.marginLeft = '';
+
+        const size = bubble.getBoundingClientRect();
+        if (size.width === 0 && size.height === 0) {
+            tooltip._reset(wrapper);
+            return false;
+        }
+
+        const rect = wrapper.getBoundingClientRect();
+        const gap = tooltip._gap;
+        const rtl = globalThis.twDirection.isRtl(wrapper);
+        const placement = (bubble.dataset.twPlacement || 'top').toLowerCase();
+        const centreX = rect.left + (rect.width - size.width) / 2;
+        const centreY = rect.top + (rect.height - size.height) / 2;
+        const before = rect.left - size.width - gap;
+        const after = rect.right + gap;
+
+        let left = centreX;
+        let top = rect.top - size.height - gap;
+        if (placement === 'bottom') {
+            top = rect.bottom + gap;
+        } else if (placement === 'left') {
+            left = rtl ? after : before;
+            top = centreY;
+        } else if (placement === 'right') {
+            left = rtl ? before : after;
+            top = centreY;
+        }
+
+        const margin = tooltip._edgeMargin;
+        const viewportWidth = document.documentElement.clientWidth;
+        const fitted = viewportWidth > 0 ? Math.max(margin, Math.min(left, viewportWidth - margin - size.width)) : left;
+        bubble.style.left = fitted + 'px';
+        bubble.style.top = top + 'px';
+        if (arrow && fitted !== left && (placement === 'top' || placement === 'bottom')) {
+            arrow.style.marginLeft = (left - fitted) + 'px';
+        }
+        tooltip._floating.add(wrapper);
+        return true;
+    },
+
+    // Called when a wrapper may have started showing its bubble. The hover or focus styles may not apply until the
+    // next frame, so a bubble that is not showing yet is tried once more then.
+    _show: function (wrapper) {
+        const tooltip = globalThis.twTooltip;
+        if (!tooltip._isClipped(wrapper)) return;
+        if (tooltip._float(wrapper)) return;
+        const schedule = globalThis.requestAnimationFrame ?? function (fn) { return setTimeout(fn, 0); };
+        schedule(function () {
+            if (wrapper.isConnected) tooltip._float(wrapper);
+        });
+    },
+
     open: function (wrapper) {
         wrapper.setAttribute(globalThis.twTooltip._openAttribute, '');
-        globalThis.twTooltip._fit(wrapper);
+        if (globalThis.twTooltip._isClipped(wrapper)) {
+            globalThis.twTooltip._float(wrapper);
+        } else {
+            globalThis.twTooltip._fit(wrapper);
+        }
     },
 
     close: function (wrapper) {
         wrapper.removeAttribute(globalThis.twTooltip._openAttribute);
-        const { bubble, arrow } = globalThis.twTooltip._parts(wrapper);
-        if (bubble) bubble.style.marginLeft = '';
-        if (arrow) arrow.style.marginLeft = '';
+        globalThis.twTooltip._reset(wrapper);
+    },
+
+    _wrapperOf: function (target) {
+        return target?.closest?.(globalThis.twTooltip._wrapperSelector) ?? null;
+    },
+
+    _onEnter: function (e) {
+        const tooltip = globalThis.twTooltip;
+        const wrapper = tooltip._wrapperOf(e.target);
+        if (wrapper && !(e.relatedTarget instanceof Node && wrapper.contains(e.relatedTarget))) {
+            tooltip._show(wrapper);
+        }
+    },
+
+    _onLeave: function (e) {
+        const tooltip = globalThis.twTooltip;
+        const wrapper = tooltip._wrapperOf(e.target);
+        if (!wrapper || !tooltip._floating.has(wrapper)) return;
+        if (e.relatedTarget instanceof Node && wrapper.contains(e.relatedTarget)) return;
+        if (wrapper.hasAttribute(tooltip._openAttribute)) return;
+        tooltip._reset(wrapper);
+    },
+
+    // A fixed bubble does not move with its control, so it follows it on any scroll or resize.
+    _onViewportChange: function () {
+        globalThis.twTooltip._floating.forEach(function (wrapper) {
+            if (wrapper.isConnected) {
+                globalThis.twTooltip._float(wrapper);
+            } else {
+                globalThis.twTooltip._floating.delete(wrapper);
+            }
+        });
     },
 
     _onPointerDown: function (e) {
@@ -1450,8 +1655,15 @@ globalThis.twTooltip = {
 
     register: function () {
         if (globalThis.twTooltip._registered || typeof document === 'undefined') return;
-        document.addEventListener('pointerdown', globalThis.twTooltip._onPointerDown);
-        globalThis.twTooltip._registered = true;
+        const tooltip = globalThis.twTooltip;
+        document.addEventListener('pointerdown', tooltip._onPointerDown);
+        document.addEventListener('pointerover', tooltip._onEnter);
+        document.addEventListener('focusin', tooltip._onEnter);
+        document.addEventListener('pointerout', tooltip._onLeave);
+        document.addEventListener('focusout', tooltip._onLeave);
+        document.addEventListener('scroll', tooltip._onViewportChange, true);
+        globalThis.addEventListener?.('resize', tooltip._onViewportChange);
+        tooltip._registered = true;
     }
 };
 
@@ -1578,6 +1790,392 @@ globalThis.twScrollRegion = {
     }
 };
 
+// Table column resizing: a focusable separator on the border at the end of each resizable column's header. The
+// separators live in a layer after the table rather than inside the header cells, so their names do not become part
+// of the column headings. They are rebuilt from the <col> elements, so they always follow the columns' order.
+globalThis.twTable = {
+    _keyStep: 16,
+    _largeKeyStep: 64,
+
+    _layer: function (wrapper) {
+        return wrapper ? wrapper.querySelector(':scope > [data-tw-resize-layer]') : null;
+    },
+
+    // The table's <col> elements with the index of the first column each covers.
+    _columns: function (wrapper) {
+        const table = wrapper?.querySelector(':scope > table');
+        if (!table) return [];
+        let index = 0;
+        return Array.from(table.querySelectorAll(':scope > colgroup > col')).map(function (col) {
+            const entry = { col: col, index: index };
+            index += Math.max(1, col.span || 1);
+            return entry;
+        });
+    },
+
+    // The header cell in the first header row that starts at a column index, counting colspans.
+    _headerCell: function (wrapper, columnIndex) {
+        const row = wrapper.querySelector(':scope > table > thead > tr');
+        if (!row) return null;
+        let index = 0;
+        for (const cell of row.children) {
+            if (index === columnIndex) return cell;
+            index += Math.max(1, cell.colSpan || 1);
+            if (index > columnIndex) return null;
+        }
+        return null;
+    },
+
+    _format: function (format, value) {
+        return (format || '{0}').replace('{0}', value);
+    },
+
+    // Creates, removes and positions the separators to match the current columns.
+    layoutResize: function (wrapper) {
+        const layer = globalThis.twTable._layer(wrapper);
+        if (!layer) return;
+
+        const resizable = globalThis.twTable._columns(wrapper).filter(function (entry) {
+            return entry.col.dataset.twResizable === 'true' && entry.col.id;
+        });
+        const existing = new Map(Array.from(layer.children).map(function (handle) { return [handle.dataset.twResizeKey, handle]; }));
+        const wrapperRect = wrapper.getBoundingClientRect();
+        const rtl = globalThis.twDirection.isRtl(wrapper);
+        let order = 0;
+        if (wrapper.__twTableResize?.resized) globalThis.twTable._fitTable(wrapper);
+
+        resizable.forEach(function (entry) {
+            const key = entry.col.id;
+            let handle = existing.get(key);
+            existing.delete(key);
+            if (!handle) {
+                handle = document.createElement('div');
+                handle.dataset.twResizeKey = key;
+                handle.setAttribute('role', 'separator');
+                handle.setAttribute('aria-orientation', 'vertical');
+                handle.setAttribute('tabindex', '0');
+            }
+            handle.className = layer.dataset.handleClass || '';
+            // Keeps the separators in column order, which is their Tab order. A separator already in place is left
+            // alone: moving the one being dragged would drop its pointer capture.
+            const place = layer.children[order++] ?? null;
+            if (place === null) {
+                layer.append(handle);
+            } else if (place !== handle) {
+                place.before(handle);
+            }
+
+            const label = entry.col.dataset.twLabel || String(entry.index + 1);
+            handle.setAttribute('aria-label', globalThis.twTable._format(layer.dataset.labelFormat, label));
+            handle.setAttribute('aria-valuemin', entry.col.dataset.twMin || '48');
+            handle.setAttribute('aria-valuemax', entry.col.dataset.twMax || '2000');
+
+            const cell = globalThis.twTable._headerCell(wrapper, entry.index);
+            if (!cell) {
+                handle.hidden = true;
+                return;
+            }
+
+            handle.hidden = false;
+            const rect = cell.getBoundingClientRect();
+            const edge = rtl ? rect.left : rect.right;
+            handle.style.left = (edge - wrapperRect.left + wrapper.scrollLeft) + 'px';
+            handle.style.top = (rect.top - wrapperRect.top + wrapper.scrollTop) + 'px';
+            handle.style.height = rect.height + 'px';
+
+            const width = Math.round(rect.width);
+            handle.setAttribute('aria-valuenow', String(width));
+            handle.setAttribute('aria-valuetext', globalThis.twTable._format(layer.dataset.valueFormat, width));
+        });
+
+        existing.forEach(function (handle) { handle.remove(); });
+    },
+
+    _table: function (wrapper) {
+        return wrapper?.querySelector(':scope > table') ?? null;
+    },
+
+    // A full width table shares any spare width between its columns, so the other columns would grow or shrink as
+    // one is resized and the border would drift away from the pointer. Once resized, the table is exactly as wide
+    // as its columns.
+    _fitTable: function (wrapper) {
+        const table = globalThis.twTable._table(wrapper);
+        if (!table) return;
+        let total = 0;
+        const sized = globalThis.twTable._columns(wrapper).every(function (entry) {
+            const width = Number.parseFloat(entry.col.style.width);
+            if (!entry.col.style.width.endsWith('px') || Number.isNaN(width)) return false;
+            total += width;
+            return true;
+        });
+        const fitted = sized && total > 0;
+        table.style.width = fitted ? total + 'px' : '';
+        if (wrapper.__twTableResize) wrapper.__twTableResize.resized = fitted;
+    },
+
+    // Gives every column its current width in pixels, so resizing one does not reflow the others, and returns them.
+    _freezeWidths: function (wrapper) {
+        const widths = {};
+        const measured = globalThis.twTable._columns(wrapper).map(function (entry) {
+            const cell = globalThis.twTable._headerCell(wrapper, entry.index);
+            return { entry: entry, width: cell ? Math.round(cell.getBoundingClientRect().width) : null };
+        });
+        measured.forEach(function (item) {
+            if (item.width === null || !item.entry.col.id) return;
+            item.entry.col.style.width = item.width + 'px';
+            widths[item.entry.col.id] = item.width;
+        });
+        globalThis.twTable._fitTable(wrapper);
+        return widths;
+    },
+
+    _resize: function (wrapper, handle, width) {
+        const col = globalThis.twTable._columns(wrapper).find(function (entry) { return entry.col.id === handle.dataset.twResizeKey; })?.col;
+        if (!col) return null;
+        const min = Number(col.dataset.twMin || 48);
+        const max = Number(col.dataset.twMax || 2000);
+        const clamped = Math.min(max, Math.max(min, Math.round(width)));
+        col.style.width = clamped + 'px';
+        globalThis.twTable._fitTable(wrapper);
+        return clamped;
+    },
+
+    _commit: function (wrapper, widths) {
+        globalThis.twTable.layoutResize(wrapper);
+        const dotnetRef = wrapper.__twTableResize?.dotnetRef;
+        if (dotnetRef) {
+            void globalThis.twPicker._invokeSafely(dotnetRef, 'CommitColumnWidths', widths);
+        }
+    },
+
+    attachResize: function (wrapper, dotnetRef) {
+        if (!wrapper || wrapper.__twTableResize) return;
+
+        const handleFor = function (e) {
+            const handle = e.target?.closest?.('[data-tw-resize-key]') ?? null;
+            return handle && wrapper.contains(handle) ? handle : null;
+        };
+
+        const onPointerDown = function (e) {
+            const handle = handleFor(e);
+            if (!handle || e.button !== 0) return;
+            e.preventDefault();
+
+            const widths = globalThis.twTable._freezeWidths(wrapper);
+            const key = handle.dataset.twResizeKey;
+            const startX = e.clientX;
+            const startWidth = widths[key] ?? 0;
+            const pointerId = e.pointerId;
+            // The separator sits on the column's end border, so dragging towards the end widens it either way round.
+            const towardsEnd = globalThis.twDirection.isRtl(wrapper) ? -1 : 1;
+            try {
+                handle.setPointerCapture?.(pointerId);
+            } catch {
+                // The pointer is already gone; the document listeners below still end the drag.
+            }
+
+            // Pointer events can arrive many times a frame, so the column is resized once per frame at the latest position.
+            const schedule = globalThis.requestAnimationFrame ?? function (fn) { return setTimeout(fn, 0); };
+            const cancel = globalThis.cancelAnimationFrame ?? clearTimeout;
+            let latestX = startX;
+            let frame = 0;
+            const apply = function () {
+                frame = 0;
+                const width = globalThis.twTable._resize(wrapper, handle, startWidth + (latestX - startX) * towardsEnd);
+                if (width !== null) {
+                    widths[key] = width;
+                    globalThis.twTable.layoutResize(wrapper);
+                }
+            };
+
+            const root = document.documentElement;
+            const previousCursor = root.style.cursor;
+            const previousSelect = root.style.userSelect;
+            root.style.cursor = 'col-resize';
+            root.style.userSelect = 'none';
+            handle.dataset.twResizing = '';
+
+            const onMove = function (ev) {
+                if (ev.pointerId !== pointerId) return;
+                latestX = ev.clientX;
+                if (!frame) frame = schedule(apply);
+            };
+            // Listening on the document, not the separator, still ends the drag if pointer capture is lost.
+            const onEnd = function (ev) {
+                if (ev.pointerId !== undefined && ev.pointerId !== pointerId) return;
+                document.removeEventListener('pointermove', onMove);
+                document.removeEventListener('pointerup', onEnd);
+                document.removeEventListener('pointercancel', onEnd);
+                if (frame) {
+                    cancel(frame);
+                    frame = 0;
+                }
+                if (ev.type !== 'pointercancel' && ev.clientX !== undefined) latestX = ev.clientX;
+                apply();
+                root.style.cursor = previousCursor;
+                root.style.userSelect = previousSelect;
+                delete handle.dataset.twResizing;
+                if (handle.hasPointerCapture?.(pointerId)) handle.releasePointerCapture(pointerId);
+                globalThis.twTable._commit(wrapper, widths);
+            };
+
+            document.addEventListener('pointermove', onMove);
+            document.addEventListener('pointerup', onEnd);
+            document.addEventListener('pointercancel', onEnd);
+        };
+
+        const onKeyDown = function (e) {
+            const handle = handleFor(e);
+            if (!handle || (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight')) return;
+            e.preventDefault();
+
+            const widths = globalThis.twTable._freezeWidths(wrapper);
+            const key = handle.dataset.twResizeKey;
+            const step = e.shiftKey ? globalThis.twTable._largeKeyStep : globalThis.twTable._keyStep;
+            // Arrow Right widens in a left to right layout and Arrow Left in a right to left one: the key always
+            // moves the border the way it points.
+            const widens = (e.key === 'ArrowRight') !== globalThis.twDirection.isRtl(wrapper);
+            const width = globalThis.twTable._resize(wrapper, handle, (widths[key] ?? 0) + (widens ? step : -step));
+            if (width === null) return;
+            widths[key] = width;
+            globalThis.twTable._commit(wrapper, widths);
+        };
+
+        let frame = 0;
+        const relayout = function () {
+            if (frame) return;
+            const schedule = globalThis.requestAnimationFrame ?? function (fn) { return setTimeout(fn, 0); };
+            frame = schedule(function () {
+                frame = 0;
+                globalThis.twTable.layoutResize(wrapper);
+            });
+        };
+
+        let observer = null;
+        if (typeof ResizeObserver !== 'undefined') {
+            observer = new ResizeObserver(relayout);
+            observer.observe(wrapper);
+            const table = wrapper.querySelector(':scope > table');
+            if (table) observer.observe(table);
+        }
+
+        wrapper.addEventListener('pointerdown', onPointerDown);
+        wrapper.addEventListener('keydown', onKeyDown);
+        wrapper.__twTableResize = { dotnetRef: dotnetRef, onPointerDown: onPointerDown, onKeyDown: onKeyDown, observer: observer };
+        globalThis.twTable.layoutResize(wrapper);
+    },
+
+    detachResize: function (wrapper) {
+        const state = wrapper?.__twTableResize;
+        if (!state) return;
+        wrapper.removeEventListener('pointerdown', state.onPointerDown);
+        wrapper.removeEventListener('keydown', state.onKeyDown);
+        state.observer?.disconnect();
+        delete wrapper.__twTableResize;
+        const layer = globalThis.twTable._layer(wrapper);
+        if (layer) layer.replaceChildren();
+    }
+};
+
+// Menu (TwMenu): positions the open menu against its button and moves focus between its items, following the ARIA
+// menu button pattern. Escape and clicks outside are handled by twPicker.registerOutsideClick and the shared Escape
+// stack; choosing an item is a click on its <button>, handled in .NET.
+globalThis.twMenu = {
+    _itemSelector: '[role="menuitem"], [role="menuitemcheckbox"], [role="menuitemradio"]',
+
+    _items: function (menu) {
+        return Array.from(menu.querySelectorAll(globalThis.twMenu._itemSelector)).filter(function (item) {
+            return item.getAttribute('aria-disabled') !== 'true' && !item.hidden;
+        });
+    },
+
+    _text: function (item) {
+        return (item.textContent || '').trim().toLowerCase();
+    },
+
+    // Moves focus to the next item whose text starts with the typed character, after the focused one and wrapping.
+    _typeahead: function (items, current, character) {
+        const start = items.indexOf(current);
+        for (let offset = 1; offset <= items.length; offset++) {
+            const item = items[(start + offset) % items.length];
+            if (globalThis.twMenu._text(item).startsWith(character)) return item;
+        }
+        return null;
+    },
+
+    focus: function (el) {
+        if (!el) return;
+        const target = el.matches?.('button, [tabindex]') ? el : el.querySelector('button, [tabindex]');
+        target?.focus();
+    },
+
+    open: function (menu, anchor, dotnetRef, focusWhich) {
+        if (!menu) return;
+
+        // Fixed positioning keeps the menu clear of a scrolling container such as a table. On desktop a page scroll
+        // closes it; on touch devices it follows its button instead.
+        if (anchor) {
+            globalThis.twPicker.registerScrollReposition(anchor, menu, false, dotnetRef);
+        }
+
+        if (!menu.__twMenuKeyDown) {
+            const onKeyDown = function (e) {
+                const items = globalThis.twMenu._items(menu);
+                if (items.length === 0) return;
+                const current = items.indexOf(document.activeElement);
+                let target = null;
+
+                switch (e.key) {
+                    case 'ArrowDown':
+                        target = items[(current + 1) % items.length];
+                        break;
+                    case 'ArrowUp':
+                        target = items[(current - 1 + items.length) % items.length];
+                        break;
+                    case 'Home':
+                        target = items[0];
+                        break;
+                    case 'End':
+                        target = items.at(-1);
+                        break;
+                    case 'Tab':
+                        // Tab leaves the menu: close it and let the browser carry focus on.
+                        if (dotnetRef) void globalThis.twPicker._invokeSafely(dotnetRef, 'CloseFromTab');
+                        return;
+                    case ' ':
+                        // A menu item is a <button>, so Space clicks it; this only stops the page scrolling.
+                        return;
+                    default:
+                        if (e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey && e.key.trim() !== '') {
+                            target = globalThis.twMenu._typeahead(items, items[current] ?? null, e.key.toLowerCase());
+                            if (!target) return;
+                        } else {
+                            return;
+                        }
+                }
+
+                e.preventDefault();
+                target?.focus();
+            };
+            menu.addEventListener('keydown', onKeyDown);
+            menu.__twMenuKeyDown = onKeyDown;
+        }
+
+        const items = globalThis.twMenu._items(menu);
+        const first = focusWhich === 'last' ? items.at(-1) : items[0];
+        (first ?? menu).focus();
+    },
+
+    close: function (menu) {
+        if (!menu) return;
+        globalThis.twPicker.unregisterScrollReposition(menu);
+        if (menu.__twMenuKeyDown) {
+            menu.removeEventListener('keydown', menu.__twMenuKeyDown);
+            delete menu.__twMenuKeyDown;
+        }
+    }
+};
+
 // On this page: marks the link to the section currently being read with aria-current="location".
 globalThis.twOnThisPage = {
     _stops: new Map(),
@@ -1630,5 +2228,87 @@ globalThis.twOnThisPage = {
         if (!stop) return;
         stop();
         globalThis.twOnThisPage._stops.delete(key);
+    }
+};
+
+globalThis.twDataTable = {
+    loadState: function (key) {
+        try {
+            return globalThis.localStorage.getItem(key);
+        } catch {
+            // Storage is blocked (private browsing, a sandboxed frame); the table starts from its parameters.
+            return null;
+        }
+    },
+
+    saveState: function (key, json) {
+        try {
+            globalThis.localStorage.setItem(key, json);
+        } catch {
+            // Storage is blocked or full; the table still works, it just will not be restored next time.
+        }
+    },
+
+    focus: function (id) {
+        const el = document.getElementById(id);
+        if (el) {
+            el.focus();
+        }
+    },
+
+    // Column filter: a dialog positioned under its filter button. A press that starts and ends outside both closes it,
+    // Escape closes it through the shared Escape stack, and Tab stays inside it while it is open.
+    openFilter: function (panel, anchorId, dotnetRef) {
+        if (!panel || panel.__twDataTableFilter) return;
+
+        const anchor = document.getElementById(anchorId);
+        if (anchor) {
+            globalThis.twPicker.registerScrollReposition(anchor, panel, false, dotnetRef);
+        }
+
+        const inside = function (target) {
+            return target instanceof Node && (panel.contains(target) || (anchor?.contains(target) ?? false));
+        };
+        let downTarget = null;
+        const onPointerDown = function (e) { downTarget = e.target; };
+        const onPointerUp = function (e) {
+            const target = downTarget;
+            downTarget = null;
+            if (target && !inside(target) && !inside(e.target)) {
+                void globalThis.twPicker._invokeSafely(dotnetRef, 'Close');
+            }
+        };
+
+        document.addEventListener('pointerdown', onPointerDown);
+        document.addEventListener('pointerup', onPointerUp);
+        panel.__twDataTableFilter = { onPointerDown: onPointerDown, onPointerUp: onPointerUp };
+        globalThis.twDialog._pushEscape({ surface: panel, dotnetRef: dotnetRef, method: 'Close' });
+        globalThis.twDialog.trapFocus(panel);
+        globalThis.twDialog.focusPanel(panel);
+    },
+
+    closeFilter: function (panel) {
+        const state = panel?.__twDataTableFilter;
+        if (!state) return;
+        document.removeEventListener('pointerdown', state.onPointerDown);
+        document.removeEventListener('pointerup', state.onPointerUp);
+        delete panel.__twDataTableFilter;
+        globalThis.twPicker.unregisterScrollReposition(panel);
+        globalThis.twDialog.unregisterEscape(panel);
+        globalThis.twDialog.releaseFocusTrap(panel);
+    },
+
+    download: async function (fileName, contentType, streamReference) {
+        const buffer = await streamReference.arrayBuffer();
+        const url = URL.createObjectURL(new Blob([buffer], { type: contentType }));
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = fileName;
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        // Revoking straight away can cancel the download in some browsers, so wait a turn.
+        setTimeout(function () { URL.revokeObjectURL(url); }, 0);
     }
 };

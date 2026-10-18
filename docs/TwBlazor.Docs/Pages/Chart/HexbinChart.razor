@@ -7,7 +7,7 @@
 
         <CodeExample Name="HexbinChartBasic" CSharpName="HexbinChartData">
             <TwChart Title="Session length against pages viewed" Description="One point per session">
-                <TwHexbinChart Series="@sessions" XTitle="Minutes" YTitle="Pages" />
+                <TwHexbinChart Series="@_sessions" XTitle="Minutes" YTitle="Pages" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -18,10 +18,10 @@
         <CodeExample Name="HexbinChartBinWidth">
             <div class="grid gap-8 md:grid-cols-2">
                 <TwChart Title="Fine" Description="BinWidth 6">
-                    <TwHexbinChart Series="@sessions" BinWidth="6" XTitle="Minutes" YTitle="Pages" Height="ChartHeight.Small" />
+                    <TwHexbinChart Series="@_sessions" BinWidth="6" XTitle="Minutes" YTitle="Pages" Height="ChartHeight.Small" />
                 </TwChart>
                 <TwChart Title="Coarse" Description="BinWidth 16">
-                    <TwHexbinChart Series="@sessions" BinWidth="16" XTitle="Minutes" YTitle="Pages" Height="ChartHeight.Small" />
+                    <TwHexbinChart Series="@_sessions" BinWidth="16" XTitle="Minutes" YTitle="Pages" Height="ChartHeight.Small" />
                 </TwChart>
             </div>
         </CodeExample>
@@ -32,7 +32,7 @@
 
         <CodeExample Name="HexbinChartClusters" CSharpName="HexbinChartClustersData">
             <TwChart Title="Sensor readings" Description="Temperature against humidity">
-                <TwHexbinChart Series="@readings" XTitle="Temperature" YTitle="Humidity" CountLabel="Readings" BinWidth="8" Height="ChartHeight.Large" />
+                <TwHexbinChart Series="@_readings" XTitle="Temperature" YTitle="Humidity" CountLabel="Readings" BinWidth="8" Height="ChartHeight.Large" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -53,7 +53,7 @@
 @code {
     #region CodeExample HexbinChartData
     // A repeatable cloud of 400 sessions: longer sessions view more pages, with some scatter.
-    private readonly ChartPointSeries[] sessions =
+    private readonly ChartPointSeries[] _sessions =
     [
         new("Sessions", [.. Enumerable.Range(0, 400).Select(index =>
         {
@@ -65,7 +65,7 @@
     #endregion
 
     #region CodeExample HexbinChartClustersData
-    private readonly ChartPointSeries[] readings =
+    private readonly ChartPointSeries[] _readings =
     [
         new("Greenhouse", [.. Enumerable.Range(0, 180).Select(index => new ChartPoint(27 + Math.Sin(index * 0.9) * 3, 72 + Math.Cos(index * 1.3) * 8))]),
         new("Warehouse", [.. Enumerable.Range(0, 180).Select(index => new ChartPoint(16 + Math.Sin(index * 1.1) * 4, 41 + Math.Cos(index * 0.7) * 6))])

@@ -18,7 +18,7 @@ public class TwSliderKeyLockTests : TwBlazorTestBase
             .Add(x => x.Max, 100)
             .Add(x => x.ReadOnly, true));
 
-    private int LockCalls => TestContext.JSInterop.Invocations.Count(invocation => invocation.Identifier == lockIdentifier);
+    private int lockCalls => TestContext.JSInterop.Invocations.Count(invocation => invocation.Identifier == lockIdentifier);
 
     [Fact]
     public void ReadOnly_LocksTheKeysOnce_AndNotAgainOnLaterRenders()
@@ -30,7 +30,7 @@ public class TwSliderKeyLockTests : TwBlazorTestBase
         cut.Render();
 
         // Assert
-        Assert.Equal(1, LockCalls);
+        Assert.Equal(1, lockCalls);
     }
 
     [Fact]
@@ -44,7 +44,7 @@ public class TwSliderKeyLockTests : TwBlazorTestBase
         cut.Render();
 
         // Assert
-        Assert.Equal(1, LockCalls);
+        Assert.Equal(1, lockCalls);
         Assert.Equal("true", cut.Find("input[type='range']").GetAttribute("aria-readonly"));
     }
 
@@ -59,7 +59,7 @@ public class TwSliderKeyLockTests : TwBlazorTestBase
         cut.Render();
 
         // Assert
-        Assert.Equal(2, LockCalls);
+        Assert.Equal(2, lockCalls);
         Assert.Equal("true", cut.Find("input[type='range']").GetAttribute("aria-readonly"));
     }
 }

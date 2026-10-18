@@ -17,7 +17,7 @@
     @ChildContent
     @if (hasTooltip)
     {
-        <span id="@tooltipId" role="tooltip" class="@tooltipClasses" style="@TooltipStyle">
+        <span id="@tooltipId" role="tooltip" class="@tooltipClasses" style="@TooltipStyle" data-tw-placement="@placementName">
             @if (Arrow)
             {
                 <span class="@arrowClasses" aria-hidden="true"></span>

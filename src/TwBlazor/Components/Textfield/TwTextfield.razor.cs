@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Components.Web;
 using System.Globalization;
 using TwBlazor.Builders;
 using TwBlazor.Configuration.Components;
+using TwBlazor.Enums;
 using TwBlazor.Utilities;
 
 namespace TwBlazor.Components;
@@ -61,6 +62,11 @@ public partial class TwTextfield<T> : TwBlazorTextInputComponentBase
     /// Gets or sets the callback that is invoked when the textfield is focused.
     /// </summary>
     [Parameter] public EventCallback<FocusEventArgs> OnFocus { get; set; } = default!;
+
+    /// <summary>
+    /// Gets or sets the callback that is invoked when the textfield loses focus.
+    /// </summary>
+    [Parameter] public EventCallback<FocusEventArgs> OnBlur { get; set; }
 
     /// <summary>
     /// Gets or sets the callback invoked when the input is clicked.
@@ -145,6 +151,56 @@ public partial class TwTextfield<T> : TwBlazorTextInputComponentBase
     [Parameter] public int? MaxRows { get; set; }
 
     /// <summary>
+    /// Gets or sets whether a button that empties the field is shown at its end. It is disabled while the field is empty.
+    /// </summary>
+    /// <remarks>
+    /// Clearing sets <see cref="Value"/> to its default (an empty string becomes <see langword="null"/>), invokes
+    /// <see cref="ValueChanged"/> and <see cref="Validator"/>, then <see cref="OnClear"/>, and moves focus back to the
+    /// field. The button is not a Tab stop, since keyboard users can clear the text themselves, and it is hidden while
+    /// the field is disabled or read-only. Not shown on a <see cref="Multiline"/> field.
+    /// </remarks>
+    [Parameter] public bool Clearable { get; set; }
+
+    /// <summary>
+    /// Gets or sets the callback invoked after the clear button (see <see cref="Clearable"/>) has emptied the field.
+    /// </summary>
+    [Parameter] public EventCallback OnClear { get; set; }
+
+    /// <summary>
+    /// Gets or sets content drawn over the start of a single-line field, such as an icon or a currency symbol.
+    /// </summary>
+    /// <remarks>
+    /// The content is not part of the value, and the field's padding is not widened for it: add start padding through
+    /// <see cref="TwBlazorComponentBase.Class"/> or a <c>style</c> attribute so the text does not run underneath it.
+    /// Hide decorative content from screen readers with <c>aria-hidden="true"</c>.
+    /// </remarks>
+    [Parameter] public RenderFragment? StartContent { get; set; }
+
+    /// <summary>
+    /// Gets or sets content drawn over the end of a single-line field, before the clear button, such as a unit or
+    /// extra buttons.
+    /// </summary>
+    /// <remarks>
+    /// Its items are laid out in a row 0.25rem apart. The field's padding is not widened for it: add end padding through
+    /// <see cref="TwBlazorComponentBase.Class"/> or a <c>style</c> attribute so the text does not run underneath it.
+    /// </remarks>
+    [Parameter] public RenderFragment? EndContent { get; set; }
+
+    private bool hasFieldContent => Clearable || StartContent is not null || EndContent is not null;
+
+    // Always shown, and disabled while empty, so the buttons beside it do not shift under the pointer when it appears.
+    private bool showClearButton => Clearable && !Disabled && !ReadOnly;
+
+    private bool hasValue => Value is string text ? text.Length > 0 : !EqualityComparer<T>.Default.Equals(Value, default!);
+
+    private string startContentClasses => new ClassBuilder(theme.FieldStartContent).AddClass(inputSizeClasses).Build();
+
+    private string endContentClasses => new ClassBuilder(theme.FieldEndContent).AddClass(inputSizeClasses).Build();
+
+    // The start content sits where the variant's own padding would start the text: flush for Default, which has none.
+    private string startContentStyle => effectiveVariant == InputVariant.Default ? "padding-inline-start: 0px;" : "padding-inline-start: 0.75rem;";
+
+    /// <summary>
     /// Gets the CSS classes applied to the input element.
     /// </summary>
     /// <remarks>
@@ -155,6 +211,7 @@ public partial class TwTextfield<T> : TwBlazorTextInputComponentBase
         .AddClass(inputVariantBuilder.GetClasses(effectiveVariant, theme))
         .AddClass(Disabled ? "opacity-40 cursor-not-allowed" : string.Empty)
         .AddClass(Multiline ? multilineClasses : inputSizeClasses)
+        .AddClass(theme.ClearablePadding, Clearable && !Multiline && !Disabled && !ReadOnly)
         .AddClass(Class)
         .Build();
 
@@ -288,6 +345,34 @@ public partial class TwTextfield<T> : TwBlazorTextInputComponentBase
         "number" => "decimal",
         _ => null
     };
+
+    /// <summary>
+    /// Empties the field, notifies the consumer, and moves focus back to the field.
+    /// </summary>
+    /// <returns>A task that completes once the field has been cleared.</returns>
+    public async Task ClearAsync()
+    {
+        if (Disabled || ReadOnly)
+        {
+            return;
+        }
+
+        await OnValueChanged(default!);
+
+        if (OnClear.HasDelegate)
+        {
+            await OnClear.InvokeAsync();
+        }
+
+        try
+        {
+            await inputRef.FocusAsync();
+        }
+        catch (InvalidOperationException)
+        {
+            // The element is not rendered yet (prerendering); there is nothing to focus.
+        }
+    }
 
     /// <summary>
     /// Handles value changes from the input element and invokes the <see cref="ValueChanged"/> callback.

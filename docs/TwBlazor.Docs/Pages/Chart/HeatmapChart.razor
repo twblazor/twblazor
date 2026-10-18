@@ -7,7 +7,7 @@
 
         <CodeExample Name="HeatmapChartBasic" CSharpName="HeatmapChartData">
             <TwChart Title="Support tickets by day and shift">
-                <TwHeatmapChart Categories="@days" Series="@shifts" />
+                <TwHeatmapChart Categories="@_days" Series="@_shifts" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -17,7 +17,7 @@
 
         <CodeExample Name="HeatmapChartValues">
             <TwChart Title="Support tickets by day and shift">
-                <TwHeatmapChart Categories="@days" Series="@shifts" ShowValues="true" />
+                <TwHeatmapChart Categories="@_days" Series="@_shifts" ShowValues="true" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -27,7 +27,7 @@
 
         <CodeExample Name="HeatmapChartLabels">
             <TwChart Title="Support tickets by day and shift">
-                <TwHeatmapChart Categories="@days" Series="@shifts" ValueLabel="Tickets" CategoryHeader="Day" Height="ChartHeight.Small" />
+                <TwHeatmapChart Categories="@_days" Series="@_shifts" ValueLabel="Tickets" CategoryHeader="Day" Height="ChartHeight.Small" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -43,9 +43,9 @@
 
 @code {
     #region CodeExample HeatmapChartData
-    private readonly string[] days = ["Mon", "Tue", "Wed", "Thu", "Fri"];
+    private readonly string[] _days = ["Mon", "Tue", "Wed", "Thu", "Fri"];
 
-    private readonly ChartSeries[] shifts =
+    private readonly ChartSeries[] _shifts =
     [
         new("Morning", [34, 28, 31, 25, 40]),
         new("Afternoon", [52, 47, 58, 49, 61]),

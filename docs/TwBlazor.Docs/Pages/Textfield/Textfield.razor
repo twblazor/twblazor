@@ -1,7 +1,7 @@
 ﻿@page "/textfield"
 @using TwBlazor.Enums
 
-<PageContainer Title="TwTextfield" Path="/textfield" Description="TwTextfield is a Blazor text input component. Bind Value, set InputType or Placeholder, use Multiline for a textarea, and validate with Validator." ThemeType="typeof(TwInputTheme)">
+<PageContainer Title="TwTextfield" Path="/textfield" Description="TwTextfield is a Blazor text input component. Bind Value, use Multiline for a textarea, add a clear button with Clearable, and validate with Validator." ThemeType="typeof(TwInputTheme)">
     <PageCard Title="Textfield">
         <Description>Bind <code>Value</code> to a labeled text input with a placeholder.</Description>
         <CodeExample Name="TextfieldBasic">
@@ -63,6 +63,28 @@
         </CodeExample>
     </PageCard>
 
+    <PageCard Title="Clearable textfield">
+        <Description>Set <code>Clearable</code> to show an X button at the end of the field. It is disabled while the field is empty. Pressing it empties the field, runs <code>Validator</code>, invokes <code>OnClear</code> and moves focus back into the field. The button is not a Tab stop, since keyboard users can clear the text themselves, and it is hidden while the field is disabled or read-only.</Description>
+        <CodeExample Name="TextfieldClearable" CSharpName="TextfieldClearableCode">
+            <div class="md:flex-col flex-row flex gap-2">
+                <TwTextfield Label="Search" @bind-Value="SearchTerm" Placeholder="Search orders" Clearable OnClear="@(() => clearCount++)" />
+                <TwTextfield Label="Reference" @bind-Value="Reference" Clearable Variant="InputVariant.Outlined" />
+            </div>
+            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Cleared <strong>@clearCount</strong> times.</p>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Start and end content">
+        <Description>Use <code>StartContent</code> and <code>EndContent</code> to draw content over the start or end of a single-line field, such as an icon or a unit. The field's padding is not widened for it, so add padding through <code>Class</code> so the text does not run underneath. Hide decorative content from screen readers with <code>aria-hidden="true"</code>.</Description>
+        <CodeExample Name="TextfieldAdornments">
+            <TwTextfield Label="Website" @bind-Value="Website" Placeholder="example.co.uk" Class="ps-9" Clearable>
+                <StartContent>
+                    <TwIcon Icon="Icon.Globe" aria-hidden="true" />
+                </StartContent>
+            </TwTextfield>
+        </CodeExample>
+    </PageCard>
+
     <PageCard Title="Validation on change">
         <Description>Pass a <code>Validator</code> function to have the textfield validate itself whenever its value changes. Return <code>null</code> (or an empty string) when the value is valid, or an error message to automatically mark the field <code>Invalid</code> and display the returned message - no need to manage <code>Invalid</code> or <code>ErrorMessage</code> yourself.</Description>
         <CodeExample Name="TextfieldValidator" CSharpName="TextfieldValidatorCode">
@@ -115,8 +137,8 @@
     <PageCard Title="Multiline character limit">
         <Description>Pass <code>maxlength</code> through <code>Attributes</code> to limit how much can be typed, and bind on <code>oninput</code> to show a live count below the field.</Description>
         <CodeExample Name="TextfieldMultilineCharacterLimit" CSharpName="TextfieldMultilineCharacterLimitCode">
-            <TwTextfield Label="Bio" @bind-Value="Bio" Placeholder="A few words about yourself" Multiline Rows="4" BindEvent="oninput" Attributes="@bioAttributes" />
-            <p class="mt-1 text-xs text-end">@Bio.Length / @BioMaxLength</p>
+            <TwTextfield Label="Bio" @bind-Value="Bio" Placeholder="A few words about yourself" Multiline Rows="4" BindEvent="oninput" Attributes="@_bioAttributes" />
+            <p class="mt-1 text-xs text-end">@Bio.Length / @bioMaxLength</p>
         </CodeExample>
     </PageCard>
     <PageCard Title="Multiline validation">
@@ -147,12 +169,21 @@
     public string FilledNotes { get; set; } = string.Empty;
     public string DenseNotes { get; set; } = string.Empty;
 
+    public string Website { get; set; } = string.Empty;
+
+    #region CodeExample TextfieldClearableCode
+    public string SearchTerm { get; set; } = "Order 1042";
+    public string Reference { get; set; } = "REF-7781";
+
+    private int clearCount;
+    #endregion
+
     #region CodeExample TextfieldMultilineCharacterLimitCode
-    private const int BioMaxLength = 160;
+    private const int bioMaxLength = 160;
 
     public string Bio { get; set; } = string.Empty;
 
-    private readonly Dictionary<string, object> bioAttributes = new() { ["maxlength"] = BioMaxLength };
+    private readonly Dictionary<string, object> _bioAttributes = new() { ["maxlength"] = bioMaxLength };
     #endregion
 
     #region CodeExample TextfieldMultilineValidatorCode
@@ -193,7 +224,7 @@
     #region CodeExample TextfieldAsyncValidatorCode
     public string NewUsername { get; set; } = string.Empty;
 
-    private readonly HashSet<string> takenUsernames = new(StringComparer.OrdinalIgnoreCase) { "admin", "root", "jack" };
+    private readonly HashSet<string> _takenUsernames = new(StringComparer.OrdinalIgnoreCase) { "admin", "root", "jack" };
 
     private async Task<string?> ValidateUsernameAvailabilityAsync(string value)
     {
@@ -205,7 +236,7 @@
         // Simulate a network call to check availability against a server.
         await Task.Delay(300);
 
-        return takenUsernames.Contains(value) ? $"'{value}' is already taken." : null;
+        return _takenUsernames.Contains(value) ? $"'{value}' is already taken." : null;
     }
     #endregion
 }

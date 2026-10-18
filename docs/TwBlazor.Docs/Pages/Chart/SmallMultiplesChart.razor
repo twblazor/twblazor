@@ -7,7 +7,7 @@
 
         <CodeExample Name="SmallMultiplesChartBasic" CSharpName="SmallMultiplesChartData">
             <TwChart Title="Monthly visitors by channel" Description="Thousands">
-                <TwSmallMultiplesChart Categories="@months" Series="@visitors" />
+                <TwSmallMultiplesChart Categories="@_months" Series="@_visitors" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -17,13 +17,13 @@
 
         <CodeExample Name="SmallMultiplesChartLine">
             <TwChart Title="Monthly visitors by channel">
-                <TwSmallMultiplesChart Categories="@months" Series="@visitors" Kind="SmallMultipleKind.Line" />
+                <TwSmallMultiplesChart Categories="@_months" Series="@_visitors" Kind="SmallMultipleKind.Line" />
             </TwChart>
         </CodeExample>
 
         <CodeExample Name="SmallMultiplesChartArea">
             <TwChart Title="Monthly visitors by channel">
-                <TwSmallMultiplesChart Categories="@months" Series="@visitors" Kind="SmallMultipleKind.Area" />
+                <TwSmallMultiplesChart Categories="@_months" Series="@_visitors" Kind="SmallMultipleKind.Area" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -33,7 +33,7 @@
 
         <CodeExample Name="SmallMultiplesChartColumns">
             <TwChart Title="Monthly visitors by channel">
-                <TwSmallMultiplesChart Categories="@months" Series="@visitors" Columns="1" Height="ChartHeight.Large" />
+                <TwSmallMultiplesChart Categories="@_months" Series="@_visitors" Columns="1" Height="ChartHeight.Large" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -49,9 +49,9 @@
 
 @code {
     #region CodeExample SmallMultiplesChartData
-    private readonly string[] months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
+    private readonly string[] _months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
 
-    private readonly ChartSeries[] visitors =
+    private readonly ChartSeries[] _visitors =
     [
         new("Organic", [42, 48, 55, 61, 58, 70]),
         new("Paid", [30, 34, 31, 45, 52, 49]),

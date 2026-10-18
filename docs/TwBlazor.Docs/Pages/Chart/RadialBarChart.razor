@@ -7,7 +7,7 @@
 
         <CodeExample Name="RadialBarChartBasic" CSharpName="RadialBarChartData">
             <TwChart Title="Traffic by source">
-                <TwRadialBarChart Data="@sources" />
+                <TwRadialBarChart Data="@_sources" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -17,7 +17,7 @@
 
         <CodeExample Name="RadialBarChartProgress" CSharpName="RadialBarChartProgressData">
             <TwChart Title="Course completion">
-                <TwRadialBarChart Data="@progress" ValueFormat="0\%" LabelHeader="Module" ValueHeader="Complete" />
+                <TwRadialBarChart Data="@_progress" ValueFormat="0\%" LabelHeader="Module" ValueHeader="Complete" />
             </TwChart>
         </CodeExample>
     </PageCard>
@@ -37,7 +37,7 @@
 
 @code {
     #region CodeExample RadialBarChartData
-    private readonly ChartValue[] sources =
+    private readonly ChartValue[] _sources =
     [
         new("Search", 430),
         new("Direct", 260),
@@ -48,7 +48,7 @@
     #endregion
 
     #region CodeExample RadialBarChartProgressData
-    private readonly ChartValue[] progress =
+    private readonly ChartValue[] _progress =
     [
         new("Basics", 100),
         new("Layouts", 80),

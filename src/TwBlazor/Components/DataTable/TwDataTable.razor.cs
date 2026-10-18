@@ -90,10 +90,22 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
     public bool DefineTableRows { get; set; } = false;
 
     /// <summary>
-    /// Whether the table has pagination.
+    /// Whether the rows are split into pages, with a pagination below the table (<see cref="TwTable.EnablePagination"/>).
+    /// Defaults to <c>true</c>. Ignored while <see cref="EnableVirtualization"/> is set.
     /// </summary>
     [Parameter]
-    public bool Pageable { get; set; } = true;
+    public bool EnablePagination { get; set; } = true;
+
+    /// <summary>
+    /// Whether the rows are split into pages. Use <see cref="EnablePagination"/>, which this sets.
+    /// </summary>
+    [Parameter]
+    [Obsolete("Use EnablePagination, which matches TwTable.")]
+    public bool Pageable
+    {
+        get => EnablePagination;
+        set => EnablePagination = value;
+    }
 
     /// <summary>
     /// Number of rows per page.
@@ -115,10 +127,26 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
 
     /// <summary>
     /// Whether to render the pagination controls with more comfortable, regular-size buttons instead of the default dense (smaller, more
-    /// compact) buttons. Defaults to <c>false</c>. Only applies when <see cref="Pageable"/> is <c>true</c>.
+    /// compact) buttons. Defaults to <c>false</c>. Only applies when <see cref="EnablePagination"/> is <c>true</c>.
     /// </summary>
     [Parameter]
     public bool ComfortablePagination { get; set; } = false;
+
+    /// <summary>
+    /// Optional column definitions for a manually defined table (<see cref="TableHeader"/> and <see cref="TableRow"/>),
+    /// passed to <see cref="TwTable.ColumnGroup"/>. Use <see cref="TwTableColumn"/> to set column widths. When
+    /// <see cref="Columns"/> is used, set <see cref="TwDataTableColumn{TItem}.Width"/> on each column instead.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ColumnGroup { get; set; }
+
+    /// <summary>
+    /// Whether column widths come from the column definitions and header row instead of the cell content
+    /// (<see cref="TwTable.FixedLayout"/>). Columns then keep the same width as the rows change from page to page,
+    /// or as a search filters them. Defaults to <c>false</c>.
+    /// </summary>
+    [Parameter]
+    public bool FixedLayout { get; set; }
 
     /// <summary>
     /// Whether to show striped rows.
@@ -192,9 +220,11 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
     [Parameter]
     public bool CaptionVisible { get; set; } = false;
 
-    private List<TItem> filteredItems = [];
+    private List<TItem> viewItems = [];
     private List<TItem> displayedRows = [];
-    private int previousRowsPerPage = 10;
+    private List<TItem> lastItems = [];
+    private int rowsPerPage = 10;
+    private int? lastRowsPerPageParameter;
     private int currentPage = 1;
     private int totalCount;
     private string? currentSearchQuery;
@@ -209,112 +239,213 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
         .AddClass(HeaderRowClass ?? string.Empty)
         .Build();
 
-    private string searchRowClasses => new ClassBuilder(options.Theme.Display.Flex)
-        .AddClass(options.Theme.Flexbox.Justify.End)
+    private string toolbarClasses => new ClassBuilder(options.Theme.Display.Flex)
+        .AddClass(options.Theme.Flexbox.Wrap)
+        .AddClass(options.Theme.Flexbox.Align.End)
+        .AddClass(options.Theme.Spacing.Gap.Md)
         .AddClass(options.Theme.Spacing.MarginBottom.Xl).Build();
 
+    // The search always comes last in the toolbar, pushed to the end of the row.
     private string searchColumnClasses => new ClassBuilder(options.Theme.Sizing.FullWidth)
-        .AddClass(theme.SearchColumn).Build();
+        .AddClass(theme.SearchColumn)
+        .AddClass(options.Theme.Spacing.PushEnd).Build();
 
-    private string headerCellRowClasses => new ClassBuilder(options.Theme.Display.Flex)
-        .AddClass(options.Theme.Flexbox.Align.Center)
+    private string toolbarActionsClasses => new ClassBuilder(options.Theme.Display.Flex)
+        .AddClass(options.Theme.Flexbox.Wrap)
         .AddClass(options.Theme.Spacing.Gap.Sm).Build();
 
     private string sortIconClasses => theme.SortIcon;
 
-    private string paginationClasses => new ClassBuilder(options.Theme.Spacing.MarginTop.Xl)
-        .AddClass(options.Theme.Sizing.FullWidth)
-        .AddClass(options.Theme.Flexbox.Justify.Between).Build();
+    private bool hasColumns => Columns is { Count: > 0 };
 
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        filteredItems = [.. Items];
-    }
+    private bool showToolbar => Searchable || showExportButtons || showGroupBySelect;
 
+    // The empty row has to cross every column. Without column definitions the count is unknown, and a colspan
+    // larger than the table is harmless.
+    private int emptyStateColumnSpan => hasColumns ? Math.Max(renderedColumnCount, 1) : 100;
+
+    private string effectiveEmptyMessage => string.IsNullOrWhiteSpace(currentSearchQuery) && ActiveFilters().Count == 0
+        ? localizer[TwStrings.DataTable_NoData]
+        : localizer[TwStrings.DataTable_NoSearchResults];
+
+    /// <inheritdoc />
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
 
-        // Handle RowsPerPage changes
-        if (previousRowsPerPage != RowsPerPage)
+        if (lastRowsPerPageParameter != RowsPerPage)
         {
-            previousRowsPerPage = RowsPerPage;
+            lastRowsPerPageParameter = RowsPerPage;
+            rowsPerPage = RowsPerPage;
             currentPage = 1;
         }
 
-        // If Items changed externally, update filtered items
-        if (!filteredItems.SequenceEqual(Items))
-        {
-            filteredItems = [.. Items];
+        SyncColumns();
 
-            // Reapply search if there was one
-            if (!string.IsNullOrWhiteSpace(currentSearchQuery))
+        var groupingChanged = GroupBy != lastGroupByParameter;
+        SyncGroupByParameter();
+        SyncItemsProvider();
+
+        var stateApplied = ApplyIncomingState();
+
+        if (stateApplied || groupingChanged || !lastItems.SequenceEqual(Items))
+        {
+            lastItems = [.. Items];
+            RefreshView();
+        }
+        else
+        {
+            UpdateDisplay();
+        }
+    }
+
+    /// <summary>
+    /// Runs the rows through the column filters, the search and the sort, then takes the current page. Each step
+    /// works on the result of the one before, so a search keeps the sort and a sort keeps the search and filters.
+    /// </summary>
+    /// <param name="resetPage">Whether to go back to the first page, as a new search, filter or sort does.</param>
+    private void RefreshView(bool resetPage = false)
+    {
+        if (usesProvider)
+        {
+            // The provider filters, searches and sorts; the table only asks it for the rows again. Moving back to the
+            // first page asks for them already, so the rows are only refreshed when the page stays the same.
+            var pageChanges = resetPage && currentPage != 1;
+            if (resetPage)
             {
-                ApplySearch(currentSearchQuery);
+                currentPage = 1;
             }
+
+            refreshProviderRows |= !pageChanges;
+            UpdateDisplay();
+            return;
+        }
+
+        IEnumerable<TItem> rows = Items.Where(item => !EqualityComparer<TItem>.Default.Equals(item, default));
+
+        var filters = AllColumns()
+            .Where(c => c.PropertySelector is not null && FilterOf(c.Name)?.IsActive == true)
+            .Select(c => (Column: c, Filter: FilterOf(c.Name)!, Type: ResolveFilterType(c)))
+            .ToList();
+        if (filters.Count > 0)
+        {
+            rows = rows.Where(item => PassesFilters(item, filters));
+        }
+
+        if (!string.IsNullOrWhiteSpace(currentSearchQuery))
+        {
+            var query = currentSearchQuery;
+            rows = rows.Where(item => ItemMatchesQuery(item, query));
+        }
+
+        var sortColumn = currentSortDirection == SortDirection.None ? null : FindColumn(currentSortColumn);
+        if (sortColumn is { IsSortable: true, PropertySelector: { } selector })
+        {
+            rows = currentSortDirection == SortDirection.Ascending
+                ? rows.OrderBy(selector)
+                : rows.OrderByDescending(selector);
+        }
+
+        viewItems = rows.ToList();
+        BuildGroups();
+
+        if (resetPage)
+        {
+            currentPage = 1;
         }
 
         UpdateDisplay();
     }
 
+    /// <summary>
+    /// Gets every column definition, shown or hidden, so a hidden column's filter still applies.
+    /// </summary>
+    private Dictionary<string, TwDataTableColumn<TItem>>.ValueCollection AllColumns() => columnsByName.Values;
+
     private void UpdateDisplay()
     {
-        totalCount = filteredItems.Count;
+        if (usesProvider)
+        {
+            totalCount = providerTotalCount;
+            displayedRows = loadedItems;
 
-        displayedRows = Pageable
-            ? filteredItems
-                .Skip((currentPage - 1) * RowsPerPage)
-                .Take(RowsPerPage)
+            // Until the first rows arrive the total is unknown, so a restored page is kept rather than clamped.
+            if (providerHasLoaded)
+            {
+                currentPage = Math.Clamp(currentPage, 1, TotalPages());
+            }
+            return;
+        }
+
+        if (isGrouped)
+        {
+            totalCount = lines.Count;
+            currentPage = Math.Clamp(currentPage, 1, TotalPages());
+
+            var pageLines = isPaged ? lines.Skip((currentPage - 1) * rowsPerPage).Take(rowsPerPage).ToList() : lines;
+            displayedRows = [.. pageLines.Where(l => !l.IsHeader).Select(l => l.Item!)];
+            return;
+        }
+
+        totalCount = viewItems.Count;
+        currentPage = Math.Clamp(currentPage, 1, TotalPages());
+
+        displayedRows = isPaged
+            ? viewItems
+                .Skip((currentPage - 1) * rowsPerPage)
+                .Take(rowsPerPage)
                 .ToList()
-            : [.. filteredItems];
+            : [.. viewItems];
     }
 
     private int TotalPages()
     {
-        if (totalCount == 0 || RowsPerPage == 0)
+        if (totalCount == 0 || rowsPerPage <= 0)
             return 1;
 
-        return (int)Math.Ceiling(totalCount / (decimal)RowsPerPage);
+        return (int)Math.Ceiling(totalCount / (decimal)rowsPerPage);
     }
 
-    private void MoveFirst()
-    {
-        currentPage = 1;
-        UpdateDisplay();
-    }
+    private TwDataTableColumn<TItem>? FindColumn(string? name) =>
+        name is null ? null : Columns?.FirstOrDefault(c => c.Name == name);
 
-    private void OnActivePageChanged(int page)
+    private async Task OnActivePageChanged(int page)
     {
         currentPage = page;
         UpdateDisplay();
-        sortStatusMessage = localizer.Plural(displayedRows.Count, TwStrings.DataTable_PageStatusOne, TwStrings.DataTable_PageStatusOther, currentPage, TotalPages(), displayedRows.Count);
+        Announce(() => localizer.Plural(displayedRows.Count, TwStrings.DataTable_PageStatusOne, TwStrings.DataTable_PageStatusOther, currentPage, TotalPages(), displayedRows.Count));
+        await NotifyStateChangedAsync();
     }
 
     private async Task OnSearchAsync(string? value)
     {
-        currentSearchQuery = value;
+        currentSearchQuery = string.IsNullOrWhiteSpace(value) ? null : value;
+        RefreshView(resetPage: true);
 
-        if (string.IsNullOrWhiteSpace(value))
-        {
-            ClearSearch();
-            sortStatusMessage = localizer[TwStrings.DataTable_SearchCleared];
-            return;
-        }
+        // Worked out when announced, so a provider's total is the one its new rows arrived with.
+        Announce(() => SearchStatusMessage(usesProvider ? providerTotalCount : viewItems.Count));
 
-        ApplySearch(value);
-        sortStatusMessage = displayedRows.Count == 0
-            ? localizer[TwStrings.DataTable_NoSearchResults]
-            : localizer.Plural(displayedRows.Count, TwStrings.DataTable_MatchingOne, TwStrings.DataTable_MatchingOther, displayedRows.Count);
-        await Task.CompletedTask;
+        await NotifyStateChangedAsync();
     }
 
-    private void ApplySearch(string query)
+    /// <summary>
+    /// Describes the result of a search for assistive technology.
+    /// </summary>
+    /// <param name="matchingCount">How many rows match the search.</param>
+    /// <returns>The message to announce.</returns>
+    private string SearchStatusMessage(int matchingCount)
     {
-        filteredItems = Items.Where(item => !EqualityComparer<TItem>.Default.Equals(item, default) && ItemMatchesQuery(item, query)).ToList();
+        if (currentSearchQuery is null)
+        {
+            return localizer[TwStrings.DataTable_SearchCleared];
+        }
 
-        MoveFirst();
-        UpdateDisplay();
+        if (matchingCount == 0)
+        {
+            return localizer[TwStrings.DataTable_NoSearchResults];
+        }
+
+        return localizer.Plural(matchingCount, TwStrings.DataTable_MatchingOne, TwStrings.DataTable_MatchingOther, matchingCount);
     }
 
     private static bool ItemMatchesQuery(TItem item, string query)
@@ -366,16 +497,15 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
                 value.Contains(queryPart, StringComparison.OrdinalIgnoreCase)));
     }
 
-    private void ClearSearch()
+    private async Task OnSortClickedAsync(string columnName)
     {
-        filteredItems = [.. Items];
-        currentPage = 1;
-        UpdateDisplay();
+        ToggleSort(columnName);
+        await NotifyStateChangedAsync();
     }
 
     private void ToggleSort(string columnName)
     {
-        var column = Columns?.FirstOrDefault(c => c.Name == columnName);
+        var column = FindColumn(columnName);
         if (column == null || !column.IsSortable || column.PropertySelector == null)
             return;
 
@@ -403,7 +533,7 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
             _ => localizer[TwStrings.DataTable_SortRemoved, column.Title]
         };
 
-        ApplySort();
+        RefreshView(resetPage: true);
     }
 
     /// <summary>
@@ -439,41 +569,9 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
         };
     }
 
-    private void ApplySort()
-    {
-        if (string.IsNullOrEmpty(currentSortColumn) || currentSortDirection == SortDirection.None)
-        {
-            // Reset to original order (or maintain search results)
-            if (!string.IsNullOrWhiteSpace(currentSearchQuery))
-            {
-                ApplySearch(currentSearchQuery);
-            }
-            else
-            {
-                filteredItems = [.. Items];
-            }
-            currentPage = 1;
-            UpdateDisplay();
-            return;
-        }
-
-        var column = Columns?.FirstOrDefault(c => c.Name == currentSortColumn);
-        if (column?.PropertySelector == null)
-            return;
-
-        var propertySelector = column.PropertySelector;
-
-        filteredItems = currentSortDirection == SortDirection.Ascending
-            ? filteredItems.OrderBy(item => propertySelector(item)).ToList()
-            : filteredItems.OrderByDescending(item => propertySelector(item)).ToList();
-
-        currentPage = 1;
-        UpdateDisplay();
-    }
-
     private Icon GetSortIcon(string columnName)
     {
-        var column = Columns?.FirstOrDefault(c => c.Name == columnName);
+        var column = FindColumn(columnName);
         if (column == null || !column.IsSortable)
             return Icon.Chevron_Expand;
 
@@ -543,13 +641,13 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
 
     private async Task OnRowsPerPageChangedAsync(int newRowsPerPage)
     {
-        if (RowsPerPage != newRowsPerPage)
+        if (rowsPerPage != newRowsPerPage)
         {
-            RowsPerPage = newRowsPerPage;
+            rowsPerPage = newRowsPerPage;
             currentPage = 1;
             UpdateDisplay();
             await RowsPerPageChanged.InvokeAsync(newRowsPerPage);
+            await NotifyStateChangedAsync();
         }
     }
-
 }

@@ -11,7 +11,7 @@ namespace TwBlazor.Tests.Components.Navbar;
 
 public class TwNavbarNavigationTests : TwBlazorTestBase
 {
-    private NavigationManager Navigation => TestContext.Services.GetRequiredService<NavigationManager>();
+    private NavigationManager navigation => TestContext.Services.GetRequiredService<NavigationManager>();
 
     private static List<NavigationItem> Items() =>
     [
@@ -24,7 +24,7 @@ public class TwNavbarNavigationTests : TwBlazorTestBase
     public void Item_WhoseHrefMatchesTheCurrentUrl_IsMarkedAsTheCurrentPage()
     {
         // Arrange
-        Navigation.NavigateTo("reports");
+        navigation.NavigateTo("reports");
 
         // Act
         var cut = TestContext.Render<TwNavbar>(p => p
@@ -57,7 +57,7 @@ public class TwNavbarNavigationTests : TwBlazorTestBase
         Assert.Equal("true", cut.Find("button").GetAttribute("aria-expanded"));
 
         // Act
-        Navigation.NavigateTo("reports");
+        navigation.NavigateTo("reports");
 
         // Assert
         await cut.WaitForAssertionAsync(() =>
@@ -86,7 +86,7 @@ public class TwNavbarNavigationTests : TwBlazorTestBase
 
         // Act
         cut.Instance.Dispose();
-        Navigation.NavigateTo("reports");
+        navigation.NavigateTo("reports");
 
         // Assert - a disposed navbar no longer reacts, so its menu state is left as it was
         Assert.Equal("true", cut.Find("button").GetAttribute("aria-expanded"));

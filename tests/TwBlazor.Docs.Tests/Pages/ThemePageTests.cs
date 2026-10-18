@@ -222,7 +222,7 @@ public class ThemePageTests : DocsTestBase
 
         var presets = cut.FindAll("button[id^='theme-preset-']");
 
-        Assert.Equal(ThemePreset._all.Take(8).Select(p => $"theme-preset-{p.Name.ToLowerInvariant()}"), presets.Select(p => p.Id));
+        Assert.Equal(ThemePreset.All.Take(8).Select(p => $"theme-preset-{p.Name.ToLowerInvariant()}"), presets.Select(p => p.Id));
         Assert.Equal("true", cut.Find("#theme-preset-purple").GetAttribute("aria-pressed"));
         Assert.Equal("false", cut.Find("#theme-preset-ocean").GetAttribute("aria-pressed"));
         Assert.True(cut.Markup.IndexOf("theme-preset-purple", StringComparison.Ordinal) < cut.Markup.IndexOf("data-testid=\"theme-preview\"", StringComparison.Ordinal));
@@ -239,7 +239,7 @@ public class ThemePageTests : DocsTestBase
         var pagination = cut.FindComponent<TwPagination>();
 
         Assert.Equal(8, cut.FindAll("button[id^='theme-preset-']").Count);
-        Assert.Equal((int)Math.Ceiling(ThemePreset._all.Count / 8d), pagination.Instance.TotalPages);
+        Assert.Equal((int)Math.Ceiling(ThemePreset.All.Count / 8d), pagination.Instance.TotalPages);
         Assert.True(pagination.Instance.Dense);
         Assert.Contains("grid-cols-4", cut.Find("#theme-preset-purple").ParentElement!.ClassList);
         Assert.True(cut.Find("#theme-presets-heading").ParentElement!.Contains(cut.Find("nav[aria-label='Example themes pages']")));
@@ -266,14 +266,14 @@ public class ThemePageTests : DocsTestBase
             seen.AddRange(cut.FindAll("button[id^='theme-preset-']").Select(b => b.Id!));
         }
 
-        Assert.Equal(ThemePreset._all.Select(p => $"theme-preset-{p.Name.ToLowerInvariant()}"), seen);
+        Assert.Equal(ThemePreset.All.Select(p => $"theme-preset-{p.Name.ToLowerInvariant()}"), seen);
     }
 
     [Fact]
     public async Task AnExampleThemeOnALaterPage_CanBeChosen_AndStaysSelected()
     {
         var cut = await RenderAsync();
-        var last = ThemePreset._all[^1];
+        var last = ThemePreset.All[^1];
         await GoToPresetPageAsync(cut, cut.FindComponent<TwPagination>().Instance.TotalPages);
 
         cut.Find($"#theme-preset-{last.Name.ToLowerInvariant()}").Click();
@@ -286,7 +286,7 @@ public class ThemePageTests : DocsTestBase
     public async Task ChoosingAnExampleTheme_AppliesItsColorsAndDefaults_AndSelectsIt()
     {
         var cut = await RenderAsync();
-        var ocean = ThemePreset._all.Single(p => p.Name == "Ocean");
+        var ocean = ThemePreset.All.Single(p => p.Name == "Ocean");
 
         cut.Find("#theme-preset-ocean").Click();
 
@@ -302,7 +302,7 @@ public class ThemePageTests : DocsTestBase
     public async Task ChoosingAnExampleTheme_AlsoTintsTheBackgrounds()
     {
         var cut = await RenderAsync();
-        var ocean = ThemePreset._all.Single(p => p.Name == "Ocean");
+        var ocean = ThemePreset.All.Single(p => p.Name == "Ocean");
 
         cut.Find("#theme-preset-ocean").Click();
 
@@ -342,7 +342,7 @@ public class ThemePageTests : DocsTestBase
 
         cut.Find("#theme-tone-pastel").Click();
 
-        var pastels = ThemePreset._all.Where(p => p.Tone == ThemeTone.Pastel).ToList();
+        var pastels = ThemePreset.All.Where(p => p.Tone == ThemeTone.Pastel).ToList();
         Assert.Equal(pastels.Take(8).Select(p => $"theme-preset-{p.Name.ToLowerInvariant()}"), cut.FindAll("button[id^='theme-preset-']").Select(b => b.Id));
         Assert.Equal(3, cut.FindComponent<TwPagination>().Instance.TotalPages);
         Assert.Equal("Showing 20 pastel example themes", cut.Find("#theme-controls p[role=status]").TextContent);
@@ -356,7 +356,7 @@ public class ThemePageTests : DocsTestBase
 
         cut.Find("#theme-tone-green").Click();
 
-        var greens = ThemePreset._all.Where(p => p.Tone == ThemeTone.Green).ToList();
+        var greens = ThemePreset.All.Where(p => p.Tone == ThemeTone.Green).ToList();
         Assert.Equal(greens.Take(8).Select(p => $"theme-preset-{p.Name.ToLowerInvariant()}"), cut.FindAll("button[id^='theme-preset-']").Select(b => b.Id));
         Assert.Equal(1, cut.FindComponent<TwPagination>().Instance.ActivePage);
         Assert.Equal((int)Math.Ceiling(greens.Count / 8d), cut.FindComponent<TwPagination>().Instance.TotalPages);
@@ -373,7 +373,7 @@ public class ThemePageTests : DocsTestBase
         cut.Find("#theme-tone-all").Click();
 
         Assert.Equal(8, cut.FindAll("button[id^='theme-preset-']").Count);
-        Assert.Equal($"Showing all {ThemePreset._all.Count} example themes", cut.Find("#theme-controls p[role=status]").TextContent);
+        Assert.Equal($"Showing all {ThemePreset.All.Count} example themes", cut.Find("#theme-controls p[role=status]").TextContent);
     }
 
     [Fact]
@@ -817,7 +817,7 @@ public class ThemePageTests : DocsTestBase
             .Add(p => p.Colors, ThemeColorFamily.All.ToDictionary(f => f.Name, f => f.DefaultHex))
             .Add(p => p.OnColors, ThemeColorFamily.All.ToDictionary(f => f.Name, _ => OnColorMode.Auto))
             .Add(p => p.Defaults, ThemeDefaults.Default)
-            .Add(p => p.Selected, ThemeBuilderPreview.SampledComponents.ToHashSet()));
+            .Add(p => p.Selected, ThemeBuilderPreview.sampledComponents.ToHashSet()));
 
         await preview.WaitForAssertionAsync(() =>
         {
@@ -893,7 +893,7 @@ public class ThemePageTests : DocsTestBase
         var cut = await RenderOnTabAsync("Components");
         var offered = cut.FindAll("input[id^='theme-component-']").Select(box => box.Id!["theme-component-".Length..]).ToHashSet();
 
-        Assert.All(ThemeBuilderPreview.SampledComponents, name => Assert.Contains(name.ToLowerInvariant(), offered));
+        Assert.All(ThemeBuilderPreview.sampledComponents, name => Assert.Contains(name.ToLowerInvariant(), offered));
     }
 
     #endregion
