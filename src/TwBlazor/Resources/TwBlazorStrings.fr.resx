@@ -693,23 +693,8 @@
   <data name="DataTable_ColumnHidden" xml:space="preserve">
     <value>Colonne {0} masquée</value>
   </data>
-  <data name="DataTable_MoveColumnUp" xml:space="preserve">
-    <value>Déplacer {0} vers le haut</value>
-  </data>
-  <data name="DataTable_MoveColumnDown" xml:space="preserve">
-    <value>Déplacer {0} vers le bas</value>
-  </data>
   <data name="DataTable_ColumnMoved" xml:space="preserve">
     <value>{0} déplacée en position {1} sur {2}</value>
-  </data>
-  <data name="DataTable_NarrowColumn" xml:space="preserve">
-    <value>Rétrécir {0}</value>
-  </data>
-  <data name="DataTable_WidenColumn" xml:space="preserve">
-    <value>Élargir {0}</value>
-  </data>
-  <data name="DataTable_ColumnResized" xml:space="preserve">
-    <value>{0} fait {1} pixels de large</value>
   </data>
   <data name="DataTable_ExportCsv" xml:space="preserve">
     <value>Exporter en CSV</value>
@@ -800,5 +785,116 @@
   </data>
   <data name="Menu_Options" xml:space="preserve">
     <value>Options</value>
+  </data>
+  <data name="DataTable_ColumnOptions" xml:space="preserve">
+    <value>Options de la colonne {0}</value>
+  </data>
+  <data name="DataTable_SortAscending" xml:space="preserve">
+    <value>Trier par ordre croissant</value>
+  </data>
+  <data name="DataTable_SortDescending" xml:space="preserve">
+    <value>Trier par ordre décroissant</value>
+  </data>
+  <data name="DataTable_RemoveSort" xml:space="preserve">
+    <value>Supprimer le tri</value>
+  </data>
+  <data name="DataTable_GroupByColumn" xml:space="preserve">
+    <value>Grouper par cette colonne</value>
+  </data>
+  <data name="DataTable_StopGrouping" xml:space="preserve">
+    <value>Arrêter le groupement</value>
+  </data>
+  <data name="DataTable_MoveColumnLeft" xml:space="preserve">
+    <value>Déplacer vers la gauche</value>
+  </data>
+  <data name="DataTable_MoveColumnRight" xml:space="preserve">
+    <value>Déplacer vers la droite</value>
+  </data>
+  <data name="DataTable_HideColumn" xml:space="preserve">
+    <value>Masquer la colonne</value>
+  </data>
+  <data name="DataTable_FilterColumn" xml:space="preserve">
+    <value>Filtrer {0}</value>
+  </data>
+  <data name="DataTable_FilterColumnActive" xml:space="preserve">
+    <value>Filtrer {0}, filtré</value>
+  </data>
+  <data name="DataTable_FirstCondition" xml:space="preserve">
+    <value>Première condition</value>
+  </data>
+  <data name="DataTable_FirstValue" xml:space="preserve">
+    <value>Première valeur</value>
+  </data>
+  <data name="DataTable_SecondCondition" xml:space="preserve">
+    <value>Deuxième condition</value>
+  </data>
+  <data name="DataTable_SecondValue" xml:space="preserve">
+    <value>Deuxième valeur</value>
+  </data>
+  <data name="DataTable_FilterLogic" xml:space="preserve">
+    <value>Combiner les conditions</value>
+  </data>
+  <data name="DataTable_FilterAnd" xml:space="preserve">
+    <value>Et</value>
+  </data>
+  <data name="DataTable_FilterOr" xml:space="preserve">
+    <value>Ou</value>
+  </data>
+  <data name="DataTable_ApplyFilter" xml:space="preserve">
+    <value>Filtrer</value>
+  </data>
+  <data name="DataTable_ClearFilter" xml:space="preserve">
+    <value>Effacer</value>
+  </data>
+  <data name="DataTable_FilterAppliedOne" xml:space="preserve">
+    <value>Filtre appliqué à {0}, {1} ligne affichée</value>
+  </data>
+  <data name="DataTable_FilterAppliedOther" xml:space="preserve">
+    <value>Filtre appliqué à {0}, {1} lignes affichées</value>
+  </data>
+  <data name="DataTable_FilterRemoved" xml:space="preserve">
+    <value>Filtre retiré de {0}</value>
+  </data>
+  <data name="DataTable_Yes" xml:space="preserve">
+    <value>Oui</value>
+  </data>
+  <data name="DataTable_No" xml:space="preserve">
+    <value>Non</value>
+  </data>
+  <data name="DataTable_OperatorContains" xml:space="preserve">
+    <value>Contient</value>
+  </data>
+  <data name="DataTable_OperatorDoesNotContain" xml:space="preserve">
+    <value>Ne contient pas</value>
+  </data>
+  <data name="DataTable_OperatorStartsWith" xml:space="preserve">
+    <value>Commence par</value>
+  </data>
+  <data name="DataTable_OperatorEndsWith" xml:space="preserve">
+    <value>Se termine par</value>
+  </data>
+  <data name="DataTable_OperatorIsEqualTo" xml:space="preserve">
+    <value>Est égal à</value>
+  </data>
+  <data name="DataTable_OperatorIsNotEqualTo" xml:space="preserve">
+    <value>N'est pas égal à</value>
+  </data>
+  <data name="DataTable_OperatorIsGreaterThan" xml:space="preserve">
+    <value>Est supérieur à</value>
+  </data>
+  <data name="DataTable_OperatorIsGreaterThanOrEqualTo" xml:space="preserve">
+    <value>Est supérieur ou égal à</value>
+  </data>
+  <data name="DataTable_OperatorIsLessThan" xml:space="preserve">
+    <value>Est inférieur à</value>
+  </data>
+  <data name="DataTable_OperatorIsLessThanOrEqualTo" xml:space="preserve">
+    <value>Est inférieur ou égal à</value>
+  </data>
+  <data name="DataTable_OperatorIsEmpty" xml:space="preserve">
+    <value>Est vide</value>
+  </data>
+  <data name="DataTable_OperatorIsNotEmpty" xml:space="preserve">
+    <value>N'est pas vide</value>
   </data>
 </root>

@@ -40,7 +40,7 @@ public class TwDataTableGroupingTests : TwBlazorTestBase
                 .Add(p => p.Id, "products")
                 .Add(p => p.Items, items ?? Products())
                 .Add(p => p.Columns, columns ?? Columns())
-                .Add(p => p.Pageable, pageable);
+                .Add(p => p.EnablePagination, pageable);
             configure?.Invoke(parameters);
         });
 

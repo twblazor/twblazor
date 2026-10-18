@@ -696,23 +696,8 @@
   <data name="DataTable_ColumnHidden" xml:space="preserve">
     <value>{0} 列を非表示にしました</value>
   </data>
-  <data name="DataTable_MoveColumnUp" xml:space="preserve">
-    <value>{0} を上へ移動</value>
-  </data>
-  <data name="DataTable_MoveColumnDown" xml:space="preserve">
-    <value>{0} を下へ移動</value>
-  </data>
   <data name="DataTable_ColumnMoved" xml:space="preserve">
     <value>{0} を {2} 列中 {1} 番目に移動しました</value>
-  </data>
-  <data name="DataTable_NarrowColumn" xml:space="preserve">
-    <value>{0} の幅を狭くする</value>
-  </data>
-  <data name="DataTable_WidenColumn" xml:space="preserve">
-    <value>{0} の幅を広くする</value>
-  </data>
-  <data name="DataTable_ColumnResized" xml:space="preserve">
-    <value>{0} の幅は {1} ピクセルです</value>
   </data>
   <data name="DataTable_ExportCsv" xml:space="preserve">
     <value>CSV をエクスポート</value>
@@ -803,5 +788,116 @@
   </data>
   <data name="Menu_Options" xml:space="preserve">
     <value>オプション</value>
+  </data>
+  <data name="DataTable_ColumnOptions" xml:space="preserve">
+    <value>{0} 列のオプション</value>
+  </data>
+  <data name="DataTable_SortAscending" xml:space="preserve">
+    <value>昇順で並べ替え</value>
+  </data>
+  <data name="DataTable_SortDescending" xml:space="preserve">
+    <value>降順で並べ替え</value>
+  </data>
+  <data name="DataTable_RemoveSort" xml:space="preserve">
+    <value>並べ替えを解除</value>
+  </data>
+  <data name="DataTable_GroupByColumn" xml:space="preserve">
+    <value>この列でグループ化</value>
+  </data>
+  <data name="DataTable_StopGrouping" xml:space="preserve">
+    <value>グループ化を解除</value>
+  </data>
+  <data name="DataTable_MoveColumnLeft" xml:space="preserve">
+    <value>左へ移動</value>
+  </data>
+  <data name="DataTable_MoveColumnRight" xml:space="preserve">
+    <value>右へ移動</value>
+  </data>
+  <data name="DataTable_HideColumn" xml:space="preserve">
+    <value>列を非表示</value>
+  </data>
+  <data name="DataTable_FilterColumn" xml:space="preserve">
+    <value>{0} を絞り込む</value>
+  </data>
+  <data name="DataTable_FilterColumnActive" xml:space="preserve">
+    <value>{0} を絞り込む、絞り込み中</value>
+  </data>
+  <data name="DataTable_FirstCondition" xml:space="preserve">
+    <value>1 つ目の条件</value>
+  </data>
+  <data name="DataTable_FirstValue" xml:space="preserve">
+    <value>1 つ目の値</value>
+  </data>
+  <data name="DataTable_SecondCondition" xml:space="preserve">
+    <value>2 つ目の条件</value>
+  </data>
+  <data name="DataTable_SecondValue" xml:space="preserve">
+    <value>2 つ目の値</value>
+  </data>
+  <data name="DataTable_FilterLogic" xml:space="preserve">
+    <value>条件の組み合わせ</value>
+  </data>
+  <data name="DataTable_FilterAnd" xml:space="preserve">
+    <value>かつ</value>
+  </data>
+  <data name="DataTable_FilterOr" xml:space="preserve">
+    <value>または</value>
+  </data>
+  <data name="DataTable_ApplyFilter" xml:space="preserve">
+    <value>絞り込む</value>
+  </data>
+  <data name="DataTable_ClearFilter" xml:space="preserve">
+    <value>クリア</value>
+  </data>
+  <data name="DataTable_FilterAppliedOne" xml:space="preserve">
+    <value>{0} を絞り込みました。{1} 行を表示</value>
+  </data>
+  <data name="DataTable_FilterAppliedOther" xml:space="preserve">
+    <value>{0} を絞り込みました。{1} 行を表示</value>
+  </data>
+  <data name="DataTable_FilterRemoved" xml:space="preserve">
+    <value>{0} の絞り込みを解除しました</value>
+  </data>
+  <data name="DataTable_Yes" xml:space="preserve">
+    <value>はい</value>
+  </data>
+  <data name="DataTable_No" xml:space="preserve">
+    <value>いいえ</value>
+  </data>
+  <data name="DataTable_OperatorContains" xml:space="preserve">
+    <value>を含む</value>
+  </data>
+  <data name="DataTable_OperatorDoesNotContain" xml:space="preserve">
+    <value>を含まない</value>
+  </data>
+  <data name="DataTable_OperatorStartsWith" xml:space="preserve">
+    <value>で始まる</value>
+  </data>
+  <data name="DataTable_OperatorEndsWith" xml:space="preserve">
+    <value>で終わる</value>
+  </data>
+  <data name="DataTable_OperatorIsEqualTo" xml:space="preserve">
+    <value>と等しい</value>
+  </data>
+  <data name="DataTable_OperatorIsNotEqualTo" xml:space="preserve">
+    <value>と等しくない</value>
+  </data>
+  <data name="DataTable_OperatorIsGreaterThan" xml:space="preserve">
+    <value>より大きい</value>
+  </data>
+  <data name="DataTable_OperatorIsGreaterThanOrEqualTo" xml:space="preserve">
+    <value>以上</value>
+  </data>
+  <data name="DataTable_OperatorIsLessThan" xml:space="preserve">
+    <value>より小さい</value>
+  </data>
+  <data name="DataTable_OperatorIsLessThanOrEqualTo" xml:space="preserve">
+    <value>以下</value>
+  </data>
+  <data name="DataTable_OperatorIsEmpty" xml:space="preserve">
+    <value>空である</value>
+  </data>
+  <data name="DataTable_OperatorIsNotEmpty" xml:space="preserve">
+    <value>空ではない</value>
   </data>
 </root>

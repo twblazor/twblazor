@@ -55,7 +55,7 @@ public class TwDataTableStateTests : TwBlazorTestBase
     public async Task Search_KeepsTheActiveSort()
     {
         // Arrange
-        var cut = Render(p => p.Add(x => x.Pageable, false));
+        var cut = Render(p => p.Add(x => x.EnablePagination, false));
         cut.Find("[aria-label='Sort by Name']").Click();
 
         // Act
@@ -69,7 +69,7 @@ public class TwDataTableStateTests : TwBlazorTestBase
     public void ItemsChange_KeepsTheActiveSort()
     {
         // Arrange
-        var cut = Render(p => p.Add(x => x.Pageable, false));
+        var cut = Render(p => p.Add(x => x.EnablePagination, false));
         cut.Find("[aria-label='Sort by Name']").Click();
 
         // Act
@@ -178,7 +178,7 @@ public class TwDataTableStateTests : TwBlazorTestBase
         var state = new TwDataTableState { SortColumn = "category", SortDirection = SortDirection.Ascending };
 
         // Act
-        var cut = Render(p => p.Add(x => x.State, state).Add(x => x.Pageable, false));
+        var cut = Render(p => p.Add(x => x.State, state).Add(x => x.EnablePagination, false));
 
         // Assert
         Assert.Null(cut.Instance.GetState().SortColumn);
@@ -266,7 +266,7 @@ public class TwDataTableStateTests : TwBlazorTestBase
     {
         // Arrange
         TwDataTableState? raised = null;
-        var cut = Render(p => p.Add(x => x.StateChanged, (TwDataTableState s) => raised = s).Add(x => x.Pageable, false));
+        var cut = Render(p => p.Add(x => x.StateChanged, (TwDataTableState s) => raised = s).Add(x => x.EnablePagination, false));
 
         // Act
         await cut.InvokeAsync(() => cut.Instance.SetStateAsync(new TwDataTableState { SortColumn = "price", SortDirection = SortDirection.Descending }));
@@ -346,7 +346,7 @@ public class TwDataTableStateTests : TwBlazorTestBase
         TestContext.JSInterop.Setup<string?>("twDataTable.loadState", "products-table").SetResult(saved);
 
         // Act
-        var cut = Render(p => p.Add(x => x.StateStorageKey, "products-table").Add(x => x.Pageable, false));
+        var cut = Render(p => p.Add(x => x.StateStorageKey, "products-table").Add(x => x.EnablePagination, false));
 
         // Assert
         Assert.Equal("Toaster", FirstCells(cut)[0]);
@@ -376,7 +376,7 @@ public class TwDataTableStateTests : TwBlazorTestBase
         TestContext.JSInterop.Setup<string?>("twDataTable.loadState", "products-table").SetResult("{not json");
 
         // Act
-        var cut = Render(p => p.Add(x => x.StateStorageKey, "products-table").Add(x => x.Pageable, false));
+        var cut = Render(p => p.Add(x => x.StateStorageKey, "products-table").Add(x => x.EnablePagination, false));
 
         // Assert
         Assert.Equal("Kettle", FirstCells(cut)[0]);

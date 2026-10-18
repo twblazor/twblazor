@@ -158,8 +158,12 @@ public partial class TwTable
         if (lastCurrentPageParameter != CurrentPage)
         {
             lastCurrentPageParameter = CurrentPage;
-            currentPage = Math.Max(1, CurrentPage);
-            NotifyRowsSources();
+            var page = Math.Max(1, CurrentPage);
+            if (page != currentPage)
+            {
+                currentPage = page;
+                NotifyRowsSources();
+            }
         }
     }
 

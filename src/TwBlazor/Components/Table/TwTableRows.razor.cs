@@ -21,7 +21,8 @@ public partial class TwTableRows<TItem> : ComponentBase, ITwTableRows, IAsyncDis
     private List<TwTableRow<TItem>> viewRows = [];
     private Virtualize<TwTableRow<TItem>>? virtualizeRef;
     private TwTableRowsProvider<TItem>? lastProvider;
-    private (int Start, int? Count)? loadedWindow;
+    // The page being loaded or last loaded, so a render while a load is in flight does not start another.
+    private (int Start, int? Count)? requestedWindow;
     private bool loadRequested;
     private bool loading;
     private int totalCount;
@@ -114,13 +115,15 @@ public partial class TwTableRows<TItem> : ComponentBase, ITwTableRows, IAsyncDis
             if (!ReferenceEquals(ItemsProvider, lastProvider))
             {
                 lastProvider = ItemsProvider;
-                loadedWindow = null;
+                requestedWindow = null;
             }
 
-            // Virtualize asks for its own rows; otherwise load the window the table now shows.
-            if (!isVirtualized && loadedWindow != RequestedWindow())
+            // Virtualize asks for its own rows; otherwise load the window the table now shows. Until the rows arrive
+            // they count as loading, so the table does not judge the page against a total it does not know yet.
+            if (!isVirtualized && requestedWindow != RequestedWindow())
             {
                 loadRequested = true;
+                loading = true;
             }
 
             Report();
@@ -162,9 +165,10 @@ public partial class TwTableRows<TItem> : ComponentBase, ITwTableRows, IAsyncDis
     {
         if (usesProvider)
         {
-            if (!isVirtualized)
+            if (!isVirtualized && requestedWindow != RequestedWindow())
             {
                 loadRequested = true;
+                loading = true;
             }
         }
         else
@@ -237,6 +241,7 @@ public partial class TwTableRows<TItem> : ComponentBase, ITwTableRows, IAsyncDis
         loadCancellation = new CancellationTokenSource();
         var token = loadCancellation.Token;
         var window = RequestedWindow();
+        requestedWindow = window;
 
         loading = true;
         Report();
@@ -258,7 +263,6 @@ public partial class TwTableRows<TItem> : ComponentBase, ITwTableRows, IAsyncDis
             return;
         }
 
-        loadedWindow = window;
         loading = false;
         totalCount = Math.Max(0, result.TotalCount);
         viewRows = [.. result.Items.Select((item, i) => new TwTableRow<TItem>(item, window.Start + i, null))];

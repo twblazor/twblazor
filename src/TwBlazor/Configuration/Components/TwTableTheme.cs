@@ -117,16 +117,6 @@ public class TwTableTheme
     /// </summary>
     public required string EmptyState { get; set; }
 
-    /// <summary>
-    /// Gets or sets the classes for <see cref="TwBlazor.Components.TwDataTable{TItem}"/>'s column panel, which lists
-    /// the columns for showing, hiding, reordering and resizing them.
-    /// </summary>
-    public string ColumnPanel { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Gets or sets the classes for the heading at the top of the column panel.
-    /// </summary>
-    public string ColumnPanelHeading { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets or sets the classes for the separator on a resizable column's border, which a person drags or focuses
@@ -173,4 +163,15 @@ public class TwTableTheme
     /// Gets or sets the classes for the row being edited, which set it apart from the rows around it.
     /// </summary>
     public string EditingRow { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes for <see cref="TwBlazor.Components.TwDataTable{TItem}"/>'s column filter, a dialog
+    /// positioned under the column's filter button. The filter script places it with fixed positioning.
+    /// </summary>
+    public string FilterPanel { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes for the heading at the top of a column filter.
+    /// </summary>
+    public string FilterHeading { get; set; } = string.Empty;
 }

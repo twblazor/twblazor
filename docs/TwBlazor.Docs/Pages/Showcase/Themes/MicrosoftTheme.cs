@@ -1470,8 +1470,6 @@ public static class MicrosoftTheme
                     HeaderCellPadding = "px-4 py-2.5",
                     BodyCellPadding = $"px-4 py-2.5 {typography.WrapBreakWord}",
                     EmptyState = $"py-8 {typography.AlignCenter} {neutralText.Muted}",
-                    ColumnPanel = $"{borderWidth.Thin} {neutralSurface.Border} {neutralSurface.Background} {rounded.Lg} {spacing.Padding.Lg} {spacing.MarginBottom.Xl}",
-                    ColumnPanelHeading = $"{typography.Size.Sm} {typography.Weight.Semibold} {neutralText.Heading}",
                     ResizeHandle = $"{positioning.Absolute} z-20 flex w-3 -translate-x-1/2 justify-center cursor-col-resize touch-none select-none before:block before:h-full before:w-px before:bg-gray-300 dark:before:bg-gray-600 hover:before:w-0.5 hover:before:bg-fluentblue-500 active:before:bg-fluentblue-600 dark:hover:before:bg-fluentblue-400 focus-visible:outline-none focus-visible:before:w-0.5 focus-visible:before:bg-fluentblue-600 dark:focus-visible:before:bg-fluentblue-300",
                     GroupByColumn = "w-full sm:w-56",
                     GroupRow = $"{neutralSurface.BackgroundSubtle} {neutralText.Heading}",
@@ -1479,7 +1477,9 @@ public static class MicrosoftTheme
                     GroupCount = $"{typography.Weight.Medium} {neutralText.Muted}",
                     LoadingCell = $"py-2.5 {typography.AlignCenter} {neutralText.Muted}",
                     ActionsCell = "w-px whitespace-nowrap",
-                    EditingRow = "!bg-fluentblue-50 dark:!bg-fluentblue-500/10"
+                    EditingRow = "!bg-fluentblue-50 dark:!bg-fluentblue-500/10",
+                    FilterPanel = $"z-50 w-72 max-w-[calc(100vw-1rem)] {rounded.Lg} {borderWidth.Thin} {neutralSurface.Border} {neutralSurface.Background} shadow-lg {spacing.Padding.Md} {interaction.FocusOutlineNone}",
+                    FilterHeading = $"{display.Flex} {flexbox.Align.Center} {spacing.Gap.Sm} {spacing.MarginBottom.Md} {typography.Size.Sm} {typography.Weight.Semibold} {neutralText.Heading}"
                 },
                 new TwToastTheme
                 {

@@ -430,23 +430,13 @@ public static class TwStrings
     /// <summary>The key for "{0} column hidden".</summary>
     public const string DataTable_ColumnHidden = "DataTable_ColumnHidden";
 
-    /// <summary>The key for "Move {0} up".</summary>
-    public const string DataTable_MoveColumnUp = "DataTable_MoveColumnUp";
 
-    /// <summary>The key for "Move {0} down".</summary>
-    public const string DataTable_MoveColumnDown = "DataTable_MoveColumnDown";
 
     /// <summary>The key for "{0} moved to position {1} of {2}".</summary>
     public const string DataTable_ColumnMoved = "DataTable_ColumnMoved";
 
-    /// <summary>The key for "Make {0} narrower".</summary>
-    public const string DataTable_NarrowColumn = "DataTable_NarrowColumn";
 
-    /// <summary>The key for "Make {0} wider".</summary>
-    public const string DataTable_WidenColumn = "DataTable_WidenColumn";
 
-    /// <summary>The key for "{0} is {1} pixels wide".</summary>
-    public const string DataTable_ColumnResized = "DataTable_ColumnResized";
 
     /// <summary>The key for "Export CSV".</summary>
     public const string DataTable_ExportCsv = "DataTable_ExportCsv";
@@ -528,6 +518,117 @@ public static class TwStrings
 
     /// <summary>The key for "{0} fields need fixing before saving".</summary>
     public const string DataTable_EditInvalidOther = "DataTable_EditInvalidOther";
+
+    /// <summary>The key for "{0} column options".</summary>
+    public const string DataTable_ColumnOptions = "DataTable_ColumnOptions";
+
+    /// <summary>The key for "Sort ascending".</summary>
+    public const string DataTable_SortAscending = "DataTable_SortAscending";
+
+    /// <summary>The key for "Sort descending".</summary>
+    public const string DataTable_SortDescending = "DataTable_SortDescending";
+
+    /// <summary>The key for "Remove sort".</summary>
+    public const string DataTable_RemoveSort = "DataTable_RemoveSort";
+
+    /// <summary>The key for "Group by this column".</summary>
+    public const string DataTable_GroupByColumn = "DataTable_GroupByColumn";
+
+    /// <summary>The key for "Stop grouping".</summary>
+    public const string DataTable_StopGrouping = "DataTable_StopGrouping";
+
+    /// <summary>The key for "Move left".</summary>
+    public const string DataTable_MoveColumnLeft = "DataTable_MoveColumnLeft";
+
+    /// <summary>The key for "Move right".</summary>
+    public const string DataTable_MoveColumnRight = "DataTable_MoveColumnRight";
+
+    /// <summary>The key for "Hide column".</summary>
+    public const string DataTable_HideColumn = "DataTable_HideColumn";
+
+    /// <summary>The key for "Filter {0}".</summary>
+    public const string DataTable_FilterColumn = "DataTable_FilterColumn";
+
+    /// <summary>The key for "Filter {0}, filtered".</summary>
+    public const string DataTable_FilterColumnActive = "DataTable_FilterColumnActive";
+
+    /// <summary>The key for "First condition".</summary>
+    public const string DataTable_FirstCondition = "DataTable_FirstCondition";
+
+    /// <summary>The key for "First value".</summary>
+    public const string DataTable_FirstValue = "DataTable_FirstValue";
+
+    /// <summary>The key for "Second condition".</summary>
+    public const string DataTable_SecondCondition = "DataTable_SecondCondition";
+
+    /// <summary>The key for "Second value".</summary>
+    public const string DataTable_SecondValue = "DataTable_SecondValue";
+
+    /// <summary>The key for "Combine conditions".</summary>
+    public const string DataTable_FilterLogic = "DataTable_FilterLogic";
+
+    /// <summary>The key for "And".</summary>
+    public const string DataTable_FilterAnd = "DataTable_FilterAnd";
+
+    /// <summary>The key for "Or".</summary>
+    public const string DataTable_FilterOr = "DataTable_FilterOr";
+
+    /// <summary>The key for "Filter".</summary>
+    public const string DataTable_ApplyFilter = "DataTable_ApplyFilter";
+
+    /// <summary>The key for "Clear".</summary>
+    public const string DataTable_ClearFilter = "DataTable_ClearFilter";
+
+    /// <summary>The key for "Filter applied to {0}, showing {1} row".</summary>
+    public const string DataTable_FilterAppliedOne = "DataTable_FilterAppliedOne";
+
+    /// <summary>The key for "Filter applied to {0}, showing {1} rows".</summary>
+    public const string DataTable_FilterAppliedOther = "DataTable_FilterAppliedOther";
+
+    /// <summary>The key for "Filter removed from {0}".</summary>
+    public const string DataTable_FilterRemoved = "DataTable_FilterRemoved";
+
+    /// <summary>The key for "Yes".</summary>
+    public const string DataTable_Yes = "DataTable_Yes";
+
+    /// <summary>The key for "No".</summary>
+    public const string DataTable_No = "DataTable_No";
+
+    /// <summary>The key for "Contains".</summary>
+    public const string DataTable_OperatorContains = "DataTable_OperatorContains";
+
+    /// <summary>The key for "Does not contain".</summary>
+    public const string DataTable_OperatorDoesNotContain = "DataTable_OperatorDoesNotContain";
+
+    /// <summary>The key for "Starts with".</summary>
+    public const string DataTable_OperatorStartsWith = "DataTable_OperatorStartsWith";
+
+    /// <summary>The key for "Ends with".</summary>
+    public const string DataTable_OperatorEndsWith = "DataTable_OperatorEndsWith";
+
+    /// <summary>The key for "Is equal to".</summary>
+    public const string DataTable_OperatorIsEqualTo = "DataTable_OperatorIsEqualTo";
+
+    /// <summary>The key for "Is not equal to".</summary>
+    public const string DataTable_OperatorIsNotEqualTo = "DataTable_OperatorIsNotEqualTo";
+
+    /// <summary>The key for "Is greater than".</summary>
+    public const string DataTable_OperatorIsGreaterThan = "DataTable_OperatorIsGreaterThan";
+
+    /// <summary>The key for "Is greater than or equal to".</summary>
+    public const string DataTable_OperatorIsGreaterThanOrEqualTo = "DataTable_OperatorIsGreaterThanOrEqualTo";
+
+    /// <summary>The key for "Is less than".</summary>
+    public const string DataTable_OperatorIsLessThan = "DataTable_OperatorIsLessThan";
+
+    /// <summary>The key for "Is less than or equal to".</summary>
+    public const string DataTable_OperatorIsLessThanOrEqualTo = "DataTable_OperatorIsLessThanOrEqualTo";
+
+    /// <summary>The key for "Is empty".</summary>
+    public const string DataTable_OperatorIsEmpty = "DataTable_OperatorIsEmpty";
+
+    /// <summary>The key for "Is not empty".</summary>
+    public const string DataTable_OperatorIsNotEmpty = "DataTable_OperatorIsNotEmpty";
 
     /// <summary>The key for "Open date picker".</summary>
     public const string DatePicker_Open = "DatePicker_Open";

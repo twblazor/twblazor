@@ -2056,69 +2056,46 @@ globalThis.twDataTable = {
         }
     },
 
-    // The column group renders one <col> per visible column in header order, so a column's <col> and its
-    // header cell share an index.
-    _findColumn: function (root, name) {
-        const table = root?.querySelector('table');
-        if (!table) return null;
+    // Column filter: a dialog positioned under its filter button. A press that starts and ends outside both closes it,
+    // Escape closes it through the shared Escape stack, and Tab stays inside it while it is open.
+    openFilter: function (panel, anchorId, dotnetRef) {
+        if (!panel || panel.__twDataTableFilter) return;
 
-        const cols = Array.from(table.querySelectorAll(':scope > colgroup > col'));
-        const index = cols.findIndex(function (col) { return col.dataset.column === name; });
-        if (index < 0) return null;
+        const anchor = document.getElementById(anchorId);
+        if (anchor) {
+            globalThis.twPicker.registerScrollReposition(anchor, panel, false, dotnetRef);
+        }
 
-        const headerRow = table.querySelector(':scope > thead > tr');
-        const th = headerRow?.children[index] ?? null;
-        return { col: cols[index], th: th };
-    },
-
-    measureColumn: function (root, name) {
-        const found = globalThis.twDataTable._findColumn(root, name);
-        return found?.th ? Math.round(found.th.getBoundingClientRect().width) : 0;
-    },
-
-    attachResize: function (root, dotnetRef, minWidth, maxWidth) {
-        if (!root || root.__twDataTableResize) return;
-
-        const onPointerDown = function (e) {
-            const handle = e.target?.closest?.('[data-resize-column]') ?? null;
-            if (!handle || !root.contains(handle) || e.button !== 0) return;
-
-            const name = handle.dataset.resizeColumn;
-            const found = globalThis.twDataTable._findColumn(root, name);
-            if (!found?.th) return;
-
-            e.preventDefault();
-
-            const startX = e.clientX;
-            const startWidth = Math.round(found.th.getBoundingClientRect().width);
-            // The handle sits on the header's end edge, so dragging towards the end widens the column in
-            // either direction.
-            const towardsEnd = getComputedStyle(found.th).direction === 'rtl' ? -1 : 1;
-            let width = startWidth;
-
-            handle.setPointerCapture?.(e.pointerId);
-
-            const onMove = function (ev) {
-                width = Math.min(maxWidth, Math.max(minWidth, Math.round(startWidth + (ev.clientX - startX) * towardsEnd)));
-                found.col.style.width = width + 'px';
-            };
-
-            const onEnd = function () {
-                handle.removeEventListener('pointermove', onMove);
-                handle.removeEventListener('pointerup', onEnd);
-                handle.removeEventListener('pointercancel', onEnd);
-                if (width !== startWidth) {
-                    dotnetRef.invokeMethodAsync('CommitColumnWidth', name, width);
-                }
-            };
-
-            handle.addEventListener('pointermove', onMove);
-            handle.addEventListener('pointerup', onEnd);
-            handle.addEventListener('pointercancel', onEnd);
+        const inside = function (target) {
+            return target instanceof Node && (panel.contains(target) || (anchor?.contains(target) ?? false));
+        };
+        let downTarget = null;
+        const onPointerDown = function (e) { downTarget = e.target; };
+        const onPointerUp = function (e) {
+            const target = downTarget;
+            downTarget = null;
+            if (target && !inside(target) && !inside(e.target)) {
+                void globalThis.twPicker._invokeSafely(dotnetRef, 'Close');
+            }
         };
 
-        root.addEventListener('pointerdown', onPointerDown);
-        root.__twDataTableResize = onPointerDown;
+        document.addEventListener('pointerdown', onPointerDown);
+        document.addEventListener('pointerup', onPointerUp);
+        panel.__twDataTableFilter = { onPointerDown: onPointerDown, onPointerUp: onPointerUp };
+        globalThis.twDialog._pushEscape({ surface: panel, dotnetRef: dotnetRef, method: 'Close' });
+        globalThis.twDialog.trapFocus(panel);
+        globalThis.twDialog.focusPanel(panel);
+    },
+
+    closeFilter: function (panel) {
+        const state = panel?.__twDataTableFilter;
+        if (!state) return;
+        document.removeEventListener('pointerdown', state.onPointerDown);
+        document.removeEventListener('pointerup', state.onPointerUp);
+        delete panel.__twDataTableFilter;
+        globalThis.twPicker.unregisterScrollReposition(panel);
+        globalThis.twDialog.unregisterEscape(panel);
+        globalThis.twDialog.releaseFocusTrap(panel);
     },
 
     download: async function (fileName, contentType, streamReference) {
@@ -2133,11 +2110,5 @@ globalThis.twDataTable = {
         link.remove();
         // Revoking straight away can cancel the download in some browsers, so wait a turn.
         setTimeout(function () { URL.revokeObjectURL(url); }, 0);
-    },
-
-    detachResize: function (root) {
-        if (!root?.__twDataTableResize) return;
-        root.removeEventListener('pointerdown', root.__twDataTableResize);
-        delete root.__twDataTableResize;
     }
 };

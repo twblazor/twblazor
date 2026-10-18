@@ -132,20 +132,33 @@ public partial class TwDataTable<TItem>
     /// </summary>
     private void BuildDisplayedSegments(IEnumerable<DataTableLine> pageLines)
     {
-        displayedSegments = [];
+        displayedSegments = SegmentsOf(pageLines);
+    }
+
+    private static List<DataTableGroupSegment> SegmentsOf(IEnumerable<DataTableLine> pageLines)
+    {
+        List<DataTableGroupSegment> segments = [];
         foreach (var line in pageLines)
         {
-            if (displayedSegments.Count == 0 || !ReferenceEquals(displayedSegments[^1].Group, line.Group))
+            if (segments.Count == 0 || !ReferenceEquals(segments[^1].Group, line.Group))
             {
-                displayedSegments.Add(new DataTableGroupSegment(line.Group, []));
+                segments.Add(new DataTableGroupSegment(line.Group, []));
             }
 
             if (!line.IsHeader)
             {
-                displayedSegments[^1].Items.Add(line.Item!);
+                segments[^1].Items.Add(line.Item!);
             }
         }
+
+        return segments;
     }
+
+    /// <summary>
+    /// Groups by a column from its column menu, or stops grouping when <paramref name="column"/> is <c>null</c>.
+    /// </summary>
+    private Task SetGroupByAsync(TwDataTableColumn<TItem>? column) =>
+        OnGroupByChangedAsync(new GroupOption(column?.Name, column?.Title ?? string.Empty));
 
     private async Task OnGroupByChangedAsync(GroupOption option)
     {
