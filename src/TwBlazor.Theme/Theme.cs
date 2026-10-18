@@ -1083,6 +1083,12 @@ public static class Theme
                     MultilineDenseSize = $"[--textarea-py:0.5rem] py-(--textarea-py) {typography.Size.Sm}",
                     MultilineResize = "resize-y",
                     MultilineAutoGrow = "field-sizing-content resize-none",
+                    FieldWrapper = positioning.Relative,
+                    FieldStartContent = $"{positioning.Absolute} top-0 start-0 {display.Flex} {flexbox.Align.Center} {interaction.PointerEventsNone}",
+                    FieldEndContent = $"{positioning.Absolute} top-0 end-0 {display.Flex} {flexbox.Align.Stretch} gap-1 py-px pe-px",
+                    ClearablePadding = "pe-10",
+                    ClearButton = $"{display.InlineFlex} w-8 {flexbox.Align.Center} {flexbox.Justify.Center} {flexbox.ShrinkNone} {rounded.Md} {neutralText.Secondary} {neutralHoverText} {neutralHoverFill} {interaction.PointerCursor} {transition.ColorsFast} {focusRing} {interaction.FocusOutlineNone} disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent forced-colors:text-[ButtonText] forced-colors:disabled:text-[GrayText]",
+                    ClearButtonIcon = $"{typography.Size.Sm} leading-none",
                     SelectOption = $"{spacing.Padding.Lg} dark:bg-gray-800 dark:text-white supports-[appearance:base-select]:[padding-inline:revert] supports-[appearance:base-select]:py-2 supports-[appearance:base-select]:bg-transparent dark:supports-[appearance:base-select]:bg-transparent supports-[appearance:base-select]:hover:bg-[oklch(97%_0_0)] dark:supports-[appearance:base-select]:hover:bg-[oklch(34%_0.018_253)] supports-[appearance:base-select]:checked:bg-purple-50 supports-[appearance:base-select]:checked:text-purple-700 dark:supports-[appearance:base-select]:checked:bg-purple-500/20 dark:supports-[appearance:base-select]:checked:text-purple-300",
                     SelectNativeBackground = "!bg-white dark:!bg-gray-800",
                     SelectDefaultPadding = "px-3",
@@ -1112,6 +1118,12 @@ public static class Theme
                     FocusWithinBorder = "has-[:focus-visible]:border-purple-600 dark:has-[:focus-visible]:border-purple-400 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-purple-500 dark:has-[:focus-visible]:ring-purple-400",
                     FilledBackgroundColor = neutralSurface.Elevated,
                     ErrorMessage = $"{spacing.MarginTop.Sm} {typography.Size.Xs} {text.Medium.Danger} {darkText.Medium.Danger}"
+                },
+                new TwNumericTheme
+                {
+                    Adornment = $"self-center whitespace-nowrap select-none {neutralText.Secondary}",
+                    Button = $"{display.InlineFlex} {flexbox.Align.Center} {flexbox.Justify.Center} {flexbox.ShrinkNone} {rounded.Md} {neutralText.Secondary} {neutralHoverText} {neutralHoverFill} {interaction.PointerCursor} {transition.ColorsFast} {focusRing} {interaction.FocusOutlineNone} disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent forced-colors:text-[ButtonText] forced-colors:disabled:text-[GrayText]",
+                    ButtonIcon = $"{typography.Size.Sm} leading-none"
                 },
                 new TwOnThisPageTheme
                 {

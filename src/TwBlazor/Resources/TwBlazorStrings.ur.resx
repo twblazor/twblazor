@@ -663,4 +663,16 @@
   <data name="Rating_ReadOnly" xml:space="preserve">
     <value>ریٹنگ {1} میں سے {0}</value>
   </data>
+  <data name="Numeric_Increase" xml:space="preserve">
+    <value>قدر بڑھائیں</value>
+  </data>
+  <data name="Numeric_Decrease" xml:space="preserve">
+    <value>قدر کم کریں</value>
+  </data>
+  <data name="Textfield_Clear" xml:space="preserve">
+    <value>قدر صاف کریں</value>
+  </data>
+  <data name="Numeric_Invalid" xml:space="preserve">
+    <value>درست نمبر درج کریں۔</value>
+  </data>
 </root>

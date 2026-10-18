@@ -811,4 +811,20 @@
     <value>Rated {0} out of {1}</value>
     <comment>{0} = the rating, for example 3.5. {1} = the highest rating, for example 5. Read out for a rating that cannot be changed.</comment>
   </data>
+  <data name="Numeric_Increase" xml:space="preserve">
+    <value>Increase value</value>
+    <comment>Read out for the button that raises a numeric field's value by one step.</comment>
+  </data>
+  <data name="Numeric_Decrease" xml:space="preserve">
+    <value>Decrease value</value>
+    <comment>Read out for the button that lowers a numeric field's value by one step.</comment>
+  </data>
+  <data name="Textfield_Clear" xml:space="preserve">
+    <value>Clear value</value>
+    <comment>Read out for the button that empties a text or numeric field.</comment>
+  </data>
+  <data name="Numeric_Invalid" xml:space="preserve">
+    <value>Enter a valid number.</value>
+    <comment>Shown below a numeric field when the text typed into it is not a number.</comment>
+  </data>
 </root>

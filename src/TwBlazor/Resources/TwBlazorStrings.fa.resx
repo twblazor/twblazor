@@ -666,4 +666,16 @@
   <data name="Rating_ReadOnly" xml:space="preserve">
     <value>امتیاز {0} از {1}</value>
   </data>
+  <data name="Numeric_Increase" xml:space="preserve">
+    <value>افزایش مقدار</value>
+  </data>
+  <data name="Numeric_Decrease" xml:space="preserve">
+    <value>کاهش مقدار</value>
+  </data>
+  <data name="Textfield_Clear" xml:space="preserve">
+    <value>پاک کردن مقدار</value>
+  </data>
+  <data name="Numeric_Invalid" xml:space="preserve">
+    <value>یک عدد معتبر وارد کنید.</value>
+  </data>
 </root>

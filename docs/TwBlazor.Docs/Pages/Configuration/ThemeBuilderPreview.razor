@@ -58,7 +58,7 @@
             </TwCard>
         }
 
-        @if (Has("TwTextfield", "TwSelect", "TwColorPicker"))
+        @if (Has("TwTextfield", "TwNumeric", "TwSelect", "TwColorPicker"))
         {
             <TwCard Title="Text and choices" Class="@cardClass" @attributes="look">
                 <div class="@fieldsClass">
@@ -66,6 +66,10 @@
                     {
                         <TwTextfield Id="preview-name" Label="Full name" @bind-Value="name" Placeholder="Jane Doe" autocomplete="name" @attributes="InputLook()" />
                         <TwTextfield Id="preview-email" Label="Email" @bind-Value="email" Placeholder="jane@example.com" type="email" autocomplete="email" @attributes="InputLook()" />
+                    }
+                    @if (Has("TwNumeric"))
+                    {
+                        <TwNumeric T="int" Id="preview-items" Label="Items" Min="1" Max="10" Clearable @bind-Value="itemCount" @attributes="InputLook()" />
                     }
                     @if (Has("TwSelect"))
                     {
@@ -506,7 +510,7 @@
     private static readonly string[] _sampled =
     [
         "TwNavbar", "TwButton", "TwIcon", "TwTooltip", "TwFileUpload",
-        "TwTextfield", "TwSelect", "TwColorPicker", "TwDatePicker", "TwTimePicker", "TwDateTimePicker", "TwDateRangePicker", "TwTimeRangePicker", "TwDateTimeRangePicker", "TwSwitch", "TwCheckbox", "TwRadioButton", "TwRating", "TwSlider",
+        "TwTextfield", "TwNumeric", "TwSelect", "TwColorPicker", "TwDatePicker", "TwTimePicker", "TwDateTimePicker", "TwDateRangePicker", "TwTimeRangePicker", "TwDateTimeRangePicker", "TwSwitch", "TwCheckbox", "TwRadioButton", "TwRating", "TwSlider",
         "TwAlert", "TwChip", "TwAvatar", "TwProgress", "TwSpinner", "TwSkeleton",
         "TwBreadcrumb", "TwStepper", "TwPagination", "TwTabContainer", "TwCollapse", "TwTreeList", "TwCarousel", "TwFooter",
         "TwDataTable", "TwTable", "TwPickList", "TwBarcode", "TwQrCode",
@@ -604,6 +608,7 @@
     private int quantity = 2;
     private int volume = 40;
     private double rating = 3.5;
+    private int itemCount = 2;
     private int step = 1;
     private int page = 3;
     private IEnumerable<string> availableToppings = ["Mushroom", "Olives", "Peppers", "Sweetcorn"];

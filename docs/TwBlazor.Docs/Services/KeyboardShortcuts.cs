@@ -209,6 +209,15 @@ internal static class KeyboardShortcuts
             Key("Follows the focused link.", Enter),
             Key("On the menu button: opens or closes the menu.", Enter, Space)),
 
+        ["/numeric"] = Guide(
+            "A numeric field is a text input with the spinbutton role, so screen readers announce its value and limits. "
+            + "Its clear, decrease and increase buttons are not Tab stops, because the keys below do the same job.",
+            Key("Moves focus into or out of the field.", Tab, ShiftTab),
+            Key("Increases or decreases the value by one step, stopping at Max or Min.", Up, Down),
+            Key("Increases or decreases the value by ten steps.", PageUp, PageDown),
+            Key("Commits the typed value, when the field binds on change.", Enter),
+            Key("Moves the caret through the text.", Left, Right, Home, End)),
+
         ["/on-this-page"] = Guide(
             "The list is a navigation landmark holding ordinary links. The link to the section being read is announced as the current location.",
             Key("Moves to the next or previous link.", Tab, ShiftTab),
@@ -308,7 +317,8 @@ internal static class KeyboardShortcuts
             Key("Moves to the first or last tab.", Home, End)),
 
         ["/textfield"] = Guide(
-            "A text field is a native input, so every text editing key works as usual. An error message is announced when it appears.",
+            "A text field is a native input, so every text editing key works as usual. An error message is announced when it appears. "
+            + "The clear button of a clearable field is not a Tab stop, because the text can be cleared from the keyboard.",
             Key("Moves focus into or out of the field, including a multiline field.", Tab, ShiftTab),
             Key("Commits the value, when the field binds on change. In a multiline field, inserts a new line instead.", Enter),
             Key("Moves the caret through the text, line by line in a multiline field.", Up, Down, Left, Right),

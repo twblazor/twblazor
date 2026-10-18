@@ -660,4 +660,16 @@
   <data name="Rating_ReadOnly" xml:space="preserve">
     <value>রেটিং {1}-এর মধ্যে {0}</value>
   </data>
+  <data name="Numeric_Increase" xml:space="preserve">
+    <value>মান বাড়ান</value>
+  </data>
+  <data name="Numeric_Decrease" xml:space="preserve">
+    <value>মান কমান</value>
+  </data>
+  <data name="Textfield_Clear" xml:space="preserve">
+    <value>মান মুছুন</value>
+  </data>
+  <data name="Numeric_Invalid" xml:space="preserve">
+    <value>একটি বৈধ সংখ্যা লিখুন।</value>
+  </data>
 </root>

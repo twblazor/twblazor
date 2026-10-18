@@ -660,4 +660,16 @@
   <data name="Rating_ReadOnly" xml:space="preserve">
     <value>Được đánh giá {0} trên {1}</value>
   </data>
+  <data name="Numeric_Increase" xml:space="preserve">
+    <value>Tăng giá trị</value>
+  </data>
+  <data name="Numeric_Decrease" xml:space="preserve">
+    <value>Giảm giá trị</value>
+  </data>
+  <data name="Textfield_Clear" xml:space="preserve">
+    <value>Xóa giá trị</value>
+  </data>
+  <data name="Numeric_Invalid" xml:space="preserve">
+    <value>Nhập một số hợp lệ.</value>
+  </data>
 </root>

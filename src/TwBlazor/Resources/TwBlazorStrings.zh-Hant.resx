@@ -663,4 +663,16 @@
   <data name="Rating_ReadOnly" xml:space="preserve">
     <value>評分 {0}/{1}</value>
   </data>
+  <data name="Numeric_Increase" xml:space="preserve">
+    <value>增加值</value>
+  </data>
+  <data name="Numeric_Decrease" xml:space="preserve">
+    <value>減少值</value>
+  </data>
+  <data name="Textfield_Clear" xml:space="preserve">
+    <value>清除值</value>
+  </data>
+  <data name="Numeric_Invalid" xml:space="preserve">
+    <value>請輸入有效的數字。</value>
+  </data>
 </root>

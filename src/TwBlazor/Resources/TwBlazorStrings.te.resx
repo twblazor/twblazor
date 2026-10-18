@@ -660,4 +660,16 @@
   <data name="Rating_ReadOnly" xml:space="preserve">
     <value>రేటింగ్ {1} లో {0}</value>
   </data>
+  <data name="Numeric_Increase" xml:space="preserve">
+    <value>విలువను పెంచు</value>
+  </data>
+  <data name="Numeric_Decrease" xml:space="preserve">
+    <value>విలువను తగ్గించు</value>
+  </data>
+  <data name="Textfield_Clear" xml:space="preserve">
+    <value>విలువను క్లియర్ చేయి</value>
+  </data>
+  <data name="Numeric_Invalid" xml:space="preserve">
+    <value>చెల్లుబాటు అయ్యే సంఖ్యను నమోదు చేయండి.</value>
+  </data>
 </root>

@@ -157,6 +157,14 @@
         "url": "/file-upload"
       },
       {
+        "id": "numeric-navitem",
+        "display": "Numeric",
+        "name": "TwNumeric",
+        "url": "/numeric",
+        "isNew": true,
+        "theme": "TwNumericTheme"
+      },
+      {
         "id": "radio-button-navitem",
         "display": "Radio Button",
         "name": "TwRadioButton",

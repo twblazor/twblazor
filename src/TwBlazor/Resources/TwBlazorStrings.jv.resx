@@ -660,4 +660,16 @@
   <data name="Rating_ReadOnly" xml:space="preserve">
     <value>Rating {0} saka {1}</value>
   </data>
+  <data name="Numeric_Increase" xml:space="preserve">
+    <value>Tambah nilai</value>
+  </data>
+  <data name="Numeric_Decrease" xml:space="preserve">
+    <value>Kurangi nilai</value>
+  </data>
+  <data name="Textfield_Clear" xml:space="preserve">
+    <value>Busak nilai</value>
+  </data>
+  <data name="Numeric_Invalid" xml:space="preserve">
+    <value>Lebokna angka sing sah.</value>
+  </data>
 </root>

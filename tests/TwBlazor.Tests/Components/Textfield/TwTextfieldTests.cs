@@ -494,17 +494,15 @@ public class TwTextfieldTests : TwBlazorTestBase
     }
 
     [Fact]
-    public void TwTextfield_DoesNotAssociateErrorMessage_WhenNotInvalid()
+    public void TwTextfield_DoesNotRender_ErrorMessage_WhenNotInvalid()
     {
-        // Arrange & Act - TwInputRoot renders the error text whenever ErrorMessage is set, but the
-        // component only wires up the id/aria-describedby association (via errorId) when Invalid is
-        // also true - so the paragraph exists here but isn't announced against the input.
+        // Arrange & Act - an ErrorMessage passed alongside Invalid="false" (e.g. Invalid="@(count > 4)") stays
+        // hidden, rather than showing as an alert that is not linked to the input.
         var cut = TestContext.Render<TwTextfield<string>>(parameters => parameters
             .Add(p => p.ErrorMessage, "This field is required."));
 
         // Assert
-        var error = cut.Find("p[role='alert']");
-        Assert.Empty(error.GetAttribute("id") ?? string.Empty);
+        Assert.Empty(cut.FindAll("p[role='alert']"));
         Assert.False(cut.Find("input").HasAttribute("aria-invalid"));
         Assert.False(cut.Find("input").HasAttribute("aria-describedby"));
     }

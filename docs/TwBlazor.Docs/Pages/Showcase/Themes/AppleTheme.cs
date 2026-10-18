@@ -1087,6 +1087,12 @@ public static class AppleTheme
                     SelectBase = $"{display.Block} {sizing.FullWidth} pe-10 {neutralText.Heading} bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22none%22%20viewBox%3D%220%200%2020%2020%22%3E%3Cpath%20stroke%3D%22%236b7280%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%221.5%22%20d%3D%22m6%208%204%204%204-4%22%2F%3E%3C%2Fsvg%3E')] bg-[length:1.5em_1.5em] bg-[right_0.5rem_center] rtl:bg-[left_0.5rem_center] bg-no-repeat {transition.ColorsFast} appearance-none {interaction.FocusOutlineNone} supports-[appearance:base-select]:[appearance:base-select] supports-[appearance:base-select]:flex supports-[appearance:base-select]:items-center [&::picker(select)]:[appearance:base-select] [&::picker-icon]:hidden [&::picker(select)]:border-[oklch(21%_0.004_286)]/25 dark:[&::picker(select)]:border-[oklch(97.807%_0.002_286)]/20 [&::picker(select)]:bg-[oklch(100%_0.003_286)] dark:[&::picker(select)]:bg-[oklch(40%_0.004_286)]",
                     Size = $"{inputHeight} {typography.Size.Base}",
                     DenseSize = $"{inputDenseHeight} {typography.Size.Sm}",
+                    FieldWrapper = positioning.Relative,
+                    FieldStartContent = $"{positioning.Absolute} top-0 start-0 {display.Flex} {flexbox.Align.Center} {interaction.PointerEventsNone}",
+                    FieldEndContent = $"{positioning.Absolute} top-0 end-0 {display.Flex} {flexbox.Align.Stretch} gap-1 py-px pe-px",
+                    ClearablePadding = "pe-10",
+                    ClearButton = $"{display.InlineFlex} w-8 {flexbox.Align.Center} {flexbox.Justify.Center} {flexbox.ShrinkNone} {rounded.Md} {neutralText.Secondary} {neutralHoverText} {neutralHoverFill} {interaction.PointerCursor} {transition.ColorsFast} {focusRing} {interaction.FocusOutlineNone} disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent forced-colors:text-[ButtonText] forced-colors:disabled:text-[GrayText]",
+                    ClearButtonIcon = $"{typography.Size.Sm} leading-none",
                     SelectOption = $"{spacing.Padding.Lg} dark:bg-gray-800 dark:text-white supports-[appearance:base-select]:[padding-inline:revert] supports-[appearance:base-select]:py-2 supports-[appearance:base-select]:bg-transparent dark:supports-[appearance:base-select]:bg-transparent supports-[appearance:base-select]:hover:bg-[oklch(96%_0.003_286)] dark:supports-[appearance:base-select]:hover:bg-[oklch(34%_0.004_286)] supports-[appearance:base-select]:checked:bg-cupertino-50 supports-[appearance:base-select]:checked:text-cupertino-700 dark:supports-[appearance:base-select]:checked:bg-cupertino-500/20 dark:supports-[appearance:base-select]:checked:text-cupertino-300",
                     SelectNativeBackground = "!bg-white dark:!bg-gray-800",
                     SelectDefaultPadding = "px-3",
@@ -1116,6 +1122,12 @@ public static class AppleTheme
                     FocusWithinBorder = "has-[:focus-visible]:border-cupertino-600 dark:has-[:focus-visible]:border-cupertino-400 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-cupertino-500 dark:has-[:focus-visible]:ring-cupertino-400",
                     FilledBackgroundColor = neutralSurface.Elevated,
                     ErrorMessage = $"{spacing.MarginTop.Sm} {typography.Size.Xs} {text.Medium.Danger} {darkText.Medium.Danger}"
+                },
+                new TwNumericTheme
+                {
+                    Adornment = $"self-center whitespace-nowrap select-none {neutralText.Secondary}",
+                    Button = $"{display.InlineFlex} {flexbox.Align.Center} {flexbox.Justify.Center} {flexbox.ShrinkNone} {rounded.Md} {neutralText.Secondary} {neutralHoverText} {neutralHoverFill} {interaction.PointerCursor} {transition.ColorsFast} {focusRing} {interaction.FocusOutlineNone} disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent forced-colors:text-[ButtonText] forced-colors:disabled:text-[GrayText]",
+                    ButtonIcon = $"{typography.Size.Sm} leading-none"
                 },
                 new TwOnThisPageTheme
                 {

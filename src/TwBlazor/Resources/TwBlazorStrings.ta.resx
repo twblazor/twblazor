@@ -660,4 +660,16 @@
   <data name="Rating_ReadOnly" xml:space="preserve">
     <value>மதிப்பீடு {1} இல் {0}</value>
   </data>
+  <data name="Numeric_Increase" xml:space="preserve">
+    <value>மதிப்பை அதிகரி</value>
+  </data>
+  <data name="Numeric_Decrease" xml:space="preserve">
+    <value>மதிப்பைக் குறை</value>
+  </data>
+  <data name="Textfield_Clear" xml:space="preserve">
+    <value>மதிப்பை அழி</value>
+  </data>
+  <data name="Numeric_Invalid" xml:space="preserve">
+    <value>சரியான எண்ணை உள்ளிடவும்.</value>
+  </data>
 </root>

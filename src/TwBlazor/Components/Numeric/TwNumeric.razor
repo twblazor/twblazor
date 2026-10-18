@@ -1,0 +1,84 @@
+@typeparam T
+@inherits TwBlazorTextInputComponentBase
+@namespace TwBlazor.Components
+@using Microsoft.AspNetCore.Components.Rendering
+@using TwBlazor.Enums
+
+<TwInputRoot RootId="@RootId" RootClass="@RootClass" RootAttributes="@RootAttributes" RootStyle="@Style" RootAriaLabel="@AriaLabel" RootAriaLabelledBy="@AriaLabelledBy">
+    @if (!string.IsNullOrWhiteSpace(Label))
+    {
+        <TwInputLabel Id="@LabelId" For="@Id" Label="@Label" Class="@LabelClasses" @attributes="@LabelAttributes" />
+    }
+
+    <div data-tw-numeric>
+        <TwTextfield @ref="@textfield"
+                     T="string"
+                     Id="@Id"
+                     Value="@text"
+                     ValueChanged="@OnTextChangedAsync"
+                     BindEvent="@BindEvent"
+                     Class="@Class"
+                     Placeholder="@Placeholder"
+                     Required="@Required"
+                     Variant="@Variant"
+                     Dense="@Dense"
+                     ReadOnly="@ReadOnly"
+                     Disabled="@Disabled"
+                     Invalid="@effectiveInvalid"
+                     ErrorMessage="@effectiveErrorMessage"
+                     AriaLabel="@AriaLabel"
+                     AriaLabelledBy="@AriaLabelledBy"
+                     Clearable="@Clearable"
+                     OnClear="@ClearAsync"
+                     StartContent="@(hasPrefix ? RenderPrefix : null)"
+                     EndContent="@(hasSuffix || !HideSpinButtons ? RenderEnd : null)"
+                     OnFocus="@OnInputFocusAsync"
+                     OnBlur="@OnInputBlurAsync"
+                     OnClick="@OnClick"
+                     OnKeyDown="@OnInputKeyDownAsync"
+                     Attributes="@inputAttributes"
+                     RootAttributes="@textfieldRootAttributes" />
+    </div>
+</TwInputRoot>
+
+@code {
+    private void RenderPrefix(RenderTreeBuilder __builder)
+    {
+        <span class="@theme.Adornment" aria-hidden="true">@Prefix</span>
+    }
+
+    // Rendered straight into the text field's end row, so the suffix and each button are spaced by the row's gap.
+    private void RenderEnd(RenderTreeBuilder __builder)
+    {
+        @if (hasSuffix)
+        {
+            <span class="@theme.Adornment" style="@suffixStyle" aria-hidden="true">@Suffix</span>
+        }
+
+        @if (!HideSpinButtons)
+        {
+            <button type="button"
+                    class="@theme.Button"
+                    style="@buttonStyle"
+                    tabindex="-1"
+                    aria-label="@localizer[TwStrings.Numeric_Decrease]"
+                    aria-controls="@Id"
+                    disabled="@(!canDecrease)"
+                    data-tw-field-button
+                    @onclick="DecrementAsync">
+                <TwIcon Icon="Icon.Dash_Lg" Class="@theme.ButtonIcon" />
+            </button>
+            <button type="button"
+                    class="@theme.Button"
+                    style="@buttonStyle"
+                    tabindex="-1"
+                    aria-label="@localizer[TwStrings.Numeric_Increase]"
+                    aria-controls="@Id"
+                    disabled="@(!canIncrease)"
+                    data-tw-field-button
+                    @onclick="IncrementAsync">
+                <TwIcon Icon="Icon.Plus_Lg" Class="@theme.ButtonIcon" />
+            </button>
+        }
+    }
+}

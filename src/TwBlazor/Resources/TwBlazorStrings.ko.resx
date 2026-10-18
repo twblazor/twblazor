@@ -663,4 +663,16 @@
   <data name="Rating_ReadOnly" xml:space="preserve">
     <value>평점 {1}점 중 {0}점</value>
   </data>
+  <data name="Numeric_Increase" xml:space="preserve">
+    <value>값 늘리기</value>
+  </data>
+  <data name="Numeric_Decrease" xml:space="preserve">
+    <value>값 줄이기</value>
+  </data>
+  <data name="Textfield_Clear" xml:space="preserve">
+    <value>값 지우기</value>
+  </data>
+  <data name="Numeric_Invalid" xml:space="preserve">
+    <value>올바른 숫자를 입력하세요.</value>
+  </data>
 </root>

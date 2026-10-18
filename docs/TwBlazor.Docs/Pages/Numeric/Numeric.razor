@@ -1,0 +1,190 @@
+@page "/numeric"
+@using System.Globalization
+
+<PageContainer Title="TwNumeric" Path="/numeric" Beta Description="TwNumeric is a Blazor number input component. Bind any numeric type, set Min, Max and Step, format by culture, and add a prefix, suffix or clear button." ThemeType="typeof(TwNumericTheme)">
+    <PageCard Title="Basic usage">
+        <Description>Bind <code>Value</code> with <code>@@bind-Value</code>. The field is a <code>TwTextfield</code> with the <code>spinbutton</code> role, so screen readers announce its value and limits. Use the − and + buttons, Arrow Up and Arrow Down, or the mouse wheel while it has focus, to step the value.</Description>
+
+        <CodeExample Name="NumericBasic" CSharpName="NumericBasicCode">
+            <TwNumeric Label="Quantity" @bind-Value="quantity" />
+            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Quantity: <strong>@quantity</strong></p>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Numeric types">
+        <Description><code>T</code> can be any built-in integer type, <code>decimal</code>, <code>double</code> or <code>float</code>. Integer types only accept whole numbers, and the mobile keyboard matches: a number pad for integers, and one with a decimal separator otherwise.</Description>
+
+        <CodeExample Name="NumericTypes" CSharpName="NumericTypesCode">
+            <div class="grid gap-4 sm:grid-cols-3">
+                <TwNumeric T="int" Label="Seats (int)" @bind-Value="seats" />
+                <TwNumeric T="decimal" Label="Weight (decimal)" Step="0.1m" @bind-Value="weight" />
+                <TwNumeric T="double" Label="Ratio (double)" Step="0.05" @bind-Value="ratio" />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Min, max and step">
+        <Description><code>Min</code> and <code>Max</code> limit the value: a typed value outside them is moved to the nearest limit, stepping stops at them, and the − or + button is disabled once it is reached. <code>Step</code> sets how far one step goes, and Page Up and Page Down take ten steps at once.</Description>
+
+        <CodeExample Name="NumericMinMax" CSharpName="NumericMinMaxCode">
+            <div class="grid gap-4 sm:grid-cols-2">
+                <TwNumeric T="int" Label="Guests (1 to 8)" Min="1" Max="8" @bind-Value="guests" />
+                <TwNumeric T="int" Label="Volume (steps of 5)" Min="0" Max="100" Step="5" @bind-Value="volume" />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Formatting and culture">
+        <Description>Set <code>Format</code> to any .NET numeric format string, such as <code>N2</code> for two decimal places with thousands separators. The text is tidied into that format when it is committed. Typed text is parsed in <code>Culture</code>, which defaults to the culture set through <code>options.Localization</code>.</Description>
+
+        <CodeExample Name="NumericFormat" CSharpName="NumericFormatCode">
+            <div class="grid gap-4 sm:grid-cols-2">
+                <TwNumeric T="decimal" Label="Budget (N2)" Format="N2" Step="100m" @bind-Value="budget" />
+                <TwNumeric T="decimal" Label="Budget (German)" Format="N2" Step="100m" Culture="@german" @bind-Value="budget" />
+            </div>
+            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Value: <strong>@budget.ToString(CultureInfo.InvariantCulture)</strong></p>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Prefix and suffix">
+        <Description>Use <code>Prefix</code> and <code>Suffix</code> to show a currency symbol or a unit inside the field. They are not part of the value, and screen readers hear them with it through <code>aria-valuetext</code>, such as "£12.50" or "75 kg".</Description>
+
+        <CodeExample Name="NumericAdornments" CSharpName="NumericAdornmentsCode">
+            <div class="grid gap-4 sm:grid-cols-2">
+                <TwNumeric T="decimal" Label="Price" Prefix="£" Format="N2" Step="0.5m" Min="0m" @bind-Value="price" />
+                <TwNumeric T="int" Label="Weight" Suffix="kg" Min="0" Max="300" @bind-Value="bodyWeight" />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Nullable and clearable">
+        <Description>Use a nullable <code>T</code>, such as <code>int?</code>, to let the field be left empty: emptying it sets the value to <code>null</code>. <code>Clearable</code> shows the textfield's clear button, disabled while the field is empty so the buttons never shift under the pointer. Clearing a non-nullable value sets it to zero, kept within <code>Min</code> and <code>Max</code>.</Description>
+
+        <CodeExample Name="NumericNullable" CSharpName="NumericNullableCode">
+            <div class="grid gap-4 sm:grid-cols-2">
+                <TwNumeric T="int?" Label="Optional age" Placeholder="Not given" Min="0" Max="130" Clearable @bind-Value="age" />
+                <TwNumeric T="decimal" Label="Discount" Suffix="%" Min="0m" Max="100m" Clearable @bind-Value="discount" />
+            </div>
+            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Age: <strong>@(age?.ToString() ?? "null")</strong></p>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Spin buttons and mouse wheel">
+        <Description>Set <code>HideSpinButtons</code> to hide the − and + buttons; the keys and wheel still step the value. While the field has focus the mouse wheel steps it: scrolling up increases it, or decreases it with <code>InvertMouseWheel</code>. Set <code>DisableMouseWheel</code> to let the wheel scroll the page instead.</Description>
+
+        <CodeExample Name="NumericSpin" CSharpName="NumericSpinCode">
+            <div class="grid gap-4 sm:grid-cols-3">
+                <TwNumeric T="int" Label="No buttons" HideSpinButtons @bind-Value="spinValue" />
+                <TwNumeric T="int" Label="Inverted wheel" InvertMouseWheel @bind-Value="spinValue" />
+                <TwNumeric T="int" Label="Wheel disabled" DisableMouseWheel @bind-Value="spinValue" />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Update on input">
+        <Description>Typed text is committed when the field loses focus or Enter is pressed. Set <code>BindEvent="oninput"</code> to update the value on every keystroke instead. Text that is not a number is only flagged once the user leaves the field.</Description>
+
+        <CodeExample Name="NumericBindEvent" CSharpName="NumericBindEventCode">
+            <TwNumeric T="int" Label="Live total" BindEvent="oninput" @bind-Value="liveTotal" />
+            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Total: <strong>@liveTotal</strong></p>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Allowed characters">
+        <Description>Keys that cannot be part of a number are ignored: by default the digits, the culture's separators and, while <code>Min</code> is below zero, the minus sign. Set <code>Pattern</code> to a regular expression each typed character must match. Pasted text is parsed instead, and flagged when it is not a number.</Description>
+
+        <CodeExample Name="NumericPattern" CSharpName="NumericPatternCode">
+            <TwNumeric T="int" Label="PIN digits only" Pattern="[0-9]" Min="0" HideSpinButtons @bind-Value="pin" />
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Variants and dense">
+        <Description><code>Variant</code> and <code>Dense</code> work exactly as they do on <code>TwTextfield</code>, so a numeric field lines up with the other inputs.</Description>
+
+        <CodeExample Name="NumericVariants" CSharpName="NumericVariantsCode">
+            <div class="grid gap-4 sm:grid-cols-3">
+                <TwNumeric T="int" Label="Default" Variant="InputVariant.Default" @bind-Value="variantValue" />
+                <TwNumeric T="int" Label="Outlined" Variant="InputVariant.Outlined" @bind-Value="variantValue" />
+                <TwNumeric T="int" Label="Filled" Variant="InputVariant.Filled" Dense @bind-Value="variantValue" />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Disabled and readonly">
+        <Description><code>Disabled</code> dims the field and its buttons. <code>ReadOnly</code> keeps the value readable and focusable, but it cannot be stepped or typed over.</Description>
+
+        <CodeExample Name="NumericDisabledReadonly">
+            <div class="grid gap-4 sm:grid-cols-2">
+                <TwNumeric T="int" Label="Disabled" Value="12" Disabled />
+                <TwNumeric T="int" Label="Readonly" Value="12" ReadOnly />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Validation">
+        <Description>Validation works as it does on <code>TwTextfield</code>: pass a <code>Validator</code> that returns an error message, or <code>null</code> when the value is valid, or set <code>Invalid</code> and <code>ErrorMessage</code> yourself. Text that is not a number shows "Enter a valid number." The message is tied to the field with <code>aria-describedby</code>, so screen readers read it with the field.</Description>
+
+        <CodeExample Name="NumericValidation" CSharpName="NumericValidationCode">
+            <div class="grid gap-4 sm:grid-cols-2">
+                <TwNumeric T="int?" Label="Even number" Required Validator="ValidateEven" @bind-Value="evenNumber" />
+                <TwNumeric T="int" Label="Tickets" Invalid="@(tickets > 4)" ErrorMessage="You can buy up to 4 tickets." @bind-Value="tickets" />
+            </div>
+        </CodeExample>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample NumericBasicCode
+    private int quantity = 1;
+    #endregion
+
+    #region CodeExample NumericTypesCode
+    private int seats = 2;
+    private decimal weight = 1.5m;
+    private double ratio = 0.25;
+    #endregion
+
+    #region CodeExample NumericMinMaxCode
+    private int guests = 2;
+    private int volume = 50;
+    #endregion
+
+    #region CodeExample NumericFormatCode
+    private decimal budget = 1250m;
+    private readonly CultureInfo german = CultureInfo.GetCultureInfo("de-DE");
+    #endregion
+
+    #region CodeExample NumericAdornmentsCode
+    private decimal price = 12.5m;
+    private int bodyWeight = 75;
+    #endregion
+
+    #region CodeExample NumericNullableCode
+    private int? age;
+    private decimal discount = 10m;
+    #endregion
+
+    #region CodeExample NumericSpinCode
+    private int spinValue = 3;
+    #endregion
+
+    #region CodeExample NumericBindEventCode
+    private int liveTotal;
+    #endregion
+
+    #region CodeExample NumericPatternCode
+    private int pin;
+    #endregion
+
+    #region CodeExample NumericVariantsCode
+    private int variantValue = 7;
+    #endregion
+
+    #region CodeExample NumericValidationCode
+    private int? evenNumber;
+    private int tickets = 5;
+
+    private static Task<string?> ValidateEven(int? value) =>
+        Task.FromResult<string?>(value is int number && number % 2 != 0 ? "Enter an even number." : null);
+    #endregion
+}
