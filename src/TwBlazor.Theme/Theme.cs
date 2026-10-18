@@ -1125,6 +1125,18 @@ public static class Theme
                     Button = $"{display.InlineFlex} {flexbox.Align.Center} {flexbox.Justify.Center} {flexbox.ShrinkNone} {rounded.Md} {neutralText.Secondary} {neutralHoverText} {neutralHoverFill} {interaction.PointerCursor} {transition.ColorsFast} {focusRing} {interaction.FocusOutlineNone} disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent forced-colors:text-[ButtonText] forced-colors:disabled:text-[GrayText]",
                     ButtonIcon = $"{typography.Size.Sm} leading-none"
                 },
+                new TwMenuTheme
+                {
+                    Root = $"{positioning.Relative} {display.InlineFlex}",
+                    Panel = $"z-50 min-w-48 max-w-xs overflow-y-auto {rounded.Lg} {borderWidth.Thin} {neutralSurface.Border} {neutralSurface.Background} shadow-lg py-1 {interaction.FocusOutlineNone}",
+                    Item = $"{display.Flex} {sizing.FullWidth} {flexbox.Align.Center} {spacing.Gap.Sm} px-3 py-2 text-start {typography.Size.Sm} {neutralText.Heading} {neutralRowHover} focus-visible:bg-[oklch(21%_0.006_285.885)]/5 dark:focus-visible:bg-[oklch(97.807%_0.029_256.847)]/8 {interaction.PointerCursor} {transition.ColorsFast} {interaction.FocusOutlineNone} {focusRingInset}",
+                    ItemDisabled = $"{interaction.DisabledOpacity} {interaction.DisabledCursor}",
+                    ItemIcon = $"{typography.Size.Base} {flexbox.ShrinkNone} {neutralText.Subtle}",
+                    CheckIcon = $"{typography.Size.Base} {flexbox.ShrinkNone} text-purple-600 dark:text-purple-300",
+                    CheckIconHidden = "invisible",
+                    Divider = $"my-1 border-t {neutralSurface.Border}",
+                    GroupLabel = $"px-3 pt-2 pb-1 {typography.Size.Xs} {typography.Weight.Semibold} {neutralText.Muted}"
+                },
                 new TwOnThisPageTheme
                 {
                     Title = $"{spacing.MarginBottom.Lg} {typography.Weight.Semibold} {neutralText.Heading}",

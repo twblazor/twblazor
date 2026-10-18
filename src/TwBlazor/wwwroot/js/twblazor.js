@@ -1877,6 +1877,105 @@ globalThis.twTable = {
     }
 };
 
+// Menu (TwMenu): positions the open menu against its button and moves focus between its items, following the ARIA
+// menu button pattern. Escape and clicks outside are handled by twPicker.registerOutsideClick and the shared Escape
+// stack; choosing an item is a click on its <button>, handled in .NET.
+globalThis.twMenu = {
+    _itemSelector: '[role="menuitem"], [role="menuitemcheckbox"], [role="menuitemradio"]',
+
+    _items: function (menu) {
+        return Array.from(menu.querySelectorAll(globalThis.twMenu._itemSelector)).filter(function (item) {
+            return item.getAttribute('aria-disabled') !== 'true' && !item.hidden;
+        });
+    },
+
+    _text: function (item) {
+        return (item.textContent || '').trim().toLowerCase();
+    },
+
+    // Moves focus to the next item whose text starts with the typed character, after the focused one and wrapping.
+    _typeahead: function (items, current, character) {
+        const start = items.indexOf(current);
+        for (let offset = 1; offset <= items.length; offset++) {
+            const item = items[(start + offset) % items.length];
+            if (globalThis.twMenu._text(item).startsWith(character)) return item;
+        }
+        return null;
+    },
+
+    focus: function (el) {
+        if (!el) return;
+        const target = el.matches?.('button, [tabindex]') ? el : el.querySelector('button, [tabindex]');
+        target?.focus();
+    },
+
+    open: function (menu, anchor, dotnetRef, focusWhich) {
+        if (!menu) return;
+
+        // Fixed positioning keeps the menu clear of a scrolling container such as a table. On desktop a page scroll
+        // closes it; on touch devices it follows its button instead.
+        if (anchor) {
+            globalThis.twPicker.registerScrollReposition(anchor, menu, false, dotnetRef);
+        }
+
+        if (!menu.__twMenuKeyDown) {
+            const onKeyDown = function (e) {
+                const items = globalThis.twMenu._items(menu);
+                if (items.length === 0) return;
+                const current = items.indexOf(document.activeElement);
+                let target = null;
+
+                switch (e.key) {
+                    case 'ArrowDown':
+                        target = items[(current + 1) % items.length];
+                        break;
+                    case 'ArrowUp':
+                        target = items[(current - 1 + items.length) % items.length];
+                        break;
+                    case 'Home':
+                        target = items[0];
+                        break;
+                    case 'End':
+                        target = items[items.length - 1];
+                        break;
+                    case 'Tab':
+                        // Tab leaves the menu: close it and let the browser carry focus on.
+                        if (dotnetRef) void globalThis.twPicker._invokeSafely(dotnetRef, 'CloseFromTab');
+                        return;
+                    case ' ':
+                        // A menu item is a <button>, so Space clicks it; this only stops the page scrolling.
+                        return;
+                    default:
+                        if (e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey && e.key.trim() !== '') {
+                            target = globalThis.twMenu._typeahead(items, items[current] ?? null, e.key.toLowerCase());
+                            if (!target) return;
+                        } else {
+                            return;
+                        }
+                }
+
+                e.preventDefault();
+                target?.focus();
+            };
+            menu.addEventListener('keydown', onKeyDown);
+            menu.__twMenuKeyDown = onKeyDown;
+        }
+
+        const items = globalThis.twMenu._items(menu);
+        const first = focusWhich === 'last' ? items[items.length - 1] : items[0];
+        (first ?? menu).focus();
+    },
+
+    close: function (menu) {
+        if (!menu) return;
+        globalThis.twPicker.unregisterScrollReposition(menu);
+        if (menu.__twMenuKeyDown) {
+            menu.removeEventListener('keydown', menu.__twMenuKeyDown);
+            delete menu.__twMenuKeyDown;
+        }
+    }
+};
+
 // On this page: marks the link to the section currently being read with aria-current="location".
 globalThis.twOnThisPage = {
     _stops: new Map(),

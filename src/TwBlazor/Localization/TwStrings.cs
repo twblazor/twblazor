@@ -831,4 +831,7 @@ public static class TwStrings
 
     /// <summary>The key for the optional .NET format string the date time pickers type and parse (for example dd.MM.yyyy HH:mm).</summary>
     public const string Format_DateTimeInput = "Format_DateTimeInput";
+
+    /// <summary>The key for "Options".</summary>
+    public const string Menu_Options = "Menu_Options";
 }

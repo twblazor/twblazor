@@ -1,0 +1,18 @@
+﻿@namespace TwBlazor.Components
+@inherits TwBlazorComponentBase
+
+<button type="button"
+        id="@Id"
+        role="menuitemcheckbox"
+        tabindex="-1"
+        class="@itemClasses"
+        style="@Style"
+        aria-checked="@(Checked ? "true" : "false")"
+        aria-disabled="@(Disabled ? "true" : null)"
+        aria-label="@AriaLabel"
+        aria-labelledby="@AriaLabelledBy"
+        @onclick="@ToggleAsync"
+        @attributes="Attributes">
+    <TwIcon Icon="TwBlazor.Enums.Icon.Check2" Class="@checkClasses" />
+    <span>@if (ChildContent != null) { @ChildContent } else { @Label }</span>
+</button>

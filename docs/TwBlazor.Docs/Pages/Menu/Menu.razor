@@ -1,0 +1,105 @@
+@page "/menu"
+
+<PageContainer Title="TwMenu" Path="/menu" Beta Description="TwMenu is a Blazor menu button component that opens a keyboard friendly menu of actions, tick options and labelled groups." ThemeType="typeof(TwMenuTheme)">
+    <PageCard Title="Basic menu">
+        <Description>Put <code>TwMenuItem</code>s in a <code>TwMenu</code>. Choosing an item runs its <code>OnClick</code>, closes the menu and returns focus to the button. The button tells screen readers that it opens a menu and whether the menu is open.</Description>
+
+        <CodeExample Name="MenuBasic" CSharpName="MenuBasicCode">
+            <TwMenu Id="basic-menu" Label="Actions" Icon="Icon.Three_Dots_Vertical">
+                <TwMenuItem Label="Edit" StartIcon="Icon.Pencil" OnClick="@(() => lastAction = "Edit")" />
+                <TwMenuItem Label="Duplicate" StartIcon="Icon.Copy" OnClick="@(() => lastAction = "Duplicate")" />
+                <TwMenuItem Label="Archive" StartIcon="Icon.Archive" OnClick="@(() => lastAction = "Archive")" />
+            </TwMenu>
+            <p class="mt-3" role="status">@(lastAction is null ? "Nothing chosen yet." : $"You chose {lastAction}.")</p>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Icon only button">
+        <Description>Set <code>IconOnly</code> to show just the <code>Icon</code>. Give it an <code>AriaLabel</code>, which names the button for screen readers and shows as its tooltip; without one it is called "Options".</Description>
+
+        <CodeExample Name="MenuIconOnly">
+            <TwMenu Id="icon-menu" Icon="Icon.Three_Dots_Vertical" IconOnly AriaLabel="Row options">
+                <TwMenuItem Label="Open" />
+                <TwMenuItem Label="Share" />
+                <TwMenuItem Label="Delete" />
+            </TwMenu>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Options that can be ticked">
+        <Description>
+            A <code>TwMenuCheckboxItem</code> is an option that is on or off. Bind <code>@@bind-Checked</code>. Choosing it flips the tick and leaves the menu open, so several options can be changed in a row; set <code>CloseOnClick</code> to close it instead. Screen readers announce each option as ticked or not.
+        </Description>
+
+        <CodeExample Name="MenuCheckbox" CSharpName="MenuCheckboxCode">
+            <TwMenu Id="checkbox-menu" Label="View" Icon="Icon.Eye">
+                <TwMenuCheckboxItem Label="Show grid" @bind-Checked="showGrid" />
+                <TwMenuCheckboxItem Label="Show rulers" @bind-Checked="showRulers" />
+                <TwMenuCheckboxItem Label="Snap to grid" @bind-Checked="snapToGrid" Disabled="@(!showGrid)" />
+            </TwMenu>
+            <p class="mt-3">Grid @(showGrid ? "on" : "off"), rulers @(showRulers ? "on" : "off"), snapping @(snapToGrid ? "on" : "off").</p>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Groups and dividers">
+        <Description>Use <code>TwMenuGroup</code> to put items under a heading, which screen readers read as the group's name, and <code>TwMenuDivider</code> for a line between items. The arrow keys pass over both. A <code>Disabled</code> item is skipped and cannot be chosen.</Description>
+
+        <CodeExample Name="MenuGroups">
+            <TwMenu Id="group-menu" Label="Column options" Icon="Icon.Layout_Three_Columns">
+                <TwMenuGroup Label="Sort">
+                    <TwMenuItem Label="Sort ascending" StartIcon="Icon.Sort_Up" />
+                    <TwMenuItem Label="Sort descending" StartIcon="Icon.Sort_Down" />
+                </TwMenuGroup>
+                <TwMenuDivider />
+                <TwMenuGroup Label="Column">
+                    <TwMenuItem Label="Move left" StartIcon="Icon.Arrow_Left" Disabled />
+                    <TwMenuItem Label="Move right" StartIcon="Icon.Arrow_Right" />
+                    <TwMenuItem Label="Hide column" StartIcon="Icon.Eye_Slash" />
+                </TwMenuGroup>
+            </TwMenu>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Inside a scrolling container">
+        <Description>The menu is placed with fixed positioning, so it is not clipped by a container that scrolls, such as a table, and it flips above its button or towards the start when there is no room. Scrolling the page closes it on desktop.</Description>
+
+        <CodeExample Name="MenuInTable">
+            <TwTable Id="menu-table" AriaLabel="Files" MaxHeight="12rem">
+                <TableHeader>
+                    <tr>
+                        <th scope="col" class="px-6 py-3">File</th>
+                        <th scope="col" class="px-6 py-3"><span class="sr-only">Actions</span></th>
+                    </tr>
+                </TableHeader>
+                <TableBody>
+                    @foreach (var file in _files)
+                    {
+                        <tr>
+                            <td class="px-6 py-3">@file</td>
+                            <td class="px-6 py-3 text-end">
+                                <TwMenu Id="@($"file-menu-{file.Replace('.', '-')}")" Icon="Icon.Three_Dots_Vertical" IconOnly AriaLabel="@($"{file} options")">
+                                    <TwMenuItem Label="Download" StartIcon="Icon.Download" />
+                                    <TwMenuItem Label="Rename" StartIcon="Icon.Pencil" />
+                                </TwMenu>
+                            </td>
+                        </tr>
+                    }
+                </TableBody>
+            </TwTable>
+        </CodeExample>
+    </PageCard>
+</PageContainer>
+
+@code {
+    private static readonly string[] _files = ["report.pdf", "budget.xlsx", "notes.txt", "logo.svg"];
+
+    #region CodeExample MenuBasicCode
+    private string? lastAction;
+    #endregion
+
+    #region CodeExample MenuCheckboxCode
+    private bool showGrid = true;
+    private bool showRulers;
+    private bool snapToGrid;
+    #endregion
+}

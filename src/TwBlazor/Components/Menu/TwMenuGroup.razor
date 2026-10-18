@@ -1,0 +1,10 @@
+﻿@namespace TwBlazor.Components
+@inherits TwBlazorComponentBase
+
+<div id="@Id" role="group" class="@Class" style="@Style" aria-label="@AriaLabel" aria-labelledby="@(AriaLabelledBy ?? (string.IsNullOrEmpty(Label) ? null : labelId))" @attributes="Attributes">
+    @if (!string.IsNullOrEmpty(Label))
+    {
+        <div id="@labelId" role="presentation" class="@theme.GroupLabel">@Label</div>
+    }
+    @ChildContent
+</div>

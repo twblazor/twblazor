@@ -801,4 +801,7 @@
   <data name="Table_ColumnWidthValue" xml:space="preserve">
     <value>{0} ピクセル</value>
   </data>
+  <data name="Menu_Options" xml:space="preserve">
+    <value>オプション</value>
+  </data>
 </root>

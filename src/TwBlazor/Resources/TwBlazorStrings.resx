@@ -991,4 +991,8 @@
     <value>{0} pixels</value>
     <comment>{0} = a column's width in pixels. Read out for a column's resize border.</comment>
   </data>
+  <data name="Menu_Options" xml:space="preserve">
+    <value>Options</value>
+    <comment>The name of an icon only button that opens a menu, when the app gives it no name of its own.</comment>
+  </data>
 </root>

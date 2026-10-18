@@ -213,6 +213,18 @@ internal static class KeyboardShortcuts
             Key("Moves to the next or previous link.", tab, shiftTab),
             Key("Follows the focused link. A link that opens in a new tab says so before you follow it.", enter)),
 
+        ["/menu"] = Guide(
+            "The button tells screen readers that it opens a menu and whether the menu is open. The menu follows the ARIA menu pattern: one item has focus at a time, and the arrow keys move between them.",
+            Key("Moves focus to the menu's button.", tab),
+            Key("On the button: opens the menu with focus on its first item.", enter, space, down),
+            Key("On the button: opens the menu with focus on its last item.", up),
+            Key("In the menu: moves to the next or previous item, wrapping round at either end. Disabled items are skipped.", down, up),
+            Key("In the menu: moves to the first or last item.", home, end),
+            Key("In the menu: moves to the next item that starts with the typed letter.", "A to Z"),
+            Key("In the menu: chooses the focused item. An action closes the menu and returns focus to the button; a tick option flips and the menu stays open.", enter, space),
+            Key("Closes the menu and returns focus to the button.", escape),
+            Key("Closes the menu and moves focus on.", tab)),
+
         ["/navbar"] = Guide(
             "The navbar is a navigation landmark holding ordinary links. On a narrow screen the links sit behind a menu button.",
             Key("Moves to the next link or button.", tab),

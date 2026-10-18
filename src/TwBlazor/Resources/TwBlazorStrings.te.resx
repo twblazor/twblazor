@@ -795,4 +795,7 @@
   <data name="Table_ColumnWidthValue" xml:space="preserve">
     <value>{0} పిక్సెల్‌లు</value>
   </data>
+  <data name="Menu_Options" xml:space="preserve">
+    <value>ఎంపికలు</value>
+  </data>
 </root>

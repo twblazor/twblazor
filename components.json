@@ -38,6 +38,14 @@
         "theme": "TwFooterTheme"
       },
       {
+        "id": "menu-navitem",
+        "display": "Menu",
+        "name": "TwMenu",
+        "url": "/menu",
+        "isNew": true,
+        "theme": "TwMenuTheme"
+      },
+      {
         "id": "navbar-navitem",
         "display": "Navbar",
         "name": "TwNavbar",
