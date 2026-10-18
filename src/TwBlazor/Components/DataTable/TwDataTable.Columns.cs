@@ -363,8 +363,13 @@ public partial class TwDataTable<TItem> : IAsyncDisposable
         }
 
         selfReference?.Dispose();
-        loadCancellation?.Cancel();
-        loadCancellation?.Dispose();
+
+        if (loadCancellation is not null)
+        {
+            await loadCancellation.CancelAsync();
+            loadCancellation.Dispose();
+        }
+
         GC.SuppressFinalize(this);
     }
 }

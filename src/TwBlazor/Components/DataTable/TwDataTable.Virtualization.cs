@@ -90,7 +90,7 @@ public partial class TwDataTable<TItem>
     private bool effectiveStickyHeader => StickyHeader || isVirtualized;
 
     // The header row is row 1, so data rows start at 2.
-    private int virtualRowCount => (usesProvider ? providerTotalCount : isGrouped ? lines.Count : viewItems.Count) + 1;
+    private int virtualRowCount => VirtualDataRowCount() + 1;
 
     private Dictionary<string, object> effectiveTableAttributes
     {
@@ -110,6 +110,16 @@ public partial class TwDataTable<TItem>
     }
 
     private string effectiveLoadingText => localizer[TwStrings.DataTable_Loading];
+
+    private int VirtualDataRowCount()
+    {
+        if (usesProvider)
+        {
+            return providerTotalCount;
+        }
+
+        return isGrouped ? lines.Count : viewItems.Count;
+    }
 
     private static string RowIndex(int index) => (index + 2).ToString(CultureInfo.InvariantCulture);
 
@@ -217,8 +227,12 @@ public partial class TwDataTable<TItem>
 
     private async Task LoadPageAsync()
     {
-        loadCancellation?.Cancel();
-        loadCancellation?.Dispose();
+        if (loadCancellation is not null)
+        {
+            await loadCancellation.CancelAsync();
+            loadCancellation.Dispose();
+        }
+
         loadCancellation = new CancellationTokenSource();
         var token = loadCancellation.Token;
 

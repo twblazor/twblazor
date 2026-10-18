@@ -379,7 +379,7 @@
     private readonly List<Order> orders = [.. Enumerable.Range(1, 10_000).Select(i => new Order(
         i,
         $"Customer {(i * 37) % 900 + 1}",
-        new DateTime(2026, 1, 1).AddHours(i * 7),
+        new DateTime(2026, 1, 1, 0, 0, 0, DateTimeKind.Local).AddHours(i * 7),
         Math.Round(5 + (i * 7919 % 50_000) / 100m, 2)))];
 
     private readonly List<TwDataTableColumn<Order>> _orderColumns = new()
