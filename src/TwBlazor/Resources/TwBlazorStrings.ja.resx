@@ -714,4 +714,16 @@
   <data name="DataTable_ColumnResized" xml:space="preserve">
     <value>{0} の幅は {1} ピクセルです</value>
   </data>
+  <data name="DataTable_ExportCsv" xml:space="preserve">
+    <value>CSV をエクスポート</value>
+  </data>
+  <data name="DataTable_ExportExcel" xml:space="preserve">
+    <value>Excel をエクスポート</value>
+  </data>
+  <data name="DataTable_ExportedOne" xml:space="preserve">
+    <value>{0} 行をエクスポートしました</value>
+  </data>
+  <data name="DataTable_ExportedOther" xml:space="preserve">
+    <value>{0} 行をエクスポートしました</value>
+  </data>
 </root>

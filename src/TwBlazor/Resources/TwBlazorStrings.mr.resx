@@ -708,4 +708,16 @@
   <data name="DataTable_ColumnResized" xml:space="preserve">
     <value>{0} ची रुंदी {1} पिक्सेल आहे</value>
   </data>
+  <data name="DataTable_ExportCsv" xml:space="preserve">
+    <value>CSV निर्यात करा</value>
+  </data>
+  <data name="DataTable_ExportExcel" xml:space="preserve">
+    <value>Excel निर्यात करा</value>
+  </data>
+  <data name="DataTable_ExportedOne" xml:space="preserve">
+    <value>{0} ओळ निर्यात केली</value>
+  </data>
+  <data name="DataTable_ExportedOther" xml:space="preserve">
+    <value>{0} ओळी निर्यात केल्या</value>
+  </data>
 </root>

@@ -711,4 +711,16 @@
   <data name="DataTable_ColumnResized" xml:space="preserve">
     <value>「{0}」寬 {1} 像素</value>
   </data>
+  <data name="DataTable_ExportCsv" xml:space="preserve">
+    <value>匯出 CSV</value>
+  </data>
+  <data name="DataTable_ExportExcel" xml:space="preserve">
+    <value>匯出 Excel</value>
+  </data>
+  <data name="DataTable_ExportedOne" xml:space="preserve">
+    <value>已匯出 {0} 列</value>
+  </data>
+  <data name="DataTable_ExportedOther" xml:space="preserve">
+    <value>已匯出 {0} 列</value>
+  </data>
 </root>

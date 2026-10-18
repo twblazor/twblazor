@@ -79,6 +79,33 @@ describe('twDataTable', () => {
         });
     });
 
+    describe('download', () => {
+        test('saves the streamed bytes as a file and frees the object URL afterwards', async () => {
+            vi.useFakeTimers();
+            URL.createObjectURL = vi.fn(() => 'blob:export');
+            URL.revokeObjectURL = vi.fn();
+            const clicked = [];
+            vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(function () {
+                clicked.push({ href: this.href, download: this.download, attached: document.body.contains(this) });
+            });
+            const streamReference = { arrayBuffer: vi.fn(async () => new Uint8Array([1, 2, 3]).buffer) };
+
+            await globalThis.twDataTable.download('orders.csv', 'text/csv', streamReference);
+
+            expect(clicked).toEqual([{ href: 'blob:export', download: 'orders.csv', attached: true }]);
+            expect(document.querySelector('a')).toBeNull();
+            const blob = URL.createObjectURL.mock.calls[0][0];
+            expect(blob.type).toBe('text/csv');
+            expect(blob.size).toBe(3);
+            expect(URL.revokeObjectURL).not.toHaveBeenCalled();
+
+            vi.runAllTimers();
+
+            expect(URL.revokeObjectURL).toHaveBeenCalledWith('blob:export');
+            vi.useRealTimers();
+        });
+    });
+
     describe('measureColumn', () => {
         test('measures the header cell that lines up with the column', () => {
             const root = buildTable(['name', 'price'], [180.4, 96]);

@@ -194,6 +194,29 @@
         </CodeExample>
     </PageCard>
 
+    <PageCard Title="Exporting to CSV and Excel">
+        <Description>
+            Set <code>Exportable</code> to add Export CSV and Export Excel buttons. An export holds the columns on screen in their current order, and by default every row that matches the search in its current sort, across all pages. Change that with <code>ExportScope</code>, or pick the buttons with <code>ExportFormats</code>. The Excel file keeps numbers, dates and true or false values as their own types, so they can be summed and filtered. Give a column an <code>ExportFormatter</code> to write a different value from the one on screen, or set <code>Exportable = false</code> to leave it out. Text that a spreadsheet would run as a formula is escaped.
+        </Description>
+
+        <CodeExample Name="DataTableExport" CSharpName="DataTableExportColumns">
+            <TwDataTable TItem="Product"
+                         Id="export-table"
+                         Items="@products"
+                         Columns="@_exportColumns"
+                         Exportable
+                         ExportFileName="products"
+                         Searchable
+                         RowsPerPage="5"
+                         AriaLabel="Products you can export" />
+        </CodeExample>
+
+        <p class="mt-4 mb-2">
+            To build the file yourself, call <code>GetCsv</code> or <code>GetExcel</code> on the table, or use <code>TwDataTableExport</code> with any rows and columns, for example to send a report from the server.
+        </p>
+        <TwCodeBlock Content="@exportServerExample" Language="csharp" />
+    </PageCard>
+
     <PageCard Title="Saving the table's state">
         <Description>
             Give the table a <code>StateStorageKey</code> and it remembers its sort, search, page, page size and columns in the browser, so it comes back the way the person left it. Sort or hide a column below, then reload the page. <code>ResetStateAsync</code> puts it back to how the parameters define it.
@@ -298,6 +321,22 @@
         new TwDataTableColumn<Product> { Name = "stock", Title = "Stock", PropertySelector = p => p.Stock, IsSortable = true, Visible = false }
     };
     #endregion
+
+    #region CodeExample DataTableExportColumns
+    private readonly List<TwDataTableColumn<Product>> _exportColumns = new()
+    {
+        new TwDataTableColumn<Product> { Name = "name", Title = "Product Name", PropertySelector = p => p.Name, IsSortable = true },
+        new TwDataTableColumn<Product> { Name = "category", Title = "Category", PropertySelector = p => p.Category },
+        // On screen the price reads "£2,999.00"; the export keeps the number so a spreadsheet can total it.
+        new TwDataTableColumn<Product> { Name = "price", Title = "Price", PropertySelector = p => p.Price, IsSortable = true, CellFormatter = p => $"£{p.Price:N2}" },
+        new TwDataTableColumn<Product> { Name = "stock", Title = "Stock", PropertySelector = p => p.Stock, ExportFormatter = p => p.Stock < 10 ? "Low" : "In stock" }
+    };
+    #endregion
+
+    private const string exportServerExample = """
+        byte[] workbook = TwDataTableExport.ToExcel(orders, columns, sheetName: "Orders");
+        string csv = TwDataTableExport.ToCsv(orders, columns);
+        """;
 
     #region CodeExample DataTableStateStorageCode
     private TwDataTable<Product>? storedTable;

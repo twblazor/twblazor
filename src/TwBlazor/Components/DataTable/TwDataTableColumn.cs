@@ -55,6 +55,19 @@ public class TwDataTableColumn<TItem>
     public bool Resizable { get; set; } = true;
 
     /// <summary>
+    /// Gets or sets whether the column is included when the table is exported to CSV or Excel. Defaults to
+    /// <c>true</c>. Set it to <c>false</c> for a column of buttons or other content that only makes sense on screen.
+    /// </summary>
+    public bool Exportable { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets the value written for the column when the table is exported, in place of
+    /// <see cref="PropertySelector"/>. Return a number, date or <see cref="bool"/> to keep its type in Excel, or a
+    /// string for text.
+    /// </summary>
+    public Func<TItem, object?>? ExportFormatter { get; set; }
+
+    /// <summary>
     /// Gets or sets additional CSS classes for the header cell.
     /// </summary>
     public string? HeaderClass { get; set; }

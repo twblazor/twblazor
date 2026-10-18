@@ -708,4 +708,16 @@
   <data name="DataTable_ColumnResized" xml:space="preserve">
     <value>{0} এর প্রস্থ {1} পিক্সেল</value>
   </data>
+  <data name="DataTable_ExportCsv" xml:space="preserve">
+    <value>CSV রপ্তানি করুন</value>
+  </data>
+  <data name="DataTable_ExportExcel" xml:space="preserve">
+    <value>Excel রপ্তানি করুন</value>
+  </data>
+  <data name="DataTable_ExportedOne" xml:space="preserve">
+    <value>{0}টি সারি রপ্তানি হয়েছে</value>
+  </data>
+  <data name="DataTable_ExportedOther" xml:space="preserve">
+    <value>{0}টি সারি রপ্তানি হয়েছে</value>
+  </data>
 </root>

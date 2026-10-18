@@ -714,4 +714,16 @@
   <data name="DataTable_ColumnResized" xml:space="preserve">
     <value>عرض {0} هو {1} بكسل</value>
   </data>
+  <data name="DataTable_ExportCsv" xml:space="preserve">
+    <value>تصدير CSV</value>
+  </data>
+  <data name="DataTable_ExportExcel" xml:space="preserve">
+    <value>تصدير Excel</value>
+  </data>
+  <data name="DataTable_ExportedOne" xml:space="preserve">
+    <value>تم تصدير {0} صف</value>
+  </data>
+  <data name="DataTable_ExportedOther" xml:space="preserve">
+    <value>تم تصدير {0} صفوف</value>
+  </data>
 </root>

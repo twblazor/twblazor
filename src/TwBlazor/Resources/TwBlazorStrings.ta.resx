@@ -708,4 +708,16 @@
   <data name="DataTable_ColumnResized" xml:space="preserve">
     <value>{0} இன் அகலம் {1} பிக்சல்கள்</value>
   </data>
+  <data name="DataTable_ExportCsv" xml:space="preserve">
+    <value>CSV ஏற்றுமதி</value>
+  </data>
+  <data name="DataTable_ExportExcel" xml:space="preserve">
+    <value>Excel ஏற்றுமதி</value>
+  </data>
+  <data name="DataTable_ExportedOne" xml:space="preserve">
+    <value>{0} வரிசை ஏற்றுமதி செய்யப்பட்டது</value>
+  </data>
+  <data name="DataTable_ExportedOther" xml:space="preserve">
+    <value>{0} வரிசைகள் ஏற்றுமதி செய்யப்பட்டன</value>
+  </data>
 </root>

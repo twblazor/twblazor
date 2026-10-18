@@ -253,7 +253,7 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
 
     private bool hasColumns => Columns is { Count: > 0 };
 
-    private bool showToolbar => Searchable || showColumnPanelButton;
+    private bool showToolbar => Searchable || showColumnPanelButton || showExportButtons;
 
     // The empty row has to cross every column. Without column definitions the count is unknown, and a colspan
     // larger than the table is harmless.
