@@ -672,4 +672,40 @@
   <data name="Numeric_Invalid" xml:space="preserve">
     <value>Lebokna angka sing sah.</value>
   </data>
+  <data name="DataTable_NoData" xml:space="preserve">
+    <value>Ora ana data.</value>
+  </data>
+  <data name="DataTable_Columns" xml:space="preserve">
+    <value>Kolom</value>
+  </data>
+  <data name="DataTable_ResetColumns" xml:space="preserve">
+    <value>Baleni kolom</value>
+  </data>
+  <data name="DataTable_ColumnsReset" xml:space="preserve">
+    <value>Kolom wis dibaleni</value>
+  </data>
+  <data name="DataTable_ColumnShown" xml:space="preserve">
+    <value>Kolom {0} ditampilake</value>
+  </data>
+  <data name="DataTable_ColumnHidden" xml:space="preserve">
+    <value>Kolom {0} didhelikake</value>
+  </data>
+  <data name="DataTable_MoveColumnUp" xml:space="preserve">
+    <value>Pindhah {0} munggah</value>
+  </data>
+  <data name="DataTable_MoveColumnDown" xml:space="preserve">
+    <value>Pindhah {0} mudhun</value>
+  </data>
+  <data name="DataTable_ColumnMoved" xml:space="preserve">
+    <value>{0} dipindhah menyang posisi {1} saka {2}</value>
+  </data>
+  <data name="DataTable_NarrowColumn" xml:space="preserve">
+    <value>Ciutake {0}</value>
+  </data>
+  <data name="DataTable_WidenColumn" xml:space="preserve">
+    <value>Ambakake {0}</value>
+  </data>
+  <data name="DataTable_ColumnResized" xml:space="preserve">
+    <value>Ambane {0} yaiku {1} piksel</value>
+  </data>
 </root>

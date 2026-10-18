@@ -678,4 +678,40 @@
   <data name="Numeric_Invalid" xml:space="preserve">
     <value>有効な数値を入力してください。</value>
   </data>
+  <data name="DataTable_NoData" xml:space="preserve">
+    <value>データがありません。</value>
+  </data>
+  <data name="DataTable_Columns" xml:space="preserve">
+    <value>列</value>
+  </data>
+  <data name="DataTable_ResetColumns" xml:space="preserve">
+    <value>列をリセット</value>
+  </data>
+  <data name="DataTable_ColumnsReset" xml:space="preserve">
+    <value>列をリセットしました</value>
+  </data>
+  <data name="DataTable_ColumnShown" xml:space="preserve">
+    <value>{0} 列を表示しました</value>
+  </data>
+  <data name="DataTable_ColumnHidden" xml:space="preserve">
+    <value>{0} 列を非表示にしました</value>
+  </data>
+  <data name="DataTable_MoveColumnUp" xml:space="preserve">
+    <value>{0} を上へ移動</value>
+  </data>
+  <data name="DataTable_MoveColumnDown" xml:space="preserve">
+    <value>{0} を下へ移動</value>
+  </data>
+  <data name="DataTable_ColumnMoved" xml:space="preserve">
+    <value>{0} を {2} 列中 {1} 番目に移動しました</value>
+  </data>
+  <data name="DataTable_NarrowColumn" xml:space="preserve">
+    <value>{0} の幅を狭くする</value>
+  </data>
+  <data name="DataTable_WidenColumn" xml:space="preserve">
+    <value>{0} の幅を広くする</value>
+  </data>
+  <data name="DataTable_ColumnResized" xml:space="preserve">
+    <value>{0} の幅は {1} ピクセルです</value>
+  </data>
 </root>

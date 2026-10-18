@@ -147,9 +147,10 @@ public class TwDataTableManualRenderingTests : TwBlazorTestBase
         var cut = TestContext.Render<TwDataTable<TestProduct>>(parameters => parameters
             .Add(p => p.Items, [null!]));
 
-        // Assert - Should not throw, should render without the null item
+        // Assert - the null item is skipped, so the table reads as empty
         var rows = cut.FindAll("tbody tr");
-        Assert.Empty(rows);
+        Assert.Single(rows);
+        Assert.Equal("No data available.", rows[0].TextContent.Trim());
     }
 
     [Fact]

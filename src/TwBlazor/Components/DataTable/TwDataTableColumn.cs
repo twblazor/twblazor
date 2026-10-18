@@ -36,6 +36,25 @@ public class TwDataTableColumn<TItem>
     public string? Width { get; set; }
 
     /// <summary>
+    /// Gets or sets whether the column is shown when the table first renders, or after its columns are reset.
+    /// Defaults to <c>true</c>. People can show or hide it from the column panel when
+    /// <see cref="TwDataTable{TItem}.ColumnPanel"/> is enabled.
+    /// </summary>
+    public bool Visible { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets whether people can hide the column from the column panel. Defaults to <c>true</c>. Set it to
+    /// <c>false</c> for a column that identifies each row, such as a name.
+    /// </summary>
+    public bool Hideable { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets whether people can resize the column when <see cref="TwDataTable{TItem}.ResizableColumns"/>
+    /// is enabled. Defaults to <c>true</c>.
+    /// </summary>
+    public bool Resizable { get; set; } = true;
+
+    /// <summary>
     /// Gets or sets additional CSS classes for the header cell.
     /// </summary>
     public string? HeaderClass { get; set; }

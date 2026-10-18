@@ -412,6 +412,42 @@ public static class TwStrings
     /// <summary>The key for "Sort by {0}, currently descending".</summary>
     public const string DataTable_SortByDescending = "DataTable_SortByDescending";
 
+    /// <summary>The key for "No data available.".</summary>
+    public const string DataTable_NoData = "DataTable_NoData";
+
+    /// <summary>The key for "Columns".</summary>
+    public const string DataTable_Columns = "DataTable_Columns";
+
+    /// <summary>The key for "Reset columns".</summary>
+    public const string DataTable_ResetColumns = "DataTable_ResetColumns";
+
+    /// <summary>The key for "Columns reset".</summary>
+    public const string DataTable_ColumnsReset = "DataTable_ColumnsReset";
+
+    /// <summary>The key for "{0} column shown".</summary>
+    public const string DataTable_ColumnShown = "DataTable_ColumnShown";
+
+    /// <summary>The key for "{0} column hidden".</summary>
+    public const string DataTable_ColumnHidden = "DataTable_ColumnHidden";
+
+    /// <summary>The key for "Move {0} up".</summary>
+    public const string DataTable_MoveColumnUp = "DataTable_MoveColumnUp";
+
+    /// <summary>The key for "Move {0} down".</summary>
+    public const string DataTable_MoveColumnDown = "DataTable_MoveColumnDown";
+
+    /// <summary>The key for "{0} moved to position {1} of {2}".</summary>
+    public const string DataTable_ColumnMoved = "DataTable_ColumnMoved";
+
+    /// <summary>The key for "Make {0} narrower".</summary>
+    public const string DataTable_NarrowColumn = "DataTable_NarrowColumn";
+
+    /// <summary>The key for "Make {0} wider".</summary>
+    public const string DataTable_WidenColumn = "DataTable_WidenColumn";
+
+    /// <summary>The key for "{0} is {1} pixels wide".</summary>
+    public const string DataTable_ColumnResized = "DataTable_ColumnResized";
+
     /// <summary>The key for "Open date picker".</summary>
     public const string DatePicker_Open = "DatePicker_Open";
 

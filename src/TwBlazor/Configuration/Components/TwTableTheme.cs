@@ -110,4 +110,21 @@ public class TwTableTheme
     /// Gets or sets the classes for the "no data" row shown when there are no rows to display.
     /// </summary>
     public required string EmptyState { get; set; }
+
+    /// <summary>
+    /// Gets or sets the classes for <see cref="TwBlazor.Components.TwDataTable{TItem}"/>'s column panel, which lists
+    /// the columns for showing, hiding, reordering and resizing them.
+    /// </summary>
+    public string ColumnPanel { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes for the heading at the top of the column panel.
+    /// </summary>
+    public string ColumnPanelHeading { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes for the strip along the end edge of a resizable column header that a person drags
+    /// to resize the column. It needs absolute positioning and a column resize cursor.
+    /// </summary>
+    public string ResizeHandle { get; set; } = string.Empty;
 }

@@ -158,11 +158,15 @@ internal static class KeyboardShortcuts
             Key("Closes the panel without applying the color and returns focus to the swatch.", escape)),
 
         ["/data-table"] = Guide(
-            "The table is read as a native table. Its controls are ordinary buttons and fields, and sort, search and page changes are announced.",
-            Key("Moves through the search field, the sort buttons in the header, the table's scroll area, and the pagination.", tab, shiftTab),
+            "The table is read as a native table. Its controls are ordinary buttons, checkboxes and fields, and sort, search, page and column changes are announced. "
+            + "Dragging a column's edge needs a pointer, so the column panel has buttons that resize a column instead.",
+            Key("Moves through the search field, the Columns button, the sort buttons in the header, the table's scroll area, and the pagination.", tab, shiftTab),
             Key("On a sort button: sorts by that column, then reverses the order, then clears it.", enter, space),
             Key("In the table's scroll area: scrolls a table that is wider or taller than its container.", left, right, up, down),
-            Key("Commits the search text.", enter)),
+            Key("Commits the search text.", enter),
+            Key("On the Columns button: opens or closes the column panel.", enter, space),
+            Key("In the column panel: shows or hides the focused column's checkbox, or presses the focused Move up, Move down, Make narrower, Make wider or Reset columns button. Focus follows a moved column.", space, enter),
+            Key("In the column panel: closes it and returns focus to the Columns button.", escape)),
 
         ["/date-picker"] = Guide(
             "Type a date straight into the field, or open the calendar. The calendar does not open just because the field has focus.",

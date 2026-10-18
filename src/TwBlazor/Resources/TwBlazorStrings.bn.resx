@@ -672,4 +672,40 @@
   <data name="Numeric_Invalid" xml:space="preserve">
     <value>একটি বৈধ সংখ্যা লিখুন।</value>
   </data>
+  <data name="DataTable_NoData" xml:space="preserve">
+    <value>কোনো ডেটা নেই।</value>
+  </data>
+  <data name="DataTable_Columns" xml:space="preserve">
+    <value>কলাম</value>
+  </data>
+  <data name="DataTable_ResetColumns" xml:space="preserve">
+    <value>কলাম রিসেট করুন</value>
+  </data>
+  <data name="DataTable_ColumnsReset" xml:space="preserve">
+    <value>কলাম রিসেট হয়েছে</value>
+  </data>
+  <data name="DataTable_ColumnShown" xml:space="preserve">
+    <value>{0} কলাম দেখানো হয়েছে</value>
+  </data>
+  <data name="DataTable_ColumnHidden" xml:space="preserve">
+    <value>{0} কলাম লুকানো হয়েছে</value>
+  </data>
+  <data name="DataTable_MoveColumnUp" xml:space="preserve">
+    <value>{0} উপরে সরান</value>
+  </data>
+  <data name="DataTable_MoveColumnDown" xml:space="preserve">
+    <value>{0} নিচে সরান</value>
+  </data>
+  <data name="DataTable_ColumnMoved" xml:space="preserve">
+    <value>{0} কে {2} এর মধ্যে {1} নম্বর অবস্থানে সরানো হয়েছে</value>
+  </data>
+  <data name="DataTable_NarrowColumn" xml:space="preserve">
+    <value>{0} সরু করুন</value>
+  </data>
+  <data name="DataTable_WidenColumn" xml:space="preserve">
+    <value>{0} চওড়া করুন</value>
+  </data>
+  <data name="DataTable_ColumnResized" xml:space="preserve">
+    <value>{0} এর প্রস্থ {1} পিক্সেল</value>
+  </data>
 </root>

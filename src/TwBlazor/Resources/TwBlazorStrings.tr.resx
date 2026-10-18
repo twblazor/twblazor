@@ -675,4 +675,40 @@
   <data name="Numeric_Invalid" xml:space="preserve">
     <value>Geçerli bir sayı girin.</value>
   </data>
+  <data name="DataTable_NoData" xml:space="preserve">
+    <value>Veri yok.</value>
+  </data>
+  <data name="DataTable_Columns" xml:space="preserve">
+    <value>Sütunlar</value>
+  </data>
+  <data name="DataTable_ResetColumns" xml:space="preserve">
+    <value>Sütunları sıfırla</value>
+  </data>
+  <data name="DataTable_ColumnsReset" xml:space="preserve">
+    <value>Sütunlar sıfırlandı</value>
+  </data>
+  <data name="DataTable_ColumnShown" xml:space="preserve">
+    <value>{0} sütunu gösteriliyor</value>
+  </data>
+  <data name="DataTable_ColumnHidden" xml:space="preserve">
+    <value>{0} sütunu gizlendi</value>
+  </data>
+  <data name="DataTable_MoveColumnUp" xml:space="preserve">
+    <value>{0} sütununu yukarı taşı</value>
+  </data>
+  <data name="DataTable_MoveColumnDown" xml:space="preserve">
+    <value>{0} sütununu aşağı taşı</value>
+  </data>
+  <data name="DataTable_ColumnMoved" xml:space="preserve">
+    <value>{0}, {2} sütundan {1}. sıraya taşındı</value>
+  </data>
+  <data name="DataTable_NarrowColumn" xml:space="preserve">
+    <value>{0} sütununu daralt</value>
+  </data>
+  <data name="DataTable_WidenColumn" xml:space="preserve">
+    <value>{0} sütununu genişlet</value>
+  </data>
+  <data name="DataTable_ColumnResized" xml:space="preserve">
+    <value>{0} genişliği {1} piksel</value>
+  </data>
 </root>
