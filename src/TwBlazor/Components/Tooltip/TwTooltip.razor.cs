@@ -146,6 +146,8 @@ public partial class TwTooltip : TwBlazorComponentBase
 
     private string arrowClasses => popoverBuilder.GetTooltipArrowClasses(Placement);
 
+    private string placementName => Placement.ToString().ToLowerInvariant();
+
     private void OnKeyDown(KeyboardEventArgs e)
     {
         if (e.Key == "Escape")

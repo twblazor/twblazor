@@ -1,25 +1,12 @@
 ﻿@namespace TwBlazor.Components
 @using TwBlazor.Enums
-@using Microsoft.AspNetCore.Components.Web.Virtualization
 @typeparam TItem
 @inherits TwBlazorComponentBase
 
-<div class="@rootClasses" @ref="rootRef">
+<div class="@rootClasses">
     @if (showToolbar)
     {
         <div class="@toolbarClasses">
-            @if (Searchable)
-            {
-                <div class="@searchColumnClasses">
-                    <TwTextfield T="string"
-                        Id="@($"{Id}-search")"
-                        Class="@options.Theme.Sizing.FullWidth"
-                        Label="@effectiveSearchLabel"
-                        Placeholder="@effectiveSearchPlaceholder"
-                        Value="@currentSearchQuery"
-                        ValueChanged="@OnSearchAsync" />
-                </div>
-            }
             @if (showGroupBySelect)
             {
                 <div class="@groupByColumnClasses">
@@ -33,7 +20,7 @@
                               SelectedValueChanged="@OnGroupByChangedAsync" />
                 </div>
             }
-            @if (showColumnPanelButton || showExportButtons || isGrouped)
+            @if (showExportButtons || isGrouped)
             {
                 <div class="@toolbarActionsClasses">
                     @if (isGrouped)
@@ -65,89 +52,24 @@
                                   Variant="ButtonVariant.Outlined"
                                   OnClick="@(() => ExportExcelAsync())" />
                     }
-                    @if (showColumnPanelButton)
-                    {
-                        <TwButton Id="@columnPanelToggleId"
-                                  Label="@effectiveColumnPanelLabel"
-                                  StartIcon="Icon.Layout_Three_Columns"
-                                  Variant="ButtonVariant.Outlined"
-                                  Attributes="@columnPanelToggleAttributes"
-                                  OnClick="@ToggleColumnPanel" />
-                    }
+                </div>
+            }
+            @if (Searchable)
+            {
+                <div class="@searchColumnClasses">
+                    <TwTextfield T="string"
+                        Id="@($"{Id}-search")"
+                        Class="@options.Theme.Sizing.FullWidth"
+                        Label="@effectiveSearchLabel"
+                        Placeholder="@effectiveSearchPlaceholder"
+                        Value="@currentSearchQuery"
+                        ValueChanged="@OnSearchAsync" />
                 </div>
             }
         </div>
     }
 
-    @if (showColumnPanelButton && columnPanelOpen)
-    {
-        <div id="@columnPanelId" class="@theme.ColumnPanel" role="group" aria-labelledby="@($"{columnPanelId}-heading")" @onkeydown="@OnColumnPanelKeyDown">
-            <div class="@columnPanelHeaderClasses">
-                <span id="@($"{columnPanelId}-heading")" class="@theme.ColumnPanelHeading">@effectiveColumnPanelLabel</span>
-                <TwButton Id="@($"{columnPanelId}-reset")"
-                          Label="@localizer[TwStrings.DataTable_ResetColumns]"
-                          StartIcon="Icon.Arrow_Counterclockwise"
-                          Variant="ButtonVariant.Text"
-                          Dense
-                          OnClick="@ResetColumnsAsync" />
-            </div>
-            <ul class="@columnListClasses">
-                @for (var i = 0; i < columnStates.Count; i++)
-                {
-                    var index = i;
-                    var state = columnStates[index];
-                    var column = columnsByName[state.Name];
-                    <li class="@columnListItemClasses" @key="state.Name">
-                        @if (ColumnPanel)
-                        {
-                            <TwCheckbox T="bool"
-                                        Id="@($"{Id}-column-{index}-visible")"
-                                        Label="@column.Title"
-                                        Value="@state.Visible"
-                                        Disabled="@(!CanToggleColumn(state))"
-                                        ValueChanged="@(visible => SetColumnVisibleAsync(state.Name, visible))" />
-                        }
-                        else
-                        {
-                            <span>@column.Title</span>
-                        }
-                        <div class="@columnMoveButtonsClasses">
-                            @if (ResizableColumns && column.Resizable && state.Visible)
-                            {
-                                <TwIcon Id="@ResizeButtonId(index, "narrower")"
-                                        Icon="Icon.Dash_Lg"
-                                        AriaLabel="@localizer[TwStrings.DataTable_NarrowColumn, column.Title]"
-                                        Tooltip="@localizer[TwStrings.DataTable_NarrowColumn, column.Title]"
-                                        OnClick="@(() => ResizeColumnAsync(column, -resizeStep))" />
-                                <TwIcon Id="@ResizeButtonId(index, "wider")"
-                                        Icon="Icon.Plus_Lg"
-                                        AriaLabel="@localizer[TwStrings.DataTable_WidenColumn, column.Title]"
-                                        Tooltip="@localizer[TwStrings.DataTable_WidenColumn, column.Title]"
-                                        OnClick="@(() => ResizeColumnAsync(column, resizeStep))" />
-                            }
-                            @if (ColumnPanel)
-                            {
-                                <TwIcon Id="@ColumnMoveButtonId(index, "earlier")"
-                                        Icon="Icon.Arrow_Up"
-                                        AriaLabel="@localizer[TwStrings.DataTable_MoveColumnUp, column.Title]"
-                                        Tooltip="@localizer[TwStrings.DataTable_MoveColumnUp, column.Title]"
-                                        Disabled="@(index == 0)"
-                                        OnClick="@(() => MoveColumnAsync(state.Name, -1))" />
-                                <TwIcon Id="@ColumnMoveButtonId(index, "later")"
-                                        Icon="Icon.Arrow_Down"
-                                        AriaLabel="@localizer[TwStrings.DataTable_MoveColumnDown, column.Title]"
-                                        Tooltip="@localizer[TwStrings.DataTable_MoveColumnDown, column.Title]"
-                                        Disabled="@(index == columnStates.Count - 1)"
-                                        OnClick="@(() => MoveColumnAsync(state.Name, 1))" />
-                            }
-                        </div>
-                    </li>
-                }
-            </ul>
-        </div>
-    }
-
-    @* Announces sort, search, paging and column changes to assistive technology *@
+    @* Announces sort, search, filter, paging and column changes to assistive technology *@
     <span class="@options.Theme.Display.ScreenReaderOnly" role="status" aria-live="polite">@sortStatusMessage</span>
 
     <TwTable Id="@Id"
@@ -157,16 +79,29 @@
              HeaderClass="@HeaderClass"
              BodyClass="@BodyClass"
              Class="@TableClass"
-             Attributes="@effectiveTableAttributes"
+             Attributes="@TableAttributes"
              AriaLabel="@AriaLabel"
              AriaLabelledBy="@AriaLabelledBy"
              Caption="@Caption"
              CaptionVisible="@CaptionVisible"
-             FixedLayout="@effectiveFixedLayout"
-             MaxHeight="@effectiveHeight"
+             FixedLayout="@FixedLayout"
+             MaxHeight="@Height"
              StickyHeader="@effectiveStickyHeader"
+             EnablePagination="@isPaged"
+             CurrentPage="@currentPage"
+             CurrentPageChanged="@OnActivePageChanged"
+             PageSize="@rowsPerPage"
+             PageSizeChanged="@OnRowsPerPageChangedAsync"
+             PageSizeOptions="@RowsPerPageOptions"
+             ComfortablePagination="@ComfortablePagination"
+             AnnouncePageChanges="false"
+             EnableVirtualization="@isVirtualized"
+             ItemSize="@ItemSize"
+             OverscanCount="@OverscanCount"
+             ResizableColumns="@effectiveResizableColumns"
+             ColumnsResized="@OnColumnsResizedAsync"
              ColumnGroup="@effectiveColumnGroup"
-             RowGroups="@(isGrouped && !isVirtualized && displayedSegments.Count > 0 ? groupedBodies : null)">
+             RowGroups="@(isGrouped && !isVirtualized && lines.Count > 0 ? groupedBodies : null)">
         <TableHeader>
             @if (hasColumns)
             {
@@ -180,12 +115,26 @@
                                 {
                                     <TwIcon Icon="GetSortIcon(column.Name)" Class="@sortIconClasses" OnClick="() => OnSortClickedAsync(column.Name)" AriaLabel="@GetSortAriaLabel(column)" />
                                 }
+                                @if ((column.Filterable && column.PropertySelector != null) || ColumnMenu)
+                                {
+                                    <span class="@headerActionsClasses">
+                                        @if (column.Filterable && column.PropertySelector != null)
+                                        {
+                                            <TwIcon Id="@FilterButtonId(column)"
+                                                    Icon="@(IsFiltered(column) ? Icon.Funnel_Fill : Icon.Funnel)"
+                                                    Class="@sortIconClasses"
+                                                    AriaLabel="@FilterButtonLabel(column)"
+                                                    Tooltip="@FilterButtonLabel(column)"
+                                                    Attributes="@FilterButtonAttributes(column)"
+                                                    OnClick="@(() => OpenFilterAsync(column))" />
+                                        }
+                                        @if (ColumnMenu)
+                                        {
+                                            @columnMenu(column)
+                                        }
+                                    </span>
+                                }
                             </div>
-                            @if (ResizableColumns && column.Resizable)
-                            {
-                                @* Pointer only: the column panel's Narrower and Wider buttons are the keyboard way to resize. *@
-                                <span class="@theme.ResizeHandle" data-resize-column="@column.Name" aria-hidden="true"></span>
-                            }
                         </th>
                     }
                     @if (showActionsColumn)
@@ -200,107 +149,279 @@
             }
         </TableHeader>
         <TableBody>
-            @if (isVirtualized && usesProvider)
+            @if (!hasColumns)
             {
-                <Virtualize @ref="virtualizeRef"
-                            TItem="IndexedRow"
-                            ItemsProvider="@ProvideVirtualRowsAsync"
-                            ItemSize="@ItemSize"
-                            OverscanCount="@OverscanCount"
-                            SpacerElement="tr"
-                            Context="indexed">
-                    <ItemContent>@virtualRow(indexed)</ItemContent>
-                    <Placeholder>@loadingRow</Placeholder>
-                    <EmptyContent>@emptyRow</EmptyContent>
-                </Virtualize>
+                <TwTableRows TItem="TItem" Items="@viewItems" ChildContent="@manualRow" EmptyContent="@emptyRow" />
             }
-            else if (isVirtualized && isGrouped && virtualLines.Count > 0)
+            else if (usesProvider)
             {
-                <Virtualize TItem="IndexedLine"
-                            Items="@virtualLines"
-                            ItemSize="@ItemSize"
-                            OverscanCount="@OverscanCount"
-                            SpacerElement="tr"
-                            Context="indexed">
-                    @if (indexed.Line.IsHeader)
-                    {
-                        <tr class="@theme.GroupRow" aria-rowindex="@RowIndex(indexed.Index)">
-                            @groupHeaderCell((indexed.Line.Group, null))
-                        </tr>
-                    }
-                    else
-                    {
-                        @virtualRow(new IndexedRow(indexed.Index, indexed.Line.Item!))
-                    }
-                </Virtualize>
+                <TwTableRows @ref="providerRows"
+                             TItem="TItem"
+                             ItemsProvider="@rowsProvider"
+                             RowTemplate="@indexedRow"
+                             EmptyContent="@emptyRow"
+                             LoadingContent="@loadingRow"
+                             ItemsLoaded="@OnRowsLoaded" />
             }
-            else if (isVirtualized && virtualRows.Count > 0)
+            else if (isGrouped)
             {
-                <Virtualize TItem="IndexedRow"
-                            Items="@virtualRows"
-                            ItemSize="@ItemSize"
-                            OverscanCount="@OverscanCount"
-                            SpacerElement="tr"
-                            Context="indexed">
-                    @virtualRow(indexed)
-                </Virtualize>
-            }
-            else if (displayedRows.Count > 0)
-            {
-                @if (hasColumns)
+                @if (lines.Count == 0)
                 {
-                    @foreach (var row in displayedRows)
-                    {
-                        @columnsRow(row)
-                    }
+                    @emptyRow
                 }
-                else if (TableRow != null)
+                else
                 {
-                    var tableRow = TableRow;
-                    @foreach (var row in displayedRows)
-                    {
-                        @if (DefineTableRows)
-                        {
-                            @tableRow(row)
-                        }
-                        else
-                        {
-                            <tr class="@RowClass">
-                                @tableRow(row)
-                            </tr>
-                        }
-                    }
+                    @* Only reached while virtualized: a paged grouped table renders its groups through RowGroups. *@
+                    <TwTableRows TItem="DataTableLine" Items="@lines" RowTemplate="@lineRow" />
                 }
-            }
-            else if (isLoading)
-            {
-                @loadingRow
             }
             else
             {
-                @emptyRow
+                <TwTableRows TItem="TItem" Items="@viewItems" RowTemplate="@indexedRow" EmptyContent="@emptyRow" />
             }
         </TableBody>
     </TwTable>
 
-    @if (isPaged)
+    @if (openFilterColumn is { } filterColumnDefinition)
     {
-        <TwPagination Id="@($"{Id}-pagination")"
-            Class="@paginationClasses"
-            TotalPages="TotalPages()"
-            ActivePage="currentPage"
-            ActivePageChanged="OnActivePageChanged"
-            ShowPageSize="true"
-            PageSize="rowsPerPage"
-            PageSizeChanged="OnRowsPerPageChangedAsync"
-            PageSizeOptions="RowsPerPageOptions"
-            Dense="!ComfortablePagination"
-            AnnouncePageChanges="false"
-            AriaLabel="@localizer[TwStrings.DataTable_Pagination]" />
+        @* Outside the table, so the filter's fields are not read as part of the column heading. *@
+        <div id="@filterPanelId"
+             class="@theme.FilterPanel"
+             role="dialog"
+             aria-modal="true"
+             aria-labelledby="@filterHeadingId"
+             tabindex="-1"
+             data-tw-popover
+             @ref="filterPanelRef">
+            <div id="@filterHeadingId" class="@theme.FilterHeading">
+                <TwIcon Icon="Icon.Funnel" />
+                <span>@localizer[TwStrings.DataTable_FilterColumn, filterColumnDefinition.Title]</span>
+            </div>
+            <form class="@filterFormClasses" @onsubmit="@ApplyFilterAsync">
+                @filterCondition((filterColumnDefinition, filterDraft.First, "first"))
+                <div class="@filterButtonsClasses" role="group" aria-label="@localizer[TwStrings.DataTable_FilterLogic]">
+                    <TwButton Id="@($"{filterPanelId}-and")"
+                              Label="@localizer[TwStrings.DataTable_FilterAnd]"
+                              Dense
+                              Variant="@(filterDraft.Logic == TwDataTableFilterLogic.And ? ButtonVariant.Filled : ButtonVariant.Outlined)"
+                              Attributes="@FilterLogicAttributes(TwDataTableFilterLogic.And)"
+                              OnClick="@(() => SetFilterLogic(TwDataTableFilterLogic.And))" />
+                    <TwButton Id="@($"{filterPanelId}-or")"
+                              Label="@localizer[TwStrings.DataTable_FilterOr]"
+                              Dense
+                              Variant="@(filterDraft.Logic == TwDataTableFilterLogic.Or ? ButtonVariant.Filled : ButtonVariant.Outlined)"
+                              Attributes="@FilterLogicAttributes(TwDataTableFilterLogic.Or)"
+                              OnClick="@(() => SetFilterLogic(TwDataTableFilterLogic.Or))" />
+                </div>
+                @filterCondition((filterColumnDefinition, filterDraft.Second!, "second"))
+                <div class="@filterButtonsClasses">
+                    <TwButton Id="@($"{filterPanelId}-apply")"
+                              Type="submit"
+                              Label="@localizer[TwStrings.DataTable_ApplyFilter]"
+                              StartIcon="Icon.Funnel"
+                              Variant="ButtonVariant.Filled" />
+                    <TwButton Id="@($"{filterPanelId}-clear")"
+                              Label="@localizer[TwStrings.DataTable_ClearFilter]"
+                              StartIcon="Icon.X_Circle"
+                              Variant="ButtonVariant.Outlined"
+                              OnClick="@ClearFilterAsync" />
+                </div>
+            </form>
+        </div>
     }
 </div>
 
 @code {
+    private RenderFragment<TwDataTableColumn<TItem>> columnMenu => column =>
+        @<TwMenu Id="@ColumnMenuId(column)"
+                 Icon="Icon.Three_Dots_Vertical"
+                 IconOnly
+                 AriaLabel="@localizer[TwStrings.DataTable_ColumnOptions, column.Title]"
+                 ButtonClass="@sortIconClasses"
+                 OpenChanged="@(open => OnColumnMenuOpenChanged(column.Name, open))">
+            @columnSortItems(column)
+            @columnGroupItems(column)
+            @columnArrangeItems(column)
+            <TwMenuDivider />
+            @columnToggleItems
+            <TwMenuDivider />
+            <TwMenuItem Label="@localizer[TwStrings.DataTable_ResetColumns]" StartIcon="Icon.Arrow_Counterclockwise" OnClick="@ResetColumnsAsync" />
+        </TwMenu>;
+
+    private RenderFragment<TwDataTableColumn<TItem>> columnSortItems => column =>
+        @<text>
+            @if (CanSortColumn(column))
+            {
+                <TwMenuItem Label="@localizer[TwStrings.DataTable_SortAscending]" StartIcon="Icon.Sort_Up" OnClick="@(() => SetSortAsync(column.Name, SortDirection.Ascending))" />
+                <TwMenuItem Label="@localizer[TwStrings.DataTable_SortDescending]" StartIcon="Icon.Sort_Down" OnClick="@(() => SetSortAsync(column.Name, SortDirection.Descending))" />
+                @if (IsSortedBy(column.Name))
+                {
+                    <TwMenuItem Label="@localizer[TwStrings.DataTable_RemoveSort]" StartIcon="Icon.X_Circle" OnClick="@(() => SetSortAsync(column.Name, SortDirection.None))" />
+                }
+                <TwMenuDivider />
+            }
+        </text>;
+
+    private RenderFragment<TwDataTableColumn<TItem>> columnGroupItems => column =>
+        @<text>
+            @if (CanGroupColumn(column))
+            {
+                <TwMenuItem Label="@GroupMenuLabel(column)" StartIcon="Icon.Collection" OnClick="@(() => ToggleGroupByAsync(column))" />
+                <TwMenuDivider />
+            }
+        </text>;
+
+    private RenderFragment<TwDataTableColumn<TItem>> columnArrangeItems => column =>
+        @<text>
+            <TwMenuItem Label="@localizer[TwStrings.DataTable_MoveColumnLeft]" StartIcon="Icon.Arrow_Left" Disabled="@(!CanMoveColumn(column.Name, towardsLeft: true))" OnClick="@(() => MoveColumnAsync(column.Name, towardsLeft: true))" />
+            <TwMenuItem Label="@localizer[TwStrings.DataTable_MoveColumnRight]" StartIcon="Icon.Arrow_Right" Disabled="@(!CanMoveColumn(column.Name, towardsLeft: false))" OnClick="@(() => MoveColumnAsync(column.Name, towardsLeft: false))" />
+            @if (CanHideColumn(column))
+            {
+                <TwMenuItem Label="@localizer[TwStrings.DataTable_HideColumn]" StartIcon="Icon.Eye_Slash" OnClick="@(() => SetColumnVisibleAsync(column.Name, false))" />
+            }
+        </text>;
+
+    private RenderFragment columnToggleItems =>
+        @<TwMenuGroup Label="@localizer[TwStrings.DataTable_Columns]">
+            @foreach (var state in columnStates)
+            {
+                var name = state.Name;
+                <TwMenuCheckboxItem Label="@columnsByName[name].Title"
+                                    Checked="@state.Visible"
+                                    Disabled="@(!CanToggleColumn(state))"
+                                    CheckedChanged="@(visible => SetColumnVisibleAsync(name, visible))" />
+            }
+        </TwMenuGroup>;
+
+    private RenderFragment<(TwDataTableColumn<TItem> Column, TwDataTableFilterCondition Condition, string Part)> filterCondition => context =>
+        @<div class="@filterFormClasses">
+            <TwSelect T="FilterOperatorOption"
+                      Id="@($"{filterPanelId}-{context.Part}-operator")"
+                      Label="@(context.Part == "first" ? localizer[TwStrings.DataTable_FirstCondition] : localizer[TwStrings.DataTable_SecondCondition])"
+                      Values="@OperatorOptions(context.Column)"
+                      PropertyName="Text"
+                      Required
+                      Dense
+                      SelectedValue="@(OperatorOptions(context.Column).FirstOrDefault(o => o.Operator == context.Condition.Operator) ?? OperatorOptions(context.Column)[0])"
+                      SelectedValueChanged="@(option => context.Condition.Operator = option.Operator)" />
+            @if (NeedsValue(context.Condition.Operator))
+            {
+                @filterValue(context)
+            }
+        </div>;
+
+    private RenderFragment<(TwDataTableColumn<TItem> Column, TwDataTableFilterCondition Condition, string Part)> filterValue => context =>
+        @<text>
+            @{
+                var id = $"{filterPanelId}-{context.Part}-value";
+                var label = context.Part == "first" ? localizer[TwStrings.DataTable_FirstValue] : localizer[TwStrings.DataTable_SecondValue];
+                var condition = context.Condition;
+            }
+            @switch (ResolveFilterType(context.Column))
+            {
+                case TwDataTableFilterType.Number:
+                    <TwNumeric T="decimal?"
+                               Id="@id"
+                               Label="@label"
+                               Dense
+                               BindEvent="oninput"
+                               Value="@(decimal.TryParse(condition.Value, System.Globalization.NumberStyles.Number, System.Globalization.CultureInfo.InvariantCulture, out var number) ? number : null)"
+                               ValueChanged="@(value => condition.Value = value?.ToString(System.Globalization.CultureInfo.InvariantCulture))" />
+                    break;
+                case TwDataTableFilterType.Date:
+                    <TwTextfield T="string"
+                                 Id="@id"
+                                 Label="@label"
+                                 Dense
+                                 InputType="date"
+                                 BindEvent="oninput"
+                                 Value="@condition.Value"
+                                 ValueChanged="@(value => condition.Value = value)" />
+                    break;
+                case TwDataTableFilterType.Boolean:
+                case TwDataTableFilterType.Enum:
+                    var choices = ValueOptions(context.Column);
+                    <TwSelect T="FilterValueOption"
+                              Id="@id"
+                              Label="@label"
+                              Values="@choices"
+                              PropertyName="Text"
+                              Dense
+                              SelectedValue="@(choices.FirstOrDefault(c => c.Value == condition.Value)!)"
+                              SelectedValueChanged="@(option => condition.Value = option?.Value)" />
+                    break;
+                default:
+                    <TwTextfield T="string"
+                                 Id="@id"
+                                 Label="@label"
+                                 Dense
+                                 BindEvent="oninput"
+                                 Value="@condition.Value"
+                                 ValueChanged="@(value => condition.Value = value)" />
+                    break;
+            }
+        </text>;
+
+    private RenderFragment<TItem> manualRow => row =>
+        @<text>
+            @if (TableRow != null)
+            {
+                @if (DefineTableRows)
+                {
+                    @TableRow(row)
+                }
+                else
+                {
+                    <tr class="@RowClass">@TableRow(row)</tr>
+                }
+            }
+        </text>;
+
+    private RenderFragment<TwTableRow<TItem>> indexedRow => row =>
+        @<text>
+            @if (IsEditingRow(row.Item))
+            {
+                @editingRow((row.Item, row.AriaRowIndex))
+            }
+            else
+            {
+                <tr class="@RowClass" aria-rowindex="@row.AriaRowIndex">@cells(row.Item)</tr>
+            }
+        </text>;
+
+    private RenderFragment<TwTableRow<DataTableLine>> lineRow => row =>
+        @<text>
+            @if (row.Item.IsHeader)
+            {
+                <tr class="@theme.GroupRow" aria-rowindex="@row.AriaRowIndex">
+                    @groupHeaderCell((row.Item.Group, null))
+                </tr>
+            }
+            else
+            {
+                @indexedRow(new TwTableRow<TItem>(row.Item.Item!, row.Index, row.AriaRowIndex))
+            }
+        </text>;
+
+    private RenderFragment<string> groupedBodies => bodyClass =>
+        @<TwTableRows TItem="DataTableLine" Items="@lines" PageTemplate="@(page => groupedPage((page, bodyClass)))" />;
+
+    private RenderFragment<(TwTableRowsPage<DataTableLine> Page, string BodyClass)> groupedPage => context =>
+        @<text>
+            @foreach (var segment in SegmentsOf(context.Page.Rows.Select(r => r.Item)))
+            {
+                <tbody class="@context.BodyClass" @key="(segment.Group.Key, segment.Group.Label)">
+                    <tr class="@theme.GroupRow">
+                        @groupHeaderCell((segment.Group, "rowgroup"))
+                    </tr>
+                    @foreach (var item in segment.Items)
+                    {
+                        @columnsRow(item)
+                    }
+                </tbody>
+            }
+        </text>;
+
     private RenderFragment<TItem> cells => row =>
         @<text>
             @foreach (var column in visibleColumns)
@@ -346,18 +467,6 @@
             else
             {
                 <tr class="@RowClass">@cells(row)</tr>
-            }
-        </text>;
-
-    private RenderFragment<IndexedRow> virtualRow => indexed =>
-        @<text>
-            @if (IsEditingRow(indexed.Item))
-            {
-                @editingRow((indexed.Item, RowIndex(indexed.Index)))
-            }
-            else
-            {
-                <tr class="@RowClass" aria-rowindex="@RowIndex(indexed.Index)">@cells(indexed.Item)</tr>
             }
         </text>;
 
@@ -500,20 +609,4 @@
                 }
             </div>
         </th>;
-
-    private RenderFragment<string> groupedBodies => bodyClass =>
-        @<text>
-            @foreach (var segment in displayedSegments)
-            {
-                <tbody class="@bodyClass" @key="segment.Group.Label">
-                    <tr class="@theme.GroupRow">
-                        @groupHeaderCell((segment.Group, "rowgroup"))
-                    </tr>
-                    @foreach (var row in segment.Items)
-                    {
-                        @columnsRow(row)
-                    }
-                </tbody>
-            }
-        </text>;
 }

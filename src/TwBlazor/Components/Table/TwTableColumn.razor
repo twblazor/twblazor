@@ -1,4 +1,9 @@
 ﻿@namespace TwBlazor.Components
 @inherits TwBlazorComponentBase
 
-<col id="@Id" class="@columnClasses" style="@columnStyle" span="@columnSpan" @attributes="Attributes" />
+<col id="@Id" class="@columnClasses" style="@columnStyle" span="@columnSpan"
+     data-tw-resizable="@(isResizable ? "true" : null)"
+     data-tw-label="@(isResizable ? Label : null)"
+     data-tw-min="@(isResizable ? MinWidth : null)"
+     data-tw-max="@(isResizable ? MaxWidth : null)"
+     @attributes="Attributes" />

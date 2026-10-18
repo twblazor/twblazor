@@ -351,7 +351,7 @@
   <data name="DataTable_SearchPlaceholder" xml:space="preserve">
     <value>검색…</value>
   </data>
-  <data name="DataTable_Pagination" xml:space="preserve">
+  <data name="Table_Pagination" xml:space="preserve">
     <value>표 페이지 탐색</value>
   </data>
   <data name="DataTable_PageStatusOne" xml:space="preserve">
@@ -693,23 +693,8 @@
   <data name="DataTable_ColumnHidden" xml:space="preserve">
     <value>{0} 열을 숨겼습니다</value>
   </data>
-  <data name="DataTable_MoveColumnUp" xml:space="preserve">
-    <value>{0} 위로 이동</value>
-  </data>
-  <data name="DataTable_MoveColumnDown" xml:space="preserve">
-    <value>{0} 아래로 이동</value>
-  </data>
   <data name="DataTable_ColumnMoved" xml:space="preserve">
     <value>{0}을(를) {2}개 중 {1}번째로 이동했습니다</value>
-  </data>
-  <data name="DataTable_NarrowColumn" xml:space="preserve">
-    <value>{0} 너비 줄이기</value>
-  </data>
-  <data name="DataTable_WidenColumn" xml:space="preserve">
-    <value>{0} 너비 늘리기</value>
-  </data>
-  <data name="DataTable_ColumnResized" xml:space="preserve">
-    <value>{0} 너비는 {1}픽셀입니다</value>
   </data>
   <data name="DataTable_ExportCsv" xml:space="preserve">
     <value>CSV 내보내기</value>
@@ -791,5 +776,125 @@
   </data>
   <data name="DataTable_EditInvalidOther" xml:space="preserve">
     <value>저장하기 전에 {0}개 필드를 수정해야 합니다</value>
+  </data>
+  <data name="Table_ResizeColumn" xml:space="preserve">
+    <value>{0} 크기 조정</value>
+  </data>
+  <data name="Table_ColumnWidthValue" xml:space="preserve">
+    <value>{0}픽셀</value>
+  </data>
+  <data name="Menu_Options" xml:space="preserve">
+    <value>옵션</value>
+  </data>
+  <data name="DataTable_ColumnOptions" xml:space="preserve">
+    <value>{0} 열 옵션</value>
+  </data>
+  <data name="DataTable_SortAscending" xml:space="preserve">
+    <value>오름차순 정렬</value>
+  </data>
+  <data name="DataTable_SortDescending" xml:space="preserve">
+    <value>내림차순 정렬</value>
+  </data>
+  <data name="DataTable_RemoveSort" xml:space="preserve">
+    <value>정렬 해제</value>
+  </data>
+  <data name="DataTable_GroupByColumn" xml:space="preserve">
+    <value>이 열로 그룹화</value>
+  </data>
+  <data name="DataTable_StopGrouping" xml:space="preserve">
+    <value>그룹화 해제</value>
+  </data>
+  <data name="DataTable_MoveColumnLeft" xml:space="preserve">
+    <value>왼쪽으로 이동</value>
+  </data>
+  <data name="DataTable_MoveColumnRight" xml:space="preserve">
+    <value>오른쪽으로 이동</value>
+  </data>
+  <data name="DataTable_HideColumn" xml:space="preserve">
+    <value>열 숨기기</value>
+  </data>
+  <data name="DataTable_FilterColumn" xml:space="preserve">
+    <value>{0} 필터</value>
+  </data>
+  <data name="DataTable_FilterColumnActive" xml:space="preserve">
+    <value>{0} 필터, 필터 적용됨</value>
+  </data>
+  <data name="DataTable_FirstCondition" xml:space="preserve">
+    <value>첫 번째 조건</value>
+  </data>
+  <data name="DataTable_FirstValue" xml:space="preserve">
+    <value>첫 번째 값</value>
+  </data>
+  <data name="DataTable_SecondCondition" xml:space="preserve">
+    <value>두 번째 조건</value>
+  </data>
+  <data name="DataTable_SecondValue" xml:space="preserve">
+    <value>두 번째 값</value>
+  </data>
+  <data name="DataTable_FilterLogic" xml:space="preserve">
+    <value>조건 결합</value>
+  </data>
+  <data name="DataTable_FilterAnd" xml:space="preserve">
+    <value>그리고</value>
+  </data>
+  <data name="DataTable_FilterOr" xml:space="preserve">
+    <value>또는</value>
+  </data>
+  <data name="DataTable_ApplyFilter" xml:space="preserve">
+    <value>필터</value>
+  </data>
+  <data name="DataTable_ClearFilter" xml:space="preserve">
+    <value>지우기</value>
+  </data>
+  <data name="DataTable_FilterAppliedOne" xml:space="preserve">
+    <value>{0}에 필터 적용, {1}개 행 표시</value>
+  </data>
+  <data name="DataTable_FilterAppliedOther" xml:space="preserve">
+    <value>{0}에 필터 적용, {1}개 행 표시</value>
+  </data>
+  <data name="DataTable_FilterRemoved" xml:space="preserve">
+    <value>{0}의 필터를 제거했습니다</value>
+  </data>
+  <data name="DataTable_Yes" xml:space="preserve">
+    <value>예</value>
+  </data>
+  <data name="DataTable_No" xml:space="preserve">
+    <value>아니요</value>
+  </data>
+  <data name="DataTable_OperatorContains" xml:space="preserve">
+    <value>포함</value>
+  </data>
+  <data name="DataTable_OperatorDoesNotContain" xml:space="preserve">
+    <value>포함하지 않음</value>
+  </data>
+  <data name="DataTable_OperatorStartsWith" xml:space="preserve">
+    <value>다음으로 시작</value>
+  </data>
+  <data name="DataTable_OperatorEndsWith" xml:space="preserve">
+    <value>다음으로 끝남</value>
+  </data>
+  <data name="DataTable_OperatorIsEqualTo" xml:space="preserve">
+    <value>같음</value>
+  </data>
+  <data name="DataTable_OperatorIsNotEqualTo" xml:space="preserve">
+    <value>같지 않음</value>
+  </data>
+  <data name="DataTable_OperatorIsGreaterThan" xml:space="preserve">
+    <value>보다 큼</value>
+  </data>
+  <data name="DataTable_OperatorIsGreaterThanOrEqualTo" xml:space="preserve">
+    <value>크거나 같음</value>
+  </data>
+  <data name="DataTable_OperatorIsLessThan" xml:space="preserve">
+    <value>보다 작음</value>
+  </data>
+  <data name="DataTable_OperatorIsLessThanOrEqualTo" xml:space="preserve">
+    <value>작거나 같음</value>
+  </data>
+  <data name="DataTable_OperatorIsEmpty" xml:space="preserve">
+    <value>비어 있음</value>
+  </data>
+  <data name="DataTable_OperatorIsNotEmpty" xml:space="preserve">
+    <value>비어 있지 않음</value>
   </data>
 </root>

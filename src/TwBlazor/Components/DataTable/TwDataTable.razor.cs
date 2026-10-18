@@ -90,10 +90,22 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
     public bool DefineTableRows { get; set; } = false;
 
     /// <summary>
-    /// Whether the table has pagination.
+    /// Whether the rows are split into pages, with a pagination below the table (<see cref="TwTable.EnablePagination"/>).
+    /// Defaults to <c>true</c>. Ignored while <see cref="EnableVirtualization"/> is set.
     /// </summary>
     [Parameter]
-    public bool Pageable { get; set; } = true;
+    public bool EnablePagination { get; set; } = true;
+
+    /// <summary>
+    /// Whether the rows are split into pages. Use <see cref="EnablePagination"/>, which this sets.
+    /// </summary>
+    [Parameter]
+    [Obsolete("Use EnablePagination, which matches TwTable.")]
+    public bool Pageable
+    {
+        get => EnablePagination;
+        set => EnablePagination = value;
+    }
 
     /// <summary>
     /// Number of rows per page.
@@ -115,7 +127,7 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
 
     /// <summary>
     /// Whether to render the pagination controls with more comfortable, regular-size buttons instead of the default dense (smaller, more
-    /// compact) buttons. Defaults to <c>false</c>. Only applies when <see cref="Pageable"/> is <c>true</c>.
+    /// compact) buttons. Defaults to <c>false</c>. Only applies when <see cref="EnablePagination"/> is <c>true</c>.
     /// </summary>
     [Parameter]
     public bool ComfortablePagination { get; set; } = false;
@@ -230,36 +242,29 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
     private string toolbarClasses => new ClassBuilder(options.Theme.Display.Flex)
         .AddClass(options.Theme.Flexbox.Wrap)
         .AddClass(options.Theme.Flexbox.Align.End)
-        .AddClass(options.Theme.Flexbox.Justify.End)
         .AddClass(options.Theme.Spacing.Gap.Md)
         .AddClass(options.Theme.Spacing.MarginBottom.Xl).Build();
 
+    // The search always comes last in the toolbar, pushed to the end of the row.
     private string searchColumnClasses => new ClassBuilder(options.Theme.Sizing.FullWidth)
-        .AddClass(theme.SearchColumn).Build();
+        .AddClass(theme.SearchColumn)
+        .AddClass(options.Theme.Spacing.PushEnd).Build();
 
     private string toolbarActionsClasses => new ClassBuilder(options.Theme.Display.Flex)
         .AddClass(options.Theme.Flexbox.Wrap)
         .AddClass(options.Theme.Spacing.Gap.Sm).Build();
 
-    private string headerCellRowClasses => new ClassBuilder(options.Theme.Display.Flex)
-        .AddClass(options.Theme.Flexbox.Align.Center)
-        .AddClass(options.Theme.Spacing.Gap.Sm).Build();
-
     private string sortIconClasses => theme.SortIcon;
-
-    private string paginationClasses => new ClassBuilder(options.Theme.Spacing.MarginTop.Xl)
-        .AddClass(options.Theme.Sizing.FullWidth)
-        .AddClass(options.Theme.Flexbox.Justify.Between).Build();
 
     private bool hasColumns => Columns is { Count: > 0 };
 
-    private bool showToolbar => Searchable || showColumnPanelButton || showExportButtons || showGroupBySelect;
+    private bool showToolbar => Searchable || showExportButtons || showGroupBySelect;
 
     // The empty row has to cross every column. Without column definitions the count is unknown, and a colspan
     // larger than the table is harmless.
     private int emptyStateColumnSpan => hasColumns ? Math.Max(renderedColumnCount, 1) : 100;
 
-    private string effectiveEmptyMessage => string.IsNullOrWhiteSpace(currentSearchQuery)
+    private string effectiveEmptyMessage => string.IsNullOrWhiteSpace(currentSearchQuery) && ActiveFilters().Count == 0
         ? localizer[TwStrings.DataTable_NoData]
         : localizer[TwStrings.DataTable_NoSearchResults];
 
@@ -295,26 +300,37 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
     }
 
     /// <summary>
-    /// Runs the rows through the search and the sort, then takes the current page. Each step works on the
-    /// result of the one before, so a search keeps the sort and a sort keeps the search.
+    /// Runs the rows through the column filters, the search and the sort, then takes the current page. Each step
+    /// works on the result of the one before, so a search keeps the sort and a sort keeps the search and filters.
     /// </summary>
-    /// <param name="resetPage">Whether to go back to the first page, as a new search or sort does.</param>
+    /// <param name="resetPage">Whether to go back to the first page, as a new search, filter or sort does.</param>
     private void RefreshView(bool resetPage = false)
     {
         if (usesProvider)
         {
-            // The provider searches and sorts; the table only asks it for the rows again.
+            // The provider filters, searches and sorts; the table only asks it for the rows again. Moving back to the
+            // first page asks for them already, so the rows are only refreshed when the page stays the same.
+            var pageChanges = resetPage && currentPage != 1;
             if (resetPage)
             {
                 currentPage = 1;
             }
 
-            loadRequested = true;
+            refreshProviderRows |= !pageChanges;
             UpdateDisplay();
             return;
         }
 
         IEnumerable<TItem> rows = Items.Where(item => !EqualityComparer<TItem>.Default.Equals(item, default));
+
+        var filters = AllColumns()
+            .Where(c => c.PropertySelector is not null && FilterOf(c.Name)?.IsActive == true)
+            .Select(c => (Column: c, Filter: FilterOf(c.Name)!, Type: ResolveFilterType(c)))
+            .ToList();
+        if (filters.Count > 0)
+        {
+            rows = rows.Where(item => PassesFilters(item, filters));
+        }
 
         if (!string.IsNullOrWhiteSpace(currentSearchQuery))
         {
@@ -332,7 +348,6 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
 
         viewItems = rows.ToList();
         BuildGroups();
-        BuildVirtualRows();
 
         if (resetPage)
         {
@@ -342,11 +357,15 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
         UpdateDisplay();
     }
 
+    /// <summary>
+    /// Gets every column definition, shown or hidden, so a hidden column's filter still applies.
+    /// </summary>
+    private Dictionary<string, TwDataTableColumn<TItem>>.ValueCollection AllColumns() => columnsByName.Values;
+
     private void UpdateDisplay()
     {
         if (usesProvider)
         {
-            displayedSegments = [];
             totalCount = providerTotalCount;
             displayedRows = loadedItems;
 
@@ -364,12 +383,10 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
             currentPage = Math.Clamp(currentPage, 1, TotalPages());
 
             var pageLines = isPaged ? lines.Skip((currentPage - 1) * rowsPerPage).Take(rowsPerPage).ToList() : lines;
-            BuildDisplayedSegments(pageLines);
             displayedRows = [.. pageLines.Where(l => !l.IsHeader).Select(l => l.Item!)];
             return;
         }
 
-        displayedSegments = [];
         totalCount = viewItems.Count;
         currentPage = Math.Clamp(currentPage, 1, TotalPages());
 
@@ -395,7 +412,6 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
     private async Task OnActivePageChanged(int page)
     {
         currentPage = page;
-        loadRequested = usesProvider;
         UpdateDisplay();
         Announce(() => localizer.Plural(displayedRows.Count, TwStrings.DataTable_PageStatusOne, TwStrings.DataTable_PageStatusOther, currentPage, TotalPages(), displayedRows.Count));
         await NotifyStateChangedAsync();
@@ -629,7 +645,6 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
         {
             rowsPerPage = newRowsPerPage;
             currentPage = 1;
-            loadRequested = usesProvider;
             UpdateDisplay();
             await RowsPerPageChanged.InvokeAsync(newRowsPerPage);
             await NotifyStateChangedAsync();

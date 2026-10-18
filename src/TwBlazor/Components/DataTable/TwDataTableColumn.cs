@@ -39,20 +39,20 @@ public class TwDataTableColumn<TItem>
 
     /// <summary>
     /// Gets or sets whether the column is shown when the table first renders, or after its columns are reset.
-    /// Defaults to <c>true</c>. People can show or hide it from the column panel when
-    /// <see cref="TwDataTable{TItem}.ColumnPanel"/> is enabled.
+    /// Defaults to <c>true</c>. People can show or hide it from a column's menu when
+    /// <see cref="TwDataTable{TItem}.ColumnMenu"/> is enabled.
     /// </summary>
     public bool Visible { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets whether people can hide the column from the column panel. Defaults to <c>true</c>. Set it to
+    /// Gets or sets whether people can hide the column from the column menu. Defaults to <c>true</c>. Set it to
     /// <c>false</c> for a column that identifies each row, such as a name.
     /// </summary>
     public bool Hideable { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets whether people can resize the column when <see cref="TwDataTable{TItem}.ResizableColumns"/>
-    /// is enabled. Defaults to <c>true</c>.
+    /// Gets or sets whether people can resize the column by its border when
+    /// <see cref="TwDataTable{TItem}.ResizableColumns"/> is enabled. Defaults to <c>true</c>.
     /// </summary>
     public bool Resizable { get; set; } = true;
 
@@ -75,6 +75,26 @@ public class TwDataTableColumn<TItem>
     /// the column has one.
     /// </summary>
     public bool Groupable { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the column has a filter button in its header. The filter offers one or two conditions,
+    /// combined with And or Or, that suit the column's values.
+    /// </summary>
+    public bool Filterable { get; set; }
+
+    /// <summary>
+    /// Gets or sets the kind of values the column filters, which decides its conditions and value field. Defaults to
+    /// <see cref="TwDataTableFilterType.Auto"/>, which works it out from the <see cref="PropertySelector"/> values.
+    /// Set it when the rows come from an <see cref="TwDataTable{TItem}.ItemsProvider"/>, which may not have loaded
+    /// any yet.
+    /// </summary>
+    public TwDataTableFilterType FilterType { get; set; }
+
+    /// <summary>
+    /// Gets or sets the conditions people can choose from, in order, or <c>null</c> for the ones that suit
+    /// <see cref="FilterType"/>. The first is chosen when the filter opens.
+    /// </summary>
+    public IReadOnlyList<TwDataTableFilterOperator>? FilterOperators { get; set; }
 
     /// <summary>
     /// Gets or sets whether the column can be changed when a row is edited, with

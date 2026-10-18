@@ -348,7 +348,7 @@
   <data name="DataTable_SearchPlaceholder" xml:space="preserve">
     <value>खोजें…</value>
   </data>
-  <data name="DataTable_Pagination" xml:space="preserve">
+  <data name="Table_Pagination" xml:space="preserve">
     <value>तालिका पेजिनेशन</value>
   </data>
   <data name="DataTable_PageStatusOne" xml:space="preserve">
@@ -690,23 +690,8 @@
   <data name="DataTable_ColumnHidden" xml:space="preserve">
     <value>{0} कॉलम छिपाया गया</value>
   </data>
-  <data name="DataTable_MoveColumnUp" xml:space="preserve">
-    <value>{0} को ऊपर ले जाएँ</value>
-  </data>
-  <data name="DataTable_MoveColumnDown" xml:space="preserve">
-    <value>{0} को नीचे ले जाएँ</value>
-  </data>
   <data name="DataTable_ColumnMoved" xml:space="preserve">
     <value>{0} को {2} में से स्थान {1} पर ले जाया गया</value>
-  </data>
-  <data name="DataTable_NarrowColumn" xml:space="preserve">
-    <value>{0} को संकरा करें</value>
-  </data>
-  <data name="DataTable_WidenColumn" xml:space="preserve">
-    <value>{0} को चौड़ा करें</value>
-  </data>
-  <data name="DataTable_ColumnResized" xml:space="preserve">
-    <value>{0} की चौड़ाई {1} पिक्सेल है</value>
   </data>
   <data name="DataTable_ExportCsv" xml:space="preserve">
     <value>CSV निर्यात करें</value>
@@ -788,5 +773,125 @@
   </data>
   <data name="DataTable_EditInvalidOther" xml:space="preserve">
     <value>सहेजने से पहले {0} फ़ील्ड ठीक करने होंगे</value>
+  </data>
+  <data name="Table_ResizeColumn" xml:space="preserve">
+    <value>{0} का आकार बदलें</value>
+  </data>
+  <data name="Table_ColumnWidthValue" xml:space="preserve">
+    <value>{0} पिक्सेल</value>
+  </data>
+  <data name="Menu_Options" xml:space="preserve">
+    <value>विकल्प</value>
+  </data>
+  <data name="DataTable_ColumnOptions" xml:space="preserve">
+    <value>{0} कॉलम के विकल्प</value>
+  </data>
+  <data name="DataTable_SortAscending" xml:space="preserve">
+    <value>आरोही क्रम में लगाएँ</value>
+  </data>
+  <data name="DataTable_SortDescending" xml:space="preserve">
+    <value>अवरोही क्रम में लगाएँ</value>
+  </data>
+  <data name="DataTable_RemoveSort" xml:space="preserve">
+    <value>क्रम हटाएँ</value>
+  </data>
+  <data name="DataTable_GroupByColumn" xml:space="preserve">
+    <value>इस कॉलम के अनुसार समूह बनाएँ</value>
+  </data>
+  <data name="DataTable_StopGrouping" xml:space="preserve">
+    <value>समूह बनाना बंद करें</value>
+  </data>
+  <data name="DataTable_MoveColumnLeft" xml:space="preserve">
+    <value>बाएँ ले जाएँ</value>
+  </data>
+  <data name="DataTable_MoveColumnRight" xml:space="preserve">
+    <value>दाएँ ले जाएँ</value>
+  </data>
+  <data name="DataTable_HideColumn" xml:space="preserve">
+    <value>कॉलम छिपाएँ</value>
+  </data>
+  <data name="DataTable_FilterColumn" xml:space="preserve">
+    <value>{0} फ़िल्टर करें</value>
+  </data>
+  <data name="DataTable_FilterColumnActive" xml:space="preserve">
+    <value>{0} फ़िल्टर करें, फ़िल्टर लागू</value>
+  </data>
+  <data name="DataTable_FirstCondition" xml:space="preserve">
+    <value>पहली शर्त</value>
+  </data>
+  <data name="DataTable_FirstValue" xml:space="preserve">
+    <value>पहला मान</value>
+  </data>
+  <data name="DataTable_SecondCondition" xml:space="preserve">
+    <value>दूसरी शर्त</value>
+  </data>
+  <data name="DataTable_SecondValue" xml:space="preserve">
+    <value>दूसरा मान</value>
+  </data>
+  <data name="DataTable_FilterLogic" xml:space="preserve">
+    <value>शर्तें जोड़ें</value>
+  </data>
+  <data name="DataTable_FilterAnd" xml:space="preserve">
+    <value>और</value>
+  </data>
+  <data name="DataTable_FilterOr" xml:space="preserve">
+    <value>या</value>
+  </data>
+  <data name="DataTable_ApplyFilter" xml:space="preserve">
+    <value>फ़िल्टर करें</value>
+  </data>
+  <data name="DataTable_ClearFilter" xml:space="preserve">
+    <value>साफ़ करें</value>
+  </data>
+  <data name="DataTable_FilterAppliedOne" xml:space="preserve">
+    <value>{0} पर फ़िल्टर लागू, {1} पंक्ति दिख रही है</value>
+  </data>
+  <data name="DataTable_FilterAppliedOther" xml:space="preserve">
+    <value>{0} पर फ़िल्टर लागू, {1} पंक्तियाँ दिख रही हैं</value>
+  </data>
+  <data name="DataTable_FilterRemoved" xml:space="preserve">
+    <value>{0} से फ़िल्टर हटाया गया</value>
+  </data>
+  <data name="DataTable_Yes" xml:space="preserve">
+    <value>हाँ</value>
+  </data>
+  <data name="DataTable_No" xml:space="preserve">
+    <value>नहीं</value>
+  </data>
+  <data name="DataTable_OperatorContains" xml:space="preserve">
+    <value>शामिल है</value>
+  </data>
+  <data name="DataTable_OperatorDoesNotContain" xml:space="preserve">
+    <value>शामिल नहीं है</value>
+  </data>
+  <data name="DataTable_OperatorStartsWith" xml:space="preserve">
+    <value>से शुरू होता है</value>
+  </data>
+  <data name="DataTable_OperatorEndsWith" xml:space="preserve">
+    <value>पर समाप्त होता है</value>
+  </data>
+  <data name="DataTable_OperatorIsEqualTo" xml:space="preserve">
+    <value>के बराबर है</value>
+  </data>
+  <data name="DataTable_OperatorIsNotEqualTo" xml:space="preserve">
+    <value>के बराबर नहीं है</value>
+  </data>
+  <data name="DataTable_OperatorIsGreaterThan" xml:space="preserve">
+    <value>से अधिक है</value>
+  </data>
+  <data name="DataTable_OperatorIsGreaterThanOrEqualTo" xml:space="preserve">
+    <value>से अधिक या बराबर है</value>
+  </data>
+  <data name="DataTable_OperatorIsLessThan" xml:space="preserve">
+    <value>से कम है</value>
+  </data>
+  <data name="DataTable_OperatorIsLessThanOrEqualTo" xml:space="preserve">
+    <value>से कम या बराबर है</value>
+  </data>
+  <data name="DataTable_OperatorIsEmpty" xml:space="preserve">
+    <value>खाली है</value>
+  </data>
+  <data name="DataTable_OperatorIsNotEmpty" xml:space="preserve">
+    <value>खाली नहीं है</value>
   </data>
 </root>

@@ -64,7 +64,7 @@ public class TwDataTableTests : TwBlazorTestBase
         var cut = TestContext.Render<TwDataTable<TestProduct>>(parameters => parameters
             .Add(p => p.Items, products)
             .Add(p => p.Columns, GetTestColumns())
-            .Add(p => p.Pageable, true)
+            .Add(p => p.EnablePagination, true)
             .Add(p => p.RowsPerPage, 5));
 
         // Assert
@@ -113,7 +113,7 @@ public class TwDataTableTests : TwBlazorTestBase
         var cut = TestContext.Render<TwDataTable<TestProduct>>(parameters => parameters
             .Add(p => p.Items, products)
             .Add(p => p.Columns, GetTestColumns())
-            .Add(p => p.Pageable, false));
+            .Add(p => p.EnablePagination, false));
 
         // Assert
         var navButtons = cut.FindAll("nav[aria-label='Table pagination']");
@@ -130,7 +130,7 @@ public class TwDataTableTests : TwBlazorTestBase
         var cut = TestContext.Render<TwDataTable<TestProduct>>(parameters => parameters
             .Add(p => p.Items, products)
             .Add(p => p.Columns, GetTestColumns())
-            .Add(p => p.Pageable, true)
+            .Add(p => p.EnablePagination, true)
             .Add(p => p.RowsPerPage, 5));
 
         // Assert
@@ -146,7 +146,7 @@ public class TwDataTableTests : TwBlazorTestBase
         var cut = TestContext.Render<TwDataTable<TestProduct>>(parameters => parameters
             .Add(p => p.Items, products)
             .Add(p => p.Columns, GetTestColumns())
-            .Add(p => p.Pageable, true)
+            .Add(p => p.EnablePagination, true)
             .Add(p => p.RowsPerPage, 5));
 
         // Act - TwPagination renders Previous/page-numbers/Next as a single link list; Next is last.
@@ -165,7 +165,7 @@ public class TwDataTableTests : TwBlazorTestBase
         var cut = TestContext.Render<TwDataTable<TestProduct>>(parameters => parameters
             .Add(p => p.Items, products)
             .Add(p => p.Columns, GetTestColumns())
-            .Add(p => p.Pageable, true)
+            .Add(p => p.EnablePagination, true)
             .Add(p => p.RowsPerPage, 5));
 
         // Act - click Next enough times to reach the last page, then once more
@@ -221,7 +221,7 @@ public class TwDataTableTests : TwBlazorTestBase
         var cut = TestContext.Render<TwDataTable<TestProduct>>(parameters => parameters
             .Add(p => p.Items, products)
             .Add(p => p.Columns, GetTestColumns())
-            .Add(p => p.Pageable, true)
+            .Add(p => p.EnablePagination, true)
             .Add(p => p.RowsPerPage, 5)
             .Add(p => p.RowsPerPageOptions, _rowsPerPageOptions));
 
@@ -378,7 +378,7 @@ public class TwDataTableTests : TwBlazorTestBase
         var cut = TestContext.Render<TwDataTable<TestProduct>>(parameters => parameters
             .Add(p => p.Items, products)
             .Add(p => p.Columns, GetTestColumns())
-            .Add(p => p.Pageable, true)
+            .Add(p => p.EnablePagination, true)
             .Add(p => p.RowsPerPage, 0));
 
         // Assert
@@ -394,7 +394,7 @@ public class TwDataTableTests : TwBlazorTestBase
             .Add(p => p.Items, products)
             .Add(p => p.Columns, GetTestColumns())
             .Add(p => p.Searchable, true)
-            .Add(p => p.Pageable, true)
+            .Add(p => p.EnablePagination, true)
             .Add(p => p.RowsPerPage, 10));
 
         var searchInput = cut.Find("input");
@@ -545,7 +545,7 @@ public class TwDataTableTests : TwBlazorTestBase
             .Add(p => p.Items, GetManyTestProducts(20))
             .Add(p => p.Columns, GetTestColumns())
             .Add(p => p.Searchable, true)
-            .Add(p => p.Pageable, false));
+            .Add(p => p.EnablePagination, false));
 
         // Note: search matches if ANY whitespace-split query word matches, so a query
         // containing the generic word "Product" (which every row's Name contains) would
@@ -569,7 +569,7 @@ public class TwDataTableTests : TwBlazorTestBase
         var cut = TestContext.Render<TwDataTable<TestProduct>>(parameters => parameters
             .Add(p => p.Items, GetManyTestProducts(20))
             .Add(p => p.Columns, GetTestColumns())
-            .Add(p => p.Pageable, true)
+            .Add(p => p.EnablePagination, true)
             .Add(p => p.RowsPerPage, 5));
 
         PaginationLinks(cut)[^1].Click(); // Next -> page 2
@@ -733,7 +733,7 @@ public class TwDataTableTests : TwBlazorTestBase
             .Add(p => p.Items, GetManyTestProducts(20))
             .Add(p => p.Columns, GetSortableColumns())
             .Add(p => p.Searchable, true)
-            .Add(p => p.Pageable, false));
+            .Add(p => p.EnablePagination, false));
 
         // "15" is a single word so it isn't diluted by the generic "Product" word every row matches.
         cut.Find("input").Change("15");

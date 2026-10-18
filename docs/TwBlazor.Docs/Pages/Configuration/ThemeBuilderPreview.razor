@@ -475,7 +475,7 @@
     @if (showLateSamples && Has("TwDataTable"))
     {
         <TwCard Title="Data table" Class="min-w-0" @attributes="look">
-            <TwDataTable TItem="Order" Items="@_orders" Searchable Pageable RowsPerPage="5" Rounded="@Defaults.Rounded">
+            <TwDataTable TItem="Order" Items="@_orders" Searchable EnablePagination RowsPerPage="5" Rounded="@Defaults.Rounded">
                 <TableHeader>
                     <tr>
                         <th scope="col" class="px-6 py-3">Order</th>

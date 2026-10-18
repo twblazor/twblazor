@@ -1125,6 +1125,18 @@ public static class Theme
                     Button = $"{display.InlineFlex} {flexbox.Align.Center} {flexbox.Justify.Center} {flexbox.ShrinkNone} {rounded.Md} {neutralText.Secondary} {neutralHoverText} {neutralHoverFill} {interaction.PointerCursor} {transition.ColorsFast} {focusRing} {interaction.FocusOutlineNone} disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent forced-colors:text-[ButtonText] forced-colors:disabled:text-[GrayText]",
                     ButtonIcon = $"{typography.Size.Sm} leading-none"
                 },
+                new TwMenuTheme
+                {
+                    Root = $"{positioning.Relative} {display.InlineFlex}",
+                    Panel = $"z-50 min-w-48 max-w-xs overflow-y-auto {rounded.Lg} {borderWidth.Thin} {neutralSurface.Border} {neutralSurface.Background} shadow-lg py-1 {interaction.FocusOutlineNone}",
+                    Item = $"{display.Flex} {sizing.FullWidth} {flexbox.Align.Center} {spacing.Gap.Sm} px-3 py-2 text-start {typography.Size.Sm} {neutralText.Heading} {neutralRowHover} focus-visible:bg-[oklch(21%_0.006_285.885)]/5 dark:focus-visible:bg-[oklch(97.807%_0.029_256.847)]/8 {interaction.PointerCursor} {transition.ColorsFast} {interaction.FocusOutlineNone} {focusRingInset}",
+                    ItemDisabled = $"{interaction.DisabledOpacity} {interaction.DisabledCursor}",
+                    ItemIcon = $"{typography.Size.Base} {flexbox.ShrinkNone} {neutralText.Subtle}",
+                    CheckIcon = $"{typography.Size.Base} {flexbox.ShrinkNone} text-purple-600 dark:text-purple-300",
+                    CheckIconHidden = "invisible",
+                    Divider = $"my-1 border-t {neutralSurface.Border}",
+                    GroupLabel = $"px-3 pt-2 pb-1 {typography.Size.Xs} {typography.Weight.Semibold} {neutralText.Muted}"
+                },
                 new TwOnThisPageTheme
                 {
                     Title = $"{spacing.MarginBottom.Lg} {typography.Weight.Semibold} {neutralText.Heading}",
@@ -1454,16 +1466,16 @@ public static class Theme
                     HeaderCellPadding = "px-4 py-2.5",
                     BodyCellPadding = $"px-4 py-2.5 {typography.WrapBreakWord}",
                     EmptyState = $"py-8 {typography.AlignCenter} {neutralText.Muted}",
-                    ColumnPanel = $"{borderWidth.Thin} {neutralSurface.Border} {neutralSurface.Background} {rounded.Lg} {spacing.Padding.Lg} {spacing.MarginBottom.Xl}",
-                    ColumnPanelHeading = $"{typography.Size.Sm} {typography.Weight.Semibold} {neutralText.Heading}",
-                    ResizeHandle = $"{positioning.Absolute} inset-y-0 end-0 w-1.5 cursor-col-resize touch-none select-none hover:bg-purple-500/50 active:bg-purple-600 dark:hover:bg-purple-400/50 dark:active:bg-purple-400",
+                    ResizeHandle = $"{positioning.Absolute} z-20 flex w-3 -translate-x-1/2 justify-center cursor-col-resize touch-none select-none before:block before:h-full before:w-px before:bg-gray-300 dark:before:bg-gray-600 hover:before:w-0.5 hover:before:bg-purple-500 active:before:bg-purple-600 dark:hover:before:bg-purple-400 focus-visible:outline-none focus-visible:before:w-0.5 focus-visible:before:bg-purple-600 dark:focus-visible:before:bg-purple-300",
                     GroupByColumn = "w-full sm:w-56",
                     GroupRow = $"{neutralSurface.BackgroundSubtle} {neutralText.Heading}",
                     GroupToggle = $"{display.InlineFlex} {flexbox.Align.Center} {spacing.Gap.Sm} {rounded.Md} -mx-1 px-1 {typography.Weight.Semibold} {interaction.PointerCursor} focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600 dark:focus-visible:outline-purple-300",
                     GroupCount = $"{typography.Weight.Medium} {neutralText.Muted}",
                     LoadingCell = $"py-2.5 {typography.AlignCenter} {neutralText.Muted}",
                     ActionsCell = "w-px whitespace-nowrap",
-                    EditingRow = "!bg-purple-50 dark:!bg-purple-500/10"
+                    EditingRow = "!bg-purple-50 dark:!bg-purple-500/10",
+                    FilterPanel = $"z-50 w-72 max-w-[calc(100vw-1rem)] {rounded.Lg} {borderWidth.Thin} {neutralSurface.Border} {neutralSurface.Background} shadow-lg {spacing.Padding.Md} {interaction.FocusOutlineNone}",
+                    FilterHeading = $"{display.Flex} {flexbox.Align.Center} {spacing.Gap.Sm} {spacing.MarginBottom.Md} {typography.Size.Sm} {typography.Weight.Semibold} {neutralText.Heading}"
                 },
                 new TwToastTheme
                 {

@@ -836,6 +836,64 @@ describe('small focus and state helpers', () => {
         expect(() => window.twSliderLock.set(null, true)).not.toThrow();
     });
 
+    // A wrapper inside a scrolling box, with a bubble the size of a short label placed on the given side.
+    function clippedTooltip(placement) {
+        document.body.innerHTML = `
+            <div id="scroller" style="overflow: auto">
+                <span id="wrapper" data-tw-tooltip><button>Edit</button><span id="tip" role="tooltip" data-tw-placement="${placement}"><span aria-hidden="true"></span>Edit row</span></span>
+            </div>`;
+        const wrapper = document.getElementById('wrapper');
+        const bubble = document.getElementById('tip');
+        wrapper.getBoundingClientRect = () => ({ left: 200, right: 240, top: 100, bottom: 130, width: 40, height: 30 });
+        bubble.getBoundingClientRect = () => ({ left: 0, right: 80, top: 0, bottom: 24, width: 80, height: 24 });
+        return { wrapper, bubble };
+    }
+
+    test('twTooltip fixes a bubble inside a scrolling box to the viewport above its control', () => {
+        const { wrapper, bubble } = clippedTooltip('Top');
+
+        wrapper.querySelector('button').dispatchEvent(new Event('pointerover', { bubbles: true }));
+
+        expect(bubble.style.position).toBe('fixed');
+        expect(bubble.style.left).toBe('180px');
+        expect(bubble.style.top).toBe('68px');
+
+        wrapper.dispatchEvent(new Event('pointerout', { bubbles: true }));
+        expect(bubble.style.position).toBe('');
+        expect(bubble.style.left).toBe('');
+    });
+
+    test('twTooltip places a fixed bubble on the side it asks for', () => {
+        const { wrapper, bubble } = clippedTooltip('Right');
+
+        wrapper.querySelector('button').dispatchEvent(new FocusEvent('focusin', { bubbles: true }));
+
+        expect(bubble.style.left).toBe('248px');
+        expect(bubble.style.top).toBe('103px');
+    });
+
+    test('twTooltip follows its control when the page scrolls', () => {
+        const { wrapper, bubble } = clippedTooltip('Bottom');
+        wrapper.dispatchEvent(new Event('pointerover', { bubbles: true }));
+        expect(bubble.style.top).toBe('138px');
+
+        wrapper.getBoundingClientRect = () => ({ left: 200, right: 240, top: 60, bottom: 90, width: 40, height: 30 });
+        document.getElementById('scroller').dispatchEvent(new Event('scroll'));
+
+        expect(bubble.style.top).toBe('98px');
+        wrapper.dispatchEvent(new Event('pointerout', { bubbles: true }));
+    });
+
+    test('twTooltip leaves a bubble with room to show in place', () => {
+        document.body.innerHTML = '<span id="wrapper" data-tw-tooltip><button>Edit</button><span id="tip" role="tooltip">Edit row</span></span>';
+        const bubble = document.getElementById('tip');
+        bubble.getBoundingClientRect = () => ({ left: 0, right: 80, top: 0, bottom: 24, width: 80, height: 24 });
+
+        document.querySelector('button').dispatchEvent(new Event('pointerover', { bubbles: true }));
+
+        expect(bubble.style.position).toBe('');
+    });
+
     test('twTooltip.describeControl describes a focusable child and reports it', () => {
         document.body.innerHTML = `
             <div id="wrapper"><button id="save" aria-describedby="hint">Save</button><span id="tip" role="tooltip">Saves the form</span></div>

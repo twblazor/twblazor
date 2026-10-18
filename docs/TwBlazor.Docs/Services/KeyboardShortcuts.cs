@@ -38,8 +38,8 @@ internal static class KeyboardShortcuts
     private const string right = "Arrow Right";
     private const string home = "Home";
     private const string end = "End";
-    private const string pageUp = "Page Up";
-    private const string pageDown = "Page Down";
+    private const string pageUp = "Pg.Up";
+    private const string pageDown = "Pg.Down";
 
     private static KeyboardShortcut Key(string action, params string[] keys) => new(keys, action);
 
@@ -158,21 +158,23 @@ internal static class KeyboardShortcuts
             Key("Closes the panel without applying the color and returns focus to the swatch.", escape)),
 
         ["/data-table"] = Guide(
-            "The table is read as a native table. Its controls are ordinary buttons, checkboxes and fields, and sort, search, page and column changes are announced. "
-            + "Dragging a column's edge needs a pointer, so the column panel has buttons that resize a column instead.",
-            Key("Moves through the search field, the Group by list, the toolbar buttons, the Columns button, the sort buttons in the header, the table's scroll area, and the pagination.", tab, shiftTab),
+            "The table is read as a native table. Its controls are ordinary buttons, menus and fields, and sort, search, filter, page, grouping and column changes are announced. "
+            + "With ResizableColumns, each column's border is a separator that reports the column's width.",
+            Key("Moves through the toolbar, each column's sort, filter and options buttons, the resize separators, the table's scroll area and the pagination.", tab, shiftTab),
             Key("On a sort button: sorts by that column, then reverses the order, then clears it.", enter, space),
             Key("In the table's scroll area: scrolls a table that is wider or taller than its container. A virtualized table renders the rows as they scroll into view.", left, right, up, down, pageUp, pageDown),
             Key("Commits the search text.", enter),
+            Key("On a column's options button: opens its menu, on the first or last item.", enter, space, down, up),
+            Key("In a column's menu: moves between its items, chooses one, or closes it. A column toggle flips and the menu stays open.", up, down, enter, space, escape),
+            Key("On a column's filter button: opens its filter with focus on the first condition.", enter, space),
+            Key("In a filter: moves between its fields and buttons, applies the filter, or closes it without changing it. Focus returns to the filter button.", tab, enter, escape),
+            Key("On a resize separator: makes the column wider or narrower, in bigger steps with Shift. The key moves the border the way it points, in either text direction.", left, right),
             Key("On an export button: downloads the table, then announces how many rows it holds.", enter, space),
             Key("On a group header's button: expands or collapses that group. The button says whether the group is expanded.", enter, space),
             Key("On the Group by list: opens it to choose a column to group by, or No grouping.", enter, space, down),
             Key("On a row's Edit button: turns the row into editors and moves focus to the first one.", enter, space),
             Key("While a row is edited: moves between its editors and the Save and Cancel buttons.", tab, shiftTab),
-            Key("While a row is edited: cancels the edit and returns focus to the row's Edit button. A picker or list open in the row closes first.", escape),
-            Key("On the Columns button: opens or closes the column panel.", enter, space),
-            Key("In the column panel: shows or hides the focused column's checkbox, or presses the focused Move up, Move down, Make narrower, Make wider or Reset columns button. Focus follows a moved column.", space, enter),
-            Key("In the column panel: closes it and returns focus to the Columns button.", escape)),
+            Key("While a row is edited: cancels the edit and returns focus to the row's Edit button. A picker or list open in the row closes first.", escape)),
 
         ["/date-picker"] = Guide(
             "Type a date straight into the field, or open the calendar. The calendar does not open just because the field has focus.",
@@ -212,6 +214,18 @@ internal static class KeyboardShortcuts
             "The footer is the page's content information landmark. Its sections sit in a navigation landmark, each a heading and a list of ordinary links.",
             Key("Moves to the next or previous link.", tab, shiftTab),
             Key("Follows the focused link. A link that opens in a new tab says so before you follow it.", enter)),
+
+        ["/menu"] = Guide(
+            "The button tells screen readers that it opens a menu and whether the menu is open. The menu follows the ARIA menu pattern: one item has focus at a time, and the arrow keys move between them.",
+            Key("Moves focus to the menu's button.", tab),
+            Key("On the button: opens the menu with focus on its first item.", enter, space, down),
+            Key("On the button: opens the menu with focus on its last item.", up),
+            Key("In the menu: moves to the next or previous item, wrapping round at either end. Disabled items are skipped.", down, up),
+            Key("In the menu: moves to the first or last item.", home, end),
+            Key("In the menu: moves to the next item that starts with the typed letter.", "A to Z"),
+            Key("In the menu: chooses the focused item. An action closes the menu and returns focus to the button; a tick option flips and the menu stays open.", enter, space),
+            Key("Closes the menu and returns focus to the button.", escape),
+            Key("Closes the menu and moves focus on.", tab)),
 
         ["/navbar"] = Guide(
             "The navbar is a navigation landmark holding ordinary links. On a narrow screen the links sit behind a menu button.",
@@ -314,9 +328,13 @@ internal static class KeyboardShortcuts
             Key("Turns it on or off.", space)),
 
         ["/table"] = Guide(
-            "The table is read as a native table. Its scroll area is a Tab stop so a table wider or taller than its container can be scrolled from the keyboard.",
-            Key("Moves focus to the table's scroll area.", tab),
-            Key("Scrolls the table.", left, right, up, down)),
+            "The table is read as a native table. Its scroll area is a Tab stop so a table wider or taller than its container can be scrolled from the keyboard. "
+            + "With ResizableColumns, each resizable column has a separator on its header's border that reports the column's width.",
+            Key("Moves focus to the table's scroll area, then to each column's resize separator and the pagination.", tab, shiftTab),
+            Key("In the scroll area: scrolls the table. A virtualized table renders the rows as they scroll into view.", left, right, up, down, pageUp, pageDown),
+            Key("On a resize separator: makes the column wider or narrower. The key moves the border the way it points, in either text direction.", left, right),
+            Key("On a resize separator: resizes in bigger steps.", "Shift + Arrow Left", "Shift + Arrow Right"),
+            Key("In the pagination: moves to a page, or opens the page size list.", enter, space)),
 
         ["/tabs"] = Guide(
             "The tab list is a single Tab stop, and moving to a tab shows its panel straight away. Disabled tabs are skipped. "

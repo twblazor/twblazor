@@ -348,7 +348,7 @@
   <data name="DataTable_SearchPlaceholder" xml:space="preserve">
     <value>খুঁজুন…</value>
   </data>
-  <data name="DataTable_Pagination" xml:space="preserve">
+  <data name="Table_Pagination" xml:space="preserve">
     <value>টেবিলের পেজিনেশন</value>
   </data>
   <data name="DataTable_PageStatusOne" xml:space="preserve">
@@ -690,23 +690,8 @@
   <data name="DataTable_ColumnHidden" xml:space="preserve">
     <value>{0} কলাম লুকানো হয়েছে</value>
   </data>
-  <data name="DataTable_MoveColumnUp" xml:space="preserve">
-    <value>{0} উপরে সরান</value>
-  </data>
-  <data name="DataTable_MoveColumnDown" xml:space="preserve">
-    <value>{0} নিচে সরান</value>
-  </data>
   <data name="DataTable_ColumnMoved" xml:space="preserve">
     <value>{0} কে {2} এর মধ্যে {1} নম্বর অবস্থানে সরানো হয়েছে</value>
-  </data>
-  <data name="DataTable_NarrowColumn" xml:space="preserve">
-    <value>{0} সরু করুন</value>
-  </data>
-  <data name="DataTable_WidenColumn" xml:space="preserve">
-    <value>{0} চওড়া করুন</value>
-  </data>
-  <data name="DataTable_ColumnResized" xml:space="preserve">
-    <value>{0} এর প্রস্থ {1} পিক্সেল</value>
   </data>
   <data name="DataTable_ExportCsv" xml:space="preserve">
     <value>CSV রপ্তানি করুন</value>
@@ -788,5 +773,125 @@
   </data>
   <data name="DataTable_EditInvalidOther" xml:space="preserve">
     <value>সংরক্ষণের আগে {0}টি ঘর ঠিক করতে হবে</value>
+  </data>
+  <data name="Table_ResizeColumn" xml:space="preserve">
+    <value>{0} এর আকার বদলান</value>
+  </data>
+  <data name="Table_ColumnWidthValue" xml:space="preserve">
+    <value>{0} পিক্সেল</value>
+  </data>
+  <data name="Menu_Options" xml:space="preserve">
+    <value>বিকল্প</value>
+  </data>
+  <data name="DataTable_ColumnOptions" xml:space="preserve">
+    <value>{0} কলামের বিকল্প</value>
+  </data>
+  <data name="DataTable_SortAscending" xml:space="preserve">
+    <value>ঊর্ধ্বক্রমে সাজান</value>
+  </data>
+  <data name="DataTable_SortDescending" xml:space="preserve">
+    <value>অবরোহক্রমে সাজান</value>
+  </data>
+  <data name="DataTable_RemoveSort" xml:space="preserve">
+    <value>সাজানো সরান</value>
+  </data>
+  <data name="DataTable_GroupByColumn" xml:space="preserve">
+    <value>এই কলাম অনুযায়ী গ্রুপ করুন</value>
+  </data>
+  <data name="DataTable_StopGrouping" xml:space="preserve">
+    <value>গ্রুপ করা বন্ধ করুন</value>
+  </data>
+  <data name="DataTable_MoveColumnLeft" xml:space="preserve">
+    <value>বাঁয়ে সরান</value>
+  </data>
+  <data name="DataTable_MoveColumnRight" xml:space="preserve">
+    <value>ডানে সরান</value>
+  </data>
+  <data name="DataTable_HideColumn" xml:space="preserve">
+    <value>কলাম লুকান</value>
+  </data>
+  <data name="DataTable_FilterColumn" xml:space="preserve">
+    <value>{0} ফিল্টার করুন</value>
+  </data>
+  <data name="DataTable_FilterColumnActive" xml:space="preserve">
+    <value>{0} ফিল্টার করুন, ফিল্টার করা হয়েছে</value>
+  </data>
+  <data name="DataTable_FirstCondition" xml:space="preserve">
+    <value>প্রথম শর্ত</value>
+  </data>
+  <data name="DataTable_FirstValue" xml:space="preserve">
+    <value>প্রথম মান</value>
+  </data>
+  <data name="DataTable_SecondCondition" xml:space="preserve">
+    <value>দ্বিতীয় শর্ত</value>
+  </data>
+  <data name="DataTable_SecondValue" xml:space="preserve">
+    <value>দ্বিতীয় মান</value>
+  </data>
+  <data name="DataTable_FilterLogic" xml:space="preserve">
+    <value>শর্ত একত্র করুন</value>
+  </data>
+  <data name="DataTable_FilterAnd" xml:space="preserve">
+    <value>এবং</value>
+  </data>
+  <data name="DataTable_FilterOr" xml:space="preserve">
+    <value>অথবা</value>
+  </data>
+  <data name="DataTable_ApplyFilter" xml:space="preserve">
+    <value>ফিল্টার করুন</value>
+  </data>
+  <data name="DataTable_ClearFilter" xml:space="preserve">
+    <value>মুছুন</value>
+  </data>
+  <data name="DataTable_FilterAppliedOne" xml:space="preserve">
+    <value>{0} এ ফিল্টার লাগানো হয়েছে, {1}টি সারি দেখানো হচ্ছে</value>
+  </data>
+  <data name="DataTable_FilterAppliedOther" xml:space="preserve">
+    <value>{0} এ ফিল্টার লাগানো হয়েছে, {1}টি সারি দেখানো হচ্ছে</value>
+  </data>
+  <data name="DataTable_FilterRemoved" xml:space="preserve">
+    <value>{0} থেকে ফিল্টার সরানো হয়েছে</value>
+  </data>
+  <data name="DataTable_Yes" xml:space="preserve">
+    <value>হ্যাঁ</value>
+  </data>
+  <data name="DataTable_No" xml:space="preserve">
+    <value>না</value>
+  </data>
+  <data name="DataTable_OperatorContains" xml:space="preserve">
+    <value>রয়েছে</value>
+  </data>
+  <data name="DataTable_OperatorDoesNotContain" xml:space="preserve">
+    <value>নেই</value>
+  </data>
+  <data name="DataTable_OperatorStartsWith" xml:space="preserve">
+    <value>দিয়ে শুরু</value>
+  </data>
+  <data name="DataTable_OperatorEndsWith" xml:space="preserve">
+    <value>দিয়ে শেষ</value>
+  </data>
+  <data name="DataTable_OperatorIsEqualTo" xml:space="preserve">
+    <value>সমান</value>
+  </data>
+  <data name="DataTable_OperatorIsNotEqualTo" xml:space="preserve">
+    <value>সমান নয়</value>
+  </data>
+  <data name="DataTable_OperatorIsGreaterThan" xml:space="preserve">
+    <value>এর চেয়ে বড়</value>
+  </data>
+  <data name="DataTable_OperatorIsGreaterThanOrEqualTo" xml:space="preserve">
+    <value>এর চেয়ে বড় বা সমান</value>
+  </data>
+  <data name="DataTable_OperatorIsLessThan" xml:space="preserve">
+    <value>এর চেয়ে ছোট</value>
+  </data>
+  <data name="DataTable_OperatorIsLessThanOrEqualTo" xml:space="preserve">
+    <value>এর চেয়ে ছোট বা সমান</value>
+  </data>
+  <data name="DataTable_OperatorIsEmpty" xml:space="preserve">
+    <value>খালি</value>
+  </data>
+  <data name="DataTable_OperatorIsNotEmpty" xml:space="preserve">
+    <value>খালি নয়</value>
   </data>
 </root>

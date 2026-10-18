@@ -35,7 +35,7 @@ public class TwDataTableVirtualizationTests : TwBlazorTestBase
                 .Add(p => p.Id, "products")
                 .Add(p => p.Items, items ?? Products())
                 .Add(p => p.Columns, withColumns ? Columns() : null)
-                .Add(p => p.Virtualize, virtualize);
+                .Add(p => p.EnableVirtualization, virtualize);
             configure?.Invoke(parameters);
         });
 
@@ -147,7 +147,7 @@ public class TwDataTableVirtualizationTests : TwBlazorTestBase
     }
 
     [Fact]
-    public void Virtualize_WithoutColumns_RendersEveryRowWithoutPaging()
+    public void Virtualize_WithoutColumns_VirtualizesTheManualRows()
     {
         // Arrange
         Microsoft.AspNetCore.Components.RenderFragment<Product> row = product => builder =>
@@ -161,7 +161,10 @@ public class TwDataTableVirtualizationTests : TwBlazorTestBase
         var cut = Render(p => p.Add(x => x.TableRow, row), withColumns: false);
 
         // Assert
-        Assert.Equal(30, cut.FindAll("tbody tr").Count);
+        // Rows written with TableRow are virtualized too: every row (bUnit renders them all) between Virtualize's two
+        // spacer rows, and no pagination.
+        Assert.Equal(30, cut.FindAll("tbody tr td").Count);
+        Assert.Equal(32, cut.FindAll("tbody tr").Count);
         Assert.Empty(cut.FindAll("nav[aria-label='Table pagination']"));
     }
 
@@ -388,7 +391,7 @@ public class TwDataTableItemsProviderTests : TwBlazorTestBase
     public void WithoutPaging_AsksForEveryRow()
     {
         // Act
-        var cut = Render(p => p.Add(x => x.Pageable, false));
+        var cut = Render(p => p.Add(x => x.EnablePagination, false));
 
         // Assert
         Assert.Null(Assert.Single(_requests).Count);
@@ -458,7 +461,7 @@ public class TwDataTableItemsProviderTests : TwBlazorTestBase
     public void Virtualized_LoadsTheRowsInView_WithTheirPlaces()
     {
         // Act
-        var cut = Render(p => p.Add(x => x.Virtualize, true));
+        var cut = Render(p => p.Add(x => x.EnableVirtualization, true));
 
         // Assert
         Assert.NotEmpty(_requests);
@@ -472,7 +475,7 @@ public class TwDataTableItemsProviderTests : TwBlazorTestBase
     public async Task Virtualized_Sorting_AsksForTheRowsAgain()
     {
         // Arrange
-        var cut = Render(p => p.Add(x => x.Virtualize, true));
+        var cut = Render(p => p.Add(x => x.EnableVirtualization, true));
         var before = _requests.Count;
 
         // Act
@@ -487,7 +490,7 @@ public class TwDataTableItemsProviderTests : TwBlazorTestBase
     public void Virtualized_ShowsTheEmptyMessage_WhenNothingMatches()
     {
         // Act
-        var cut = Render(p => p.Add(x => x.Virtualize, true), provider: _ => ValueTask.FromResult(new TwDataTableItemsResult<Product>([], 0)));
+        var cut = Render(p => p.Add(x => x.EnableVirtualization, true), provider: _ => ValueTask.FromResult(new TwDataTableItemsResult<Product>([], 0)));
 
         // Assert
         Assert.Equal("No data available.", cut.Find("tbody td").TextContent.Trim());

@@ -194,6 +194,18 @@ public class TwTooltipTests : TwBlazorTestBase
         Assert.Contains(tooltipTheme.Top, cut.Find("[role='tooltip']").GetAttribute("class"));
     }
 
+    [Theory]
+    [InlineData(TooltipPlacement.Top, "top")]
+    [InlineData(TooltipPlacement.Bottom, "bottom")]
+    [InlineData(TooltipPlacement.Left, "left")]
+    [InlineData(TooltipPlacement.Right, "right")]
+    public void TwTooltip_Placement_IsExposedForPositioningInsideScrollingContainers(TooltipPlacement placement, string expected)
+    {
+        var cut = RenderTooltip(p => p.Add(x => x.Placement, placement));
+
+        Assert.Equal(expected, cut.Find("[role='tooltip']").GetAttribute("data-tw-placement"));
+    }
+
     #endregion
 
     #region Arrow

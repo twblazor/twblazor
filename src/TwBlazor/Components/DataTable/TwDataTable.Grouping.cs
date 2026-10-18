@@ -15,7 +15,6 @@ public partial class TwDataTable<TItem>
     private HashSet<string> collapsedGroups = [];
     private List<TwDataTableGroup<TItem>> groups = [];
     private List<DataTableLine> lines = [];
-    private List<DataTableGroupSegment> displayedSegments = [];
 
     /// <summary>
     /// Gets or sets the <see cref="TwDataTableColumn{TItem}.Name"/> of the column to group the rows by when the
@@ -130,22 +129,42 @@ public partial class TwDataTable<TItem>
     /// Turns the lines on the current page into one segment per group. A page that starts part way through a group
     /// repeats that group's header, so every row on screen sits under the header it belongs to.
     /// </summary>
-    private void BuildDisplayedSegments(IEnumerable<DataTableLine> pageLines)
+    private static List<DataTableGroupSegment> SegmentsOf(IEnumerable<DataTableLine> pageLines)
     {
-        displayedSegments = [];
+        List<DataTableGroupSegment> segments = [];
         foreach (var line in pageLines)
         {
-            if (displayedSegments.Count == 0 || !ReferenceEquals(displayedSegments[^1].Group, line.Group))
+            if (segments.Count == 0 || !ReferenceEquals(segments[^1].Group, line.Group))
             {
-                displayedSegments.Add(new DataTableGroupSegment(line.Group, []));
+                segments.Add(new DataTableGroupSegment(line.Group, []));
             }
 
             if (!line.IsHeader)
             {
-                displayedSegments[^1].Items.Add(line.Item!);
+                segments[^1].Items.Add(line.Item!);
             }
         }
+
+        return segments;
     }
+
+    /// <summary>
+    /// Groups by a column from its column menu, or stops grouping when <paramref name="column"/> is <c>null</c>.
+    /// </summary>
+    private Task SetGroupByAsync(TwDataTableColumn<TItem>? column) =>
+        OnGroupByChangedAsync(new GroupOption(column?.Name, column?.Title ?? string.Empty));
+
+    /// <summary>
+    /// Groups by a column from its column menu, or stops grouping when the table is already grouped by it.
+    /// </summary>
+    private Task ToggleGroupByAsync(TwDataTableColumn<TItem> column) =>
+        SetGroupByAsync(currentGroupBy == column.Name ? null : column);
+
+    private bool CanGroupColumn(TwDataTableColumn<TItem> column) =>
+        column.Groupable && column.PropertySelector != null && !usesProvider;
+
+    private string GroupMenuLabel(TwDataTableColumn<TItem> column) =>
+        currentGroupBy == column.Name ? localizer[TwStrings.DataTable_StopGrouping] : localizer[TwStrings.DataTable_GroupByColumn];
 
     private async Task OnGroupByChangedAsync(GroupOption option)
     {

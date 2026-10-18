@@ -8,7 +8,7 @@ namespace TwBlazor.Components;
 
 /// <summary>
 /// A snapshot of everything a person can change about a <see cref="TwDataTable{TItem}"/>: the sort, the search, the
-/// page, the page size, the columns and the grouping. Save it anywhere (a database, the URL, browser storage) and
+/// page, the page size, the columns and their filters, and the grouping. Save it anywhere (a database, the URL, browser storage) and
 /// hand it back through <see cref="TwDataTable{TItem}.State"/> or <see cref="TwDataTable{TItem}.SetStateAsync"/> to
 /// restore the table.
 /// </summary>
@@ -45,7 +45,7 @@ public sealed class TwDataTableState
     public int? RowsPerPage { get; set; }
 
     /// <summary>
-    /// Gets or sets the columns in display order, with whether each is shown and how wide it is.
+    /// Gets or sets the columns in display order, with whether each is shown, how wide it is and its filter.
     /// </summary>
     public List<TwDataTableColumnState> Columns { get; set; } = [];
 
@@ -112,8 +112,13 @@ public sealed class TwDataTableColumnState
     public string? Width { get; set; }
 
     /// <summary>
+    /// Gets or sets the column's filter, or <c>null</c> when it is not filtered.
+    /// </summary>
+    public TwDataTableColumnFilter? Filter { get; set; }
+
+    /// <summary>
     /// Creates a copy of these settings.
     /// </summary>
     /// <returns>A new <see cref="TwDataTableColumnState"/> with the same values.</returns>
-    public TwDataTableColumnState Clone() => new() { Name = Name, Visible = Visible, Width = Width };
+    public TwDataTableColumnState Clone() => new() { Name = Name, Visible = Visible, Width = Width, Filter = Filter?.Clone() };
 }

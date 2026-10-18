@@ -394,7 +394,7 @@ public class TwDataTableEditingTests : TwBlazorTestBase
     public void EditingAVirtualizedRow_KeepsItsRowIndex()
     {
         // Arrange
-        var cut = Render(p => p.Add(x => x.Virtualize, true));
+        var cut = Render(p => p.Add(x => x.EnableVirtualization, true));
 
         // Act
         cut.Find("#products-edit-row-1").Click();

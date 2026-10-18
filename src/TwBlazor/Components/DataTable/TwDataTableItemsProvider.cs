@@ -8,7 +8,7 @@ namespace TwBlazor.Components;
 /// <summary>
 /// Loads rows for a <see cref="TwDataTable{TItem}"/> on demand, such as from a database or an API, so the table never
 /// holds more rows than it shows. The table asks for one page at a time, or for the rows scrolled into view when
-/// <see cref="TwDataTable{TItem}.Virtualize"/> is set.
+/// <see cref="TwDataTable{TItem}.EnableVirtualization"/> is set.
 /// </summary>
 /// <typeparam name="TItem">The type of items displayed in the table.</typeparam>
 /// <param name="request">Which rows to load, and the sort and search to load them with.</param>
@@ -45,6 +45,12 @@ public sealed class TwDataTableItemsRequest
     /// Gets the text in the search field, or <c>null</c> when nothing is searched for.
     /// </summary>
     public string? SearchQuery { get; init; }
+
+    /// <summary>
+    /// Gets each filtered column's filter, keyed by <see cref="TwDataTableColumn{TItem}.Name"/>. Empty when no column
+    /// is filtered.
+    /// </summary>
+    public IReadOnlyDictionary<string, TwDataTableColumnFilter> Filters { get; init; } = new Dictionary<string, TwDataTableColumnFilter>();
 
     /// <summary>
     /// Gets a token that is cancelled when the table no longer needs the rows, for example because the person sorted

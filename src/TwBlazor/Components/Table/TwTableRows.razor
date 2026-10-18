@@ -1,0 +1,55 @@
+﻿@namespace TwBlazor.Components
+@using Microsoft.AspNetCore.Components.Web.Virtualization
+@typeparam TItem
+
+@if (isVirtualized && usesProvider)
+{
+    <Virtualize @ref="virtualizeRef"
+                TItem="TwTableRow<TItem>"
+                ItemsProvider="@ProvideVirtualRowsAsync"
+                ItemSize="@table!.ItemSize"
+                OverscanCount="@table.OverscanCount"
+                SpacerElement="tr"
+                Context="row">
+        <ItemContent>@RenderRow(row)</ItemContent>
+        <Placeholder>@LoadingContent</Placeholder>
+        <EmptyContent>@EmptyContent</EmptyContent>
+    </Virtualize>
+}
+else if (isVirtualized)
+{
+    @if (allRows.Count == 0)
+    {
+        @EmptyContent
+    }
+    else
+    {
+        <Virtualize TItem="TwTableRow<TItem>"
+                    Items="@allRows"
+                    ItemSize="@table!.ItemSize"
+                    OverscanCount="@table.OverscanCount"
+                    SpacerElement="tr"
+                    Context="row">
+            @RenderRow(row)
+        </Virtualize>
+    }
+}
+else if (loading && viewRows.Count == 0)
+{
+    @LoadingContent
+}
+else if (viewRows.Count == 0)
+{
+    @EmptyContent
+}
+else if (PageTemplate != null)
+{
+    @PageTemplate(new TwTableRowsPage<TItem>(viewRows))
+}
+else
+{
+    @foreach (var row in viewRows)
+    {
+        @RenderRow(row)
+    }
+}

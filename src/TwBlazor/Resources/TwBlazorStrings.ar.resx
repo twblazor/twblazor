@@ -354,7 +354,7 @@
   <data name="DataTable_SearchPlaceholder" xml:space="preserve">
     <value>بحث…</value>
   </data>
-  <data name="DataTable_Pagination" xml:space="preserve">
+  <data name="Table_Pagination" xml:space="preserve">
     <value>ترقيم صفحات الجدول</value>
   </data>
   <data name="DataTable_PageStatusOne" xml:space="preserve">
@@ -696,23 +696,8 @@
   <data name="DataTable_ColumnHidden" xml:space="preserve">
     <value>تم إخفاء العمود {0}</value>
   </data>
-  <data name="DataTable_MoveColumnUp" xml:space="preserve">
-    <value>نقل {0} لأعلى</value>
-  </data>
-  <data name="DataTable_MoveColumnDown" xml:space="preserve">
-    <value>نقل {0} لأسفل</value>
-  </data>
   <data name="DataTable_ColumnMoved" xml:space="preserve">
     <value>تم نقل {0} إلى الموضع {1} من {2}</value>
-  </data>
-  <data name="DataTable_NarrowColumn" xml:space="preserve">
-    <value>تضييق {0}</value>
-  </data>
-  <data name="DataTable_WidenColumn" xml:space="preserve">
-    <value>توسيع {0}</value>
-  </data>
-  <data name="DataTable_ColumnResized" xml:space="preserve">
-    <value>عرض {0} هو {1} بكسل</value>
   </data>
   <data name="DataTable_ExportCsv" xml:space="preserve">
     <value>تصدير CSV</value>
@@ -794,5 +779,125 @@
   </data>
   <data name="DataTable_EditInvalidOther" xml:space="preserve">
     <value>يجب إصلاح {0} حقول قبل الحفظ</value>
+  </data>
+  <data name="Table_ResizeColumn" xml:space="preserve">
+    <value>تغيير حجم {0}</value>
+  </data>
+  <data name="Table_ColumnWidthValue" xml:space="preserve">
+    <value>{0} بكسل</value>
+  </data>
+  <data name="Menu_Options" xml:space="preserve">
+    <value>الخيارات</value>
+  </data>
+  <data name="DataTable_ColumnOptions" xml:space="preserve">
+    <value>خيارات العمود {0}</value>
+  </data>
+  <data name="DataTable_SortAscending" xml:space="preserve">
+    <value>فرز تصاعدي</value>
+  </data>
+  <data name="DataTable_SortDescending" xml:space="preserve">
+    <value>فرز تنازلي</value>
+  </data>
+  <data name="DataTable_RemoveSort" xml:space="preserve">
+    <value>إزالة الفرز</value>
+  </data>
+  <data name="DataTable_GroupByColumn" xml:space="preserve">
+    <value>التجميع حسب هذا العمود</value>
+  </data>
+  <data name="DataTable_StopGrouping" xml:space="preserve">
+    <value>إيقاف التجميع</value>
+  </data>
+  <data name="DataTable_MoveColumnLeft" xml:space="preserve">
+    <value>نقل لليسار</value>
+  </data>
+  <data name="DataTable_MoveColumnRight" xml:space="preserve">
+    <value>نقل لليمين</value>
+  </data>
+  <data name="DataTable_HideColumn" xml:space="preserve">
+    <value>إخفاء العمود</value>
+  </data>
+  <data name="DataTable_FilterColumn" xml:space="preserve">
+    <value>تصفية {0}</value>
+  </data>
+  <data name="DataTable_FilterColumnActive" xml:space="preserve">
+    <value>تصفية {0}، مُصفّى</value>
+  </data>
+  <data name="DataTable_FirstCondition" xml:space="preserve">
+    <value>الشرط الأول</value>
+  </data>
+  <data name="DataTable_FirstValue" xml:space="preserve">
+    <value>القيمة الأولى</value>
+  </data>
+  <data name="DataTable_SecondCondition" xml:space="preserve">
+    <value>الشرط الثاني</value>
+  </data>
+  <data name="DataTable_SecondValue" xml:space="preserve">
+    <value>القيمة الثانية</value>
+  </data>
+  <data name="DataTable_FilterLogic" xml:space="preserve">
+    <value>دمج الشروط</value>
+  </data>
+  <data name="DataTable_FilterAnd" xml:space="preserve">
+    <value>و</value>
+  </data>
+  <data name="DataTable_FilterOr" xml:space="preserve">
+    <value>أو</value>
+  </data>
+  <data name="DataTable_ApplyFilter" xml:space="preserve">
+    <value>تصفية</value>
+  </data>
+  <data name="DataTable_ClearFilter" xml:space="preserve">
+    <value>مسح</value>
+  </data>
+  <data name="DataTable_FilterAppliedOne" xml:space="preserve">
+    <value>تم تطبيق التصفية على {0}، يُعرض {1} صف</value>
+  </data>
+  <data name="DataTable_FilterAppliedOther" xml:space="preserve">
+    <value>تم تطبيق التصفية على {0}، تُعرض {1} صفوف</value>
+  </data>
+  <data name="DataTable_FilterRemoved" xml:space="preserve">
+    <value>تمت إزالة التصفية من {0}</value>
+  </data>
+  <data name="DataTable_Yes" xml:space="preserve">
+    <value>نعم</value>
+  </data>
+  <data name="DataTable_No" xml:space="preserve">
+    <value>لا</value>
+  </data>
+  <data name="DataTable_OperatorContains" xml:space="preserve">
+    <value>يحتوي على</value>
+  </data>
+  <data name="DataTable_OperatorDoesNotContain" xml:space="preserve">
+    <value>لا يحتوي على</value>
+  </data>
+  <data name="DataTable_OperatorStartsWith" xml:space="preserve">
+    <value>يبدأ بـ</value>
+  </data>
+  <data name="DataTable_OperatorEndsWith" xml:space="preserve">
+    <value>ينتهي بـ</value>
+  </data>
+  <data name="DataTable_OperatorIsEqualTo" xml:space="preserve">
+    <value>يساوي</value>
+  </data>
+  <data name="DataTable_OperatorIsNotEqualTo" xml:space="preserve">
+    <value>لا يساوي</value>
+  </data>
+  <data name="DataTable_OperatorIsGreaterThan" xml:space="preserve">
+    <value>أكبر من</value>
+  </data>
+  <data name="DataTable_OperatorIsGreaterThanOrEqualTo" xml:space="preserve">
+    <value>أكبر من أو يساوي</value>
+  </data>
+  <data name="DataTable_OperatorIsLessThan" xml:space="preserve">
+    <value>أقل من</value>
+  </data>
+  <data name="DataTable_OperatorIsLessThanOrEqualTo" xml:space="preserve">
+    <value>أقل من أو يساوي</value>
+  </data>
+  <data name="DataTable_OperatorIsEmpty" xml:space="preserve">
+    <value>فارغ</value>
+  </data>
+  <data name="DataTable_OperatorIsNotEmpty" xml:space="preserve">
+    <value>ليس فارغًا</value>
   </data>
 </root>

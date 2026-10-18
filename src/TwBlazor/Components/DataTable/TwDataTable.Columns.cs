@@ -1,10 +1,9 @@
 // Copyright (c) 2025 Jack Shuter @ TwBlazor - twblazor.com
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
-using System.Globalization;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
+using TwBlazor.Enums;
 using TwBlazor.Localization;
 using TwBlazor.Utilities;
 
@@ -12,102 +11,69 @@ namespace TwBlazor.Components;
 
 public partial class TwDataTable<TItem> : IAsyncDisposable
 {
-    /// <summary>
-    /// The narrowest a person can make a column by resizing it, in pixels.
-    /// </summary>
-    public const int MinimumColumnWidth = 48;
-
-    private const int maximumColumnWidth = 2000;
-    private const int resizeStep = 32;
-
     private List<TwDataTableColumnState> columnStates = [];
     private List<TwDataTableColumn<TItem>> visibleColumns = [];
     private Dictionary<string, TwDataTableColumn<TItem>> columnsByName = [];
     private string? columnSignature;
-    private bool columnPanelOpen;
     private string? pendingFocusId;
-    private bool resizeAttached;
-    private ElementReference rootRef;
+    private string? activeMenuColumn;
     private DotNetObjectReference<TwDataTable<TItem>>? selfReference;
 
     /// <summary>
-    /// Whether to show a Columns button that opens a panel for showing, hiding and reordering the columns.
-    /// Only applies when <see cref="Columns"/> is used. Defaults to <c>false</c>.
+    /// Whether each column header has an options button that opens a <see cref="TwMenu"/> for sorting, grouping,
+    /// moving and hiding the column, showing any hidden column again, and resetting the columns. Only applies when
+    /// <see cref="Columns"/> is used. Defaults to <c>false</c>.
     /// </summary>
     [Parameter]
-    public bool ColumnPanel { get; set; }
+    public bool ColumnMenu { get; set; }
 
     /// <summary>
-    /// Gets or sets the text of the button that opens the column panel. Defaults to the localized
-    /// <see cref="TwStrings.DataTable_Columns"/> text ("Columns").
-    /// </summary>
-    [Parameter]
-    public string? ColumnPanelLabel { get; set; }
-
-    /// <summary>
-    /// Whether people can resize the columns by dragging the edge of a column header. The column panel gains
-    /// Narrower and Wider buttons for each column too, so the Columns button is shown and resizing works from the
-    /// keyboard. Only applies when <see cref="Columns"/> is used, and turns on <see cref="FixedLayout"/> so a
-    /// column keeps the width it is given. Defaults to <c>false</c>.
+    /// Whether people can resize the columns by dragging the border at the end of a column's header, or by focusing
+    /// that border and pressing the arrow keys (<see cref="TwTable.ResizableColumns"/>). Only applies when
+    /// <see cref="Columns"/> is used. Defaults to <c>false</c>.
     /// </summary>
     [Parameter]
     public bool ResizableColumns { get; set; }
 
-    private string effectiveColumnPanelLabel => ColumnPanelLabel ?? localizer[TwStrings.DataTable_Columns];
+    private bool effectiveResizableColumns => ResizableColumns && hasColumns;
 
-    private bool showColumnPanelButton => (ColumnPanel || ResizableColumns) && hasColumns;
-
-    private bool effectiveFixedLayout => FixedLayout || (ResizableColumns && hasColumns);
-
-    private string columnPanelToggleId => $"{Id}-columns-toggle";
-
-    private string columnPanelId => $"{Id}-columns";
-
-    private Dictionary<string, object> columnPanelToggleAttributes => new()
-    {
-        ["aria-expanded"] = columnPanelOpen ? "true" : "false",
-        ["aria-controls"] = columnPanelId
-    };
-
-    private string columnPanelHeaderClasses => new ClassBuilder(options.Theme.Display.Flex)
+    private string headerCellRowClasses => new ClassBuilder(options.Theme.Display.Flex)
         .AddClass(options.Theme.Flexbox.Align.Center)
-        .AddClass(options.Theme.Flexbox.Justify.Between)
-        .AddClass(options.Theme.Spacing.Gap.Md)
-        .AddClass(options.Theme.Spacing.MarginBottom.Md).Build();
-
-    private string columnListClasses => new ClassBuilder(options.Theme.Display.Flex)
-        .AddClass(options.Theme.Flexbox.Col)
         .AddClass(options.Theme.Spacing.Gap.Sm).Build();
 
-    private string columnListItemClasses => new ClassBuilder(options.Theme.Display.Flex)
+    private string headerActionsClasses => new ClassBuilder(options.Theme.Display.Flex)
         .AddClass(options.Theme.Flexbox.Align.Center)
-        .AddClass(options.Theme.Flexbox.Justify.Between)
-        .AddClass(options.Theme.Spacing.Gap.Md).Build();
-
-    private string columnMoveButtonsClasses => new ClassBuilder(options.Theme.Display.Flex)
-        .AddClass(options.Theme.Spacing.Gap.Sm).Build();
+        .AddClass(options.Theme.Spacing.PushEnd).Build();
 
     private string HeaderCellClasses(TwDataTableColumn<TItem> column) => new ClassBuilder(theme.HeaderCellPadding)
-        .AddClass(options.Theme.Position.Relative, ResizableColumns && column.Resizable)
         .AddClass(column.HeaderClass ?? string.Empty).Build();
 
+    private string ColumnElementId(TwDataTableColumn<TItem> column) => $"{Id}-col-{column.Name}";
+
+    private string ColumnMenuId(TwDataTableColumn<TItem> column) => $"{Id}-col-{column.Name}-menu";
+
     private RenderFragment? effectiveColumnGroup =>
-        hasColumns && (ResizableColumns || visibleColumns.Any(c => !string.IsNullOrWhiteSpace(ColumnWidth(c))))
+        hasColumns && (effectiveResizableColumns || visibleColumns.Any(c => !string.IsNullOrWhiteSpace(ColumnWidth(c))))
             ? builder =>
             {
                 foreach (var column in visibleColumns)
                 {
                     builder.OpenComponent<TwTableColumn>(0);
                     builder.SetKey(column.Name);
-                    builder.AddComponentParameter(1, nameof(TwTableColumn.Width), ColumnWidth(column));
-                    builder.AddComponentParameter(2, "data-column", column.Name);
+                    builder.AddComponentParameter(1, nameof(TwTableColumn.Id), ColumnElementId(column));
+                    builder.AddComponentParameter(2, nameof(TwTableColumn.Width), ColumnWidth(column));
+                    builder.AddComponentParameter(3, nameof(TwTableColumn.Label), column.Title);
+                    builder.AddComponentParameter(4, nameof(TwTableColumn.Resizable), column.Resizable);
+                    builder.AddComponentParameter(5, "data-column", column.Name);
                     builder.CloseComponent();
                 }
 
                 if (showActionsColumn)
                 {
-                    builder.OpenComponent<TwTableColumn>(3);
+                    builder.OpenComponent<TwTableColumn>(6);
                     builder.SetKey("tw-actions");
+                    builder.AddComponentParameter(7, nameof(TwTableColumn.Id), $"{Id}-col-actions");
+                    builder.AddComponentParameter(8, nameof(TwTableColumn.Resizable), false);
                     builder.CloseComponent();
                 }
             }
@@ -165,9 +131,19 @@ public partial class TwDataTable<TItem> : IAsyncDisposable
             merged.Add(new TwDataTableColumnState { Name = column.Name, Visible = column.Visible, Width = column.Width });
         }
 
-        foreach (var state in merged.Where(s => !columnsByName[s.Name].Hideable))
+        foreach (var state in merged)
         {
-            state.Visible = true;
+            var column = columnsByName[state.Name];
+            if (!column.Hideable)
+            {
+                state.Visible = true;
+            }
+
+            // A filter saved for a column that can no longer be filtered would hide rows nobody can unhide.
+            if (!column.Filterable)
+            {
+                state.Filter = null;
+            }
         }
 
         if (merged.Count > 0 && !merged.Any(s => s.Visible))
@@ -186,18 +162,14 @@ public partial class TwDataTable<TItem> : IAsyncDisposable
     private bool CanToggleColumn(TwDataTableColumnState state) =>
         columnsByName[state.Name].Hideable && (!state.Visible || columnStates.Count(s => s.Visible) > 1);
 
-    private void ToggleColumnPanel()
-    {
-        columnPanelOpen = !columnPanelOpen;
-    }
+    private static bool CanSortColumn(TwDataTableColumn<TItem> column) => column.IsSortable && column.PropertySelector != null;
 
-    private void OnColumnPanelKeyDown(KeyboardEventArgs args)
+    private bool CanHideColumn(TwDataTableColumn<TItem> column) =>
+        columnStates.FirstOrDefault(s => s.Name == column.Name) is { } state && state.Visible && CanToggleColumn(state);
+
+    private void OnColumnMenuOpenChanged(string columnName, bool open)
     {
-        if (args.Key == "Escape")
-        {
-            columnPanelOpen = false;
-            pendingFocusId = columnPanelToggleId;
-        }
+        activeMenuColumn = open ? columnName : null;
     }
 
     private async Task SetColumnVisibleAsync(string name, bool visible)
@@ -206,6 +178,14 @@ public partial class TwDataTable<TItem> : IAsyncDisposable
         if (state is null || state.Visible == visible || !CanToggleColumn(state))
         {
             return;
+        }
+
+        // Hiding the column whose menu is open removes the menu's button, so focus moves to a neighbour's.
+        if (!visible && activeMenuColumn == name)
+        {
+            var index = visibleColumns.FindIndex(c => c.Name == name);
+            var neighbour = visibleColumns.ElementAtOrDefault(index + 1) ?? visibleColumns.ElementAtOrDefault(index - 1);
+            pendingFocusId = neighbour is null ? null : $"{ColumnMenuId(neighbour)}-trigger";
         }
 
         state.Visible = visible;
@@ -220,11 +200,11 @@ public partial class TwDataTable<TItem> : IAsyncDisposable
     }
 
     /// <summary>
-    /// Moves a column one place earlier or later. Focus follows the column to its new place, moving to the other
-    /// button when the one that was pressed can go no further.
+    /// Moves a column one place towards the left or the right of the screen, whichever way the text runs.
     /// </summary>
-    private async Task MoveColumnAsync(string name, int offset)
+    private async Task MoveColumnAsync(string name, bool towardsLeft)
     {
+        var offset = towardsLeft != isRightToLeft ? -1 : 1;
         var from = columnStates.FindIndex(s => s.Name == name);
         var to = from + offset;
         if (from < 0 || to < 0 || to >= columnStates.Count)
@@ -237,84 +217,81 @@ public partial class TwDataTable<TItem> : IAsyncDisposable
         columnStates.Insert(to, state);
         RebuildVisibleColumns();
 
-        var atEdge = offset < 0 ? to == 0 : to == columnStates.Count - 1;
-        var direction = (offset < 0) != atEdge ? "earlier" : "later";
-        pendingFocusId = ColumnMoveButtonId(to, direction);
-
         sortStatusMessage = localizer[TwStrings.DataTable_ColumnMoved, columnsByName[name].Title, to + 1, columnStates.Count];
 
         await NotifyStateChangedAsync();
     }
 
-    private string ColumnMoveButtonId(int index, string direction) => $"{Id}-column-{index}-{direction}";
+    /// <summary>
+    /// Whether a column can move one place towards the left or the right of the screen.
+    /// </summary>
+    private bool CanMoveColumn(string name, bool towardsLeft)
+    {
+        var index = columnStates.FindIndex(s => s.Name == name);
+        var earlier = towardsLeft != isRightToLeft;
+        return earlier ? index > 0 : index >= 0 && index < columnStates.Count - 1;
+    }
 
     private async Task ResetColumnsAsync()
     {
+        var filtered = columnStates.Any(s => s.Filter is not null);
         columnStates = MergeColumnStates(DefaultColumnStates());
         RebuildVisibleColumns();
+
+        if (filtered)
+        {
+            RefreshView(resetPage: true);
+        }
+
         sortStatusMessage = localizer[TwStrings.DataTable_ColumnsReset];
         await NotifyStateChangedAsync();
     }
 
-    private int? ColumnPixelWidth(TwDataTableColumn<TItem> column)
-    {
-        var width = ColumnWidth(column);
-        return width is not null
-            && width.EndsWith("px", StringComparison.OrdinalIgnoreCase)
-            && double.TryParse(width[..^2], NumberStyles.Float, CultureInfo.InvariantCulture, out var pixels)
-            ? (int)Math.Round(pixels)
-            : null;
-    }
-
     /// <summary>
-    /// Makes a column narrower or wider from the column panel, which is how keyboard and single pointer users
-    /// resize a column without dragging its edge.
+    /// Keeps the widths a person resized the columns to, so they are saved with the table's state.
     /// </summary>
-    private async Task ResizeColumnAsync(TwDataTableColumn<TItem> column, int change)
+    private async Task OnColumnsResizedAsync(IReadOnlyDictionary<string, string> widths)
     {
-        var current = ColumnPixelWidth(column) ?? await MeasureColumnAsync(column);
-        await CommitColumnWidth(column.Name, current + change);
-        sortStatusMessage = localizer[TwStrings.DataTable_ColumnResized, column.Title, ColumnPixelWidth(column) ?? current];
-    }
-
-    private string ResizeButtonId(int index, string direction) => $"{Id}-column-{index}-{direction}";
-
-    private async Task<int> MeasureColumnAsync(TwDataTableColumn<TItem> column)
-    {
-        try
+        var changed = false;
+        foreach (var column in visibleColumns)
         {
-            return await jsRuntime.InvokeAsync<int>("twDataTable.measureColumn", rootRef, column.Name);
+            if (widths.TryGetValue(ColumnElementId(column), out var width)
+                && columnStates.FirstOrDefault(s => s.Name == column.Name) is { } state
+                && state.Width != width)
+            {
+                state.Width = width;
+                changed = true;
+            }
         }
-        catch (JSDisconnectedException)
+
+        if (changed)
         {
-            return MinimumColumnWidth;
-        }
-        catch (InvalidOperationException)
-        {
-            return MinimumColumnWidth;
+            await NotifyStateChangedAsync();
         }
     }
 
-    /// <summary>
-    /// Sets a column's width once a person has finished resizing it, by dragging its edge or from the column panel.
-    /// </summary>
-    /// <param name="name">The <see cref="TwDataTableColumn{TItem}.Name"/> of the resized column.</param>
-    /// <param name="width">The new width in pixels.</param>
-    /// <returns>A task that completes once the width is applied.</returns>
-    [JSInvokable]
-    public async Task CommitColumnWidth(string name, int width)
+    private async Task SetSortAsync(string columnName, SortDirection direction)
     {
-        var state = columnStates.FirstOrDefault(s => s.Name == name);
-        if (state is null || !columnsByName[name].Resizable)
+        var column = FindColumn(columnName);
+        if (column is not { IsSortable: true, PropertySelector: not null })
         {
             return;
         }
 
-        var clamped = Math.Clamp(width, MinimumColumnWidth, maximumColumnWidth);
-        state.Width = $"{clamped.ToString(CultureInfo.InvariantCulture)}px";
-        StateHasChanged();
+        currentSortColumn = direction == SortDirection.None ? null : columnName;
+        currentSortDirection = direction;
+        sortStatusMessage = direction switch
+        {
+            SortDirection.Ascending => localizer[TwStrings.DataTable_SortedAscending, column.Title],
+            SortDirection.Descending => localizer[TwStrings.DataTable_SortedDescending, column.Title],
+            _ => localizer[TwStrings.DataTable_SortRemoved, column.Title]
+        };
+
+        RefreshView(resetPage: true);
         await NotifyStateChangedAsync();
     }
+
+    private bool IsSortedBy(string columnName) => currentSortColumn == columnName && currentSortDirection != SortDirection.None;
 
     /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -326,15 +303,9 @@ public partial class TwDataTable<TItem> : IAsyncDisposable
             await LoadStoredStateAsync();
         }
 
-        await LoadIfRequestedAsync(firstRender);
+        await RefreshProviderRowsIfRequestedAsync();
         await RegisterEditEscapeAsync();
-
-        if (ResizableColumns && hasColumns && !resizeAttached)
-        {
-            resizeAttached = true;
-            selfReference ??= DotNetObjectReference.Create(this);
-            await InvokeScriptAsync("twDataTable.attachResize", rootRef, selfReference, MinimumColumnWidth, maximumColumnWidth);
-        }
+        await SyncFilterPanelAsync();
 
         if (pendingFocusId is { } focusId)
         {
@@ -360,15 +331,13 @@ public partial class TwDataTable<TItem> : IAsyncDisposable
     }
 
     /// <summary>
-    /// Detaches the column resize script and releases the reference it held to the table.
+    /// Removes the listeners the table registered for an open filter or an edited row, and releases the reference
+    /// the scripts held to it.
     /// </summary>
     /// <returns>A task that completes once the table is cleaned up.</returns>
     public async ValueTask DisposeAsync()
     {
-        if (resizeAttached)
-        {
-            await InvokeScriptAsync("twDataTable.detachResize", rootRef);
-        }
+        await CloseFilterScriptAsync();
 
         if (escapeRegistered)
         {
@@ -376,13 +345,6 @@ public partial class TwDataTable<TItem> : IAsyncDisposable
         }
 
         selfReference?.Dispose();
-
-        if (loadCancellation is not null)
-        {
-            await loadCancellation.CancelAsync();
-            loadCancellation.Dispose();
-        }
-
         GC.SuppressFinalize(this);
     }
 }
