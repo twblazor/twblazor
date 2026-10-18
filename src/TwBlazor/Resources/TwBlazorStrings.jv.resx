@@ -720,4 +720,43 @@
   <data name="DataTable_ExportedOther" xml:space="preserve">
     <value>{0} baris wis diekspor</value>
   </data>
+  <data name="DataTable_GroupBy" xml:space="preserve">
+    <value>Klompokake miturut</value>
+  </data>
+  <data name="DataTable_NoGrouping" xml:space="preserve">
+    <value>Ora diklompokake</value>
+  </data>
+  <data name="DataTable_GroupedBy" xml:space="preserve">
+    <value>Diklompokake miturut {0}</value>
+  </data>
+  <data name="DataTable_GroupingRemoved" xml:space="preserve">
+    <value>Klompok wis dibusak</value>
+  </data>
+  <data name="DataTable_GroupRowsOne" xml:space="preserve">
+    <value>{0} baris</value>
+  </data>
+  <data name="DataTable_GroupRowsOther" xml:space="preserve">
+    <value>{0} baris</value>
+  </data>
+  <data name="DataTable_GroupExpanded" xml:space="preserve">
+    <value>{0} dibukak</value>
+  </data>
+  <data name="DataTable_GroupCollapsed" xml:space="preserve">
+    <value>{0} ditutup</value>
+  </data>
+  <data name="DataTable_ExpandAllGroups" xml:space="preserve">
+    <value>Bukak kabeh klompok</value>
+  </data>
+  <data name="DataTable_CollapseAllGroups" xml:space="preserve">
+    <value>Tutup kabeh klompok</value>
+  </data>
+  <data name="DataTable_AllGroupsExpanded" xml:space="preserve">
+    <value>Kabeh klompok wis dibukak</value>
+  </data>
+  <data name="DataTable_AllGroupsCollapsed" xml:space="preserve">
+    <value>Kabeh klompok wis ditutup</value>
+  </data>
+  <data name="DataTable_GroupNoValue" xml:space="preserve">
+    <value>(Ora ana nilai)</value>
+  </data>
 </root>

@@ -53,7 +53,9 @@ public partial class TwDataTable<TItem>
         SearchQuery = currentSearchQuery,
         Page = currentPage,
         RowsPerPage = rowsPerPage,
-        Columns = [.. columnStates.Select(c => c.Clone())]
+        Columns = [.. columnStates.Select(c => c.Clone())],
+        GroupBy = isGrouped ? currentGroupBy : null,
+        CollapsedGroups = isGrouped ? [.. collapsedGroups] : []
     };
 
     /// <summary>
@@ -76,15 +78,15 @@ public partial class TwDataTable<TItem>
     }
 
     /// <summary>
-    /// Puts the sort, search, page, page size and columns back to how the parameters define them, and forgets any
-    /// state saved under <see cref="StateStorageKey"/>.
+    /// Puts the sort, search, page, page size, columns and grouping back to how the parameters define them, and saves
+    /// that under <see cref="StateStorageKey"/> in place of what was there.
     /// </summary>
     /// <returns>A task that completes once the table is reset.</returns>
     public async Task ResetStateAsync()
     {
         await InvokeAsync(async () =>
         {
-            ApplyState(new TwDataTableState { Columns = DefaultColumnStates() });
+            ApplyState(new TwDataTableState { Columns = DefaultColumnStates(), GroupBy = GroupBy });
             RefreshView();
             StateHasChanged();
             await NotifyStateChangedAsync();
@@ -118,6 +120,8 @@ public partial class TwDataTable<TItem>
         currentSearchQuery = string.IsNullOrWhiteSpace(state.SearchQuery) ? null : state.SearchQuery;
         rowsPerPage = state.RowsPerPage is > 0 ? state.RowsPerPage.Value : RowsPerPage;
         currentPage = Math.Max(1, state.Page);
+        currentGroupBy = ValidGroupColumn(state.GroupBy);
+        collapsedGroups = [.. state.CollapsedGroups ?? []];
 
         if (hasColumns)
         {

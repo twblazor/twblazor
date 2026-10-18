@@ -720,4 +720,43 @@
   <data name="DataTable_ExportedOther" xml:space="preserve">
     <value>{0} baris diekspor</value>
   </data>
+  <data name="DataTable_GroupBy" xml:space="preserve">
+    <value>Kelompokkan menurut</value>
+  </data>
+  <data name="DataTable_NoGrouping" xml:space="preserve">
+    <value>Tanpa pengelompokan</value>
+  </data>
+  <data name="DataTable_GroupedBy" xml:space="preserve">
+    <value>Dikelompokkan menurut {0}</value>
+  </data>
+  <data name="DataTable_GroupingRemoved" xml:space="preserve">
+    <value>Pengelompokan dihapus</value>
+  </data>
+  <data name="DataTable_GroupRowsOne" xml:space="preserve">
+    <value>{0} baris</value>
+  </data>
+  <data name="DataTable_GroupRowsOther" xml:space="preserve">
+    <value>{0} baris</value>
+  </data>
+  <data name="DataTable_GroupExpanded" xml:space="preserve">
+    <value>{0} diperluas</value>
+  </data>
+  <data name="DataTable_GroupCollapsed" xml:space="preserve">
+    <value>{0} diciutkan</value>
+  </data>
+  <data name="DataTable_ExpandAllGroups" xml:space="preserve">
+    <value>Perluas semua grup</value>
+  </data>
+  <data name="DataTable_CollapseAllGroups" xml:space="preserve">
+    <value>Ciutkan semua grup</value>
+  </data>
+  <data name="DataTable_AllGroupsExpanded" xml:space="preserve">
+    <value>Semua grup diperluas</value>
+  </data>
+  <data name="DataTable_AllGroupsCollapsed" xml:space="preserve">
+    <value>Semua grup diciutkan</value>
+  </data>
+  <data name="DataTable_GroupNoValue" xml:space="preserve">
+    <value>(Tanpa nilai)</value>
+  </data>
 </root>

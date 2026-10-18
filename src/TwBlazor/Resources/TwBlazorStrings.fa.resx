@@ -726,4 +726,43 @@
   <data name="DataTable_ExportedOther" xml:space="preserve">
     <value>{0} ردیف صادر شد</value>
   </data>
+  <data name="DataTable_GroupBy" xml:space="preserve">
+    <value>گروه‌بندی بر اساس</value>
+  </data>
+  <data name="DataTable_NoGrouping" xml:space="preserve">
+    <value>بدون گروه‌بندی</value>
+  </data>
+  <data name="DataTable_GroupedBy" xml:space="preserve">
+    <value>بر اساس {0} گروه‌بندی شد</value>
+  </data>
+  <data name="DataTable_GroupingRemoved" xml:space="preserve">
+    <value>گروه‌بندی برداشته شد</value>
+  </data>
+  <data name="DataTable_GroupRowsOne" xml:space="preserve">
+    <value>{0} ردیف</value>
+  </data>
+  <data name="DataTable_GroupRowsOther" xml:space="preserve">
+    <value>{0} ردیف</value>
+  </data>
+  <data name="DataTable_GroupExpanded" xml:space="preserve">
+    <value>{0} باز شد</value>
+  </data>
+  <data name="DataTable_GroupCollapsed" xml:space="preserve">
+    <value>{0} بسته شد</value>
+  </data>
+  <data name="DataTable_ExpandAllGroups" xml:space="preserve">
+    <value>باز کردن همه گروه‌ها</value>
+  </data>
+  <data name="DataTable_CollapseAllGroups" xml:space="preserve">
+    <value>بستن همه گروه‌ها</value>
+  </data>
+  <data name="DataTable_AllGroupsExpanded" xml:space="preserve">
+    <value>همه گروه‌ها باز شدند</value>
+  </data>
+  <data name="DataTable_AllGroupsCollapsed" xml:space="preserve">
+    <value>همه گروه‌ها بسته شدند</value>
+  </data>
+  <data name="DataTable_GroupNoValue" xml:space="preserve">
+    <value>(بدون مقدار)</value>
+  </data>
 </root>

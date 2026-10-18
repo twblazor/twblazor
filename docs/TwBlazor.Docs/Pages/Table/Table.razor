@@ -242,6 +242,47 @@
         </CodeExample>
     </PageCard>
 
+    <PageCard Title="Row groups">
+        <Description>
+            Use <code>RowGroups</code> in place of <code>TableBody</code> to split the rows into groups, each in its own <code>&lt;tbody&gt;</code>. The context is the body's classes, so put it on every <code>&lt;tbody&gt;</code> and the groups keep the striped, hoverable and bordered styles. Start each group with a header cell that has <code>scope="rowgroup"</code>, and screen readers announce the group's name with every row in it.
+        </Description>
+
+        <CodeExample Name="TableRowGroups">
+            <TwTable Id="row-groups-table" Bordered AriaLabel="Team members by department">
+                <TableHeader>
+                    <tr>
+                        <th scope="col" class="px-6 py-3">Name</th>
+                        <th scope="col" class="px-6 py-3">Role</th>
+                    </tr>
+                </TableHeader>
+                <RowGroups Context="bodyClass">
+                    <tbody class="@bodyClass">
+                        <tr class="bg-gray-50 dark:bg-gray-800">
+                            <th scope="rowgroup" colspan="2" class="px-6 py-3 text-start font-semibold">Engineering</th>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4">John Doe</td>
+                            <td class="px-6 py-4">Developer</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4">Alice Williams</td>
+                            <td class="px-6 py-4">Developer</td>
+                        </tr>
+                    </tbody>
+                    <tbody class="@bodyClass">
+                        <tr class="bg-gray-50 dark:bg-gray-800">
+                            <th scope="rowgroup" colspan="2" class="px-6 py-3 text-start font-semibold">Product</th>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4">Jane Smith</td>
+                            <td class="px-6 py-4">Designer</td>
+                        </tr>
+                    </tbody>
+                </RowGroups>
+            </TwTable>
+        </CodeExample>
+    </PageCard>
+
     <PageCard Title="Manual pagination">
         <Description>
             <code>TwTable</code> has no built-in paging - it just renders whatever rows you give it. Slice your own data and pair it with

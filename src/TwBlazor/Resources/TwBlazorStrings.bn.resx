@@ -720,4 +720,43 @@
   <data name="DataTable_ExportedOther" xml:space="preserve">
     <value>{0}টি সারি রপ্তানি হয়েছে</value>
   </data>
+  <data name="DataTable_GroupBy" xml:space="preserve">
+    <value>যা দিয়ে গ্রুপ করুন</value>
+  </data>
+  <data name="DataTable_NoGrouping" xml:space="preserve">
+    <value>কোনো গ্রুপ নেই</value>
+  </data>
+  <data name="DataTable_GroupedBy" xml:space="preserve">
+    <value>{0} অনুযায়ী গ্রুপ করা হয়েছে</value>
+  </data>
+  <data name="DataTable_GroupingRemoved" xml:space="preserve">
+    <value>গ্রুপ সরানো হয়েছে</value>
+  </data>
+  <data name="DataTable_GroupRowsOne" xml:space="preserve">
+    <value>{0}টি সারি</value>
+  </data>
+  <data name="DataTable_GroupRowsOther" xml:space="preserve">
+    <value>{0}টি সারি</value>
+  </data>
+  <data name="DataTable_GroupExpanded" xml:space="preserve">
+    <value>{0} প্রসারিত</value>
+  </data>
+  <data name="DataTable_GroupCollapsed" xml:space="preserve">
+    <value>{0} সংকুচিত</value>
+  </data>
+  <data name="DataTable_ExpandAllGroups" xml:space="preserve">
+    <value>সব গ্রুপ প্রসারিত করুন</value>
+  </data>
+  <data name="DataTable_CollapseAllGroups" xml:space="preserve">
+    <value>সব গ্রুপ সংকুচিত করুন</value>
+  </data>
+  <data name="DataTable_AllGroupsExpanded" xml:space="preserve">
+    <value>সব গ্রুপ প্রসারিত</value>
+  </data>
+  <data name="DataTable_AllGroupsCollapsed" xml:space="preserve">
+    <value>সব গ্রুপ সংকুচিত</value>
+  </data>
+  <data name="DataTable_GroupNoValue" xml:space="preserve">
+    <value>(কোনো মান নেই)</value>
+  </data>
 </root>

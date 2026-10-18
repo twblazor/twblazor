@@ -726,4 +726,43 @@
   <data name="DataTable_ExportedOther" xml:space="preserve">
     <value>Экспортировано строк: {0}</value>
   </data>
+  <data name="DataTable_GroupBy" xml:space="preserve">
+    <value>Группировать по</value>
+  </data>
+  <data name="DataTable_NoGrouping" xml:space="preserve">
+    <value>Без группировки</value>
+  </data>
+  <data name="DataTable_GroupedBy" xml:space="preserve">
+    <value>Сгруппировано по «{0}»</value>
+  </data>
+  <data name="DataTable_GroupingRemoved" xml:space="preserve">
+    <value>Группировка снята</value>
+  </data>
+  <data name="DataTable_GroupRowsOne" xml:space="preserve">
+    <value>{0} строка</value>
+  </data>
+  <data name="DataTable_GroupRowsOther" xml:space="preserve">
+    <value>Строк: {0}</value>
+  </data>
+  <data name="DataTable_GroupExpanded" xml:space="preserve">
+    <value>«{0}» развёрнуто</value>
+  </data>
+  <data name="DataTable_GroupCollapsed" xml:space="preserve">
+    <value>«{0}» свёрнуто</value>
+  </data>
+  <data name="DataTable_ExpandAllGroups" xml:space="preserve">
+    <value>Развернуть все группы</value>
+  </data>
+  <data name="DataTable_CollapseAllGroups" xml:space="preserve">
+    <value>Свернуть все группы</value>
+  </data>
+  <data name="DataTable_AllGroupsExpanded" xml:space="preserve">
+    <value>Все группы развёрнуты</value>
+  </data>
+  <data name="DataTable_AllGroupsCollapsed" xml:space="preserve">
+    <value>Все группы свёрнуты</value>
+  </data>
+  <data name="DataTable_GroupNoValue" xml:space="preserve">
+    <value>(Нет значения)</value>
+  </data>
 </root>

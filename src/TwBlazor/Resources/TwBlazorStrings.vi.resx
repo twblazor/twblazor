@@ -720,4 +720,43 @@
   <data name="DataTable_ExportedOther" xml:space="preserve">
     <value>Đã xuất {0} hàng</value>
   </data>
+  <data name="DataTable_GroupBy" xml:space="preserve">
+    <value>Nhóm theo</value>
+  </data>
+  <data name="DataTable_NoGrouping" xml:space="preserve">
+    <value>Không nhóm</value>
+  </data>
+  <data name="DataTable_GroupedBy" xml:space="preserve">
+    <value>Đã nhóm theo {0}</value>
+  </data>
+  <data name="DataTable_GroupingRemoved" xml:space="preserve">
+    <value>Đã bỏ nhóm</value>
+  </data>
+  <data name="DataTable_GroupRowsOne" xml:space="preserve">
+    <value>{0} hàng</value>
+  </data>
+  <data name="DataTable_GroupRowsOther" xml:space="preserve">
+    <value>{0} hàng</value>
+  </data>
+  <data name="DataTable_GroupExpanded" xml:space="preserve">
+    <value>Đã mở rộng {0}</value>
+  </data>
+  <data name="DataTable_GroupCollapsed" xml:space="preserve">
+    <value>Đã thu gọn {0}</value>
+  </data>
+  <data name="DataTable_ExpandAllGroups" xml:space="preserve">
+    <value>Mở rộng tất cả nhóm</value>
+  </data>
+  <data name="DataTable_CollapseAllGroups" xml:space="preserve">
+    <value>Thu gọn tất cả nhóm</value>
+  </data>
+  <data name="DataTable_AllGroupsExpanded" xml:space="preserve">
+    <value>Đã mở rộng tất cả nhóm</value>
+  </data>
+  <data name="DataTable_AllGroupsCollapsed" xml:space="preserve">
+    <value>Đã thu gọn tất cả nhóm</value>
+  </data>
+  <data name="DataTable_GroupNoValue" xml:space="preserve">
+    <value>(Không có giá trị)</value>
+  </data>
 </root>

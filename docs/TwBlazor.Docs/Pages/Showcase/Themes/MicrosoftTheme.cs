@@ -1459,7 +1459,11 @@ public static class MicrosoftTheme
                     EmptyState = $"py-8 {typography.AlignCenter} {neutralText.Muted}",
                     ColumnPanel = $"{borderWidth.Thin} {neutralSurface.Border} {neutralSurface.Background} {rounded.Lg} {spacing.Padding.Lg} {spacing.MarginBottom.Xl}",
                     ColumnPanelHeading = $"{typography.Size.Sm} {typography.Weight.Semibold} {neutralText.Heading}",
-                    ResizeHandle = $"{positioning.Absolute} inset-y-0 end-0 w-1.5 cursor-col-resize touch-none select-none hover:bg-fluentblue-500/50 active:bg-fluentblue-600 dark:hover:bg-fluentblue-400/50 dark:active:bg-fluentblue-400"
+                    ResizeHandle = $"{positioning.Absolute} inset-y-0 end-0 w-1.5 cursor-col-resize touch-none select-none hover:bg-fluentblue-500/50 active:bg-fluentblue-600 dark:hover:bg-fluentblue-400/50 dark:active:bg-fluentblue-400",
+                    GroupByColumn = "w-full sm:w-56",
+                    GroupRow = $"{neutralSurface.BackgroundSubtle} {neutralText.Heading}",
+                    GroupToggle = $"{display.InlineFlex} {flexbox.Align.Center} {spacing.Gap.Sm} {rounded.Md} -mx-1 px-1 {typography.Weight.Semibold} {interaction.PointerCursor} focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fluentblue-600 dark:focus-visible:outline-fluentblue-300",
+                    GroupCount = $"{typography.Weight.Medium} {neutralText.Muted}"
                 },
                 new TwToastTheme
                 {

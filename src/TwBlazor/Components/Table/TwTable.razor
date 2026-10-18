@@ -22,7 +22,11 @@
                     @TableHeader
                 </thead>
             }
-            @if (TableBody != null)
+            @if (RowGroups != null)
+            {
+                @RowGroups(bodyClasses)
+            }
+            else if (TableBody != null)
             {
                 <tbody class="@bodyClasses">
                     @TableBody

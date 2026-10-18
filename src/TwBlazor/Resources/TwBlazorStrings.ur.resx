@@ -723,4 +723,43 @@
   <data name="DataTable_ExportedOther" xml:space="preserve">
     <value>{0} قطاریں برآمد ہوئیں</value>
   </data>
+  <data name="DataTable_GroupBy" xml:space="preserve">
+    <value>گروپ بندی</value>
+  </data>
+  <data name="DataTable_NoGrouping" xml:space="preserve">
+    <value>کوئی گروپ بندی نہیں</value>
+  </data>
+  <data name="DataTable_GroupedBy" xml:space="preserve">
+    <value>{0} کے مطابق گروپ کیا گیا</value>
+  </data>
+  <data name="DataTable_GroupingRemoved" xml:space="preserve">
+    <value>گروپ بندی ہٹا دی گئی</value>
+  </data>
+  <data name="DataTable_GroupRowsOne" xml:space="preserve">
+    <value>{0} قطار</value>
+  </data>
+  <data name="DataTable_GroupRowsOther" xml:space="preserve">
+    <value>{0} قطاریں</value>
+  </data>
+  <data name="DataTable_GroupExpanded" xml:space="preserve">
+    <value>{0} کھولا گیا</value>
+  </data>
+  <data name="DataTable_GroupCollapsed" xml:space="preserve">
+    <value>{0} بند کیا گیا</value>
+  </data>
+  <data name="DataTable_ExpandAllGroups" xml:space="preserve">
+    <value>تمام گروپ کھولیں</value>
+  </data>
+  <data name="DataTable_CollapseAllGroups" xml:space="preserve">
+    <value>تمام گروپ بند کریں</value>
+  </data>
+  <data name="DataTable_AllGroupsExpanded" xml:space="preserve">
+    <value>تمام گروپ کھول دیے گئے</value>
+  </data>
+  <data name="DataTable_AllGroupsCollapsed" xml:space="preserve">
+    <value>تمام گروپ بند کر دیے گئے</value>
+  </data>
+  <data name="DataTable_GroupNoValue" xml:space="preserve">
+    <value>(کوئی قدر نہیں)</value>
+  </data>
 </root>

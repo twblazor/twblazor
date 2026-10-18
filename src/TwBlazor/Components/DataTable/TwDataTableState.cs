@@ -8,8 +8,9 @@ namespace TwBlazor.Components;
 
 /// <summary>
 /// A snapshot of everything a person can change about a <see cref="TwDataTable{TItem}"/>: the sort, the search, the
-/// page, the page size and the columns. Save it anywhere (a database, the URL, browser storage) and hand it back
-/// through <see cref="TwDataTable{TItem}.State"/> or <see cref="TwDataTable{TItem}.SetStateAsync"/> to restore the table.
+/// page, the page size, the columns and the grouping. Save it anywhere (a database, the URL, browser storage) and
+/// hand it back through <see cref="TwDataTable{TItem}.State"/> or <see cref="TwDataTable{TItem}.SetStateAsync"/> to
+/// restore the table.
 /// </summary>
 /// <remarks>The snapshot only holds plain values, so it serializes to JSON as it is. Columns are matched by
 /// <see cref="TwDataTableColumn{TItem}.Name"/>: a saved column that no longer exists is ignored, and a new column
@@ -49,6 +50,17 @@ public sealed class TwDataTableState
     public List<TwDataTableColumnState> Columns { get; set; } = [];
 
     /// <summary>
+    /// Gets or sets the <see cref="TwDataTableColumn{TItem}.Name"/> of the column the rows are grouped by, or
+    /// <c>null</c> when they are not grouped.
+    /// </summary>
+    public string? GroupBy { get; set; }
+
+    /// <summary>
+    /// Gets or sets the labels of the groups that are collapsed. Every other group is expanded.
+    /// </summary>
+    public List<string> CollapsedGroups { get; set; } = [];
+
+    /// <summary>
     /// Creates a deep copy of this snapshot, so changing the copy never changes the table.
     /// </summary>
     /// <returns>A new <see cref="TwDataTableState"/> with the same values.</returns>
@@ -59,7 +71,9 @@ public sealed class TwDataTableState
         SearchQuery = SearchQuery,
         Page = Page,
         RowsPerPage = RowsPerPage,
-        Columns = [.. Columns.Select(c => c.Clone())]
+        Columns = [.. Columns.Select(c => c.Clone())],
+        GroupBy = GroupBy,
+        CollapsedGroups = [.. CollapsedGroups]
     };
 }
 

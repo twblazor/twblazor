@@ -194,6 +194,26 @@
         </CodeExample>
     </PageCard>
 
+    <PageCard Title="Grouping rows">
+        <Description>
+            Set <code>Groupable</code> on the columns people can group by, and a Group by list appears above the table. <code>GroupBy</code> picks the grouping the table starts with. Each group sits under a header row with a button that expands or collapses it, and Expand all groups and Collapse all groups work on every group at once. Rows keep the table's sort inside each group. A page that starts part way through a group repeats its header. Use <code>GroupHeaderTemplate</code> to add a summary to each header, such as a total.
+        </Description>
+
+        <CodeExample Name="DataTableGrouping" CSharpName="DataTableGroupColumns">
+            <TwDataTable TItem="Product"
+                         Id="grouped-table"
+                         Items="@products"
+                         Columns="@_groupColumns"
+                         GroupBy="category"
+                         RowsPerPage="10"
+                         AriaLabel="Products grouped by category">
+                <GroupHeaderTemplate Context="group">
+                    <span class="text-sm text-gray-600 dark:text-gray-300">Stock value £@group.Items.Sum(p => p.Price * p.Stock).ToString("N0")</span>
+                </GroupHeaderTemplate>
+            </TwDataTable>
+        </CodeExample>
+    </PageCard>
+
     <PageCard Title="Exporting to CSV and Excel">
         <Description>
             Set <code>Exportable</code> to add Export CSV and Export Excel buttons. An export holds the columns on screen in their current order, and by default every row that matches the search in its current sort, across all pages. Change that with <code>ExportScope</code>, or pick the buttons with <code>ExportFormats</code>. The Excel file keeps numbers, dates and true or false values as their own types, so they can be summed and filtered. Give a column an <code>ExportFormatter</code> to write a different value from the one on screen, or set <code>Exportable = false</code> to leave it out. Text that a spreadsheet would run as a formula is escaped.
@@ -319,6 +339,17 @@
         new TwDataTableColumn<Product> { Name = "price", Title = "Price", PropertySelector = p => p.Price, IsSortable = true, CellFormatter = p => $"£{p.Price:N2}" },
         // Starts hidden; people can show it from the panel.
         new TwDataTableColumn<Product> { Name = "stock", Title = "Stock", PropertySelector = p => p.Stock, IsSortable = true, Visible = false }
+    };
+    #endregion
+
+    #region CodeExample DataTableGroupColumns
+    private readonly List<TwDataTableColumn<Product>> _groupColumns = new()
+    {
+        new TwDataTableColumn<Product> { Name = "name", Title = "Product Name", PropertySelector = p => p.Name, IsSortable = true },
+        new TwDataTableColumn<Product> { Name = "category", Title = "Category", PropertySelector = p => p.Category, IsSortable = true, Groupable = true },
+        new TwDataTableColumn<Product> { Name = "price", Title = "Price", PropertySelector = p => p.Price, IsSortable = true, CellFormatter = p => $"£{p.Price:N2}" },
+        // Groups by the stock level's label rather than every distinct number.
+        new TwDataTableColumn<Product> { Name = "level", Title = "Stock level", PropertySelector = p => p.Stock < 10 ? "Low" : "In stock", Groupable = true }
     };
     #endregion
 

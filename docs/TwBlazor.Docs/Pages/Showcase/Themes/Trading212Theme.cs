@@ -1459,7 +1459,11 @@ public static class Trading212Theme
                     EmptyState = $"py-8 {typography.AlignCenter} {neutralText.Muted}",
                     ColumnPanel = $"{borderWidth.Thin} {neutralSurface.Border} {neutralSurface.Background} {rounded.Lg} {spacing.Padding.Lg} {spacing.MarginBottom.Xl}",
                     ColumnPanelHeading = $"{typography.Size.Sm} {typography.Weight.Semibold} {neutralText.Heading}",
-                    ResizeHandle = $"{positioning.Absolute} inset-y-0 end-0 w-1.5 cursor-col-resize touch-none select-none hover:bg-tradeblue-500/50 active:bg-tradeblue-600 dark:hover:bg-tradeblue-400/50 dark:active:bg-tradeblue-400"
+                    ResizeHandle = $"{positioning.Absolute} inset-y-0 end-0 w-1.5 cursor-col-resize touch-none select-none hover:bg-tradeblue-500/50 active:bg-tradeblue-600 dark:hover:bg-tradeblue-400/50 dark:active:bg-tradeblue-400",
+                    GroupByColumn = "w-full sm:w-56",
+                    GroupRow = $"{neutralSurface.BackgroundSubtle} {neutralText.Heading}",
+                    GroupToggle = $"{display.InlineFlex} {flexbox.Align.Center} {spacing.Gap.Sm} {rounded.Md} -mx-1 px-1 {typography.Weight.Semibold} {interaction.PointerCursor} focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tradeblue-600 dark:focus-visible:outline-tradeblue-300",
+                    GroupCount = $"{typography.Weight.Medium} {neutralText.Muted}"
                 },
                 new TwToastTheme
                 {
