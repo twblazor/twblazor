@@ -1767,18 +1767,18 @@ public class TwSelectTests : TwBlazorTestBase
     }
 
     [Fact]
-    public async Task TwSelect_SelectOption_Placeholder_ClearsTheDisplayWithoutInvokingTheCallback()
+    public async Task TwSelect_SelectOption_Placeholder_ClearsTheDisplayAndTheBoundValue()
     {
-        var calls = 0;
+        var received = new List<string>();
         var cut = RenderSingle(p => p
             .Add(x => x.Placeholder, "None")
             .Add(x => x.SelectedValue, "UK")
-            .Add(x => x.SelectedValueChanged, EventCallback.Factory.Create<string>(this, _ => calls++)), required: false);
+            .Add(x => x.SelectedValueChanged, EventCallback.Factory.Create<string>(this, received.Add)), required: false);
         Assert.Equal("UK", cut.Find("[role='combobox']").TextContent.Trim());
 
         await cut.InvokeAsync(() => cut.Instance.SelectOptionAsync(0));
 
-        Assert.Equal(0, calls);
+        Assert.Equal([null!], received);
         Assert.Equal("None", cut.Find("[role='combobox']").TextContent.Trim());
     }
 

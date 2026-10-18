@@ -41,7 +41,8 @@ public partial class TwSelect<T> : TwPopoverPickerComponentBase
     [Parameter] public T SelectedValue { get; set; } = default!;
 
     /// <summary>
-    /// Gets or sets the callback that is invoked when the selected value changes.
+    /// Gets or sets the callback that is invoked when the selected value changes. Choosing the placeholder clears
+    /// the selection and passes <see langword="default"/>, such as <see langword="null"/> for a reference type.
     /// </summary>
     [Parameter] public EventCallback<T> SelectedValueChanged { get; set; } = default!;
 
@@ -323,19 +324,12 @@ public partial class TwSelect<T> : TwPopoverPickerComponentBase
     [JSInvokable("SelectOption")]
     public async Task SelectOptionAsync(int id)
     {
-        if (Disabled || ReadOnly || (id != 0 && !parsedValues.ContainsKey(id)))
+        if (Disabled || ReadOnly || !IsSelectableOption(id))
             return;
 
-        var changed = id != selectedValueId;
-        selectedValueId = id;
-
-        if (changed && id != 0)
+        if (id != selectedValueId)
         {
-            SelectedValue = parsedValues[id];
-            if (SelectedValueChanged.HasDelegate)
-            {
-                await SelectedValueChanged.InvokeAsync(SelectedValue);
-            }
+            await CommitSelectionAsync(id);
         }
 
         await Close();
@@ -398,6 +392,13 @@ public partial class TwSelect<T> : TwPopoverPickerComponentBase
     {
         parsedValues = [];
         var valueId = 1;
+
+        // Starts on the placeholder so a SelectedValue the parent cleared, or one no longer in Values, stops
+        // showing the option that was selected before.
+        if (!Multiple)
+        {
+            selectedValueId = 0;
+        }
 
         var selectedSet = Multiple ? new HashSet<T>(SelectedValues, EqualityComparer<T>.Default) : null;
         var newSelectedIds = Multiple ? new HashSet<int>() : null;
@@ -556,14 +557,28 @@ public partial class TwSelect<T> : TwPopoverPickerComponentBase
     /// </summary>
     private async Task HandleSingleChangeAsync(ChangeEventArgs e)
     {
-        if (!int.TryParse(e.Value?.ToString(), out var newValueId))
+        if (!int.TryParse(e.Value?.ToString(), out var newValueId) || !IsSelectableOption(newValueId))
             return;
 
-        selectedValueId = newValueId;
-        if (!parsedValues.TryGetValue(selectedValueId, out var selectedItem))
-            return;
+        await CommitSelectionAsync(newValueId);
+    }
 
-        SelectedValue = selectedItem;
+    /// <summary>
+    /// Whether <paramref name="id"/> is an option a person can pick: one of <see cref="Values"/>, or the placeholder
+    /// (id 0), which is only offered while the select is not <see cref="Required"/>.
+    /// </summary>
+    private bool IsSelectableOption(int id) => id == 0 ? !Required : parsedValues.ContainsKey(id);
+
+    /// <summary>
+    /// Selects an option and tells the parent. Picking the placeholder clears the selection, so
+    /// <see cref="SelectedValue"/> becomes <see langword="default"/> rather than keeping the value that was shown
+    /// before.
+    /// </summary>
+    private async Task CommitSelectionAsync(int id)
+    {
+        selectedValueId = id;
+        SelectedValue = id == 0 ? default! : parsedValues[id];
+
         if (SelectedValueChanged.HasDelegate)
         {
             await SelectedValueChanged.InvokeAsync(SelectedValue);
