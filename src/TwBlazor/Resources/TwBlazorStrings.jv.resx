@@ -348,7 +348,7 @@
   <data name="DataTable_SearchPlaceholder" xml:space="preserve">
     <value>Golek…</value>
   </data>
-  <data name="DataTable_Pagination" xml:space="preserve">
+  <data name="Table_Pagination" xml:space="preserve">
     <value>Paginasi tabel</value>
   </data>
   <data name="DataTable_PageStatusOne" xml:space="preserve">
@@ -788,5 +788,11 @@
   </data>
   <data name="DataTable_EditInvalidOther" xml:space="preserve">
     <value>{0} kolom kudu didandani sadurunge disimpen</value>
+  </data>
+  <data name="Table_ResizeColumn" xml:space="preserve">
+    <value>Ganti ukuran {0}</value>
+  </data>
+  <data name="Table_ColumnWidthValue" xml:space="preserve">
+    <value>{0} piksel</value>
   </data>
 </root>

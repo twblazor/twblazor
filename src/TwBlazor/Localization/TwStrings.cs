@@ -374,7 +374,7 @@ public static class TwStrings
     public const string DataTable_SearchPlaceholder = "DataTable_SearchPlaceholder";
 
     /// <summary>The key for "Table pagination".</summary>
-    public const string DataTable_Pagination = "DataTable_Pagination";
+    public const string Table_Pagination = "Table_Pagination";
 
     /// <summary>The key for "Page {0} of {1}, showing {2} row".</summary>
     public const string DataTable_PageStatusOne = "DataTable_PageStatusOne";
@@ -723,6 +723,12 @@ public static class TwStrings
 
     /// <summary>The key for "Scrollable table".</summary>
     public const string Table_ScrollRegion = "Table_ScrollRegion";
+
+    /// <summary>The key for "Resize {0}".</summary>
+    public const string Table_ResizeColumn = "Table_ResizeColumn";
+
+    /// <summary>The key for "{0} pixels".</summary>
+    public const string Table_ColumnWidthValue = "Table_ColumnWidthValue";
 
     /// <summary>The key for "Open time picker".</summary>
     public const string TimePicker_Open = "TimePicker_Open";

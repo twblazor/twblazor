@@ -354,7 +354,7 @@
   <data name="DataTable_SearchPlaceholder" xml:space="preserve">
     <value>検索…</value>
   </data>
-  <data name="DataTable_Pagination" xml:space="preserve">
+  <data name="Table_Pagination" xml:space="preserve">
     <value>表のページ送り</value>
   </data>
   <data name="DataTable_PageStatusOne" xml:space="preserve">
@@ -794,5 +794,11 @@
   </data>
   <data name="DataTable_EditInvalidOther" xml:space="preserve">
     <value>保存する前に {0} 個のフィールドを修正してください</value>
+  </data>
+  <data name="Table_ResizeColumn" xml:space="preserve">
+    <value>{0} の幅を変更</value>
+  </data>
+  <data name="Table_ColumnWidthValue" xml:space="preserve">
+    <value>{0} ピクセル</value>
   </data>
 </root>

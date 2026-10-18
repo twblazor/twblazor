@@ -1660,6 +1660,223 @@ globalThis.twScrollRegion = {
     }
 };
 
+// Table column resizing: a focusable separator on the border at the end of each resizable column's header. The
+// separators live in a layer after the table rather than inside the header cells, so their names do not become part
+// of the column headings. They are rebuilt from the <col> elements, so they always follow the columns' order.
+globalThis.twTable = {
+    _keyStep: 16,
+    _largeKeyStep: 64,
+
+    _layer: function (wrapper) {
+        return wrapper ? wrapper.querySelector(':scope > [data-tw-resize-layer]') : null;
+    },
+
+    // The table's <col> elements with the index of the first column each covers.
+    _columns: function (wrapper) {
+        const table = wrapper?.querySelector(':scope > table');
+        if (!table) return [];
+        let index = 0;
+        return Array.from(table.querySelectorAll(':scope > colgroup > col')).map(function (col) {
+            const entry = { col: col, index: index };
+            index += Math.max(1, col.span || 1);
+            return entry;
+        });
+    },
+
+    // The header cell in the first header row that starts at a column index, counting colspans.
+    _headerCell: function (wrapper, columnIndex) {
+        const row = wrapper.querySelector(':scope > table > thead > tr');
+        if (!row) return null;
+        let index = 0;
+        for (const cell of row.children) {
+            if (index === columnIndex) return cell;
+            index += Math.max(1, cell.colSpan || 1);
+            if (index > columnIndex) return null;
+        }
+        return null;
+    },
+
+    _format: function (format, value) {
+        return (format || '{0}').replace('{0}', value);
+    },
+
+    // Creates, removes and positions the separators to match the current columns.
+    layoutResize: function (wrapper) {
+        const layer = globalThis.twTable._layer(wrapper);
+        if (!layer) return;
+
+        const resizable = globalThis.twTable._columns(wrapper).filter(function (entry) {
+            return entry.col.dataset.twResizable === 'true' && entry.col.id;
+        });
+        const existing = new Map(Array.from(layer.children).map(function (handle) { return [handle.dataset.twResizeKey, handle]; }));
+        const wrapperRect = wrapper.getBoundingClientRect();
+        const rtl = globalThis.twDirection.isRtl(wrapper);
+
+        resizable.forEach(function (entry) {
+            const key = entry.col.id;
+            let handle = existing.get(key);
+            existing.delete(key);
+            if (!handle) {
+                handle = document.createElement('div');
+                handle.dataset.twResizeKey = key;
+                handle.setAttribute('role', 'separator');
+                handle.setAttribute('aria-orientation', 'vertical');
+                handle.setAttribute('tabindex', '0');
+            }
+            handle.className = layer.dataset.handleClass || '';
+            // Appending in column order moves an existing separator to its column's place in the Tab order.
+            layer.appendChild(handle);
+
+            const label = entry.col.dataset.twLabel || String(entry.index + 1);
+            handle.setAttribute('aria-label', globalThis.twTable._format(layer.dataset.labelFormat, label));
+            handle.setAttribute('aria-valuemin', entry.col.dataset.twMin || '48');
+            handle.setAttribute('aria-valuemax', entry.col.dataset.twMax || '2000');
+
+            const cell = globalThis.twTable._headerCell(wrapper, entry.index);
+            if (!cell) {
+                handle.hidden = true;
+                return;
+            }
+
+            handle.hidden = false;
+            const rect = cell.getBoundingClientRect();
+            const edge = rtl ? rect.left : rect.right;
+            handle.style.left = (edge - wrapperRect.left + wrapper.scrollLeft) + 'px';
+            handle.style.top = (rect.top - wrapperRect.top + wrapper.scrollTop) + 'px';
+            handle.style.height = rect.height + 'px';
+
+            const width = Math.round(rect.width);
+            handle.setAttribute('aria-valuenow', String(width));
+            handle.setAttribute('aria-valuetext', globalThis.twTable._format(layer.dataset.valueFormat, width));
+        });
+
+        existing.forEach(function (handle) { handle.remove(); });
+    },
+
+    // Gives every column its current width in pixels, so resizing one does not reflow the others, and returns them.
+    _freezeWidths: function (wrapper) {
+        const widths = {};
+        globalThis.twTable._columns(wrapper).forEach(function (entry) {
+            const cell = globalThis.twTable._headerCell(wrapper, entry.index);
+            if (!cell || !entry.col.id) return;
+            const width = Math.round(cell.getBoundingClientRect().width);
+            entry.col.style.width = width + 'px';
+            widths[entry.col.id] = width;
+        });
+        return widths;
+    },
+
+    _resize: function (wrapper, handle, width) {
+        const col = globalThis.twTable._columns(wrapper).find(function (entry) { return entry.col.id === handle.dataset.twResizeKey; })?.col;
+        if (!col) return null;
+        const min = Number(col.dataset.twMin || 48);
+        const max = Number(col.dataset.twMax || 2000);
+        const clamped = Math.min(max, Math.max(min, Math.round(width)));
+        col.style.width = clamped + 'px';
+        return clamped;
+    },
+
+    _commit: function (wrapper, widths) {
+        globalThis.twTable.layoutResize(wrapper);
+        const dotnetRef = wrapper.__twTableResize?.dotnetRef;
+        if (dotnetRef) {
+            void globalThis.twPicker._invokeSafely(dotnetRef, 'CommitColumnWidths', widths);
+        }
+    },
+
+    attachResize: function (wrapper, dotnetRef) {
+        if (!wrapper || wrapper.__twTableResize) return;
+
+        const handleFor = function (e) {
+            const handle = e.target?.closest?.('[data-tw-resize-key]') ?? null;
+            return handle && wrapper.contains(handle) ? handle : null;
+        };
+
+        const onPointerDown = function (e) {
+            const handle = handleFor(e);
+            if (!handle || e.button !== 0) return;
+            e.preventDefault();
+
+            const widths = globalThis.twTable._freezeWidths(wrapper);
+            const key = handle.dataset.twResizeKey;
+            const startX = e.clientX;
+            const startWidth = widths[key] ?? 0;
+            // The separator sits on the column's end border, so dragging towards the end widens it either way round.
+            const towardsEnd = globalThis.twDirection.isRtl(wrapper) ? -1 : 1;
+            handle.setPointerCapture?.(e.pointerId);
+
+            const onMove = function (ev) {
+                const width = globalThis.twTable._resize(wrapper, handle, startWidth + (ev.clientX - startX) * towardsEnd);
+                if (width !== null) {
+                    widths[key] = width;
+                    globalThis.twTable.layoutResize(wrapper);
+                }
+            };
+            const onEnd = function () {
+                handle.removeEventListener('pointermove', onMove);
+                handle.removeEventListener('pointerup', onEnd);
+                handle.removeEventListener('pointercancel', onEnd);
+                globalThis.twTable._commit(wrapper, widths);
+            };
+
+            handle.addEventListener('pointermove', onMove);
+            handle.addEventListener('pointerup', onEnd);
+            handle.addEventListener('pointercancel', onEnd);
+        };
+
+        const onKeyDown = function (e) {
+            const handle = handleFor(e);
+            if (!handle || (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight')) return;
+            e.preventDefault();
+
+            const widths = globalThis.twTable._freezeWidths(wrapper);
+            const key = handle.dataset.twResizeKey;
+            const step = e.shiftKey ? globalThis.twTable._largeKeyStep : globalThis.twTable._keyStep;
+            // Arrow Right widens in a left to right layout and Arrow Left in a right to left one: the key always
+            // moves the border the way it points.
+            const widens = (e.key === 'ArrowRight') !== globalThis.twDirection.isRtl(wrapper);
+            const width = globalThis.twTable._resize(wrapper, handle, (widths[key] ?? 0) + (widens ? step : -step));
+            if (width === null) return;
+            widths[key] = width;
+            globalThis.twTable._commit(wrapper, widths);
+        };
+
+        let frame = 0;
+        const relayout = function () {
+            if (frame) return;
+            const schedule = globalThis.requestAnimationFrame ?? function (fn) { return setTimeout(fn, 0); };
+            frame = schedule(function () {
+                frame = 0;
+                globalThis.twTable.layoutResize(wrapper);
+            });
+        };
+
+        let observer = null;
+        if (typeof ResizeObserver !== 'undefined') {
+            observer = new ResizeObserver(relayout);
+            observer.observe(wrapper);
+            const table = wrapper.querySelector(':scope > table');
+            if (table) observer.observe(table);
+        }
+
+        wrapper.addEventListener('pointerdown', onPointerDown);
+        wrapper.addEventListener('keydown', onKeyDown);
+        wrapper.__twTableResize = { dotnetRef: dotnetRef, onPointerDown: onPointerDown, onKeyDown: onKeyDown, observer: observer };
+        globalThis.twTable.layoutResize(wrapper);
+    },
+
+    detachResize: function (wrapper) {
+        const state = wrapper?.__twTableResize;
+        if (!state) return;
+        wrapper.removeEventListener('pointerdown', state.onPointerDown);
+        wrapper.removeEventListener('keydown', state.onKeyDown);
+        state.observer?.disconnect();
+        delete wrapper.__twTableResize;
+        const layer = globalThis.twTable._layer(wrapper);
+        if (layer) layer.replaceChildren();
+    }
+};
+
 // On this page: marks the link to the section currently being read with aria-current="location".
 globalThis.twOnThisPage = {
     _stops: new Map(),

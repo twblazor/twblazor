@@ -129,8 +129,10 @@ public class TwTableTheme
     public string ColumnPanelHeading { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets or sets the classes for the strip along the end edge of a resizable column header that a person drags
-    /// to resize the column. It needs absolute positioning and a column resize cursor.
+    /// Gets or sets the classes for the separator on a resizable column's border, which a person drags or focuses
+    /// and moves with the arrow keys to resize the column (<see cref="TwBlazor.Components.TwTable.ResizableColumns"/>).
+    /// The resize script positions it, so it needs absolute positioning; centre it on the border, give it a column
+    /// resize cursor and a visible focus state.
     /// </summary>
     public string ResizeHandle { get; set; } = string.Empty;
 

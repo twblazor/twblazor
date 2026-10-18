@@ -1460,7 +1460,7 @@ public static class AppleTheme
                     EmptyState = $"py-8 {typography.AlignCenter} {neutralText.Muted}",
                     ColumnPanel = $"{borderWidth.Thin} {neutralSurface.Border} {neutralSurface.Background} {rounded.Lg} {spacing.Padding.Lg} {spacing.MarginBottom.Xl}",
                     ColumnPanelHeading = $"{typography.Size.Sm} {typography.Weight.Semibold} {neutralText.Heading}",
-                    ResizeHandle = $"{positioning.Absolute} inset-y-0 end-0 w-1.5 cursor-col-resize touch-none select-none hover:bg-cupertino-500/50 active:bg-cupertino-600 dark:hover:bg-cupertino-400/50 dark:active:bg-cupertino-400",
+                    ResizeHandle = $"{positioning.Absolute} z-20 flex w-3 -translate-x-1/2 justify-center cursor-col-resize touch-none select-none before:block before:h-full before:w-px before:bg-gray-300 dark:before:bg-gray-600 hover:before:w-0.5 hover:before:bg-cupertino-500 active:before:bg-cupertino-600 dark:hover:before:bg-cupertino-400 focus-visible:outline-none focus-visible:before:w-0.5 focus-visible:before:bg-cupertino-600 dark:focus-visible:before:bg-cupertino-300",
                     GroupByColumn = "w-full sm:w-56",
                     GroupRow = $"{neutralSurface.BackgroundSubtle} {neutralText.Heading}",
                     GroupToggle = $"{display.InlineFlex} {flexbox.Align.Center} {spacing.Gap.Sm} {rounded.Md} -mx-1 px-1 {typography.Weight.Semibold} {interaction.PointerCursor} focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cupertino-600 dark:focus-visible:outline-cupertino-300",

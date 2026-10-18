@@ -354,7 +354,7 @@
   <data name="DataTable_SearchPlaceholder" xml:space="preserve">
     <value>Поиск…</value>
   </data>
-  <data name="DataTable_Pagination" xml:space="preserve">
+  <data name="Table_Pagination" xml:space="preserve">
     <value>Страницы таблицы</value>
   </data>
   <data name="DataTable_PageStatusOne" xml:space="preserve">
@@ -794,5 +794,11 @@
   </data>
   <data name="DataTable_EditInvalidOther" xml:space="preserve">
     <value>Перед сохранением исправьте поля: {0}</value>
+  </data>
+  <data name="Table_ResizeColumn" xml:space="preserve">
+    <value>Изменить ширину «{0}»</value>
+  </data>
+  <data name="Table_ColumnWidthValue" xml:space="preserve">
+    <value>{0} пикселей</value>
   </data>
 </root>

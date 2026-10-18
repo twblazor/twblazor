@@ -351,7 +351,7 @@
   <data name="DataTable_SearchPlaceholder" xml:space="preserve">
     <value>تلاش کریں…</value>
   </data>
-  <data name="DataTable_Pagination" xml:space="preserve">
+  <data name="Table_Pagination" xml:space="preserve">
     <value>جدول کی صفحہ بندی</value>
   </data>
   <data name="DataTable_PageStatusOne" xml:space="preserve">
@@ -791,5 +791,11 @@
   </data>
   <data name="DataTable_EditInvalidOther" xml:space="preserve">
     <value>محفوظ کرنے سے پہلے {0} خانے درست کریں</value>
+  </data>
+  <data name="Table_ResizeColumn" xml:space="preserve">
+    <value>{0} کا سائز بدلیں</value>
+  </data>
+  <data name="Table_ColumnWidthValue" xml:space="preserve">
+    <value>{0} پکسل</value>
   </data>
 </root>

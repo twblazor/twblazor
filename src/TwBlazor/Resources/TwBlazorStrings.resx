@@ -383,7 +383,7 @@
   <data name="DataTable_SearchPlaceholder" xml:space="preserve">
     <value>Search…</value>
   </data>
-  <data name="DataTable_Pagination" xml:space="preserve">
+  <data name="Table_Pagination" xml:space="preserve">
     <value>Table pagination</value>
   </data>
   <data name="DataTable_PageStatusOne" xml:space="preserve">
@@ -982,5 +982,13 @@
   <data name="DataTable_EditInvalidOther" xml:space="preserve">
     <value>{0} fields need fixing before saving</value>
     <comment>{0} = number of fields. Announced when an edited row cannot be saved yet.</comment>
+  </data>
+  <data name="Table_ResizeColumn" xml:space="preserve">
+    <value>Resize {0}</value>
+    <comment>{0} = column heading. The name of the border a person drags or focuses to resize a table column.</comment>
+  </data>
+  <data name="Table_ColumnWidthValue" xml:space="preserve">
+    <value>{0} pixels</value>
+    <comment>{0} = a column's width in pixels. Read out for a column's resize border.</comment>
   </data>
 </root>

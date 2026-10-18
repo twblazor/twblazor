@@ -351,7 +351,7 @@
   <data name="DataTable_SearchPlaceholder" xml:space="preserve">
     <value>搜尋…</value>
   </data>
-  <data name="DataTable_Pagination" xml:space="preserve">
+  <data name="Table_Pagination" xml:space="preserve">
     <value>表格分頁</value>
   </data>
   <data name="DataTable_PageStatusOne" xml:space="preserve">
@@ -791,5 +791,11 @@
   </data>
   <data name="DataTable_EditInvalidOther" xml:space="preserve">
     <value>儲存前需要修正 {0} 個欄位</value>
+  </data>
+  <data name="Table_ResizeColumn" xml:space="preserve">
+    <value>調整「{0}」欄寬</value>
+  </data>
+  <data name="Table_ColumnWidthValue" xml:space="preserve">
+    <value>{0} 像素</value>
   </data>
 </root>

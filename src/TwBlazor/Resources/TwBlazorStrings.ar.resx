@@ -354,7 +354,7 @@
   <data name="DataTable_SearchPlaceholder" xml:space="preserve">
     <value>بحث…</value>
   </data>
-  <data name="DataTable_Pagination" xml:space="preserve">
+  <data name="Table_Pagination" xml:space="preserve">
     <value>ترقيم صفحات الجدول</value>
   </data>
   <data name="DataTable_PageStatusOne" xml:space="preserve">
@@ -794,5 +794,11 @@
   </data>
   <data name="DataTable_EditInvalidOther" xml:space="preserve">
     <value>يجب إصلاح {0} حقول قبل الحفظ</value>
+  </data>
+  <data name="Table_ResizeColumn" xml:space="preserve">
+    <value>تغيير حجم {0}</value>
+  </data>
+  <data name="Table_ColumnWidthValue" xml:space="preserve">
+    <value>{0} بكسل</value>
   </data>
 </root>

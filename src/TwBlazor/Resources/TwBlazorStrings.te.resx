@@ -348,7 +348,7 @@
   <data name="DataTable_SearchPlaceholder" xml:space="preserve">
     <value>వెతుకు…</value>
   </data>
-  <data name="DataTable_Pagination" xml:space="preserve">
+  <data name="Table_Pagination" xml:space="preserve">
     <value>పట్టిక పేజీల నావిగేషన్</value>
   </data>
   <data name="DataTable_PageStatusOne" xml:space="preserve">
@@ -788,5 +788,11 @@
   </data>
   <data name="DataTable_EditInvalidOther" xml:space="preserve">
     <value>సేవ్ చేయడానికి ముందు {0} ఫీల్డ్‌లను సరిచేయాలి</value>
+  </data>
+  <data name="Table_ResizeColumn" xml:space="preserve">
+    <value>{0} పరిమాణం మార్చండి</value>
+  </data>
+  <data name="Table_ColumnWidthValue" xml:space="preserve">
+    <value>{0} పిక్సెల్‌లు</value>
   </data>
 </root>

@@ -314,9 +314,13 @@ internal static class KeyboardShortcuts
             Key("Turns it on or off.", space)),
 
         ["/table"] = Guide(
-            "The table is read as a native table. Its scroll area is a Tab stop so a table wider or taller than its container can be scrolled from the keyboard.",
-            Key("Moves focus to the table's scroll area.", tab),
-            Key("Scrolls the table.", left, right, up, down)),
+            "The table is read as a native table. Its scroll area is a Tab stop so a table wider or taller than its container can be scrolled from the keyboard. "
+            + "With ResizableColumns, each resizable column has a separator on its header's border that reports the column's width.",
+            Key("Moves focus to the table's scroll area, then to each column's resize separator and the pagination.", tab, shiftTab),
+            Key("In the scroll area: scrolls the table. A virtualized table renders the rows as they scroll into view.", left, right, up, down, pageUp, pageDown),
+            Key("On a resize separator: makes the column wider or narrower. The key moves the border the way it points, in either text direction.", left, right),
+            Key("On a resize separator: resizes in bigger steps.", "Shift + Arrow Left", "Shift + Arrow Right"),
+            Key("In the pagination: moves to a page, or opens the page size list.", enter, space)),
 
         ["/tabs"] = Guide(
             "The tab list is a single Tab stop, and moving to a tab shows its panel straight away. Disabled tabs are skipped. "

@@ -44,23 +44,20 @@ public partial class TwTable : TwBlazorComponentBase
     {
         await base.OnAfterRenderAsync(firstRender);
 
-        if (!firstRender)
+        if (firstRender)
         {
-            return;
+            // If the script cannot run (prerendering, or the circuit has gone) the wrapper stays focusable.
+            await InvokeScriptAsync("twScrollRegion.observe", wrapperRef);
         }
 
-        try
-        {
-            await jsRuntime.InvokeVoidAsync("twScrollRegion.observe", wrapperRef);
-        }
-        catch (JSDisconnectedException)
-        {
-            // The circuit disconnected before the script could run; the wrapper stays focusable.
-        }
-        catch (InvalidOperationException)
-        {
-            // JS interop is not available (prerendering); the wrapper stays focusable.
-        }
+        await SyncResizeScriptAsync();
+    }
+
+    /// <inheritdoc />
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        SyncPagingParameters();
     }
 
     private TwTableTheme theme => options.Theme.Components.Require<TwTableTheme>();
@@ -111,7 +108,7 @@ public partial class TwTable : TwBlazorComponentBase
     [Parameter]
     public bool StickyHeader { get; set; }
 
-    private string? wrapperStyle => string.IsNullOrWhiteSpace(MaxHeight) ? null : $"max-height:{MaxHeight.Trim()}";
+    private string? wrapperStyle => string.IsNullOrWhiteSpace(effectiveMaxHeight) ? null : $"max-height:{effectiveMaxHeight.Trim()}";
 
     /// <summary>
     /// Content to render in the table header (thead).
@@ -209,12 +206,12 @@ public partial class TwTable : TwBlazorComponentBase
 
     private string tableClasses => new ClassBuilder()
         .AddClass(theme.Base)
-        .AddClass(theme.FixedLayout, FixedLayout)
+        .AddClass(theme.FixedLayout, effectiveFixedLayout)
         .Build();
 
     private string headerClasses => new ClassBuilder()
         .AddClass(theme.Header)
-        .AddClass(theme.StickyHeader, StickyHeader)
+        .AddClass(theme.StickyHeader, effectiveStickyHeader)
         .AddClass(HeaderClass ?? string.Empty)
         .Build();
 

@@ -351,7 +351,7 @@
   <data name="DataTable_SearchPlaceholder" xml:space="preserve">
     <value>Rechercher…</value>
   </data>
-  <data name="DataTable_Pagination" xml:space="preserve">
+  <data name="Table_Pagination" xml:space="preserve">
     <value>Pagination du tableau</value>
   </data>
   <data name="DataTable_PageStatusOne" xml:space="preserve">
@@ -791,5 +791,11 @@
   </data>
   <data name="DataTable_EditInvalidOther" xml:space="preserve">
     <value>{0} champs doivent être corrigés avant l'enregistrement</value>
+  </data>
+  <data name="Table_ResizeColumn" xml:space="preserve">
+    <value>Redimensionner {0}</value>
+  </data>
+  <data name="Table_ColumnWidthValue" xml:space="preserve">
+    <value>{0} pixels</value>
   </data>
 </root>

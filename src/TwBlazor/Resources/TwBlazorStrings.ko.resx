@@ -351,7 +351,7 @@
   <data name="DataTable_SearchPlaceholder" xml:space="preserve">
     <value>검색…</value>
   </data>
-  <data name="DataTable_Pagination" xml:space="preserve">
+  <data name="Table_Pagination" xml:space="preserve">
     <value>표 페이지 탐색</value>
   </data>
   <data name="DataTable_PageStatusOne" xml:space="preserve">
@@ -791,5 +791,11 @@
   </data>
   <data name="DataTable_EditInvalidOther" xml:space="preserve">
     <value>저장하기 전에 {0}개 필드를 수정해야 합니다</value>
+  </data>
+  <data name="Table_ResizeColumn" xml:space="preserve">
+    <value>{0} 크기 조정</value>
+  </data>
+  <data name="Table_ColumnWidthValue" xml:space="preserve">
+    <value>{0}픽셀</value>
   </data>
 </root>

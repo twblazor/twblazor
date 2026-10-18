@@ -1,4 +1,4 @@
-@page "/table"
+﻿@page "/table"
 
 <PageContainer Title="TwTable" Path="/table" Description="TwTable is a Blazor table component with striped, hoverable, bordered and borderless styles, plus manual pagination." ThemeType="typeof(TwTableTheme)">
     <PageCard Title="Basic table">
@@ -311,15 +311,13 @@
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Manual pagination">
+    <PageCard Title="Typed rows">
         <Description>
-            <code>TwTable</code> has no built-in paging - it just renders whatever rows you give it. Slice your own data and pair it with
-            <code>TwPagination</code> to page through it manually. For an all-in-one paginated, searchable, sortable table, use
-            <a href="/data-table" class="text-blue-600 dark:text-blue-400 underline">TwDataTable</a> instead.
+            Put a <code>TwTableRows</code> in <code>TableBody</code>, give it your rows with <code>Items</code>, and write one row in it. The context is the row's item, so the row is typed. On its own it renders every row, and it is what lets the table page or virtualize them, below.
         </Description>
 
-        <CodeExample Name="TableManualPagination" CSharpName="TableManualPaginationCode">
-            <TwTable Id="manual-pagination-table">
+        <CodeExample Name="TableTypedRows" CSharpName="TableProductsCode">
+            <TwTable Id="typed-rows-table" Striped AriaLabel="Products">
                 <TableHeader>
                     <tr>
                         <th scope="col" class="px-6 py-3">Product name</th>
@@ -328,18 +326,137 @@
                     </tr>
                 </TableHeader>
                 <TableBody>
-                    @foreach (var product in pagedProducts)
-                    {
+                    <TwTableRows Items="@_products.Take(4)" Context="product">
                         <tr>
-                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">@product.Name</td>
+                            <td class="px-6 py-4">@product.Name</td>
                             <td class="px-6 py-4">@product.Category</td>
-                            <td class="px-6 py-4">£@product.Price</td>
+                            <td class="px-6 py-4">£@product.Price.ToString("N0")</td>
                         </tr>
-                    }
+                    </TwTableRows>
                 </TableBody>
             </TwTable>
+        </CodeExample>
+    </PageCard>
 
-            <TwPagination Class="mt-4" TotalPages="totalPages" @bind-ActivePage="activePage" AriaLabel="Product table pagination" />
+    <PageCard Title="Pagination">
+        <Description>
+            Set <code>EnablePagination</code> and the table splits its <code>TwTableRows</code> into pages, with a pagination below it. Pagination is off by default. <code>PageSize</code> sets the rows on a page and <code>PageSizeOptions</code> the sizes people can pick; bind <code>@@bind-CurrentPage</code> to follow or set the page. If the rows shrink under the current page, as after a search, the table moves back to the last page and raises <code>CurrentPageChanged</code>.
+        </Description>
+
+        <CodeExample Name="TablePagination" CSharpName="TableProductsCode">
+            <TwTable Id="pagination-table" EnablePagination PageSize="3" @bind-CurrentPage="productPage" AriaLabel="Products by page">
+                <TableHeader>
+                    <tr>
+                        <th scope="col" class="px-6 py-3">Product name</th>
+                        <th scope="col" class="px-6 py-3">Category</th>
+                        <th scope="col" class="px-6 py-3">Price</th>
+                    </tr>
+                </TableHeader>
+                <TableBody>
+                    <TwTableRows Items="@_products" Context="product">
+                        <tr>
+                            <td class="px-6 py-4">@product.Name</td>
+                            <td class="px-6 py-4">@product.Category</td>
+                            <td class="px-6 py-4">£@product.Price.ToString("N0")</td>
+                        </tr>
+                    </TwTableRows>
+                </TableBody>
+            </TwTable>
+            <p class="mt-2">Page @productPage</p>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Virtualization">
+        <Description>
+            Set <code>EnableVirtualization</code> and only the rows scrolled into view are rendered, so the table stays fast with tens of thousands of rows. It is off by default. The rows scroll inside the table, which is <code>32rem</code> tall unless you set <code>MaxHeight</code>, and the header stays in view. Keep each row to one line, about <code>ItemSize</code> pixels tall. Write the row in <code>RowTemplate</code> and put its <code>AriaRowIndex</code> on the <code>&lt;tr&gt;</code>: the table then tells screen readers how many rows there are and where each one sits, so they still read "row 5000 of 10000".
+        </Description>
+
+        <CodeExample Name="TableVirtualization" CSharpName="TableVirtualizationCode">
+            <TwTable Id="virtualized-table" EnableVirtualization MaxHeight="20rem" Striped AriaLabel="Ten thousand readings">
+                <TableHeader>
+                    <tr aria-rowindex="1">
+                        <th scope="col" class="px-6 py-3">Reading</th>
+                        <th scope="col" class="px-6 py-3">Sensor</th>
+                        <th scope="col" class="px-6 py-3">Temperature</th>
+                    </tr>
+                </TableHeader>
+                <TableBody>
+                    <TwTableRows Items="@_readings">
+                        <RowTemplate Context="row">
+                            <tr aria-rowindex="@row.AriaRowIndex">
+                                <td class="px-6 py-2.5">@row.Item.Number</td>
+                                <td class="px-6 py-2.5">@row.Item.Sensor</td>
+                                <td class="px-6 py-2.5">@row.Item.Celsius.ToString("N1") °C</td>
+                            </tr>
+                        </RowTemplate>
+                    </TwTableRows>
+                </TableBody>
+            </TwTable>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Loading rows from a server">
+        <Description>
+            For data too big to load at once, give <code>TwTableRows</code> an <code>ItemsProvider</code> in place of <code>Items</code>. With pagination it is asked for one page at a time, with virtualization for the rows scrolling into view, and otherwise for every row. It returns the rows and the total count, and receives a cancellation token that is cancelled when a newer request replaces it. While rows load the table is marked busy and shows <code>LoadingContent</code>. Call <code>RefreshDataAsync</code> on the rows after the data changes elsewhere.
+        </Description>
+
+        <CodeExample Name="TableItemsProvider" CSharpName="TableItemsProviderCode">
+            <TwTable Id="provider-table" EnablePagination PageSize="5" AriaLabel="Readings from the server">
+                <TableHeader>
+                    <tr>
+                        <th scope="col" class="px-6 py-3">Reading</th>
+                        <th scope="col" class="px-6 py-3">Sensor</th>
+                        <th scope="col" class="px-6 py-3">Temperature</th>
+                    </tr>
+                </TableHeader>
+                <TableBody>
+                    <TwTableRows TItem="Reading" ItemsProvider="@LoadReadingsAsync" Context="reading">
+                        <ChildContent>
+                            <tr>
+                                <td class="px-6 py-4">@reading.Number</td>
+                                <td class="px-6 py-4">@reading.Sensor</td>
+                                <td class="px-6 py-4">@reading.Celsius.ToString("N1") °C</td>
+                            </tr>
+                        </ChildContent>
+                        <LoadingContent>
+                            <tr><td colspan="3" class="px-6 py-4 text-center">Loading readings…</td></tr>
+                        </LoadingContent>
+                    </TwTableRows>
+                </TableBody>
+            </TwTable>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Resizable columns">
+        <Description>
+            Set <code>ResizableColumns</code> and define the columns with <code>TwTableColumn</code>. Each column then has a separator on the border at the end of its header: drag it, or focus it with <kbd>Tab</kbd> and press <kbd>Arrow Left</kbd> or <kbd>Arrow Right</kbd>, holding <kbd>Shift</kbd> for bigger steps. Screen readers hear each separator as "Resize Name" with the column's width. Give each column a <code>Label</code> to name its separator, <code>MinWidth</code> and <code>MaxWidth</code> to limit it, and <code>Resizable="false"</code> to keep it at its width. Resizing turns on <code>FixedLayout</code>, gives every column its current width in pixels so the others stay put, and raises <code>ColumnsResized</code> and each column's <code>WidthChanged</code>.
+        </Description>
+
+        <CodeExample Name="TableResizableColumns" CSharpName="TableResizableColumnsCode">
+            <TwTable Id="resizable-table" ResizableColumns Bordered ColumnsResized="OnColumnsResized" AriaLabel="Products with resizable columns">
+                <ColumnGroup>
+                    <TwTableColumn Id="resizable-name" Label="Product name" Width="16rem" MinWidth="120" />
+                    <TwTableColumn Id="resizable-category" Label="Category" />
+                    <TwTableColumn Id="resizable-price" Label="Price" Width="8rem" Resizable="false" />
+                </ColumnGroup>
+                <TableHeader>
+                    <tr>
+                        <th scope="col" class="px-6 py-3">Product name</th>
+                        <th scope="col" class="px-6 py-3">Category</th>
+                        <th scope="col" class="px-6 py-3">Price</th>
+                    </tr>
+                </TableHeader>
+                <TableBody>
+                    <TwTableRows Items="@_products.Take(4)" Context="product">
+                        <tr>
+                            <td class="px-6 py-4">@product.Name</td>
+                            <td class="px-6 py-4">@product.Category</td>
+                            <td class="px-6 py-4">£@product.Price.ToString("N0")</td>
+                        </tr>
+                    </TwTableRows>
+                </TableBody>
+            </TwTable>
+            <p class="mt-2">@resizedWidths</p>
         </CodeExample>
     </PageCard>
 </PageContainer>
@@ -354,25 +471,47 @@
     ];
     #endregion
 
-    #region CodeExample TableManualPaginationCode
-    private const int pageSize = 3;
-    private int activePage = 1;
+    #region CodeExample TableProductsCode
+    private int productPage = 1;
 
-    private readonly List<(string Name, string Category, int Price)> _products = new()
+    private readonly List<Product> _products =
+    [
+        new("Apple MacBook Pro 17\"", "Laptop", 2999),
+        new("Microsoft Surface Pro", "Laptop", 1999),
+        new("Magic Mouse 2", "Accessories", 99),
+        new("Apple Watch Series 9", "Wearables", 499),
+        new("iPad Air", "Tablet", 799),
+        new("Samsung Galaxy S24", "Phone", 1199),
+        new("Sony WH-1000XM5", "Accessories", 399),
+        new("AirPods Pro", "Accessories", 249)
+    ];
+
+    public record Product(string Name, string Category, int Price);
+    #endregion
+
+    #region CodeExample TableVirtualizationCode
+    private static readonly string[] _sensors = ["Kitchen", "Hall", "Garage", "Loft", "Garden"];
+
+    private readonly List<Reading> _readings = [.. Enumerable.Range(1, 10_000).Select(i =>
+        new Reading(i, _sensors[i % _sensors.Length], Math.Round(15 + (i * 37 % 100) / 10.0, 1)))];
+
+    public record Reading(int Number, string Sensor, double Celsius);
+    #endregion
+
+    #region CodeExample TableItemsProviderCode
+    // Stands in for a database query: in a real app, pass the request on to your API or Entity Framework.
+    private async ValueTask<TwTableRowsResult<Reading>> LoadReadingsAsync(TwTableRowsRequest request)
     {
-        ("Apple MacBook Pro 17\"", "Laptop", 2999),
-        ("Microsoft Surface Pro", "Laptop", 1999),
-        ("Magic Mouse 2", "Accessories", 99),
-        ("Apple Watch Series 9", "Wearables", 499),
-        ("iPad Air", "Tablet", 799),
-        ("Samsung Galaxy S24", "Phone", 1199),
-        ("Sony WH-1000XM5", "Accessories", 399),
-        ("AirPods Pro", "Accessories", 249),
-    };
+        await Task.Delay(300, request.CancellationToken);
+        var page = _readings.Skip(request.StartIndex).Take(request.Count ?? _readings.Count).ToList();
+        return new TwTableRowsResult<Reading>(page, _readings.Count);
+    }
+    #endregion
 
-    private int totalPages => (int)Math.Ceiling(_products.Count / (double)pageSize);
+    #region CodeExample TableResizableColumnsCode
+    private string resizedWidths = "Resize a column to see its new width.";
 
-    private IEnumerable<(string Name, string Category, int Price)> pagedProducts =>
-        _products.Skip((activePage - 1) * pageSize).Take(pageSize);
+    private void OnColumnsResized(IReadOnlyDictionary<string, string> widths) =>
+        resizedWidths = string.Join(", ", widths.Select(w => $"{w.Key.Replace("resizable-", string.Empty)} {w.Value}"));
     #endregion
 }
