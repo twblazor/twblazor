@@ -720,4 +720,43 @@
   <data name="DataTable_ExportedOther" xml:space="preserve">
     <value>{0} ओळी निर्यात केल्या</value>
   </data>
+  <data name="DataTable_GroupBy" xml:space="preserve">
+    <value>यानुसार गट करा</value>
+  </data>
+  <data name="DataTable_NoGrouping" xml:space="preserve">
+    <value>गट नाही</value>
+  </data>
+  <data name="DataTable_GroupedBy" xml:space="preserve">
+    <value>{0} नुसार गट केले</value>
+  </data>
+  <data name="DataTable_GroupingRemoved" xml:space="preserve">
+    <value>गट काढले</value>
+  </data>
+  <data name="DataTable_GroupRowsOne" xml:space="preserve">
+    <value>{0} ओळ</value>
+  </data>
+  <data name="DataTable_GroupRowsOther" xml:space="preserve">
+    <value>{0} ओळी</value>
+  </data>
+  <data name="DataTable_GroupExpanded" xml:space="preserve">
+    <value>{0} विस्तारित</value>
+  </data>
+  <data name="DataTable_GroupCollapsed" xml:space="preserve">
+    <value>{0} संकुचित</value>
+  </data>
+  <data name="DataTable_ExpandAllGroups" xml:space="preserve">
+    <value>सर्व गट विस्तारित करा</value>
+  </data>
+  <data name="DataTable_CollapseAllGroups" xml:space="preserve">
+    <value>सर्व गट संकुचित करा</value>
+  </data>
+  <data name="DataTable_AllGroupsExpanded" xml:space="preserve">
+    <value>सर्व गट विस्तारित</value>
+  </data>
+  <data name="DataTable_AllGroupsCollapsed" xml:space="preserve">
+    <value>सर्व गट संकुचित</value>
+  </data>
+  <data name="DataTable_GroupNoValue" xml:space="preserve">
+    <value>(मूल्य नाही)</value>
+  </data>
 </root>

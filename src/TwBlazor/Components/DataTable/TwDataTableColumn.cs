@@ -68,6 +68,13 @@ public class TwDataTableColumn<TItem>
     public Func<TItem, object?>? ExportFormatter { get; set; }
 
     /// <summary>
+    /// Gets or sets whether people can group the rows by this column from the table's Group by list. Rows group by
+    /// the <see cref="PropertySelector"/> value, and each group is labelled with <see cref="CellFormatter"/> when
+    /// the column has one.
+    /// </summary>
+    public bool Groupable { get; set; }
+
+    /// <summary>
     /// Gets or sets additional CSS classes for the header cell.
     /// </summary>
     public string? HeaderClass { get; set; }

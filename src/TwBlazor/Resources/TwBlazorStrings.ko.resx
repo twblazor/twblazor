@@ -723,4 +723,43 @@
   <data name="DataTable_ExportedOther" xml:space="preserve">
     <value>{0}개 행을 내보냈습니다</value>
   </data>
+  <data name="DataTable_GroupBy" xml:space="preserve">
+    <value>그룹 기준</value>
+  </data>
+  <data name="DataTable_NoGrouping" xml:space="preserve">
+    <value>그룹 없음</value>
+  </data>
+  <data name="DataTable_GroupedBy" xml:space="preserve">
+    <value>{0} 기준으로 그룹화했습니다</value>
+  </data>
+  <data name="DataTable_GroupingRemoved" xml:space="preserve">
+    <value>그룹화를 해제했습니다</value>
+  </data>
+  <data name="DataTable_GroupRowsOne" xml:space="preserve">
+    <value>{0}개 행</value>
+  </data>
+  <data name="DataTable_GroupRowsOther" xml:space="preserve">
+    <value>{0}개 행</value>
+  </data>
+  <data name="DataTable_GroupExpanded" xml:space="preserve">
+    <value>{0} 펼침</value>
+  </data>
+  <data name="DataTable_GroupCollapsed" xml:space="preserve">
+    <value>{0} 접음</value>
+  </data>
+  <data name="DataTable_ExpandAllGroups" xml:space="preserve">
+    <value>모든 그룹 펼치기</value>
+  </data>
+  <data name="DataTable_CollapseAllGroups" xml:space="preserve">
+    <value>모든 그룹 접기</value>
+  </data>
+  <data name="DataTable_AllGroupsExpanded" xml:space="preserve">
+    <value>모든 그룹을 펼쳤습니다</value>
+  </data>
+  <data name="DataTable_AllGroupsCollapsed" xml:space="preserve">
+    <value>모든 그룹을 접었습니다</value>
+  </data>
+  <data name="DataTable_GroupNoValue" xml:space="preserve">
+    <value>(값 없음)</value>
+  </data>
 </root>

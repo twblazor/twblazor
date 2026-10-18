@@ -127,4 +127,25 @@ public class TwTableTheme
     /// to resize the column. It needs absolute positioning and a column resize cursor.
     /// </summary>
     public string ResizeHandle { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the width classes for <see cref="TwBlazor.Components.TwDataTable{TItem}"/>'s Group by list.
+    /// </summary>
+    public string GroupByColumn { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes for the header row at the top of each group when the rows are grouped.
+    /// </summary>
+    public string GroupRow { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes for the button in a group header that expands or collapses the group, including
+    /// its focus ring.
+    /// </summary>
+    public string GroupToggle { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes for the row count beside a group's name.
+    /// </summary>
+    public string GroupCount { get; set; } = string.Empty;
 }

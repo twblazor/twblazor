@@ -109,6 +109,16 @@ public partial class TwTable : TwBlazorComponentBase
     public RenderFragment? TableBody { get; set; }
 
     /// <summary>
+    /// Content made of several <c>&lt;tbody&gt;</c> elements, one for each group of rows, rendered in place of
+    /// <see cref="TableBody"/>. The context is the body's CSS classes (including <see cref="Striped"/>,
+    /// <see cref="Hoverable"/> and <see cref="Bordered"/>), so put it on every <c>&lt;tbody&gt;</c> to style the groups
+    /// like a single body. Start each group with a header cell that has <c>scope="rowgroup"</c>, and assistive
+    /// technology announces it with every row in the group.
+    /// </summary>
+    [Parameter]
+    public RenderFragment<string>? RowGroups { get; set; }
+
+    /// <summary>
     /// Content to render in the table footer (tfoot).
     /// </summary>
     [Parameter]

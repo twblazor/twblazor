@@ -460,6 +460,45 @@ public static class TwStrings
     /// <summary>The key for "Exported {0} rows".</summary>
     public const string DataTable_ExportedOther = "DataTable_ExportedOther";
 
+    /// <summary>The key for "Group by".</summary>
+    public const string DataTable_GroupBy = "DataTable_GroupBy";
+
+    /// <summary>The key for "No grouping".</summary>
+    public const string DataTable_NoGrouping = "DataTable_NoGrouping";
+
+    /// <summary>The key for "Grouped by {0}".</summary>
+    public const string DataTable_GroupedBy = "DataTable_GroupedBy";
+
+    /// <summary>The key for "Grouping removed".</summary>
+    public const string DataTable_GroupingRemoved = "DataTable_GroupingRemoved";
+
+    /// <summary>The key for "{0} row".</summary>
+    public const string DataTable_GroupRowsOne = "DataTable_GroupRowsOne";
+
+    /// <summary>The key for "{0} rows".</summary>
+    public const string DataTable_GroupRowsOther = "DataTable_GroupRowsOther";
+
+    /// <summary>The key for "{0} expanded".</summary>
+    public const string DataTable_GroupExpanded = "DataTable_GroupExpanded";
+
+    /// <summary>The key for "{0} collapsed".</summary>
+    public const string DataTable_GroupCollapsed = "DataTable_GroupCollapsed";
+
+    /// <summary>The key for "Expand all groups".</summary>
+    public const string DataTable_ExpandAllGroups = "DataTable_ExpandAllGroups";
+
+    /// <summary>The key for "Collapse all groups".</summary>
+    public const string DataTable_CollapseAllGroups = "DataTable_CollapseAllGroups";
+
+    /// <summary>The key for "All groups expanded".</summary>
+    public const string DataTable_AllGroupsExpanded = "DataTable_AllGroupsExpanded";
+
+    /// <summary>The key for "All groups collapsed".</summary>
+    public const string DataTable_AllGroupsCollapsed = "DataTable_AllGroupsCollapsed";
+
+    /// <summary>The key for "(No value)".</summary>
+    public const string DataTable_GroupNoValue = "DataTable_GroupNoValue";
+
     /// <summary>The key for "Open date picker".</summary>
     public const string DatePicker_Open = "DatePicker_Open";
 

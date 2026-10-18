@@ -19,9 +19,35 @@
                         ValueChanged="@OnSearchAsync" />
                 </div>
             }
-            @if (showColumnPanelButton || showExportButtons)
+            @if (showGroupBySelect)
+            {
+                <div class="@groupByColumnClasses">
+                    <TwSelect T="GroupOption"
+                              Id="@($"{Id}-group-by")"
+                              Label="@effectiveGroupByLabel"
+                              Values="@groupOptions"
+                              PropertyName="Title"
+                              Required
+                              SelectedValue="@selectedGroupOption"
+                              SelectedValueChanged="@OnGroupByChangedAsync" />
+                </div>
+            }
+            @if (showColumnPanelButton || showExportButtons || isGrouped)
             {
                 <div class="@toolbarActionsClasses">
+                    @if (isGrouped)
+                    {
+                        <TwButton Id="@($"{Id}-expand-groups")"
+                                  Label="@localizer[TwStrings.DataTable_ExpandAllGroups]"
+                                  StartIcon="Icon.Arrows_Expand"
+                                  Variant="ButtonVariant.Outlined"
+                                  OnClick="@(() => SetAllGroupsExpandedAsync(true))" />
+                        <TwButton Id="@($"{Id}-collapse-groups")"
+                                  Label="@localizer[TwStrings.DataTable_CollapseAllGroups]"
+                                  StartIcon="Icon.Arrows_Collapse"
+                                  Variant="ButtonVariant.Outlined"
+                                  OnClick="@(() => SetAllGroupsExpandedAsync(false))" />
+                    }
                     @if (showExportButtons && ExportFormats.HasFlag(TwDataTableExportFormats.Csv))
                     {
                         <TwButton Id="@($"{Id}-export-csv")"
@@ -136,7 +162,8 @@
              Caption="@Caption"
              CaptionVisible="@CaptionVisible"
              FixedLayout="@effectiveFixedLayout"
-             ColumnGroup="@effectiveColumnGroup">
+             ColumnGroup="@effectiveColumnGroup"
+             RowGroups="@(isGrouped && displayedSegments.Count > 0 ? groupedBodies : null)">
         <TableHeader>
             @if (hasColumns)
             {
@@ -172,21 +199,7 @@
                 {
                     @foreach (var row in displayedRows)
                     {
-                        <tr class="@RowClass">
-                            @foreach (var column in visibleColumns)
-                            {
-                                <td class="@($"{theme.BodyCellPadding} {column.CellClass}")">
-                                    @if (column.CellFormatter != null)
-                                    {
-                                        @column.CellFormatter(row)
-                                    }
-                                    else if (column.PropertySelector != null)
-                                    {
-                                        @column.PropertySelector(row)?.ToString()
-                                    }
-                                </td>
-                            }
-                        </tr>
+                        @columnsRow(row)
                     }
                 }
                 else if (TableRow != null)
@@ -241,3 +254,54 @@
             AriaLabel="@localizer[TwStrings.DataTable_Pagination]" />
     }
 </div>
+
+@code {
+    private RenderFragment<TItem> columnsRow => row =>
+        @<tr class="@RowClass">
+            @foreach (var column in visibleColumns)
+            {
+                <td class="@($"{theme.BodyCellPadding} {column.CellClass}")">
+                    @if (column.CellFormatter != null)
+                    {
+                        @column.CellFormatter(row)
+                    }
+                    else if (column.PropertySelector != null)
+                    {
+                        @column.PropertySelector(row)?.ToString()
+                    }
+                </td>
+            }
+        </tr>;
+
+    private RenderFragment<string> groupedBodies => bodyClass =>
+        @<text>
+            @foreach (var segment in displayedSegments)
+            {
+                var group = segment.Group;
+                <tbody class="@bodyClass" @key="group.Label">
+                    <tr class="@theme.GroupRow">
+                        <th scope="rowgroup" colspan="@visibleColumns.Count" class="@theme.HeaderCellPadding">
+                            <div class="@groupHeaderRowClasses">
+                                <button type="button"
+                                        class="@theme.GroupToggle"
+                                        aria-expanded="@(group.Expanded ? "true" : "false")"
+                                        @onclick="@(() => ToggleGroupAsync(group))">
+                                    <TwIcon Icon="@GroupToggleIcon(group)" />
+                                    <span>@group.Label</span>
+                                    <span class="@theme.GroupCount">@GroupRowCount(group)</span>
+                                </button>
+                                @if (GroupHeaderTemplate != null)
+                                {
+                                    <div>@GroupHeaderTemplate(group)</div>
+                                }
+                            </div>
+                        </th>
+                    </tr>
+                    @foreach (var row in segment.Items)
+                    {
+                        @columnsRow(row)
+                    }
+                </tbody>
+            }
+        </text>;
+}

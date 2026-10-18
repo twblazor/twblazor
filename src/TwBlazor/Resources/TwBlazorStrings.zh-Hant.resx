@@ -723,4 +723,43 @@
   <data name="DataTable_ExportedOther" xml:space="preserve">
     <value>已匯出 {0} 列</value>
   </data>
+  <data name="DataTable_GroupBy" xml:space="preserve">
+    <value>分組依據</value>
+  </data>
+  <data name="DataTable_NoGrouping" xml:space="preserve">
+    <value>不分組</value>
+  </data>
+  <data name="DataTable_GroupedBy" xml:space="preserve">
+    <value>已按「{0}」分組</value>
+  </data>
+  <data name="DataTable_GroupingRemoved" xml:space="preserve">
+    <value>已取消分組</value>
+  </data>
+  <data name="DataTable_GroupRowsOne" xml:space="preserve">
+    <value>{0} 列</value>
+  </data>
+  <data name="DataTable_GroupRowsOther" xml:space="preserve">
+    <value>{0} 列</value>
+  </data>
+  <data name="DataTable_GroupExpanded" xml:space="preserve">
+    <value>已展開「{0}」</value>
+  </data>
+  <data name="DataTable_GroupCollapsed" xml:space="preserve">
+    <value>已摺疊「{0}」</value>
+  </data>
+  <data name="DataTable_ExpandAllGroups" xml:space="preserve">
+    <value>展開所有分組</value>
+  </data>
+  <data name="DataTable_CollapseAllGroups" xml:space="preserve">
+    <value>摺疊所有分組</value>
+  </data>
+  <data name="DataTable_AllGroupsExpanded" xml:space="preserve">
+    <value>已展開所有分組</value>
+  </data>
+  <data name="DataTable_AllGroupsCollapsed" xml:space="preserve">
+    <value>已摺疊所有分組</value>
+  </data>
+  <data name="DataTable_GroupNoValue" xml:space="preserve">
+    <value>（無值）</value>
+  </data>
 </root>

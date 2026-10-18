@@ -891,4 +891,56 @@
     <value>Exported {0} rows</value>
     <comment>{0} = number of rows. Announced after a data table is downloaded.</comment>
   </data>
+  <data name="DataTable_GroupBy" xml:space="preserve">
+    <value>Group by</value>
+    <comment>The label of a data table's list for choosing the column its rows are grouped by.</comment>
+  </data>
+  <data name="DataTable_NoGrouping" xml:space="preserve">
+    <value>No grouping</value>
+    <comment>The entry in the Group by list that turns grouping off.</comment>
+  </data>
+  <data name="DataTable_GroupedBy" xml:space="preserve">
+    <value>Grouped by {0}</value>
+    <comment>{0} = column title. Announced after the rows are grouped.</comment>
+  </data>
+  <data name="DataTable_GroupingRemoved" xml:space="preserve">
+    <value>Grouping removed</value>
+    <comment>Announced after grouping is turned off.</comment>
+  </data>
+  <data name="DataTable_GroupRowsOne" xml:space="preserve">
+    <value>{0} row</value>
+    <comment>{0} = number of rows (1). Shown beside a group's name.</comment>
+  </data>
+  <data name="DataTable_GroupRowsOther" xml:space="preserve">
+    <value>{0} rows</value>
+    <comment>{0} = number of rows. Shown beside a group's name.</comment>
+  </data>
+  <data name="DataTable_GroupExpanded" xml:space="preserve">
+    <value>{0} expanded</value>
+    <comment>{0} = group name. Announced after a group is expanded.</comment>
+  </data>
+  <data name="DataTable_GroupCollapsed" xml:space="preserve">
+    <value>{0} collapsed</value>
+    <comment>{0} = group name. Announced after a group is collapsed.</comment>
+  </data>
+  <data name="DataTable_ExpandAllGroups" xml:space="preserve">
+    <value>Expand all groups</value>
+    <comment>The data table button that expands every group.</comment>
+  </data>
+  <data name="DataTable_CollapseAllGroups" xml:space="preserve">
+    <value>Collapse all groups</value>
+    <comment>The data table button that collapses every group.</comment>
+  </data>
+  <data name="DataTable_AllGroupsExpanded" xml:space="preserve">
+    <value>All groups expanded</value>
+    <comment>Announced after every group is expanded.</comment>
+  </data>
+  <data name="DataTable_AllGroupsCollapsed" xml:space="preserve">
+    <value>All groups collapsed</value>
+    <comment>Announced after every group is collapsed.</comment>
+  </data>
+  <data name="DataTable_GroupNoValue" xml:space="preserve">
+    <value>(No value)</value>
+    <comment>The name of the group of rows that have no value in the grouped column.</comment>
+  </data>
 </root>

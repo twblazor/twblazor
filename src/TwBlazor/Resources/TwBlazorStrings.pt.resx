@@ -720,4 +720,43 @@
   <data name="DataTable_ExportedOther" xml:space="preserve">
     <value>{0} linhas exportadas</value>
   </data>
+  <data name="DataTable_GroupBy" xml:space="preserve">
+    <value>Agrupar por</value>
+  </data>
+  <data name="DataTable_NoGrouping" xml:space="preserve">
+    <value>Sem agrupamento</value>
+  </data>
+  <data name="DataTable_GroupedBy" xml:space="preserve">
+    <value>Agrupado por {0}</value>
+  </data>
+  <data name="DataTable_GroupingRemoved" xml:space="preserve">
+    <value>Agrupamento removido</value>
+  </data>
+  <data name="DataTable_GroupRowsOne" xml:space="preserve">
+    <value>{0} linha</value>
+  </data>
+  <data name="DataTable_GroupRowsOther" xml:space="preserve">
+    <value>{0} linhas</value>
+  </data>
+  <data name="DataTable_GroupExpanded" xml:space="preserve">
+    <value>{0} expandido</value>
+  </data>
+  <data name="DataTable_GroupCollapsed" xml:space="preserve">
+    <value>{0} recolhido</value>
+  </data>
+  <data name="DataTable_ExpandAllGroups" xml:space="preserve">
+    <value>Expandir todos os grupos</value>
+  </data>
+  <data name="DataTable_CollapseAllGroups" xml:space="preserve">
+    <value>Recolher todos os grupos</value>
+  </data>
+  <data name="DataTable_AllGroupsExpanded" xml:space="preserve">
+    <value>Todos os grupos expandidos</value>
+  </data>
+  <data name="DataTable_AllGroupsCollapsed" xml:space="preserve">
+    <value>Todos os grupos recolhidos</value>
+  </data>
+  <data name="DataTable_GroupNoValue" xml:space="preserve">
+    <value>(Sem valor)</value>
+  </data>
 </root>

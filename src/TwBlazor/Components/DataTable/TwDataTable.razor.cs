@@ -253,7 +253,7 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
 
     private bool hasColumns => Columns is { Count: > 0 };
 
-    private bool showToolbar => Searchable || showColumnPanelButton || showExportButtons;
+    private bool showToolbar => Searchable || showColumnPanelButton || showExportButtons || showGroupBySelect;
 
     // The empty row has to cross every column. Without column definitions the count is unknown, and a colspan
     // larger than the table is harmless.
@@ -277,9 +277,12 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
 
         SyncColumns();
 
+        var groupingChanged = GroupBy != lastGroupByParameter;
+        SyncGroupByParameter();
+
         var stateApplied = ApplyIncomingState();
 
-        if (stateApplied || !lastItems.SequenceEqual(Items))
+        if (stateApplied || groupingChanged || !lastItems.SequenceEqual(Items))
         {
             lastItems = [.. Items];
             RefreshView();
@@ -314,6 +317,7 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
         }
 
         viewItems = rows.ToList();
+        BuildGroups();
 
         if (resetPage)
         {
@@ -325,6 +329,18 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
 
     private void UpdateDisplay()
     {
+        if (isGrouped)
+        {
+            totalCount = lines.Count;
+            currentPage = Math.Clamp(currentPage, 1, TotalPages());
+
+            var pageLines = Pageable ? lines.Skip((currentPage - 1) * rowsPerPage).Take(rowsPerPage).ToList() : lines;
+            BuildDisplayedSegments(pageLines);
+            displayedRows = [.. pageLines.Where(l => !l.IsHeader).Select(l => l.Item!)];
+            return;
+        }
+
+        displayedSegments = [];
         totalCount = viewItems.Count;
         currentPage = Math.Clamp(currentPage, 1, TotalPages());
 
@@ -360,7 +376,7 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
         currentSearchQuery = string.IsNullOrWhiteSpace(value) ? null : value;
         RefreshView(resetPage: true);
 
-        sortStatusMessage = SearchStatusMessage(totalCount);
+        sortStatusMessage = SearchStatusMessage(viewItems.Count);
 
         await NotifyStateChangedAsync();
     }

@@ -726,4 +726,43 @@
   <data name="DataTable_ExportedOther" xml:space="preserve">
     <value>{0} 行をエクスポートしました</value>
   </data>
+  <data name="DataTable_GroupBy" xml:space="preserve">
+    <value>グループ化</value>
+  </data>
+  <data name="DataTable_NoGrouping" xml:space="preserve">
+    <value>グループ化しない</value>
+  </data>
+  <data name="DataTable_GroupedBy" xml:space="preserve">
+    <value>{0} でグループ化しました</value>
+  </data>
+  <data name="DataTable_GroupingRemoved" xml:space="preserve">
+    <value>グループ化を解除しました</value>
+  </data>
+  <data name="DataTable_GroupRowsOne" xml:space="preserve">
+    <value>{0} 行</value>
+  </data>
+  <data name="DataTable_GroupRowsOther" xml:space="preserve">
+    <value>{0} 行</value>
+  </data>
+  <data name="DataTable_GroupExpanded" xml:space="preserve">
+    <value>{0} を展開しました</value>
+  </data>
+  <data name="DataTable_GroupCollapsed" xml:space="preserve">
+    <value>{0} を折りたたみました</value>
+  </data>
+  <data name="DataTable_ExpandAllGroups" xml:space="preserve">
+    <value>すべてのグループを展開</value>
+  </data>
+  <data name="DataTable_CollapseAllGroups" xml:space="preserve">
+    <value>すべてのグループを折りたたむ</value>
+  </data>
+  <data name="DataTable_AllGroupsExpanded" xml:space="preserve">
+    <value>すべてのグループを展開しました</value>
+  </data>
+  <data name="DataTable_AllGroupsCollapsed" xml:space="preserve">
+    <value>すべてのグループを折りたたみました</value>
+  </data>
+  <data name="DataTable_GroupNoValue" xml:space="preserve">
+    <value>（値なし）</value>
+  </data>
 </root>

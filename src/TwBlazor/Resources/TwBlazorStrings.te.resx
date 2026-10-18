@@ -720,4 +720,43 @@
   <data name="DataTable_ExportedOther" xml:space="preserve">
     <value>{0} వరుసలు ఎగుమతి అయ్యాయి</value>
   </data>
+  <data name="DataTable_GroupBy" xml:space="preserve">
+    <value>దీని ప్రకారం సమూహం</value>
+  </data>
+  <data name="DataTable_NoGrouping" xml:space="preserve">
+    <value>సమూహం లేదు</value>
+  </data>
+  <data name="DataTable_GroupedBy" xml:space="preserve">
+    <value>{0} ప్రకారం సమూహం చేయబడింది</value>
+  </data>
+  <data name="DataTable_GroupingRemoved" xml:space="preserve">
+    <value>సమూహం తీసివేయబడింది</value>
+  </data>
+  <data name="DataTable_GroupRowsOne" xml:space="preserve">
+    <value>{0} వరుస</value>
+  </data>
+  <data name="DataTable_GroupRowsOther" xml:space="preserve">
+    <value>{0} వరుసలు</value>
+  </data>
+  <data name="DataTable_GroupExpanded" xml:space="preserve">
+    <value>{0} విస్తరించబడింది</value>
+  </data>
+  <data name="DataTable_GroupCollapsed" xml:space="preserve">
+    <value>{0} కుదించబడింది</value>
+  </data>
+  <data name="DataTable_ExpandAllGroups" xml:space="preserve">
+    <value>అన్ని సమూహాలను విస్తరించండి</value>
+  </data>
+  <data name="DataTable_CollapseAllGroups" xml:space="preserve">
+    <value>అన్ని సమూహాలను కుదించండి</value>
+  </data>
+  <data name="DataTable_AllGroupsExpanded" xml:space="preserve">
+    <value>అన్ని సమూహాలు విస్తరించబడ్డాయి</value>
+  </data>
+  <data name="DataTable_AllGroupsCollapsed" xml:space="preserve">
+    <value>అన్ని సమూహాలు కుదించబడ్డాయి</value>
+  </data>
+  <data name="DataTable_GroupNoValue" xml:space="preserve">
+    <value>(విలువ లేదు)</value>
+  </data>
 </root>

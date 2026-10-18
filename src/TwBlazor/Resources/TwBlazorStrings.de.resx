@@ -726,4 +726,43 @@
   <data name="DataTable_ExportedOther" xml:space="preserve">
     <value>{0} Zeilen exportiert</value>
   </data>
+  <data name="DataTable_GroupBy" xml:space="preserve">
+    <value>Gruppieren nach</value>
+  </data>
+  <data name="DataTable_NoGrouping" xml:space="preserve">
+    <value>Keine Gruppierung</value>
+  </data>
+  <data name="DataTable_GroupedBy" xml:space="preserve">
+    <value>Nach {0} gruppiert</value>
+  </data>
+  <data name="DataTable_GroupingRemoved" xml:space="preserve">
+    <value>Gruppierung aufgehoben</value>
+  </data>
+  <data name="DataTable_GroupRowsOne" xml:space="preserve">
+    <value>{0} Zeile</value>
+  </data>
+  <data name="DataTable_GroupRowsOther" xml:space="preserve">
+    <value>{0} Zeilen</value>
+  </data>
+  <data name="DataTable_GroupExpanded" xml:space="preserve">
+    <value>{0} aufgeklappt</value>
+  </data>
+  <data name="DataTable_GroupCollapsed" xml:space="preserve">
+    <value>{0} zugeklappt</value>
+  </data>
+  <data name="DataTable_ExpandAllGroups" xml:space="preserve">
+    <value>Alle Gruppen aufklappen</value>
+  </data>
+  <data name="DataTable_CollapseAllGroups" xml:space="preserve">
+    <value>Alle Gruppen zuklappen</value>
+  </data>
+  <data name="DataTable_AllGroupsExpanded" xml:space="preserve">
+    <value>Alle Gruppen aufgeklappt</value>
+  </data>
+  <data name="DataTable_AllGroupsCollapsed" xml:space="preserve">
+    <value>Alle Gruppen zugeklappt</value>
+  </data>
+  <data name="DataTable_GroupNoValue" xml:space="preserve">
+    <value>(Kein Wert)</value>
+  </data>
 </root>
