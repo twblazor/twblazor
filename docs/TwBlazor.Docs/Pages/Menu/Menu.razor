@@ -5,7 +5,7 @@
         <Description>Put <code>TwMenuItem</code>s in a <code>TwMenu</code>. Choosing an item runs its <code>OnClick</code>, closes the menu and returns focus to the button. The button tells screen readers that it opens a menu and whether the menu is open.</Description>
 
         <CodeExample Name="MenuBasic" CSharpName="MenuBasicCode">
-            <TwMenu Id="basic-menu" Label="Actions" Icon="Icon.Three_Dots_Vertical">
+            <TwMenu Id="actions-menu" Label="Actions" Icon="Icon.Three_Dots_Vertical">
                 <TwMenuItem Label="Edit" StartIcon="Icon.Pencil" OnClick="@(() => lastAction = "Edit")" />
                 <TwMenuItem Label="Duplicate" StartIcon="Icon.Copy" OnClick="@(() => lastAction = "Duplicate")" />
                 <TwMenuItem Label="Archive" StartIcon="Icon.Archive" OnClick="@(() => lastAction = "Archive")" />
