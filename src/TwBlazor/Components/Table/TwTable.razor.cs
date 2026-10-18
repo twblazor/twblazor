@@ -81,6 +81,22 @@ public partial class TwTable : TwBlazorComponentBase
     public bool CaptionVisible { get; set; } = false;
 
     /// <summary>
+    /// Optional column definitions, rendered inside a <c>&lt;colgroup&gt;</c> before the table sections. Use
+    /// <see cref="TwTableColumn"/> to give columns a width, so long or breakable content (such as inline code)
+    /// cannot squeeze a column narrower than its content needs.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ColumnGroup { get; set; }
+
+    /// <summary>
+    /// Whether column widths come from the <see cref="ColumnGroup"/> and the header row instead of the cell
+    /// content (CSS <c>table-layout: fixed</c>). Columns keep the same width however their content changes,
+    /// which suits tables whose rows are paged, filtered or loaded on demand. Defaults to <c>false</c>.
+    /// </summary>
+    [Parameter]
+    public bool FixedLayout { get; set; }
+
+    /// <summary>
     /// Content to render in the table header (thead).
     /// </summary>
     [Parameter]
@@ -166,6 +182,7 @@ public partial class TwTable : TwBlazorComponentBase
 
     private string tableClasses => new ClassBuilder()
         .AddClass(theme.Base)
+        .AddClass(theme.FixedLayout, FixedLayout)
         .Build();
 
     private string headerClasses => new ClassBuilder()

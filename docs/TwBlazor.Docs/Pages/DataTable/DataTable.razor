@@ -145,6 +145,22 @@
             </TwDataTable>
         </CodeExample>
     </PageCard>
+
+    <PageCard Title="Column widths and fixed layout">
+        <Description>
+            Give a column a <code>Width</code> to size it. Any CSS length works, such as <code>40%</code> or <code>8rem</code>, and columns without a width share the rest. Add <code>FixedLayout</code> so the columns keep their widths as you page, sort and search, instead of jumping to fit each page's content. With <code>TableHeader</code> and <code>TableRow</code>, pass a <code>ColumnGroup</code> of <code>TwTableColumn</code> elements instead, as on <code>TwTable</code>.
+        </Description>
+
+        <CodeExample Name="DataTableColumnWidths" CSharpName="DataTableSizedColumns">
+            <TwDataTable TItem="Product"
+                         Items="@products"
+                         Columns="@_sizedColumns"
+                         FixedLayout
+                         Searchable
+                         RowsPerPage="5"
+                         AriaLabel="Products with fixed column widths" />
+        </CodeExample>
+    </PageCard>
 </PageContainer>
 
 @code {
@@ -187,6 +203,15 @@
                 : p.Stock.ToString(),
             IsSortable = true
         }
+    };
+    #endregion
+
+    #region CodeExample DataTableSizedColumns
+    private readonly List<TwDataTableColumn<Product>> _sizedColumns = new()
+    {
+        new TwDataTableColumn<Product> { Name = "name", Title = "Product Name", PropertySelector = p => p.Name, IsSortable = true },
+        new TwDataTableColumn<Product> { Name = "category", Title = "Category", PropertySelector = p => p.Category, Width = "25%" },
+        new TwDataTableColumn<Product> { Name = "price", Title = "Price", PropertySelector = p => p.Price, IsSortable = true, Width = "8rem", CellFormatter = p => $"£{p.Price:N2}" }
     };
     #endregion
 

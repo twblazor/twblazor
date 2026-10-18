@@ -30,6 +30,12 @@ public class TwDataTableColumn<TItem>
     public bool IsSortable { get; set; } = false;
 
     /// <summary>
+    /// Gets or sets the width of the column as any CSS length, such as <c>12rem</c>, <c>160px</c> or <c>25%</c>.
+    /// When any column has a width, the table renders a <see cref="TwTableColumn"/> for every column.
+    /// </summary>
+    public string? Width { get; set; }
+
+    /// <summary>
     /// Gets or sets additional CSS classes for the header cell.
     /// </summary>
     public string? HeaderClass { get; set; }
