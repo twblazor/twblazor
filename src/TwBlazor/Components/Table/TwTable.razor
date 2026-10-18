@@ -10,6 +10,12 @@
                     @Caption
                 </caption>
             }
+            @if (ColumnGroup != null)
+            {
+                <colgroup>
+                    @ColumnGroup
+                </colgroup>
+            }
             @if (TableHeader != null)
             {
                 <thead class="@headerClasses">

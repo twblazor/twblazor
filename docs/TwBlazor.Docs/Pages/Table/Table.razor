@@ -176,6 +176,72 @@
         </CodeExample>
     </PageCard>
 
+    <PageCard Title="Column widths">
+        <Description>
+            Add a <code>ColumnGroup</code> of <code>TwTableColumn</code> elements to size the columns. A column with a <code>Width</code> never goes narrower than it, so a long description in one column cannot squeeze a short name or a code value in another. Columns without a width share the space that is left. <code>Width</code> takes any CSS length and needs no Tailwind class, and <code>Span</code> lets one definition cover several columns.
+        </Description>
+
+        <CodeExample Name="TableColumnWidths">
+            <TwTable Id="column-widths-table" Bordered AriaLabel="Package commands">
+                <ColumnGroup>
+                    <TwTableColumn Width="14rem" />
+                    <TwTableColumn />
+                </ColumnGroup>
+                <TableHeader>
+                    <tr>
+                        <th scope="col" class="px-6 py-3">Command</th>
+                        <th scope="col" class="px-6 py-3">What it does</th>
+                    </tr>
+                </TableHeader>
+                <TableBody>
+                    <tr>
+                        <th scope="row" class="px-6 py-4 text-start align-top font-normal"><code>dotnet add package TwBlazor</code></th>
+                        <td class="px-6 py-4">Adds the component library to your project, along with the default theme and the scripts the interactive components need.</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="px-6 py-4 text-start align-top font-normal"><code>dotnet build</code></th>
+                        <td class="px-6 py-4">Builds the project and runs the Tailwind build, so every class the theme uses is compiled into your stylesheet.</td>
+                    </tr>
+                </TableBody>
+            </TwTable>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Fixed layout">
+        <Description>
+            By default the browser sizes each column from its content. Set <code>FixedLayout</code> and the widths come from the column group and the header row instead, so the columns stay put however long the content in a row is. This suits tables whose rows change as you page or filter them. Long content wraps inside its column.
+        </Description>
+
+        <CodeExample Name="TableFixedLayout">
+            <TwTable Id="fixed-layout-table" FixedLayout Striped AriaLabel="Team tasks">
+                <ColumnGroup>
+                    <TwTableColumn Width="10rem" />
+                    <TwTableColumn Width="8rem" />
+                    <TwTableColumn />
+                </ColumnGroup>
+                <TableHeader>
+                    <tr>
+                        <th scope="col" class="px-6 py-3">Owner</th>
+                        <th scope="col" class="px-6 py-3">Due</th>
+                        <th scope="col" class="px-6 py-3">Notes</th>
+                    </tr>
+                </TableHeader>
+                <TableBody>
+                    <tr>
+                        <td class="px-6 py-4">Jane Smith</td>
+                        <td class="px-6 py-4">14/11/2026</td>
+                        <td class="px-6 py-4 wrap-break-word">Write the onboarding guide for new starters, covering accounts, equipment and the first week.</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4">Bob Johnson</td>
+                        <td class="px-6 py-4">21/11/2026</td>
+                        <td class="px-6 py-4 wrap-break-word">Review supplier contracts.</td>
+                    </tr>
+                </TableBody>
+            </TwTable>
+        </CodeExample>
+    </PageCard>
+
     <PageCard Title="Manual pagination">
         <Description>
             <code>TwTable</code> has no built-in paging - it just renders whatever rows you give it. Slice your own data and pair it with

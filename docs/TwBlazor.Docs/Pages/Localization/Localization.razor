@@ -18,6 +18,12 @@
             The language is chosen from <code>CultureInfo.CurrentUICulture</code>. A regional culture uses its language file, so <code>es-MX</code> and <code>es-AR</code> both use Spanish, <code>ar-EG</code> uses Arabic, and <code>zh-HK</code> uses Traditional Chinese. Wu Chinese is written in Simplified Chinese, so it is covered by <code>zh-Hans</code>. A language that is not in this table falls back to English.
         </Description>
         <TwTable Bordered Striped Class="mb-4" AriaLabel="Supported languages">
+            <ColumnGroup>
+                <TwTableColumn />
+                <TwTableColumn Width="6rem" />
+                <TwTableColumn Width="16rem" />
+                <TwTableColumn />
+            </ColumnGroup>
             <TableHeader>
                 <tr>
                     <th scope="col" class="px-4 py-3">Language</th>
@@ -105,6 +111,11 @@
         </p>
         <TwCodeBlock Content="@formatsExample" Language="csharp" />
         <TwTable Bordered Striped Class="my-4" AriaLabel="Date and time format options">
+            <ColumnGroup>
+                <TwTableColumn Width="14rem" />
+                <TwTableColumn />
+                <TwTableColumn />
+            </ColumnGroup>
             <TableHeader>
                 <tr>
                     <th scope="col" class="px-4 py-3">Option</th>

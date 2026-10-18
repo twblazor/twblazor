@@ -44,6 +44,12 @@ public class TwTableTheme
     public required string Bordered { get; set; }
 
     /// <summary>
+    /// Gets or sets the classes applied to the table element when the table's <c>FixedLayout</c> parameter
+    /// is <c>true</c> (e.g. <c>table-fixed</c>).
+    /// </summary>
+    public string FixedLayout { get; set; } = string.Empty;
+
+    /// <summary>
     /// Gets or sets the classes applied to the table header, controlling its background, text colour,
     /// typography, and the permanent divider separating it from the body.
     /// </summary>

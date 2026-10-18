@@ -121,6 +121,22 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
     public bool ComfortablePagination { get; set; } = false;
 
     /// <summary>
+    /// Optional column definitions for a manually defined table (<see cref="TableHeader"/> and <see cref="TableRow"/>),
+    /// passed to <see cref="TwTable.ColumnGroup"/>. Use <see cref="TwTableColumn"/> to set column widths. When
+    /// <see cref="Columns"/> is used, set <see cref="TwDataTableColumn{TItem}.Width"/> on each column instead.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ColumnGroup { get; set; }
+
+    /// <summary>
+    /// Whether column widths come from the column definitions and header row instead of the cell content
+    /// (<see cref="TwTable.FixedLayout"/>). Columns then keep the same width as the rows change from page to page,
+    /// or as a search filters them. Defaults to <c>false</c>.
+    /// </summary>
+    [Parameter]
+    public bool FixedLayout { get; set; }
+
+    /// <summary>
     /// Whether to show striped rows.
     /// </summary>
     [Parameter]
@@ -203,6 +219,19 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
     private string? sortStatusMessage;
 
     private string rootClasses => new ClassBuilder(Class).Build();
+
+    private RenderFragment? effectiveColumnGroup =>
+        Columns is { Count: > 0 } columns && columns.Any(c => !string.IsNullOrWhiteSpace(c.Width))
+            ? builder =>
+            {
+                foreach (var column in columns)
+                {
+                    builder.OpenComponent<TwTableColumn>(0);
+                    builder.AddComponentParameter(1, nameof(TwTableColumn.Width), column.Width);
+                    builder.CloseComponent();
+                }
+            }
+            : ColumnGroup;
 
     private string headerRowClasses => new ClassBuilder()
         .AddClass(theme.Header)
