@@ -9,9 +9,9 @@ namespace TwBlazor.Tests.Components.Textfield;
 
 public class TwTextfieldClearableTests : TwBlazorTestBase
 {
-    private TwInputTheme InputTheme => Theme.Components.Require<TwInputTheme>();
+    private TwInputTheme inputTheme => Theme.Components.Require<TwInputTheme>();
 
-    private string ClearLabel => Localizer[TwStrings.Textfield_Clear];
+    private string clearLabel => Localizer[TwStrings.Textfield_Clear];
 
     [Fact]
     public void WithoutClearableOrContent_TheInputIsNotWrapped()
@@ -21,7 +21,7 @@ public class TwTextfieldClearableTests : TwBlazorTestBase
 
         // Assert
         Assert.Empty(cut.FindAll("button"));
-        Assert.NotEqual(InputTheme.FieldWrapper, cut.Find("input").ParentElement!.GetAttribute("class"));
+        Assert.NotEqual(inputTheme.FieldWrapper, cut.Find("input").ParentElement!.GetAttribute("class"));
     }
 
     [Fact]
@@ -31,11 +31,11 @@ public class TwTextfieldClearableTests : TwBlazorTestBase
         var cut = TestContext.Render<TwTextfield<string>>(p => p.Add(x => x.Id, "search").Add(x => x.Clearable, true).Add(x => x.Value, "Order 1042"));
 
         // Assert
-        var button = cut.Find($"button[aria-label='{ClearLabel}']");
+        var button = cut.Find($"button[aria-label='{clearLabel}']");
         Assert.Equal("button", button.GetAttribute("type"));
         Assert.Equal("-1", button.GetAttribute("tabindex"));
         Assert.Equal("search", button.GetAttribute("aria-controls"));
-        Assert.Contains(InputTheme.ClearablePadding, cut.Find("input").GetAttribute("class"));
+        Assert.Contains(inputTheme.ClearablePadding, cut.Find("input").GetAttribute("class"));
     }
 
     [Fact]
@@ -45,7 +45,7 @@ public class TwTextfieldClearableTests : TwBlazorTestBase
         var cut = TestContext.Render<TwTextfield<string>>(p => p.Add(x => x.Clearable, true));
 
         // Assert
-        Assert.True(cut.Find($"button[aria-label='{ClearLabel}']").HasAttribute("disabled"));
+        Assert.True(cut.Find($"button[aria-label='{clearLabel}']").HasAttribute("disabled"));
     }
 
     [Fact]
@@ -55,7 +55,7 @@ public class TwTextfieldClearableTests : TwBlazorTestBase
         var cut = TestContext.Render<TwTextfield<string>>(p => p.Add(x => x.Clearable, true).Add(x => x.Value, "x"));
 
         // Assert
-        Assert.False(cut.Find($"button[aria-label='{ClearLabel}']").HasAttribute("disabled"));
+        Assert.False(cut.Find($"button[aria-label='{clearLabel}']").HasAttribute("disabled"));
     }
 
     [Theory]
@@ -72,7 +72,7 @@ public class TwTextfieldClearableTests : TwBlazorTestBase
 
         // Assert
         Assert.Empty(cut.FindAll("button"));
-        Assert.DoesNotContain(InputTheme.ClearablePadding, cut.Find("input").GetAttribute("class"));
+        Assert.DoesNotContain(inputTheme.ClearablePadding, cut.Find("input").GetAttribute("class"));
     }
 
     [Fact]
@@ -179,9 +179,9 @@ public class TwTextfieldClearableTests : TwBlazorTestBase
             .Add(x => x.EndContent, (RenderFragment)(b => b.AddMarkupContent(0, "<span id=\"end\">kg</span>"))));
 
         // Assert
-        Assert.Equal(InputTheme.FieldWrapper, cut.Find("input").ParentElement!.GetAttribute("class"));
-        Assert.Contains(InputTheme.FieldStartContent, cut.Find("#start").ParentElement!.GetAttribute("class"));
-        Assert.Contains(InputTheme.FieldEndContent, cut.Find("#end").ParentElement!.GetAttribute("class"));
+        Assert.Equal(inputTheme.FieldWrapper, cut.Find("input").ParentElement!.GetAttribute("class"));
+        Assert.Contains(inputTheme.FieldStartContent, cut.Find("#start").ParentElement!.GetAttribute("class"));
+        Assert.Contains(inputTheme.FieldEndContent, cut.Find("#end").ParentElement!.GetAttribute("class"));
     }
 
     [Fact]
@@ -205,6 +205,6 @@ public class TwTextfieldClearableTests : TwBlazorTestBase
         var cut = TestContext.Render<TwTextfield<string>>(p => p.Add(x => x.Clearable, true).Add(x => x.Value, "x").Add(x => x.Dense, true));
 
         // Assert
-        Assert.Contains(InputTheme.DenseSize, cut.Find("button").ParentElement!.GetAttribute("class"));
+        Assert.Contains(inputTheme.DenseSize, cut.Find("button").ParentElement!.GetAttribute("class"));
     }
 }

@@ -36,8 +36,8 @@ public sealed class DiscordWidgetInviteSource : IDiscordInviteSource
 
     private readonly HttpClient _http;
     private readonly TimeProvider _time;
-    private string? _invite;
-    private DateTimeOffset _fetchedAt;
+    private string? cachedInvite;
+    private DateTimeOffset fetchedAt;
 
     /// <summary>
     /// Creates a source that asks Discord through <paramref name="http"/>.
@@ -58,8 +58,8 @@ public sealed class DiscordWidgetInviteSource : IDiscordInviteSource
     /// <inheritdoc />
     public async Task<string?> GetInviteAsync(CancellationToken cancellationToken = default)
     {
-        if (_invite is not null && _time.GetUtcNow() - _fetchedAt < _lifetime)
-            return _invite;
+        if (cachedInvite is not null && _time.GetUtcNow() - fetchedAt < _lifetime)
+            return cachedInvite;
 
         try
         {
@@ -67,8 +67,8 @@ public sealed class DiscordWidgetInviteSource : IDiscordInviteSource
 
             if (ReadInvite(json) is { } invite)
             {
-                _invite = invite;
-                _fetchedAt = _time.GetUtcNow();
+                cachedInvite = invite;
+                fetchedAt = _time.GetUtcNow();
             }
         }
         catch (Exception exception) when (exception is HttpRequestException or TaskCanceledException or JsonException)
@@ -77,7 +77,7 @@ public sealed class DiscordWidgetInviteSource : IDiscordInviteSource
             // since it stays valid for about a day.
         }
 
-        return _invite;
+        return cachedInvite;
     }
 
     /// <summary>

@@ -6,7 +6,7 @@ namespace TwBlazor.Docs.Tests.Services.ThemeBuilder;
 
 public partial class ThemeOnColorTests
 {
-    private static readonly IReadOnlySet<string> AllThemes = ThemeTemplate.Default.Blocks.Select(b => b.TypeName).ToHashSet();
+    private static readonly IReadOnlySet<string> _allThemes = ThemeTemplate.Default.Blocks.Select(b => b.TypeName).ToHashSet();
 
     [GeneratedRegex(@"Filled = new\(\)\s*\{.*?\n\s*\},", RegexOptions.Singleline)]
     private static partial Regex FilledBlockRegex();
@@ -18,7 +18,7 @@ public partial class ThemeOnColorTests
         OklchColor.TryParseHex(hex, out var color) ? color : throw new ArgumentException($"Not a color: {hex}", nameof(hex));
 
     private static string Generate(Dictionary<string, string> colors, Dictionary<string, OnColorMode>? onColors = null) =>
-        ThemeCodeGenerator.Generate(ThemeTemplate.Default, AllThemes, colors, onColors: onColors);
+        ThemeCodeGenerator.Generate(ThemeTemplate.Default, _allThemes, colors, onColors: onColors);
 
     private static string FilledLine(string code, string name)
     {

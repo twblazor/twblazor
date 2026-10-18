@@ -11,19 +11,19 @@ namespace TwBlazor.Tests.Components.Numeric;
 
 public class TwNumericTests : TwBlazorTestBase
 {
-    private TwNumericTheme NumericTheme => Theme.Components.Require<TwNumericTheme>();
+    private TwNumericTheme numericTheme => Theme.Components.Require<TwNumericTheme>();
 
-    private TwInputTheme InputTheme => Theme.Components.Require<TwInputTheme>();
+    private TwInputTheme inputTheme => Theme.Components.Require<TwInputTheme>();
 
     private static ChangeEventArgs Text(string value) => new() { Value = value };
 
     private static KeyboardEventArgs Key(string key) => new() { Key = key };
 
-    private string Increase => Localizer[TwStrings.Numeric_Increase];
+    private string increaseLabel => Localizer[TwStrings.Numeric_Increase];
 
-    private string Decrease => Localizer[TwStrings.Numeric_Decrease];
+    private string decreaseLabel => Localizer[TwStrings.Numeric_Decrease];
 
-    private string Clear => Localizer[TwStrings.Textfield_Clear];
+    private string clearLabel => Localizer[TwStrings.Textfield_Clear];
 
     #region Rendering
 
@@ -56,7 +56,7 @@ public class TwNumericTests : TwBlazorTestBase
         Assert.Equal(InputVariant.Outlined, textfield.Instance.Variant);
         Assert.True(textfield.Instance.Dense);
         Assert.Equal("How many?", cut.Find("input").GetAttribute("placeholder"));
-        Assert.Contains(InputTheme.DenseSize, cut.Find("input").GetAttribute("class"));
+        Assert.Contains(inputTheme.DenseSize, cut.Find("input").GetAttribute("class"));
     }
 
     [Fact]
@@ -169,7 +169,7 @@ public class TwNumericTests : TwBlazorTestBase
         var cut = TestContext.Render<TwNumeric<int>>(p => p.Add(x => x.Value, 75).Add(x => x.Prefix, "£").Add(x => x.Suffix, "kg"));
 
         // Assert
-        var adornments = cut.FindAll($"span[aria-hidden='true']").Where(span => span.ClassName == NumericTheme.Adornment).Select(span => span.TextContent).ToArray();
+        var adornments = cut.FindAll($"span[aria-hidden='true']").Where(span => span.ClassName == numericTheme.Adornment).Select(span => span.TextContent).ToArray();
         Assert.Equal(["£", "kg"], adornments);
         Assert.Equal("£ 75 kg", cut.Find("input").GetAttribute("aria-valuetext"));
     }
@@ -219,8 +219,8 @@ public class TwNumericTests : TwBlazorTestBase
         var cut = TestContext.Render<TwNumeric<int>>(p => p.Add(x => x.Id, "count"));
 
         // Assert
-        var decrease = cut.Find($"button[aria-label='{Decrease}']");
-        var increase = cut.Find($"button[aria-label='{Increase}']");
+        var decrease = cut.Find($"button[aria-label='{decreaseLabel}']");
+        var increase = cut.Find($"button[aria-label='{increaseLabel}']");
         Assert.Equal("-1", decrease.GetAttribute("tabindex"));
         Assert.Equal("-1", increase.GetAttribute("tabindex"));
         Assert.Equal("count", increase.GetAttribute("aria-controls"));
@@ -234,8 +234,8 @@ public class TwNumericTests : TwBlazorTestBase
         var cut = TestContext.Render<TwNumeric<int>>(p => p.Add(x => x.HideSpinButtons, true));
 
         // Assert
-        Assert.Empty(cut.FindAll($"button[aria-label='{Increase}']"));
-        Assert.Empty(cut.FindAll($"button[aria-label='{Decrease}']"));
+        Assert.Empty(cut.FindAll($"button[aria-label='{increaseLabel}']"));
+        Assert.Empty(cut.FindAll($"button[aria-label='{decreaseLabel}']"));
     }
 
     [Fact]
@@ -248,7 +248,7 @@ public class TwNumericTests : TwBlazorTestBase
             .Add(x => x.ValueChanged, v => value = v));
 
         // Act
-        await cut.Find($"button[aria-label='{Increase}']").ClickAsync(new MouseEventArgs());
+        await cut.Find($"button[aria-label='{increaseLabel}']").ClickAsync(new MouseEventArgs());
 
         // Assert
         Assert.Equal(6, value);
@@ -266,7 +266,7 @@ public class TwNumericTests : TwBlazorTestBase
             .Add(x => x.ValueChanged, v => value = v));
 
         // Act
-        await cut.Find($"button[aria-label='{Decrease}']").ClickAsync(new MouseEventArgs());
+        await cut.Find($"button[aria-label='{decreaseLabel}']").ClickAsync(new MouseEventArgs());
 
         // Assert
         Assert.Equal(0.75m, value);
@@ -280,10 +280,10 @@ public class TwNumericTests : TwBlazorTestBase
         var atMin = TestContext.Render<TwNumeric<int>>(p => p.Add(x => x.Value, 1).Add(x => x.Min, 1));
 
         // Assert
-        Assert.True(atMax.Find($"button[aria-label='{Increase}']").HasAttribute("disabled"));
-        Assert.False(atMax.Find($"button[aria-label='{Decrease}']").HasAttribute("disabled"));
-        Assert.True(atMin.Find($"button[aria-label='{Decrease}']").HasAttribute("disabled"));
-        Assert.False(atMin.Find($"button[aria-label='{Increase}']").HasAttribute("disabled"));
+        Assert.True(atMax.Find($"button[aria-label='{increaseLabel}']").HasAttribute("disabled"));
+        Assert.False(atMax.Find($"button[aria-label='{decreaseLabel}']").HasAttribute("disabled"));
+        Assert.True(atMin.Find($"button[aria-label='{decreaseLabel}']").HasAttribute("disabled"));
+        Assert.False(atMin.Find($"button[aria-label='{increaseLabel}']").HasAttribute("disabled"));
     }
 
     [Theory]
@@ -484,7 +484,7 @@ public class TwNumericTests : TwBlazorTestBase
         // Assert
         var invocation = Assert.Single(TestContext.JSInterop.Invocations, i => i.Identifier == "twNumeric.attach");
         Assert.Equal(@"[0-9\u{002C}\u{002E}]", invocation.Arguments[1]);
-        Assert.Equal(false, invocation.Arguments[2]);
+        Assert.False(Assert.IsType<bool>(invocation.Arguments[2]));
     }
 
     [Fact]
@@ -852,8 +852,8 @@ public class TwNumericTests : TwBlazorTestBase
         var filled = TestContext.Render<TwNumeric<int?>>(p => p.Add(x => x.Clearable, true).Add(x => x.Value, 3));
 
         // Assert
-        Assert.True(empty.Find($"button[aria-label='{Clear}']").HasAttribute("disabled"));
-        var button = filled.Find($"button[aria-label='{Clear}']");
+        Assert.True(empty.Find($"button[aria-label='{clearLabel}']").HasAttribute("disabled"));
+        var button = filled.Find($"button[aria-label='{clearLabel}']");
         Assert.False(button.HasAttribute("disabled"));
         Assert.Equal("-1", button.GetAttribute("tabindex"));
         Assert.True(filled.FindComponent<TwTextfield<string>>().Instance.Clearable);
@@ -870,7 +870,7 @@ public class TwNumericTests : TwBlazorTestBase
             .Add(x => x.ValueChanged, v => value = v));
 
         // Act
-        await cut.Find($"button[aria-label='{Clear}']").ClickAsync(new MouseEventArgs());
+        await cut.Find($"button[aria-label='{clearLabel}']").ClickAsync(new MouseEventArgs());
 
         // Assert
         Assert.Null(value);
@@ -889,7 +889,7 @@ public class TwNumericTests : TwBlazorTestBase
             .Add(x => x.ValueChanged, v => value = v));
 
         // Act
-        await cut.Find($"button[aria-label='{Clear}']").ClickAsync(new MouseEventArgs());
+        await cut.Find($"button[aria-label='{clearLabel}']").ClickAsync(new MouseEventArgs());
 
         // Assert
         Assert.Equal(1, value);

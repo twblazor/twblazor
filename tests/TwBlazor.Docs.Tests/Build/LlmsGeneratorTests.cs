@@ -4,9 +4,9 @@ namespace TwBlazor.Docs.Tests.Build;
 
 public class LlmsGeneratorTests
 {
-    private const string LlmsTemplate = "# twblazor\n\n> Summary.\n\n{{include:rules}}\n\nInstall `{{version}}`.\n\n{{docs}}\n\n{{skills}}\n\n{{components}}\n";
+    private const string llmsTemplate = "# twblazor\n\n> Summary.\n\n{{include:rules}}\n\nInstall `{{version}}`.\n\n{{docs}}\n\n{{skills}}\n\n{{components}}\n";
 
-    private const string SetupSkill = """
+    private const string setupSkill = """
         ---
         name: twblazor-setup
         description: Sets twblazor up. Use when installing it.
@@ -21,7 +21,7 @@ public class LlmsGeneratorTests
         {{themes}}
         """;
 
-    private const string ComponentsJson = """
+    private const string componentsJson = """
         [
           { "category": "Forms", "items": [
             { "display": "Button", "name": "TwButton", "url": "/button" },
@@ -43,13 +43,13 @@ public class LlmsGeneratorTests
         ["TwButton"] = new("TwButton", "Button", "A button.", [new("Label", "string", "Gets or sets the | label.", "TwButton")]),
     };
 
-    private static LlmsTemplates Templates(string? skill = SetupSkill, string llms = LlmsTemplate) => new(
+    private static LlmsTemplates Templates(string? skill = setupSkill, string llms = llmsTemplate) => new(
         llms,
         new Dictionary<string, string> { ["rules"] = "- Use the [guide]({{link:/get-started}})." },
         skill is null ? [] : new Dictionary<string, string> { ["twblazor-setup"] = skill });
 
     private static LlmsOutput Generate(LlmsTemplates? templates = null) =>
-        LlmsGenerator.Generate(templates ?? Templates(), ComponentsJson, _pages, new Dictionary<string, string>(), _components);
+        LlmsGenerator.Generate(templates ?? Templates(), componentsJson, _pages, new Dictionary<string, string>(), _components);
 
     [Fact]
     public void Generate_FillsTheTemplate_FromTheGetStartedVersionTheCatalogAndThePartials()
@@ -117,7 +117,7 @@ public class LlmsGeneratorTests
     [Fact]
     public void Generate_ComponentsReference_BundlesEveryCatalogPage()
     {
-        var skill = SetupSkill.Replace("references: /get-started", "references: components", StringComparison.Ordinal);
+        var skill = setupSkill.Replace("references: /get-started", "references: components", StringComparison.Ordinal);
 
         var files = Assert.Single(Generate(Templates(skill)).Skills).Files.Keys;
 
@@ -132,7 +132,7 @@ public class LlmsGeneratorTests
     public void Generate_RejectsAnInvalidSkill(string line)
     {
         var key = line.Split(':')[0];
-        var skill = string.Join('\n', SetupSkill.Replace("\r\n", "\n").Split('\n').Select(l => l.StartsWith(key + ":", StringComparison.Ordinal) ? line : l));
+        var skill = string.Join('\n', setupSkill.Replace("\r\n", "\n").Split('\n').Select(l => l.StartsWith(key + ":", StringComparison.Ordinal) ? line : l));
 
         Assert.Throws<InvalidOperationException>(() => Generate(Templates(skill)));
     }
@@ -140,7 +140,7 @@ public class LlmsGeneratorTests
     [Fact]
     public void Generate_RejectsAnOverlongSkillDescription()
     {
-        var skill = SetupSkill.Replace("Sets twblazor up. Use when installing it.", new string('a', LlmsGenerator.MaxSkillDescriptionLength + 1), StringComparison.Ordinal);
+        var skill = setupSkill.Replace("Sets twblazor up. Use when installing it.", new string('a', LlmsGenerator.MaxSkillDescriptionLength + 1), StringComparison.Ordinal);
 
         Assert.Throws<InvalidOperationException>(() => Generate(Templates(skill)));
     }
@@ -150,7 +150,7 @@ public class LlmsGeneratorTests
     [InlineData("{{include:missing}}")]
     public void Generate_RejectsAnUnknownPlaceholder(string placeholder)
     {
-        Assert.Throws<InvalidOperationException>(() => Generate(Templates(llms: LlmsTemplate + placeholder)));
+        Assert.Throws<InvalidOperationException>(() => Generate(Templates(llms: llmsTemplate + placeholder)));
     }
 
     [Fact]
@@ -158,7 +158,7 @@ public class LlmsGeneratorTests
     {
         (string, string)[] pages = [("/get-started", "<PageContainer Title=\"Get Started\"></PageContainer>")];
 
-        Assert.Throws<InvalidOperationException>(() => LlmsGenerator.Generate(Templates(skill: null), ComponentsJson, pages, new Dictionary<string, string>(), _components));
+        Assert.Throws<InvalidOperationException>(() => LlmsGenerator.Generate(Templates(skill: null), componentsJson, pages, new Dictionary<string, string>(), _components));
     }
 
     [Theory]

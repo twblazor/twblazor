@@ -9,12 +9,12 @@ namespace TwBlazor.Tests.Components.Calendar;
 
 public class TwCalendarEnabledViewsTests : TwBlazorTestBase
 {
-    private static readonly DateTime wednesday = new(2026, 3, 18);
+    private static readonly DateTime _wednesday = new(2026, 3, 18);
 
     private IRenderedComponent<TwCalendar<string>> Render(TwCalendarView view, IReadOnlyCollection<TwCalendarView>? enabled, Action<ComponentParameterCollectionBuilder<TwCalendar<string>>>? more = null) =>
         TestContext.Render<TwCalendar<string>>(p =>
         {
-            p.Add(x => x.SelectedDate, wednesday).Add(x => x.View, view);
+            p.Add(x => x.SelectedDate, _wednesday).Add(x => x.View, view);
             if (enabled is not null)
             {
                 p.Add(x => x.EnabledViews, enabled);
@@ -118,7 +118,7 @@ public class TwCalendarEnabledViewsTests : TwBlazorTestBase
 
         cut.Find("button[aria-label='Next']").Click();
 
-        Assert.Equal(wednesday.AddMonths(1), result);
+        Assert.Equal(_wednesday.AddMonths(1), result);
     }
 
     [Fact]

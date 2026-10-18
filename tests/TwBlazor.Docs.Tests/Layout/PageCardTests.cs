@@ -6,7 +6,7 @@ namespace TwBlazor.Docs.Tests.Layout;
 
 public class PageCardTests : DocsTestBase
 {
-    private static RenderFragment Body => builder => builder.AddMarkupContent(0, "<p id=\"body\">Body</p>");
+    private static RenderFragment body => builder => builder.AddMarkupContent(0, "<p id=\"body\">Body</p>");
 
     [Fact]
     public void Render_ShowsTheTitleAsASectionHeading()
@@ -14,7 +14,7 @@ public class PageCardTests : DocsTestBase
         // Arrange & Act
         var cut = TestContext.Render<PageCard>(parameters => parameters
             .Add(p => p.Title, "Colors")
-            .Add(p => p.ChildContent, Body));
+            .Add(p => p.ChildContent, body));
 
         // Assert
         var section = cut.Find("div");
@@ -64,7 +64,7 @@ public class PageCardTests : DocsTestBase
     {
         // Arrange & Act
         var cut = TestContext.Render<PageCard>(parameters => parameters
-            .Add(p => p.ChildContent, Body));
+            .Add(p => p.ChildContent, body));
 
         // Assert
         Assert.Empty(cut.FindAll("h2"));

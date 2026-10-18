@@ -295,7 +295,7 @@ dotnet_naming_symbols.non_field_members.applicable_accessibilities = public, int
 dotnet_naming_symbols.non_field_members.required_modifiers = 
 
 dotnet_naming_symbols.read_only__property_or_field_.applicable_kinds = property, field
-dotnet_naming_symbols.read_only__property_or_field_.applicable_accessibilities = *
+dotnet_naming_symbols.read_only__property_or_field_.applicable_accessibilities = internal, private, private_protected
 dotnet_naming_symbols.read_only__property_or_field_.required_modifiers = readonly
 
 dotnet_naming_symbols.public_properties.applicable_kinds = property
@@ -333,5 +333,5 @@ dotnet_naming_style._camelcase.capitalization = camel_case
 [src/TwBlazor/**.cs]
 file_header_template = Copyright (c) 2025 Jack Shuter @ TwBlazor - twblazor.com\nLicensed under the MIT License. See LICENSE.txt in the project root for license information.
 dotnet_diagnostic.IDE0073.severity = warning
-
+[*.{cs,razor}]
 dotnet_diagnostic.IDE1006.severity = error

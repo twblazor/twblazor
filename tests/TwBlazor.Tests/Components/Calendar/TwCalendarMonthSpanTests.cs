@@ -15,7 +15,7 @@ namespace TwBlazor.Tests.Components.Calendar;
 public class TwCalendarMonthSpanTests : TwBlazorTestBase
 {
     // March 2026: Monday-first rows are 23 Feb-1 Mar, 2-8, 9-15, 16-22, 23-29, 30 Mar-5 Apr.
-    private static readonly DateTime viewMonth = new(2026, 3, 15);
+    private static readonly DateTime _viewMonth = new(2026, 3, 15);
 
     private static Schedule<string> Event(string name, DateTime start, DateTime end, string? color = null) => new()
     {
@@ -27,7 +27,7 @@ public class TwCalendarMonthSpanTests : TwBlazorTestBase
 
     private IRenderedComponent<TwCalendarMonthView<string>> Render(bool editable = false, params Schedule<string>[] events) =>
         TestContext.Render<TwCalendarMonthView<string>>(p => p
-            .Add(x => x.Date, viewMonth)
+            .Add(x => x.Date, _viewMonth)
             .Add(x => x.Editable, editable)
             .Add(x => x.Schedules, [.. events]));
 
@@ -206,7 +206,7 @@ public class TwCalendarMonthSpanTests : TwBlazorTestBase
         Schedule<string>? clicked = null;
         var evt = Event("Conference", new DateTime(2026, 3, 11), new DateTime(2026, 3, 14));
         var cut = TestContext.Render<TwCalendarMonthView<string>>(p => p
-            .Add(x => x.Date, viewMonth)
+            .Add(x => x.Date, _viewMonth)
             .Add(x => x.Schedules, [evt])
             .Add(x => x.OnEventClick, EventCallback.Factory.Create<Schedule<string>>(this, e => clicked = e)));
 
@@ -235,7 +235,7 @@ public class TwCalendarMonthSpanTests : TwBlazorTestBase
         List<Schedule<string>>? saved = null;
         var evt = Event("Conference", new DateTime(2026, 3, 11), new DateTime(2026, 3, 14)); // three days
         var cut = TestContext.Render<TwCalendar<string>>(p => p
-            .Add(x => x.SelectedDate, viewMonth)
+            .Add(x => x.SelectedDate, _viewMonth)
             .Add(x => x.View, TwCalendarView.Month)
             .Add(x => x.Editable, true)
             .Add(x => x.Schedules, [evt])
@@ -254,7 +254,7 @@ public class TwCalendarMonthSpanTests : TwBlazorTestBase
     public void ContentTemplate_AppliesToBars()
     {
         var cut = TestContext.Render<TwCalendarMonthView<string>>(p => p
-            .Add(x => x.Date, viewMonth)
+            .Add(x => x.Date, _viewMonth)
             .Add(x => x.Schedules, [Event("Conference", new DateTime(2026, 3, 11), new DateTime(2026, 3, 14))])
             .Add(x => x.EventContentTemplate, evt => builder => builder.AddContent(0, $"custom {evt.Name}")));
 

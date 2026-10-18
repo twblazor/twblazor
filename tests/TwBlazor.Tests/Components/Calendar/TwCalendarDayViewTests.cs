@@ -11,7 +11,7 @@ namespace TwBlazor.Tests.Components.Calendar;
 
 public class TwCalendarDayViewTests : TwBlazorTestBase
 {
-    private static readonly DateTime day = new(2026, 3, 18);
+    private static readonly DateTime _day = new(2026, 3, 18);
 
     private static Schedule<string> Event(string name, DateTime start, DateTime end) => new()
     {
@@ -23,7 +23,7 @@ public class TwCalendarDayViewTests : TwBlazorTestBase
     private IRenderedComponent<TwCalendarDayView<string>> Render(Action<ComponentParameterCollectionBuilder<TwCalendarDayView<string>>>? configure = null) =>
         TestContext.Render<TwCalendarDayView<string>>(p =>
         {
-            p.Add(x => x.Date, day);
+            p.Add(x => x.Date, _day);
             configure?.Invoke(p);
         });
 
@@ -37,21 +37,21 @@ public class TwCalendarDayViewTests : TwBlazorTestBase
     public void Renders24HourLabels_AndTheNowLabel()
     {
         var cut = Render();
-        SetNow(cut, day.AddHours(13).AddMinutes(30));
+        SetNow(cut, _day.AddHours(13).AddMinutes(30));
 
         var labels = cut.FindAll("div[style='height:6rem;']");
 
         Assert.Equal(24, labels.Count);
-        Assert.Equal(day.ToString("HH:mm"), labels[0].TextContent);
-        Assert.Equal(day.AddHours(23).ToString("HH:mm"), labels[23].TextContent);
-        Assert.Contains(cut.FindAll("div[style='top:81rem;']"), e => e.TextContent == day.AddHours(13).AddMinutes(30).ToString("HH:mm"));
+        Assert.Equal(_day.ToString("HH:mm"), labels[0].TextContent);
+        Assert.Equal(_day.AddHours(23).ToString("HH:mm"), labels[23].TextContent);
+        Assert.Contains(cut.FindAll("div[style='top:81rem;']"), e => e.TextContent == _day.AddHours(13).AddMinutes(30).ToString("HH:mm"));
     }
 
     [Fact]
     public void NowIndicator_IsPositionedByTheCurrentTime_AndAlwaysShowsItsDot()
     {
         var cut = Render();
-        SetNow(cut, day.AddHours(6));
+        SetNow(cut, _day.AddHours(6));
 
         var line = cut.Find("div[aria-hidden='true'][style='top:36rem;']");
 
@@ -91,7 +91,7 @@ public class TwCalendarDayViewTests : TwBlazorTestBase
     {
         var cut = Render();
 
-        cut.Render(p => p.Add(x => x.Date, day.AddDays(1)));
+        cut.Render(p => p.Add(x => x.Date, _day.AddDays(1)));
 
         Assert.Single(TestContext.JSInterop.Invocations, i => i.Identifier == "twCalendar.scrollToFraction");
     }
@@ -110,7 +110,7 @@ public class TwCalendarDayViewTests : TwBlazorTestBase
     public async Task NowTick_RefreshesTheCurrentTime()
     {
         var cut = Render();
-        SetNow(cut, day.AddHours(1));
+        SetNow(cut, _day.AddHours(1));
         Assert.NotEmpty(cut.FindAll("div[style='top:6rem;']"));
 
         typeof(TwCalendarDayView<string>).GetMethod("OnNowTick", BindingFlags.NonPublic | BindingFlags.Instance)!.Invoke(cut.Instance, [null]);
@@ -134,10 +134,10 @@ public class TwCalendarDayViewTests : TwBlazorTestBase
     {
         var cut = Render(p => p.Add(x => x.Schedules,
         [
-            Event("Standup", day.AddHours(9), day.AddHours(10)),
-            Event("Overnight", day.AddHours(-3), day.AddHours(2)),
-            Event("Other day", day.AddDays(2).AddHours(9), day.AddDays(2).AddHours(10)),
-            Event("Holiday", day, day.AddDays(1))
+            Event("Standup", _day.AddHours(9), _day.AddHours(10)),
+            Event("Overnight", _day.AddHours(-3), _day.AddHours(2)),
+            Event("Other day", _day.AddDays(2).AddHours(9), _day.AddDays(2).AddHours(10)),
+            Event("Holiday", _day, _day.AddDays(1))
         ]));
 
         var chipLabels = cut.FindAll("[role='group']:not([aria-label='All day events']) button[draggable]").Select(b => b.GetAttribute("aria-label")!).ToList();
@@ -150,7 +150,7 @@ public class TwCalendarDayViewTests : TwBlazorTestBase
     [Fact]
     public void AllDayEvents_GoInTheStripAboveTheGrid()
     {
-        var cut = Render(p => p.Add(x => x.Schedules, [Event("Holiday", day, day.AddDays(1))]));
+        var cut = Render(p => p.Add(x => x.Schedules, [Event("Holiday", _day, _day.AddDays(1))]));
 
         Assert.DoesNotContain(cut.FindAll("[role='group']:not([aria-label='All day events']) button[draggable]"), b => b.GetAttribute("aria-label")!.StartsWith("Holiday"));
         Assert.Contains("Holiday", cut.Markup);
@@ -166,13 +166,13 @@ public class TwCalendarDayViewTests : TwBlazorTestBase
 
         cut.FindAll("[role='group']:not([aria-label='All day events']) button")[2].Click();
 
-        Assert.Equal(day.AddHours(1), clicked);
+        Assert.Equal(_day.AddHours(1), clicked);
     }
 
     [Fact]
     public void ChipClick_IsForwarded()
     {
-        var evt = Event("Standup", day.AddHours(9), day.AddHours(10));
+        var evt = Event("Standup", _day.AddHours(9), _day.AddHours(10));
         Schedule<string>? clicked = null;
         var cut = Render(p => p
             .Add(x => x.Schedules, [evt])
@@ -194,7 +194,7 @@ public class TwCalendarDayViewTests : TwBlazorTestBase
     [Fact]
     public void Drag_CallbacksAreForwardedToTheColumn()
     {
-        var evt = Event("Standup", day.AddHours(9), day.AddHours(10));
+        var evt = Event("Standup", _day.AddHours(9), _day.AddHours(10));
         Schedule<string>? started = null;
         DateTime? over = null;
         DateTime? dropped = null;
@@ -214,8 +214,8 @@ public class TwCalendarDayViewTests : TwBlazorTestBase
         cut.Find("[role='group']:not([aria-label='All day events']) button[draggable]").DragEnd();
 
         Assert.Same(evt, started);
-        Assert.Equal(day.AddHours(2), over);
-        Assert.Equal(day.AddHours(2), dropped);
+        Assert.Equal(_day.AddHours(2), over);
+        Assert.Equal(_day.AddHours(2), dropped);
         Assert.True(ended);
     }
 
@@ -224,8 +224,8 @@ public class TwCalendarDayViewTests : TwBlazorTestBase
     {
         var cut = Render(p => p
             .Add(x => x.Editable, true)
-            .Add(x => x.DraggedEvent, Event("Moving", day.AddHours(9), day.AddHours(10)))
-            .Add(x => x.DropPreview, day.AddHours(15)));
+            .Add(x => x.DraggedEvent, Event("Moving", _day.AddHours(9), _day.AddHours(10)))
+            .Add(x => x.DropPreview, _day.AddHours(15)));
 
         Assert.Contains(cut.FindAll("[role='group']:not([aria-label='All day events']) div[aria-hidden='true']"), d => d.TextContent.Contains("Moving"));
     }
@@ -234,7 +234,7 @@ public class TwCalendarDayViewTests : TwBlazorTestBase
     public void EventContentTemplate_IsForwarded()
     {
         var cut = Render(p => p
-            .Add(x => x.Schedules, [Event("Standup", day.AddHours(9), day.AddHours(10))])
+            .Add(x => x.Schedules, [Event("Standup", _day.AddHours(9), _day.AddHours(10))])
             .Add(x => x.EventContentTemplate, evt => builder => builder.AddMarkupContent(0, $"<em>tpl {evt.Name}</em>")));
 
         Assert.Equal("tpl Standup", cut.Find("[role='group']:not([aria-label='All day events']) em").TextContent);

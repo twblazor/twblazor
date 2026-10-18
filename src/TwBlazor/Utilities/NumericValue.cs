@@ -196,8 +196,15 @@ internal abstract class NumericValue<T>
             return false;
         }
 
-        public override string Format(T value, string? format, CultureInfo culture) =>
-            value is TNumber number ? number.ToString(string.IsNullOrEmpty(format) ? null : format, culture) : string.Empty;
+        public override string Format(T value, string? format, CultureInfo culture)
+        {
+            if (value is not TNumber number)
+            {
+                return string.Empty;
+            }
+
+            return number.ToString(string.IsNullOrEmpty(format) ? null : format, culture);
+        }
 
         public override string? FormatInvariant(T value) =>
             value is TNumber number ? number.ToString(null, CultureInfo.InvariantCulture) : null;

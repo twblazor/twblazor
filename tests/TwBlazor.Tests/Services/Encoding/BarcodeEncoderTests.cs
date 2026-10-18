@@ -7,7 +7,7 @@ namespace TwBlazor.Tests.Services.Encoding;
 
 public class BarcodeEncoderTests
 {
-    private readonly TwBarcodeService service = new();
+    private readonly TwBarcodeService _service = new();
 
     private static string ToBits(Barcode barcode)
     {
@@ -30,7 +30,7 @@ public class BarcodeEncoderTests
     [InlineData(BarcodeFormat.UpcA, "03600029145", "036000291452", "10100011010111101010111100011010001101000110101010110110011101001100110101110010011101101100101")]
     public void Encode_MatchesTheReferencePatterns(BarcodeFormat format, string value, string text, string bits)
     {
-        var barcode = service.Encode(value, format);
+        var barcode = _service.Encode(value, format);
 
         Assert.Equal(format, barcode.Format);
         Assert.Equal(text, barcode.Text);
@@ -53,7 +53,7 @@ public class BarcodeEncoderTests
             _ => "ABC"
         };
 
-        Assert.Equal(quietZone, service.Encode(value, format).QuietZone);
+        Assert.Equal(quietZone, _service.Encode(value, format).QuietZone);
     }
 
     [Theory]
@@ -64,13 +64,13 @@ public class BarcodeEncoderTests
     {
         var value = format == BarcodeFormat.Ean8 ? "1234567" : format == BarcodeFormat.UpcA ? "12345678901" : "123456789012";
 
-        Assert.Equal(width, service.Encode(value, format).Width);
+        Assert.Equal(width, _service.Encode(value, format).Width);
     }
 
     [Fact]
     public void Barcode_TreatsPositionsOutsideTheBarsAsLight()
     {
-        var barcode = service.Encode("A");
+        var barcode = _service.Encode("A");
 
         Assert.True(barcode[0]);
         Assert.False(barcode[-1]);
@@ -111,7 +111,7 @@ public class BarcodeEncoderTests
     [Fact]
     public void Code128_LeavesControlCharactersOutOfTheText()
     {
-        Assert.Equal("ab", service.Encode("a\tb").Text);
+        Assert.Equal("ab", _service.Encode("a\tb").Text);
     }
 
     [Theory]
@@ -119,7 +119,7 @@ public class BarcodeEncoderTests
     [InlineData("café")]
     public void Code128_RejectsEmptyOrNonAsciiValues(string value)
     {
-        Assert.Throws<SymbolEncodingException>(() => service.Encode(value));
+        Assert.Throws<SymbolEncodingException>(() => _service.Encode(value));
     }
 
     [Fact]
@@ -140,7 +140,7 @@ public class BarcodeEncoderTests
     [InlineData("A*B")]
     public void Code39_RejectsCharactersItCannotHold(string value)
     {
-        Assert.Throws<SymbolEncodingException>(() => service.Encode(value, BarcodeFormat.Code39));
+        Assert.Throws<SymbolEncodingException>(() => _service.Encode(value, BarcodeFormat.Code39));
     }
 
     [Theory]
@@ -159,7 +159,7 @@ public class BarcodeEncoderTests
     [InlineData(BarcodeFormat.UpcA, "036000291453")]
     public void RetailFormats_RejectAWrongCheckDigit(BarcodeFormat format, string value)
     {
-        var exception = Assert.Throws<SymbolEncodingException>(() => service.Encode(value, format));
+        var exception = Assert.Throws<SymbolEncodingException>(() => _service.Encode(value, format));
 
         Assert.Contains("check digit", exception.Message);
     }
@@ -172,12 +172,12 @@ public class BarcodeEncoderTests
     [InlineData(BarcodeFormat.UpcA, "1234567890")]
     public void RetailFormats_RejectTheWrongNumberOfDigits(BarcodeFormat format, string value)
     {
-        Assert.Throws<SymbolEncodingException>(() => service.Encode(value, format));
+        Assert.Throws<SymbolEncodingException>(() => _service.Encode(value, format));
     }
 
     [Fact]
     public void Encode_RejectsAnUnknownFormat()
     {
-        Assert.Throws<ArgumentOutOfRangeException>(() => service.Encode("1", (BarcodeFormat)99));
+        Assert.Throws<ArgumentOutOfRangeException>(() => _service.Encode("1", (BarcodeFormat)99));
     }
 }

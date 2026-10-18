@@ -44,7 +44,7 @@ public class TwStepperTests : TwBlazorTestBase
         }
     };
 
-    private TwStepperTheme StepperTheme => Theme.Components.Require<TwStepperTheme>();
+    private TwStepperTheme stepperTheme => Theme.Components.Require<TwStepperTheme>();
 
     #region nav aria attributes
 
@@ -172,10 +172,10 @@ public class TwStepperTests : TwBlazorTestBase
         // Assert
         string LabelClasses(string label) => cut.FindAll("li > span").Single(span => span.TextContent.Trim() == label).GetAttribute("class")!;
 
-        Assert.NotEmpty(StepperTheme.LabelActive);
-        Assert.Contains(StepperTheme.LabelActive, LabelClasses("Two"));
-        Assert.DoesNotContain(StepperTheme.LabelActive, LabelClasses("One"));
-        Assert.Equal(StepperTheme.LabelUpcoming, LabelClasses("Three"));
+        Assert.NotEmpty(stepperTheme.LabelActive);
+        Assert.Contains(stepperTheme.LabelActive, LabelClasses("Two"));
+        Assert.DoesNotContain(stepperTheme.LabelActive, LabelClasses("One"));
+        Assert.Equal(stepperTheme.LabelUpcoming, LabelClasses("Three"));
     }
 
     [Theory]
@@ -191,7 +191,7 @@ public class TwStepperTests : TwBlazorTestBase
                 new StepSpec { Label = "One" }, new StepSpec { Label = "Two" }, new StepSpec { Label = "Three", Disabled = true })));
 
         // Assert
-        var hover = FirstClass(StepperTheme.CircleUpcomingClickable);
+        var hover = FirstClass(stepperTheme.CircleUpcomingClickable);
         var buttons = cut.FindAll("button");
 
         Assert.Equal(expected, buttons[1].ClassList.Contains(hover));
@@ -615,7 +615,7 @@ public class TwStepperTests : TwBlazorTestBase
         var connectors = cut.FindAll("li[aria-hidden='true']");
         var expectedAccent = ColorBuilder.GetBorderColor(color);
         Assert.Contains(expectedAccent.Split(' ')[0], connectors[0].GetAttribute("class"));
-        Assert.Contains(StepperTheme.ConnectorNeutral.Split(' ')[0], connectors[1].GetAttribute("class"));
+        Assert.Contains(stepperTheme.ConnectorNeutral.Split(' ')[0], connectors[1].GetAttribute("class"));
     }
 
     [Fact]
@@ -634,7 +634,7 @@ public class TwStepperTests : TwBlazorTestBase
         var connectors = cut.FindAll("span[aria-hidden='true']");
         var expectedAccent = ColorBuilder.GetBorderColor(null);
         Assert.Contains(expectedAccent.Split(' ')[0], connectors[0].GetAttribute("class"));
-        Assert.Contains(StepperTheme.ConnectorNeutral.Split(' ')[0], connectors[1].GetAttribute("class"));
+        Assert.Contains(stepperTheme.ConnectorNeutral.Split(' ')[0], connectors[1].GetAttribute("class"));
     }
 
     #endregion

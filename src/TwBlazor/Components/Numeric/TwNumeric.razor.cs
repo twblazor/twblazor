@@ -48,7 +48,9 @@ public partial class TwNumeric<T> : TwBlazorTextInputComponentBase, IAsyncDispos
 
     private static readonly NumericValue<T> _number = NumericValue<T>.Instance;
 
-    private static readonly Dictionary<string, object> _textfieldRootAttributes = new() { ["data-tw-numeric-field"] = true };
+    // The inner field gets root attributes of its own, so it does not copy the input's attributes (role, aria-value*,
+    // the wheel handler) onto its wrapper as well.
+    private readonly Dictionary<string, object> _textfieldRootAttributes = new() { ["data-tw-numeric-field"] = true };
 
     [Inject] private IJSRuntime jsRuntime { get; set; } = null!;
 
@@ -387,10 +389,6 @@ public partial class TwNumeric<T> : TwBlazorTextInputComponentBase, IAsyncDispos
             return spoken == _number.FormatInvariant(Value) ? null : spoken;
         }
     }
-
-    // The inner field gets root attributes of its own, so it does not copy the input's attributes (role, aria-value*,
-    // the wheel handler) onto its wrapper as well.
-    private static Dictionary<string, object> textfieldRootAttributes => _textfieldRootAttributes;
 
     /// <summary>
     /// Gets the pattern each typed character must match: <see cref="Pattern"/>, or one built for

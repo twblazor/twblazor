@@ -6,18 +6,18 @@ namespace TwBlazor.Tests.Services;
 
 public class TwBarcodeServiceTests : TwBlazorTestBase
 {
-    private readonly ITwBarcodeService service;
+    private readonly ITwBarcodeService _service;
 
     public TwBarcodeServiceTests()
     {
-        service = TestContext.Services.GetRequiredService<ITwBarcodeService>();
+        _service = TestContext.Services.GetRequiredService<ITwBarcodeService>();
     }
 
     [Fact]
     public void AddTwBlazor_RegistersTheService_AsASingleton()
     {
-        Assert.IsType<TwBarcodeService>(service);
-        Assert.Same(service, TestContext.Services.GetRequiredService<ITwBarcodeService>());
+        Assert.IsType<TwBarcodeService>(_service);
+        Assert.Same(_service, TestContext.Services.GetRequiredService<ITwBarcodeService>());
     }
 
     [Fact]
@@ -35,23 +35,23 @@ public class TwBarcodeServiceTests : TwBlazorTestBase
     [Fact]
     public void Encode_DefaultsToCode128_AndRejectsNull()
     {
-        Assert.Equal(BarcodeFormat.Code128, service.Encode("abc").Format);
-        Assert.Throws<ArgumentNullException>(() => service.Encode(null!));
+        Assert.Equal(BarcodeFormat.Code128, _service.Encode("abc").Format);
+        Assert.Throws<ArgumentNullException>(() => _service.Encode(null!));
     }
 
     [Fact]
     public void TryEncode_ReturnsTheBarcode_WhenTheValueSuitsTheFormat()
     {
-        Assert.True(service.TryEncode("501234567890", BarcodeFormat.Ean13, out var barcode));
+        Assert.True(_service.TryEncode("501234567890", BarcodeFormat.Ean13, out var barcode));
         Assert.Equal("5012345678900", barcode.Text);
     }
 
     [Fact]
     public void TryEncode_ReturnsFalse_ForAnUnsuitableOrNullValue()
     {
-        Assert.False(service.TryEncode("lower case", BarcodeFormat.Code39, out var unsuitable));
+        Assert.False(_service.TryEncode("lower case", BarcodeFormat.Code39, out var unsuitable));
         Assert.Null(unsuitable);
-        Assert.False(service.TryEncode(null, BarcodeFormat.Code128, out var missing));
+        Assert.False(_service.TryEncode(null, BarcodeFormat.Code128, out var missing));
         Assert.Null(missing);
     }
 }

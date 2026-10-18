@@ -6,8 +6,8 @@ namespace TwBlazor.Tests.Services.Encoding;
 
 public class SymbolSvgTests
 {
-    private readonly TwQrCodeService qrCodes = new();
-    private readonly TwBarcodeService barcodes = new();
+    private readonly TwQrCodeService _qrCodes = new();
+    private readonly TwBarcodeService _barcodes = new();
 
     private static int CountRuns(IEncodedSymbol symbol)
     {
@@ -29,7 +29,7 @@ public class SymbolSvgTests
     [Fact]
     public void GetSvgPath_QrCode_DrawsOneRectanglePerRunOfDarkModules_InsideTheQuietZone()
     {
-        var matrix = qrCodes.Encode("HELLO WORLD", new QrEncodeOptions { ErrorCorrection = QrErrorCorrection.Quartile, BoostErrorCorrection = false });
+        var matrix = _qrCodes.Encode("HELLO WORLD", new QrEncodeOptions { ErrorCorrection = QrErrorCorrection.Quartile, BoostErrorCorrection = false });
 
         var path = matrix.GetSvgPath();
 
@@ -42,7 +42,7 @@ public class SymbolSvgTests
     [Fact]
     public void GetSvgPath_Barcode_StretchesTheBars_AndOnlyPadsTheSides()
     {
-        var barcode = barcodes.Encode("1234567890");
+        var barcode = _barcodes.Encode("1234567890");
 
         // The pattern starts 11010011100: bars of 2, 1 and 3 modules.
         Assert.StartsWith("M10 0h2v50h-2zM13 0h1v50h-1zM16 0h3v50h-3z", barcode.GetSvgPath());
@@ -53,26 +53,26 @@ public class SymbolSvgTests
     [Fact]
     public void GetSvgViewBox_FitsTheSymbolAndItsQuietZone()
     {
-        Assert.Equal("0 0 29 29", qrCodes.Encode("HELLO").GetSvgViewBox());
-        Assert.Equal("0 0 23 23", qrCodes.Encode("HELLO").GetSvgViewBox(1));
-        Assert.Equal("0 0 117 50", barcodes.Encode("5012345678900", BarcodeFormat.Ean13).GetSvgViewBox());
-        Assert.Equal("0 0 95 30", barcodes.Encode("5012345678900", BarcodeFormat.Ean13).GetSvgViewBox(0, 30));
+        Assert.Equal("0 0 29 29", _qrCodes.Encode("HELLO").GetSvgViewBox());
+        Assert.Equal("0 0 23 23", _qrCodes.Encode("HELLO").GetSvgViewBox(1));
+        Assert.Equal("0 0 117 50", _barcodes.Encode("5012345678900", BarcodeFormat.Ean13).GetSvgViewBox());
+        Assert.Equal("0 0 95 30", _barcodes.Encode("5012345678900", BarcodeFormat.Ean13).GetSvgViewBox(0, 30));
     }
 
     [Fact]
     public void Svg_RejectsInvalidSizes()
     {
-        var matrix = qrCodes.Encode("A");
+        var matrix = _qrCodes.Encode("A");
 
         Assert.Throws<ArgumentOutOfRangeException>(() => matrix.GetSvgPath(-1));
-        Assert.Throws<ArgumentOutOfRangeException>(() => barcodes.Encode("A").GetSvgPath(0, 0));
+        Assert.Throws<ArgumentOutOfRangeException>(() => _barcodes.Encode("A").GetSvgPath(0, 0));
         Assert.Throws<ArgumentNullException>(() => ((IEncodedSymbol)null!).GetSvgPath());
     }
 
     [Fact]
     public void ToSvg_WritesAStandaloneDocument_BlackOnWhite_ByDefault()
     {
-        var svg = qrCodes.Encode("HELLO").ToSvg();
+        var svg = _qrCodes.Encode("HELLO").ToSvg();
 
         Assert.StartsWith("<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 29 29\"", svg);
         Assert.Contains("aria-hidden=\"true\"", svg);
@@ -85,7 +85,7 @@ public class SymbolSvgTests
     [Fact]
     public void ToSvg_WithoutALightColor_HasATransparentBackground()
     {
-        var svg = qrCodes.Encode("HELLO").ToSvg(new SymbolSvgOptions { LightColor = null, DarkColor = "#fff" });
+        var svg = _qrCodes.Encode("HELLO").ToSvg(new SymbolSvgOptions { LightColor = null, DarkColor = "#fff" });
 
         Assert.DoesNotContain("<rect", svg);
         Assert.Contains("<path fill=\"#fff\"", svg);
@@ -94,7 +94,7 @@ public class SymbolSvgTests
     [Fact]
     public void ToSvg_WithACaptionAndTitle_AddsRoomForTheCaption_AndEscapesBoth()
     {
-        var barcode = barcodes.Encode("<A&B>");
+        var barcode = _barcodes.Encode("<A&B>");
 
         var svg = barcode.ToSvg(new SymbolSvgOptions { Caption = barcode.Text, Title = "Ticket \"1\"", QuietZone = 0, BarHeight = 30, DarkColor = "\"red" });
 
@@ -108,7 +108,7 @@ public class SymbolSvgTests
     [Fact]
     public void ToSvgDataUri_EncodesTheSvgForAnImageSource()
     {
-        var matrix = qrCodes.Encode("HELLO");
+        var matrix = _qrCodes.Encode("HELLO");
 
         var uri = matrix.ToSvgDataUri();
 
@@ -119,8 +119,8 @@ public class SymbolSvgTests
     [Fact]
     public void Symbols_ShareOneGridShape()
     {
-        var matrix = qrCodes.Encode("HELLO");
-        var barcode = barcodes.Encode("HELLO");
+        var matrix = _qrCodes.Encode("HELLO");
+        var barcode = _barcodes.Encode("HELLO");
 
         Assert.Equal((21, 21, 4), (matrix.Width, matrix.Height, matrix.QuietZone));
         Assert.Equal(1, barcode.Height);

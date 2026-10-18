@@ -35,8 +35,7 @@
         "display": "Footer",
         "name": "TwFooter",
         "url": "/footer",
-        "theme": "TwFooterTheme",
-        "isNew": true
+        "theme": "TwFooterTheme"
       },
       {
         "id": "navbar-navitem",
@@ -223,7 +222,6 @@
         "display": "Avatar",
         "name": "TwAvatar",
         "url": "/avatar",
-        "isNew": true,
         "theme": "TwAvatarTheme"
       },
       {
@@ -251,7 +249,6 @@
         "display": "Skeleton",
         "name": "TwSkeleton",
         "url": "/skeleton",
-        "isNew": true,
         "theme": "TwSkeletonTheme"
       },
       {
@@ -292,7 +289,6 @@
         "display": "Pick List",
         "name": "TwPickList",
         "url": "/pick-list",
-        "isNew": true,
         "theme": "TwPickListTheme"
       },
       {

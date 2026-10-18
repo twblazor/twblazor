@@ -14,7 +14,7 @@ public class TwCalendarSpansTests
         DateTimeEnd = new DateTimeOffset(end, TimeSpan.Zero)
     };
 
-    private static readonly DateTime monday = new(2026, 3, 16);
+    private static readonly DateTime _monday = new(2026, 3, 16);
 
     [Theory]
     [InlineData(2026, 3, 18, 0, 0, 2026, 3, 19, 0, 0, true)] // one whole day
@@ -90,9 +90,9 @@ public class TwCalendarSpansTests
     [Fact]
     public void GetSegments_PlacesAnEventAtItsColumn_WithItsSpan()
     {
-        var evt = Event("e", monday.AddDays(2), monday.AddDays(5)); // Wed-Fri, all day
+        var evt = Event("e", _monday.AddDays(2), _monday.AddDays(5)); // Wed-Fri, all day
 
-        var segment = Assert.Single(TwCalendarSpans.GetSegments([evt], monday, 7));
+        var segment = Assert.Single(TwCalendarSpans.GetSegments([evt], _monday, 7));
 
         Assert.Equal(2, segment.StartColumn);
         Assert.Equal(3, segment.Span);
@@ -104,9 +104,9 @@ public class TwCalendarSpansTests
     [Fact]
     public void GetSegments_ClipsToTheRun_AndFlagsTheContinuingEdges()
     {
-        var evt = Event("e", monday.AddDays(-2), monday.AddDays(10)); // starts two days before, ends the Thursday after
+        var evt = Event("e", _monday.AddDays(-2), _monday.AddDays(10)); // starts two days before, ends the Thursday after
 
-        var segment = Assert.Single(TwCalendarSpans.GetSegments([evt], monday, 7));
+        var segment = Assert.Single(TwCalendarSpans.GetSegments([evt], _monday, 7));
 
         Assert.Equal(0, segment.StartColumn);
         Assert.Equal(7, segment.Span);
@@ -117,20 +117,20 @@ public class TwCalendarSpansTests
     [Fact]
     public void GetSegments_ExcludesEventsOutsideTheRun()
     {
-        var before = Event("before", monday.AddDays(-5), monday.AddDays(-2));
-        var after = Event("after", monday.AddDays(8), monday.AddDays(9));
+        var before = Event("before", _monday.AddDays(-5), _monday.AddDays(-2));
+        var after = Event("after", _monday.AddDays(8), _monday.AddDays(9));
 
-        Assert.Empty(TwCalendarSpans.GetSegments([before, after], monday, 7));
+        Assert.Empty(TwCalendarSpans.GetSegments([before, after], _monday, 7));
     }
 
     [Fact]
     public void GetSegments_StacksOverlappingEventsInSeparateLanes_AndReusesAFreeLane()
     {
-        var a = Event("a", monday, monday.AddDays(3)); // Mon-Wed
-        var b = Event("b", monday.AddDays(1), monday.AddDays(3)); // Tue-Wed, overlaps a
-        var c = Event("c", monday.AddDays(3), monday.AddDays(5)); // Thu-Fri, free again in lane 0
+        var a = Event("a", _monday, _monday.AddDays(3)); // Mon-Wed
+        var b = Event("b", _monday.AddDays(1), _monday.AddDays(3)); // Tue-Wed, overlaps a
+        var c = Event("c", _monday.AddDays(3), _monday.AddDays(5)); // Thu-Fri, free again in lane 0
 
-        var segments = TwCalendarSpans.GetSegments([c, b, a], monday, 7);
+        var segments = TwCalendarSpans.GetSegments([c, b, a], _monday, 7);
 
         Assert.Equal(0, segments.Single(s => s.Event == a).Lane);
         Assert.Equal(1, segments.Single(s => s.Event == b).Lane);
@@ -140,10 +140,10 @@ public class TwCalendarSpansTests
     [Fact]
     public void GetSegments_PlacesTheLongerEventFirst_WhenTwoStartTogether()
     {
-        var shorter = Event("short", monday, monday.AddDays(1));
-        var longer = Event("long", monday, monday.AddDays(4));
+        var shorter = Event("short", _monday, _monday.AddDays(1));
+        var longer = Event("long", _monday, _monday.AddDays(4));
 
-        var segments = TwCalendarSpans.GetSegments([shorter, longer], monday, 7);
+        var segments = TwCalendarSpans.GetSegments([shorter, longer], _monday, 7);
 
         Assert.Equal(0, segments.Single(s => s.Event == longer).Lane);
         Assert.Equal(1, segments.Single(s => s.Event == shorter).Lane);
@@ -152,9 +152,9 @@ public class TwCalendarSpansTests
     [Fact]
     public void GetSegments_SupportsASingleDayRun()
     {
-        var evt = Event("e", monday, monday.AddDays(1));
+        var evt = Event("e", _monday, _monday.AddDays(1));
 
-        var segment = Assert.Single(TwCalendarSpans.GetSegments([evt], monday, 1));
+        var segment = Assert.Single(TwCalendarSpans.GetSegments([evt], _monday, 1));
 
         Assert.Equal(0, segment.StartColumn);
         Assert.Equal(1, segment.Span);

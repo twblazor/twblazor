@@ -227,16 +227,16 @@ public partial class Home
     /// <summary>
     /// Gets the classes the example renders with, merged the way every twblazor component merges them.
     /// </summary>
-    private string MergedClasses => new ClassBuilder(mergeThemeClasses).AddClass(mergeExample.YourClass).Build();
+    private string mergedClasses => new ClassBuilder(mergeThemeClasses).AddClass(mergeExample.YourClass).Build();
 
     /// <summary>
     /// Gets the example's theme classes, each with whether it survived the merge.
     /// </summary>
-    private IEnumerable<(string Name, bool Kept)> MergeThemeClasses
+    private IEnumerable<(string Name, bool Kept)> mergeThemeClassResults
     {
         get
         {
-            var kept = MergedClasses.Split(' ').ToHashSet(StringComparer.Ordinal);
+            var kept = mergedClasses.Split(' ').ToHashSet(StringComparer.Ordinal);
             return mergeThemeClasses.Split(' ').Select(name => (name, kept.Contains(name)));
         }
     }
