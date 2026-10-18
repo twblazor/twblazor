@@ -499,6 +499,9 @@ public static class TwStrings
     /// <summary>The key for "(No value)".</summary>
     public const string DataTable_GroupNoValue = "DataTable_GroupNoValue";
 
+    /// <summary>The key for "Loading…".</summary>
+    public const string DataTable_Loading = "DataTable_Loading";
+
     /// <summary>The key for "Open date picker".</summary>
     public const string DatePicker_Open = "DatePicker_Open";
 

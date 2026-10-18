@@ -765,4 +765,7 @@
   <data name="DataTable_GroupNoValue" xml:space="preserve">
     <value>(Нет значения)</value>
   </data>
+  <data name="DataTable_Loading" xml:space="preserve">
+    <value>Загрузка…</value>
+  </data>
 </root>

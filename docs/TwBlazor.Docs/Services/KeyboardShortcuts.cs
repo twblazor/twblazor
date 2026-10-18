@@ -162,7 +162,7 @@ internal static class KeyboardShortcuts
             + "Dragging a column's edge needs a pointer, so the column panel has buttons that resize a column instead.",
             Key("Moves through the search field, the Group by list, the toolbar buttons, the Columns button, the sort buttons in the header, the table's scroll area, and the pagination.", tab, shiftTab),
             Key("On a sort button: sorts by that column, then reverses the order, then clears it.", enter, space),
-            Key("In the table's scroll area: scrolls a table that is wider or taller than its container.", left, right, up, down),
+            Key("In the table's scroll area: scrolls a table that is wider or taller than its container. A virtualized table renders the rows as they scroll into view.", left, right, up, down, pageUp, pageDown),
             Key("Commits the search text.", enter),
             Key("On an export button: downloads the table, then announces how many rows it holds.", enter, space),
             Key("On a group header's button: expands or collapses that group. The button says whether the group is expanded.", enter, space),

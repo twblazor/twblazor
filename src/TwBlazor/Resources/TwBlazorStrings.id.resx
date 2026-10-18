@@ -759,4 +759,7 @@
   <data name="DataTable_GroupNoValue" xml:space="preserve">
     <value>(Tanpa nilai)</value>
   </data>
+  <data name="DataTable_Loading" xml:space="preserve">
+    <value>Memuat…</value>
+  </data>
 </root>

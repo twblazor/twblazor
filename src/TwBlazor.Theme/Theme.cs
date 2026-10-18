@@ -1443,6 +1443,7 @@ public static class Theme
                     FixedLayout = "table-fixed",
                     Bordered = $"{borderWidth.Thin} {neutralSurface.Border}",
                     Header = $"{typography.Size.Sm} {typography.Weight.Semibold} {neutralText.Secondary} {neutralSurface.BackgroundSubtle} border-b {neutralSurface.Border}",
+                    StickyHeader = $"{positioning.Sticky} top-0 z-10",
                     Body = neutralSurface.Background,
                     BodyStriped = "[&>tr:nth-child(even)]:bg-[oklch(98%_0_0)] [&>tr:nth-child(even)]:dark:bg-[oklch(23.26%_0.014_253.1)]",
                     BodyHoverable = "[&>tr:hover]:!bg-[oklch(95%_0_0)] [&>tr:hover]:dark:!bg-[oklch(21.15%_0.012_254.09)] [&>tr]:transition-colors [&>tr]:duration-200 [&>tr]:motion-reduce:transition-none",
@@ -1459,7 +1460,8 @@ public static class Theme
                     GroupByColumn = "w-full sm:w-56",
                     GroupRow = $"{neutralSurface.BackgroundSubtle} {neutralText.Heading}",
                     GroupToggle = $"{display.InlineFlex} {flexbox.Align.Center} {spacing.Gap.Sm} {rounded.Md} -mx-1 px-1 {typography.Weight.Semibold} {interaction.PointerCursor} focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600 dark:focus-visible:outline-purple-300",
-                    GroupCount = $"{typography.Weight.Medium} {neutralText.Muted}"
+                    GroupCount = $"{typography.Weight.Medium} {neutralText.Muted}",
+                    LoadingCell = $"py-2.5 {typography.AlignCenter} {neutralText.Muted}"
                 },
                 new TwToastTheme
                 {

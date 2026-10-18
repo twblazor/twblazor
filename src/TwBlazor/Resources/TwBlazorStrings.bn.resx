@@ -759,4 +759,7 @@
   <data name="DataTable_GroupNoValue" xml:space="preserve">
     <value>(কোনো মান নেই)</value>
   </data>
+  <data name="DataTable_Loading" xml:space="preserve">
+    <value>লোড হচ্ছে…</value>
+  </data>
 </root>

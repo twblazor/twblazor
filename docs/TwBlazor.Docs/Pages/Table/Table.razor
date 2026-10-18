@@ -242,6 +242,34 @@
         </CodeExample>
     </PageCard>
 
+    <PageCard Title="Scrolling with a sticky header">
+        <Description>
+            Set <code>MaxHeight</code> to any CSS length and the rows scroll inside the table once it is that tall. Add <code>StickyHeader</code> to keep the column headings in view while they scroll. The scroll area is a Tab stop, so the rows can be scrolled with the arrow keys too.
+        </Description>
+
+        <CodeExample Name="TableStickyHeader" CSharpName="TableStickyHeaderCode">
+            <TwTable Id="sticky-header-table" MaxHeight="16rem" StickyHeader Striped AriaLabel="Monthly sales">
+                <TableHeader>
+                    <tr>
+                        <th scope="col" class="px-6 py-3">Month</th>
+                        <th scope="col" class="px-6 py-3">Orders</th>
+                        <th scope="col" class="px-6 py-3">Revenue</th>
+                    </tr>
+                </TableHeader>
+                <TableBody>
+                    @foreach (var (month, orders, revenue) in _monthlySales)
+                    {
+                        <tr>
+                            <td class="px-6 py-4">@month</td>
+                            <td class="px-6 py-4">@orders</td>
+                            <td class="px-6 py-4">£@revenue.ToString("N0")</td>
+                        </tr>
+                    }
+                </TableBody>
+            </TwTable>
+        </CodeExample>
+    </PageCard>
+
     <PageCard Title="Row groups">
         <Description>
             Use <code>RowGroups</code> in place of <code>TableBody</code> to split the rows into groups, each in its own <code>&lt;tbody&gt;</code>. The context is the body's classes, so put it on every <code>&lt;tbody&gt;</code> and the groups keep the striped, hoverable and bordered styles. Start each group with a header cell that has <code>scope="rowgroup"</code>, and screen readers announce the group's name with every row in it.
@@ -317,6 +345,15 @@
 </PageContainer>
 
 @code {
+    #region CodeExample TableStickyHeaderCode
+    private static readonly (string Month, int Orders, int Revenue)[] _monthlySales =
+    [
+        ("January", 412, 18_240), ("February", 389, 17_115), ("March", 455, 20_380), ("April", 431, 19_020),
+        ("May", 478, 21_660), ("June", 502, 23_010), ("July", 466, 20_940), ("August", 441, 19_580),
+        ("September", 497, 22_430), ("October", 523, 24_105), ("November", 610, 28_870), ("December", 688, 33_215)
+    ];
+    #endregion
+
     #region CodeExample TableManualPaginationCode
     private const int pageSize = 3;
     private int activePage = 1;

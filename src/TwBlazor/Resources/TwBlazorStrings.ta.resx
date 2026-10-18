@@ -759,4 +759,7 @@
   <data name="DataTable_GroupNoValue" xml:space="preserve">
     <value>(மதிப்பு இல்லை)</value>
   </data>
+  <data name="DataTable_Loading" xml:space="preserve">
+    <value>ஏற்றுகிறது…</value>
+  </data>
 </root>

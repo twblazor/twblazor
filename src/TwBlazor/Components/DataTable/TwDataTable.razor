@@ -1,5 +1,6 @@
 ﻿@namespace TwBlazor.Components
 @using TwBlazor.Enums
+@using Microsoft.AspNetCore.Components.Web.Virtualization
 @typeparam TItem
 @inherits TwBlazorComponentBase
 
@@ -156,18 +157,20 @@
              HeaderClass="@HeaderClass"
              BodyClass="@BodyClass"
              Class="@TableClass"
-             Attributes="@TableAttributes"
+             Attributes="@effectiveTableAttributes"
              AriaLabel="@AriaLabel"
              AriaLabelledBy="@AriaLabelledBy"
              Caption="@Caption"
              CaptionVisible="@CaptionVisible"
              FixedLayout="@effectiveFixedLayout"
+             MaxHeight="@effectiveHeight"
+             StickyHeader="@effectiveStickyHeader"
              ColumnGroup="@effectiveColumnGroup"
-             RowGroups="@(isGrouped && displayedSegments.Count > 0 ? groupedBodies : null)">
+             RowGroups="@(isGrouped && !isVirtualized && displayedSegments.Count > 0 ? groupedBodies : null)">
         <TableHeader>
             @if (hasColumns)
             {
-                <tr class="@headerRowClasses">
+                <tr class="@headerRowClasses" aria-rowindex="@(isVirtualized ? "1" : null)">
                     @foreach (var column in visibleColumns)
                     {
                         <th scope="col" class="@HeaderCellClasses(column)" aria-sort="@(column.IsSortable ? GetAriaSort(column.Name) : null)" @key="column.Name">
@@ -193,7 +196,52 @@
             }
         </TableHeader>
         <TableBody>
-            @if (displayedRows.Count > 0)
+            @if (isVirtualized && usesProvider)
+            {
+                <Virtualize @ref="virtualizeRef"
+                            TItem="IndexedRow"
+                            ItemsProvider="@ProvideVirtualRowsAsync"
+                            ItemSize="@ItemSize"
+                            OverscanCount="@OverscanCount"
+                            SpacerElement="tr"
+                            Context="indexed">
+                    <ItemContent>@virtualRow(indexed)</ItemContent>
+                    <Placeholder>@loadingRow</Placeholder>
+                    <EmptyContent>@emptyRow</EmptyContent>
+                </Virtualize>
+            }
+            else if (isVirtualized && isGrouped && virtualLines.Count > 0)
+            {
+                <Virtualize TItem="IndexedLine"
+                            Items="@virtualLines"
+                            ItemSize="@ItemSize"
+                            OverscanCount="@OverscanCount"
+                            SpacerElement="tr"
+                            Context="indexed">
+                    @if (indexed.Line.IsHeader)
+                    {
+                        <tr class="@theme.GroupRow" aria-rowindex="@RowIndex(indexed.Index)">
+                            @groupHeaderCell((indexed.Line.Group, null))
+                        </tr>
+                    }
+                    else
+                    {
+                        @virtualRow(new IndexedRow(indexed.Index, indexed.Line.Item!))
+                    }
+                </Virtualize>
+            }
+            else if (isVirtualized && virtualRows.Count > 0)
+            {
+                <Virtualize TItem="IndexedRow"
+                            Items="@virtualRows"
+                            ItemSize="@ItemSize"
+                            OverscanCount="@OverscanCount"
+                            SpacerElement="tr"
+                            Context="indexed">
+                    @virtualRow(indexed)
+                </Virtualize>
+            }
+            else if (displayedRows.Count > 0)
             {
                 @if (hasColumns)
                 {
@@ -220,25 +268,18 @@
                     }
                 }
             }
+            else if (isLoading)
+            {
+                @loadingRow
+            }
             else
             {
-                <tr>
-                    <td colspan="@emptyStateColumnSpan" class="@theme.EmptyState">
-                        @if (EmptyContent != null)
-                        {
-                            @EmptyContent
-                        }
-                        else
-                        {
-                            @effectiveEmptyMessage
-                        }
-                    </td>
-                </tr>
+                @emptyRow
             }
         </TableBody>
     </TwTable>
 
-    @if (Pageable)
+    @if (isPaged)
     {
         <TwPagination Id="@($"{Id}-pagination")"
             Class="@paginationClasses"
@@ -256,8 +297,8 @@
 </div>
 
 @code {
-    private RenderFragment<TItem> columnsRow => row =>
-        @<tr class="@RowClass">
+    private RenderFragment<TItem> cells => row =>
+        @<text>
             @foreach (var column in visibleColumns)
             {
                 <td class="@($"{theme.BodyCellPadding} {column.CellClass}")">
@@ -271,31 +312,69 @@
                     }
                 </td>
             }
+        </text>;
+
+    private RenderFragment<TItem> columnsRow => row =>
+        @<tr class="@RowClass">@cells(row)</tr>;
+
+    private RenderFragment<IndexedRow> virtualRow => indexed =>
+        @<tr class="@RowClass" aria-rowindex="@RowIndex(indexed.Index)">@cells(indexed.Item)</tr>;
+
+    private RenderFragment emptyRow =>
+        @<tr>
+            <td colspan="@emptyStateColumnSpan" class="@theme.EmptyState">
+                @if (EmptyContent != null)
+                {
+                    @EmptyContent
+                }
+                else
+                {
+                    @effectiveEmptyMessage
+                }
+            </td>
         </tr>;
+
+    private RenderFragment loadingRow =>
+        @<tr>
+            <td colspan="@emptyStateColumnSpan" class="@theme.LoadingCell">
+                @if (LoadingContent != null)
+                {
+                    @LoadingContent
+                }
+                else
+                {
+                    @effectiveLoadingText
+                }
+            </td>
+        </tr>;
+
+    // A grouped row header. Inside a virtualized table every row shares one body, so the header cannot head a
+    // row group there and the scope is left off.
+    private RenderFragment<(TwDataTableGroup<TItem> Group, string? Scope)> groupHeaderCell => context =>
+        @<th scope="@context.Scope" colspan="@visibleColumns.Count" class="@theme.HeaderCellPadding">
+            <div class="@groupHeaderRowClasses">
+                <button type="button"
+                        class="@theme.GroupToggle"
+                        aria-expanded="@(context.Group.Expanded ? "true" : "false")"
+                        @onclick="@(() => ToggleGroupAsync(context.Group))">
+                    <TwIcon Icon="@GroupToggleIcon(context.Group)" />
+                    <span>@context.Group.Label</span>
+                    <span class="@theme.GroupCount">@GroupRowCount(context.Group)</span>
+                </button>
+                @if (GroupHeaderTemplate != null)
+                {
+                    <div>@GroupHeaderTemplate(context.Group)</div>
+                }
+            </div>
+        </th>;
 
     private RenderFragment<string> groupedBodies => bodyClass =>
         @<text>
             @foreach (var segment in displayedSegments)
             {
-                var group = segment.Group;
-                <tbody class="@bodyClass" @key="group.Label">
+                <tbody class="@bodyClass" @key="segment.Group.Label">
                     <tr class="@theme.GroupRow">
-                        <th scope="rowgroup" colspan="@visibleColumns.Count" class="@theme.HeaderCellPadding">
-                            <div class="@groupHeaderRowClasses">
-                                <button type="button"
-                                        class="@theme.GroupToggle"
-                                        aria-expanded="@(group.Expanded ? "true" : "false")"
-                                        @onclick="@(() => ToggleGroupAsync(group))">
-                                    <TwIcon Icon="@GroupToggleIcon(group)" />
-                                    <span>@group.Label</span>
-                                    <span class="@theme.GroupCount">@GroupRowCount(group)</span>
-                                </button>
-                                @if (GroupHeaderTemplate != null)
-                                {
-                                    <div>@GroupHeaderTemplate(group)</div>
-                                }
-                            </div>
-                        </th>
+                        @groupHeaderCell((segment.Group, "rowgroup"))
                     </tr>
                     @foreach (var row in segment.Items)
                     {

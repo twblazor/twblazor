@@ -319,6 +319,8 @@ public partial class TwDataTable<TItem> : IAsyncDisposable
             await LoadStoredStateAsync();
         }
 
+        await LoadIfRequestedAsync(firstRender);
+
         if (ResizableColumns && hasColumns && !resizeAttached)
         {
             resizeAttached = true;
@@ -361,6 +363,13 @@ public partial class TwDataTable<TItem> : IAsyncDisposable
         }
 
         selfReference?.Dispose();
+
+        if (loadCancellation is not null)
+        {
+            await loadCancellation.CancelAsync();
+            loadCancellation.Dispose();
+        }
+
         GC.SuppressFinalize(this);
     }
 }

@@ -759,4 +759,7 @@
   <data name="DataTable_GroupNoValue" xml:space="preserve">
     <value>(Không có giá trị)</value>
   </data>
+  <data name="DataTable_Loading" xml:space="preserve">
+    <value>Đang tải…</value>
+  </data>
 </root>
