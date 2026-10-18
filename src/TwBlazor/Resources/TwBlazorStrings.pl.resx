@@ -678,4 +678,40 @@
   <data name="Numeric_Invalid" xml:space="preserve">
     <value>Wpisz prawidłową liczbę.</value>
   </data>
+  <data name="DataTable_NoData" xml:space="preserve">
+    <value>Brak danych.</value>
+  </data>
+  <data name="DataTable_Columns" xml:space="preserve">
+    <value>Kolumny</value>
+  </data>
+  <data name="DataTable_ResetColumns" xml:space="preserve">
+    <value>Resetuj kolumny</value>
+  </data>
+  <data name="DataTable_ColumnsReset" xml:space="preserve">
+    <value>Kolumny zresetowane</value>
+  </data>
+  <data name="DataTable_ColumnShown" xml:space="preserve">
+    <value>Pokazano kolumnę {0}</value>
+  </data>
+  <data name="DataTable_ColumnHidden" xml:space="preserve">
+    <value>Ukryto kolumnę {0}</value>
+  </data>
+  <data name="DataTable_MoveColumnUp" xml:space="preserve">
+    <value>Przenieś {0} w górę</value>
+  </data>
+  <data name="DataTable_MoveColumnDown" xml:space="preserve">
+    <value>Przenieś {0} w dół</value>
+  </data>
+  <data name="DataTable_ColumnMoved" xml:space="preserve">
+    <value>Przeniesiono {0} na pozycję {1} z {2}</value>
+  </data>
+  <data name="DataTable_NarrowColumn" xml:space="preserve">
+    <value>Zwęź {0}</value>
+  </data>
+  <data name="DataTable_WidenColumn" xml:space="preserve">
+    <value>Poszerz {0}</value>
+  </data>
+  <data name="DataTable_ColumnResized" xml:space="preserve">
+    <value>Szerokość {0}: {1} pikseli</value>
+  </data>
 </root>

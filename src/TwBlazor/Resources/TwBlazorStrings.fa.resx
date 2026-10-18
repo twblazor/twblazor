@@ -678,4 +678,40 @@
   <data name="Numeric_Invalid" xml:space="preserve">
     <value>یک عدد معتبر وارد کنید.</value>
   </data>
+  <data name="DataTable_NoData" xml:space="preserve">
+    <value>داده‌ای وجود ندارد.</value>
+  </data>
+  <data name="DataTable_Columns" xml:space="preserve">
+    <value>ستون‌ها</value>
+  </data>
+  <data name="DataTable_ResetColumns" xml:space="preserve">
+    <value>بازنشانی ستون‌ها</value>
+  </data>
+  <data name="DataTable_ColumnsReset" xml:space="preserve">
+    <value>ستون‌ها بازنشانی شدند</value>
+  </data>
+  <data name="DataTable_ColumnShown" xml:space="preserve">
+    <value>ستون {0} نمایش داده شد</value>
+  </data>
+  <data name="DataTable_ColumnHidden" xml:space="preserve">
+    <value>ستون {0} پنهان شد</value>
+  </data>
+  <data name="DataTable_MoveColumnUp" xml:space="preserve">
+    <value>انتقال {0} به بالا</value>
+  </data>
+  <data name="DataTable_MoveColumnDown" xml:space="preserve">
+    <value>انتقال {0} به پایین</value>
+  </data>
+  <data name="DataTable_ColumnMoved" xml:space="preserve">
+    <value>{0} به جایگاه {1} از {2} منتقل شد</value>
+  </data>
+  <data name="DataTable_NarrowColumn" xml:space="preserve">
+    <value>باریک‌تر کردن {0}</value>
+  </data>
+  <data name="DataTable_WidenColumn" xml:space="preserve">
+    <value>پهن‌تر کردن {0}</value>
+  </data>
+  <data name="DataTable_ColumnResized" xml:space="preserve">
+    <value>عرض {0} برابر {1} پیکسل است</value>
+  </data>
 </root>

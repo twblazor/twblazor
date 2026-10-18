@@ -675,4 +675,40 @@
   <data name="Numeric_Invalid" xml:space="preserve">
     <value>Introduce un número válido.</value>
   </data>
+  <data name="DataTable_NoData" xml:space="preserve">
+    <value>No hay datos disponibles.</value>
+  </data>
+  <data name="DataTable_Columns" xml:space="preserve">
+    <value>Columnas</value>
+  </data>
+  <data name="DataTable_ResetColumns" xml:space="preserve">
+    <value>Restablecer columnas</value>
+  </data>
+  <data name="DataTable_ColumnsReset" xml:space="preserve">
+    <value>Columnas restablecidas</value>
+  </data>
+  <data name="DataTable_ColumnShown" xml:space="preserve">
+    <value>Columna {0} visible</value>
+  </data>
+  <data name="DataTable_ColumnHidden" xml:space="preserve">
+    <value>Columna {0} oculta</value>
+  </data>
+  <data name="DataTable_MoveColumnUp" xml:space="preserve">
+    <value>Subir {0}</value>
+  </data>
+  <data name="DataTable_MoveColumnDown" xml:space="preserve">
+    <value>Bajar {0}</value>
+  </data>
+  <data name="DataTable_ColumnMoved" xml:space="preserve">
+    <value>{0} se movió a la posición {1} de {2}</value>
+  </data>
+  <data name="DataTable_NarrowColumn" xml:space="preserve">
+    <value>Estrechar {0}</value>
+  </data>
+  <data name="DataTable_WidenColumn" xml:space="preserve">
+    <value>Ensanchar {0}</value>
+  </data>
+  <data name="DataTable_ColumnResized" xml:space="preserve">
+    <value>{0} mide {1} píxeles de ancho</value>
+  </data>
 </root>

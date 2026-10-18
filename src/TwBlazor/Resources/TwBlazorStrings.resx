@@ -827,4 +827,52 @@
     <value>Enter a valid number.</value>
     <comment>Shown below a numeric field when the text typed into it is not a number.</comment>
   </data>
+  <data name="DataTable_NoData" xml:space="preserve">
+    <value>No data available.</value>
+    <comment>Shown in a data table that has no rows, when nothing is being searched for.</comment>
+  </data>
+  <data name="DataTable_Columns" xml:space="preserve">
+    <value>Columns</value>
+    <comment>The button that opens a data table's column panel, and the panel's heading.</comment>
+  </data>
+  <data name="DataTable_ResetColumns" xml:space="preserve">
+    <value>Reset columns</value>
+    <comment>The button in a data table's column panel that puts the columns back to their original order, visibility and widths.</comment>
+  </data>
+  <data name="DataTable_ColumnsReset" xml:space="preserve">
+    <value>Columns reset</value>
+    <comment>Announced after the columns of a data table are reset.</comment>
+  </data>
+  <data name="DataTable_ColumnShown" xml:space="preserve">
+    <value>{0} column shown</value>
+    <comment>{0} = column title. Announced after a column is shown from the column panel.</comment>
+  </data>
+  <data name="DataTable_ColumnHidden" xml:space="preserve">
+    <value>{0} column hidden</value>
+    <comment>{0} = column title. Announced after a column is hidden from the column panel.</comment>
+  </data>
+  <data name="DataTable_MoveColumnUp" xml:space="preserve">
+    <value>Move {0} up</value>
+    <comment>{0} = column title. The button in the column panel that moves a column one place earlier.</comment>
+  </data>
+  <data name="DataTable_MoveColumnDown" xml:space="preserve">
+    <value>Move {0} down</value>
+    <comment>{0} = column title. The button in the column panel that moves a column one place later.</comment>
+  </data>
+  <data name="DataTable_ColumnMoved" xml:space="preserve">
+    <value>{0} moved to position {1} of {2}</value>
+    <comment>{0} = column title, {1} = new position, {2} = number of columns. Announced after a column is moved.</comment>
+  </data>
+  <data name="DataTable_NarrowColumn" xml:space="preserve">
+    <value>Make {0} narrower</value>
+    <comment>{0} = column title. The button in the column panel that makes a column narrower.</comment>
+  </data>
+  <data name="DataTable_WidenColumn" xml:space="preserve">
+    <value>Make {0} wider</value>
+    <comment>{0} = column title. The button in the column panel that makes a column wider.</comment>
+  </data>
+  <data name="DataTable_ColumnResized" xml:space="preserve">
+    <value>{0} is {1} pixels wide</value>
+    <comment>{0} = column title, {1} = width in pixels. Announced after a column is resized from the column panel.</comment>
+  </data>
 </root>

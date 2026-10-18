@@ -161,6 +161,78 @@
                          AriaLabel="Products with fixed column widths" />
         </CodeExample>
     </PageCard>
+
+    <PageCard Title="Showing, hiding and reordering columns">
+        <Description>
+            Set <code>ColumnPanel</code> to add a Columns button. It opens a panel with a checkbox for each column and buttons that move a column up or down the order. Set <code>Hideable = false</code> on a column that identifies each row so it cannot be hidden, and <code>Visible = false</code> on a column that should start hidden. The last visible column cannot be hidden, and Reset columns puts everything back. Every change is announced to screen readers, and Escape closes the panel.
+        </Description>
+
+        <CodeExample Name="DataTableColumnPanel" CSharpName="DataTablePanelColumns">
+            <TwDataTable TItem="Product"
+                         Id="column-panel-table"
+                         Items="@products"
+                         Columns="@_panelColumns"
+                         ColumnPanel
+                         RowsPerPage="5"
+                         AriaLabel="Products with a column panel" />
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Resizable columns">
+        <Description>
+            Set <code>ResizableColumns</code> to let people drag the edge of a column header to resize it. Dragging needs a pointer, so the column panel gains Make narrower and Make wider buttons for each column too, and the Columns button appears even without <code>ColumnPanel</code>. Resizing turns on <code>FixedLayout</code>, and <code>Resizable = false</code> keeps a column at its width.
+        </Description>
+
+        <CodeExample Name="DataTableResizableColumns">
+            <TwDataTable TItem="Product"
+                         Id="resizable-columns-table"
+                         Items="@products"
+                         Columns="@_productColumns"
+                         ResizableColumns
+                         RowsPerPage="5"
+                         AriaLabel="Products with resizable columns" />
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Saving the table's state">
+        <Description>
+            Give the table a <code>StateStorageKey</code> and it remembers its sort, search, page, page size and columns in the browser, so it comes back the way the person left it. Sort or hide a column below, then reload the page. <code>ResetStateAsync</code> puts it back to how the parameters define it.
+        </Description>
+
+        <CodeExample Name="DataTableStateStorage" CSharpName="DataTableStateStorageCode">
+            <TwDataTable @ref="storedTable"
+                         TItem="Product"
+                         Id="stored-state-table"
+                         Items="@products"
+                         Columns="@_panelColumns"
+                         StateStorageKey="docs-products-table"
+                         ColumnPanel
+                         ResizableColumns
+                         Searchable
+                         RowsPerPage="5"
+                         AriaLabel="Products that remember their state" />
+            <TwButton Class="mt-4" Label="Reset table" Variant="ButtonVariant.Outlined" OnClick="ResetStoredTableAsync" />
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Managing the state yourself">
+        <Description>
+            To keep the state somewhere else, such as a user's profile or the page address, bind <code>@@bind-State</code>. The table raises a new <code>TwDataTableState</code> after every change, and restores whichever state you pass in. It is made of plain values, so it serializes to JSON as it is. Columns are matched by <code>Name</code>, so a saved state survives columns being added or removed.
+        </Description>
+
+        <CodeExample Name="DataTableBoundState" CSharpName="DataTableBoundStateCode">
+            <TwDataTable TItem="Product"
+                         Id="bound-state-table"
+                         Items="@products"
+                         Columns="@_productColumns"
+                         @bind-State="tableState"
+                         Searchable
+                         RowsPerPage="5"
+                         AriaLabel="Products with state you manage" />
+            <p class="mt-4 mb-2 font-medium">The current state:</p>
+            <TwCodeBlock Content="@tableStateJson" Language="json" />
+        </CodeExample>
+    </PageCard>
 </PageContainer>
 
 @code {
@@ -213,6 +285,38 @@
         new TwDataTableColumn<Product> { Name = "category", Title = "Category", PropertySelector = p => p.Category, Width = "25%" },
         new TwDataTableColumn<Product> { Name = "price", Title = "Price", PropertySelector = p => p.Price, IsSortable = true, Width = "8rem", CellFormatter = p => $"£{p.Price:N2}" }
     };
+    #endregion
+
+    #region CodeExample DataTablePanelColumns
+    private readonly List<TwDataTableColumn<Product>> _panelColumns = new()
+    {
+        // The name identifies each row, so it always stays visible.
+        new TwDataTableColumn<Product> { Name = "name", Title = "Product Name", PropertySelector = p => p.Name, IsSortable = true, Hideable = false },
+        new TwDataTableColumn<Product> { Name = "category", Title = "Category", PropertySelector = p => p.Category },
+        new TwDataTableColumn<Product> { Name = "price", Title = "Price", PropertySelector = p => p.Price, IsSortable = true, CellFormatter = p => $"£{p.Price:N2}" },
+        // Starts hidden; people can show it from the panel.
+        new TwDataTableColumn<Product> { Name = "stock", Title = "Stock", PropertySelector = p => p.Stock, IsSortable = true, Visible = false }
+    };
+    #endregion
+
+    #region CodeExample DataTableStateStorageCode
+    private TwDataTable<Product>? storedTable;
+
+    private async Task ResetStoredTableAsync()
+    {
+        if (storedTable is not null)
+        {
+            await storedTable.ResetStateAsync();
+        }
+    }
+    #endregion
+
+    #region CodeExample DataTableBoundStateCode
+    private TwDataTableState? tableState;
+
+    private string tableStateJson => tableState is null
+        ? "Sort, search or change page to see the state."
+        : System.Text.Json.JsonSerializer.Serialize(tableState, new System.Text.Json.JsonSerializerOptions(System.Text.Json.JsonSerializerDefaults.Web) { WriteIndented = true });
     #endregion
 
     protected override void OnInitialized()

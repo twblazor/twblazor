@@ -1456,7 +1456,10 @@ public static class TescoTheme
                     SortIcon = $"{typography.Size.Sm} {neutralText.Subtle} {neutralHoverText}",
                     HeaderCellPadding = "px-4 py-2.5",
                     BodyCellPadding = $"px-4 py-2.5 {typography.WrapBreakWord}",
-                    EmptyState = $"py-8 {typography.AlignCenter} {neutralText.Muted}"
+                    EmptyState = $"py-8 {typography.AlignCenter} {neutralText.Muted}",
+                    ColumnPanel = $"{borderWidth.Thin} {neutralSurface.Border} {neutralSurface.Background} {rounded.Lg} {spacing.Padding.Lg} {spacing.MarginBottom.Xl}",
+                    ColumnPanelHeading = $"{typography.Size.Sm} {typography.Weight.Semibold} {neutralText.Heading}",
+                    ResizeHandle = $"{positioning.Absolute} inset-y-0 end-0 w-1.5 cursor-col-resize touch-none select-none hover:bg-grocerblue-500/50 active:bg-grocerblue-600 dark:hover:bg-grocerblue-400/50 dark:active:bg-grocerblue-400"
                 },
                 new TwToastTheme
                 {

@@ -675,4 +675,40 @@
   <data name="Numeric_Invalid" xml:space="preserve">
     <value>请输入有效的数字。</value>
   </data>
+  <data name="DataTable_NoData" xml:space="preserve">
+    <value>暂无数据。</value>
+  </data>
+  <data name="DataTable_Columns" xml:space="preserve">
+    <value>列</value>
+  </data>
+  <data name="DataTable_ResetColumns" xml:space="preserve">
+    <value>重置列</value>
+  </data>
+  <data name="DataTable_ColumnsReset" xml:space="preserve">
+    <value>已重置列</value>
+  </data>
+  <data name="DataTable_ColumnShown" xml:space="preserve">
+    <value>已显示“{0}”列</value>
+  </data>
+  <data name="DataTable_ColumnHidden" xml:space="preserve">
+    <value>已隐藏“{0}”列</value>
+  </data>
+  <data name="DataTable_MoveColumnUp" xml:space="preserve">
+    <value>上移“{0}”</value>
+  </data>
+  <data name="DataTable_MoveColumnDown" xml:space="preserve">
+    <value>下移“{0}”</value>
+  </data>
+  <data name="DataTable_ColumnMoved" xml:space="preserve">
+    <value>“{0}”已移至第 {1} 位，共 {2} 位</value>
+  </data>
+  <data name="DataTable_NarrowColumn" xml:space="preserve">
+    <value>缩小“{0}”列宽</value>
+  </data>
+  <data name="DataTable_WidenColumn" xml:space="preserve">
+    <value>增大“{0}”列宽</value>
+  </data>
+  <data name="DataTable_ColumnResized" xml:space="preserve">
+    <value>“{0}”宽 {1} 像素</value>
+  </data>
 </root>

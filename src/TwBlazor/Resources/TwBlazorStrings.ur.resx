@@ -675,4 +675,40 @@
   <data name="Numeric_Invalid" xml:space="preserve">
     <value>درست نمبر درج کریں۔</value>
   </data>
+  <data name="DataTable_NoData" xml:space="preserve">
+    <value>کوئی ڈیٹا دستیاب نہیں۔</value>
+  </data>
+  <data name="DataTable_Columns" xml:space="preserve">
+    <value>کالم</value>
+  </data>
+  <data name="DataTable_ResetColumns" xml:space="preserve">
+    <value>کالم ری سیٹ کریں</value>
+  </data>
+  <data name="DataTable_ColumnsReset" xml:space="preserve">
+    <value>کالم ری سیٹ ہو گئے</value>
+  </data>
+  <data name="DataTable_ColumnShown" xml:space="preserve">
+    <value>{0} کالم دکھایا گیا</value>
+  </data>
+  <data name="DataTable_ColumnHidden" xml:space="preserve">
+    <value>{0} کالم چھپایا گیا</value>
+  </data>
+  <data name="DataTable_MoveColumnUp" xml:space="preserve">
+    <value>{0} کو اوپر لے جائیں</value>
+  </data>
+  <data name="DataTable_MoveColumnDown" xml:space="preserve">
+    <value>{0} کو نیچے لے جائیں</value>
+  </data>
+  <data name="DataTable_ColumnMoved" xml:space="preserve">
+    <value>{0} کو {2} میں سے مقام {1} پر منتقل کیا گیا</value>
+  </data>
+  <data name="DataTable_NarrowColumn" xml:space="preserve">
+    <value>{0} کو تنگ کریں</value>
+  </data>
+  <data name="DataTable_WidenColumn" xml:space="preserve">
+    <value>{0} کو چوڑا کریں</value>
+  </data>
+  <data name="DataTable_ColumnResized" xml:space="preserve">
+    <value>{0} کی چوڑائی {1} پکسل ہے</value>
+  </data>
 </root>

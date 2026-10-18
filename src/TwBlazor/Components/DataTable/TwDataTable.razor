@@ -3,26 +3,107 @@
 @typeparam TItem
 @inherits TwBlazorComponentBase
 
-<div class="@rootClasses">
-    @* Search *@
-    @if (Searchable)
+<div class="@rootClasses" @ref="rootRef">
+    @if (showToolbar)
     {
-        <div class="@searchRowClasses">
-            <div class="@searchColumnClasses">
-                <TwTextfield T="string"
-                    Id="@($"{Id}-search")"
-                    Class="@options.Theme.Sizing.FullWidth"
-                    Label="@effectiveSearchLabel"
-                    Placeholder="@effectiveSearchPlaceholder"
-                    ValueChanged="@OnSearchAsync" />
-            </div>
+        <div class="@toolbarClasses">
+            @if (Searchable)
+            {
+                <div class="@searchColumnClasses">
+                    <TwTextfield T="string"
+                        Id="@($"{Id}-search")"
+                        Class="@options.Theme.Sizing.FullWidth"
+                        Label="@effectiveSearchLabel"
+                        Placeholder="@effectiveSearchPlaceholder"
+                        Value="@currentSearchQuery"
+                        ValueChanged="@OnSearchAsync" />
+                </div>
+            }
+            @if (showColumnPanelButton)
+            {
+                <div class="@toolbarActionsClasses">
+                    <TwButton Id="@columnPanelToggleId"
+                              Label="@effectiveColumnPanelLabel"
+                              StartIcon="Icon.Layout_Three_Columns"
+                              Variant="ButtonVariant.Outlined"
+                              Attributes="@columnPanelToggleAttributes"
+                              OnClick="@ToggleColumnPanel" />
+                </div>
+            }
         </div>
     }
 
-    @* Announces sort, search and paging changes to assistive technology *@
+    @if (showColumnPanelButton && columnPanelOpen)
+    {
+        <div id="@columnPanelId" class="@theme.ColumnPanel" role="group" aria-labelledby="@($"{columnPanelId}-heading")" @onkeydown="@OnColumnPanelKeyDown">
+            <div class="@columnPanelHeaderClasses">
+                <span id="@($"{columnPanelId}-heading")" class="@theme.ColumnPanelHeading">@effectiveColumnPanelLabel</span>
+                <TwButton Id="@($"{columnPanelId}-reset")"
+                          Label="@localizer[TwStrings.DataTable_ResetColumns]"
+                          StartIcon="Icon.Arrow_Counterclockwise"
+                          Variant="ButtonVariant.Text"
+                          Dense
+                          OnClick="@ResetColumnsAsync" />
+            </div>
+            <ul class="@columnListClasses">
+                @for (var i = 0; i < columnStates.Count; i++)
+                {
+                    var index = i;
+                    var state = columnStates[index];
+                    var column = columnsByName[state.Name];
+                    <li class="@columnListItemClasses" @key="state.Name">
+                        @if (ColumnPanel)
+                        {
+                            <TwCheckbox T="bool"
+                                        Id="@($"{Id}-column-{index}-visible")"
+                                        Label="@column.Title"
+                                        Value="@state.Visible"
+                                        Disabled="@(!CanToggleColumn(state))"
+                                        ValueChanged="@(visible => SetColumnVisibleAsync(state.Name, visible))" />
+                        }
+                        else
+                        {
+                            <span>@column.Title</span>
+                        }
+                        <div class="@columnMoveButtonsClasses">
+                            @if (ResizableColumns && column.Resizable && state.Visible)
+                            {
+                                <TwIcon Id="@ResizeButtonId(index, "narrower")"
+                                        Icon="Icon.Dash_Lg"
+                                        AriaLabel="@localizer[TwStrings.DataTable_NarrowColumn, column.Title]"
+                                        Tooltip="@localizer[TwStrings.DataTable_NarrowColumn, column.Title]"
+                                        OnClick="@(() => ResizeColumnAsync(column, -resizeStep))" />
+                                <TwIcon Id="@ResizeButtonId(index, "wider")"
+                                        Icon="Icon.Plus_Lg"
+                                        AriaLabel="@localizer[TwStrings.DataTable_WidenColumn, column.Title]"
+                                        Tooltip="@localizer[TwStrings.DataTable_WidenColumn, column.Title]"
+                                        OnClick="@(() => ResizeColumnAsync(column, resizeStep))" />
+                            }
+                            @if (ColumnPanel)
+                            {
+                                <TwIcon Id="@ColumnMoveButtonId(index, "earlier")"
+                                        Icon="Icon.Arrow_Up"
+                                        AriaLabel="@localizer[TwStrings.DataTable_MoveColumnUp, column.Title]"
+                                        Tooltip="@localizer[TwStrings.DataTable_MoveColumnUp, column.Title]"
+                                        Disabled="@(index == 0)"
+                                        OnClick="@(() => MoveColumnAsync(state.Name, -1))" />
+                                <TwIcon Id="@ColumnMoveButtonId(index, "later")"
+                                        Icon="Icon.Arrow_Down"
+                                        AriaLabel="@localizer[TwStrings.DataTable_MoveColumnDown, column.Title]"
+                                        Tooltip="@localizer[TwStrings.DataTable_MoveColumnDown, column.Title]"
+                                        Disabled="@(index == columnStates.Count - 1)"
+                                        OnClick="@(() => MoveColumnAsync(state.Name, 1))" />
+                            }
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+    }
+
+    @* Announces sort, search, paging and column changes to assistive technology *@
     <span class="@options.Theme.Display.ScreenReaderOnly" role="status" aria-live="polite">@sortStatusMessage</span>
 
-    @* Table *@
     <TwTable Id="@Id"
              Striped="@Striped"
              Hoverable="@Hoverable"
@@ -35,43 +116,45 @@
              AriaLabelledBy="@AriaLabelledBy"
              Caption="@Caption"
              CaptionVisible="@CaptionVisible"
-             FixedLayout="@FixedLayout"
+             FixedLayout="@effectiveFixedLayout"
              ColumnGroup="@effectiveColumnGroup">
         <TableHeader>
-            @if (Columns != null && Columns.Any())
+            @if (hasColumns)
             {
-                @* Auto-generated headers from Columns *@
                 <tr class="@headerRowClasses">
-                    @foreach (var column in Columns)
+                    @foreach (var column in visibleColumns)
                     {
-                        <th scope="col" class="@($"{theme.HeaderCellPadding} {column.HeaderClass}")" aria-sort="@(column.IsSortable ? GetAriaSort(column.Name) : null)">
+                        <th scope="col" class="@HeaderCellClasses(column)" aria-sort="@(column.IsSortable ? GetAriaSort(column.Name) : null)" @key="column.Name">
                             <div class="@headerCellRowClasses">
                                 <span>@column.Title</span>
                                 @if (column.IsSortable)
                                 {
-                                    <TwIcon Icon="GetSortIcon(column.Name)" Class="@sortIconClasses" OnClick="() => ToggleSort(column.Name)" AriaLabel="@GetSortAriaLabel(column)" />
+                                    <TwIcon Icon="GetSortIcon(column.Name)" Class="@sortIconClasses" OnClick="() => OnSortClickedAsync(column.Name)" AriaLabel="@GetSortAriaLabel(column)" />
                                 }
                             </div>
+                            @if (ResizableColumns && column.Resizable)
+                            {
+                                @* Pointer only: the column panel's Narrower and Wider buttons are the keyboard way to resize. *@
+                                <span class="@theme.ResizeHandle" data-resize-column="@column.Name" aria-hidden="true"></span>
+                            }
                         </th>
                     }
                 </tr>
             }
             else if (TableHeader != null)
             {
-                @* Manual header definition - user provides their own tr *@
                 @TableHeader
             }
         </TableHeader>
         <TableBody>
-            @if (displayedRows != null && displayedRows.Count > 0)
+            @if (displayedRows.Count > 0)
             {
-                @if (Columns != null && Columns.Any())
+                @if (hasColumns)
                 {
-                    @* Auto-generated rows from Columns *@
-                    @foreach (var row in displayedRows.Where(r => !EqualityComparer<TItem>.Default.Equals(r, default)))
+                    @foreach (var row in displayedRows)
                     {
                         <tr class="@RowClass">
-                            @foreach (var column in Columns)
+                            @foreach (var column in visibleColumns)
                             {
                                 <td class="@($"{theme.BodyCellPadding} {column.CellClass}")">
                                     @if (column.CellFormatter != null)
@@ -89,9 +172,8 @@
                 }
                 else if (TableRow != null)
                 {
-                    @* Manual row definition *@
                     var tableRow = TableRow;
-                    @foreach (var row in displayedRows.Where(r => !EqualityComparer<TItem>.Default.Equals(r, default)))
+                    @foreach (var row in displayedRows)
                     {
                         @if (DefineTableRows)
                         {
@@ -109,18 +191,14 @@
             else
             {
                 <tr>
-                    <td colspan="100" class="@theme.EmptyState">
+                    <td colspan="@emptyStateColumnSpan" class="@theme.EmptyState">
                         @if (EmptyContent != null)
                         {
                             @EmptyContent
                         }
-                        else if (!string.IsNullOrWhiteSpace(currentSearchQuery))
-                        {
-                            @:No results match your search.
-                        }
                         else
                         {
-                            @:No data available.
+                            @effectiveEmptyMessage
                         }
                     </td>
                 </tr>
@@ -128,7 +206,6 @@
         </TableBody>
     </TwTable>
 
-    @* Pagination *@
     @if (Pageable)
     {
         <TwPagination Id="@($"{Id}-pagination")"
@@ -137,7 +214,7 @@
             ActivePage="currentPage"
             ActivePageChanged="OnActivePageChanged"
             ShowPageSize="true"
-            PageSize="RowsPerPage"
+            PageSize="rowsPerPage"
             PageSizeChanged="OnRowsPerPageChangedAsync"
             PageSizeOptions="RowsPerPageOptions"
             Dense="!ComfortablePagination"
@@ -145,4 +222,3 @@
             AriaLabel="@localizer[TwStrings.DataTable_Pagination]" />
     }
 </div>
-

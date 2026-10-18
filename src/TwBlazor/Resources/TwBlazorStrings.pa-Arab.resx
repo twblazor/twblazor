@@ -675,4 +675,40 @@
   <data name="Numeric_Invalid" xml:space="preserve">
     <value>اک درست نمبر درج کرو۔</value>
   </data>
+  <data name="DataTable_NoData" xml:space="preserve">
+    <value>کوئی ڈیٹا موجود نہیں۔</value>
+  </data>
+  <data name="DataTable_Columns" xml:space="preserve">
+    <value>کالم</value>
+  </data>
+  <data name="DataTable_ResetColumns" xml:space="preserve">
+    <value>کالم ری سیٹ کرو</value>
+  </data>
+  <data name="DataTable_ColumnsReset" xml:space="preserve">
+    <value>کالم ری سیٹ ہو گئے</value>
+  </data>
+  <data name="DataTable_ColumnShown" xml:space="preserve">
+    <value>{0} کالم وکھایا گیا</value>
+  </data>
+  <data name="DataTable_ColumnHidden" xml:space="preserve">
+    <value>{0} کالم لکایا گیا</value>
+  </data>
+  <data name="DataTable_MoveColumnUp" xml:space="preserve">
+    <value>{0} نوں اُتے کرو</value>
+  </data>
+  <data name="DataTable_MoveColumnDown" xml:space="preserve">
+    <value>{0} نوں تھلے کرو</value>
+  </data>
+  <data name="DataTable_ColumnMoved" xml:space="preserve">
+    <value>{0} نوں {2} وچوں {1} نمبر تے کیتا گیا</value>
+  </data>
+  <data name="DataTable_NarrowColumn" xml:space="preserve">
+    <value>{0} نوں تنگ کرو</value>
+  </data>
+  <data name="DataTable_WidenColumn" xml:space="preserve">
+    <value>{0} نوں چوڑا کرو</value>
+  </data>
+  <data name="DataTable_ColumnResized" xml:space="preserve">
+    <value>{0} دی چوڑائی {1} پکسل اے</value>
+  </data>
 </root>

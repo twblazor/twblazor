@@ -672,4 +672,40 @@
   <data name="Numeric_Invalid" xml:space="preserve">
     <value>Inserisci un numero valido.</value>
   </data>
+  <data name="DataTable_NoData" xml:space="preserve">
+    <value>Nessun dato disponibile.</value>
+  </data>
+  <data name="DataTable_Columns" xml:space="preserve">
+    <value>Colonne</value>
+  </data>
+  <data name="DataTable_ResetColumns" xml:space="preserve">
+    <value>Reimposta colonne</value>
+  </data>
+  <data name="DataTable_ColumnsReset" xml:space="preserve">
+    <value>Colonne reimpostate</value>
+  </data>
+  <data name="DataTable_ColumnShown" xml:space="preserve">
+    <value>Colonna {0} mostrata</value>
+  </data>
+  <data name="DataTable_ColumnHidden" xml:space="preserve">
+    <value>Colonna {0} nascosta</value>
+  </data>
+  <data name="DataTable_MoveColumnUp" xml:space="preserve">
+    <value>Sposta {0} in alto</value>
+  </data>
+  <data name="DataTable_MoveColumnDown" xml:space="preserve">
+    <value>Sposta {0} in basso</value>
+  </data>
+  <data name="DataTable_ColumnMoved" xml:space="preserve">
+    <value>{0} spostata in posizione {1} di {2}</value>
+  </data>
+  <data name="DataTable_NarrowColumn" xml:space="preserve">
+    <value>Restringi {0}</value>
+  </data>
+  <data name="DataTable_WidenColumn" xml:space="preserve">
+    <value>Allarga {0}</value>
+  </data>
+  <data name="DataTable_ColumnResized" xml:space="preserve">
+    <value>{0} è largo {1} pixel</value>
+  </data>
 </root>

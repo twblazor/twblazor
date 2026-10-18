@@ -678,4 +678,40 @@
   <data name="Numeric_Invalid" xml:space="preserve">
     <value>Введите допустимое число.</value>
   </data>
+  <data name="DataTable_NoData" xml:space="preserve">
+    <value>Нет данных.</value>
+  </data>
+  <data name="DataTable_Columns" xml:space="preserve">
+    <value>Столбцы</value>
+  </data>
+  <data name="DataTable_ResetColumns" xml:space="preserve">
+    <value>Сбросить столбцы</value>
+  </data>
+  <data name="DataTable_ColumnsReset" xml:space="preserve">
+    <value>Столбцы сброшены</value>
+  </data>
+  <data name="DataTable_ColumnShown" xml:space="preserve">
+    <value>Столбец «{0}» показан</value>
+  </data>
+  <data name="DataTable_ColumnHidden" xml:space="preserve">
+    <value>Столбец «{0}» скрыт</value>
+  </data>
+  <data name="DataTable_MoveColumnUp" xml:space="preserve">
+    <value>Переместить «{0}» вверх</value>
+  </data>
+  <data name="DataTable_MoveColumnDown" xml:space="preserve">
+    <value>Переместить «{0}» вниз</value>
+  </data>
+  <data name="DataTable_ColumnMoved" xml:space="preserve">
+    <value>«{0}» перемещён на позицию {1} из {2}</value>
+  </data>
+  <data name="DataTable_NarrowColumn" xml:space="preserve">
+    <value>Сузить «{0}»</value>
+  </data>
+  <data name="DataTable_WidenColumn" xml:space="preserve">
+    <value>Расширить «{0}»</value>
+  </data>
+  <data name="DataTable_ColumnResized" xml:space="preserve">
+    <value>Ширина «{0}»: {1} пикселей</value>
+  </data>
 </root>

@@ -1714,3 +1714,100 @@ globalThis.twOnThisPage = {
         globalThis.twOnThisPage._stops.delete(key);
     }
 };
+
+globalThis.twDataTable = {
+    loadState: function (key) {
+        try {
+            return globalThis.localStorage.getItem(key);
+        } catch {
+            // Storage is blocked (private browsing, a sandboxed frame); the table starts from its parameters.
+            return null;
+        }
+    },
+
+    saveState: function (key, json) {
+        try {
+            globalThis.localStorage.setItem(key, json);
+        } catch {
+            // Storage is blocked or full; the table still works, it just will not be restored next time.
+        }
+    },
+
+    focus: function (id) {
+        const el = document.getElementById(id);
+        if (el) {
+            el.focus();
+        }
+    },
+
+    // The column group renders one <col> per visible column in header order, so a column's <col> and its
+    // header cell share an index.
+    _findColumn: function (root, name) {
+        const table = root?.querySelector('table');
+        if (!table) return null;
+
+        const cols = Array.from(table.querySelectorAll(':scope > colgroup > col'));
+        const index = cols.findIndex(function (col) { return col.dataset.column === name; });
+        if (index < 0) return null;
+
+        const headerRow = table.querySelector(':scope > thead > tr');
+        const th = headerRow?.children[index] ?? null;
+        return { col: cols[index], th: th };
+    },
+
+    measureColumn: function (root, name) {
+        const found = globalThis.twDataTable._findColumn(root, name);
+        return found?.th ? Math.round(found.th.getBoundingClientRect().width) : 0;
+    },
+
+    attachResize: function (root, dotnetRef, minWidth, maxWidth) {
+        if (!root || root.__twDataTableResize) return;
+
+        const onPointerDown = function (e) {
+            const handle = e.target?.closest?.('[data-resize-column]') ?? null;
+            if (!handle || !root.contains(handle) || e.button !== 0) return;
+
+            const name = handle.dataset.resizeColumn;
+            const found = globalThis.twDataTable._findColumn(root, name);
+            if (!found?.th) return;
+
+            e.preventDefault();
+
+            const startX = e.clientX;
+            const startWidth = Math.round(found.th.getBoundingClientRect().width);
+            // The handle sits on the header's end edge, so dragging towards the end widens the column in
+            // either direction.
+            const towardsEnd = getComputedStyle(found.th).direction === 'rtl' ? -1 : 1;
+            let width = startWidth;
+
+            handle.setPointerCapture?.(e.pointerId);
+
+            const onMove = function (ev) {
+                width = Math.min(maxWidth, Math.max(minWidth, Math.round(startWidth + (ev.clientX - startX) * towardsEnd)));
+                found.col.style.width = width + 'px';
+            };
+
+            const onEnd = function () {
+                handle.removeEventListener('pointermove', onMove);
+                handle.removeEventListener('pointerup', onEnd);
+                handle.removeEventListener('pointercancel', onEnd);
+                if (width !== startWidth) {
+                    dotnetRef.invokeMethodAsync('CommitColumnWidth', name, width);
+                }
+            };
+
+            handle.addEventListener('pointermove', onMove);
+            handle.addEventListener('pointerup', onEnd);
+            handle.addEventListener('pointercancel', onEnd);
+        };
+
+        root.addEventListener('pointerdown', onPointerDown);
+        root.__twDataTableResize = onPointerDown;
+    },
+
+    detachResize: function (root) {
+        if (!root?.__twDataTableResize) return;
+        root.removeEventListener('pointerdown', root.__twDataTableResize);
+        delete root.__twDataTableResize;
+    }
+};

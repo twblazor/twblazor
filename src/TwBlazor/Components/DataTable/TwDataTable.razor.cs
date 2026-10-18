@@ -208,9 +208,11 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
     [Parameter]
     public bool CaptionVisible { get; set; } = false;
 
-    private List<TItem> filteredItems = [];
+    private List<TItem> viewItems = [];
     private List<TItem> displayedRows = [];
-    private int previousRowsPerPage = 10;
+    private List<TItem> lastItems = [];
+    private int rowsPerPage = 10;
+    private int? lastRowsPerPageParameter;
     private int currentPage = 1;
     private int totalCount;
     private string? currentSearchQuery;
@@ -220,30 +222,24 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
 
     private string rootClasses => new ClassBuilder(Class).Build();
 
-    private RenderFragment? effectiveColumnGroup =>
-        Columns is { Count: > 0 } columns && columns.Any(c => !string.IsNullOrWhiteSpace(c.Width))
-            ? builder =>
-            {
-                foreach (var column in columns)
-                {
-                    builder.OpenComponent<TwTableColumn>(0);
-                    builder.AddComponentParameter(1, nameof(TwTableColumn.Width), column.Width);
-                    builder.CloseComponent();
-                }
-            }
-            : ColumnGroup;
-
     private string headerRowClasses => new ClassBuilder()
         .AddClass(theme.Header)
         .AddClass(HeaderRowClass ?? string.Empty)
         .Build();
 
-    private string searchRowClasses => new ClassBuilder(options.Theme.Display.Flex)
+    private string toolbarClasses => new ClassBuilder(options.Theme.Display.Flex)
+        .AddClass(options.Theme.Flexbox.Wrap)
+        .AddClass(options.Theme.Flexbox.Align.End)
         .AddClass(options.Theme.Flexbox.Justify.End)
+        .AddClass(options.Theme.Spacing.Gap.Md)
         .AddClass(options.Theme.Spacing.MarginBottom.Xl).Build();
 
     private string searchColumnClasses => new ClassBuilder(options.Theme.Sizing.FullWidth)
         .AddClass(theme.SearchColumn).Build();
+
+    private string toolbarActionsClasses => new ClassBuilder(options.Theme.Display.Flex)
+        .AddClass(options.Theme.Flexbox.Wrap)
+        .AddClass(options.Theme.Spacing.Gap.Sm).Build();
 
     private string headerCellRowClasses => new ClassBuilder(options.Theme.Display.Flex)
         .AddClass(options.Theme.Flexbox.Align.Center)
@@ -255,33 +251,73 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
         .AddClass(options.Theme.Sizing.FullWidth)
         .AddClass(options.Theme.Flexbox.Justify.Between).Build();
 
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        filteredItems = [.. Items];
-    }
+    private bool hasColumns => Columns is { Count: > 0 };
 
+    private bool showToolbar => Searchable || showColumnPanelButton;
+
+    // The empty row has to cross every column. Without column definitions the count is unknown, and a colspan
+    // larger than the table is harmless.
+    private int emptyStateColumnSpan => hasColumns ? Math.Max(visibleColumns.Count, 1) : 100;
+
+    private string effectiveEmptyMessage => string.IsNullOrWhiteSpace(currentSearchQuery)
+        ? localizer[TwStrings.DataTable_NoData]
+        : localizer[TwStrings.DataTable_NoSearchResults];
+
+    /// <inheritdoc />
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
 
-        // Handle RowsPerPage changes
-        if (previousRowsPerPage != RowsPerPage)
+        if (lastRowsPerPageParameter != RowsPerPage)
         {
-            previousRowsPerPage = RowsPerPage;
+            lastRowsPerPageParameter = RowsPerPage;
+            rowsPerPage = RowsPerPage;
             currentPage = 1;
         }
 
-        // If Items changed externally, update filtered items
-        if (!filteredItems.SequenceEqual(Items))
-        {
-            filteredItems = [.. Items];
+        SyncColumns();
 
-            // Reapply search if there was one
-            if (!string.IsNullOrWhiteSpace(currentSearchQuery))
-            {
-                ApplySearch(currentSearchQuery);
-            }
+        var stateApplied = ApplyIncomingState();
+
+        if (stateApplied || !lastItems.SequenceEqual(Items))
+        {
+            lastItems = [.. Items];
+            RefreshView();
+        }
+        else
+        {
+            UpdateDisplay();
+        }
+    }
+
+    /// <summary>
+    /// Runs the rows through the search and the sort, then takes the current page. Each step works on the
+    /// result of the one before, so a search keeps the sort and a sort keeps the search.
+    /// </summary>
+    /// <param name="resetPage">Whether to go back to the first page, as a new search or sort does.</param>
+    private void RefreshView(bool resetPage = false)
+    {
+        IEnumerable<TItem> rows = Items.Where(item => !EqualityComparer<TItem>.Default.Equals(item, default));
+
+        if (!string.IsNullOrWhiteSpace(currentSearchQuery))
+        {
+            var query = currentSearchQuery;
+            rows = rows.Where(item => ItemMatchesQuery(item, query));
+        }
+
+        var sortColumn = currentSortDirection == SortDirection.None ? null : FindColumn(currentSortColumn);
+        if (sortColumn is { IsSortable: true, PropertySelector: { } selector })
+        {
+            rows = currentSortDirection == SortDirection.Ascending
+                ? rows.OrderBy(selector)
+                : rows.OrderByDescending(selector);
+        }
+
+        viewItems = rows.ToList();
+
+        if (resetPage)
+        {
+            currentPage = 1;
         }
 
         UpdateDisplay();
@@ -289,61 +325,64 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
 
     private void UpdateDisplay()
     {
-        totalCount = filteredItems.Count;
+        totalCount = viewItems.Count;
+        currentPage = Math.Clamp(currentPage, 1, TotalPages());
 
         displayedRows = Pageable
-            ? filteredItems
-                .Skip((currentPage - 1) * RowsPerPage)
-                .Take(RowsPerPage)
+            ? viewItems
+                .Skip((currentPage - 1) * rowsPerPage)
+                .Take(rowsPerPage)
                 .ToList()
-            : [.. filteredItems];
+            : [.. viewItems];
     }
 
     private int TotalPages()
     {
-        if (totalCount == 0 || RowsPerPage == 0)
+        if (totalCount == 0 || rowsPerPage <= 0)
             return 1;
 
-        return (int)Math.Ceiling(totalCount / (decimal)RowsPerPage);
+        return (int)Math.Ceiling(totalCount / (decimal)rowsPerPage);
     }
 
-    private void MoveFirst()
-    {
-        currentPage = 1;
-        UpdateDisplay();
-    }
+    private TwDataTableColumn<TItem>? FindColumn(string? name) =>
+        name is null ? null : Columns?.FirstOrDefault(c => c.Name == name);
 
-    private void OnActivePageChanged(int page)
+    private async Task OnActivePageChanged(int page)
     {
         currentPage = page;
         UpdateDisplay();
         sortStatusMessage = localizer.Plural(displayedRows.Count, TwStrings.DataTable_PageStatusOne, TwStrings.DataTable_PageStatusOther, currentPage, TotalPages(), displayedRows.Count);
+        await NotifyStateChangedAsync();
     }
 
     private async Task OnSearchAsync(string? value)
     {
-        currentSearchQuery = value;
+        currentSearchQuery = string.IsNullOrWhiteSpace(value) ? null : value;
+        RefreshView(resetPage: true);
 
-        if (string.IsNullOrWhiteSpace(value))
-        {
-            ClearSearch();
-            sortStatusMessage = localizer[TwStrings.DataTable_SearchCleared];
-            return;
-        }
+        sortStatusMessage = SearchStatusMessage(totalCount);
 
-        ApplySearch(value);
-        sortStatusMessage = displayedRows.Count == 0
-            ? localizer[TwStrings.DataTable_NoSearchResults]
-            : localizer.Plural(displayedRows.Count, TwStrings.DataTable_MatchingOne, TwStrings.DataTable_MatchingOther, displayedRows.Count);
-        await Task.CompletedTask;
+        await NotifyStateChangedAsync();
     }
 
-    private void ApplySearch(string query)
+    /// <summary>
+    /// Describes the result of a search for assistive technology.
+    /// </summary>
+    /// <param name="matchingCount">How many rows match the search.</param>
+    /// <returns>The message to announce.</returns>
+    private string SearchStatusMessage(int matchingCount)
     {
-        filteredItems = Items.Where(item => !EqualityComparer<TItem>.Default.Equals(item, default) && ItemMatchesQuery(item, query)).ToList();
+        if (currentSearchQuery is null)
+        {
+            return localizer[TwStrings.DataTable_SearchCleared];
+        }
 
-        MoveFirst();
-        UpdateDisplay();
+        if (matchingCount == 0)
+        {
+            return localizer[TwStrings.DataTable_NoSearchResults];
+        }
+
+        return localizer.Plural(matchingCount, TwStrings.DataTable_MatchingOne, TwStrings.DataTable_MatchingOther, matchingCount);
     }
 
     private static bool ItemMatchesQuery(TItem item, string query)
@@ -395,16 +434,15 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
                 value.Contains(queryPart, StringComparison.OrdinalIgnoreCase)));
     }
 
-    private void ClearSearch()
+    private async Task OnSortClickedAsync(string columnName)
     {
-        filteredItems = [.. Items];
-        currentPage = 1;
-        UpdateDisplay();
+        ToggleSort(columnName);
+        await NotifyStateChangedAsync();
     }
 
     private void ToggleSort(string columnName)
     {
-        var column = Columns?.FirstOrDefault(c => c.Name == columnName);
+        var column = FindColumn(columnName);
         if (column == null || !column.IsSortable || column.PropertySelector == null)
             return;
 
@@ -432,7 +470,7 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
             _ => localizer[TwStrings.DataTable_SortRemoved, column.Title]
         };
 
-        ApplySort();
+        RefreshView(resetPage: true);
     }
 
     /// <summary>
@@ -468,41 +506,9 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
         };
     }
 
-    private void ApplySort()
-    {
-        if (string.IsNullOrEmpty(currentSortColumn) || currentSortDirection == SortDirection.None)
-        {
-            // Reset to original order (or maintain search results)
-            if (!string.IsNullOrWhiteSpace(currentSearchQuery))
-            {
-                ApplySearch(currentSearchQuery);
-            }
-            else
-            {
-                filteredItems = [.. Items];
-            }
-            currentPage = 1;
-            UpdateDisplay();
-            return;
-        }
-
-        var column = Columns?.FirstOrDefault(c => c.Name == currentSortColumn);
-        if (column?.PropertySelector == null)
-            return;
-
-        var propertySelector = column.PropertySelector;
-
-        filteredItems = currentSortDirection == SortDirection.Ascending
-            ? filteredItems.OrderBy(item => propertySelector(item)).ToList()
-            : filteredItems.OrderByDescending(item => propertySelector(item)).ToList();
-
-        currentPage = 1;
-        UpdateDisplay();
-    }
-
     private Icon GetSortIcon(string columnName)
     {
-        var column = Columns?.FirstOrDefault(c => c.Name == columnName);
+        var column = FindColumn(columnName);
         if (column == null || !column.IsSortable)
             return Icon.Chevron_Expand;
 
@@ -572,13 +578,13 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
 
     private async Task OnRowsPerPageChangedAsync(int newRowsPerPage)
     {
-        if (RowsPerPage != newRowsPerPage)
+        if (rowsPerPage != newRowsPerPage)
         {
-            RowsPerPage = newRowsPerPage;
+            rowsPerPage = newRowsPerPage;
             currentPage = 1;
             UpdateDisplay();
             await RowsPerPageChanged.InvokeAsync(newRowsPerPage);
+            await NotifyStateChangedAsync();
         }
     }
-
 }
