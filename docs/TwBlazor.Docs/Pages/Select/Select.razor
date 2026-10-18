@@ -73,7 +73,7 @@
     </PageCard>
 
     <PageCard Title="Required select">
-        <Description>Set the <code>Required</code> property to mark the select as a required field.</Description>
+        <Description>Set the <code>Required</code> property to mark the select as a required field. A select that is not required lists its <code>Placeholder</code> as the first option, and choosing it clears the selection, setting <code>SelectedValue</code> back to its default, such as <code>null</code>. A required select leaves the placeholder out, so a value always stays chosen.</Description>
         <CodeExample Name="SelectRequired">
             <TwSelect T="string"
                       Label="Favourite Color"
