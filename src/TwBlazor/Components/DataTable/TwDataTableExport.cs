@@ -32,6 +32,7 @@ public static class TwDataTableExport
     private const string spreadsheetNamespace = "http://schemas.openxmlformats.org/spreadsheetml/2006/main";
     private const string relationshipsNamespace = "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
     private const string packageRelationshipsNamespace = "http://schemas.openxmlformats.org/package/2006/relationships";
+    private const string countAttribute = "count";
 
     // Indexes into the cellXfs list written by WriteStyles.
     private const int headerStyle = 1;
@@ -233,7 +234,7 @@ public static class TwDataTableExport
         writer.WriteStartElement("styleSheet", spreadsheetNamespace);
 
         writer.WriteStartElement("fonts", spreadsheetNamespace);
-        writer.WriteAttributeString("count", "2");
+        writer.WriteAttributeString(countAttribute, "2");
         writer.WriteStartElement("font", spreadsheetNamespace);
         writer.WriteEndElement();
         writer.WriteStartElement("font", spreadsheetNamespace);
@@ -244,7 +245,7 @@ public static class TwDataTableExport
 
         // Excel needs the two built in fills and a border to be present before any cell format refers to them.
         writer.WriteStartElement("fills", spreadsheetNamespace);
-        writer.WriteAttributeString("count", "2");
+        writer.WriteAttributeString(countAttribute, "2");
         foreach (var pattern in new[] { "none", "gray125" })
         {
             writer.WriteStartElement("fill", spreadsheetNamespace);
@@ -256,20 +257,20 @@ public static class TwDataTableExport
         writer.WriteEndElement();
 
         writer.WriteStartElement("borders", spreadsheetNamespace);
-        writer.WriteAttributeString("count", "1");
+        writer.WriteAttributeString(countAttribute, "1");
         writer.WriteStartElement("border", spreadsheetNamespace);
         writer.WriteEndElement();
         writer.WriteEndElement();
 
         writer.WriteStartElement("cellStyleXfs", spreadsheetNamespace);
-        writer.WriteAttributeString("count", "1");
+        writer.WriteAttributeString(countAttribute, "1");
         WriteCellFormat(writer, numberFormat: 0, font: 0, applyFormat: false);
         writer.WriteEndElement();
 
         // In order: normal, header (bold), date (d/m/yyyy), date and time, time. The numbers are Excel's built in
         // formats, which follow the reader's own regional settings.
         writer.WriteStartElement("cellXfs", spreadsheetNamespace);
-        writer.WriteAttributeString("count", "5");
+        writer.WriteAttributeString(countAttribute, "5");
         WriteCellFormat(writer, numberFormat: 0, font: 0, applyFormat: false);
         WriteCellFormat(writer, numberFormat: 0, font: 1, applyFormat: false);
         WriteCellFormat(writer, numberFormat: 14, font: 0, applyFormat: true);
@@ -430,15 +431,22 @@ public static class TwDataTableExport
         }
 
         var cleaned = new StringBuilder(text.Length);
-        for (var i = 0; i < text.Length; i++)
+        var i = 0;
+        while (i < text.Length)
         {
             if (XmlConvert.IsXmlChar(text[i]))
             {
                 cleaned.Append(text[i]);
+                i++;
             }
             else if (i + 1 < text.Length && XmlConvert.IsXmlSurrogatePair(text[i + 1], text[i]))
             {
-                cleaned.Append(text[i]).Append(text[i + 1]);
+                // A character outside the basic plane, such as an emoji, takes two chars.
+                cleaned.Append(text, i, 2);
+                i += 2;
+            }
+            else
+            {
                 i++;
             }
         }
@@ -451,13 +459,13 @@ public static class TwDataTableExport
     /// </summary>
     internal static string ColumnLetters(int index)
     {
-        var letters = string.Empty;
+        var letters = new StringBuilder();
         for (var n = index + 1; n > 0; n = (n - 1) / 26)
         {
-            letters = (char)('A' + ((n - 1) % 26)) + letters;
+            letters.Insert(0, (char)('A' + ((n - 1) % 26)));
         }
 
-        return letters;
+        return letters.ToString();
     }
 
     /// <summary>
