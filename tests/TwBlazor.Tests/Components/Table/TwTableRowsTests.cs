@@ -513,6 +513,7 @@ public class TwTableRowsTests : TwBlazorTestBase
 
         // Assert
         await cut.WaitForStateAsync(() => server.Requests.Count > before);
+        Assert.True(server.Requests.Count > before);
     }
 
     [Fact]

@@ -137,7 +137,7 @@ public partial class TwDataTable<TItem>
         SortColumn = currentSortDirection == SortDirection.None ? null : currentSortColumn,
         SortDirection = currentSortColumn is null ? SortDirection.None : currentSortDirection,
         SearchQuery = ignoreSearch ? null : currentSearchQuery,
-        Filters = ignoreSearch ? new Dictionary<string, TwDataTableColumnFilter>() : ActiveFilters(),
+        Filters = ignoreSearch ? [] : ActiveFilters(),
         CancellationToken = cancellationToken
     };
 

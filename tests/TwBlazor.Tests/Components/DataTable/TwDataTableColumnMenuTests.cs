@@ -196,7 +196,15 @@ public class TwDataTableColumnMenuTests : TwBlazorTestBase
     public void MoveLeft_MovesTheColumnLater_InARightToLeftLayout()
     {
         // Arrange
-        var cut = Render(p => p.AddCascadingValue<TextDirection?>(TextDirection.RightToLeft));
+        var provider = TestContext.Render<TwDirectionProvider>(p => p
+            .Add(x => x.Direction, TextDirection.RightToLeft)
+            .AddChildContent<TwDataTable<Product>>(table => table
+                .Add(x => x.Id, "products")
+                .Add(x => x.Items, _products)
+                .Add(x => x.Columns, Columns())
+                .Add(x => x.EnablePagination, false)
+                .Add(x => x.ColumnMenu, true)));
+        var cut = provider.FindComponent<TwDataTable<Product>>();
         OpenMenu(cut, "name");
 
         // Act - in a right to left table the first column is on the right, so left moves it later.

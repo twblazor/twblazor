@@ -3,7 +3,7 @@
 @typeparam TItem
 @inherits TwBlazorComponentBase
 
-<div class="@rootClasses" @ref="rootRef">
+<div class="@rootClasses">
     @if (showToolbar)
     {
         <div class="@toolbarClasses">
@@ -239,7 +239,18 @@
                  AriaLabel="@localizer[TwStrings.DataTable_ColumnOptions, column.Title]"
                  ButtonClass="@sortIconClasses"
                  OpenChanged="@(open => OnColumnMenuOpenChanged(column.Name, open))">
-            @if (column.IsSortable && column.PropertySelector != null)
+            @columnSortItems(column)
+            @columnGroupItems(column)
+            @columnArrangeItems(column)
+            <TwMenuDivider />
+            @columnToggleItems
+            <TwMenuDivider />
+            <TwMenuItem Label="@localizer[TwStrings.DataTable_ResetColumns]" StartIcon="Icon.Arrow_Counterclockwise" OnClick="@ResetColumnsAsync" />
+        </TwMenu>;
+
+    private RenderFragment<TwDataTableColumn<TItem>> columnSortItems => column =>
+        @<text>
+            @if (CanSortColumn(column))
             {
                 <TwMenuItem Label="@localizer[TwStrings.DataTable_SortAscending]" StartIcon="Icon.Sort_Up" OnClick="@(() => SetSortAsync(column.Name, SortDirection.Ascending))" />
                 <TwMenuItem Label="@localizer[TwStrings.DataTable_SortDescending]" StartIcon="Icon.Sort_Down" OnClick="@(() => SetSortAsync(column.Name, SortDirection.Descending))" />
@@ -249,33 +260,38 @@
                 }
                 <TwMenuDivider />
             }
-            @if (column.Groupable && column.PropertySelector != null && !usesProvider)
+        </text>;
+
+    private RenderFragment<TwDataTableColumn<TItem>> columnGroupItems => column =>
+        @<text>
+            @if (CanGroupColumn(column))
             {
-                <TwMenuItem Label="@(currentGroupBy == column.Name ? localizer[TwStrings.DataTable_StopGrouping] : localizer[TwStrings.DataTable_GroupByColumn])"
-                            StartIcon="Icon.Collection"
-                            OnClick="@(() => SetGroupByAsync(currentGroupBy == column.Name ? null : column))" />
+                <TwMenuItem Label="@GroupMenuLabel(column)" StartIcon="Icon.Collection" OnClick="@(() => ToggleGroupByAsync(column))" />
                 <TwMenuDivider />
             }
+        </text>;
+
+    private RenderFragment<TwDataTableColumn<TItem>> columnArrangeItems => column =>
+        @<text>
             <TwMenuItem Label="@localizer[TwStrings.DataTable_MoveColumnLeft]" StartIcon="Icon.Arrow_Left" Disabled="@(!CanMoveColumn(column.Name, towardsLeft: true))" OnClick="@(() => MoveColumnAsync(column.Name, towardsLeft: true))" />
             <TwMenuItem Label="@localizer[TwStrings.DataTable_MoveColumnRight]" StartIcon="Icon.Arrow_Right" Disabled="@(!CanMoveColumn(column.Name, towardsLeft: false))" OnClick="@(() => MoveColumnAsync(column.Name, towardsLeft: false))" />
             @if (CanHideColumn(column))
             {
                 <TwMenuItem Label="@localizer[TwStrings.DataTable_HideColumn]" StartIcon="Icon.Eye_Slash" OnClick="@(() => SetColumnVisibleAsync(column.Name, false))" />
             }
-            <TwMenuDivider />
-            <TwMenuGroup Label="@localizer[TwStrings.DataTable_Columns]">
-                @foreach (var state in columnStates)
-                {
-                    var name = state.Name;
-                    <TwMenuCheckboxItem Label="@columnsByName[name].Title"
-                                        Checked="@state.Visible"
-                                        Disabled="@(!CanToggleColumn(state))"
-                                        CheckedChanged="@(visible => SetColumnVisibleAsync(name, visible))" />
-                }
-            </TwMenuGroup>
-            <TwMenuDivider />
-            <TwMenuItem Label="@localizer[TwStrings.DataTable_ResetColumns]" StartIcon="Icon.Arrow_Counterclockwise" OnClick="@ResetColumnsAsync" />
-        </TwMenu>;
+        </text>;
+
+    private RenderFragment columnToggleItems =>
+        @<TwMenuGroup Label="@localizer[TwStrings.DataTable_Columns]">
+            @foreach (var state in columnStates)
+            {
+                var name = state.Name;
+                <TwMenuCheckboxItem Label="@columnsByName[name].Title"
+                                    Checked="@state.Visible"
+                                    Disabled="@(!CanToggleColumn(state))"
+                                    CheckedChanged="@(visible => SetColumnVisibleAsync(name, visible))" />
+            }
+        </TwMenuGroup>;
 
     private RenderFragment<(TwDataTableColumn<TItem> Column, TwDataTableFilterCondition Condition, string Part)> filterCondition => context =>
         @<div class="@filterFormClasses">

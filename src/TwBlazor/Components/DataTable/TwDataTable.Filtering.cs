@@ -11,36 +11,6 @@ namespace TwBlazor.Components;
 
 public partial class TwDataTable<TItem>
 {
-    private static readonly TwDataTableFilterOperator[] _textOperators =
-    [
-        TwDataTableFilterOperator.Contains,
-        TwDataTableFilterOperator.DoesNotContain,
-        TwDataTableFilterOperator.StartsWith,
-        TwDataTableFilterOperator.EndsWith,
-        TwDataTableFilterOperator.IsEqualTo,
-        TwDataTableFilterOperator.IsNotEqualTo,
-        TwDataTableFilterOperator.IsEmpty,
-        TwDataTableFilterOperator.IsNotEmpty
-    ];
-
-    private static readonly TwDataTableFilterOperator[] _rangeOperators =
-    [
-        TwDataTableFilterOperator.IsEqualTo,
-        TwDataTableFilterOperator.IsNotEqualTo,
-        TwDataTableFilterOperator.IsGreaterThan,
-        TwDataTableFilterOperator.IsGreaterThanOrEqualTo,
-        TwDataTableFilterOperator.IsLessThan,
-        TwDataTableFilterOperator.IsLessThanOrEqualTo,
-        TwDataTableFilterOperator.IsEmpty,
-        TwDataTableFilterOperator.IsNotEmpty
-    ];
-
-    private static readonly TwDataTableFilterOperator[] _choiceOperators =
-    [
-        TwDataTableFilterOperator.IsEqualTo,
-        TwDataTableFilterOperator.IsNotEqualTo
-    ];
-
     private string? filterColumn;
     private TwDataTableColumnFilter filterDraft = new();
     private bool filterPanelOpening;
@@ -139,9 +109,9 @@ public partial class TwDataTable<TItem>
 
         return ResolveFilterType(column) switch
         {
-            TwDataTableFilterType.Number or TwDataTableFilterType.Date => _rangeOperators,
-            TwDataTableFilterType.Boolean or TwDataTableFilterType.Enum => _choiceOperators,
-            _ => _textOperators
+            TwDataTableFilterType.Number or TwDataTableFilterType.Date => TwDataTableFilterOperatorSets.Range,
+            TwDataTableFilterType.Boolean or TwDataTableFilterType.Enum => TwDataTableFilterOperatorSets.Choice,
+            _ => TwDataTableFilterOperatorSets.Text
         };
     }
 
@@ -168,7 +138,7 @@ public partial class TwDataTable<TItem>
     /// <summary>
     /// Whether a row passes every column filter.
     /// </summary>
-    private bool PassesFilters(TItem item, IReadOnlyList<(TwDataTableColumn<TItem> Column, TwDataTableColumnFilter Filter, TwDataTableFilterType Type)> filters) =>
+    private static bool PassesFilters(TItem item, IReadOnlyList<(TwDataTableColumn<TItem> Column, TwDataTableColumnFilter Filter, TwDataTableFilterType Type)> filters) =>
         filters.All(f => Matches(f.Column.PropertySelector!(item), f.Filter, f.Type));
 
     private static bool Matches(object? value, TwDataTableColumnFilter filter, TwDataTableFilterType type)
@@ -255,7 +225,7 @@ public partial class TwDataTable<TItem>
             return op == TwDataTableFilterOperator.IsNotEqualTo;
         }
 
-        return Compare(cell.CompareTo(number), op);
+        return MatchesComparison(cell.CompareTo(number), op);
     }
 
     private static bool CompareDate(object? value, string target, TwDataTableFilterOperator op)
@@ -273,7 +243,7 @@ public partial class TwDataTable<TItem>
             _ => null
         };
 
-        return cell is { } day ? Compare(day.CompareTo(date), op) : op == TwDataTableFilterOperator.IsNotEqualTo;
+        return cell is { } day ? MatchesComparison(day.CompareTo(date), op) : op == TwDataTableFilterOperator.IsNotEqualTo;
     }
 
     private static bool CompareChoice(object? value, string target, TwDataTableFilterOperator op)
@@ -284,7 +254,7 @@ public partial class TwDataTable<TItem>
         return op == TwDataTableFilterOperator.IsNotEqualTo ? !equal : equal;
     }
 
-    private static bool Compare(int comparison, TwDataTableFilterOperator op) => op switch
+    private static bool MatchesComparison(int comparison, TwDataTableFilterOperator op) => op switch
     {
         TwDataTableFilterOperator.IsNotEqualTo => comparison != 0,
         TwDataTableFilterOperator.IsGreaterThan => comparison > 0,

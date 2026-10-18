@@ -144,3 +144,49 @@ public sealed class TwDataTableColumnFilter
     /// <returns>A new <see cref="TwDataTableColumnFilter"/> with the same values.</returns>
     public TwDataTableColumnFilter Clone() => new() { First = First.Clone(), Logic = Logic, Second = Second?.Clone() };
 }
+
+/// <summary>
+/// The conditions each kind of column offers by default. They live outside the generic <see cref="TwDataTable{TItem}"/>
+/// so every table shares one copy.
+/// </summary>
+internal static class TwDataTableFilterOperatorSets
+{
+    /// <summary>
+    /// Gets the conditions for text columns.
+    /// </summary>
+    public static IReadOnlyList<TwDataTableFilterOperator> Text { get; } =
+    [
+        TwDataTableFilterOperator.Contains,
+        TwDataTableFilterOperator.DoesNotContain,
+        TwDataTableFilterOperator.StartsWith,
+        TwDataTableFilterOperator.EndsWith,
+        TwDataTableFilterOperator.IsEqualTo,
+        TwDataTableFilterOperator.IsNotEqualTo,
+        TwDataTableFilterOperator.IsEmpty,
+        TwDataTableFilterOperator.IsNotEmpty
+    ];
+
+    /// <summary>
+    /// Gets the conditions for number and date columns.
+    /// </summary>
+    public static IReadOnlyList<TwDataTableFilterOperator> Range { get; } =
+    [
+        TwDataTableFilterOperator.IsEqualTo,
+        TwDataTableFilterOperator.IsNotEqualTo,
+        TwDataTableFilterOperator.IsGreaterThan,
+        TwDataTableFilterOperator.IsGreaterThanOrEqualTo,
+        TwDataTableFilterOperator.IsLessThan,
+        TwDataTableFilterOperator.IsLessThanOrEqualTo,
+        TwDataTableFilterOperator.IsEmpty,
+        TwDataTableFilterOperator.IsNotEmpty
+    ];
+
+    /// <summary>
+    /// Gets the conditions for <see cref="bool"/> and enum columns.
+    /// </summary>
+    public static IReadOnlyList<TwDataTableFilterOperator> Choice { get; } =
+    [
+        TwDataTableFilterOperator.IsEqualTo,
+        TwDataTableFilterOperator.IsNotEqualTo
+    ];
+}

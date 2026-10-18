@@ -87,8 +87,20 @@ public partial class TwTableColumn : TwBlazorComponentBase, IDisposable
     /// </summary>
     public void Dispose()
     {
-        table?.UnregisterColumn(this);
+        Dispose(true);
         GC.SuppressFinalize(this);
+    }
+
+    /// <summary>
+    /// Removes the column from its table, so the table stops resizing it.
+    /// </summary>
+    /// <param name="disposing"><see langword="true"/> when called from <see cref="Dispose()"/>.</param>
+    protected virtual void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            table?.UnregisterColumn(this);
+        }
     }
 
     /// <summary>

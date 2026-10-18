@@ -360,13 +360,12 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
     /// <summary>
     /// Gets every column definition, shown or hidden, so a hidden column's filter still applies.
     /// </summary>
-    private IEnumerable<TwDataTableColumn<TItem>> AllColumns() => columnsByName.Values;
+    private Dictionary<string, TwDataTableColumn<TItem>>.ValueCollection AllColumns() => columnsByName.Values;
 
     private void UpdateDisplay()
     {
         if (usesProvider)
         {
-            displayedSegments = [];
             totalCount = providerTotalCount;
             displayedRows = loadedItems;
 
@@ -384,12 +383,10 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
             currentPage = Math.Clamp(currentPage, 1, TotalPages());
 
             var pageLines = isPaged ? lines.Skip((currentPage - 1) * rowsPerPage).Take(rowsPerPage).ToList() : lines;
-            BuildDisplayedSegments(pageLines);
             displayedRows = [.. pageLines.Where(l => !l.IsHeader).Select(l => l.Item!)];
             return;
         }
 
-        displayedSegments = [];
         totalCount = viewItems.Count;
         currentPage = Math.Clamp(currentPage, 1, TotalPages());
 

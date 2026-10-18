@@ -17,7 +17,6 @@ public partial class TwDataTable<TItem> : IAsyncDisposable
     private string? columnSignature;
     private string? pendingFocusId;
     private string? activeMenuColumn;
-    private ElementReference rootRef;
     private DotNetObjectReference<TwDataTable<TItem>>? selfReference;
 
     /// <summary>
@@ -162,6 +161,8 @@ public partial class TwDataTable<TItem> : IAsyncDisposable
 
     private bool CanToggleColumn(TwDataTableColumnState state) =>
         columnsByName[state.Name].Hideable && (!state.Visible || columnStates.Count(s => s.Visible) > 1);
+
+    private static bool CanSortColumn(TwDataTableColumn<TItem> column) => column.IsSortable && column.PropertySelector != null;
 
     private bool CanHideColumn(TwDataTableColumn<TItem> column) =>
         columnStates.FirstOrDefault(s => s.Name == column.Name) is { } state && state.Visible && CanToggleColumn(state);

@@ -1859,7 +1859,11 @@ globalThis.twTable = {
             // Keeps the separators in column order, which is their Tab order. A separator already in place is left
             // alone: moving the one being dragged would drop its pointer capture.
             const place = layer.children[order++] ?? null;
-            if (place !== handle) layer.insertBefore(handle, place);
+            if (place === null) {
+                layer.append(handle);
+            } else if (place !== handle) {
+                place.before(handle);
+            }
 
             const label = entry.col.dataset.twLabel || String(entry.index + 1);
             handle.setAttribute('aria-label', globalThis.twTable._format(layer.dataset.labelFormat, label));
@@ -2132,7 +2136,7 @@ globalThis.twMenu = {
                         target = items[0];
                         break;
                     case 'End':
-                        target = items[items.length - 1];
+                        target = items.at(-1);
                         break;
                     case 'Tab':
                         // Tab leaves the menu: close it and let the browser carry focus on.
@@ -2158,7 +2162,7 @@ globalThis.twMenu = {
         }
 
         const items = globalThis.twMenu._items(menu);
-        const first = focusWhich === 'last' ? items[items.length - 1] : items[0];
+        const first = focusWhich === 'last' ? items.at(-1) : items[0];
         (first ?? menu).focus();
     },
 
