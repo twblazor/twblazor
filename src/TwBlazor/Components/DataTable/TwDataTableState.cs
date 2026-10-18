@@ -1,6 +1,7 @@
 // Copyright (c) 2025 Jack Shuter @ TwBlazor - twblazor.com
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
+using System.Text.Json;
 using TwBlazor.Enums;
 
 namespace TwBlazor.Components;
@@ -60,6 +61,20 @@ public sealed class TwDataTableState
         RowsPerPage = RowsPerPage,
         Columns = [.. Columns.Select(c => c.Clone())]
     };
+}
+
+/// <summary>
+/// The JSON settings <see cref="TwDataTable{TItem}"/> saves its state with. They live outside the generic table so
+/// every table shares one cached instance, whatever its item type.
+/// </summary>
+internal static class TwDataTableStateJson
+{
+    private static readonly JsonSerializerOptions _options = new(JsonSerializerDefaults.Web);
+
+    /// <summary>
+    /// Gets the shared options: web defaults, so property names are camel case.
+    /// </summary>
+    public static JsonSerializerOptions Options => _options;
 }
 
 /// <summary>

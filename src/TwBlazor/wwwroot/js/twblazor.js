@@ -1743,7 +1743,7 @@ globalThis.twDataTable = {
     // The column group renders one <col> per visible column in header order, so a column's <col> and its
     // header cell share an index.
     _findColumn: function (root, name) {
-        const table = root && root.querySelector('table');
+        const table = root?.querySelector('table');
         if (!table) return null;
 
         const cols = Array.from(table.querySelectorAll(':scope > colgroup > col'));
@@ -1751,25 +1751,25 @@ globalThis.twDataTable = {
         if (index < 0) return null;
 
         const headerRow = table.querySelector(':scope > thead > tr');
-        const th = headerRow ? headerRow.children[index] : null;
+        const th = headerRow?.children[index] ?? null;
         return { col: cols[index], th: th };
     },
 
     measureColumn: function (root, name) {
         const found = globalThis.twDataTable._findColumn(root, name);
-        return found && found.th ? Math.round(found.th.getBoundingClientRect().width) : 0;
+        return found?.th ? Math.round(found.th.getBoundingClientRect().width) : 0;
     },
 
     attachResize: function (root, dotnetRef, minWidth, maxWidth) {
         if (!root || root.__twDataTableResize) return;
 
         const onPointerDown = function (e) {
-            const handle = e.target && e.target.closest ? e.target.closest('[data-resize-column]') : null;
+            const handle = e.target?.closest?.('[data-resize-column]') ?? null;
             if (!handle || !root.contains(handle) || e.button !== 0) return;
 
             const name = handle.dataset.resizeColumn;
             const found = globalThis.twDataTable._findColumn(root, name);
-            if (!found || !found.th) return;
+            if (!found?.th) return;
 
             e.preventDefault();
 
@@ -1780,9 +1780,7 @@ globalThis.twDataTable = {
             const towardsEnd = getComputedStyle(found.th).direction === 'rtl' ? -1 : 1;
             let width = startWidth;
 
-            if (handle.setPointerCapture) {
-                handle.setPointerCapture(e.pointerId);
-            }
+            handle.setPointerCapture?.(e.pointerId);
 
             const onMove = function (ev) {
                 width = Math.min(maxWidth, Math.max(minWidth, Math.round(startWidth + (ev.clientX - startX) * towardsEnd)));
@@ -1808,7 +1806,7 @@ globalThis.twDataTable = {
     },
 
     detachResize: function (root) {
-        if (!root || !root.__twDataTableResize) return;
+        if (!root?.__twDataTableResize) return;
         root.removeEventListener('pointerdown', root.__twDataTableResize);
         delete root.__twDataTableResize;
     }

@@ -8,6 +8,8 @@ namespace TwBlazor.Tests.Components.DataTable;
 
 public class TwDataTableStateTests : TwBlazorTestBase
 {
+    private static readonly JsonSerializerOptions _jsonOptions = new(JsonSerializerDefaults.Web);
+
     public TwDataTableStateTests()
     {
         TestContext.JSInterop.Setup<bool>("twDevice.prefersNativePicker").SetResult(true);
@@ -340,7 +342,7 @@ public class TwDataTableStateTests : TwBlazorTestBase
         // Arrange
         var saved = JsonSerializer.Serialize(
             new TwDataTableState { SortColumn = "name", SortDirection = SortDirection.Descending },
-            new JsonSerializerOptions(JsonSerializerDefaults.Web));
+            _jsonOptions);
         TestContext.JSInterop.Setup<string?>("twDataTable.loadState", "products-table").SetResult(saved);
 
         // Act
@@ -363,7 +365,7 @@ public class TwDataTableStateTests : TwBlazorTestBase
         // Assert
         var save = Assert.Single(TestContext.JSInterop.Invocations, i => i.Identifier == "twDataTable.saveState");
         Assert.Equal("products-table", save.Arguments[0]);
-        var stored = JsonSerializer.Deserialize<TwDataTableState>((string)save.Arguments[1]!, new JsonSerializerOptions(JsonSerializerDefaults.Web));
+        var stored = JsonSerializer.Deserialize<TwDataTableState>((string)save.Arguments[1]!, _jsonOptions);
         Assert.Equal("name", stored?.SortColumn);
     }
 

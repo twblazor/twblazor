@@ -10,8 +10,6 @@ namespace TwBlazor.Components;
 
 public partial class TwDataTable<TItem>
 {
-    private static readonly JsonSerializerOptions _stateJsonOptions = new(JsonSerializerDefaults.Web);
-
     [Inject] private IJSRuntime jsRuntime { get; set; } = null!;
 
     private TwDataTableState? lastAppliedState;
@@ -145,7 +143,7 @@ public partial class TwDataTable<TItem>
     {
         try
         {
-            await jsRuntime.InvokeVoidAsync("twDataTable.saveState", StateStorageKey, JsonSerializer.Serialize(snapshot, _stateJsonOptions));
+            await jsRuntime.InvokeVoidAsync("twDataTable.saveState", StateStorageKey, JsonSerializer.Serialize(snapshot, TwDataTableStateJson.Options));
         }
         catch (JSDisconnectedException)
         {
@@ -181,7 +179,7 @@ public partial class TwDataTable<TItem>
         TwDataTableState? stored;
         try
         {
-            stored = JsonSerializer.Deserialize<TwDataTableState>(json, _stateJsonOptions);
+            stored = JsonSerializer.Deserialize<TwDataTableState>(json, TwDataTableStateJson.Options);
         }
         catch (JsonException)
         {

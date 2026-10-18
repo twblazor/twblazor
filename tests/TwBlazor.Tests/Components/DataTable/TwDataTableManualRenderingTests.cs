@@ -148,9 +148,8 @@ public class TwDataTableManualRenderingTests : TwBlazorTestBase
             .Add(p => p.Items, [null!]));
 
         // Assert - the null item is skipped, so the table reads as empty
-        var rows = cut.FindAll("tbody tr");
-        Assert.Single(rows);
-        Assert.Equal("No data available.", rows[0].TextContent.Trim());
+        var row = Assert.Single(cut.FindAll("tbody tr"));
+        Assert.Equal("No data available.", row.TextContent.Trim());
     }
 
     [Fact]

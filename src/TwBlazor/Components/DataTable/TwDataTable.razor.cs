@@ -360,13 +360,29 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
         currentSearchQuery = string.IsNullOrWhiteSpace(value) ? null : value;
         RefreshView(resetPage: true);
 
-        sortStatusMessage = currentSearchQuery is null
-            ? localizer[TwStrings.DataTable_SearchCleared]
-            : displayedRows.Count == 0
-                ? localizer[TwStrings.DataTable_NoSearchResults]
-                : localizer.Plural(totalCount, TwStrings.DataTable_MatchingOne, TwStrings.DataTable_MatchingOther, totalCount);
+        sortStatusMessage = SearchStatusMessage(totalCount);
 
         await NotifyStateChangedAsync();
+    }
+
+    /// <summary>
+    /// Describes the result of a search for assistive technology.
+    /// </summary>
+    /// <param name="matchingCount">How many rows match the search.</param>
+    /// <returns>The message to announce.</returns>
+    private string SearchStatusMessage(int matchingCount)
+    {
+        if (currentSearchQuery is null)
+        {
+            return localizer[TwStrings.DataTable_SearchCleared];
+        }
+
+        if (matchingCount == 0)
+        {
+            return localizer[TwStrings.DataTable_NoSearchResults];
+        }
+
+        return localizer.Plural(matchingCount, TwStrings.DataTable_MatchingOne, TwStrings.DataTable_MatchingOther, matchingCount);
     }
 
     private static bool ItemMatchesQuery(TItem item, string query)
