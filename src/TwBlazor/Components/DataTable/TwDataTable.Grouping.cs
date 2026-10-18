@@ -221,9 +221,19 @@ public partial class TwDataTable<TItem>
 
         public int Compare(object? x, object? y)
         {
-            if (x is null || y is null)
+            if (x is null && y is null)
             {
-                return x is null ? (y is null ? 0 : -1) : 1;
+                return 0;
+            }
+
+            if (x is null)
+            {
+                return -1;
+            }
+
+            if (y is null)
+            {
+                return 1;
             }
 
             try
