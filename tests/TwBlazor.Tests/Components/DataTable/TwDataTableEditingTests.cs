@@ -73,7 +73,7 @@ public class TwDataTableEditingTests : TwBlazorTestBase
         var cut = Render();
 
         // Assert
-        Assert.Equal("Actions", cut.FindAll("thead th").Last().TextContent.Trim());
+        Assert.Equal("Actions", cut.FindAll("thead th")[^1].TextContent.Trim());
         Assert.Equal("Edit Kettle", cut.Find("#products-edit-row-0").GetAttribute("aria-label"));
         Assert.Equal("Edit Armchair", cut.Find("#products-edit-row-1").GetAttribute("aria-label"));
     }

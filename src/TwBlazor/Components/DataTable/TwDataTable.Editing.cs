@@ -66,7 +66,7 @@ public partial class TwDataTable<TItem>
 
     private bool CanEdit(TItem row) => CanEditRow?.Invoke(row) ?? true;
 
-    private bool IsEditableColumn(TwDataTableColumn<TItem> column) => column.Editable && column.PropertySelector is not null;
+    private static bool IsEditableColumn(TwDataTableColumn<TItem> column) => column.Editable && column.PropertySelector is not null;
 
     private string LabelFor(TItem row)
     {

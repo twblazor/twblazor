@@ -325,7 +325,7 @@
             }
         </text>;
 
-    private RenderFragment<(TItem Row, TwDataTableColumn<TItem> Column)> displayValue => context =>
+    private static RenderFragment<(TItem Row, TwDataTableColumn<TItem> Column)> displayValue => context =>
         @<text>
             @if (context.Column.CellFormatter != null)
             {
