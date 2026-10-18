@@ -26,23 +26,10 @@
     <a href="https://twblazor.github.io/twblazor/" target="_blank">API Documentation (docfx)</a> &bullet; <a href="https://twblazor.com/" target="_blank">Component Documentation (twblazor.com)</a> &bullet; <a href="https://twblazor.com/get-started" target="_blank">Get Started</a> &bullet; <a href="https://twblazor.com/ai-agents" target="_blank">AI Agents &amp; Skills</a>
 </p>
 
-**Using Claude Code or another AI agent?** Install the twblazor skills so it sets up, themes and uses twblazor with the real components and parameters instead of guessing. Run from your project root:
-
-```bash
-curl -L -o twblazor-skills.zip https://twblazor.com/skills/twblazor-skills.zip
-mkdir -p .claude/skills && unzip -o twblazor-skills.zip -d .claude/skills && rm twblazor-skills.zip
-```
-
-```pwsh
-Invoke-WebRequest https://twblazor.com/skills/twblazor-skills.zip -OutFile twblazor-skills.zip
-Expand-Archive twblazor-skills.zip -DestinationPath .claude/skills -Force; Remove-Item twblazor-skills.zip
-```
-
-See [AI Agents & Skills](https://twblazor.com/ai-agents) for each skill, the Claude apps and `llms.txt`.
-
 ## Contents
 
 - [Why twblazor?](#why-twblazor)
+- [AI agent skills](#ai-agent-skills)
 - [Setup](#setup)
 - [Class merging](#class-merging)
 - [Localization](#localization)
@@ -61,6 +48,48 @@ See [AI Agents & Skills](https://twblazor.com/ai-agents) for each skill, the Cla
 - Contributions, issues and feedback are welcome from everyone using it.
 
 Using twblazor in your own project? Share it [here](https://github.com/TwBlazor/twblazor/discussions/81). We would love to see what you're building!
+
+## AI agent skills
+
+Using Claude Code or another AI coding agent? twblazor publishes four skills that teach it to set up, theme, localize and build with twblazor using the real components and parameters, instead of guessing or borrowing another library's API:
+
+- `twblazor-setup`: adds twblazor to a Blazor Server or WebAssembly app.
+- `twblazor-theming`: creates and changes your `Theme.cs` through the Theme builder.
+- `twblazor-components`: writes markup using only the parameters each component has.
+- `twblazor-localization`: translations, date and time formats and right to left layouts.
+
+A skill is a folder the agent reads only when a task needs it. The commands below download all four as one zip and extract them into `.claude/skills`, the folder Claude Code loads skills from. Run them from your project's root folder (the one holding your `.sln` or `.csproj`), then start a new Claude Code session.
+
+macOS and Linux:
+
+```bash
+# Download every twblazor skill as one zip
+curl -L -o twblazor-skills.zip https://twblazor.com/skills/twblazor-skills.zip
+
+# Extract it into .claude/skills, creating the folder if needed and replacing older copies
+mkdir -p .claude/skills
+unzip -o twblazor-skills.zip -d .claude/skills
+
+# Delete the downloaded zip
+rm twblazor-skills.zip
+```
+
+Windows PowerShell:
+
+```pwsh
+# Download every twblazor skill as one zip
+Invoke-WebRequest https://twblazor.com/skills/twblazor-skills.zip -OutFile twblazor-skills.zip
+
+# Extract it into .claude/skills, creating the folder if needed and replacing older copies
+Expand-Archive twblazor-skills.zip -DestinationPath .claude/skills -Force
+
+# Delete the downloaded zip
+Remove-Item twblazor-skills.zip
+```
+
+This installs the skills for that project only. Commit the `.claude/skills` folder and everyone working on the project gets them too. To have them in every project on your machine instead, use `~/.claude/skills` as the destination in place of `.claude/skills`. Run the commands again after upgrading twblazor to get skills that match the new release.
+
+See [AI Agents & Skills](https://twblazor.com/ai-agents) for what each skill covers, using them in the Claude apps and pointing other assistants at `llms.txt`.
 
 ## Setup
 
