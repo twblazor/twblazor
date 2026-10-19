@@ -63,6 +63,12 @@
   <data name="Common_No" xml:space="preserve">
     <value>Ora</value>
   </data>
+  <data name="Autocomplete_ResultsOne" xml:space="preserve">
+    <value>{0} asil kasedhiya</value>
+  </data>
+  <data name="Autocomplete_ResultsOther" xml:space="preserve">
+    <value>{0} asil kasedhiya</value>
+  </data>
   <data name="Breadcrumb_Label" xml:space="preserve">
     <value>Tilas navigasi</value>
   </data>

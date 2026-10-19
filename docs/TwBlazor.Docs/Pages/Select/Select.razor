@@ -72,6 +72,58 @@
         </CodeExample>
     </PageCard>
 
+    <PageCard Title="Clearable select">
+        <Description>
+            Set <code>Clearable</code> for a button at the end of the field that clears the selection: <code>SelectedValue</code> goes back to its default, such as <code>null</code>, and a <code>Multiple</code> select's <code>SelectedValues</code> becomes empty. <code>OnClear</code> runs afterwards.
+            The button is shown in every mode, the native picker on iOS and Android included, and is disabled while nothing is selected. It is left out of the Tab order, so from the keyboard press <code>Delete</code> or <code>Backspace</code> on the field instead.
+            A <code>Required</code> single select always keeps a value, so it shows no clear button.
+        </Description>
+        <CodeExample Name="SelectClearable" CSharpName="SelectClearableCode">
+            <div class="flex flex-col lg:flex-row gap-4">
+                <TwSelect T="string"
+                          Label="Country"
+                          Values="@_countries"
+                          Clearable
+                          @bind-SelectedValue="@clearableCountry"
+                          RootClass="flex-1" />
+
+                <TwSelect T="string"
+                          Label="Skills"
+                          Values="@_skills"
+                          Multiple
+                          Clearable
+                          @bind-SelectedValues="@clearableSkills"
+                          RootClass="flex-1" />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Item templates">
+        <Description>
+            Add an <code>ItemTemplate</code> to draw each option in the list your own way. The closed field, and the chips of a <code>Multiple</code> select, still show the option's display text from <code>PropertyName</code>.
+        </Description>
+        <TwAlert Color="Color.Primary" StartIcon="Icon.Info_Circle" Class="mb-4 ps-3">
+            <p class="font-semibold">The native picker falls back to the display text</p>
+            On iOS and Android the select uses the browser's native picker (see <a href="#desktop-and-mobile-behavior">Desktop and mobile behavior</a>), and a native <code>&lt;option&gt;</code> can only hold text.
+            There the template is not used: each option falls back to its display text from <code>PropertyName</code>, or <code>ToString()</code> when no property is named. The same happens when <code>PreferNativePicker</code> is <code>true</code>.
+            Keep the display text meaningful on its own, so the select still reads well on a phone.
+        </TwAlert>
+        <CodeExample Name="SelectItemTemplate" CSharpName="SelectItemTemplateCode">
+            <TwSelect T="Person"
+                      Label="Select Person"
+                      Values="@_people"
+                      PropertyName="Name"
+                      @bind-SelectedValue="@templatedPerson">
+                <ItemTemplate>
+                    <span class="flex flex-col">
+                        <span>@context.Name</span>
+                        <span class="text-xs text-gray-600 dark:text-gray-400">@context.City, age @context.Age</span>
+                    </span>
+                </ItemTemplate>
+            </TwSelect>
+        </CodeExample>
+    </PageCard>
+
     <PageCard Title="Required select">
         <Description>Set the <code>Required</code> property to mark the select as a required field. A select that is not required lists its <code>Placeholder</code> as the first option, and choosing it clears the selection, setting <code>SelectedValue</code> back to its default, such as <code>null</code>. A required select leaves the placeholder out, so a value always stays chosen.</Description>
         <CodeExample Name="SelectRequired">
@@ -168,6 +220,15 @@
     #region CodeExample SelectBasicCode
     private string selectedCountry = string.Empty;
     private readonly string[] _countries = ["USA", "Canada", "UK", "Germany", "France", "Japan", "Australia"];
+    #endregion
+
+    #region CodeExample SelectClearableCode
+    private string? clearableCountry = "Canada";
+    private IEnumerable<string> clearableSkills = ["C#", "SQL"];
+    #endregion
+
+    #region CodeExample SelectItemTemplateCode
+    private Person? templatedPerson;
     #endregion
 
     #region CodeExample SelectDenseCode

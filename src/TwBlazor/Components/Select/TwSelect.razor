@@ -11,8 +11,11 @@
 
     @if (!Multiple && UseNativePicker)
     {
+        <div class="@options.Theme.Position.Relative">
         <select id="@Id"
                 class="@classes"
+                style="@clearPaddingStyle"
+                value="@selectedValueId"
                 required="@Required"
                 @onchange="@HandleChange"
                 @attributes="@Attributes"
@@ -24,7 +27,7 @@
                 aria-labelledby="@AriaLabelledBy">
             @if (!Required)
             {
-                <option value="0" class="@theme.SelectOption">@effectivePlaceholder</option>
+                <option value="0" selected="@(selectedValueId == 0)" class="@theme.SelectOption">@effectivePlaceholder</option>
             }
             @foreach (var (key, value) in parsedValues)
             {
@@ -33,6 +36,8 @@
                 </option>
             }
         </select>
+        @clearButton
+        </div>
     }
     else if (!Multiple)
     {
@@ -54,9 +59,10 @@
                     @attributes="@Attributes"
                     @onclick="@ToggleOrOpenPanelAsync"
                     @onkeydown="@OnSelectTriggerKeyDownAsync">
-                <span class="@(hasSelection ? "truncate" : $"truncate {theme.SelectCustomPlaceholder}")">@(hasSelection ? selectedDisplayText : effectivePlaceholder)</span>
+                <span class="@(hasSelection ? "truncate" : $"truncate {theme.SelectCustomPlaceholder}")" style="@clearTextStyle">@(hasSelection ? selectedDisplayText : effectivePlaceholder)</span>
                 <TwIcon Icon="Icon.Chevron_Down" Plain Class="@chevronClasses" aria-hidden="true" />
             </button>
+            @clearButton
 
             @if (isFocused)
             {
@@ -77,7 +83,7 @@
                                 <div id="@OptionId(key)" role="option" class="@theme.SelectCustomOption" data-value="@key"
                                      aria-selected="@(key == selectedValueId ? "true" : "false")"
                                      @onclick="@(() => SelectOptionAsync(key))">
-                                    <span class="truncate">@GetDisplayText(value)</span>
+                                    @OptionContent(value)
                                     @if (key == selectedValueId)
                                     {
                                         <TwIcon Icon="Icon.Check2" Plain Class="@theme.SelectCustomCheck" aria-hidden="true" />
@@ -93,7 +99,7 @@
     else if (UseNativePicker)
     {
         <div class="@options.Theme.Position.Relative">
-            <div class="@triggerClasses" aria-hidden="true">
+            <div class="@triggerClasses" style="@clearPaddingStyle" aria-hidden="true">
                 @if (selectedValueIds.Count == 0)
                 {
                     <span class="@theme.SelectCustomPlaceholder">@effectivePlaceholder</span>
@@ -109,6 +115,7 @@
             </div>
 
             <select id="@Id"
+                    @ref="@nativeMultipleRef"
                     multiple
                     class="@nativeOverlayClasses"
                     required="@Required"
@@ -127,12 +134,13 @@
                     </option>
                 }
             </select>
+            @clearButton
         </div>
     }
     else
     {
         <div class="@options.Theme.Position.Relative">
-            <div class="@triggerClasses" @onclick="@ToggleOrOpenPanelAsync">
+            <div class="@triggerClasses" style="@clearPaddingStyle" @onclick="@ToggleOrOpenPanelAsync">
                 @foreach (var id in orderedSelectedValueIds)
                 {
                     <span @onclick:stopPropagation="true">
@@ -166,6 +174,7 @@
                 </button>
                 <TwIcon Icon="Icon.Chevron_Down" Plain Class="@multiChevronClasses" aria-hidden="true" />
             </div>
+            @clearButton
 
             @if (isFocused)
             {
@@ -178,7 +187,7 @@
                                 <div id="@OptionId(key)" role="option" class="@theme.SelectCustomOption" data-value="@key"
                                      aria-selected="@(selectedValueIds.Contains(key) ? "true" : "false")"
                                      @onclick="@(() => ToggleOptionAsync(key))">
-                                    <span class="truncate">@GetDisplayText(value)</span>
+                                    @OptionContent(value)
                                     @if (selectedValueIds.Contains(key))
                                     {
                                         <TwIcon Icon="Icon.Check2" Plain Class="@theme.SelectCustomCheck" aria-hidden="true" />
@@ -192,3 +201,36 @@
         </div>
     }
 </TwInputRoot>
+
+@code {
+    /// <summary>
+    /// The clear button drawn over the end of the field, just before the chevron, when <see cref="Clearable"/> is set.
+    /// It is left out of the Tab order, as the text field's is; Delete and Backspace on the field clear it instead.
+    /// </summary>
+    private RenderFragment clearButton => @<text>
+        @if (showClearButton)
+        {
+            <div class="@theme.FieldEndContent" style="@clearWrapperStyle">
+                <button type="button"
+                        class="@theme.ClearButton"
+                        style="@clearButtonStyle"
+                        tabindex="-1"
+                        aria-label="@localizer[TwStrings.Textfield_Clear]"
+                        aria-controls="@Id"
+                        disabled="@(!canClear)"
+                        data-tw-field-button
+                        @onclick="@ClearAsync"
+                        @onclick:stopPropagation="true">
+                    <TwIcon Icon="Icon.X_Lg" Class="@theme.ClearButtonIcon" />
+                </button>
+            </div>
+        }
+    </text>;
+
+    /// <summary>
+    /// The content of one option in the custom listbox: <see cref="ItemTemplate"/> when set, otherwise its display text.
+    /// </summary>
+    private RenderFragment OptionContent(T value) => ItemTemplate is not null
+        ? ItemTemplate(value)
+        : @<span class="truncate">@GetDisplayText(value)</span>;
+}

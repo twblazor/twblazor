@@ -63,6 +63,12 @@
   <data name="Common_No" xml:space="preserve">
     <value>Không</value>
   </data>
+  <data name="Autocomplete_ResultsOne" xml:space="preserve">
+    <value>Có {0} kết quả</value>
+  </data>
+  <data name="Autocomplete_ResultsOther" xml:space="preserve">
+    <value>Có {0} kết quả</value>
+  </data>
   <data name="Breadcrumb_Label" xml:space="preserve">
     <value>Đường dẫn điều hướng</value>
   </data>

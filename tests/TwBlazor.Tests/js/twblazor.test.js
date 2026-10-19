@@ -2696,3 +2696,207 @@ describe('twNumeric', () => {
         expect(event.defaultPrevented).toBe(false);
     });
 });
+
+describe('twAutocomplete', () => {
+    let input;
+    let listbox;
+    let dotnetRef;
+
+    function build(optionTexts, { open = true } = {}) {
+        input = document.createElement('input');
+        document.body.appendChild(input);
+        listbox = null;
+        if (open) {
+            listbox = document.createElement('div');
+            listbox.id = 'ac-listbox';
+            listbox.setAttribute('role', 'listbox');
+            optionTexts.forEach((text, i) => {
+                const option = document.createElement('div');
+                option.id = `ac-${i}`;
+                option.setAttribute('role', 'option');
+                option.setAttribute('data-value', String(i + 1));
+                option.textContent = text;
+                option.scrollIntoView = vi.fn();
+                listbox.appendChild(option);
+            });
+            document.body.appendChild(listbox);
+            input.setAttribute('aria-controls', 'ac-listbox');
+        }
+        dotnetRef = { invokeMethodAsync: vi.fn() };
+        window.twAutocomplete.attach(input, dotnetRef);
+    }
+
+    function press(key, init = {}) {
+        const e = new KeyboardEvent('keydown', { key, bubbles: true, cancelable: true, ...init });
+        input.dispatchEvent(e);
+        return e;
+    }
+
+    const activeId = () => input.getAttribute('aria-activedescendant');
+
+    afterEach(() => {
+        window.twAutocomplete.detach(input);
+        input?.remove();
+        listbox?.remove();
+    });
+
+    test('ArrowDown on a closed field asks .NET to open it on the first option', () => {
+        build([], { open: false });
+
+        const e = press('ArrowDown');
+
+        expect(e.defaultPrevented).toBe(true);
+        expect(dotnetRef.invokeMethodAsync).toHaveBeenCalledWith('OpenFromKeyboard', 'first');
+    });
+
+    test('Alt + ArrowDown opens the list without a highlight', () => {
+        build([], { open: false });
+
+        press('ArrowDown', { altKey: true });
+
+        expect(dotnetRef.invokeMethodAsync).toHaveBeenCalledWith('OpenFromKeyboard', null);
+    });
+
+    test('ArrowUp on a closed field asks .NET to open it on the last option', () => {
+        build([], { open: false });
+
+        press('ArrowUp');
+
+        expect(dotnetRef.invokeMethodAsync).toHaveBeenCalledWith('OpenFromKeyboard', 'last');
+    });
+
+    test('ArrowDown and ArrowUp move the highlight and wrap at the ends, keeping focus in the field', () => {
+        build(['Canada', 'France', 'Germany']);
+        input.focus();
+
+        press('ArrowDown');
+        expect(activeId()).toBe('ac-0');
+        press('ArrowDown');
+        press('ArrowDown');
+        expect(activeId()).toBe('ac-2');
+        press('ArrowDown');
+        expect(activeId()).toBe('ac-0');
+        press('ArrowUp');
+        expect(activeId()).toBe('ac-2');
+        expect(document.getElementById('ac-2').dataset.active).toBe('true');
+        expect(document.getElementById('ac-0').dataset.active).toBeUndefined();
+        expect(document.activeElement).toBe(input);
+        expect(dotnetRef.invokeMethodAsync).not.toHaveBeenCalled();
+    });
+
+    test('Enter commits the highlighted option', () => {
+        build(['Canada', 'France']);
+        press('ArrowDown');
+        press('ArrowDown');
+
+        const e = press('Enter');
+
+        expect(e.defaultPrevented).toBe(true);
+        expect(dotnetRef.invokeMethodAsync).toHaveBeenCalledWith('SelectOption', 2);
+    });
+
+    test('Enter with nothing highlighted keeps its default so a form still submits', () => {
+        build(['Canada']);
+
+        const e = press('Enter');
+
+        expect(e.defaultPrevented).toBe(false);
+        expect(dotnetRef.invokeMethodAsync).not.toHaveBeenCalled();
+    });
+
+    test('ignores keys on a read only field and with Ctrl held', () => {
+        build([], { open: false });
+        input.readOnly = true;
+        press('ArrowDown');
+        input.readOnly = false;
+        press('ArrowDown', { ctrlKey: true });
+
+        expect(dotnetRef.invokeMethodAsync).not.toHaveBeenCalled();
+    });
+
+    test('refresh highlights the first or last option, or clears the highlight', () => {
+        build(['Canada', 'France', 'Germany']);
+
+        window.twAutocomplete.refresh(input, 'last');
+        expect(activeId()).toBe('ac-2');
+        window.twAutocomplete.refresh(input, 'first');
+        expect(activeId()).toBe('ac-0');
+        window.twAutocomplete.refresh(input, 'reset');
+        expect(input.hasAttribute('aria-activedescendant')).toBe(false);
+    });
+
+    test('refresh drops a highlight whose option was filtered out', () => {
+        build(['Canada', 'France']);
+        window.twAutocomplete.refresh(input, 'last');
+
+        document.getElementById('ac-1').remove();
+        window.twAutocomplete.refresh(input, null);
+
+        expect(input.hasAttribute('aria-activedescendant')).toBe(false);
+    });
+
+    test('refresh keeps a highlight whose option is still shown', () => {
+        build(['Canada', 'France']);
+        window.twAutocomplete.refresh(input, 'last');
+
+        window.twAutocomplete.refresh(input, null);
+
+        expect(activeId()).toBe('ac-1');
+    });
+
+    test('refresh clears the highlight once the list has closed', () => {
+        build(['Canada']);
+        window.twAutocomplete.refresh(input, 'first');
+
+        input.removeAttribute('aria-controls');
+        window.twAutocomplete.refresh(input, null);
+
+        expect(input.hasAttribute('aria-activedescendant')).toBe(false);
+    });
+
+    test('moving the pointer over an option highlights it', () => {
+        build(['Canada', 'France']);
+        window.twAutocomplete.refresh(input, null);
+
+        document.getElementById('ac-1').dispatchEvent(new Event('pointermove', { bubbles: true }));
+
+        expect(activeId()).toBe('ac-1');
+    });
+
+    test('detach removes the key handling', () => {
+        build([], { open: false });
+
+        window.twAutocomplete.detach(input);
+        press('ArrowDown');
+
+        expect(dotnetRef.invokeMethodAsync).not.toHaveBeenCalled();
+    });
+
+    test('attach and refresh ignore a missing field', () => {
+        expect(() => window.twAutocomplete.attach(null, {})).not.toThrow();
+        expect(() => window.twAutocomplete.refresh(null, 'first')).not.toThrow();
+        expect(() => window.twAutocomplete.detach(null)).not.toThrow();
+    });
+});
+
+describe('twSelect.deselectAll', () => {
+    test('deselects every option of a native multiple select, including ones the user picked', () => {
+        const select = document.createElement('select');
+        select.multiple = true;
+        ['1', '2', '3'].forEach((value) => {
+            const option = document.createElement('option');
+            option.value = value;
+            select.appendChild(option);
+        });
+        select.options[0].selected = true;
+        select.options[2].selected = true;
+
+        window.twSelect.deselectAll(select);
+
+        expect(Array.from(select.options).some((o) => o.selected)).toBe(false);
+    });
+
+    test('ignores a missing element', () => {
+        expect(() => window.twSelect.deselectAll(null)).not.toThrow();
+    });
+});

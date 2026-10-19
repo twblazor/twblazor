@@ -63,6 +63,12 @@
   <data name="Common_No" xml:space="preserve">
     <value>خیر</value>
   </data>
+  <data name="Autocomplete_ResultsOne" xml:space="preserve">
+    <value>{0} نتیجه موجود است</value>
+  </data>
+  <data name="Autocomplete_ResultsOther" xml:space="preserve">
+    <value>{0} نتیجه موجود است</value>
+  </data>
   <data name="Breadcrumb_Label" xml:space="preserve">
     <value>مسیر پیمایش</value>
   </data>

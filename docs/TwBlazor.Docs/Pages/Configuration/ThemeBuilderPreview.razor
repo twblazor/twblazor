@@ -58,7 +58,7 @@
             </TwCard>
         }
 
-        @if (Has("TwTextfield", "TwNumeric", "TwSelect", "TwColorPicker"))
+        @if (Has("TwTextfield", "TwNumeric", "TwSelect", "TwAutocomplete", "TwColorPicker"))
         {
             <TwCard Title="Text and choices" Class="@cardClass" @attributes="look">
                 <div class="@fieldsClass">
@@ -74,6 +74,10 @@
                     @if (Has("TwSelect"))
                     {
                         <TwSelect T="string" Id="preview-plan" Label="Plan" Values="@_plans" @bind-SelectedValue="plan" @attributes="InputLook()" />
+                    }
+                    @if (Has("TwAutocomplete"))
+                    {
+                        <TwAutocomplete T="string" Id="preview-region" Label="Region" Values="@_regions" @bind-SelectedValue="region" @attributes="InputLook()" />
                     }
                     @if (Has("TwColorPicker"))
                     {
@@ -510,7 +514,7 @@
     private static readonly string[] _sampled =
     [
         "TwNavbar", "TwButton", "TwIcon", "TwTooltip", "TwFileUpload",
-        "TwTextfield", "TwNumeric", "TwSelect", "TwColorPicker", "TwDatePicker", "TwTimePicker", "TwDateTimePicker", "TwDateRangePicker", "TwTimeRangePicker", "TwDateTimeRangePicker", "TwSwitch", "TwCheckbox", "TwRadioButton", "TwRating", "TwSlider",
+        "TwTextfield", "TwNumeric", "TwSelect", "TwAutocomplete", "TwColorPicker", "TwDatePicker", "TwTimePicker", "TwDateTimePicker", "TwDateRangePicker", "TwTimeRangePicker", "TwDateTimeRangePicker", "TwSwitch", "TwCheckbox", "TwRadioButton", "TwRating", "TwSlider",
         "TwAlert", "TwChip", "TwAvatar", "TwProgress", "TwSpinner", "TwSkeleton",
         "TwBreadcrumb", "TwStepper", "TwPagination", "TwTabContainer", "TwCollapse", "TwTreeList", "TwCarousel", "TwFooter",
         "TwDataTable", "TwTable", "TwPickList", "TwBarcode", "TwQrCode",
@@ -593,6 +597,7 @@
     private string name = string.Empty;
     private string email = string.Empty;
     private string plan = "Team";
+    private string region = "North";
     private string labelColor = "#0ea5e9";
     private DateTime date = new(2026, 11, 2, 0, 0, 0, DateTimeKind.Unspecified);
     private TimeOnly time = new(9, 30);

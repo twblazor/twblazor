@@ -1,12 +1,15 @@
 // Copyright (c) 2025 Jack Shuter @ TwBlazor - twblazor.com
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
+using System.Diagnostics.CodeAnalysis;
+
 namespace TwBlazor.Models;
 
 /// <summary>
 /// Represents an item in a checkbox group with a label, value, and selection state.
 /// </summary>
 /// <typeparam name="TValue">The type of the value associated with the checkbox.</typeparam>
+[ExcludeFromCodeCoverage]
 public class CheckboxGroupItem<TValue>
 {
     /// <summary>

@@ -1172,6 +1172,13 @@ globalThis.twCarousel = {
 globalThis.twSelect = {
     _typeaheadResetMs: 500,
 
+    // Deselects every option of a native <select multiple>. Removing an option's selected attribute does not
+    // deselect an option the user picked, so clearing has to set the property.
+    deselectAll: function (select) {
+        if (!select?.options) return;
+        Array.from(select.options).forEach(function (option) { option.selected = false; });
+    },
+
     attachListbox: function (listbox, dotnetRef, selectedOptionId, commitMethod) {
         if (!listbox || listbox.__twSelectAttached) return;
         listbox.__twSelectAttached = true;
@@ -1259,6 +1266,116 @@ globalThis.twSelect = {
         const initial = (selectedOptionId && document.getElementById(selectedOptionId)) || options()[0];
         setActive(initial);
         listbox.focus({ preventScroll: true });
+    }
+};
+
+// Autocomplete: keyboard navigation for the suggestions list. Unlike twSelect, focus stays in the text
+// field so the user can keep typing, and the highlighted suggestion is exposed through the field's
+// aria-activedescendant (the APG combobox pattern). The list is found through the field's aria-controls,
+// which is only set while it is shown. Runs client-side so an arrow key never waits on a server round trip.
+globalThis.twAutocomplete = {
+    _listbox: function (input) {
+        const id = input.getAttribute('aria-controls');
+        return id ? document.getElementById(id) : null;
+    },
+
+    _options: function (listbox) {
+        return listbox ? Array.from(listbox.querySelectorAll('[role="option"]')) : [];
+    },
+
+    _setActive: function (input, listbox, option) {
+        globalThis.twAutocomplete._options(listbox).forEach(function (o) { delete o.dataset.active; });
+        if (!option) {
+            input.removeAttribute('aria-activedescendant');
+            return;
+        }
+        option.dataset.active = 'true';
+        input.setAttribute('aria-activedescendant', option.id);
+        option.scrollIntoView?.({ block: 'nearest' });
+    },
+
+    attach: function (input, dotnetRef) {
+        if (!input || input.__twAutocomplete) return;
+
+        const keydown = function (e) {
+            if (e.ctrlKey || e.metaKey || input.readOnly || input.disabled) return;
+
+            const self = globalThis.twAutocomplete;
+            const listbox = self._listbox(input);
+            const all = self._options(listbox);
+            const activeId = input.getAttribute('aria-activedescendant');
+            const current = all.findIndex(function (o) { return o.id === activeId; });
+
+            switch (e.key) {
+                case 'ArrowDown':
+                    e.preventDefault();
+                    if (all.length === 0) {
+                        // Alt + Arrow Down opens the list without moving into it.
+                        void globalThis.twPicker._invokeSafely(dotnetRef, 'OpenFromKeyboard', e.altKey ? null : 'first');
+                    } else if (!e.altKey) {
+                        self._setActive(input, listbox, all[(current + 1) % all.length]);
+                    }
+                    break;
+                case 'ArrowUp':
+                    e.preventDefault();
+                    if (all.length === 0) {
+                        void globalThis.twPicker._invokeSafely(dotnetRef, 'OpenFromKeyboard', 'last');
+                    } else {
+                        self._setActive(input, listbox, all[current <= 0 ? all.length - 1 : current - 1]);
+                    }
+                    break;
+                case 'Enter':
+                    // With nothing highlighted Enter keeps its default, so it still submits a form.
+                    if (current >= 0) {
+                        e.preventDefault();
+                        void globalThis.twPicker._invokeSafely(dotnetRef, 'SelectOption', Number.parseInt(all[current].dataset.value, 10));
+                    }
+                    break;
+            }
+        };
+
+        input.__twAutocomplete = { keydown };
+        input.addEventListener('keydown', keydown);
+    },
+
+    // Called after each render while the list is open, and once after it closes. Options that were filtered
+    // out take the highlight with them, and `highlight` ('first', 'last' or 'reset') moves it on purpose.
+    refresh: function (input, highlight) {
+        if (!input) return;
+        const self = globalThis.twAutocomplete;
+        const listbox = self._listbox(input);
+        if (!listbox) {
+            input.removeAttribute('aria-activedescendant');
+            return;
+        }
+
+        if (!listbox.__twAutocompletePointer) {
+            listbox.__twAutocompletePointer = true;
+            listbox.addEventListener('pointermove', function (e) {
+                const option = e.target.closest?.('[role="option"]');
+                if (option && option.dataset.active !== 'true') {
+                    self._setActive(input, listbox, option);
+                }
+            });
+        }
+
+        const all = self._options(listbox);
+        if (highlight === 'first') {
+            self._setActive(input, listbox, all[0]);
+        } else if (highlight === 'last') {
+            self._setActive(input, listbox, all.at(-1));
+        } else if (highlight === 'reset') {
+            self._setActive(input, listbox, null);
+        } else {
+            const activeId = input.getAttribute('aria-activedescendant');
+            self._setActive(input, listbox, all.find(function (o) { return o.id === activeId; }) ?? null);
+        }
+    },
+
+    detach: function (input) {
+        if (!input?.__twAutocomplete) return;
+        input.removeEventListener('keydown', input.__twAutocomplete.keydown);
+        delete input.__twAutocomplete;
     }
 };
 
