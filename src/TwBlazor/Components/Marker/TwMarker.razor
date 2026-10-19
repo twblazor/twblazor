@@ -5,11 +5,11 @@
 @if (Variant == MarkerVariant.Separator)
 {
     <div id="@Id" class="@separatorClasses" style="@Style" role="separator" aria-label="@separatorName" aria-labelledby="@AriaLabelledBy" @attributes="Attributes">
-        <span class="@theme.Line"></span>
+        <span class="@lineClasses"></span>
         @if (hasLabel)
         {
             <span class="@theme.SeparatorLabel">@RenderLabel()</span>
-            <span class="@theme.Line"></span>
+            <span class="@lineClasses"></span>
         }
     </div>
 }

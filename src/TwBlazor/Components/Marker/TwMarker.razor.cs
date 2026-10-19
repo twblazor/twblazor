@@ -59,10 +59,11 @@ public partial class TwMarker : TwBlazorComponentBase
     [Parameter] public Icon? Icon { get; set; }
 
     /// <summary>
-    /// Gets or sets the color of a status marker's icon or spinner.
+    /// Gets or sets the color of a status marker's icon or spinner, or of a separator's rule and label.
     /// </summary>
     /// <remarks>
-    /// If not set, the icon takes the color of its <see cref="Status"/>.
+    /// If not set, a status marker's icon takes the color of its <see cref="Status"/>, and a separator is neutral.
+    /// Use a color to make a separator stand out, for example <see cref="Color.Danger"/> for "New messages".
     /// </remarks>
     [Parameter] public Color? Color { get; set; }
 
@@ -115,6 +116,11 @@ public partial class TwMarker : TwBlazorComponentBase
         .Build();
 
     private string separatorClasses => new ClassBuilder(theme.Separator)
+        .AddClass(ColorBuilder.GetPaletteColor(Color, theme.SeparatorColors, string.Empty))
         .AddClass(Class)
+        .Build();
+
+    private string lineClasses => new ClassBuilder(theme.Line)
+        .AddClass(Color.HasValue ? theme.LineColored : theme.LineNeutral)
         .Build();
 }

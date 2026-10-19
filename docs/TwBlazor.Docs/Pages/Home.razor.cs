@@ -89,7 +89,7 @@ public partial class Home
     /// A guide card, which is a link: the shared shell on the same surface as <c>TwCard</c>, lifting on hover.
     /// </summary>
     private const string guideCardClasses =
-        "flex items-start gap-4 " + cardClasses + " bg-white dark:bg-[oklch(25.33%_0.016_252.42)] transition duration-200 hover:-translate-y-0.5 hover:border-fuchsia-400 hover:shadow-lg hover:shadow-purple-500/10 motion-reduce:transition-none motion-reduce:hover:translate-y-0 dark:hover:border-fuchsia-400";
+        "flex items-start gap-4 " + cardClasses + " bg-white dark:bg-[oklch(28%_0.016_252.42)] transition duration-200 hover:-translate-y-0.5 hover:border-fuchsia-400 hover:shadow-lg hover:shadow-purple-500/10 motion-reduce:transition-none motion-reduce:hover:translate-y-0 dark:hover:border-fuchsia-400";
 
     private const string mergeChipClasses = "rounded-md border px-2 py-1 font-mono text-xs";
 

@@ -909,7 +909,7 @@ public class ThemePageTests : DocsTestBase
         var cut = await RenderAsync();
 
         Assert.Empty(cut.FindAll("#theme-builder-surfaces"));
-        Assert.Contains("bg-[oklch(100%_0_0)] dark:bg-[oklch(25.33%_0.016_252.42)]", Code(cut));
+        Assert.Contains("bg-[oklch(100%_0_0)] dark:bg-[oklch(28%_0.016_252.42)]", Code(cut));
         Assert.Contains("AAA", cut.Find("[data-testid='theme-surface-contrast-light']").TextContent);
         Assert.Contains("AAA", cut.Find("[data-testid='theme-surface-contrast-dark']").TextContent);
     }
@@ -924,7 +924,7 @@ public class ThemePageTests : DocsTestBase
         var code = Code(cut);
         Assert.DoesNotContain("oklch(100%_0_0)", code);
         Assert.DoesNotContain("oklch(92%_0_0)", code);
-        Assert.Contains("dark:bg-[oklch(25.33%_0.016_252.42)]", code);
+        Assert.Contains("dark:bg-[oklch(28%_0.016_252.42)]", code);
         Assert.Equal("false", cut.Find("#theme-preset-purple").GetAttribute("aria-pressed"));
     }
 
@@ -966,8 +966,8 @@ public class ThemePageTests : DocsTestBase
 
         Assert.True(OklchColor.TryParseHex("#0b1020", out var body));
         Assert.Contains($"dark:bg-{body.ToTailwindValue()}", Code(cut));
-        Assert.DoesNotContain("oklch(22.2%_0.015_253)", Code(cut));
-        Assert.Contains("oklch(25.33%_0.016_252.42)", Code(cut));
+        Assert.DoesNotContain("oklch(20%_0.015_253)", Code(cut));
+        Assert.Contains("oklch(28%_0.016_252.42)", Code(cut));
         Assert.NotEqual(before, Code(cut));
         Assert.Equal("false", cut.Find("#theme-preset-purple").GetAttribute("aria-pressed"));
         Assert.NotEmpty(cut.FindAll("#theme-builder-surfaces"));

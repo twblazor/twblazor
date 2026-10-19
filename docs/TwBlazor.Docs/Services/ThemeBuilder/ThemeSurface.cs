@@ -41,11 +41,11 @@ internal static partial class ThemeSurface
     private const string scope = "#theme-builder";
 
     private static readonly OklchColor _defaultLight = new(1, 0, 0);
-    private static readonly OklchColor _defaultDark = new(0.2533, 0.016, 252.42);
+    private static readonly OklchColor _defaultDark = new(0.28, 0.016, 252.42);
 
     // The default theme's page body (NeutralSurface.Body), a step away from the background in each mode.
     private static readonly OklchColor _defaultBodyLight = new(0.985, 0, 0);
-    private static readonly OklchColor _defaultBodyDark = new(0.222, 0.015, 253);
+    private static readonly OklchColor _defaultBodyDark = new(0.20, 0.015, 253);
 
     // The default theme's heading text in each mode, which has to stay readable on the picked background.
     private static readonly OklchColor _lightText = new(0.21, 0.006, 285.885);

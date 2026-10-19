@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using System.Diagnostics.CodeAnalysis;
+using TwBlazor.Configuration.Color;
 
 namespace TwBlazor.Configuration.Components;
 
@@ -53,9 +54,25 @@ public class TwMarkerTheme
     public required string Separator { get; set; }
 
     /// <summary>
-    /// Gets or sets the classes for the rule on either side of a separator's label.
+    /// Gets or sets the layout and width classes for the rule on either side of a separator's label.
     /// </summary>
     public required string Line { get; set; }
+
+    /// <summary>
+    /// Gets or sets the color of the rule on a separator with no color.
+    /// </summary>
+    public required string LineNeutral { get; set; }
+
+    /// <summary>
+    /// Gets or sets the classes that make the rule take the color of a separator from <see cref="SeparatorColors"/>.
+    /// </summary>
+    public required string LineColored { get; set; }
+
+    /// <summary>
+    /// Gets or sets the border and text classes of a separator for each <see cref="Enums.Color"/>, for example a
+    /// danger colored "New messages" divider.
+    /// </summary>
+    public required TwBlazorPalette SeparatorColors { get; set; }
 
     /// <summary>
     /// Gets or sets the classes for a separator's label.

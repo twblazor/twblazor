@@ -38,14 +38,15 @@
     </PageCard>
 
     <PageCard Title="Separators">
-        <Description>Set <code>Variant</code> to <code>MarkerVariant.Separator</code> for a rule between rows. Give it a <code>Label</code>, such as a date or "New messages", to show it in the middle.</Description>
+        <Description>Set <code>Variant</code> to <code>MarkerVariant.Separator</code> for a rule between rows. Give it a <code>Label</code>, such as a date, to show it in the middle. Set <code>Color</code> to make a separator stand out, for example a danger colored "New messages" divider above unread messages.</Description>
 
         <CodeExample Name="MarkerSeparators">
             <div class="flex flex-col gap-4">
                 <TwMarker Variant="MarkerVariant.Separator" />
                 <TwMarker Variant="MarkerVariant.Separator" Label="Today" />
-                <TwMarker Variant="MarkerVariant.Separator" AriaLabel="New messages">
-                    <span class="text-red-700 dark:text-red-300">New messages</span>
+                <TwMarker Variant="MarkerVariant.Separator" Label="New messages" Color="Color.Danger" />
+                <TwMarker Variant="MarkerVariant.Separator" AriaLabel="Unread since yesterday">
+                    <strong>Unread</strong>&nbsp;since yesterday
                 </TwMarker>
             </div>
         </CodeExample>

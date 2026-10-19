@@ -441,11 +441,11 @@ public class TwTabContainerTests : TwBlazorTestBase
 
         // Assert
         var tablist = cut.Find("div[role='tablist']");
-        Assert.Contains("dark:border-[oklch(21.15%_0.012_254.09)]", tablist.GetAttribute("class"));
-        Assert.Contains("dark:bg-[oklch(25.33%_0.016_252.42)]", tablist.GetAttribute("class"));
+        Assert.Contains("dark:border-[oklch(40%_0.012_254.09)]", tablist.GetAttribute("class"));
+        Assert.Contains("dark:bg-[oklch(28%_0.016_252.42)]", tablist.GetAttribute("class"));
 
         var tabpanel = cut.Find("div[role='tabpanel']");
-        Assert.Contains("dark:bg-[oklch(25.33%_0.016_252.42)]", tabpanel.GetAttribute("class"));
+        Assert.Contains("dark:bg-[oklch(28%_0.016_252.42)]", tabpanel.GetAttribute("class"));
     }
 
     [Fact]

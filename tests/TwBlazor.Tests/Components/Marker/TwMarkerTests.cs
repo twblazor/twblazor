@@ -137,7 +137,7 @@ public class TwMarkerTests : TwBlazorTestBase
         Assert.Equal("separator", root.GetAttribute("role"));
         Assert.False(root.HasAttribute("aria-label"));
         Assert.Contains(theme.Separator, root.GetAttribute("class"));
-        Assert.Single(cut.FindAll($"span[class='{theme.Line}']"));
+        Assert.Single(cut.FindAll($"span[class='{theme.Line} {theme.LineNeutral}']"));
     }
 
     [Fact]
@@ -147,7 +147,18 @@ public class TwMarkerTests : TwBlazorTestBase
 
         Assert.Equal("Today", cut.Find("#marker").GetAttribute("aria-label"));
         Assert.Equal("Today", cut.Find($"span[class='{theme.SeparatorLabel}']").TextContent);
-        Assert.Equal(2, cut.FindAll($"span[class='{theme.Line}']").Count);
+        Assert.Equal(2, cut.FindAll($"span[class='{theme.Line} {theme.LineNeutral}']").Count);
+    }
+
+    [Fact]
+    public void TwMarker_Separator_Color_ColorsItsRuleAndLabel()
+    {
+        var cut = Render(p => p.Add(x => x.Variant, MarkerVariant.Separator).Add(x => x.Label, "New messages").Add(x => x.Color, Color.Danger));
+
+        var expected = theme.SeparatorColors.Danger.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToHashSet();
+        Assert.Superset(expected, cut.Find("#marker").GetAttribute("class")!.Split(' ').ToHashSet());
+        Assert.Equal(2, cut.FindAll($"span[class='{theme.Line} {theme.LineColored}']").Count);
+        Assert.Empty(cut.FindAll($"span[class*='{theme.LineNeutral}']"));
     }
 
     [Fact]
