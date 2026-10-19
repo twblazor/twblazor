@@ -102,8 +102,8 @@ public partial class TwDataTable<TItem>
             .GroupBy(item => selector(item))
             .Select(g => (Key: g.Key, Items: (IReadOnlyList<TItem>)[.. g]));
         buckets = descending
-            ? buckets.OrderByDescending(g => g.Key, GroupKeyComparer.Instance)
-            : buckets.OrderBy(g => g.Key, GroupKeyComparer.Instance);
+            ? buckets.OrderByDescending(g => g.Key, DataTableGroupKeyComparer.Instance)
+            : buckets.OrderBy(g => g.Key, DataTableGroupKeyComparer.Instance);
 
         foreach (var (key, items) in buckets)
         {
@@ -230,39 +230,4 @@ public partial class TwDataTable<TItem>
     /// An entry in the Group by list: a groupable column, or no grouping when <paramref name="Name"/> is <c>null</c>.
     /// </summary>
     private sealed record GroupOption(string? Name, string Title);
-
-    /// <summary>
-    /// Orders group keys with blank keys first, falling back to their text when two keys cannot be compared directly.
-    /// </summary>
-    private sealed class GroupKeyComparer : IComparer<object?>
-    {
-        public static readonly GroupKeyComparer Instance = new();
-
-        public int Compare(object? x, object? y)
-        {
-            if (x is null && y is null)
-            {
-                return 0;
-            }
-
-            if (x is null)
-            {
-                return -1;
-            }
-
-            if (y is null)
-            {
-                return 1;
-            }
-
-            try
-            {
-                return Comparer<object>.Default.Compare(x, y);
-            }
-            catch (ArgumentException)
-            {
-                return string.Compare(x.ToString(), y.ToString(), StringComparison.CurrentCulture);
-            }
-        }
-    }
 }

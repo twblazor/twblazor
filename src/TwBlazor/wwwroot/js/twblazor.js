@@ -1294,44 +1294,50 @@ globalThis.twAutocomplete = {
         option.scrollIntoView?.({ block: 'nearest' });
     },
 
+    // The field's list, its options and the index of the highlighted one (-1 when none is).
+    _state: function (input) {
+        const listbox = globalThis.twAutocomplete._listbox(input);
+        const all = globalThis.twAutocomplete._options(listbox);
+        const activeId = input.getAttribute('aria-activedescendant');
+        return { listbox, all, current: all.findIndex(function (o) { return o.id === activeId; }) };
+    },
+
+    _keyHandlers: {
+        ArrowDown: function (input, dotnetRef, e, state) {
+            e.preventDefault();
+            if (state.all.length === 0) {
+                // Alt + Arrow Down opens the list without moving into it.
+                void globalThis.twPicker._invokeSafely(dotnetRef, 'OpenFromKeyboard', e.altKey ? null : 'first');
+            } else if (!e.altKey) {
+                globalThis.twAutocomplete._setActive(input, state.listbox, state.all[(state.current + 1) % state.all.length]);
+            }
+        },
+
+        ArrowUp: function (input, dotnetRef, e, state) {
+            e.preventDefault();
+            if (state.all.length === 0) {
+                void globalThis.twPicker._invokeSafely(dotnetRef, 'OpenFromKeyboard', 'last');
+                return;
+            }
+            const previous = state.current <= 0 ? state.all.length - 1 : state.current - 1;
+            globalThis.twAutocomplete._setActive(input, state.listbox, state.all[previous]);
+        },
+
+        Enter: function (input, dotnetRef, e, state) {
+            // With nothing highlighted Enter keeps its default, so it still submits a form.
+            if (state.current < 0) return;
+            e.preventDefault();
+            void globalThis.twPicker._invokeSafely(dotnetRef, 'SelectOption', Number.parseInt(state.all[state.current].dataset.value, 10));
+        }
+    },
+
     attach: function (input, dotnetRef) {
         if (!input || input.__twAutocomplete) return;
 
         const keydown = function (e) {
             if (e.ctrlKey || e.metaKey || input.readOnly || input.disabled) return;
-
-            const self = globalThis.twAutocomplete;
-            const listbox = self._listbox(input);
-            const all = self._options(listbox);
-            const activeId = input.getAttribute('aria-activedescendant');
-            const current = all.findIndex(function (o) { return o.id === activeId; });
-
-            switch (e.key) {
-                case 'ArrowDown':
-                    e.preventDefault();
-                    if (all.length === 0) {
-                        // Alt + Arrow Down opens the list without moving into it.
-                        void globalThis.twPicker._invokeSafely(dotnetRef, 'OpenFromKeyboard', e.altKey ? null : 'first');
-                    } else if (!e.altKey) {
-                        self._setActive(input, listbox, all[(current + 1) % all.length]);
-                    }
-                    break;
-                case 'ArrowUp':
-                    e.preventDefault();
-                    if (all.length === 0) {
-                        void globalThis.twPicker._invokeSafely(dotnetRef, 'OpenFromKeyboard', 'last');
-                    } else {
-                        self._setActive(input, listbox, all[current <= 0 ? all.length - 1 : current - 1]);
-                    }
-                    break;
-                case 'Enter':
-                    // With nothing highlighted Enter keeps its default, so it still submits a form.
-                    if (current >= 0) {
-                        e.preventDefault();
-                        void globalThis.twPicker._invokeSafely(dotnetRef, 'SelectOption', Number.parseInt(all[current].dataset.value, 10));
-                    }
-                    break;
-            }
+            const handler = Object.hasOwn(globalThis.twAutocomplete._keyHandlers, e.key) ? globalThis.twAutocomplete._keyHandlers[e.key] : null;
+            handler?.(input, dotnetRef, e, globalThis.twAutocomplete._state(input));
         };
 
         input.__twAutocomplete = { keydown };

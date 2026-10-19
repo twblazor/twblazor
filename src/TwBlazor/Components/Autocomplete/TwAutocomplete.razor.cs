@@ -471,13 +471,12 @@ public partial class TwAutocomplete<T> : TwPopoverPickerComponentBase
         }
 
         var candidates = SearchFunc is null ? Values : shownOptions.Values;
-        foreach (var candidate in candidates)
+        // A list rather than FirstOrDefault, as default(T) can itself be one of the options.
+        var match = candidates.Where(c => string.Compare(GetDisplayText(c), text, culture, CompareOptions.IgnoreCase) == 0).Take(1).ToList();
+        if (match.Count == 1)
         {
-            if (string.Compare(GetDisplayText(candidate), text, culture, CompareOptions.IgnoreCase) == 0)
-            {
-                await CommitSelectionAsync(candidate);
-                return;
-            }
+            await CommitSelectionAsync(match[0]);
+            return;
         }
 
         text = selectedDisplayText;
