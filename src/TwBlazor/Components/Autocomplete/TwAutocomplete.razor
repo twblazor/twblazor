@@ -1,0 +1,111 @@
+@typeparam T
+@inherits TwPopoverPickerComponentBase
+@namespace TwBlazor.Components
+@using TwBlazor.Enums
+
+<TwInputRoot @ref="@InputRoot" RootId="@RootId" RootClass="@RootClass" RootAttributes="@RootAttributes" RootStyle="@Style" RootAriaLabel="@AriaLabel" RootAriaLabelledBy="@AriaLabelledBy" RootErrorMessage="@ErrorMessage" RootErrorId="@errorId">
+    @if (!string.IsNullOrWhiteSpace(Label))
+    {
+        <TwInputLabel Id="@LabelId" For="@Id" Label="@Label" Class="@LabelClasses" @attributes="@LabelAttributes" />
+    }
+
+    <div class="@theme.FieldWrapper">
+        <input id="@Id"
+               @ref="@inputRef"
+               type="text"
+               class="@inputClasses"
+               style="@inputStyle"
+               placeholder="@Placeholder"
+               value="@text"
+               autocomplete="off"
+               role="combobox"
+               aria-autocomplete="list"
+               aria-expanded="@(isListboxShown ? "true" : "false")"
+               aria-controls="@(isListboxShown ? listboxId : null)"
+               aria-required="@(Required ? "true" : null)"
+               aria-invalid="@(Invalid ? "true" : null)"
+               aria-describedby="@errorId"
+               aria-label="@AriaLabel"
+               aria-labelledby="@AriaLabelledBy"
+               required="@Required"
+               readonly="@ReadOnly"
+               disabled="@Disabled"
+               @attributes="@Attributes"
+               @oninput="@OnInputAsync"
+               @onclick="@OnInputClickAsync"
+               @onblur="@OnInputBlurAsync" />
+
+        <div class="@endContentClasses">
+            @if (showClearButton)
+            {
+                <button type="button"
+                        class="@theme.ClearButton"
+                        tabindex="-1"
+                        aria-label="@localizer[TwStrings.Textfield_Clear]"
+                        aria-controls="@Id"
+                        disabled="@(text.Length == 0)"
+                        data-tw-field-button
+                        @onmousedown:preventDefault="true"
+                        @onclick="@ClearAsync">
+                    <TwIcon Icon="Icon.X_Lg" Class="@theme.ClearButtonIcon" />
+                </button>
+            }
+
+            <button type="button"
+                    class="@theme.ClearButton"
+                    tabindex="-1"
+                    aria-label="@listboxLabel"
+                    aria-expanded="@(isFocused ? "true" : "false")"
+                    aria-controls="@Id"
+                    disabled="@(Disabled || ReadOnly)"
+                    data-tw-field-button
+                    @onmousedown:preventDefault="true"
+                    @onclick="@TogglePanelAsync">
+                <TwIcon Icon="Icon.Chevron_Down" Plain Class="@chevronClasses" aria-hidden="true" />
+            </button>
+        </div>
+    </div>
+
+    @if (isFocused)
+    {
+        <div class="@theme.SelectPanelPosition" id="@panelId" data-tw-popover @ref="PanelRef" @onmousedown:preventDefault="true">
+            <div class="@panelSurfaceClasses">
+                @if (isLoading)
+                {
+                    <div class="@messageClasses">@localizer[TwStrings.Common_LoadingEllipsis]</div>
+                }
+                else if (isListboxShown)
+                {
+                    <div id="@listboxId" class="@theme.SelectCustomListbox" role="listbox" aria-label="@listboxLabel">
+                        @foreach (var (key, value) in shownOptions)
+                        {
+                            var isSelected = IsSelected(value);
+                            <div id="@OptionId(key)" role="option" class="@theme.SelectCustomOption" data-value="@key"
+                                 aria-selected="@(isSelected ? "true" : "false")"
+                                 @onclick="@(() => SelectOptionAsync(key))">
+                                @if (ItemTemplate is not null)
+                                {
+                                    @ItemTemplate(value)
+                                }
+                                else
+                                {
+                                    <span class="truncate">@GetDisplayText(value)</span>
+                                }
+                                @if (isSelected)
+                                {
+                                    <TwIcon Icon="Icon.Check2" Plain Class="@theme.SelectCustomCheck" aria-hidden="true" />
+                                }
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="@messageClasses">@effectiveNoResultsText</div>
+                }
+            </div>
+        </div>
+    }
+
+    <div class="@options.Theme.Display.ScreenReaderOnly" role="status" aria-live="polite" aria-atomic="true">@statusMessage</div>
+</TwInputRoot>

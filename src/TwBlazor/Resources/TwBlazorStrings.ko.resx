@@ -66,6 +66,12 @@
   <data name="Common_Range" xml:space="preserve">
     <value>{0} ~ {1}</value>
   </data>
+  <data name="Autocomplete_ResultsOne" xml:space="preserve">
+    <value>결과 {0}개 있음</value>
+  </data>
+  <data name="Autocomplete_ResultsOther" xml:space="preserve">
+    <value>결과 {0}개 있음</value>
+  </data>
   <data name="Breadcrumb_Label" xml:space="preserve">
     <value>이동 경로</value>
   </data>

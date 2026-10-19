@@ -281,6 +281,15 @@ internal static class KeyboardShortcuts
             Key("Selects the next value, half an icon or a whole icon at a time.", right, up),
             Key("Selects the previous value. Going below the first value selects No rating, when the rating can be cleared.", left, down)),
 
+        ["/autocomplete"] = Guide(
+            "Focus stays in the text field while you move through the suggestions, so you can keep typing to narrow them down. Typing opens the list.",
+            Key("Opens the list and highlights the first or last suggestion. With the list open, moves to the next or previous suggestion, wrapping at the ends.", down, up),
+            Key("Opens the list without highlighting a suggestion.", $"Alt + {down}"),
+            Key("Selects the highlighted suggestion, puts its text in the field and closes the list.", enter),
+            Key("Closes the list. Focus stays in the field.", escape),
+            Key("Moves the cursor to the start or end of the text.", home, end),
+            Key("Leaves the field. Text that matches no suggestion is replaced by the selected value's text, and emptying the field clears the selection.", tab)),
+
         ["/select"] = Guide(
             "The list opens below the field and focus moves into it. On a phone or tablet the browser's own picker is used.",
             Key("Opens the list.", enter, space, down, up),
@@ -289,6 +298,7 @@ internal static class KeyboardShortcuts
             Key("Moves to the next option starting with the typed letters.", "A to Z"),
             Key("Selects the focused option and closes the list. In a multiple select, adds or removes the option and keeps the list open.", enter, space),
             Key("Closes the list without changing the value and returns focus to the field.", escape, tab),
+            Key("On a clearable select with the list closed: clears the selection.", "Delete", "Backspace"),
             Key("On a selected item's remove button in a multiple select: removes that item and returns focus to the field.", enter, space)),
 
         ["/sidebar"] = Guide(

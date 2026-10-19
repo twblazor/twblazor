@@ -884,6 +884,53 @@ describe('small focus and state helpers', () => {
         wrapper.dispatchEvent(new Event('pointerout', { bubbles: true }));
     });
 
+    test('twTooltip leaves a bubble in place when its wrapper is transformed, as a chart datum is', () => {
+        document.body.innerHTML = `
+            <div style="overflow: auto">
+                <span id="wrapper" data-tw-tooltip style="position: absolute; transform: translate(-50%, -50%)"><span id="tip" role="tooltip" style="left: 20%; bottom: 60%">Videos</span></span>
+            </div>`;
+        const bubble = document.getElementById('tip');
+        bubble.getBoundingClientRect = () => ({ left: 0, right: 80, top: 0, bottom: 24, width: 80, height: 24 });
+
+        document.getElementById('wrapper').dispatchEvent(new Event('pointerover', { bubbles: true }));
+
+        expect(bubble.style.position).toBe('');
+        expect(bubble.style.left).toBe('20%');
+        expect(bubble.style.bottom).toBe('60%');
+    });
+
+    test('twTooltip offsets a fixed bubble by a transformed ancestor outside the scrolling box', () => {
+        document.body.innerHTML = `
+            <div style="transform: translateX(0)">
+                <div style="overflow: auto">
+                    <span id="wrapper" data-tw-tooltip><span id="tip" role="tooltip" data-tw-placement="top">Edit row</span></span>
+                </div>
+            </div>`;
+        const wrapper = document.getElementById('wrapper');
+        const bubble = document.getElementById('tip');
+        wrapper.getBoundingClientRect = () => ({ left: 200, right: 240, top: 100, bottom: 130, width: 40, height: 30 });
+        // Pinned at 0,0 the bubble lands on the transformed ancestor's corner, not the viewport's.
+        bubble.getBoundingClientRect = () => ({ left: 50, right: 130, top: 30, bottom: 54, width: 80, height: 24 });
+
+        wrapper.dispatchEvent(new Event('pointerover', { bubbles: true }));
+
+        expect(bubble.style.position).toBe('fixed');
+        expect(bubble.style.left).toBe('130px');
+        expect(bubble.style.top).toBe('38px');
+        wrapper.dispatchEvent(new Event('pointerout', { bubbles: true }));
+    });
+
+    test('twTooltip puts back the inline style it replaced when a fixed bubble hides', () => {
+        const { wrapper, bubble } = clippedTooltip('Top');
+        bubble.setAttribute('style', 'left: 20%; bottom: 60%');
+
+        wrapper.dispatchEvent(new Event('pointerover', { bubbles: true }));
+        expect(bubble.style.position).toBe('fixed');
+
+        wrapper.dispatchEvent(new Event('pointerout', { bubbles: true }));
+        expect(bubble.getAttribute('style')).toBe('left: 20%; bottom: 60%');
+    });
+
     test('twTooltip leaves a bubble with room to show in place', () => {
         document.body.innerHTML = '<span id="wrapper" data-tw-tooltip><button>Edit</button><span id="tip" role="tooltip">Edit row</span></span>';
         const bubble = document.getElementById('tip');

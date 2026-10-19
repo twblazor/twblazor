@@ -97,17 +97,6 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
     public bool EnablePagination { get; set; } = true;
 
     /// <summary>
-    /// Whether the rows are split into pages. Use <see cref="EnablePagination"/>, which this sets.
-    /// </summary>
-    [Parameter]
-    [Obsolete("Use EnablePagination, which matches TwTable.")]
-    public bool Pageable
-    {
-        get => EnablePagination;
-        set => EnablePagination = value;
-    }
-
-    /// <summary>
     /// Number of rows per page.
     /// </summary>
     [Parameter]

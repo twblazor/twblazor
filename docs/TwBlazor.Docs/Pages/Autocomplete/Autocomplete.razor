@@ -1,0 +1,194 @@
+@page "/autocomplete"
+
+<PageContainer Title="TwAutocomplete" Path="/autocomplete" Beta Description="TwAutocomplete is a Blazor autocomplete component. Filter suggestions as you type, search a server with SearchFunc, and bind the chosen SelectedValue." ThemeType="typeof(TwInputTheme)">
+    <PageCard Title="Basic usage">
+        <Description>Bind <code>SelectedValue</code> and pass the options in <code>Values</code>. Typing opens a list of the options that contain the typed text. Pick one with the mouse, or with the arrow keys and <code>Enter</code>. The list shares its look with <code>TwSelect</code>, and <code>Variant</code> switches between the default, filled and outlined styles.</Description>
+        <CodeExample Name="AutocompleteBasic" CSharpName="AutocompleteBasicCode">
+            <div class="flex flex-col lg:flex-row gap-4">
+                <TwAutocomplete T="string"
+                                Label="Country"
+                                Values="@_countries"
+                                Placeholder="Start typing a country..."
+                                @bind-SelectedValue="@country"
+                                RootClass="flex-1" />
+
+                <TwAutocomplete T="string"
+                                Label="Country"
+                                Values="@_countries"
+                                Variant="InputVariant.Filled"
+                                @bind-SelectedValue="@country"
+                                RootClass="flex-1" />
+
+                <TwAutocomplete T="string"
+                                Label="Country"
+                                Values="@_countries"
+                                Variant="InputVariant.Outlined"
+                                @bind-SelectedValue="@country"
+                                RootClass="flex-1" />
+            </div>
+
+            @if (!string.IsNullOrEmpty(country))
+            {
+                <p class="mt-3 text-sm text-gray-600 dark:text-gray-400">Selected country: <strong>@country</strong></p>
+            }
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Choosing a value">
+        <Description>
+            Only an option from the list can be selected. When focus leaves the field, text that matches an option in full (ignoring case) selects it, and any other text is replaced by the selected option's text.
+            Emptying the field clears the selection, setting <code>SelectedValue</code> back to its default, such as <code>null</code>, unless the field is <code>Required</code>.
+        </Description>
+    </PageCard>
+
+    <PageCard Title="Filter mode">
+        <Description>Set <code>FilterMode</code> to <code>AutocompleteFilterMode.StartsWith</code> to list only the options that start with the typed text. The default, <code>Contains</code>, matches anywhere. Matching ignores case and accents, so "cafe" finds "Café".</Description>
+        <CodeExample Name="AutocompleteFilterMode" CSharpName="AutocompleteFilterModeCode">
+            <TwAutocomplete T="string"
+                            Label="Fruit"
+                            Values="@_fruits"
+                            FilterMode="AutocompleteFilterMode.StartsWith"
+                            @bind-SelectedValue="@fruit" />
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Complex objects and item templates">
+        <Description>Use <code>PropertyName</code> to show, and match against, one property of a complex object. Add an <code>ItemTemplate</code> to draw each suggestion your own way.</Description>
+        <TwAlert Color="Color.Primary" StartIcon="Icon.Info_Circle" Class="mb-4 ps-3">
+            <p class="font-semibold">The field always shows the display text</p>
+            Unlike <code>TwSelect</code>, the autocomplete never switches to the browser's native picker on iOS or Android, so the template is used for the suggestions on every device, and <code>PreferNativePicker</code> has no effect.
+            The text field can only hold text, though: once an option is chosen it shows that option's display text from <code>PropertyName</code>, or <code>ToString()</code> when no property is named, and typing is matched against that text rather than what the template draws.
+        </TwAlert>
+        <CodeExample Name="AutocompleteComplexObjects" CSharpName="AutocompleteComplexObjectsCode">
+            <TwAutocomplete T="Person"
+                            Label="Team member"
+                            Values="@_people"
+                            PropertyName="Name"
+                            @bind-SelectedValue="@person">
+                <ItemTemplate>
+                    <span class="flex flex-col">
+                        <span>@context.Name</span>
+                        <span class="text-xs text-gray-600 dark:text-gray-400">@context.Role</span>
+                    </span>
+                </ItemTemplate>
+            </TwAutocomplete>
+
+            @if (person is not null)
+            {
+                <p class="mt-3 text-sm text-gray-600 dark:text-gray-400">Selected: <strong>@person.Name</strong>, @person.Role</p>
+            }
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Server side search">
+        <Description>
+            Set <code>SearchFunc</code> to fetch suggestions yourself, such as from an API. It is given the typed text and a <code>CancellationToken</code> that is cancelled when the user types again, so a slow search never overwrites newer results.
+            <code>DebounceInterval</code> waits for a pause in typing before searching, and <code>MinCharacters</code> keeps the list closed until enough has been typed. "Loading..." is shown while a search runs.
+        </Description>
+        <CodeExample Name="AutocompleteSearch" CSharpName="AutocompleteSearchCode">
+            <TwAutocomplete T="string"
+                            Label="City"
+                            SearchFunc="@SearchCitiesAsync"
+                            DebounceInterval="300"
+                            MinCharacters="2"
+                            Placeholder="Type at least two letters..."
+                            @bind-SelectedValue="@city" />
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Clearable, max items and no results text">
+        <Description>Set <code>Clearable</code> for a button that empties the field and clears the selection. <code>MaxItems</code> caps how many suggestions are listed, and <code>NoResultsText</code> replaces the "No results" message.</Description>
+        <CodeExample Name="AutocompleteClearable" CSharpName="AutocompleteClearableCode">
+            <TwAutocomplete T="string"
+                            Label="Programming language"
+                            Values="@_languages"
+                            Clearable
+                            MaxItems="5"
+                            NoResultsText="No matching language"
+                            @bind-SelectedValue="@language" />
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Dense, required, disabled and read only">
+        <Description>Set <code>Dense</code> for a more compact field. <code>Required</code> marks the field as required, <code>Disabled</code> turns it off, and <code>ReadOnly</code> keeps it focusable while stopping it from changing.</Description>
+        <CodeExample Name="AutocompleteStates">
+            <div class="grid gap-4 sm:grid-cols-2">
+                <TwAutocomplete T="string" Label="Dense" Values="@_countries" Dense @bind-SelectedValue="@denseCountry" />
+                <TwAutocomplete T="string" Label="Required" Values="@_countries" Required @bind-SelectedValue="@requiredCountry" />
+                <TwAutocomplete T="string" Label="Disabled" Values="@_countries" SelectedValue="@("France")" Disabled />
+                <TwAutocomplete T="string" Label="Read only" Values="@_countries" SelectedValue="@("Germany")" ReadOnly />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Accessibility">
+        <Description>
+            The field follows the WAI-ARIA combobox pattern with list autocomplete. It has the <code>combobox</code> role with <code>aria-autocomplete="list"</code>, <code>aria-expanded</code> and <code>aria-controls</code>, and focus never leaves it: the highlighted suggestion is exposed through <code>aria-activedescendant</code>, so you can keep typing while you browse.
+            Each suggestion is an <code>option</code> in a labelled <code>listbox</code>, with <code>aria-selected</code> on the chosen one, and a polite live region announces how many suggestions are available as they change.
+            The chevron and clear buttons are left out of the Tab order, as the APG pattern recommends.
+        </Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample AutocompleteBasicCode
+    private string? country;
+
+    private readonly string[] _countries =
+    [
+        "Australia", "Austria", "Belgium", "Brazil", "Canada", "Denmark", "France", "Germany", "Ireland",
+        "Italy", "Japan", "Netherlands", "New Zealand", "Norway", "Portugal", "Spain", "Sweden",
+        "Switzerland", "United Kingdom", "United States"
+    ];
+    #endregion
+
+    #region CodeExample AutocompleteFilterModeCode
+    private string? fruit;
+
+    private readonly string[] _fruits = ["Apple", "Apricot", "Banana", "Blackberry", "Cherry", "Grape", "Mango", "Pineapple"];
+    #endregion
+
+    #region CodeExample AutocompleteComplexObjectsCode
+    private Person? person;
+
+    private readonly Person[] _people =
+    [
+        new("Ada Lovelace", "Engineer"),
+        new("Alan Turing", "Researcher"),
+        new("Grace Hopper", "Architect"),
+        new("Margaret Hamilton", "Lead")
+    ];
+
+    private sealed record Person(string Name, string Role);
+    #endregion
+
+    #region CodeExample AutocompleteSearchCode
+    private string? city;
+
+    private static readonly string[] _cities =
+    [
+        "Aberdeen", "Bath", "Belfast", "Birmingham", "Brighton", "Bristol", "Cambridge", "Cardiff", "Edinburgh",
+        "Glasgow", "Leeds", "Liverpool", "London", "Manchester", "Newcastle", "Norwich", "Oxford", "York"
+    ];
+
+    private static async Task<IEnumerable<string>> SearchCitiesAsync(string query, CancellationToken cancellationToken)
+    {
+        // Stands in for a call to your API.
+        await Task.Delay(400, cancellationToken);
+        return _cities.Where(c => c.Contains(query, StringComparison.OrdinalIgnoreCase));
+    }
+    #endregion
+
+    #region CodeExample AutocompleteClearableCode
+    private string? language = "C#";
+
+    private readonly string[] _languages =
+    [
+        "C", "C#", "C++", "Dart", "F#", "Go", "Java", "JavaScript", "Kotlin", "PHP", "Python", "Ruby", "Rust",
+        "Scala", "Swift", "TypeScript"
+    ];
+    #endregion
+
+    private string? denseCountry;
+    private string? requiredCountry = "Ireland";
+}

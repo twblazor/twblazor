@@ -1,6 +1,8 @@
 // Copyright (c) 2025 Jack Shuter @ TwBlazor - twblazor.com
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
+using System.Diagnostics.CodeAnalysis;
+
 namespace TwBlazor.Models;
 
 /// <summary>
@@ -8,6 +10,7 @@ namespace TwBlazor.Models;
 /// <c>ChildContent</c> by the <c>twSkeleton.observe</c> JS interop call, positioned relative to the
 /// measuring wrapper it was measured within.
 /// </summary>
+[ExcludeFromCodeCoverage]
 public class SkeletonRect
 {
     /// <summary>

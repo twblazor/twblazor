@@ -1172,6 +1172,13 @@ globalThis.twCarousel = {
 globalThis.twSelect = {
     _typeaheadResetMs: 500,
 
+    // Deselects every option of a native <select multiple>. Removing an option's selected attribute does not
+    // deselect an option the user picked, so clearing has to set the property.
+    deselectAll: function (select) {
+        if (!select?.options) return;
+        Array.from(select.options).forEach(function (option) { option.selected = false; });
+    },
+
     attachListbox: function (listbox, dotnetRef, selectedOptionId, commitMethod) {
         if (!listbox || listbox.__twSelectAttached) return;
         listbox.__twSelectAttached = true;
@@ -1259,6 +1266,122 @@ globalThis.twSelect = {
         const initial = (selectedOptionId && document.getElementById(selectedOptionId)) || options()[0];
         setActive(initial);
         listbox.focus({ preventScroll: true });
+    }
+};
+
+// Autocomplete: keyboard navigation for the suggestions list. Unlike twSelect, focus stays in the text
+// field so the user can keep typing, and the highlighted suggestion is exposed through the field's
+// aria-activedescendant (the APG combobox pattern). The list is found through the field's aria-controls,
+// which is only set while it is shown. Runs client-side so an arrow key never waits on a server round trip.
+globalThis.twAutocomplete = {
+    _listbox: function (input) {
+        const id = input.getAttribute('aria-controls');
+        return id ? document.getElementById(id) : null;
+    },
+
+    _options: function (listbox) {
+        return listbox ? Array.from(listbox.querySelectorAll('[role="option"]')) : [];
+    },
+
+    _setActive: function (input, listbox, option) {
+        globalThis.twAutocomplete._options(listbox).forEach(function (o) { delete o.dataset.active; });
+        if (!option) {
+            input.removeAttribute('aria-activedescendant');
+            return;
+        }
+        option.dataset.active = 'true';
+        input.setAttribute('aria-activedescendant', option.id);
+        option.scrollIntoView?.({ block: 'nearest' });
+    },
+
+    // The field's list, its options and the index of the highlighted one (-1 when none is).
+    _state: function (input) {
+        const listbox = globalThis.twAutocomplete._listbox(input);
+        const all = globalThis.twAutocomplete._options(listbox);
+        const activeId = input.getAttribute('aria-activedescendant');
+        return { listbox, all, current: all.findIndex(function (o) { return o.id === activeId; }) };
+    },
+
+    _keyHandlers: {
+        ArrowDown: function (input, dotnetRef, e, state) {
+            e.preventDefault();
+            if (state.all.length === 0) {
+                // Alt + Arrow Down opens the list without moving into it.
+                void globalThis.twPicker._invokeSafely(dotnetRef, 'OpenFromKeyboard', e.altKey ? null : 'first');
+            } else if (!e.altKey) {
+                globalThis.twAutocomplete._setActive(input, state.listbox, state.all[(state.current + 1) % state.all.length]);
+            }
+        },
+
+        ArrowUp: function (input, dotnetRef, e, state) {
+            e.preventDefault();
+            if (state.all.length === 0) {
+                void globalThis.twPicker._invokeSafely(dotnetRef, 'OpenFromKeyboard', 'last');
+                return;
+            }
+            const previous = state.current <= 0 ? state.all.length - 1 : state.current - 1;
+            globalThis.twAutocomplete._setActive(input, state.listbox, state.all[previous]);
+        },
+
+        Enter: function (input, dotnetRef, e, state) {
+            // With nothing highlighted Enter keeps its default, so it still submits a form.
+            if (state.current < 0) return;
+            e.preventDefault();
+            void globalThis.twPicker._invokeSafely(dotnetRef, 'SelectOption', Number.parseInt(state.all[state.current].dataset.value, 10));
+        }
+    },
+
+    attach: function (input, dotnetRef) {
+        if (!input || input.__twAutocomplete) return;
+
+        const keydown = function (e) {
+            if (e.ctrlKey || e.metaKey || input.readOnly || input.disabled) return;
+            const handler = Object.hasOwn(globalThis.twAutocomplete._keyHandlers, e.key) ? globalThis.twAutocomplete._keyHandlers[e.key] : null;
+            handler?.(input, dotnetRef, e, globalThis.twAutocomplete._state(input));
+        };
+
+        input.__twAutocomplete = { keydown };
+        input.addEventListener('keydown', keydown);
+    },
+
+    // Called after each render while the list is open, and once after it closes. Options that were filtered
+    // out take the highlight with them, and `highlight` ('first', 'last' or 'reset') moves it on purpose.
+    refresh: function (input, highlight) {
+        if (!input) return;
+        const self = globalThis.twAutocomplete;
+        const listbox = self._listbox(input);
+        if (!listbox) {
+            input.removeAttribute('aria-activedescendant');
+            return;
+        }
+
+        if (!listbox.__twAutocompletePointer) {
+            listbox.__twAutocompletePointer = true;
+            listbox.addEventListener('pointermove', function (e) {
+                const option = e.target.closest?.('[role="option"]');
+                if (option && option.dataset.active !== 'true') {
+                    self._setActive(input, listbox, option);
+                }
+            });
+        }
+
+        const all = self._options(listbox);
+        if (highlight === 'first') {
+            self._setActive(input, listbox, all[0]);
+        } else if (highlight === 'last') {
+            self._setActive(input, listbox, all.at(-1));
+        } else if (highlight === 'reset') {
+            self._setActive(input, listbox, null);
+        } else {
+            const activeId = input.getAttribute('aria-activedescendant');
+            self._setActive(input, listbox, all.find(function (o) { return o.id === activeId; }) ?? null);
+        }
+    },
+
+    detach: function (input) {
+        if (!input?.__twAutocomplete) return;
+        input.removeEventListener('keydown', input.__twAutocomplete.keydown);
+        delete input.__twAutocomplete;
     }
 };
 
@@ -1462,6 +1585,7 @@ globalThis.twTooltip = {
     _gap: 8,
     _registered: false,
     _floating: new Set(),
+    _savedStyles: new WeakMap(),
 
     _parts: function (wrapper) {
         const bubble = Array.from(wrapper.children).find(child => child.getAttribute('role') === 'tooltip') ?? null;
@@ -1492,10 +1616,25 @@ globalThis.twTooltip = {
         if (arrow) arrow.style.marginLeft = `${-shift}px`;
     },
 
-    // Whether an ancestor between the wrapper and the page clips its overflow, which would cut the bubble off.
+    // Whether an element makes itself the containing block of fixed descendants, so a fixed bubble below it is
+    // placed relative to it rather than the viewport and is still clipped by whatever clips it.
+    _trapsFixed: function (style) {
+        const set = function (value) { return !!value && value !== 'none'; };
+        return set(style.transform) || set(style.translate) || set(style.scale) || set(style.rotate)
+            || set(style.perspective) || set(style.filter) || set(style.backdropFilter)
+            || /paint|layout|strict|content/.test(style.contain || '')
+            || /transform|perspective|filter/.test(style.willChange || '');
+    },
+
+    // Whether an ancestor between the wrapper and the page clips its overflow, which would cut the bubble off, in a
+    // way a fixed bubble can escape. A transformed wrapper or ancestor met first would hold a fixed bubble inside the
+    // same clip, so the bubble is then left where it is.
     _isClipped: function (wrapper) {
-        for (let el = wrapper.parentElement; el && el !== document.body && el !== document.documentElement; el = el.parentElement) {
+        const tooltip = globalThis.twTooltip;
+        for (let el = wrapper; el && el !== document.body && el !== document.documentElement; el = el.parentElement) {
             const style = getComputedStyle(el);
+            if (tooltip._trapsFixed(style)) return false;
+            if (el === wrapper) continue;
             const clips = [style.overflow, style.overflowX, style.overflowY].some(function (value) { return value && value !== 'visible'; });
             if (clips) return true;
         }
@@ -1503,12 +1642,22 @@ globalThis.twTooltip = {
     },
 
     _reset: function (wrapper) {
-        globalThis.twTooltip._floating.delete(wrapper);
-        const { bubble, arrow } = globalThis.twTooltip._parts(wrapper);
+        const tooltip = globalThis.twTooltip;
+        tooltip._floating.delete(wrapper);
+        const { bubble, arrow } = tooltip._parts(wrapper);
         if (bubble) {
-            ['position', 'inset', 'top', 'left', 'margin', 'translate', 'transform', 'margin-left'].forEach(function (name) {
-                bubble.style.removeProperty(name);
-            });
+            // Puts back the component's own inline style (such as a chart's anchored left and bottom) that floating replaced.
+            if (tooltip._savedStyles.has(bubble)) {
+                const saved = tooltip._savedStyles.get(bubble);
+                tooltip._savedStyles.delete(bubble);
+                if (saved === null) {
+                    bubble.removeAttribute('style');
+                } else {
+                    bubble.setAttribute('style', saved);
+                }
+            } else {
+                bubble.style.marginLeft = '';
+            }
         }
         if (arrow) arrow.style.marginLeft = '';
     },
@@ -1519,6 +1668,9 @@ globalThis.twTooltip = {
         const { bubble, arrow } = tooltip._parts(wrapper);
         if (!bubble) return false;
 
+        if (!tooltip._savedStyles.has(bubble)) {
+            tooltip._savedStyles.set(bubble, bubble.getAttribute('style'));
+        }
         bubble.style.position = 'fixed';
         bubble.style.inset = '0 auto auto 0';
         bubble.style.margin = '0';
@@ -1556,8 +1708,10 @@ globalThis.twTooltip = {
         const margin = tooltip._edgeMargin;
         const viewportWidth = document.documentElement.clientWidth;
         const fitted = viewportWidth > 0 ? Math.max(margin, Math.min(left, viewportWidth - margin - size.width)) : left;
-        bubble.style.left = fitted + 'px';
-        bubble.style.top = top + 'px';
+        // Pinned at 0,0 the bubble sits on its containing block's corner, which is the viewport's unless an ancestor
+        // outside the clip is transformed, so this offset keeps it on its control either way.
+        bubble.style.left = (fitted - size.left) + 'px';
+        bubble.style.top = (top - size.top) + 'px';
         if (arrow && fitted !== left && (placement === 'top' || placement === 'bottom')) {
             arrow.style.marginLeft = (left - fitted) + 'px';
         }

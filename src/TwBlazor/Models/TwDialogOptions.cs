@@ -4,6 +4,7 @@
 // Design and API shape inspired by MudBlazor's DialogOptions
 // (https://github.com/MudBlazor/MudBlazor/tree/dev/src/MudBlazor/Services/Dialog), MIT License.
 
+using System.Diagnostics.CodeAnalysis;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Enums;
 
@@ -12,6 +13,7 @@ namespace TwBlazor.Models;
 /// <summary>
 /// Customization options for a dialog shown via <see cref="Services.ITwDialogService"/>.
 /// </summary>
+[ExcludeFromCodeCoverage]
 public record TwDialogOptions
 {
     /// <summary>

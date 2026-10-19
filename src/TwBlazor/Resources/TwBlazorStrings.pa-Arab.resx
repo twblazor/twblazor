@@ -63,6 +63,12 @@
   <data name="Common_No" xml:space="preserve">
     <value>نئیں</value>
   </data>
+  <data name="Autocomplete_ResultsOne" xml:space="preserve">
+    <value>{0} نتیجہ دستیاب اے</value>
+  </data>
+  <data name="Autocomplete_ResultsOther" xml:space="preserve">
+    <value>{0} نتیجے دستیاب نیں</value>
+  </data>
   <data name="Breadcrumb_Label" xml:space="preserve">
     <value>بریڈ کرمب</value>
   </data>
