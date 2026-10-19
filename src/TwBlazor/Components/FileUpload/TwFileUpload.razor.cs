@@ -97,13 +97,9 @@ public partial class TwFileUpload : TwBlazorInputComponentBase
     private string fileListClasses =>
         new ClassBuilder(fileUploadTheme.FileList)
         .AddClass(options.Theme.Spacing.MarginTop.Lg)
-        .AddClass(options.Theme.Spacing.Gap.Sm)
-        .AddClass(options.Theme.Display.Block).Build();
-
-    private string chipClasses =>
-        new ClassBuilder(fileUploadTheme.IconSpacing)
-        .AddClass(options.Theme.Spacing.MarginBottom.Md)
-        .AddClass(fileUploadTheme.ChipTextColor).Build();
+        .AddClass(options.Theme.Spacing.Gap.Md)
+        .AddClass(options.Theme.Display.Flex)
+        .AddClass(options.Theme.Flexbox.Wrap).Build();
 
 
     /// <summary>
@@ -204,7 +200,7 @@ public partial class TwFileUpload : TwBlazorInputComponentBase
 
         try
         {
-            // The chip's remove button is gone with the chip, so focus returns to the upload control.
+            // The attachment's remove button is gone with it, so focus returns to the upload control.
             await jsRuntime.InvokeVoidAsync("twFocus.focusById", Id);
         }
         catch (JSDisconnectedException)

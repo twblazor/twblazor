@@ -264,6 +264,40 @@ public class TwFileUploadTests : TwBlazorTestBase
     }
 
     [Fact]
+    public void TwFileUpload_ShowsEachSelectedFile_AsARemovableAttachment()
+    {
+        // Arrange
+        var cut = TestContext.Render<TwFileUpload>(parameters => parameters.Add(p => p.Multiple, true));
+
+        // Act
+        cut.FindComponent<InputFile>().UploadFiles(
+            InputFileContent.CreateFromText("a", "first.txt"),
+            InputFileContent.CreateFromText("bb", "second.txt"));
+
+        // Assert
+        var attachments = cut.FindComponents<TwAttachment>();
+        Assert.Equal(["first.txt", "second.txt"], attachments.Select(a => a.Instance.FileName));
+        Assert.Equal(2, attachments[1].Instance.FileSize);
+        Assert.Empty(cut.FindComponents<TwChip>());
+        Assert.Equal("Remove second.txt", attachments[1].Find("button").GetAttribute("aria-label"));
+    }
+
+    [Theory]
+    [InlineData(true, false)]
+    [InlineData(false, true)]
+    public void TwFileUpload_WhenDisabledOrReadOnly_DisablesTheRemoveButtons(bool disabled, bool readOnly)
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwFileUpload>(parameters => parameters
+            .Add(p => p.Files, [new TestBrowserFile("locked.txt")])
+            .Add(p => p.Disabled, disabled)
+            .Add(p => p.ReadOnly, readOnly));
+
+        // Assert
+        Assert.True(cut.FindComponent<TwAttachment>().Find("button").HasAttribute("disabled"));
+    }
+
+    [Fact]
     public void TwFileUpload_UploadingSingleFile_WhenMultiple_AddsSingleFile()
     {
         // Arrange

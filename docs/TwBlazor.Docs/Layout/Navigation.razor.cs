@@ -52,6 +52,7 @@ public partial class Navigation : IDisposable
         ["feedback"] = Icon.Chat_Square_Dots,
         ["data"] = Icon.Table,
         ["charts"] = Icon.Bar_Chart_Line,
+        ["chat"] = Icon.Chat_Left_Dots,
         ["services"] = Icon.Plug,
     };
 

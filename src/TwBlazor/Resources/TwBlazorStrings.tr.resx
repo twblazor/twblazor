@@ -903,4 +903,34 @@
   <data name="DataTable_OperatorIsNotEmpty" xml:space="preserve">
     <value>Boş değil</value>
   </data>
+  <data name="Bubble_Reactions" xml:space="preserve">
+    <value>Tepkiler</value>
+  </data>
+  <data name="Bubble_Reaction" xml:space="preserve">
+    <value>{0}: {1}</value>
+  </data>
+  <data name="Attachment_Uploading" xml:space="preserve">
+    <value>{0} yükleniyor</value>
+  </data>
+  <data name="Attachment_Uploaded" xml:space="preserve">
+    <value>{0} yüklendi</value>
+  </data>
+  <data name="Attachment_Failed" xml:space="preserve">
+    <value>{0} yüklenemedi</value>
+  </data>
+  <data name="Attachment_Retry" xml:space="preserve">
+    <value>{0} dosyasını yeniden yükle</value>
+  </data>
+  <data name="Marker_Pending" xml:space="preserve">
+    <value>Bekliyor</value>
+  </data>
+  <data name="Marker_Running" xml:space="preserve">
+    <value>Devam ediyor</value>
+  </data>
+  <data name="Marker_Succeeded" xml:space="preserve">
+    <value>Bitti</value>
+  </data>
+  <data name="Marker_Failed" xml:space="preserve">
+    <value>Başarısız</value>
+  </data>
 </root>

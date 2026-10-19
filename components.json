@@ -336,6 +336,14 @@
         "name": "TwTable",
         "url": "/table",
         "theme": "TwTableTheme"
+      },
+      {
+        "id": "attachment-navitem",
+        "display": "Attachment",
+        "name": "TwAttachment",
+        "url": "/attachment",
+        "isNew": true,
+        "theme": "TwAttachmentTheme"
       }
     ]
   },
@@ -691,6 +699,36 @@
         "display": "Word Cloud",
         "name": "TwWordCloudChart",
         "url": "/chart/word-cloud"
+      }
+    ]
+  },
+  {
+    "category": "Chat",
+    "isNew": true,
+    "items": [
+      {
+        "id": "bubble-navitem",
+        "display": "Bubble",
+        "name": "TwBubble",
+        "url": "/bubble",
+        "isNew": true,
+        "theme": "TwBubbleTheme"
+      },
+      {
+        "id": "marker-navitem",
+        "display": "Marker",
+        "name": "TwMarker",
+        "url": "/marker",
+        "isNew": true,
+        "theme": "TwMarkerTheme"
+      },
+      {
+        "id": "message-navitem",
+        "display": "Message",
+        "name": "TwMessage",
+        "url": "/message",
+        "isNew": true,
+        "theme": "TwMessageTheme"
       }
     ]
   },

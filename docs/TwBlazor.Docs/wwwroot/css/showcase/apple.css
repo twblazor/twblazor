@@ -687,6 +687,9 @@
   .max-w-72 {
     max-width: calc(var(--spacing) * 72);
   }
+  .max-w-\[85\%\] {
+    max-width: 85%;
+  }
   .max-w-\[calc\(100vw-1rem\)\] {
     max-width: calc(100vw - 1rem);
   }
@@ -1073,6 +1076,9 @@
     border-start-start-radius: var(--radius-xl);
     border-end-start-radius: var(--radius-xl);
   }
+  .rounded-ss-sm {
+    border-start-start-radius: var(--radius-sm);
+  }
   .rounded-e-3xl {
     border-start-end-radius: var(--radius-3xl);
     border-end-end-radius: var(--radius-3xl);
@@ -1092,6 +1098,9 @@
   .rounded-e-xl {
     border-start-end-radius: var(--radius-xl);
     border-end-end-radius: var(--radius-xl);
+  }
+  .rounded-se-sm {
+    border-start-end-radius: var(--radius-sm);
   }
   .rounded-t-3xl {
     border-top-left-radius: var(--radius-3xl);
@@ -1695,6 +1704,9 @@
   }
   .px-3 {
     padding-inline: calc(var(--spacing) * 3);
+  }
+  .px-3\.5 {
+    padding-inline: calc(var(--spacing) * 3.5);
   }
   .px-4 {
     padding-inline: calc(var(--spacing) * 4);

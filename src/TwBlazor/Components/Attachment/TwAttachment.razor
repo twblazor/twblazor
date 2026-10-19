@@ -1,0 +1,56 @@
+@namespace TwBlazor.Components
+@using TwBlazor.Enums
+@inherits TwBlazorComponentBase
+
+<div id="@Id" class="@classes" style="@Style" role="group" aria-label="@(AriaLabelledBy == null ? AriaLabel ?? FileName : null)" aria-labelledby="@AriaLabelledBy" @attributes="Attributes">
+    @if (showPreview)
+    {
+        <img src="@PreviewSrc" alt="" class="@theme.Preview" loading="lazy" decoding="async" @onerror="OnPreviewError" />
+    }
+    else
+    {
+        <span class="@theme.IconBox" aria-hidden="true">
+            <TwIcon Icon="@effectiveIcon" Plain />
+        </span>
+    }
+    <div class="@theme.Details">
+        @if (isLink)
+        {
+            <a href="@Href" target="@Target" rel="@effectiveRel" class="@nameLinkClasses" title="@FileName">@FileName</a>
+        }
+        else
+        {
+            <span class="@theme.Name" title="@FileName">@FileName</span>
+        }
+        @switch (Status)
+        {
+            case AttachmentStatus.Uploading:
+                <TwProgress T="double" Value="@(Progress ?? 0)" Max="100" Indeterminate="@(!Progress.HasValue)" Size="ProgressSize.Small" AriaLabel="@localizer[TwStrings.Attachment_Uploading, FileName]" />
+                break;
+            case AttachmentStatus.Failed:
+                <span id="@errorId" class="@theme.Error">@(ErrorText ?? localizer[TwStrings.Attachment_Failed, FileName])</span>
+                break;
+            default:
+                if (metaParts.Count > 0)
+                {
+                    <span class="@theme.Meta">@string.Join(" · ", metaParts)</span>
+                }
+                break;
+        }
+    </div>
+    @if (hasActions)
+    {
+        <div class="@theme.Actions">
+            @Actions
+            @if (Status == AttachmentStatus.Failed && OnRetry.HasDelegate)
+            {
+                <TwIcon Icon="Enums.Icon.Arrow_Clockwise" OnClick="OnRetry" Disabled="@Disabled" AriaLabel="@localizer[TwStrings.Attachment_Retry, FileName]" aria-describedby="@errorId" />
+            }
+            @if (OnRemove.HasDelegate)
+            {
+                <TwIcon Icon="Enums.Icon.X" OnClick="OnRemove" Disabled="@Disabled" AriaLabel="@localizer[TwStrings.Chip_Remove, FileName]" />
+            }
+        </div>
+    }
+    <span class="@options.Theme.Display.ScreenReaderOnly" role="status">@announcement</span>
+</div>

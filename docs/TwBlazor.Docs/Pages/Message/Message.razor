@@ -1,0 +1,114 @@
+@page "/message"
+@using TwBlazor.Models
+
+<PageContainer Title="TwMessage" Path="/message" Beta Description="TwMessage is a Blazor chat message row with an avatar, the author, the time, the message content and a footer, aligned to the start or end of a conversation." ThemeType="typeof(TwMessageTheme)">
+    <PageCard Title="Basic usage">
+        <Description>Give <code>TwMessage</code> an <code>Author</code> and a <code>Timestamp</code>, and put the message itself in a <code>TwBubble</code>. The avatar shows the author's initials. Wrap the conversation in a container with <code>role="log"</code> so screen readers announce new messages.</Description>
+
+        <CodeExample Name="MessageBasic" CSharpName="MessageBasicCode">
+            <div role="log" aria-label="Conversation" class="flex flex-col gap-6">
+                <TwMessage Author="Jane Doe" Timestamp="@_sentAt">
+                    <TwBubble>Has the release gone out yet?</TwBubble>
+                </TwMessage>
+                <TwMessage Author="Sam Lee" Timestamp="@_sentAt.AddMinutes(2)" AvatarColor="Color.Primary">
+                    <TwBubble>Not yet, the last build is still running.</TwBubble>
+                </TwMessage>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Your own messages">
+        <Description>Set <code>Align</code> to <code>MessageAlign.End</code> for the current user's messages. The avatar moves to the end edge, and any <code>TwBubble</code> inside follows the alignment and points its tip at the avatar.</Description>
+
+        <CodeExample Name="MessageAlignment" CSharpName="MessageBasicCode">
+            <div role="log" aria-label="Conversation" class="flex flex-col gap-6">
+                <TwMessage Author="Assistant" AvatarIcon="Icon.Robot" AvatarColor="Color.Info" Timestamp="@_sentAt">
+                    <TwBubble>How can I help today?</TwBubble>
+                </TwMessage>
+                <TwMessage Author="You" Align="MessageAlign.End" Timestamp="@_sentAt.AddMinutes(1)" AvatarColor="Color.Primary">
+                    <TwBubble Variant="BubbleVariant.Filled">Summarise yesterday's support tickets, please.</TwBubble>
+                </TwMessage>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Continued messages">
+        <Description>Set <code>Continued</code> on a message that follows another from the same author. Its avatar and header are hidden from view so the messages read as one group, but the author and time are still read out to screen readers.</Description>
+
+        <CodeExample Name="MessageContinued" CSharpName="MessageBasicCode">
+            <div role="log" aria-label="Conversation" class="flex flex-col gap-2">
+                <TwMessage Author="Jane Doe" Timestamp="@_sentAt">
+                    <TwBubble>Quick update on the launch.</TwBubble>
+                </TwMessage>
+                <TwMessage Author="Jane Doe" Timestamp="@_sentAt" Continued>
+                    <TwBubble Tail="false">The copy is signed off.</TwBubble>
+                </TwMessage>
+                <TwMessage Author="Jane Doe" Timestamp="@_sentAt.AddMinutes(1)" Continued>
+                    <TwBubble Tail="false">Images are going in this afternoon.</TwBubble>
+                </TwMessage>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Footer">
+        <Description>Use <code>Footer</code> for actions or a delivery state under the message. Give icon buttons an <code>AriaLabel</code>.</Description>
+
+        <CodeExample Name="MessageFooter" CSharpName="MessageBasicCode">
+            <TwMessage Author="Assistant" AvatarIcon="Icon.Robot" AvatarColor="Color.Info" Timestamp="@_sentAt">
+                <ChildContent>
+                    <TwBubble>Here is a draft reply for the customer.</TwBubble>
+                </ChildContent>
+                <Footer>
+                    <TwIcon Icon="Icon.Clipboard" AriaLabel="Copy reply" Tooltip="Copy" OnClick="@(() => { })" />
+                    <TwIcon Icon="Icon.Arrow_Clockwise" AriaLabel="Regenerate reply" Tooltip="Regenerate" OnClick="@(() => { })" />
+                    <span>Generated in 2.1s</span>
+                </Footer>
+            </TwMessage>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="An assistant conversation">
+        <Description>The chat components work together: <code>TwMarker</code> for the steps an assistant took and for date separators, <code>TwAttachment</code> for files, and <code>TwBubble</code> reactions for feedback.</Description>
+
+        <CodeExample Name="MessageConversation" CSharpName="MessageConversationCode">
+            <div role="log" aria-label="Conversation with the assistant" class="flex flex-col gap-6">
+                <TwMarker Variant="MarkerVariant.Separator" Label="Today" />
+                <TwMessage Author="You" Align="MessageAlign.End" Timestamp="@_sentAt" AvatarColor="Color.Primary">
+                    <TwAttachment FileName="q3-sales.xlsx" FileSize="48_230" />
+                    <TwBubble Variant="BubbleVariant.Filled">Which region grew the most last quarter?</TwBubble>
+                </TwMessage>
+                <TwMessage Author="Assistant" AvatarIcon="Icon.Robot" AvatarColor="Color.Info" Timestamp="@_sentAt.AddMinutes(1)">
+                    <TwMarker Status="MarkerStatus.Succeeded" Label="Read q3-sales.xlsx" Detail="0.4s" />
+                    <TwMarker Status="MarkerStatus.Succeeded" Label="Compared regions" Detail="1.2s" />
+                    <TwBubble Reactions="@_reactions" OnReactionClick="ToggleReaction">The North region grew the most, with sales up 18% on the quarter before.</TwBubble>
+                </TwMessage>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Accessibility">
+        <Description>
+            Each message is an <code>article</code> named by its author and time, so screen reader users can jump from message to message. The avatar is decoration, since the author's name is written beside it. A continued message keeps its author and time for screen readers. Put the conversation in a container with <code>role="log"</code> and an <code>aria-label</code>, so new messages are announced politely as they arrive.
+        </Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample MessageBasicCode
+    private readonly DateTime _sentAt = new(2026, 10, 19, 9, 30, 0);
+    #endregion
+
+    #region CodeExample MessageConversationCode
+    private readonly List<BubbleReaction> _reactions =
+    [
+        new() { Emoji = "👍", Label = "Helpful", Count = 2 },
+        new() { Emoji = "👎", Label = "Not helpful", Count = 0 }
+    ];
+
+    private void ToggleReaction(BubbleReaction reaction)
+    {
+        reaction.Reacted = !reaction.Reacted;
+        reaction.Count += reaction.Reacted ? 1 : -1;
+    }
+    #endregion
+}

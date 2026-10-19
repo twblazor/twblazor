@@ -1,0 +1,55 @@
+@namespace TwBlazor.Components
+@using TwBlazor.Enums
+@inherits TwBlazorComponentBase
+
+@if (Variant == MarkerVariant.Separator)
+{
+    <div id="@Id" class="@separatorClasses" style="@Style" role="separator" aria-label="@separatorName" aria-labelledby="@AriaLabelledBy" @attributes="Attributes">
+        <span class="@theme.Line"></span>
+        @if (hasLabel)
+        {
+            <span class="@theme.SeparatorLabel">@RenderLabel()</span>
+            <span class="@theme.Line"></span>
+        }
+    </div>
+}
+else
+{
+    <div id="@Id" class="@statusClasses" style="@Style" role="@(Live ? "status" : null)" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy" @attributes="Attributes">
+        @if (Status == MarkerStatus.Running)
+        {
+            <span class="@theme.Icon">
+                <TwSpinner Size="SpinnerSize.Small" Color="@Color" aria-hidden="true" />
+            </span>
+        }
+        else if (effectiveIcon.HasValue)
+        {
+            <span class="@iconClasses" aria-hidden="true">
+                <TwIcon Icon="@effectiveIcon.Value" Plain />
+            </span>
+        }
+        <span class="@theme.Label">@RenderLabel()</span>
+        @if (!string.IsNullOrWhiteSpace(Detail))
+        {
+            <span class="@theme.Detail">@Detail</span>
+        }
+        @if (statusText != null)
+        {
+            <span class="@options.Theme.Display.ScreenReaderOnly">@statusText</span>
+        }
+    </div>
+}
+
+@code {
+    private RenderFragment RenderLabel() => __builder =>
+    {
+        if (ChildContent != null)
+        {
+            @ChildContent
+        }
+        else
+        {
+            @Label
+        }
+    };
+}

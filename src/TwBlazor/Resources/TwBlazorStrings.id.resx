@@ -900,4 +900,34 @@
   <data name="DataTable_OperatorIsNotEmpty" xml:space="preserve">
     <value>Tidak kosong</value>
   </data>
+  <data name="Bubble_Reactions" xml:space="preserve">
+    <value>Reaksi</value>
+  </data>
+  <data name="Bubble_Reaction" xml:space="preserve">
+    <value>{0}: {1}</value>
+  </data>
+  <data name="Attachment_Uploading" xml:space="preserve">
+    <value>Mengunggah {0}</value>
+  </data>
+  <data name="Attachment_Uploaded" xml:space="preserve">
+    <value>{0} terunggah</value>
+  </data>
+  <data name="Attachment_Failed" xml:space="preserve">
+    <value>{0} gagal diunggah</value>
+  </data>
+  <data name="Attachment_Retry" xml:space="preserve">
+    <value>Coba unggah ulang {0}</value>
+  </data>
+  <data name="Marker_Pending" xml:space="preserve">
+    <value>Menunggu</value>
+  </data>
+  <data name="Marker_Running" xml:space="preserve">
+    <value>Sedang berjalan</value>
+  </data>
+  <data name="Marker_Succeeded" xml:space="preserve">
+    <value>Selesai</value>
+  </data>
+  <data name="Marker_Failed" xml:space="preserve">
+    <value>Gagal</value>
+  </data>
 </root>

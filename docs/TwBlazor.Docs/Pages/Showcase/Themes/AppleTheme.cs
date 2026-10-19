@@ -784,6 +784,87 @@ public static class AppleTheme
                     Image = $"{sizing.Full} object-cover",
                     Icon = "text-[1.25em]"
                 },
+                new TwAttachmentTheme
+                {
+                    Base = $"{display.InlineFlex} {flexbox.Align.Center} {spacing.Gap.Lg} w-72 max-w-full {spacing.Padding.Md} {borderWidth.Thin} {neutralSurface.Border} {neutralSurface.Background}",
+                    Failed = borderColors.Danger,
+                    Preview = $"size-10 {flexbox.ShrinkNone} {rounded.Md} object-cover",
+                    IconBox = $"{display.Flex} {anchor.Center} size-10 {flexbox.ShrinkNone} {rounded.Md} {neutralTrack} {neutralText.Secondary} {typography.Size.Lg}",
+                    Details = $"{display.Flex} {flexbox.Col} {spacing.Gap.Sm} {flexbox.Flex1} {sizing.MinWidthNone}",
+                    Name = $"truncate {typography.Size.Sm} {typography.Weight.Medium} {neutralText.Heading}",
+                    NameLink = $"hover:underline {rounded.Sm} {focusRing} {interaction.FocusOutlineNone}",
+                    Meta = $"{typography.Size.Xs} {neutralText.Muted}",
+                    Error = $"{typography.Size.Xs} {text.Medium.Danger} {darkText.Light.Danger}",
+                    Actions = $"{display.Flex} {flexbox.Align.Center} {flexbox.ShrinkNone}"
+                },
+                new TwBubbleTheme
+                {
+                    Surface = $"{positioning.Relative} {display.Block} max-w-full px-4 py-2.5 {typography.Size.Sm} {typography.WrapBreakWord} text-start",
+                    Tip = "before:absolute before:bottom-0 before:w-2 before:h-3 before:origin-bottom before:bg-inherit before:[border-color:inherit] before:[border-style:inherit] before:[border-bottom-width:inherit] before:content-['']",
+                    Soft = new()
+                    {
+                        Primary = $"{background.Light.Primary} {darkBackground.Dark.Primary} {text.Dark.Primary} {darkText.Light.Primary}",
+                        Accent = $"{background.Light.Accent} {darkBackground.Dark.Accent} {text.Dark.Accent} {darkText.Light.Accent}",
+                        Success = $"{background.Light.Success} {darkBackground.Dark.Success} {text.Dark.Success} {darkText.Light.Success}",
+                        Danger = $"{background.Light.Danger} {darkBackground.Dark.Danger} {text.Dark.Danger} {darkText.Light.Danger}",
+                        Warning = $"{background.Light.Warning} {darkBackground.Dark.Warning} {text.Dark.Warning} {darkText.Light.Warning}",
+                        Info = $"{background.Light.Info} {darkBackground.Dark.Info} {text.Dark.Info} {darkText.Light.Info}",
+                        Light = $"{background.Light.Light} {darkBackground.Dark.Light} {text.Medium.Dark} {darkText.Medium.Dark}",
+                        Dark = $"{background.Light.Dark} {darkBackground.Dark.Dark} {text.Medium.Dark} {darkText.Light.Dark}",
+                    },
+                    Filled = new()
+                    {
+                        Primary = $"{background.Medium.Primary} {text.Medium.Light}",
+                        Accent = "bg-zinc-700 text-gray-100",
+                        Success = $"{background.Medium.Success} text-white",
+                        Danger = "bg-red-700 text-gray-100",
+                        Warning = $"{background.Medium.Warning} {text.Medium.Dark}",
+                        Info = $"{background.Medium.Info} {text.Medium.Light}",
+                        Light = $"{background.Medium.Light} {text.Medium.Dark}",
+                        Dark = $"{background.Dark.Dark} {text.Medium.Light}",
+                    },
+                    Outlined = new()
+                    {
+                        Primary = $"{neutralSurface.Background} {borderColors.Primary} {text.Dark.Primary} {darkText.Light.Primary}",
+                        Accent = $"{neutralSurface.Background} {borderColors.Accent} {text.Dark.Accent} {darkText.Light.Accent}",
+                        Success = $"{neutralSurface.Background} {borderColors.Success} {text.Dark.Success} {darkText.Light.Success}",
+                        Danger = $"{neutralSurface.Background} {borderColors.Danger} {text.Dark.Danger} {darkText.Light.Danger}",
+                        Warning = $"{neutralSurface.Background} {borderColors.Warning} {text.Dark.Warning} {darkText.Light.Warning}",
+                        Info = $"{neutralSurface.Background} {borderColors.Info} {text.Dark.Info} {darkText.Light.Info}",
+                        Light = $"{neutralSurface.Background} {borderColors.Light} {neutralText.Heading}",
+                        Dark = $"{neutralSurface.Background} {borderColors.Dark} {neutralText.Heading}",
+                    },
+                    Neutral = $"{neutralTrack} {neutralText.Heading}",
+                    NeutralOutlined = $"{neutralSurface.Background} {neutralSurface.BorderStrong} {neutralText.Heading}",
+                    StartTail = "rounded-es-none before:-start-2 before:[border-inline-start-width:inherit] before:-skew-x-[34deg] rtl:before:skew-x-[34deg]",
+                    EndTail = "rounded-ee-none before:-end-2 before:[border-inline-end-width:inherit] before:skew-x-[34deg] rtl:before:-skew-x-[34deg]",
+                    Reactions = $"{display.Flex} {flexbox.Wrap} {spacing.Gap.Md}",
+                    ReactionEmoji = $"{typography.Size.Base} leading-none",
+                    ReactionCount = "tabular-nums"
+                },
+                new TwMarkerTheme
+                {
+                    Status = $"{display.Flex} {flexbox.Align.Center} {spacing.Gap.Md} {typography.Size.Sm} {neutralText.Muted}",
+                    Icon = $"{display.InlineFlex} {anchor.Center} {sizing.Icon.Md} {flexbox.ShrinkNone}",
+                    Pending = neutralText.Subtle,
+                    Succeeded = $"{text.Medium.Success} {darkText.Light.Success}",
+                    Failed = $"{text.Medium.Danger} {darkText.Light.Danger}",
+                    Label = $"{sizing.MinWidthNone} {typography.WrapBreakWord}",
+                    Detail = $"{typography.Size.Xs} {neutralText.Muted}",
+                    Separator = $"{display.Flex} {flexbox.Align.Center} {spacing.Gap.Lg} {sizing.FullWidth} {typography.Size.Xs} {neutralText.Muted}",
+                    Line = $"{flexbox.Flex1} border-t {neutralSurface.Border}",
+                    SeparatorLabel = $"{flexbox.ShrinkNone} {typography.Weight.Medium}"
+                },
+                new TwMessageTheme
+                {
+                    Base = $"{display.Flex} {flexbox.Align.End} {spacing.Gap.Lg} {sizing.FullWidth}",
+                    AvatarSpacer = $"w-8 {flexbox.ShrinkNone}",
+                    Content = $"{display.Flex} {flexbox.Col} {spacing.Gap.Md} {sizing.MinWidthNone} max-w-[85%]",
+                    Header = $"{display.Flex} {flexbox.Align.Baseline} {spacing.Gap.Md} {typography.Size.Xs}",
+                    Author = $"{typography.Weight.Semibold} {neutralText.Heading}",
+                    Timestamp = neutralText.Muted,
+                    Footer = $"{display.Flex} {flexbox.Align.Center} {spacing.Gap.Sm} {typography.Size.Xs} {neutralText.Muted}"
+                },
                 new TwBreadcrumbTheme
                 {
                     List = $"{display.InlineFlex} {flexbox.Wrap} {flexbox.Align.Center} {spacing.Gap.Sm} {typography.Size.Sm}",
@@ -1024,7 +1105,6 @@ public static class AppleTheme
                 {
                     IconSpacing = "me-2",
                     FileList = $"{typography.Size.Sm} {neutralText.Secondary}",
-                    ChipTextColor = "dark:text-white",
                     FocusRing = "has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-cupertino-500 dark:has-[:focus-visible]:ring-cupertino-400 has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-offset-[oklch(100%_0.003_286)] dark:has-[:focus-visible]:ring-offset-[oklch(18%_0.004_286)] forced-colors:has-[:focus-visible]:outline-2 forced-colors:has-[:focus-visible]:outline-offset-2 forced-colors:has-[:focus-visible]:outline-[Highlight]"
                 },
                 new TwFooterTheme

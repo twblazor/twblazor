@@ -1,0 +1,78 @@
+@page "/marker"
+
+<PageContainer Title="TwMarker" Path="/marker" Beta Description="TwMarker is a Blazor inline status marker for tool call lines, plus row separators and labelled dividers such as Today or New messages." ThemeType="typeof(TwMarkerTheme)">
+    <PageCard Title="Status lines">
+        <Description>Give <code>TwMarker</code> a <code>Label</code> and a <code>Status</code> to show a step an assistant took, such as a tool call. A running step shows a spinner, and a finished one a tick or a cross. Use <code>Detail</code> for muted text after the label.</Description>
+
+        <CodeExample Name="MarkerStatuses">
+            <div class="flex flex-col gap-2">
+                <TwMarker Status="MarkerStatus.Succeeded" Label="Searched the web" Detail="1.2s" />
+                <TwMarker Status="MarkerStatus.Failed" Label="Opened pricing.pdf" Detail="File not found" />
+                <TwMarker Status="MarkerStatus.Running" Label="Reading 3 files" />
+                <TwMarker Status="MarkerStatus.Pending" Label="Write the summary" />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Icons and colors">
+        <Description>Set <code>Icon</code> to show your own icon, and <code>Color</code> to tint it. Without a <code>Status</code>, the marker is just an icon and a label.</Description>
+
+        <CodeExample Name="MarkerIcons">
+            <div class="flex flex-col gap-2">
+                <TwMarker Icon="Icon.Tools" Color="Color.Info" Label="Used the calculator" />
+                <TwMarker Icon="Icon.Stars" Color="Color.Accent" Label="Thought for 4 seconds" />
+                <TwMarker Icon="Icon.Paperclip" Label="2 files attached" />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Live updates">
+        <Description>Set <code>Live</code> to make the marker a polite live region, so screen readers announce it when its label or status changes.</Description>
+
+        <CodeExample Name="MarkerLive" CSharpName="MarkerLiveCode">
+            <div class="flex flex-col items-start gap-3">
+                <TwMarker Live Status="@_status" Label="@_label" />
+                <TwButton Label="Run step" OnClick="RunAsync" Disabled="@(_status == MarkerStatus.Running)" />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Separators">
+        <Description>Set <code>Variant</code> to <code>MarkerVariant.Separator</code> for a rule between rows. Give it a <code>Label</code>, such as a date or "New messages", to show it in the middle.</Description>
+
+        <CodeExample Name="MarkerSeparators">
+            <div class="flex flex-col gap-4">
+                <TwMarker Variant="MarkerVariant.Separator" />
+                <TwMarker Variant="MarkerVariant.Separator" Label="Today" />
+                <TwMarker Variant="MarkerVariant.Separator" AriaLabel="New messages">
+                    <span class="text-red-700 dark:text-red-300">New messages</span>
+                </TwMarker>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Accessibility">
+        <Description>
+            A status marker's icon or spinner is hidden from screen readers, and its state ("Done", "Failed", "In progress" or "Pending") is written out after the label, so it is never told by the icon or its color alone. A live marker announces its changes politely. A separator is exposed as a separator named by its <code>Label</code>. A separator with custom content needs an <code>AriaLabel</code>.
+        </Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample MarkerLiveCode
+    private MarkerStatus _status = MarkerStatus.Pending;
+    private string _label = "Check the order status";
+
+    private async Task RunAsync()
+    {
+        _status = MarkerStatus.Running;
+        _label = "Checking the order status";
+        StateHasChanged();
+
+        await Task.Delay(1500);
+
+        _status = MarkerStatus.Succeeded;
+        _label = "Checked the order status";
+    }
+    #endregion
+}

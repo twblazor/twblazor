@@ -1,0 +1,94 @@
+@page "/bubble"
+@using TwBlazor.Models
+
+<PageContainer Title="TwBubble" Path="/bubble" Beta Description="TwBubble is a Blazor chat message bubble with soft, filled and outlined variants, start and end alignment and a row of reaction chips." ThemeType="typeof(TwBubbleTheme)">
+    <PageCard Title="Basic usage">
+        <Description>Put the message text in a <code>TwBubble</code>. By default it is a soft gray bubble with a tip near its bottom pointing at the sender.</Description>
+
+        <CodeExample Name="BubbleBasic">
+            <TwBubble>Can you send me the latest figures?</TwBubble>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Variants">
+        <Description>Use <code>Variant</code> to choose a <code>Soft</code>, <code>Filled</code> or <code>Outlined</code> bubble. A filled bubble with no <code>Color</code> uses the primary color.</Description>
+
+        <CodeExample Name="BubbleVariants">
+            <div class="flex flex-col gap-3">
+                <TwBubble Variant="BubbleVariant.Soft">A soft bubble.</TwBubble>
+                <TwBubble Variant="BubbleVariant.Filled">A filled bubble.</TwBubble>
+                <TwBubble Variant="BubbleVariant.Outlined">An outlined bubble.</TwBubble>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Colors">
+        <Description>Set <code>Color</code> to tint the bubble. Every variant has every color.</Description>
+
+        <CodeExample Name="BubbleColors">
+            <div class="grid gap-3 sm:grid-cols-3">
+                @foreach (var variant in Enum.GetValues<BubbleVariant>())
+                {
+                    <div class="flex flex-col gap-2">
+                        @foreach (var color in Enum.GetValues<Color>())
+                        {
+                            <TwBubble Variant="@variant" Color="@color">@variant @color</TwBubble>
+                        }
+                    </div>
+                }
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Alignment and tail">
+        <Description>Inside a <code>TwMessage</code> the bubble follows the message's alignment, and its tip points at the avatar. On its own, set <code>Align</code>. Set <code>Tail</code> to <code>false</code> to leave the tip off, for example on every bubble but the last in a group.</Description>
+
+        <CodeExample Name="BubbleAlignment">
+            <div class="flex flex-col gap-3">
+                <TwBubble>Start aligned, with a tail.</TwBubble>
+                <TwBubble Tail="false">Start aligned, without a tail.</TwBubble>
+                <TwBubble Align="MessageAlign.End" Variant="BubbleVariant.Filled">End aligned, with a tail.</TwBubble>
+                <TwBubble Align="MessageAlign.End" Variant="BubbleVariant.Filled" Tail="false">End aligned, without a tail.</TwBubble>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Reactions">
+        <Description>Pass <code>Reactions</code> to show them under the bubble. Give each one a <code>Label</code> for screen readers. Set <code>OnReactionClick</code> to make them toggle buttons, and update the reaction's <code>Reacted</code> and <code>Count</code> in the callback.</Description>
+
+        <CodeExample Name="BubbleReactions" CSharpName="BubbleReactionsCode">
+            <div class="flex flex-col gap-4">
+                <TwBubble Reactions="@_reactions" OnReactionClick="ToggleReaction">The release is live. Thanks, everyone!</TwBubble>
+                <TwBubble Reactions="@_readOnlyReactions" Color="Color.Success">Read only reactions are shown as text.</TwBubble>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Accessibility">
+        <Description>
+            The bubble's text is read as normal content. Its reactions are a group named "Reactions", and each one is announced by its label and count, for example "Celebrate: 4", so screen readers never read the emoji and the number without context. Clickable reactions are buttons with <code>aria-pressed</code>, so you hear whether you have chosen each one. Colors meet WCAG AA contrast in light and dark mode.
+        </Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample BubbleReactionsCode
+    private readonly List<BubbleReaction> _reactions =
+    [
+        new() { Emoji = "🎉", Label = "Celebrate", Count = 4, Reacted = true },
+        new() { Emoji = "❤️", Label = "Love", Count = 2 },
+        new() { Emoji = "👀", Label = "Looking", Count = 1 }
+    ];
+
+    private readonly List<BubbleReaction> _readOnlyReactions =
+    [
+        new() { Emoji = "👍", Label = "Thumbs up", Count = 12 }
+    ];
+
+    private void ToggleReaction(BubbleReaction reaction)
+    {
+        reaction.Reacted = !reaction.Reacted;
+        reaction.Count += reaction.Reacted ? 1 : -1;
+    }
+    #endregion
+}
