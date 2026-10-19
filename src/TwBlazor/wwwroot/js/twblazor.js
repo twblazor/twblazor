@@ -1585,6 +1585,7 @@ globalThis.twTooltip = {
     _gap: 8,
     _registered: false,
     _floating: new Set(),
+    _savedStyles: new WeakMap(),
 
     _parts: function (wrapper) {
         const bubble = Array.from(wrapper.children).find(child => child.getAttribute('role') === 'tooltip') ?? null;
@@ -1615,10 +1616,25 @@ globalThis.twTooltip = {
         if (arrow) arrow.style.marginLeft = `${-shift}px`;
     },
 
-    // Whether an ancestor between the wrapper and the page clips its overflow, which would cut the bubble off.
+    // Whether an element makes itself the containing block of fixed descendants, so a fixed bubble below it is
+    // placed relative to it rather than the viewport and is still clipped by whatever clips it.
+    _trapsFixed: function (style) {
+        const set = function (value) { return !!value && value !== 'none'; };
+        return set(style.transform) || set(style.translate) || set(style.scale) || set(style.rotate)
+            || set(style.perspective) || set(style.filter) || set(style.backdropFilter)
+            || /paint|layout|strict|content/.test(style.contain || '')
+            || /transform|perspective|filter/.test(style.willChange || '');
+    },
+
+    // Whether an ancestor between the wrapper and the page clips its overflow, which would cut the bubble off, in a
+    // way a fixed bubble can escape. A transformed wrapper or ancestor met first would hold a fixed bubble inside the
+    // same clip, so the bubble is then left where it is.
     _isClipped: function (wrapper) {
-        for (let el = wrapper.parentElement; el && el !== document.body && el !== document.documentElement; el = el.parentElement) {
+        const tooltip = globalThis.twTooltip;
+        for (let el = wrapper; el && el !== document.body && el !== document.documentElement; el = el.parentElement) {
             const style = getComputedStyle(el);
+            if (tooltip._trapsFixed(style)) return false;
+            if (el === wrapper) continue;
             const clips = [style.overflow, style.overflowX, style.overflowY].some(function (value) { return value && value !== 'visible'; });
             if (clips) return true;
         }
@@ -1626,12 +1642,22 @@ globalThis.twTooltip = {
     },
 
     _reset: function (wrapper) {
-        globalThis.twTooltip._floating.delete(wrapper);
-        const { bubble, arrow } = globalThis.twTooltip._parts(wrapper);
+        const tooltip = globalThis.twTooltip;
+        tooltip._floating.delete(wrapper);
+        const { bubble, arrow } = tooltip._parts(wrapper);
         if (bubble) {
-            ['position', 'inset', 'top', 'left', 'margin', 'translate', 'transform', 'margin-left'].forEach(function (name) {
-                bubble.style.removeProperty(name);
-            });
+            // Puts back the component's own inline style (such as a chart's anchored left and bottom) that floating replaced.
+            if (tooltip._savedStyles.has(bubble)) {
+                const saved = tooltip._savedStyles.get(bubble);
+                tooltip._savedStyles.delete(bubble);
+                if (saved === null) {
+                    bubble.removeAttribute('style');
+                } else {
+                    bubble.setAttribute('style', saved);
+                }
+            } else {
+                bubble.style.marginLeft = '';
+            }
         }
         if (arrow) arrow.style.marginLeft = '';
     },
@@ -1642,6 +1668,9 @@ globalThis.twTooltip = {
         const { bubble, arrow } = tooltip._parts(wrapper);
         if (!bubble) return false;
 
+        if (!tooltip._savedStyles.has(bubble)) {
+            tooltip._savedStyles.set(bubble, bubble.getAttribute('style'));
+        }
         bubble.style.position = 'fixed';
         bubble.style.inset = '0 auto auto 0';
         bubble.style.margin = '0';
@@ -1679,8 +1708,10 @@ globalThis.twTooltip = {
         const margin = tooltip._edgeMargin;
         const viewportWidth = document.documentElement.clientWidth;
         const fitted = viewportWidth > 0 ? Math.max(margin, Math.min(left, viewportWidth - margin - size.width)) : left;
-        bubble.style.left = fitted + 'px';
-        bubble.style.top = top + 'px';
+        // Pinned at 0,0 the bubble sits on its containing block's corner, which is the viewport's unless an ancestor
+        // outside the clip is transformed, so this offset keeps it on its control either way.
+        bubble.style.left = (fitted - size.left) + 'px';
+        bubble.style.top = (top - size.top) + 'px';
         if (arrow && fitted !== left && (placement === 'top' || placement === 'bottom')) {
             arrow.style.marginLeft = (left - fitted) + 'px';
         }
