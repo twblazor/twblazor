@@ -98,6 +98,57 @@ public partial class TwSelect<T> : TwPopoverPickerComponentBase
     [Parameter] public string PropertyName { get; set; } = string.Empty;
 
     /// <summary>
+    /// Gets or sets whether a clear button is shown at the end of the field, which clears the selection: the
+    /// single select's <see cref="SelectedValue"/> becomes <see langword="default"/>, and a <see cref="Multiple"/>
+    /// select's <see cref="SelectedValues"/> becomes empty.
+    /// </summary>
+    /// <remarks>
+    /// Shown in every mode, the native picker included, and disabled while nothing is selected. It is left out of the
+    /// Tab order, as the text field's is; pressing Delete or Backspace on the field clears it from the keyboard. Has no
+    /// effect on a <see cref="Required"/> single select, which always keeps a value, or while the select is disabled
+    /// or read only.
+    /// </remarks>
+    [Parameter] public bool Clearable { get; set; }
+
+    /// <summary>
+    /// Gets or sets the callback that is invoked after the clear button, or Delete or Backspace, clears the selection.
+    /// </summary>
+    [Parameter] public EventCallback OnClear { get; set; }
+
+    /// <summary>
+    /// Gets or sets the content rendered for each option in the listbox.
+    /// </summary>
+    /// <remarks>
+    /// Used only by the custom listbox popover. When the browser's native picker is used instead (on iOS and Android
+    /// by default, or with <see cref="TwPopoverPickerComponentBase.PreferNativePicker"/> set to
+    /// <see langword="true"/>), a native <c>&lt;option&gt;</c> can only hold text, so each option falls back to its
+    /// display text from <see cref="PropertyName"/> or <see cref="object.ToString"/>. The closed field and the chips
+    /// of a <see cref="Multiple"/> select always show that display text too.
+    /// </remarks>
+    [Parameter] public RenderFragment<T>? ItemTemplate { get; set; }
+
+    /// <summary>
+    /// Reference to the native, invisible <c>&lt;select multiple&gt;</c>, so <see cref="ClearAsync"/> can deselect its
+    /// options as well.
+    /// </summary>
+    private ElementReference nativeMultipleRef;
+
+    private bool showClearButton => Clearable && !Disabled && !ReadOnly && (Multiple || !Required);
+
+    private bool canClear => Multiple ? selectedValueIds.Count > 0 : hasSelection;
+
+    // The clear button (2rem) sits 2rem from the end, just before the chevron, so the field keeps its text clear of both.
+    private const string clearButtonInset = "2rem";
+
+    private string? clearPaddingStyle => showClearButton ? "padding-inline-end: 4.5rem;" : null;
+
+    private string? clearTextStyle => showClearButton ? $"padding-inline-end: {clearButtonInset};" : null;
+
+    private static string clearWrapperStyle => $"inset-inline-end: {clearButtonInset}; inset-block: 0; align-items: center; z-index: 1;";
+
+    private const string clearButtonStyle = "block-size: min(2rem, 100%);";
+
+    /// <summary>
     /// Reference to the custom single-select listbox, handed to <c>twSelect.attachListbox</c> for
     /// keyboard navigation.
     /// </summary>
@@ -313,6 +364,55 @@ public partial class TwSelect<T> : TwPopoverPickerComponentBase
         if (!isFocused && e.Key is "ArrowDown" or "ArrowUp")
         {
             await ToggleOrOpenPanelAsync();
+        }
+        else if (!isFocused && Clearable && e.Key is "Delete" or "Backspace")
+        {
+            await ClearAsync();
+        }
+    }
+
+    /// <summary>
+    /// Clears the selection, as the <see cref="Clearable"/> clear button does, then moves focus back to the field.
+    /// </summary>
+    /// <returns>A task that completes once the selection has been cleared.</returns>
+    public async Task ClearAsync()
+    {
+        if (!showClearButton || !canClear)
+            return;
+
+        if (Multiple)
+        {
+            selectedValueIds = [];
+            SelectedValues = [];
+
+            if (UseNativePicker)
+            {
+                // The browser keeps an option the user picked selected even once its selected attribute is removed.
+                await JSRuntime.InvokeVoidAsync("twSelect.deselectAll", nativeMultipleRef);
+            }
+
+            if (SelectedValuesChanged.HasDelegate)
+            {
+                await SelectedValuesChanged.InvokeAsync(SelectedValues);
+            }
+        }
+        else
+        {
+            await CommitSelectionAsync(0);
+        }
+
+        if (OnClear.HasDelegate)
+        {
+            await OnClear.InvokeAsync();
+        }
+
+        try
+        {
+            await JSRuntime.InvokeVoidAsync("twFocus.focusById", Id);
+        }
+        catch (JSDisconnectedException)
+        {
+            // The circuit disconnected; there is no focus left to move.
         }
     }
 

@@ -63,6 +63,12 @@
   <data name="Common_No" xml:space="preserve">
     <value>لا</value>
   </data>
+  <data name="Autocomplete_ResultsOne" xml:space="preserve">
+    <value>عدد النتائج المتاحة: {0}</value>
+  </data>
+  <data name="Autocomplete_ResultsOther" xml:space="preserve">
+    <value>عدد النتائج المتاحة: {0}</value>
+  </data>
   <data name="Breadcrumb_Label" xml:space="preserve">
     <value>مسار التنقل</value>
   </data>

@@ -68,6 +68,15 @@
     <value>{0} - {1}</value>
     <comment>Joins the start and end of a range. {0} = start, {1} = end.</comment>
   </data>
+  <!-- Autocomplete -->
+  <data name="Autocomplete_ResultsOne" xml:space="preserve">
+    <value>{0} result available</value>
+    <comment>{0} = suggestion count (singular form). Announced while the list is open.</comment>
+  </data>
+  <data name="Autocomplete_ResultsOther" xml:space="preserve">
+    <value>{0} results available</value>
+    <comment>{0} = suggestion count (plural form). Announced while the list is open.</comment>
+  </data>
   <!-- Breadcrumb -->
   <data name="Breadcrumb_Label" xml:space="preserve">
     <value>Breadcrumb</value>

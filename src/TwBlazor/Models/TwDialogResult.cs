@@ -54,7 +54,7 @@ public class TwDialogResult
     public static TwDialogResult Ok<T>(T result, Type? dialogType) => new(result, dialogType, false);
 
     /// <summary>
-    /// Creates a canceled result.
+    /// Creates a cancelled result.
     /// </summary>
     public static TwDialogResult Cancel() => new(null, null, true);
 }

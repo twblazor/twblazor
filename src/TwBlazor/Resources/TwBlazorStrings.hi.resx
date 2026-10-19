@@ -63,6 +63,12 @@
   <data name="Common_No" xml:space="preserve">
     <value>नहीं</value>
   </data>
+  <data name="Autocomplete_ResultsOne" xml:space="preserve">
+    <value>{0} परिणाम उपलब्ध है</value>
+  </data>
+  <data name="Autocomplete_ResultsOther" xml:space="preserve">
+    <value>{0} परिणाम उपलब्ध हैं</value>
+  </data>
   <data name="Breadcrumb_Label" xml:space="preserve">
     <value>ब्रेडक्रंब</value>
   </data>

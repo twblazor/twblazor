@@ -93,6 +93,13 @@
     "category": "Forms",
     "items": [
       {
+        "id": "autocomplete-navitem",
+        "display": "Autocomplete",
+        "name": "TwAutocomplete",
+        "url": "/autocomplete",
+        "isNew": true
+      },
+      {
         "id": "button-navitem",
         "display": "Button",
         "name": "TwButton",

@@ -55,6 +55,12 @@ public static class TwStrings
     /// <summary>The key for "{0} - {1}".</summary>
     public const string Common_Range = "Common_Range";
 
+    /// <summary>The key for "{0} result available".</summary>
+    public const string Autocomplete_ResultsOne = "Autocomplete_ResultsOne";
+
+    /// <summary>The key for "{0} results available".</summary>
+    public const string Autocomplete_ResultsOther = "Autocomplete_ResultsOther";
+
     /// <summary>The key for "Breadcrumb".</summary>
     public const string Breadcrumb_Label = "Breadcrumb_Label";
 

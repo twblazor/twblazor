@@ -1,6 +1,7 @@
 // Copyright (c) 2025 Jack Shuter @ TwBlazor - twblazor.com
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
+using System.Diagnostics.CodeAnalysis;
 using TwBlazor.Enums;
 
 namespace TwBlazor.Models;
@@ -8,6 +9,7 @@ namespace TwBlazor.Models;
 /// <summary>
 /// Represents a toast notification message.
 /// </summary>
+[ExcludeFromCodeCoverage]
 public class ToastModel
 {
     /// <summary>
