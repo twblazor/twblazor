@@ -15,6 +15,221 @@
         from { transform: translate3d(10%, 8%, 0) scale(1.15); opacity: 0.5; }
         to { transform: translate3d(-35%, -20%, 0) scale(0.85); opacity: 1; }
     }
+
+    /* Landing hero entrance. Pair with motion-reduce:animate-none so nothing starts hidden for those users. */
+    --animate-fade-up: fade-up 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+
+    @keyframes fade-up {
+        from { opacity: 0; transform: translate3d(0, 1.5rem, 0); filter: blur(6px); }
+    }
+
+    /* Each headline word rises and tips forward into place, one after another. */
+    --animate-word-rise: word-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+
+    @keyframes word-rise {
+        from { opacity: 0; transform: translate3d(0, 0.6em, 0) rotateX(-70deg); filter: blur(10px); }
+    }
+
+    /* A light that circles a border three times and stops, so it draws the eye without looping forever. */
+    --animate-beam: beam 3s linear 3;
+
+    @keyframes beam {
+        to { --beam-angle: 360deg; }
+    }
+
+    /* Slow sweep across a gradient twice its width, for gradient text and the closing banner. */
+    --animate-gradient-pan: gradient-pan 8s ease-in-out infinite alternate;
+
+    @keyframes gradient-pan {
+        from { background-position: 0% 50%; }
+        to { background-position: 100% 50%; }
+    }
+}
+
+/* Landing scroll reveals. Scroll-driven, so there is no script, and only where the browser supports it and the
+   visitor has not asked for reduced motion: everywhere else the content is simply there. They animate
+   transform, not translate or scale, so Tailwind's hover lifts on the same elements still apply. */
+@keyframes reveal-up {
+    from { opacity: 0; transform: translate3d(0, 4rem, 0) scale(0.94); filter: blur(8px); }
+}
+
+/* Landing "live build" panels: each line of markup types out, then what it describes appears in the preview.
+   A panel is an element with data-stage; landingStage.js adds .stage-js to the page and .is-live to a panel once
+   it scrolls into view. --i is a line's position and --stage-delay when the first line starts, so each line and
+   its result follow the one before. Without the script, or with reduced motion, nothing is hidden and every
+   panel shows its finished state. */
+.stage-js [data-stage]:not(.is-live) .stage-line {
+    clip-path: inset(0 100% 0 0);
+}
+
+.stage-js [data-stage]:not(.is-live) .stage-pop,
+.stage-js [data-stage]:not(.is-live) .stage-done {
+    opacity: 0;
+}
+
+[data-stage].is-live .stage-line {
+    animation: stage-type 0.75s steps(30, end) both;
+    animation-delay: calc(var(--stage-delay, 0.3s) + var(--i) * 1.1s);
+}
+
+[data-stage].is-live .stage-pop {
+    animation:
+        stage-pop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both,
+        stage-flash 1.1s ease-out;
+    animation-delay: calc(var(--stage-delay, 0.3s) + 0.8s + var(--i) * 1.1s);
+}
+
+[data-stage].is-live .stage-done {
+    animation: stage-fade 0.5s ease-out both;
+    animation-delay: calc(var(--stage-delay, 0.3s) + 0.8s + var(--i) * 1.1s);
+}
+
+[data-stage].is-live .stage-caret {
+    animation: stage-blink 1s steps(1, end) 8;
+}
+
+/* The theming panel restyles one button a line at a time. Its finished look is its normal look, so it is right
+   without the script; while live, each change waits for its line (the from keyframes are the button's theme). */
+.theme-morph {
+    border-radius: 9999px;
+    box-shadow: 0 14px 32px -8px rgb(192 38 211 / 0.6);
+    background-color: var(--color-fuchsia-600);
+}
+
+.stage-js [data-stage]:not(.is-live) .theme-morph {
+    border-radius: var(--radius-lg);
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    background-color: var(--color-purple-600);
+}
+
+[data-stage].is-live .theme-morph {
+    animation:
+        theme-round 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both,
+        theme-lift 0.6s ease-out both,
+        theme-recolour 0.6s ease-out both;
+    animation-delay:
+        calc(var(--stage-delay, 0.3s) + 0.8s),
+        calc(var(--stage-delay, 0.3s) + 0.8s + 1.1s),
+        calc(var(--stage-delay, 0.3s) + 0.8s + 2.2s);
+}
+
+@keyframes theme-round {
+    from { border-radius: var(--radius-lg); }
+}
+
+@keyframes theme-lift {
+    from { box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); }
+}
+
+@keyframes theme-recolour {
+    from { background-color: var(--color-purple-600); }
+}
+
+@keyframes stage-type {
+    from { clip-path: inset(0 100% 0 0); }
+    to { clip-path: inset(0 0 0 0); }
+}
+
+@keyframes stage-pop {
+    from { opacity: 0; transform: translate3d(0, 0.75rem, 0) scale(0.6); }
+    60% { opacity: 1; }
+    to { opacity: 1; transform: none; }
+}
+
+@keyframes stage-flash {
+    from { box-shadow: 0 0 0 0 rgb(217 70 239 / 0.55); border-radius: 0.75rem; }
+    to { box-shadow: 0 0 0 1.25rem rgb(217 70 239 / 0); border-radius: 0.75rem; }
+}
+
+@keyframes stage-fade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes stage-blink {
+    50% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    [data-stage] .stage-line,
+    [data-stage] .stage-pop,
+    [data-stage] .stage-done,
+    [data-stage] .stage-caret,
+    [data-stage] .theme-morph {
+        animation: none;
+    }
+}
+
+/* Features heading: the last word rolls up to the next, like a slot machine, holding each for about two seconds.
+   The track holds the five words and then the first again, so the loop restarts without a jump. Every row is
+   one line of the heading tall, matching its line height so the word sits on the heading's baseline. */
+.word-cycle {
+    display: inline-flex;
+    height: 1.3em;
+    overflow: hidden;
+    vertical-align: top;
+}
+
+.word-cycle-track {
+    display: flex;
+    flex-direction: column;
+    animation: word-cycle 12.5s infinite;
+}
+
+.word-cycle-track > span {
+    display: block;
+    height: 1.3em;
+    line-height: 1.3em;
+    white-space: nowrap;
+}
+
+.word-cycle.is-paused .word-cycle-track {
+    animation-play-state: paused;
+}
+
+/* Each move eases out sharply with a little blur, so the change reads as a roll rather than a slide. */
+@keyframes word-cycle {
+    0%, 16% { transform: translate3d(0, 0, 0); filter: blur(0); animation-timing-function: cubic-bezier(0.7, 0, 0.2, 1); }
+    18% { filter: blur(2px); }
+    20%, 36% { transform: translate3d(0, -1.3em, 0); filter: blur(0); animation-timing-function: cubic-bezier(0.7, 0, 0.2, 1); }
+    38% { filter: blur(2px); }
+    40%, 56% { transform: translate3d(0, -2.6em, 0); filter: blur(0); animation-timing-function: cubic-bezier(0.7, 0, 0.2, 1); }
+    58% { filter: blur(2px); }
+    60%, 76% { transform: translate3d(0, -3.9em, 0); filter: blur(0); animation-timing-function: cubic-bezier(0.7, 0, 0.2, 1); }
+    78% { filter: blur(2px); }
+    80%, 96% { transform: translate3d(0, -5.2em, 0); filter: blur(0); animation-timing-function: cubic-bezier(0.7, 0, 0.2, 1); }
+    98% { filter: blur(2px); }
+    100% { transform: translate3d(0, -6.5em, 0); filter: blur(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .word-cycle-track {
+        animation: none;
+    }
+}
+
+/* The angle the beam border's conic gradient starts from. Registered so it can be animated. */
+@property --beam-angle {
+    syntax: "<angle>";
+    inherits: false;
+    initial-value: 0deg;
+}
+
+@supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+        .reveal,
+        .reveal-group > * {
+            animation: reveal-up cubic-bezier(0.16, 1, 0.3, 1) both;
+            animation-timeline: view();
+            animation-range: entry 0% cover 30%;
+        }
+
+        /* Items in the same row would otherwise appear together; a small offset staggers them. */
+        .reveal-group > :nth-child(2) { animation-range: entry 10% cover 36%; }
+        .reveal-group > :nth-child(3) { animation-range: entry 20% cover 42%; }
+        .reveal-group > :nth-child(4) { animation-range: entry 30% cover 48%; }
+        .reveal-group > :nth-child(5) { animation-range: entry 40% cover 54%; }
+    }
 }
 /* .theme-light opts a subtree out of dark mode, so the theme builder can show a light and a dark preview side by side. */
 @custom-variant dark (&:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)));

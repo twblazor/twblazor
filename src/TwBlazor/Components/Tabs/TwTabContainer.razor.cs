@@ -80,9 +80,19 @@ public partial class TwTabContainer : TwBlazorComponentBase, IAsyncDisposable
     /// Gets or sets whether the background class should be removed from the tab navigation and content
     /// containers, leaving only the border outline.
     /// </summary>
-    /// <remarks>Useful when the tabs are placed inside another container that already provides a
-    /// background, and the default white/dark background would otherwise clash with it.</remarks>
+    /// <remarks>Only applies when <see cref="Container"/> is set. Useful when the tabs are placed inside another
+    /// container that already provides a background, and the default white/dark background would otherwise
+    /// clash with it.</remarks>
     [Parameter] public bool TransparentContainer { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the tabs are drawn attached to a bordered container that wraps the panel content.
+    /// </summary>
+    /// <remarks>By default the tablist floats as a standalone segmented control and the panel has no border or
+    /// background of its own, which suits content that brings its own surfaces, such as cards. Set this to
+    /// <see langword="true"/> for underlined tabs joined to a bordered panel, for example when the content is
+    /// plain text or form fields.</remarks>
+    [Parameter] public bool Container { get; set; }
 
     private readonly List<TwTab> _tabs = [];
 
@@ -90,15 +100,19 @@ public partial class TwTabContainer : TwBlazorComponentBase, IAsyncDisposable
 
     private TwTabTheme theme => options.Theme.Components.Require<TwTabTheme>();
 
-    private string tabContainerClasses => new ClassBuilder(theme.TabListContainer)
-        .AddClass(theme.Background, !TransparentContainer)
-        .AddClass($"{roundedBuilder.GetRoundedTop(options.Theme.Rounded.DefaultRounded)}")
-        .AddClass(TabContainerClass ?? string.Empty).Build();
+    private string tabContainerClasses => Container
+        ? new ClassBuilder(theme.TabListContainer)
+            .AddClass(theme.Background, !TransparentContainer)
+            .AddClass($"{roundedBuilder.GetRoundedTop(options.Theme.Rounded.DefaultRounded)}")
+            .AddClass(TabContainerClass ?? string.Empty).Build()
+        : new ClassBuilder(theme.IsolatedTabListContainer).AddClass(TabContainerClass ?? string.Empty).Build();
 
-    private string containerClasses => new ClassBuilder(theme.PanelContainer)
-        .AddClass(theme.Background, !TransparentContainer)
-        .AddClass($"{roundedBuilder.GetRoundedBottom(options.Theme.Rounded.DefaultRounded)}")
-        .AddClass(ContainerClass ?? string.Empty).Build();
+    private string containerClasses => Container
+        ? new ClassBuilder(theme.PanelContainer)
+            .AddClass(theme.Background, !TransparentContainer)
+            .AddClass($"{roundedBuilder.GetRoundedBottom(options.Theme.Rounded.DefaultRounded)}")
+            .AddClass(ContainerClass ?? string.Empty).Build()
+        : new ClassBuilder(theme.IsolatedPanelContainer).AddClass(ContainerClass ?? string.Empty).Build();
 
     /// <summary>
     /// Gets the id of the (single, shared) tab panel element, derived from the tab container's own stable

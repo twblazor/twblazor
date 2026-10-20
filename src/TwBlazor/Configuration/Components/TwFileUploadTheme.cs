@@ -19,14 +19,15 @@ public class TwFileUploadTheme
     public required string IconSpacing { get; set; }
 
     /// <summary>
-    /// Gets or sets the classes for the list of selected-file chips shown beneath the upload control.
+    /// Gets or sets the classes for the list of selected files, each a <see cref="TwBlazor.Components.TwAttachment"/>, shown beneath the upload control.
     /// </summary>
     public required string FileList { get; set; }
 
     /// <summary>
     /// Gets or sets the text color for a selected-file chip's label.
     /// </summary>
-    public required string ChipTextColor { get; set; }
+    [Obsolete("Selected files are shown as TwAttachment components, styled by TwAttachmentTheme. This property is no longer used.")]
+    public string ChipTextColor { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets or sets the focus ring for the upload control. The file input sits inside the visible

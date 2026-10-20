@@ -114,7 +114,7 @@ public partial class TwTimePickerBody
     /// inputs track the app's primary color.
     /// </summary>
     private string numberInputClasses => new ClassBuilder(theme.NumberInput)
-        .AddClass(inputVariantBuilder.GetClasses(effectiveVariant, inputTheme))
+        .AddClass(inputVariantBuilder.GetClasses(effectiveVariant, inputTheme, effectiveRounded))
         .AddClass(ToHoverVariant(options.Theme.Border.Colors.Primary))
         .AddClass(colorBuilder.GetFocusRing(Enums.Color.Primary))
         .Build();

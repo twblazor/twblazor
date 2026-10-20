@@ -94,11 +94,22 @@ internal static class KeyboardShortcuts
             Key("Moves focus to the dismiss button.", tab),
             Key("Dismisses the alert. Focus moves to the next control on the page.", enter, space)),
 
+        ["/attachment"] = Guide(
+            "An attachment is a group named after its file. Its file name is a link once the file is ready, and its retry and remove buttons name the file they act on. "
+            + "Starting, finishing and failing an upload are announced.",
+            Key("Moves to the file name link, then to the retry and remove buttons.", tab, shiftTab),
+            Key("Opens the file, retries the upload, or removes the attachment, depending on what has focus.", enter)),
+
         ["/avatar"] = _notInteractive,
 
         ["/barcode"] = Guide(
             "A barcode is not interactive and is not a Tab stop. Screen readers announce it as an image named after the text it holds, "
             + "unless it is given a label of its own."),
+
+        ["/bubble"] = Guide(
+            "A bubble is not a Tab stop. Its reactions are a group named \"Reactions\". Clickable reactions are toggle buttons that say whether you chose them.",
+            Key("Moves between the clickable reactions.", tab, shiftTab),
+            Key("Adds or removes your reaction.", enter, space)),
 
         ["/breadcrumb"] = Guide(
             "The breadcrumb is a navigation landmark holding ordinary links. The current page is text, not a link.",
@@ -215,6 +226,10 @@ internal static class KeyboardShortcuts
             Key("Moves to the next or previous link.", tab, shiftTab),
             Key("Follows the focused link. A link that opens in a new tab says so before you follow it.", enter)),
 
+        ["/marker"] = Guide(
+            "A marker is not interactive and is not a Tab stop. A status marker writes its state out for screen readers after its label, and a live one announces changes. "
+            + "A separator marker is read as a separator named by its label."),
+
         ["/menu"] = Guide(
             "The button tells screen readers that it opens a menu and whether the menu is open. The menu follows the ARIA menu pattern: one item has focus at a time, and the arrow keys move between them.",
             Key("Moves focus to the menu's button.", tab),
@@ -226,6 +241,10 @@ internal static class KeyboardShortcuts
             Key("In the menu: chooses the focused item. An action closes the menu and returns focus to the button; a tick option flips and the menu stays open.", enter, space),
             Key("Closes the menu and returns focus to the button.", escape),
             Key("Closes the menu and moves focus on.", tab)),
+
+        ["/message"] = Guide(
+            "A message is not a Tab stop. Each message is an article named by its author and time, so screen readers can move between messages with their article shortcut. "
+            + "Anything interactive inside a message, such as reactions or actions in its footer, keeps its own keyboard behaviour."),
 
         ["/navbar"] = Guide(
             "The navbar is a navigation landmark holding ordinary links. On a narrow screen the links sit behind a menu button.",

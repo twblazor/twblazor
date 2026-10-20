@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 using TwBlazor.Components;
 using TwBlazor.Configuration.Components;
+using TwBlazor.Enums;
 using TwBlazor.Models;
 
 namespace TwBlazor.Tests.Components.Sidebar;
@@ -1091,5 +1092,123 @@ public class TwSidebarTests : TwBlazorTestBase
         // Assert - a scrollbar appearing must not push the navigation or the page content sideways
         Assert.Contains("scrollbar-gutter-stable", cut.Find("#main-content").ClassList);
         Assert.Contains(cut.FindAll("*"), element => element.ClassList.Contains("w-64") && element.ClassList.Contains("scrollbar-gutter-stable"));
+    }
+
+    [Fact]
+    public void TwSidebar_HeaderContent_RendersInARowAlignedWithTheTopBar()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwSidebar>(p => p
+            .Add(x => x.HeaderContent, b => b.AddMarkupContent(0, "<a id=\"brand\" href=\"/\">Brand</a>")));
+
+        // Assert
+        var header = cut.Find("#brand").ParentElement!;
+        Assert.Contains("h-14", header.ClassList);
+        Assert.Contains("items-center", header.ClassList);
+        Assert.Contains("-mt-4", header.ClassList);
+        Assert.Contains("min-h-14", cut.Find("#main-content-root > *").ClassList);
+    }
+
+    [Fact]
+    public void TwSidebar_WithoutHeaderContent_RendersNoHeaderRow()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwSidebar>();
+
+        // Assert
+        Assert.DoesNotContain(cut.FindAll("nav div"), element => element.ClassList.Contains("h-14"));
+    }
+
+    [Fact]
+    public void TwSidebar_Toggle_ShowsMenuIcon_WhenClosed()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwSidebar>(p => p
+            .Add(x => x.Id, "sb")
+            .Add(x => x.IsSidebarOpen, false));
+
+        // Assert
+        var toggle = cut.Find("#sb-toggle");
+        Assert.NotNull(toggle.QuerySelector(".bi-list"));
+        Assert.Null(toggle.QuerySelector(".bi-x"));
+        Assert.Equal("false", toggle.GetAttribute("aria-expanded"));
+    }
+
+    [Fact]
+    public void TwSidebar_Toggle_ShowsCloseIcon_WhenOpen()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwSidebar>(p => p
+            .Add(x => x.Id, "sb")
+            .Add(x => x.IsSidebarOpen, true));
+
+        // Assert
+        var toggle = cut.Find("#sb-toggle");
+        Assert.NotNull(toggle.QuerySelector(".bi-x"));
+        Assert.Null(toggle.QuerySelector(".bi-list"));
+        Assert.Equal("true", toggle.GetAttribute("aria-expanded"));
+    }
+
+    [Fact]
+    public void TwSidebar_Search_MatchesNavigationRowHeight_AndLeavesRoomForTheIcon()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwSidebar>(p => p.Add(x => x.IsSearchable, true));
+
+        // Assert
+        var input = cut.Find("input[type='search']");
+        Assert.Contains("h-9", input.ClassList);
+        Assert.DoesNotContain("h-8", input.ClassList);
+        Assert.DoesNotContain("h-10", input.ClassList);
+        Assert.Contains("ps-9", input.ClassList);
+        Assert.Contains("border-transparent", input.ClassList);
+    }
+
+    [Fact]
+    public void TwSidebar_Search_ShowsADecorativeSearchIcon()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwSidebar>(p => p.Add(x => x.IsSearchable, true));
+
+        // Assert - the icon is decoration; the field keeps its own accessible name.
+        var icon = cut.Find(".bi-search");
+        Assert.Equal("true", icon.GetAttribute("aria-hidden"));
+        Assert.Contains("pointer-events-none", icon.ClassList);
+        Assert.False(string.IsNullOrEmpty(cut.Find("input[type='search']").GetAttribute("aria-label")));
+    }
+
+    [Fact]
+    public void TwSidebar_WithoutSearch_RendersNoSearchIcon()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwSidebar>();
+
+        // Assert
+        Assert.Empty(cut.FindAll(".bi-search"));
+        Assert.Empty(cut.FindAll("input[type='search']"));
+    }
+
+    [Fact]
+    public void TwSidebar_Search_IsRoundedOnAllCorners_LikeTheNavigationRows()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwSidebar>(p => p.Add(x => x.IsSearchable, true));
+
+        // Assert
+        var input = cut.Find("input[type='search']");
+        Assert.Contains("rounded-lg", input.ClassList);
+        Assert.DoesNotContain("rounded-t-lg", input.ClassList);
+    }
+
+    [Fact]
+    public void TwSidebar_Search_FollowsTheSidebarsRoundedParameter()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwSidebar>(p => p
+            .Add(x => x.IsSearchable, true)
+            .Add(x => x.Rounded, Rounded.Sm));
+
+        // Assert
+        Assert.Contains("rounded-sm", cut.Find("input[type='search']").ClassList);
     }
 }

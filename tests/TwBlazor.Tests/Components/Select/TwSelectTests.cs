@@ -2008,4 +2008,20 @@ public class TwSelectTests : TwBlazorTestBase
 
         Assert.Null(exception);
     }
+
+    [Fact]
+    public void TwSelect_Outlined_UsesTheRoundedParameter()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwSelect<string>>(parameters => parameters
+            .Add(x => x.PreferNativePicker, true)
+            .Add(x => x.Variant, InputVariant.Outlined)
+            .Add(x => x.Rounded, Rounded.Full)
+            .Add(p => p.Values, _threeStringOptions));
+
+        // Assert
+        var select = cut.Find("select");
+        Assert.Contains("rounded-full", select.ClassList);
+        Assert.DoesNotContain("rounded-lg", select.ClassList);
+    }
 }

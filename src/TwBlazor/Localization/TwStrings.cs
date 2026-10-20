@@ -941,4 +941,34 @@ public static class TwStrings
 
     /// <summary>The key for "Options".</summary>
     public const string Menu_Options = "Menu_Options";
+
+    /// <summary>The key for "Reactions", the name of the row of reactions under a chat bubble.</summary>
+    public const string Bubble_Reactions = "Bubble_Reactions";
+
+    /// <summary>The key for "{0}: {1}", where {0} is a reaction's name and {1} is how many people chose it.</summary>
+    public const string Bubble_Reaction = "Bubble_Reaction";
+
+    /// <summary>The key for "Uploading {0}", where {0} is the file name.</summary>
+    public const string Attachment_Uploading = "Attachment_Uploading";
+
+    /// <summary>The key for "{0} uploaded", where {0} is the file name.</summary>
+    public const string Attachment_Uploaded = "Attachment_Uploaded";
+
+    /// <summary>The key for "{0} failed to upload", where {0} is the file name.</summary>
+    public const string Attachment_Failed = "Attachment_Failed";
+
+    /// <summary>The key for "Retry uploading {0}", where {0} is the file name.</summary>
+    public const string Attachment_Retry = "Attachment_Retry";
+
+    /// <summary>The key for "Pending", a step that has not started yet.</summary>
+    public const string Marker_Pending = "Marker_Pending";
+
+    /// <summary>The key for "In progress", a step that is running.</summary>
+    public const string Marker_Running = "Marker_Running";
+
+    /// <summary>The key for "Done", a step that finished successfully.</summary>
+    public const string Marker_Succeeded = "Marker_Succeeded";
+
+    /// <summary>The key for "Failed", a step that failed.</summary>
+    public const string Marker_Failed = "Marker_Failed";
 }

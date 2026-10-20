@@ -10,10 +10,11 @@ namespace TwBlazor.Tests.Components.Tabs;
 public class TwTabContainerTests : TwBlazorTestBase
 {
     [Fact]
-    public void TwTabContainer_Renders_WithDefaultValues()
+    public void TwTabContainer_Renders_WithContainer()
     {
         // Arrange & Act
         var cut = TestContext.Render<TwTabContainer>(parameters => parameters
+            .Add(p => p.Container, true)
             .Add(p => p.ChildContent, builder =>
             {
                 builder.OpenComponent<TwTab>(0);
@@ -186,6 +187,7 @@ public class TwTabContainerTests : TwBlazorTestBase
     {
         // Arrange & Act
         var cut = TestContext.Render<TwTabContainer>(parameters => parameters
+            .Add(p => p.Container, true)
             .Add(p => p.Dense, true)
             .Add(p => p.ChildContent, builder =>
             {
@@ -205,6 +207,7 @@ public class TwTabContainerTests : TwBlazorTestBase
     {
         // Arrange & Act
         var cut = TestContext.Render<TwTabContainer>(parameters => parameters
+            .Add(p => p.Container, true)
             .Add(p => p.Dense, false)
             .Add(p => p.ChildContent, builder =>
             {
@@ -262,6 +265,7 @@ public class TwTabContainerTests : TwBlazorTestBase
     {
         // Arrange & Act
         var cut = TestContext.Render<TwTabContainer>(parameters => parameters
+            .Add(p => p.Container, true)
             .Add(p => p.ChildContent, builder =>
             {
                 builder.OpenComponent<TwTab>(0);
@@ -281,6 +285,7 @@ public class TwTabContainerTests : TwBlazorTestBase
     {
         // Arrange & Act
         var cut = TestContext.Render<TwTabContainer>(parameters => parameters
+            .Add(p => p.Container, true)
             .Add(p => p.ChildContent, builder =>
             {
                 builder.OpenComponent<TwTab>(0);
@@ -431,6 +436,7 @@ public class TwTabContainerTests : TwBlazorTestBase
     {
         // Arrange & Act
         var cut = TestContext.Render<TwTabContainer>(parameters => parameters
+            .Add(p => p.Container, true)
             .Add(p => p.ChildContent, builder =>
             {
                 builder.OpenComponent<TwTab>(0);
@@ -441,18 +447,19 @@ public class TwTabContainerTests : TwBlazorTestBase
 
         // Assert
         var tablist = cut.Find("div[role='tablist']");
-        Assert.Contains("dark:border-[oklch(21.15%_0.012_254.09)]", tablist.GetAttribute("class"));
-        Assert.Contains("dark:bg-[oklch(25.33%_0.016_252.42)]", tablist.GetAttribute("class"));
+        Assert.Contains("dark:border-[oklch(40%_0.012_254.09)]", tablist.GetAttribute("class"));
+        Assert.Contains("dark:bg-[oklch(28%_0.016_252.42)]", tablist.GetAttribute("class"));
 
         var tabpanel = cut.Find("div[role='tabpanel']");
-        Assert.Contains("dark:bg-[oklch(25.33%_0.016_252.42)]", tabpanel.GetAttribute("class"));
+        Assert.Contains("dark:bg-[oklch(28%_0.016_252.42)]", tabpanel.GetAttribute("class"));
     }
 
     [Fact]
-    public void TwTabContainer_Default_HasFullBorderOutline()
+    public void TwTabContainer_Container_HasFullBorderOutline()
     {
         // Arrange & Act
         var cut = TestContext.Render<TwTabContainer>(parameters => parameters
+            .Add(p => p.Container, true)
             .Add(p => p.ChildContent, builder =>
             {
                 builder.OpenComponent<TwTab>(0);
@@ -478,6 +485,7 @@ public class TwTabContainerTests : TwBlazorTestBase
     {
         // Arrange & Act
         var cut = TestContext.Render<TwTabContainer>(parameters => parameters
+            .Add(p => p.Container, true)
             .Add(p => p.ChildContent, ThreeTabs()));
 
         // Assert - without clipping, a hovered first/last tab's fill would square off the rounded corners.
@@ -490,6 +498,7 @@ public class TwTabContainerTests : TwBlazorTestBase
     {
         // Arrange & Act
         var cut = TestContext.Render<TwTabContainer>(parameters => parameters
+            .Add(p => p.Container, true)
             .Add(p => p.ChildContent, ThreeTabs()));
 
         // Assert - the panel is a Tab stop (tabindex="0"), so it needs the library's focus ring.
@@ -504,6 +513,7 @@ public class TwTabContainerTests : TwBlazorTestBase
     {
         // Arrange & Act
         var cut = TestContext.Render<TwTabContainer>(parameters => parameters
+            .Add(p => p.Container, true)
             .Add(p => p.ChildContent, builder =>
             {
                 builder.OpenComponent<TwTab>(0);
@@ -525,6 +535,7 @@ public class TwTabContainerTests : TwBlazorTestBase
     {
         // Arrange & Act
         var cut = TestContext.Render<TwTabContainer>(parameters => parameters
+            .Add(p => p.Container, true)
             .Add(p => p.TransparentContainer, true)
             .Add(p => p.ChildContent, builder =>
             {
@@ -546,6 +557,165 @@ public class TwTabContainerTests : TwBlazorTestBase
         Assert.DoesNotContain("bg-white", tabpanelClass);
         Assert.DoesNotContain("dark:bg-gray-800", tabpanelClass);
         Assert.Contains("border-[oklch(92%_0_0)]", tabpanelClass);
+    }
+
+    [Fact]
+    public void TwTabContainer_Container_DefaultsToFalse()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwTabContainer>(parameters => parameters
+            .Add(p => p.ChildContent, ThreeTabs()));
+
+        // Assert
+        Assert.False(cut.Instance.Container);
+        Assert.Contains("inline-flex", cut.Find("div[role='tablist']").GetAttribute("class"));
+    }
+
+    [Fact]
+    public void TwTabContainer_Container_RendersAttachedBorderedLayout()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwTabContainer>(parameters => parameters
+            .Add(p => p.Container, true)
+            .Add(p => p.ChildContent, ThreeTabs()));
+
+        // Assert
+        var tablistClass = cut.Find("div[role='tablist']").GetAttribute("class") ?? string.Empty;
+        Assert.Contains("flex flex-wrap overflow-hidden border", tablistClass);
+        Assert.Contains("rounded-t-lg", tablistClass);
+        Assert.DoesNotContain("inline-flex", tablistClass);
+
+        var tabpanelClass = cut.Find("div[role='tabpanel']").GetAttribute("class") ?? string.Empty;
+        Assert.Contains("border-x border-b", tabpanelClass);
+        Assert.Contains("rounded-b-lg", tabpanelClass);
+        Assert.DoesNotContain("mt-4", tabpanelClass);
+
+        var activeClass = cut.FindAll("button[role='tab']")[0].GetAttribute("class") ?? string.Empty;
+        Assert.Contains("after:scale-x-100", activeClass);
+        Assert.Contains("px-6 py-3", activeClass);
+        Assert.DoesNotContain("shadow-sm", activeClass);
+    }
+
+    [Fact]
+    public void TwTabContainer_TransparentContainer_HasNoEffect_WithoutContainer()
+    {
+        // Arrange & Act
+        var withTransparent = TestContext.Render<TwTabContainer>(parameters => parameters
+            .Add(p => p.TransparentContainer, true)
+            .Add(p => p.ChildContent, ThreeTabs()));
+        var withoutTransparent = TestContext.Render<TwTabContainer>(parameters => parameters
+            .Add(p => p.ChildContent, ThreeTabs()));
+
+        // Assert
+        Assert.Equal(
+            withoutTransparent.Find("div[role='tablist']").GetAttribute("class"),
+            withTransparent.Find("div[role='tablist']").GetAttribute("class"));
+        Assert.Equal(
+            withoutTransparent.Find("div[role='tabpanel']").GetAttribute("class"),
+            withTransparent.Find("div[role='tabpanel']").GetAttribute("class"));
+    }
+
+    [Fact]
+    public void TwTabContainer_Default_RendersFloatingTablist()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwTabContainer>(parameters => parameters
+            .Add(p => p.ChildContent, ThreeTabs()));
+
+        // Assert
+        var tablistClass = cut.Find("div[role='tablist']").GetAttribute("class") ?? string.Empty;
+        Assert.Contains("inline-flex", tablistClass);
+        Assert.Contains("gap-1 p-1", tablistClass);
+        Assert.Contains("rounded-lg", tablistClass);
+        Assert.DoesNotContain("rounded-t-lg", tablistClass);
+        Assert.DoesNotContain("overflow-hidden", tablistClass);
+    }
+
+    [Fact]
+    public void TwTabContainer_Default_PanelHasNoBorderOrBackground()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwTabContainer>(parameters => parameters
+            .Add(p => p.ChildContent, ThreeTabs()));
+
+        // Assert
+        var tabpanel = cut.Find("div[role='tabpanel']");
+        var tabpanelClass = tabpanel.GetAttribute("class") ?? string.Empty;
+        Assert.Contains("mt-4", tabpanelClass);
+        Assert.DoesNotContain("border-x", tabpanelClass);
+        Assert.DoesNotContain("bg-[oklch(100%_0_0)]", tabpanelClass);
+        Assert.DoesNotContain("rounded-b-lg", tabpanelClass);
+        Assert.Contains("focus-visible:ring-2", tabpanelClass);
+        Assert.Equal("0", tabpanel.GetAttribute("tabindex"));
+    }
+
+    [Fact]
+    public void TwTabContainer_Default_AppliesCustomContainerClasses()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwTabContainer>(parameters => parameters
+            .Add(p => p.TabContainerClass, "custom-tablist")
+            .Add(p => p.ContainerClass, "custom-panel")
+            .Add(p => p.ChildContent, ThreeTabs()));
+
+        // Assert
+        Assert.Contains("custom-tablist", cut.Find("div[role='tablist']").GetAttribute("class"));
+        Assert.Contains("custom-panel", cut.Find("div[role='tabpanel']").GetAttribute("class"));
+    }
+
+    [Fact]
+    public void TwTabContainer_Default_ActiveTabIsRaised_AndHasNoUnderline()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwTabContainer>(parameters => parameters
+            .Add(p => p.ChildContent, ThreeTabs()));
+
+        // Assert
+        var tabs = cut.FindAll("button[role='tab']");
+        var activeClass = tabs[0].GetAttribute("class") ?? string.Empty;
+        var inactiveClass = tabs[1].GetAttribute("class") ?? string.Empty;
+
+        Assert.Equal("true", tabs[0].GetAttribute("aria-selected"));
+        Assert.Contains("shadow-sm", activeClass);
+        Assert.Contains("rounded", activeClass);
+        Assert.Contains("px-4 py-1.5", activeClass);
+        Assert.Contains("forced-colors:underline", activeClass);
+        Assert.DoesNotContain("after:scale-x-100", activeClass);
+
+        Assert.DoesNotContain("shadow-sm", inactiveClass);
+        Assert.DoesNotContain("after:scale-x-0", inactiveClass);
+    }
+
+    [Fact]
+    public void TwTabContainer_Default_Dense_UsesCompactPadding()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwTabContainer>(parameters => parameters
+            .Add(p => p.Dense, true)
+            .Add(p => p.ChildContent, ThreeTabs()));
+
+        // Assert
+        var tabClass = cut.FindAll("button[role='tab']")[0].GetAttribute("class") ?? string.Empty;
+        Assert.Contains("px-3 py-1", tabClass);
+        Assert.DoesNotContain("px-4 py-1.5", tabClass);
+    }
+
+    [Fact]
+    public async Task TwTabContainer_Default_SelectingTab_MovesRaisedState()
+    {
+        // Arrange
+        var cut = TestContext.Render<TwTabContainer>(parameters => parameters
+            .Add(p => p.ChildContent, ThreeTabs()));
+
+        // Act
+        await cut.FindAll("button[role='tab']")[1].ClickAsync(new MouseEventArgs());
+
+        // Assert
+        var tabs = cut.FindAll("button[role='tab']");
+        Assert.Equal("true", tabs[1].GetAttribute("aria-selected"));
+        Assert.Contains("shadow-sm", tabs[1].GetAttribute("class"));
+        Assert.DoesNotContain("shadow-sm", tabs[0].GetAttribute("class"));
+        Assert.Contains("Content 2", cut.Find("div[role='tabpanel']").TextContent);
     }
 
     private static RenderFragment ThreeTabs(bool disableSecond = false) => builder =>
@@ -898,6 +1068,7 @@ public class TwTabContainerTests : TwBlazorTestBase
     {
         // Arrange & Act
         var cut = TestContext.Render<TwTabContainer>(parameters => parameters
+            .Add(p => p.Container, true)
             .Add(p => p.ChildContent, ThreeTabs()));
 
         // Assert - the panel is a Tab stop (tabindex="0")

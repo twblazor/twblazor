@@ -26,12 +26,12 @@ public partial class Navigation : IDisposable
     private string themeStatusMessage = string.Empty; // NOSONAR - used in Navigation.razor template
 
     /// <summary>
-    /// Classes for the top-bar links. Muted by default, with the current page marked by full-strength text and
-    /// a brand gradient underline. The sidebar marks its current row with a fill, so the two levels of
-    /// navigation do not look like one list.
+    /// Classes for the top-bar links. Muted by default, with the current page marked by a brand-tinted pill that
+    /// matches the hover shape. The sidebar marks its current row with a neutral fill and a rail, so the two
+    /// levels of navigation do not look like one list.
     /// </summary>
     private const string navLinkClasses =
-        "relative inline-flex items-center gap-2 rounded-md px-3 py-1.5 text-sm font-medium text-gray-600 transition-colors duration-200 hover:bg-gray-100 hover:text-gray-950 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600 after:absolute after:inset-x-3 after:-bottom-1 after:h-0.5 after:rounded-full after:bg-linear-to-r after:from-purple-600 after:to-fuchsia-500 after:opacity-0 after:transition-opacity after:duration-200 [&.active]:text-gray-950 [&.active]:after:opacity-100 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-white dark:after:from-purple-400 dark:after:to-fuchsia-300 dark:[&.active]:text-white";
+        "inline-flex items-center gap-2 rounded-md px-3 py-1.5 text-sm font-medium text-gray-600 transition-colors duration-200 motion-reduce:transition-none hover:bg-gray-100 hover:text-gray-950 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600 [&.active]:bg-purple-50 [&.active]:text-purple-700 forced-colors:[&.active]:underline forced-colors:[&.active]:underline-offset-4 dark:text-gray-300 dark:hover:bg-white/5 dark:hover:text-white dark:focus-visible:outline-purple-300 dark:[&.active]:bg-purple-400/15 dark:[&.active]:text-purple-100";
 
     /// <summary>
     /// Classes for the icon buttons on the right of the top bar.
@@ -52,6 +52,7 @@ public partial class Navigation : IDisposable
         ["feedback"] = Icon.Chat_Square_Dots,
         ["data"] = Icon.Table,
         ["charts"] = Icon.Bar_Chart_Line,
+        ["chat"] = Icon.Chat_Left_Dots,
         ["services"] = Icon.Plug,
     };
 

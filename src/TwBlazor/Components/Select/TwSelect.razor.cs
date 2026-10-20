@@ -176,7 +176,7 @@ public partial class TwSelect<T> : TwPopoverPickerComponentBase
     /// shows the border - the two differ only in that.
     /// </summary>
     private string GetBoxClasses(InputFocusStyle focusStyle, string? baseClasses = null) => new ClassBuilder(Multiple ? string.Empty : inputSizeClasses)
-        .AddClass(inputVariantBuilder.GetClasses(effectiveVariant, theme, focusStyle))
+        .AddClass(inputVariantBuilder.GetClasses(effectiveVariant, theme, focusStyle, effectiveRounded))
         .AddClass(theme.SelectDefaultPadding, effectiveVariant == InputVariant.Default)
         // Default/Outlined variants make the field's own background bg-transparent so it blends
         // with the surrounding page - fine for <input>, but a native <select> popup renders using
@@ -206,7 +206,7 @@ public partial class TwSelect<T> : TwPopoverPickerComponentBase
     /// </summary>
     private string customTriggerClasses => new ClassBuilder(theme.SelectCustomTrigger)
         .AddClass(inputSizeClasses)
-        .AddClass(inputVariantBuilder.GetClasses(effectiveVariant, theme, InputFocusStyle.FocusVisible))
+        .AddClass(inputVariantBuilder.GetClasses(effectiveVariant, theme, InputFocusStyle.FocusVisible, effectiveRounded))
         .AddClass(theme.SelectDefaultPadding, effectiveVariant == InputVariant.Default)
         .AddClass(Disabled ? $"{options.Theme.Interaction.DisabledOpacity} {options.Theme.Interaction.DisabledCursor}" : string.Empty)
         .AddClass(ReadOnly && !Disabled ? options.Theme.Interaction.PointerEventsNone : string.Empty)

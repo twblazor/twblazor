@@ -13,7 +13,7 @@ namespace TwBlazor.Configuration.Components;
 public class TwCardTheme
 {
     /// <summary>
-    /// Gets or sets the classes for the card container's padding.
+    /// Gets or sets the classes for the card's outer element, which stacks the media, content and footer.
     /// </summary>
     public string Container { get; set; } = string.Empty;
 
@@ -26,4 +26,30 @@ public class TwCardTheme
     /// Gets or sets the classes for the card's <c>Title</c> heading.
     /// </summary>
     public string Title { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes for the padded area that holds the header and the card's main content.
+    /// </summary>
+    public string Content { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes for the header, which holds the <c>Title</c> and <c>HeaderContent</c>.
+    /// </summary>
+    public string Header { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes for the media area at the top of the card, which holds the image and
+    /// <c>MediaContent</c>. Its top corners follow the card's rounding.
+    /// </summary>
+    public string Media { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes for the image set through <c>ImageSrc</c>.
+    /// </summary>
+    public string Image { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes for the footer that holds <c>FooterContent</c>, such as actions.
+    /// </summary>
+    public string Footer { get; set; } = string.Empty;
 }

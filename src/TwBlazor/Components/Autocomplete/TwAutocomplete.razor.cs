@@ -188,7 +188,7 @@ public partial class TwAutocomplete<T> : TwPopoverPickerComponentBase
     }
 
     private string inputClasses => new ClassBuilder(theme.TextfieldBase)
-        .AddClass(inputVariantBuilder.GetClasses(effectiveVariant, theme))
+        .AddClass(inputVariantBuilder.GetClasses(effectiveVariant, theme, effectiveRounded))
         .AddClass(Disabled ? $"{options.Theme.Interaction.DisabledOpacity} {options.Theme.Interaction.DisabledCursor}" : string.Empty)
         .AddClass(inputSizeClasses)
         .AddClass(Class)

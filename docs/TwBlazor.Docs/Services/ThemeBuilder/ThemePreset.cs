@@ -102,7 +102,7 @@ internal sealed record ThemePreset(string Name, string Description, ThemeTone To
 
         // Oranges, yellows and browns
         Create("Sunset", "Warm oranges and pinks, deep shadows", ThemeTone.Orange, (Palette.Orange600, Palette.Pink600, Palette.Green700, Palette.Rose700, Palette.Yellow600, Palette.Violet600), new(Rounded.Lg, Shadow.Lg, InputVariant.Filled, ButtonVariant.Elevated)),
-        Create("Coral", "Burnt orange, elevated buttons", ThemeTone.Orange, (Palette.Orange700, Palette.Pink700, Palette.Green700, Palette.Red700, Palette.Yellow600, Palette.Cyan700), new(Rounded.Lg, Shadow.Md, InputVariant.Filled, ButtonVariant.Elevated)),
+        Create("Coral", "Burnt orange, elevated buttons", ThemeTone.Orange, (Palette.Orange700, Palette.Pink800, Palette.Green700, Palette.Red700, Palette.Yellow600, Palette.Cyan700), new(Rounded.Lg, Shadow.Md, InputVariant.Filled, ButtonVariant.Elevated)),
         Create("Amber", "Golden brown, flat", ThemeTone.Orange, (Palette.Amber700, Palette.Fuchsia700, Palette.Green700, Palette.Red700, Palette.Yellow600, Palette.Blue700), new(Rounded.Sm, Shadow.None, InputVariant.Default, ButtonVariant.Filled)),
         Create("Terracotta", "Baked clay and sage", ThemeTone.Orange, (Palette.Orange800, Palette.Yellow700, Palette.Lime800, Palette.Red800, Palette.Amber700, Palette.Cyan800), new(Rounded.Sm, Shadow.Md, InputVariant.Filled, ButtonVariant.Filled)),
         Create("Espresso", "Dark roast, no shadows", ThemeTone.Orange, (Palette.Amber900, Palette.Yellow700, Palette.Lime800, Palette.Red800, Palette.Amber700, Palette.Cyan800), new(Rounded.Sm, Shadow.None, InputVariant.Default, ButtonVariant.Filled)),
@@ -301,6 +301,7 @@ internal sealed record ThemePreset(string Name, string Description, ThemeTone To
         public const string Orange800 = "#9a3412";
         public const string Pink600 = "#db2777";
         public const string Pink700 = "#be185d";
+        public const string Pink800 = "#9d174d";
         public const string Purple600 = "#9333ea";
         public const string Purple800 = "#6b21a8";
         public const string Red600 = "#dc2626";

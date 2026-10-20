@@ -129,6 +129,7 @@ public class TwTabTests : TwBlazorTestBase
     {
         // Arrange & Act
         var cut = TestContext.Render<TwTabContainer>(parameters => parameters
+            .Add(p => p.Container, true)
             .Add(p => p.ChildContent, builder =>
             {
                 builder.OpenComponent<TwTab>(0);
@@ -155,6 +156,7 @@ public class TwTabTests : TwBlazorTestBase
     {
         // Arrange & Act
         var cut = TestContext.Render<TwTabContainer>(parameters => parameters
+            .Add(p => p.Container, true)
             .Add(p => p.ChildContent, builder =>
             {
                 builder.OpenComponent<TwTab>(0);
@@ -210,6 +212,7 @@ public class TwTabTests : TwBlazorTestBase
     {
         // Arrange
         var cut = TestContext.Render<TwTabContainer>(parameters => parameters
+            .Add(p => p.Container, true)
             .Add(p => p.TabColor, Color.Danger)
             .Add(p => p.ChildContent, builder =>
             {
@@ -261,6 +264,7 @@ public class TwTabTests : TwBlazorTestBase
     {
         // Arrange & Act
         var cut = TestContext.Render<TwTabContainer>(parameters => parameters
+            .Add(p => p.Container, true)
             .Add(p => p.ChildContent, builder =>
             {
                 builder.OpenComponent<TwTab>(0);
@@ -307,6 +311,7 @@ public class TwTabTests : TwBlazorTestBase
     {
         // Arrange & Act
         var cut = TestContext.Render<TwTabContainer>(parameters => parameters
+            .Add(p => p.Container, true)
             .Add(p => p.Dense, true)
             .Add(p => p.ChildContent, builder =>
             {
@@ -326,6 +331,7 @@ public class TwTabTests : TwBlazorTestBase
     {
         // Arrange & Act
         var cut = TestContext.Render<TwTabContainer>(parameters => parameters
+            .Add(p => p.Container, true)
             .Add(p => p.Dense, false)
             .Add(p => p.ChildContent, builder =>
             {
@@ -371,6 +377,7 @@ public class TwTabTests : TwBlazorTestBase
     {
         // Arrange & Act
         var cut = TestContext.Render<TwTabContainer>(parameters => parameters
+            .Add(p => p.Container, true)
             .Add(p => p.ChildContent, builder =>
             {
                 builder.OpenComponent<TwTab>(0);
@@ -386,8 +393,8 @@ public class TwTabTests : TwBlazorTestBase
         // Check for after pseudo-element styles
         Assert.Contains("after:absolute", classAttribute);
         Assert.Contains("after:bottom-0", classAttribute);
-        Assert.Contains("after:left-0", classAttribute);
-        Assert.Contains("after:right-0", classAttribute);
+        Assert.Contains("after:inset-x-3", classAttribute);
+        Assert.Contains("after:rounded-t-full", classAttribute);
         Assert.Contains("after:h-0.5", classAttribute);
         Assert.Contains("after:bg-current", classAttribute);
         Assert.Contains("after:transition-transform", classAttribute);
