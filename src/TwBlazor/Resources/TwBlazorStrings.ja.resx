@@ -906,4 +906,34 @@
   <data name="DataTable_OperatorIsNotEmpty" xml:space="preserve">
     <value>空ではない</value>
   </data>
+  <data name="Bubble_Reactions" xml:space="preserve">
+    <value>リアクション</value>
+  </data>
+  <data name="Bubble_Reaction" xml:space="preserve">
+    <value>{0}: {1}</value>
+  </data>
+  <data name="Attachment_Uploading" xml:space="preserve">
+    <value>{0} をアップロード中</value>
+  </data>
+  <data name="Attachment_Uploaded" xml:space="preserve">
+    <value>{0} をアップロードしました</value>
+  </data>
+  <data name="Attachment_Failed" xml:space="preserve">
+    <value>{0} をアップロードできませんでした</value>
+  </data>
+  <data name="Attachment_Retry" xml:space="preserve">
+    <value>{0} のアップロードを再試行</value>
+  </data>
+  <data name="Marker_Pending" xml:space="preserve">
+    <value>保留中</value>
+  </data>
+  <data name="Marker_Running" xml:space="preserve">
+    <value>実行中</value>
+  </data>
+  <data name="Marker_Succeeded" xml:space="preserve">
+    <value>完了</value>
+  </data>
+  <data name="Marker_Failed" xml:space="preserve">
+    <value>失敗</value>
+  </data>
 </root>

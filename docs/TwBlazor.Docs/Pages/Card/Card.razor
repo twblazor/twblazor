@@ -2,110 +2,198 @@
 
 <PageContainer Title="TwCard" Path="/card" Description="TwCard is a Blazor card component for grouping content. Set Title, HeaderContent and Bordered, or lay cards out in a responsive grid." ThemeType="typeof(TwCardTheme)">
     <PageCard Title="Basic card">
-        <Description>A simple card with a title and content.</Description>
+        <Description>A card with a <code>Title</code> and some content. The title renders as an <code>h3</code>; set <code>TitleLevel</code> to fit it into your page's heading outline.</Description>
 
         <CodeExample Name="CardBasic">
-            <TwCard Title="Account Overview">
-                <p class="text-gray-600 dark:text-gray-400">
-                    Your account is in good standing. You have <span class="font-semibold text-gray-900 dark:text-white">3</span> active subscriptions.
+            <TwCard Title="Account overview">
+                <p class="text-sm leading-6 text-gray-600 dark:text-gray-300">
+                    Your account is in good standing. You have <span class="font-semibold text-gray-900 dark:text-white">3</span> active subscriptions, and your next payment is due on 1 November.
                 </p>
             </TwCard>
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Card without border">
-        <Description>Set <code class="text-xs bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-200 px-1.5 py-0.5 rounded">Bordered="false"</code> to remove the border.</Description>
+    <PageCard Title="Card with an image">
+        <Description>Set <code>ImageSrc</code> to show an image edge to edge across the top of the card. Describe the image in <code>ImageAlt</code> when it adds information; leave it empty when it is decorative, as here, so screen readers skip it. Images load lazily.</Description>
 
-        <CodeExample Name="CardNoBorders">
-            <TwCard Title="Borderless Card" Bordered="false">
-                <p class="text-gray-600 dark:text-gray-400">This card relies on shadow and background contrast alone.</p>
+        <CodeExample Name="CardImage" CSharpName="CardImageCode">
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                @foreach (var article in _articles)
+                {
+                    <TwCard Title="@article.Title" ImageSrc="@article.Image" ImageAlt="">
+                        <HeaderContent>
+                            <p class="text-xs text-gray-600 dark:text-gray-300">@article.Date · @article.ReadTime read</p>
+                        </HeaderContent>
+                        <ChildContent>
+                            <p class="text-sm leading-6 text-gray-600 dark:text-gray-300">@article.Summary</p>
+                        </ChildContent>
+                        <FooterContent>
+                            <TwAvatar Name="@article.Author" Size="AvatarSize.Small" />
+                            <span class="text-sm font-medium text-gray-900 dark:text-white">@article.Author</span>
+                        </FooterContent>
+                    </TwCard>
+                }
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Product cards">
+        <Description>Combine <code>MediaContent</code> and <code>FooterContent</code> for a shop. Without <code>ImageSrc</code>, <code>MediaContent</code> is the media itself, here an icon tile with an offer badge; with an image it sits over it. The footer stays at the bottom so prices and buttons line up across a row, and each button names its product for screen readers.</Description>
+
+        <CodeExample Name="CardProducts" CSharpName="CardProductsCode">
+            <div class="flex flex-col gap-4">
+                <p class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300" role="status">
+                    <TwIcon Icon="Icon.Basket" />
+                    @_basketMessage
+                </p>
+                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+                    @foreach (var product in _products)
+                    {
+                        <TwCard Title="@product.Name">
+                            <MediaContent>
+                                <div class="flex aspect-4/3 items-center justify-center bg-purple-50 text-purple-600 dark:bg-purple-400/10 dark:text-purple-300">
+                                    <TwIcon Icon="@product.Icon" Class="text-6xl" />
+                                </div>
+                                @if (product.Offer is not null)
+                                {
+                                    <TwChip Label="@product.Offer" Size="ChipSize.Small" Color="Color.Accent" Class="absolute top-3 start-3" />
+                                }
+                            </MediaContent>
+                            <HeaderContent>
+                                <p class="text-sm text-gray-600 dark:text-gray-300">@product.Detail</p>
+                            </HeaderContent>
+                            <FooterContent>
+                                <div class="me-auto">
+                                    <p class="text-lg font-semibold tabular-nums text-gray-900 dark:text-white">@product.Price</p>
+                                    <p class="text-xs text-gray-600 dark:text-gray-300">@product.Stock</p>
+                                </div>
+                                <TwButton Color="Color.Primary" StartIcon="Icon.Plus_Lg" AriaLabel="@($"Add {product.Name} to basket")" OnClick="@(() => AddToBasket(product))">Add</TwButton>
+                            </FooterContent>
+                        </TwCard>
+                    }
+                </div>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Card with a footer">
+        <Description>Use <code>FooterContent</code> for actions or metadata. It renders below a divider at the bottom of the card; put the main action last.</Description>
+
+        <CodeExample Name="CardWithFooter">
+            <TwCard Title="Invoice #1042">
+                <ChildContent>
+                    <dl class="space-y-3 text-sm">
+                        <div class="flex items-center justify-between gap-4">
+                            <dt class="text-gray-600 dark:text-gray-300">Amount</dt>
+                            <dd class="font-semibold tabular-nums text-gray-900 dark:text-white">£2,340.00</dd>
+                        </div>
+                        <div class="flex items-center justify-between gap-4">
+                            <dt class="text-gray-600 dark:text-gray-300">Issued</dt>
+                            <dd class="text-gray-900 dark:text-white">14 October 2026</dd>
+                        </div>
+                        <div class="flex items-center justify-between gap-4">
+                            <dt class="text-gray-600 dark:text-gray-300">Status</dt>
+                            <dd><TwChip Label="Paid" StartIcon="Icon.Check_Circle_Fill" Size="ChipSize.Small" Color="Color.Success" /></dd>
+                        </div>
+                    </dl>
+                </ChildContent>
+                <FooterContent>
+                    <div class="ms-auto flex flex-wrap gap-2">
+                        <TwButton Variant="ButtonVariant.Text" Color="Color.Primary" StartIcon="Icon.Download">Download PDF</TwButton>
+                        <TwButton Variant="ButtonVariant.Filled" Color="Color.Primary">View invoice</TwButton>
+                    </div>
+                </FooterContent>
             </TwCard>
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Card with footer">
-        <Description>Use <code class="text-xs bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-200 px-1.5 py-0.5 rounded">FooterContent</code> for actions or metadata.</Description>
+    <PageCard Title="Card without border">
+        <Description>Set <code>Bordered="false"</code> to remove the border. The card then stands out from a tinted page through its background and shadow alone.</Description>
 
-        <CodeExample Name="CardWithFooter">
-            <TwCard Title="Invoice #1042">
-                <HeaderContent>
-                    <div class="space-y-2">
-                        <div class="flex justify-between text-sm">
-                            <span class="text-gray-600 dark:text-gray-400">Amount</span>
-                            <span class="font-semibold">£2,340.00</span>
-                        </div>
-                        <div class="flex justify-between text-sm">
-                            <span class="text-gray-600 dark:text-gray-400">Status</span>
-                            <span class="text-green-700 dark:text-green-400 font-semibold">Paid</span>
-                        </div>
-                    </div>
-                    <div class="flex gap-2">
-                        <TwButton Variant="ButtonVariant.Text" Color="Color.Primary">Download</TwButton>
-                        <TwButton Variant="ButtonVariant.Filled" Color="Color.Primary">View Details</TwButton>
-                    </div>
-                </HeaderContent>
-            </TwCard>
+        <CodeExample Name="CardNoBorders">
+            <div class="rounded-lg bg-gray-100 p-6 dark:bg-gray-900">
+                <TwCard Title="Weekly summary" Bordered="false">
+                    <p class="text-sm leading-6 text-gray-600 dark:text-gray-300">You closed 14 tickets this week, 4 more than last week.</p>
+                </TwCard>
+            </div>
         </CodeExample>
     </PageCard>
 
     <PageCard Title="Card with header content">
-        <Description>Use <code class="text-xs bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-200 px-1.5 py-0.5 rounded">HeaderContent</code> for custom header elements alongside the title.</Description>
+        <Description>Use <code>HeaderContent</code> for extra header elements below the title, such as a short description.</Description>
 
         <CodeExample Name="CardWithHeader" CSharpName="CardWithHeaderCode">
-            <TwCard Title="Team Members">
+            <TwCard Title="Team members">
                 <HeaderContent>
-                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Manage your team and their account permissions.</p>
+                    <p class="text-sm text-gray-600 dark:text-gray-300">Manage who can access this workspace.</p>
                 </HeaderContent>
                 <ChildContent>
-                    <div class="space-y-3">
+                    <ul class="divide-y divide-gray-200 dark:divide-gray-700">
                         @foreach (var member in _members)
                         {
-                            <div class="flex items-center justify-between py-2">
-                                <div>
-                                    <p class="font-medium text-sm">@member.Name</p>
-                                    <p class="text-xs text-gray-600 dark:text-gray-400">@member.Role</p>
+                            <li class="flex items-center gap-3 py-3">
+                                <TwAvatar Name="@member.Name" Size="AvatarSize.Small" />
+                                <div class="min-w-0 flex-1">
+                                    <p class="text-sm font-medium wrap-break-word text-gray-900 dark:text-white">@member.Name</p>
+                                    <p class="text-xs wrap-break-word text-gray-600 dark:text-gray-300">@member.Email · @member.Role</p>
                                 </div>
-                                <TwChip Label="Active" Size="ChipSize.Small" Color="Color.Success" Variant="ButtonVariant.Filled" />
-                            </div>
+                                <TwChip Label="@(member.Active ? "Active" : "Invited")" Size="ChipSize.Small" Color="@(member.Active ? Color.Success : Color.Warning)" Variant="@(member.Active ? ButtonVariant.Filled : ButtonVariant.Outlined)" />
+                            </li>
                         }
-                    </div>
+                    </ul>
                 </ChildContent>
             </TwCard>
         </CodeExample>
     </PageCard>
 
     <PageCard Title="Content-only card">
-        <Description>A card with no title - just content.</Description>
+        <Description>Leave out <code>Title</code> for a card that is just content, such as a profile summary.</Description>
 
         <CodeExample Name="CardContentOnly">
             <TwCard>
-                <div class="flex items-center gap-4">
-                    <TwAvatar Icon="Icon.Person" Color="Color.Info" Size="AvatarSize.Large" />
-                    <div>
-                        <p class="font-semibold text-sm">Jack Thompson</p>
-                        <p class="text-xs text-gray-600 dark:text-gray-400">Product Designer</p>
+                <div class="flex flex-wrap items-center gap-4">
+                    <TwAvatar Name="Priya Patel" Color="Color.Primary" Size="AvatarSize.Large" />
+                    <div class="min-w-0 flex-1">
+                        <p class="font-semibold text-gray-900 dark:text-white">Priya Patel</p>
+                        <p class="text-sm text-gray-600 dark:text-gray-300">Product designer, London</p>
                     </div>
+                    <TwButton Variant="ButtonVariant.Outlined" Color="Color.Primary" StartIcon="Icon.Envelope" AriaLabel="Message Priya Patel">Message</TwButton>
                 </div>
             </TwCard>
         </CodeExample>
     </PageCard>
 
     <PageCard Title="Card grid">
-        <Description>Cards work well in grid layouts.</Description>
+        <Description>Cards work well in a responsive grid. These stack on small screens and sit three across from the <code>sm</code> breakpoint.</Description>
 
         <CodeExample Name="CardGrid">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
                 <TwCard Title="Revenue">
-                    <p class="text-2xl font-bold">£24,500</p>
-                    <p class="text-sm text-green-700 dark:text-green-400 mt-1">+12.5% from last month</p>
+                    <div>
+                        <p class="text-2xl font-semibold tabular-nums text-gray-900 dark:text-white">£24,500</p>
+                        <p class="mt-1 flex items-center gap-1 text-sm text-green-700 dark:text-green-400">
+                            <TwIcon Icon="Icon.Arrow_Up" />
+                            12.5% up on last month
+                        </p>
+                    </div>
                 </TwCard>
                 <TwCard Title="Orders">
-                    <p class="text-2xl font-bold">1,234</p>
-                    <p class="text-sm text-blue-600 dark:text-blue-400 mt-1">+8.2% from last month</p>
+                    <div>
+                        <p class="text-2xl font-semibold tabular-nums text-gray-900 dark:text-white">1,234</p>
+                        <p class="mt-1 flex items-center gap-1 text-sm text-green-700 dark:text-green-400">
+                            <TwIcon Icon="Icon.Arrow_Up" />
+                            8.2% up on last month
+                        </p>
+                    </div>
                 </TwCard>
                 <TwCard Title="Customers">
-                    <p class="text-2xl font-bold">567</p>
-                    <p class="text-sm text-purple-600 dark:text-purple-400 mt-1">+3.1% from last month</p>
+                    <div>
+                        <p class="text-2xl font-semibold tabular-nums text-gray-900 dark:text-white">567</p>
+                        <p class="mt-1 flex items-center gap-1 text-sm text-red-700 dark:text-red-400">
+                            <TwIcon Icon="Icon.Arrow_Down" />
+                            3.1% down on last month
+                        </p>
+                    </div>
                 </TwCard>
             </div>
         </CodeExample>
@@ -113,14 +201,45 @@
 </PageContainer>
 
 @code {
+    #region CodeExample CardImageCode
+    private sealed record Article(string Title, string Summary, string Date, string ReadTime, string Author, string Image);
+
+    private readonly Article[] _articles =
+    [
+        new("Designing for dark mode", "Why dark themes need their own colour choices, not just inverted ones.", "2 Oct 2026", "6 min", "Alice Johnson", "_content/TwBlazor.Docs/images/placeholder-1.webp"),
+        new("Accessible forms in Blazor", "Labels, errors and focus order that work for everyone.", "9 Oct 2026", "8 min", "Ben Okafor", "_content/TwBlazor.Docs/images/placeholder-2.webp")
+    ];
+    #endregion
+
+    #region CodeExample CardProductsCode
+    private sealed record Product(string Name, string Detail, string Price, string Stock, Icon Icon, string? Offer = null);
+
+    private readonly Product[] _products =
+    [
+        new("Wireless headphones", "Noise cancelling, 30 hour battery", "£149.00", "In stock", Icon.Headphones),
+        new("Smartwatch", "Heart rate, GPS and sleep tracking", "£169.00", "In stock", Icon.Smartwatch, "Save £30"),
+        new("Bluetooth speaker", "Waterproof, 12 hour battery", "£59.99", "Only 3 left", Icon.Speaker),
+        new("Mechanical keyboard", "Hot swappable switches, UK layout", "£89.00", "In stock", Icon.Keyboard, "New")
+    ];
+
+    private int _basketCount;
+    private string _basketMessage = "Your basket is empty.";
+
+    private void AddToBasket(Product product)
+    {
+        _basketCount++;
+        _basketMessage = $"{product.Name} added. {_basketCount} {(_basketCount == 1 ? "item" : "items")} in your basket.";
+    }
+    #endregion
+
     #region CodeExample CardWithHeaderCode
-    private sealed record TeamMember(string Name, string Role);
+    private sealed record TeamMember(string Name, string Email, string Role, bool Active);
 
     private readonly TeamMember[] _members =
     [
-        new("Alice Johnson", "Admin"),
-        new("Bob Smith", "Editor"),
-        new("Carol Williams", "Viewer")
+        new("Alice Johnson", "alice@example.co.uk", "Admin", true),
+        new("Ben Okafor", "ben@example.co.uk", "Editor", true),
+        new("Chloe Williams", "chloe@example.co.uk", "Viewer", false)
     ];
     #endregion
 }

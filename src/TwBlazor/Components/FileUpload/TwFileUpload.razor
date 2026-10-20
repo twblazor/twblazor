@@ -28,7 +28,7 @@
         <div class="@fileListClasses">
             @foreach (var f in selectedFiles)
             {
-                <TwChip Label="@f.Name" Closable OnClose="() => RemoveFile(f)" Shadow="Enums.Shadow.None" Class="@chipClasses" />
+                <TwAttachment @key="f" FileName="@f.Name" FileSize="@f.Size" ContentType="@f.ContentType" OnRemove="() => RemoveFile(f)" Disabled="@(Disabled || ReadOnly)" />
             }
         </div>
     }

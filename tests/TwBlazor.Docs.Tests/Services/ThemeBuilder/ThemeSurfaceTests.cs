@@ -16,13 +16,13 @@ public class ThemeSurfaceTests
     [Fact]
     public void DefaultSurfaces_LeaveTheCodeUntouched()
     {
-        const string code = "bg-[oklch(100%_0_0)] dark:bg-[oklch(25.33%_0.016_252.42)]";
+        const string code = "bg-[oklch(100%_0_0)] dark:bg-[oklch(28%_0.016_252.42)]";
 
         Assert.False(ThemeSurface.IsCustomized(ThemeSurfaces.Default));
         Assert.Equal(code, ThemeSurface.ApplyToCode(code, ThemeSurfaces.Default));
     }
 
-    private const string bodyCode = "bg-[oklch(100%_0_0)] bg-[oklch(98.5%_0_0)] dark:bg-[oklch(25.33%_0.016_252.42)] dark:bg-[oklch(22.2%_0.015_253)]";
+    private const string bodyCode = "bg-[oklch(100%_0_0)] bg-[oklch(98.5%_0_0)] dark:bg-[oklch(28%_0.016_252.42)] dark:bg-[oklch(20%_0.015_253)]";
 
     [Fact]
     public void ThePageBody_FollowsThePickedBackground_WhenItHasNoPickOfItsOwn()
@@ -31,7 +31,7 @@ public class ThemeSurfaceTests
 
         Assert.True(OklchColor.TryParseHex("#fdf6e3", out var picked));
         Assert.Equal($"bg-{(picked with { Lightness = picked.Lightness - 0.015 }).ToTailwindValue()}", parts[1]);
-        Assert.Equal("dark:bg-[oklch(22.2%_0.015_253)]", parts[3]);
+        Assert.Equal("dark:bg-[oklch(20%_0.015_253)]", parts[3]);
     }
 
     [Fact]
@@ -45,7 +45,7 @@ public class ThemeSurfaceTests
         Assert.True(OklchColor.TryParseHex("#0b1020", out var body));
         Assert.Equal("bg-[oklch(100%_0_0)]", parts[0]);
         Assert.Equal("bg-[oklch(98.5%_0_0)]", parts[1]);
-        Assert.Equal("dark:bg-[oklch(25.33%_0.016_252.42)]", parts[2]);
+        Assert.Equal("dark:bg-[oklch(28%_0.016_252.42)]", parts[2]);
         Assert.Equal($"dark:bg-{body.ToTailwindValue()}", parts[3]);
     }
 
@@ -74,19 +74,19 @@ public class ThemeSurfaceTests
     [Fact]
     public void ALightBackground_MovesEveryLightSurface_KeepingEachOnesDistanceFromIt()
     {
-        var code = ThemeSurface.ApplyToCode("bg-[oklch(100%_0_0)] border-[oklch(92%_0_0)] dark:bg-[oklch(25.33%_0.016_252.42)]", _cream);
+        var code = ThemeSurface.ApplyToCode("bg-[oklch(100%_0_0)] border-[oklch(92%_0_0)] dark:bg-[oklch(28%_0.016_252.42)]", _cream);
         var parts = code.Split(' ');
 
         Assert.True(OklchColor.TryParseHex("#fdf6e3", out var picked));
         Assert.Equal($"bg-{picked.ToTailwindValue()}", parts[0]);
         Assert.Equal($"border-{(picked with { Lightness = picked.Lightness - 0.08 }).ToTailwindValue()}", parts[1]);
-        Assert.Equal("dark:bg-[oklch(25.33%_0.016_252.42)]", parts[2]);
+        Assert.Equal("dark:bg-[oklch(28%_0.016_252.42)]", parts[2]);
     }
 
     [Fact]
     public void ADarkBackground_MovesOnlyTheDarkSurfaces()
     {
-        var code = ThemeSurface.ApplyToCode("bg-[oklch(100%_0_0)] dark:bg-[oklch(25.33%_0.016_252.42)] dark:bg-[oklch(40%_0.016_253)]", _navy);
+        var code = ThemeSurface.ApplyToCode("bg-[oklch(100%_0_0)] dark:bg-[oklch(28%_0.016_252.42)] dark:bg-[oklch(40%_0.016_253)]", _navy);
 
         Assert.StartsWith("bg-[oklch(100%_0_0)] ", code);
         Assert.DoesNotContain("252.42", code);
@@ -158,8 +158,8 @@ public class ThemeSurfaceTests
         var tokens = ThemeSurface.SurfaceTokens(ThemeTemplate.Default).ToList();
 
         Assert.True(tokens.IndexOf("bg-[oklch(100%_0_0)]") < tokens.IndexOf("focus:bg-[oklch(100%_0_0)]"));
-        Assert.True(tokens.IndexOf("focus:bg-[oklch(100%_0_0)]") < tokens.IndexOf("dark:bg-[oklch(25.33%_0.016_252.42)]"));
-        Assert.True(tokens.IndexOf("dark:bg-[oklch(25.33%_0.016_252.42)]") < tokens.IndexOf("dark:focus:bg-[oklch(40%_0.016_253)]"));
+        Assert.True(tokens.IndexOf("focus:bg-[oklch(100%_0_0)]") < tokens.IndexOf("dark:bg-[oklch(28%_0.016_252.42)]"));
+        Assert.True(tokens.IndexOf("dark:bg-[oklch(28%_0.016_252.42)]") < tokens.IndexOf("dark:focus:bg-[oklch(40%_0.016_253)]"));
     }
 
     [Fact]

@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using System.Diagnostics.CodeAnalysis;
+using TwBlazor.Enums;
 
 namespace TwBlazor.Configuration.Components;
 
@@ -217,4 +218,34 @@ public class TwSidebarTheme
     /// between the collapsed/expanded states.
     /// </summary>
     public required string NavigationItemToggleIcon { get; set; }
+
+    /// <summary>
+    /// Gets or sets the classes for the row that wraps <see cref="TwBlazor.Components.TwSidebar.HeaderContent"/>,
+    /// such as a logo.
+    /// </summary>
+    /// <remarks>Give it the same height as <see cref="Navbar"/> so the header lines up with the top bar beside it.</remarks>
+    public string Header { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes for the row that wraps the search field when
+    /// <see cref="TwBlazor.Components.TwSidebar.IsSearchable"/> is set. It positions <see cref="SearchIcon"/>.
+    /// </summary>
+    public string Search { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes for the decorative search icon drawn over the start of the search field.
+    /// </summary>
+    public string SearchIcon { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes added to the search field's input, merged over the input theme. Include start
+    /// padding so the text does not run under <see cref="SearchIcon"/>.
+    /// </summary>
+    public string SearchInput { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the variant of the search field. When <see langword="null"/>, the input theme's default
+    /// variant is used.
+    /// </summary>
+    public InputVariant? SearchInputVariant { get; set; }
 }

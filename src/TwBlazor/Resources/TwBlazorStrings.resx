@@ -1132,4 +1132,44 @@
     <value>Is not empty</value>
     <comment>Column filter condition: the cell has a value.</comment>
   </data>
+  <data name="Bubble_Reactions" xml:space="preserve">
+    <value>Reactions</value>
+    <comment>Names the row of reactions under a chat bubble.</comment>
+  </data>
+  <data name="Bubble_Reaction" xml:space="preserve">
+    <value>{0}: {1}</value>
+    <comment>{0} = the reaction's name, {1} = how many people chose it.</comment>
+  </data>
+  <data name="Attachment_Uploading" xml:space="preserve">
+    <value>Uploading {0}</value>
+    <comment>{0} = the file name.</comment>
+  </data>
+  <data name="Attachment_Uploaded" xml:space="preserve">
+    <value>{0} uploaded</value>
+    <comment>{0} = the file name.</comment>
+  </data>
+  <data name="Attachment_Failed" xml:space="preserve">
+    <value>{0} failed to upload</value>
+    <comment>{0} = the file name.</comment>
+  </data>
+  <data name="Attachment_Retry" xml:space="preserve">
+    <value>Retry uploading {0}</value>
+    <comment>{0} = the file name.</comment>
+  </data>
+  <data name="Marker_Pending" xml:space="preserve">
+    <value>Pending</value>
+    <comment>A step that has not started yet.</comment>
+  </data>
+  <data name="Marker_Running" xml:space="preserve">
+    <value>In progress</value>
+    <comment>A step that is running.</comment>
+  </data>
+  <data name="Marker_Succeeded" xml:space="preserve">
+    <value>Done</value>
+    <comment>A step that finished successfully.</comment>
+  </data>
+  <data name="Marker_Failed" xml:space="preserve">
+    <value>Failed</value>
+    <comment>A step that failed.</comment>
+  </data>
 </root>

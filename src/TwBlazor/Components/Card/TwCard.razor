@@ -2,17 +2,39 @@
 @inherits TwBlazorComponentBase
 
 <div id="@Id" class="@cardClasses" style="@Style" @attributes="Attributes" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy">
-    @if (hasHeader)
+    @if (hasMedia)
     {
-        @if (!string.IsNullOrEmpty(Title))
-        {
-            @renderTitle
-        }
-        @if (HeaderContent is not null)
-        {
-            @HeaderContent
-        }
+        <div class="@mediaClasses">
+            @if (hasImage)
+            {
+                <img src="@ImageSrc" alt="@(ImageAlt ?? string.Empty)" class="@imageClasses" loading="lazy" decoding="async" />
+            }
+            @MediaContent
+        </div>
     }
-    
-    @ChildContent
+
+    @if (hasContent)
+    {
+        <div class="@theme.Content">
+            @if (hasHeader)
+            {
+                <div class="@theme.Header">
+                    @if (!string.IsNullOrEmpty(Title))
+                    {
+                        @renderTitle
+                    }
+                    @HeaderContent
+                </div>
+            }
+
+            @ChildContent
+        </div>
+    }
+
+    @if (FooterContent is not null)
+    {
+        <div class="@theme.Footer">
+            @FooterContent
+        </div>
+    }
 </div>

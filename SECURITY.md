@@ -6,10 +6,8 @@ Security fixes are provided for the three most recent minor release lines of twb
 
 | Version  | Supported          | .NET    |
 | -------- | ------------------ | ------- |
-| 1.11.x   | :white_check_mark: | .NET 10 |
-| 1.10.x   | :white_check_mark: | .NET 10 |
-| 1.9.x    | :white_check_mark: | .NET 10 |
-| < 1.9    | :x:                | .NET 10 |
+| 2.x.x    | :white_check_mark: | .NET 10 |
+| 1.x.x    | :white_check_mark: | .NET 10 |
 
 twblazor targets .NET 10 (`net10.0`) only. Other .NET versions are not supported, and issues that only occur on an unsupported .NET version will not receive a security fix.
 

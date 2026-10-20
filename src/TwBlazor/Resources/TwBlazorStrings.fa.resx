@@ -906,4 +906,34 @@
   <data name="DataTable_OperatorIsNotEmpty" xml:space="preserve">
     <value>خالی نیست</value>
   </data>
+  <data name="Bubble_Reactions" xml:space="preserve">
+    <value>واکنش‌ها</value>
+  </data>
+  <data name="Bubble_Reaction" xml:space="preserve">
+    <value>{0}: {1}</value>
+  </data>
+  <data name="Attachment_Uploading" xml:space="preserve">
+    <value>در حال بارگذاری {0}</value>
+  </data>
+  <data name="Attachment_Uploaded" xml:space="preserve">
+    <value>{0} بارگذاری شد</value>
+  </data>
+  <data name="Attachment_Failed" xml:space="preserve">
+    <value>بارگذاری {0} ناموفق بود</value>
+  </data>
+  <data name="Attachment_Retry" xml:space="preserve">
+    <value>تلاش دوباره برای بارگذاری {0}</value>
+  </data>
+  <data name="Marker_Pending" xml:space="preserve">
+    <value>در انتظار</value>
+  </data>
+  <data name="Marker_Running" xml:space="preserve">
+    <value>در حال انجام</value>
+  </data>
+  <data name="Marker_Succeeded" xml:space="preserve">
+    <value>انجام شد</value>
+  </data>
+  <data name="Marker_Failed" xml:space="preserve">
+    <value>ناموفق</value>
+  </data>
 </root>

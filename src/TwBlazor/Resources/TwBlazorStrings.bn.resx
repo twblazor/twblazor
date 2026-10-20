@@ -900,4 +900,34 @@
   <data name="DataTable_OperatorIsNotEmpty" xml:space="preserve">
     <value>খালি নয়</value>
   </data>
+  <data name="Bubble_Reactions" xml:space="preserve">
+    <value>প্রতিক্রিয়া</value>
+  </data>
+  <data name="Bubble_Reaction" xml:space="preserve">
+    <value>{0}: {1}</value>
+  </data>
+  <data name="Attachment_Uploading" xml:space="preserve">
+    <value>{0} আপলোড হচ্ছে</value>
+  </data>
+  <data name="Attachment_Uploaded" xml:space="preserve">
+    <value>{0} আপলোড হয়েছে</value>
+  </data>
+  <data name="Attachment_Failed" xml:space="preserve">
+    <value>{0} আপলোড করা যায়নি</value>
+  </data>
+  <data name="Attachment_Retry" xml:space="preserve">
+    <value>{0} আবার আপলোড করুন</value>
+  </data>
+  <data name="Marker_Pending" xml:space="preserve">
+    <value>অপেক্ষমাণ</value>
+  </data>
+  <data name="Marker_Running" xml:space="preserve">
+    <value>চলছে</value>
+  </data>
+  <data name="Marker_Succeeded" xml:space="preserve">
+    <value>সম্পন্ন</value>
+  </data>
+  <data name="Marker_Failed" xml:space="preserve">
+    <value>ব্যর্থ</value>
+  </data>
 </root>

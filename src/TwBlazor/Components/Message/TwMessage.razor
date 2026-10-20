@@ -1,0 +1,43 @@
+@namespace TwBlazor.Components
+@using TwBlazor.Enums
+@inherits TwBlazorComponentBase
+
+<CascadingValue Value="@Align" Name="@alignCascadeName">
+    <article id="@Id" class="@classes" style="@Style" aria-label="@AriaLabel" aria-labelledby="@effectiveLabelledBy" @attributes="Attributes">
+        @if (ShowAvatar)
+        {
+            if (Continued)
+            {
+                <span class="@theme.AvatarSpacer" aria-hidden="true"></span>
+            }
+            else if (AvatarContent != null)
+            {
+                @AvatarContent
+            }
+            else
+            {
+                <TwAvatar Src="@AvatarSrc" Initials="@avatarInitials" Icon="@avatarIcon" Color="@AvatarColor" Size="AvatarSize.Small" />
+            }
+        }
+        <div class="@contentClasses">
+            @if (hasHeader)
+            {
+                <div class="@headerClasses">
+                    @if (hasAuthor)
+                    {
+                        <span id="@authorId" class="@theme.Author">@Author</span>
+                    }
+                    @if (Timestamp.HasValue)
+                    {
+                        <time id="@timeId" datetime="@machineTimestamp" class="@theme.Timestamp">@displayTimestamp</time>
+                    }
+                </div>
+            }
+            @ChildContent
+            @if (Footer != null)
+            {
+                <div class="@theme.Footer">@Footer</div>
+            }
+        </div>
+    </article>
+</CascadingValue>

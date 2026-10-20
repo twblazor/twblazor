@@ -903,4 +903,34 @@
   <data name="DataTable_OperatorIsNotEmpty" xml:space="preserve">
     <value>不為空</value>
   </data>
+  <data name="Bubble_Reactions" xml:space="preserve">
+    <value>回應</value>
+  </data>
+  <data name="Bubble_Reaction" xml:space="preserve">
+    <value>{0}：{1}</value>
+  </data>
+  <data name="Attachment_Uploading" xml:space="preserve">
+    <value>正在上傳 {0}</value>
+  </data>
+  <data name="Attachment_Uploaded" xml:space="preserve">
+    <value>{0} 已上傳</value>
+  </data>
+  <data name="Attachment_Failed" xml:space="preserve">
+    <value>{0} 上傳失敗</value>
+  </data>
+  <data name="Attachment_Retry" xml:space="preserve">
+    <value>重新上傳 {0}</value>
+  </data>
+  <data name="Marker_Pending" xml:space="preserve">
+    <value>等待中</value>
+  </data>
+  <data name="Marker_Running" xml:space="preserve">
+    <value>進行中</value>
+  </data>
+  <data name="Marker_Succeeded" xml:space="preserve">
+    <value>完成</value>
+  </data>
+  <data name="Marker_Failed" xml:space="preserve">
+    <value>失敗</value>
+  </data>
 </root>

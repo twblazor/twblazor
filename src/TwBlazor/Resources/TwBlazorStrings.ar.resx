@@ -906,4 +906,34 @@
   <data name="DataTable_OperatorIsNotEmpty" xml:space="preserve">
     <value>ليس فارغًا</value>
   </data>
+  <data name="Bubble_Reactions" xml:space="preserve">
+    <value>التفاعلات</value>
+  </data>
+  <data name="Bubble_Reaction" xml:space="preserve">
+    <value>{0}: {1}</value>
+  </data>
+  <data name="Attachment_Uploading" xml:space="preserve">
+    <value>جارٍ رفع {0}</value>
+  </data>
+  <data name="Attachment_Uploaded" xml:space="preserve">
+    <value>تم رفع {0}</value>
+  </data>
+  <data name="Attachment_Failed" xml:space="preserve">
+    <value>تعذّر رفع {0}</value>
+  </data>
+  <data name="Attachment_Retry" xml:space="preserve">
+    <value>إعادة محاولة رفع {0}</value>
+  </data>
+  <data name="Marker_Pending" xml:space="preserve">
+    <value>قيد الانتظار</value>
+  </data>
+  <data name="Marker_Running" xml:space="preserve">
+    <value>قيد التنفيذ</value>
+  </data>
+  <data name="Marker_Succeeded" xml:space="preserve">
+    <value>تم</value>
+  </data>
+  <data name="Marker_Failed" xml:space="preserve">
+    <value>فشل</value>
+  </data>
 </root>

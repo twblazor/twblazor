@@ -903,4 +903,34 @@
   <data name="DataTable_OperatorIsNotEmpty" xml:space="preserve">
     <value>خالی نہیں</value>
   </data>
+  <data name="Bubble_Reactions" xml:space="preserve">
+    <value>ردعمل</value>
+  </data>
+  <data name="Bubble_Reaction" xml:space="preserve">
+    <value>{0}: {1}</value>
+  </data>
+  <data name="Attachment_Uploading" xml:space="preserve">
+    <value>{0} اپلوڈ ہو رہی اے</value>
+  </data>
+  <data name="Attachment_Uploaded" xml:space="preserve">
+    <value>{0} اپلوڈ ہو گئی</value>
+  </data>
+  <data name="Attachment_Failed" xml:space="preserve">
+    <value>{0} اپلوڈ نہیں ہو سکی</value>
+  </data>
+  <data name="Attachment_Retry" xml:space="preserve">
+    <value>{0} فیر اپلوڈ کرو</value>
+  </data>
+  <data name="Marker_Pending" xml:space="preserve">
+    <value>باقی</value>
+  </data>
+  <data name="Marker_Running" xml:space="preserve">
+    <value>چل رہیا اے</value>
+  </data>
+  <data name="Marker_Succeeded" xml:space="preserve">
+    <value>ہو گیا</value>
+  </data>
+  <data name="Marker_Failed" xml:space="preserve">
+    <value>ناکام</value>
+  </data>
 </root>

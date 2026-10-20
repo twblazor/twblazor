@@ -1,0 +1,24 @@
+@namespace TwBlazor.Components
+@using TwBlazor.Enums
+@inherits TwBlazorComponentBase
+
+<div id="@Id" class="@rootClasses" style="@Style" role="@(hasAccessibleName ? "group" : null)" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy" @attributes="Attributes">
+    <div class="@surfaceClasses">@ChildContent</div>
+    @if (hasReactions)
+    {
+        <div role="group" aria-label="@localizer[TwStrings.Bubble_Reactions]" class="@theme.Reactions">
+            @foreach (var reaction in Reactions!)
+            {
+                <TwChip Size="ChipSize.Medium"
+                        Color="@reactionColor"
+                        Variant="@(reaction.Reacted ? ButtonVariant.Filled : ButtonVariant.Outlined)"
+                        OnClick="@ReactionClickCallback(reaction)"
+                        aria-pressed="@AriaPressed(reaction)">
+                    <span class="@theme.ReactionEmoji" aria-hidden="true">@reaction.Emoji</span>
+                    <span class="@theme.ReactionCount" aria-hidden="true">@FormatCount(reaction.Count)</span>
+                    <span class="@options.Theme.Display.ScreenReaderOnly">@localizer[TwStrings.Bubble_Reaction, reaction.Label ?? reaction.Emoji, FormatCount(reaction.Count)]</span>
+                </TwChip>
+            }
+        </div>
+    }
+</div>

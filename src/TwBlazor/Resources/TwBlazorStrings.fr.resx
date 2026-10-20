@@ -903,4 +903,34 @@
   <data name="DataTable_OperatorIsNotEmpty" xml:space="preserve">
     <value>N'est pas vide</value>
   </data>
+  <data name="Bubble_Reactions" xml:space="preserve">
+    <value>Réactions</value>
+  </data>
+  <data name="Bubble_Reaction" xml:space="preserve">
+    <value>{0} : {1}</value>
+  </data>
+  <data name="Attachment_Uploading" xml:space="preserve">
+    <value>Envoi de {0}</value>
+  </data>
+  <data name="Attachment_Uploaded" xml:space="preserve">
+    <value>{0} envoyé</value>
+  </data>
+  <data name="Attachment_Failed" xml:space="preserve">
+    <value>Échec de l'envoi de {0}</value>
+  </data>
+  <data name="Attachment_Retry" xml:space="preserve">
+    <value>Réessayer l'envoi de {0}</value>
+  </data>
+  <data name="Marker_Pending" xml:space="preserve">
+    <value>En attente</value>
+  </data>
+  <data name="Marker_Running" xml:space="preserve">
+    <value>En cours</value>
+  </data>
+  <data name="Marker_Succeeded" xml:space="preserve">
+    <value>Terminé</value>
+  </data>
+  <data name="Marker_Failed" xml:space="preserve">
+    <value>Échec</value>
+  </data>
 </root>

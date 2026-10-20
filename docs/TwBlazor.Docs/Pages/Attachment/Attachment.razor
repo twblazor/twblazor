@@ -1,0 +1,114 @@
+@page "/attachment"
+
+<PageContainer Title="TwAttachment" Path="/attachment" Beta Description="TwAttachment is a Blazor file attachment chip for chat surfaces, with a preview or file type icon, size, upload progress, errors, retry and remove actions." ThemeType="typeof(TwAttachmentTheme)">
+    <PageCard Title="Basic usage">
+        <Description>Give <code>TwAttachment</code> a <code>FileName</code> and a <code>FileSize</code> in bytes. The icon is picked from the file's extension, or from its <code>ContentType</code> when you pass one.</Description>
+
+        <CodeExample Name="AttachmentBasic">
+            <div class="flex flex-wrap gap-3">
+                <TwAttachment FileName="quarterly-report.pdf" FileSize="2_457_600" />
+                <TwAttachment FileName="budget.xlsx" FileSize="48_230" />
+                <TwAttachment FileName="notes.md" FileSize="1_204" />
+                <TwAttachment FileName="Program.cs" FileSize="8_960" />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Preview">
+        <Description>Set <code>PreviewSrc</code> to show a thumbnail. If it fails to load, the attachment falls back to the file type icon.</Description>
+
+        <CodeExample Name="AttachmentPreview">
+            <div class="flex flex-wrap gap-3">
+                <TwAttachment FileName="logo.svg" FileSize="3_120" PreviewSrc="_content/TwBlazor.Docs/images/logo.svg" />
+                <TwAttachment FileName="holiday.png" FileSize="1_048_576" PreviewSrc="/images/missing-picture.png" ContentType="image/png" />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Upload states">
+        <Description>Set <code>Status</code> to show where the upload is. While <code>Uploading</code>, pass <code>Progress</code> from 0 to 100, or leave it unset when the progress is not known. When it <code>Failed</code>, an error is shown and an <code>OnRetry</code> callback adds a retry button.</Description>
+
+        <CodeExample Name="AttachmentStates" CSharpName="AttachmentStatesCode">
+            <div class="flex flex-col gap-3">
+                <div class="flex flex-wrap gap-3">
+                    <TwAttachment FileName="design-spec.pdf" FileSize="5_242_880" Status="@_status" Progress="@_progress" OnRetry="UploadAsync" OnRemove="Reset" />
+                    <TwAttachment FileName="video.mp4" Status="AttachmentStatus.Uploading" />
+                    <TwAttachment FileName="archive.zip" Status="AttachmentStatus.Failed" ErrorText="File is larger than 25 MB" OnRetry="@(() => { })" OnRemove="@(() => { })" />
+                </div>
+                <div class="flex gap-2">
+                    <TwButton Label="Upload" OnClick="UploadAsync" Disabled="@(_status == AttachmentStatus.Uploading)" Variant="ButtonVariant.Filled" Color="Color.Primary" />
+                    <TwButton Label="Fail upload" Variant="ButtonVariant.Outlined" OnClick="Fail" />
+                </div>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Removable list">
+        <Description>Set <code>OnRemove</code> to add a remove button that names the file, for example in the list of files waiting to be sent with a message.</Description>
+
+        <CodeExample Name="AttachmentRemovable" CSharpName="AttachmentRemovableCode">
+            <div class="flex flex-wrap gap-3">
+                @foreach (var file in _files)
+                {
+                    <TwAttachment @key="file" FileName="@file" FileSize="120_000" OnRemove="@(() => _files.Remove(file))" />
+                }
+                @if (_files.Count == 0)
+                {
+                    <p class="text-sm text-gray-600 dark:text-gray-300">No files attached.</p>
+                }
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Links and actions">
+        <Description>Set <code>Href</code> to make the file name a link once the file is ready. Use <code>Actions</code> for extra buttons, which sit before the built-in ones.</Description>
+
+        <CodeExample Name="AttachmentLinks">
+            <TwAttachment FileName="contract.docx" FileSize="96_000" Href="#" OnRemove="@(() => { })">
+                <Actions>
+                    <TwIcon Icon="Icon.Download" AriaLabel="Download contract.docx" OnClick="@(() => { })" />
+                </Actions>
+            </TwAttachment>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Accessibility">
+        <Description>
+            The attachment is a group named after its file. The preview image is decoration, since the name is written beside it. The remove and retry buttons name the file they act on, and the retry button is described by the error. The upload progress bar is named "Uploading" and the file name, and starting, finishing and failing an upload are announced through a polite live region. A long file name is cut short on screen but read in full, and shown in full on hover.
+        </Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample AttachmentStatesCode
+    private AttachmentStatus _status = AttachmentStatus.Ready;
+    private double? _progress;
+
+    private async Task UploadAsync()
+    {
+        _status = AttachmentStatus.Uploading;
+        for (_progress = 0; _progress < 100 && _status == AttachmentStatus.Uploading; _progress += 10)
+        {
+            StateHasChanged();
+            await Task.Delay(250);
+        }
+
+        if (_status == AttachmentStatus.Uploading)
+        {
+            _status = AttachmentStatus.Ready;
+        }
+    }
+
+    private void Fail() => _status = AttachmentStatus.Failed;
+
+    private void Reset()
+    {
+        _status = AttachmentStatus.Ready;
+        _progress = null;
+    }
+    #endregion
+
+    #region CodeExample AttachmentRemovableCode
+    private readonly List<string> _files = ["brief.pdf", "moodboard.png", "copy-deck.docx"];
+    #endregion
+}

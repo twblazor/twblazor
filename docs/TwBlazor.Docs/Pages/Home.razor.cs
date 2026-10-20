@@ -4,6 +4,7 @@ using TwBlazor.Docs.Services;
 using TwBlazor.Enums;
 using TwBlazor.Models;
 using TwBlazor.Utilities;
+using IconEnum = TwBlazor.Enums.Icon;
 
 namespace TwBlazor.Docs.Pages;
 
@@ -11,29 +12,6 @@ public partial class Home
 {
     private const string quickStartInstall =
         "dotnet add package twblazor";
-
-    private const string quickStartSnippet =
-        "<TwButton Label=\"Get Started\" Color=\"Color.Primary\" />\n" +
-        "<TwAlert Color=\"Color.Success\" Dense>Everything is working!</TwAlert>";
-
-    private const string themingSnippet =
-        "builder.Services.AddTwBlazor(_ => { }, () => new TwBlazorTheme\n" +
-        "{\n" +
-        "    // ...position, colors, shadows, rounded...\n" +
-        "    Components =\n" +
-        "    [\n" +
-        "        new TwButtonTheme\n" +
-        "        {\n" +
-        "            Base = \"inline-flex items-center gap-2 rounded-full font-semibold\",\n" +
-        "            Padding = \"px-8\"\n" +
-        "        },\n" +
-        "        new TwInputTheme\n" +
-        "        {\n" +
-        "            DefaultInputVariant = InputVariant.Outlined\n" +
-        "        }\n" +
-        "        // ...every other component you use\n" +
-        "    ]\n" +
-        "});";
 
     private static readonly IReadOnlyList<string> _jsonLd = [SiteMetadata.HomeJsonLd()];
 
@@ -86,10 +64,35 @@ public partial class Home
         cardClasses + " relative overflow-hidden before:absolute before:inset-x-0 before:top-0 before:h-1 before:bg-linear-to-r before:from-purple-600 before:to-fuchsia-500";
 
     /// <summary>
+    /// One word of the hero heading. Each word rises into place after the one before, set by its animation delay.
+    /// </summary>
+    private const string heroWordClasses = "inline-block animate-word-rise motion-reduce:animate-none";
+
+    /// <summary>
+    /// The gradient icon tile on a feature card. Each card adds its own gradient and glow colours.
+    /// </summary>
+    private const string featureIconClasses =
+        "inline-flex size-11 shrink-0 items-center justify-center rounded-xl bg-linear-to-br text-xl text-white shadow-lg";
+
+    /// <summary>
     /// A guide card, which is a link: the shared shell on the same surface as <c>TwCard</c>, lifting on hover.
     /// </summary>
     private const string guideCardClasses =
-        "flex items-start gap-4 " + cardClasses + " bg-white dark:bg-[oklch(25.33%_0.016_252.42)] transition duration-200 hover:-translate-y-0.5 hover:border-fuchsia-400 hover:shadow-lg hover:shadow-purple-500/10 motion-reduce:transition-none motion-reduce:hover:translate-y-0 dark:hover:border-fuchsia-400";
+        "group flex items-start gap-4 " + cardClasses + " bg-white dark:bg-[oklch(28%_0.016_252.42)] transition duration-300 hover:-translate-y-1 hover:border-fuchsia-400 hover:shadow-xl hover:shadow-purple-500/15 motion-reduce:transition-none motion-reduce:hover:translate-y-0 dark:hover:border-fuchsia-400";
+
+    /// <summary>
+    /// The icon tile on a guide card, which tilts as the card lifts. Each card adds its own colours.
+    /// </summary>
+    private const string guideIconClasses =
+        "inline-flex size-11 shrink-0 items-center justify-center rounded-xl text-xl transition duration-300 group-hover:-rotate-6 group-hover:scale-110 motion-reduce:transition-none motion-reduce:group-hover:rotate-0 motion-reduce:group-hover:scale-100";
+
+    private static readonly IReadOnlyList<ThemingPoint> _themingPoints =
+    [
+        new(IconEnum.Braces, "Every class, typed and overridable", "One C# theme class per component, every class a named property."),
+        new(IconEnum.Layers_Fill, "Reusable design tokens", "Set a colour once and every component follows."),
+        new(IconEnum.Sliders, "Global defaults, local overrides", "Set a default once, override any instance."),
+        new(IconEnum.Wind, "Real Tailwind, real JIT", "Plain string literals Tailwind can see. No safelists."),
+    ];
 
     private const string mergeChipClasses = "rounded-md border px-2 py-1 font-mono text-xs";
 
@@ -165,9 +168,9 @@ public partial class Home
 
     private static readonly IReadOnlyList<MergePoint> _localizationPoints =
     [
-        new("One .resx file per language", "English is built in and the rest ship in the package. Add or reword any string with resource files of your own."),
-        new("Dates and times that fit", "Month names, the first day of the week and 12 or 24 hour time follow the culture, with British formats as the fallback."),
-        new("Configured in AddTwBlazor", "Pin a culture, set a format or swap the localizer service, all from the options you already pass."),
+        new("One .resx file per language", "Add or reword any string with your own resource files."),
+        new("Dates and times that fit", "Week starts and 12 or 24 hour time follow the culture."),
+        new("Configured in AddTwBlazor", "Pin a culture, set a format or swap the localizer."),
     ];
 
     private sealed record LocalizationLanguage(string NativeName, string Name, string Culture);
@@ -182,9 +185,9 @@ public partial class Home
 
     private static readonly IReadOnlyList<MergePoint> _rtlPoints =
     [
-        new("Follows the language", "A right to left culture mirrors every component by itself. Set the direction yourself to pin it."),
-        new("Keys that match the screen", "Left and Right swap in tabs, trees, calendars and carousels, so each arrow still moves the way it points."),
-        new("Mix directions on one page", "Wrap any part of a page in TwDirectionProvider to give it a direction of its own."),
+        new("Follows the language", "Right to left cultures mirror automatically."),
+        new("Keys that match the screen", "Arrow keys move the way they point, in every component."),
+        new("Mix directions on one page", "Wrap any part in TwDirectionProvider."),
     ];
 
     private static readonly IReadOnlyList<RtlDemoOption> _rtlDemoOptions =
@@ -217,9 +220,9 @@ public partial class Home
 
     private static readonly IReadOnlyList<MergePoint> _mergePoints =
     [
-        new("The last class wins", "Conflicts are settled by what you wrote last, not by the order of Tailwind's stylesheet."),
-        new("Understands Tailwind v4", "Variants, arbitrary values, the important modifier and prefixes, checked against tailwind-merge on more than 700 class strings."),
-        new("Yours to configure", "Teach it your own utilities, set your Tailwind prefix or turn it off, all from AddTwBlazor."),
+        new("The last class wins", "A C# port of tailwind-merge. Nothing to install."),
+        new("Understands Tailwind v4", "Variants, arbitrary values and prefixes, tested on 700+ cases."),
+        new("Yours to configure", "Custom utilities, a prefix, or off, from AddTwBlazor."),
     ];
 
     private MergeExample mergeExample = _mergeExamples[0];
@@ -239,6 +242,40 @@ public partial class Home
             var kept = mergedClasses.Split(' ').ToHashSet(StringComparer.Ordinal);
             return mergeThemeClasses.Split(' ').Select(name => (name, kept.Contains(name)));
         }
+    }
+
+    /// <summary>
+    /// The words the features heading cycles through. The animation in input.css expects five.
+    /// </summary>
+    private static readonly IReadOnlyList<string> _cycleWords = ["dashboard", "checkout", "admin panel", "sign-in form", "settings page"];
+
+    private bool wordCyclePaused;
+
+    // Changing the key rebuilds the live build panel, which restarts its CSS animations.
+    private int liveBuildRun;
+    private int liveBuildProgress = 40;
+    private bool liveBuildAutoDeploy = true;
+    private bool liveBuildDeployed;
+
+    /// <summary>
+    /// Fills the live build's progress bar, then marks it deployed once the bar's own transition has had time to run.
+    /// </summary>
+    private async Task Deploy()
+    {
+        liveBuildProgress = 100;
+        await Task.Delay(700);
+        liveBuildDeployed = true;
+    }
+
+    /// <summary>
+    /// Resets the live build panel and plays its animation again.
+    /// </summary>
+    private void ReplayLiveBuild()
+    {
+        liveBuildProgress = 40;
+        liveBuildAutoDeploy = true;
+        liveBuildDeployed = false;
+        liveBuildRun++;
     }
 
     private string email = string.Empty;
@@ -283,4 +320,6 @@ public partial class Home
     private sealed record MergeExample(string Id, string Label, string YourClass);
 
     private sealed record MergePoint(string Title, string Description);
+
+    private sealed record ThemingPoint(IconEnum Icon, string Title, string Description);
 }
