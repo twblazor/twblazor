@@ -6,7 +6,7 @@ globalThis.landingStage = {
 
     observe: function (root) {
         root.querySelectorAll("[data-stage]:not([data-stage-observed])").forEach((stage) => {
-            stage.setAttribute("data-stage-observed", "");
+            stage.dataset.stageObserved = "";
             this.observer.observe(stage);
         });
     },
