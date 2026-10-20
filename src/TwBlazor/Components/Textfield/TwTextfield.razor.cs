@@ -208,7 +208,7 @@ public partial class TwTextfield<T> : TwBlazorTextInputComponentBase
     /// Custom classes specified in <see cref="TwBlazorComponentBase.Class"/> are also included.
     /// </remarks>
     private string classes => new ClassBuilder(theme.TextfieldBase)
-        .AddClass(inputVariantBuilder.GetClasses(effectiveVariant, theme))
+        .AddClass(inputVariantBuilder.GetClasses(effectiveVariant, theme, effectiveRounded))
         .AddClass(Disabled ? "opacity-40 cursor-not-allowed" : string.Empty)
         .AddClass(Multiline ? multilineClasses : inputSizeClasses)
         .AddClass(theme.ClearablePadding, Clearable && !Multiline && !Disabled && !ReadOnly)

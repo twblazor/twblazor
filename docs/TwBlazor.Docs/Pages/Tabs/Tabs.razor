@@ -2,7 +2,7 @@
 
 <PageContainer Title="TwTabs" Path="/tabs" Description="TwTabs is a Blazor tabs component, built from TwTabContainer and TwTab. Set Label, Color, Dense and Disabled, and colour the whole container or single tabs." ThemeType="typeof(TwTabTheme)">
     <PageCard Title="Basic tabs">
-        <Description>Use <code>TwTabContainer</code> and <code>TwTab</code> to split content into switchable panels.</Description>
+        <Description>Use <code>TwTabContainer</code> and <code>TwTab</code> to split content into switchable panels. By default the tab bar floats on its own as a segmented control, separate from the content below it.</Description>
         <CodeExample Name="TabsBasic">
             <TwTabContainer AriaLabel="Example tabs 1">
                 <TwTab Label="Tab 1">
@@ -16,7 +16,7 @@
     </PageCard>
 
     <PageCard Title="Container tab colors">
-        <Description>Set <code>TabColor</code> on <code>TwTabContainer</code> to choose the colour of the selected tab's label and underline. Unselected tabs stay neutral, so the selected tab is always the one that stands out.</Description>
+        <Description>Set <code>TabColor</code> on <code>TwTabContainer</code> to choose the colour of the selected tab's label. Unselected tabs stay neutral, so the selected tab is always the one that stands out.</Description>
         <CodeExample Name="TabContainerColors">
             <TwTabContainer AriaLabel="Example tabs 2" TabColor="Color.Accent">
                 <TwTab Label="Tab 1">
@@ -44,6 +44,51 @@
                 </TwTab>
                 <TwTab Label="Tab 3" Color="Color.Primary">
                     <p>This is the content of Tab 3.</p>
+                </TwTab>
+            </TwTabContainer>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Tabs with cards">
+        <Description>The tab panel has no border or background of its own, so content that brings its own surfaces, such as cards, sits directly on the page below the tab bar.</Description>
+        <CodeExample Name="TabsCards">
+            <TwTabContainer AriaLabel="Example tabs 6">
+                <TwTab Label="Overview">
+                    <div class="grid gap-4 sm:grid-cols-2">
+                        <TwCard Title="Revenue">
+                            <p>Revenue is up 12% on last month.</p>
+                        </TwCard>
+                        <TwCard Title="Customers">
+                            <p>48 new customers signed up this week.</p>
+                        </TwCard>
+                    </div>
+                </TwTab>
+                <TwTab Label="Activity">
+                    <TwCard Title="Recent activity">
+                        <p>No new activity since your last visit.</p>
+                    </TwCard>
+                </TwTab>
+                <TwTab Label="Settings">
+                    <TwCard Title="Settings">
+                        <p>Manage your notification preferences.</p>
+                    </TwCard>
+                </TwTab>
+            </TwTabContainer>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Container tabs">
+        <Description>Set <code>Container</code> on <code>TwTabContainer</code> to draw underlined tabs joined to a bordered panel. This suits plain text or form fields that have no surface of their own. Add <code>TransparentContainer</code> to drop the container's background and keep only its border. Keyboard navigation works the same in both layouts.</Description>
+        <CodeExample Name="TabsContainer">
+            <TwTabContainer AriaLabel="Example tabs 7" Container>
+                <TwTab Label="Profile">
+                    <p>Update your name, photo and contact details.</p>
+                </TwTab>
+                <TwTab Label="Security">
+                    <p>Change your password and manage two step verification.</p>
+                </TwTab>
+                <TwTab Label="Billing">
+                    <p>View invoices and update your payment method.</p>
                 </TwTab>
             </TwTabContainer>
         </CodeExample>

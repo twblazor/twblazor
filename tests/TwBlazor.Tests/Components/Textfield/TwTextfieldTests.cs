@@ -1008,4 +1008,59 @@ public class TwTextfieldTests : TwBlazorTestBase
         // Assert
         Assert.Equal("off", cut.Find("textarea").GetAttribute("autocomplete"));
     }
+
+    [Fact]
+    public void TwTextfield_Outlined_UsesTheRoundedParameter()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwTextfield<string>>(p => p
+            .Add(x => x.Variant, InputVariant.Outlined)
+            .Add(x => x.Rounded, Rounded.Full));
+
+        // Assert
+        var input = cut.Find("input");
+        Assert.Contains("rounded-full", input.ClassList);
+        Assert.DoesNotContain("rounded-lg", input.ClassList);
+    }
+
+    [Fact]
+    public void TwTextfield_Filled_RoundsOnlyTheTopCorners_AtTheRoundedParameter()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwTextfield<string>>(p => p
+            .Add(x => x.Variant, InputVariant.Filled)
+            .Add(x => x.Rounded, Rounded.Sm));
+
+        // Assert
+        var input = cut.Find("input");
+        Assert.Contains("rounded-t-sm", input.ClassList);
+        Assert.DoesNotContain("rounded-t-lg", input.ClassList);
+    }
+
+    [Fact]
+    public void TwTextfield_WithoutRounded_UsesTheThemeDefault()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwTextfield<string>>(p => p
+            .Add(x => x.Variant, InputVariant.Outlined));
+
+        // Assert
+        Assert.Contains("rounded-lg", cut.Find("input").ClassList);
+    }
+
+    [Fact]
+    public void TwTextfield_Class_OverridesTheRoundedParameter()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwTextfield<string>>(p => p
+            .Add(x => x.Variant, InputVariant.Outlined)
+            .Add(x => x.Rounded, Rounded.Full)
+            .Add(x => x.Class, "rounded-none"));
+
+        // Assert - global default, then the Rounded parameter, then Class, merged so only one radius is left.
+        var input = cut.Find("input");
+        Assert.Contains("rounded-none", input.ClassList);
+        Assert.DoesNotContain("rounded-full", input.ClassList);
+        Assert.DoesNotContain("rounded-lg", input.ClassList);
+    }
 }

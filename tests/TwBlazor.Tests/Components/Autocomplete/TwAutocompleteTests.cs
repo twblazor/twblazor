@@ -819,4 +819,18 @@ public class TwAutocompleteTests : TwBlazorTestBase
     }
 
     #endregion
+
+    [Fact]
+    public void Outlined_UsesTheRoundedParameter()
+    {
+        var cut = Render(p =>
+        {
+            p.Add(x => x.Variant, InputVariant.Outlined);
+            p.Add(x => x.Rounded, Rounded.Full);
+        });
+
+        var input = cut.Find("input[role='combobox']");
+        Assert.Contains("rounded-full", input.ClassList);
+        Assert.DoesNotContain("rounded-lg", input.ClassList);
+    }
 }

@@ -167,7 +167,7 @@ public static class Trading212Theme
             Danger = "border-red-600 dark:border-red-400",
             Warning = "border-yellow-700 dark:border-yellow-400",
             Info = "border-blue-600 dark:border-blue-400",
-            Light = "border-gray-100 dark:border-gray-700",
+            Light = "border-gray-100 dark:border-gray-200",
             Dark = "border-gray-900 dark:border-gray-700"
         };
 
@@ -908,9 +908,14 @@ public static class Trading212Theme
                 },
                 new TwCardTheme
                 {
-                    Container = "px-6 py-6",
+                    Container = "flex flex-col",
                     Bordered = $"{borderWidth.Thin} {neutralSurface.Border}",
-                    Title = $"{typography.Size.Lg} {typography.Weight.Semibold} {typography.WrapBreakWord} {neutralText.Heading} mb-4"
+                    Title = $"{typography.Size.Lg} {typography.Weight.Semibold} {typography.WrapBreakWord} {neutralText.Heading}",
+                    Content = "flex flex-col flex-1 gap-4 px-6 py-6",
+                    Header = "flex flex-col gap-1",
+                    Media = "relative overflow-hidden",
+                    Image = "block w-full aspect-video object-cover",
+                    Footer = $"flex flex-wrap items-center gap-2 px-6 py-4 border-t {neutralSurface.Border}"
                 },
                 new TwCarouselTheme
                 {
@@ -1292,12 +1297,19 @@ public static class Trading212Theme
                     TabBase = $"{positioning.Relative} {display.InlineFlex} {anchor.Center} {typography.Weight.Medium} {typography.Size.Sm} {transition.ColorsFast} {focusRingInset} {interaction.FocusOutlineNone} touch-manipulation",
                     TabPadding = "px-6 py-3",
                     TabDensePadding = "px-4 py-2",
-                    ActiveIndicator = "after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-current forced-colors:after:bg-[Highlight] after:scale-x-100 after:transition-transform after:duration-200 after:motion-reduce:transition-none",
-                    InactiveIndicator = $"{neutralText.Muted} {neutralHoverText} {neutralRowHover} after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-current after:scale-x-0 after:transition-transform after:duration-200 after:motion-reduce:transition-none",
+                    ActiveIndicator = "after:absolute after:bottom-0 after:inset-x-3 after:rounded-t-full after:h-0.5 after:bg-current forced-colors:after:bg-[Highlight] after:scale-x-100 after:transition-transform after:duration-200 after:motion-reduce:transition-none",
+                    InactiveIndicator = $"{neutralText.Muted} {neutralHoverText} {neutralRowHover} after:absolute after:bottom-0 after:inset-x-3 after:rounded-t-full after:h-0.5 after:bg-current after:scale-x-0 after:transition-transform after:duration-200 after:motion-reduce:transition-none",
                     DisabledTab = $"{neutralText.Muted} {interaction.DisabledOpacity} {interaction.DisabledCursor}",
                     TabListContainer = $"{display.Flex} {flexbox.Wrap} {overflow.Hidden} {borderWidth.Thin} {neutralSurface.Border}",
                     PanelContainer = $"px-6 py-5 border-x border-b {neutralSurface.Border} {focusRingInset} {interaction.FocusOutlineNone}",
                     Background = neutralSurface.Background,
+                    IsolatedTabListContainer = $"{display.InlineFlex} {flexbox.Wrap} max-w-full gap-1 p-1 {rounded.Lg} {neutralTrack} {borderWidth.Thin} {neutralSurface.Border}",
+                    IsolatedTab = rounded.Md,
+                    IsolatedTabPadding = "px-4 py-1.5",
+                    IsolatedTabDensePadding = "px-3 py-1",
+                    IsolatedActiveTab = $"bg-white dark:bg-[oklch(34%_0.018_253)] {shadows.Sm} {neutralHairlineRing} forced-colors:underline forced-colors:decoration-2 forced-colors:underline-offset-4",
+                    IsolatedInactiveTab = $"{neutralText.Muted} {neutralHoverText} {neutralHoverFill}",
+                    IsolatedPanelContainer = $"mt-4 {rounded.Lg} {focusRing} {interaction.FocusOutlineNone}",
                 },
                 new TwBarcodeTheme
                 {
@@ -1337,6 +1349,14 @@ public static class Trading212Theme
                     MobileClosed = "-translate-x-full rtl:translate-x-full",
                     MobileOpen = "lg:relative translate-x-0",
                     NavigationList = "overflow-y-auto pb-6",
+                    // -mt-4 cancels the sidebar's top padding so the header row starts flush with the top bar.
+                    Header = $"{display.Flex} {flexbox.Align.Center} {flexbox.ShrinkNone} h-14 -mt-4",
+                    Search = $"{positioning.Relative} {spacing.MarginTop.Lg}",
+                    SearchIcon = $"{positioning.Absolute} start-3 top-1/2 z-10 -translate-y-1/2 {typography.Size.Sm} leading-none {neutralText.Muted} {interaction.PointerEventsNone}",
+                    // Matches the h-9 navigation rows. The outlined variant rounds all four corners; its border is
+                    // hidden and the field filled so it reads as a recessed search box.
+                    SearchInput = $"h-9 ps-9 border-transparent dark:border-transparent {neutralTrack}",
+                    SearchInputVariant = InputVariant.Outlined,
                     NavbarFixedInset = "left-0 right-0",
                     NavbarNavigationResponsive = "lg:flex lg:flex-1 lg:flex-row lg:w-auto lg:p-0 lg:bg-transparent lg:shadow-none",
                     NavbarNavigationExpanded = "flex flex-1",

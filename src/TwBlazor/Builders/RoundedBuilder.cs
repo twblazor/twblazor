@@ -18,6 +18,11 @@ public class RoundedBuilder(TwBlazorOptions options)
     public string GetRounded() => GetRounded(options.Theme.Rounded.DefaultRounded);
 
     /// <summary>
+    /// Gets the theme's default rounded level.
+    /// </summary>
+    public Rounded DefaultRounded => options.Theme.Rounded.DefaultRounded;
+
+    /// <summary>
     /// Gets the Tailwind CSS border-radius class for the specified rounded level.
     /// </summary>
     /// <param name="rounded">The rounded level.</param>

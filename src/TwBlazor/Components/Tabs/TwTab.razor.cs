@@ -57,18 +57,23 @@ public partial class TwTab : TwBlazorComponentBase
     /// <summary>
     /// Gets the CSS classes that are applied to the tab element based on its current state and configuration.
     /// </summary>
-    /// <remarks>The returned class string reflects the tab's active, disabled, and dense states. Only the active
-    /// tab is drawn in its <see cref="Color"/> (text and underline indicator); inactive and disabled tabs use the
+    /// <remarks>The returned class string reflects the tab's active, disabled, dense and container states. Only the active
+    /// tab is drawn in its <see cref="Color"/> (text, plus the underline indicator in container mode); inactive and disabled tabs use the
     /// theme's neutral text so the selected tab is the single colored item in the list.</remarks>
-    public string TabClasses => new ClassBuilder(Parent.Dense ? theme.TabDensePadding : theme.TabPadding)
+    public string TabClasses => new ClassBuilder(tabPadding)
         .AddClass(theme.TabBase)
+        .AddClass(theme.IsolatedTab, !Parent.Container)
         .AddClass(tabTextColor, isActive && !Disabled)
-        .AddClass(theme.ActiveIndicator, isActive && !Disabled)
-        .AddClass(theme.InactiveIndicator, !isActive && !Disabled)
+        .AddClass(Parent.Container ? theme.ActiveIndicator : theme.IsolatedActiveTab, isActive && !Disabled)
+        .AddClass(Parent.Container ? theme.InactiveIndicator : theme.IsolatedInactiveTab, !isActive && !Disabled)
         .AddClass(theme.DisabledTab, Disabled)
         .AddClass(Class).Build();
 
     private bool isActive => Parent.ActiveTab == this;
+
+    private string tabPadding => Parent.Container
+        ? (Parent.Dense ? theme.TabDensePadding : theme.TabPadding)
+        : (Parent.Dense ? theme.IsolatedTabDensePadding : theme.IsolatedTabPadding);
 
     /// <summary>
     /// The active tab's text color classes. Unlike <see cref="ColorBuilder.GetTextColor"/>'s other consumer

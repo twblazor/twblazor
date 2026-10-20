@@ -55,6 +55,40 @@ public partial class TwCard : TwBlazorComponentBase
     /// </remarks>
     [Parameter] public bool Bordered { get; set; } = true;
 
+    /// <summary>
+    /// Gets or sets the URL of an image shown edge to edge at the top of the card.
+    /// </summary>
+    [Parameter] public string? ImageSrc { get; set; }
+
+    /// <summary>
+    /// Gets or sets the image's alternative text.
+    /// </summary>
+    /// <remarks>
+    /// Describe what the image shows when it adds information. Leave it empty when the image is decorative or
+    /// repeats the card's text, so screen readers skip it.
+    /// </remarks>
+    [Parameter] public string? ImageAlt { get; set; }
+
+    /// <summary>
+    /// Gets or sets extra classes for the image, merged over the theme's, for example to change its aspect ratio.
+    /// </summary>
+    [Parameter] public string? ImageClass { get; set; }
+
+    /// <summary>
+    /// Gets or sets content for the media area at the top of the card. It renders after the image, so with
+    /// <see cref="ImageSrc"/> it can be positioned over the image (the media area is <c>relative</c>), such as a
+    /// badge. Without an image it is the media itself, such as a video.
+    /// </summary>
+    [Parameter] public RenderFragment? MediaContent { get; set; }
+
+    /// <summary>
+    /// Gets or sets content rendered in a footer at the bottom of the card, such as actions or a price.
+    /// </summary>
+    /// <remarks>
+    /// The footer stays at the bottom of the card when cards in the same grid row have different amounts of content.
+    /// </remarks>
+    [Parameter] public RenderFragment? FooterContent { get; set; }
+
     private string cardClasses => new ClassBuilder()
         .AddClass(roundedBuilder.GetRounded(effectiveRounded))
         .AddClass(shadowBuilder.GetShadow(effectiveShadow))
@@ -63,7 +97,21 @@ public partial class TwCard : TwBlazorComponentBase
         .AddClass(Class)
         .Build();
 
+    private string mediaClasses => new ClassBuilder(theme.Media)
+        .AddClass(roundedBuilder.GetRoundedTop(effectiveRounded))
+        .Build();
+
+    private string imageClasses => new ClassBuilder(theme.Image)
+        .AddClass(ImageClass)
+        .Build();
+
     private bool hasHeader => !string.IsNullOrEmpty(Title) || HeaderContent is not null;
+
+    private bool hasImage => !string.IsNullOrWhiteSpace(ImageSrc);
+
+    private bool hasMedia => hasImage || MediaContent is not null;
+
+    private bool hasContent => hasHeader || ChildContent is not null;
 
     /// <summary>
     /// Renders <see cref="Title"/> as an &lt;h1&gt;-&lt;h6&gt; element per <see cref="TitleLevel"/>. A

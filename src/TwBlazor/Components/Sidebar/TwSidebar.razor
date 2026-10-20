@@ -14,12 +14,17 @@
     <nav id="@navigationId" class="@sidebarClasses" aria-label="@localizer[TwStrings.Sidebar_NavigationLabel]" inert="@(!IsSidebarOpen)" @ref="navigationRef">
         @if (HeaderContent != null)
         {
-            @HeaderContent
+            <div class="@theme.Header">
+                @HeaderContent
+            </div>
         }
         
         @if (IsSearchable)
         {
-            <TwTextfield T=string Placeholder="@localizer[TwStrings.Sidebar_SearchPlaceholder]" AriaLabel="@effectiveSearchLabel" InputType="search" Class="@options.Theme.Spacing.MarginTop.Lg" Value="@searchTerm" ValueChanged="@((v) => OnSearchInput(v))" BindEvent="oninput" />
+            <div class="@theme.Search">
+                <TwIcon Icon="Icon.Search" Class="@theme.SearchIcon" />
+                <TwTextfield T=string Placeholder="@localizer[TwStrings.Sidebar_SearchPlaceholder]" AriaLabel="@effectiveSearchLabel" InputType="search" Variant="@theme.SearchInputVariant" Rounded="@effectiveRounded" Dense Class="@theme.SearchInput" Value="@searchTerm" ValueChanged="@((v) => OnSearchInput(v))" BindEvent="oninput" />
+            </div>
             <span class="@options.Theme.Display.ScreenReaderOnly" role="status" aria-live="polite">@searchStatusMessage</span>
         }
 

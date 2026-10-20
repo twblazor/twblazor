@@ -54,7 +54,7 @@
             <div class="flex flex-col gap-4">
                 @foreach (Color c in Enum.GetValues<Color>())
                 {
-                    <div class="@(c == Color.Light ? "grid grid-cols-2 gap-2 sm:flex sm:flex-wrap -mx-3 rounded-lg bg-gray-900 p-3" : "grid grid-cols-2 gap-2 sm:flex sm:flex-wrap")">
+                    <div class="@(c == Color.Light ? "grid grid-cols-2 gap-2 sm:flex sm:flex-wrap -mx-3 rounded-lg bg-gray-900 dark:bg-transparent p-3" : "grid grid-cols-2 gap-2 sm:flex sm:flex-wrap")">
                         <TwButton Label="@c.ToString()" Color="@c" Variant="@ButtonVariant.Filled" />
                         <TwButton Label="@c.ToString()" Color="@c" Variant="@ButtonVariant.Outlined" />
                         <TwButton Label="@c.ToString()" Color="@c" Variant="@ButtonVariant.Text" />

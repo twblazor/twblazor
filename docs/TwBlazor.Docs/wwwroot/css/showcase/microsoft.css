@@ -368,6 +368,9 @@
   .-mt-3 {
     margin-top: calc(var(--spacing) * -3);
   }
+  .-mt-4 {
+    margin-top: calc(var(--spacing) * -4);
+  }
   .mt-0\.5 {
     margin-top: calc(var(--spacing) * 0.5);
   }
@@ -558,6 +561,9 @@
   }
   .h-12 {
     height: calc(var(--spacing) * 12);
+  }
+  .h-14 {
+    height: calc(var(--spacing) * 14);
   }
   .h-16 {
     height: calc(var(--spacing) * 16);
@@ -1055,9 +1061,6 @@
     border-start-start-radius: var(--radius-xs);
     border-end-start-radius: var(--radius-xs);
   }
-  .rounded-ss-sm {
-    border-start-start-radius: var(--radius-sm);
-  }
   .rounded-e-full {
     border-start-end-radius: calc(infinity * 1px);
     border-end-end-radius: calc(infinity * 1px);
@@ -1074,8 +1077,11 @@
     border-start-end-radius: var(--radius-xs);
     border-end-end-radius: var(--radius-xs);
   }
-  .rounded-se-sm {
-    border-start-end-radius: var(--radius-sm);
+  .rounded-ee-none {
+    border-end-end-radius: 0;
+  }
+  .rounded-es-none {
+    border-end-start-radius: 0;
   }
   .rounded-t-full {
     border-top-left-radius: calc(infinity * 1px);
@@ -1246,6 +1252,9 @@
   }
   .border-green-600 {
     border-color: var(--color-green-600);
+  }
+  .border-inherit {
+    border-color: inherit;
   }
   .border-neutral-600 {
     border-color: var(--color-neutral-600);
@@ -1677,9 +1686,6 @@
   }
   .px-3 {
     padding-inline: calc(var(--spacing) * 3);
-  }
-  .px-3\.5 {
-    padding-inline: calc(var(--spacing) * 3.5);
   }
   .px-4 {
     padding-inline: calc(var(--spacing) * 4);
@@ -2411,13 +2417,29 @@
     content: var(--tw-content);
     inset-block: 0px;
   }
+  .before\:-start-2::before {
+    content: var(--tw-content);
+    inset-inline-start: calc(var(--spacing) * -2);
+  }
   .before\:start-0::before {
     content: var(--tw-content);
     inset-inline-start: calc(var(--spacing) * 0);
   }
+  .before\:-end-2::before {
+    content: var(--tw-content);
+    inset-inline-end: calc(var(--spacing) * -2);
+  }
+  .before\:bottom-0::before {
+    content: var(--tw-content);
+    bottom: 0px;
+  }
   .before\:block::before {
     content: var(--tw-content);
     display: block;
+  }
+  .before\:h-3::before {
+    content: var(--tw-content);
+    height: calc(var(--spacing) * 3);
   }
   .before\:h-full::before {
     content: var(--tw-content);
@@ -2427,13 +2449,55 @@
     content: var(--tw-content);
     width: calc(var(--spacing) * 0.5);
   }
+  .before\:w-2::before {
+    content: var(--tw-content);
+    width: calc(var(--spacing) * 2);
+  }
   .before\:w-px::before {
     content: var(--tw-content);
     width: 1px;
   }
+  .before\:origin-bottom::before {
+    content: var(--tw-content);
+    transform-origin: bottom;
+  }
+  .before\:-skew-x-\[34deg\]::before {
+    content: var(--tw-content);
+    --tw-skew-x: skewX(calc(34deg * -1));
+    transform: var(--tw-rotate-x,) var(--tw-rotate-y,) var(--tw-rotate-z,) var(--tw-skew-x,) var(--tw-skew-y,);
+  }
+  .before\:skew-x-\[34deg\]::before {
+    content: var(--tw-content);
+    --tw-skew-x: skewX(34deg);
+    transform: var(--tw-rotate-x,) var(--tw-rotate-y,) var(--tw-rotate-z,) var(--tw-skew-x,) var(--tw-skew-y,);
+  }
+  .before\:\[border-inline-start-width\:inherit\]::before {
+    content: var(--tw-content);
+    border-inline-start-width: inherit;
+  }
+  .before\:\[border-inline-end-width\:inherit\]::before {
+    content: var(--tw-content);
+    border-inline-end-width: inherit;
+  }
+  .before\:\[border-bottom-width\:inherit\]::before {
+    content: var(--tw-content);
+    border-bottom-width: inherit;
+  }
+  .before\:\[border-style\:inherit\]::before {
+    content: var(--tw-content);
+    border-style: inherit;
+  }
+  .before\:\[border-color\:inherit\]::before {
+    content: var(--tw-content);
+    border-color: inherit;
+  }
   .before\:bg-gray-300::before {
     content: var(--tw-content);
     background-color: var(--color-gray-300);
+  }
+  .before\:bg-inherit::before {
+    content: var(--tw-content);
+    background-color: inherit;
   }
   .before\:bg-linear-to-b::before {
     content: var(--tw-content);
@@ -2465,6 +2529,10 @@
     content: var(--tw-content);
     inset-inline: 0px;
   }
+  .after\:inset-x-3::after {
+    content: var(--tw-content);
+    inset-inline: calc(var(--spacing) * 3);
+  }
   .after\:inset-y-0::after {
     content: var(--tw-content);
     inset-block: 0px;
@@ -2481,10 +2549,6 @@
     content: var(--tw-content);
     top: 100%;
   }
-  .after\:right-0::after {
-    content: var(--tw-content);
-    right: 0px;
-  }
   .after\:bottom-0::after {
     content: var(--tw-content);
     bottom: 0px;
@@ -2492,10 +2556,6 @@
   .after\:bottom-full::after {
     content: var(--tw-content);
     bottom: 100%;
-  }
-  .after\:left-0::after {
-    content: var(--tw-content);
-    left: 0px;
   }
   .after\:h-0\.5::after {
     content: var(--tw-content);
@@ -2518,6 +2578,11 @@
     content: var(--tw-content);
     --tw-scale-x: 100%;
     scale: var(--tw-scale-x) var(--tw-scale-y);
+  }
+  .after\:rounded-t-full::after {
+    content: var(--tw-content);
+    border-top-left-radius: calc(infinity * 1px);
+    border-top-right-radius: calc(infinity * 1px);
   }
   .after\:bg-current::after {
     content: var(--tw-content);
@@ -3356,14 +3421,24 @@
     --tw-translate-x: -100%;
     translate: var(--tw-translate-x) var(--tw-translate-y);
   }
-  :where(.dark\:divide-\[oklch\(21\.15\%_0\.006_67\)\]:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) > :not(:last-child)) {
-    border-color: oklch(21.15% 0.006 67);
+  .rtl\:before\:-skew-x-\[34deg\]:where(:dir(rtl), [dir="rtl"], [dir="rtl"] *)::before {
+    content: var(--tw-content);
+    --tw-skew-x: skewX(calc(34deg * -1));
+    transform: var(--tw-rotate-x,) var(--tw-rotate-y,) var(--tw-rotate-z,) var(--tw-skew-x,) var(--tw-skew-y,);
   }
-  .dark\:border-\[oklch\(21\.15\%_0\.006_67\)\]:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
-    border-color: oklch(21.15% 0.006 67);
+  .rtl\:before\:skew-x-\[34deg\]:where(:dir(rtl), [dir="rtl"], [dir="rtl"] *)::before {
+    content: var(--tw-content);
+    --tw-skew-x: skewX(34deg);
+    transform: var(--tw-rotate-x,) var(--tw-rotate-y,) var(--tw-rotate-z,) var(--tw-skew-x,) var(--tw-skew-y,);
   }
-  .dark\:border-\[oklch\(23\.26\%_0\.006_67\)\]:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
-    border-color: oklch(23.26% 0.006 67);
+  :where(.dark\:divide-\[oklch\(34\%_0\.006_67\)\]:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) > :not(:last-child)) {
+    border-color: oklch(34% 0.006 67);
+  }
+  .dark\:border-\[oklch\(33\%_0\.006_67\)\]:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+    border-color: oklch(33% 0.006 67);
+  }
+  .dark\:border-\[oklch\(40\%_0\.006_67\)\]:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+    border-color: oklch(40% 0.006 67);
   }
   .dark\:border-\[oklch\(97\.807\%_0\.004_67\)\]\/15:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
     border-color: color-mix(in oklab, oklch(97.807% 0.004 67) 15%, transparent);
@@ -3439,6 +3514,9 @@
   }
   .dark\:bg-\[oklch\(34\%_0\.006_67\)\]:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
     background-color: oklch(34% 0.006 67);
+  }
+  .dark\:bg-\[oklch\(34\%_0\.018_253\)\]:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+    background-color: oklch(34% 0.018 253);
   }
   .dark\:bg-\[oklch\(40\%_0\.006_67\)\]:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
     background-color: oklch(40% 0.006 67);
@@ -4184,6 +4262,15 @@
     .forced-colors\:text-\[Highlight\] {
       color: Highlight;
     }
+    .forced-colors\:underline {
+      text-decoration-line: underline;
+    }
+    .forced-colors\:decoration-2 {
+      text-decoration-thickness: 2px;
+    }
+    .forced-colors\:underline-offset-4 {
+      text-underline-offset: 4px;
+    }
     .forced-colors\:outline {
       outline-style: var(--tw-outline-style);
       outline-width: 1px;
@@ -4751,6 +4838,26 @@
   initial-value: "";
   inherits: false;
 }
+@property --tw-rotate-x {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-rotate-y {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-rotate-z {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-skew-x {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-skew-y {
+  syntax: "*";
+  inherits: false;
+}
 @property --tw-outline-style {
   syntax: "*";
   inherits: false;
@@ -4811,6 +4918,11 @@
       --tw-duration: initial;
       --tw-ease: initial;
       --tw-content: "";
+      --tw-rotate-x: initial;
+      --tw-rotate-y: initial;
+      --tw-rotate-z: initial;
+      --tw-skew-x: initial;
+      --tw-skew-y: initial;
       --tw-outline-style: solid;
     }
   }

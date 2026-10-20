@@ -156,6 +156,157 @@ public class TwCardTests : TwBlazorTestBase
         Assert.Empty(cut.FindAll("div.border-t"));
     }
 
+    [Fact]
+    public void TwCard_Renders_FooterContent_InADividedFooter()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwCard>(parameters => parameters
+            .Add(p => p.ChildContent, RenderFragmentBuilder("Body"))
+            .Add(p => p.FooterContent, RenderFragmentBuilder("Footer actions")));
+
+        // Assert
+        var footer = cut.Find("div.border-t");
+        Assert.Contains("Footer actions", footer.TextContent);
+        Assert.DoesNotContain("Body", footer.TextContent);
+    }
+
+    [Fact]
+    public void TwCard_Footer_IsTheLastSection()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwCard>(parameters => parameters
+            .Add(p => p.Title, "Title")
+            .Add(p => p.FooterContent, RenderFragmentBuilder("Footer")));
+
+        // Assert
+        var card = cut.Find("div");
+        Assert.Contains("border-t", card.LastElementChild!.ClassList);
+    }
+
+    [Fact]
+    public void TwCard_ContentArea_Grows_SoTheFooterSitsAtTheBottom()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwCard>(parameters => parameters
+            .Add(p => p.ChildContent, RenderFragmentBuilder("Body"))
+            .Add(p => p.FooterContent, RenderFragmentBuilder("Footer")));
+
+        // Assert
+        Assert.Contains("flex-col", cut.Find("div").ClassList);
+        Assert.Contains("flex-1", cut.Find("div.px-6.py-5").ClassList);
+    }
+
+    #endregion
+
+    #region Media
+
+    [Fact]
+    public void TwCard_DoesNotRender_Image_WhenNoImageSrc()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwCard>(parameters => parameters
+            .Add(p => p.Title, "Title"));
+
+        // Assert
+        Assert.Empty(cut.FindAll("img"));
+    }
+
+    [Fact]
+    public void TwCard_Renders_Image_WithAltText_AndLazyLoading()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwCard>(parameters => parameters
+            .Add(p => p.ImageSrc, "/images/bread.webp")
+            .Add(p => p.ImageAlt, "A sourdough loaf on a board"));
+
+        // Assert
+        var image = cut.Find("img");
+        Assert.Equal("/images/bread.webp", image.GetAttribute("src"));
+        Assert.Equal("A sourdough loaf on a board", image.GetAttribute("alt"));
+        Assert.Equal("lazy", image.GetAttribute("loading"));
+        Assert.Contains("object-cover", image.ClassList);
+        Assert.Contains("aspect-video", image.ClassList);
+    }
+
+    [Fact]
+    public void TwCard_Image_WithoutAlt_IsDecorative()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwCard>(parameters => parameters
+            .Add(p => p.ImageSrc, "/images/pattern.webp"));
+
+        // Assert - an empty alt tells screen readers to skip the image, rather than read out the file name.
+        Assert.Equal(string.Empty, cut.Find("img").GetAttribute("alt"));
+    }
+
+    [Fact]
+    public void TwCard_ImageClass_IsMergedOverTheTheme()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwCard>(parameters => parameters
+            .Add(p => p.ImageSrc, "/images/milk.webp")
+            .Add(p => p.ImageClass, "aspect-square"));
+
+        // Assert
+        var image = cut.Find("img");
+        Assert.Contains("aspect-square", image.ClassList);
+        Assert.DoesNotContain("aspect-video", image.ClassList);
+    }
+
+    [Fact]
+    public void TwCard_Media_IsFirst_AndRoundsOnlyItsTopCorners()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwCard>(parameters => parameters
+            .Add(p => p.ImageSrc, "/images/eggs.webp")
+            .Add(p => p.Title, "Eggs")
+            .Add(p => p.Rounded, Rounded.Lg));
+
+        // Assert
+        var media = cut.Find("div").FirstElementChild!;
+        Assert.NotNull(media.QuerySelector("img"));
+        Assert.Contains("rounded-t-lg", media.ClassList);
+        Assert.Contains("overflow-hidden", media.ClassList);
+    }
+
+    [Fact]
+    public void TwCard_MediaContent_RendersOverTheImage()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwCard>(parameters => parameters
+            .Add(p => p.ImageSrc, "/images/strawberries.webp")
+            .Add(p => p.MediaContent, RenderFragmentBuilder("Offer")));
+
+        // Assert
+        var media = cut.Find("div").FirstElementChild!;
+        Assert.Contains("relative", media.ClassList);
+        Assert.NotNull(media.QuerySelector("img"));
+        Assert.Contains("Offer", media.TextContent);
+    }
+
+    [Fact]
+    public void TwCard_MediaContent_WithoutImage_IsTheMedia()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwCard>(parameters => parameters
+            .Add(p => p.MediaContent, RenderFragmentBuilder("Video player")));
+
+        // Assert
+        Assert.Empty(cut.FindAll("img"));
+        Assert.Contains("Video player", cut.Find("div").FirstElementChild!.TextContent);
+    }
+
+    [Fact]
+    public void TwCard_ImageOnly_RendersNoEmptyContentArea()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwCard>(parameters => parameters
+            .Add(p => p.ImageSrc, "/images/hero.webp"));
+
+        // Assert
+        Assert.Empty(cut.FindAll("div.px-6.py-5"));
+    }
+
     #endregion
 
     #region Bordered

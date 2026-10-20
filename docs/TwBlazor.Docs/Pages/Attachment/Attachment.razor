@@ -36,7 +36,7 @@
                     <TwAttachment FileName="archive.zip" Status="AttachmentStatus.Failed" ErrorText="File is larger than 25 MB" OnRetry="@(() => { })" OnRemove="@(() => { })" />
                 </div>
                 <div class="flex gap-2">
-                    <TwButton Label="Upload" OnClick="UploadAsync" Disabled="@(_status == AttachmentStatus.Uploading)" />
+                    <TwButton Label="Upload" OnClick="UploadAsync" Disabled="@(_status == AttachmentStatus.Uploading)" Variant="ButtonVariant.Filled" Color="Color.Primary" />
                     <TwButton Label="Fail upload" Variant="ButtonVariant.Outlined" OnClick="Fail" />
                 </div>
             </div>
