@@ -20,7 +20,7 @@
 
 </p>
 
-![Alt](https://repobeats.axiom.co/api/embed/e0dc678b816b4fc2767b56d42291540a4d63beb0.svg "Repobeats analytics image")
+![Alt](https://repobeats.axiom.co/api/embed/2bfe82b583e4cb3dee72a558d767980587b57c6f.svg "Repobeats analytics image")
 
 <p align="center">
     <a href="https://twblazor.github.io/twblazor/" target="_blank">API Documentation (docfx)</a> &bullet; <a href="https://twblazor.com/" target="_blank">Component Documentation (twblazor.com)</a> &bullet; <a href="https://twblazor.com/get-started" target="_blank">Get Started</a> &bullet; <a href="https://twblazor.com/ai-agents" target="_blank">AI Agents &amp; Skills</a>
