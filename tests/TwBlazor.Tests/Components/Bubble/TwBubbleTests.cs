@@ -140,7 +140,7 @@ public class TwBubbleTests : TwBlazorTestBase
     [Fact]
     public void TwBubble_WithoutReactions_RendersNoReactionGroup()
     {
-        Assert.Empty(Render(p => p.Add(x => x.Reactions, new List<BubbleReaction>())).FindAll("[aria-label='Reactions']"));
+        Assert.Empty(Render(p => p.Add(x => x.Reactions, [])).FindAll("[aria-label='Reactions']"));
     }
 
     [Fact]
@@ -213,7 +213,7 @@ public class TwBubbleTests : TwBlazorTestBase
 
         cut.FindAll("button")[1].Click();
 
-        Assert.Same(reactions[1], await clicked.Task.WaitAsync(TimeSpan.FromSeconds(5)));
+        Assert.Same(reactions[1], await clicked.Task.WaitAsync(TimeSpan.FromSeconds(5), Xunit.TestContext.Current.CancellationToken));
     }
 
     [Fact]

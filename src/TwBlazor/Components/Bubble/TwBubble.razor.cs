@@ -112,7 +112,15 @@ public partial class TwBubble : TwBlazorComponentBase
         ? EventCallback.Factory.Create(this, () => OnReactionClick.InvokeAsync(reaction))
         : default;
 
-    private string? AriaPressed(BubbleReaction reaction) => OnReactionClick.HasDelegate ? (reaction.Reacted ? "true" : "false") : null;
+    private string? AriaPressed(BubbleReaction reaction)
+    {
+        if (!OnReactionClick.HasDelegate)
+        {
+            return null;
+        }
+
+        return reaction.Reacted ? "true" : "false";
+    }
 
     private string FormatCount(int count) => count.ToString("N0", localizer.Formats.Culture);
 }

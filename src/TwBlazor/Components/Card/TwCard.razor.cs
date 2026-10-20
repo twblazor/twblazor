@@ -102,7 +102,7 @@ public partial class TwCard : TwBlazorComponentBase
         .Build();
 
     private string imageClasses => new ClassBuilder(theme.Image)
-        .AddClass(ImageClass)
+        .AddClass(ImageClass ?? string.Empty)
         .Build();
 
     private bool hasHeader => !string.IsNullOrEmpty(Title) || HeaderContent is not null;

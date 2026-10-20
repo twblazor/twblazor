@@ -85,7 +85,7 @@
         new() { Emoji = "👍", Label = "Thumbs up", Count = 12 }
     ];
 
-    private void ToggleReaction(BubbleReaction reaction)
+    private static void ToggleReaction(BubbleReaction reaction)
     {
         reaction.Reacted = !reaction.Reacted;
         reaction.Count += reaction.Reacted ? 1 : -1;

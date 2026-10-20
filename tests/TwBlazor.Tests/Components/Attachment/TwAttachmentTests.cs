@@ -217,7 +217,8 @@ public class TwAttachmentTests : TwBlazorTestBase
 
         cut.Find("button").Click();
 
-        await removed.Task.WaitAsync(TimeSpan.FromSeconds(5));
+        await removed.Task.WaitAsync(TimeSpan.FromSeconds(5), Xunit.TestContext.Current.CancellationToken);
+        Assert.True(removed.Task.IsCompletedSuccessfully);
     }
 
     [Fact]
@@ -239,7 +240,8 @@ public class TwAttachmentTests : TwBlazorTestBase
 
         button.Click();
 
-        await retried.Task.WaitAsync(TimeSpan.FromSeconds(5));
+        await retried.Task.WaitAsync(TimeSpan.FromSeconds(5), Xunit.TestContext.Current.CancellationToken);
+        Assert.True(retried.Task.IsCompletedSuccessfully);
     }
 
     [Fact]

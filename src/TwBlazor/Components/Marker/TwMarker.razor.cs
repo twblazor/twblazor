@@ -80,7 +80,23 @@ public partial class TwMarker : TwBlazorComponentBase
 
     private bool hasLabel => ChildContent != null || !string.IsNullOrWhiteSpace(Label);
 
-    private string? separatorName => AriaLabelledBy == null ? AriaLabel ?? (string.IsNullOrWhiteSpace(Label) ? null : Label) : null;
+    private string? separatorName
+    {
+        get
+        {
+            if (AriaLabelledBy != null)
+            {
+                return null;
+            }
+
+            if (AriaLabel != null)
+            {
+                return AriaLabel;
+            }
+
+            return string.IsNullOrWhiteSpace(Label) ? null : Label;
+        }
+    }
 
     private Icon? effectiveIcon => Icon ?? Status switch
     {

@@ -71,9 +71,18 @@ public partial class TwTab : TwBlazorComponentBase
 
     private bool isActive => Parent.ActiveTab == this;
 
-    private string tabPadding => Parent.Container
-        ? (Parent.Dense ? theme.TabDensePadding : theme.TabPadding)
-        : (Parent.Dense ? theme.IsolatedTabDensePadding : theme.IsolatedTabPadding);
+    private string tabPadding
+    {
+        get
+        {
+            if (Parent.Container)
+            {
+                return Parent.Dense ? theme.TabDensePadding : theme.TabPadding;
+            }
+
+            return Parent.Dense ? theme.IsolatedTabDensePadding : theme.IsolatedTabPadding;
+        }
+    }
 
     /// <summary>
     /// The active tab's text color classes. Unlike <see cref="ColorBuilder.GetTextColor"/>'s other consumer
