@@ -1,11 +1,16 @@
 using Microsoft.Playwright;
+using TwBlazor.A11yTests.Infrastructure;
+
+// An assembly fixture rather than a collection fixture: every test class still shares the one server and
+// browser, but each class is its own collection, so xUnit runs the classes in parallel.
+[assembly: AssemblyFixture(typeof(A11yFixture))]
 
 namespace TwBlazor.A11yTests.Infrastructure;
 
 /// <summary>
-/// Shared across every test in the collection: one TwBlazor.Server process and one headless
+/// Shared across every test in the assembly: one TwBlazor.Server process and one headless
 /// Chromium instance, reused for every route/theme scan instead of paying process/browser
-/// startup cost per test.
+/// startup cost per test. Each test opens its own page, so test classes can use it at the same time.
 /// </summary>
 public sealed class A11yFixture : IAsyncLifetime
 {
@@ -37,10 +42,4 @@ public sealed class A11yFixture : IAsyncLifetime
         playwright.Dispose();
         await server.DisposeAsync();
     }
-}
-
-[CollectionDefinition(Name)]
-public sealed class A11yCollection : ICollectionFixture<A11yFixture>
-{
-    public const string Name = "A11y";
 }

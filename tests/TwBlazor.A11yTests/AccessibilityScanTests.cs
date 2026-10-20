@@ -13,8 +13,12 @@ namespace TwBlazor.A11yTests;
 /// there - in both light and dark mode. This is a "does the shipped component library have any
 /// known accessibility violations" smoke test, not a page-content/copy review of the Docs site.
 /// </summary>
-[Collection(A11yCollection.Name)]
-public partial class AccessibilityScanTests(A11yFixture fixture)
+/// <remarks>
+/// The routes are split across the <c>AccessibilityScanShard*</c> classes below. xUnit runs the tests in one class
+/// one after another but runs classes in parallel, so each shard scans its share of the pages at the same time
+/// as the others, against the one shared server and browser.
+/// </remarks>
+public abstract partial class AccessibilityScanTests(A11yFixture fixture)
 {
     private static readonly string[] _wcagTags = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"];
 
@@ -24,9 +28,12 @@ public partial class AccessibilityScanTests(A11yFixture fixture)
         "(() => { const seen = new Map(); document.querySelectorAll('[id]').forEach(el => { if (el.id) seen.set(el.id, (seen.get(el.id) ?? 0) + 1); });"
         + " return [...seen].filter(([, count]) => count > 1).map(([id]) => id); })()";
 
-    [Theory]
-    [MemberData(nameof(AccessibilityRoutes.LightAndDark), MemberType = typeof(AccessibilityRoutes))]
-    public async Task Page_HasNoAxeViolations(string route, bool dark)
+    /// <summary>
+    /// Scans one route in light or dark mode and fails on any axe violation or duplicate id.
+    /// </summary>
+    /// <param name="route">The docs route to open.</param>
+    /// <param name="dark">Whether to scan the page in dark mode.</param>
+    protected async Task ScanAsync(string route, bool dark)
     {
         var page = await fixture.Browser.NewPageAsync();
         try

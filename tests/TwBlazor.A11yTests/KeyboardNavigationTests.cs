@@ -9,7 +9,6 @@ namespace TwBlazor.A11yTests;
 /// markup is valid; these check the things a keyboard or screen reader user actually runs into: where focus
 /// goes, which key closes what, and whether anything can be reached that should not be.
 /// </summary>
-[Collection(A11yCollection.Name)]
 public class KeyboardNavigationTests(A11yFixture fixture)
 {
     private const string activeElementId = "document.activeElement?.id ?? ''";

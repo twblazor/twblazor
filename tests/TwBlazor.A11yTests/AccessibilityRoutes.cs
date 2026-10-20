@@ -11,21 +11,41 @@ namespace TwBlazor.A11yTests;
 /// </summary>
 public static class AccessibilityRoutes
 {
-    public static TheoryData<string, bool> LightAndDark
+    /// <summary>
+    /// The number of <c>AccessibilityScanShard*</c> classes the scans are split across.
+    /// </summary>
+    public const int ShardCount = 4;
+
+    public static TheoryData<string, bool> LightAndDark => ToTheoryData(AllScans());
+
+    /// <summary>
+    /// Gets one shard's share of the scans. They are dealt out in turn, so every shard gets a similar number of
+    /// pages and a similar mix of light and dark ones.
+    /// </summary>
+    /// <param name="index">The shard, from 0 to <see cref="ShardCount"/> - 1.</param>
+    public static TheoryData<string, bool> Shard(int index) =>
+        ToTheoryData(AllScans().Where((_, position) => position % ShardCount == index));
+
+    private static IEnumerable<(string Route, bool Dark)> AllScans()
     {
-        get
+        foreach (var route in _all)
         {
-            var data = new TheoryData<string, bool>();
-            foreach (var route in _all)
+            yield return (route, false);
+            if (!_previewRoutes.Contains(route))
             {
-                data.Add(route, false);
-                if (!_previewRoutes.Contains(route))
-                {
-                    data.Add(route, true);
-                }
+                yield return (route, true);
             }
-            return data;
         }
+    }
+
+    private static TheoryData<string, bool> ToTheoryData(IEnumerable<(string Route, bool Dark)> scans)
+    {
+        var data = new TheoryData<string, bool>();
+        foreach (var (route, dark) in scans)
+        {
+            data.Add(route, dark);
+        }
+        return data;
     }
 
     private static readonly string[] _previewRoutes =
