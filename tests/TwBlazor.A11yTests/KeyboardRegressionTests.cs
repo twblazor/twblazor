@@ -11,7 +11,6 @@ namespace TwBlazor.A11yTests;
 /// computed style but cannot be seen. Each one asserts what the user ends up with, not which script
 /// function was called.
 /// </summary>
-[Collection(A11yCollection.Name)]
 public class KeyboardRegressionTests(A11yFixture fixture)
 {
     private const string inertLeftBehind = "document.querySelectorAll('[inert][data-tw-dialog-inert]').length";
