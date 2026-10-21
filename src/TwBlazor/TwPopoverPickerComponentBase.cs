@@ -1,4 +1,4 @@
-// Copyright (c) 2025 Jack Shuter @ TwBlazor - twblazor.com
+﻿// Copyright (c) 2025 Jack Shuter @ TwBlazor - twblazor.com
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Components;
@@ -17,7 +17,7 @@ namespace TwBlazor;
 /// happens afterward), but the open/close mechanics themselves are identical, so they live here once
 /// instead of being copy-pasted per picker.
 /// </summary>
-public abstract class TwPopoverPickerComponentBase : TwBlazorTextInputComponentBase, IAsyncDisposable
+public abstract class TwPopoverPickerComponentBase : TwBlazorTextInputComponentBase
 {
     /// <summary>
     /// Gets or sets the JavaScript runtime instance used for interop operations.
@@ -497,8 +497,10 @@ public abstract class TwPopoverPickerComponentBase : TwBlazorTextInputComponentB
     /// disposed, even if the component is removed from the DOM without <see cref="Close"/> being called.
     /// This prevents memory leaks and orphaned event listeners.
     /// </remarks>
-    public virtual async ValueTask DisposeAsync()
+    public override async ValueTask DisposeAsync()
     {
+        await base.DisposeAsync();
+
         try
         {
             // A picker destroyed while its panel is open (the page navigated, or the dialog around it

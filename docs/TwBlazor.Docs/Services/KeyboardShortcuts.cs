@@ -226,6 +226,11 @@ internal static class KeyboardShortcuts
             Key("Moves to the next or previous link.", tab, shiftTab),
             Key("Follows the focused link. A link that opens in a new tab says so before you follow it.", enter)),
 
+        ["/form"] = Guide(
+            "A form is not a Tab stop itself. Its fields keep their own keyboard controls. After a failed submit, focus moves to the error summary, or to the first invalid field when there is no summary.",
+            Key("Moves between the fields, the submit button and the links in the error summary.", tab, shiftTab),
+            Key("Submits the form from a text field or the submit button. On a link in the error summary, moves focus to that field.", enter)),
+
         ["/marker"] = Guide(
             "A marker is not interactive and is not a Tab stop. A status marker writes its state out for screen readers after its label, and a live one announces changes. "
             + "A separator marker is read as a separator named by its label."),

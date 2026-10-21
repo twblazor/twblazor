@@ -3,7 +3,7 @@
 @namespace TwBlazor.Components
 @using TwBlazor.Enums
 
-<TwInputRoot @ref="@InputRoot" RootId="@RootId" RootClass="@RootClass" RootAttributes="@RootAttributes" RootStyle="@Style" RootAriaLabel="@AriaLabel" RootAriaLabelledBy="@AriaLabelledBy" RootErrorMessage="@ErrorMessage" RootErrorId="@errorId">
+<TwInputRoot @ref="@InputRoot" RootId="@RootId" RootClass="@RootClass" RootAttributes="@RootAttributes" RootStyle="@Style" RootAriaLabel="@AriaLabel" RootAriaLabelledBy="@AriaLabelledBy" RootErrorMessage="@fieldErrorMessage" RootErrorId="@errorId">
     @if (!string.IsNullOrWhiteSpace(Label))
     {
         <TwInputLabel Id="@LabelId" For="@Id" Label="@Label" Class="@LabelClasses" @attributes="@LabelAttributes" />
@@ -21,7 +21,7 @@
                 @attributes="@Attributes"
                 aria-required="@(Required ? "true" : null)"
                 aria-readonly="@(ReadOnly ? "true" : null)"
-                aria-invalid="@(Invalid ? "true" : null)"
+                aria-invalid="@(fieldInvalid ? "true" : null)"
                 aria-describedby="@errorId"
                 aria-label="@AriaLabel"
                 aria-labelledby="@AriaLabelledBy">
@@ -51,7 +51,7 @@
                     aria-controls="@(isFocused ? listboxId : null)"
                     aria-required="@(Required ? "true" : null)"
                     aria-readonly="@(ReadOnly ? "true" : null)"
-                    aria-invalid="@(Invalid ? "true" : null)"
+                    aria-invalid="@(fieldInvalid ? "true" : null)"
                     aria-describedby="@errorId"
                     aria-label="@AriaLabel"
                     aria-labelledby="@AriaLabelledBy"
@@ -123,7 +123,7 @@
                     @attributes="@Attributes"
                     aria-required="@(Required ? "true" : null)"
                     aria-readonly="@(ReadOnly ? "true" : null)"
-                    aria-invalid="@(Invalid ? "true" : null)"
+                    aria-invalid="@(fieldInvalid ? "true" : null)"
                     aria-describedby="@errorId"
                     aria-label="@AriaLabel"
                     aria-labelledby="@AriaLabelledBy">
@@ -156,7 +156,7 @@
                         aria-controls="@(isFocused ? listboxId : null)"
                         aria-required="@(Required ? "true" : null)"
                         aria-readonly="@(ReadOnly ? "true" : null)"
-                        aria-invalid="@(Invalid ? "true" : null)"
+                        aria-invalid="@(fieldInvalid ? "true" : null)"
                         aria-describedby="@errorId"
                         aria-label="@AriaLabel"
                         aria-labelledby="@AriaLabelledBy"

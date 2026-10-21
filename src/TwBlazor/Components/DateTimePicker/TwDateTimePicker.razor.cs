@@ -2,6 +2,8 @@
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
+using System.Linq.Expressions;
 using System.Globalization;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Localization;
@@ -74,6 +76,13 @@ public partial class TwDateTimePicker : TwBlazorTextInputComponentBase
     /// The selected bound <see cref="DateTime"/> value.
     /// </summary>
     [Parameter] public EventCallback<DateTime> SelectedDateTimeChanged { get; set; }
+
+    /// <summary>
+    /// Gets or sets the expression that identifies the bound date and time. Set automatically by
+    /// <c>@bind-SelectedDateTime</c>, it lets an enclosing <see cref="EditForm"/> or <see cref="TwForm"/> validate
+    /// the property the field edits.
+    /// </summary>
+    [Parameter] public Expression<Func<DateTime>>? SelectedDateTimeExpression { get; set; }
     /// <summary>
     /// The <see cref="string" /> value displayed in the textbox to the user.
     /// </summary>
@@ -82,6 +91,20 @@ public partial class TwDateTimePicker : TwBlazorTextInputComponentBase
     /// The <see cref="string" /> bound value displayed in the textbox to the user.
     /// </summary>
     [Parameter] public EventCallback<string> ValueChanged { get; set; }
+
+    /// <summary>
+    /// Gets or sets the expression that identifies the bound text. Set automatically by <c>@bind-Value</c>, it
+    /// lets an enclosing <see cref="EditForm"/> or <see cref="TwForm"/> validate the property the field edits.
+    /// </summary>
+    [Parameter] public Expression<Func<string?>>? ValueExpression { get; set; }
+
+    private TwDatePicker? datePicker;
+
+    /// <summary>
+    /// Gets whether the field connects to the enclosing form itself. It never does: the date picker it is built on
+    /// connects for it, using this field's bindings.
+    /// </summary>
+    protected override bool participatesInForm => false;
     /// <summary>
     /// The placeholder text to display when no date is selected.
     /// Defaults to the localized <see cref="TwStrings.DateTimePicker_Placeholder"/> text ("Select a datetime").
@@ -155,6 +178,7 @@ public partial class TwDateTimePicker : TwBlazorTextInputComponentBase
         if (ValueChanged.HasDelegate)
             await ValueChanged.InvokeAsync(value);
 
+        datePicker?.NotifyBoundFieldChanged();
         StateHasChanged();
     }
 }

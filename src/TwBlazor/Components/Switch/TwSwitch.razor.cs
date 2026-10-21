@@ -2,6 +2,8 @@
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Components;
+using System.Linq.Expressions;
+using Microsoft.AspNetCore.Components.Forms;
 using TwBlazor.Builders;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Enums;
@@ -42,6 +44,12 @@ public partial class TwSwitch<T> : TwBlazorInputComponentBase
     /// change.</remarks>
     [Parameter] public EventCallback<T> ValueChanged { get; set; } = default!;
 
+    /// <summary>
+    /// Gets or sets the expression that identifies the bound value. Set automatically by <c>@bind-Value</c>, it
+    /// lets an enclosing <see cref="EditForm"/> or <see cref="TwForm"/> validate the property the field edits.
+    /// </summary>
+    [Parameter] public Expression<Func<T>>? ValueExpression { get; set; }
+
     private string wrapperClasses =>
         new ClassBuilder(options.Theme.Position.Relative)
         .AddClass(options.Theme.Display.InlineBlock)
@@ -77,6 +85,10 @@ public partial class TwSwitch<T> : TwBlazorInputComponentBase
         {
             Value = (T)(object)newValue;
             await ValueChanged.InvokeAsync(Value);
+            NotifyFieldChanged();
         }
     }
+
+    /// <inheritdoc />
+    protected override FieldIdentifier? CreateFieldIdentifier() => ValueExpression is null ? null : FieldIdentifier.Create(ValueExpression);
 }

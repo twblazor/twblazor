@@ -2,6 +2,8 @@
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Components;
+using System.Linq.Expressions;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
 using System.Globalization;
 using TwBlazor.Builders;
@@ -35,6 +37,12 @@ public partial class TwSlider<T> : TwBlazorInputComponentBase
     /// callback is triggered when the component's value is updated, allowing parent components to respond to the
     /// change.</remarks>
     [Parameter] public EventCallback<T> ValueChanged { get; set; } = default!;
+
+    /// <summary>
+    /// Gets or sets the expression that identifies the bound value. Set automatically by <c>@bind-Value</c>, it
+    /// lets an enclosing <see cref="EditForm"/> or <see cref="TwForm"/> validate the property the field edits.
+    /// </summary>
+    [Parameter] public Expression<Func<T>>? ValueExpression { get; set; }
 
     /// <summary>
     /// Gets or sets the minimum allowed value for the parameter of type T.
@@ -229,6 +237,7 @@ public partial class TwSlider<T> : TwBlazorInputComponentBase
                 var convertedValue = (T)Convert.ChangeType(stringValue, typeof(T));
                 Value = convertedValue;
                 await ValueChanged.InvokeAsync(Value);
+                NotifyFieldChanged();
             }
         }
         catch (InvalidCastException)
@@ -244,4 +253,7 @@ public partial class TwSlider<T> : TwBlazorInputComponentBase
             // If value is out of range, keep the current value
         }
     }
+
+    /// <inheritdoc />
+    protected override FieldIdentifier? CreateFieldIdentifier() => ValueExpression is null ? null : FieldIdentifier.Create(ValueExpression);
 }

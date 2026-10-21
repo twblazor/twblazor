@@ -4,6 +4,7 @@
 @inherits TwBlazorTextInputComponentBase
 
 <TwDatePicker 
+    @ref="datePicker"
     RootId="@RootId"
     RootClass="@RootClass"
     RootAttributes="@RootAttributes"
@@ -20,6 +21,10 @@
     ValueChanged="@OnValueChangedAsync"
     SelectedDate="@SelectedDateTime"
     SelectedDateChanged="@OnDateChangedAsync"
+    SelectedDateExpression="@SelectedDateTimeExpression"
+    ValueExpression="@ValueExpression"
+    Invalid="@Invalid"
+    ErrorMessage="@ErrorMessage"
     @attributes="@Attributes"
     Placeholder="@effectivePlaceholder" 
     Class="@Class" 
