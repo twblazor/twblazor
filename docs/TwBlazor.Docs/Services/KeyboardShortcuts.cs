@@ -284,6 +284,13 @@ internal static class KeyboardShortcuts
             Key("Selects the focused item, or clears its selection.", space, enter),
             Key("On a button: moves the selected items across, moves every item across, or moves the selection up or down.", enter, space)),
 
+        ["/popover"] = Guide(
+            "The button tells screen readers that it opens a dialog and whether it is open. The panel is a non-modal dialog named by its title, or else by the button.",
+            Key("Moves focus to the popover's button.", tab),
+            Key("On the button: opens the panel and moves focus into it, or closes it.", enter, space),
+            Key("Moves between the controls in the panel. Tabbing out of the panel closes it.", tab, shiftTab),
+            Key("Closes the panel and returns focus to the button.", escape)),
+
         ["/progress"] = Guide(
             "A progress bar is not interactive and is not a Tab stop. Screen readers announce its label and value, or that it is busy when it is indeterminate."),
 

@@ -2330,6 +2330,155 @@ globalThis.twMenu = {
     }
 };
 
+// Popover: a floating panel anchored to its trigger. The panel is fixed, so a scrolling or clipping container
+// cannot cut it off. It opens on the requested side, flips to the opposite side when that has more room, and is
+// kept inside the viewport along the other axis.
+globalThis.twPopover = {
+    _clamp: function (value, min, max) {
+        return max < min ? min : Math.min(Math.max(value, min), max);
+    },
+
+    _viewport: function () {
+        const height = (typeof window !== 'undefined' && window.visualViewport)
+            ? window.visualViewport.height
+            : document.documentElement.clientHeight;
+        return { width: document.documentElement.clientWidth, height: height };
+    },
+
+    // Places the panel against the anchor and returns the side it ended up on. Start and end follow the layout
+    // direction, so a right to left page opens "start" on the right.
+    position: function (anchor, panel, placement, align, offset) {
+        if (!anchor || !panel) return null;
+
+        const gap = globalThis.twPicker._panelEdgeGapPx;
+        const space = Number(offset) || 0;
+        const viewport = globalThis.twPopover._viewport();
+        const rtl = globalThis.twDirection.isRtl(anchor);
+
+        panel.style.position = 'fixed';
+        panel.style.maxHeight = '';
+        panel.style.maxWidth = Math.max(viewport.width - 2 * gap, 0) + 'px';
+        const block = globalThis.twPicker._fixedContainingBlock(panel);
+        panel.style.left = '0px';
+        panel.style.top = '0px';
+        panel.style.right = 'auto';
+        panel.style.bottom = 'auto';
+
+        const a = anchor.getBoundingClientRect();
+        const size = panel.getBoundingClientRect();
+        const width = size.width;
+        const height = size.height;
+
+        let side = placement || 'bottom';
+        if (side === 'start') side = rtl ? 'right' : 'left';
+        else if (side === 'end') side = rtl ? 'left' : 'right';
+
+        const room = {
+            top: a.top - space,
+            bottom: viewport.height - a.bottom - space,
+            left: a.left - space,
+            right: viewport.width - a.right - space
+        };
+        const opposite = { top: 'bottom', bottom: 'top', left: 'right', right: 'left' };
+        const vertical = side === 'top' || side === 'bottom';
+        const needed = vertical ? height : width;
+        if (room[side] < needed && room[opposite[side]] > room[side]) side = opposite[side];
+
+        let x;
+        let y;
+        if (side === 'top' || side === 'bottom') {
+            const startX = rtl ? a.right - width : a.left;
+            const endX = rtl ? a.left : a.right - width;
+            if (align === 'center') x = a.left + (a.width - width) / 2;
+            else if (align === 'end') x = endX;
+            else x = startX;
+            x = globalThis.twPopover._clamp(x, gap, viewport.width - width - gap);
+
+            const available = room[side] - gap;
+            let shown = height;
+            if (available > 0 && height > available) {
+                panel.style.maxHeight = available + 'px';
+                shown = available;
+            }
+            y = side === 'bottom' ? a.bottom + space : a.top - space - shown;
+        } else {
+            x = side === 'right' ? a.right + space : a.left - space - width;
+            if (align === 'center') y = a.top + (a.height - height) / 2;
+            else if (align === 'end') y = a.bottom - height;
+            else y = a.top;
+            y = globalThis.twPopover._clamp(y, gap, viewport.height - height - gap);
+        }
+
+        panel.style.left = (x - block.left) + 'px';
+        panel.style.top = (y - block.top) + 'px';
+        panel.dataset.twSide = side;
+        return side;
+    },
+
+    open: function (root, anchor, panel, dotnetRef, options) {
+        if (!root || !anchor || !panel) return;
+        const settings = options || {};
+        const place = function () {
+            globalThis.twPopover.position(anchor, panel, settings.placement, settings.align, settings.offset);
+        };
+        // The panel is rendered fixed and hidden, so the page never paints it in the wrong place while the render
+        // and this call are a round trip apart. Show it once it is in position.
+        place();
+        panel.style.visibility = '';
+
+        // The panel follows its trigger as the page scrolls or resizes. A scroll inside the panel is left alone.
+        const reposition = function (e) {
+            if (e && e.target instanceof Node && panel.contains(e.target)) return;
+            if (panel.isConnected) place();
+        };
+        document.addEventListener('scroll', reposition, true);
+        window.addEventListener('resize', reposition);
+        panel.__twPopoverReposition = reposition;
+
+        if (settings.closeOnOutsideClick !== false) {
+            globalThis.twPicker.registerOutsideClick(root, dotnetRef, null);
+        }
+
+        // Escape returns focus to the trigger, so it has its own entry rather than the outside click's.
+        globalThis.twDialog._pushEscape({
+            surface: root,
+            dotnetRef: dotnetRef,
+            method: 'CloseFromEscape',
+            isOpen: function () { return panel.isConnected; }
+        });
+
+        // Tabbing out of the popover closes it. A click on nothing focusable leaves relatedTarget empty, and is
+        // handled as an outside click instead.
+        const onFocusOut = function (e) {
+            const next = e.relatedTarget;
+            if (next instanceof Node && !root.contains(next) && panel.isConnected) {
+                void globalThis.twPicker._invokeSafely(dotnetRef, 'CloseFromFocusOut');
+            }
+        };
+        root.addEventListener('focusout', onFocusOut);
+        root.__twPopoverFocusOut = onFocusOut;
+
+        if (settings.autoFocus !== false) {
+            globalThis.twDialog.focusPanel(panel);
+        }
+    },
+
+    close: function (root, panel) {
+        if (panel?.__twPopoverReposition) {
+            document.removeEventListener('scroll', panel.__twPopoverReposition, true);
+            window.removeEventListener('resize', panel.__twPopoverReposition);
+            delete panel.__twPopoverReposition;
+        }
+        if (!root) return;
+        globalThis.twPicker.unregisterOutsideClick(root, null);
+        globalThis.twDialog.unregisterEscape(root);
+        if (root.__twPopoverFocusOut) {
+            root.removeEventListener('focusout', root.__twPopoverFocusOut);
+            delete root.__twPopoverFocusOut;
+        }
+    }
+};
+
 // On this page: marks the link to the section currently being read with aria-current="location".
 globalThis.twOnThisPage = {
     _stops: new Map(),
