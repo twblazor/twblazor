@@ -93,13 +93,6 @@
     "category": "Forms",
     "items": [
       {
-        "id": "autocomplete-navitem",
-        "display": "Autocomplete",
-        "name": "TwAutocomplete",
-        "url": "/autocomplete",
-        "isNew": true
-      },
-      {
         "id": "button-navitem",
         "display": "Button",
         "name": "TwButton",
@@ -107,118 +100,133 @@
         "theme": "TwButtonTheme"
       },
       {
-        "id": "checkbox-navitem",
-        "display": "Checkbox",
-        "name": "TwCheckbox",
-        "url": "/checkbox",
-        "theme": "TwCheckboxTheme"
+        "id": "form-navitem",
+        "display": "Form",
+        "name": "TwForm",
+        "url": "/form",
+        "theme": "TwFormTheme",
+        "isNew": true
       },
       {
-        "id": "color-picker-navitem",
-        "display": "Color Picker",
-        "name": "TwColorPicker",
-        "url": "/color-picker",
-        "theme": "TwColorPickerTheme"
-      },
-      {
-        "id": "dates-time-navitem",
-        "display": "Date & Time Pickers",
+        "id": "inputs-navitem",
+        "display": "Inputs",
         "items": [
           {
+            "id": "autocomplete-navitem",
+            "display": "Autocomplete",
+            "name": "TwAutocomplete",
+            "url": "/autocomplete",
+            "isNew": true
+          },
+          {
+            "id": "checkbox-navitem",
+            "display": "Checkbox",
+            "name": "TwCheckbox",
+            "url": "/checkbox",
+            "theme": "TwCheckboxTheme"
+          },
+          {
+            "id": "color-picker-navitem",
+            "display": "Color Picker",
+            "name": "TwColorPicker",
+            "url": "/color-picker",
+            "theme": "TwColorPickerTheme"
+          },
+          {
             "id": "date-picker-navitem",
-            "display": "Date",
+            "display": "Date Picker",
             "name": "TwDatePicker",
             "url": "/date-picker",
             "theme": "TwDatePickerTheme"
           },
           {
             "id": "date-range-picker-navitem",
-            "display": "Date Range",
+            "display": "Date Range Picker",
             "name": "TwDateRangePicker",
             "url": "/date-range-picker"
           },
           {
             "id": "datetime-picker-navitem",
-            "display": "Datetime",
+            "display": "Datetime Picker",
             "name": "TwDateTimePicker",
             "url": "/datetime-picker"
           },
           {
             "id": "datetime-range-picker-navitem",
-            "display": "Datetime Range",
+            "display": "Datetime Range Picker",
             "name": "TwDateTimeRangePicker",
             "url": "/datetime-range-picker"
           },
           {
+            "id": "file-upload-navitem",
+            "display": "File Upload",
+            "name": "TwFileUpload",
+            "url": "/file-upload"
+          },
+          {
+            "id": "numeric-navitem",
+            "display": "Numeric",
+            "name": "TwNumeric",
+            "url": "/numeric",
+            "isNew": true,
+            "theme": "TwNumericTheme"
+          },
+          {
+            "id": "radio-button-navitem",
+            "display": "Radio Button",
+            "name": "TwRadioButton",
+            "url": "/radio-button",
+            "theme": "TwRadioButtonTheme"
+          },
+          {
+            "id": "rating-navitem",
+            "display": "Rating",
+            "name": "TwRating",
+            "url": "/rating",
+            "isNew": true,
+            "theme": "TwRatingTheme"
+          },
+          {
+            "id": "select-navitem",
+            "display": "Select",
+            "name": "TwSelect",
+            "url": "/select"
+          },
+          {
+            "id": "slider-navitem",
+            "display": "Slider",
+            "name": "TwSlider",
+            "url": "/slider",
+            "theme": "TwSliderTheme"
+          },
+          {
+            "id": "switch-navitem",
+            "display": "Switch",
+            "name": "TwSwitch",
+            "url": "/switch",
+            "theme": "TwSwitchTheme"
+          },
+          {
+            "id": "textfield-navitem",
+            "display": "Textfield",
+            "name": "TwTextfield",
+            "url": "/textfield",
+            "theme": "TwInputTheme"
+          },
+          {
             "id": "time-picker-navitem",
-            "display": "Time",
+            "display": "Time Picker",
             "name": "TwTimePicker",
             "url": "/time-picker",
             "theme": "TwTimePickerTheme"
           },
           {
             "id": "time-range-picker-navitem",
-            "display": "Time Range",
+            "display": "Time Range Picker",
             "name": "TwTimeRangePicker",
             "url": "/time-range-picker"
           }
         ]
-      },
-      {
-        "id": "file-upload-navitem",
-        "display": "File Upload",
-        "name": "TwFileUpload",
-        "url": "/file-upload"
-      },
-      {
-        "id": "numeric-navitem",
-        "display": "Numeric",
-        "name": "TwNumeric",
-        "url": "/numeric",
-        "isNew": true,
-        "theme": "TwNumericTheme"
-      },
-      {
-        "id": "radio-button-navitem",
-        "display": "Radio Button",
-        "name": "TwRadioButton",
-        "url": "/radio-button",
-        "theme": "TwRadioButtonTheme"
-      },
-      {
-        "id": "rating-navitem",
-        "display": "Rating",
-        "name": "TwRating",
-        "url": "/rating",
-        "isNew": true,
-        "theme": "TwRatingTheme"
-      },
-      {
-        "id": "select-navitem",
-        "display": "Select",
-        "name": "TwSelect",
-        "url": "/select"
-      },
-      {
-        "id": "slider-navitem",
-        "display": "Slider",
-        "name": "TwSlider",
-        "url": "/slider",
-        "theme": "TwSliderTheme"
-      },
-      {
-        "id": "switch-navitem",
-        "display": "Switch",
-        "name": "TwSwitch",
-        "url": "/switch",
-        "theme": "TwSwitchTheme"
-      },
-      {
-        "id": "textfield-navitem",
-        "display": "Textfield",
-        "name": "TwTextfield",
-        "url": "/textfield",
-        "theme": "TwInputTheme"
       }
     ]
   },
@@ -367,346 +375,400 @@
         "theme": "TwChartTheme"
       },
       {
-        "id": "chart-area-navitem",
-        "display": "Area",
-        "name": "TwAreaChart",
-        "url": "/chart/area"
+        "id": "chart-comparison-navitem",
+        "display": "Comparison",
+        "items": [
+          {
+            "id": "chart-bar-navitem",
+            "display": "Bar",
+            "name": "TwBarChart",
+            "url": "/chart/bar"
+          },
+          {
+            "id": "chart-bullet-navitem",
+            "display": "Bullet",
+            "name": "TwBulletChart",
+            "url": "/chart/bullet"
+          },
+          {
+            "id": "chart-column-navitem",
+            "display": "Column",
+            "name": "TwColumnChart",
+            "url": "/chart/column"
+          },
+          {
+            "id": "chart-dot-plot-navitem",
+            "display": "Dot Plot",
+            "name": "TwDotPlotChart",
+            "url": "/chart/dot-plot"
+          },
+          {
+            "id": "chart-dumbbell-navitem",
+            "display": "Dumbbell",
+            "name": "TwDumbbellChart",
+            "url": "/chart/dumbbell"
+          },
+          {
+            "id": "chart-icon-navitem",
+            "display": "Icon",
+            "name": "TwIconChart",
+            "url": "/chart/icon"
+          },
+          {
+            "id": "chart-lollipop-navitem",
+            "display": "Lollipop",
+            "name": "TwLollipopChart",
+            "url": "/chart/lollipop"
+          },
+          {
+            "id": "chart-radial-bar-navitem",
+            "display": "Radial Bar",
+            "name": "TwRadialBarChart",
+            "url": "/chart/radial-bar"
+          },
+          {
+            "id": "chart-range-navitem",
+            "display": "Range",
+            "name": "TwRangeChart",
+            "url": "/chart/range"
+          },
+          {
+            "id": "chart-word-cloud-navitem",
+            "display": "Word Cloud",
+            "name": "TwWordCloudChart",
+            "url": "/chart/word-cloud"
+          }
+        ]
       },
       {
-        "id": "chart-bar-navitem",
-        "display": "Bar",
-        "name": "TwBarChart",
-        "url": "/chart/bar"
+        "id": "chart-time-navitem",
+        "display": "Change Over Time",
+        "items": [
+          {
+            "id": "chart-area-navitem",
+            "display": "Area",
+            "name": "TwAreaChart",
+            "url": "/chart/area"
+          },
+          {
+            "id": "chart-bump-navitem",
+            "display": "Bump",
+            "name": "TwBumpChart",
+            "url": "/chart/bump"
+          },
+          {
+            "id": "chart-bump-area-navitem",
+            "display": "Bump Area",
+            "name": "TwBumpAreaChart",
+            "url": "/chart/bump-area"
+          },
+          {
+            "id": "chart-candlestick-navitem",
+            "display": "Candlestick",
+            "name": "TwCandlestickChart",
+            "url": "/chart/candlestick"
+          },
+          {
+            "id": "chart-gantt-navitem",
+            "display": "Gantt",
+            "name": "TwGanttChart",
+            "url": "/chart/gantt"
+          },
+          {
+            "id": "chart-horizon-navitem",
+            "display": "Horizon",
+            "name": "TwHorizonChart",
+            "url": "/chart/horizon"
+          },
+          {
+            "id": "chart-line-navitem",
+            "display": "Line",
+            "name": "TwLineChart",
+            "url": "/chart/line"
+          },
+          {
+            "id": "chart-slope-navitem",
+            "display": "Slope",
+            "name": "TwSlopeChart",
+            "url": "/chart/slope"
+          },
+          {
+            "id": "chart-small-multiples-navitem",
+            "display": "Small Multiples",
+            "name": "TwSmallMultiplesChart",
+            "url": "/chart/small-multiples"
+          },
+          {
+            "id": "chart-stream-graph-navitem",
+            "display": "Stream Graph",
+            "name": "TwStreamGraphChart",
+            "url": "/chart/stream-graph"
+          }
+        ]
       },
       {
-        "id": "chart-box-plot-navitem",
-        "display": "Box Plot",
-        "name": "TwBoxPlotChart",
-        "url": "/chart/box-plot"
+        "id": "chart-parts-navitem",
+        "display": "Parts of a Whole",
+        "items": [
+          {
+            "id": "chart-funnel-navitem",
+            "display": "Funnel",
+            "name": "TwFunnelChart",
+            "url": "/chart/funnel"
+          },
+          {
+            "id": "chart-gauge-navitem",
+            "display": "Gauge",
+            "name": "TwGaugeChart",
+            "url": "/chart/gauge"
+          },
+          {
+            "id": "chart-marimekko-navitem",
+            "display": "Marimekko",
+            "name": "TwMarimekkoChart",
+            "url": "/chart/marimekko"
+          },
+          {
+            "id": "chart-nightingale-navitem",
+            "display": "Nightingale",
+            "name": "TwNightingaleChart",
+            "url": "/chart/nightingale"
+          },
+          {
+            "id": "chart-pie-navitem",
+            "display": "Pie",
+            "name": "TwPieChart",
+            "url": "/chart/pie"
+          },
+          {
+            "id": "chart-treemap-navitem",
+            "display": "Treemap",
+            "name": "TwTreemapChart",
+            "url": "/chart/treemap"
+          },
+          {
+            "id": "chart-waffle-navitem",
+            "display": "Waffle",
+            "name": "TwWaffleChart",
+            "url": "/chart/waffle"
+          },
+          {
+            "id": "chart-waterfall-navitem",
+            "display": "Waterfall",
+            "name": "TwWaterfallChart",
+            "url": "/chart/waterfall"
+          }
+        ]
       },
       {
-        "id": "chart-bullet-navitem",
-        "display": "Bullet",
-        "name": "TwBulletChart",
-        "url": "/chart/bullet"
+        "id": "chart-hierarchy-navitem",
+        "display": "Hierarchy",
+        "items": [
+          {
+            "id": "chart-circular-treemap-navitem",
+            "display": "Circular Treemap",
+            "name": "TwCircularTreemapChart",
+            "url": "/chart/circular-treemap"
+          },
+          {
+            "id": "chart-convex-treemap-navitem",
+            "display": "Convex Treemap",
+            "name": "TwConvexTreemapChart",
+            "url": "/chart/convex-treemap"
+          },
+          {
+            "id": "chart-dendrogram-navitem",
+            "display": "Dendrogram",
+            "name": "TwDendrogramChart",
+            "url": "/chart/dendrogram"
+          },
+          {
+            "id": "chart-sunburst-navitem",
+            "display": "Sunburst",
+            "name": "TwSunburstChart",
+            "url": "/chart/sunburst"
+          }
+        ]
       },
       {
-        "id": "chart-bump-navitem",
-        "display": "Bump",
-        "name": "TwBumpChart",
-        "url": "/chart/bump"
+        "id": "chart-distribution-navitem",
+        "display": "Distribution",
+        "items": [
+          {
+            "id": "chart-barcode-navitem",
+            "display": "Barcode",
+            "name": "TwBarcodeChart",
+            "url": "/chart/barcode"
+          },
+          {
+            "id": "chart-beeswarm-navitem",
+            "display": "Beeswarm",
+            "name": "TwBeeswarmChart",
+            "url": "/chart/beeswarm"
+          },
+          {
+            "id": "chart-box-plot-navitem",
+            "display": "Box Plot",
+            "name": "TwBoxPlotChart",
+            "url": "/chart/box-plot"
+          },
+          {
+            "id": "chart-density-plot-navitem",
+            "display": "Density Plot",
+            "name": "TwDensityPlotChart",
+            "url": "/chart/density-plot"
+          },
+          {
+            "id": "chart-histogram-navitem",
+            "display": "Histogram",
+            "name": "TwHistogramChart",
+            "url": "/chart/histogram"
+          },
+          {
+            "id": "chart-radial-histogram-navitem",
+            "display": "Radial Histogram",
+            "name": "TwRadialHistogramChart",
+            "url": "/chart/radial-histogram"
+          },
+          {
+            "id": "chart-ridgeline-navitem",
+            "display": "Ridgeline",
+            "name": "TwRidgelinePlotChart",
+            "url": "/chart/ridgeline"
+          },
+          {
+            "id": "chart-strip-plot-navitem",
+            "display": "Strip Plot",
+            "name": "TwStripPlotChart",
+            "url": "/chart/strip-plot"
+          },
+          {
+            "id": "chart-violin-plot-navitem",
+            "display": "Violin Plot",
+            "name": "TwViolinPlotChart",
+            "url": "/chart/violin-plot"
+          }
+        ]
       },
       {
-        "id": "chart-candlestick-navitem",
-        "display": "Candlestick",
-        "name": "TwCandlestickChart",
-        "url": "/chart/candlestick"
+        "id": "chart-relationship-navitem",
+        "display": "Relationships",
+        "items": [
+          {
+            "id": "chart-categorical-scatter-navitem",
+            "display": "Categorical Scatter",
+            "name": "TwCategoricalScatterChart",
+            "url": "/chart/categorical-scatter"
+          },
+          {
+            "id": "chart-contour-navitem",
+            "display": "Contour",
+            "name": "TwContourChart",
+            "url": "/chart/contour"
+          },
+          {
+            "id": "chart-hexbin-navitem",
+            "display": "Hexagonal Binning",
+            "name": "TwHexbinChart",
+            "url": "/chart/hexbin"
+          },
+          {
+            "id": "chart-quadrant-navitem",
+            "display": "Quadrant",
+            "name": "TwQuadrantChart",
+            "url": "/chart/quadrant"
+          },
+          {
+            "id": "chart-scatter-navitem",
+            "display": "Scatter",
+            "name": "TwScatterChart",
+            "url": "/chart/scatter"
+          }
+        ]
       },
       {
-        "id": "chart-column-navitem",
-        "display": "Column",
-        "name": "TwColumnChart",
-        "url": "/chart/column"
+        "id": "chart-variables-navitem",
+        "display": "Several Variables",
+        "items": [
+          {
+            "id": "chart-heatmap-navitem",
+            "display": "Heatmap",
+            "name": "TwHeatmapChart",
+            "url": "/chart/heatmap"
+          },
+          {
+            "id": "chart-matrix-navitem",
+            "display": "Matrix",
+            "name": "TwMatrixChart",
+            "url": "/chart/matrix"
+          },
+          {
+            "id": "chart-parallel-coordinates-navitem",
+            "display": "Parallel Coordinates",
+            "name": "TwParallelCoordinatesChart",
+            "url": "/chart/parallel-coordinates"
+          },
+          {
+            "id": "chart-radar-navitem",
+            "display": "Radar",
+            "name": "TwRadarChart",
+            "url": "/chart/radar"
+          }
+        ]
       },
       {
-        "id": "chart-dot-plot-navitem",
-        "display": "Dot Plot",
-        "name": "TwDotPlotChart",
-        "url": "/chart/dot-plot"
+        "id": "chart-flow-navitem",
+        "display": "Flows",
+        "items": [
+          {
+            "id": "chart-arc-diagram-navitem",
+            "display": "Arc Diagram",
+            "name": "TwArcDiagramChart",
+            "url": "/chart/arc-diagram"
+          },
+          {
+            "id": "chart-chord-diagram-navitem",
+            "display": "Chord Diagram",
+            "name": "TwChordDiagramChart",
+            "url": "/chart/chord-diagram"
+          },
+          {
+            "id": "chart-flowchart-navitem",
+            "display": "Flowchart",
+            "name": "TwFlowchart",
+            "url": "/chart/flowchart"
+          },
+          {
+            "id": "chart-network-diagram-navitem",
+            "display": "Network Diagram",
+            "name": "TwNetworkDiagramChart",
+            "url": "/chart/network-diagram"
+          },
+          {
+            "id": "chart-sankey-navitem",
+            "display": "Sankey",
+            "name": "TwSankeyChart",
+            "url": "/chart/sankey"
+          }
+        ]
       },
       {
-        "id": "chart-dumbbell-navitem",
-        "display": "Dumbbell",
-        "name": "TwDumbbellChart",
-        "url": "/chart/dumbbell"
-      },
-      {
-        "id": "chart-funnel-navitem",
-        "display": "Funnel",
-        "name": "TwFunnelChart",
-        "url": "/chart/funnel"
-      },
-      {
-        "id": "chart-gantt-navitem",
-        "display": "Gantt",
-        "name": "TwGanttChart",
-        "url": "/chart/gantt"
-      },
-      {
-        "id": "chart-gauge-navitem",
-        "display": "Gauge",
-        "name": "TwGaugeChart",
-        "url": "/chart/gauge"
-      },
-      {
-        "id": "chart-heatmap-navitem",
-        "display": "Heatmap",
-        "name": "TwHeatmapChart",
-        "url": "/chart/heatmap"
-      },
-      {
-        "id": "chart-histogram-navitem",
-        "display": "Histogram",
-        "name": "TwHistogramChart",
-        "url": "/chart/histogram"
-      },
-      {
-        "id": "chart-icon-navitem",
-        "display": "Icon",
-        "name": "TwIconChart",
-        "url": "/chart/icon"
-      },
-      {
-        "id": "chart-line-navitem",
-        "display": "Line",
-        "name": "TwLineChart",
-        "url": "/chart/line"
-      },
-      {
-        "id": "chart-lollipop-navitem",
-        "display": "Lollipop",
-        "name": "TwLollipopChart",
-        "url": "/chart/lollipop"
-      },
-      {
-        "id": "chart-matrix-navitem",
-        "display": "Matrix",
-        "name": "TwMatrixChart",
-        "url": "/chart/matrix"
-      },
-      {
-        "id": "chart-nightingale-navitem",
-        "display": "Nightingale",
-        "name": "TwNightingaleChart",
-        "url": "/chart/nightingale"
-      },
-      {
-        "id": "chart-parallel-coordinates-navitem",
-        "display": "Parallel Coordinates",
-        "name": "TwParallelCoordinatesChart",
-        "url": "/chart/parallel-coordinates"
-      },
-      {
-        "id": "chart-pie-navitem",
-        "display": "Pie",
-        "name": "TwPieChart",
-        "url": "/chart/pie"
-      },
-      {
-        "id": "chart-quadrant-navitem",
-        "display": "Quadrant",
-        "name": "TwQuadrantChart",
-        "url": "/chart/quadrant"
-      },
-      {
-        "id": "chart-radar-navitem",
-        "display": "Radar",
-        "name": "TwRadarChart",
-        "url": "/chart/radar"
-      },
-      {
-        "id": "chart-radial-bar-navitem",
-        "display": "Radial Bar",
-        "name": "TwRadialBarChart",
-        "url": "/chart/radial-bar"
-      },
-      {
-        "id": "chart-range-navitem",
-        "display": "Range",
-        "name": "TwRangeChart",
-        "url": "/chart/range"
-      },
-      {
-        "id": "chart-scatter-navitem",
-        "display": "Scatter",
-        "name": "TwScatterChart",
-        "url": "/chart/scatter"
-      },
-      {
-        "id": "chart-slope-navitem",
-        "display": "Slope",
-        "name": "TwSlopeChart",
-        "url": "/chart/slope"
-      },
-      {
-        "id": "chart-small-multiples-navitem",
-        "display": "Small Multiples",
-        "name": "TwSmallMultiplesChart",
-        "url": "/chart/small-multiples"
-      },
-      {
-        "id": "chart-strip-plot-navitem",
-        "display": "Strip Plot",
-        "name": "TwStripPlotChart",
-        "url": "/chart/strip-plot"
-      },
-      {
-        "id": "chart-treemap-navitem",
-        "display": "Treemap",
-        "name": "TwTreemapChart",
-        "url": "/chart/treemap"
-      },
-      {
-        "id": "chart-waffle-navitem",
-        "display": "Waffle",
-        "name": "TwWaffleChart",
-        "url": "/chart/waffle"
-      },
-      {
-        "id": "chart-waterfall-navitem",
-        "display": "Waterfall",
-        "name": "TwWaterfallChart",
-        "url": "/chart/waterfall"
-      },
-      {
-        "id": "chart-arc-diagram-navitem",
-        "display": "Arc Diagram",
-        "name": "TwArcDiagramChart",
-        "url": "/chart/arc-diagram"
-      },
-      {
-        "id": "chart-barcode-navitem",
-        "display": "Barcode",
-        "name": "TwBarcodeChart",
-        "url": "/chart/barcode"
-      },
-      {
-        "id": "chart-beeswarm-navitem",
-        "display": "Beeswarm",
-        "name": "TwBeeswarmChart",
-        "url": "/chart/beeswarm"
-      },
-      {
-        "id": "chart-bump-area-navitem",
-        "display": "Bump Area",
-        "name": "TwBumpAreaChart",
-        "url": "/chart/bump-area"
-      },
-      {
-        "id": "chart-categorical-scatter-navitem",
-        "display": "Categorical Scatter",
-        "name": "TwCategoricalScatterChart",
-        "url": "/chart/categorical-scatter"
-      },
-      {
-        "id": "chart-chord-diagram-navitem",
-        "display": "Chord Diagram",
-        "name": "TwChordDiagramChart",
-        "url": "/chart/chord-diagram"
-      },
-      {
-        "id": "chart-circular-treemap-navitem",
-        "display": "Circular Treemap",
-        "name": "TwCircularTreemapChart",
-        "url": "/chart/circular-treemap"
-      },
-      {
-        "id": "chart-contour-navitem",
-        "display": "Contour",
-        "name": "TwContourChart",
-        "url": "/chart/contour"
-      },
-      {
-        "id": "chart-convex-treemap-navitem",
-        "display": "Convex Treemap",
-        "name": "TwConvexTreemapChart",
-        "url": "/chart/convex-treemap"
-      },
-      {
-        "id": "chart-density-plot-navitem",
-        "display": "Density Plot",
-        "name": "TwDensityPlotChart",
-        "url": "/chart/density-plot"
-      },
-      {
-        "id": "chart-dendrogram-navitem",
-        "display": "Dendrogram",
-        "name": "TwDendrogramChart",
-        "url": "/chart/dendrogram"
-      },
-      {
-        "id": "chart-euler-diagram-navitem",
-        "display": "Euler Diagram",
-        "name": "TwEulerDiagramChart",
-        "url": "/chart/euler-diagram"
-      },
-      {
-        "id": "chart-flowchart-navitem",
-        "display": "Flowchart",
-        "name": "TwFlowchart",
-        "url": "/chart/flowchart"
-      },
-      {
-        "id": "chart-hexbin-navitem",
-        "display": "Hexagonal Binning",
-        "name": "TwHexbinChart",
-        "url": "/chart/hexbin"
-      },
-      {
-        "id": "chart-horizon-navitem",
-        "display": "Horizon",
-        "name": "TwHorizonChart",
-        "url": "/chart/horizon"
-      },
-      {
-        "id": "chart-marimekko-navitem",
-        "display": "Marimekko",
-        "name": "TwMarimekkoChart",
-        "url": "/chart/marimekko"
-      },
-      {
-        "id": "chart-network-diagram-navitem",
-        "display": "Network Diagram",
-        "name": "TwNetworkDiagramChart",
-        "url": "/chart/network-diagram"
-      },
-      {
-        "id": "chart-radial-histogram-navitem",
-        "display": "Radial Histogram",
-        "name": "TwRadialHistogramChart",
-        "url": "/chart/radial-histogram"
-      },
-      {
-        "id": "chart-ridgeline-navitem",
-        "display": "Ridgeline",
-        "name": "TwRidgelinePlotChart",
-        "url": "/chart/ridgeline"
-      },
-      {
-        "id": "chart-sankey-navitem",
-        "display": "Sankey",
-        "name": "TwSankeyChart",
-        "url": "/chart/sankey"
-      },
-      {
-        "id": "chart-stream-graph-navitem",
-        "display": "Stream Graph",
-        "name": "TwStreamGraphChart",
-        "url": "/chart/stream-graph"
-      },
-      {
-        "id": "chart-sunburst-navitem",
-        "display": "Sunburst",
-        "name": "TwSunburstChart",
-        "url": "/chart/sunburst"
-      },
-      {
-        "id": "chart-venn-diagram-navitem",
-        "display": "Venn Diagram",
-        "name": "TwVennDiagramChart",
-        "url": "/chart/venn-diagram"
-      },
-      {
-        "id": "chart-violin-plot-navitem",
-        "display": "Violin Plot",
-        "name": "TwViolinPlotChart",
-        "url": "/chart/violin-plot"
-      },
-      {
-        "id": "chart-word-cloud-navitem",
-        "display": "Word Cloud",
-        "name": "TwWordCloudChart",
-        "url": "/chart/word-cloud"
+        "id": "chart-sets-navitem",
+        "display": "Sets",
+        "items": [
+          {
+            "id": "chart-euler-diagram-navitem",
+            "display": "Euler Diagram",
+            "name": "TwEulerDiagramChart",
+            "url": "/chart/euler-diagram"
+          },
+          {
+            "id": "chart-venn-diagram-navitem",
+            "display": "Venn Diagram",
+            "name": "TwVennDiagramChart",
+            "url": "/chart/venn-diagram"
+          }
+        ]
       }
     ]
   },

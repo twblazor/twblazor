@@ -54,8 +54,8 @@
             }
             else
             {
-                <span class="@chipTitleClasses">@slot.Event.Name</span>
-                <span class="@chipTimeClasses">@GetStartTimeLabel(slot.Event)</span>
+                @* The space keeps the name and time separate words in the visible text, which must match the accessible name. *@
+                <span class="@chipTitleClasses">@slot.Event.Name</span>@(" ")<span class="@chipTimeClasses">@GetStartTimeLabel(slot.Event)</span>
             }
         </button>
     }

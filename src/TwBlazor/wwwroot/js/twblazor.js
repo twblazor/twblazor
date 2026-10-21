@@ -2612,3 +2612,32 @@ globalThis.twDataTable = {
         setTimeout(function () { URL.revokeObjectURL(url); }, 0);
     }
 };
+
+// Form: after a failed submit, focus goes to the first field marked invalid, so keyboard and screen reader users
+// land on the problem instead of staying on the submit button.
+globalThis.twForm = {
+    focusFirstInvalid: function (formId) {
+        const form = formId ? document.getElementById(formId) : null;
+        if (!form) return false;
+        const field = Array.from(form.querySelectorAll('[aria-invalid="true"]')).find(function (el) {
+            return !el.disabled && typeof el.focus === 'function';
+        });
+        if (!field) return false;
+        globalThis.twForm.focusField(field);
+        return true;
+    },
+
+    // Focuses a field the error summary links to. A group of options (a radio group's fieldset) cannot take focus
+    // itself, so its checked option, or else its first control, is focused instead.
+    focusField: function (target) {
+        const el = typeof target === 'string' ? document.getElementById(target) : target;
+        if (!el) return false;
+        const focusable = el.matches('input, select, textarea, button, [tabindex]:not([tabindex="-1"])')
+            ? el
+            : el.querySelector('input:checked:not([disabled])') ?? globalThis.twDialog.getFocusableElements(el)[0];
+        if (!focusable) return false;
+        focusable.focus();
+        if (typeof focusable.scrollIntoView === 'function') focusable.scrollIntoView({ block: 'center' });
+        return true;
+    }
+};

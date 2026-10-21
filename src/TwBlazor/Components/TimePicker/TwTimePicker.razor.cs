@@ -2,6 +2,8 @@
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Components;
+using System.Linq.Expressions;
+using Microsoft.AspNetCore.Components.Forms;
 using System.Globalization;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Localization;
@@ -69,6 +71,12 @@ public partial class TwTimePicker : TwPopoverPickerComponentBase
     [Parameter] public EventCallback<TimeOnly> SelectedTimeChanged { get; set; }
 
     /// <summary>
+    /// Gets or sets the expression that identifies the bound value. Set automatically by <c>@bind-SelectedTime</c>, it
+    /// lets an enclosing <see cref="EditForm"/> or <see cref="TwForm"/> validate the property the field edits.
+    /// </summary>
+    [Parameter] public Expression<Func<TimeOnly>>? SelectedTimeExpression { get; set; }
+
+    /// <summary>
     /// The <see cref="string" /> value displayed in the textbox to the user.
     /// </summary>
     [Parameter] public string? Value { get; set; }
@@ -77,6 +85,12 @@ public partial class TwTimePicker : TwPopoverPickerComponentBase
     /// The <see cref="string" /> bound value displayed in the textbox to the user.
     /// </summary>
     [Parameter] public EventCallback<string> ValueChanged { get; set; }
+
+    /// <summary>
+    /// Gets or sets the expression that identifies the bound text. Set automatically by <c>@bind-Value</c>, it
+    /// lets an enclosing <see cref="EditForm"/> or <see cref="TwForm"/> validate the property the field edits.
+    /// </summary>
+    [Parameter] public Expression<Func<string?>>? ValueExpression { get; set; }
     /// <summary>
     /// The placeholder text to display when no time is selected.
     /// Defaults to the localized <see cref="TwStrings.TimePicker_Placeholder"/> text ("Select a time").
@@ -180,12 +194,17 @@ public partial class TwTimePicker : TwPopoverPickerComponentBase
     {
         SelectedTime = newTime;
         if (SelectedTimeChanged.HasDelegate)
+        {
             await SelectedTimeChanged.InvokeAsync(SelectedTime);
+        }
 
         Value = SelectedTime.ToString(format, effectiveCulture);
         if (ValueChanged.HasDelegate)
+        {
             await ValueChanged.InvokeAsync(Value);
+        }
 
+        NotifyFieldChanged();
         StateHasChanged();
     }
 
@@ -212,7 +231,11 @@ public partial class TwTimePicker : TwPopoverPickerComponentBase
 
         Value = value;
         if (ValueChanged.HasDelegate)
+        {
             await ValueChanged.InvokeAsync(Value);
+        }
+
+        NotifyFieldChanged();
 
         if (string.IsNullOrWhiteSpace(value))
         {
@@ -231,7 +254,11 @@ public partial class TwTimePicker : TwPopoverPickerComponentBase
         SelectedTime = parsedTime;
 
         if (SelectedTimeChanged.HasDelegate)
+        {
             await SelectedTimeChanged.InvokeAsync(SelectedTime);
+        }
+
+        NotifyFieldChanged();
     }
 
     /// <summary>
@@ -264,4 +291,15 @@ public partial class TwTimePicker : TwPopoverPickerComponentBase
         .AddClass(theme.BodySurface)
         .AddClass(popoverBuilder.GetSurfaceClasses(Rounded, Shadow))
         .Build();
+
+    /// <inheritdoc />
+    protected override FieldIdentifier? CreateFieldIdentifier()
+    {
+        if (SelectedTimeExpression is not null)
+        {
+            return FieldIdentifier.Create(SelectedTimeExpression);
+        }
+
+        return ValueExpression is null ? null : FieldIdentifier.Create(ValueExpression);
+    }
 }

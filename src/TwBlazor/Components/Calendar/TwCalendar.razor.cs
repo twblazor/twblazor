@@ -115,6 +115,11 @@ public partial class TwCalendar<T> : TwBlazorComponentBase, IDisposable
     /// Optional custom rendering for an event's chip/block content across all three views; defaults
     /// to just <see cref="Schedule{T}.Name"/>.
     /// </summary>
+    /// <remarks>
+    /// The event keeps its accessible name ("name, start time", plus the end time in the Day and Week
+    /// views), so the visible text must be part of it: show the name and the start time formatted with
+    /// <see cref="TwDateTimeFormats.ShortTime"/>, separated by whitespace.
+    /// </remarks>
     [Parameter] public RenderFragment<Schedule<T>>? EventContentTemplate { get; set; }
 
     /// <summary>

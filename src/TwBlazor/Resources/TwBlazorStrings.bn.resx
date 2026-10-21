@@ -930,4 +930,7 @@
   <data name="Marker_Failed" xml:space="preserve">
     <value>ব্যর্থ</value>
   </data>
+  <data name="Form_SummaryTitle" xml:space="preserve">
+    <value>একটি সমস্যা আছে</value>
+  </data>
 </root>

@@ -3,6 +3,8 @@
 
 using System.Globalization;
 using Microsoft.AspNetCore.Components;
+using System.Linq.Expressions;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
 using TwBlazor.Builders;
 using TwBlazor.Configuration.Components;
@@ -44,6 +46,12 @@ public partial class TwAutocomplete<T> : TwPopoverPickerComponentBase
     /// <see langword="default"/>, such as <see langword="null"/> for a reference type.
     /// </summary>
     [Parameter] public EventCallback<T> SelectedValueChanged { get; set; }
+
+    /// <summary>
+    /// Gets or sets the expression that identifies the bound value. Set automatically by <c>@bind-SelectedValue</c>, it
+    /// lets an enclosing <see cref="EditForm"/> or <see cref="TwForm"/> validate the property the field edits.
+    /// </summary>
+    [Parameter] public Expression<Func<T>>? SelectedValueExpression { get; set; }
 
     /// <summary>
     /// Gets or sets the name of the property to display for complex objects.
@@ -613,6 +621,7 @@ public partial class TwAutocomplete<T> : TwPopoverPickerComponentBase
         if (changed && SelectedValueChanged.HasDelegate)
         {
             await SelectedValueChanged.InvokeAsync(value);
+            NotifyFieldChanged();
         }
     }
 
@@ -625,6 +634,7 @@ public partial class TwAutocomplete<T> : TwPopoverPickerComponentBase
         if (SelectedValueChanged.HasDelegate)
         {
             await SelectedValueChanged.InvokeAsync(SelectedValue);
+            NotifyFieldChanged();
         }
     }
 
@@ -660,4 +670,7 @@ public partial class TwAutocomplete<T> : TwPopoverPickerComponentBase
 
         return value.ToString() ?? string.Empty;
     }
+
+    /// <inheritdoc />
+    protected override FieldIdentifier? CreateFieldIdentifier() => SelectedValueExpression is null ? null : FieldIdentifier.Create(SelectedValueExpression);
 }

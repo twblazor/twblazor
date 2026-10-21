@@ -1144,6 +1144,14 @@ public static class MicrosoftTheme
                     Copyright = "m-0 max-w-3xl",
                     BottomLinks = $"{display.Flex} {flexbox.Wrap} gap-x-4 gap-y-2 list-none m-0 p-0"
                 },
+                new TwFormTheme
+                {
+                    Base = $"{display.Flex} {flexbox.Col} {spacing.Gap.Xl}",
+                    Summary = $"{display.Flex} {flexbox.Col} {spacing.Gap.Md} {spacing.Padding.Xl} {rounded.Lg} {borderWidth.AccentEdge} {borderColors.Danger} {background.Lightest.Danger} {darkBackground.Dark.Danger} {focusRing} {interaction.FocusOutlineNone}",
+                    SummaryTitle = $"{typography.Size.Base} {typography.Weight.Semibold} {text.Dark.Danger} {darkText.Light.Danger}",
+                    SummaryList = $"{display.Flex} {flexbox.Col} {spacing.Gap.Sm} list-disc ps-5 {typography.Size.Sm} {text.Dark.Danger} {darkText.Light.Danger}",
+                    SummaryLink = $"underline underline-offset-2 hover:no-underline {rounded.Sm} {focusRing} {interaction.FocusOutlineNone}"
+                },
                 new TwIconTheme
                 {
                     Colors = new()
@@ -1223,7 +1231,7 @@ public static class MicrosoftTheme
                     FocusVisibleBorder = "focus-visible:border-b-2 focus-visible:border-b-fluentblue-600 dark:focus-visible:border-b-fluentblue-400",
                     FocusWithinBorder = "has-[:focus-visible]:border-b-2 has-[:focus-visible]:border-b-fluentblue-600 dark:has-[:focus-visible]:border-b-fluentblue-400",
                     FilledBackgroundColor = neutralSurface.Elevated,
-                    ErrorMessage = $"{spacing.MarginTop.Sm} {typography.Size.Xs} {text.Medium.Danger} {darkText.Medium.Danger}"
+                    ErrorMessage = $"{spacing.MarginTop.Sm} text-xs leading-4 {typography.Weight.Medium} {text.Medium.Danger} dark:text-rose-300"
                 },
                 new TwNumericTheme
                 {

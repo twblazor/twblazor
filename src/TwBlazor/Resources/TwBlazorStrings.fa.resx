@@ -936,4 +936,7 @@
   <data name="Marker_Failed" xml:space="preserve">
     <value>ناموفق</value>
   </data>
+  <data name="Form_SummaryTitle" xml:space="preserve">
+    <value>مشکلی وجود دارد</value>
+  </data>
 </root>

@@ -1,7 +1,9 @@
-// Copyright (c) 2025 Jack Shuter @ TwBlazor - twblazor.com
+﻿// Copyright (c) 2025 Jack Shuter @ TwBlazor - twblazor.com
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Components;
+using System.Linq.Expressions;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using TwBlazor.Builders;
@@ -47,6 +49,12 @@ public partial class TwSelect<T> : TwPopoverPickerComponentBase
     [Parameter] public EventCallback<T> SelectedValueChanged { get; set; } = default!;
 
     /// <summary>
+    /// Gets or sets the expression that identifies the bound value. Set automatically by <c>@bind-SelectedValue</c>, it
+    /// lets an enclosing <see cref="EditForm"/> or <see cref="TwForm"/> validate the property the field edits.
+    /// </summary>
+    [Parameter] public Expression<Func<T>>? SelectedValueExpression { get; set; }
+
+    /// <summary>
     /// Gets or sets whether more than one option can be selected at once.
     /// </summary>
     /// <remarks>
@@ -70,6 +78,13 @@ public partial class TwSelect<T> : TwPopoverPickerComponentBase
     /// Gets or sets the callback that is invoked when the selection changes while <see cref="Multiple"/> is <see langword="true"/>.
     /// </summary>
     [Parameter] public EventCallback<IEnumerable<T>> SelectedValuesChanged { get; set; }
+
+    /// <summary>
+    /// Gets or sets the expression that identifies the bound values of a <see cref="Multiple"/> select. Set
+    /// automatically by <c>@bind-SelectedValues</c>, it lets an enclosing <see cref="EditForm"/> or
+    /// <see cref="TwForm"/> validate the property the field edits.
+    /// </summary>
+    [Parameter] public Expression<Func<IEnumerable<T>>>? SelectedValuesExpression { get; set; }
 
     /// <summary>
     /// Gets or sets the placeholder text displayed when no value is selected.
@@ -394,6 +409,7 @@ public partial class TwSelect<T> : TwPopoverPickerComponentBase
             if (SelectedValuesChanged.HasDelegate)
             {
                 await SelectedValuesChanged.InvokeAsync(SelectedValues);
+                NotifyFieldChanged();
             }
         }
         else
@@ -458,6 +474,7 @@ public partial class TwSelect<T> : TwPopoverPickerComponentBase
         if (SelectedValuesChanged.HasDelegate)
         {
             await SelectedValuesChanged.InvokeAsync(SelectedValues);
+            NotifyFieldChanged();
         }
 
         await InvokeAsync(StateHasChanged);
@@ -602,6 +619,7 @@ public partial class TwSelect<T> : TwPopoverPickerComponentBase
         if (SelectedValuesChanged.HasDelegate)
         {
             await SelectedValuesChanged.InvokeAsync(SelectedValues);
+            NotifyFieldChanged();
         }
     }
 
@@ -649,6 +667,7 @@ public partial class TwSelect<T> : TwPopoverPickerComponentBase
         if (SelectedValuesChanged.HasDelegate)
         {
             await SelectedValuesChanged.InvokeAsync(SelectedValues);
+            NotifyFieldChanged();
         }
     }
 
@@ -682,6 +701,18 @@ public partial class TwSelect<T> : TwPopoverPickerComponentBase
         if (SelectedValueChanged.HasDelegate)
         {
             await SelectedValueChanged.InvokeAsync(SelectedValue);
+            NotifyFieldChanged();
         }
+    }
+
+    /// <inheritdoc />
+    protected override FieldIdentifier? CreateFieldIdentifier()
+    {
+        if (SelectedValuesExpression is not null)
+        {
+            return FieldIdentifier.Create(SelectedValuesExpression);
+        }
+
+        return SelectedValueExpression is null ? null : FieldIdentifier.Create(SelectedValueExpression);
     }
 }
