@@ -13,7 +13,7 @@
                 <TwSelect T="string" Label="Plan" Values="@plans" @bind-SelectedValue="signup.Plan" Placeholder="Choose a plan" />
                 <TwCheckbox T="bool" Label="I agree to the terms" @bind-Value="signup.AcceptTerms" />
                 <div>
-                    <TwButton Type="submit" Label="Sign up" />
+                    <TwButton Type="submit" Variant="ButtonVariant.Filled" Color="Color.Primary" Label="Sign up" />
                 </div>
                 @if (signupSaved)
                 {
@@ -32,7 +32,7 @@
                 <TwTextfield T="string" Label="Town or city" @bind-Value="address.Town" />
                 <TwTextfield T="string" Label="Postcode" @bind-Value="address.Postcode" />
                 <div>
-                    <TwButton Type="submit" Label="Save address" />
+                    <TwButton Type="submit" Variant="ButtonVariant.Filled" Color="Color.Primary" Label="Save address" />
                 </div>
             </TwForm>
         </CodeExample>
@@ -46,7 +46,7 @@
                 <TwTextfield T="string" Label="Username" @bind-Value="account.Username" Validator="@CheckUsernameAsync" />
                 <TwNumeric T="int" Label="Age" @bind-Value="account.Age" />
                 <div>
-                    <TwButton Type="submit" Label="Create account" />
+                    <TwButton Type="submit" Variant="ButtonVariant.Filled" Color="Color.Primary" Label="Create account" />
                 </div>
                 @if (accountSaved)
                 {
@@ -66,7 +66,7 @@
                 <TwNumeric T="int" Label="Guests" Min="1" Max="6" @bind-Value="booking.Guests" />
                 <TwSwitch T="bool" Label="Breakfast included" @bind-Value="booking.Breakfast" />
                 <div>
-                    <TwButton Type="submit" Label="Book" />
+                    <TwButton Type="submit" Variant="ButtonVariant.Filled" Color="Color.Primary" Label="Book" />
                 </div>
             </TwForm>
         </CodeExample>
@@ -79,7 +79,7 @@
             <TwForm @ref="@contactForm" Model="@contact">
                 <TwTextfield T="string" Label="Phone number" InputType="tel" @bind-Value="contact.Phone" />
                 <div class="flex items-center gap-3">
-                    <TwButton Label="Check" OnClick="@CheckContactAsync" />
+                    <TwButton Label="Check" Variant="ButtonVariant.Filled" Color="Color.Primary" OnClick="@CheckContactAsync" />
                     <span role="status" class="text-sm">@contactStatus</span>
                 </div>
             </TwForm>
@@ -94,7 +94,7 @@
                 <DataAnnotationsValidator />
                 <TwTextfield T="string" Label="Email" InputType="email" @bind-Value="newsletter.Email" />
                 <div>
-                    <TwButton Type="submit" Label="Subscribe" />
+                    <TwButton Type="submit" Variant="ButtonVariant.Filled" Color="Color.Primary" Label="Subscribe" />
                 </div>
             </EditForm>
         </CodeExample>
