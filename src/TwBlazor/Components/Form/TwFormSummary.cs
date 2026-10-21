@@ -61,19 +61,19 @@ internal sealed class TwFormSummary : ComponentBase, IDisposable
 
         builder.OpenElement(0, "div");
         builder.AddAttribute(1, "id", Form.summaryId);
-        builder.AddAttribute(2, "class", theme.Summary);
+        builder.AddAttribute(2, classAttribute, theme.Summary);
         builder.AddAttribute(3, "role", "alert");
         builder.AddAttribute(4, "tabindex", "-1");
         builder.AddAttribute(5, "aria-labelledby", titleId);
 
         builder.OpenElement(6, "h2");
         builder.AddAttribute(7, "id", titleId);
-        builder.AddAttribute(8, "class", theme.SummaryTitle);
+        builder.AddAttribute(8, classAttribute, theme.SummaryTitle);
         builder.AddContent(9, localizer[TwStrings.Form_SummaryTitle]);
         builder.CloseElement();
 
         builder.OpenElement(10, "ul");
-        builder.AddAttribute(11, "class", theme.SummaryList);
+        builder.AddAttribute(11, classAttribute, theme.SummaryList);
         foreach (var (message, fieldId) in entries)
         {
             builder.OpenElement(12, "li");
@@ -81,7 +81,7 @@ internal sealed class TwFormSummary : ComponentBase, IDisposable
             {
                 builder.OpenElement(13, "a");
                 builder.AddAttribute(14, "href", $"#{fieldId}");
-                builder.AddAttribute(15, "class", theme.SummaryLink);
+                builder.AddAttribute(15, classAttribute, theme.SummaryLink);
                 builder.AddAttribute(16, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, () => Form.FocusFieldAsync(fieldId)));
                 builder.AddEventPreventDefaultAttribute(17, "onclick", true);
                 builder.AddContent(18, message);

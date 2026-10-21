@@ -221,13 +221,13 @@ public partial class TwForm : TwBlazorComponentBase
         }
 
         // Messages for properties no field is bound to are still listed, without a link.
-        foreach (var message in editContext.GetValidationMessages())
+        var unlinked = editContext.GetValidationMessages().ToList();
+        foreach (var message in linked)
         {
-            if (!linked.Remove(message))
-            {
-                entries.Add((message, null));
-            }
+            unlinked.Remove(message);
         }
+
+        entries.AddRange(unlinked.Select(message => (message, (string?)null)));
 
         return entries;
     }

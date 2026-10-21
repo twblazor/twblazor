@@ -194,14 +194,17 @@ public partial class TwTimePicker : TwPopoverPickerComponentBase
     {
         SelectedTime = newTime;
         if (SelectedTimeChanged.HasDelegate)
+        {
             await SelectedTimeChanged.InvokeAsync(SelectedTime);
-            NotifyFieldChanged();
+        }
 
         Value = SelectedTime.ToString(format, effectiveCulture);
         if (ValueChanged.HasDelegate)
+        {
             await ValueChanged.InvokeAsync(Value);
-            NotifyFieldChanged();
+        }
 
+        NotifyFieldChanged();
         StateHasChanged();
     }
 
@@ -228,8 +231,11 @@ public partial class TwTimePicker : TwPopoverPickerComponentBase
 
         Value = value;
         if (ValueChanged.HasDelegate)
+        {
             await ValueChanged.InvokeAsync(Value);
-            NotifyFieldChanged();
+        }
+
+        NotifyFieldChanged();
 
         if (string.IsNullOrWhiteSpace(value))
         {
@@ -248,8 +254,11 @@ public partial class TwTimePicker : TwPopoverPickerComponentBase
         SelectedTime = parsedTime;
 
         if (SelectedTimeChanged.HasDelegate)
+        {
             await SelectedTimeChanged.InvokeAsync(SelectedTime);
-            NotifyFieldChanged();
+        }
+
+        NotifyFieldChanged();
     }
 
     /// <summary>

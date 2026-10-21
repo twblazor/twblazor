@@ -298,7 +298,12 @@ public partial class TwNumeric<T> : TwBlazorTextInputComponentBase
 
     private string effectiveErrorMessage => (Invalid && !string.IsNullOrEmpty(ErrorMessage)
         ? ErrorMessage
-        : inputError ?? (string.IsNullOrEmpty(validationError) ? null : validationError)) ?? fieldErrorMessage;
+        : inputError ?? validatorMessage) ?? fieldErrorMessage;
+
+    /// <summary>
+    /// Gets the message <see cref="Validator"/> last returned, or <see langword="null"/> when it found no problem.
+    /// </summary>
+    private string? validatorMessage => string.IsNullOrEmpty(validationError) ? null : validationError;
 
     private string padding => effectiveVariant == InputVariant.Default ? "0px" : variantPadding;
 
@@ -661,9 +666,7 @@ public partial class TwNumeric<T> : TwBlazorTextInputComponentBase
     }
 
     /// <inheritdoc />
-    protected override string? ownErrorMessage => base.ownErrorMessage
-        ?? inputError
-        ?? (string.IsNullOrEmpty(validationError) ? null : validationError);
+    protected override string? ownErrorMessage => base.ownErrorMessage ?? inputError ?? validatorMessage;
 
     /// <inheritdoc />
     protected override FieldIdentifier? CreateFieldIdentifier() => ValueExpression is null ? null : FieldIdentifier.Create(ValueExpression);
