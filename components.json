@@ -133,48 +133,29 @@
             "theme": "TwColorPickerTheme"
           },
           {
-            "id": "dates-time-navitem",
-            "display": "Date & Time Pickers",
-            "items": [
-              {
-                "id": "date-picker-navitem",
-                "display": "Date",
-                "name": "TwDatePicker",
-                "url": "/date-picker",
-                "theme": "TwDatePickerTheme"
-              },
-              {
-                "id": "date-range-picker-navitem",
-                "display": "Date Range",
-                "name": "TwDateRangePicker",
-                "url": "/date-range-picker"
-              },
-              {
-                "id": "datetime-picker-navitem",
-                "display": "Datetime",
-                "name": "TwDateTimePicker",
-                "url": "/datetime-picker"
-              },
-              {
-                "id": "datetime-range-picker-navitem",
-                "display": "Datetime Range",
-                "name": "TwDateTimeRangePicker",
-                "url": "/datetime-range-picker"
-              },
-              {
-                "id": "time-picker-navitem",
-                "display": "Time",
-                "name": "TwTimePicker",
-                "url": "/time-picker",
-                "theme": "TwTimePickerTheme"
-              },
-              {
-                "id": "time-range-picker-navitem",
-                "display": "Time Range",
-                "name": "TwTimeRangePicker",
-                "url": "/time-range-picker"
-              }
-            ]
+            "id": "date-picker-navitem",
+            "display": "Date Picker",
+            "name": "TwDatePicker",
+            "url": "/date-picker",
+            "theme": "TwDatePickerTheme"
+          },
+          {
+            "id": "date-range-picker-navitem",
+            "display": "Date Range Picker",
+            "name": "TwDateRangePicker",
+            "url": "/date-range-picker"
+          },
+          {
+            "id": "datetime-picker-navitem",
+            "display": "Datetime Picker",
+            "name": "TwDateTimePicker",
+            "url": "/datetime-picker"
+          },
+          {
+            "id": "datetime-range-picker-navitem",
+            "display": "Datetime Range Picker",
+            "name": "TwDateTimeRangePicker",
+            "url": "/datetime-range-picker"
           },
           {
             "id": "file-upload-navitem",
@@ -231,6 +212,19 @@
             "name": "TwTextfield",
             "url": "/textfield",
             "theme": "TwInputTheme"
+          },
+          {
+            "id": "time-picker-navitem",
+            "display": "Time Picker",
+            "name": "TwTimePicker",
+            "url": "/time-picker",
+            "theme": "TwTimePickerTheme"
+          },
+          {
+            "id": "time-range-picker-navitem",
+            "display": "Time Range Picker",
+            "name": "TwTimeRangePicker",
+            "url": "/time-range-picker"
           }
         ]
       }
