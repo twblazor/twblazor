@@ -88,8 +88,8 @@
                                     }
                                     else
                                     {
-                                        <span class="@nameClasses">@evt.Name</span>
-                                        <span class="@timeClasses">@GetStartTimeLabel(evt)</span>
+                                        @* The space keeps the name and time separate words in the visible text, which must match the accessible name. *@
+                                        <span class="@nameClasses">@evt.Name</span>@(" ")<span class="@timeClasses">@GetStartTimeLabel(evt)</span>
                                     }
                                 </button>
                             }
