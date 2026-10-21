@@ -472,11 +472,13 @@ public class ThemePageTests : DocsTestBase
         var panel = cut.Find("fieldset[aria-label='Feedback components']");
         Assert.Contains("border", panel.ClassList);
         Assert.Contains("rounded-lg", panel.ClassList);
-        Assert.Matches(@"(\d+) / \1", panel.FirstElementChild!.TextContent);
+        var header = panel.FirstElementChild!.TextContent;
+        Assert.Matches(@"(\d+) / \1", header);
+        var total = int.Parse(System.Text.RegularExpressions.Regex.Match(header, @"(\d+) / \1").Groups[1].Value);
 
         cut.Find("#theme-component-twchip").Change(false);
 
-        Assert.Matches(@"7 / 8", cut.Find("fieldset[aria-label='Feedback components']").TextContent);
+        Assert.Contains($"{total - 1} / {total}", cut.Find("fieldset[aria-label='Feedback components']").TextContent);
     }
 
     [Fact]
