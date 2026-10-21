@@ -1,10 +1,12 @@
-// Copyright (c) 2025 Jack Shuter @ TwBlazor - twblazor.com
+﻿// Copyright (c) 2025 Jack Shuter @ TwBlazor - twblazor.com
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using System.Globalization;
+using System.Linq.Expressions;
 using System.Text;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Enums;
@@ -35,7 +37,7 @@ namespace TwBlazor.Components;
 /// <see cref="uint"/>, <see cref="ulong"/>, <see cref="ushort"/>, <see cref="byte"/>, <see cref="decimal"/>,
 /// <see cref="double"/> or <see cref="float"/>, or the nullable form of one to let the field be left empty.
 /// </typeparam>
-public partial class TwNumeric<T> : TwBlazorTextInputComponentBase, IAsyncDisposable
+public partial class TwNumeric<T> : TwBlazorTextInputComponentBase
 {
     // Page Up and Page Down take this many steps at once, the larger step the spinbutton pattern asks for.
     private const int pageSteps = 10;
@@ -114,6 +116,12 @@ public partial class TwNumeric<T> : TwBlazorTextInputComponentBase, IAsyncDispos
     /// or a button.
     /// </remarks>
     [Parameter] public EventCallback<T> ValueChanged { get; set; }
+
+    /// <summary>
+    /// Gets or sets the expression that identifies the bound value. Set automatically by <c>@bind-Value</c>, it
+    /// lets an enclosing <see cref="EditForm"/> or <see cref="TwForm"/> validate the property the field edits.
+    /// </summary>
+    [Parameter] public Expression<Func<T>>? ValueExpression { get; set; }
 
     /// <summary>
     /// Gets or sets the lowest value allowed. Defaults to the smallest value <typeparamref name="T"/> can hold.
@@ -286,11 +294,11 @@ public partial class TwNumeric<T> : TwBlazorTextInputComponentBase, IAsyncDispos
     // With no button after it, the suffix keeps the variant's padding from the field's end edge.
     private string? suffixStyle => HideSpinButtons && !reservesClearButton ? $"padding-inline-end: {padding};" : null;
 
-    private bool effectiveInvalid => Invalid || inputError is not null || !string.IsNullOrEmpty(validationError);
+    private bool effectiveInvalid => fieldInvalid || inputError is not null || !string.IsNullOrEmpty(validationError);
 
     private string effectiveErrorMessage => (Invalid && !string.IsNullOrEmpty(ErrorMessage)
         ? ErrorMessage
-        : inputError ?? validationError) ?? string.Empty;
+        : inputError ?? (string.IsNullOrEmpty(validationError) ? null : validationError)) ?? fieldErrorMessage;
 
     private string padding => effectiveVariant == InputVariant.Default ? "0px" : variantPadding;
 
@@ -644,10 +652,36 @@ public partial class TwNumeric<T> : TwBlazorTextInputComponentBase, IAsyncDispos
             await ValueChanged.InvokeAsync(value);
         }
 
+        NotifyFieldChanged();
+
         if (Validator is not null)
         {
             validationError = await Validator(value);
         }
+    }
+
+    /// <inheritdoc />
+    protected override string? ownErrorMessage => base.ownErrorMessage
+        ?? inputError
+        ?? (string.IsNullOrEmpty(validationError) ? null : validationError);
+
+    /// <inheritdoc />
+    protected override FieldIdentifier? CreateFieldIdentifier() => ValueExpression is null ? null : FieldIdentifier.Create(ValueExpression);
+
+    /// <summary>
+    /// Runs <see cref="Validator"/> on the current value, then reports whether the field is valid. Called by an
+    /// enclosing <see cref="TwForm"/> when it is submitted.
+    /// </summary>
+    /// <returns><see langword="true"/> when the field is valid.</returns>
+    public override async Task<bool> ValidateAsync()
+    {
+        if (Validator is not null)
+        {
+            validationError = await Validator(Value);
+            await InvokeAsync(StateHasChanged);
+        }
+
+        return !effectiveInvalid;
     }
 
     private void ClearInputError()
@@ -732,11 +766,12 @@ public partial class TwNumeric<T> : TwBlazorTextInputComponentBase, IAsyncDispos
     /// Removes the keyboard and mouse wheel listeners from the field.
     /// </summary>
     /// <returns>A task that completes once the listeners are removed.</returns>
-    public async ValueTask DisposeAsync()
+    public override async ValueTask DisposeAsync()
     {
+        await base.DisposeAsync();
+
         if (!jsAttached || textfield is null)
         {
-            GC.SuppressFinalize(this);
             return;
         }
 

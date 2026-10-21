@@ -125,7 +125,7 @@ public partial class TwProgress<T> : TwBlazorInputComponentBase
     /// <summary>
     /// Gets the aria-invalid value, or <c>null</c> to omit the attribute when the progress bar is valid.
     /// </summary>
-    private string? ariaInvalid => Invalid ? "true" : null;
+    private string? ariaInvalid => fieldInvalid ? "true" : null;
 
     /// <summary>
     /// Gets the aria-busy value, or <c>null</c> to omit the attribute when the progress bar is not busy.

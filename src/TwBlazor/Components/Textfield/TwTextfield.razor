@@ -3,7 +3,7 @@
 @namespace TwBlazor.Components
 @using TwBlazor.Enums
 
-<TwInputRoot RootId="@RootId" RootClass="@RootClass" RootAttributes="@RootAttributes" RootStyle="@Style" RootAriaLabel="@AriaLabel" RootAriaLabelledBy="@AriaLabelledBy" RootErrorMessage="@ErrorMessage" RootErrorId="@errorId">
+<TwInputRoot RootId="@RootId" RootClass="@RootClass" RootAttributes="@RootAttributes" RootStyle="@Style" RootAriaLabel="@AriaLabel" RootAriaLabelledBy="@AriaLabelledBy" RootErrorMessage="@fieldErrorMessage" RootErrorId="@errorId">
     @if (!string.IsNullOrWhiteSpace(Label))
     {
         <TwInputLabel Id="@LabelId" For="@Id" Label="@Label" Class="@LabelClasses" @attributes="@LabelAttributes" />
@@ -27,7 +27,7 @@
                   @onblur="@OnBlur"
                   @onclick="@OnClick"
                   @onkeydown="@OnKeyDown"
-                  aria-invalid="@(Invalid ? "true" : null)"
+                  aria-invalid="@(fieldInvalid ? "true" : null)"
                   aria-describedby="@errorId"
                   aria-label="@AriaLabel"
                   aria-labelledby="@AriaLabelledBy"></textarea>
@@ -86,7 +86,7 @@
                                                        @onblur="@OnBlur"
                                                        @onclick="@OnClick"
                                                        @onkeydown="@OnKeyDown"
-                                                       aria-invalid="@(Invalid ? "true" : null)"
+                                                       aria-invalid="@(fieldInvalid ? "true" : null)"
                                                        aria-describedby="@errorId"
                                                        aria-label="@AriaLabel"
                                                        aria-labelledby="@AriaLabelledBy" />;

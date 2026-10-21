@@ -2,6 +2,8 @@
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Components;
+using System.Linq.Expressions;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
 using System.Globalization;
 using TwBlazor.Configuration.Components;
@@ -90,6 +92,12 @@ public partial class TwDateRangePicker : TwPopoverPickerComponentBase
     /// The <see cref="string"/> bound value displayed in the textbox to the user.
     /// </summary>
     [Parameter] public EventCallback<string> ValueChanged { get; set; }
+
+    /// <summary>
+    /// Gets or sets the expression that identifies the bound value. Set automatically by <c>@bind-Value</c>, it
+    /// lets an enclosing <see cref="EditForm"/> or <see cref="TwForm"/> validate the property the field edits.
+    /// </summary>
+    [Parameter] public Expression<Func<string?>>? ValueExpression { get; set; }
 
     /// <summary>
     /// The .NET custom date format string used to display and parse each date in
@@ -319,6 +327,7 @@ public partial class TwDateRangePicker : TwPopoverPickerComponentBase
         if (ValueChanged.HasDelegate)
         {
             await ValueChanged.InvokeAsync(value);
+            NotifyFieldChanged();
         }
     }
 
@@ -498,6 +507,7 @@ public partial class TwDateRangePicker : TwPopoverPickerComponentBase
         if (ValueChanged.HasDelegate)
         {
             await ValueChanged.InvokeAsync(value);
+            NotifyFieldChanged();
         }
     }
 
@@ -521,4 +531,7 @@ public partial class TwDateRangePicker : TwPopoverPickerComponentBase
         /// </summary>
         Year
     }
+
+    /// <inheritdoc />
+    protected override FieldIdentifier? CreateFieldIdentifier() => ValueExpression is null ? null : FieldIdentifier.Create(ValueExpression);
 }

@@ -2,6 +2,8 @@
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Components;
+using System.Linq.Expressions;
+using Microsoft.AspNetCore.Components.Forms;
 using System.Globalization;
 using System.Numerics;
 using TwBlazor.Builders;
@@ -57,6 +59,12 @@ public partial class TwRating<T> : TwBlazorInputComponentBase where T : INumber<
     /// Gets or sets the callback that is invoked when the user picks a new rating.
     /// </summary>
     [Parameter] public EventCallback<T> ValueChanged { get; set; }
+
+    /// <summary>
+    /// Gets or sets the expression that identifies the bound value. Set automatically by <c>@bind-Value</c>, it
+    /// lets an enclosing <see cref="EditForm"/> or <see cref="TwForm"/> validate the property the field edits.
+    /// </summary>
+    [Parameter] public Expression<Func<T>>? ValueExpression { get; set; }
 
     /// <summary>
     /// Gets or sets the lowest rating the user can pick. Defaults to 0.
@@ -316,6 +324,7 @@ public partial class TwRating<T> : TwBlazorInputComponentBase where T : INumber<
 
         Value = T.CreateSaturating(ToNumber(steps));
         await ValueChanged.InvokeAsync(Value);
+        NotifyFieldChanged();
     }
 
     /// <summary>
@@ -355,4 +364,7 @@ public partial class TwRating<T> : TwBlazorInputComponentBase where T : INumber<
 
     private static string PopDelay(int order) =>
         $"animation-delay:{(order * popStaggerMilliseconds).ToString(CultureInfo.InvariantCulture)}ms";
+
+    /// <inheritdoc />
+    protected override FieldIdentifier? CreateFieldIdentifier() => ValueExpression is null ? null : FieldIdentifier.Create(ValueExpression);
 }

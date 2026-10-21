@@ -118,6 +118,7 @@
     --animate-spin: spin 1s linear infinite;
     --animate-pulse: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
     --blur-xl: 24px;
+    --aspect-video: 16 / 9;
     --default-transition-duration: 150ms;
     --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     --font-cupertino: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", system-ui, "Segoe UI", sans-serif;
@@ -193,6 +194,9 @@
   }
   .start-2 {
     inset-inline-start: calc(var(--spacing) * 2);
+  }
+  .start-3 {
+    inset-inline-start: calc(var(--spacing) * 3);
   }
   .start-full {
     inset-inline-start: 100%;
@@ -451,6 +455,9 @@
   }
   .aspect-square {
     aspect-ratio: 1 / 1;
+  }
+  .aspect-video {
+    aspect-ratio: var(--aspect-video);
   }
   .size-2 {
     width: calc(var(--spacing) * 2);
@@ -830,6 +837,9 @@
   }
   .scrollbar-gutter-stable {
     scrollbar-gutter: stable;
+  }
+  .list-disc {
+    list-style-type: disc;
   }
   .list-none {
     list-style-type: none;
@@ -1779,6 +1789,12 @@
   }
   .ps-4 {
     padding-inline-start: calc(var(--spacing) * 4);
+  }
+  .ps-5 {
+    padding-inline-start: calc(var(--spacing) * 5);
+  }
+  .ps-9 {
+    padding-inline-start: calc(var(--spacing) * 9);
   }
   .ps-10 {
     padding-inline-start: calc(var(--spacing) * 10);
@@ -2827,6 +2843,9 @@
     .hover\:text-cupertino-700:hover {
       color: var(--color-cupertino-700);
     }
+    .hover\:no-underline:hover {
+      text-decoration-line: none;
+    }
     .hover\:underline:hover {
       text-decoration-line: underline;
     }
@@ -3501,6 +3520,9 @@
   .dark\:border-cupertino-500:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
     border-color: var(--color-cupertino-500);
   }
+  .dark\:border-gray-200:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+    border-color: var(--color-gray-200);
+  }
   .dark\:border-gray-700:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
     border-color: var(--color-gray-700);
   }
@@ -3512,6 +3534,9 @@
   }
   .dark\:border-red-400:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
     border-color: var(--color-red-400);
+  }
+  .dark\:border-transparent:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+    border-color: transparent;
   }
   .dark\:border-yellow-400:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
     border-color: var(--color-yellow-400);

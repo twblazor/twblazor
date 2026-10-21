@@ -171,6 +171,14 @@
         "url": "/file-upload"
       },
       {
+        "id": "form-navitem",
+        "display": "Form",
+        "name": "TwForm",
+        "url": "/form",
+        "theme": "TwFormTheme",
+        "isNew": true
+      },
+      {
         "id": "numeric-navitem",
         "display": "Numeric",
         "name": "TwNumeric",

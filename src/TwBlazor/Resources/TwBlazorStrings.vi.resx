@@ -930,4 +930,7 @@
   <data name="Marker_Failed" xml:space="preserve">
     <value>Thất bại</value>
   </data>
+  <data name="Form_SummaryTitle" xml:space="preserve">
+    <value>Có vấn đề</value>
+  </data>
 </root>
