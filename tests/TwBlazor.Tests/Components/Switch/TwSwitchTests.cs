@@ -221,7 +221,7 @@ public class TwSwitchTests : TwBlazorTestBase
 
         // Check for toggle circle
         Assert.Contains(spans, s => s.GetAttribute("class")?.Contains("bg-white") == true);
-        Assert.Contains(spans, s => s.GetAttribute("class")?.Contains("peer-checked:translate-x-full") == true);
+        Assert.Contains(spans, s => s.GetAttribute("class")?.Contains("peer-checked:start-[calc(100%-1.375rem)]") == true);
     }
 
     [Fact]
@@ -765,8 +765,8 @@ public class TwSwitchTests : TwBlazorTestBase
             .Add(x => x.Color, color)
             .Add(x => x.Value, false));
 
-        // Assert
-        Assert.Contains(expected, cut.Markup);
+        // Assert - read the class attribute, since the markup HTML-encodes the "&" in Light's thumb selector.
+        Assert.Contains(cut.FindAll("span"), s => s.GetAttribute("class")?.Contains(expected) == true);
     }
 
     [Fact]
@@ -783,18 +783,20 @@ public class TwSwitchTests : TwBlazorTestBase
     }
 
     [Fact]
-    public void ShouldOutlineToggleAndTrack_SoTheCheckedKnobEdgeStaysVisible()
+    public void ShouldKeepTheCheckedKnobEdgeCrisp_WithoutABorder()
     {
         // Arrange & Act
         var cut = TestContext.Render<TwSwitch<bool>>(p => p
             .Add(x => x.Value, true)
             .Add(x => x.Color, Color.Primary));
 
-        // Assert - regression: a large soft shadow-lg on the knob smudged its edge against the colored track.
+        // Assert - regression: a large soft shadow-lg on the knob smudged its edge against the colored track. A
+        // tight 1px shadow keeps the edge crisp instead of a border; the track keeps its outline.
         var spans = cut.FindAll("span");
-        var toggle = Assert.Single(spans, s => s.GetAttribute("class")?.Contains("peer-checked:translate-x-full") == true);
+        var toggle = Assert.Single(spans, s => s.GetAttribute("class")?.Contains("peer-checked:start-[calc(100%-1.375rem)]") == true);
         var toggleClasses = toggle.GetAttribute("class")!;
-        Assert.Contains("ring-1", toggleClasses);
+        Assert.DoesNotContain("ring-", toggleClasses);
+        Assert.Contains("shadow-[0_0_1px_", toggleClasses);
         Assert.DoesNotContain("shadow-lg", toggleClasses);
 
         var track = Assert.Single(spans, s => s.GetAttribute("class")?.Contains("ring-inset") == true);
