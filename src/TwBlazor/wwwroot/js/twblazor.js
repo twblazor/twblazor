@@ -2421,7 +2421,10 @@ globalThis.twPopover = {
         const place = function () {
             globalThis.twPopover.position(anchor, panel, settings.placement, settings.align, settings.offset);
         };
+        // The panel is rendered fixed and hidden, so the page never paints it in the wrong place while the render
+        // and this call are a round trip apart. Show it once it is in position.
         place();
+        panel.style.visibility = '';
 
         // The panel follows its trigger as the page scrolls or resizes. A scroll inside the panel is left alone.
         const reposition = function (e) {

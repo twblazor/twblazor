@@ -26,14 +26,14 @@
     </PageCard>
 
     <PageCard Title="Placement and alignment">
-        <Description>Set <code>Placement</code> to open the panel on another side of the button, and <code>Align</code> to line it up with the button's start, centre or end. When there isn't room on the chosen side, the panel flips to the opposite one. <code>Start</code> and <code>End</code> follow the reading direction, so they swap in a right to left layout.</Description>
+        <Description>Set <code>Placement</code> to open the panel on another side of the button, and <code>Align</code> to line it up with the button's start, centre or end (<code>Start</code> by default). When there isn't room on the chosen side, the panel flips to the opposite one. <code>Start</code> and <code>End</code> follow the reading direction, so they swap in a right to left layout.</Description>
 
         <CodeExample Name="PopoverPlacement">
             <div class="flex flex-wrap gap-3">
-                <TwPopover Label="Top" Placement="PopoverPlacement.Top" Align="PopoverAlign.Center" AutoFocus="false">Opens above, centred.</TwPopover>
-                <TwPopover Label="Bottom" Placement="PopoverPlacement.Bottom" AutoFocus="false">Opens below.</TwPopover>
-                <TwPopover Label="Start" Placement="PopoverPlacement.Start" AutoFocus="false">Opens before the button.</TwPopover>
-                <TwPopover Label="End" Placement="PopoverPlacement.End" AutoFocus="false">Opens after the button.</TwPopover>
+                <TwPopover Label="Top" Placement="PopoverPlacement.Top" Align="PopoverAlign.Center" AutoFocus="false">Opens above.</TwPopover>
+                <TwPopover Label="Bottom" Placement="PopoverPlacement.Bottom" Align="PopoverAlign.Center" AutoFocus="false">Opens below.</TwPopover>
+                <TwPopover Label="Start" Placement="PopoverPlacement.Start" Align="PopoverAlign.Center" AutoFocus="false">Opens before the button.</TwPopover>
+                <TwPopover Label="End" Placement="PopoverPlacement.End" Align="PopoverAlign.Center" AutoFocus="false">Opens after the button.</TwPopover>
             </div>
         </CodeExample>
     </PageCard>
@@ -60,7 +60,7 @@
                 </TriggerContent>
                 <ChildContent>
                     <p class="mb-3">Signed in as jack&#64;example.com</p>
-                    <TwButton Label="Sign out" Dense />
+                    <TwButton Label="Sign out" Color="Color.Accent" Variant="ButtonVariant.Outlined" Dense />
                 </ChildContent>
             </TwPopover>
         </CodeExample>

@@ -140,6 +140,18 @@ describe('twPopover.open and close', () => {
         globalThis.twPopover.close(root, panel);
     });
 
+    test('shows the panel only once it is positioned', () => {
+        const { root, anchor, panel } = build(rect(100, 100, 80, 30), { width: 200, height: 100 });
+        panel.style.visibility = 'hidden';
+
+        globalThis.twPopover.open(root, anchor, panel, { invokeMethodAsync: vi.fn() }, { autoFocus: false });
+
+        expect(panel.style.visibility).toBe('');
+        expect(panel.dataset.twSide).toBe('bottom');
+
+        globalThis.twPopover.close(root, panel);
+    });
+
     test('leaves focus alone without autoFocus', () => {
         const { root, anchor, panel } = build(rect(100, 100, 80, 30), { width: 200, height: 100 });
         document.getElementById('trigger').focus();
