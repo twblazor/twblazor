@@ -1,0 +1,99 @@
+@page "/popover"
+
+<PageContainer Title="TwPopover" Path="/popover" Beta Description="TwPopover is a Blazor popover component: a button that opens a floating panel of rich content, placed on any side and kept on screen." ThemeType="typeof(TwPopoverTheme)">
+    <PageCard Title="Basic usage">
+        <Description>Give <code>TwPopover</code> a <code>Label</code> for its button and put the panel's content inside it. The panel opens below the button, moves focus into itself, and closes on Escape, on a click outside it, or when focus leaves it.</Description>
+
+        <CodeExample Name="PopoverBasic">
+            <TwPopover Label="Share">
+                <p class="mb-3">Anyone with the link can view this page.</p>
+                <TwTextfield T="string" Label="Link" Value="@("https://twblazor.com/popover")" ReadOnly />
+            </TwPopover>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Title and close button">
+        <Description>Set <code>Title</code> to give the panel a heading, which also names it for screen readers. Set <code>ShowCloseButton</code> to add a close button in its top corner, which helps on touch screens.</Description>
+
+        <CodeExample Name="PopoverTitle">
+            <TwPopover Label="Dimensions" Icon="Icon.Arrows_Angle_Expand" Title="Dimensions" ShowCloseButton>
+                <div class="grid grid-cols-2 gap-3">
+                    <TwNumeric T="int" Label="Width" Value="1280" />
+                    <TwNumeric T="int" Label="Height" Value="720" />
+                </div>
+            </TwPopover>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Placement and alignment">
+        <Description>Set <code>Placement</code> to open the panel on another side of the button, and <code>Align</code> to line it up with the button's start, centre or end. When there isn't room on the chosen side, the panel flips to the opposite one. <code>Start</code> and <code>End</code> follow the reading direction, so they swap in a right to left layout.</Description>
+
+        <CodeExample Name="PopoverPlacement">
+            <div class="flex flex-wrap gap-3">
+                <TwPopover Label="Top" Placement="PopoverPlacement.Top" Align="PopoverAlign.Center" AutoFocus="false">Opens above, centred.</TwPopover>
+                <TwPopover Label="Bottom" Placement="PopoverPlacement.Bottom" AutoFocus="false">Opens below.</TwPopover>
+                <TwPopover Label="Start" Placement="PopoverPlacement.Start" AutoFocus="false">Opens before the button.</TwPopover>
+                <TwPopover Label="End" Placement="PopoverPlacement.End" AutoFocus="false">Opens after the button.</TwPopover>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Icon button">
+        <Description>Set <code>IconOnly</code> to show just the <code>Icon</code>. Give it an <code>AriaLabel</code>, which names the button and shows as its tooltip.</Description>
+
+        <CodeExample Name="PopoverIcon">
+            <TwPopover Icon="Icon.Info_Circle" IconOnly AriaLabel="About billing" Title="About billing" AutoFocus="false">
+                <p>You are billed on the first day of each month. Changes to your plan apply from the next bill.</p>
+            </TwPopover>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Your own trigger">
+        <Description>Use <code>TriggerContent</code> to open the panel from an element of your own. Splat <code>context.Attributes</code> onto it, which ties it to the panel for assistive technology, and call <code>context.ToggleAsync</code> when it is clicked. Use a button, so it can be reached and pressed from the keyboard.</Description>
+
+        <CodeExample Name="PopoverTrigger">
+            <TwPopover Title="Jack Shuter" Align="PopoverAlign.Start">
+                <TriggerContent>
+                    <button type="button" class="rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600" aria-label="Account" @attributes="context.Attributes" @onclick="context.ToggleAsync">
+                        <TwAvatar Initials="JS" Name="Jack Shuter" />
+                    </button>
+                </TriggerContent>
+                <ChildContent>
+                    <p class="mb-3">Signed in as jack&#64;example.com</p>
+                    <TwButton Label="Sign out" Dense />
+                </ChildContent>
+            </TwPopover>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Opening from code">
+        <Description>Bind <code>Open</code> with <code>@@bind-Open</code> to open and close the panel from code, or call <code>OpenAsync</code>, <code>CloseAsync</code> and <code>ToggleAsync</code> on a reference to it.</Description>
+
+        <CodeExample Name="PopoverControlled" CSharpName="PopoverControlledCode">
+            <div class="flex flex-wrap items-center gap-3">
+                <TwPopover Label="Filters" Icon="Icon.Funnel" Title="Filters" @bind-Open="filtersOpen">
+                    <div class="flex flex-col gap-3">
+                        <TwSwitch T="bool" Label="In stock only" @bind-Value="inStockOnly" />
+                        <TwSwitch T="bool" Label="On sale" @bind-Value="onSale" />
+                        <TwButton Label="Apply" Dense OnClick="@(() => filtersOpen = false)" />
+                    </div>
+                </TwPopover>
+                <span role="status" class="text-sm">Filters are @(filtersOpen ? "open" : "closed").</span>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Accessibility">
+        <Description>
+            The button reports <code>aria-haspopup="dialog"</code>, whether the panel is open, and which panel it controls. The panel is a non-modal dialog named by its <code>Title</code>, or by the button when there is no title. Opening it moves focus inside, onto an element marked <code>data-tw-autofocus</code>, its first control, or the panel itself. Escape closes it and returns focus to the button. Tabbing out or clicking elsewhere closes it and leaves focus where you moved it. For panels that only show text, set <code>AutoFocus="false"</code>: the text then follows the button in the Tab and reading order.
+        </Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample PopoverControlledCode
+    private bool filtersOpen;
+    private bool inStockOnly = true;
+    private bool onSale;
+    #endregion
+}

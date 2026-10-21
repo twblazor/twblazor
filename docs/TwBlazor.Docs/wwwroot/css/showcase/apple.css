@@ -74,6 +74,7 @@
     --color-white: #fff;
     --spacing: 0.25rem;
     --container-xs: 20rem;
+    --container-sm: 24rem;
     --container-md: 28rem;
     --container-lg: 32rem;
     --container-xl: 36rem;
@@ -118,6 +119,7 @@
     --animate-spin: spin 1s linear infinite;
     --animate-pulse: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
     --blur-xl: 24px;
+    --aspect-video: 16 / 9;
     --default-transition-duration: 150ms;
     --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     --font-cupertino: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", system-ui, "Segoe UI", sans-serif;
@@ -193,6 +195,9 @@
   }
   .start-2 {
     inset-inline-start: calc(var(--spacing) * 2);
+  }
+  .start-3 {
+    inset-inline-start: calc(var(--spacing) * 3);
   }
   .start-full {
     inset-inline-start: 100%;
@@ -452,6 +457,9 @@
   .aspect-square {
     aspect-ratio: 1 / 1;
   }
+  .aspect-video {
+    aspect-ratio: var(--aspect-video);
+  }
   .size-2 {
     width: calc(var(--spacing) * 2);
     height: calc(var(--spacing) * 2);
@@ -710,6 +718,9 @@
   }
   .max-w-none {
     max-width: none;
+  }
+  .max-w-sm {
+    max-width: var(--container-sm);
   }
   .max-w-xs {
     max-width: var(--container-xs);
@@ -1780,6 +1791,9 @@
   .ps-4 {
     padding-inline-start: calc(var(--spacing) * 4);
   }
+  .ps-9 {
+    padding-inline-start: calc(var(--spacing) * 9);
+  }
   .ps-10 {
     padding-inline-start: calc(var(--spacing) * 10);
   }
@@ -1788,6 +1802,9 @@
   }
   .pe-3 {
     padding-inline-end: calc(var(--spacing) * 3);
+  }
+  .pe-8 {
+    padding-inline-end: calc(var(--spacing) * 8);
   }
   .pe-10 {
     padding-inline-end: calc(var(--spacing) * 10);
@@ -3501,6 +3518,9 @@
   .dark\:border-cupertino-500:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
     border-color: var(--color-cupertino-500);
   }
+  .dark\:border-gray-200:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+    border-color: var(--color-gray-200);
+  }
   .dark\:border-gray-700:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
     border-color: var(--color-gray-700);
   }
@@ -3512,6 +3532,9 @@
   }
   .dark\:border-red-400:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
     border-color: var(--color-red-400);
+  }
+  .dark\:border-transparent:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+    border-color: transparent;
   }
   .dark\:border-yellow-400:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
     border-color: var(--color-yellow-400);

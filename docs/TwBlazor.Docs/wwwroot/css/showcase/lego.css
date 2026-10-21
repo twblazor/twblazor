@@ -67,6 +67,7 @@
     --color-white: #fff;
     --spacing: 0.25rem;
     --container-xs: 20rem;
+    --container-sm: 24rem;
     --container-md: 28rem;
     --container-lg: 32rem;
     --container-xl: 36rem;
@@ -109,6 +110,7 @@
     --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
     --animate-spin: spin 1s linear infinite;
     --animate-pulse: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    --aspect-video: 16 / 9;
     --default-transition-duration: 150ms;
     --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     --font-brick: "Cera Pro", system-ui, "Segoe UI", Arial, sans-serif;
@@ -466,6 +468,9 @@
   .aspect-square {
     aspect-ratio: 1 / 1;
   }
+  .aspect-video {
+    aspect-ratio: var(--aspect-video);
+  }
   .size-2 {
     width: calc(var(--spacing) * 2);
     height: calc(var(--spacing) * 2);
@@ -731,6 +736,9 @@
   }
   .max-w-none {
     max-width: none;
+  }
+  .max-w-sm {
+    max-width: var(--container-sm);
   }
   .max-w-xl {
     max-width: var(--container-xl);
@@ -1830,6 +1838,9 @@
   .ps-4 {
     padding-inline-start: calc(var(--spacing) * 4);
   }
+  .ps-9 {
+    padding-inline-start: calc(var(--spacing) * 9);
+  }
   .ps-10 {
     padding-inline-start: calc(var(--spacing) * 10);
   }
@@ -1838,6 +1849,9 @@
   }
   .pe-3 {
     padding-inline-end: calc(var(--spacing) * 3);
+  }
+  .pe-8 {
+    padding-inline-end: calc(var(--spacing) * 8);
   }
   .pe-10 {
     padding-inline-end: calc(var(--spacing) * 10);
@@ -3538,6 +3552,9 @@
   .dark\:border-brickorange-400:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
     border-color: var(--color-brickorange-400);
   }
+  .dark\:border-gray-200:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+    border-color: var(--color-gray-200);
+  }
   .dark\:border-gray-700:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
     border-color: var(--color-gray-700);
   }
@@ -3549,6 +3566,9 @@
   }
   .dark\:border-red-400:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
     border-color: var(--color-red-400);
+  }
+  .dark\:border-transparent:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+    border-color: transparent;
   }
   .dark\:border-yellow-400:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
     border-color: var(--color-yellow-400);
