@@ -28,6 +28,13 @@ public abstract partial class AccessibilityScanTests(A11yFixture fixture)
         "(() => { const seen = new Map(); document.querySelectorAll('[id]').forEach(el => { if (el.id) seen.set(el.id, (seen.get(el.id) ?? 0) + 1); });"
         + " return [...seen].filter(([, count]) => count > 1).map(([id]) => id); })()";
 
+    // Entrance animations (the landing page's fade-ups run for over a second) can still be mid-fade when the
+    // network goes idle on a slow runner, so axe measured half-transparent text. Jump each finite, time-based
+    // animation to its end state; looping and scroll-driven ones are left alone.
+    private const string finishAnimationsScript =
+        "(() => { for (const a of document.getAnimations()) { if (a.timeline !== document.timeline || a.effect?.getComputedTiming().iterations === Infinity) continue;"
+        + " try { a.finish(); } catch { } } })()";
+
     /// <summary>
     /// Scans one route in light or dark mode and fails on any axe violation or duplicate id.
     /// </summary>
@@ -51,6 +58,7 @@ public abstract partial class AccessibilityScanTests(A11yFixture fixture)
 
             await page.GotoAsync(new Uri(fixture.BaseAddress, route).ToString());
             await page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+            await page.EvaluateAsync(finishAnimationsScript);
 
             var results = await page.RunAxe(new AxeRunOptions
             {
