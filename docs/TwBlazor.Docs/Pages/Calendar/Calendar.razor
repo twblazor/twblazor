@@ -1,8 +1,10 @@
 @page "/calendar"
 @using TwBlazor.Models
+@using TwBlazor.Localization
 @using TwBlazor.Services
 
 @inject ITwDialogService DialogService
+@inject ITwLocalizer Localizer
 
 <PageContainer Title="TwCalendar" Beta
     ThemeType="typeof(TwCalendarTheme)"
@@ -105,12 +107,14 @@
     <PageCard Title="Custom event content">
         <Description>
             Use <code>EventContentTemplate</code> to change how each event looks in all three views.
+            Each event's accessible name is its name and start time (and end time in the Day and Week
+            views), so show the name and start time in the same format, separated by a space. Voice
+            control users can then say what they see to open the event.
         </Description>
         <CodeExample Name="CalendarCustomContent" CSharpName="CalendarCustomContentCode">
             <TwCalendar T="EventDetails" @bind-SelectedDate="customContentSelectedDate" @bind-View="customContentView" Schedules="_schedules" DialogProperties="_dialogProperties">
                 <EventContentTemplate>
-                    <span class="text-xs font-semibold">@context.Name</span>
-                    <span class="block text-xs opacity-80">@context.DateTimeStart.ToString("h:mm tt")</span>
+                    <span class="text-xs font-semibold">@context.Name</span>@(" ")<span class="block text-xs opacity-80">@Localizer.Formats.Format(context.DateTimeStart.DateTime, Localizer.Formats.ShortTime)</span>
                 </EventContentTemplate>
             </TwCalendar>
         </CodeExample>
