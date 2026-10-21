@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Deque.AxeCore.Commons" Version="4.13.0" />
+    <PackageReference Include="Deque.AxeCore.Commons" Version="4.14.0" />
     <PackageReference Include="Deque.AxeCore.Playwright" Version="4.13.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.11.0" />
     <PackageReference Include="Microsoft.Playwright" Version="1.63.0" />
