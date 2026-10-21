@@ -4914,6 +4914,9 @@
   .peer-\[\:not\(\:checked\)\]\:bg-\[oklch\(88\%_0_0\)\]:is(:where(.peer):is(:not(:checked)) ~ *) {
     background-color: oklch(88% 0 0);
   }
+  .peer-\[\:not\(\:checked\)\]\:bg-neutral-300:is(:where(.peer):is(:not(:checked)) ~ *) {
+    background-color: var(--color-neutral-300);
+  }
   .peer-\[\:not\(\:checked\)\]\:bg-white\/25:is(:where(.peer):is(:not(:checked)) ~ *) {
     background-color: color-mix(in srgb, #fff 25%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
@@ -9211,9 +9214,6 @@
   }
   .\[\&_label\>span\]\:hidden label > span {
     display: none;
-  }
-  .peer-checked\:\[\&\+\*\]\:bg-gray-900:is(:where(.peer):checked ~ *) + * {
-    background-color: var(--color-gray-900);
   }
   .\[\&\.active\]\:bg-purple-50.active {
     background-color: var(--color-purple-50);

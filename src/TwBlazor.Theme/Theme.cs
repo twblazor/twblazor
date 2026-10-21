@@ -1358,8 +1358,6 @@ public static class Theme
                     Header = $"{display.Flex} {flexbox.Align.Center} {flexbox.ShrinkNone} h-14 -mt-4",
                     Search = $"{positioning.Relative} {spacing.MarginTop.Lg}",
                     SearchIcon = $"{positioning.Absolute} start-3 top-1/2 z-10 -translate-y-1/2 {typography.Size.Sm} leading-none {neutralText.Muted} {interaction.PointerEventsNone}",
-                    // Matches the h-9 navigation rows. The outlined variant rounds all four corners; its border is
-                    // hidden and the field filled so it reads as a recessed search box.
                     SearchInput = $"h-9 ps-9 border-transparent dark:border-transparent {neutralTrack}",
                     SearchInputVariant = InputVariant.Outlined,
                     NavbarFixedInset = "left-0 right-0",
@@ -1509,17 +1507,9 @@ public static class Theme
                         Danger = "peer-checked:bg-red-600 dark:peer-checked:bg-red-500",
                         Warning = "peer-checked:bg-yellow-600 dark:peer-checked:bg-yellow-500",
                         Info = "peer-checked:bg-blue-600 dark:peer-checked:bg-blue-500",
-                        // Light and Dark are for switches on a surface that stays light or dark, so they don't
-                        // change with the page theme. Light sits on a dark surface: off is a faint white track,
-                        // on is a light grey just dark enough for the white thumb to stand out.
                         Light = "peer-[:not(:checked)]:bg-white/25 peer-checked:bg-[oklch(80%_0.01_258)]",
-                        Dark = "peer-[:not(:checked)]:bg-[oklch(88%_0_0)] peer-checked:bg-gray-900",
+                        Dark = "peer-[:not(:checked)]:bg-neutral-300 peer-checked:bg-gray-900",
                     },
-                    // The thumb is placed by its two edges rather than moved, so it can stretch like a bubble: the
-                    // edge heading for the new side springs ahead and the other follows 80ms later, then it settles
-                    // back into a circle. It has no border: a tight 1px shadow keeps its edge crisp on any track
-                    // and a soft one lifts it. 1.375rem is the 2px gap plus the 20px thumb; it widens to 1.75rem
-                    // while pressed. Start and end follow the reading direction, so right to left needs nothing extra.
                     Switch = $"{positioning.Absolute} top-1/2 h-5 -translate-y-1/2 start-0.5 end-[calc(100%-1.375rem)] peer-checked:start-[calc(100%-1.375rem)] peer-checked:end-0.5 peer-[:not(:checked):active:not(:disabled):not([aria-readonly])]:end-[calc(100%-1.75rem)] peer-[:checked:active:not(:disabled):not([aria-readonly])]:start-[calc(100%-1.75rem)] bg-white {rounded.Full} shadow-[0_0_1px_rgb(0_0_0/0.3),0_1px_2px_rgb(0_0_0/0.15),0_3px_8px_-2px_rgb(0_0_0/0.2)] forced-colors:bg-[ButtonText] transition-[inset-inline-start,inset-inline-end] duration-300 ease-[cubic-bezier(0.3,1.4,0.5,1)] [transition-delay:0ms,80ms] peer-checked:[transition-delay:80ms,0ms] motion-reduce:transition-none",
                     Track = $"{positioning.Absolute} inset-0 bg-[oklch(88%_0_0)] dark:bg-[oklch(34%_0.018_253)] {rounded.Full} {neutralHairlineRing} {borderWidth.Thin} {neutralSurface.BorderStrong} forced-colors:peer-checked:bg-[Highlight] peer-disabled:opacity-40 transition-[background-color,opacity] {transition.DurationFast} motion-reduce:transition-none {transition.EaseInOut} peer-disabled:pointer-events-none",
                     WrapperSize = "w-10 h-6",
