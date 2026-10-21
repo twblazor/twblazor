@@ -3557,9 +3557,6 @@
   .pe-4 {
     padding-inline-end: calc(var(--spacing) * 4);
   }
-  .pe-8 {
-    padding-inline-end: calc(var(--spacing) * 8);
-  }
   .pe-10 {
     padding-inline-end: calc(var(--spacing) * 10);
   }
@@ -9839,10 +9836,12 @@ h1, h2, h3, h4, h5, h6 {
   font-optical-sizing: auto;
   font-style: normal;
 }
-.docs-card p, .docs-card .docs-text {
-  font-size: 1rem;
-  line-height: 1.75;
-  text-wrap: pretty;
+@layer base {
+  .docs-card p, .docs-card .docs-text {
+    font-size: 1rem;
+    line-height: 1.75;
+    text-wrap: pretty;
+  }
 }
 :where(code):not(pre code) {
   overflow-wrap: anywhere;

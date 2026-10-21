@@ -1227,7 +1227,7 @@ public static class AppleTheme
                     FocusVisibleBorder = "focus-visible:border-cupertino-600 dark:focus-visible:border-cupertino-400 focus-visible:ring-2 focus-visible:ring-cupertino-500 dark:focus-visible:ring-cupertino-400",
                     FocusWithinBorder = "has-[:focus-visible]:border-cupertino-600 dark:has-[:focus-visible]:border-cupertino-400 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-cupertino-500 dark:has-[:focus-visible]:ring-cupertino-400",
                     FilledBackgroundColor = neutralSurface.Elevated,
-                    ErrorMessage = $"{spacing.MarginTop.Sm} text-[0.6875rem] leading-4 {typography.Weight.Medium} {text.Medium.Danger} dark:text-rose-300"
+                    ErrorMessage = $"{spacing.MarginTop.Sm} text-xs leading-4 {typography.Weight.Medium} {text.Medium.Danger} dark:text-rose-300"
                 },
                 new TwNumericTheme
                 {
