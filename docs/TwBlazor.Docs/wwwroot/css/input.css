@@ -293,12 +293,15 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Reading text in docs cards is set at body size. Scoped to paragraphs so headings, inputs and the
    demo components keep their own fonts and sizes. The line height leaves room for an inline code chip,
-   whose padding and border make it taller than the text, so chips on wrapped lines do not crowd each other. */
-.docs-card p,
-.docs-card .docs-text {
-    font-size: 1rem;
-    line-height: 1.75;
-    text-wrap: pretty;
+   whose padding and border make it taller than the text, so chips on wrapped lines do not crowd each other.
+   It sits in the base layer so a paragraph's own size classes, such as an input's error message, still win. */
+@layer base {
+    .docs-card p,
+    .docs-card .docs-text {
+        font-size: 1rem;
+        line-height: 1.75;
+        text-wrap: pretty;
+    }
 }
 
 :where(code):not(pre code) {

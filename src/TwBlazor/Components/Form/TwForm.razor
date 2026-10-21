@@ -1,0 +1,28 @@
+@namespace TwBlazor.Components
+@using Microsoft.AspNetCore.Components.Forms
+@inherits TwBlazorComponentBase
+
+<EditForm id="@Id"
+          EditContext="@editContext"
+          OnSubmit="@HandleSubmitAsync"
+          FormName="@FormName"
+          Enhance="@Enhance"
+          class="@classes"
+          style="@Style"
+          aria-label="@AriaLabel"
+          aria-labelledby="@AriaLabelledBy"
+          novalidate="@(!NativeValidation)"
+          @attributes="Attributes"
+          Context="formContext">
+    <CascadingValue Value="this" IsFixed="true">
+        @if (DataAnnotationsValidation)
+        {
+            <DataAnnotationsValidator />
+        }
+        @if (ShowSummary)
+        {
+            @renderSummary
+        }
+        @ChildContent?.Invoke(formContext)
+    </CascadingValue>
+</EditForm>

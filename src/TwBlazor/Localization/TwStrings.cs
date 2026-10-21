@@ -971,4 +971,7 @@ public static class TwStrings
 
     /// <summary>The key for "Failed", a step that failed.</summary>
     public const string Marker_Failed = "Marker_Failed";
+
+    /// <summary>The key for "There is a problem", the heading of a form's error summary.</summary>
+    public const string Form_SummaryTitle = "Form_SummaryTitle";
 }

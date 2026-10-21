@@ -2,8 +2,10 @@
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Web;
 using System.Globalization;
+using System.Linq.Expressions;
 using TwBlazor.Builders;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Enums;
@@ -57,6 +59,12 @@ public partial class TwTextfield<T> : TwBlazorTextInputComponentBase
     /// It enables two-way data binding when used with the @bind-Value directive in Blazor.
     /// </remarks>
     [Parameter] public EventCallback<T> ValueChanged { get; set; } = default!;
+
+    /// <summary>
+    /// Gets or sets the expression that identifies the bound value. Set automatically by <c>@bind-Value</c>, it
+    /// lets an enclosing <see cref="EditForm"/> or <see cref="TwForm"/> validate the property the field edits.
+    /// </summary>
+    [Parameter] public Expression<Func<T>>? ValueExpression { get; set; }
 
     /// <summary>
     /// Gets or sets the callback that is invoked when the textfield is focused.
@@ -391,11 +399,32 @@ public partial class TwTextfield<T> : TwBlazorTextInputComponentBase
             await ValueChanged.InvokeAsync(value);
         }
 
+        NotifyFieldChanged();
+        await RunValidatorAsync(value);
+    }
+
+    private async Task RunValidatorAsync(T value)
+    {
         if (Validator is not null)
         {
             var error = await Validator(value);
             Invalid = !string.IsNullOrEmpty(error);
             ErrorMessage = error ?? string.Empty;
         }
+    }
+
+    /// <inheritdoc />
+    protected override FieldIdentifier? CreateFieldIdentifier() => ValueExpression is null ? null : FieldIdentifier.Create(ValueExpression);
+
+    /// <summary>
+    /// Runs <see cref="Validator"/> on the current value, then reports whether the field is valid. Called by an
+    /// enclosing <see cref="TwForm"/> when it is submitted.
+    /// </summary>
+    /// <returns><see langword="true"/> when the field is valid.</returns>
+    public override async Task<bool> ValidateAsync()
+    {
+        await RunValidatorAsync(Value);
+        await InvokeAsync(StateHasChanged);
+        return await base.ValidateAsync();
     }
 }

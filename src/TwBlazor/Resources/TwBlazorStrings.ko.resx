@@ -933,4 +933,7 @@
   <data name="Marker_Failed" xml:space="preserve">
     <value>실패</value>
   </data>
+  <data name="Form_SummaryTitle" xml:space="preserve">
+    <value>문제가 있습니다</value>
+  </data>
 </root>

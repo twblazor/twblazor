@@ -1,4 +1,4 @@
-using Bunit;
+﻿using Bunit;
 using Microsoft.AspNetCore.Components;
 using System.Reflection;
 using TwBlazor.Abstraction;
@@ -369,6 +369,7 @@ public class ComponentContractTests : TwBlazorTestBase
     {
         [typeof(TwBlazor.Components.TwQrCode)] = new() { ["Value"] = "https://twblazor.com" },
         [typeof(TwBlazor.Components.TwBarcode)] = new() { ["Value"] = "TWBLAZOR" },
+        [typeof(TwBlazor.Components.TwForm)] = new() { ["Model"] = new object() },
     };
 
     private IRenderedComponent<IComponent> RenderComponentWithParameters(Type componentType, Dictionary<string, object> parameters)
