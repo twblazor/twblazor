@@ -1227,7 +1227,7 @@ public static class MicrosoftTheme
                     FocusVisibleBorder = "focus-visible:border-b-2 focus-visible:border-b-fluentblue-600 dark:focus-visible:border-b-fluentblue-400",
                     FocusWithinBorder = "has-[:focus-visible]:border-b-2 has-[:focus-visible]:border-b-fluentblue-600 dark:has-[:focus-visible]:border-b-fluentblue-400",
                     FilledBackgroundColor = neutralSurface.Elevated,
-                    ErrorMessage = $"{spacing.MarginTop.Sm} {typography.Size.Xs} {text.Medium.Danger} {darkText.Medium.Danger}"
+                    ErrorMessage = $"{spacing.MarginTop.Sm} text-[0.6875rem] leading-4 {typography.Weight.Medium} {text.Medium.Danger} dark:text-rose-300"
                 },
                 new TwNumericTheme
                 {

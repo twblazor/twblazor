@@ -93,82 +93,11 @@
     "category": "Forms",
     "items": [
       {
-        "id": "autocomplete-navitem",
-        "display": "Autocomplete",
-        "name": "TwAutocomplete",
-        "url": "/autocomplete",
-        "isNew": true
-      },
-      {
         "id": "button-navitem",
         "display": "Button",
         "name": "TwButton",
         "url": "/button",
         "theme": "TwButtonTheme"
-      },
-      {
-        "id": "checkbox-navitem",
-        "display": "Checkbox",
-        "name": "TwCheckbox",
-        "url": "/checkbox",
-        "theme": "TwCheckboxTheme"
-      },
-      {
-        "id": "color-picker-navitem",
-        "display": "Color Picker",
-        "name": "TwColorPicker",
-        "url": "/color-picker",
-        "theme": "TwColorPickerTheme"
-      },
-      {
-        "id": "dates-time-navitem",
-        "display": "Date & Time Pickers",
-        "items": [
-          {
-            "id": "date-picker-navitem",
-            "display": "Date",
-            "name": "TwDatePicker",
-            "url": "/date-picker",
-            "theme": "TwDatePickerTheme"
-          },
-          {
-            "id": "date-range-picker-navitem",
-            "display": "Date Range",
-            "name": "TwDateRangePicker",
-            "url": "/date-range-picker"
-          },
-          {
-            "id": "datetime-picker-navitem",
-            "display": "Datetime",
-            "name": "TwDateTimePicker",
-            "url": "/datetime-picker"
-          },
-          {
-            "id": "datetime-range-picker-navitem",
-            "display": "Datetime Range",
-            "name": "TwDateTimeRangePicker",
-            "url": "/datetime-range-picker"
-          },
-          {
-            "id": "time-picker-navitem",
-            "display": "Time",
-            "name": "TwTimePicker",
-            "url": "/time-picker",
-            "theme": "TwTimePickerTheme"
-          },
-          {
-            "id": "time-range-picker-navitem",
-            "display": "Time Range",
-            "name": "TwTimeRangePicker",
-            "url": "/time-range-picker"
-          }
-        ]
-      },
-      {
-        "id": "file-upload-navitem",
-        "display": "File Upload",
-        "name": "TwFileUpload",
-        "url": "/file-upload"
       },
       {
         "id": "form-navitem",
@@ -179,54 +108,131 @@
         "isNew": true
       },
       {
-        "id": "numeric-navitem",
-        "display": "Numeric",
-        "name": "TwNumeric",
-        "url": "/numeric",
-        "isNew": true,
-        "theme": "TwNumericTheme"
-      },
-      {
-        "id": "radio-button-navitem",
-        "display": "Radio Button",
-        "name": "TwRadioButton",
-        "url": "/radio-button",
-        "theme": "TwRadioButtonTheme"
-      },
-      {
-        "id": "rating-navitem",
-        "display": "Rating",
-        "name": "TwRating",
-        "url": "/rating",
-        "isNew": true,
-        "theme": "TwRatingTheme"
-      },
-      {
-        "id": "select-navitem",
-        "display": "Select",
-        "name": "TwSelect",
-        "url": "/select"
-      },
-      {
-        "id": "slider-navitem",
-        "display": "Slider",
-        "name": "TwSlider",
-        "url": "/slider",
-        "theme": "TwSliderTheme"
-      },
-      {
-        "id": "switch-navitem",
-        "display": "Switch",
-        "name": "TwSwitch",
-        "url": "/switch",
-        "theme": "TwSwitchTheme"
-      },
-      {
-        "id": "textfield-navitem",
-        "display": "Textfield",
-        "name": "TwTextfield",
-        "url": "/textfield",
-        "theme": "TwInputTheme"
+        "id": "inputs-navitem",
+        "display": "Inputs",
+        "items": [
+          {
+            "id": "autocomplete-navitem",
+            "display": "Autocomplete",
+            "name": "TwAutocomplete",
+            "url": "/autocomplete",
+            "isNew": true
+          },
+          {
+            "id": "checkbox-navitem",
+            "display": "Checkbox",
+            "name": "TwCheckbox",
+            "url": "/checkbox",
+            "theme": "TwCheckboxTheme"
+          },
+          {
+            "id": "color-picker-navitem",
+            "display": "Color Picker",
+            "name": "TwColorPicker",
+            "url": "/color-picker",
+            "theme": "TwColorPickerTheme"
+          },
+          {
+            "id": "dates-time-navitem",
+            "display": "Date & Time Pickers",
+            "items": [
+              {
+                "id": "date-picker-navitem",
+                "display": "Date",
+                "name": "TwDatePicker",
+                "url": "/date-picker",
+                "theme": "TwDatePickerTheme"
+              },
+              {
+                "id": "date-range-picker-navitem",
+                "display": "Date Range",
+                "name": "TwDateRangePicker",
+                "url": "/date-range-picker"
+              },
+              {
+                "id": "datetime-picker-navitem",
+                "display": "Datetime",
+                "name": "TwDateTimePicker",
+                "url": "/datetime-picker"
+              },
+              {
+                "id": "datetime-range-picker-navitem",
+                "display": "Datetime Range",
+                "name": "TwDateTimeRangePicker",
+                "url": "/datetime-range-picker"
+              },
+              {
+                "id": "time-picker-navitem",
+                "display": "Time",
+                "name": "TwTimePicker",
+                "url": "/time-picker",
+                "theme": "TwTimePickerTheme"
+              },
+              {
+                "id": "time-range-picker-navitem",
+                "display": "Time Range",
+                "name": "TwTimeRangePicker",
+                "url": "/time-range-picker"
+              }
+            ]
+          },
+          {
+            "id": "file-upload-navitem",
+            "display": "File Upload",
+            "name": "TwFileUpload",
+            "url": "/file-upload"
+          },
+          {
+            "id": "numeric-navitem",
+            "display": "Numeric",
+            "name": "TwNumeric",
+            "url": "/numeric",
+            "isNew": true,
+            "theme": "TwNumericTheme"
+          },
+          {
+            "id": "radio-button-navitem",
+            "display": "Radio Button",
+            "name": "TwRadioButton",
+            "url": "/radio-button",
+            "theme": "TwRadioButtonTheme"
+          },
+          {
+            "id": "rating-navitem",
+            "display": "Rating",
+            "name": "TwRating",
+            "url": "/rating",
+            "isNew": true,
+            "theme": "TwRatingTheme"
+          },
+          {
+            "id": "select-navitem",
+            "display": "Select",
+            "name": "TwSelect",
+            "url": "/select"
+          },
+          {
+            "id": "slider-navitem",
+            "display": "Slider",
+            "name": "TwSlider",
+            "url": "/slider",
+            "theme": "TwSliderTheme"
+          },
+          {
+            "id": "switch-navitem",
+            "display": "Switch",
+            "name": "TwSwitch",
+            "url": "/switch",
+            "theme": "TwSwitchTheme"
+          },
+          {
+            "id": "textfield-navitem",
+            "display": "Textfield",
+            "name": "TwTextfield",
+            "url": "/textfield",
+            "theme": "TwInputTheme"
+          }
+        ]
       }
     ]
   },

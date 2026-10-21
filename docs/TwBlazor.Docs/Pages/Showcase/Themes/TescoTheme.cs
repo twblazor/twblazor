@@ -1227,7 +1227,7 @@ public static class TescoTheme
                     FocusVisibleBorder = "focus-visible:border-grocerblue-600 dark:focus-visible:border-grocerblue-400 focus-visible:ring-2 focus-visible:ring-grocerblue-500 dark:focus-visible:ring-grocerblue-400",
                     FocusWithinBorder = "has-[:focus-visible]:border-grocerblue-600 dark:has-[:focus-visible]:border-grocerblue-400 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-grocerblue-500 dark:has-[:focus-visible]:ring-grocerblue-400",
                     FilledBackgroundColor = neutralSurface.Elevated,
-                    ErrorMessage = $"{spacing.MarginTop.Sm} {typography.Size.Xs} {text.Medium.Danger} {darkText.Medium.Danger}"
+                    ErrorMessage = $"{spacing.MarginTop.Sm} text-[0.6875rem] leading-4 {typography.Weight.Medium} {text.Medium.Danger} dark:text-rose-300"
                 },
                 new TwNumericTheme
                 {

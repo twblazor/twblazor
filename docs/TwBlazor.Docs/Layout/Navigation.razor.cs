@@ -48,6 +48,7 @@ public partial class Navigation : IDisposable
     {
         ["layout"] = Icon.Columns_Gap,
         ["forms"] = Icon.Ui_Checks,
+        ["inputs-navitem"] = Icon.Input_Cursor_Text,
         ["dates-time-navitem"] = Icon.Calendar_Week,
         ["feedback"] = Icon.Chat_Square_Dots,
         ["data"] = Icon.Table,
