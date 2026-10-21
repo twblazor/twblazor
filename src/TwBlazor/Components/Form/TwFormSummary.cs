@@ -19,6 +19,8 @@ namespace TwBlazor.Components;
 /// </remarks>
 internal sealed class TwFormSummary : ComponentBase, IDisposable
 {
+    private const string classAttribute = "class";
+
     private EditContext? subscribedContext;
 
     [Inject] private ITwLocalizer localizer { get; set; } = null!;
