@@ -4,7 +4,7 @@
 @namespace TwBlazor.Components
 @inherits TwBlazorInputComponentBase
 
-<TwInputRoot RootId="@RootId" RootClass="@rootClasses" RootAttributes="@RootAttributes" RootStyle="@Style" RootAriaLabel="@AriaLabel" RootAriaLabelledBy="@AriaLabelledBy" RootErrorMessage="@ErrorMessage" RootErrorId="@errorId">
+<TwInputRoot RootId="@RootId" RootClass="@rootClasses" RootAttributes="@RootAttributes" RootStyle="@Style" RootAriaLabel="@AriaLabel" RootAriaLabelledBy="@AriaLabelledBy" RootErrorMessage="@fieldErrorMessage" RootErrorId="@errorId">
     <TwInputLabel Id="@LabelId" For="@Id" Label="@Label" OverrideClass="@classes" @attributes="@LabelAttributes">
         @if (Icon != null)
         {
@@ -13,11 +13,11 @@
 
         @if (Multiple)
         {
-            <InputFile id="@Id" OnChange="@OnUpload" multiple @attributes="@Attributes" disabled="@Disabled" class="@inputClasses" aria-readonly="@(ReadOnly ? "true" : null)" aria-invalid="@(Invalid ? "true" : null)" aria-describedby="@errorId" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy" />
+            <InputFile id="@Id" OnChange="@OnUpload" multiple @attributes="@Attributes" disabled="@Disabled" class="@inputClasses" aria-readonly="@(ReadOnly ? "true" : null)" aria-invalid="@(fieldInvalid ? "true" : null)" aria-describedby="@errorId" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy" />
         }
         else
         {
-            <InputFile id="@Id" OnChange="@OnUpload" @attributes="@Attributes" disabled="@Disabled" class="@inputClasses" aria-readonly="@(ReadOnly ? "true" : null)" aria-invalid="@(Invalid ? "true" : null)" aria-describedby="@errorId" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy" />
+            <InputFile id="@Id" OnChange="@OnUpload" @attributes="@Attributes" disabled="@Disabled" class="@inputClasses" aria-readonly="@(ReadOnly ? "true" : null)" aria-invalid="@(fieldInvalid ? "true" : null)" aria-describedby="@errorId" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy" />
         }
     </TwInputLabel>
 

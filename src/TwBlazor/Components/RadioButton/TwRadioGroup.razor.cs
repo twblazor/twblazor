@@ -1,7 +1,10 @@
-// Copyright (c) 2025 Jack Shuter @ TwBlazor - twblazor.com
+﻿// Copyright (c) 2025 Jack Shuter @ TwBlazor - twblazor.com
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
+using System.Linq.Expressions;
+using TwBlazor.Abstraction;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Enums;
 using TwBlazor.Models;
@@ -27,8 +30,21 @@ namespace TwBlazor.Components;
 /// <see cref="TwBlazorComponentBase.AriaLabelledBy"/> is supplied. Always set one of these so
 /// screen-reader users hear what the options relate to, not just the individual option labels.
 /// </remarks>
-public partial class TwRadioGroup<T> : TwBlazorComponentBase
+public partial class TwRadioGroup<T> : TwBlazorComponentBase, ITwFormField, IAsyncDisposable
 {
+    private TwEditContextField? editContextField;
+    private TwForm? registeredForm;
+
+    /// <summary>
+    /// Gets or sets the edit context of the enclosing <see cref="EditForm"/> or <see cref="TwForm"/>, if any.
+    /// </summary>
+    [CascadingParameter] private EditContext? cascadedEditContext { get; set; }
+
+    /// <summary>
+    /// Gets or sets the enclosing <see cref="TwForm"/>, if any.
+    /// </summary>
+    [CascadingParameter] private TwForm? cascadedForm { get; set; }
+
     private TwGroupsTheme groupsTheme => options.Theme.Components.Require<TwGroupsTheme>();
     private TwInputTheme inputTheme => options.Theme.Components.Require<TwInputTheme>();
 
@@ -88,6 +104,12 @@ public partial class TwRadioGroup<T> : TwBlazorComponentBase
     [Parameter] public EventCallback<T> ValueChanged { get; set; }
 
     /// <summary>
+    /// Gets or sets the expression that identifies the bound value. Set automatically by <c>@bind-Value</c>, it
+    /// lets an enclosing <see cref="EditForm"/> or <see cref="TwForm"/> validate the property the group edits.
+    /// </summary>
+    [Parameter] public Expression<Func<T>>? ValueExpression { get; set; }
+
+    /// <summary>
     /// Gets or sets the color for automatically generated radio buttons.
     /// </summary>
     [Parameter] public Color? ItemColor { get; set; }
@@ -108,7 +130,64 @@ public partial class TwRadioGroup<T> : TwBlazorComponentBase
     /// </summary>
     [Parameter] public bool Required { get; set; }
 
-    private string? errorId => Invalid && !string.IsNullOrWhiteSpace(ErrorMessage) ? $"{Id}-error" : null;
+    private string? errorId => fieldInvalid && !string.IsNullOrWhiteSpace(fieldErrorMessage) ? $"{Id}-error" : null;
+
+    private bool fieldInvalid => Invalid || editContextField?.FirstMessage is not null;
+
+    private string fieldErrorMessage => Invalid && !string.IsNullOrWhiteSpace(ErrorMessage)
+        ? ErrorMessage
+        : editContextField?.FirstMessage ?? ErrorMessage;
+
+    /// <inheritdoc />
+    FieldIdentifier? ITwFormField.BoundField => editContextField?.Field;
+
+    /// <inheritdoc />
+    string? ITwFormField.OwnErrorMessage => Invalid && !string.IsNullOrWhiteSpace(ErrorMessage) ? ErrorMessage : null;
+
+    /// <summary>
+    /// Reports whether the group is valid. Called by an enclosing <see cref="TwForm"/> when it is submitted.
+    /// </summary>
+    /// <returns><see langword="true"/> when the group is valid.</returns>
+    public Task<bool> ValidateAsync() => Task.FromResult(!fieldInvalid);
+
+    /// <inheritdoc />
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+
+        if (cascadedEditContext is not null || editContextField is not null)
+        {
+            editContextField ??= new TwEditContextField(() => _ = InvokeAsync(StateHasChanged));
+            editContextField.Attach(cascadedEditContext, () => ValueExpression is null ? null : FieldIdentifier.Create(ValueExpression));
+        }
+
+        if (!ReferenceEquals(cascadedForm, registeredForm))
+        {
+            registeredForm?.Unregister(this);
+            registeredForm = cascadedForm;
+            registeredForm?.Register(this);
+        }
+    }
+
+    private async Task OnItemSelectedAsync(T value)
+    {
+        Value = value;
+        await ValueChanged.InvokeAsync(value);
+        editContextField?.NotifyChanged();
+    }
+
+    /// <summary>
+    /// Releases the group's connection to its form.
+    /// </summary>
+    /// <returns>A task that completes once the group is released.</returns>
+    public ValueTask DisposeAsync()
+    {
+        editContextField?.Dispose();
+        registeredForm?.Unregister(this);
+        registeredForm = null;
+        GC.SuppressFinalize(this);
+        return ValueTask.CompletedTask;
+    }
 
 
     private string classes =>

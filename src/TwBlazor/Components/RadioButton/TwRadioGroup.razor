@@ -1,4 +1,4 @@
-@namespace TwBlazor.Components
+﻿@namespace TwBlazor.Components
 @typeparam T
 @inherits TwBlazorComponentBase
 
@@ -8,7 +8,7 @@
           disabled="@Disabled"
           role="radiogroup"
           aria-required="@(Required ? "true" : null)"
-          aria-invalid="@(Invalid ? "true" : null)"
+          aria-invalid="@(fieldInvalid ? "true" : null)"
           aria-describedby="@errorId"
           aria-label="@AriaLabel"
           aria-labelledby="@AriaLabelledBy"
@@ -22,10 +22,11 @@
         <CascadingValue Value="@Name" Name="GroupName" IsFixed="true">
             @foreach (var item in Items)
             {
-                <TwRadioButton Label="@item.Label"
+                <TwRadioButton T="T"
+                               Label="@item.Label"
                                Value="@item.Value"
                                SelectedValue="@Value"
-                               SelectedValueChanged="@ValueChanged"
+                               SelectedValueChanged="@OnItemSelectedAsync"
                                Color="@ItemColor"
                                Disabled="@Disabled" />
             }
@@ -39,6 +40,6 @@
     }
     @if (errorId is not null)
     {
-        <p id="@errorId" class="@inputTheme.ErrorMessage" role="alert">@ErrorMessage</p>
+        <p id="@errorId" class="@inputTheme.ErrorMessage" role="alert">@fieldErrorMessage</p>
     }
 </fieldset>

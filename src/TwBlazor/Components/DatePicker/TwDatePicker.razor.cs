@@ -2,6 +2,8 @@
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Components;
+using System.Linq.Expressions;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
 using System.Globalization;
 using TwBlazor.Components.DatePicker;
@@ -82,6 +84,12 @@ public partial class TwDatePicker : TwPopoverPickerComponentBase
     [Parameter] public EventCallback<DateTime> SelectedDateChanged { get; set; }
 
     /// <summary>
+    /// Gets or sets the expression that identifies the bound value. Set automatically by <c>@bind-SelectedDate</c>, it
+    /// lets an enclosing <see cref="EditForm"/> or <see cref="TwForm"/> validate the property the field edits.
+    /// </summary>
+    [Parameter] public Expression<Func<DateTime>>? SelectedDateExpression { get; set; }
+
+    /// <summary>
     /// The <see cref="string" /> value displayed in the textbox to the user.
     /// </summary>
     [Parameter] public string? Value { get; set; }
@@ -90,6 +98,12 @@ public partial class TwDatePicker : TwPopoverPickerComponentBase
     /// The <see cref="string" /> bound value displayed in the textbox to the user.
     /// </summary>
     [Parameter] public EventCallback<string> ValueChanged { get; set; }
+
+    /// <summary>
+    /// Gets or sets the expression that identifies the bound text. Set automatically by <c>@bind-Value</c>, it
+    /// lets an enclosing <see cref="EditForm"/> or <see cref="TwForm"/> validate the property the field edits.
+    /// </summary>
+    [Parameter] public Expression<Func<string?>>? ValueExpression { get; set; }
 
     /// <summary>
     /// The string format used to display the <see cref="SelectedDate"/>. Leave unset to fall back to
@@ -386,7 +400,24 @@ public partial class TwDatePicker : TwPopoverPickerComponentBase
         if (ValueChanged.HasDelegate)
         {
             await ValueChanged.InvokeAsync(value);
+            NotifyFieldChanged();
         }
     }
 
+    /// <summary>
+    /// Tells the enclosing form that the bound value changed, for a <see cref="TwDateTimePicker"/> built on this
+    /// picker whose time part changed without the picker itself being involved.
+    /// </summary>
+    internal void NotifyBoundFieldChanged() => NotifyFieldChanged();
+
+    /// <inheritdoc />
+    protected override FieldIdentifier? CreateFieldIdentifier()
+    {
+        if (SelectedDateExpression is not null)
+        {
+            return FieldIdentifier.Create(SelectedDateExpression);
+        }
+
+        return ValueExpression is null ? null : FieldIdentifier.Create(ValueExpression);
+    }
 }

@@ -1172,4 +1172,8 @@
     <value>Failed</value>
     <comment>A step that failed.</comment>
   </data>
+  <data name="Form_SummaryTitle" xml:space="preserve">
+    <value>There is a problem</value>
+    <comment>The heading of the list of errors shown after a form fails to submit.</comment>
+  </data>
 </root>

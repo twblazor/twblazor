@@ -2,6 +2,8 @@
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Components;
+using System.Linq.Expressions;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using TwBlazor.Configuration.Components;
@@ -35,6 +37,12 @@ public partial class TwColorPicker : TwPopoverPickerComponentBase
     /// Gets or sets the event callback that is invoked when the color value changes.
     /// </summary>
     [Parameter] public EventCallback<string> ValueChanged { get; set; } = default!;
+
+    /// <summary>
+    /// Gets or sets the expression that identifies the bound value. Set automatically by <c>@bind-Value</c>, it
+    /// lets an enclosing <see cref="EditForm"/> or <see cref="TwForm"/> validate the property the field edits.
+    /// </summary>
+    [Parameter] public Expression<Func<string>>? ValueExpression { get; set; }
     /// <summary>
     /// Gets or sets the event callback that is invoked when the input receives focus.
     /// </summary>
@@ -156,6 +164,7 @@ public partial class TwColorPicker : TwPopoverPickerComponentBase
             if (ValueChanged.HasDelegate)
             {
                 await ValueChanged.InvokeAsync(Value);
+                NotifyFieldChanged();
             }
         }
     }
@@ -244,6 +253,7 @@ public partial class TwColorPicker : TwPopoverPickerComponentBase
         if (ValueChanged.HasDelegate)
         {
             await ValueChanged.InvokeAsync(Value);
+            NotifyFieldChanged();
         }
     }
 
@@ -273,6 +283,7 @@ public partial class TwColorPicker : TwPopoverPickerComponentBase
         if (ValueChanged.HasDelegate)
         {
             await ValueChanged.InvokeAsync(Value);
+            NotifyFieldChanged();
         }
         StateHasChanged();
     }
@@ -285,4 +296,7 @@ public partial class TwColorPicker : TwPopoverPickerComponentBase
         await RestoreFocusAsync();
         StateHasChanged();
     }
+
+    /// <inheritdoc />
+    protected override FieldIdentifier? CreateFieldIdentifier() => ValueExpression is null ? null : FieldIdentifier.Create(ValueExpression);
 }

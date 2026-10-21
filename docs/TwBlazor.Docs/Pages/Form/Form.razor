@@ -1,0 +1,226 @@
+@page "/form"
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Components.Forms
+
+<PageContainer Title="TwForm" Path="/form" Beta Description="TwForm is a Blazor form that validates fields with data annotations and validators, shows an error summary and focuses the first error." ThemeType="typeof(TwFormTheme)">
+    <PageCard Title="Validating a model">
+        <Description>Give <code>TwForm</code> a <code>Model</code> and bind each field to it with <code>@@bind-Value</code>. The model's data annotations, such as <code>[Required]</code>, are checked when the form is submitted and again as each field changes. A field with an error shows its message, and is marked invalid for screen readers. <code>OnValidSubmit</code> only runs once every field is valid.</Description>
+
+        <CodeExample Name="FormBasic" CSharpName="FormBasicCode">
+            <TwForm Model="@signup" OnValidSubmit="@SaveSignup">
+                <TwTextfield T="string" Label="Name" @bind-Value="signup.Name" />
+                <TwTextfield T="string" Label="Email" InputType="email" @bind-Value="signup.Email" />
+                <TwSelect T="string" Label="Plan" Values="@plans" @bind-SelectedValue="signup.Plan" Placeholder="Choose a plan" />
+                <TwCheckbox T="bool" Label="I agree to the terms" @bind-Value="signup.AcceptTerms" />
+                <div>
+                    <TwButton Type="submit" Variant="ButtonVariant.Filled" Color="Color.Primary" Label="Sign up" />
+                </div>
+                @if (signupSaved)
+                {
+                    <p role="status" class="text-sm text-green-800 dark:text-green-300">Thanks, @signup.Name. You are signed up.</p>
+                }
+            </TwForm>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Error summary">
+        <Description>Set <code>ShowSummary</code> to list every error above the fields after a failed submit. Focus moves to the summary, so screen readers read it out, and each error is a link that moves focus to its field. Without a summary, focus moves to the first invalid field instead. Set <code>FocusOnError="false"</code> to leave focus where it is.</Description>
+
+        <CodeExample Name="FormSummary" CSharpName="FormSummaryCode">
+            <TwForm Model="@address" ShowSummary>
+                <TwTextfield T="string" Label="Street" @bind-Value="address.Street" />
+                <TwTextfield T="string" Label="Town or city" @bind-Value="address.Town" />
+                <TwTextfield T="string" Label="Postcode" @bind-Value="address.Postcode" />
+                <div>
+                    <TwButton Type="submit" Variant="ButtonVariant.Filled" Color="Color.Primary" Label="Save address" />
+                </div>
+            </TwForm>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Field validators">
+        <Description>A field's own <code>Validator</code> runs as it changes and again when the form is submitted, so it can stop the form submitting too. Use it for rules that don't belong on the model, or that need to look something up.</Description>
+
+        <CodeExample Name="FormValidator" CSharpName="FormValidatorCode">
+            <TwForm Model="@account" OnValidSubmit="@(() => accountSaved = true)">
+                <TwTextfield T="string" Label="Username" @bind-Value="account.Username" Validator="@CheckUsernameAsync" />
+                <TwNumeric T="int" Label="Age" @bind-Value="account.Age" />
+                <div>
+                    <TwButton Type="submit" Variant="ButtonVariant.Filled" Color="Color.Primary" Label="Create account" />
+                </div>
+                @if (accountSaved)
+                {
+                    <p role="status" class="text-sm text-green-800 dark:text-green-300">Account created.</p>
+                }
+            </TwForm>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Choices, dates and numbers">
+        <Description>Every TwBlazor input takes part in validation, including radio groups, switches, sliders, ratings, and the date, time and color pickers. Bind each one with its own value parameter, for example <code>@@bind-SelectedDate</code> on a date picker.</Description>
+
+        <CodeExample Name="FormChoices" CSharpName="FormChoicesCode">
+            <TwForm Model="@booking">
+                <TwRadioGroup T="string" Legend="Room" Items="@rooms" @bind-Value="booking.Room" />
+                <TwDatePicker Label="Arrival date" @bind-Value="booking.Arrival" />
+                <TwNumeric T="int" Label="Guests" Min="1" Max="6" @bind-Value="booking.Guests" />
+                <TwSwitch T="bool" Label="Breakfast included" @bind-Value="booking.Breakfast" />
+                <div>
+                    <TwButton Type="submit" Variant="ButtonVariant.Filled" Color="Color.Primary" Label="Book" />
+                </div>
+            </TwForm>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Validating from code">
+        <Description>Call <code>ValidateAsync</code> to check the form without submitting it, for example before moving to the next step of a wizard. <code>IsValid</code> holds the last result and <code>IsModified</code> says whether anything has changed.</Description>
+
+        <CodeExample Name="FormValidateFromCode" CSharpName="FormValidateFromCodeCode">
+            <TwForm @ref="@contactForm" Model="@contact">
+                <TwTextfield T="string" Label="Phone number" InputType="tel" @bind-Value="contact.Phone" />
+                <div class="flex items-center gap-3">
+                    <TwButton Label="Check" Variant="ButtonVariant.Filled" Color="Color.Primary" OnClick="@CheckContactAsync" />
+                    <span role="status" class="text-sm">@contactStatus</span>
+                </div>
+            </TwForm>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="In an EditForm">
+        <Description>TwBlazor fields also work in Blazor's own <code>EditForm</code>, with <code>DataAnnotationsValidator</code> or any other validator. They show the form's messages and report every change, just as they do in a <code>TwForm</code>.</Description>
+
+        <CodeExample Name="FormEditForm" CSharpName="FormEditFormCode">
+            <EditForm Model="@newsletter" class="flex flex-col gap-4">
+                <DataAnnotationsValidator />
+                <TwTextfield T="string" Label="Email" InputType="email" @bind-Value="newsletter.Email" />
+                <div>
+                    <TwButton Type="submit" Variant="ButtonVariant.Filled" Color="Color.Primary" Label="Subscribe" />
+                </div>
+            </EditForm>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Accessibility">
+        <Description>
+            The browser's own validation bubbles are turned off, because screen readers don't reliably announce them. Instead each invalid field is marked with <code>aria-invalid</code> and its message is linked with <code>aria-describedby</code> and announced as it appears. After a failed submit, focus moves to the error summary or the first invalid field, so nobody is left on the submit button wondering what happened. Each summary error links to its field. Give every field a <code>Label</code>, and use <code>Legend</code> on radio groups.
+        </Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample FormBasicCode
+    private readonly SignupModel signup = new();
+    private readonly string[] plans = ["Free", "Pro", "Team"];
+    private bool signupSaved;
+
+    private void SaveSignup() => signupSaved = true;
+
+    private sealed class SignupModel
+    {
+        [Required(ErrorMessage = "Enter your name")]
+        public string? Name { get; set; }
+
+        [Required(ErrorMessage = "Enter your email address")]
+        [EmailAddress(ErrorMessage = "Enter an email address in the correct format, like name@example.com")]
+        public string? Email { get; set; }
+
+        [Required(ErrorMessage = "Choose a plan")]
+        public string? Plan { get; set; }
+
+        [Range(typeof(bool), "true", "true", ErrorMessage = "Agree to the terms to continue")]
+        public bool AcceptTerms { get; set; }
+    }
+    #endregion
+
+    #region CodeExample FormSummaryCode
+    private readonly AddressModel address = new();
+
+    private sealed class AddressModel
+    {
+        [Required(ErrorMessage = "Enter the street")]
+        public string? Street { get; set; }
+
+        [Required(ErrorMessage = "Enter the town or city")]
+        public string? Town { get; set; }
+
+        [Required(ErrorMessage = "Enter a postcode")]
+        [RegularExpression(@"^[A-Za-z]{1,2}\d[A-Za-z\d]? ?\d[A-Za-z]{2}$", ErrorMessage = "Enter a real postcode, like SW1A 1AA")]
+        public string? Postcode { get; set; }
+    }
+    #endregion
+
+    #region CodeExample FormValidatorCode
+    private readonly AccountModel account = new();
+    private bool accountSaved;
+    private static readonly string[] _takenUsernames = ["admin", "root", "twblazor"];
+
+    private static Task<string?> CheckUsernameAsync(string? username) =>
+        Task.FromResult(username is not null && _takenUsernames.Contains(username.Trim().ToLowerInvariant())
+            ? "That username is taken. Try another."
+            : null);
+
+    private sealed class AccountModel
+    {
+        [Required(ErrorMessage = "Enter a username")]
+        [StringLength(20, MinimumLength = 3, ErrorMessage = "Usernames are 3 to 20 characters long")]
+        public string? Username { get; set; }
+
+        [Range(18, 120, ErrorMessage = "You must be 18 or over")]
+        public int Age { get; set; }
+    }
+    #endregion
+
+    #region CodeExample FormChoicesCode
+    private readonly BookingModel booking = new();
+    private readonly List<TwBlazor.Models.RadioGroupItem<string>> rooms =
+    [
+        new() { Label = "Single", Value = "single" },
+        new() { Label = "Double", Value = "double" },
+        new() { Label = "Suite", Value = "suite" }
+    ];
+
+    private sealed class BookingModel
+    {
+        [Required(ErrorMessage = "Choose a room")]
+        public string? Room { get; set; }
+
+        [Required(ErrorMessage = "Enter your arrival date")]
+        public string? Arrival { get; set; }
+
+        [Range(1, 6, ErrorMessage = "Rooms take 1 to 6 guests")]
+        public int Guests { get; set; } = 1;
+
+        public bool Breakfast { get; set; }
+    }
+    #endregion
+
+    #region CodeExample FormValidateFromCodeCode
+    private TwForm? contactForm;
+    private readonly ContactModel contact = new();
+    private string contactStatus = string.Empty;
+
+    private async Task CheckContactAsync()
+    {
+        var valid = contactForm is not null && await contactForm.ValidateAsync();
+        contactStatus = valid ? "Looks good." : "Fix the phone number first.";
+    }
+
+    private sealed class ContactModel
+    {
+        [Required(ErrorMessage = "Enter a phone number")]
+        [Phone(ErrorMessage = "Enter a phone number, like 07700 900 982")]
+        public string? Phone { get; set; }
+    }
+    #endregion
+
+    #region CodeExample FormEditFormCode
+    private readonly NewsletterModel newsletter = new();
+
+    private sealed class NewsletterModel
+    {
+        [Required(ErrorMessage = "Enter your email address")]
+        [EmailAddress(ErrorMessage = "Enter an email address in the correct format, like name@example.com")]
+        public string? Email { get; set; }
+    }
+    #endregion
+}

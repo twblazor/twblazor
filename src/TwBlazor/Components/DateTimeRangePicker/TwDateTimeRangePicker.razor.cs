@@ -2,6 +2,8 @@
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Components;
+using System.Linq.Expressions;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
 using System.Globalization;
 using TwBlazor.Components.DatePicker;
@@ -107,6 +109,12 @@ public partial class TwDateTimeRangePicker : TwPopoverPickerComponentBase
     /// The <see cref="string"/> bound value displayed in the textbox to the user.
     /// </summary>
     [Parameter] public EventCallback<string> ValueChanged { get; set; }
+
+    /// <summary>
+    /// Gets or sets the expression that identifies the bound value. Set automatically by <c>@bind-Value</c>, it
+    /// lets an enclosing <see cref="EditForm"/> or <see cref="TwForm"/> validate the property the field edits.
+    /// </summary>
+    [Parameter] public Expression<Func<string?>>? ValueExpression { get; set; }
 
     /// <summary>
     /// Gets or sets the step, in minutes, that the time step buttons and Arrow Up/Arrow Down move the start and
@@ -504,6 +512,7 @@ public partial class TwDateTimeRangePicker : TwPopoverPickerComponentBase
         if (ValueChanged.HasDelegate)
         {
             await ValueChanged.InvokeAsync(value);
+            NotifyFieldChanged();
         }
     }
 
@@ -522,4 +531,7 @@ public partial class TwDateTimeRangePicker : TwPopoverPickerComponentBase
         /// </summary>
         End
     }
+
+    /// <inheritdoc />
+    protected override FieldIdentifier? CreateFieldIdentifier() => ValueExpression is null ? null : FieldIdentifier.Create(ValueExpression);
 }

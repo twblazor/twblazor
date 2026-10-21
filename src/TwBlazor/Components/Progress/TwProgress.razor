@@ -2,7 +2,7 @@
 @inherits TwBlazorInputComponentBase
 @typeparam T
 
-<TwInputRoot RootId="@RootId" RootClass="@RootClass" RootAttributes="@RootAttributes" RootStyle="@Style" RootAriaLabel="@AriaLabel" RootAriaLabelledBy="@AriaLabelledBy" RootErrorMessage="@ErrorMessage" RootErrorId="@errorId">
+<TwInputRoot RootId="@RootId" RootClass="@RootClass" RootAttributes="@RootAttributes" RootStyle="@Style" RootAriaLabel="@AriaLabel" RootAriaLabelledBy="@AriaLabelledBy" RootErrorMessage="@fieldErrorMessage" RootErrorId="@errorId">
     <TwInputLabel Id="@LabelId" For="@Id" Label="@Label" Class="@LabelClass" @attributes="@LabelAttributes" />
     <span class="@wrapperClasses">
         <progress id="@Id"

@@ -2,7 +2,7 @@
 @inherits TwBlazorInputComponentBase
 @typeparam T where T : System.Numerics.INumber<T>
 
-<TwInputRoot RootId="@RootId" RootClass="@RootClass" RootAttributes="@RootAttributes" RootStyle="@Style" RootAriaLabel="@AriaLabel" RootAriaLabelledBy="@AriaLabelledBy" RootErrorMessage="@ErrorMessage" RootErrorId="@errorId">
+<TwInputRoot RootId="@RootId" RootClass="@RootClass" RootAttributes="@RootAttributes" RootStyle="@Style" RootAriaLabel="@AriaLabel" RootAriaLabelledBy="@AriaLabelledBy" RootErrorMessage="@fieldErrorMessage" RootErrorId="@errorId">
     @if (hasLabel)
     {
         <TwInputLabel Id="@labelId" Label="@Label" Class="@LabelClass" @attributes="@LabelAttributes" />
@@ -41,7 +41,7 @@
              aria-label="@AriaLabel"
              aria-labelledby="@nameIds"
              aria-disabled="@(Disabled ? "true" : null)"
-             aria-invalid="@(Invalid ? "true" : null)"
+             aria-invalid="@(fieldInvalid ? "true" : null)"
              aria-describedby="@errorId"
              @onmouseleave="@EndPreview"
              @attributes="@Attributes">
