@@ -1616,10 +1616,15 @@ globalThis.twTooltip = {
         if (arrow) arrow.style.marginLeft = `${-shift}px`;
     },
 
+    // Whether a computed style value is set to something other than 'none'.
+    _isSet: function (value) {
+        return !!value && value !== 'none';
+    },
+
     // Whether an element makes itself the containing block of fixed descendants, so a fixed bubble below it is
     // placed relative to it rather than the viewport and is still clipped by whatever clips it.
     _trapsFixed: function (style) {
-        const set = function (value) { return !!value && value !== 'none'; };
+        const set = globalThis.twTooltip._isSet;
         return set(style.transform) || set(style.translate) || set(style.scale) || set(style.rotate)
             || set(style.perspective) || set(style.filter) || set(style.backdropFilter)
             || /paint|layout|strict|content/.test(style.contain || '')

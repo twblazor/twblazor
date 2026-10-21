@@ -24,12 +24,6 @@ public class TwFileUploadTheme
     public required string FileList { get; set; }
 
     /// <summary>
-    /// Gets or sets the text color for a selected-file chip's label.
-    /// </summary>
-    [Obsolete("Selected files are shown as TwAttachment components, styled by TwAttachmentTheme. This property is no longer used.")]
-    public string ChipTextColor { get; set; } = string.Empty;
-
-    /// <summary>
     /// Gets or sets the focus ring for the upload control. The file input sits inside the visible
     /// label, so the ring is drawn on the label while the input has keyboard focus.
     /// </summary>

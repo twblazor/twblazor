@@ -10,6 +10,8 @@ namespace TwBlazor.Tests.Components.Form;
 
 public class TwFormTests : TwBlazorTestBase
 {
+    private static readonly string[] _plans = ["Free", "Pro"];
+
     private TwFormTheme theme => Theme.Components.Require<TwFormTheme>();
 
     private sealed class Person
@@ -434,7 +436,7 @@ public class TwFormTests : TwBlazorTestBase
             builder.OpenComponent<TwSelect<string>>(0);
             builder.AddComponentParameter(1, "Id", "plan");
             builder.AddComponentParameter(2, "Label", "Plan");
-            builder.AddComponentParameter(3, "Values", new[] { "Free", "Pro" });
+            builder.AddComponentParameter(3, "Values", _plans);
             builder.AddComponentParameter(4, "SelectedValue", person.Plan);
             builder.AddComponentParameter(5, "SelectedValueChanged", EventCallback.Factory.Create<string>(person, value => person.Plan = value));
             builder.AddComponentParameter(6, "SelectedValueExpression", (System.Linq.Expressions.Expression<Func<string>>)(() => person.Plan!));
