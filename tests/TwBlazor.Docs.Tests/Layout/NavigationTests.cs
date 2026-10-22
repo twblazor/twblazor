@@ -125,13 +125,13 @@ public class NavigationTests : DocsTestBase
     }
 
     [Fact]
-    public void Sidebar_ShowsOneNewBadge_OnTheChartsSection_AndNoneOnItsCharts()
+    public void Sidebar_ShowsOneNewBadge_OnTheChatSection_AndNoneOnItsComponents()
     {
         // Arrange & Act
         var cut = TestContext.Render<Navigation>();
 
         // Assert
-        var toggle = cut.Find("nav[aria-label='sidebar navigation'] button#charts");
+        var toggle = cut.Find("nav[aria-label='sidebar navigation'] button#chat");
         Assert.Single(toggle.QuerySelectorAll("[aria-label='New']"));
 
         var panel = cut.Find("#" + toggle.GetAttribute("aria-controls"));

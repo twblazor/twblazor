@@ -66,8 +66,8 @@ public class TwDrawerTests : TwBlazorTestBase
         Render(p => p.Add(x => x.Open, true));
 
         var open = Assert.Single(TestContext.JSInterop.Invocations, i => i.Identifier == "twDrawer.open");
-        Assert.Equal(true, Option(open, "modal"));
-        Assert.Equal(true, Option(open, "closeOnEscape"));
+        Assert.True(Option(open, "modal") is true);
+        Assert.True(Option(open, "closeOnEscape") is true);
     }
 
     [Fact]
@@ -80,7 +80,7 @@ public class TwDrawerTests : TwBlazorTestBase
         Assert.Null(cut.Find("#drawer").GetAttribute("aria-modal"));
         Assert.Empty(cut.FindAll("[aria-hidden='true'][data-state]"));
         var open = Assert.Single(TestContext.JSInterop.Invocations, i => i.Identifier == "twDrawer.open");
-        Assert.Equal(false, Option(open, "modal"));
+        Assert.True(Option(open, "modal") is false);
     }
 
     [Fact]
@@ -193,7 +193,7 @@ public class TwDrawerTests : TwBlazorTestBase
         Assert.Equal([false], changes);
         Assert.False(cut.Instance.IsOpen);
         var close = Assert.Single(TestContext.JSInterop.Invocations, i => i.Identifier == "twDrawer.close");
-        Assert.Equal(true, close.Arguments[1]);
+        Assert.True(close.Arguments[1] is true);
     }
 
     [Fact]
@@ -258,7 +258,7 @@ public class TwDrawerTests : TwBlazorTestBase
 
         Assert.True(cut.Instance.IsOpen);
         var open = Assert.Single(TestContext.JSInterop.Invocations, i => i.Identifier == "twDrawer.open");
-        Assert.Equal(false, Option(open, "closeOnEscape"));
+        Assert.True(Option(open, "closeOnEscape") is false);
     }
 
     [Fact]
@@ -309,7 +309,7 @@ public class TwDrawerTests : TwBlazorTestBase
         await cut.Instance.DisposeAsync();
 
         var close = Assert.Single(TestContext.JSInterop.Invocations, i => i.Identifier == "twDrawer.close");
-        Assert.Equal(false, close.Arguments[1]);
+        Assert.True(close.Arguments[1] is false);
     }
 
     [Fact]

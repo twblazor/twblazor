@@ -31,6 +31,14 @@
         "theme": "TwCollapseTheme"
       },
       {
+        "id": "drawer-navitem",
+        "display": "Drawer",
+        "name": "TwDrawer",
+        "url": "/drawer",
+        "isNew": true,
+        "theme": "TwDrawerTheme"
+      },
+      {
         "id": "footer-navitem",
         "display": "Footer",
         "name": "TwFooter",
@@ -253,14 +261,6 @@
         "name": "TwChip",
         "url": "/chip",
         "theme": "TwChipTheme"
-      },
-      {
-        "id": "drawer-navitem",
-        "display": "Drawer",
-        "name": "TwDrawer",
-        "url": "/drawer",
-        "isNew": true,
-        "theme": "TwDrawerTheme"
       },
       {
         "id": "icon-navitem",

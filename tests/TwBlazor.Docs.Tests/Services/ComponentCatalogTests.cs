@@ -63,12 +63,12 @@ public class ComponentCatalogTests
     [Fact]
     public void LoadLeafEntries_TreatsEveryEntryOfANewCategoryAsNew()
     {
-        // "Charts" is flagged isNew once, on the category, rather than on each chart.
+        // "Chat" is flagged isNew once, on the category, rather than on each component.
         var categories = ComponentCatalog.LoadCategories();
         var entries = ComponentCatalog.LoadLeafEntries().ToList();
 
-        Assert.True(Assert.Single(categories, c => c.Category == "Charts").IsNew);
-        Assert.All(entries.Where(e => e.Category == "Charts"), e => Assert.True(e.Entry.IsNew));
+        Assert.True(Assert.Single(categories, c => c.Category == "Chat").IsNew);
+        Assert.All(entries.Where(e => e.Category == "Chat"), e => Assert.True(e.Entry.IsNew));
         Assert.False(Assert.Single(entries, e => e.Entry.Name == "TwCard").Entry.IsNew);
     }
 }

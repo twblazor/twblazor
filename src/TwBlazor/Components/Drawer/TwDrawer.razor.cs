@@ -131,15 +131,31 @@ public partial class TwDrawer : TwBlazorComponentBase, IAsyncDisposable
 
     private bool hasDescription => !string.IsNullOrWhiteSpace(Description);
 
-    private string? effectiveAriaLabel =>
-        !string.IsNullOrWhiteSpace(AriaLabel) ? AriaLabel
-        : !hasTitle && string.IsNullOrWhiteSpace(AriaLabelledBy) ? localizer[TwStrings.Dialog_Label]
-        : null;
+    private string? effectiveAriaLabel
+    {
+        get
+        {
+            if (!string.IsNullOrWhiteSpace(AriaLabel))
+            {
+                return AriaLabel;
+            }
 
-    private string? effectiveAriaLabelledBy =>
-        !string.IsNullOrWhiteSpace(AriaLabelledBy) ? AriaLabelledBy
-        : hasTitle && string.IsNullOrWhiteSpace(AriaLabel) ? titleId
-        : null;
+            return !hasTitle && string.IsNullOrWhiteSpace(AriaLabelledBy) ? localizer[TwStrings.Dialog_Label] : null;
+        }
+    }
+
+    private string? effectiveAriaLabelledBy
+    {
+        get
+        {
+            if (!string.IsNullOrWhiteSpace(AriaLabelledBy))
+            {
+                return AriaLabelledBy;
+            }
+
+            return hasTitle && string.IsNullOrWhiteSpace(AriaLabel) ? titleId : null;
+        }
+    }
 
     private bool isVertical => Position is DrawerPosition.Top or DrawerPosition.Bottom;
 

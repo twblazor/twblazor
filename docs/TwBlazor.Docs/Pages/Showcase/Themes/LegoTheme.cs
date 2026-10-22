@@ -1123,6 +1123,31 @@ public static class LegoTheme
                     StageTabActive = $"bg-white dark:bg-[oklch(34%_0_0)] {neutralText.Heading} {shadows.Sm}",
                     HeaderNavButton = "py-2 px-4 text-xl"
                 },
+                new TwDrawerTheme
+                {
+                    Root = display.Contents,
+                    Backdrop = $"{positioning.Fixed} inset-0 z-105 bg-black/50 transition-opacity duration-300 ease-out data-[state=closed]:opacity-0 data-[state=closed]:pointer-events-none data-[state=closed]:duration-200 data-[state=closed]:ease-in motion-reduce:transition-none",
+                    Panel = $"{positioning.Fixed} z-105 {display.Flex} {flexbox.Col} {neutralSurface.Background} {neutralText.Heading} {shadows.Xl} {interaction.FocusOutlineNone} transition-[translate,visibility] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] data-[state=closed]:invisible data-[state=closed]:duration-200 data-[state=closed]:ease-in motion-reduce:transition-none",
+                    Start = $"inset-y-0 start-0 h-dvh border-e {neutralSurface.Border} data-[state=closed]:-translate-x-full rtl:data-[state=closed]:translate-x-full",
+                    End = $"inset-y-0 end-0 h-dvh border-s {neutralSurface.Border} data-[state=closed]:translate-x-full rtl:data-[state=closed]:-translate-x-full",
+                    Top = $"inset-x-0 top-0 {sizing.FullWidth} border-b {neutralSurface.Border} rounded-b-xl data-[state=closed]:-translate-y-full",
+                    Bottom = $"inset-x-0 bottom-0 {sizing.FullWidth} border-t {neutralSurface.Border} rounded-t-xl pb-[env(safe-area-inset-bottom)] data-[state=closed]:translate-y-full",
+                    SmallWidth = "w-[calc(100%-3rem)] max-w-xs",
+                    MediumWidth = "w-[calc(100%-3rem)] max-w-md",
+                    LargeWidth = "w-[calc(100%-3rem)] max-w-2xl",
+                    FullWidth = sizing.FullWidth,
+                    SmallHeight = "max-h-[40dvh]",
+                    MediumHeight = "max-h-[70dvh]",
+                    LargeHeight = "max-h-[90dvh]",
+                    FullHeight = "h-dvh rounded-none",
+                    Header = $"{display.Flex} {flexbox.Align.Start} {flexbox.Justify.Between} {spacing.Gap.Lg} {flexbox.ShrinkNone} px-5 pt-5 pb-1",
+                    Heading = $"{flexbox.Flex1} {sizing.MinWidthNone}",
+                    Title = $"{typography.Size.Lg} {typography.Weight.Semibold} {typography.WrapBreakWord}",
+                    Description = $"{spacing.MarginTop.Sm} {typography.Size.Sm} {neutralText.Muted}",
+                    CloseButton = $"-me-2 -mt-1 {typography.Size.Lg}",
+                    Content = $"{flexbox.Flex1} min-h-0 overflow-y-auto overscroll-contain px-5 py-4",
+                    Footer = $"{display.Flex} {flexbox.Wrap} {flexbox.Justify.End} {spacing.Gap.Md} {flexbox.ShrinkNone} border-t {neutralSurface.Border} px-5 py-4"
+                },
                 new TwFileUploadTheme
                 {
                     IconSpacing = "me-2",

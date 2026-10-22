@@ -1056,7 +1056,7 @@ globalThis.twDrawer = {
     open: function (root, panel, dotnetRef, options) {
         if (!root || !panel || panel.__twDrawer) return;
         const opts = options || {};
-        const owner = 'tw-drawer-' + Math.random().toString(36).slice(2);
+        const owner = 'tw-drawer-' + crypto.getRandomValues(new Uint32Array(2)).join('');
         panel.__twDrawer = {
             owner: owner,
             modal: !!opts.modal,
