@@ -52,14 +52,14 @@
         <Description>Use <code>TriggerContent</code> to open the panel from an element of your own. Splat <code>context.Attributes</code> onto it, which ties it to the panel for assistive technology, and call <code>context.ToggleAsync</code> when it is clicked. Use a button, so it can be reached and pressed from the keyboard.</Description>
 
         <CodeExample Name="PopoverTrigger">
-            <TwPopover Title="Jack Shuter" Align="PopoverAlign.Start">
+            <TwPopover Title="John Doe" Align="PopoverAlign.Start">
                 <TriggerContent>
                     <button type="button" class="rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600" @attributes="context.Attributes" @onclick="context.ToggleAsync">
-                        <TwAvatar Initials="JS" Name="Jack Shuter" />
+                        <TwAvatar Initials="JD" Name="John Doe" />
                     </button>
                 </TriggerContent>
                 <ChildContent>
-                    <p class="mb-3">Signed in as jack&#64;example.com</p>
+                    <p class="mb-3">Signed in as john&#64;example.com</p>
                     <TwButton Label="Sign out" Color="Color.Accent" Variant="ButtonVariant.Outlined" Dense />
                 </ChildContent>
             </TwPopover>
