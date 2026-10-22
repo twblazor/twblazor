@@ -77,14 +77,53 @@ public class SiteFooterTests : DocsTestBase
     }
 
     [Fact]
-    public void Render_ShowsDiscordGitHubDocumentationLicenseAndLlmsLinks()
+    public void Render_UsesTwFooter_WithALabelledNavigationLandmark()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<SiteFooter>();
+
+        // Assert
+        Assert.NotNull(cut.Find("footer#site-footer"));
+        Assert.Equal("Footer", cut.Find("footer nav").GetAttribute("aria-label"));
+    }
+
+    [Fact]
+    public void Render_GroupsTheLinksIntoFourHeadedColumns()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<SiteFooter>();
+
+        // Assert
+        Assert.Equal(["Get started", "Guides", "Resources", "Community"], cut.FindAll("footer nav h2").Select(h => h.TextContent.Trim()));
+        Assert.All(cut.FindAll("footer nav ul"), list => Assert.NotEmpty(list.QuerySelectorAll("li a")));
+    }
+
+    [Fact]
+    public void Render_LinksToTheDocsGuides_InTheSameTab()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<SiteFooter>();
+
+        // Assert
+        var internalLinks = cut.FindAll("footer nav a").Where(a => a.GetAttribute("href")!.StartsWith('/')).ToList();
+        Assert.Contains(internalLinks, a => a.GetAttribute("href") == "/get-started");
+        Assert.Contains(internalLinks, a => a.GetAttribute("href") == "/tailwind-blazor");
+        Assert.All(internalLinks, a => Assert.Null(a.GetAttribute("target")));
+    }
+
+    [Fact]
+    public void Render_LinksToDiscordGitHubDocumentationLicenseAndLlms()
     {
         // Arrange & Act
         var cut = TestContext.Render<SiteFooter>();
 
         // Assert
         var hrefs = cut.FindAll("footer a").Select(a => a.GetAttribute("href")).ToList();
-        Assert.Equal([SiteFooter.DiscordUrl, SiteFooter.GitHubUrl, SiteFooter.DocumentationUrl, SiteFooter.LicenseUrl, SiteFooter.LlmsTxtUrl], hrefs);
+        Assert.Contains(SiteFooter.DiscordUrl, hrefs);
+        Assert.Contains(SiteFooter.GitHubUrl, hrefs);
+        Assert.Contains(SiteFooter.DocumentationUrl, hrefs);
+        Assert.Contains(SiteFooter.LicenseUrl, hrefs);
+        Assert.Contains(SiteFooter.LlmsTxtUrl, hrefs);
     }
 
     [Fact]
@@ -94,23 +133,10 @@ public class SiteFooterTests : DocsTestBase
         var cut = TestContext.Render<SiteFooter>();
 
         // Assert
-        var llms = cut.Find("#footer-llms");
-        Assert.Equal("https://twblazor.com/llms.txt", llms.GetAttribute("href"));
+        var llms = cut.Find($"footer a[href='{SiteFooter.LlmsTxtUrl}']");
         Assert.StartsWith("llms.txt", llms.TextContent.Trim());
         Assert.Contains("bi-robot", llms.QuerySelector("i")!.GetAttribute("class"));
         Assert.Equal("true", llms.QuerySelector("i")!.GetAttribute("aria-hidden"));
-    }
-
-    [Fact]
-    public void Render_SeparatesTheLinksWithDecorativeBullets()
-    {
-        // Arrange & Act
-        var cut = TestContext.Render<SiteFooter>();
-
-        // Assert
-        var separators = cut.FindAll("footer span[aria-hidden='true']");
-        Assert.Equal(4, separators.Count);
-        Assert.All(separators, s => Assert.Equal("•", s.TextContent));
     }
 
     [Fact]
@@ -120,27 +146,13 @@ public class SiteFooterTests : DocsTestBase
         var cut = TestContext.Render<SiteFooter>();
 
         // Assert
-        Assert.All(cut.FindAll("footer a[target]"), a =>
+        var external = cut.FindAll("footer a").Where(a => a.GetAttribute("href")!.StartsWith("https://")).ToList();
+        Assert.NotEmpty(external);
+        Assert.All(external, a =>
         {
             Assert.Equal("_blank", a.GetAttribute("target"));
             Assert.Equal("noopener noreferrer", a.GetAttribute("rel"));
             Assert.Contains("opens in a new tab", a.TextContent);
-        });
-    }
-
-    [Fact]
-    public void Render_OnlyLinksToOtherSites_SoEveryLinkOpensInANewTab()
-    {
-        // Arrange & Act
-        var cut = TestContext.Render<SiteFooter>();
-
-        // Assert
-        var links = cut.FindAll("footer a");
-        Assert.Equal(5, links.Count);
-        Assert.All(links, a =>
-        {
-            Assert.StartsWith("https://", a.GetAttribute("href"));
-            Assert.Equal("_blank", a.GetAttribute("target"));
         });
     }
 
@@ -159,24 +171,12 @@ public class SiteFooterTests : DocsTestBase
     }
 
     [Fact]
-    public void Render_ExposesTheLinksAsALabelledNavigationLandmark()
+    public void Render_ShowsTheOpenSourceStatement()
     {
         // Arrange & Act
         var cut = TestContext.Render<SiteFooter>();
 
         // Assert
-        Assert.Equal("Footer", cut.Find("footer nav").GetAttribute("aria-label"));
-    }
-
-    [Fact]
-    public void Render_ShowsTheOpenSourceStatementWithAHeartIcon()
-    {
-        // Arrange & Act
-        var cut = TestContext.Render<SiteFooter>();
-
-        // Assert
-        var statement = cut.Find("footer p");
-        Assert.Contains("always will be free and open source", statement.TextContent);
-        Assert.Equal("true", statement.QuerySelector("i")?.GetAttribute("aria-hidden"));
+        Assert.Contains(cut.FindAll("footer p"), p => p.TextContent.Contains("always will be free and open source"));
     }
 }
