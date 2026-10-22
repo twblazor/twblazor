@@ -32,6 +32,10 @@
 	     bump and no version conflict when develop merges into main. -->
 	<MinVerTagPrefix>v</MinVerTagPrefix>
 	<MinVerDefaultPreReleaseIdentifiers>preview</MinVerDefaultPreReleaseIdentifiers>
+	<!-- Hot reload compiles without running MinVer, so it sees the default 1.0.0.0 while a normal Debug build
+	     sees the tag's version, and refuses the change. Packages are always built in Release, so Debug skips
+	     MinVer and every Debug build agrees on 1.0.0.0. -->
+	<MinVerSkip Condition="'$(Configuration)' == 'Debug'">true</MinVerSkip>
   </PropertyGroup>
 
   <ItemGroup>

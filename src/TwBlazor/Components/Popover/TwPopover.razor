@@ -1,0 +1,58 @@
+@namespace TwBlazor.Components
+@inherits TwBlazorComponentBase
+
+<div id="@Id" class="@rootClasses" style="@Style" @ref="rootRef" @attributes="Attributes">
+    <span class="@options.Theme.Display.InlineFlex" @ref="triggerRef">
+        @if (TriggerContent is not null)
+        {
+            @TriggerContent(triggerContext)
+        }
+        else if (IconOnly && Icon is { } icon)
+        {
+            <TwIcon Id="@triggerId"
+                    Icon="@icon"
+                    Class="@ButtonClass"
+                    Plain
+                    Disabled="@Disabled"
+                    AriaLabel="@effectiveAriaLabel"
+                    Tooltip="@effectiveAriaLabel"
+                    Attributes="@triggerAttributes"
+                    OnClick="@ToggleAsync" />
+        }
+        else
+        {
+            <TwButton Id="@triggerId"
+                      Label="@(Label ?? string.Empty)"
+                      StartIcon="@Icon"
+                      Variant="@Variant"
+                      Dense="@Dense"
+                      Class="@ButtonClass"
+                      Disabled="@Disabled"
+                      AriaLabel="@AriaLabel"
+                      Attributes="@triggerAttributes"
+                      OnClick="@ToggleAsync" />
+        }
+    </span>
+
+    @if (isOpen)
+    {
+        <div id="@panelId"
+             class="@panelClasses"
+             style="position:fixed;left:0;top:0;visibility:hidden"
+             role="dialog"
+             aria-labelledby="@(hasTitle ? titleId : triggerId)"
+             tabindex="-1"
+             data-tw-popover
+             @ref="panelRef">
+            @if (hasTitle)
+            {
+                <h2 id="@titleId" class="@theme.Title">@Title</h2>
+            }
+            @ChildContent
+            @if (ShowCloseButton)
+            {
+                <TwIcon Icon="Enums.Icon.X_Lg" AriaLabel="@localizer[TwStrings.Common_Close]" Class="@theme.CloseButton" OnClick="@CloseAsync" />
+            }
+        </div>
+    }
+</div>

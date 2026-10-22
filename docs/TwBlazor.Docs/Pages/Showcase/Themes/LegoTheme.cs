@@ -612,7 +612,11 @@ public static class LegoTheme
                 Background = neutralSurface.Overlay,
                 Border = $"{borderWidth.Thin} {neutralSurface.BorderStrong}",
                 TimeRangeSize = $"w-56 {spacing.Padding.Md}",
-                ColorSize = $"tw-color-picker-dialog w-64 {spacing.Padding.Lg}"
+                ColorSize = $"tw-color-picker-dialog w-64 {spacing.Padding.Lg}",
+                Root = $"{positioning.Relative} {display.InlineFlex}",
+                Panel = $"z-120 w-max max-w-sm {spacing.Padding.Xl} {typography.Size.Sm} {neutralText.Heading} {interaction.FocusOutlineNone}",
+                Title = $"pe-8 {spacing.MarginBottom.Md} {typography.Size.Base} {typography.Weight.Semibold}",
+                CloseButton = $"{positioning.Absolute} top-2 end-2 {typography.Size.Sm}"
             },
             Dialog = new TwDialogTheme
             {

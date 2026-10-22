@@ -261,6 +261,14 @@
         "url": "/icon"
       },
       {
+        "id": "popover-navitem",
+        "display": "Popover",
+        "name": "TwPopover",
+        "url": "/popover",
+        "isNew": true,
+        "theme": "TwPopoverTheme"
+      },
+      {
         "id": "progress-navitem",
         "display": "Progress",
         "name": "TwProgress",

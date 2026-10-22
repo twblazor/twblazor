@@ -13,25 +13,23 @@
     <PageCard Title="Colors">
         <Description>Use <code>Color</code> to give a switch meaning at a glance - here each toggle drives an independent, bound setting.</Description>
         <CodeExample Name="SwitchColors">
-            @foreach (Color c in ((Color[])Enum.GetValues(typeof(Color))).Take(10))
-            {
-                @if (c != Color.Light && c != Color.Dark)
+            <div>
+                @foreach (Color c in ((Color[])Enum.GetValues(typeof(Color))).Take(10))
                 {
-                    <div class="block mt-4">
+                    @if (c != Color.Light && c != Color.Dark)
+                    {
                         <div class="p-3">
                             <TwSwitch @bind-Value="exampleSwitch" Label="@c.ToString()" Color="@c" AriaLabel="@($"{@c.ToString()} switch")" />
                         </div>
-                    </div>
-                }
-                else
-                {
-                    <div class="block mt-4">
-                        <div class="@(c == Color.Light ? "bg-gray-900 p-3 rounded-lg" : "bg-white p-3 rounded-lg")">
+                    }
+                    else
+                    {
+                        <div class="@(c == Color.Light ? "bg-gray-900 dark:bg-transparent p-3 rounded-lg" : "dark:bg-white p-3 rounded-lg")">
                             <TwSwitch @bind-Value="exampleSwitch" Label="@c.ToString()" Color="@c" LabelClass="@(c == Color.Light ? "text-white dark:text-white" : "text-gray-900 dark:text-gray-900")" AriaLabel="@($"{@c.ToString()} switch")" />
                         </div>
-                    </div>
+                    }
                 }
-            }
+            </div>
         </CodeExample>
     </PageCard>
 

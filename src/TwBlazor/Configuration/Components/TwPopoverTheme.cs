@@ -1,4 +1,4 @@
-// Copyright (c) 2025 Jack Shuter @ TwBlazor - twblazor.com
+﻿// Copyright (c) 2025 Jack Shuter @ TwBlazor - twblazor.com
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using System.Diagnostics.CodeAnalysis;
@@ -10,8 +10,8 @@ namespace TwBlazor.Configuration.Components;
 /// Shared "box" styling (background, border, rounded corners, shadow) for every popover panel
 /// (<see cref="TwBlazor.Components.TwDatePicker"/>, <see cref="TwBlazor.Components.TwDateRangePicker"/>,
 /// <see cref="TwBlazor.Components.TwDateTimeRangePicker"/>, <see cref="TwBlazor.Components.TwTimePicker"/>,
-/// <see cref="TwBlazor.Components.TwTimeRangePicker"/>, <see cref="TwBlazor.Components.TwColorPicker"/>),
-/// reached through <see cref="TwOverlayTheme.Popover"/>.
+/// <see cref="TwBlazor.Components.TwTimeRangePicker"/>, <see cref="TwBlazor.Components.TwColorPicker"/>) and the
+/// <see cref="TwBlazor.Components.TwPopover"/> component, reached through <see cref="TwOverlayTheme.Popover"/>.
 /// </summary>
 /// <remarks>
 /// Width/height/max-height that genuinely varies per surface (e.g. the date picker's dual-month
@@ -63,4 +63,31 @@ public class TwPopoverTheme
     /// tests select on) for <see cref="TwBlazor.Components.TwColorPicker"/>'s popover surface.
     /// </summary>
     public required string ColorSize { get; set; }
+
+    /// <summary>
+    /// Gets or sets the classes for the element that wraps a <see cref="TwBlazor.Components.TwPopover"/>'s trigger and
+    /// panel.
+    /// </summary>
+    /// <remarks>Optional, so themes written before <see cref="TwBlazor.Components.TwPopover"/> keep working.</remarks>
+    public string Root { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the layout classes for a <see cref="TwBlazor.Components.TwPopover"/>'s panel: its stacking order,
+    /// width, padding and text. The panel's box comes from <see cref="Background"/> and <see cref="Border"/>.
+    /// </summary>
+    /// <remarks>Optional, so themes written before <see cref="TwBlazor.Components.TwPopover"/> keep working.</remarks>
+    public string Panel { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes for a <see cref="TwBlazor.Components.TwPopover"/>'s title.
+    /// </summary>
+    /// <remarks>Optional, so themes written before <see cref="TwBlazor.Components.TwPopover"/> keep working.</remarks>
+    public string Title { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes for a <see cref="TwBlazor.Components.TwPopover"/>'s close button, placed in the
+    /// panel's top corner.
+    /// </summary>
+    /// <remarks>Optional, so themes written before <see cref="TwBlazor.Components.TwPopover"/> keep working.</remarks>
+    public string CloseButton { get; set; } = string.Empty;
 }
