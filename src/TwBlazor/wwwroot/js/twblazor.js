@@ -475,7 +475,9 @@ globalThis.twDialog = {
     // raised while a dialog is open can then be read and closed from the keyboard.
     _trapStack: [],
 
-    _exemptSelector: '[data-tw-inert-exempt], #components-reconnect-modal, #blazor-error-ui',
+    // The dialog host is left usable too, so a dialog opened from inside a modal drawer (a "discard changes?"
+    // confirmation) can take focus. While no dialog is open the host is empty, so this exposes nothing.
+    _exemptSelector: '[data-tw-inert-exempt], [data-tw-dialog-host], #components-reconnect-modal, #blazor-error-ui',
 
     _exemptFocusable: function () {
         const found = [];
@@ -1005,6 +1007,96 @@ globalThis.twSidebar = {
         if (nav) {
             globalThis.twDialog.releaseFocusTrap(nav);
             globalThis.twDialog.unregisterEscape(nav);
+        }
+    }
+};
+
+// Drawer: a panel that slides in from an edge of the screen. The panel stays on the page while closed so CSS can
+// animate it both ways; this only manages what CSS can't: focus, Escape, and for a modal drawer the focus trap, the
+// inert page behind it and the page's scroll lock.
+globalThis.twDrawer = {
+    _scrollLocks: 0,
+
+    // Hiding the page's scrollbar would shift the layout sideways, so its gutter is kept while it is locked.
+    _lockScroll: function () {
+        const html = document.documentElement;
+        if (globalThis.twDrawer._scrollLocks++ > 0) return;
+        html.__twDrawerScroll = { overflow: html.style.overflow, gutter: html.style.scrollbarGutter };
+        if (window.innerWidth - html.clientWidth > 0) html.style.scrollbarGutter = 'stable';
+        html.style.overflow = 'hidden';
+    },
+
+    _unlockScroll: function () {
+        const html = document.documentElement;
+        if (globalThis.twDrawer._scrollLocks === 0 || --globalThis.twDrawer._scrollLocks > 0) return;
+        const saved = html.__twDrawerScroll ?? { overflow: '', gutter: '' };
+        html.style.overflow = saved.overflow;
+        html.style.scrollbarGutter = saved.gutter;
+        delete html.__twDrawerScroll;
+    },
+
+    // Focus goes to an element marked data-tw-autofocus, otherwise the first control in the body or footer, otherwise
+    // the panel itself, so screen readers start by reading the drawer's name. The close button is skipped: landing on
+    // it first would make a stray Enter close the drawer.
+    _focusInitial: function (panel) {
+        // A component can put the marker on its wrapper rather than on the control itself.
+        const marked = panel.querySelector('[data-tw-autofocus]');
+        const preferred = marked?.matches(globalThis.twDialog._focusableSelector)
+            ? marked
+            : globalThis.twDialog.getFocusableElements(marked)[0];
+        if (preferred) {
+            preferred.focus();
+            return;
+        }
+        const first = globalThis.twDialog.getFocusableElements(panel)
+            .find(function (el) { return !el.closest('[data-tw-drawer-close]'); });
+        (first ?? panel).focus();
+    },
+
+    open: function (root, panel, dotnetRef, options) {
+        if (!root || !panel || panel.__twDrawer) return;
+        const opts = options || {};
+        const owner = 'tw-drawer-' + crypto.getRandomValues(new Uint32Array(2)).join('');
+        panel.__twDrawer = {
+            owner: owner,
+            modal: !!opts.modal,
+            focusToken: globalThis.twDialog.captureFocus()
+        };
+
+        if (opts.modal) {
+            globalThis.twDialog.setBackgroundInert(root, owner);
+            globalThis.twDialog.trapFocus(panel);
+            globalThis.twDrawer._lockScroll();
+        }
+
+        if (opts.closeOnEscape && dotnetRef) {
+            globalThis.twDialog.registerEscape(panel, dotnetRef);
+        }
+
+        globalThis.twDrawer._focusInitial(panel);
+    },
+
+    // Focus is only returned when it is still in the drawer (or was lost with it). If the user clicked somewhere
+    // else on the page beside a non-modal drawer, it stays there.
+    close: function (panel, returnFocus) {
+        const state = panel?.__twDrawer;
+        if (!state) return;
+        delete panel.__twDrawer;
+
+        globalThis.twDialog.unregisterEscape(panel);
+        if (state.modal) {
+            globalThis.twDialog.releaseFocusTrap(panel);
+            globalThis.twDialog.clearBackgroundInert(state.owner);
+            globalThis.twDrawer._unlockScroll();
+        }
+
+        const active = document.activeElement;
+        const focusLost = !active || active === document.body || panel.contains(active);
+        if (returnFocus && focusLost) {
+            globalThis.twDialog.restoreFocus(state.focusToken);
+        } else if (state.focusToken) {
+            globalThis.twDialog._focusMap.delete(state.focusToken);
+            document.querySelector('[data-tw-focus-token="' + state.focusToken + '"]')?.removeAttribute('data-tw-focus-token');
         }
     }
 };

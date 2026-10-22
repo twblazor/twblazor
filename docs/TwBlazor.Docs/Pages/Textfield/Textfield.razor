@@ -224,7 +224,7 @@
     #region CodeExample TextfieldAsyncValidatorCode
     public string NewUsername { get; set; } = string.Empty;
 
-    private readonly HashSet<string> _takenUsernames = new(StringComparer.OrdinalIgnoreCase) { "admin", "root", "jack" };
+    private readonly HashSet<string> _takenUsernames = new(StringComparer.OrdinalIgnoreCase) { "admin", "root", "john" };
 
     private async Task<string?> ValidateUsernameAvailabilityAsync(string value)
     {
