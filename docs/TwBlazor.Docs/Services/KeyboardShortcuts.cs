@@ -209,6 +209,13 @@ internal static class KeyboardShortcuts
             Key("Moves to the previous control in the dialog. From the first control it wraps to the last.", shiftTab),
             Key("Closes the dialog, wherever focus is. If a picker or a select list is open inside the dialog, the first press closes that and the next press closes the dialog. Has no effect when CloseOnEscapeKey is off.", escape)),
 
+        ["/drawer"] = Guide(
+            "The drawer is a dialog. Opening it moves focus inside, and closing it returns focus to the control that opened it. While a modal drawer is open the page behind it cannot be reached.",
+            Key("Moves to the next control in the drawer. In a modal drawer, from the last control it wraps to the first.", tab),
+            Key("Moves to the previous control in the drawer. In a modal drawer, from the first control it wraps to the last.", shiftTab),
+            Key("On the close button: closes the drawer.", enter, space),
+            Key("Closes the drawer, wherever focus is. If a picker, a select list or a dialog is open inside the drawer, the first press closes that and the next press closes the drawer. Has no effect when CloseOnEscape is off.", escape)),
+
         ["/file-upload"] = Guide(
             "The upload control is a native file input. Each chosen file is listed with its own remove button, and choosing or removing a file is announced.",
             Key("Moves to the upload control, then to each file's remove button.", tab),
