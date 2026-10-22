@@ -1674,6 +1674,9 @@
   .gap-y-3 {
     row-gap: calc(var(--spacing) * 3);
   }
+  .gap-y-4 {
+    row-gap: calc(var(--spacing) * 4);
+  }
   :where(.divide-x > :not(:last-child)) {
     --tw-divide-x-reverse: 0;
     border-inline-style: var(--tw-border-style);
@@ -2174,6 +2177,12 @@
   .border-fuchsia-300 {
     border-color: var(--color-fuchsia-300);
   }
+  .border-fuchsia-300\/40 {
+    border-color: color-mix(in srgb, oklch(83.3% 0.145 321.434) 40%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      border-color: color-mix(in oklab, var(--color-fuchsia-300) 40%, transparent);
+    }
+  }
   .border-fuchsia-600 {
     border-color: var(--color-fuchsia-600);
   }
@@ -2576,12 +2585,6 @@
   .bg-amber-50 {
     background-color: var(--color-amber-50);
   }
-  .bg-amber-400\/80 {
-    background-color: color-mix(in srgb, oklch(82.8% 0.189 84.429) 80%, transparent);
-    @supports (color: color-mix(in lab, red, red)) {
-      background-color: color-mix(in oklab, var(--color-amber-400) 80%, transparent);
-    }
-  }
   .bg-amber-500\/10 {
     background-color: color-mix(in srgb, oklch(76.9% 0.188 70.08) 10%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
@@ -2660,6 +2663,12 @@
   .bg-fuchsia-500 {
     background-color: var(--color-fuchsia-500);
   }
+  .bg-fuchsia-500\/15 {
+    background-color: color-mix(in srgb, oklch(66.7% 0.295 322.15) 15%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-fuchsia-500) 15%, transparent);
+    }
+  }
   .bg-fuchsia-600 {
     background-color: var(--color-fuchsia-600);
   }
@@ -2713,12 +2722,6 @@
   }
   .bg-green-200 {
     background-color: var(--color-green-200);
-  }
-  .bg-green-400\/80 {
-    background-color: color-mix(in srgb, oklch(79.2% 0.209 151.711) 80%, transparent);
-    @supports (color: color-mix(in lab, red, red)) {
-      background-color: color-mix(in oklab, var(--color-green-400) 80%, transparent);
-    }
   }
   .bg-green-500\/10 {
     background-color: color-mix(in srgb, oklch(72.3% 0.219 149.579) 10%, transparent);
@@ -2828,11 +2831,8 @@
   .bg-red-200 {
     background-color: var(--color-red-200);
   }
-  .bg-red-400\/80 {
-    background-color: color-mix(in srgb, oklch(70.4% 0.191 22.216) 80%, transparent);
-    @supports (color: color-mix(in lab, red, red)) {
-      background-color: color-mix(in oklab, var(--color-red-400) 80%, transparent);
-    }
+  .bg-red-400 {
+    background-color: var(--color-red-400);
   }
   .bg-red-500 {
     background-color: var(--color-red-500);
@@ -3794,6 +3794,9 @@
   .text-\[10px\] {
     font-size: 10px;
   }
+  .text-\[11px\] {
+    font-size: 11px;
+  }
   .text-\[13px\] {
     font-size: 13px;
   }
@@ -4110,6 +4113,9 @@
   }
   .text-emerald-300 {
     color: var(--color-emerald-300);
+  }
+  .text-fuchsia-100 {
+    color: var(--color-fuchsia-100);
   }
   .text-fuchsia-200 {
     color: var(--color-fuchsia-200);
@@ -4718,11 +4724,11 @@
   .\[--tw-wave-color\:rgb\(255_255_255\/0\.7\)\] {
     --tw-wave-color: rgb(255 255 255/0.7);
   }
+  .\[animation-delay\:0\.6s\] {
+    animation-delay: 0.6s;
+  }
   .\[animation-delay\:1\.6s\] {
     animation-delay: 1.6s;
-  }
-  .\[animation-delay\:1s\] {
-    animation-delay: 1s;
   }
   .\[animation-delay\:100ms\] {
     animation-delay: 100ms;
@@ -6696,9 +6702,6 @@
     .lg\:hidden {
       display: none;
     }
-    .lg\:inline-flex {
-      display: inline-flex;
-    }
     .lg\:h-dvh {
       height: 100dvh;
     }
@@ -6831,6 +6834,10 @@
   .rtl\:translate-x-full:where(:dir(rtl), [dir="rtl"], [dir="rtl"] *) {
     --tw-translate-x: 100%;
     translate: var(--tw-translate-x) var(--tw-translate-y);
+  }
+  .rtl\:-scale-x-100:where(:dir(rtl), [dir="rtl"], [dir="rtl"] *) {
+    --tw-scale-x: calc(100% * -1);
+    scale: var(--tw-scale-x) var(--tw-scale-y);
   }
   .rtl\:-rotate-45:where(:dir(rtl), [dir="rtl"], [dir="rtl"] *) {
     rotate: calc(45deg * -1);
@@ -9776,8 +9783,8 @@
 }
 .theme-morph {
   border-radius: 9999px;
-  box-shadow: 0 14px 32px -8px rgb(192 38 211 / 0.6);
-  background-color: var(--color-fuchsia-600);
+  box-shadow: 0 14px 32px -6px rgb(236 72 153 / 0.75);
+  background-color: var(--color-pink-700);
 }
 .stage-js [data-stage]:not(.is-live) .theme-morph {
   border-radius: var(--radius-lg);
@@ -9827,11 +9834,11 @@
 @keyframes stage-flash {
   from {
     box-shadow: 0 0 0 0 rgb(217 70 239 / 0.55);
-    border-radius: 0.75rem;
+    border-radius: var(--stage-radius, 0.75rem);
   }
   to {
     box-shadow: 0 0 0 1.25rem rgb(217 70 239 / 0);
-    border-radius: 0.75rem;
+    border-radius: var(--stage-radius, 0.75rem);
   }
 }
 @keyframes stage-fade {

@@ -92,8 +92,8 @@
    without the script; while live, each change waits for its line (the from keyframes are the button's theme). */
 .theme-morph {
     border-radius: 9999px;
-    box-shadow: 0 14px 32px -8px rgb(192 38 211 / 0.6);
-    background-color: var(--color-fuchsia-600);
+    box-shadow: 0 14px 32px -6px rgb(236 72 153 / 0.75);
+    background-color: var(--color-pink-700);
 }
 
 .stage-js [data-stage]:not(.is-live) .theme-morph {
@@ -137,8 +137,8 @@
 }
 
 @keyframes stage-flash {
-    from { box-shadow: 0 0 0 0 rgb(217 70 239 / 0.55); border-radius: 0.75rem; }
-    to { box-shadow: 0 0 0 1.25rem rgb(217 70 239 / 0); border-radius: 0.75rem; }
+    from { box-shadow: 0 0 0 0 rgb(217 70 239 / 0.55); border-radius: var(--stage-radius, 0.75rem); }
+    to { box-shadow: 0 0 0 1.25rem rgb(217 70 239 / 0); border-radius: var(--stage-radius, 0.75rem); }
 }
 
 @keyframes stage-fade {
