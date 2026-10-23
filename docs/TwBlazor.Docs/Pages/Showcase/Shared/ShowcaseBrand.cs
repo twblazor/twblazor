@@ -230,7 +230,12 @@ public sealed class ShowcaseBrand
     public static IReadOnlyList<ShowcaseBrand> All { get; } = [Microsoft, Apple, Lego, Tesco, Trading212];
 
     /// <summary>
-    /// The notice shown wherever the examples appear.
+    /// The one-line notice shown where the examples are linked from. Each example page shows the full <see cref="Disclaimer"/>.
+    /// </summary>
+    public const string ShortDisclaimer = "Independent examples. twblazor is not affiliated with or endorsed by these companies.";
+
+    /// <summary>
+    /// The full notice shown at the bottom of each example page.
     /// </summary>
     public const string Disclaimer = "twblazor is not affiliated with, endorsed by or sponsored by Microsoft, Apple, the LEGO Group, Tesco or Trading 212. These are independent examples made to show what a custom theme can do, and are not those companies' websites. Product names, prices, offers and market data are illustrative, and nothing here is financial advice. Logos and pictures come from each company's own website and remain its property, and all trademarks belong to their owners.";
 }

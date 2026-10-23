@@ -92,8 +92,8 @@
    without the script; while live, each change waits for its line (the from keyframes are the button's theme). */
 .theme-morph {
     border-radius: 9999px;
-    box-shadow: 0 14px 32px -8px rgb(192 38 211 / 0.6);
-    background-color: var(--color-fuchsia-600);
+    box-shadow: 0 14px 32px -6px rgb(236 72 153 / 0.75);
+    background-color: var(--color-pink-700);
 }
 
 .stage-js [data-stage]:not(.is-live) .theme-morph {
@@ -137,8 +137,8 @@
 }
 
 @keyframes stage-flash {
-    from { box-shadow: 0 0 0 0 rgb(217 70 239 / 0.55); border-radius: 0.75rem; }
-    to { box-shadow: 0 0 0 1.25rem rgb(217 70 239 / 0); border-radius: 0.75rem; }
+    from { box-shadow: 0 0 0 0 rgb(217 70 239 / 0.55); border-radius: var(--stage-radius, 0.75rem); }
+    to { box-shadow: 0 0 0 1.25rem rgb(217 70 239 / 0); border-radius: var(--stage-radius, 0.75rem); }
 }
 
 @keyframes stage-fade {
@@ -224,11 +224,15 @@
             animation-range: entry 0% cover 30%;
         }
 
-        /* Items in the same row would otherwise appear together; a small offset staggers them. */
-        .reveal-group > :nth-child(2) { animation-range: entry 10% cover 36%; }
-        .reveal-group > :nth-child(3) { animation-range: entry 20% cover 42%; }
-        .reveal-group > :nth-child(4) { animation-range: entry 30% cover 48%; }
-        .reveal-group > :nth-child(5) { animation-range: entry 40% cover 54%; }
+        /* Items in the same row would otherwise appear together; a small offset staggers them. Only wide screens
+           put them in one row: on a phone each item is its own row, and the offset would leave the later ones
+           blurred and shifted long after they scroll into view. */
+        @media (width >= 64rem) {
+            .reveal-group > :nth-child(2) { animation-range: entry 10% cover 36%; }
+            .reveal-group > :nth-child(3) { animation-range: entry 20% cover 42%; }
+            .reveal-group > :nth-child(4) { animation-range: entry 30% cover 48%; }
+            .reveal-group > :nth-child(5) { animation-range: entry 40% cover 54%; }
+        }
     }
 }
 /* .theme-light opts a subtree out of dark mode, so the theme builder can show a light and a dark preview side by side. */

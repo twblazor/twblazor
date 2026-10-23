@@ -1,0 +1,13 @@
+@using IconEnum = TwBlazor.Enums.Icon
+@* Purely decorative, so the whole bar is hidden from assistive technology. *@
+<div class="flex items-center justify-between border-b border-white/10 bg-white/5 font-sans" aria-hidden="true">
+    <span class="flex min-w-0 items-center gap-2 px-4 py-2 text-xs text-gray-300">
+        <TwIcon Icon="Icon" Plain Class="shrink-0 text-sky-300" />
+        <span class="truncate">@Title</span>
+    </span>
+    <span class="flex shrink-0 text-[11px] text-gray-400">
+        <span class="inline-flex h-8 w-10 items-center justify-center"><TwIcon Icon="IconEnum.Dash_Lg" Plain /></span>
+        <span class="inline-flex h-8 w-10 items-center justify-center"><TwIcon Icon="IconEnum.Square" Plain /></span>
+        <span class="inline-flex h-8 w-10 items-center justify-center"><TwIcon Icon="IconEnum.X_Lg" Plain /></span>
+    </span>
+</div>
