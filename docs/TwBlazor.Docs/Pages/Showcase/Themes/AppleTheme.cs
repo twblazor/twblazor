@@ -1482,6 +1482,12 @@ public static class AppleTheme
                     Medium = "text-2xl",
                     Large = "text-4xl"
                 },
+                new TwRangeSliderTheme
+                {
+                    Handle = $"{positioning.Absolute} inset-0 {interaction.PointerEventsNone}",
+                    Base = $"inset-[0_-0.625rem] w-[calc(100%+1.25rem)] {interaction.PointerEventsNone} [&::-webkit-slider-thumb]:size-5 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:cursor-pointer [&::-moz-range-thumb]:size-5 [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:pointer-events-auto [&::-moz-range-thumb]:cursor-pointer aria-readonly:[&::-webkit-slider-thumb]:pointer-events-none aria-readonly:[&::-moz-range-thumb]:pointer-events-none disabled:[&::-webkit-slider-thumb]:cursor-not-allowed disabled:[&::-moz-range-thumb]:cursor-not-allowed",
+                    Fill = $"{positioning.Absolute} inset-y-0"
+                },
                 new TwSliderTheme
                 {
                     Colors = new()

@@ -1,0 +1,125 @@
+name: Sync project priority
+
+# Moves each open issue on the twblazor project board to the column for its Priority issue field
+# (Urgent, High, Medium or Low), or to Backlog when it has no priority. Cards in "In Progress" or "Done"
+# are left where they are, so work in flight is never pulled back into a priority column. A newly opened
+# or reopened issue is added to the board first, so it lands in its column (or Backlog) straight away.
+#
+# GitHub's built-in project workflows cannot read issue fields, and there is no event for a field
+# changing, so this runs on a schedule as well as when an issue is opened, reopened or edited.
+#
+# Uses the twblazor-release GitHub App, because the built-in GITHUB_TOKEN cannot change organisation
+# projects. The app needs Issues: read on the repository and Projects: read and write on the
+# organisation. Its client ID and private key are read from the project-sync environment, which only the
+# default branch may use; the release environment cannot be used here because it needs a reviewer to
+# approve every run. The token is cut down to just those two permissions when it is created.
+
+on:
+  issues:
+    types:
+      - opened
+      - reopened
+      - edited
+  schedule:
+    # Once a day at 06:17 UTC. An odd minute, because GitHub delays runs queued on the hour.
+    - cron: "17 6 * * *"
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: sync-project-priority
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    name: Move cards to their priority column
+    runs-on: ubuntu-latest
+    environment: project-sync
+    env:
+      ORG: twblazor
+      PROJECT_NUMBER: 2
+    steps:
+      - name: Create app token
+        id: app-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ vars.RELEASE_BOT_CLIENT_ID }}
+          private-key: ${{ secrets.RELEASE_BOT_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: ${{ github.event.repository.name }}
+          permission-issues: read
+          permission-organization-projects: write
+
+      - name: Add the issue to the board
+        if: github.event_name == 'issues' && github.event.action != 'edited'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          ISSUE_URL: ${{ github.event.issue.html_url }}
+        run: |
+          # Adding an item that is already on the board is a no-op.
+          gh project item-add "$PROJECT_NUMBER" --owner "$ORG" --url "$ISSUE_URL" > /dev/null
+
+      - name: Move open issues to the column for their priority
+        shell: bash
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          set -euo pipefail
+
+          query='query($org: String!, $number: Int!, $endCursor: String) {
+            organization(login: $org) {
+              projectV2(number: $number) {
+                id
+                field(name: "Status") { ... on ProjectV2SingleSelectField { id options { id name } } }
+                items(first: 100, after: $endCursor) {
+                  pageInfo { hasNextPage endCursor }
+                  nodes {
+                    id
+                    status: fieldValueByName(name: "Status") { ... on ProjectV2ItemFieldSingleSelectValue { name } }
+                    content {
+                      ... on Issue {
+                        number
+                        state
+                        issueFieldValues(first: 10) {
+                          nodes { ... on IssueFieldSingleSelectValue { name field { ... on IssueFieldSingleSelect { name } } } }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }'
+
+          # Issue fields are behind a preview header.
+          gh api graphql --paginate -H "GraphQL-Features: issue_fields" \
+            -f query="$query" -F org="$ORG" -F number="$PROJECT_NUMBER" > pages.json
+
+          project_id=$(jq -r -s '.[0].data.organization.projectV2.id' pages.json)
+          field_id=$(jq -r -s '.[0].data.organization.projectV2.field.id' pages.json)
+
+          # One line per card to move: item id, option id, issue number, column. An issue with no
+          # priority goes to Backlog.
+          jq -r -s '
+            (.[0].data.organization.projectV2.field.options | map({ (.name): .id }) | add) as $columns
+            | [.[].data.organization.projectV2.items.nodes[]] | .[]
+            | select(.content.state == "OPEN")
+            | ((.content.issueFieldValues.nodes // []) | map(select(.field.name == "Priority")) | .[0].name) as $priority
+            | ($priority // "Backlog") as $target
+            | select($columns[$target] != null)
+            | (.status.name // "") as $status
+            | select($status != "In Progress" and $status != "Done" and $status != $target)
+            | [.id, $columns[$target], (.content.number | tostring), $target] | @tsv
+          ' pages.json > moves.tsv
+
+          moved=0
+          while IFS=$'\t' read -r item option number column; do
+            gh project item-edit --id "$item" --project-id "$project_id" --field-id "$field_id" \
+              --single-select-option-id "$option" > /dev/null
+            echo "Moved #$number to $column"
+            moved=$((moved + 1))
+          done < moves.tsv
+
+          echo "Moved $moved card(s)."

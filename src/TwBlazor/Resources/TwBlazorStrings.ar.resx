@@ -684,6 +684,12 @@
   <data name="Numeric_Invalid" xml:space="preserve">
     <value>أدخل رقمًا صالحًا.</value>
   </data>
+  <data name="RangeSlider_Minimum" xml:space="preserve">
+    <value>الحد الأدنى</value>
+  </data>
+  <data name="RangeSlider_Maximum" xml:space="preserve">
+    <value>الحد الأقصى</value>
+  </data>
   <data name="DataTable_NoData" xml:space="preserve">
     <value>لا توجد بيانات.</value>
   </data>

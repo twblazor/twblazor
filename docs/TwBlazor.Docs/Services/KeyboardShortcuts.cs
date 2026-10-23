@@ -312,6 +312,14 @@ internal static class KeyboardShortcuts
             Key("Moves to the previous option and selects it.", up, left),
             Key("Selects the focused option when none is selected yet.", space)),
 
+        ["/range-slider"] = Guide(
+            "Each handle is a native range input named Minimum or Maximum, inside a group named by the label. A handle stops when it reaches the other one. A read-only range slider can be focused but its values cannot be changed.",
+            Key("Moves focus to the minimum handle, then to the maximum handle.", tab, shiftTab),
+            Key("Increases the focused handle's value by one step.", right, up),
+            Key("Decreases the focused handle's value by one step.", left, down),
+            Key("Moves the focused handle as far as it can go.", home, end),
+            Key("Changes the focused handle's value by a larger amount.", pageUp, pageDown)),
+
         ["/rating"] = Guide(
             "A rating is a group of native radio inputs, one for each value, and is a single Tab stop. A read-only rating is not a Tab stop: "
             + "screen readers announce it as an image named after its value.",

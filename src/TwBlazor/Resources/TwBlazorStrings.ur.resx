@@ -681,6 +681,12 @@
   <data name="Numeric_Invalid" xml:space="preserve">
     <value>درست نمبر درج کریں۔</value>
   </data>
+  <data name="RangeSlider_Minimum" xml:space="preserve">
+    <value>کم از کم</value>
+  </data>
+  <data name="RangeSlider_Maximum" xml:space="preserve">
+    <value>زیادہ سے زیادہ</value>
+  </data>
   <data name="DataTable_NoData" xml:space="preserve">
     <value>کوئی ڈیٹا دستیاب نہیں۔</value>
   </data>

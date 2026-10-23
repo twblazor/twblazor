@@ -681,6 +681,12 @@
   <data name="Numeric_Invalid" xml:space="preserve">
     <value>請輸入有效的數字。</value>
   </data>
+  <data name="RangeSlider_Minimum" xml:space="preserve">
+    <value>最小值</value>
+  </data>
+  <data name="RangeSlider_Maximum" xml:space="preserve">
+    <value>最大值</value>
+  </data>
   <data name="DataTable_NoData" xml:space="preserve">
     <value>暫無資料。</value>
   </data>

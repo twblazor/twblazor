@@ -836,6 +836,14 @@
     <value>Enter a valid number.</value>
     <comment>Shown below a numeric field when the text typed into it is not a number.</comment>
   </data>
+  <data name="RangeSlider_Minimum" xml:space="preserve">
+    <value>Minimum</value>
+    <comment>Read out for the handle that sets the lower end of a range slider.</comment>
+  </data>
+  <data name="RangeSlider_Maximum" xml:space="preserve">
+    <value>Maximum</value>
+    <comment>Read out for the handle that sets the upper end of a range slider.</comment>
+  </data>
   <data name="DataTable_NoData" xml:space="preserve">
     <value>No data available.</value>
     <comment>Shown in a data table that has no rows, when nothing is being searched for.</comment>

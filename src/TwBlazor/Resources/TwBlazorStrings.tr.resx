@@ -681,6 +681,12 @@
   <data name="Numeric_Invalid" xml:space="preserve">
     <value>Geçerli bir sayı girin.</value>
   </data>
+  <data name="RangeSlider_Minimum" xml:space="preserve">
+    <value>En düşük</value>
+  </data>
+  <data name="RangeSlider_Maximum" xml:space="preserve">
+    <value>En yüksek</value>
+  </data>
   <data name="DataTable_NoData" xml:space="preserve">
     <value>Veri yok.</value>
   </data>

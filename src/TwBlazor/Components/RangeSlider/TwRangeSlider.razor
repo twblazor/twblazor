@@ -1,0 +1,22 @@
+@namespace TwBlazor.Components
+@inherits TwBlazorInputComponentBase
+@typeparam T
+
+<TwInputRoot RootId="@RootId" RootClass="@RootClass" RootAttributes="@RootAttributes" RootStyle="@Style" RootAriaLabel="@AriaLabel" RootAriaLabelledBy="@AriaLabelledBy" RootErrorMessage="@fieldErrorMessage" RootErrorId="@errorId">
+    <TwInputLabel Id="@labelId" For="@Id" Label="@Label" Class="@LabelClass" @attributes="@LabelAttributes" />
+    <div class="@wrapperClasses" role="group" aria-label="@groupAriaLabel" aria-labelledby="@groupAriaLabelledBy" @attributes="@Attributes">
+        <div class="@trackClasses" aria-hidden="true">
+            <div class="@fillClasses" style="@fillStyle"></div>
+        </div>
+        <div class="@theme.Handle" style="@lowerHandleStyle">
+            <input type="range" @ref="lowerRef" id="@Id" name="@lowerName" value="@lowerInputValue" min="@Min" max="@Max" step="@Step" class="@classes" style="opacity:0;" disabled="@Disabled" @oninput="@HandleLowerInput" aria-label="@minimumLabel" aria-readonly="@ariaReadOnly" aria-invalid="@ariaInvalid" aria-describedby="@errorId" />
+            <div class="@thumbClasses" style="@lowerPositionStyle" aria-hidden="true"></div>
+            <div class="@sliderTheme.Bubble" style="@lowerPositionStyle" aria-hidden="true">@LowerValue</div>
+        </div>
+        <div class="@theme.Handle" style="@upperHandleStyle">
+            <input type="range" @ref="upperRef" id="@upperId" name="@upperName" value="@upperInputValue" min="@Min" max="@Max" step="@Step" class="@classes" style="opacity:0;" disabled="@Disabled" @oninput="@HandleUpperInput" aria-label="@maximumLabel" aria-readonly="@ariaReadOnly" aria-invalid="@ariaInvalid" aria-describedby="@errorId" />
+            <div class="@thumbClasses" style="@upperPositionStyle" aria-hidden="true"></div>
+            <div class="@sliderTheme.Bubble" style="@upperPositionStyle" aria-hidden="true">@UpperValue</div>
+        </div>
+    </div>
+</TwInputRoot>

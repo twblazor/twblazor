@@ -678,6 +678,12 @@
   <data name="Numeric_Invalid" xml:space="preserve">
     <value>சரியான எண்ணை உள்ளிடவும்.</value>
   </data>
+  <data name="RangeSlider_Minimum" xml:space="preserve">
+    <value>குறைந்தபட்சம்</value>
+  </data>
+  <data name="RangeSlider_Maximum" xml:space="preserve">
+    <value>அதிகபட்சம்</value>
+  </data>
   <data name="DataTable_NoData" xml:space="preserve">
     <value>தரவு எதுவும் இல்லை.</value>
   </data>

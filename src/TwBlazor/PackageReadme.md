@@ -1,4 +1,4 @@
-![twblazor](https://raw.githubusercontent.com/twblazor/twblazor/main/images/banner.png)
+[![twblazor: Tailwind CSS components for Blazor](https://raw.githubusercontent.com/twblazor/twblazor/main/images/readme-banner.png)](https://twblazor.com/)
 
 [![Quality gate status](https://sonarcloud.io/api/project_badges/measure?project=twblazor_twblazor&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=twblazor_twblazor)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=twblazor_twblazor&metric=bugs)](https://sonarcloud.io/summary/new_code?id=twblazor_twblazor)
@@ -9,7 +9,7 @@
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=twblazor_twblazor&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=twblazor_twblazor)
 [![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=twblazor_twblazor&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=twblazor_twblazor)
 
-[API Documentation (docfx)](https://twblazor.github.io/twblazor/) • [Component Documentation (twblazor.com)](https://twblazor.com/) • [Get Started](https://twblazor.com/get-started)
+[API Documentation (docfx)](https://twblazor.github.io/twblazor/) • [Component Documentation (twblazor.com)](https://twblazor.com/) • [Get Started](https://twblazor.com/get-started) • [AI Agents & Skills](https://twblazor.com/ai-agents) • [Support development 💜](https://buymeacoffee.com/twblazor)
 
 ## Setup
 
@@ -25,3 +25,9 @@ Using an AI coding assistant? Point it at [twblazor.com/llms.txt](https://twblaz
 
 - [Tailwind CSS](https://tailwindcss.com/) - A utility-first CSS framework for styling components.
 - [Bootstrap Icons](https://icons.getbootstrap.com/) - An open-source icon library used for our TwIcon component.
+
+---
+
+[![Support twblazor on Buy Me a Coffee](https://raw.githubusercontent.com/twblazor/twblazor/main/images/twblazor-bmc-banner.png)](https://buymeacoffee.com/twblazor)
+
+This library is powered by Tailwind, Blazor and a dangerous amount of coffee. You can help with that last one at **[buymeacoffee.com/twblazor](https://buymeacoffee.com/twblazor)**. Thank you! ☕

@@ -1,5 +1,7 @@
 <p align="center">
-  <img src="./images/banner.svg" alt="twblazor" height="200" style="height: 200px;">
+  <a href="https://twblazor.com/" target="_blank">
+    <img src="./images/readme-banner.png" alt="twblazor: Tailwind CSS components for Blazor" width="800">
+  </a>
 </p>
 <p align="center">
 
@@ -23,7 +25,7 @@
 ![Alt](https://repobeats.axiom.co/api/embed/2bfe82b583e4cb3dee72a558d767980587b57c6f.svg "Repobeats analytics image")
 
 <p align="center">
-    <a href="https://twblazor.github.io/twblazor/" target="_blank">API Documentation (docfx)</a> &bullet; <a href="https://twblazor.com/" target="_blank">Component Documentation (twblazor.com)</a> &bullet; <a href="https://twblazor.com/get-started" target="_blank">Get Started</a> &bullet; <a href="https://twblazor.com/ai-agents" target="_blank">AI Agents &amp; Skills</a>
+    <a href="https://twblazor.github.io/twblazor/" target="_blank">API Documentation (docfx)</a> &bullet; <a href="https://twblazor.com/" target="_blank">Component Documentation (twblazor.com)</a> &bullet; <a href="https://twblazor.com/get-started" target="_blank">Get Started</a> &bullet; <a href="https://twblazor.com/ai-agents" target="_blank">AI Agents &amp; Skills</a> &bullet; <a href="https://buymeacoffee.com/twblazor" target="_blank">Support development 💜</a>
 </p>
 
 ## Contents
@@ -206,3 +208,20 @@ All our packages currently support and built in .NET 10.
 
 - [Tailwind CSS](https://tailwindcss.com/) - A utility-first CSS framework for styling components.
 - [Bootstrap Icons](https://icons.getbootstrap.com/) - An open-source icon library used for our TwIcon component.
+
+<br>
+
+---
+
+<br>
+
+<p align="center">
+  <a href="https://buymeacoffee.com/twblazor" target="_blank">
+    <img src="./images/twblazor-bmc-banner.png" alt="Support twblazor on Buy Me a Coffee" width="800">
+  </a>
+</p>
+
+<p align="center">
+  This library is powered by Tailwind, Blazor and a dangerous amount of coffee.<br>
+  You can help with that last one at <a href="https://buymeacoffee.com/twblazor" target="_blank"><strong>buymeacoffee.com/twblazor</strong></a>. Thank you! ☕
+</p>

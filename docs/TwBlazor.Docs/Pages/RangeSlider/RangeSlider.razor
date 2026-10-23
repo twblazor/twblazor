@@ -1,0 +1,90 @@
+@page "/range-slider"
+
+<PageContainer Title="TwRangeSlider" Path="/range-slider" Beta Description="TwRangeSlider is a Blazor range slider with two handles for choosing a minimum and maximum value. Bind LowerValue and UpperValue and set Min, Max and Step." ThemeType="typeof(TwRangeSliderTheme)">
+    <PageCard Title="Basic usage">
+        <Description>Bind <code>LowerValue</code> and <code>UpperValue</code> to pick a range between <code>Min</code> and <code>Max</code>. The handles cannot pass each other.</Description>
+
+        <CodeExample Name="RangeSliderBasic" CSharpName="RangeSliderBasicCode">
+            <TwRangeSlider T="int" Id="price-range-slider" Min="0" Max="1000" Step="10" Label="Price" @bind-LowerValue="lowPrice" @bind-UpperValue="highPrice" />
+            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">From <strong>@($"${lowPrice}")</strong> to <strong>@($"${highPrice}")</strong></p>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Colors">
+        <Description>Use <code>Color</code> to tint the filled range between the handles.</Description>
+
+        <CodeExample Name="RangeSliderColors" CSharpName="RangeSliderColorsCode">
+            <div class="space-y-6">
+                <div>
+                    <TwRangeSlider T="int" Id="comfort-range-slider" Min="10" Max="30" Step="1" Label="Comfortable temperature" Color="Color.Success" @bind-LowerValue="comfortLow" @bind-UpperValue="comfortHigh" />
+                    <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">@comfortLow&deg;C to @comfortHigh&deg;C</p>
+                </div>
+
+                <div>
+                    <TwRangeSlider T="int" Id="alert-range-slider" Min="0" Max="100" Step="1" Label="Alert band" Color="Color.Danger" @bind-LowerValue="alertLow" @bind-UpperValue="alertHigh" />
+                    <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Alert between @alertLow% and @alertHigh%</p>
+                </div>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Minimum distance">
+        <Description>Set <code>MinDistance</code> to keep a gap between the handles. Here a booking must be at least two hours long.</Description>
+
+        <CodeExample Name="RangeSliderMinDistance" CSharpName="RangeSliderMinDistanceCode">
+            <TwRangeSlider T="int" Id="booking-range-slider" Min="8" Max="20" Step="1" MinDistance="2" Label="Booking hours" Color="Color.Accent" @bind-LowerValue="bookingStart" @bind-UpperValue="bookingEnd" />
+            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">@bookingStart:00 to @bookingEnd:00 (@(bookingEnd - bookingStart) hours)</p>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Precision">
+        <Description>Any numeric type works through <code>T</code>. Use <code>decimal</code> or <code>double</code> with a fractional <code>Step</code> for fine control.</Description>
+
+        <CodeExample Name="RangeSliderPrecision" CSharpName="RangeSliderPrecisionCode">
+            <TwRangeSlider T="decimal" Id="rating-range-slider" Min="0m" Max="5m" Step="0.5m" Label="Rating" @bind-LowerValue="ratingLow" @bind-UpperValue="ratingHigh" />
+            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Rated <strong>@ratingLow.ToString("0.0")</strong> to <strong>@ratingHigh.ToString("0.0")</strong></p>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Disabled & readonly">
+        <Description><code>Disabled</code> dims and locks both handles; <code>ReadOnly</code> keeps the color but blocks changes.</Description>
+
+        <CodeExample Name="RangeSliderDisabledReadonly" CSharpName="RangeSliderDisabledReadonlyCode">
+            <div class="space-y-6">
+                <TwRangeSlider T="int" Id="disabled-range-slider" Min="0" Max="100" Step="1" Label="Disabled" @bind-LowerValue="disabledLow" @bind-UpperValue="disabledHigh" Disabled />
+                <TwRangeSlider T="int" Id="readonly-range-slider" Min="0" Max="100" Step="1" Label="Readonly" Color="Color.Danger" @bind-LowerValue="readonlyLow" @bind-UpperValue="readonlyHigh" ReadOnly />
+            </div>
+        </CodeExample>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample RangeSliderBasicCode
+    private int lowPrice = 200;
+    private int highPrice = 750;
+    #endregion
+
+    #region CodeExample RangeSliderColorsCode
+    private int comfortLow = 19;
+    private int comfortHigh = 23;
+    private int alertLow = 20;
+    private int alertHigh = 80;
+    #endregion
+
+    #region CodeExample RangeSliderMinDistanceCode
+    private int bookingStart = 10;
+    private int bookingEnd = 14;
+    #endregion
+
+    #region CodeExample RangeSliderPrecisionCode
+    private decimal ratingLow = 3.5m;
+    private decimal ratingHigh = 5m;
+    #endregion
+
+    #region CodeExample RangeSliderDisabledReadonlyCode
+    private int disabledLow = 25;
+    private int disabledHigh = 60;
+    private int readonlyLow = 30;
+    private int readonlyHigh = 70;
+    #endregion
+}

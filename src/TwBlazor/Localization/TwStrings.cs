@@ -139,6 +139,12 @@ public static class TwStrings
     /// <summary>The key for "Enter a valid number.", shown when a numeric field holds text that is not a number.</summary>
     public const string Numeric_Invalid = "Numeric_Invalid";
 
+    /// <summary>The key for "Minimum", the accessible name of a range slider's lower handle.</summary>
+    public const string RangeSlider_Minimum = "RangeSlider_Minimum";
+
+    /// <summary>The key for "Maximum", the accessible name of a range slider's upper handle.</summary>
+    public const string RangeSlider_Maximum = "RangeSlider_Maximum";
+
     /// <summary>The key for "Barcode: {0}", the accessible name of a barcode.</summary>
     public const string Barcode_Label = "Barcode_Label";
 
