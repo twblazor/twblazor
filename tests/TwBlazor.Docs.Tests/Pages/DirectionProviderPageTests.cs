@@ -71,6 +71,6 @@ public class DirectionProviderPageTests : DocsTestBase
             .Select(row => row.QuerySelector("th")!.TextContent)
             .ToList();
 
-        Assert.Equal(["Time pickers", "Colour picker", "Charts"], notMirrored);
+        Assert.Equal(["Time pickers", "Colour picker", "Charts", "Code blocks"], notMirrored);
     }
 }

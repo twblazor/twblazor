@@ -39,6 +39,19 @@ public class TwCodeBlockTests : TwBlazorTestBase
     }
 
     [Fact]
+    public void TwCodeBlock_KeepsTheCodeLeftToRight_InsideARightToLeftPage()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwDirectionProvider>(parameters => parameters
+            .Add(p => p.Direction, TextDirection.RightToLeft)
+            .AddChildContent<TwCodeBlock>(code => code.Add(p => p.Content, "<TwButton Label=\"Save\" />")));
+
+        // Assert
+        Assert.Equal("rtl", cut.Find("div[dir]").GetAttribute("dir"));
+        Assert.Equal("ltr", cut.Find("pre").GetAttribute("dir"));
+    }
+
+    [Fact]
     public void TwCodeBlock_GeneratesId_WhenNotProvided()
     {
         // Arrange & Act
