@@ -1,4 +1,7 @@
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
 using TwBlazor;
+using TwBlazor.Docs.Services;
 using TwBlazor.Server.Components;
 using TwBlazor.Theme;
 
@@ -24,6 +27,18 @@ if (!app.Environment.IsDevelopment())
 }
 app.UseStatusCodePagesWithReExecute("/not-found", createScopeForStatusCodePages: true);
 app.UseHttpsRedirection();
+
+// The navbar's language switcher saves its choice in the culture cookie. Only the cookie is read, so a visitor
+// who has not picked a language keeps the server's default rather than their browser's language.
+var docsCultures = DocsLanguages.All.Select(l => l.Code)
+    .Append(CultureInfo.CurrentCulture.Name)
+    .Distinct()
+    .ToArray();
+var localizationOptions = new RequestLocalizationOptions()
+    .AddSupportedCultures(docsCultures)
+    .AddSupportedUICultures(docsCultures);
+localizationOptions.RequestCultureProviders = [new CookieRequestCultureProvider()];
+app.UseRequestLocalization(localizationOptions);
 
 app.UseAntiforgery();
 

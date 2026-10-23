@@ -1,0 +1,823 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  English (neutral) strings for every TwBlazor component.
+
+  To add a language, copy this file to TwBlazorStrings.<culture>.resx (for example TwBlazorStrings.de.resx)
+  and translate each <value>. Keep the names and the {0} placeholders unchanged. A key that is missing from a
+  language file falls back to the value in this file.
+
+  The Format_ entries are optional .NET date and time format strings. Leave them empty to use the culture's own patterns.
+-->
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <!-- Common -->
+    <data name="Footer_FreeForever" xml:space="preserve">
+    <value>twblazor miễn phí, mã nguồn mở và sẽ luôn như vậy.</value>
+  </data>
+  <data name="Footer_Label" xml:space="preserve">
+    <value>Chân trang</value>
+  </data>
+  <data name="Footer_License" xml:space="preserve">
+    <value>Giấy phép MIT</value>
+  </data>
+  <data name="Footer_Link_AiAgents" xml:space="preserve">
+    <value>Tác tử AI và kỹ năng</value>
+  </data>
+  <data name="Footer_Link_ApiDocs" xml:space="preserve">
+    <value>Tài liệu API</value>
+  </data>
+  <data name="Footer_Link_ClassMerge" xml:space="preserve">
+    <value>Gộp lớp</value>
+  </data>
+  <data name="Footer_Link_CodeOfConduct" xml:space="preserve">
+    <value>Quy tắc ứng xử</value>
+  </data>
+  <data name="Footer_Link_Contributing" xml:space="preserve">
+    <value>Đóng góp</value>
+  </data>
+  <data name="Footer_Link_Install" xml:space="preserve">
+    <value>Hướng dẫn cài đặt</value>
+  </data>
+  <data name="Footer_Link_Issue" xml:space="preserve">
+    <value>Báo cáo sự cố</value>
+  </data>
+  <data name="Footer_Link_Localization" xml:space="preserve">
+    <value>Bản địa hóa</value>
+  </data>
+  <data name="Footer_Link_Rtl" xml:space="preserve">
+    <value>Phải sang trái</value>
+  </data>
+  <data name="Footer_Link_Tailwind" xml:space="preserve">
+    <value>Tailwind CSS với Blazor</value>
+  </data>
+  <data name="Footer_Link_Theming" xml:space="preserve">
+    <value>Chủ đề</value>
+  </data>
+  <data name="Footer_Link_Why" xml:space="preserve">
+    <value>Vì sao chọn twblazor?</value>
+  </data>
+  <data name="Footer_NewTab" xml:space="preserve">
+    <value>(mở trong thẻ mới)</value>
+  </data>
+  <data name="Footer_Sec_Community" xml:space="preserve">
+    <value>Cộng đồng</value>
+  </data>
+  <data name="Footer_Sec_GetStarted" xml:space="preserve">
+    <value>Bắt đầu</value>
+  </data>
+  <data name="Footer_Sec_Guides" xml:space="preserve">
+    <value>Hướng dẫn</value>
+  </data>
+  <data name="Footer_Sec_Resources" xml:space="preserve">
+    <value>Tài nguyên</value>
+  </data>
+  <data name="Footer_Tagline" xml:space="preserve">
+    <value>Thư viện thành phần Tailwind CSS dành cho Blazor. Dễ tiếp cận, dễ đổi chủ đề và theo giấy phép MIT.</value>
+  </data>
+  <data name="Home_Back" xml:space="preserve">
+    <value>Quay lại</value>
+  </data>
+  <data name="Home_Brand_ShortDisclaimer" xml:space="preserve">
+    <value>Ví dụ độc lập. twblazor không liên kết và không được các công ty này xác nhận.</value>
+  </data>
+  <data name="Home_Case_Eyebrow" xml:space="preserve">
+    <value>Xem thực tế</value>
+  </data>
+  <data name="Home_Case_Heading" xml:space="preserve">
+    <value>Năm phong cách quen thuộc, một thư viện thành phần</value>
+  </data>
+  <data name="Home_Case_Inspired" xml:space="preserve">
+    <value>&lt;span class=&quot;font-normal text-purple-200&quot;&gt;Lấy cảm hứng từ &lt;/span&gt;{0}</value>
+  </data>
+  <data name="Home_Case_SeeTheme" xml:space="preserve">
+    <value>Xem chủ đề</value>
+  </data>
+  <data name="Home_Case_Sub" xml:space="preserve">
+    <value>Cùng các thành phần, một &lt;code&gt;Theme.cs&lt;/code&gt; khác.</value>
+  </data>
+  <data name="Home_Chart_Day" xml:space="preserve">
+    <value>Ngày</value>
+  </data>
+  <data name="Home_Chart_Deploys" xml:space="preserve">
+    <value>Số lần triển khai mỗi ngày</value>
+  </data>
+  <data name="Home_Chart_DeploysDesc" xml:space="preserve">
+    <value>14 ngày qua</value>
+  </data>
+  <data name="Home_Chart_Folder" xml:space="preserve">
+    <value>Thư mục</value>
+  </data>
+  <data name="Home_Chart_Hour" xml:space="preserve">
+    <value>Giờ</value>
+  </data>
+  <data name="Home_Chart_Response" xml:space="preserve">
+    <value>Thời gian phản hồi</value>
+  </data>
+  <data name="Home_Chart_ResponseDesc" xml:space="preserve">
+    <value>Phân vị thứ 95, 24 giờ qua</value>
+  </data>
+  <data name="Home_Chart_Size" xml:space="preserve">
+    <value>Dung lượng</value>
+  </data>
+  <data name="Home_Chart_Storage" xml:space="preserve">
+    <value>Bộ nhớ theo thư mục</value>
+  </data>
+  <data name="Home_Chart_StorageDesc" xml:space="preserve">
+    <value>7,2 GB trong 10 thư mục</value>
+  </data>
+  <data name="Home_Checkout_Account" xml:space="preserve">
+    <value>Tài khoản</value>
+  </data>
+  <data name="Home_Checkout_AccountDesc" xml:space="preserve">
+    <value>Tạo thông tin đăng nhập</value>
+  </data>
+  <data name="Home_Checkout_Done" xml:space="preserve">
+    <value>Xong</value>
+  </data>
+  <data name="Home_Checkout_DoneDesc" xml:space="preserve">
+    <value>Đã sẵn sàng</value>
+  </data>
+  <data name="Home_Checkout_Notifications" xml:space="preserve">
+    <value>Thông báo qua email</value>
+  </data>
+  <data name="Home_Checkout_Preferences" xml:space="preserve">
+    <value>Tùy chọn</value>
+  </data>
+  <data name="Home_Checkout_PreferencesDesc" xml:space="preserve">
+    <value>Điều chỉnh thiết lập</value>
+  </data>
+  <data name="Home_Checkout_Progress" xml:space="preserve">
+    <value>Tiến độ thanh toán</value>
+  </data>
+  <data name="Home_Checkout_Thanks" xml:space="preserve">
+    <value>Cảm ơn, bạn đã sẵn sàng.</value>
+  </data>
+  <data name="Home_Checkout_Title" xml:space="preserve">
+    <value>Các bước thanh toán</value>
+  </data>
+  <data name="Home_Community_Heading" xml:space="preserve">
+    <value>Tham gia thảo luận trên Discord</value>
+  </data>
+  <data name="Home_Community_Join" xml:space="preserve">
+    <value>Tham gia Discord</value>
+  </data>
+  <data name="Home_Community_Sub" xml:space="preserve">
+    <value>Đặt câu hỏi và chia sẻ những gì bạn đang xây dựng.</value>
+  </data>
+  <data name="Home_Cta_Heading" xml:space="preserve">
+    <value>Sẵn sàng tạo nên điều tuyệt vời?</value>
+  </data>
+  <data name="Home_Cta_Star" xml:space="preserve">
+    <value>Gắn sao trên GitHub</value>
+  </data>
+  <data name="Home_Cta_Sub" xml:space="preserve">
+    <value>Bắt đầu với tài liệu.</value>
+  </data>
+  <data name="Home_Cycle_Admin" xml:space="preserve">
+    <value>trang quản trị</value>
+  </data>
+  <data name="Home_Cycle_Checkout" xml:space="preserve">
+    <value>trang thanh toán</value>
+  </data>
+  <data name="Home_Cycle_Dashboard" xml:space="preserve">
+    <value>bảng điều khiển</value>
+  </data>
+  <data name="Home_Cycle_Settings" xml:space="preserve">
+    <value>trang cài đặt</value>
+  </data>
+  <data name="Home_Cycle_SignIn" xml:space="preserve">
+    <value>biểu mẫu đăng nhập</value>
+  </data>
+  <data name="Home_Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Home_EmailPlaceholder" xml:space="preserve">
+    <value>Nhập địa chỉ email của bạn</value>
+  </data>
+  <data name="Home_Env_Development" xml:space="preserve">
+    <value>Phát triển</value>
+  </data>
+  <data name="Home_Env_Production" xml:space="preserve">
+    <value>Sản xuất</value>
+  </data>
+  <data name="Home_Env_Staging" xml:space="preserve">
+    <value>Thử nghiệm</value>
+  </data>
+  <data name="Home_Examples_Heading" xml:space="preserve">
+    <value>Thành phần thật. Sẵn sàng cho ứng dụng của bạn.</value>
+  </data>
+  <data name="Home_Examples_Sub" xml:space="preserve">
+    <value>Mọi ví dụ đều chạy thật. Hãy thử.</value>
+  </data>
+  <data name="Home_Failed" xml:space="preserve">
+    <value>Thất bại</value>
+  </data>
+  <data name="Home_Feature_A11y_Body" xml:space="preserve">
+    <value>Hỗ trợ ARIA và bàn phím có sẵn.</value>
+  </data>
+  <data name="Home_Feature_A11y_Title" xml:space="preserve">
+    <value>Dễ tiếp cận</value>
+  </data>
+  <data name="Home_Feature_Composable_Body" xml:space="preserve">
+    <value>Tham số Blazor thông thường. Không bất ngờ.</value>
+  </data>
+  <data name="Home_Feature_Composable_Title" xml:space="preserve">
+    <value>Dễ kết hợp</value>
+  </data>
+  <data name="Home_Feature_Custom_Body" xml:space="preserve">
+    <value>Thương hiệu của bạn, ở cả chế độ sáng và tối.</value>
+  </data>
+  <data name="Home_Feature_Custom_Title" xml:space="preserve">
+    <value>Tùy chỉnh hoàn toàn</value>
+  </data>
+  <data name="Home_Feature_Fast_Body" xml:space="preserve">
+    <value>Hơn 25 thành phần, sẵn sàng phát hành.</value>
+  </data>
+  <data name="Home_Feature_Fast_Title" xml:space="preserve">
+    <value>Xây dựng nhanh</value>
+  </data>
+  <data name="Home_Features_HeadingFull" xml:space="preserve">
+    <value>Phù hợp cho dự án tiếp theo của bạn: {0} hoặc {1}.</value>
+  </data>
+  <data name="Home_Features_HeadingLead" xml:space="preserve">
+    <value>Phù hợp cho dự án tiếp theo của bạn:</value>
+  </data>
+  <data name="Home_Features_HeadingTrail" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Home_Features_Pause" xml:space="preserve">
+    <value>Tạm dừng tiêu đề thay đổi</value>
+  </data>
+  <data name="Home_Features_Play" xml:space="preserve">
+    <value>Phát tiêu đề thay đổi</value>
+  </data>
+  <data name="Home_Folder_Apps" xml:space="preserve">
+    <value>Ứng dụng</value>
+  </data>
+  <data name="Home_Folder_Backups" xml:space="preserve">
+    <value>Bản sao lưu</value>
+  </data>
+  <data name="Home_Folder_Documents" xml:space="preserve">
+    <value>Tài liệu</value>
+  </data>
+  <data name="Home_Folder_Downloads" xml:space="preserve">
+    <value>Tải xuống</value>
+  </data>
+  <data name="Home_Folder_Fonts" xml:space="preserve">
+    <value>Phông chữ</value>
+  </data>
+  <data name="Home_Folder_Music" xml:space="preserve">
+    <value>Nhạc</value>
+  </data>
+  <data name="Home_Folder_Photos" xml:space="preserve">
+    <value>Ảnh</value>
+  </data>
+  <data name="Home_Folder_Projects" xml:space="preserve">
+    <value>Dự án</value>
+  </data>
+  <data name="Home_Folder_Temp" xml:space="preserve">
+    <value>Tạm</value>
+  </data>
+  <data name="Home_Folder_Videos" xml:space="preserve">
+    <value>Video</value>
+  </data>
+  <data name="Home_GetStarted" xml:space="preserve">
+    <value>Bắt đầu</value>
+  </data>
+  <data name="Home_Guides_Heading" xml:space="preserve">
+    <value>Tailwind và Blazor, cùng nhau</value>
+  </data>
+  <data name="Home_Guides_Install" xml:space="preserve">
+    <value>Server hoặc WebAssembly trong chín bước.</value>
+  </data>
+  <data name="Home_Guides_Install_Title" xml:space="preserve">
+    <value>Hướng dẫn cài đặt</value>
+  </data>
+  <data name="Home_Guides_Tailwind" xml:space="preserve">
+    <value>Cách các lớp của bạn được tìm thấy và áp dụng chủ đề.</value>
+  </data>
+  <data name="Home_Guides_Tailwind_Title" xml:space="preserve">
+    <value>Tailwind CSS với Blazor</value>
+  </data>
+  <data name="Home_Guides_Why" xml:space="preserve">
+    <value>Giấy phép MIT và thuần Tailwind.</value>
+  </data>
+  <data name="Home_Hero_Badge" xml:space="preserve">
+    <value>Miễn phí, mã nguồn mở và giấy phép MIT</value>
+  </data>
+  <data name="Home_Hero_GitHub" xml:space="preserve">
+    <value>Xem trên GitHub</value>
+  </data>
+  <data name="Home_Hero_Install" xml:space="preserve">
+    <value>Cài đặt</value>
+  </data>
+  <data name="Home_Hero_Subtitle" xml:space="preserve">
+    <value>Các thành phần dễ tiếp cận, dễ đổi chủ đề cho Blazor Server và WebAssembly.</value>
+  </data>
+  <data name="Home_Hero_TitleAccent" xml:space="preserve">
+    <value>dành cho Blazor</value>
+  </data>
+  <data name="Home_Hero_TitleLead" xml:space="preserve">
+    <value>Thư viện thành phần Tailwind CSS</value>
+  </data>
+  <data name="Home_Lang_ar" xml:space="preserve">
+    <value>Tiếng Ả Rập</value>
+  </data>
+  <data name="Home_Lang_bn" xml:space="preserve">
+    <value>Tiếng Bengal</value>
+  </data>
+  <data name="Home_Lang_de" xml:space="preserve">
+    <value>Tiếng Đức</value>
+  </data>
+  <data name="Home_Lang_en" xml:space="preserve">
+    <value>Tiếng Anh</value>
+  </data>
+  <data name="Home_Lang_es" xml:space="preserve">
+    <value>Tiếng Tây Ban Nha</value>
+  </data>
+  <data name="Home_Lang_fa" xml:space="preserve">
+    <value>Tiếng Ba Tư</value>
+  </data>
+  <data name="Home_Lang_fr" xml:space="preserve">
+    <value>Tiếng Pháp</value>
+  </data>
+  <data name="Home_Lang_hi" xml:space="preserve">
+    <value>Tiếng Hindi</value>
+  </data>
+  <data name="Home_Lang_id" xml:space="preserve">
+    <value>Tiếng Indonesia</value>
+  </data>
+  <data name="Home_Lang_it" xml:space="preserve">
+    <value>Tiếng Ý</value>
+  </data>
+  <data name="Home_Lang_ja" xml:space="preserve">
+    <value>Tiếng Nhật</value>
+  </data>
+  <data name="Home_Lang_jv" xml:space="preserve">
+    <value>Tiếng Java</value>
+  </data>
+  <data name="Home_Lang_ko" xml:space="preserve">
+    <value>Tiếng Hàn</value>
+  </data>
+  <data name="Home_Lang_mr" xml:space="preserve">
+    <value>Tiếng Marathi</value>
+  </data>
+  <data name="Home_Lang_paArab" xml:space="preserve">
+    <value>Tiếng Punjab phương Tây</value>
+  </data>
+  <data name="Home_Lang_pl" xml:space="preserve">
+    <value>Tiếng Ba Lan</value>
+  </data>
+  <data name="Home_Lang_pt" xml:space="preserve">
+    <value>Tiếng Bồ Đào Nha</value>
+  </data>
+  <data name="Home_Lang_ru" xml:space="preserve">
+    <value>Tiếng Nga</value>
+  </data>
+  <data name="Home_Lang_ta" xml:space="preserve">
+    <value>Tiếng Tamil</value>
+  </data>
+  <data name="Home_Lang_te" xml:space="preserve">
+    <value>Tiếng Telugu</value>
+  </data>
+  <data name="Home_Lang_tr" xml:space="preserve">
+    <value>Tiếng Thổ Nhĩ Kỳ</value>
+  </data>
+  <data name="Home_Lang_ur" xml:space="preserve">
+    <value>Tiếng Urdu</value>
+  </data>
+  <data name="Home_Lang_vi" xml:space="preserve">
+    <value>Tiếng Việt</value>
+  </data>
+  <data name="Home_Lang_zhHans" xml:space="preserve">
+    <value>Tiếng Trung giản thể</value>
+  </data>
+  <data name="Home_Lang_zhHant" xml:space="preserve">
+    <value>Tiếng Trung phồn thể</value>
+  </data>
+  <data name="Home_Live_Caption" xml:space="preserve">
+    <value>Sáu dòng mã twblazor và các thành phần trực tiếp mà chúng tạo ra.</value>
+  </data>
+  <data name="Home_Live_Rendered" xml:space="preserve">
+    <value>Đã hiển thị 6 thành phần</value>
+  </data>
+  <data name="Home_Live_Replay" xml:space="preserve">
+    <value>Phát lại</value>
+  </data>
+  <data name="Home_Live_ReplayTarget" xml:space="preserve">
+    <value>bản dựng trực tiếp</value>
+  </data>
+  <data name="Home_Loc_Badge" xml:space="preserve">
+    <value>Tích hợp sẵn {0} ngôn ngữ</value>
+  </data>
+  <data name="Home_Loc_Config_Body" xml:space="preserve">
+    <value>Cố định một văn hóa, đặt định dạng hoặc thay bộ bản địa hóa.</value>
+  </data>
+  <data name="Home_Loc_Config_Title" xml:space="preserve">
+    <value>Cấu hình trong AddTwBlazor</value>
+  </data>
+  <data name="Home_Loc_Dates_Body" xml:space="preserve">
+    <value>Ngày đầu tuần và định dạng 12 hoặc 24 giờ theo văn hóa.</value>
+  </data>
+  <data name="Home_Loc_Dates_Title" xml:space="preserve">
+    <value>Ngày giờ phù hợp</value>
+  </data>
+  <data name="Home_Loc_Disclaimer" xml:space="preserve">
+    <value>Các bản dịch không phải tiếng Anh do AI tạo và chưa được xem xét. &lt;a href=&quot;/localization#localization-contributing&quot; class=&quot;font-medium text-purple-800 underline underline-offset-2 dark:text-purple-300&quot;&gt;Đề xuất sửa&lt;/a&gt;.</value>
+  </data>
+  <data name="Home_Loc_HeadingAccent" xml:space="preserve">
+    <value>ngay từ đầu</value>
+  </data>
+  <data name="Home_Loc_HeadingLead" xml:space="preserve">
+    <value>Nói ngôn ngữ của người dùng,</value>
+  </data>
+  <data name="Home_Loc_LanguagesLabel" xml:space="preserve">
+    <value>Ngôn ngữ được hỗ trợ</value>
+  </data>
+  <data name="Home_Loc_Link" xml:space="preserve">
+    <value>Xem cách bản địa hóa hoạt động</value>
+  </data>
+  <data name="Home_Loc_More" xml:space="preserve">
+    <value>và {0} ngôn ngữ khác</value>
+  </data>
+  <data name="Home_Loc_Resx_Body" xml:space="preserve">
+    <value>Thêm hoặc viết lại bất kỳ chuỗi nào bằng tệp tài nguyên của riêng bạn.</value>
+  </data>
+  <data name="Home_Loc_Resx_Title" xml:space="preserve">
+    <value>Mỗi ngôn ngữ một tệp .resx</value>
+  </data>
+  <data name="Home_Loc_Sub" xml:space="preserve">
+    <value>Mọi nhãn, thông báo và lời đọc của trình đọc màn hình đều được dịch, ngày tháng theo văn hóa. Không cần thiết lập gì.</value>
+  </data>
+  <data name="Home_Merge_Badge" xml:space="preserve">
+    <value>Có sẵn. Không npm, không JavaScript.</value>
+  </data>
+  <data name="Home_Merge_Caption" xml:space="preserve">
+    <value>Ví dụ trực tiếp về gộp lớp. Chọn một ví dụ để thay đổi lớp truyền vào thành phần.</value>
+  </data>
+  <data name="Home_Merge_Color" xml:space="preserve">
+    <value>Màu</value>
+  </data>
+  <data name="Home_Merge_Configure_Body" xml:space="preserve">
+    <value>Tiện ích tùy chỉnh, tiền tố hoặc tắt, từ AddTwBlazor.</value>
+  </data>
+  <data name="Home_Merge_Configure_Title" xml:space="preserve">
+    <value>Tùy bạn cấu hình</value>
+  </data>
+  <data name="Home_Merge_GroupLabel" xml:space="preserve">
+    <value>Ví dụ gộp lớp</value>
+  </data>
+  <data name="Home_Merge_HeadingAccent" xml:space="preserve">
+    <value>có sẵn bên trong</value>
+  </data>
+  <data name="Home_Merge_HeadingLead" xml:space="preserve">
+    <value>Gộp lớp Tailwind,</value>
+  </data>
+  <data name="Home_Merge_LastWins_Body" xml:space="preserve">
+    <value>Bản chuyển sang C# của tailwind-merge. Không cần cài gì.</value>
+  </data>
+  <data name="Home_Merge_LastWins_Title" xml:space="preserve">
+    <value>Lớp cuối cùng thắng</value>
+  </data>
+  <data name="Home_Merge_Link" xml:space="preserve">
+    <value>Xem cách gộp lớp hoạt động</value>
+  </data>
+  <data name="Home_Merge_Padding" xml:space="preserve">
+    <value>Khoảng đệm</value>
+  </data>
+  <data name="Home_Merge_Replaced" xml:space="preserve">
+    <value>Đã thay:</value>
+  </data>
+  <data name="Home_Merge_Shape" xml:space="preserve">
+    <value>Hình dạng</value>
+  </data>
+  <data name="Home_Merge_Shorthand" xml:space="preserve">
+    <value>Viết tắt</value>
+  </data>
+  <data name="Home_Merge_Sub" xml:space="preserve">
+    <value>Truyền &lt;code&gt;Class=&quot;px-3&quot;&lt;/code&gt; và nó thay thế &lt;code&gt;px-6&lt;/code&gt; của chủ đề. Lớp của bạn luôn thắng.</value>
+  </data>
+  <data name="Home_Merge_Theme" xml:space="preserve">
+    <value>Chủ đề</value>
+  </data>
+  <data name="Home_Merge_V4_Body" xml:space="preserve">
+    <value>Biến thể, giá trị tùy ý và tiền tố, đã kiểm thử trên hơn 700 trường hợp.</value>
+  </data>
+  <data name="Home_Merge_V4_Title" xml:space="preserve">
+    <value>Hiểu Tailwind v4</value>
+  </data>
+  <data name="Home_Merge_YourClass" xml:space="preserve">
+    <value>Class của bạn</value>
+  </data>
+  <data name="Home_Next" xml:space="preserve">
+    <value>Tiếp</value>
+  </data>
+  <data name="Home_OpenSource" xml:space="preserve">
+    <value>Luôn miễn phí và theo giấy phép MIT. Được xây dựng công khai cùng cộng đồng.</value>
+  </data>
+  <data name="Home_Password" xml:space="preserve">
+    <value>Mật khẩu</value>
+  </data>
+  <data name="Home_PasswordPlaceholder" xml:space="preserve">
+    <value>Nhập mật khẩu của bạn</value>
+  </data>
+  <data name="Home_Preview" xml:space="preserve">
+    <value>Xem trước</value>
+  </data>
+  <data name="Home_Quick_Caption" xml:space="preserve">
+    <value>Cài đặt twblazor, sau đó là hai dòng mã cùng nút và cảnh báo mà chúng tạo ra.</value>
+  </data>
+  <data name="Home_Quick_Heading" xml:space="preserve">
+    <value>Chạy được trong vài phút</value>
+  </data>
+  <data name="Home_Quick_Installed" xml:space="preserve">
+    <value>Đã cài twblazor</value>
+  </data>
+  <data name="Home_Quick_Sub" xml:space="preserve">
+    <value>Cài đặt, đăng ký, xây dựng.</value>
+  </data>
+  <data name="Home_Quick_Window" xml:space="preserve">
+    <value>Terminal và Home.razor</value>
+  </data>
+  <data name="Home_Release_AvgTime" xml:space="preserve">
+    <value>Thời gian TB</value>
+  </data>
+  <data name="Home_Release_Deploys" xml:space="preserve">
+    <value>Lần triển khai</value>
+  </data>
+  <data name="Home_Release_Storage" xml:space="preserve">
+    <value>Bộ nhớ sắp đầy.</value>
+  </data>
+  <data name="Home_Release_Title" xml:space="preserve">
+    <value>Tình trạng bản phát hành</value>
+  </data>
+  <data name="Home_RememberMe" xml:space="preserve">
+    <value>Ghi nhớ đăng nhập</value>
+  </data>
+  <data name="Home_Rendered" xml:space="preserve">
+    <value>Kết quả</value>
+  </data>
+  <data name="Home_Rtl_Badge" xml:space="preserve">
+    <value>Phải sang trái, có sẵn</value>
+  </data>
+  <data name="Home_Rtl_Caption" xml:space="preserve">
+    <value>Ví dụ trực tiếp về cùng các thành phần được bố trí từ trái sang phải và từ phải sang trái. Chọn một hướng để chuyển.</value>
+  </data>
+  <data name="Home_Rtl_Follows_Body" xml:space="preserve">
+    <value>Các văn hóa viết từ phải sang trái được tự động lật.</value>
+  </data>
+  <data name="Home_Rtl_Follows_Title" xml:space="preserve">
+    <value>Theo ngôn ngữ</value>
+  </data>
+  <data name="Home_Rtl_GroupLabel" xml:space="preserve">
+    <value>Hướng bố cục</value>
+  </data>
+  <data name="Home_Rtl_HeadingAccent" xml:space="preserve">
+    <value>không cần bảng định kiểu thứ hai</value>
+  </data>
+  <data name="Home_Rtl_HeadingLead" xml:space="preserve">
+    <value>Đọc từ phải sang trái,</value>
+  </data>
+  <data name="Home_Rtl_Keys_Body" xml:space="preserve">
+    <value>Phím mũi tên di chuyển theo hướng chúng chỉ, trong mọi thành phần.</value>
+  </data>
+  <data name="Home_Rtl_Keys_Title" xml:space="preserve">
+    <value>Phím khớp với màn hình</value>
+  </data>
+  <data name="Home_Rtl_Link" xml:space="preserve">
+    <value>Xem cách phải sang trái hoạt động</value>
+  </data>
+  <data name="Home_Rtl_Ltr" xml:space="preserve">
+    <value>Trái sang phải</value>
+  </data>
+  <data name="Home_Rtl_Mix_Body" xml:space="preserve">
+    <value>Bọc bất kỳ phần nào trong TwDirectionProvider.</value>
+  </data>
+  <data name="Home_Rtl_Mix_Title" xml:space="preserve">
+    <value>Kết hợp nhiều hướng trên một trang</value>
+  </data>
+  <data name="Home_Rtl_Rtl" xml:space="preserve">
+    <value>Phải sang trái</value>
+  </data>
+  <data name="Home_Rtl_Sub" xml:space="preserve">
+    <value>Tiếng Ả Rập, Do Thái, Ba Tư và Urdu lật mọi thành phần: khoảng cách, biểu tượng, bảng điều khiển và phím mũi tên.</value>
+  </data>
+  <data name="Home_SaveChanges" xml:space="preserve">
+    <value>Lưu thay đổi</value>
+  </data>
+  <data name="Home_Series_Database" xml:space="preserve">
+    <value>Cơ sở dữ liệu</value>
+  </data>
+  <data name="Home_Series_Succeeded" xml:space="preserve">
+    <value>Thành công</value>
+  </data>
+  <data name="Home_Series_WebApp" xml:space="preserve">
+    <value>Ứng dụng web</value>
+  </data>
+  <data name="Home_Series_Workers" xml:space="preserve">
+    <value>Worker</value>
+  </data>
+  <data name="Home_Settings_DeployOnPush" xml:space="preserve">
+    <value>Triển khai khi push</value>
+  </data>
+  <data name="Home_Settings_EmailAlerts" xml:space="preserve">
+    <value>Cảnh báo qua email</value>
+  </data>
+  <data name="Home_Settings_Environment" xml:space="preserve">
+    <value>Môi trường</value>
+  </data>
+  <data name="Home_Settings_Private" xml:space="preserve">
+    <value>Riêng tư</value>
+  </data>
+  <data name="Home_Settings_ProjectName" xml:space="preserve">
+    <value>Tên dự án</value>
+  </data>
+  <data name="Home_Settings_Public" xml:space="preserve">
+    <value>Công khai</value>
+  </data>
+  <data name="Home_Settings_Reset" xml:space="preserve">
+    <value>Đặt lại</value>
+  </data>
+  <data name="Home_Settings_Saved" xml:space="preserve">
+    <value>Đã lưu cài đặt.</value>
+  </data>
+  <data name="Home_Settings_Storage" xml:space="preserve">
+    <value>Bộ nhớ đã dùng</value>
+  </data>
+  <data name="Home_Settings_StorageAmount" xml:space="preserve">
+    <value>7,2 / 10 GB</value>
+  </data>
+  <data name="Home_Settings_Sub" xml:space="preserve">
+    <value>Quản lý cách nhóm của bạn phát hành</value>
+  </data>
+  <data name="Home_Settings_Team" xml:space="preserve">
+    <value>Nhóm</value>
+  </data>
+  <data name="Home_Settings_Title" xml:space="preserve">
+    <value>Cài đặt dự án</value>
+  </data>
+  <data name="Home_Settings_Visibility" xml:space="preserve">
+    <value>Chế độ hiển thị</value>
+  </data>
+  <data name="Home_SignIn" xml:space="preserve">
+    <value>Đăng nhập</value>
+  </data>
+  <data name="Home_Theming_After" xml:space="preserve">
+    <value>Sau</value>
+  </data>
+  <data name="Home_Theming_Before" xml:space="preserve">
+    <value>Trước</value>
+  </data>
+  <data name="Home_Theming_Caption" xml:space="preserve">
+    <value>Ba dòng Theme.cs đổi kiểu cho một nút trực tiếp, hiển thị cạnh nút ban đầu: góc bo tròn hoàn toàn, bóng lớn và màu chính hồng.</value>
+  </data>
+  <data name="Home_Theming_Change_Colour" xml:space="preserve">
+    <value>Màu: hồng</value>
+  </data>
+  <data name="Home_Theming_Change_Corners" xml:space="preserve">
+    <value>Góc: bo tròn hoàn toàn</value>
+  </data>
+  <data name="Home_Theming_Change_Shadow" xml:space="preserve">
+    <value>Bóng: lớn</value>
+  </data>
+  <data name="Home_Theming_Defaults_Body" xml:space="preserve">
+    <value>Đặt mặc định một lần, ghi đè ở bất kỳ phiên bản nào.</value>
+  </data>
+  <data name="Home_Theming_Defaults_Title" xml:space="preserve">
+    <value>Mặc định toàn cục, ghi đè cục bộ</value>
+  </data>
+  <data name="Home_Theming_Heading" xml:space="preserve">
+    <value>Khả năng tùy biến chủ đề Tailwind sâu nhất trong các thư viện Blazor</value>
+  </data>
+  <data name="Home_Theming_Jit_Body" xml:space="preserve">
+    <value>Chuỗi ký tự thông thường mà Tailwind nhìn thấy được. Không cần safelist.</value>
+  </data>
+  <data name="Home_Theming_Jit_Title" xml:space="preserve">
+    <value>Tailwind thật, JIT thật</value>
+  </data>
+  <data name="Home_Theming_Restyled" xml:space="preserve">
+    <value>Đổi kiểu từ Theme.cs, không cần CSS</value>
+  </data>
+  <data name="Home_Theming_Sub" xml:space="preserve">
+    <value>Mọi chi tiết hiển thị là một lớp Tailwind thông thường thuộc về bạn, được định kiểu theo từng thành phần. Không có hộp đen nào trong DLL.</value>
+  </data>
+  <data name="Home_Theming_Tokens_Body" xml:space="preserve">
+    <value>Đặt màu một lần, mọi thành phần sẽ theo.</value>
+  </data>
+  <data name="Home_Theming_Tokens_Title" xml:space="preserve">
+    <value>Token thiết kế tái sử dụng được</value>
+  </data>
+  <data name="Home_Theming_Typed_Body" xml:space="preserve">
+    <value>Mỗi thành phần một lớp chủ đề C#, mỗi lớp là một thuộc tính có tên.</value>
+  </data>
+  <data name="Home_Theming_Typed_Title" xml:space="preserve">
+    <value>Mọi lớp đều có kiểu và có thể ghi đè</value>
+  </data>
+  <data name="Home_Theming_WhatChanged" xml:space="preserve">
+    <value>Những gì đã thay đổi</value>
+  </data>
+  <data name="Home_Why_Title" xml:space="preserve">
+    <value>Vì sao chọn twblazor?</value>
+  </data>
+  <data name="Nav_AiAgents" xml:space="preserve">
+    <value>Tác tử AI và kỹ năng</value>
+  </data>
+  <data name="Nav_ApiDocs" xml:space="preserve">
+    <value>Tài liệu API</value>
+  </data>
+  <data name="Nav_ClassMerge" xml:space="preserve">
+    <value>Gộp lớp</value>
+  </data>
+  <data name="Nav_Configuration" xml:space="preserve">
+    <value>Cấu hình</value>
+  </data>
+  <data name="Nav_ConfiguringLocalization" xml:space="preserve">
+    <value>Cấu hình bản địa hóa</value>
+  </data>
+  <data name="Nav_GetStarted" xml:space="preserve">
+    <value>Bắt đầu</value>
+  </data>
+  <data name="Nav_GetStartedGroup" xml:space="preserve">
+    <value>Bắt đầu</value>
+  </data>
+  <data name="Nav_Group_chart-comparison-navitem" xml:space="preserve">
+    <value>So sánh</value>
+  </data>
+  <data name="Nav_Group_chart-distribution-navitem" xml:space="preserve">
+    <value>Phân phối</value>
+  </data>
+  <data name="Nav_Group_chart-flow-navitem" xml:space="preserve">
+    <value>Luồng</value>
+  </data>
+  <data name="Nav_Group_chart-hierarchy-navitem" xml:space="preserve">
+    <value>Phân cấp</value>
+  </data>
+  <data name="Nav_Group_chart-parts-navitem" xml:space="preserve">
+    <value>Các phần của tổng thể</value>
+  </data>
+  <data name="Nav_Group_chart-relationship-navitem" xml:space="preserve">
+    <value>Mối quan hệ</value>
+  </data>
+  <data name="Nav_Group_chart-sets-navitem" xml:space="preserve">
+    <value>Tập hợp</value>
+  </data>
+  <data name="Nav_Group_chart-time-navitem" xml:space="preserve">
+    <value>Thay đổi theo thời gian</value>
+  </data>
+  <data name="Nav_Group_chart-variables-navitem" xml:space="preserve">
+    <value>Nhiều biến</value>
+  </data>
+  <data name="Nav_Group_charts" xml:space="preserve">
+    <value>Biểu đồ</value>
+  </data>
+  <data name="Nav_Group_chat" xml:space="preserve">
+    <value>Trò chuyện</value>
+  </data>
+  <data name="Nav_Group_data" xml:space="preserve">
+    <value>Dữ liệu</value>
+  </data>
+  <data name="Nav_Group_feedback" xml:space="preserve">
+    <value>Phản hồi</value>
+  </data>
+  <data name="Nav_Group_forms" xml:space="preserve">
+    <value>Biểu mẫu</value>
+  </data>
+  <data name="Nav_Group_inputs-navitem" xml:space="preserve">
+    <value>Ô nhập</value>
+  </data>
+  <data name="Nav_Group_layout" xml:space="preserve">
+    <value>Bố cục</value>
+  </data>
+  <data name="Nav_Group_services" xml:space="preserve">
+    <value>Dịch vụ</value>
+  </data>
+  <data name="Nav_Home" xml:space="preserve">
+    <value>Trang chủ</value>
+  </data>
+  <data name="Nav_Localization" xml:space="preserve">
+    <value>Bản địa hóa</value>
+  </data>
+  <data name="Nav_RtlProvider" xml:space="preserve">
+    <value>Trình cung cấp RTL</value>
+  </data>
+  <data name="Nav_TailwindBlazor" xml:space="preserve">
+    <value>Tailwind với Blazor</value>
+  </data>
+  <data name="Nav_Theme" xml:space="preserve">
+    <value>Chủ đề</value>
+  </data>
+  <data name="Nav_WhyTwBlazor" xml:space="preserve">
+    <value>Vì sao chọn twblazor?</value>
+  </data>
+</root>

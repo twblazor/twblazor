@@ -1,0 +1,823 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  English (neutral) strings for every TwBlazor component.
+
+  To add a language, copy this file to TwBlazorStrings.<culture>.resx (for example TwBlazorStrings.de.resx)
+  and translate each <value>. Keep the names and the {0} placeholders unchanged. A key that is missing from a
+  language file falls back to the value in this file.
+
+  The Format_ entries are optional .NET date and time format strings. Leave them empty to use the culture's own patterns.
+-->
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <!-- Common -->
+    <data name="Footer_FreeForever" xml:space="preserve">
+    <value>twblazor ücretsiz ve açık kaynaklıdır ve her zaman öyle kalacak.</value>
+  </data>
+  <data name="Footer_Label" xml:space="preserve">
+    <value>Alt bilgi</value>
+  </data>
+  <data name="Footer_License" xml:space="preserve">
+    <value>MIT Lisansı</value>
+  </data>
+  <data name="Footer_Link_AiAgents" xml:space="preserve">
+    <value>Yapay zekâ ajanları ve beceriler</value>
+  </data>
+  <data name="Footer_Link_ApiDocs" xml:space="preserve">
+    <value>API belgeleri</value>
+  </data>
+  <data name="Footer_Link_ClassMerge" xml:space="preserve">
+    <value>Sınıf birleştirme</value>
+  </data>
+  <data name="Footer_Link_CodeOfConduct" xml:space="preserve">
+    <value>Davranış kuralları</value>
+  </data>
+  <data name="Footer_Link_Contributing" xml:space="preserve">
+    <value>Katkıda bulunun</value>
+  </data>
+  <data name="Footer_Link_Install" xml:space="preserve">
+    <value>Kurulum kılavuzu</value>
+  </data>
+  <data name="Footer_Link_Issue" xml:space="preserve">
+    <value>Sorun bildirin</value>
+  </data>
+  <data name="Footer_Link_Localization" xml:space="preserve">
+    <value>Yerelleştirme</value>
+  </data>
+  <data name="Footer_Link_Rtl" xml:space="preserve">
+    <value>Sağdan sola</value>
+  </data>
+  <data name="Footer_Link_Tailwind" xml:space="preserve">
+    <value>Blazor ile Tailwind CSS</value>
+  </data>
+  <data name="Footer_Link_Theming" xml:space="preserve">
+    <value>Temalandırma</value>
+  </data>
+  <data name="Footer_Link_Why" xml:space="preserve">
+    <value>Neden twblazor?</value>
+  </data>
+  <data name="Footer_NewTab" xml:space="preserve">
+    <value>(yeni sekmede açılır)</value>
+  </data>
+  <data name="Footer_Sec_Community" xml:space="preserve">
+    <value>Topluluk</value>
+  </data>
+  <data name="Footer_Sec_GetStarted" xml:space="preserve">
+    <value>Başlayın</value>
+  </data>
+  <data name="Footer_Sec_Guides" xml:space="preserve">
+    <value>Kılavuzlar</value>
+  </data>
+  <data name="Footer_Sec_Resources" xml:space="preserve">
+    <value>Kaynaklar</value>
+  </data>
+  <data name="Footer_Tagline" xml:space="preserve">
+    <value>Blazor için Tailwind CSS bileşen kitaplığı. Erişilebilir, temalanabilir ve MIT lisanslı.</value>
+  </data>
+  <data name="Home_Back" xml:space="preserve">
+    <value>Geri</value>
+  </data>
+  <data name="Home_Brand_ShortDisclaimer" xml:space="preserve">
+    <value>Bağımsız örnekler. twblazor bu şirketlerle bağlantılı değildir ve onlar tarafından onaylanmamıştır.</value>
+  </data>
+  <data name="Home_Case_Eyebrow" xml:space="preserve">
+    <value>Uygulamada görün</value>
+  </data>
+  <data name="Home_Case_Heading" xml:space="preserve">
+    <value>Beş tanıdık görünüm, tek bir bileşen kitaplığı</value>
+  </data>
+  <data name="Home_Case_Inspired" xml:space="preserve">
+    <value>{0}&lt;span class=&quot;font-normal text-purple-200&quot;&gt; esintili&lt;/span&gt;</value>
+  </data>
+  <data name="Home_Case_SeeTheme" xml:space="preserve">
+    <value>Temayı gör</value>
+  </data>
+  <data name="Home_Case_Sub" xml:space="preserve">
+    <value>Aynı bileşenler, farklı bir &lt;code&gt;Theme.cs&lt;/code&gt;.</value>
+  </data>
+  <data name="Home_Chart_Day" xml:space="preserve">
+    <value>Gün</value>
+  </data>
+  <data name="Home_Chart_Deploys" xml:space="preserve">
+    <value>Günlük dağıtımlar</value>
+  </data>
+  <data name="Home_Chart_DeploysDesc" xml:space="preserve">
+    <value>Son 14 gün</value>
+  </data>
+  <data name="Home_Chart_Folder" xml:space="preserve">
+    <value>Klasör</value>
+  </data>
+  <data name="Home_Chart_Hour" xml:space="preserve">
+    <value>Saat</value>
+  </data>
+  <data name="Home_Chart_Response" xml:space="preserve">
+    <value>Yanıt süresi</value>
+  </data>
+  <data name="Home_Chart_ResponseDesc" xml:space="preserve">
+    <value>95. yüzdelik, son 24 saat</value>
+  </data>
+  <data name="Home_Chart_Size" xml:space="preserve">
+    <value>Boyut</value>
+  </data>
+  <data name="Home_Chart_Storage" xml:space="preserve">
+    <value>Klasöre göre depolama</value>
+  </data>
+  <data name="Home_Chart_StorageDesc" xml:space="preserve">
+    <value>10 klasörde 7,2 GB</value>
+  </data>
+  <data name="Home_Checkout_Account" xml:space="preserve">
+    <value>Hesap</value>
+  </data>
+  <data name="Home_Checkout_AccountDesc" xml:space="preserve">
+    <value>Girişinizi oluşturun</value>
+  </data>
+  <data name="Home_Checkout_Done" xml:space="preserve">
+    <value>Bitti</value>
+  </data>
+  <data name="Home_Checkout_DoneDesc" xml:space="preserve">
+    <value>Her şey hazır</value>
+  </data>
+  <data name="Home_Checkout_Notifications" xml:space="preserve">
+    <value>E-posta bildirimleri</value>
+  </data>
+  <data name="Home_Checkout_Preferences" xml:space="preserve">
+    <value>Tercihler</value>
+  </data>
+  <data name="Home_Checkout_PreferencesDesc" xml:space="preserve">
+    <value>Kurulumunuzu ayarlayın</value>
+  </data>
+  <data name="Home_Checkout_Progress" xml:space="preserve">
+    <value>Ödeme ilerlemesi</value>
+  </data>
+  <data name="Home_Checkout_Thanks" xml:space="preserve">
+    <value>Teşekkürler, başlamaya hazırsınız.</value>
+  </data>
+  <data name="Home_Checkout_Title" xml:space="preserve">
+    <value>Ödeme adımları</value>
+  </data>
+  <data name="Home_Community_Heading" xml:space="preserve">
+    <value>Discord&apos;daki sohbete katılın</value>
+  </data>
+  <data name="Home_Community_Join" xml:space="preserve">
+    <value>Discord&apos;a katıl</value>
+  </data>
+  <data name="Home_Community_Sub" xml:space="preserve">
+    <value>Soru sorun ve geliştirdiklerinizi paylaşın.</value>
+  </data>
+  <data name="Home_Cta_Heading" xml:space="preserve">
+    <value>Harika bir şey geliştirmeye hazır mısınız?</value>
+  </data>
+  <data name="Home_Cta_Star" xml:space="preserve">
+    <value>GitHub&apos;da yıldız verin</value>
+  </data>
+  <data name="Home_Cta_Sub" xml:space="preserve">
+    <value>Belgelerle başlayın.</value>
+  </data>
+  <data name="Home_Cycle_Admin" xml:space="preserve">
+    <value>yönetim paneli</value>
+  </data>
+  <data name="Home_Cycle_Checkout" xml:space="preserve">
+    <value>ödeme sayfası</value>
+  </data>
+  <data name="Home_Cycle_Dashboard" xml:space="preserve">
+    <value>pano</value>
+  </data>
+  <data name="Home_Cycle_Settings" xml:space="preserve">
+    <value>ayarlar sayfası</value>
+  </data>
+  <data name="Home_Cycle_SignIn" xml:space="preserve">
+    <value>giriş formu</value>
+  </data>
+  <data name="Home_Email" xml:space="preserve">
+    <value>E-posta</value>
+  </data>
+  <data name="Home_EmailPlaceholder" xml:space="preserve">
+    <value>E-posta adresinizi girin</value>
+  </data>
+  <data name="Home_Env_Development" xml:space="preserve">
+    <value>Geliştirme</value>
+  </data>
+  <data name="Home_Env_Production" xml:space="preserve">
+    <value>Canlı</value>
+  </data>
+  <data name="Home_Env_Staging" xml:space="preserve">
+    <value>Hazırlık</value>
+  </data>
+  <data name="Home_Examples_Heading" xml:space="preserve">
+    <value>Gerçek bileşenler. Uygulamanıza hazır.</value>
+  </data>
+  <data name="Home_Examples_Sub" xml:space="preserve">
+    <value>Her örnek canlı. Deneyin.</value>
+  </data>
+  <data name="Home_Failed" xml:space="preserve">
+    <value>Başarısız</value>
+  </data>
+  <data name="Home_Feature_A11y_Body" xml:space="preserve">
+    <value>ARIA ve klavye desteği yerleşik.</value>
+  </data>
+  <data name="Home_Feature_A11y_Title" xml:space="preserve">
+    <value>Erişilebilir</value>
+  </data>
+  <data name="Home_Feature_Composable_Body" xml:space="preserve">
+    <value>Sıradan Blazor parametreleri. Sürpriz yok.</value>
+  </data>
+  <data name="Home_Feature_Composable_Title" xml:space="preserve">
+    <value>Birleştirilebilir</value>
+  </data>
+  <data name="Home_Feature_Custom_Body" xml:space="preserve">
+    <value>Markanız, açık ve koyu modda.</value>
+  </data>
+  <data name="Home_Feature_Custom_Title" xml:space="preserve">
+    <value>Tamamen özelleştirilebilir</value>
+  </data>
+  <data name="Home_Feature_Fast_Body" xml:space="preserve">
+    <value>Yayına hazır 25&apos;ten fazla bileşen.</value>
+  </data>
+  <data name="Home_Feature_Fast_Title" xml:space="preserve">
+    <value>Hızlı geliştirin</value>
+  </data>
+  <data name="Home_Features_HeadingFull" xml:space="preserve">
+    <value>Sıradaki projeniz için: {0} ya da {1}.</value>
+  </data>
+  <data name="Home_Features_HeadingLead" xml:space="preserve">
+    <value>Sıradaki projeniz için:</value>
+  </data>
+  <data name="Home_Features_HeadingTrail" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Home_Features_Pause" xml:space="preserve">
+    <value>Değişen başlığı duraklat</value>
+  </data>
+  <data name="Home_Features_Play" xml:space="preserve">
+    <value>Değişen başlığı oynat</value>
+  </data>
+  <data name="Home_Folder_Apps" xml:space="preserve">
+    <value>Uygulamalar</value>
+  </data>
+  <data name="Home_Folder_Backups" xml:space="preserve">
+    <value>Yedekler</value>
+  </data>
+  <data name="Home_Folder_Documents" xml:space="preserve">
+    <value>Belgeler</value>
+  </data>
+  <data name="Home_Folder_Downloads" xml:space="preserve">
+    <value>İndirilenler</value>
+  </data>
+  <data name="Home_Folder_Fonts" xml:space="preserve">
+    <value>Yazı tipleri</value>
+  </data>
+  <data name="Home_Folder_Music" xml:space="preserve">
+    <value>Müzik</value>
+  </data>
+  <data name="Home_Folder_Photos" xml:space="preserve">
+    <value>Fotoğraflar</value>
+  </data>
+  <data name="Home_Folder_Projects" xml:space="preserve">
+    <value>Projeler</value>
+  </data>
+  <data name="Home_Folder_Temp" xml:space="preserve">
+    <value>Geçici</value>
+  </data>
+  <data name="Home_Folder_Videos" xml:space="preserve">
+    <value>Videolar</value>
+  </data>
+  <data name="Home_GetStarted" xml:space="preserve">
+    <value>Başlayın</value>
+  </data>
+  <data name="Home_Guides_Heading" xml:space="preserve">
+    <value>Tailwind ve Blazor birlikte</value>
+  </data>
+  <data name="Home_Guides_Install" xml:space="preserve">
+    <value>Server veya WebAssembly, dokuz adımda.</value>
+  </data>
+  <data name="Home_Guides_Install_Title" xml:space="preserve">
+    <value>Kurulum kılavuzu</value>
+  </data>
+  <data name="Home_Guides_Tailwind" xml:space="preserve">
+    <value>Sınıflarınız nasıl bulunur ve temalanır.</value>
+  </data>
+  <data name="Home_Guides_Tailwind_Title" xml:space="preserve">
+    <value>Blazor ile Tailwind CSS</value>
+  </data>
+  <data name="Home_Guides_Why" xml:space="preserve">
+    <value>MIT lisanslı ve Tailwind&apos;e özgü.</value>
+  </data>
+  <data name="Home_Hero_Badge" xml:space="preserve">
+    <value>Ücretsiz, açık kaynak ve MIT lisanslı</value>
+  </data>
+  <data name="Home_Hero_GitHub" xml:space="preserve">
+    <value>GitHub&apos;da görüntüle</value>
+  </data>
+  <data name="Home_Hero_Install" xml:space="preserve">
+    <value>Kurulum</value>
+  </data>
+  <data name="Home_Hero_Subtitle" xml:space="preserve">
+    <value>Blazor Server ve WebAssembly için erişilebilir, temalanabilir bileşenler.</value>
+  </data>
+  <data name="Home_Hero_TitleAccent" xml:space="preserve">
+    <value>Blazor için</value>
+  </data>
+  <data name="Home_Hero_TitleLead" xml:space="preserve">
+    <value>Tailwind CSS bileşen kitaplığı</value>
+  </data>
+  <data name="Home_Lang_ar" xml:space="preserve">
+    <value>Arapça</value>
+  </data>
+  <data name="Home_Lang_bn" xml:space="preserve">
+    <value>Bengalce</value>
+  </data>
+  <data name="Home_Lang_de" xml:space="preserve">
+    <value>Almanca</value>
+  </data>
+  <data name="Home_Lang_en" xml:space="preserve">
+    <value>İngilizce</value>
+  </data>
+  <data name="Home_Lang_es" xml:space="preserve">
+    <value>İspanyolca</value>
+  </data>
+  <data name="Home_Lang_fa" xml:space="preserve">
+    <value>Farsça</value>
+  </data>
+  <data name="Home_Lang_fr" xml:space="preserve">
+    <value>Fransızca</value>
+  </data>
+  <data name="Home_Lang_hi" xml:space="preserve">
+    <value>Hintçe</value>
+  </data>
+  <data name="Home_Lang_id" xml:space="preserve">
+    <value>Endonezce</value>
+  </data>
+  <data name="Home_Lang_it" xml:space="preserve">
+    <value>İtalyanca</value>
+  </data>
+  <data name="Home_Lang_ja" xml:space="preserve">
+    <value>Japonca</value>
+  </data>
+  <data name="Home_Lang_jv" xml:space="preserve">
+    <value>Cava dili</value>
+  </data>
+  <data name="Home_Lang_ko" xml:space="preserve">
+    <value>Korece</value>
+  </data>
+  <data name="Home_Lang_mr" xml:space="preserve">
+    <value>Marathi</value>
+  </data>
+  <data name="Home_Lang_paArab" xml:space="preserve">
+    <value>Batı Pencapçası</value>
+  </data>
+  <data name="Home_Lang_pl" xml:space="preserve">
+    <value>Lehçe</value>
+  </data>
+  <data name="Home_Lang_pt" xml:space="preserve">
+    <value>Portekizce</value>
+  </data>
+  <data name="Home_Lang_ru" xml:space="preserve">
+    <value>Rusça</value>
+  </data>
+  <data name="Home_Lang_ta" xml:space="preserve">
+    <value>Tamilce</value>
+  </data>
+  <data name="Home_Lang_te" xml:space="preserve">
+    <value>Telugu</value>
+  </data>
+  <data name="Home_Lang_tr" xml:space="preserve">
+    <value>Türkçe</value>
+  </data>
+  <data name="Home_Lang_ur" xml:space="preserve">
+    <value>Urduca</value>
+  </data>
+  <data name="Home_Lang_vi" xml:space="preserve">
+    <value>Vietnamca</value>
+  </data>
+  <data name="Home_Lang_zhHans" xml:space="preserve">
+    <value>Basitleştirilmiş Çince</value>
+  </data>
+  <data name="Home_Lang_zhHant" xml:space="preserve">
+    <value>Geleneksel Çince</value>
+  </data>
+  <data name="Home_Live_Caption" xml:space="preserve">
+    <value>Altı satır twblazor işaretlemesi ve oluşturdukları canlı bileşenler.</value>
+  </data>
+  <data name="Home_Live_Rendered" xml:space="preserve">
+    <value>6 bileşen oluşturuldu</value>
+  </data>
+  <data name="Home_Live_Replay" xml:space="preserve">
+    <value>Yeniden oynat</value>
+  </data>
+  <data name="Home_Live_ReplayTarget" xml:space="preserve">
+    <value>canlı derlemeyi</value>
+  </data>
+  <data name="Home_Loc_Badge" xml:space="preserve">
+    <value>{0} yerleşik dil</value>
+  </data>
+  <data name="Home_Loc_Config_Body" xml:space="preserve">
+    <value>Bir kültürü sabitleyin, biçim ayarlayın veya yerelleştiriciyi değiştirin.</value>
+  </data>
+  <data name="Home_Loc_Config_Title" xml:space="preserve">
+    <value>AddTwBlazor&apos;da yapılandırılır</value>
+  </data>
+  <data name="Home_Loc_Dates_Body" xml:space="preserve">
+    <value>Haftanın başlangıcı ve 12 ya da 24 saat biçimi kültürü izler.</value>
+  </data>
+  <data name="Home_Loc_Dates_Title" xml:space="preserve">
+    <value>Uygun tarih ve saatler</value>
+  </data>
+  <data name="Home_Loc_Disclaimer" xml:space="preserve">
+    <value>İngilizce dışındaki çeviriler yapay zekâ tarafından hazırlandı ve henüz gözden geçirilmedi. &lt;a href=&quot;/localization#localization-contributing&quot; class=&quot;font-medium text-purple-800 underline underline-offset-2 dark:text-purple-300&quot;&gt;Düzeltme önerin&lt;/a&gt;.</value>
+  </data>
+  <data name="Home_Loc_HeadingAccent" xml:space="preserve">
+    <value>kutudan çıktığı gibi</value>
+  </data>
+  <data name="Home_Loc_HeadingLead" xml:space="preserve">
+    <value>Kullanıcılarınızın dilini konuşur,</value>
+  </data>
+  <data name="Home_Loc_LanguagesLabel" xml:space="preserve">
+    <value>Desteklenen diller</value>
+  </data>
+  <data name="Home_Loc_Link" xml:space="preserve">
+    <value>Yerelleştirmenin nasıl çalıştığını görün</value>
+  </data>
+  <data name="Home_Loc_More" xml:space="preserve">
+    <value>ve {0} dil daha</value>
+  </data>
+  <data name="Home_Loc_Resx_Body" xml:space="preserve">
+    <value>Kendi kaynak dosyalarınızla herhangi bir metni ekleyin veya yeniden yazın.</value>
+  </data>
+  <data name="Home_Loc_Resx_Title" xml:space="preserve">
+    <value>Her dil için bir .resx dosyası</value>
+  </data>
+  <data name="Home_Loc_Sub" xml:space="preserve">
+    <value>Her etiket, mesaj ve ekran okuyucu duyurusu çevrilmiştir; tarihler kültürü izler. Ayarlanacak bir şey yok.</value>
+  </data>
+  <data name="Home_Merge_Badge" xml:space="preserve">
+    <value>Yerleşik. npm yok, JavaScript yok.</value>
+  </data>
+  <data name="Home_Merge_Caption" xml:space="preserve">
+    <value>Canlı bir sınıf birleştirme örneği. Bileşene geçirilen sınıfı değiştirmek için bir örnek seçin.</value>
+  </data>
+  <data name="Home_Merge_Color" xml:space="preserve">
+    <value>Renk</value>
+  </data>
+  <data name="Home_Merge_Configure_Body" xml:space="preserve">
+    <value>Özel yardımcılar, bir önek veya kapatma, AddTwBlazor&apos;dan.</value>
+  </data>
+  <data name="Home_Merge_Configure_Title" xml:space="preserve">
+    <value>İstediğiniz gibi yapılandırın</value>
+  </data>
+  <data name="Home_Merge_GroupLabel" xml:space="preserve">
+    <value>Sınıf birleştirme örneği</value>
+  </data>
+  <data name="Home_Merge_HeadingAccent" xml:space="preserve">
+    <value>hemen yerleşik</value>
+  </data>
+  <data name="Home_Merge_HeadingLead" xml:space="preserve">
+    <value>Tailwind sınıf birleştirme,</value>
+  </data>
+  <data name="Home_Merge_LastWins_Body" xml:space="preserve">
+    <value>tailwind-merge&apos;ün C# uyarlaması. Kurulacak bir şey yok.</value>
+  </data>
+  <data name="Home_Merge_LastWins_Title" xml:space="preserve">
+    <value>Son sınıf kazanır</value>
+  </data>
+  <data name="Home_Merge_Link" xml:space="preserve">
+    <value>Sınıf birleştirmenin nasıl çalıştığını görün</value>
+  </data>
+  <data name="Home_Merge_Padding" xml:space="preserve">
+    <value>İç boşluk</value>
+  </data>
+  <data name="Home_Merge_Replaced" xml:space="preserve">
+    <value>Değiştirildi:</value>
+  </data>
+  <data name="Home_Merge_Shape" xml:space="preserve">
+    <value>Biçim</value>
+  </data>
+  <data name="Home_Merge_Shorthand" xml:space="preserve">
+    <value>Kısaltma</value>
+  </data>
+  <data name="Home_Merge_Sub" xml:space="preserve">
+    <value>&lt;code&gt;Class=&quot;px-3&quot;&lt;/code&gt; verin, temanın &lt;code&gt;px-6&lt;/code&gt; değerinin yerine geçsin. Sizin sınıfınız her zaman kazanır.</value>
+  </data>
+  <data name="Home_Merge_Theme" xml:space="preserve">
+    <value>Tema</value>
+  </data>
+  <data name="Home_Merge_V4_Body" xml:space="preserve">
+    <value>Varyantlar, rastgele değerler ve önekler, 700&apos;den fazla durumda test edildi.</value>
+  </data>
+  <data name="Home_Merge_V4_Title" xml:space="preserve">
+    <value>Tailwind v4&apos;ü anlar</value>
+  </data>
+  <data name="Home_Merge_YourClass" xml:space="preserve">
+    <value>Sizin Class</value>
+  </data>
+  <data name="Home_Next" xml:space="preserve">
+    <value>İleri</value>
+  </data>
+  <data name="Home_OpenSource" xml:space="preserve">
+    <value>Her zaman ücretsiz ve MIT lisanslı. Toplulukla birlikte açık şekilde geliştirilir.</value>
+  </data>
+  <data name="Home_Password" xml:space="preserve">
+    <value>Parola</value>
+  </data>
+  <data name="Home_PasswordPlaceholder" xml:space="preserve">
+    <value>Parolanızı girin</value>
+  </data>
+  <data name="Home_Preview" xml:space="preserve">
+    <value>Önizleme</value>
+  </data>
+  <data name="Home_Quick_Caption" xml:space="preserve">
+    <value>twblazor kurulumu, ardından iki satır işaretleme ve oluşturdukları düğme ile uyarı.</value>
+  </data>
+  <data name="Home_Quick_Heading" xml:space="preserve">
+    <value>Dakikalar içinde çalışır</value>
+  </data>
+  <data name="Home_Quick_Installed" xml:space="preserve">
+    <value>twblazor kuruldu</value>
+  </data>
+  <data name="Home_Quick_Sub" xml:space="preserve">
+    <value>Kurun, kaydedin, derleyin.</value>
+  </data>
+  <data name="Home_Quick_Window" xml:space="preserve">
+    <value>Terminal ve Home.razor</value>
+  </data>
+  <data name="Home_Release_AvgTime" xml:space="preserve">
+    <value>Ort. süre</value>
+  </data>
+  <data name="Home_Release_Deploys" xml:space="preserve">
+    <value>Dağıtımlar</value>
+  </data>
+  <data name="Home_Release_Storage" xml:space="preserve">
+    <value>Depolama dolmak üzere.</value>
+  </data>
+  <data name="Home_Release_Title" xml:space="preserve">
+    <value>Sürüm durumu</value>
+  </data>
+  <data name="Home_RememberMe" xml:space="preserve">
+    <value>Beni hatırla</value>
+  </data>
+  <data name="Home_Rendered" xml:space="preserve">
+    <value>Sonuç</value>
+  </data>
+  <data name="Home_Rtl_Badge" xml:space="preserve">
+    <value>Sağdan sola, yerleşik</value>
+  </data>
+  <data name="Home_Rtl_Caption" xml:space="preserve">
+    <value>Aynı bileşenlerin soldan sağa ve sağdan sola yerleştirildiği canlı bir örnek. Geçiş için bir yön seçin.</value>
+  </data>
+  <data name="Home_Rtl_Follows_Body" xml:space="preserve">
+    <value>Sağdan sola kültürler otomatik olarak yansıtılır.</value>
+  </data>
+  <data name="Home_Rtl_Follows_Title" xml:space="preserve">
+    <value>Dili izler</value>
+  </data>
+  <data name="Home_Rtl_GroupLabel" xml:space="preserve">
+    <value>Düzen yönü</value>
+  </data>
+  <data name="Home_Rtl_HeadingAccent" xml:space="preserve">
+    <value>ikinci bir stil sayfası olmadan</value>
+  </data>
+  <data name="Home_Rtl_HeadingLead" xml:space="preserve">
+    <value>Sağdan sola okunur,</value>
+  </data>
+  <data name="Home_Rtl_Keys_Body" xml:space="preserve">
+    <value>Ok tuşları her bileşende gösterdikleri yöne hareket eder.</value>
+  </data>
+  <data name="Home_Rtl_Keys_Title" xml:space="preserve">
+    <value>Ekranla uyumlu tuşlar</value>
+  </data>
+  <data name="Home_Rtl_Link" xml:space="preserve">
+    <value>Sağdan solun nasıl çalıştığını görün</value>
+  </data>
+  <data name="Home_Rtl_Ltr" xml:space="preserve">
+    <value>Soldan sağa</value>
+  </data>
+  <data name="Home_Rtl_Mix_Body" xml:space="preserve">
+    <value>Herhangi bir bölümü TwDirectionProvider ile sarın.</value>
+  </data>
+  <data name="Home_Rtl_Mix_Title" xml:space="preserve">
+    <value>Tek sayfada yönleri karıştırın</value>
+  </data>
+  <data name="Home_Rtl_Rtl" xml:space="preserve">
+    <value>Sağdan sola</value>
+  </data>
+  <data name="Home_Rtl_Sub" xml:space="preserve">
+    <value>Arapça, İbranice, Farsça ve Urduca her bileşeni yansıtır: boşluklar, simgeler, paneller ve ok tuşları.</value>
+  </data>
+  <data name="Home_SaveChanges" xml:space="preserve">
+    <value>Değişiklikleri kaydet</value>
+  </data>
+  <data name="Home_Series_Database" xml:space="preserve">
+    <value>Veritabanı</value>
+  </data>
+  <data name="Home_Series_Succeeded" xml:space="preserve">
+    <value>Başarılı</value>
+  </data>
+  <data name="Home_Series_WebApp" xml:space="preserve">
+    <value>Web uygulaması</value>
+  </data>
+  <data name="Home_Series_Workers" xml:space="preserve">
+    <value>Çalışanlar</value>
+  </data>
+  <data name="Home_Settings_DeployOnPush" xml:space="preserve">
+    <value>Push&apos;ta dağıt</value>
+  </data>
+  <data name="Home_Settings_EmailAlerts" xml:space="preserve">
+    <value>E-posta uyarıları</value>
+  </data>
+  <data name="Home_Settings_Environment" xml:space="preserve">
+    <value>Ortam</value>
+  </data>
+  <data name="Home_Settings_Private" xml:space="preserve">
+    <value>Özel</value>
+  </data>
+  <data name="Home_Settings_ProjectName" xml:space="preserve">
+    <value>Proje adı</value>
+  </data>
+  <data name="Home_Settings_Public" xml:space="preserve">
+    <value>Herkese açık</value>
+  </data>
+  <data name="Home_Settings_Reset" xml:space="preserve">
+    <value>Sıfırla</value>
+  </data>
+  <data name="Home_Settings_Saved" xml:space="preserve">
+    <value>Ayarlar kaydedildi.</value>
+  </data>
+  <data name="Home_Settings_Storage" xml:space="preserve">
+    <value>Kullanılan depolama</value>
+  </data>
+  <data name="Home_Settings_StorageAmount" xml:space="preserve">
+    <value>10 GB&apos;ın 7,2&apos;si</value>
+  </data>
+  <data name="Home_Settings_Sub" xml:space="preserve">
+    <value>Ekibinizin nasıl yayın yaptığını yönetin</value>
+  </data>
+  <data name="Home_Settings_Team" xml:space="preserve">
+    <value>Ekip</value>
+  </data>
+  <data name="Home_Settings_Title" xml:space="preserve">
+    <value>Proje ayarları</value>
+  </data>
+  <data name="Home_Settings_Visibility" xml:space="preserve">
+    <value>Görünürlük</value>
+  </data>
+  <data name="Home_SignIn" xml:space="preserve">
+    <value>Giriş yap</value>
+  </data>
+  <data name="Home_Theming_After" xml:space="preserve">
+    <value>Sonra</value>
+  </data>
+  <data name="Home_Theming_Before" xml:space="preserve">
+    <value>Önce</value>
+  </data>
+  <data name="Home_Theming_Caption" xml:space="preserve">
+    <value>Canlı bir düğmeyi yeniden biçimlendiren ve onu eski düğmenin yanında gösteren üç satır Theme.cs: tamamen yuvarlak köşeler, büyük bir gölge ve pembe bir ana renk.</value>
+  </data>
+  <data name="Home_Theming_Change_Colour" xml:space="preserve">
+    <value>Renk: pembe</value>
+  </data>
+  <data name="Home_Theming_Change_Corners" xml:space="preserve">
+    <value>Köşeler: tam yuvarlak</value>
+  </data>
+  <data name="Home_Theming_Change_Shadow" xml:space="preserve">
+    <value>Gölge: büyük</value>
+  </data>
+  <data name="Home_Theming_Defaults_Body" xml:space="preserve">
+    <value>Varsayılanı bir kez ayarlayın, istediğiniz örnekte geçersiz kılın.</value>
+  </data>
+  <data name="Home_Theming_Defaults_Title" xml:space="preserve">
+    <value>Genel varsayılanlar, yerel geçersiz kılmalar</value>
+  </data>
+  <data name="Home_Theming_Heading" xml:space="preserve">
+    <value>Blazor kitaplıkları arasında en derin Tailwind temalandırma</value>
+  </data>
+  <data name="Home_Theming_Jit_Body" xml:space="preserve">
+    <value>Tailwind&apos;in görebildiği sıradan dize sabitleri. safelist yok.</value>
+  </data>
+  <data name="Home_Theming_Jit_Title" xml:space="preserve">
+    <value>Gerçek Tailwind, gerçek JIT</value>
+  </data>
+  <data name="Home_Theming_Restyled" xml:space="preserve">
+    <value>Theme.cs ile yeniden biçimlendirildi, CSS yok</value>
+  </data>
+  <data name="Home_Theming_Sub" xml:space="preserve">
+    <value>Her görsel ayrıntı size ait sıradan bir Tailwind sınıfıdır ve bileşen başına türlendirilmiştir. DLL içinde kara kutu yok.</value>
+  </data>
+  <data name="Home_Theming_Tokens_Body" xml:space="preserve">
+    <value>Bir rengi bir kez ayarlayın, tüm bileşenler onu izlesin.</value>
+  </data>
+  <data name="Home_Theming_Tokens_Title" xml:space="preserve">
+    <value>Yeniden kullanılabilir tasarım belirteçleri</value>
+  </data>
+  <data name="Home_Theming_Typed_Body" xml:space="preserve">
+    <value>Her bileşen için bir C# tema sınıfı; her sınıf adlandırılmış bir özellik.</value>
+  </data>
+  <data name="Home_Theming_Typed_Title" xml:space="preserve">
+    <value>Her sınıf türlendirilmiş ve geçersiz kılınabilir</value>
+  </data>
+  <data name="Home_Theming_WhatChanged" xml:space="preserve">
+    <value>Neler değişti</value>
+  </data>
+  <data name="Home_Why_Title" xml:space="preserve">
+    <value>Neden twblazor?</value>
+  </data>
+  <data name="Nav_AiAgents" xml:space="preserve">
+    <value>Yapay zekâ ajanları ve beceriler</value>
+  </data>
+  <data name="Nav_ApiDocs" xml:space="preserve">
+    <value>API belgeleri</value>
+  </data>
+  <data name="Nav_ClassMerge" xml:space="preserve">
+    <value>Sınıf birleştirme</value>
+  </data>
+  <data name="Nav_Configuration" xml:space="preserve">
+    <value>Yapılandırma</value>
+  </data>
+  <data name="Nav_ConfiguringLocalization" xml:space="preserve">
+    <value>Yerelleştirmeyi yapılandırma</value>
+  </data>
+  <data name="Nav_GetStarted" xml:space="preserve">
+    <value>Başlarken</value>
+  </data>
+  <data name="Nav_GetStartedGroup" xml:space="preserve">
+    <value>Başlarken</value>
+  </data>
+  <data name="Nav_Group_chart-comparison-navitem" xml:space="preserve">
+    <value>Karşılaştırma</value>
+  </data>
+  <data name="Nav_Group_chart-distribution-navitem" xml:space="preserve">
+    <value>Dağılım</value>
+  </data>
+  <data name="Nav_Group_chart-flow-navitem" xml:space="preserve">
+    <value>Akışlar</value>
+  </data>
+  <data name="Nav_Group_chart-hierarchy-navitem" xml:space="preserve">
+    <value>Hiyerarşi</value>
+  </data>
+  <data name="Nav_Group_chart-parts-navitem" xml:space="preserve">
+    <value>Bütünün parçaları</value>
+  </data>
+  <data name="Nav_Group_chart-relationship-navitem" xml:space="preserve">
+    <value>İlişkiler</value>
+  </data>
+  <data name="Nav_Group_chart-sets-navitem" xml:space="preserve">
+    <value>Kümeler</value>
+  </data>
+  <data name="Nav_Group_chart-time-navitem" xml:space="preserve">
+    <value>Zaman içindeki değişim</value>
+  </data>
+  <data name="Nav_Group_chart-variables-navitem" xml:space="preserve">
+    <value>Birden çok değişken</value>
+  </data>
+  <data name="Nav_Group_charts" xml:space="preserve">
+    <value>Grafikler</value>
+  </data>
+  <data name="Nav_Group_chat" xml:space="preserve">
+    <value>Sohbet</value>
+  </data>
+  <data name="Nav_Group_data" xml:space="preserve">
+    <value>Veri</value>
+  </data>
+  <data name="Nav_Group_feedback" xml:space="preserve">
+    <value>Geri bildirim</value>
+  </data>
+  <data name="Nav_Group_forms" xml:space="preserve">
+    <value>Formlar</value>
+  </data>
+  <data name="Nav_Group_inputs-navitem" xml:space="preserve">
+    <value>Girişler</value>
+  </data>
+  <data name="Nav_Group_layout" xml:space="preserve">
+    <value>Düzen</value>
+  </data>
+  <data name="Nav_Group_services" xml:space="preserve">
+    <value>Hizmetler</value>
+  </data>
+  <data name="Nav_Home" xml:space="preserve">
+    <value>Ana sayfa</value>
+  </data>
+  <data name="Nav_Localization" xml:space="preserve">
+    <value>Yerelleştirme</value>
+  </data>
+  <data name="Nav_RtlProvider" xml:space="preserve">
+    <value>RTL sağlayıcısı</value>
+  </data>
+  <data name="Nav_TailwindBlazor" xml:space="preserve">
+    <value>Blazor ile Tailwind</value>
+  </data>
+  <data name="Nav_Theme" xml:space="preserve">
+    <value>Tema</value>
+  </data>
+  <data name="Nav_WhyTwBlazor" xml:space="preserve">
+    <value>Neden twblazor?</value>
+  </data>
+</root>

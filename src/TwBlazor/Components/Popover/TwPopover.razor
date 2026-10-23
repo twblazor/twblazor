@@ -5,7 +5,7 @@
     <span class="@options.Theme.Display.InlineFlex" @ref="triggerRef">
         @if (TriggerContent is not null)
         {
-            @TriggerContent(triggerContext)
+            @TriggerContent(GetTriggerContext())
         }
         else if (IconOnly && Icon is { } icon)
         {

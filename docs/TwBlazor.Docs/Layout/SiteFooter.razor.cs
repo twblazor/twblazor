@@ -35,29 +35,30 @@ public partial class SiteFooter
     public const string IssuesUrl = "https://github.com/TwBlazor/twblazor/issues";
 #pragma warning restore S1075
 
-    private static readonly IReadOnlyList<FooterSection> _sections =
+    // Built per component, so the labels follow the language of the request.
+    private readonly IReadOnlyList<FooterSection> _sections =
     [
-        new("Get started", [
-            new FooterLink("Install guide", "/get-started"),
-            new FooterLink("Theming", "/theme"),
-            new FooterLink("Class merging", "/class-merge"),
-            new FooterLink("Localization", "/localization"),
+        new(Loc.Text("Footer_Sec_GetStarted", "Get started"), [
+            new FooterLink(Loc.Text("Footer_Link_Install", "Install guide"), "/get-started"),
+            new FooterLink(Loc.Text("Footer_Link_Theming", "Theming"), "/theme"),
+            new FooterLink(Loc.Text("Footer_Link_ClassMerge", "Class merging"), "/class-merge"),
+            new FooterLink(Loc.Text("Footer_Link_Localization", "Localization"), "/localization"),
         ]),
-        new("Guides", [
-            new FooterLink("Tailwind CSS with Blazor", "/tailwind-blazor"),
-            new FooterLink("Why twblazor?", "/why-twblazor"),
-            new FooterLink("Right to left", "/direction-provider"),
-            new FooterLink("AI agents and skills", "/ai-agents"),
+        new(Loc.Text("Footer_Sec_Guides", "Guides"), [
+            new FooterLink(Loc.Text("Footer_Link_Tailwind", "Tailwind CSS with Blazor"), "/tailwind-blazor"),
+            new FooterLink(Loc.Text("Footer_Link_Why", "Why twblazor?"), "/why-twblazor"),
+            new FooterLink(Loc.Text("Footer_Link_Rtl", "Right to left"), "/direction-provider"),
+            new FooterLink(Loc.Text("Footer_Link_AiAgents", "AI agents and skills"), "/ai-agents"),
         ]),
-        new("Resources", [
-            new FooterLink("API documentation", DocumentationUrl, IconEnum.Book, OpensInNewTab: true),
+        new(Loc.Text("Footer_Sec_Resources", "Resources"), [
+            new FooterLink(Loc.Text("Footer_Link_ApiDocs", "API documentation"), DocumentationUrl, IconEnum.Book, OpensInNewTab: true),
             new FooterLink("llms.txt", LlmsTxtUrl, IconEnum.Robot, OpensInNewTab: true),
-            new FooterLink("MIT License", LicenseUrl, IconEnum.File_Earmark_Text, OpensInNewTab: true),
+            new FooterLink(Loc.Text("Footer_License", "MIT License"), LicenseUrl, IconEnum.File_Earmark_Text, OpensInNewTab: true),
         ]),
-        new("Community", [
-            new FooterLink("Contributing", ContributingUrl, OpensInNewTab: true),
-            new FooterLink("Code of conduct", CodeOfConductUrl, OpensInNewTab: true),
-            new FooterLink("Report an issue", IssuesUrl, OpensInNewTab: true),
+        new(Loc.Text("Footer_Sec_Community", "Community"), [
+            new FooterLink(Loc.Text("Footer_Link_Contributing", "Contributing"), ContributingUrl, OpensInNewTab: true),
+            new FooterLink(Loc.Text("Footer_Link_CodeOfConduct", "Code of conduct"), CodeOfConductUrl, OpensInNewTab: true),
+            new FooterLink(Loc.Text("Footer_Link_Issue", "Report an issue"), IssuesUrl, OpensInNewTab: true),
         ]),
     ];
 

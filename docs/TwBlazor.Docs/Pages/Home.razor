@@ -22,44 +22,52 @@
                     <span class="absolute inline-flex size-full animate-ping rounded-full bg-fuchsia-400 opacity-75 motion-reduce:hidden"></span>
                     <span class="relative inline-flex size-1.5 rounded-full bg-fuchsia-500"></span>
                 </span>
-                Free, open source and MIT licensed
+                <Loc Key="Home_Hero_Badge">Free, open source and MIT licensed</Loc>
             </a>
             @* Kept on one line: the words are separate spans, and line breaks between them would change the heading's text. *@
-            <h1 class="mt-6 text-4xl font-bold leading-[1.1] tracking-tight text-balance text-gray-950 perspective-[900px] sm:text-5xl md:text-6xl dark:text-white"><span class="@heroWordClasses [animation-delay:100ms]">The</span> <span class="@heroWordClasses [animation-delay:180ms]">Tailwind</span> <span class="@heroWordClasses [animation-delay:260ms]">CSS</span> <span class="@heroWordClasses [animation-delay:340ms]">component</span> <span class="@heroWordClasses [animation-delay:420ms]">library</span> <span class="@heroWordClasses [animation-delay:500ms]"><span class="animate-gradient-pan bg-linear-to-r from-purple-700 via-fuchsia-600 to-purple-700 bg-size-[200%_auto] bg-clip-text text-transparent motion-reduce:animate-none dark:from-purple-400 dark:via-fuchsia-300 dark:to-purple-400">for Blazor</span></span></h1>
+            @if (_heroWords is null)
+            {
+            <h1 dir="auto" class="mt-6 text-4xl font-bold leading-[1.1] tracking-tight text-balance text-gray-950 perspective-[900px] sm:text-5xl md:text-6xl dark:text-white"><span class="@heroWordClasses [animation-delay:100ms]">The</span> <span class="@heroWordClasses [animation-delay:180ms]">Tailwind</span> <span class="@heroWordClasses [animation-delay:260ms]">CSS</span> <span class="@heroWordClasses [animation-delay:340ms]">component</span> <span class="@heroWordClasses [animation-delay:420ms]">library</span> <span class="@heroWordClasses [animation-delay:500ms]"><span class="animate-gradient-pan bg-linear-to-r from-purple-700 via-fuchsia-600 to-purple-700 bg-size-[200%_auto] bg-clip-text text-transparent motion-reduce:animate-none dark:from-purple-400 dark:via-fuchsia-300 dark:to-purple-400">for Blazor</span></span></h1>
+            }
+            else
+            {
+                @* A translated heading: its words rise in turn like the English one, delayed inline because the delay classes above are written out for the English words only. *@
+                <h1 dir="auto" class="mt-6 text-4xl font-bold leading-[1.1] tracking-tight text-balance text-gray-950 perspective-[900px] sm:text-5xl md:text-6xl dark:text-white">@for (var i = 0; i < _heroWords.Length; i++) { <span class="@heroWordClasses" style="@($"animation-delay:{100 + i * 80}ms")">@_heroWords[i]</span><text> </text> }<span class="@heroWordClasses" style="@($"animation-delay:{100 + _heroWords.Length * 80}ms")"><span class="animate-gradient-pan bg-linear-to-r from-purple-700 via-fuchsia-600 to-purple-700 bg-size-[200%_auto] bg-clip-text text-transparent motion-reduce:animate-none dark:from-purple-400 dark:via-fuchsia-300 dark:to-purple-400">@Loc.Text("Home_Hero_TitleAccent", "for Blazor")</span></span></h1>
+            }
             <p class="mt-5 max-w-xl animate-fade-up text-lg/7 text-gray-600 text-pretty [animation-delay:650ms] motion-reduce:animate-none dark:text-gray-300">
-                Accessible, themeable components for Blazor Server and WebAssembly.
+                <Loc Key="Home_Hero_Subtitle">Accessible, themeable components for Blazor Server and WebAssembly.</Loc>
             </p>
 
             <div class="mt-8 flex w-full animate-fade-up flex-col justify-center gap-3 [animation-delay:750ms] motion-reduce:animate-none sm:w-auto sm:flex-row">
-                <TwButton Id="get-started" Class="w-full justify-center sm:w-auto" Color="Color.Primary" Label="Get started" StartIcon="IconEnum.Rocket_Takeoff" Href="/get-started" />
-                <TwButton Id="github" Class="w-full justify-center sm:w-auto" Color="Color.Accent" Variant="ButtonVariant.Outlined" Label="View on GitHub" StartIcon="IconEnum.Github" Href="https://github.com/twblazor/twblazor" Target="_blank" rel="noopener noreferrer" />
+                <TwButton Id="get-started" Class="w-full justify-center sm:w-auto" Color="Color.Primary" Label="@Loc.Text("Home_GetStarted", "Get started")" StartIcon="IconEnum.Rocket_Takeoff" Href="/get-started" />
+                <TwButton Id="github" Class="w-full justify-center sm:w-auto" Color="Color.Accent" Variant="ButtonVariant.Outlined" Label="@Loc.Text("Home_Hero_GitHub", "View on GitHub")" StartIcon="IconEnum.Github" Href="https://github.com/twblazor/twblazor" Target="_blank" rel="noopener noreferrer" />
             </div>
 
             <div class="mt-8 w-full max-w-md animate-fade-up [animation-delay:850ms] motion-reduce:animate-none">
                 @* The beam is a conic gradient behind a 1px gap around the code block; its start angle turns. *@
                 <div class="animate-beam rounded-[calc(var(--radius-xl)+1px)] bg-[conic-gradient(from_var(--beam-angle),rgb(168_85_247/0.25)_0%,rgb(168_85_247/0.25)_65%,var(--color-fuchsia-500)_80%,var(--color-purple-500)_90%,rgb(168_85_247/0.25)_100%)] p-px shadow-xl shadow-purple-500/15 [animation-delay:1.6s] motion-reduce:animate-none">
-                    <TwCodeBlock Language="pwsh" Content="@quickStartInstall" Class="w-full rounded-xl text-left" PanelClass="rounded-lg" Title="Install" />
+                    <TwCodeBlock Language="pwsh" Content="@quickStartInstall" Class="w-full rounded-xl text-left" PanelClass="rounded-lg" Title="@Loc.Text("Home_Hero_Install", "Install")" />
                 </div>
             </div>
         </div>
 
         <!-- Live build: markup types out and each component springs into the preview -->
         <figure class="mx-auto mt-14 w-full max-w-4xl animate-fade-up [animation-delay:0.6s] motion-reduce:animate-none" aria-labelledby="live-build-caption">
-            <figcaption id="live-build-caption" class="sr-only">Six lines of twblazor markup and the live components they render.</figcaption>
+            <figcaption id="live-build-caption" class="sr-only"><Loc Key="Home_Live_Caption">Six lines of twblazor markup and the live components they render.</Loc></figcaption>
             <div @key="liveBuildRun" data-stage style="--stage-delay:0.8s" class="grid overflow-hidden rounded-2xl border border-purple-200/70 bg-white/80 text-left shadow-2xl shadow-purple-500/15 backdrop-blur md:grid-cols-2 dark:border-white/10 dark:bg-gray-900/80">
                 <div class="min-w-0 bg-gray-950 font-mono text-xs leading-6 text-gray-300 sm:text-[13px] sm:leading-7">
                     <CodeWindowBar Title="Deploy.razor" />
-                    <pre class="overflow-x-auto whitespace-pre-wrap break-words p-4 sm:p-5 md:whitespace-pre"><code><span class="stage-line block" style="--i:0"><span class="text-fuchsia-300">&lt;TwTextfield</span> <span class="text-sky-300">Label</span>=<span class="text-emerald-300">"Service"</span> <span class="text-sky-300">@@bind-Value</span>=<span class="text-emerald-300">"name"</span> <span class="text-fuchsia-300">/&gt;</span></span><span class="stage-line block" style="--i:1"><span class="text-fuchsia-300">&lt;TwCheckbox</span> <span class="text-sky-300">Label</span>=<span class="text-emerald-300">"Run tests"</span> <span class="text-fuchsia-300">/&gt;</span></span><span class="stage-line block" style="--i:2"><span class="text-fuchsia-300">&lt;TwSwitch</span> <span class="text-sky-300">Label</span>=<span class="text-emerald-300">"Auto deploy"</span> <span class="text-fuchsia-300">/&gt;</span></span><span class="stage-line block" style="--i:3"><span class="text-fuchsia-300">&lt;TwButton</span> <span class="text-sky-300">Color</span>=<span class="text-emerald-300">"Primary"</span> <span class="text-sky-300">Label</span>=<span class="text-emerald-300">"Deploy"</span> <span class="text-fuchsia-300">/&gt;</span></span><span class="stage-line block" style="--i:4"><span class="text-fuchsia-300">&lt;TwProgress</span> <span class="text-sky-300">Value</span>=<span class="text-emerald-300">"@@progress"</span> <span class="text-fuchsia-300">/&gt;</span></span><span class="stage-line block" style="--i:5"><span class="text-fuchsia-300">&lt;TwChip</span> <span class="text-sky-300">Label</span>=<span class="text-emerald-300">"Healthy"</span> <span class="text-sky-300">Color</span>=<span class="text-emerald-300">"Success"</span> <span class="text-fuchsia-300">/&gt;</span><span class="stage-caret ms-0.5 inline-block h-4 w-2 translate-y-0.5 bg-fuchsia-400" aria-hidden="true"></span></span></code></pre>
+                    <pre dir="ltr" class="overflow-x-auto whitespace-pre-wrap break-words p-4 sm:p-5 md:whitespace-pre"><code><span class="stage-line block" style="--i:0"><span class="text-fuchsia-300">&lt;TwTextfield</span> <span class="text-sky-300">Label</span>=<span class="text-emerald-300">"Service"</span> <span class="text-sky-300">@@bind-Value</span>=<span class="text-emerald-300">"name"</span> <span class="text-fuchsia-300">/&gt;</span></span><span class="stage-line block" style="--i:1"><span class="text-fuchsia-300">&lt;TwCheckbox</span> <span class="text-sky-300">Label</span>=<span class="text-emerald-300">"Run tests"</span> <span class="text-fuchsia-300">/&gt;</span></span><span class="stage-line block" style="--i:2"><span class="text-fuchsia-300">&lt;TwSwitch</span> <span class="text-sky-300">Label</span>=<span class="text-emerald-300">"Auto deploy"</span> <span class="text-fuchsia-300">/&gt;</span></span><span class="stage-line block" style="--i:3"><span class="text-fuchsia-300">&lt;TwButton</span> <span class="text-sky-300">Color</span>=<span class="text-emerald-300">"Primary"</span> <span class="text-sky-300">Label</span>=<span class="text-emerald-300">"Deploy"</span> <span class="text-fuchsia-300">/&gt;</span></span><span class="stage-line block" style="--i:4"><span class="text-fuchsia-300">&lt;TwProgress</span> <span class="text-sky-300">Value</span>=<span class="text-emerald-300">"@@progress"</span> <span class="text-fuchsia-300">/&gt;</span></span><span class="stage-line block" style="--i:5"><span class="text-fuchsia-300">&lt;TwChip</span> <span class="text-sky-300">Label</span>=<span class="text-emerald-300">"Healthy"</span> <span class="text-sky-300">Color</span>=<span class="text-emerald-300">"Success"</span> <span class="text-fuchsia-300">/&gt;</span><span class="stage-caret ms-0.5 inline-block h-4 w-2 translate-y-0.5 bg-fuchsia-400" aria-hidden="true"></span></span></code></pre>
                 </div>
 
                 @* Each item sits in a grid wrapper so the wrapper, and the glow drawn on it, hugs the component exactly.
                    --stage-radius matches the glow's corners to the component's shape. *@
                 <div class="flex min-w-0 flex-col gap-5 p-5 sm:p-6">
                     <div class="flex flex-wrap items-center justify-between gap-3">
-                        <span class="text-xs font-semibold uppercase tracking-wide text-gray-600 dark:text-gray-400">Preview</span>
+                        <span class="text-xs font-semibold uppercase tracking-wide text-gray-600 dark:text-gray-400"><Loc Key="Home_Preview">Preview</Loc></span>
                         <span class="stage-done inline-flex items-center gap-1.5 rounded-full bg-green-50 px-2.5 py-0.5 text-xs font-medium text-green-800 dark:bg-green-500/15 dark:text-green-300" style="--i:6">
                             <TwIcon Icon="IconEnum.Check_Circle_Fill" Plain />
-                            6 components rendered
+                            <Loc Key="Home_Live_Rendered">6 components rendered</Loc>
                         </span>
                     </div>
                     <div class="stage-pop grid" style="--i:0; --stage-radius:0.5rem">
@@ -85,7 +93,7 @@
                         </div>
                         <button type="button" id="live-build-replay" class="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md text-sm font-medium text-purple-800 underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600 motion-reduce:hidden dark:text-purple-300 dark:focus-visible:outline-purple-300" @onclick="ReplayLiveBuild">
                             <TwIcon Icon="IconEnum.Arrow_Repeat" Plain />
-                            Replay<span class="sr-only"> the live build</span>
+                            <Loc Key="Home_Live_Replay">Replay</Loc><span class="sr-only"> @Loc.Text("Home_Live_ReplayTarget", "the live build")</span>
                         </button>
                     </div>
                 </div>
@@ -101,13 +109,13 @@
         <div class="mx-auto max-w-6xl px-6 py-16 md:py-24">
             <div class="reveal flex flex-wrap items-end justify-between gap-4">
                 <div>
-                    <p class="text-sm font-semibold uppercase tracking-wide text-fuchsia-700 dark:text-fuchsia-300">Why twblazor?</p>
+                    <p class="text-sm font-semibold uppercase tracking-wide text-fuchsia-700 dark:text-fuchsia-300"><Loc Key="Home_Why_Title">Why twblazor?</Loc></p>
                     <h2 id="features-heading" class="mt-2 text-3xl font-bold leading-[1.3] tracking-tight text-purple-900 md:text-4xl dark:text-white">
-                        <span class="sr-only">Built for your next @string.Join(", ", _cycleWords.Take(_cycleWords.Count - 1)) or @_cycleWords[^1].</span>
-                        <span aria-hidden="true">Built for your next <span class="@(wordCyclePaused ? "word-cycle is-paused" : "word-cycle")"><span class="word-cycle-track">@foreach (var word in _cycleWords){<span class="bg-linear-to-r from-purple-700 to-fuchsia-600 bg-clip-text text-transparent dark:from-purple-300 dark:to-fuchsia-300">@(word).</span>}<span class="bg-linear-to-r from-purple-700 to-fuchsia-600 bg-clip-text text-transparent dark:from-purple-300 dark:to-fuchsia-300">@(_cycleWords[0]).</span></span></span></span>
+                        <span class="sr-only">@Loc.Format("Home_Features_HeadingFull", "Built for your next {0} or {1}.", string.Join(", ", _cycleWords.Take(_cycleWords.Count - 1)), _cycleWords[^1])</span>
+                        <span aria-hidden="true">@Loc.Text("Home_Features_HeadingLead", "Built for your next") <span class="@(wordCyclePaused ? "word-cycle is-paused" : "word-cycle")"><span class="word-cycle-track">@foreach (var word in _cycleWords){<span class="bg-linear-to-r from-purple-700 to-fuchsia-600 bg-clip-text text-transparent dark:from-purple-300 dark:to-fuchsia-300">@(word).</span>}<span class="bg-linear-to-r from-purple-700 to-fuchsia-600 bg-clip-text text-transparent dark:from-purple-300 dark:to-fuchsia-300">@(_cycleWords[0]).</span></span></span>@Loc.Text("Home_Features_HeadingTrail", "")</span>
                     </h2>
                 </div>
-                <button type="button" id="word-cycle-toggle" class="inline-flex size-9 cursor-pointer items-center justify-center rounded-full border border-purple-200 bg-white/80 text-purple-800 transition-colors hover:border-fuchsia-400 hover:text-fuchsia-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600 motion-reduce:hidden dark:border-purple-500/30 dark:bg-purple-500/10 dark:text-purple-200 dark:focus-visible:outline-purple-300" aria-label="@(wordCyclePaused ? "Play the changing heading" : "Pause the changing heading")" @onclick="@(() => wordCyclePaused = !wordCyclePaused)">
+                <button type="button" id="word-cycle-toggle" class="inline-flex size-9 cursor-pointer items-center justify-center rounded-full border border-purple-200 bg-white/80 text-purple-800 transition-colors hover:border-fuchsia-400 hover:text-fuchsia-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600 motion-reduce:hidden dark:border-purple-500/30 dark:bg-purple-500/10 dark:text-purple-200 dark:focus-visible:outline-purple-300" aria-label="@(wordCyclePaused ? Loc.Text("Home_Features_Play", "Play the changing heading") : Loc.Text("Home_Features_Pause", "Pause the changing heading"))" @onclick="@(() => wordCyclePaused = !wordCyclePaused)">
                     <TwIcon Icon="@(wordCyclePaused ? IconEnum.Play_Fill : IconEnum.Pause_Fill)" Plain />
                 </button>
             </div>
@@ -117,36 +125,36 @@
                     <div>
                         <div class="flex items-center gap-3">
                             <span class="@($"{featureIconClasses} from-purple-600 to-purple-500 shadow-purple-500/30")"><TwIcon Icon="IconEnum.Lightning_Charge_Fill" Plain /></span>
-                            <h3 class="text-lg font-semibold text-purple-900 dark:text-white">Fast to build</h3>
+                            <h3 class="text-lg font-semibold text-purple-900 dark:text-white"><Loc Key="Home_Feature_Fast_Title">Fast to build</Loc></h3>
                         </div>
-                        <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">25+ components, ready to ship.</p>
+                        <p class="mt-2 text-sm text-gray-600 dark:text-gray-400"><Loc Key="Home_Feature_Fast_Body">25+ components, ready to ship.</Loc></p>
                     </div>
                 </TwCard>
                 <TwCard Shadow="Shadow.None" Class="@featureCardClasses">
                     <div>
                         <div class="flex items-center gap-3">
                             <span class="@($"{featureIconClasses} from-fuchsia-600 to-pink-500 shadow-fuchsia-500/30")"><TwIcon Icon="IconEnum.Palette_Fill" Plain /></span>
-                            <h3 class="text-lg font-semibold text-purple-900 dark:text-white">Fully customisable</h3>
+                            <h3 class="text-lg font-semibold text-purple-900 dark:text-white"><Loc Key="Home_Feature_Custom_Title">Fully customisable</Loc></h3>
                         </div>
-                        <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Your brand, in light and dark mode.</p>
+                        <p class="mt-2 text-sm text-gray-600 dark:text-gray-400"><Loc Key="Home_Feature_Custom_Body">Your brand, in light and dark mode.</Loc></p>
                     </div>
                 </TwCard>
                 <TwCard Shadow="Shadow.None" Class="@featureCardClasses">
                     <div>
                         <div class="flex items-center gap-3">
                             <span class="@($"{featureIconClasses} from-indigo-600 to-purple-500 shadow-indigo-500/30")"><TwIcon Icon="IconEnum.Puzzle_Fill" Plain /></span>
-                            <h3 class="text-lg font-semibold text-purple-900 dark:text-white">Composable</h3>
+                            <h3 class="text-lg font-semibold text-purple-900 dark:text-white"><Loc Key="Home_Feature_Composable_Title">Composable</Loc></h3>
                         </div>
-                        <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Plain Blazor parameters. No surprises.</p>
+                        <p class="mt-2 text-sm text-gray-600 dark:text-gray-400"><Loc Key="Home_Feature_Composable_Body">Plain Blazor parameters. No surprises.</Loc></p>
                     </div>
                 </TwCard>
                 <TwCard Shadow="Shadow.None" Class="@featureCardClasses">
                     <div>
                         <div class="flex items-center gap-3">
                             <span class="@($"{featureIconClasses} from-pink-600 to-fuchsia-500 shadow-pink-500/30")"><TwIcon Icon="IconEnum.Shield_Check" Plain /></span>
-                            <h3 class="text-lg font-semibold text-purple-900 dark:text-white">Accessible</h3>
+                            <h3 class="text-lg font-semibold text-purple-900 dark:text-white"><Loc Key="Home_Feature_A11y_Title">Accessible</Loc></h3>
                         </div>
-                        <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">ARIA and keyboard support built in.</p>
+                        <p class="mt-2 text-sm text-gray-600 dark:text-gray-400"><Loc Key="Home_Feature_A11y_Body">ARIA and keyboard support built in.</Loc></p>
                     </div>
                 </TwCard>
             </div>
@@ -155,28 +163,28 @@
 
     <!-- Guides -->
     <section class="mx-auto max-w-6xl px-6 pt-16 md:pt-24" aria-labelledby="guides-heading">
-        <h2 id="guides-heading" class="reveal text-2xl font-bold tracking-tight text-purple-900 md:text-3xl dark:text-white">Tailwind and Blazor, working together</h2>
+        <h2 id="guides-heading" class="reveal text-2xl font-bold tracking-tight text-purple-900 md:text-3xl dark:text-white"><Loc Key="Home_Guides_Heading">Tailwind and Blazor, working together</Loc></h2>
 
         <div class="reveal-group mt-8 grid grid-cols-1 gap-6 md:grid-cols-3">
             <a href="/tailwind-blazor" class="@guideCardClasses">
                 <span class="@($"{guideIconClasses} bg-purple-100 text-purple-700 dark:bg-purple-500/15 dark:text-purple-300")"><TwIcon Icon="IconEnum.Wind" Plain /></span>
                 <span>
-                    <span class="block font-semibold text-purple-900 dark:text-white">Tailwind CSS with Blazor</span>
-                    <span class="mt-1 block text-sm text-gray-600 dark:text-gray-400">How your classes are found and themed.</span>
+                    <span class="block font-semibold text-purple-900 dark:text-white"><Loc Key="Home_Guides_Tailwind_Title">Tailwind CSS with Blazor</Loc></span>
+                    <span class="mt-1 block text-sm text-gray-600 dark:text-gray-400"><Loc Key="Home_Guides_Tailwind">How your classes are found and themed.</Loc></span>
                 </span>
             </a>
             <a href="/why-twblazor" class="@guideCardClasses">
                 <span class="@($"{guideIconClasses} bg-fuchsia-100 text-fuchsia-700 dark:bg-fuchsia-500/15 dark:text-fuchsia-300")"><TwIcon Icon="IconEnum.Layers_Fill" Plain /></span>
                 <span>
-                    <span class="block font-semibold text-purple-900 dark:text-white">Why twblazor?</span>
-                    <span class="mt-1 block text-sm text-gray-600 dark:text-gray-400">MIT licensed and Tailwind native.</span>
+                    <span class="block font-semibold text-purple-900 dark:text-white"><Loc Key="Home_Why_Title">Why twblazor?</Loc></span>
+                    <span class="mt-1 block text-sm text-gray-600 dark:text-gray-400"><Loc Key="Home_Guides_Why">MIT licensed and Tailwind native.</Loc></span>
                 </span>
             </a>
             <a href="/get-started" class="@guideCardClasses">
                 <span class="@($"{guideIconClasses} bg-purple-100 text-purple-700 dark:bg-purple-500/15 dark:text-purple-300")"><TwIcon Icon="IconEnum.Rocket_Takeoff" Plain /></span>
                 <span>
-                    <span class="block font-semibold text-purple-900 dark:text-white">Install guide</span>
-                    <span class="mt-1 block text-sm text-gray-600 dark:text-gray-400">Server or WebAssembly in nine steps.</span>
+                    <span class="block font-semibold text-purple-900 dark:text-white"><Loc Key="Home_Guides_Install_Title">Install guide</Loc></span>
+                    <span class="mt-1 block text-sm text-gray-600 dark:text-gray-400"><Loc Key="Home_Guides_Install">Server or WebAssembly in nine steps.</Loc></span>
                 </span>
             </a>
         </div>
@@ -185,38 +193,38 @@
     <!-- Showcase -->
     <section class="mx-auto max-w-6xl px-6 pt-16 md:pt-24" aria-labelledby="examples-heading">
         <div class="reveal">
-            <h2 id="examples-heading" class="text-2xl font-bold tracking-tight text-purple-900 md:text-3xl dark:text-white">Real components. Ready for your app.</h2>
-            <p class="mt-3 max-w-xl text-gray-700 dark:text-gray-400">Every example is live. Try them.</p>
+            <h2 id="examples-heading" class="text-2xl font-bold tracking-tight text-purple-900 md:text-3xl dark:text-white"><Loc Key="Home_Examples_Heading">Real components. Ready for your app.</Loc></h2>
+            <p class="mt-3 max-w-xl text-gray-700 dark:text-gray-400"><Loc Key="Home_Examples_Sub">Every example is live. Try them.</Loc></p>
         </div>
 
         <div class="reveal-group mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-start">
             <div class="flex flex-col gap-6">
-                <TwCard Title="Sign in" Class="@cardClasses">
+                <TwCard Title="@Loc.Text("Home_SignIn", "Sign in")" Class="@cardClasses">
                     <form class="mt-3 flex flex-col gap-4" @onsubmit="SignIn" @onsubmit:preventDefault>
-                        <TwTextfield Label="Email" @bind-Value="signInEmail" InputType="email" Placeholder="you@example.com" />
-                        <TwTextfield Label="Password" @bind-Value="signInPassword" InputType="password" autocomplete="current-password" Placeholder="Enter your password" />
-                        <TwCheckbox T="bool" @bind-Value="rememberMe" Label="Remember me" />
-                        <TwButton Type="submit" Class="w-full justify-center" Color="Color.Primary" Label="Sign in" />
+                        <TwTextfield Label="@Loc.Text("Home_Email", "Email")" @bind-Value="signInEmail" InputType="email" Placeholder="you@example.com" />
+                        <TwTextfield Label="@Loc.Text("Home_Password", "Password")" @bind-Value="signInPassword" InputType="password" autocomplete="current-password" Placeholder="@Loc.Text("Home_PasswordPlaceholder", "Enter your password")" />
+                        <TwCheckbox T="bool" @bind-Value="rememberMe" Label="@Loc.Text("Home_RememberMe", "Remember me")" />
+                        <TwButton Type="submit" Class="w-full justify-center" Color="Color.Primary" Label="@Loc.Text("Home_SignIn", "Sign in")" />
                     </form>
                 </TwCard>
             </div>
 
-            <TwCard Title="Checkout stepper" Class="@cardClasses">
+            <TwCard Title="@Loc.Text("Home_Checkout_Title", "Checkout stepper")" Class="@cardClasses">
                 <div class="mt-3">
-                    <TwStepper @ref="checkoutStepper" @bind-ActiveStepIndex="checkoutStep" AriaLabel="Checkout progress">
-                        <TwStep Label="Account" Description="Create your login">
-                            <TwTextfield Label="Email" @bind-Value="email" Placeholder="Enter your email address" AriaLabel="Email" />
+                    <TwStepper @ref="checkoutStepper" @bind-ActiveStepIndex="checkoutStep" AriaLabel="@Loc.Text("Home_Checkout_Progress", "Checkout progress")">
+                        <TwStep Label="@Loc.Text("Home_Checkout_Account", "Account")" Description="@Loc.Text("Home_Checkout_AccountDesc", "Create your login")">
+                            <TwTextfield Label="@Loc.Text("Home_Email", "Email")" @bind-Value="email" Placeholder="@Loc.Text("Home_EmailPlaceholder", "Enter your email address")" AriaLabel="@Loc.Text("Home_Email", "Email")" />
                         </TwStep>
-                        <TwStep Label="Preferences" Description="Tune your setup">
-                            <TwSwitch @bind-Value="notificationsEnabled" Label="Email notifications" Color="Color.Primary" />
+                        <TwStep Label="@Loc.Text("Home_Checkout_Preferences", "Preferences")" Description="@Loc.Text("Home_Checkout_PreferencesDesc", "Tune your setup")">
+                            <TwSwitch @bind-Value="notificationsEnabled" Label="@Loc.Text("Home_Checkout_Notifications", "Email notifications")" Color="Color.Primary" />
                         </TwStep>
-                        <TwStep Label="Done" Description="All set">
-                            <p class="text-sm">Thanks, you're ready to go.</p>
+                        <TwStep Label="@Loc.Text("Home_Checkout_Done", "Done")" Description="@Loc.Text("Home_Checkout_DoneDesc", "All set")">
+                            <p class="text-sm"><Loc Key="Home_Checkout_Thanks">Thanks, you're ready to go.</Loc></p>
                         </TwStep>
                     </TwStepper>
                     <div class="mt-4 flex gap-2">
-                        <TwButton Label="Back" Variant="ButtonVariant.Outlined" Color="Color.Primary" Disabled="@(checkoutStep <= 0)" OnClick="@(async () => { if (checkoutStepper is not null) await checkoutStepper.PreviousStep(); })" />
-                        <TwButton Label="Next" Variant="ButtonVariant.Filled" Color="Color.Primary" Disabled="@(checkoutStep >= 2)" OnClick="@(async () => { if (checkoutStepper is not null) await checkoutStepper.NextStep(); })" />
+                        <TwButton Label="@Loc.Text("Home_Back", "Back")" Variant="ButtonVariant.Outlined" Color="Color.Primary" Disabled="@(checkoutStep <= 0)" OnClick="@(async () => { if (checkoutStepper is not null) await checkoutStepper.PreviousStep(); })" />
+                        <TwButton Label="@Loc.Text("Home_Next", "Next")" Variant="ButtonVariant.Filled" Color="Color.Primary" Disabled="@(checkoutStep >= 2)" OnClick="@(async () => { if (checkoutStepper is not null) await checkoutStepper.NextStep(); })" />
                     </div>
                 </div>
             </TwCard>
@@ -228,58 +236,58 @@
                 <div class="flex items-center gap-3">
                     <span class="inline-flex size-11 shrink-0 items-center justify-center rounded-xl bg-purple-50 text-xl text-purple-700 dark:bg-purple-500/15 dark:text-purple-300"><TwIcon Icon="IconEnum.Gear_Fill" Plain /></span>
                     <div>
-                        <h3 class="font-semibold text-gray-950 dark:text-white">Project settings</h3>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">Manage how your team ships</p>
+                        <h3 class="font-semibold text-gray-950 dark:text-white"><Loc Key="Home_Settings_Title">Project settings</Loc></h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400"><Loc Key="Home_Settings_Sub">Manage how your team ships</Loc></p>
                     </div>
                 </div>
 
                 <form class="mt-5 flex flex-col gap-5" @onsubmit="SaveSettings" @onsubmit:preventDefault>
-                    <TwTextfield Label="Project name" @bind-Value="projectName" />
+                    <TwTextfield Label="@Loc.Text("Home_Settings_ProjectName", "Project name")" @bind-Value="projectName" />
 
-                    <TwRadioGroup T="string" Legend="Visibility" Name="visibility" Horizontal>
-                        <TwRadioButton Value="@("private")" Label="Private" @bind-SelectedValue="visibility" />
-                        <TwRadioButton Value="@("team")" Label="Team" @bind-SelectedValue="visibility" />
-                        <TwRadioButton Value="@("public")" Label="Public" @bind-SelectedValue="visibility" />
+                    <TwRadioGroup T="string" Legend="@Loc.Text("Home_Settings_Visibility", "Visibility")" Name="visibility" Horizontal>
+                        <TwRadioButton Value="@("private")" Label="@Loc.Text("Home_Settings_Private", "Private")" @bind-SelectedValue="visibility" />
+                        <TwRadioButton Value="@("team")" Label="@Loc.Text("Home_Settings_Team", "Team")" @bind-SelectedValue="visibility" />
+                        <TwRadioButton Value="@("public")" Label="@Loc.Text("Home_Settings_Public", "Public")" @bind-SelectedValue="visibility" />
                     </TwRadioGroup>
 
-                    <TwSelect T="string" Label="Environment" Values="_environments" @bind-SelectedValue="environment" Required />
+                    <TwSelect T="string" Label="@Loc.Text("Home_Settings_Environment", "Environment")" Values="_environments" @bind-SelectedValue="environment" Required />
 
                     <div class="flex flex-col gap-3">
-                        <TwSwitch @bind-Value="emailAlerts" Label="Email alerts" AriaLabel="Email alerts" />
-                        <TwSwitch @bind-Value="autoDeploy" Label="Deploy on push" AriaLabel="Deploy on push" />
+                        <TwSwitch @bind-Value="emailAlerts" Label="@Loc.Text("Home_Settings_EmailAlerts", "Email alerts")" AriaLabel="@Loc.Text("Home_Settings_EmailAlerts", "Email alerts")" />
+                        <TwSwitch @bind-Value="autoDeploy" Label="@Loc.Text("Home_Settings_DeployOnPush", "Deploy on push")" AriaLabel="@Loc.Text("Home_Settings_DeployOnPush", "Deploy on push")" />
                     </div>
 
                     <div>
                         <div class="mb-2 flex items-baseline justify-between text-sm">
-                            <span class="font-medium text-gray-950 dark:text-white">Storage used</span>
-                            <span class="tabular-nums text-gray-600 dark:text-gray-400">7.2 of 10 GB</span>
+                            <span class="font-medium text-gray-950 dark:text-white"><Loc Key="Home_Settings_Storage">Storage used</Loc></span>
+                            <span class="tabular-nums text-gray-600 dark:text-gray-400"><Loc Key="Home_Settings_StorageAmount">7.2 of 10 GB</Loc></span>
                         </div>
-                        <TwProgress Value="72" Max="100" Color="Color.Primary" AriaLabel="Storage used" />
+                        <TwProgress Value="72" Max="100" Color="Color.Primary" AriaLabel="@Loc.Text("Home_Settings_Storage", "Storage used")" />
 
-                        <TwChart Title="Storage by folder" Description="7.2 GB across 10 folders" Height="ChartHeight.Small" Class="mt-4">
-                            <TwTreemapChart Data="@_storageFolders" ValueFormat="0.0 GB" LabelHeader="Folder" ValueHeader="Size" />
+                        <TwChart Title="@Loc.Text("Home_Chart_Storage", "Storage by folder")" Description="@Loc.Text("Home_Chart_StorageDesc", "7.2 GB across 10 folders")" Height="ChartHeight.Small" Class="mt-4">
+                            <TwTreemapChart Data="@_storageFolders" ValueFormat="0.0 GB" LabelHeader="@Loc.Text("Home_Chart_Folder", "Folder")" ValueHeader="@Loc.Text("Home_Chart_Size", "Size")" />
                         </TwChart>
                     </div>
 
                     @if (settingsSaved)
                     {
-                        <TwAlert Dense Color="Color.Success" StartIcon="IconEnum.Check_Circle">Settings saved.</TwAlert>
+                        <TwAlert Dense Color="Color.Success" StartIcon="IconEnum.Check_Circle"><Loc Key="Home_Settings_Saved">Settings saved.</Loc></TwAlert>
                     }
 
                     <div class="flex justify-end gap-2 border-t border-gray-200 pt-4 dark:border-gray-800">
-                        <TwButton Type="button" Label="Reset" Variant="ButtonVariant.Outlined" Color="Color.Primary" OnClick="ResetSettings" />
-                        <TwButton Type="submit" Label="Save changes" Color="Color.Primary" />
+                        <TwButton Type="button" Label="@Loc.Text("Home_Settings_Reset", "Reset")" Variant="ButtonVariant.Outlined" Color="Color.Primary" OnClick="ResetSettings" />
+                        <TwButton Type="submit" Label="@Loc.Text("Home_SaveChanges", "Save changes")" Color="Color.Primary" />
                     </div>
                 </form>
             </TwCard>
 
             <TwCard Class="@cardClasses">
                 <div class="flex items-center justify-between gap-3">
-                    <h3 class="font-semibold text-gray-950 dark:text-white">Release health</h3>
+                    <h3 class="font-semibold text-gray-950 dark:text-white"><Loc Key="Home_Release_Title">Release health</Loc></h3>
                     <TwChip Label="v2.4.0" Color="Color.Success" Variant="ButtonVariant.Filled" Size="ChipSize.Small" StartIcon="IconEnum.Check" />
                 </div>
 
-                <TwAlert Dense Role="none" Color="Color.Accent" StartIcon="IconEnum.Exclamation_Circle" Class="mt-4">Storage nearing capacity.</TwAlert>
+                <TwAlert Dense Role="none" Color="Color.Accent" StartIcon="IconEnum.Exclamation_Circle" Class="mt-4"><Loc Key="Home_Release_Storage">Storage nearing capacity.</Loc></TwAlert>
 
                 <dl class="mt-5 grid grid-cols-3 divide-x divide-gray-200 text-center dark:divide-gray-800">
                     @foreach (var figure in _releaseFigures)
@@ -292,11 +300,11 @@
                 </dl>
 
                 <div class="mt-6 grid grid-cols-1 gap-6">
-                    <TwChart Title="Response time" Description="95th percentile, last 24 hours" Height="ChartHeight.Small" Class="min-w-0">
-                        <TwLineChart Categories="@_responseHours" Series="@_responseTimes" Curve="ChartCurve.Smooth" ValueFormat="#,0 ms" CategoryHeader="Hour" />
+                    <TwChart Title="@Loc.Text("Home_Chart_Response", "Response time")" Description="@Loc.Text("Home_Chart_ResponseDesc", "95th percentile, last 24 hours")" Height="ChartHeight.Small" Class="min-w-0">
+                        <TwLineChart Categories="@_responseHours" Series="@_responseTimes" Curve="ChartCurve.Smooth" ValueFormat="#,0 ms" CategoryHeader="@Loc.Text("Home_Chart_Hour", "Hour")" />
                     </TwChart>
-                    <TwChart Title="Deploys per day" Description="Last 14 days" Height="ChartHeight.Small" Class="min-w-0">
-                        <TwColumnChart Categories="@_deployDays" Series="@_deploys" Stacking="ChartStacking.Stacked" CategoryHeader="Day" />
+                    <TwChart Title="@Loc.Text("Home_Chart_Deploys", "Deploys per day")" Description="@Loc.Text("Home_Chart_DeploysDesc", "Last 14 days")" Height="ChartHeight.Small" Class="min-w-0">
+                        <TwColumnChart Categories="@_deployDays" Series="@_deploys" Stacking="ChartStacking.Stacked" CategoryHeader="@Loc.Text("Home_Chart_Day", "Day")" />
                     </TwChart>
                 </div>
             </TwCard>
@@ -309,9 +317,9 @@
             <div aria-hidden="true" class="pointer-events-none absolute -right-32 -top-32 -z-10 size-120 rounded-full bg-fuchsia-600/25 blur-3xl"></div>
             <div class="mx-auto max-w-6xl px-6 py-16 md:py-24">
                 <div class="reveal">
-                    <h2 id="theming-heading" class="max-w-2xl text-2xl font-bold tracking-tight text-white text-balance md:text-3xl">The deepest Tailwind theming of any Blazor library</h2>
+                    <h2 id="theming-heading" class="max-w-2xl text-2xl font-bold tracking-tight text-white text-balance md:text-3xl"><Loc Key="Home_Theming_Heading">The deepest Tailwind theming of any Blazor library</Loc></h2>
                     <p class="mt-3 max-w-2xl text-purple-200">
-                        Every visual detail is a plain Tailwind class you own, typed per component. No black box in a DLL.
+                        <Loc Key="Home_Theming_Sub">Every visual detail is a plain Tailwind class you own, typed per component. No black box in a DLL.</Loc>
                     </p>
                 </div>
 
@@ -330,24 +338,24 @@
                     </div>
 
                     <figure class="reveal min-w-0" aria-labelledby="theme-build-caption">
-                        <figcaption id="theme-build-caption" class="sr-only">Three lines of Theme.cs restyling a live button, shown beside the button as it was: fully rounded corners, a large shadow and a pink primary colour.</figcaption>
+                        <figcaption id="theme-build-caption" class="sr-only"><Loc Key="Home_Theming_Caption">Three lines of Theme.cs restyling a live button, shown beside the button as it was: fully rounded corners, a large shadow and a pink primary colour.</Loc></figcaption>
                         <div data-stage class="overflow-hidden rounded-lg border border-white/10 bg-gray-950 shadow-2xl shadow-fuchsia-950/40">
                             <CodeWindowBar Title="Theme.cs" Icon="IconEnum.Filetype_Cs" />
-                            <pre class="overflow-x-auto whitespace-pre-wrap break-words px-4 py-4 font-mono text-xs leading-6 text-gray-300 sm:px-5 sm:text-[13px] sm:leading-7 md:whitespace-pre"><code><span class="block text-gray-400">// Change the theme, not the component</span><span class="stage-line block" style="--i:0"><span class="text-sky-300">DefaultRounded</span> = <span class="text-fuchsia-300">Rounded</span>.Full,</span><span class="stage-line block" style="--i:1"><span class="text-sky-300">DefaultShadow</span> = <span class="text-fuchsia-300">Shadow</span>.Lg,</span><span class="stage-line block" style="--i:2"><span class="text-sky-300">Primary</span> = <span class="text-emerald-300">"bg-pink-700"</span>,<span class="stage-caret ms-0.5 inline-block h-4 w-2 translate-y-0.5 bg-fuchsia-400" aria-hidden="true"></span></span></code></pre>
+                            <pre dir="ltr" class="overflow-x-auto whitespace-pre-wrap break-words px-4 py-4 font-mono text-xs leading-6 text-gray-300 sm:px-5 sm:text-[13px] sm:leading-7 md:whitespace-pre"><code><span class="block text-gray-400">// Change the theme, not the component</span><span class="stage-line block" style="--i:0"><span class="text-sky-300">DefaultRounded</span> = <span class="text-fuchsia-300">Rounded</span>.Full,</span><span class="stage-line block" style="--i:1"><span class="text-sky-300">DefaultShadow</span> = <span class="text-fuchsia-300">Shadow</span>.Lg,</span><span class="stage-line block" style="--i:2"><span class="text-sky-300">Primary</span> = <span class="text-emerald-300">"bg-pink-700"</span>,<span class="stage-caret ms-0.5 inline-block h-4 w-2 translate-y-0.5 bg-fuchsia-400" aria-hidden="true"></span></span></code></pre>
                             <div class="flex flex-col items-center gap-6 border-t border-white/10 bg-white/5 px-4 py-8 sm:px-5">
                                 <div class="flex flex-col items-center gap-3 sm:flex-row sm:items-end sm:gap-6">
                                     <div class="flex flex-col items-center gap-3">
-                                        <span class="text-xs font-semibold uppercase tracking-wide text-purple-200">Before</span>
-                                        <TwButton Id="theme-build-before" Color="Color.Primary" Label="Save changes" StartIcon="IconEnum.Check_Lg" />
+                                        <span class="text-xs font-semibold uppercase tracking-wide text-purple-200"><Loc Key="Home_Theming_Before">Before</Loc></span>
+                                        <TwButton Id="theme-build-before" Color="Color.Primary" Label="@Loc.Text("Home_SaveChanges", "Save changes")" StartIcon="IconEnum.Check_Lg" />
                                     </div>
                                     <span class="rotate-90 text-xl text-fuchsia-300 sm:mb-2 sm:rotate-0 sm:rtl:-scale-x-100" aria-hidden="true"><TwIcon Icon="IconEnum.Arrow_Right" Plain /></span>
                                     <div class="flex flex-col items-center gap-3">
-                                        <span class="text-xs font-semibold uppercase tracking-wide text-fuchsia-200">After</span>
-                                        <TwButton Id="theme-build-after" Color="Color.Primary" Label="Save changes" StartIcon="IconEnum.Check_Lg" Class="theme-morph" />
+                                        <span class="text-xs font-semibold uppercase tracking-wide text-fuchsia-200"><Loc Key="Home_Theming_After">After</Loc></span>
+                                        <TwButton Id="theme-build-after" Color="Color.Primary" Label="@Loc.Text("Home_SaveChanges", "Save changes")" StartIcon="IconEnum.Check_Lg" Class="theme-morph" />
                                     </div>
                                 </div>
                                 @* Each tag appears as its line of Theme.cs takes effect on the After button. *@
-                                <ul id="theme-build-changes" class="flex flex-wrap justify-center gap-2" aria-label="What changed">
+                                <ul id="theme-build-changes" class="flex flex-wrap justify-center gap-2" aria-label="@Loc.Text("Home_Theming_WhatChanged", "What changed")">
                                     @foreach (var (change, index) in _themeBuildChanges.Select((change, index) => (change, index)))
                                     {
                                         <li class="stage-pop grid" style="@($"--i:{index}; --stage-radius:9999px")">
@@ -357,7 +365,7 @@
                                 </ul>
                                 <span class="stage-done inline-flex items-center gap-1.5 text-xs font-medium text-fuchsia-200" style="--i:2">
                                     <TwIcon Icon="IconEnum.Stars" Plain />
-                                    Restyled from Theme.cs, no CSS
+                                    <Loc Key="Home_Theming_Restyled">Restyled from Theme.cs, no CSS</Loc>
                                 </span>
                             </div>
                         </div>
@@ -366,9 +374,9 @@
 
                 <div id="theme-case-study" class="mt-14 border-t border-white/15 pt-12">
                     <div class="reveal">
-                        <p class="text-sm font-semibold uppercase tracking-wide text-fuchsia-300">See it in action</p>
-                        <h3 id="theme-case-study-heading" class="mt-2 max-w-2xl text-xl font-bold tracking-tight text-white text-balance md:text-2xl">Five well-known looks, one component library</h3>
-                        <p class="mt-3 max-w-2xl text-purple-200">Same components, different <code>Theme.cs</code>.</p>
+                        <p class="text-sm font-semibold uppercase tracking-wide text-fuchsia-300"><Loc Key="Home_Case_Eyebrow">See it in action</Loc></p>
+                        <h3 id="theme-case-study-heading" class="mt-2 max-w-2xl text-xl font-bold tracking-tight text-white text-balance md:text-2xl"><Loc Key="Home_Case_Heading">Five well-known looks, one component library</Loc></h3>
+                        <p class="mt-3 max-w-2xl text-purple-200"><Loc Key="Home_Case_Sub">Same components, different <code>Theme.cs</code>.</Loc></p>
                     </div>
 
                     <ul class="reveal-group mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5" aria-labelledby="theme-case-study-heading">
@@ -382,15 +390,15 @@
                                             <span class="size-5 rounded-full ring-1 ring-white/40" style="@($"background-color: {swatch};")"></span>
                                         }
                                     </span>
-                                    <span class="font-semibold text-white">@brand.Name<span class="font-normal text-purple-200">-inspired</span></span>
-                                    <span class="mt-auto inline-flex items-center gap-1 text-sm font-semibold text-fuchsia-200 underline-offset-4 group-hover:underline">See the theme <TwIcon Icon="IconEnum.Arrow_Right" Plain /></span>
+                                    <span class="font-semibold text-white">@((MarkupString)Loc.Format("Home_Case_Inspired", "{0}<span class=\"font-normal text-purple-200\">-inspired</span>", brand.Name))</span>
+                                    <span class="mt-auto inline-flex items-center gap-1 text-sm font-semibold text-fuchsia-200 underline-offset-4 group-hover:underline">@Loc.Text("Home_Case_SeeTheme", "See the theme") <TwIcon Icon="IconEnum.Arrow_Right" Plain /></span>
                                 </a>
                             </li>
                         }
                     </ul>
 
                     @* The full disclaimer is at the bottom of each example page. *@
-                    <p id="theme-case-study-disclaimer" class="mt-6 text-xs text-purple-200">@ShowcaseBrand.ShortDisclaimer</p>
+                    <p id="theme-case-study-disclaimer" class="mt-6 text-xs text-purple-200">@Loc.Text("Home_Brand_ShortDisclaimer", ShowcaseBrand.ShortDisclaimer)</p>
                 </div>
             </div>
         </div>
@@ -406,14 +414,14 @@
             <div class="reveal">
                 <p class="inline-flex items-center gap-2 rounded-full border border-purple-200 bg-white/80 px-3 py-1 text-sm font-medium text-purple-800 shadow-xs dark:border-purple-500/30 dark:bg-purple-500/10 dark:text-purple-200">
                     <span class="size-1.5 rounded-full bg-fuchsia-500" aria-hidden="true"></span>
-                    Built in. No npm, no JavaScript.
+                    <Loc Key="Home_Merge_Badge">Built in. No npm, no JavaScript.</Loc>
                 </p>
                 <h2 id="merge-heading" class="mt-5 text-2xl font-bold tracking-tight text-balance text-purple-900 md:text-3xl dark:text-white">
-                    Tailwind class merging,
-                    <span class="bg-linear-to-r from-purple-700 to-fuchsia-600 bg-clip-text text-transparent dark:from-purple-400 dark:to-fuchsia-300">built right in</span>
+                    @Loc.Text("Home_Merge_HeadingLead", "Tailwind class merging,")
+                    <span class="bg-linear-to-r from-purple-700 to-fuchsia-600 bg-clip-text text-transparent dark:from-purple-400 dark:to-fuchsia-300">@Loc.Text("Home_Merge_HeadingAccent", "built right in")</span>
                 </h2>
                 <p class="mt-3 max-w-xl text-gray-700 text-pretty dark:text-gray-400">
-                    Pass <code>Class="px-3"</code> and it replaces the theme's <code>px-6</code>. Your class always wins.
+                    <Loc Key="Home_Merge_Sub">Pass <code>Class="px-3"</code> and it replaces the theme's <code>px-6</code>. Your class always wins.</Loc>
                 </p>
 
                 <ul class="mt-6 flex flex-col gap-4">
@@ -430,27 +438,27 @@
                 </ul>
 
                 <a id="merge-docs" href="/class-merge" class="mt-7 inline-flex items-center gap-2 rounded-md font-semibold text-purple-800 underline-offset-4 transition-colors hover:text-fuchsia-700 hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-purple-600 dark:focus-visible:outline-purple-300 dark:text-purple-300 dark:hover:text-fuchsia-300">
-                    See how class merging works <TwIcon Icon="IconEnum.Arrow_Right" Plain />
+                    @Loc.Text("Home_Merge_Link", "See how class merging works") <TwIcon Icon="IconEnum.Arrow_Right" Plain />
                 </a>
             </div>
 
             <figure class="reveal min-w-0 rounded-2xl bg-linear-to-br from-purple-500 via-fuchsia-500 to-pink-400 p-px shadow-xl shadow-purple-500/20 dark:shadow-fuchsia-900/30">
-                <figcaption class="sr-only">A live example of class merging. Choose an example to change the class passed to the component.</figcaption>
+                <figcaption class="sr-only"><Loc Key="Home_Merge_Caption">A live example of class merging. Choose an example to change the class passed to the component.</Loc></figcaption>
                 <div class="rounded-[calc(var(--radius-2xl)-1px)] bg-white p-6 dark:bg-gray-950">
-                    <div class="flex flex-wrap gap-1.5" role="group" aria-label="Class merging example">
+                    <div class="flex flex-wrap gap-1.5" role="group" aria-label="@Loc.Text("Home_Merge_GroupLabel", "Class merging example")">
                         @foreach (var example in _mergeExamples)
                         {
                             var isSelected = example == mergeExample;
                             <button type="button" id="@($"merge-example-{example.Id}")" aria-pressed="@(isSelected ? "true" : "false")" @onclick="@(() => mergeExample = example)"
                                     class="@(isSelected ? mergeTabSelectedClasses : mergeTabClasses)">
-                                @example.Label
+                                @MergeLabel(example)
                             </button>
                         }
                     </div>
 
                     <dl class="mt-5 flex flex-col gap-4">
                         <div>
-                            <dt class="text-xs font-semibold uppercase tracking-wide text-gray-600 dark:text-gray-400">Theme</dt>
+                            <dt class="text-xs font-semibold uppercase tracking-wide text-gray-600 dark:text-gray-400"><Loc Key="Home_Merge_Theme">Theme</Loc></dt>
                             <dd class="mt-2 flex flex-wrap gap-1.5">
                                 @foreach (var themeClass in mergeThemeClassResults)
                                 {
@@ -460,13 +468,13 @@
                                     }
                                     else
                                     {
-                                        <del class="@mergeRemovedChipClasses"><span class="sr-only">Replaced: </span>@themeClass.Name</del>
+                                        <del class="@mergeRemovedChipClasses"><span class="sr-only">@(Loc.Text("Home_Merge_Replaced", "Replaced:") + " ")</span>@themeClass.Name</del>
                                     }
                                 }
                             </dd>
                         </div>
                         <div>
-                            <dt class="text-xs font-semibold uppercase tracking-wide text-gray-600 dark:text-gray-400">Your Class</dt>
+                            <dt class="text-xs font-semibold uppercase tracking-wide text-gray-600 dark:text-gray-400"><Loc Key="Home_Merge_YourClass">Your Class</Loc></dt>
                             <dd class="mt-2 flex flex-wrap gap-1.5">
                                 @foreach (var yourClass in mergeExample.YourClass.Split(' '))
                                 {
@@ -483,10 +491,10 @@
                     </div>
 
                     <div class="mt-5 rounded-xl border border-purple-200/70 bg-purple-50/60 p-4 dark:border-white/10 dark:bg-white/5" aria-live="polite">
-                        <p class="text-xs font-semibold uppercase tracking-wide text-gray-600 dark:text-gray-400">Rendered</p>
+                        <p class="text-xs font-semibold uppercase tracking-wide text-gray-600 dark:text-gray-400"><Loc Key="Home_Rendered">Rendered</Loc></p>
                         <p id="merge-result" class="mt-2 font-mono text-sm break-words text-purple-950 dark:text-purple-100">@mergedClasses</p>
                         <div class="mt-4 flex min-h-14 items-center justify-center rounded-lg border border-dashed border-purple-300/70 bg-white p-3 dark:border-white/15 dark:bg-gray-950">
-                            <span id="merge-preview" class="@mergedClasses">Save changes</span>
+                            <span id="merge-preview" class="@mergedClasses">@Loc.Text("Home_SaveChanges", "Save changes")</span>
                         </div>
                     </div>
                 </div>
@@ -500,14 +508,14 @@
             <div class="reveal">
                 <p class="inline-flex items-center gap-2 rounded-full border border-purple-200 bg-white/80 px-3 py-1 text-sm font-medium text-purple-800 shadow-xs dark:border-purple-500/30 dark:bg-purple-500/10 dark:text-purple-200">
                     <TwIcon Icon="IconEnum.Translate" Plain />
-                    @_localizationLanguages.Count languages, built in
+                    @Loc.Format("Home_Loc_Badge", "{0} languages, built in", _localizationLanguages.Count)
                 </p>
                 <h2 id="localization-heading" class="mt-5 text-2xl font-bold tracking-tight text-balance text-purple-900 md:text-3xl dark:text-white">
-                    Speaks your users' language,
-                    <span class="bg-linear-to-r from-purple-700 to-fuchsia-600 bg-clip-text text-transparent dark:from-purple-400 dark:to-fuchsia-300">out of the box</span>
+                    @Loc.Text("Home_Loc_HeadingLead", "Speaks your users' language,")
+                    <span class="bg-linear-to-r from-purple-700 to-fuchsia-600 bg-clip-text text-transparent dark:from-purple-400 dark:to-fuchsia-300">@Loc.Text("Home_Loc_HeadingAccent", "out of the box")</span>
                 </h2>
                 <p class="mt-3 max-w-xl text-gray-700 text-pretty dark:text-gray-400">
-                    Every label, message and screen reader announcement is translated, and dates follow the culture. Nothing to set up.
+                    <Loc Key="Home_Loc_Sub">Every label, message and screen reader announcement is translated, and dates follow the culture. Nothing to set up.</Loc>
                 </p>
 
                 <ul class="mt-6 flex flex-col gap-4">
@@ -524,29 +532,28 @@
                 </ul>
 
                 <a id="localization-docs" href="/localization" class="mt-7 inline-flex items-center gap-2 rounded-md font-semibold text-purple-800 underline-offset-4 transition-colors hover:text-fuchsia-700 hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-purple-600 dark:text-purple-300 dark:hover:text-fuchsia-300">
-                    See how localization works <TwIcon Icon="IconEnum.Arrow_Right" Plain />
+                    @Loc.Text("Home_Loc_Link", "See how localization works") <TwIcon Icon="IconEnum.Arrow_Right" Plain />
                 </a>
             </div>
 
             <div class="reveal min-w-0">
-                <ul id="localization-languages" class="flex flex-wrap gap-2" aria-label="Supported languages">
+                <ul id="localization-languages" class="flex flex-wrap gap-2" aria-label="@Loc.Text("Home_Loc_LanguagesLabel", "Supported languages")">
                     @foreach (var language in _localizationLanguages.Take(shownLanguageCount))
                     {
                         <li class="@languageChipClasses">
                             <span lang="@language.Culture" dir="auto" class="font-medium text-purple-900 dark:text-white">@language.NativeName</span>
-                            <span class="text-xs text-gray-600 dark:text-gray-400">@language.Name</span>
+                            <span class="text-xs text-gray-600 dark:text-gray-400">@Loc.Text("Home_Lang_" + language.Culture.Replace("-", ""), language.Name)</span>
                         </li>
                     }
                     <li class="inline-flex">
                         <a id="localization-more-languages" href="/localization#localization-languages" class="inline-flex items-baseline rounded-full border border-purple-200 bg-white px-3 py-1.5 text-sm font-medium text-purple-900 shadow-xs transition-colors hover:border-fuchsia-300 hover:text-fuchsia-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600 dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:border-fuchsia-400/50 dark:hover:text-fuchsia-300 dark:focus-visible:outline-purple-300">
                             <span aria-hidden="true">...</span>
-                            <span class="sr-only">and @(_localizationLanguages.Count - shownLanguageCount) more languages</span>
+                            <span class="sr-only">@Loc.Format("Home_Loc_More", "and {0} more languages", _localizationLanguages.Count - shownLanguageCount)</span>
                         </a>
                     </li>
                 </ul>
                 <p id="localization-disclaimer" class="mt-4 text-sm text-gray-600 dark:text-gray-400">
-                    Non-English translations were produced by AI and are not yet reviewed.
-                    <a href="/localization#localization-contributing" class="font-medium text-purple-800 underline underline-offset-2 dark:text-purple-300">Suggest a correction</a>.
+                    <Loc Key="Home_Loc_Disclaimer">Non-English translations were produced by AI and are not yet reviewed. <a href="/localization#localization-contributing" class="font-medium text-purple-800 underline underline-offset-2 dark:text-purple-300">Suggest a correction</a>.</Loc>
                 </p>
                 <div class="mt-6">
                     <TwCodeBlock Language="csharp" Content="@localizationSnippet" Class="rounded-xl" PanelClass="rounded-lg" />
@@ -561,14 +568,14 @@
             <div class="reveal lg:order-2">
                 <p class="inline-flex items-center gap-2 rounded-full border border-purple-200 bg-white/80 px-3 py-1 text-sm font-medium text-purple-800 shadow-xs dark:border-purple-500/30 dark:bg-purple-500/10 dark:text-purple-200">
                     <TwIcon Icon="IconEnum.Arrow_Left_Right" Plain />
-                    Right to left, built in
+                    <Loc Key="Home_Rtl_Badge">Right to left, built in</Loc>
                 </p>
                 <h2 id="rtl-heading" class="mt-5 text-2xl font-bold tracking-tight text-balance text-purple-900 md:text-3xl dark:text-white">
-                    Reads right to left,
-                    <span class="bg-linear-to-r from-purple-700 to-fuchsia-600 bg-clip-text text-transparent dark:from-purple-400 dark:to-fuchsia-300">without a second stylesheet</span>
+                    @Loc.Text("Home_Rtl_HeadingLead", "Reads right to left,")
+                    <span class="bg-linear-to-r from-purple-700 to-fuchsia-600 bg-clip-text text-transparent dark:from-purple-400 dark:to-fuchsia-300">@Loc.Text("Home_Rtl_HeadingAccent", "without a second stylesheet")</span>
                 </h2>
                 <p class="mt-3 max-w-xl text-gray-700 text-pretty dark:text-gray-400">
-                    Arabic, Hebrew, Persian and Urdu mirror every component: spacing, icons, panels and arrow keys.
+                    <Loc Key="Home_Rtl_Sub">Arabic, Hebrew, Persian and Urdu mirror every component: spacing, icons, panels and arrow keys.</Loc>
                 </p>
 
                 <ul class="mt-6 flex flex-col gap-4">
@@ -585,14 +592,14 @@
                 </ul>
 
                 <a id="rtl-docs" href="/direction-provider" class="mt-7 inline-flex items-center gap-2 rounded-md font-semibold text-purple-800 underline-offset-4 transition-colors hover:text-fuchsia-700 hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-purple-600 dark:focus-visible:outline-purple-300 dark:text-purple-300 dark:hover:text-fuchsia-300">
-                    See how right to left works <TwIcon Icon="IconEnum.Arrow_Right" Plain />
+                    @Loc.Text("Home_Rtl_Link", "See how right to left works") <TwIcon Icon="IconEnum.Arrow_Right" Plain />
                 </a>
             </div>
 
             <figure class="reveal min-w-0 rounded-2xl bg-linear-to-br from-purple-500 via-fuchsia-500 to-pink-400 p-px shadow-xl shadow-purple-500/20 lg:order-1 dark:shadow-fuchsia-900/30">
-                <figcaption class="sr-only">A live example of the same components laid out left to right and right to left. Choose a direction to switch.</figcaption>
+                <figcaption class="sr-only"><Loc Key="Home_Rtl_Caption">A live example of the same components laid out left to right and right to left. Choose a direction to switch.</Loc></figcaption>
                 <div class="rounded-[calc(var(--radius-2xl)-1px)] bg-white p-6 dark:bg-gray-950">
-                    <div class="flex flex-wrap gap-1.5" role="group" aria-label="Layout direction">
+                    <div class="flex flex-wrap gap-1.5" role="group" aria-label="@Loc.Text("Home_Rtl_GroupLabel", "Layout direction")">
                         @foreach (var option in _rtlDemoOptions)
                         {
                             var isSelected = option.Direction == rtlDemoDirection;
@@ -604,7 +611,7 @@
                     </div>
 
                     <div class="mt-5 rounded-xl border border-purple-200/70 bg-purple-50/60 p-4 dark:border-white/10 dark:bg-white/5">
-                        <p class="text-xs font-semibold uppercase tracking-wide text-gray-600 dark:text-gray-400">Rendered</p>
+                        <p class="text-xs font-semibold uppercase tracking-wide text-gray-600 dark:text-gray-400"><Loc Key="Home_Rendered">Rendered</Loc></p>
                         <p id="rtl-demo-markup" class="mt-2 font-mono text-sm break-words text-purple-950 dark:text-purple-100" aria-live="polite">@rtlDemoMarkup</p>
                         <TwDirectionProvider Id="rtl-demo-preview" Direction="@rtlDemoDirection" Class="mt-4 flex flex-col gap-4 rounded-lg border border-dashed border-purple-300/70 bg-white p-4 dark:border-white/15 dark:bg-gray-950" lang="@rtlDemoText.Culture">
                             <TwAlert Color="TwBlazor.Enums.Color.Info" Dense>@rtlDemoText.Alert</TwAlert>
@@ -621,23 +628,23 @@
     <!-- Quick start -->
     <section class="mx-auto max-w-6xl px-6 pt-16 md:pt-24" aria-labelledby="quickstart-heading">
         <div class="reveal">
-            <h2 id="quickstart-heading" class="text-2xl font-bold tracking-tight text-purple-900 md:text-3xl dark:text-white">Up and running in minutes</h2>
-            <p class="mt-3 max-w-xl text-gray-700 dark:text-gray-400">Install, register, build.</p>
+            <h2 id="quickstart-heading" class="text-2xl font-bold tracking-tight text-purple-900 md:text-3xl dark:text-white"><Loc Key="Home_Quick_Heading">Up and running in minutes</Loc></h2>
+            <p class="mt-3 max-w-xl text-gray-700 dark:text-gray-400"><Loc Key="Home_Quick_Sub">Install, register, build.</Loc></p>
         </div>
 
         <figure class="reveal mt-8" aria-labelledby="quickstart-build-caption">
-            <figcaption id="quickstart-build-caption" class="sr-only">Installing twblazor, then two lines of markup and the button and alert they render.</figcaption>
+            <figcaption id="quickstart-build-caption" class="sr-only"><Loc Key="Home_Quick_Caption">Installing twblazor, then two lines of markup and the button and alert they render.</Loc></figcaption>
             <div data-stage class="grid overflow-hidden rounded-2xl border border-purple-200/70 bg-white text-left shadow-xl shadow-purple-500/10 md:grid-cols-2 dark:border-white/10 dark:bg-gray-900">
                 <div class="min-w-0 bg-gray-950 font-mono text-xs leading-6 text-gray-300 sm:text-[13px] sm:leading-7">
-                    <CodeWindowBar Title="Terminal and Home.razor" Icon="IconEnum.Terminal" />
-                    <pre class="overflow-x-auto whitespace-pre-wrap break-words p-4 sm:p-5 md:whitespace-pre"><code><span class="stage-line block" style="--i:0"><span class="text-gray-500">$</span> dotnet add package <span class="text-emerald-300">twblazor</span></span><span class="stage-line block" style="--i:1"><span class="text-fuchsia-300">&lt;TwButton</span> <span class="text-sky-300">Label</span>=<span class="text-emerald-300">"Get Started"</span> <span class="text-fuchsia-300">/&gt;</span></span><span class="stage-line block" style="--i:2"><span class="text-fuchsia-300">&lt;TwAlert</span> <span class="text-sky-300">Color</span>=<span class="text-emerald-300">"Success"</span><span class="text-fuchsia-300">&gt;</span>Working!<span class="text-fuchsia-300">&lt;/TwAlert&gt;</span><span class="stage-caret ms-0.5 inline-block h-4 w-2 translate-y-0.5 bg-fuchsia-400" aria-hidden="true"></span></span></code></pre>
+                    <CodeWindowBar Title="@Loc.Text("Home_Quick_Window", "Terminal and Home.razor")" Icon="IconEnum.Terminal" />
+                    <pre dir="ltr" class="overflow-x-auto whitespace-pre-wrap break-words p-4 sm:p-5 md:whitespace-pre"><code><span class="stage-line block" style="--i:0"><span class="text-gray-500">$</span> dotnet add package <span class="text-emerald-300">twblazor</span></span><span class="stage-line block" style="--i:1"><span class="text-fuchsia-300">&lt;TwButton</span> <span class="text-sky-300">Label</span>=<span class="text-emerald-300">"Get Started"</span> <span class="text-fuchsia-300">/&gt;</span></span><span class="stage-line block" style="--i:2"><span class="text-fuchsia-300">&lt;TwAlert</span> <span class="text-sky-300">Color</span>=<span class="text-emerald-300">"Success"</span><span class="text-fuchsia-300">&gt;</span>Working!<span class="text-fuchsia-300">&lt;/TwAlert&gt;</span><span class="stage-caret ms-0.5 inline-block h-4 w-2 translate-y-0.5 bg-fuchsia-400" aria-hidden="true"></span></span></code></pre>
                 </div>
 
                 <div class="flex min-w-0 flex-col gap-5 p-5 sm:p-6">
-                    <span class="text-xs font-semibold uppercase tracking-wide text-gray-600 dark:text-gray-400">Preview</span>
+                    <span class="text-xs font-semibold uppercase tracking-wide text-gray-600 dark:text-gray-400"><Loc Key="Home_Preview">Preview</Loc></span>
                     <div class="stage-pop inline-flex w-fit items-center gap-2 rounded-full bg-purple-50 px-3 py-1 text-sm font-medium text-purple-800 dark:bg-purple-500/15 dark:text-purple-200" style="--i:0; --stage-radius:9999px">
                         <TwIcon Icon="IconEnum.Box_Seam" Plain />
-                        twblazor installed
+                        <Loc Key="Home_Quick_Installed">twblazor installed</Loc>
                     </div>
                     <div class="stage-pop grid w-fit" style="--i:1">
                         <TwButton Color="Color.Primary" Label="Get Started" Href="/get-started" />
@@ -656,12 +663,12 @@
             <div class="flex items-center gap-4">
                 <span class="inline-flex size-11 shrink-0 items-center justify-center rounded-xl bg-linear-to-br from-indigo-600 to-purple-500 text-xl text-white shadow-lg shadow-indigo-500/30"><TwIcon Icon="IconEnum.Discord" Plain /></span>
                 <div>
-                    <h2 id="community-heading" class="text-lg font-semibold text-purple-900 dark:text-white">Join the discussion on Discord</h2>
-                    <p class="mt-0.5 text-sm text-gray-600 text-pretty dark:text-gray-400">Ask questions and share what you're building.</p>
+                    <h2 id="community-heading" class="text-lg font-semibold text-purple-900 dark:text-white"><Loc Key="Home_Community_Heading">Join the discussion on Discord</Loc></h2>
+                    <p class="mt-0.5 text-sm text-gray-600 text-pretty dark:text-gray-400"><Loc Key="Home_Community_Sub">Ask questions and share what you're building.</Loc></p>
                 </div>
             </div>
             <DiscordInviteLink Id="landing-discord" Class="inline-flex w-full shrink-0 items-center justify-center gap-2 rounded-md border border-purple-300 bg-white px-5 py-2.5 font-semibold text-purple-900 transition-colors hover:border-fuchsia-400 hover:bg-purple-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600 dark:focus-visible:outline-purple-300 sm:w-auto dark:border-purple-400/50 dark:bg-transparent dark:text-purple-100 dark:hover:border-fuchsia-400 dark:hover:bg-purple-500/15">
-                <TwIcon Icon="IconEnum.Discord" Plain /> Join the Discord
+                <TwIcon Icon="IconEnum.Discord" Plain /> @Loc.Text("Home_Community_Join", "Join the Discord")
             </DiscordInviteLink>
         </div>
     </section>
@@ -672,12 +679,12 @@
             <div aria-hidden="true" class="pointer-events-none absolute -right-16 -top-24 -z-10 size-72 rounded-full bg-white/10 blur-2xl"></div>
             <div class="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
                 <div>
-                    <h2 class="text-2xl font-bold tracking-tight text-white">Ready to build something great?</h2>
-                    <p class="mt-1 max-w-xl text-white">Start with the docs.</p>
+                    <h2 class="text-2xl font-bold tracking-tight text-white"><Loc Key="Home_Cta_Heading">Ready to build something great?</Loc></h2>
+                    <p class="mt-1 max-w-xl text-white"><Loc Key="Home_Cta_Sub">Start with the docs.</Loc></p>
                 </div>
                 <div class="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
-                    <a id="cta-get-started" href="/get-started" class="inline-flex w-full items-center justify-center gap-2 rounded-md bg-white px-5 py-2.5 font-semibold text-purple-900 transition-colors hover:bg-purple-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:w-auto"><TwIcon Icon="IconEnum.Rocket_Takeoff" Plain /> Get started</a>
-                    <a id="cta-github" href="https://github.com/twblazor/twblazor" target="_blank" rel="noopener noreferrer" class="inline-flex w-full items-center justify-center gap-2 rounded-md border border-white/70 px-5 py-2.5 font-semibold text-white transition-colors hover:bg-white/15 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:w-auto"><TwIcon Icon="IconEnum.Github" Plain /> Star on GitHub<span class="sr-only"> (opens in a new tab)</span></a>
+                    <a id="cta-get-started" href="/get-started" class="inline-flex w-full items-center justify-center gap-2 rounded-md bg-white px-5 py-2.5 font-semibold text-purple-900 transition-colors hover:bg-purple-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:w-auto"><TwIcon Icon="IconEnum.Rocket_Takeoff" Plain /> @Loc.Text("Home_GetStarted", "Get started")</a>
+                    <a id="cta-github" href="https://github.com/twblazor/twblazor" target="_blank" rel="noopener noreferrer" class="inline-flex w-full items-center justify-center gap-2 rounded-md border border-white/70 px-5 py-2.5 font-semibold text-white transition-colors hover:bg-white/15 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:w-auto"><TwIcon Icon="IconEnum.Github" Plain /> @Loc.Text("Home_Cta_Star", "Star on GitHub")<span class="sr-only"> @Loc.Text("Footer_NewTab", "(opens in a new tab)")</span></a>
                 </div>
             </div>
         </div>
@@ -686,7 +693,7 @@
     <!-- Open source commitment -->
     <section class="mx-auto max-w-6xl px-6 pb-12 pt-8">
         <p class="max-w-2xl text-sm text-gray-700 md:text-base dark:text-gray-400">
-            Free and MIT licensed, always. Built in the open with the community.
+            <Loc Key="Home_OpenSource">Free and MIT licensed, always. Built in the open with the community.</Loc>
         </p>
     </section>
 </div>

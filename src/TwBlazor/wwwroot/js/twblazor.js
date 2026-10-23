@@ -2463,53 +2463,78 @@ globalThis.twPopover = {
 
         const a = anchor.getBoundingClientRect();
         const size = panel.getBoundingClientRect();
-        const width = size.width;
-        const height = size.height;
-
-        let side = placement || 'bottom';
-        if (side === 'start') side = rtl ? 'right' : 'left';
-        else if (side === 'end') side = rtl ? 'left' : 'right';
-
         const room = {
             top: a.top - space,
             bottom: viewport.height - a.bottom - space,
             left: a.left - space,
             right: viewport.width - a.right - space
         };
-        const opposite = { top: 'bottom', bottom: 'top', left: 'right', right: 'left' };
-        const vertical = side === 'top' || side === 'bottom';
-        const needed = vertical ? height : width;
-        if (room[side] < needed && room[opposite[side]] > room[side]) side = opposite[side];
+        const side = globalThis.twPopover._fitSide(
+            globalThis.twPopover._physicalSide(placement, rtl), room, size.width, size.height);
 
-        let x;
-        let y;
-        if (side === 'top' || side === 'bottom') {
-            const startX = rtl ? a.right - width : a.left;
-            const endX = rtl ? a.left : a.right - width;
-            if (align === 'center') x = a.left + (a.width - width) / 2;
-            else if (align === 'end') x = endX;
-            else x = startX;
-            x = globalThis.twPopover._clamp(x, gap, viewport.width - width - gap);
+        const context = { anchor: a, size: size, room: room, align: align, gap: gap, space: space, viewport: viewport, rtl: rtl };
+        const point = side === 'top' || side === 'bottom'
+            ? globalThis.twPopover._placeAboveOrBelow(panel, side, context)
+            : globalThis.twPopover._placeBeside(side, context);
 
-            const available = room[side] - gap;
-            let shown = height;
-            if (available > 0 && height > available) {
-                panel.style.maxHeight = available + 'px';
-                shown = available;
-            }
-            y = side === 'bottom' ? a.bottom + space : a.top - space - shown;
-        } else {
-            x = side === 'right' ? a.right + space : a.left - space - width;
-            if (align === 'center') y = a.top + (a.height - height) / 2;
-            else if (align === 'end') y = a.bottom - height;
-            else y = a.top;
-            y = globalThis.twPopover._clamp(y, gap, viewport.height - height - gap);
-        }
-
-        panel.style.left = (x - block.left) + 'px';
-        panel.style.top = (y - block.top) + 'px';
+        panel.style.left = (point.x - block.left) + 'px';
+        panel.style.top = (point.y - block.top) + 'px';
         panel.dataset.twSide = side;
         return side;
+    },
+
+    // Turns start and end into the physical side for the layout direction.
+    _physicalSide: function (placement, rtl) {
+        const side = placement || 'bottom';
+        if (side === 'start') return rtl ? 'right' : 'left';
+        if (side === 'end') return rtl ? 'left' : 'right';
+        return side;
+    },
+
+    // Flips to the opposite side when the panel does not fit and the other side has more room.
+    _fitSide: function (side, room, width, height) {
+        const opposite = { top: 'bottom', bottom: 'top', left: 'right', right: 'left' };
+        const needed = side === 'top' || side === 'bottom' ? height : width;
+        return room[side] < needed && room[opposite[side]] > room[side] ? opposite[side] : side;
+    },
+
+    // Picks the start, centre or end position along the edge the panel opens against.
+    _aligned: function (align, start, center, end) {
+        if (align === 'center') return center;
+        if (align === 'end') return end;
+        return start;
+    },
+
+    // Above or below the anchor, lined up along it. A panel taller than the room left is capped so it scrolls
+    // instead of spilling off the screen.
+    _placeAboveOrBelow: function (panel, side, c) {
+        const a = c.anchor;
+        const width = c.size.width;
+        const start = c.rtl ? a.right - width : a.left;
+        const end = c.rtl ? a.left : a.right - width;
+        const x = globalThis.twPopover._clamp(
+            globalThis.twPopover._aligned(c.align, start, a.left + (a.width - width) / 2, end),
+            c.gap, c.viewport.width - width - c.gap);
+
+        const available = c.room[side] - c.gap;
+        let shown = c.size.height;
+        if (available > 0 && shown > available) {
+            panel.style.maxHeight = available + 'px';
+            shown = available;
+        }
+        const y = side === 'bottom' ? a.bottom + c.space : a.top - c.space - shown;
+        return { x: x, y: y };
+    },
+
+    // Beside the anchor, lined up along its height and kept on screen.
+    _placeBeside: function (side, c) {
+        const a = c.anchor;
+        const height = c.size.height;
+        const x = side === 'right' ? a.right + c.space : a.left - c.space - c.size.width;
+        const y = globalThis.twPopover._clamp(
+            globalThis.twPopover._aligned(c.align, a.top, a.top + (a.height - height) / 2, a.bottom - height),
+            c.gap, c.viewport.height - height - c.gap);
+        return { x: x, y: y };
     },
 
     open: function (root, anchor, panel, dotnetRef, options) {

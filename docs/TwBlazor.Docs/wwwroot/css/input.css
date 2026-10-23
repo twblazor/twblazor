@@ -1,4 +1,4 @@
-﻿@import "tailwindcss";
+@import "tailwindcss";
 
 /* Slow ambient drift for the landing hero glow. Transform and opacity only, so it stays on the compositor,
    and every use pairs it with motion-reduce:animate-none. */
@@ -309,6 +309,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 :where(code):not(pre code) {
+    /* Code reads left to right in every language. Isolating it keeps a snippet in a right to left
+       sentence in its own order without reordering the words around it. */
+    direction: ltr;
+    unicode-bidi: isolate;
     overflow-wrap: anywhere;
 }
 

@@ -71,8 +71,8 @@ public class TwPopoverTests : TwBlazorTestBase
         Assert.Equal("bottom", Option(open, "placement"));
         Assert.Equal("start", Option(open, "align"));
         Assert.Equal(8, Option(open, "offset"));
-        Assert.Equal(true, Option(open, "autoFocus"));
-        Assert.Equal(true, Option(open, "closeOnOutsideClick"));
+        Assert.True((bool)Option(open, "autoFocus")!);
+        Assert.True((bool)Option(open, "closeOnOutsideClick")!);
     }
 
     [Fact]
@@ -93,8 +93,8 @@ public class TwPopoverTests : TwBlazorTestBase
             Assert.Equal("end", Option(open, "placement"));
             Assert.Equal("center", Option(open, "align"));
             Assert.Equal(12, Option(open, "offset"));
-            Assert.Equal(false, Option(open, "autoFocus"));
-            Assert.Equal(false, Option(open, "closeOnOutsideClick"));
+            Assert.False((bool)Option(open, "autoFocus")!);
+            Assert.False((bool)Option(open, "closeOnOutsideClick")!);
         });
     }
 

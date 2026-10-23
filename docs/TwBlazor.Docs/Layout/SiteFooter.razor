@@ -1,6 +1,6 @@
 @using IconEnum = TwBlazor.Enums.Icon
 
-<TwFooter Id="site-footer" Sections="_sections" Copyright="twblazor is and always will be free and open source." NavigationLabel="Footer" HeadingLevel="2"
+<TwFooter Id="site-footer" Sections="_sections" Copyright="@Loc.Text("Footer_FreeForever", "twblazor is and always will be free and open source.")" NavigationLabel="@Loc.Text("Footer_Label", "Footer")" HeadingLevel="2"
           Class="mt-16 border-purple-200/70 bg-transparent bg-linear-to-b from-transparent to-purple-50/70 dark:border-purple-900/60 dark:to-purple-950/30">
     <BrandContent>
         <div class="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
@@ -9,7 +9,7 @@
                     <img src="_content/TwBlazor.Docs/images/logo.svg" alt="" class="me-2 h-7" />
                     twblazor
                 </a>
-                <p class="mt-2 text-sm text-pretty text-gray-600 dark:text-gray-400">The Tailwind CSS component library for Blazor. Accessible, themeable and MIT licensed.</p>
+                <p class="mt-2 text-sm text-pretty text-gray-600 dark:text-gray-400"><Loc Key="Footer_Tagline">The Tailwind CSS component library for Blazor. Accessible, themeable and MIT licensed.</Loc></p>
             </div>
             <div class="flex flex-wrap gap-2">
                 <DiscordInviteLink Id="footer-discord" Class="@socialLinkClasses">
@@ -18,7 +18,7 @@
                 </DiscordInviteLink>
                 <a id="footer-github" href="@GitHubUrl" target="_blank" rel="noopener noreferrer" class="@socialLinkClasses">
                     <TwIcon Icon="IconEnum.Github" />
-                    GitHub<span class="sr-only"> (opens in a new tab)</span>
+                    GitHub<span class="sr-only"> @Loc.Text("Footer_NewTab", "(opens in a new tab)")</span>
                 </a>
             </div>
         </div>

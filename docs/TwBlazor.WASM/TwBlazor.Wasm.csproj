@@ -15,6 +15,9 @@
          into a "canonical points to a redirect" error. A flat "card.html"
          has no such ambiguity, so Cloudflare serves it for "/card" directly. -->
     <BlazorWasmPrerenderingOutputStyle>AppendHtmlExtension</BlazorWasmPrerenderingOutputStyle>
+    <!-- The navbar's language switcher offers cultures outside the default ICU set (Bengali, Tamil, Urdu...),
+         so their globalization data has to be downloaded too. -->
+    <BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
   </PropertyGroup>
 
   <ItemGroup>

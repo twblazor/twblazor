@@ -171,7 +171,8 @@ public partial class TwPopover : TwBlazorComponentBase, IAsyncDisposable
         ["aria-controls"] = panelId
     };
 
-    private PopoverTriggerContext triggerContext => new(
+    // A method rather than a property: it builds a fresh attribute dictionary each time.
+    private PopoverTriggerContext GetTriggerContext() => new(
         new Dictionary<string, object>(triggerAttributes) { ["id"] = triggerId, ["disabled"] = Disabled },
         isOpen,
         ToggleAsync);
