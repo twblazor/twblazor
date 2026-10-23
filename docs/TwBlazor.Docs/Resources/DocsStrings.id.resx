@@ -22,10 +22,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <!-- Common -->
-    <data name="Footer_Documentation" xml:space="preserve">
-    <value>Dokumentasi</value>
-  </data>
-  <data name="Footer_FreeForever" xml:space="preserve">
+    <data name="Footer_FreeForever" xml:space="preserve">
     <value>twblazor gratis dan open source, dan akan selalu begitu.</value>
   </data>
   <data name="Footer_Label" xml:space="preserve">
@@ -34,29 +31,65 @@
   <data name="Footer_License" xml:space="preserve">
     <value>Lisensi MIT</value>
   </data>
+  <data name="Footer_Link_AiAgents" xml:space="preserve">
+    <value>Agen AI &amp; keterampilan</value>
+  </data>
+  <data name="Footer_Link_ApiDocs" xml:space="preserve">
+    <value>Dokumentasi API</value>
+  </data>
+  <data name="Footer_Link_ClassMerge" xml:space="preserve">
+    <value>Penggabungan kelas</value>
+  </data>
+  <data name="Footer_Link_CodeOfConduct" xml:space="preserve">
+    <value>Kode etik</value>
+  </data>
+  <data name="Footer_Link_Contributing" xml:space="preserve">
+    <value>Berkontribusi</value>
+  </data>
+  <data name="Footer_Link_Install" xml:space="preserve">
+    <value>Panduan instalasi</value>
+  </data>
+  <data name="Footer_Link_Issue" xml:space="preserve">
+    <value>Laporkan masalah</value>
+  </data>
+  <data name="Footer_Link_Localization" xml:space="preserve">
+    <value>Lokalisasi</value>
+  </data>
+  <data name="Footer_Link_Rtl" xml:space="preserve">
+    <value>Kanan ke kiri</value>
+  </data>
+  <data name="Footer_Link_Tailwind" xml:space="preserve">
+    <value>Tailwind CSS dengan Blazor</value>
+  </data>
+  <data name="Footer_Link_Theming" xml:space="preserve">
+    <value>Tema</value>
+  </data>
+  <data name="Footer_Link_Why" xml:space="preserve">
+    <value>Mengapa twblazor?</value>
+  </data>
   <data name="Footer_NewTab" xml:space="preserve">
     <value>(terbuka di tab baru)</value>
+  </data>
+  <data name="Footer_Sec_Community" xml:space="preserve">
+    <value>Komunitas</value>
+  </data>
+  <data name="Footer_Sec_GetStarted" xml:space="preserve">
+    <value>Mulai</value>
+  </data>
+  <data name="Footer_Sec_Guides" xml:space="preserve">
+    <value>Panduan</value>
+  </data>
+  <data name="Footer_Sec_Resources" xml:space="preserve">
+    <value>Sumber daya</value>
+  </data>
+  <data name="Footer_Tagline" xml:space="preserve">
+    <value>Pustaka komponen Tailwind CSS untuk Blazor. Aksesibel, mudah diberi tema, dan berlisensi MIT.</value>
   </data>
   <data name="Home_Back" xml:space="preserve">
     <value>Kembali</value>
   </data>
-  <data name="Home_Brand_apple" xml:space="preserve">
-    <value>Ruang lega dan bentuk lembut: tombol berbentuk pil, ubin besar membulat, tanpa bayangan, dan bilah navigasi tembus pandang.</value>
-  </data>
-  <data name="Home_Brand_Disclaimer" xml:space="preserve">
-    <value>twblazor tidak berafiliasi dengan, tidak didukung, dan tidak disponsori oleh Microsoft, Apple, LEGO Group, Tesco, atau Trading 212. Ini adalah contoh independen yang dibuat untuk menunjukkan apa yang bisa dilakukan tema kustom, dan bukan situs web perusahaan-perusahaan tersebut. Nama produk, harga, penawaran, dan data pasar hanya sebagai ilustrasi, dan tidak ada yang di sini merupakan nasihat keuangan. Logo dan gambar berasal dari situs web masing-masing perusahaan dan tetap menjadi milik mereka, dan semua merek dagang adalah milik pemiliknya.</value>
-  </data>
-  <data name="Home_Brand_lego" xml:space="preserve">
-    <value>Cerah dan ramah: bilah kuning, tombol pil oranye dengan teks gelap, tautan biru, huruf tebal, dan kartu putih datar.</value>
-  </data>
-  <data name="Home_Brand_microsoft" xml:space="preserve">
-    <value>Tampilan sistem yang rapi dan tenang: sudut 2px, garis tepi tipis, elevasi halus, dan input yang bergaris bawah saat fokus.</value>
-  </data>
-  <data name="Home_Brand_tesco" xml:space="preserve">
-    <value>Jelas dan praktis: biru yang mantap, tombol pil dengan area sentuh besar, ubin datar bergaris tepi, dan merah untuk promo.</value>
-  </data>
-  <data name="Home_Brand_trading212" xml:space="preserve">
-    <value>Bersih dan percaya diri: tombol pil biru terang, kartu besar yang lembut, permukaan netral yang sejuk, serta hijau dan merah khusus untuk untung dan rugi.</value>
+  <data name="Home_Brand_ShortDisclaimer" xml:space="preserve">
+    <value>Contoh independen. twblazor tidak berafiliasi dengan atau didukung oleh perusahaan-perusahaan ini.</value>
   </data>
   <data name="Home_Case_Eyebrow" xml:space="preserve">
     <value>Lihat langsung</value>
@@ -71,7 +104,7 @@
     <value>Lihat temanya</value>
   </data>
   <data name="Home_Case_Sub" xml:space="preserve">
-    <value>Komponen yang sama dengan &lt;code&gt;Theme.cs&lt;/code&gt; yang berbeda. Tanpa menimpa CSS.</value>
+    <value>Komponen yang sama, &lt;code&gt;Theme.cs&lt;/code&gt; yang berbeda.</value>
   </data>
   <data name="Home_Chart_Day" xml:space="preserve">
     <value>Hari</value>
@@ -194,7 +227,7 @@
     <value>Dukungan ARIA dan keyboard sudah tersedia.</value>
   </data>
   <data name="Home_Feature_A11y_Title" xml:space="preserve">
-    <value>Aksesibel secara bawaan</value>
+    <value>Aksesibel</value>
   </data>
   <data name="Home_Feature_Composable_Body" xml:space="preserve">
     <value>Parameter Blazor biasa. Tanpa kejutan.</value>
@@ -374,10 +407,10 @@
     <value>Tionghoa Tradisional</value>
   </data>
   <data name="Home_Live_Caption" xml:space="preserve">
-    <value>Empat baris markup twblazor dan komponen langsung yang dihasilkannya.</value>
+    <value>Enam baris markup twblazor dan komponen langsung yang dihasilkannya.</value>
   </data>
   <data name="Home_Live_Rendered" xml:space="preserve">
-    <value>4 komponen dirender</value>
+    <value>6 komponen dirender</value>
   </data>
   <data name="Home_Live_Replay" xml:space="preserve">
     <value>Putar ulang</value>
@@ -640,8 +673,23 @@
   <data name="Home_SignIn" xml:space="preserve">
     <value>Masuk</value>
   </data>
+  <data name="Home_Theming_After" xml:space="preserve">
+    <value>Sesudah</value>
+  </data>
+  <data name="Home_Theming_Before" xml:space="preserve">
+    <value>Sebelum</value>
+  </data>
   <data name="Home_Theming_Caption" xml:space="preserve">
-    <value>Tiga baris Theme.cs yang mengubah gaya tombol langsung: sepenuhnya membulat, bayangan besar, dan warna utama baru.</value>
+    <value>Tiga baris Theme.cs yang mengubah gaya tombol langsung, ditampilkan di samping tombol aslinya: sudut membulat penuh, bayangan besar, dan warna utama merah muda.</value>
+  </data>
+  <data name="Home_Theming_Change_Colour" xml:space="preserve">
+    <value>Warna: merah muda</value>
+  </data>
+  <data name="Home_Theming_Change_Corners" xml:space="preserve">
+    <value>Sudut: bulat penuh</value>
+  </data>
+  <data name="Home_Theming_Change_Shadow" xml:space="preserve">
+    <value>Bayangan: besar</value>
   </data>
   <data name="Home_Theming_Defaults_Body" xml:space="preserve">
     <value>Tetapkan default sekali, timpa di instans mana pun.</value>
@@ -675,6 +723,9 @@
   </data>
   <data name="Home_Theming_Typed_Title" xml:space="preserve">
     <value>Setiap kelas bertipe dan dapat ditimpa</value>
+  </data>
+  <data name="Home_Theming_WhatChanged" xml:space="preserve">
+    <value>Yang berubah</value>
   </data>
   <data name="Home_Why_Title" xml:space="preserve">
     <value>Mengapa twblazor?</value>

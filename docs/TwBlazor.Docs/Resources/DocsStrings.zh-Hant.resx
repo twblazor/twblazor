@@ -22,10 +22,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <!-- Common -->
-    <data name="Footer_Documentation" xml:space="preserve">
-    <value>文件</value>
-  </data>
-  <data name="Footer_FreeForever" xml:space="preserve">
+    <data name="Footer_FreeForever" xml:space="preserve">
     <value>twblazor 現在免費開源，將來也一直如此。</value>
   </data>
   <data name="Footer_Label" xml:space="preserve">
@@ -34,29 +31,65 @@
   <data name="Footer_License" xml:space="preserve">
     <value>MIT 授權</value>
   </data>
+  <data name="Footer_Link_AiAgents" xml:space="preserve">
+    <value>AI 代理程式與技能</value>
+  </data>
+  <data name="Footer_Link_ApiDocs" xml:space="preserve">
+    <value>API 文件</value>
+  </data>
+  <data name="Footer_Link_ClassMerge" xml:space="preserve">
+    <value>類別合併</value>
+  </data>
+  <data name="Footer_Link_CodeOfConduct" xml:space="preserve">
+    <value>行為準則</value>
+  </data>
+  <data name="Footer_Link_Contributing" xml:space="preserve">
+    <value>參與貢獻</value>
+  </data>
+  <data name="Footer_Link_Install" xml:space="preserve">
+    <value>安裝指南</value>
+  </data>
+  <data name="Footer_Link_Issue" xml:space="preserve">
+    <value>回報問題</value>
+  </data>
+  <data name="Footer_Link_Localization" xml:space="preserve">
+    <value>在地化</value>
+  </data>
+  <data name="Footer_Link_Rtl" xml:space="preserve">
+    <value>由右至左</value>
+  </data>
+  <data name="Footer_Link_Tailwind" xml:space="preserve">
+    <value>在 Blazor 中使用 Tailwind CSS</value>
+  </data>
+  <data name="Footer_Link_Theming" xml:space="preserve">
+    <value>主題</value>
+  </data>
+  <data name="Footer_Link_Why" xml:space="preserve">
+    <value>為什麼選擇 twblazor？</value>
+  </data>
   <data name="Footer_NewTab" xml:space="preserve">
     <value>（在新分頁中開啟）</value>
+  </data>
+  <data name="Footer_Sec_Community" xml:space="preserve">
+    <value>社群</value>
+  </data>
+  <data name="Footer_Sec_GetStarted" xml:space="preserve">
+    <value>開始使用</value>
+  </data>
+  <data name="Footer_Sec_Guides" xml:space="preserve">
+    <value>指南</value>
+  </data>
+  <data name="Footer_Sec_Resources" xml:space="preserve">
+    <value>資源</value>
+  </data>
+  <data name="Footer_Tagline" xml:space="preserve">
+    <value>專為 Blazor 打造的 Tailwind CSS 元件庫。無障礙、可自訂主題、MIT 授權。</value>
   </data>
   <data name="Home_Back" xml:space="preserve">
     <value>上一步</value>
   </data>
-  <data name="Home_Brand_apple" xml:space="preserve">
-    <value>寬鬆的留白與柔和的造型：膠囊按鈕、大圓角卡片、沒有陰影，以及半透明的導覽列。</value>
-  </data>
-  <data name="Home_Brand_Disclaimer" xml:space="preserve">
-    <value>twblazor 與 Microsoft、Apple、樂高集團、Tesco 或 Trading 212 沒有關聯，也未獲得它們的認可或贊助。這些是獨立的範例，用來展示自訂主題能做到什麼，並不是這些公司的網站。產品名稱、價格、優惠與市場資料僅供說明，本頁內容皆不構成理財建議。標誌與圖片來自各公司自己的網站，歸其所有，所有商標歸各自所有者所有。</value>
-  </data>
-  <data name="Home_Brand_lego" xml:space="preserve">
-    <value>明亮友善：黃色頂列、深色文字的橘色膠囊按鈕、藍色連結、粗體字以及扁平的白色卡片。</value>
-  </data>
-  <data name="Home_Brand_microsoft" xml:space="preserve">
-    <value>簡潔沉穩的系統風格：2px 圓角、細線邊框、輕微的陰影，以及取得焦點時出現底線的輸入框。</value>
-  </data>
-  <data name="Home_Brand_tesco" xml:space="preserve">
-    <value>清楚實用：沉穩的藍色、點擊範圍大的膠囊按鈕、有邊框的扁平卡片，優惠以紅色標示。</value>
-  </data>
-  <data name="Home_Brand_trading212" xml:space="preserve">
-    <value>乾淨俐落：亮藍色膠囊按鈕、大而柔和的卡片、冷色調的中性背景，綠色與紅色只用於損益。</value>
+  <data name="Home_Brand_ShortDisclaimer" xml:space="preserve">
+    <value>獨立範例。twblazor 與這些公司沒有關聯，也未獲得其認可。</value>
   </data>
   <data name="Home_Case_Eyebrow" xml:space="preserve">
     <value>看看實際效果</value>
@@ -71,7 +104,7 @@
     <value>查看主題</value>
   </data>
   <data name="Home_Case_Sub" xml:space="preserve">
-    <value>同樣的元件，只換了一個 &lt;code&gt;Theme.cs&lt;/code&gt;。沒有覆寫任何 CSS。</value>
+    <value>同樣的元件，換一個 &lt;code&gt;Theme.cs&lt;/code&gt;。</value>
   </data>
   <data name="Home_Chart_Day" xml:space="preserve">
     <value>日期</value>
@@ -194,7 +227,7 @@
     <value>內建 ARIA 與鍵盤支援。</value>
   </data>
   <data name="Home_Feature_A11y_Title" xml:space="preserve">
-    <value>預設無障礙</value>
+    <value>無障礙</value>
   </data>
   <data name="Home_Feature_Composable_Body" xml:space="preserve">
     <value>一般的 Blazor 參數，沒有意外。</value>
@@ -374,10 +407,10 @@
     <value>繁體中文</value>
   </data>
   <data name="Home_Live_Caption" xml:space="preserve">
-    <value>四行 twblazor 標記及其呈現出的即時元件。</value>
+    <value>六行 twblazor 標記及其呈現出的即時元件。</value>
   </data>
   <data name="Home_Live_Rendered" xml:space="preserve">
-    <value>已呈現 4 個元件</value>
+    <value>已呈現 6 個元件</value>
   </data>
   <data name="Home_Live_Replay" xml:space="preserve">
     <value>重播</value>
@@ -640,8 +673,23 @@
   <data name="Home_SignIn" xml:space="preserve">
     <value>登入</value>
   </data>
+  <data name="Home_Theming_After" xml:space="preserve">
+    <value>之後</value>
+  </data>
+  <data name="Home_Theming_Before" xml:space="preserve">
+    <value>之前</value>
+  </data>
   <data name="Home_Theming_Caption" xml:space="preserve">
-    <value>三行 Theme.cs 改變即時按鈕的樣式：全圓角、大陰影與新的主色。</value>
+    <value>三行 Theme.cs 改變即時按鈕的樣式，並與原本的按鈕並排顯示：全圓角、大陰影與粉紅色主色。</value>
+  </data>
+  <data name="Home_Theming_Change_Colour" xml:space="preserve">
+    <value>色彩：粉紅色</value>
+  </data>
+  <data name="Home_Theming_Change_Corners" xml:space="preserve">
+    <value>圓角：全圓</value>
+  </data>
+  <data name="Home_Theming_Change_Shadow" xml:space="preserve">
+    <value>陰影：大</value>
   </data>
   <data name="Home_Theming_Defaults_Body" xml:space="preserve">
     <value>設定一次預設值，再覆寫任意實例。</value>
@@ -675,6 +723,9 @@
   </data>
   <data name="Home_Theming_Typed_Title" xml:space="preserve">
     <value>每個類別都有型別且可覆寫</value>
+  </data>
+  <data name="Home_Theming_WhatChanged" xml:space="preserve">
+    <value>有哪些變化</value>
   </data>
   <data name="Home_Why_Title" xml:space="preserve">
     <value>為什麼選擇 twblazor？</value>

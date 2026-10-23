@@ -24,9 +24,6 @@
   <!-- Common -->
     <!-- English reference for translators. The site never shows these values: the English on each page is the
        content written inside its <Loc> tags and Loc.Text calls, which the docs compiler also reads for llms.txt. -->
-  <data name="Footer_Documentation" xml:space="preserve">
-    <value>Documentation</value>
-  </data>
   <data name="Footer_FreeForever" xml:space="preserve">
     <value>twblazor is and always will be free and open source.</value>
   </data>
@@ -36,29 +33,65 @@
   <data name="Footer_License" xml:space="preserve">
     <value>MIT License</value>
   </data>
+  <data name="Footer_Link_AiAgents" xml:space="preserve">
+    <value>AI agents and skills</value>
+  </data>
+  <data name="Footer_Link_ApiDocs" xml:space="preserve">
+    <value>API documentation</value>
+  </data>
+  <data name="Footer_Link_ClassMerge" xml:space="preserve">
+    <value>Class merging</value>
+  </data>
+  <data name="Footer_Link_CodeOfConduct" xml:space="preserve">
+    <value>Code of conduct</value>
+  </data>
+  <data name="Footer_Link_Contributing" xml:space="preserve">
+    <value>Contributing</value>
+  </data>
+  <data name="Footer_Link_Install" xml:space="preserve">
+    <value>Install guide</value>
+  </data>
+  <data name="Footer_Link_Issue" xml:space="preserve">
+    <value>Report an issue</value>
+  </data>
+  <data name="Footer_Link_Localization" xml:space="preserve">
+    <value>Localization</value>
+  </data>
+  <data name="Footer_Link_Rtl" xml:space="preserve">
+    <value>Right to left</value>
+  </data>
+  <data name="Footer_Link_Tailwind" xml:space="preserve">
+    <value>Tailwind CSS with Blazor</value>
+  </data>
+  <data name="Footer_Link_Theming" xml:space="preserve">
+    <value>Theming</value>
+  </data>
+  <data name="Footer_Link_Why" xml:space="preserve">
+    <value>Why twblazor?</value>
+  </data>
   <data name="Footer_NewTab" xml:space="preserve">
     <value>(opens in a new tab)</value>
+  </data>
+  <data name="Footer_Sec_Community" xml:space="preserve">
+    <value>Community</value>
+  </data>
+  <data name="Footer_Sec_GetStarted" xml:space="preserve">
+    <value>Get started</value>
+  </data>
+  <data name="Footer_Sec_Guides" xml:space="preserve">
+    <value>Guides</value>
+  </data>
+  <data name="Footer_Sec_Resources" xml:space="preserve">
+    <value>Resources</value>
+  </data>
+  <data name="Footer_Tagline" xml:space="preserve">
+    <value>The Tailwind CSS component library for Blazor. Accessible, themeable and MIT licensed.</value>
   </data>
   <data name="Home_Back" xml:space="preserve">
     <value>Back</value>
   </data>
-  <data name="Home_Brand_apple" xml:space="preserve">
-    <value>Generous space and soft geometry: pill buttons, large rounded tiles, no shadows and a translucent navigation bar.</value>
-  </data>
-  <data name="Home_Brand_Disclaimer" xml:space="preserve">
-    <value>twblazor is not affiliated with, endorsed by or sponsored by Microsoft, Apple, the LEGO Group, Tesco or Trading 212. These are independent examples made to show what a custom theme can do, and are not those companies&apos; websites. Product names, prices, offers and market data are illustrative, and nothing here is financial advice. Logos and pictures come from each company&apos;s own website and remain its property, and all trademarks belong to their owners.</value>
-  </data>
-  <data name="Home_Brand_lego" xml:space="preserve">
-    <value>Bright and friendly: a yellow bar, orange pill buttons with dark text, blue links, bold type and flat white cards.</value>
-  </data>
-  <data name="Home_Brand_microsoft" xml:space="preserve">
-    <value>A crisp, quiet system look: 2px corners, hairline borders, subtle elevation and inputs that underline on focus.</value>
-  </data>
-  <data name="Home_Brand_tesco" xml:space="preserve">
-    <value>Clear and practical: confident blue, pill buttons with large touch targets, flat bordered tiles and red for offers.</value>
-  </data>
-  <data name="Home_Brand_trading212" xml:space="preserve">
-    <value>Clean and confident: bright blue pill buttons, large soft cards, cool neutral surfaces and green and red kept for gains and losses.</value>
+  <data name="Home_Brand_ShortDisclaimer" xml:space="preserve">
+    <value>Independent examples. twblazor is not affiliated with or endorsed by these companies.</value>
   </data>
   <data name="Home_Case_Eyebrow" xml:space="preserve">
     <value>See it in action</value>
@@ -73,7 +106,7 @@
     <value>See the theme</value>
   </data>
   <data name="Home_Case_Sub" xml:space="preserve">
-    <value>The same components with a different &lt;code&gt;Theme.cs&lt;/code&gt;. No CSS overrides.</value>
+    <value>Same components, different &lt;code&gt;Theme.cs&lt;/code&gt;.</value>
   </data>
   <data name="Home_Chart_Day" xml:space="preserve">
     <value>Day</value>
@@ -196,7 +229,7 @@
     <value>ARIA and keyboard support built in.</value>
   </data>
   <data name="Home_Feature_A11y_Title" xml:space="preserve">
-    <value>Accessible by default</value>
+    <value>Accessible</value>
   </data>
   <data name="Home_Feature_Composable_Body" xml:space="preserve">
     <value>Plain Blazor parameters. No surprises.</value>
@@ -376,10 +409,10 @@
     <value>Chinese, Traditional</value>
   </data>
   <data name="Home_Live_Caption" xml:space="preserve">
-    <value>Four lines of twblazor markup and the live components they render.</value>
+    <value>Six lines of twblazor markup and the live components they render.</value>
   </data>
   <data name="Home_Live_Rendered" xml:space="preserve">
-    <value>4 components rendered</value>
+    <value>6 components rendered</value>
   </data>
   <data name="Home_Live_Replay" xml:space="preserve">
     <value>Replay</value>
@@ -642,8 +675,23 @@
   <data name="Home_SignIn" xml:space="preserve">
     <value>Sign in</value>
   </data>
+  <data name="Home_Theming_After" xml:space="preserve">
+    <value>After</value>
+  </data>
+  <data name="Home_Theming_Before" xml:space="preserve">
+    <value>Before</value>
+  </data>
   <data name="Home_Theming_Caption" xml:space="preserve">
-    <value>Three lines of Theme.cs restyling a live button: fully rounded, a large shadow and a new primary colour.</value>
+    <value>Three lines of Theme.cs restyling a live button, shown beside the button as it was: fully rounded corners, a large shadow and a pink primary colour.</value>
+  </data>
+  <data name="Home_Theming_Change_Colour" xml:space="preserve">
+    <value>Colour: pink</value>
+  </data>
+  <data name="Home_Theming_Change_Corners" xml:space="preserve">
+    <value>Corners: full</value>
+  </data>
+  <data name="Home_Theming_Change_Shadow" xml:space="preserve">
+    <value>Shadow: large</value>
   </data>
   <data name="Home_Theming_Defaults_Body" xml:space="preserve">
     <value>Set a default once, override any instance.</value>
@@ -677,6 +725,9 @@
   </data>
   <data name="Home_Theming_Typed_Title" xml:space="preserve">
     <value>Every class, typed and overridable</value>
+  </data>
+  <data name="Home_Theming_WhatChanged" xml:space="preserve">
+    <value>What changed</value>
   </data>
   <data name="Home_Why_Title" xml:space="preserve">
     <value>Why twblazor?</value>

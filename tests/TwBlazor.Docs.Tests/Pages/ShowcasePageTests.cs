@@ -430,12 +430,12 @@ public class ShowcasePageTests : DocsTestBase
     #region Links to the examples
 
     [Fact]
-    public void LandingPage_HasACaseStudy_LinkingToEveryExample_WithTheDisclaimer()
+    public void LandingPage_HasACaseStudy_LinkingToEveryExample_WithTheShortDisclaimer()
     {
         var page = TestContext.Render<HomePage>();
 
         Assert.Equal(ShowcaseBrand.All.Select(brand => brand.Path), page.FindAll("#theme-case-study ul a").Select(link => link.GetAttribute("href")));
-        Assert.Equal(ShowcaseBrand.Disclaimer, page.Find("#theme-case-study-disclaimer").TextContent);
+        Assert.Equal(ShowcaseBrand.ShortDisclaimer, page.Find("#theme-case-study-disclaimer").TextContent);
     }
 
     [Fact]

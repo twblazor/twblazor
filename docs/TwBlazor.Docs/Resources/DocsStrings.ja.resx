@@ -22,10 +22,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <!-- Common -->
-    <data name="Footer_Documentation" xml:space="preserve">
-    <value>ドキュメント</value>
-  </data>
-  <data name="Footer_FreeForever" xml:space="preserve">
+    <data name="Footer_FreeForever" xml:space="preserve">
     <value>twblazor はこれからもずっと無料のオープンソースです。</value>
   </data>
   <data name="Footer_Label" xml:space="preserve">
@@ -34,29 +31,65 @@
   <data name="Footer_License" xml:space="preserve">
     <value>MIT ライセンス</value>
   </data>
+  <data name="Footer_Link_AiAgents" xml:space="preserve">
+    <value>AI エージェントとスキル</value>
+  </data>
+  <data name="Footer_Link_ApiDocs" xml:space="preserve">
+    <value>API ドキュメント</value>
+  </data>
+  <data name="Footer_Link_ClassMerge" xml:space="preserve">
+    <value>クラスのマージ</value>
+  </data>
+  <data name="Footer_Link_CodeOfConduct" xml:space="preserve">
+    <value>行動規範</value>
+  </data>
+  <data name="Footer_Link_Contributing" xml:space="preserve">
+    <value>コントリビュート</value>
+  </data>
+  <data name="Footer_Link_Install" xml:space="preserve">
+    <value>インストールガイド</value>
+  </data>
+  <data name="Footer_Link_Issue" xml:space="preserve">
+    <value>問題を報告</value>
+  </data>
+  <data name="Footer_Link_Localization" xml:space="preserve">
+    <value>ローカライズ</value>
+  </data>
+  <data name="Footer_Link_Rtl" xml:space="preserve">
+    <value>右から左</value>
+  </data>
+  <data name="Footer_Link_Tailwind" xml:space="preserve">
+    <value>Blazor で Tailwind CSS</value>
+  </data>
+  <data name="Footer_Link_Theming" xml:space="preserve">
+    <value>テーマ</value>
+  </data>
+  <data name="Footer_Link_Why" xml:space="preserve">
+    <value>twblazor を選ぶ理由</value>
+  </data>
   <data name="Footer_NewTab" xml:space="preserve">
     <value>(新しいタブで開きます)</value>
+  </data>
+  <data name="Footer_Sec_Community" xml:space="preserve">
+    <value>コミュニティ</value>
+  </data>
+  <data name="Footer_Sec_GetStarted" xml:space="preserve">
+    <value>はじめる</value>
+  </data>
+  <data name="Footer_Sec_Guides" xml:space="preserve">
+    <value>ガイド</value>
+  </data>
+  <data name="Footer_Sec_Resources" xml:space="preserve">
+    <value>リソース</value>
+  </data>
+  <data name="Footer_Tagline" xml:space="preserve">
+    <value>Blazor 向けの Tailwind CSS コンポーネントライブラリ。アクセシブルで、テーマを自由に変えられ、MIT ライセンスです。</value>
   </data>
   <data name="Home_Back" xml:space="preserve">
     <value>戻る</value>
   </data>
-  <data name="Home_Brand_apple" xml:space="preserve">
-    <value>ゆとりある余白とやわらかな形。ピル型ボタン、大きな角丸タイル、影なし、半透明のナビゲーションバー。</value>
-  </data>
-  <data name="Home_Brand_Disclaimer" xml:space="preserve">
-    <value>twblazor は Microsoft、Apple、LEGO グループ、Tesco、Trading 212 と提携しておらず、承認や後援も受けていません。これらはカスタムテーマで何ができるかを示すための独立したサンプルであり、各社のウェブサイトではありません。製品名、価格、キャンペーン、市場データは説明用のものであり、金融に関する助言ではありません。ロゴと画像は各社のウェブサイトから取得したもので各社に帰属し、すべての商標はその所有者に帰属します。</value>
-  </data>
-  <data name="Home_Brand_lego" xml:space="preserve">
-    <value>明るく親しみやすく。黄色のバー、濃い文字のオレンジ色ピル型ボタン、青いリンク、太字の書体、フラットな白いカード。</value>
-  </data>
-  <data name="Home_Brand_microsoft" xml:space="preserve">
-    <value>すっきりと落ち着いたシステム風の見た目。2px の角、極細の枠線、控えめな影、フォーカスで下線が付く入力欄。</value>
-  </data>
-  <data name="Home_Brand_tesco" xml:space="preserve">
-    <value>明快で実用的。力強い青、タップしやすい大きなピル型ボタン、枠付きのフラットなタイル、セールには赤。</value>
-  </data>
-  <data name="Home_Brand_trading212" xml:space="preserve">
-    <value>クリーンで自信のある印象。鮮やかな青のピル型ボタン、大きく柔らかなカード、クールなニュートラル面、緑と赤は損益専用。</value>
+  <data name="Home_Brand_ShortDisclaimer" xml:space="preserve">
+    <value>独立したサンプルです。twblazor はこれらの企業と提携しておらず、承認も受けていません。</value>
   </data>
   <data name="Home_Case_Eyebrow" xml:space="preserve">
     <value>実際の例を見る</value>
@@ -71,7 +104,7 @@
     <value>テーマを見る</value>
   </data>
   <data name="Home_Case_Sub" xml:space="preserve">
-    <value>同じコンポーネントに別の &lt;code&gt;Theme.cs&lt;/code&gt; を使っただけ。CSS の上書きはありません。</value>
+    <value>同じコンポーネントに、別の &lt;code&gt;Theme.cs&lt;/code&gt;。</value>
   </data>
   <data name="Home_Chart_Day" xml:space="preserve">
     <value>日</value>
@@ -194,7 +227,7 @@
     <value>ARIA とキーボード操作に標準対応。</value>
   </data>
   <data name="Home_Feature_A11y_Title" xml:space="preserve">
-    <value>最初からアクセシブル</value>
+    <value>アクセシブル</value>
   </data>
   <data name="Home_Feature_Composable_Body" xml:space="preserve">
     <value>普通の Blazor パラメーター。驚きはありません。</value>
@@ -374,10 +407,10 @@
     <value>中国語 (繁体字)</value>
   </data>
   <data name="Home_Live_Caption" xml:space="preserve">
-    <value>twblazor のマークアップ 4 行と、そこから描画されるライブコンポーネント。</value>
+    <value>twblazor のマークアップ 6 行と、そこから描画されるライブコンポーネント。</value>
   </data>
   <data name="Home_Live_Rendered" xml:space="preserve">
-    <value>4 つのコンポーネントを描画</value>
+    <value>6 つのコンポーネントを描画</value>
   </data>
   <data name="Home_Live_Replay" xml:space="preserve">
     <value>もう一度再生</value>
@@ -640,8 +673,23 @@
   <data name="Home_SignIn" xml:space="preserve">
     <value>ログイン</value>
   </data>
+  <data name="Home_Theming_After" xml:space="preserve">
+    <value>変更後</value>
+  </data>
+  <data name="Home_Theming_Before" xml:space="preserve">
+    <value>変更前</value>
+  </data>
   <data name="Home_Theming_Caption" xml:space="preserve">
-    <value>Theme.cs の 3 行でライブのボタンのスタイルを変更: 完全な角丸、大きな影、新しいプライマリカラー。</value>
+    <value>Theme.cs の 3 行でライブのボタンのスタイルを変更し、元のボタンと並べて表示: 完全な角丸、大きな影、ピンクのプライマリカラー。</value>
+  </data>
+  <data name="Home_Theming_Change_Colour" xml:space="preserve">
+    <value>色: ピンク</value>
+  </data>
+  <data name="Home_Theming_Change_Corners" xml:space="preserve">
+    <value>角: 完全な丸み</value>
+  </data>
+  <data name="Home_Theming_Change_Shadow" xml:space="preserve">
+    <value>影: 大</value>
   </data>
   <data name="Home_Theming_Defaults_Body" xml:space="preserve">
     <value>既定値を一度設定し、どのインスタンスでも上書きできます。</value>
@@ -675,6 +723,9 @@
   </data>
   <data name="Home_Theming_Typed_Title" xml:space="preserve">
     <value>すべてのクラスが型付きで上書き可能</value>
+  </data>
+  <data name="Home_Theming_WhatChanged" xml:space="preserve">
+    <value>変更点</value>
   </data>
   <data name="Home_Why_Title" xml:space="preserve">
     <value>twblazor を選ぶ理由</value>

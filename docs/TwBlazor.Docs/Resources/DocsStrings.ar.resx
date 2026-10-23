@@ -22,10 +22,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <!-- Common -->
-    <data name="Footer_Documentation" xml:space="preserve">
-    <value>التوثيق</value>
-  </data>
-  <data name="Footer_FreeForever" xml:space="preserve">
+    <data name="Footer_FreeForever" xml:space="preserve">
     <value>twblazor مجاني ومفتوح المصدر، وسيبقى كذلك دائمًا.</value>
   </data>
   <data name="Footer_Label" xml:space="preserve">
@@ -34,29 +31,65 @@
   <data name="Footer_License" xml:space="preserve">
     <value>ترخيص MIT</value>
   </data>
+  <data name="Footer_Link_AiAgents" xml:space="preserve">
+    <value>وكلاء الذكاء الاصطناعي والمهارات</value>
+  </data>
+  <data name="Footer_Link_ApiDocs" xml:space="preserve">
+    <value>توثيق API</value>
+  </data>
+  <data name="Footer_Link_ClassMerge" xml:space="preserve">
+    <value>دمج الفئات</value>
+  </data>
+  <data name="Footer_Link_CodeOfConduct" xml:space="preserve">
+    <value>قواعد السلوك</value>
+  </data>
+  <data name="Footer_Link_Contributing" xml:space="preserve">
+    <value>المساهمة</value>
+  </data>
+  <data name="Footer_Link_Install" xml:space="preserve">
+    <value>دليل التثبيت</value>
+  </data>
+  <data name="Footer_Link_Issue" xml:space="preserve">
+    <value>الإبلاغ عن مشكلة</value>
+  </data>
+  <data name="Footer_Link_Localization" xml:space="preserve">
+    <value>الترجمة</value>
+  </data>
+  <data name="Footer_Link_Rtl" xml:space="preserve">
+    <value>من اليمين إلى اليسار</value>
+  </data>
+  <data name="Footer_Link_Tailwind" xml:space="preserve">
+    <value>Tailwind CSS مع Blazor</value>
+  </data>
+  <data name="Footer_Link_Theming" xml:space="preserve">
+    <value>السمات</value>
+  </data>
+  <data name="Footer_Link_Why" xml:space="preserve">
+    <value>لماذا twblazor؟</value>
+  </data>
   <data name="Footer_NewTab" xml:space="preserve">
     <value>(يفتح في علامة تبويب جديدة)</value>
+  </data>
+  <data name="Footer_Sec_Community" xml:space="preserve">
+    <value>المجتمع</value>
+  </data>
+  <data name="Footer_Sec_GetStarted" xml:space="preserve">
+    <value>ابدأ</value>
+  </data>
+  <data name="Footer_Sec_Guides" xml:space="preserve">
+    <value>الأدلة</value>
+  </data>
+  <data name="Footer_Sec_Resources" xml:space="preserve">
+    <value>الموارد</value>
+  </data>
+  <data name="Footer_Tagline" xml:space="preserve">
+    <value>مكتبة مكونات Tailwind CSS لـ Blazor. سهلة الوصول وقابلة لتخصيص السمة ومرخصة بموجب MIT.</value>
   </data>
   <data name="Home_Back" xml:space="preserve">
     <value>السابق</value>
   </data>
-  <data name="Home_Brand_apple" xml:space="preserve">
-    <value>مساحات واسعة وأشكال ناعمة: أزرار على شكل حبة دواء، وبلاطات كبيرة مستديرة، وبلا ظلال، وشريط تنقل شفاف.</value>
-  </data>
-  <data name="Home_Brand_Disclaimer" xml:space="preserve">
-    <value>twblazor غير تابع لشركات Microsoft أو Apple أو مجموعة LEGO أو Tesco أو Trading 212، ولا تؤيده أو ترعاه أي منها. هذه أمثلة مستقلة صُممت لإظهار ما يمكن أن يفعله سمة مخصصة، وليست مواقع تلك الشركات. أسماء المنتجات والأسعار والعروض وبيانات السوق للتوضيح فقط، ولا شيء هنا يُعد نصيحة مالية. الشعارات والصور مأخوذة من الموقع الإلكتروني لكل شركة وتظل ملكًا لها، وجميع العلامات التجارية مملوكة لأصحابها.</value>
-  </data>
-  <data name="Home_Brand_lego" xml:space="preserve">
-    <value>مشرق وودود: شريط أصفر، وأزرار برتقالية على شكل حبة دواء بنص داكن، وروابط زرقاء، وخط عريض، وبطاقات بيضاء مسطحة.</value>
-  </data>
-  <data name="Home_Brand_microsoft" xml:space="preserve">
-    <value>مظهر نظام واضح وهادئ: زوايا 2px، وحدود رفيعة، وارتفاع خفيف، وحقول إدخال يظهر تحتها خط عند التركيز.</value>
-  </data>
-  <data name="Home_Brand_tesco" xml:space="preserve">
-    <value>واضح وعملي: أزرق واثق، وأزرار على شكل حبة دواء بمساحات لمس كبيرة، وبلاطات مسطحة بحدود، والأحمر للعروض.</value>
-  </data>
-  <data name="Home_Brand_trading212" xml:space="preserve">
-    <value>نظيف وواثق: أزرار زرقاء زاهية على شكل حبة دواء، وبطاقات كبيرة ناعمة، وأسطح محايدة باردة، والأخضر والأحمر مخصصان للأرباح والخسائر.</value>
+  <data name="Home_Brand_ShortDisclaimer" xml:space="preserve">
+    <value>أمثلة مستقلة. twblazor غير تابع لهذه الشركات ولا تؤيده.</value>
   </data>
   <data name="Home_Case_Eyebrow" xml:space="preserve">
     <value>شاهده عمليًا</value>
@@ -71,7 +104,7 @@
     <value>عرض السمة</value>
   </data>
   <data name="Home_Case_Sub" xml:space="preserve">
-    <value>المكونات نفسها مع &lt;code&gt;Theme.cs&lt;/code&gt; مختلف. دون تجاوز أي CSS.</value>
+    <value>المكونات نفسها، مع &lt;code&gt;Theme.cs&lt;/code&gt; مختلف.</value>
   </data>
   <data name="Home_Chart_Day" xml:space="preserve">
     <value>اليوم</value>
@@ -194,7 +227,7 @@
     <value>دعم ARIA ولوحة المفاتيح مدمج.</value>
   </data>
   <data name="Home_Feature_A11y_Title" xml:space="preserve">
-    <value>سهولة الوصول افتراضيًا</value>
+    <value>سهل الوصول</value>
   </data>
   <data name="Home_Feature_Composable_Body" xml:space="preserve">
     <value>معلمات Blazor عادية. بلا مفاجآت.</value>
@@ -374,10 +407,10 @@
     <value>الصينية التقليدية</value>
   </data>
   <data name="Home_Live_Caption" xml:space="preserve">
-    <value>أربعة أسطر من ترميز twblazor والمكونات الحية التي تنتجها.</value>
+    <value>ستة أسطر من ترميز twblazor والمكونات الحية التي تنتجها.</value>
   </data>
   <data name="Home_Live_Rendered" xml:space="preserve">
-    <value>تم عرض 4 مكونات</value>
+    <value>تم عرض 6 مكونات</value>
   </data>
   <data name="Home_Live_Replay" xml:space="preserve">
     <value>إعادة التشغيل</value>
@@ -640,8 +673,23 @@
   <data name="Home_SignIn" xml:space="preserve">
     <value>تسجيل الدخول</value>
   </data>
+  <data name="Home_Theming_After" xml:space="preserve">
+    <value>بعد</value>
+  </data>
+  <data name="Home_Theming_Before" xml:space="preserve">
+    <value>قبل</value>
+  </data>
   <data name="Home_Theming_Caption" xml:space="preserve">
-    <value>ثلاثة أسطر من Theme.cs تعيد تنسيق زر حي: مستدير بالكامل، وظل كبير، ولون أساسي جديد.</value>
+    <value>ثلاثة أسطر من Theme.cs تعيد تنسيق زر حي، معروض بجانب الزر الأصلي: زوايا مستديرة بالكامل، وظل كبير، ولون أساسي وردي.</value>
+  </data>
+  <data name="Home_Theming_Change_Colour" xml:space="preserve">
+    <value>اللون: وردي</value>
+  </data>
+  <data name="Home_Theming_Change_Corners" xml:space="preserve">
+    <value>الزوايا: مستديرة بالكامل</value>
+  </data>
+  <data name="Home_Theming_Change_Shadow" xml:space="preserve">
+    <value>الظل: كبير</value>
   </data>
   <data name="Home_Theming_Defaults_Body" xml:space="preserve">
     <value>حدد قيمة افتراضية مرة واحدة، وتجاوزها في أي نسخة.</value>
@@ -675,6 +723,9 @@
   </data>
   <data name="Home_Theming_Typed_Title" xml:space="preserve">
     <value>كل فئة محددة النوع وقابلة للتجاوز</value>
+  </data>
+  <data name="Home_Theming_WhatChanged" xml:space="preserve">
+    <value>ما الذي تغيّر</value>
   </data>
   <data name="Home_Why_Title" xml:space="preserve">
     <value>لماذا twblazor؟</value>

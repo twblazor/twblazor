@@ -22,10 +22,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <!-- Common -->
-    <data name="Footer_Documentation" xml:space="preserve">
-    <value>Tài liệu</value>
-  </data>
-  <data name="Footer_FreeForever" xml:space="preserve">
+    <data name="Footer_FreeForever" xml:space="preserve">
     <value>twblazor miễn phí, mã nguồn mở và sẽ luôn như vậy.</value>
   </data>
   <data name="Footer_Label" xml:space="preserve">
@@ -34,29 +31,65 @@
   <data name="Footer_License" xml:space="preserve">
     <value>Giấy phép MIT</value>
   </data>
+  <data name="Footer_Link_AiAgents" xml:space="preserve">
+    <value>Tác tử AI và kỹ năng</value>
+  </data>
+  <data name="Footer_Link_ApiDocs" xml:space="preserve">
+    <value>Tài liệu API</value>
+  </data>
+  <data name="Footer_Link_ClassMerge" xml:space="preserve">
+    <value>Gộp lớp</value>
+  </data>
+  <data name="Footer_Link_CodeOfConduct" xml:space="preserve">
+    <value>Quy tắc ứng xử</value>
+  </data>
+  <data name="Footer_Link_Contributing" xml:space="preserve">
+    <value>Đóng góp</value>
+  </data>
+  <data name="Footer_Link_Install" xml:space="preserve">
+    <value>Hướng dẫn cài đặt</value>
+  </data>
+  <data name="Footer_Link_Issue" xml:space="preserve">
+    <value>Báo cáo sự cố</value>
+  </data>
+  <data name="Footer_Link_Localization" xml:space="preserve">
+    <value>Bản địa hóa</value>
+  </data>
+  <data name="Footer_Link_Rtl" xml:space="preserve">
+    <value>Phải sang trái</value>
+  </data>
+  <data name="Footer_Link_Tailwind" xml:space="preserve">
+    <value>Tailwind CSS với Blazor</value>
+  </data>
+  <data name="Footer_Link_Theming" xml:space="preserve">
+    <value>Chủ đề</value>
+  </data>
+  <data name="Footer_Link_Why" xml:space="preserve">
+    <value>Vì sao chọn twblazor?</value>
+  </data>
   <data name="Footer_NewTab" xml:space="preserve">
     <value>(mở trong thẻ mới)</value>
+  </data>
+  <data name="Footer_Sec_Community" xml:space="preserve">
+    <value>Cộng đồng</value>
+  </data>
+  <data name="Footer_Sec_GetStarted" xml:space="preserve">
+    <value>Bắt đầu</value>
+  </data>
+  <data name="Footer_Sec_Guides" xml:space="preserve">
+    <value>Hướng dẫn</value>
+  </data>
+  <data name="Footer_Sec_Resources" xml:space="preserve">
+    <value>Tài nguyên</value>
+  </data>
+  <data name="Footer_Tagline" xml:space="preserve">
+    <value>Thư viện thành phần Tailwind CSS dành cho Blazor. Dễ tiếp cận, dễ đổi chủ đề và theo giấy phép MIT.</value>
   </data>
   <data name="Home_Back" xml:space="preserve">
     <value>Quay lại</value>
   </data>
-  <data name="Home_Brand_apple" xml:space="preserve">
-    <value>Khoảng trống rộng rãi và hình khối mềm mại: nút hình viên thuốc, ô lớn bo tròn, không đổ bóng và thanh điều hướng trong mờ.</value>
-  </data>
-  <data name="Home_Brand_Disclaimer" xml:space="preserve">
-    <value>twblazor không liên kết với, không được Microsoft, Apple, Tập đoàn LEGO, Tesco hay Trading 212 xác nhận hoặc tài trợ. Đây là những ví dụ độc lập được tạo ra để cho thấy một chủ đề tùy chỉnh có thể làm gì, và không phải là trang web của các công ty đó. Tên sản phẩm, giá, ưu đãi và dữ liệu thị trường chỉ mang tính minh họa, và không nội dung nào ở đây là lời khuyên tài chính. Logo và hình ảnh lấy từ trang web của từng công ty và vẫn thuộc quyền sở hữu của họ, mọi nhãn hiệu thuộc về chủ sở hữu tương ứng.</value>
-  </data>
-  <data name="Home_Brand_lego" xml:space="preserve">
-    <value>Tươi sáng và thân thiện: thanh màu vàng, nút cam hình viên thuốc với chữ tối, liên kết xanh dương, chữ đậm và thẻ trắng phẳng.</value>
-  </data>
-  <data name="Home_Brand_microsoft" xml:space="preserve">
-    <value>Phong cách hệ thống gọn gàng, nhã nhặn: góc 2px, viền mảnh, đổ bóng nhẹ và ô nhập có gạch chân khi được chọn.</value>
-  </data>
-  <data name="Home_Brand_tesco" xml:space="preserve">
-    <value>Rõ ràng và thực tế: xanh dương chắc chắn, nút hình viên thuốc có vùng chạm lớn, ô phẳng có viền và màu đỏ cho ưu đãi.</value>
-  </data>
-  <data name="Home_Brand_trading212" xml:space="preserve">
-    <value>Gọn gàng và tự tin: nút xanh dương sáng hình viên thuốc, thẻ lớn mềm mại, bề mặt trung tính lạnh, xanh lá và đỏ chỉ dành cho lãi và lỗ.</value>
+  <data name="Home_Brand_ShortDisclaimer" xml:space="preserve">
+    <value>Ví dụ độc lập. twblazor không liên kết và không được các công ty này xác nhận.</value>
   </data>
   <data name="Home_Case_Eyebrow" xml:space="preserve">
     <value>Xem thực tế</value>
@@ -71,7 +104,7 @@
     <value>Xem chủ đề</value>
   </data>
   <data name="Home_Case_Sub" xml:space="preserve">
-    <value>Cùng các thành phần, chỉ khác &lt;code&gt;Theme.cs&lt;/code&gt;. Không ghi đè CSS.</value>
+    <value>Cùng các thành phần, một &lt;code&gt;Theme.cs&lt;/code&gt; khác.</value>
   </data>
   <data name="Home_Chart_Day" xml:space="preserve">
     <value>Ngày</value>
@@ -194,7 +227,7 @@
     <value>Hỗ trợ ARIA và bàn phím có sẵn.</value>
   </data>
   <data name="Home_Feature_A11y_Title" xml:space="preserve">
-    <value>Hỗ trợ tiếp cận mặc định</value>
+    <value>Dễ tiếp cận</value>
   </data>
   <data name="Home_Feature_Composable_Body" xml:space="preserve">
     <value>Tham số Blazor thông thường. Không bất ngờ.</value>
@@ -374,10 +407,10 @@
     <value>Tiếng Trung phồn thể</value>
   </data>
   <data name="Home_Live_Caption" xml:space="preserve">
-    <value>Bốn dòng mã twblazor và các thành phần trực tiếp mà chúng tạo ra.</value>
+    <value>Sáu dòng mã twblazor và các thành phần trực tiếp mà chúng tạo ra.</value>
   </data>
   <data name="Home_Live_Rendered" xml:space="preserve">
-    <value>Đã hiển thị 4 thành phần</value>
+    <value>Đã hiển thị 6 thành phần</value>
   </data>
   <data name="Home_Live_Replay" xml:space="preserve">
     <value>Phát lại</value>
@@ -640,8 +673,23 @@
   <data name="Home_SignIn" xml:space="preserve">
     <value>Đăng nhập</value>
   </data>
+  <data name="Home_Theming_After" xml:space="preserve">
+    <value>Sau</value>
+  </data>
+  <data name="Home_Theming_Before" xml:space="preserve">
+    <value>Trước</value>
+  </data>
   <data name="Home_Theming_Caption" xml:space="preserve">
-    <value>Ba dòng Theme.cs đổi kiểu cho một nút trực tiếp: bo tròn hoàn toàn, bóng lớn và màu chính mới.</value>
+    <value>Ba dòng Theme.cs đổi kiểu cho một nút trực tiếp, hiển thị cạnh nút ban đầu: góc bo tròn hoàn toàn, bóng lớn và màu chính hồng.</value>
+  </data>
+  <data name="Home_Theming_Change_Colour" xml:space="preserve">
+    <value>Màu: hồng</value>
+  </data>
+  <data name="Home_Theming_Change_Corners" xml:space="preserve">
+    <value>Góc: bo tròn hoàn toàn</value>
+  </data>
+  <data name="Home_Theming_Change_Shadow" xml:space="preserve">
+    <value>Bóng: lớn</value>
   </data>
   <data name="Home_Theming_Defaults_Body" xml:space="preserve">
     <value>Đặt mặc định một lần, ghi đè ở bất kỳ phiên bản nào.</value>
@@ -675,6 +723,9 @@
   </data>
   <data name="Home_Theming_Typed_Title" xml:space="preserve">
     <value>Mọi lớp đều có kiểu và có thể ghi đè</value>
+  </data>
+  <data name="Home_Theming_WhatChanged" xml:space="preserve">
+    <value>Những gì đã thay đổi</value>
   </data>
   <data name="Home_Why_Title" xml:space="preserve">
     <value>Vì sao chọn twblazor?</value>

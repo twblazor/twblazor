@@ -22,10 +22,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <!-- Common -->
-    <data name="Footer_Documentation" xml:space="preserve">
-    <value>Belgeler</value>
-  </data>
-  <data name="Footer_FreeForever" xml:space="preserve">
+    <data name="Footer_FreeForever" xml:space="preserve">
     <value>twblazor ücretsiz ve açık kaynaklıdır ve her zaman öyle kalacak.</value>
   </data>
   <data name="Footer_Label" xml:space="preserve">
@@ -34,29 +31,65 @@
   <data name="Footer_License" xml:space="preserve">
     <value>MIT Lisansı</value>
   </data>
+  <data name="Footer_Link_AiAgents" xml:space="preserve">
+    <value>Yapay zekâ ajanları ve beceriler</value>
+  </data>
+  <data name="Footer_Link_ApiDocs" xml:space="preserve">
+    <value>API belgeleri</value>
+  </data>
+  <data name="Footer_Link_ClassMerge" xml:space="preserve">
+    <value>Sınıf birleştirme</value>
+  </data>
+  <data name="Footer_Link_CodeOfConduct" xml:space="preserve">
+    <value>Davranış kuralları</value>
+  </data>
+  <data name="Footer_Link_Contributing" xml:space="preserve">
+    <value>Katkıda bulunun</value>
+  </data>
+  <data name="Footer_Link_Install" xml:space="preserve">
+    <value>Kurulum kılavuzu</value>
+  </data>
+  <data name="Footer_Link_Issue" xml:space="preserve">
+    <value>Sorun bildirin</value>
+  </data>
+  <data name="Footer_Link_Localization" xml:space="preserve">
+    <value>Yerelleştirme</value>
+  </data>
+  <data name="Footer_Link_Rtl" xml:space="preserve">
+    <value>Sağdan sola</value>
+  </data>
+  <data name="Footer_Link_Tailwind" xml:space="preserve">
+    <value>Blazor ile Tailwind CSS</value>
+  </data>
+  <data name="Footer_Link_Theming" xml:space="preserve">
+    <value>Temalandırma</value>
+  </data>
+  <data name="Footer_Link_Why" xml:space="preserve">
+    <value>Neden twblazor?</value>
+  </data>
   <data name="Footer_NewTab" xml:space="preserve">
     <value>(yeni sekmede açılır)</value>
+  </data>
+  <data name="Footer_Sec_Community" xml:space="preserve">
+    <value>Topluluk</value>
+  </data>
+  <data name="Footer_Sec_GetStarted" xml:space="preserve">
+    <value>Başlayın</value>
+  </data>
+  <data name="Footer_Sec_Guides" xml:space="preserve">
+    <value>Kılavuzlar</value>
+  </data>
+  <data name="Footer_Sec_Resources" xml:space="preserve">
+    <value>Kaynaklar</value>
+  </data>
+  <data name="Footer_Tagline" xml:space="preserve">
+    <value>Blazor için Tailwind CSS bileşen kitaplığı. Erişilebilir, temalanabilir ve MIT lisanslı.</value>
   </data>
   <data name="Home_Back" xml:space="preserve">
     <value>Geri</value>
   </data>
-  <data name="Home_Brand_apple" xml:space="preserve">
-    <value>Geniş boşluklar ve yumuşak hatlar: hap biçimli düğmeler, büyük yuvarlak kutucuklar, gölge yok ve yarı saydam bir gezinme çubuğu.</value>
-  </data>
-  <data name="Home_Brand_Disclaimer" xml:space="preserve">
-    <value>twblazor; Microsoft, Apple, LEGO Grubu, Tesco veya Trading 212 ile bağlantılı değildir, bunlar tarafından onaylanmamış veya desteklenmemiştir. Bunlar, özel bir temanın neler yapabileceğini göstermek için hazırlanmış bağımsız örneklerdir ve o şirketlerin web siteleri değildir. Ürün adları, fiyatlar, kampanyalar ve piyasa verileri yalnızca örnek amaçlıdır ve buradaki hiçbir şey yatırım tavsiyesi değildir. Logolar ve görseller her şirketin kendi web sitesinden alınmıştır ve o şirketin mülkü olarak kalır; tüm ticari markalar sahiplerine aittir.</value>
-  </data>
-  <data name="Home_Brand_lego" xml:space="preserve">
-    <value>Canlı ve samimi: sarı bir çubuk, koyu yazılı turuncu hap düğmeler, mavi bağlantılar, kalın yazı ve düz beyaz kartlar.</value>
-  </data>
-  <data name="Home_Brand_microsoft" xml:space="preserve">
-    <value>Net ve sakin bir sistem görünümü: 2px köşeler, ince kenarlıklar, hafif gölge ve odaklanınca altı çizilen giriş alanları.</value>
-  </data>
-  <data name="Home_Brand_tesco" xml:space="preserve">
-    <value>Açık ve pratik: kendinden emin bir mavi, geniş dokunma alanlı hap düğmeler, kenarlıklı düz kutucuklar ve kampanyalar için kırmızı.</value>
-  </data>
-  <data name="Home_Brand_trading212" xml:space="preserve">
-    <value>Temiz ve kendinden emin: parlak mavi hap düğmeler, büyük yumuşak kartlar, soğuk nötr yüzeyler; yeşil ve kırmızı yalnızca kâr ve zarar için.</value>
+  <data name="Home_Brand_ShortDisclaimer" xml:space="preserve">
+    <value>Bağımsız örnekler. twblazor bu şirketlerle bağlantılı değildir ve onlar tarafından onaylanmamıştır.</value>
   </data>
   <data name="Home_Case_Eyebrow" xml:space="preserve">
     <value>Uygulamada görün</value>
@@ -71,7 +104,7 @@
     <value>Temayı gör</value>
   </data>
   <data name="Home_Case_Sub" xml:space="preserve">
-    <value>Aynı bileşenler, farklı bir &lt;code&gt;Theme.cs&lt;/code&gt; ile. CSS geçersiz kılma yok.</value>
+    <value>Aynı bileşenler, farklı bir &lt;code&gt;Theme.cs&lt;/code&gt;.</value>
   </data>
   <data name="Home_Chart_Day" xml:space="preserve">
     <value>Gün</value>
@@ -194,7 +227,7 @@
     <value>ARIA ve klavye desteği yerleşik.</value>
   </data>
   <data name="Home_Feature_A11y_Title" xml:space="preserve">
-    <value>Varsayılan olarak erişilebilir</value>
+    <value>Erişilebilir</value>
   </data>
   <data name="Home_Feature_Composable_Body" xml:space="preserve">
     <value>Sıradan Blazor parametreleri. Sürpriz yok.</value>
@@ -374,10 +407,10 @@
     <value>Geleneksel Çince</value>
   </data>
   <data name="Home_Live_Caption" xml:space="preserve">
-    <value>Dört satır twblazor işaretlemesi ve oluşturdukları canlı bileşenler.</value>
+    <value>Altı satır twblazor işaretlemesi ve oluşturdukları canlı bileşenler.</value>
   </data>
   <data name="Home_Live_Rendered" xml:space="preserve">
-    <value>4 bileşen oluşturuldu</value>
+    <value>6 bileşen oluşturuldu</value>
   </data>
   <data name="Home_Live_Replay" xml:space="preserve">
     <value>Yeniden oynat</value>
@@ -640,8 +673,23 @@
   <data name="Home_SignIn" xml:space="preserve">
     <value>Giriş yap</value>
   </data>
+  <data name="Home_Theming_After" xml:space="preserve">
+    <value>Sonra</value>
+  </data>
+  <data name="Home_Theming_Before" xml:space="preserve">
+    <value>Önce</value>
+  </data>
   <data name="Home_Theming_Caption" xml:space="preserve">
-    <value>Canlı bir düğmeyi yeniden biçimlendiren üç satır Theme.cs: tamamen yuvarlak, büyük bir gölge ve yeni bir ana renk.</value>
+    <value>Canlı bir düğmeyi yeniden biçimlendiren ve onu eski düğmenin yanında gösteren üç satır Theme.cs: tamamen yuvarlak köşeler, büyük bir gölge ve pembe bir ana renk.</value>
+  </data>
+  <data name="Home_Theming_Change_Colour" xml:space="preserve">
+    <value>Renk: pembe</value>
+  </data>
+  <data name="Home_Theming_Change_Corners" xml:space="preserve">
+    <value>Köşeler: tam yuvarlak</value>
+  </data>
+  <data name="Home_Theming_Change_Shadow" xml:space="preserve">
+    <value>Gölge: büyük</value>
   </data>
   <data name="Home_Theming_Defaults_Body" xml:space="preserve">
     <value>Varsayılanı bir kez ayarlayın, istediğiniz örnekte geçersiz kılın.</value>
@@ -675,6 +723,9 @@
   </data>
   <data name="Home_Theming_Typed_Title" xml:space="preserve">
     <value>Her sınıf türlendirilmiş ve geçersiz kılınabilir</value>
+  </data>
+  <data name="Home_Theming_WhatChanged" xml:space="preserve">
+    <value>Neler değişti</value>
   </data>
   <data name="Home_Why_Title" xml:space="preserve">
     <value>Neden twblazor?</value>

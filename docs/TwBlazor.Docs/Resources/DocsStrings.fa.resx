@@ -22,10 +22,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <!-- Common -->
-    <data name="Footer_Documentation" xml:space="preserve">
-    <value>مستندات</value>
-  </data>
-  <data name="Footer_FreeForever" xml:space="preserve">
+    <data name="Footer_FreeForever" xml:space="preserve">
     <value>twblazor رایگان و متن‌باز است و همیشه خواهد بود.</value>
   </data>
   <data name="Footer_Label" xml:space="preserve">
@@ -34,29 +31,65 @@
   <data name="Footer_License" xml:space="preserve">
     <value>مجوز MIT</value>
   </data>
+  <data name="Footer_Link_AiAgents" xml:space="preserve">
+    <value>عامل‌های هوش مصنوعی و مهارت‌ها</value>
+  </data>
+  <data name="Footer_Link_ApiDocs" xml:space="preserve">
+    <value>مستندات API</value>
+  </data>
+  <data name="Footer_Link_ClassMerge" xml:space="preserve">
+    <value>ادغام کلاس‌ها</value>
+  </data>
+  <data name="Footer_Link_CodeOfConduct" xml:space="preserve">
+    <value>آیین‌نامه رفتاری</value>
+  </data>
+  <data name="Footer_Link_Contributing" xml:space="preserve">
+    <value>مشارکت</value>
+  </data>
+  <data name="Footer_Link_Install" xml:space="preserve">
+    <value>راهنمای نصب</value>
+  </data>
+  <data name="Footer_Link_Issue" xml:space="preserve">
+    <value>گزارش مشکل</value>
+  </data>
+  <data name="Footer_Link_Localization" xml:space="preserve">
+    <value>بومی‌سازی</value>
+  </data>
+  <data name="Footer_Link_Rtl" xml:space="preserve">
+    <value>راست به چپ</value>
+  </data>
+  <data name="Footer_Link_Tailwind" xml:space="preserve">
+    <value>Tailwind CSS با Blazor</value>
+  </data>
+  <data name="Footer_Link_Theming" xml:space="preserve">
+    <value>پوسته‌ها</value>
+  </data>
+  <data name="Footer_Link_Why" xml:space="preserve">
+    <value>چرا twblazor؟</value>
+  </data>
   <data name="Footer_NewTab" xml:space="preserve">
     <value>(در زبانه جدید باز می‌شود)</value>
+  </data>
+  <data name="Footer_Sec_Community" xml:space="preserve">
+    <value>جامعه</value>
+  </data>
+  <data name="Footer_Sec_GetStarted" xml:space="preserve">
+    <value>شروع کنید</value>
+  </data>
+  <data name="Footer_Sec_Guides" xml:space="preserve">
+    <value>راهنماها</value>
+  </data>
+  <data name="Footer_Sec_Resources" xml:space="preserve">
+    <value>منابع</value>
+  </data>
+  <data name="Footer_Tagline" xml:space="preserve">
+    <value>کتابخانه کامپوننت Tailwind CSS برای Blazor. دسترس‌پذیر، قابل پوسته‌دهی و با مجوز MIT.</value>
   </data>
   <data name="Home_Back" xml:space="preserve">
     <value>قبلی</value>
   </data>
-  <data name="Home_Brand_apple" xml:space="preserve">
-    <value>فضای باز و شکل‌های نرم: دکمه‌های کپسولی، کاشی‌های بزرگ گرد، بدون سایه و نوار ناوبری نیمه‌شفاف.</value>
-  </data>
-  <data name="Home_Brand_Disclaimer" xml:space="preserve">
-    <value>twblazor هیچ وابستگی به Microsoft، Apple، گروه LEGO، Tesco یا Trading 212 ندارد و از سوی آن‌ها تأیید یا حمایت نشده است. این‌ها نمونه‌هایی مستقل‌اند که برای نشان دادن توان یک پوسته سفارشی ساخته شده‌اند و وب‌سایت آن شرکت‌ها نیستند. نام محصولات، قیمت‌ها، پیشنهادها و داده‌های بازار صرفاً برای نمایش‌اند و هیچ‌چیز در اینجا توصیه مالی نیست. نشان‌ها و تصاویر از وب‌سایت هر شرکت گرفته شده‌اند و متعلق به همان شرکت‌اند و همه علائم تجاری متعلق به صاحبانشان است.</value>
-  </data>
-  <data name="Home_Brand_lego" xml:space="preserve">
-    <value>شاد و صمیمی: نوار زرد، دکمه‌های کپسولی نارنجی با متن تیره، پیوندهای آبی، قلم پررنگ و کارت‌های سفید تخت.</value>
-  </data>
-  <data name="Home_Brand_microsoft" xml:space="preserve">
-    <value>ظاهری سیستمی، واضح و آرام: گوشه‌های 2px، حاشیه‌های بسیار نازک، سایه ملایم و فیلدهایی که هنگام فوکوس زیرخط می‌گیرند.</value>
-  </data>
-  <data name="Home_Brand_tesco" xml:space="preserve">
-    <value>روشن و کاربردی: آبی مطمئن، دکمه‌های کپسولی با ناحیه لمس بزرگ، کاشی‌های تخت حاشیه‌دار و قرمز برای پیشنهادها.</value>
-  </data>
-  <data name="Home_Brand_trading212" xml:space="preserve">
-    <value>تمیز و مطمئن: دکمه‌های کپسولی آبی روشن، کارت‌های بزرگ و نرم، سطوح خنثی سرد و سبز و قرمز فقط برای سود و زیان.</value>
+  <data name="Home_Brand_ShortDisclaimer" xml:space="preserve">
+    <value>نمونه‌های مستقل. twblazor وابسته به این شرکت‌ها نیست و از سوی آن‌ها تأیید نشده است.</value>
   </data>
   <data name="Home_Case_Eyebrow" xml:space="preserve">
     <value>در عمل ببینید</value>
@@ -71,7 +104,7 @@
     <value>دیدن پوسته</value>
   </data>
   <data name="Home_Case_Sub" xml:space="preserve">
-    <value>همان کامپوننت‌ها با یک &lt;code&gt;Theme.cs&lt;/code&gt; دیگر. بدون بازنویسی CSS.</value>
+    <value>همان کامپوننت‌ها، با &lt;code&gt;Theme.cs&lt;/code&gt; دیگر.</value>
   </data>
   <data name="Home_Chart_Day" xml:space="preserve">
     <value>روز</value>
@@ -194,7 +227,7 @@
     <value>پشتیبانی ARIA و صفحه‌کلید به‌صورت داخلی.</value>
   </data>
   <data name="Home_Feature_A11y_Title" xml:space="preserve">
-    <value>دسترس‌پذیر به‌طور پیش‌فرض</value>
+    <value>دسترس‌پذیر</value>
   </data>
   <data name="Home_Feature_Composable_Body" xml:space="preserve">
     <value>پارامترهای ساده Blazor. بدون غافلگیری.</value>
@@ -374,10 +407,10 @@
     <value>چینی سنتی</value>
   </data>
   <data name="Home_Live_Caption" xml:space="preserve">
-    <value>چهار خط نشانه‌گذاری twblazor و کامپوننت‌های زنده‌ای که می‌سازند.</value>
+    <value>شش خط نشانه‌گذاری twblazor و کامپوننت‌های زنده‌ای که می‌سازند.</value>
   </data>
   <data name="Home_Live_Rendered" xml:space="preserve">
-    <value>۴ کامپوننت رندر شد</value>
+    <value>۶ کامپوننت رندر شد</value>
   </data>
   <data name="Home_Live_Replay" xml:space="preserve">
     <value>پخش دوباره</value>
@@ -640,8 +673,23 @@
   <data name="Home_SignIn" xml:space="preserve">
     <value>ورود</value>
   </data>
+  <data name="Home_Theming_After" xml:space="preserve">
+    <value>بعد</value>
+  </data>
+  <data name="Home_Theming_Before" xml:space="preserve">
+    <value>قبل</value>
+  </data>
   <data name="Home_Theming_Caption" xml:space="preserve">
-    <value>سه خط از Theme.cs که سبک یک دکمه زنده را عوض می‌کند: کاملاً گرد، سایه بزرگ و رنگ اصلی جدید.</value>
+    <value>سه خط از Theme.cs که سبک یک دکمه زنده را عوض می‌کند و آن را کنار دکمه اصلی نشان می‌دهد: گوشه‌های کاملاً گرد، سایه بزرگ و رنگ اصلی صورتی.</value>
+  </data>
+  <data name="Home_Theming_Change_Colour" xml:space="preserve">
+    <value>رنگ: صورتی</value>
+  </data>
+  <data name="Home_Theming_Change_Corners" xml:space="preserve">
+    <value>گوشه‌ها: کاملاً گرد</value>
+  </data>
+  <data name="Home_Theming_Change_Shadow" xml:space="preserve">
+    <value>سایه: بزرگ</value>
   </data>
   <data name="Home_Theming_Defaults_Body" xml:space="preserve">
     <value>یک بار پیش‌فرض را تعیین کنید و هر نمونه را بازنویسی کنید.</value>
@@ -675,6 +723,9 @@
   </data>
   <data name="Home_Theming_Typed_Title" xml:space="preserve">
     <value>هر کلاس نوع‌دار و قابل بازنویسی</value>
+  </data>
+  <data name="Home_Theming_WhatChanged" xml:space="preserve">
+    <value>چه تغییر کرد</value>
   </data>
   <data name="Home_Why_Title" xml:space="preserve">
     <value>چرا twblazor؟</value>

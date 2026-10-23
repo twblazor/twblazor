@@ -22,10 +22,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <!-- Common -->
-    <data name="Footer_Documentation" xml:space="preserve">
-    <value>ஆவணங்கள்</value>
-  </data>
-  <data name="Footer_FreeForever" xml:space="preserve">
+    <data name="Footer_FreeForever" xml:space="preserve">
     <value>twblazor இலவசமானது, திறந்த மூலமானது, எப்போதும் அப்படியே இருக்கும்.</value>
   </data>
   <data name="Footer_Label" xml:space="preserve">
@@ -34,29 +31,65 @@
   <data name="Footer_License" xml:space="preserve">
     <value>MIT உரிமம்</value>
   </data>
+  <data name="Footer_Link_AiAgents" xml:space="preserve">
+    <value>AI முகவர்களும் திறன்களும்</value>
+  </data>
+  <data name="Footer_Link_ApiDocs" xml:space="preserve">
+    <value>API ஆவணங்கள்</value>
+  </data>
+  <data name="Footer_Link_ClassMerge" xml:space="preserve">
+    <value>வகுப்பு இணைப்பு</value>
+  </data>
+  <data name="Footer_Link_CodeOfConduct" xml:space="preserve">
+    <value>நடத்தை விதிகள்</value>
+  </data>
+  <data name="Footer_Link_Contributing" xml:space="preserve">
+    <value>பங்களியுங்கள்</value>
+  </data>
+  <data name="Footer_Link_Install" xml:space="preserve">
+    <value>நிறுவல் வழிகாட்டி</value>
+  </data>
+  <data name="Footer_Link_Issue" xml:space="preserve">
+    <value>சிக்கலைப் புகாரளி</value>
+  </data>
+  <data name="Footer_Link_Localization" xml:space="preserve">
+    <value>உள்ளூர்மயமாக்கல்</value>
+  </data>
+  <data name="Footer_Link_Rtl" xml:space="preserve">
+    <value>வலமிருந்து இடம்</value>
+  </data>
+  <data name="Footer_Link_Tailwind" xml:space="preserve">
+    <value>Blazor உடன் Tailwind CSS</value>
+  </data>
+  <data name="Footer_Link_Theming" xml:space="preserve">
+    <value>தீமிங்</value>
+  </data>
+  <data name="Footer_Link_Why" xml:space="preserve">
+    <value>ஏன் twblazor?</value>
+  </data>
   <data name="Footer_NewTab" xml:space="preserve">
     <value>(புதிய தாவலில் திறக்கும்)</value>
+  </data>
+  <data name="Footer_Sec_Community" xml:space="preserve">
+    <value>சமூகம்</value>
+  </data>
+  <data name="Footer_Sec_GetStarted" xml:space="preserve">
+    <value>தொடங்குங்கள்</value>
+  </data>
+  <data name="Footer_Sec_Guides" xml:space="preserve">
+    <value>வழிகாட்டிகள்</value>
+  </data>
+  <data name="Footer_Sec_Resources" xml:space="preserve">
+    <value>வளங்கள்</value>
+  </data>
+  <data name="Footer_Tagline" xml:space="preserve">
+    <value>Blazor-க்கான Tailwind CSS கூறு நூலகம். அணுகக்கூடியது, தீம் செய்யக்கூடியது, MIT உரிமம் பெற்றது.</value>
   </data>
   <data name="Home_Back" xml:space="preserve">
     <value>பின்செல்</value>
   </data>
-  <data name="Home_Brand_apple" xml:space="preserve">
-    <value>தாராளமான இடைவெளியும் மென்மையான வடிவங்களும்: மாத்திரை வடிவ பொத்தான்கள், பெரிய வட்டமான ஓடுகள், நிழல் இல்லை, ஒளிபுகும் வழிசெலுத்தல் பட்டை.</value>
-  </data>
-  <data name="Home_Brand_Disclaimer" xml:space="preserve">
-    <value>twblazor-க்கு Microsoft, Apple, LEGO குழுமம், Tesco அல்லது Trading 212 உடன் எந்தத் தொடர்பும் இல்லை, அவை இதை அங்கீகரிக்கவோ நிதியுதவி செய்யவோ இல்லை. இவை ஒரு தனிப்பயன் தீம் என்ன செய்ய முடியும் என்பதைக் காட்ட உருவாக்கப்பட்ட சுயாதீன எடுத்துக்காட்டுகள், அந்த நிறுவனங்களின் இணையதளங்கள் அல்ல. தயாரிப்புப் பெயர்கள், விலைகள், சலுகைகள், சந்தைத் தரவு ஆகியவை விளக்கத்துக்காக மட்டுமே, இங்குள்ள எதுவும் நிதி ஆலோசனை அல்ல. லோகோக்களும் படங்களும் ஒவ்வொரு நிறுவனத்தின் சொந்த இணையதளத்திலிருந்து எடுக்கப்பட்டவை, அவை அந்த நிறுவனத்துக்கே சொந்தம்; அனைத்து வர்த்தக முத்திரைகளும் அவற்றின் உரிமையாளர்களுக்குச் சொந்தம்.</value>
-  </data>
-  <data name="Home_Brand_lego" xml:space="preserve">
-    <value>பளிச்சென்றும் நட்பாகவும்: மஞ்சள் பட்டை, அடர் உரையுடன் ஆரஞ்சு மாத்திரை பொத்தான்கள், நீல இணைப்புகள், தடித்த எழுத்துரு, தட்டையான வெள்ளை அட்டைகள்.</value>
-  </data>
-  <data name="Home_Brand_microsoft" xml:space="preserve">
-    <value>தெளிவான, அமைதியான கணினித் தோற்றம்: 2px மூலைகள், மெல்லிய கரைகள், லேசான நிழல், கவனம் பெறும்போது அடிக்கோடிடும் உள்ளீடுகள்.</value>
-  </data>
-  <data name="Home_Brand_tesco" xml:space="preserve">
-    <value>தெளிவும் நடைமுறையும்: உறுதியான நீலம், பெரிய தொடு பகுதியுடன் மாத்திரை பொத்தான்கள், கரையுடன் தட்டையான ஓடுகள், சலுகைகளுக்குச் சிவப்பு.</value>
-  </data>
-  <data name="Home_Brand_trading212" xml:space="preserve">
-    <value>சுத்தமும் தன்னம்பிக்கையும்: பளிச்சிடும் நீல மாத்திரை பொத்தான்கள், பெரிய மென்மையான அட்டைகள், குளிர்ந்த நடுநிலைப் பரப்புகள், பச்சையும் சிவப்பும் லாப நஷ்டத்துக்கு மட்டும்.</value>
+  <data name="Home_Brand_ShortDisclaimer" xml:space="preserve">
+    <value>சுயாதீன எடுத்துக்காட்டுகள். twblazor இந்த நிறுவனங்களுடன் தொடர்புடையதோ அவற்றால் அங்கீகரிக்கப்பட்டதோ அல்ல.</value>
   </data>
   <data name="Home_Case_Eyebrow" xml:space="preserve">
     <value>செயலில் பாருங்கள்</value>
@@ -71,7 +104,7 @@
     <value>தீமைப் பார்</value>
   </data>
   <data name="Home_Case_Sub" xml:space="preserve">
-    <value>அதே கூறுகள், வேறொரு &lt;code&gt;Theme.cs&lt;/code&gt; உடன். CSS மேலெழுதல் இல்லை.</value>
+    <value>அதே கூறுகள், வேறொரு &lt;code&gt;Theme.cs&lt;/code&gt;.</value>
   </data>
   <data name="Home_Chart_Day" xml:space="preserve">
     <value>நாள்</value>
@@ -194,7 +227,7 @@
     <value>ARIA மற்றும் விசைப்பலகை ஆதரவு உள்ளமைந்தது.</value>
   </data>
   <data name="Home_Feature_A11y_Title" xml:space="preserve">
-    <value>இயல்பாகவே அணுகக்கூடியது</value>
+    <value>அணுகக்கூடியது</value>
   </data>
   <data name="Home_Feature_Composable_Body" xml:space="preserve">
     <value>சாதாரண Blazor அளவுருக்கள். ஆச்சரியங்கள் இல்லை.</value>
@@ -374,10 +407,10 @@
     <value>பாரம்பரிய சீனம்</value>
   </data>
   <data name="Home_Live_Caption" xml:space="preserve">
-    <value>twblazor மார்க்அப்பின் நான்கு வரிகளும் அவை உருவாக்கும் நேரடிக் கூறுகளும்.</value>
+    <value>twblazor மார்க்அப்பின் ஆறு வரிகளும் அவை உருவாக்கும் நேரடிக் கூறுகளும்.</value>
   </data>
   <data name="Home_Live_Rendered" xml:space="preserve">
-    <value>4 கூறுகள் காட்டப்பட்டன</value>
+    <value>6 கூறுகள் காட்டப்பட்டன</value>
   </data>
   <data name="Home_Live_Replay" xml:space="preserve">
     <value>மீண்டும் இயக்கு</value>
@@ -640,8 +673,23 @@
   <data name="Home_SignIn" xml:space="preserve">
     <value>உள்நுழை</value>
   </data>
+  <data name="Home_Theming_After" xml:space="preserve">
+    <value>பின்</value>
+  </data>
+  <data name="Home_Theming_Before" xml:space="preserve">
+    <value>முன்</value>
+  </data>
   <data name="Home_Theming_Caption" xml:space="preserve">
-    <value>Theme.cs-இன் மூன்று வரிகள் ஒரு நேரடிப் பொத்தானின் பாணியை மாற்றுகின்றன: முழு வட்டம், பெரிய நிழல், புதிய முதன்மை நிறம்.</value>
+    <value>Theme.cs-இன் மூன்று வரிகள் ஒரு நேரடிப் பொத்தானின் பாணியை மாற்றுகின்றன, அது பழைய பொத்தானின் அருகில் காட்டப்படுகிறது: முழு வட்ட மூலைகள், பெரிய நிழல், இளஞ்சிவப்பு முதன்மை நிறம்.</value>
+  </data>
+  <data name="Home_Theming_Change_Colour" xml:space="preserve">
+    <value>நிறம்: இளஞ்சிவப்பு</value>
+  </data>
+  <data name="Home_Theming_Change_Corners" xml:space="preserve">
+    <value>மூலைகள்: முழு வட்டம்</value>
+  </data>
+  <data name="Home_Theming_Change_Shadow" xml:space="preserve">
+    <value>நிழல்: பெரியது</value>
   </data>
   <data name="Home_Theming_Defaults_Body" xml:space="preserve">
     <value>இயல்புநிலையை ஒருமுறை அமையுங்கள், எந்த நிகழ்வையும் மேலெழுதுங்கள்.</value>
@@ -675,6 +723,9 @@
   </data>
   <data name="Home_Theming_Typed_Title" xml:space="preserve">
     <value>ஒவ்வொரு வகுப்பும் வகைப்படுத்தப்பட்டது, மேலெழுதக்கூடியது</value>
+  </data>
+  <data name="Home_Theming_WhatChanged" xml:space="preserve">
+    <value>என்ன மாறியது</value>
   </data>
   <data name="Home_Why_Title" xml:space="preserve">
     <value>ஏன் twblazor?</value>
