@@ -684,6 +684,12 @@
   <data name="Numeric_Invalid" xml:space="preserve">
     <value>Wpisz prawidłową liczbę.</value>
   </data>
+  <data name="RangeSlider_Minimum" xml:space="preserve">
+    <value>Minimum</value>
+  </data>
+  <data name="RangeSlider_Maximum" xml:space="preserve">
+    <value>Maksimum</value>
+  </data>
   <data name="DataTable_NoData" xml:space="preserve">
     <value>Brak danych.</value>
   </data>

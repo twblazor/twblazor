@@ -1,0 +1,56 @@
+@namespace TwBlazor.Components
+@inherits TwBlazorInputComponentBase
+@typeparam T
+
+<TwInputRoot RootId="@RootId" RootClass="@RootClass" RootAttributes="@RootAttributes" RootStyle="@Style" RootAriaLabel="@AriaLabel" RootAriaLabelledBy="@AriaLabelledBy" RootErrorMessage="@fieldErrorMessage" RootErrorId="@errorId">
+    <TwInputLabel Id="@labelId" For="@Id" Label="@Label" Class="@LabelClass" @attributes="@LabelAttributes" />
+    <div class="@wrapperClasses"
+         role="group"
+         aria-label="@groupAriaLabel"
+         aria-labelledby="@groupAriaLabelledBy"
+         @attributes="@Attributes">
+        <div class="@trackClasses" aria-hidden="true">
+            <div class="@fillClasses" style="inset-inline-start:@(Format(lowerPercentage))%;width:@(Format(upperPercentage - lowerPercentage))%"></div>
+        </div>
+        <div class="@theme.Handle" style="z-index:@(lowerOnTop ? 2 : 1)">
+            <input type="range"
+                   @ref="lowerRef"
+                   id="@Id"
+                   name="@lowerName"
+                   value="@lowerInputValue"
+                   min="@Min"
+                   max="@Max"
+                   step="@Step"
+                   class="@classes"
+                   style="opacity:0;"
+                   disabled="@Disabled"
+                   @oninput="@HandleLowerInput"
+                   aria-label="@localizer[TwStrings.RangeSlider_Minimum]"
+                   aria-readonly="@(ReadOnly ? "true" : null)"
+                   aria-invalid="@(fieldInvalid ? "true" : null)"
+                   aria-describedby="@errorId" />
+            <div class="@thumbClasses" style="inset-inline-start:@(Format(lowerPercentage))%" aria-hidden="true"></div>
+            <div class="@sliderTheme.Bubble" style="inset-inline-start:@(Format(lowerPercentage))%" aria-hidden="true">@LowerValue</div>
+        </div>
+        <div class="@theme.Handle" style="z-index:@(lowerOnTop ? 1 : 2)">
+            <input type="range"
+                   @ref="upperRef"
+                   id="@upperId"
+                   name="@upperName"
+                   value="@upperInputValue"
+                   min="@Min"
+                   max="@Max"
+                   step="@Step"
+                   class="@classes"
+                   style="opacity:0;"
+                   disabled="@Disabled"
+                   @oninput="@HandleUpperInput"
+                   aria-label="@localizer[TwStrings.RangeSlider_Maximum]"
+                   aria-readonly="@(ReadOnly ? "true" : null)"
+                   aria-invalid="@(fieldInvalid ? "true" : null)"
+                   aria-describedby="@errorId" />
+            <div class="@thumbClasses" style="inset-inline-start:@(Format(upperPercentage))%" aria-hidden="true"></div>
+            <div class="@sliderTheme.Bubble" style="inset-inline-start:@(Format(upperPercentage))%" aria-hidden="true">@UpperValue</div>
+        </div>
+    </div>
+</TwInputRoot>

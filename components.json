@@ -187,6 +187,14 @@
             "theme": "TwRadioButtonTheme"
           },
           {
+            "id": "range-slider-navitem",
+            "display": "Range Slider",
+            "name": "TwRangeSlider",
+            "url": "/range-slider",
+            "isNew": true,
+            "theme": "TwRangeSliderTheme"
+          },
+          {
             "id": "rating-navitem",
             "display": "Rating",
             "name": "TwRating",
