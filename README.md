@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./images/banner.svg" alt="twblazor" height="200" style="height: 200px;">
+  <img src="./images/readme-banner.png" alt="twblazor: Tailwind CSS components for Blazor" width="800">
 </p>
 <p align="center">
 
