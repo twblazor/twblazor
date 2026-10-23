@@ -678,6 +678,12 @@
   <data name="Numeric_Invalid" xml:space="preserve">
     <value>చెల్లుబాటు అయ్యే సంఖ్యను నమోదు చేయండి.</value>
   </data>
+  <data name="RangeSlider_Minimum" xml:space="preserve">
+    <value>కనిష్ఠం</value>
+  </data>
+  <data name="RangeSlider_Maximum" xml:space="preserve">
+    <value>గరిష్ఠం</value>
+  </data>
   <data name="DataTable_NoData" xml:space="preserve">
     <value>డేటా అందుబాటులో లేదు.</value>
   </data>

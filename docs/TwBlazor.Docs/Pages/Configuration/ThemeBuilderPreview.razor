@@ -263,6 +263,14 @@
             </TwCard>
         }
 
+        @if (Has("TwRangeSlider"))
+        {
+            @* No Id: the preview is drawn twice, light and dark, and each handle needs an id of its own. *@
+            <TwCard Title="Range sliders" Class="@cardClass" @attributes="look">
+                <TwRangeSlider T="int" Label="Price" Name="preview-price" @bind-LowerValue="priceLow" @bind-UpperValue="priceHigh" Min="0" Max="500" Step="10" Color="Color.Primary" Rounded="@Defaults.Rounded" />
+            </TwCard>
+        }
+
         @if (Has("TwRating"))
         {
             @* No Id: the preview is drawn twice, light and dark, and each rating's radios need a name of their own. *@
@@ -514,7 +522,7 @@
     private static readonly string[] _sampled =
     [
         "TwNavbar", "TwButton", "TwIcon", "TwTooltip", "TwFileUpload",
-        "TwTextfield", "TwNumeric", "TwSelect", "TwAutocomplete", "TwColorPicker", "TwDatePicker", "TwTimePicker", "TwDateTimePicker", "TwDateRangePicker", "TwTimeRangePicker", "TwDateTimeRangePicker", "TwSwitch", "TwCheckbox", "TwRadioButton", "TwRating", "TwSlider",
+        "TwTextfield", "TwNumeric", "TwSelect", "TwAutocomplete", "TwColorPicker", "TwDatePicker", "TwTimePicker", "TwDateTimePicker", "TwDateRangePicker", "TwTimeRangePicker", "TwDateTimeRangePicker", "TwSwitch", "TwCheckbox", "TwRadioButton", "TwRating", "TwRangeSlider", "TwSlider",
         "TwAlert", "TwChip", "TwAvatar", "TwProgress", "TwSpinner", "TwSkeleton",
         "TwBreadcrumb", "TwStepper", "TwPagination", "TwTabContainer", "TwCollapse", "TwTreeList", "TwCarousel", "TwFooter",
         "TwDataTable", "TwTable", "TwPickList", "TwBarcode", "TwQrCode",
@@ -612,6 +620,8 @@
     private string? payment = "card";
     private int quantity = 2;
     private int volume = 40;
+    private int priceLow = 100;
+    private int priceHigh = 350;
     private double rating = 3.5;
     private int itemCount = 2;
     private int step = 1;

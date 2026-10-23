@@ -678,6 +678,12 @@
   <data name="Numeric_Invalid" xml:space="preserve">
     <value>वैध संख्या प्रविष्ट करा.</value>
   </data>
+  <data name="RangeSlider_Minimum" xml:space="preserve">
+    <value>किमान</value>
+  </data>
+  <data name="RangeSlider_Maximum" xml:space="preserve">
+    <value>कमाल</value>
+  </data>
   <data name="DataTable_NoData" xml:space="preserve">
     <value>कोणताही डेटा उपलब्ध नाही.</value>
   </data>

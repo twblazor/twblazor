@@ -681,6 +681,12 @@
   <data name="Numeric_Invalid" xml:space="preserve">
     <value>올바른 숫자를 입력하세요.</value>
   </data>
+  <data name="RangeSlider_Minimum" xml:space="preserve">
+    <value>최솟값</value>
+  </data>
+  <data name="RangeSlider_Maximum" xml:space="preserve">
+    <value>최댓값</value>
+  </data>
   <data name="DataTable_NoData" xml:space="preserve">
     <value>데이터가 없습니다.</value>
   </data>

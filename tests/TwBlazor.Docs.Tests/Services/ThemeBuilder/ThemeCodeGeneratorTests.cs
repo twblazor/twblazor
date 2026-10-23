@@ -167,6 +167,16 @@ public class ThemeCodeGeneratorTests
     }
 
     [Fact]
+    public void DefaultTemplate_RangeSlider_AlsoNeedsTheSliderTheme()
+    {
+        // The range slider is drawn with the slider theme, so choosing it alone must still produce a working theme.
+        var types = ThemeTemplate.Default.ResolveThemeTypes(["TwRangeSlider"]);
+
+        Assert.Contains("TwRangeSliderTheme", types);
+        Assert.Contains("TwSliderTheme", types);
+    }
+
+    [Fact]
     public void DefaultTemplate_OneComponent_ProducesAMuchSmallerFileThanEverything()
     {
         var template = ThemeTemplate.Default;

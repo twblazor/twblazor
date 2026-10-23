@@ -678,6 +678,12 @@
   <data name="Numeric_Invalid" xml:space="preserve">
     <value>Nhập một số hợp lệ.</value>
   </data>
+  <data name="RangeSlider_Minimum" xml:space="preserve">
+    <value>Nhỏ nhất</value>
+  </data>
+  <data name="RangeSlider_Maximum" xml:space="preserve">
+    <value>Lớn nhất</value>
+  </data>
   <data name="DataTable_NoData" xml:space="preserve">
     <value>Không có dữ liệu.</value>
   </data>
