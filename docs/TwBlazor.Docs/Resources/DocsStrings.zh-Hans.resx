@@ -1,0 +1,772 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  English (neutral) strings for every TwBlazor component.
+
+  To add a language, copy this file to TwBlazorStrings.<culture>.resx (for example TwBlazorStrings.de.resx)
+  and translate each <value>. Keep the names and the {0} placeholders unchanged. A key that is missing from a
+  language file falls back to the value in this file.
+
+  The Format_ entries are optional .NET date and time format strings. Leave them empty to use the culture's own patterns.
+-->
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <!-- Common -->
+    <data name="Footer_Documentation" xml:space="preserve">
+    <value>文档</value>
+  </data>
+  <data name="Footer_FreeForever" xml:space="preserve">
+    <value>twblazor 现在免费开源，将来也一直如此。</value>
+  </data>
+  <data name="Footer_Label" xml:space="preserve">
+    <value>页脚</value>
+  </data>
+  <data name="Footer_License" xml:space="preserve">
+    <value>MIT 许可证</value>
+  </data>
+  <data name="Footer_NewTab" xml:space="preserve">
+    <value>（在新标签页中打开）</value>
+  </data>
+  <data name="Home_Back" xml:space="preserve">
+    <value>上一步</value>
+  </data>
+  <data name="Home_Brand_apple" xml:space="preserve">
+    <value>宽松的留白和柔和的造型：胶囊按钮、大圆角卡片、没有阴影，以及半透明的导航栏。</value>
+  </data>
+  <data name="Home_Brand_Disclaimer" xml:space="preserve">
+    <value>twblazor 与 Microsoft、Apple、乐高集团、Tesco 或 Trading 212 没有关联，也未获得它们的认可或赞助。这些是独立的示例，用来展示自定义主题能做到什么，并不是这些公司的网站。产品名称、价格、优惠和市场数据仅作说明之用，本页内容均不构成理财建议。徽标和图片来自各公司自己的网站，归其所有，所有商标归各自所有者所有。</value>
+  </data>
+  <data name="Home_Brand_lego" xml:space="preserve">
+    <value>明快友好：黄色顶栏、深色文字的橙色胶囊按钮、蓝色链接、粗体字以及扁平的白色卡片。</value>
+  </data>
+  <data name="Home_Brand_microsoft" xml:space="preserve">
+    <value>简洁沉稳的系统风格：2px 圆角、细线边框、轻微的阴影，以及获得焦点时出现下划线的输入框。</value>
+  </data>
+  <data name="Home_Brand_tesco" xml:space="preserve">
+    <value>清晰实用：沉稳的蓝色、点击区域大的胶囊按钮、带边框的扁平卡片，优惠用红色标出。</value>
+  </data>
+  <data name="Home_Brand_trading212" xml:space="preserve">
+    <value>干净利落：亮蓝色胶囊按钮、大而柔和的卡片、冷色调的中性背景，绿色和红色只用于盈亏。</value>
+  </data>
+  <data name="Home_Case_Eyebrow" xml:space="preserve">
+    <value>看看实际效果</value>
+  </data>
+  <data name="Home_Case_Heading" xml:space="preserve">
+    <value>五种知名风格，同一个组件库</value>
+  </data>
+  <data name="Home_Case_Inspired" xml:space="preserve">
+    <value>&lt;span class=&quot;font-normal text-purple-200&quot;&gt;灵感来自 &lt;/span&gt;{0}</value>
+  </data>
+  <data name="Home_Case_SeeTheme" xml:space="preserve">
+    <value>查看主题</value>
+  </data>
+  <data name="Home_Case_Sub" xml:space="preserve">
+    <value>同样的组件，只换了一个 &lt;code&gt;Theme.cs&lt;/code&gt;。没有覆盖任何 CSS。</value>
+  </data>
+  <data name="Home_Chart_Day" xml:space="preserve">
+    <value>日期</value>
+  </data>
+  <data name="Home_Chart_Deploys" xml:space="preserve">
+    <value>每日部署次数</value>
+  </data>
+  <data name="Home_Chart_DeploysDesc" xml:space="preserve">
+    <value>最近 14 天</value>
+  </data>
+  <data name="Home_Chart_Folder" xml:space="preserve">
+    <value>文件夹</value>
+  </data>
+  <data name="Home_Chart_Hour" xml:space="preserve">
+    <value>时间</value>
+  </data>
+  <data name="Home_Chart_Response" xml:space="preserve">
+    <value>响应时间</value>
+  </data>
+  <data name="Home_Chart_ResponseDesc" xml:space="preserve">
+    <value>第 95 百分位，最近 24 小时</value>
+  </data>
+  <data name="Home_Chart_Size" xml:space="preserve">
+    <value>大小</value>
+  </data>
+  <data name="Home_Chart_Storage" xml:space="preserve">
+    <value>各文件夹存储用量</value>
+  </data>
+  <data name="Home_Chart_StorageDesc" xml:space="preserve">
+    <value>10 个文件夹共 7.2 GB</value>
+  </data>
+  <data name="Home_Checkout_Account" xml:space="preserve">
+    <value>账户</value>
+  </data>
+  <data name="Home_Checkout_AccountDesc" xml:space="preserve">
+    <value>创建登录信息</value>
+  </data>
+  <data name="Home_Checkout_Done" xml:space="preserve">
+    <value>完成</value>
+  </data>
+  <data name="Home_Checkout_DoneDesc" xml:space="preserve">
+    <value>一切就绪</value>
+  </data>
+  <data name="Home_Checkout_Notifications" xml:space="preserve">
+    <value>邮件通知</value>
+  </data>
+  <data name="Home_Checkout_Preferences" xml:space="preserve">
+    <value>偏好设置</value>
+  </data>
+  <data name="Home_Checkout_PreferencesDesc" xml:space="preserve">
+    <value>调整你的设置</value>
+  </data>
+  <data name="Home_Checkout_Progress" xml:space="preserve">
+    <value>结账进度</value>
+  </data>
+  <data name="Home_Checkout_Thanks" xml:space="preserve">
+    <value>谢谢，一切准备就绪。</value>
+  </data>
+  <data name="Home_Checkout_Title" xml:space="preserve">
+    <value>结账步骤</value>
+  </data>
+  <data name="Home_Community_Heading" xml:space="preserve">
+    <value>加入 Discord 上的讨论</value>
+  </data>
+  <data name="Home_Community_Join" xml:space="preserve">
+    <value>加入 Discord</value>
+  </data>
+  <data name="Home_Community_Sub" xml:space="preserve">
+    <value>提出问题，分享你正在构建的东西。</value>
+  </data>
+  <data name="Home_Cta_Heading" xml:space="preserve">
+    <value>准备好打造出色的作品了吗？</value>
+  </data>
+  <data name="Home_Cta_Star" xml:space="preserve">
+    <value>在 GitHub 上点星</value>
+  </data>
+  <data name="Home_Cta_Sub" xml:space="preserve">
+    <value>从文档开始。</value>
+  </data>
+  <data name="Home_Cycle_Admin" xml:space="preserve">
+    <value>管理后台</value>
+  </data>
+  <data name="Home_Cycle_Checkout" xml:space="preserve">
+    <value>结账页面</value>
+  </data>
+  <data name="Home_Cycle_Dashboard" xml:space="preserve">
+    <value>仪表板</value>
+  </data>
+  <data name="Home_Cycle_Settings" xml:space="preserve">
+    <value>设置页面</value>
+  </data>
+  <data name="Home_Cycle_SignIn" xml:space="preserve">
+    <value>登录表单</value>
+  </data>
+  <data name="Home_Email" xml:space="preserve">
+    <value>电子邮件</value>
+  </data>
+  <data name="Home_EmailPlaceholder" xml:space="preserve">
+    <value>输入你的电子邮件地址</value>
+  </data>
+  <data name="Home_Env_Development" xml:space="preserve">
+    <value>开发</value>
+  </data>
+  <data name="Home_Env_Production" xml:space="preserve">
+    <value>生产</value>
+  </data>
+  <data name="Home_Env_Staging" xml:space="preserve">
+    <value>预发布</value>
+  </data>
+  <data name="Home_Examples_Heading" xml:space="preserve">
+    <value>真实的组件，可直接用于你的应用。</value>
+  </data>
+  <data name="Home_Examples_Sub" xml:space="preserve">
+    <value>每个示例都能实际操作，试试看。</value>
+  </data>
+  <data name="Home_Failed" xml:space="preserve">
+    <value>失败</value>
+  </data>
+  <data name="Home_Feature_A11y_Body" xml:space="preserve">
+    <value>内置 ARIA 和键盘支持。</value>
+  </data>
+  <data name="Home_Feature_A11y_Title" xml:space="preserve">
+    <value>默认无障碍</value>
+  </data>
+  <data name="Home_Feature_Composable_Body" xml:space="preserve">
+    <value>普通的 Blazor 参数，没有意外。</value>
+  </data>
+  <data name="Home_Feature_Composable_Title" xml:space="preserve">
+    <value>可组合</value>
+  </data>
+  <data name="Home_Feature_Custom_Body" xml:space="preserve">
+    <value>你的品牌，浅色和深色模式皆宜。</value>
+  </data>
+  <data name="Home_Feature_Custom_Title" xml:space="preserve">
+    <value>完全可定制</value>
+  </data>
+  <data name="Home_Feature_Fast_Body" xml:space="preserve">
+    <value>25 个以上组件，随时可以发布。</value>
+  </data>
+  <data name="Home_Feature_Fast_Title" xml:space="preserve">
+    <value>快速构建</value>
+  </data>
+  <data name="Home_Features_HeadingFull" xml:space="preserve">
+    <value>适合你的下一个项目：{0} 或 {1}。</value>
+  </data>
+  <data name="Home_Features_HeadingLead" xml:space="preserve">
+    <value>适合你的下一个项目：</value>
+  </data>
+  <data name="Home_Features_HeadingTrail" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Home_Features_Pause" xml:space="preserve">
+    <value>暂停变换的标题</value>
+  </data>
+  <data name="Home_Features_Play" xml:space="preserve">
+    <value>播放变换的标题</value>
+  </data>
+  <data name="Home_Folder_Apps" xml:space="preserve">
+    <value>应用</value>
+  </data>
+  <data name="Home_Folder_Backups" xml:space="preserve">
+    <value>备份</value>
+  </data>
+  <data name="Home_Folder_Documents" xml:space="preserve">
+    <value>文档</value>
+  </data>
+  <data name="Home_Folder_Downloads" xml:space="preserve">
+    <value>下载</value>
+  </data>
+  <data name="Home_Folder_Fonts" xml:space="preserve">
+    <value>字体</value>
+  </data>
+  <data name="Home_Folder_Music" xml:space="preserve">
+    <value>音乐</value>
+  </data>
+  <data name="Home_Folder_Photos" xml:space="preserve">
+    <value>照片</value>
+  </data>
+  <data name="Home_Folder_Projects" xml:space="preserve">
+    <value>项目</value>
+  </data>
+  <data name="Home_Folder_Temp" xml:space="preserve">
+    <value>临时文件</value>
+  </data>
+  <data name="Home_Folder_Videos" xml:space="preserve">
+    <value>视频</value>
+  </data>
+  <data name="Home_GetStarted" xml:space="preserve">
+    <value>开始使用</value>
+  </data>
+  <data name="Home_Guides_Heading" xml:space="preserve">
+    <value>Tailwind 与 Blazor，协同工作</value>
+  </data>
+  <data name="Home_Guides_Install" xml:space="preserve">
+    <value>Server 或 WebAssembly，九个步骤搞定。</value>
+  </data>
+  <data name="Home_Guides_Install_Title" xml:space="preserve">
+    <value>安装指南</value>
+  </data>
+  <data name="Home_Guides_Tailwind" xml:space="preserve">
+    <value>你的类如何被找到并应用主题。</value>
+  </data>
+  <data name="Home_Guides_Tailwind_Title" xml:space="preserve">
+    <value>在 Blazor 中使用 Tailwind CSS</value>
+  </data>
+  <data name="Home_Guides_Why" xml:space="preserve">
+    <value>MIT 许可，原生 Tailwind。</value>
+  </data>
+  <data name="Home_Hero_Badge" xml:space="preserve">
+    <value>免费、开源、MIT 许可</value>
+  </data>
+  <data name="Home_Hero_GitHub" xml:space="preserve">
+    <value>在 GitHub 上查看</value>
+  </data>
+  <data name="Home_Hero_Install" xml:space="preserve">
+    <value>安装</value>
+  </data>
+  <data name="Home_Hero_Subtitle" xml:space="preserve">
+    <value>适用于 Blazor Server 和 WebAssembly 的无障碍、可定制主题的组件。</value>
+  </data>
+  <data name="Home_Hero_TitleAccent" xml:space="preserve">
+    <value>专为 Blazor 打造</value>
+  </data>
+  <data name="Home_Hero_TitleLead" xml:space="preserve">
+    <value>Tailwind CSS 组件库</value>
+  </data>
+  <data name="Home_Lang_ar" xml:space="preserve">
+    <value>阿拉伯语</value>
+  </data>
+  <data name="Home_Lang_bn" xml:space="preserve">
+    <value>孟加拉语</value>
+  </data>
+  <data name="Home_Lang_de" xml:space="preserve">
+    <value>德语</value>
+  </data>
+  <data name="Home_Lang_en" xml:space="preserve">
+    <value>英语</value>
+  </data>
+  <data name="Home_Lang_es" xml:space="preserve">
+    <value>西班牙语</value>
+  </data>
+  <data name="Home_Lang_fa" xml:space="preserve">
+    <value>波斯语</value>
+  </data>
+  <data name="Home_Lang_fr" xml:space="preserve">
+    <value>法语</value>
+  </data>
+  <data name="Home_Lang_hi" xml:space="preserve">
+    <value>印地语</value>
+  </data>
+  <data name="Home_Lang_id" xml:space="preserve">
+    <value>印度尼西亚语</value>
+  </data>
+  <data name="Home_Lang_it" xml:space="preserve">
+    <value>意大利语</value>
+  </data>
+  <data name="Home_Lang_ja" xml:space="preserve">
+    <value>日语</value>
+  </data>
+  <data name="Home_Lang_jv" xml:space="preserve">
+    <value>爪哇语</value>
+  </data>
+  <data name="Home_Lang_ko" xml:space="preserve">
+    <value>韩语</value>
+  </data>
+  <data name="Home_Lang_mr" xml:space="preserve">
+    <value>马拉地语</value>
+  </data>
+  <data name="Home_Lang_paArab" xml:space="preserve">
+    <value>西旁遮普语</value>
+  </data>
+  <data name="Home_Lang_pl" xml:space="preserve">
+    <value>波兰语</value>
+  </data>
+  <data name="Home_Lang_pt" xml:space="preserve">
+    <value>葡萄牙语</value>
+  </data>
+  <data name="Home_Lang_ru" xml:space="preserve">
+    <value>俄语</value>
+  </data>
+  <data name="Home_Lang_ta" xml:space="preserve">
+    <value>泰米尔语</value>
+  </data>
+  <data name="Home_Lang_te" xml:space="preserve">
+    <value>泰卢固语</value>
+  </data>
+  <data name="Home_Lang_tr" xml:space="preserve">
+    <value>土耳其语</value>
+  </data>
+  <data name="Home_Lang_ur" xml:space="preserve">
+    <value>乌尔都语</value>
+  </data>
+  <data name="Home_Lang_vi" xml:space="preserve">
+    <value>越南语</value>
+  </data>
+  <data name="Home_Lang_zhHans" xml:space="preserve">
+    <value>简体中文</value>
+  </data>
+  <data name="Home_Lang_zhHant" xml:space="preserve">
+    <value>繁体中文</value>
+  </data>
+  <data name="Home_Live_Caption" xml:space="preserve">
+    <value>四行 twblazor 标记及其渲染出的实时组件。</value>
+  </data>
+  <data name="Home_Live_Rendered" xml:space="preserve">
+    <value>已渲染 4 个组件</value>
+  </data>
+  <data name="Home_Live_Replay" xml:space="preserve">
+    <value>重播</value>
+  </data>
+  <data name="Home_Live_ReplayTarget" xml:space="preserve">
+    <value>实时构建</value>
+  </data>
+  <data name="Home_Loc_Badge" xml:space="preserve">
+    <value>内置 {0} 种语言</value>
+  </data>
+  <data name="Home_Loc_Config_Body" xml:space="preserve">
+    <value>固定区域性、设置格式或替换本地化器。</value>
+  </data>
+  <data name="Home_Loc_Config_Title" xml:space="preserve">
+    <value>在 AddTwBlazor 中配置</value>
+  </data>
+  <data name="Home_Loc_Dates_Body" xml:space="preserve">
+    <value>一周的第一天和 12/24 小时制都跟随区域性。</value>
+  </data>
+  <data name="Home_Loc_Dates_Title" xml:space="preserve">
+    <value>合适的日期和时间</value>
+  </data>
+  <data name="Home_Loc_Disclaimer" xml:space="preserve">
+    <value>非英语翻译由 AI 生成，尚未经过审校。&lt;a href=&quot;/localization#localization-contributing&quot; class=&quot;font-medium text-purple-800 underline underline-offset-2 dark:text-purple-300&quot;&gt;提出修改建议&lt;/a&gt;。</value>
+  </data>
+  <data name="Home_Loc_HeadingAccent" xml:space="preserve">
+    <value>开箱即用</value>
+  </data>
+  <data name="Home_Loc_HeadingLead" xml:space="preserve">
+    <value>说你用户的语言，</value>
+  </data>
+  <data name="Home_Loc_LanguagesLabel" xml:space="preserve">
+    <value>支持的语言</value>
+  </data>
+  <data name="Home_Loc_Link" xml:space="preserve">
+    <value>了解本地化如何工作</value>
+  </data>
+  <data name="Home_Loc_More" xml:space="preserve">
+    <value>以及另外 {0} 种语言</value>
+  </data>
+  <data name="Home_Loc_Resx_Body" xml:space="preserve">
+    <value>用你自己的资源文件添加或改写任何文本。</value>
+  </data>
+  <data name="Home_Loc_Resx_Title" xml:space="preserve">
+    <value>每种语言一个 .resx 文件</value>
+  </data>
+  <data name="Home_Loc_Sub" xml:space="preserve">
+    <value>所有标签、消息和屏幕阅读器播报都已翻译，日期也跟随区域性。无需任何设置。</value>
+  </data>
+  <data name="Home_Merge_Badge" xml:space="preserve">
+    <value>内置。无需 npm，无需 JavaScript。</value>
+  </data>
+  <data name="Home_Merge_Caption" xml:space="preserve">
+    <value>类合并的实时示例。选择一个示例来更改传给组件的类。</value>
+  </data>
+  <data name="Home_Merge_Color" xml:space="preserve">
+    <value>颜色</value>
+  </data>
+  <data name="Home_Merge_Configure_Body" xml:space="preserve">
+    <value>自定义工具类、前缀或关闭，都在 AddTwBlazor 中设置。</value>
+  </data>
+  <data name="Home_Merge_Configure_Title" xml:space="preserve">
+    <value>由你配置</value>
+  </data>
+  <data name="Home_Merge_GroupLabel" xml:space="preserve">
+    <value>类合并示例</value>
+  </data>
+  <data name="Home_Merge_HeadingAccent" xml:space="preserve">
+    <value>已经内置</value>
+  </data>
+  <data name="Home_Merge_HeadingLead" xml:space="preserve">
+    <value>Tailwind 类合并，</value>
+  </data>
+  <data name="Home_Merge_LastWins_Body" xml:space="preserve">
+    <value>tailwind-merge 的 C# 移植版，无需安装。</value>
+  </data>
+  <data name="Home_Merge_LastWins_Title" xml:space="preserve">
+    <value>最后一个类胜出</value>
+  </data>
+  <data name="Home_Merge_Link" xml:space="preserve">
+    <value>了解类合并如何工作</value>
+  </data>
+  <data name="Home_Merge_Padding" xml:space="preserve">
+    <value>内边距</value>
+  </data>
+  <data name="Home_Merge_Replaced" xml:space="preserve">
+    <value>已替换：</value>
+  </data>
+  <data name="Home_Merge_Shape" xml:space="preserve">
+    <value>形状</value>
+  </data>
+  <data name="Home_Merge_Shorthand" xml:space="preserve">
+    <value>简写</value>
+  </data>
+  <data name="Home_Merge_Sub" xml:space="preserve">
+    <value>传入 &lt;code&gt;Class=&quot;px-3&quot;&lt;/code&gt;，它会替换主题中的 &lt;code&gt;px-6&lt;/code&gt;。你的类总是胜出。</value>
+  </data>
+  <data name="Home_Merge_Theme" xml:space="preserve">
+    <value>主题</value>
+  </data>
+  <data name="Home_Merge_V4_Body" xml:space="preserve">
+    <value>变体、任意值和前缀，经过 700 多个用例测试。</value>
+  </data>
+  <data name="Home_Merge_V4_Title" xml:space="preserve">
+    <value>理解 Tailwind v4</value>
+  </data>
+  <data name="Home_Merge_YourClass" xml:space="preserve">
+    <value>你的 Class</value>
+  </data>
+  <data name="Home_Next" xml:space="preserve">
+    <value>下一步</value>
+  </data>
+  <data name="Home_OpenSource" xml:space="preserve">
+    <value>永远免费、MIT 许可。与社区一起公开构建。</value>
+  </data>
+  <data name="Home_Password" xml:space="preserve">
+    <value>密码</value>
+  </data>
+  <data name="Home_PasswordPlaceholder" xml:space="preserve">
+    <value>输入你的密码</value>
+  </data>
+  <data name="Home_Preview" xml:space="preserve">
+    <value>预览</value>
+  </data>
+  <data name="Home_Quick_Caption" xml:space="preserve">
+    <value>安装 twblazor，然后是两行标记及其渲染出的按钮和提示。</value>
+  </data>
+  <data name="Home_Quick_Heading" xml:space="preserve">
+    <value>几分钟即可上手</value>
+  </data>
+  <data name="Home_Quick_Installed" xml:space="preserve">
+    <value>twblazor 已安装</value>
+  </data>
+  <data name="Home_Quick_Sub" xml:space="preserve">
+    <value>安装、注册、构建。</value>
+  </data>
+  <data name="Home_Quick_Window" xml:space="preserve">
+    <value>终端和 Home.razor</value>
+  </data>
+  <data name="Home_Release_AvgTime" xml:space="preserve">
+    <value>平均用时</value>
+  </data>
+  <data name="Home_Release_Deploys" xml:space="preserve">
+    <value>部署</value>
+  </data>
+  <data name="Home_Release_Storage" xml:space="preserve">
+    <value>存储空间即将用尽。</value>
+  </data>
+  <data name="Home_Release_Title" xml:space="preserve">
+    <value>版本健康状况</value>
+  </data>
+  <data name="Home_RememberMe" xml:space="preserve">
+    <value>记住我</value>
+  </data>
+  <data name="Home_Rendered" xml:space="preserve">
+    <value>渲染结果</value>
+  </data>
+  <data name="Home_Rtl_Badge" xml:space="preserve">
+    <value>内置从右到左支持</value>
+  </data>
+  <data name="Home_Rtl_Caption" xml:space="preserve">
+    <value>同一组件从左到右和从右到左排列的实时示例。选择一个方向进行切换。</value>
+  </data>
+  <data name="Home_Rtl_Follows_Body" xml:space="preserve">
+    <value>从右到左书写的区域性会自动镜像。</value>
+  </data>
+  <data name="Home_Rtl_Follows_Title" xml:space="preserve">
+    <value>跟随语言</value>
+  </data>
+  <data name="Home_Rtl_GroupLabel" xml:space="preserve">
+    <value>布局方向</value>
+  </data>
+  <data name="Home_Rtl_HeadingAccent" xml:space="preserve">
+    <value>无需第二份样式表</value>
+  </data>
+  <data name="Home_Rtl_HeadingLead" xml:space="preserve">
+    <value>支持从右到左阅读，</value>
+  </data>
+  <data name="Home_Rtl_Keys_Body" xml:space="preserve">
+    <value>在每个组件中，方向键都朝着它指向的方向移动。</value>
+  </data>
+  <data name="Home_Rtl_Keys_Title" xml:space="preserve">
+    <value>按键与屏幕一致</value>
+  </data>
+  <data name="Home_Rtl_Link" xml:space="preserve">
+    <value>了解从右到左如何工作</value>
+  </data>
+  <data name="Home_Rtl_Ltr" xml:space="preserve">
+    <value>从左到右</value>
+  </data>
+  <data name="Home_Rtl_Mix_Body" xml:space="preserve">
+    <value>用 TwDirectionProvider 包裹任意部分。</value>
+  </data>
+  <data name="Home_Rtl_Mix_Title" xml:space="preserve">
+    <value>在同一页面混合方向</value>
+  </data>
+  <data name="Home_Rtl_Rtl" xml:space="preserve">
+    <value>从右到左</value>
+  </data>
+  <data name="Home_Rtl_Sub" xml:space="preserve">
+    <value>阿拉伯语、希伯来语、波斯语和乌尔都语会镜像每个组件：间距、图标、面板和方向键。</value>
+  </data>
+  <data name="Home_SaveChanges" xml:space="preserve">
+    <value>保存更改</value>
+  </data>
+  <data name="Home_Series_Database" xml:space="preserve">
+    <value>数据库</value>
+  </data>
+  <data name="Home_Series_Succeeded" xml:space="preserve">
+    <value>成功</value>
+  </data>
+  <data name="Home_Series_WebApp" xml:space="preserve">
+    <value>Web 应用</value>
+  </data>
+  <data name="Home_Series_Workers" xml:space="preserve">
+    <value>工作进程</value>
+  </data>
+  <data name="Home_Settings_DeployOnPush" xml:space="preserve">
+    <value>推送时部署</value>
+  </data>
+  <data name="Home_Settings_EmailAlerts" xml:space="preserve">
+    <value>邮件提醒</value>
+  </data>
+  <data name="Home_Settings_Environment" xml:space="preserve">
+    <value>环境</value>
+  </data>
+  <data name="Home_Settings_Private" xml:space="preserve">
+    <value>私有</value>
+  </data>
+  <data name="Home_Settings_ProjectName" xml:space="preserve">
+    <value>项目名称</value>
+  </data>
+  <data name="Home_Settings_Public" xml:space="preserve">
+    <value>公开</value>
+  </data>
+  <data name="Home_Settings_Reset" xml:space="preserve">
+    <value>重置</value>
+  </data>
+  <data name="Home_Settings_Saved" xml:space="preserve">
+    <value>设置已保存。</value>
+  </data>
+  <data name="Home_Settings_Storage" xml:space="preserve">
+    <value>已用存储</value>
+  </data>
+  <data name="Home_Settings_StorageAmount" xml:space="preserve">
+    <value>已用 7.2 GB，共 10 GB</value>
+  </data>
+  <data name="Home_Settings_Sub" xml:space="preserve">
+    <value>管理团队的发布方式</value>
+  </data>
+  <data name="Home_Settings_Team" xml:space="preserve">
+    <value>团队</value>
+  </data>
+  <data name="Home_Settings_Title" xml:space="preserve">
+    <value>项目设置</value>
+  </data>
+  <data name="Home_Settings_Visibility" xml:space="preserve">
+    <value>可见性</value>
+  </data>
+  <data name="Home_SignIn" xml:space="preserve">
+    <value>登录</value>
+  </data>
+  <data name="Home_Theming_Caption" xml:space="preserve">
+    <value>三行 Theme.cs 改变实时按钮的样式：全圆角、大阴影和新的主色。</value>
+  </data>
+  <data name="Home_Theming_Defaults_Body" xml:space="preserve">
+    <value>设置一次默认值，再覆盖任意实例。</value>
+  </data>
+  <data name="Home_Theming_Defaults_Title" xml:space="preserve">
+    <value>全局默认，局部覆盖</value>
+  </data>
+  <data name="Home_Theming_Heading" xml:space="preserve">
+    <value>所有 Blazor 库中最深入的 Tailwind 主题定制</value>
+  </data>
+  <data name="Home_Theming_Jit_Body" xml:space="preserve">
+    <value>Tailwind 能看到的普通字符串字面量，无需 safelist。</value>
+  </data>
+  <data name="Home_Theming_Jit_Title" xml:space="preserve">
+    <value>真正的 Tailwind，真正的 JIT</value>
+  </data>
+  <data name="Home_Theming_Restyled" xml:space="preserve">
+    <value>通过 Theme.cs 重新设计样式，无需 CSS</value>
+  </data>
+  <data name="Home_Theming_Sub" xml:space="preserve">
+    <value>每个视觉细节都是属于你的普通 Tailwind 类，并按组件定义类型。DLL 里没有黑盒。</value>
+  </data>
+  <data name="Home_Theming_Tokens_Body" xml:space="preserve">
+    <value>设置一次颜色，所有组件随之变化。</value>
+  </data>
+  <data name="Home_Theming_Tokens_Title" xml:space="preserve">
+    <value>可复用的设计令牌</value>
+  </data>
+  <data name="Home_Theming_Typed_Body" xml:space="preserve">
+    <value>每个组件一个 C# 主题类，每个类都是一个命名属性。</value>
+  </data>
+  <data name="Home_Theming_Typed_Title" xml:space="preserve">
+    <value>每个类都有类型且可覆盖</value>
+  </data>
+  <data name="Home_Why_Title" xml:space="preserve">
+    <value>为什么选择 twblazor？</value>
+  </data>
+  <data name="Nav_AiAgents" xml:space="preserve">
+    <value>AI 代理和技能</value>
+  </data>
+  <data name="Nav_ApiDocs" xml:space="preserve">
+    <value>API 文档</value>
+  </data>
+  <data name="Nav_ClassMerge" xml:space="preserve">
+    <value>类合并</value>
+  </data>
+  <data name="Nav_Configuration" xml:space="preserve">
+    <value>配置</value>
+  </data>
+  <data name="Nav_ConfiguringLocalization" xml:space="preserve">
+    <value>配置本地化</value>
+  </data>
+  <data name="Nav_GetStarted" xml:space="preserve">
+    <value>快速开始</value>
+  </data>
+  <data name="Nav_GetStartedGroup" xml:space="preserve">
+    <value>快速开始</value>
+  </data>
+  <data name="Nav_Group_chart-comparison-navitem" xml:space="preserve">
+    <value>比较</value>
+  </data>
+  <data name="Nav_Group_chart-distribution-navitem" xml:space="preserve">
+    <value>分布</value>
+  </data>
+  <data name="Nav_Group_chart-flow-navitem" xml:space="preserve">
+    <value>流向</value>
+  </data>
+  <data name="Nav_Group_chart-hierarchy-navitem" xml:space="preserve">
+    <value>层级</value>
+  </data>
+  <data name="Nav_Group_chart-parts-navitem" xml:space="preserve">
+    <value>整体的组成</value>
+  </data>
+  <data name="Nav_Group_chart-relationship-navitem" xml:space="preserve">
+    <value>关系</value>
+  </data>
+  <data name="Nav_Group_chart-sets-navitem" xml:space="preserve">
+    <value>集合</value>
+  </data>
+  <data name="Nav_Group_chart-time-navitem" xml:space="preserve">
+    <value>随时间变化</value>
+  </data>
+  <data name="Nav_Group_chart-variables-navitem" xml:space="preserve">
+    <value>多变量</value>
+  </data>
+  <data name="Nav_Group_charts" xml:space="preserve">
+    <value>图表</value>
+  </data>
+  <data name="Nav_Group_chat" xml:space="preserve">
+    <value>聊天</value>
+  </data>
+  <data name="Nav_Group_data" xml:space="preserve">
+    <value>数据</value>
+  </data>
+  <data name="Nav_Group_feedback" xml:space="preserve">
+    <value>反馈</value>
+  </data>
+  <data name="Nav_Group_forms" xml:space="preserve">
+    <value>表单</value>
+  </data>
+  <data name="Nav_Group_inputs-navitem" xml:space="preserve">
+    <value>输入</value>
+  </data>
+  <data name="Nav_Group_layout" xml:space="preserve">
+    <value>布局</value>
+  </data>
+  <data name="Nav_Group_services" xml:space="preserve">
+    <value>服务</value>
+  </data>
+  <data name="Nav_Home" xml:space="preserve">
+    <value>首页</value>
+  </data>
+  <data name="Nav_Localization" xml:space="preserve">
+    <value>本地化</value>
+  </data>
+  <data name="Nav_RtlProvider" xml:space="preserve">
+    <value>RTL 提供程序</value>
+  </data>
+  <data name="Nav_TailwindBlazor" xml:space="preserve">
+    <value>在 Blazor 中使用 Tailwind</value>
+  </data>
+  <data name="Nav_Theme" xml:space="preserve">
+    <value>主题</value>
+  </data>
+  <data name="Nav_WhyTwBlazor" xml:space="preserve">
+    <value>为什么选择 twblazor？</value>
+  </data>
+</root>

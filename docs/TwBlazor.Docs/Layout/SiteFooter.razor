@@ -1,7 +1,7 @@
 @using IconEnum = TwBlazor.Enums.Icon
 
 <footer class="mt-16 border-t border-purple-200/70 dark:border-purple-900/60 bg-gradient-to-b from-transparent to-purple-50/70 dark:to-purple-950/30">
-    <nav aria-label="Footer" class="flex flex-wrap items-center justify-center gap-x-1 gap-y-1 px-6 pt-6 pb-2 text-sm font-medium">
+    <nav aria-label="@Loc.Text("Footer_Label", "Footer")" class="flex flex-wrap items-center justify-center gap-x-1 gap-y-1 px-6 pt-6 pb-2 text-sm font-medium">
         <DiscordInviteLink Id="footer-discord" Class="@linkClasses">
             <TwIcon Icon="IconEnum.Discord" />
             Discord
@@ -9,26 +9,26 @@
         <span aria-hidden="true" class="text-purple-400 dark:text-purple-700">&bull;</span>
         <a href="@GitHubUrl" target="_blank" rel="noopener noreferrer" class="@linkClasses">
             <TwIcon Icon="IconEnum.Github" />
-            GitHub<span class="sr-only"> (opens in a new tab)</span>
+            GitHub<span class="sr-only"> @Loc.Text("Footer_NewTab", "(opens in a new tab)")</span>
         </a>
         <span aria-hidden="true" class="text-purple-400 dark:text-purple-700">&bull;</span>
         <a href="@DocumentationUrl" target="_blank" rel="noopener noreferrer" class="@linkClasses">
             <TwIcon Icon="IconEnum.Book" />
-            Documentation<span class="sr-only"> (opens in a new tab)</span>
+            <Loc Key="Footer_Documentation">Documentation</Loc><span class="sr-only"> @Loc.Text("Footer_NewTab", "(opens in a new tab)")</span>
         </a>
         <span aria-hidden="true" class="text-purple-400 dark:text-purple-700">&bull;</span>
         <a href="@LicenseUrl" target="_blank" rel="noopener noreferrer" class="@linkClasses">
             <TwIcon Icon="IconEnum.File_Earmark_Text" />
-            MIT License<span class="sr-only"> (opens in a new tab)</span>
+            <Loc Key="Footer_License">MIT License</Loc><span class="sr-only"> @Loc.Text("Footer_NewTab", "(opens in a new tab)")</span>
         </a>
         <span aria-hidden="true" class="text-purple-400 dark:text-purple-700">&bull;</span>
         <a id="footer-llms" href="@LlmsTxtUrl" target="_blank" rel="noopener noreferrer" class="@linkClasses">
             <TwIcon Icon="IconEnum.Robot" />
-            llms.txt<span class="sr-only"> (opens in a new tab)</span>
+            llms.txt<span class="sr-only"> @Loc.Text("Footer_NewTab", "(opens in a new tab)")</span>
         </a>
     </nav>
     <p class="flex items-center justify-center gap-1.5 px-6 pb-6 text-xs text-purple-700/70 dark:text-purple-300/60">
         <TwIcon Icon="IconEnum.Heart_Fill" Class="text-purple-400 dark:text-purple-500" />
-        twblazor is and always will be free and open source.
+        <Loc Key="Footer_FreeForever">twblazor is and always will be free and open source.</Loc>
     </p>
 </footer>

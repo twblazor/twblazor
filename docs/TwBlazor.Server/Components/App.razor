@@ -1,5 +1,8 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+@using System.Globalization
+
+<!DOCTYPE html>
+@* The culture comes from the language picked in the navbar (see UseRequestLocalization in Program.cs). *@
+<html lang="@(string.IsNullOrEmpty(CultureInfo.CurrentUICulture.Name) ? "en" : CultureInfo.CurrentUICulture.Name)" dir="@(CultureInfo.CurrentUICulture.TextInfo.IsRightToLeft ? "rtl" : "ltr")">
 
 <head>
     <meta charset="utf-8" />
@@ -23,6 +26,7 @@
     <script src="@Assets["_content/twblazor/js/twblazor.js"]"></script>
     <script src="@Assets["_framework/blazor.web.js"]"></script>
     <script src="@Assets["_content/TwBlazor.Docs/js/themeToggle.js"]"> </script>
+    <script src="@Assets["_content/TwBlazor.Docs/js/docsLocale.js"]"></script>
     <script src="@Assets["_content/TwBlazor.Docs/js/landingStage.js"]"></script>
     <!-- highlight js -->
     <script src="@Assets["_content/TwBlazor.Docs/js/highlight.min.js"]"> </script>

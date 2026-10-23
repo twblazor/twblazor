@@ -1,0 +1,772 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  English (neutral) strings for every TwBlazor component.
+
+  To add a language, copy this file to TwBlazorStrings.<culture>.resx (for example TwBlazorStrings.de.resx)
+  and translate each <value>. Keep the names and the {0} placeholders unchanged. A key that is missing from a
+  language file falls back to the value in this file.
+
+  The Format_ entries are optional .NET date and time format strings. Leave them empty to use the culture's own patterns.
+-->
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <!-- Common -->
+    <data name="Footer_Documentation" xml:space="preserve">
+    <value>التوثيق</value>
+  </data>
+  <data name="Footer_FreeForever" xml:space="preserve">
+    <value>twblazor مجاني ومفتوح المصدر، وسيبقى كذلك دائمًا.</value>
+  </data>
+  <data name="Footer_Label" xml:space="preserve">
+    <value>تذييل الصفحة</value>
+  </data>
+  <data name="Footer_License" xml:space="preserve">
+    <value>ترخيص MIT</value>
+  </data>
+  <data name="Footer_NewTab" xml:space="preserve">
+    <value>(يفتح في علامة تبويب جديدة)</value>
+  </data>
+  <data name="Home_Back" xml:space="preserve">
+    <value>السابق</value>
+  </data>
+  <data name="Home_Brand_apple" xml:space="preserve">
+    <value>مساحات واسعة وأشكال ناعمة: أزرار على شكل حبة دواء، وبلاطات كبيرة مستديرة، وبلا ظلال، وشريط تنقل شفاف.</value>
+  </data>
+  <data name="Home_Brand_Disclaimer" xml:space="preserve">
+    <value>twblazor غير تابع لشركات Microsoft أو Apple أو مجموعة LEGO أو Tesco أو Trading 212، ولا تؤيده أو ترعاه أي منها. هذه أمثلة مستقلة صُممت لإظهار ما يمكن أن يفعله سمة مخصصة، وليست مواقع تلك الشركات. أسماء المنتجات والأسعار والعروض وبيانات السوق للتوضيح فقط، ولا شيء هنا يُعد نصيحة مالية. الشعارات والصور مأخوذة من الموقع الإلكتروني لكل شركة وتظل ملكًا لها، وجميع العلامات التجارية مملوكة لأصحابها.</value>
+  </data>
+  <data name="Home_Brand_lego" xml:space="preserve">
+    <value>مشرق وودود: شريط أصفر، وأزرار برتقالية على شكل حبة دواء بنص داكن، وروابط زرقاء، وخط عريض، وبطاقات بيضاء مسطحة.</value>
+  </data>
+  <data name="Home_Brand_microsoft" xml:space="preserve">
+    <value>مظهر نظام واضح وهادئ: زوايا 2px، وحدود رفيعة، وارتفاع خفيف، وحقول إدخال يظهر تحتها خط عند التركيز.</value>
+  </data>
+  <data name="Home_Brand_tesco" xml:space="preserve">
+    <value>واضح وعملي: أزرق واثق، وأزرار على شكل حبة دواء بمساحات لمس كبيرة، وبلاطات مسطحة بحدود، والأحمر للعروض.</value>
+  </data>
+  <data name="Home_Brand_trading212" xml:space="preserve">
+    <value>نظيف وواثق: أزرار زرقاء زاهية على شكل حبة دواء، وبطاقات كبيرة ناعمة، وأسطح محايدة باردة، والأخضر والأحمر مخصصان للأرباح والخسائر.</value>
+  </data>
+  <data name="Home_Case_Eyebrow" xml:space="preserve">
+    <value>شاهده عمليًا</value>
+  </data>
+  <data name="Home_Case_Heading" xml:space="preserve">
+    <value>خمسة أنماط معروفة، ومكتبة مكونات واحدة</value>
+  </data>
+  <data name="Home_Case_Inspired" xml:space="preserve">
+    <value>&lt;span class=&quot;font-normal text-purple-200&quot;&gt;مستوحى من &lt;/span&gt;{0}</value>
+  </data>
+  <data name="Home_Case_SeeTheme" xml:space="preserve">
+    <value>عرض السمة</value>
+  </data>
+  <data name="Home_Case_Sub" xml:space="preserve">
+    <value>المكونات نفسها مع &lt;code&gt;Theme.cs&lt;/code&gt; مختلف. دون تجاوز أي CSS.</value>
+  </data>
+  <data name="Home_Chart_Day" xml:space="preserve">
+    <value>اليوم</value>
+  </data>
+  <data name="Home_Chart_Deploys" xml:space="preserve">
+    <value>عمليات النشر يوميًا</value>
+  </data>
+  <data name="Home_Chart_DeploysDesc" xml:space="preserve">
+    <value>آخر 14 يومًا</value>
+  </data>
+  <data name="Home_Chart_Folder" xml:space="preserve">
+    <value>المجلد</value>
+  </data>
+  <data name="Home_Chart_Hour" xml:space="preserve">
+    <value>الساعة</value>
+  </data>
+  <data name="Home_Chart_Response" xml:space="preserve">
+    <value>زمن الاستجابة</value>
+  </data>
+  <data name="Home_Chart_ResponseDesc" xml:space="preserve">
+    <value>المئين 95، آخر 24 ساعة</value>
+  </data>
+  <data name="Home_Chart_Size" xml:space="preserve">
+    <value>الحجم</value>
+  </data>
+  <data name="Home_Chart_Storage" xml:space="preserve">
+    <value>التخزين حسب المجلد</value>
+  </data>
+  <data name="Home_Chart_StorageDesc" xml:space="preserve">
+    <value>7.2 غيغابايت في 10 مجلدات</value>
+  </data>
+  <data name="Home_Checkout_Account" xml:space="preserve">
+    <value>الحساب</value>
+  </data>
+  <data name="Home_Checkout_AccountDesc" xml:space="preserve">
+    <value>أنشئ بيانات الدخول</value>
+  </data>
+  <data name="Home_Checkout_Done" xml:space="preserve">
+    <value>تم</value>
+  </data>
+  <data name="Home_Checkout_DoneDesc" xml:space="preserve">
+    <value>كل شيء جاهز</value>
+  </data>
+  <data name="Home_Checkout_Notifications" xml:space="preserve">
+    <value>إشعارات البريد الإلكتروني</value>
+  </data>
+  <data name="Home_Checkout_Preferences" xml:space="preserve">
+    <value>التفضيلات</value>
+  </data>
+  <data name="Home_Checkout_PreferencesDesc" xml:space="preserve">
+    <value>اضبط إعداداتك</value>
+  </data>
+  <data name="Home_Checkout_Progress" xml:space="preserve">
+    <value>تقدم الدفع</value>
+  </data>
+  <data name="Home_Checkout_Thanks" xml:space="preserve">
+    <value>شكرًا، أنت جاهز للبدء.</value>
+  </data>
+  <data name="Home_Checkout_Title" xml:space="preserve">
+    <value>خطوات الدفع</value>
+  </data>
+  <data name="Home_Community_Heading" xml:space="preserve">
+    <value>انضم إلى النقاش على Discord</value>
+  </data>
+  <data name="Home_Community_Join" xml:space="preserve">
+    <value>انضم إلى Discord</value>
+  </data>
+  <data name="Home_Community_Sub" xml:space="preserve">
+    <value>اطرح أسئلتك وشارك ما تبنيه.</value>
+  </data>
+  <data name="Home_Cta_Heading" xml:space="preserve">
+    <value>هل أنت مستعد لبناء شيء رائع؟</value>
+  </data>
+  <data name="Home_Cta_Star" xml:space="preserve">
+    <value>امنحنا نجمة على GitHub</value>
+  </data>
+  <data name="Home_Cta_Sub" xml:space="preserve">
+    <value>ابدأ بالتوثيق.</value>
+  </data>
+  <data name="Home_Cycle_Admin" xml:space="preserve">
+    <value>لوحة الإدارة</value>
+  </data>
+  <data name="Home_Cycle_Checkout" xml:space="preserve">
+    <value>صفحة الدفع</value>
+  </data>
+  <data name="Home_Cycle_Dashboard" xml:space="preserve">
+    <value>لوحة المعلومات</value>
+  </data>
+  <data name="Home_Cycle_Settings" xml:space="preserve">
+    <value>صفحة الإعدادات</value>
+  </data>
+  <data name="Home_Cycle_SignIn" xml:space="preserve">
+    <value>نموذج تسجيل الدخول</value>
+  </data>
+  <data name="Home_Email" xml:space="preserve">
+    <value>البريد الإلكتروني</value>
+  </data>
+  <data name="Home_EmailPlaceholder" xml:space="preserve">
+    <value>أدخل عنوان بريدك الإلكتروني</value>
+  </data>
+  <data name="Home_Env_Development" xml:space="preserve">
+    <value>التطوير</value>
+  </data>
+  <data name="Home_Env_Production" xml:space="preserve">
+    <value>الإنتاج</value>
+  </data>
+  <data name="Home_Env_Staging" xml:space="preserve">
+    <value>التجهيز</value>
+  </data>
+  <data name="Home_Examples_Heading" xml:space="preserve">
+    <value>مكونات حقيقية. جاهزة لتطبيقك.</value>
+  </data>
+  <data name="Home_Examples_Sub" xml:space="preserve">
+    <value>كل مثال يعمل فعلًا. جرّبه.</value>
+  </data>
+  <data name="Home_Failed" xml:space="preserve">
+    <value>فاشلة</value>
+  </data>
+  <data name="Home_Feature_A11y_Body" xml:space="preserve">
+    <value>دعم ARIA ولوحة المفاتيح مدمج.</value>
+  </data>
+  <data name="Home_Feature_A11y_Title" xml:space="preserve">
+    <value>سهولة الوصول افتراضيًا</value>
+  </data>
+  <data name="Home_Feature_Composable_Body" xml:space="preserve">
+    <value>معلمات Blazor عادية. بلا مفاجآت.</value>
+  </data>
+  <data name="Home_Feature_Composable_Title" xml:space="preserve">
+    <value>قابل للتركيب</value>
+  </data>
+  <data name="Home_Feature_Custom_Body" xml:space="preserve">
+    <value>علامتك التجارية، في الوضعين الفاتح والداكن.</value>
+  </data>
+  <data name="Home_Feature_Custom_Title" xml:space="preserve">
+    <value>قابل للتخصيص بالكامل</value>
+  </data>
+  <data name="Home_Feature_Fast_Body" xml:space="preserve">
+    <value>أكثر من 25 مكونًا جاهزًا للإطلاق.</value>
+  </data>
+  <data name="Home_Feature_Fast_Title" xml:space="preserve">
+    <value>سريع البناء</value>
+  </data>
+  <data name="Home_Features_HeadingFull" xml:space="preserve">
+    <value>مناسب لمشروعك القادم: {0} أو {1}.</value>
+  </data>
+  <data name="Home_Features_HeadingLead" xml:space="preserve">
+    <value>مناسب لمشروعك القادم:</value>
+  </data>
+  <data name="Home_Features_HeadingTrail" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Home_Features_Pause" xml:space="preserve">
+    <value>إيقاف العنوان المتغير مؤقتًا</value>
+  </data>
+  <data name="Home_Features_Play" xml:space="preserve">
+    <value>تشغيل العنوان المتغير</value>
+  </data>
+  <data name="Home_Folder_Apps" xml:space="preserve">
+    <value>التطبيقات</value>
+  </data>
+  <data name="Home_Folder_Backups" xml:space="preserve">
+    <value>النسخ الاحتياطية</value>
+  </data>
+  <data name="Home_Folder_Documents" xml:space="preserve">
+    <value>المستندات</value>
+  </data>
+  <data name="Home_Folder_Downloads" xml:space="preserve">
+    <value>التنزيلات</value>
+  </data>
+  <data name="Home_Folder_Fonts" xml:space="preserve">
+    <value>الخطوط</value>
+  </data>
+  <data name="Home_Folder_Music" xml:space="preserve">
+    <value>الموسيقى</value>
+  </data>
+  <data name="Home_Folder_Photos" xml:space="preserve">
+    <value>الصور</value>
+  </data>
+  <data name="Home_Folder_Projects" xml:space="preserve">
+    <value>المشاريع</value>
+  </data>
+  <data name="Home_Folder_Temp" xml:space="preserve">
+    <value>المؤقتة</value>
+  </data>
+  <data name="Home_Folder_Videos" xml:space="preserve">
+    <value>الفيديوهات</value>
+  </data>
+  <data name="Home_GetStarted" xml:space="preserve">
+    <value>ابدأ الآن</value>
+  </data>
+  <data name="Home_Guides_Heading" xml:space="preserve">
+    <value>Tailwind وBlazor يعملان معًا</value>
+  </data>
+  <data name="Home_Guides_Install" xml:space="preserve">
+    <value>Server أو WebAssembly في تسع خطوات.</value>
+  </data>
+  <data name="Home_Guides_Install_Title" xml:space="preserve">
+    <value>دليل التثبيت</value>
+  </data>
+  <data name="Home_Guides_Tailwind" xml:space="preserve">
+    <value>كيف يُعثر على الفئات وتُطبق عليها السمة.</value>
+  </data>
+  <data name="Home_Guides_Tailwind_Title" xml:space="preserve">
+    <value>Tailwind CSS مع Blazor</value>
+  </data>
+  <data name="Home_Guides_Why" xml:space="preserve">
+    <value>مرخص بموجب MIT ومبني على Tailwind أصلًا.</value>
+  </data>
+  <data name="Home_Hero_Badge" xml:space="preserve">
+    <value>مجاني ومفتوح المصدر ومرخص بموجب MIT</value>
+  </data>
+  <data name="Home_Hero_GitHub" xml:space="preserve">
+    <value>اعرض على GitHub</value>
+  </data>
+  <data name="Home_Hero_Install" xml:space="preserve">
+    <value>التثبيت</value>
+  </data>
+  <data name="Home_Hero_Subtitle" xml:space="preserve">
+    <value>مكونات سهلة الوصول وقابلة لتخصيص السمة لـ Blazor Server وWebAssembly.</value>
+  </data>
+  <data name="Home_Hero_TitleAccent" xml:space="preserve">
+    <value>لـ Blazor</value>
+  </data>
+  <data name="Home_Hero_TitleLead" xml:space="preserve">
+    <value>مكتبة مكونات Tailwind CSS</value>
+  </data>
+  <data name="Home_Lang_ar" xml:space="preserve">
+    <value>العربية</value>
+  </data>
+  <data name="Home_Lang_bn" xml:space="preserve">
+    <value>البنغالية</value>
+  </data>
+  <data name="Home_Lang_de" xml:space="preserve">
+    <value>الألمانية</value>
+  </data>
+  <data name="Home_Lang_en" xml:space="preserve">
+    <value>الإنجليزية</value>
+  </data>
+  <data name="Home_Lang_es" xml:space="preserve">
+    <value>الإسبانية</value>
+  </data>
+  <data name="Home_Lang_fa" xml:space="preserve">
+    <value>الفارسية</value>
+  </data>
+  <data name="Home_Lang_fr" xml:space="preserve">
+    <value>الفرنسية</value>
+  </data>
+  <data name="Home_Lang_hi" xml:space="preserve">
+    <value>الهندية</value>
+  </data>
+  <data name="Home_Lang_id" xml:space="preserve">
+    <value>الإندونيسية</value>
+  </data>
+  <data name="Home_Lang_it" xml:space="preserve">
+    <value>الإيطالية</value>
+  </data>
+  <data name="Home_Lang_ja" xml:space="preserve">
+    <value>اليابانية</value>
+  </data>
+  <data name="Home_Lang_jv" xml:space="preserve">
+    <value>الجاوية</value>
+  </data>
+  <data name="Home_Lang_ko" xml:space="preserve">
+    <value>الكورية</value>
+  </data>
+  <data name="Home_Lang_mr" xml:space="preserve">
+    <value>الماراثية</value>
+  </data>
+  <data name="Home_Lang_paArab" xml:space="preserve">
+    <value>البنجابية الغربية</value>
+  </data>
+  <data name="Home_Lang_pl" xml:space="preserve">
+    <value>البولندية</value>
+  </data>
+  <data name="Home_Lang_pt" xml:space="preserve">
+    <value>البرتغالية</value>
+  </data>
+  <data name="Home_Lang_ru" xml:space="preserve">
+    <value>الروسية</value>
+  </data>
+  <data name="Home_Lang_ta" xml:space="preserve">
+    <value>التاميلية</value>
+  </data>
+  <data name="Home_Lang_te" xml:space="preserve">
+    <value>التيلوغوية</value>
+  </data>
+  <data name="Home_Lang_tr" xml:space="preserve">
+    <value>التركية</value>
+  </data>
+  <data name="Home_Lang_ur" xml:space="preserve">
+    <value>الأردية</value>
+  </data>
+  <data name="Home_Lang_vi" xml:space="preserve">
+    <value>الفيتنامية</value>
+  </data>
+  <data name="Home_Lang_zhHans" xml:space="preserve">
+    <value>الصينية المبسطة</value>
+  </data>
+  <data name="Home_Lang_zhHant" xml:space="preserve">
+    <value>الصينية التقليدية</value>
+  </data>
+  <data name="Home_Live_Caption" xml:space="preserve">
+    <value>أربعة أسطر من ترميز twblazor والمكونات الحية التي تنتجها.</value>
+  </data>
+  <data name="Home_Live_Rendered" xml:space="preserve">
+    <value>تم عرض 4 مكونات</value>
+  </data>
+  <data name="Home_Live_Replay" xml:space="preserve">
+    <value>إعادة التشغيل</value>
+  </data>
+  <data name="Home_Live_ReplayTarget" xml:space="preserve">
+    <value>البناء الحي</value>
+  </data>
+  <data name="Home_Loc_Badge" xml:space="preserve">
+    <value>{0} لغة مدمجة</value>
+  </data>
+  <data name="Home_Loc_Config_Body" xml:space="preserve">
+    <value>ثبّت ثقافة، أو حدد تنسيقًا، أو استبدل أداة الترجمة.</value>
+  </data>
+  <data name="Home_Loc_Config_Title" xml:space="preserve">
+    <value>يُضبط في AddTwBlazor</value>
+  </data>
+  <data name="Home_Loc_Dates_Body" xml:space="preserve">
+    <value>بداية الأسبوع ونظام 12 أو 24 ساعة تتبع الثقافة.</value>
+  </data>
+  <data name="Home_Loc_Dates_Title" xml:space="preserve">
+    <value>تواريخ وأوقات مناسبة</value>
+  </data>
+  <data name="Home_Loc_Disclaimer" xml:space="preserve">
+    <value>الترجمات غير الإنجليزية من إنتاج الذكاء الاصطناعي ولم تُراجع بعد. &lt;a href=&quot;/localization#localization-contributing&quot; class=&quot;font-medium text-purple-800 underline underline-offset-2 dark:text-purple-300&quot;&gt;اقترح تصحيحًا&lt;/a&gt;.</value>
+  </data>
+  <data name="Home_Loc_HeadingAccent" xml:space="preserve">
+    <value>من البداية</value>
+  </data>
+  <data name="Home_Loc_HeadingLead" xml:space="preserve">
+    <value>يتحدث لغة مستخدميك،</value>
+  </data>
+  <data name="Home_Loc_LanguagesLabel" xml:space="preserve">
+    <value>اللغات المدعومة</value>
+  </data>
+  <data name="Home_Loc_Link" xml:space="preserve">
+    <value>تعرّف على طريقة عمل الترجمة</value>
+  </data>
+  <data name="Home_Loc_More" xml:space="preserve">
+    <value>و{0} لغة أخرى</value>
+  </data>
+  <data name="Home_Loc_Resx_Body" xml:space="preserve">
+    <value>أضف أي نص أو أعد صياغته بملفات الموارد الخاصة بك.</value>
+  </data>
+  <data name="Home_Loc_Resx_Title" xml:space="preserve">
+    <value>ملف .resx واحد لكل لغة</value>
+  </data>
+  <data name="Home_Loc_Sub" xml:space="preserve">
+    <value>كل تسمية ورسالة وإعلان لقارئ الشاشة مترجم، والتواريخ تتبع الثقافة. لا شيء يحتاج إلى إعداد.</value>
+  </data>
+  <data name="Home_Merge_Badge" xml:space="preserve">
+    <value>مدمج. بلا npm وبلا JavaScript.</value>
+  </data>
+  <data name="Home_Merge_Caption" xml:space="preserve">
+    <value>مثال حي على دمج الفئات. اختر مثالًا لتغيير الفئة الممررة إلى المكون.</value>
+  </data>
+  <data name="Home_Merge_Color" xml:space="preserve">
+    <value>اللون</value>
+  </data>
+  <data name="Home_Merge_Configure_Body" xml:space="preserve">
+    <value>أدوات مخصصة أو بادئة أو إيقاف التشغيل، من AddTwBlazor.</value>
+  </data>
+  <data name="Home_Merge_Configure_Title" xml:space="preserve">
+    <value>اضبطه كما تريد</value>
+  </data>
+  <data name="Home_Merge_GroupLabel" xml:space="preserve">
+    <value>مثال على دمج الفئات</value>
+  </data>
+  <data name="Home_Merge_HeadingAccent" xml:space="preserve">
+    <value>مدمج مباشرة</value>
+  </data>
+  <data name="Home_Merge_HeadingLead" xml:space="preserve">
+    <value>دمج فئات Tailwind،</value>
+  </data>
+  <data name="Home_Merge_LastWins_Body" xml:space="preserve">
+    <value>نسخة C# من tailwind-merge. لا شيء لتثبيته.</value>
+  </data>
+  <data name="Home_Merge_LastWins_Title" xml:space="preserve">
+    <value>الفئة الأخيرة تفوز</value>
+  </data>
+  <data name="Home_Merge_Link" xml:space="preserve">
+    <value>تعرّف على طريقة عمل دمج الفئات</value>
+  </data>
+  <data name="Home_Merge_Padding" xml:space="preserve">
+    <value>الحشو</value>
+  </data>
+  <data name="Home_Merge_Replaced" xml:space="preserve">
+    <value>مستبدلة:</value>
+  </data>
+  <data name="Home_Merge_Shape" xml:space="preserve">
+    <value>الشكل</value>
+  </data>
+  <data name="Home_Merge_Shorthand" xml:space="preserve">
+    <value>الاختصار</value>
+  </data>
+  <data name="Home_Merge_Sub" xml:space="preserve">
+    <value>مرّر &lt;code&gt;Class=&quot;px-3&quot;&lt;/code&gt; وسيحل محل &lt;code&gt;px-6&lt;/code&gt; الموجود في السمة. فئتك تفوز دائمًا.</value>
+  </data>
+  <data name="Home_Merge_Theme" xml:space="preserve">
+    <value>السمة</value>
+  </data>
+  <data name="Home_Merge_V4_Body" xml:space="preserve">
+    <value>المتغيرات والقيم الاعتباطية والبادئات، مُختبر على أكثر من 700 حالة.</value>
+  </data>
+  <data name="Home_Merge_V4_Title" xml:space="preserve">
+    <value>يفهم Tailwind v4</value>
+  </data>
+  <data name="Home_Merge_YourClass" xml:space="preserve">
+    <value>Class الخاصة بك</value>
+  </data>
+  <data name="Home_Next" xml:space="preserve">
+    <value>التالي</value>
+  </data>
+  <data name="Home_OpenSource" xml:space="preserve">
+    <value>مجاني ومرخص بموجب MIT، دائمًا. يُبنى علنًا مع المجتمع.</value>
+  </data>
+  <data name="Home_Password" xml:space="preserve">
+    <value>كلمة المرور</value>
+  </data>
+  <data name="Home_PasswordPlaceholder" xml:space="preserve">
+    <value>أدخل كلمة المرور</value>
+  </data>
+  <data name="Home_Preview" xml:space="preserve">
+    <value>معاينة</value>
+  </data>
+  <data name="Home_Quick_Caption" xml:space="preserve">
+    <value>تثبيت twblazor، ثم سطران من الترميز والزر والتنبيه اللذان ينتجانهما.</value>
+  </data>
+  <data name="Home_Quick_Heading" xml:space="preserve">
+    <value>جاهز للعمل في دقائق</value>
+  </data>
+  <data name="Home_Quick_Installed" xml:space="preserve">
+    <value>تم تثبيت twblazor</value>
+  </data>
+  <data name="Home_Quick_Sub" xml:space="preserve">
+    <value>ثبّت، سجّل، ابنِ.</value>
+  </data>
+  <data name="Home_Quick_Window" xml:space="preserve">
+    <value>الطرفية وHome.razor</value>
+  </data>
+  <data name="Home_Release_AvgTime" xml:space="preserve">
+    <value>متوسط الوقت</value>
+  </data>
+  <data name="Home_Release_Deploys" xml:space="preserve">
+    <value>عمليات النشر</value>
+  </data>
+  <data name="Home_Release_Storage" xml:space="preserve">
+    <value>التخزين يقترب من الامتلاء.</value>
+  </data>
+  <data name="Home_Release_Title" xml:space="preserve">
+    <value>حالة الإصدار</value>
+  </data>
+  <data name="Home_RememberMe" xml:space="preserve">
+    <value>تذكرني</value>
+  </data>
+  <data name="Home_Rendered" xml:space="preserve">
+    <value>النتيجة</value>
+  </data>
+  <data name="Home_Rtl_Badge" xml:space="preserve">
+    <value>من اليمين إلى اليسار، مدمج</value>
+  </data>
+  <data name="Home_Rtl_Caption" xml:space="preserve">
+    <value>مثال حي على المكونات نفسها مرتبة من اليسار إلى اليمين ومن اليمين إلى اليسار. اختر اتجاهًا للتبديل.</value>
+  </data>
+  <data name="Home_Rtl_Follows_Body" xml:space="preserve">
+    <value>الثقافات التي تُكتب من اليمين إلى اليسار تنعكس تلقائيًا.</value>
+  </data>
+  <data name="Home_Rtl_Follows_Title" xml:space="preserve">
+    <value>يتبع اللغة</value>
+  </data>
+  <data name="Home_Rtl_GroupLabel" xml:space="preserve">
+    <value>اتجاه التخطيط</value>
+  </data>
+  <data name="Home_Rtl_HeadingAccent" xml:space="preserve">
+    <value>دون ورقة أنماط ثانية</value>
+  </data>
+  <data name="Home_Rtl_HeadingLead" xml:space="preserve">
+    <value>يُقرأ من اليمين إلى اليسار،</value>
+  </data>
+  <data name="Home_Rtl_Keys_Body" xml:space="preserve">
+    <value>مفاتيح الأسهم تتحرك في الاتجاه الذي تشير إليه، في كل مكون.</value>
+  </data>
+  <data name="Home_Rtl_Keys_Title" xml:space="preserve">
+    <value>مفاتيح تطابق الشاشة</value>
+  </data>
+  <data name="Home_Rtl_Link" xml:space="preserve">
+    <value>تعرّف على طريقة عمل الاتجاه من اليمين إلى اليسار</value>
+  </data>
+  <data name="Home_Rtl_Ltr" xml:space="preserve">
+    <value>من اليسار إلى اليمين</value>
+  </data>
+  <data name="Home_Rtl_Mix_Body" xml:space="preserve">
+    <value>غلّف أي جزء بـ TwDirectionProvider.</value>
+  </data>
+  <data name="Home_Rtl_Mix_Title" xml:space="preserve">
+    <value>امزج الاتجاهات في صفحة واحدة</value>
+  </data>
+  <data name="Home_Rtl_Rtl" xml:space="preserve">
+    <value>من اليمين إلى اليسار</value>
+  </data>
+  <data name="Home_Rtl_Sub" xml:space="preserve">
+    <value>العربية والعبرية والفارسية والأردية تعكس كل مكون: المسافات والأيقونات واللوحات ومفاتيح الأسهم.</value>
+  </data>
+  <data name="Home_SaveChanges" xml:space="preserve">
+    <value>حفظ التغييرات</value>
+  </data>
+  <data name="Home_Series_Database" xml:space="preserve">
+    <value>قاعدة البيانات</value>
+  </data>
+  <data name="Home_Series_Succeeded" xml:space="preserve">
+    <value>ناجحة</value>
+  </data>
+  <data name="Home_Series_WebApp" xml:space="preserve">
+    <value>تطبيق الويب</value>
+  </data>
+  <data name="Home_Series_Workers" xml:space="preserve">
+    <value>العمّال</value>
+  </data>
+  <data name="Home_Settings_DeployOnPush" xml:space="preserve">
+    <value>النشر عند الدفع</value>
+  </data>
+  <data name="Home_Settings_EmailAlerts" xml:space="preserve">
+    <value>تنبيهات البريد الإلكتروني</value>
+  </data>
+  <data name="Home_Settings_Environment" xml:space="preserve">
+    <value>البيئة</value>
+  </data>
+  <data name="Home_Settings_Private" xml:space="preserve">
+    <value>خاص</value>
+  </data>
+  <data name="Home_Settings_ProjectName" xml:space="preserve">
+    <value>اسم المشروع</value>
+  </data>
+  <data name="Home_Settings_Public" xml:space="preserve">
+    <value>عام</value>
+  </data>
+  <data name="Home_Settings_Reset" xml:space="preserve">
+    <value>إعادة تعيين</value>
+  </data>
+  <data name="Home_Settings_Saved" xml:space="preserve">
+    <value>تم حفظ الإعدادات.</value>
+  </data>
+  <data name="Home_Settings_Storage" xml:space="preserve">
+    <value>التخزين المستخدم</value>
+  </data>
+  <data name="Home_Settings_StorageAmount" xml:space="preserve">
+    <value>7.2 من 10 غيغابايت</value>
+  </data>
+  <data name="Home_Settings_Sub" xml:space="preserve">
+    <value>أدر طريقة إطلاق فريقك</value>
+  </data>
+  <data name="Home_Settings_Team" xml:space="preserve">
+    <value>الفريق</value>
+  </data>
+  <data name="Home_Settings_Title" xml:space="preserve">
+    <value>إعدادات المشروع</value>
+  </data>
+  <data name="Home_Settings_Visibility" xml:space="preserve">
+    <value>الظهور</value>
+  </data>
+  <data name="Home_SignIn" xml:space="preserve">
+    <value>تسجيل الدخول</value>
+  </data>
+  <data name="Home_Theming_Caption" xml:space="preserve">
+    <value>ثلاثة أسطر من Theme.cs تعيد تنسيق زر حي: مستدير بالكامل، وظل كبير، ولون أساسي جديد.</value>
+  </data>
+  <data name="Home_Theming_Defaults_Body" xml:space="preserve">
+    <value>حدد قيمة افتراضية مرة واحدة، وتجاوزها في أي نسخة.</value>
+  </data>
+  <data name="Home_Theming_Defaults_Title" xml:space="preserve">
+    <value>قيم افتراضية عامة، وتجاوزات محلية</value>
+  </data>
+  <data name="Home_Theming_Heading" xml:space="preserve">
+    <value>أعمق تخصيص لسمات Tailwind بين كل مكتبات Blazor</value>
+  </data>
+  <data name="Home_Theming_Jit_Body" xml:space="preserve">
+    <value>سلاسل نصية عادية يراها Tailwind. بلا قوائم safelist.</value>
+  </data>
+  <data name="Home_Theming_Jit_Title" xml:space="preserve">
+    <value>Tailwind حقيقي، وJIT حقيقي</value>
+  </data>
+  <data name="Home_Theming_Restyled" xml:space="preserve">
+    <value>أُعيد تنسيقه من Theme.cs، دون CSS</value>
+  </data>
+  <data name="Home_Theming_Sub" xml:space="preserve">
+    <value>كل تفصيل مرئي هو فئة Tailwind عادية تملكها، ومحددة النوع لكل مكون. لا صندوق أسود داخل DLL.</value>
+  </data>
+  <data name="Home_Theming_Tokens_Body" xml:space="preserve">
+    <value>حدد لونًا مرة واحدة وستتبعه كل المكونات.</value>
+  </data>
+  <data name="Home_Theming_Tokens_Title" xml:space="preserve">
+    <value>رموز تصميم قابلة لإعادة الاستخدام</value>
+  </data>
+  <data name="Home_Theming_Typed_Body" xml:space="preserve">
+    <value>فئة سمة واحدة بلغة C# لكل مكون، وكل فئة خاصية لها اسم.</value>
+  </data>
+  <data name="Home_Theming_Typed_Title" xml:space="preserve">
+    <value>كل فئة محددة النوع وقابلة للتجاوز</value>
+  </data>
+  <data name="Home_Why_Title" xml:space="preserve">
+    <value>لماذا twblazor؟</value>
+  </data>
+  <data name="Nav_AiAgents" xml:space="preserve">
+    <value>وكلاء الذكاء الاصطناعي والمهارات</value>
+  </data>
+  <data name="Nav_ApiDocs" xml:space="preserve">
+    <value>توثيق API</value>
+  </data>
+  <data name="Nav_ClassMerge" xml:space="preserve">
+    <value>دمج الفئات</value>
+  </data>
+  <data name="Nav_Configuration" xml:space="preserve">
+    <value>الإعدادات</value>
+  </data>
+  <data name="Nav_ConfiguringLocalization" xml:space="preserve">
+    <value>إعداد الترجمة</value>
+  </data>
+  <data name="Nav_GetStarted" xml:space="preserve">
+    <value>ابدأ هنا</value>
+  </data>
+  <data name="Nav_GetStartedGroup" xml:space="preserve">
+    <value>ابدأ هنا</value>
+  </data>
+  <data name="Nav_Group_chart-comparison-navitem" xml:space="preserve">
+    <value>المقارنة</value>
+  </data>
+  <data name="Nav_Group_chart-distribution-navitem" xml:space="preserve">
+    <value>التوزيع</value>
+  </data>
+  <data name="Nav_Group_chart-flow-navitem" xml:space="preserve">
+    <value>التدفقات</value>
+  </data>
+  <data name="Nav_Group_chart-hierarchy-navitem" xml:space="preserve">
+    <value>التسلسل الهرمي</value>
+  </data>
+  <data name="Nav_Group_chart-parts-navitem" xml:space="preserve">
+    <value>أجزاء من كل</value>
+  </data>
+  <data name="Nav_Group_chart-relationship-navitem" xml:space="preserve">
+    <value>العلاقات</value>
+  </data>
+  <data name="Nav_Group_chart-sets-navitem" xml:space="preserve">
+    <value>المجموعات</value>
+  </data>
+  <data name="Nav_Group_chart-time-navitem" xml:space="preserve">
+    <value>التغير عبر الزمن</value>
+  </data>
+  <data name="Nav_Group_chart-variables-navitem" xml:space="preserve">
+    <value>عدة متغيرات</value>
+  </data>
+  <data name="Nav_Group_charts" xml:space="preserve">
+    <value>المخططات</value>
+  </data>
+  <data name="Nav_Group_chat" xml:space="preserve">
+    <value>الدردشة</value>
+  </data>
+  <data name="Nav_Group_data" xml:space="preserve">
+    <value>البيانات</value>
+  </data>
+  <data name="Nav_Group_feedback" xml:space="preserve">
+    <value>الملاحظات</value>
+  </data>
+  <data name="Nav_Group_forms" xml:space="preserve">
+    <value>النماذج</value>
+  </data>
+  <data name="Nav_Group_inputs-navitem" xml:space="preserve">
+    <value>المدخلات</value>
+  </data>
+  <data name="Nav_Group_layout" xml:space="preserve">
+    <value>التخطيط</value>
+  </data>
+  <data name="Nav_Group_services" xml:space="preserve">
+    <value>الخدمات</value>
+  </data>
+  <data name="Nav_Home" xml:space="preserve">
+    <value>الرئيسية</value>
+  </data>
+  <data name="Nav_Localization" xml:space="preserve">
+    <value>الترجمة</value>
+  </data>
+  <data name="Nav_RtlProvider" xml:space="preserve">
+    <value>موفر RTL</value>
+  </data>
+  <data name="Nav_TailwindBlazor" xml:space="preserve">
+    <value>Tailwind مع Blazor</value>
+  </data>
+  <data name="Nav_Theme" xml:space="preserve">
+    <value>السمة</value>
+  </data>
+  <data name="Nav_WhyTwBlazor" xml:space="preserve">
+    <value>لماذا twblazor؟</value>
+  </data>
+</root>

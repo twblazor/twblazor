@@ -1,0 +1,772 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  English (neutral) strings for every TwBlazor component.
+
+  To add a language, copy this file to TwBlazorStrings.<culture>.resx (for example TwBlazorStrings.de.resx)
+  and translate each <value>. Keep the names and the {0} placeholders unchanged. A key that is missing from a
+  language file falls back to the value in this file.
+
+  The Format_ entries are optional .NET date and time format strings. Leave them empty to use the culture's own patterns.
+-->
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <!-- Common -->
+    <data name="Footer_Documentation" xml:space="preserve">
+    <value>ドキュメント</value>
+  </data>
+  <data name="Footer_FreeForever" xml:space="preserve">
+    <value>twblazor はこれからもずっと無料のオープンソースです。</value>
+  </data>
+  <data name="Footer_Label" xml:space="preserve">
+    <value>フッター</value>
+  </data>
+  <data name="Footer_License" xml:space="preserve">
+    <value>MIT ライセンス</value>
+  </data>
+  <data name="Footer_NewTab" xml:space="preserve">
+    <value>(新しいタブで開きます)</value>
+  </data>
+  <data name="Home_Back" xml:space="preserve">
+    <value>戻る</value>
+  </data>
+  <data name="Home_Brand_apple" xml:space="preserve">
+    <value>ゆとりある余白とやわらかな形。ピル型ボタン、大きな角丸タイル、影なし、半透明のナビゲーションバー。</value>
+  </data>
+  <data name="Home_Brand_Disclaimer" xml:space="preserve">
+    <value>twblazor は Microsoft、Apple、LEGO グループ、Tesco、Trading 212 と提携しておらず、承認や後援も受けていません。これらはカスタムテーマで何ができるかを示すための独立したサンプルであり、各社のウェブサイトではありません。製品名、価格、キャンペーン、市場データは説明用のものであり、金融に関する助言ではありません。ロゴと画像は各社のウェブサイトから取得したもので各社に帰属し、すべての商標はその所有者に帰属します。</value>
+  </data>
+  <data name="Home_Brand_lego" xml:space="preserve">
+    <value>明るく親しみやすく。黄色のバー、濃い文字のオレンジ色ピル型ボタン、青いリンク、太字の書体、フラットな白いカード。</value>
+  </data>
+  <data name="Home_Brand_microsoft" xml:space="preserve">
+    <value>すっきりと落ち着いたシステム風の見た目。2px の角、極細の枠線、控えめな影、フォーカスで下線が付く入力欄。</value>
+  </data>
+  <data name="Home_Brand_tesco" xml:space="preserve">
+    <value>明快で実用的。力強い青、タップしやすい大きなピル型ボタン、枠付きのフラットなタイル、セールには赤。</value>
+  </data>
+  <data name="Home_Brand_trading212" xml:space="preserve">
+    <value>クリーンで自信のある印象。鮮やかな青のピル型ボタン、大きく柔らかなカード、クールなニュートラル面、緑と赤は損益専用。</value>
+  </data>
+  <data name="Home_Case_Eyebrow" xml:space="preserve">
+    <value>実際の例を見る</value>
+  </data>
+  <data name="Home_Case_Heading" xml:space="preserve">
+    <value>5 つの有名なスタイル、1 つのコンポーネントライブラリ</value>
+  </data>
+  <data name="Home_Case_Inspired" xml:space="preserve">
+    <value>{0}&lt;span class=&quot;font-normal text-purple-200&quot;&gt; 風&lt;/span&gt;</value>
+  </data>
+  <data name="Home_Case_SeeTheme" xml:space="preserve">
+    <value>テーマを見る</value>
+  </data>
+  <data name="Home_Case_Sub" xml:space="preserve">
+    <value>同じコンポーネントに別の &lt;code&gt;Theme.cs&lt;/code&gt; を使っただけ。CSS の上書きはありません。</value>
+  </data>
+  <data name="Home_Chart_Day" xml:space="preserve">
+    <value>日</value>
+  </data>
+  <data name="Home_Chart_Deploys" xml:space="preserve">
+    <value>1 日あたりのデプロイ数</value>
+  </data>
+  <data name="Home_Chart_DeploysDesc" xml:space="preserve">
+    <value>過去 14 日間</value>
+  </data>
+  <data name="Home_Chart_Folder" xml:space="preserve">
+    <value>フォルダー</value>
+  </data>
+  <data name="Home_Chart_Hour" xml:space="preserve">
+    <value>時刻</value>
+  </data>
+  <data name="Home_Chart_Response" xml:space="preserve">
+    <value>応答時間</value>
+  </data>
+  <data name="Home_Chart_ResponseDesc" xml:space="preserve">
+    <value>95 パーセンタイル、過去 24 時間</value>
+  </data>
+  <data name="Home_Chart_Size" xml:space="preserve">
+    <value>サイズ</value>
+  </data>
+  <data name="Home_Chart_Storage" xml:space="preserve">
+    <value>フォルダー別のストレージ</value>
+  </data>
+  <data name="Home_Chart_StorageDesc" xml:space="preserve">
+    <value>10 フォルダーで 7.2 GB</value>
+  </data>
+  <data name="Home_Checkout_Account" xml:space="preserve">
+    <value>アカウント</value>
+  </data>
+  <data name="Home_Checkout_AccountDesc" xml:space="preserve">
+    <value>ログインを作成</value>
+  </data>
+  <data name="Home_Checkout_Done" xml:space="preserve">
+    <value>完了</value>
+  </data>
+  <data name="Home_Checkout_DoneDesc" xml:space="preserve">
+    <value>準備完了</value>
+  </data>
+  <data name="Home_Checkout_Notifications" xml:space="preserve">
+    <value>メール通知</value>
+  </data>
+  <data name="Home_Checkout_Preferences" xml:space="preserve">
+    <value>設定</value>
+  </data>
+  <data name="Home_Checkout_PreferencesDesc" xml:space="preserve">
+    <value>環境を調整</value>
+  </data>
+  <data name="Home_Checkout_Progress" xml:space="preserve">
+    <value>購入手続きの進捗</value>
+  </data>
+  <data name="Home_Checkout_Thanks" xml:space="preserve">
+    <value>ありがとうございます。準備が整いました。</value>
+  </data>
+  <data name="Home_Checkout_Title" xml:space="preserve">
+    <value>購入手続きのステッパー</value>
+  </data>
+  <data name="Home_Community_Heading" xml:space="preserve">
+    <value>Discord で会話に参加しよう</value>
+  </data>
+  <data name="Home_Community_Join" xml:space="preserve">
+    <value>Discord に参加</value>
+  </data>
+  <data name="Home_Community_Sub" xml:space="preserve">
+    <value>質問したり、作っているものを共有したりしましょう。</value>
+  </data>
+  <data name="Home_Cta_Heading" xml:space="preserve">
+    <value>すばらしいものを作る準備はできましたか?</value>
+  </data>
+  <data name="Home_Cta_Star" xml:space="preserve">
+    <value>GitHub でスターを付ける</value>
+  </data>
+  <data name="Home_Cta_Sub" xml:space="preserve">
+    <value>まずはドキュメントから。</value>
+  </data>
+  <data name="Home_Cycle_Admin" xml:space="preserve">
+    <value>管理画面</value>
+  </data>
+  <data name="Home_Cycle_Checkout" xml:space="preserve">
+    <value>購入画面</value>
+  </data>
+  <data name="Home_Cycle_Dashboard" xml:space="preserve">
+    <value>ダッシュボード</value>
+  </data>
+  <data name="Home_Cycle_Settings" xml:space="preserve">
+    <value>設定ページ</value>
+  </data>
+  <data name="Home_Cycle_SignIn" xml:space="preserve">
+    <value>ログインフォーム</value>
+  </data>
+  <data name="Home_Email" xml:space="preserve">
+    <value>メールアドレス</value>
+  </data>
+  <data name="Home_EmailPlaceholder" xml:space="preserve">
+    <value>メールアドレスを入力</value>
+  </data>
+  <data name="Home_Env_Development" xml:space="preserve">
+    <value>開発</value>
+  </data>
+  <data name="Home_Env_Production" xml:space="preserve">
+    <value>本番</value>
+  </data>
+  <data name="Home_Env_Staging" xml:space="preserve">
+    <value>ステージング</value>
+  </data>
+  <data name="Home_Examples_Heading" xml:space="preserve">
+    <value>本物のコンポーネント。すぐにアプリで使えます。</value>
+  </data>
+  <data name="Home_Examples_Sub" xml:space="preserve">
+    <value>どのサンプルも実際に動きます。試してみてください。</value>
+  </data>
+  <data name="Home_Failed" xml:space="preserve">
+    <value>失敗</value>
+  </data>
+  <data name="Home_Feature_A11y_Body" xml:space="preserve">
+    <value>ARIA とキーボード操作に標準対応。</value>
+  </data>
+  <data name="Home_Feature_A11y_Title" xml:space="preserve">
+    <value>最初からアクセシブル</value>
+  </data>
+  <data name="Home_Feature_Composable_Body" xml:space="preserve">
+    <value>普通の Blazor パラメーター。驚きはありません。</value>
+  </data>
+  <data name="Home_Feature_Composable_Title" xml:space="preserve">
+    <value>組み合わせ自在</value>
+  </data>
+  <data name="Home_Feature_Custom_Body" xml:space="preserve">
+    <value>あなたのブランドを、ライトでもダークでも。</value>
+  </data>
+  <data name="Home_Feature_Custom_Title" xml:space="preserve">
+    <value>自由にカスタマイズ</value>
+  </data>
+  <data name="Home_Feature_Fast_Body" xml:space="preserve">
+    <value>25 以上のコンポーネントをすぐに使えます。</value>
+  </data>
+  <data name="Home_Feature_Fast_Title" xml:space="preserve">
+    <value>すばやく構築</value>
+  </data>
+  <data name="Home_Features_HeadingFull" xml:space="preserve">
+    <value>次に作るなら: {0}、{1}。</value>
+  </data>
+  <data name="Home_Features_HeadingLead" xml:space="preserve">
+    <value>次に作るなら:</value>
+  </data>
+  <data name="Home_Features_HeadingTrail" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Home_Features_Pause" xml:space="preserve">
+    <value>切り替わる見出しを一時停止</value>
+  </data>
+  <data name="Home_Features_Play" xml:space="preserve">
+    <value>切り替わる見出しを再生</value>
+  </data>
+  <data name="Home_Folder_Apps" xml:space="preserve">
+    <value>アプリ</value>
+  </data>
+  <data name="Home_Folder_Backups" xml:space="preserve">
+    <value>バックアップ</value>
+  </data>
+  <data name="Home_Folder_Documents" xml:space="preserve">
+    <value>ドキュメント</value>
+  </data>
+  <data name="Home_Folder_Downloads" xml:space="preserve">
+    <value>ダウンロード</value>
+  </data>
+  <data name="Home_Folder_Fonts" xml:space="preserve">
+    <value>フォント</value>
+  </data>
+  <data name="Home_Folder_Music" xml:space="preserve">
+    <value>ミュージック</value>
+  </data>
+  <data name="Home_Folder_Photos" xml:space="preserve">
+    <value>写真</value>
+  </data>
+  <data name="Home_Folder_Projects" xml:space="preserve">
+    <value>プロジェクト</value>
+  </data>
+  <data name="Home_Folder_Temp" xml:space="preserve">
+    <value>一時ファイル</value>
+  </data>
+  <data name="Home_Folder_Videos" xml:space="preserve">
+    <value>ビデオ</value>
+  </data>
+  <data name="Home_GetStarted" xml:space="preserve">
+    <value>はじめる</value>
+  </data>
+  <data name="Home_Guides_Heading" xml:space="preserve">
+    <value>Tailwind と Blazor を一緒に</value>
+  </data>
+  <data name="Home_Guides_Install" xml:space="preserve">
+    <value>Server でも WebAssembly でも 9 ステップ。</value>
+  </data>
+  <data name="Home_Guides_Install_Title" xml:space="preserve">
+    <value>インストールガイド</value>
+  </data>
+  <data name="Home_Guides_Tailwind" xml:space="preserve">
+    <value>クラスの検出とテーマ設定のしくみ。</value>
+  </data>
+  <data name="Home_Guides_Tailwind_Title" xml:space="preserve">
+    <value>Blazor で Tailwind CSS</value>
+  </data>
+  <data name="Home_Guides_Why" xml:space="preserve">
+    <value>MIT ライセンスで Tailwind ネイティブ。</value>
+  </data>
+  <data name="Home_Hero_Badge" xml:space="preserve">
+    <value>無料、オープンソース、MIT ライセンス</value>
+  </data>
+  <data name="Home_Hero_GitHub" xml:space="preserve">
+    <value>GitHub で見る</value>
+  </data>
+  <data name="Home_Hero_Install" xml:space="preserve">
+    <value>インストール</value>
+  </data>
+  <data name="Home_Hero_Subtitle" xml:space="preserve">
+    <value>Blazor Server と WebAssembly のための、アクセシブルでテーマを自由に変えられるコンポーネント。</value>
+  </data>
+  <data name="Home_Hero_TitleAccent" xml:space="preserve">
+    <value>Blazor 向け</value>
+  </data>
+  <data name="Home_Hero_TitleLead" xml:space="preserve">
+    <value>Tailwind CSS コンポーネントライブラリ</value>
+  </data>
+  <data name="Home_Lang_ar" xml:space="preserve">
+    <value>アラビア語</value>
+  </data>
+  <data name="Home_Lang_bn" xml:space="preserve">
+    <value>ベンガル語</value>
+  </data>
+  <data name="Home_Lang_de" xml:space="preserve">
+    <value>ドイツ語</value>
+  </data>
+  <data name="Home_Lang_en" xml:space="preserve">
+    <value>英語</value>
+  </data>
+  <data name="Home_Lang_es" xml:space="preserve">
+    <value>スペイン語</value>
+  </data>
+  <data name="Home_Lang_fa" xml:space="preserve">
+    <value>ペルシア語</value>
+  </data>
+  <data name="Home_Lang_fr" xml:space="preserve">
+    <value>フランス語</value>
+  </data>
+  <data name="Home_Lang_hi" xml:space="preserve">
+    <value>ヒンディー語</value>
+  </data>
+  <data name="Home_Lang_id" xml:space="preserve">
+    <value>インドネシア語</value>
+  </data>
+  <data name="Home_Lang_it" xml:space="preserve">
+    <value>イタリア語</value>
+  </data>
+  <data name="Home_Lang_ja" xml:space="preserve">
+    <value>日本語</value>
+  </data>
+  <data name="Home_Lang_jv" xml:space="preserve">
+    <value>ジャワ語</value>
+  </data>
+  <data name="Home_Lang_ko" xml:space="preserve">
+    <value>韓国語</value>
+  </data>
+  <data name="Home_Lang_mr" xml:space="preserve">
+    <value>マラーティー語</value>
+  </data>
+  <data name="Home_Lang_paArab" xml:space="preserve">
+    <value>西パンジャーブ語</value>
+  </data>
+  <data name="Home_Lang_pl" xml:space="preserve">
+    <value>ポーランド語</value>
+  </data>
+  <data name="Home_Lang_pt" xml:space="preserve">
+    <value>ポルトガル語</value>
+  </data>
+  <data name="Home_Lang_ru" xml:space="preserve">
+    <value>ロシア語</value>
+  </data>
+  <data name="Home_Lang_ta" xml:space="preserve">
+    <value>タミル語</value>
+  </data>
+  <data name="Home_Lang_te" xml:space="preserve">
+    <value>テルグ語</value>
+  </data>
+  <data name="Home_Lang_tr" xml:space="preserve">
+    <value>トルコ語</value>
+  </data>
+  <data name="Home_Lang_ur" xml:space="preserve">
+    <value>ウルドゥー語</value>
+  </data>
+  <data name="Home_Lang_vi" xml:space="preserve">
+    <value>ベトナム語</value>
+  </data>
+  <data name="Home_Lang_zhHans" xml:space="preserve">
+    <value>中国語 (簡体字)</value>
+  </data>
+  <data name="Home_Lang_zhHant" xml:space="preserve">
+    <value>中国語 (繁体字)</value>
+  </data>
+  <data name="Home_Live_Caption" xml:space="preserve">
+    <value>twblazor のマークアップ 4 行と、そこから描画されるライブコンポーネント。</value>
+  </data>
+  <data name="Home_Live_Rendered" xml:space="preserve">
+    <value>4 つのコンポーネントを描画</value>
+  </data>
+  <data name="Home_Live_Replay" xml:space="preserve">
+    <value>もう一度再生</value>
+  </data>
+  <data name="Home_Live_ReplayTarget" xml:space="preserve">
+    <value>ライブビルド</value>
+  </data>
+  <data name="Home_Loc_Badge" xml:space="preserve">
+    <value>{0} 言語を標準搭載</value>
+  </data>
+  <data name="Home_Loc_Config_Body" xml:space="preserve">
+    <value>カルチャの固定、書式の設定、ローカライザーの差し替え。</value>
+  </data>
+  <data name="Home_Loc_Config_Title" xml:space="preserve">
+    <value>AddTwBlazor で設定</value>
+  </data>
+  <data name="Home_Loc_Dates_Body" xml:space="preserve">
+    <value>週の始まりや 12/24 時間表記はカルチャに従います。</value>
+  </data>
+  <data name="Home_Loc_Dates_Title" xml:space="preserve">
+    <value>ぴったりの日付と時刻</value>
+  </data>
+  <data name="Home_Loc_Disclaimer" xml:space="preserve">
+    <value>英語以外の翻訳は AI によるもので、まだレビューされていません。&lt;a href=&quot;/localization#localization-contributing&quot; class=&quot;font-medium text-purple-800 underline underline-offset-2 dark:text-purple-300&quot;&gt;修正を提案する&lt;/a&gt;。</value>
+  </data>
+  <data name="Home_Loc_HeadingAccent" xml:space="preserve">
+    <value>最初から</value>
+  </data>
+  <data name="Home_Loc_HeadingLead" xml:space="preserve">
+    <value>ユーザーの言語で話します、</value>
+  </data>
+  <data name="Home_Loc_LanguagesLabel" xml:space="preserve">
+    <value>対応言語</value>
+  </data>
+  <data name="Home_Loc_Link" xml:space="preserve">
+    <value>ローカライズのしくみを見る</value>
+  </data>
+  <data name="Home_Loc_More" xml:space="preserve">
+    <value>ほか {0} 言語</value>
+  </data>
+  <data name="Home_Loc_Resx_Body" xml:space="preserve">
+    <value>独自のリソースファイルで、どの文字列も追加・変更できます。</value>
+  </data>
+  <data name="Home_Loc_Resx_Title" xml:space="preserve">
+    <value>言語ごとに 1 つの .resx ファイル</value>
+  </data>
+  <data name="Home_Loc_Sub" xml:space="preserve">
+    <value>すべてのラベル、メッセージ、スクリーンリーダーの読み上げが翻訳され、日付はカルチャに従います。設定は不要です。</value>
+  </data>
+  <data name="Home_Merge_Badge" xml:space="preserve">
+    <value>標準搭載。npm も JavaScript も不要。</value>
+  </data>
+  <data name="Home_Merge_Caption" xml:space="preserve">
+    <value>クラスのマージのライブ例。例を選ぶと、コンポーネントに渡すクラスが変わります。</value>
+  </data>
+  <data name="Home_Merge_Color" xml:space="preserve">
+    <value>色</value>
+  </data>
+  <data name="Home_Merge_Configure_Body" xml:space="preserve">
+    <value>独自ユーティリティ、プレフィックス、無効化を AddTwBlazor で。</value>
+  </data>
+  <data name="Home_Merge_Configure_Title" xml:space="preserve">
+    <value>思いどおりに設定</value>
+  </data>
+  <data name="Home_Merge_GroupLabel" xml:space="preserve">
+    <value>クラスのマージの例</value>
+  </data>
+  <data name="Home_Merge_HeadingAccent" xml:space="preserve">
+    <value>最初から組み込み済み</value>
+  </data>
+  <data name="Home_Merge_HeadingLead" xml:space="preserve">
+    <value>Tailwind クラスのマージ、</value>
+  </data>
+  <data name="Home_Merge_LastWins_Body" xml:space="preserve">
+    <value>tailwind-merge の C# 移植版。インストール不要。</value>
+  </data>
+  <data name="Home_Merge_LastWins_Title" xml:space="preserve">
+    <value>最後のクラスが勝つ</value>
+  </data>
+  <data name="Home_Merge_Link" xml:space="preserve">
+    <value>クラスのマージのしくみを見る</value>
+  </data>
+  <data name="Home_Merge_Padding" xml:space="preserve">
+    <value>パディング</value>
+  </data>
+  <data name="Home_Merge_Replaced" xml:space="preserve">
+    <value>置き換え:</value>
+  </data>
+  <data name="Home_Merge_Shape" xml:space="preserve">
+    <value>形</value>
+  </data>
+  <data name="Home_Merge_Shorthand" xml:space="preserve">
+    <value>省略形</value>
+  </data>
+  <data name="Home_Merge_Sub" xml:space="preserve">
+    <value>&lt;code&gt;Class=&quot;px-3&quot;&lt;/code&gt; を渡すと、テーマの &lt;code&gt;px-6&lt;/code&gt; を置き換えます。常にあなたのクラスが勝ちます。</value>
+  </data>
+  <data name="Home_Merge_Theme" xml:space="preserve">
+    <value>テーマ</value>
+  </data>
+  <data name="Home_Merge_V4_Body" xml:space="preserve">
+    <value>バリアント、任意値、プレフィックスに対応し、700 以上のケースでテスト済み。</value>
+  </data>
+  <data name="Home_Merge_V4_Title" xml:space="preserve">
+    <value>Tailwind v4 を理解</value>
+  </data>
+  <data name="Home_Merge_YourClass" xml:space="preserve">
+    <value>あなたの Class</value>
+  </data>
+  <data name="Home_Next" xml:space="preserve">
+    <value>次へ</value>
+  </data>
+  <data name="Home_OpenSource" xml:space="preserve">
+    <value>いつでも無料、MIT ライセンス。コミュニティとともにオープンに開発しています。</value>
+  </data>
+  <data name="Home_Password" xml:space="preserve">
+    <value>パスワード</value>
+  </data>
+  <data name="Home_PasswordPlaceholder" xml:space="preserve">
+    <value>パスワードを入力</value>
+  </data>
+  <data name="Home_Preview" xml:space="preserve">
+    <value>プレビュー</value>
+  </data>
+  <data name="Home_Quick_Caption" xml:space="preserve">
+    <value>twblazor のインストール、続いてマークアップ 2 行と、そこから描画されるボタンとアラート。</value>
+  </data>
+  <data name="Home_Quick_Heading" xml:space="preserve">
+    <value>数分で動かせます</value>
+  </data>
+  <data name="Home_Quick_Installed" xml:space="preserve">
+    <value>twblazor をインストールしました</value>
+  </data>
+  <data name="Home_Quick_Sub" xml:space="preserve">
+    <value>インストールして、登録して、ビルド。</value>
+  </data>
+  <data name="Home_Quick_Window" xml:space="preserve">
+    <value>ターミナルと Home.razor</value>
+  </data>
+  <data name="Home_Release_AvgTime" xml:space="preserve">
+    <value>平均時間</value>
+  </data>
+  <data name="Home_Release_Deploys" xml:space="preserve">
+    <value>デプロイ</value>
+  </data>
+  <data name="Home_Release_Storage" xml:space="preserve">
+    <value>ストレージの残りが少なくなっています。</value>
+  </data>
+  <data name="Home_Release_Title" xml:space="preserve">
+    <value>リリースの状態</value>
+  </data>
+  <data name="Home_RememberMe" xml:space="preserve">
+    <value>ログイン状態を保持</value>
+  </data>
+  <data name="Home_Rendered" xml:space="preserve">
+    <value>描画結果</value>
+  </data>
+  <data name="Home_Rtl_Badge" xml:space="preserve">
+    <value>右から左に標準対応</value>
+  </data>
+  <data name="Home_Rtl_Caption" xml:space="preserve">
+    <value>同じコンポーネントを左から右、右から左に並べたライブ例。方向を選んで切り替えます。</value>
+  </data>
+  <data name="Home_Rtl_Follows_Body" xml:space="preserve">
+    <value>右から左に書くカルチャでは自動で反転します。</value>
+  </data>
+  <data name="Home_Rtl_Follows_Title" xml:space="preserve">
+    <value>言語に合わせる</value>
+  </data>
+  <data name="Home_Rtl_GroupLabel" xml:space="preserve">
+    <value>レイアウトの方向</value>
+  </data>
+  <data name="Home_Rtl_HeadingAccent" xml:space="preserve">
+    <value>2 つ目のスタイルシートなしで</value>
+  </data>
+  <data name="Home_Rtl_HeadingLead" xml:space="preserve">
+    <value>右から左にも読めます、</value>
+  </data>
+  <data name="Home_Rtl_Keys_Body" xml:space="preserve">
+    <value>すべてのコンポーネントで、矢印キーは指す方向に動きます。</value>
+  </data>
+  <data name="Home_Rtl_Keys_Title" xml:space="preserve">
+    <value>画面どおりに動くキー</value>
+  </data>
+  <data name="Home_Rtl_Link" xml:space="preserve">
+    <value>右から左のしくみを見る</value>
+  </data>
+  <data name="Home_Rtl_Ltr" xml:space="preserve">
+    <value>左から右</value>
+  </data>
+  <data name="Home_Rtl_Mix_Body" xml:space="preserve">
+    <value>任意の部分を TwDirectionProvider で囲むだけ。</value>
+  </data>
+  <data name="Home_Rtl_Mix_Title" xml:space="preserve">
+    <value>1 ページで方向を混在</value>
+  </data>
+  <data name="Home_Rtl_Rtl" xml:space="preserve">
+    <value>右から左</value>
+  </data>
+  <data name="Home_Rtl_Sub" xml:space="preserve">
+    <value>アラビア語、ヘブライ語、ペルシア語、ウルドゥー語では、余白、アイコン、パネル、矢印キーまで、すべてのコンポーネントが反転します。</value>
+  </data>
+  <data name="Home_SaveChanges" xml:space="preserve">
+    <value>変更を保存</value>
+  </data>
+  <data name="Home_Series_Database" xml:space="preserve">
+    <value>データベース</value>
+  </data>
+  <data name="Home_Series_Succeeded" xml:space="preserve">
+    <value>成功</value>
+  </data>
+  <data name="Home_Series_WebApp" xml:space="preserve">
+    <value>Web アプリ</value>
+  </data>
+  <data name="Home_Series_Workers" xml:space="preserve">
+    <value>ワーカー</value>
+  </data>
+  <data name="Home_Settings_DeployOnPush" xml:space="preserve">
+    <value>プッシュ時にデプロイ</value>
+  </data>
+  <data name="Home_Settings_EmailAlerts" xml:space="preserve">
+    <value>メールアラート</value>
+  </data>
+  <data name="Home_Settings_Environment" xml:space="preserve">
+    <value>環境</value>
+  </data>
+  <data name="Home_Settings_Private" xml:space="preserve">
+    <value>非公開</value>
+  </data>
+  <data name="Home_Settings_ProjectName" xml:space="preserve">
+    <value>プロジェクト名</value>
+  </data>
+  <data name="Home_Settings_Public" xml:space="preserve">
+    <value>公開</value>
+  </data>
+  <data name="Home_Settings_Reset" xml:space="preserve">
+    <value>リセット</value>
+  </data>
+  <data name="Home_Settings_Saved" xml:space="preserve">
+    <value>設定を保存しました。</value>
+  </data>
+  <data name="Home_Settings_Storage" xml:space="preserve">
+    <value>使用中のストレージ</value>
+  </data>
+  <data name="Home_Settings_StorageAmount" xml:space="preserve">
+    <value>10 GB 中 7.2 GB</value>
+  </data>
+  <data name="Home_Settings_Sub" xml:space="preserve">
+    <value>チームのリリース方法を管理</value>
+  </data>
+  <data name="Home_Settings_Team" xml:space="preserve">
+    <value>チーム</value>
+  </data>
+  <data name="Home_Settings_Title" xml:space="preserve">
+    <value>プロジェクト設定</value>
+  </data>
+  <data name="Home_Settings_Visibility" xml:space="preserve">
+    <value>公開範囲</value>
+  </data>
+  <data name="Home_SignIn" xml:space="preserve">
+    <value>ログイン</value>
+  </data>
+  <data name="Home_Theming_Caption" xml:space="preserve">
+    <value>Theme.cs の 3 行でライブのボタンのスタイルを変更: 完全な角丸、大きな影、新しいプライマリカラー。</value>
+  </data>
+  <data name="Home_Theming_Defaults_Body" xml:space="preserve">
+    <value>既定値を一度設定し、どのインスタンスでも上書きできます。</value>
+  </data>
+  <data name="Home_Theming_Defaults_Title" xml:space="preserve">
+    <value>グローバルな既定値とローカルな上書き</value>
+  </data>
+  <data name="Home_Theming_Heading" xml:space="preserve">
+    <value>Blazor ライブラリで最も深い Tailwind テーマ設定</value>
+  </data>
+  <data name="Home_Theming_Jit_Body" xml:space="preserve">
+    <value>Tailwind が読み取れる普通の文字列リテラル。safelist は不要。</value>
+  </data>
+  <data name="Home_Theming_Jit_Title" xml:space="preserve">
+    <value>本物の Tailwind、本物の JIT</value>
+  </data>
+  <data name="Home_Theming_Restyled" xml:space="preserve">
+    <value>Theme.cs だけでスタイル変更、CSS なし</value>
+  </data>
+  <data name="Home_Theming_Sub" xml:space="preserve">
+    <value>見た目の細部はすべて、あなたが所有する普通の Tailwind クラスで、コンポーネントごとに型付けされています。DLL の中のブラックボックスはありません。</value>
+  </data>
+  <data name="Home_Theming_Tokens_Body" xml:space="preserve">
+    <value>色を一度設定すれば、すべてのコンポーネントが従います。</value>
+  </data>
+  <data name="Home_Theming_Tokens_Title" xml:space="preserve">
+    <value>再利用できるデザイントークン</value>
+  </data>
+  <data name="Home_Theming_Typed_Body" xml:space="preserve">
+    <value>コンポーネントごとに C# のテーマクラスが 1 つ。各クラスは名前付きのプロパティです。</value>
+  </data>
+  <data name="Home_Theming_Typed_Title" xml:space="preserve">
+    <value>すべてのクラスが型付きで上書き可能</value>
+  </data>
+  <data name="Home_Why_Title" xml:space="preserve">
+    <value>twblazor を選ぶ理由</value>
+  </data>
+  <data name="Nav_AiAgents" xml:space="preserve">
+    <value>AI エージェントとスキル</value>
+  </data>
+  <data name="Nav_ApiDocs" xml:space="preserve">
+    <value>API ドキュメント</value>
+  </data>
+  <data name="Nav_ClassMerge" xml:space="preserve">
+    <value>クラスのマージ</value>
+  </data>
+  <data name="Nav_Configuration" xml:space="preserve">
+    <value>構成</value>
+  </data>
+  <data name="Nav_ConfiguringLocalization" xml:space="preserve">
+    <value>ローカライズの構成</value>
+  </data>
+  <data name="Nav_GetStarted" xml:space="preserve">
+    <value>はじめに</value>
+  </data>
+  <data name="Nav_GetStartedGroup" xml:space="preserve">
+    <value>はじめに</value>
+  </data>
+  <data name="Nav_Group_chart-comparison-navitem" xml:space="preserve">
+    <value>比較</value>
+  </data>
+  <data name="Nav_Group_chart-distribution-navitem" xml:space="preserve">
+    <value>分布</value>
+  </data>
+  <data name="Nav_Group_chart-flow-navitem" xml:space="preserve">
+    <value>フロー</value>
+  </data>
+  <data name="Nav_Group_chart-hierarchy-navitem" xml:space="preserve">
+    <value>階層</value>
+  </data>
+  <data name="Nav_Group_chart-parts-navitem" xml:space="preserve">
+    <value>全体の内訳</value>
+  </data>
+  <data name="Nav_Group_chart-relationship-navitem" xml:space="preserve">
+    <value>関係</value>
+  </data>
+  <data name="Nav_Group_chart-sets-navitem" xml:space="preserve">
+    <value>集合</value>
+  </data>
+  <data name="Nav_Group_chart-time-navitem" xml:space="preserve">
+    <value>時間による変化</value>
+  </data>
+  <data name="Nav_Group_chart-variables-navitem" xml:space="preserve">
+    <value>複数の変数</value>
+  </data>
+  <data name="Nav_Group_charts" xml:space="preserve">
+    <value>チャート</value>
+  </data>
+  <data name="Nav_Group_chat" xml:space="preserve">
+    <value>チャット</value>
+  </data>
+  <data name="Nav_Group_data" xml:space="preserve">
+    <value>データ</value>
+  </data>
+  <data name="Nav_Group_feedback" xml:space="preserve">
+    <value>フィードバック</value>
+  </data>
+  <data name="Nav_Group_forms" xml:space="preserve">
+    <value>フォーム</value>
+  </data>
+  <data name="Nav_Group_inputs-navitem" xml:space="preserve">
+    <value>入力</value>
+  </data>
+  <data name="Nav_Group_layout" xml:space="preserve">
+    <value>レイアウト</value>
+  </data>
+  <data name="Nav_Group_services" xml:space="preserve">
+    <value>サービス</value>
+  </data>
+  <data name="Nav_Home" xml:space="preserve">
+    <value>ホーム</value>
+  </data>
+  <data name="Nav_Localization" xml:space="preserve">
+    <value>ローカライズ</value>
+  </data>
+  <data name="Nav_RtlProvider" xml:space="preserve">
+    <value>RTL プロバイダー</value>
+  </data>
+  <data name="Nav_TailwindBlazor" xml:space="preserve">
+    <value>Blazor で Tailwind</value>
+  </data>
+  <data name="Nav_Theme" xml:space="preserve">
+    <value>テーマ</value>
+  </data>
+  <data name="Nav_WhyTwBlazor" xml:space="preserve">
+    <value>twblazor を選ぶ理由</value>
+  </data>
+</root>

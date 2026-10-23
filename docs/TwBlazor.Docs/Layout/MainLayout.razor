@@ -1,15 +1,20 @@
-﻿@inherits LayoutComponentBase
+@inherits DocsLayoutBase
 @using TwBlazor.Components
 
-<Navigation>
-    @Body
-</Navigation>
+@* Follows the language unless the reader picks a direction in the navbar. *@
+<TwDirectionProvider Direction="@directionState.Direction">
+    <CascadingValue Value="directionState" IsFixed="true">
+        <Navigation>
+            @Body
+        </Navigation>
+    </CascadingValue>
 
-@* #region CodeExample GetStartedProviders *@
-@* #region CodeExample ToastSetupProvider *@
-<TwToastProvider />
-@* #endregion *@
-@* #region CodeExample DialogSetupProvider *@
-<TwDialogProvider />
-@* #endregion *@
-@* #endregion *@
+    @* #region CodeExample GetStartedProviders *@
+    @* #region CodeExample ToastSetupProvider *@
+    <TwToastProvider />
+    @* #endregion *@
+    @* #region CodeExample DialogSetupProvider *@
+    <TwDialogProvider />
+    @* #endregion *@
+    @* #endregion *@
+</TwDirectionProvider>

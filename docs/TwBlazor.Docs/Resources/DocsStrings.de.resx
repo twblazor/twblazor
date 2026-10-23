@@ -1,0 +1,772 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  English (neutral) strings for every TwBlazor component.
+
+  To add a language, copy this file to TwBlazorStrings.<culture>.resx (for example TwBlazorStrings.de.resx)
+  and translate each <value>. Keep the names and the {0} placeholders unchanged. A key that is missing from a
+  language file falls back to the value in this file.
+
+  The Format_ entries are optional .NET date and time format strings. Leave them empty to use the culture's own patterns.
+-->
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <!-- Common -->
+    <data name="Footer_Documentation" xml:space="preserve">
+    <value>Dokumentation</value>
+  </data>
+  <data name="Footer_FreeForever" xml:space="preserve">
+    <value>twblazor ist und bleibt kostenlos und Open Source.</value>
+  </data>
+  <data name="Footer_Label" xml:space="preserve">
+    <value>Fußzeile</value>
+  </data>
+  <data name="Footer_License" xml:space="preserve">
+    <value>MIT-Lizenz</value>
+  </data>
+  <data name="Footer_NewTab" xml:space="preserve">
+    <value>(öffnet in einem neuen Tab)</value>
+  </data>
+  <data name="Home_Back" xml:space="preserve">
+    <value>Zurück</value>
+  </data>
+  <data name="Home_Brand_apple" xml:space="preserve">
+    <value>Viel Raum und weiche Formen: Pill-Buttons, große abgerundete Kacheln, keine Schatten und eine durchscheinende Navigationsleiste.</value>
+  </data>
+  <data name="Home_Brand_Disclaimer" xml:space="preserve">
+    <value>twblazor ist weder mit Microsoft, Apple, der LEGO Gruppe, Tesco noch Trading 212 verbunden, noch wird es von ihnen unterstützt oder gesponsert. Dies sind unabhängige Beispiele, die zeigen sollen, was ein eigenes Theme kann, und keine Websites dieser Unternehmen. Produktnamen, Preise, Angebote und Marktdaten dienen nur der Veranschaulichung, und nichts hier ist eine Finanzberatung. Logos und Bilder stammen von der Website des jeweiligen Unternehmens und bleiben dessen Eigentum, und alle Marken gehören ihren Inhabern.</value>
+  </data>
+  <data name="Home_Brand_lego" xml:space="preserve">
+    <value>Bunt und freundlich: eine gelbe Leiste, orange Pill-Buttons mit dunklem Text, blaue Links, fette Schrift und flache weiße Karten.</value>
+  </data>
+  <data name="Home_Brand_microsoft" xml:space="preserve">
+    <value>Ein klarer, ruhiger System-Look: 2px-Ecken, haarfeine Rahmen, dezente Elevation und Eingabefelder, die beim Fokus unterstrichen werden.</value>
+  </data>
+  <data name="Home_Brand_tesco" xml:space="preserve">
+    <value>Klar und praktisch: selbstbewusstes Blau, Pill-Buttons mit großen Touch-Flächen, flache umrandete Kacheln und Rot für Angebote.</value>
+  </data>
+  <data name="Home_Brand_trading212" xml:space="preserve">
+    <value>Klar und selbstsicher: knallblaue Pill-Buttons, große weiche Karten, kühle neutrale Flächen sowie Grün und Rot für Gewinne und Verluste.</value>
+  </data>
+  <data name="Home_Case_Eyebrow" xml:space="preserve">
+    <value>In Aktion sehen</value>
+  </data>
+  <data name="Home_Case_Heading" xml:space="preserve">
+    <value>Fünf bekannte Looks, eine Komponentenbibliothek</value>
+  </data>
+  <data name="Home_Case_Inspired" xml:space="preserve">
+    <value>&lt;span class=&quot;font-normal text-purple-200&quot;&gt;Inspiriert von &lt;/span&gt;{0}</value>
+  </data>
+  <data name="Home_Case_SeeTheme" xml:space="preserve">
+    <value>Theme ansehen</value>
+  </data>
+  <data name="Home_Case_Sub" xml:space="preserve">
+    <value>Dieselben Komponenten mit einer anderen &lt;code&gt;Theme.cs&lt;/code&gt;. Keine CSS-Überschreibungen.</value>
+  </data>
+  <data name="Home_Chart_Day" xml:space="preserve">
+    <value>Tag</value>
+  </data>
+  <data name="Home_Chart_Deploys" xml:space="preserve">
+    <value>Deployments pro Tag</value>
+  </data>
+  <data name="Home_Chart_DeploysDesc" xml:space="preserve">
+    <value>Letzte 14 Tage</value>
+  </data>
+  <data name="Home_Chart_Folder" xml:space="preserve">
+    <value>Ordner</value>
+  </data>
+  <data name="Home_Chart_Hour" xml:space="preserve">
+    <value>Stunde</value>
+  </data>
+  <data name="Home_Chart_Response" xml:space="preserve">
+    <value>Antwortzeit</value>
+  </data>
+  <data name="Home_Chart_ResponseDesc" xml:space="preserve">
+    <value>95. Perzentil, letzte 24 Stunden</value>
+  </data>
+  <data name="Home_Chart_Size" xml:space="preserve">
+    <value>Größe</value>
+  </data>
+  <data name="Home_Chart_Storage" xml:space="preserve">
+    <value>Speicher nach Ordner</value>
+  </data>
+  <data name="Home_Chart_StorageDesc" xml:space="preserve">
+    <value>7,2 GB in 10 Ordnern</value>
+  </data>
+  <data name="Home_Checkout_Account" xml:space="preserve">
+    <value>Konto</value>
+  </data>
+  <data name="Home_Checkout_AccountDesc" xml:space="preserve">
+    <value>Zugang erstellen</value>
+  </data>
+  <data name="Home_Checkout_Done" xml:space="preserve">
+    <value>Fertig</value>
+  </data>
+  <data name="Home_Checkout_DoneDesc" xml:space="preserve">
+    <value>Alles erledigt</value>
+  </data>
+  <data name="Home_Checkout_Notifications" xml:space="preserve">
+    <value>E-Mail-Benachrichtigungen</value>
+  </data>
+  <data name="Home_Checkout_Preferences" xml:space="preserve">
+    <value>Einstellungen</value>
+  </data>
+  <data name="Home_Checkout_PreferencesDesc" xml:space="preserve">
+    <value>Setup anpassen</value>
+  </data>
+  <data name="Home_Checkout_Progress" xml:space="preserve">
+    <value>Checkout-Fortschritt</value>
+  </data>
+  <data name="Home_Checkout_Thanks" xml:space="preserve">
+    <value>Danke, du kannst loslegen.</value>
+  </data>
+  <data name="Home_Checkout_Title" xml:space="preserve">
+    <value>Checkout-Stepper</value>
+  </data>
+  <data name="Home_Community_Heading" xml:space="preserve">
+    <value>Mach mit bei der Diskussion auf Discord</value>
+  </data>
+  <data name="Home_Community_Join" xml:space="preserve">
+    <value>Dem Discord beitreten</value>
+  </data>
+  <data name="Home_Community_Sub" xml:space="preserve">
+    <value>Stell Fragen und zeig, was du baust.</value>
+  </data>
+  <data name="Home_Cta_Heading" xml:space="preserve">
+    <value>Bereit, etwas Großartiges zu bauen?</value>
+  </data>
+  <data name="Home_Cta_Star" xml:space="preserve">
+    <value>Auf GitHub einen Stern geben</value>
+  </data>
+  <data name="Home_Cta_Sub" xml:space="preserve">
+    <value>Fang mit der Dokumentation an.</value>
+  </data>
+  <data name="Home_Cycle_Admin" xml:space="preserve">
+    <value>Admin-Panel</value>
+  </data>
+  <data name="Home_Cycle_Checkout" xml:space="preserve">
+    <value>Checkout</value>
+  </data>
+  <data name="Home_Cycle_Dashboard" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
+  <data name="Home_Cycle_Settings" xml:space="preserve">
+    <value>Einstellungsmenü</value>
+  </data>
+  <data name="Home_Cycle_SignIn" xml:space="preserve">
+    <value>Anmeldeformular</value>
+  </data>
+  <data name="Home_Email" xml:space="preserve">
+    <value>E-Mail</value>
+  </data>
+  <data name="Home_EmailPlaceholder" xml:space="preserve">
+    <value>E-Mail-Adresse eingeben</value>
+  </data>
+  <data name="Home_Env_Development" xml:space="preserve">
+    <value>Entwicklung</value>
+  </data>
+  <data name="Home_Env_Production" xml:space="preserve">
+    <value>Produktion</value>
+  </data>
+  <data name="Home_Env_Staging" xml:space="preserve">
+    <value>Staging</value>
+  </data>
+  <data name="Home_Examples_Heading" xml:space="preserve">
+    <value>Echte Komponenten. Bereit für deine App.</value>
+  </data>
+  <data name="Home_Examples_Sub" xml:space="preserve">
+    <value>Jedes Beispiel ist live. Probier sie aus.</value>
+  </data>
+  <data name="Home_Failed" xml:space="preserve">
+    <value>Fehlgeschlagen</value>
+  </data>
+  <data name="Home_Feature_A11y_Body" xml:space="preserve">
+    <value>ARIA- und Tastaturunterstützung eingebaut.</value>
+  </data>
+  <data name="Home_Feature_A11y_Title" xml:space="preserve">
+    <value>Von Haus aus barrierefrei</value>
+  </data>
+  <data name="Home_Feature_Composable_Body" xml:space="preserve">
+    <value>Ganz normale Blazor-Parameter. Keine Überraschungen.</value>
+  </data>
+  <data name="Home_Feature_Composable_Title" xml:space="preserve">
+    <value>Kombinierbar</value>
+  </data>
+  <data name="Home_Feature_Custom_Body" xml:space="preserve">
+    <value>Deine Marke, im hellen und dunklen Modus.</value>
+  </data>
+  <data name="Home_Feature_Custom_Title" xml:space="preserve">
+    <value>Vollständig anpassbar</value>
+  </data>
+  <data name="Home_Feature_Fast_Body" xml:space="preserve">
+    <value>Über 25 Komponenten, bereit zum Ausliefern.</value>
+  </data>
+  <data name="Home_Feature_Fast_Title" xml:space="preserve">
+    <value>Schnell gebaut</value>
+  </data>
+  <data name="Home_Features_HeadingFull" xml:space="preserve">
+    <value>Gebaut für dein nächstes {0} oder {1}.</value>
+  </data>
+  <data name="Home_Features_HeadingLead" xml:space="preserve">
+    <value>Gebaut für dein nächstes</value>
+  </data>
+  <data name="Home_Features_HeadingTrail" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Home_Features_Pause" xml:space="preserve">
+    <value>Wechselnde Überschrift anhalten</value>
+  </data>
+  <data name="Home_Features_Play" xml:space="preserve">
+    <value>Wechselnde Überschrift abspielen</value>
+  </data>
+  <data name="Home_Folder_Apps" xml:space="preserve">
+    <value>Apps</value>
+  </data>
+  <data name="Home_Folder_Backups" xml:space="preserve">
+    <value>Backups</value>
+  </data>
+  <data name="Home_Folder_Documents" xml:space="preserve">
+    <value>Dokumente</value>
+  </data>
+  <data name="Home_Folder_Downloads" xml:space="preserve">
+    <value>Downloads</value>
+  </data>
+  <data name="Home_Folder_Fonts" xml:space="preserve">
+    <value>Schriften</value>
+  </data>
+  <data name="Home_Folder_Music" xml:space="preserve">
+    <value>Musik</value>
+  </data>
+  <data name="Home_Folder_Photos" xml:space="preserve">
+    <value>Fotos</value>
+  </data>
+  <data name="Home_Folder_Projects" xml:space="preserve">
+    <value>Projekte</value>
+  </data>
+  <data name="Home_Folder_Temp" xml:space="preserve">
+    <value>Temp</value>
+  </data>
+  <data name="Home_Folder_Videos" xml:space="preserve">
+    <value>Videos</value>
+  </data>
+  <data name="Home_GetStarted" xml:space="preserve">
+    <value>Loslegen</value>
+  </data>
+  <data name="Home_Guides_Heading" xml:space="preserve">
+    <value>Tailwind und Blazor, Hand in Hand</value>
+  </data>
+  <data name="Home_Guides_Install" xml:space="preserve">
+    <value>Server oder WebAssembly in neun Schritten.</value>
+  </data>
+  <data name="Home_Guides_Install_Title" xml:space="preserve">
+    <value>Installationsanleitung</value>
+  </data>
+  <data name="Home_Guides_Tailwind" xml:space="preserve">
+    <value>Wie deine Klassen gefunden und gestaltet werden.</value>
+  </data>
+  <data name="Home_Guides_Tailwind_Title" xml:space="preserve">
+    <value>Tailwind CSS mit Blazor</value>
+  </data>
+  <data name="Home_Guides_Why" xml:space="preserve">
+    <value>MIT-lizenziert und Tailwind-nativ.</value>
+  </data>
+  <data name="Home_Hero_Badge" xml:space="preserve">
+    <value>Kostenlos, Open Source und MIT-lizenziert</value>
+  </data>
+  <data name="Home_Hero_GitHub" xml:space="preserve">
+    <value>Auf GitHub ansehen</value>
+  </data>
+  <data name="Home_Hero_Install" xml:space="preserve">
+    <value>Installieren</value>
+  </data>
+  <data name="Home_Hero_Subtitle" xml:space="preserve">
+    <value>Barrierefreie, anpassbare Komponenten für Blazor Server und WebAssembly.</value>
+  </data>
+  <data name="Home_Hero_TitleAccent" xml:space="preserve">
+    <value>für Blazor</value>
+  </data>
+  <data name="Home_Hero_TitleLead" xml:space="preserve">
+    <value>Die Tailwind-CSS-Komponentenbibliothek</value>
+  </data>
+  <data name="Home_Lang_ar" xml:space="preserve">
+    <value>Arabisch</value>
+  </data>
+  <data name="Home_Lang_bn" xml:space="preserve">
+    <value>Bengalisch</value>
+  </data>
+  <data name="Home_Lang_de" xml:space="preserve">
+    <value>Deutsch</value>
+  </data>
+  <data name="Home_Lang_en" xml:space="preserve">
+    <value>Englisch</value>
+  </data>
+  <data name="Home_Lang_es" xml:space="preserve">
+    <value>Spanisch</value>
+  </data>
+  <data name="Home_Lang_fa" xml:space="preserve">
+    <value>Persisch</value>
+  </data>
+  <data name="Home_Lang_fr" xml:space="preserve">
+    <value>Französisch</value>
+  </data>
+  <data name="Home_Lang_hi" xml:space="preserve">
+    <value>Hindi</value>
+  </data>
+  <data name="Home_Lang_id" xml:space="preserve">
+    <value>Indonesisch</value>
+  </data>
+  <data name="Home_Lang_it" xml:space="preserve">
+    <value>Italienisch</value>
+  </data>
+  <data name="Home_Lang_ja" xml:space="preserve">
+    <value>Japanisch</value>
+  </data>
+  <data name="Home_Lang_jv" xml:space="preserve">
+    <value>Javanisch</value>
+  </data>
+  <data name="Home_Lang_ko" xml:space="preserve">
+    <value>Koreanisch</value>
+  </data>
+  <data name="Home_Lang_mr" xml:space="preserve">
+    <value>Marathi</value>
+  </data>
+  <data name="Home_Lang_paArab" xml:space="preserve">
+    <value>Westpunjabi</value>
+  </data>
+  <data name="Home_Lang_pl" xml:space="preserve">
+    <value>Polnisch</value>
+  </data>
+  <data name="Home_Lang_pt" xml:space="preserve">
+    <value>Portugiesisch</value>
+  </data>
+  <data name="Home_Lang_ru" xml:space="preserve">
+    <value>Russisch</value>
+  </data>
+  <data name="Home_Lang_ta" xml:space="preserve">
+    <value>Tamil</value>
+  </data>
+  <data name="Home_Lang_te" xml:space="preserve">
+    <value>Telugu</value>
+  </data>
+  <data name="Home_Lang_tr" xml:space="preserve">
+    <value>Türkisch</value>
+  </data>
+  <data name="Home_Lang_ur" xml:space="preserve">
+    <value>Urdu</value>
+  </data>
+  <data name="Home_Lang_vi" xml:space="preserve">
+    <value>Vietnamesisch</value>
+  </data>
+  <data name="Home_Lang_zhHans" xml:space="preserve">
+    <value>Chinesisch, vereinfacht</value>
+  </data>
+  <data name="Home_Lang_zhHant" xml:space="preserve">
+    <value>Chinesisch, traditionell</value>
+  </data>
+  <data name="Home_Live_Caption" xml:space="preserve">
+    <value>Vier Zeilen twblazor-Markup und die Live-Komponenten, die daraus entstehen.</value>
+  </data>
+  <data name="Home_Live_Rendered" xml:space="preserve">
+    <value>4 Komponenten gerendert</value>
+  </data>
+  <data name="Home_Live_Replay" xml:space="preserve">
+    <value>Wiederholen</value>
+  </data>
+  <data name="Home_Live_ReplayTarget" xml:space="preserve">
+    <value>den Live-Build</value>
+  </data>
+  <data name="Home_Loc_Badge" xml:space="preserve">
+    <value>{0} Sprachen, eingebaut</value>
+  </data>
+  <data name="Home_Loc_Config_Body" xml:space="preserve">
+    <value>Lege eine Kultur fest, setze ein Format oder tausche den Localizer aus.</value>
+  </data>
+  <data name="Home_Loc_Config_Title" xml:space="preserve">
+    <value>Konfiguriert in AddTwBlazor</value>
+  </data>
+  <data name="Home_Loc_Dates_Body" xml:space="preserve">
+    <value>Wochenbeginn und 12- oder 24-Stunden-Format folgen der Kultur.</value>
+  </data>
+  <data name="Home_Loc_Dates_Title" xml:space="preserve">
+    <value>Passende Datums- und Zeitangaben</value>
+  </data>
+  <data name="Home_Loc_Disclaimer" xml:space="preserve">
+    <value>Nicht-englische Übersetzungen wurden von einer KI erstellt und sind noch nicht geprüft. &lt;a href=&quot;/localization#localization-contributing&quot; class=&quot;font-medium text-purple-800 underline underline-offset-2 dark:text-purple-300&quot;&gt;Korrektur vorschlagen&lt;/a&gt;.</value>
+  </data>
+  <data name="Home_Loc_HeadingAccent" xml:space="preserve">
+    <value>direkt ab Werk</value>
+  </data>
+  <data name="Home_Loc_HeadingLead" xml:space="preserve">
+    <value>Spricht die Sprache deiner Nutzer,</value>
+  </data>
+  <data name="Home_Loc_LanguagesLabel" xml:space="preserve">
+    <value>Unterstützte Sprachen</value>
+  </data>
+  <data name="Home_Loc_Link" xml:space="preserve">
+    <value>So funktioniert die Lokalisierung</value>
+  </data>
+  <data name="Home_Loc_More" xml:space="preserve">
+    <value>und {0} weitere Sprachen</value>
+  </data>
+  <data name="Home_Loc_Resx_Body" xml:space="preserve">
+    <value>Füge mit eigenen Ressourcendateien beliebige Texte hinzu oder formuliere sie um.</value>
+  </data>
+  <data name="Home_Loc_Resx_Title" xml:space="preserve">
+    <value>Eine .resx-Datei pro Sprache</value>
+  </data>
+  <data name="Home_Loc_Sub" xml:space="preserve">
+    <value>Jede Beschriftung, jede Meldung und jede Screenreader-Ansage ist übersetzt, und Datumsangaben folgen der Kultur. Nichts einzurichten.</value>
+  </data>
+  <data name="Home_Merge_Badge" xml:space="preserve">
+    <value>Eingebaut. Kein npm, kein JavaScript.</value>
+  </data>
+  <data name="Home_Merge_Caption" xml:space="preserve">
+    <value>Ein Live-Beispiel für das Zusammenführen von Klassen. Wähle ein Beispiel, um die Klasse zu ändern, die an die Komponente übergeben wird.</value>
+  </data>
+  <data name="Home_Merge_Color" xml:space="preserve">
+    <value>Farbe</value>
+  </data>
+  <data name="Home_Merge_Configure_Body" xml:space="preserve">
+    <value>Eigene Utilities, ein Präfix oder ausgeschaltet, über AddTwBlazor.</value>
+  </data>
+  <data name="Home_Merge_Configure_Title" xml:space="preserve">
+    <value>Ganz nach deinen Wünschen</value>
+  </data>
+  <data name="Home_Merge_GroupLabel" xml:space="preserve">
+    <value>Beispiel für Klassen-Merge</value>
+  </data>
+  <data name="Home_Merge_HeadingAccent" xml:space="preserve">
+    <value>direkt eingebaut</value>
+  </data>
+  <data name="Home_Merge_HeadingLead" xml:space="preserve">
+    <value>Tailwind-Klassen zusammenführen,</value>
+  </data>
+  <data name="Home_Merge_LastWins_Body" xml:space="preserve">
+    <value>Eine C#-Portierung von tailwind-merge. Nichts zu installieren.</value>
+  </data>
+  <data name="Home_Merge_LastWins_Title" xml:space="preserve">
+    <value>Die letzte Klasse gewinnt</value>
+  </data>
+  <data name="Home_Merge_Link" xml:space="preserve">
+    <value>So funktioniert das Zusammenführen von Klassen</value>
+  </data>
+  <data name="Home_Merge_Padding" xml:space="preserve">
+    <value>Padding</value>
+  </data>
+  <data name="Home_Merge_Replaced" xml:space="preserve">
+    <value>Ersetzt:</value>
+  </data>
+  <data name="Home_Merge_Shape" xml:space="preserve">
+    <value>Form</value>
+  </data>
+  <data name="Home_Merge_Shorthand" xml:space="preserve">
+    <value>Kurzform</value>
+  </data>
+  <data name="Home_Merge_Sub" xml:space="preserve">
+    <value>Übergib &lt;code&gt;Class=&quot;px-3&quot;&lt;/code&gt;, und es ersetzt das &lt;code&gt;px-6&lt;/code&gt; des Themes. Deine Klasse gewinnt immer.</value>
+  </data>
+  <data name="Home_Merge_Theme" xml:space="preserve">
+    <value>Theme</value>
+  </data>
+  <data name="Home_Merge_V4_Body" xml:space="preserve">
+    <value>Varianten, beliebige Werte und Präfixe, getestet an über 700 Fällen.</value>
+  </data>
+  <data name="Home_Merge_V4_Title" xml:space="preserve">
+    <value>Versteht Tailwind v4</value>
+  </data>
+  <data name="Home_Merge_YourClass" xml:space="preserve">
+    <value>Deine Class</value>
+  </data>
+  <data name="Home_Next" xml:space="preserve">
+    <value>Weiter</value>
+  </data>
+  <data name="Home_OpenSource" xml:space="preserve">
+    <value>Kostenlos und MIT-lizenziert, für immer. Offen entwickelt mit der Community.</value>
+  </data>
+  <data name="Home_Password" xml:space="preserve">
+    <value>Passwort</value>
+  </data>
+  <data name="Home_PasswordPlaceholder" xml:space="preserve">
+    <value>Passwort eingeben</value>
+  </data>
+  <data name="Home_Preview" xml:space="preserve">
+    <value>Vorschau</value>
+  </data>
+  <data name="Home_Quick_Caption" xml:space="preserve">
+    <value>Die Installation von twblazor, dann zwei Zeilen Markup und der Button und die Meldung, die daraus entstehen.</value>
+  </data>
+  <data name="Home_Quick_Heading" xml:space="preserve">
+    <value>In wenigen Minuten startklar</value>
+  </data>
+  <data name="Home_Quick_Installed" xml:space="preserve">
+    <value>twblazor installiert</value>
+  </data>
+  <data name="Home_Quick_Sub" xml:space="preserve">
+    <value>Installieren, registrieren, bauen.</value>
+  </data>
+  <data name="Home_Quick_Window" xml:space="preserve">
+    <value>Terminal und Home.razor</value>
+  </data>
+  <data name="Home_Release_AvgTime" xml:space="preserve">
+    <value>Ø Dauer</value>
+  </data>
+  <data name="Home_Release_Deploys" xml:space="preserve">
+    <value>Deployments</value>
+  </data>
+  <data name="Home_Release_Storage" xml:space="preserve">
+    <value>Speicher fast voll.</value>
+  </data>
+  <data name="Home_Release_Title" xml:space="preserve">
+    <value>Release-Zustand</value>
+  </data>
+  <data name="Home_RememberMe" xml:space="preserve">
+    <value>Angemeldet bleiben</value>
+  </data>
+  <data name="Home_Rendered" xml:space="preserve">
+    <value>Gerendert</value>
+  </data>
+  <data name="Home_Rtl_Badge" xml:space="preserve">
+    <value>Rechts nach links, eingebaut</value>
+  </data>
+  <data name="Home_Rtl_Caption" xml:space="preserve">
+    <value>Ein Live-Beispiel derselben Komponenten, angeordnet von links nach rechts und von rechts nach links. Wähle eine Richtung zum Umschalten.</value>
+  </data>
+  <data name="Home_Rtl_Follows_Body" xml:space="preserve">
+    <value>Rechts-nach-links-Kulturen werden automatisch gespiegelt.</value>
+  </data>
+  <data name="Home_Rtl_Follows_Title" xml:space="preserve">
+    <value>Folgt der Sprache</value>
+  </data>
+  <data name="Home_Rtl_GroupLabel" xml:space="preserve">
+    <value>Layout-Richtung</value>
+  </data>
+  <data name="Home_Rtl_HeadingAccent" xml:space="preserve">
+    <value>ohne zweites Stylesheet</value>
+  </data>
+  <data name="Home_Rtl_HeadingLead" xml:space="preserve">
+    <value>Liest sich von rechts nach links,</value>
+  </data>
+  <data name="Home_Rtl_Keys_Body" xml:space="preserve">
+    <value>Pfeiltasten bewegen sich in jeder Komponente in die Richtung, in die sie zeigen.</value>
+  </data>
+  <data name="Home_Rtl_Keys_Title" xml:space="preserve">
+    <value>Tasten, die zum Bildschirm passen</value>
+  </data>
+  <data name="Home_Rtl_Link" xml:space="preserve">
+    <value>So funktioniert rechts nach links</value>
+  </data>
+  <data name="Home_Rtl_Ltr" xml:space="preserve">
+    <value>Links nach rechts</value>
+  </data>
+  <data name="Home_Rtl_Mix_Body" xml:space="preserve">
+    <value>Umschließe einen beliebigen Teil mit TwDirectionProvider.</value>
+  </data>
+  <data name="Home_Rtl_Mix_Title" xml:space="preserve">
+    <value>Richtungen auf einer Seite mischen</value>
+  </data>
+  <data name="Home_Rtl_Rtl" xml:space="preserve">
+    <value>Rechts nach links</value>
+  </data>
+  <data name="Home_Rtl_Sub" xml:space="preserve">
+    <value>Arabisch, Hebräisch, Persisch und Urdu spiegeln jede Komponente: Abstände, Icons, Panels und Pfeiltasten.</value>
+  </data>
+  <data name="Home_SaveChanges" xml:space="preserve">
+    <value>Änderungen speichern</value>
+  </data>
+  <data name="Home_Series_Database" xml:space="preserve">
+    <value>Datenbank</value>
+  </data>
+  <data name="Home_Series_Succeeded" xml:space="preserve">
+    <value>Erfolgreich</value>
+  </data>
+  <data name="Home_Series_WebApp" xml:space="preserve">
+    <value>Web-App</value>
+  </data>
+  <data name="Home_Series_Workers" xml:space="preserve">
+    <value>Worker</value>
+  </data>
+  <data name="Home_Settings_DeployOnPush" xml:space="preserve">
+    <value>Bei Push deployen</value>
+  </data>
+  <data name="Home_Settings_EmailAlerts" xml:space="preserve">
+    <value>E-Mail-Benachrichtigungen</value>
+  </data>
+  <data name="Home_Settings_Environment" xml:space="preserve">
+    <value>Umgebung</value>
+  </data>
+  <data name="Home_Settings_Private" xml:space="preserve">
+    <value>Privat</value>
+  </data>
+  <data name="Home_Settings_ProjectName" xml:space="preserve">
+    <value>Projektname</value>
+  </data>
+  <data name="Home_Settings_Public" xml:space="preserve">
+    <value>Öffentlich</value>
+  </data>
+  <data name="Home_Settings_Reset" xml:space="preserve">
+    <value>Zurücksetzen</value>
+  </data>
+  <data name="Home_Settings_Saved" xml:space="preserve">
+    <value>Einstellungen gespeichert.</value>
+  </data>
+  <data name="Home_Settings_Storage" xml:space="preserve">
+    <value>Belegter Speicher</value>
+  </data>
+  <data name="Home_Settings_StorageAmount" xml:space="preserve">
+    <value>7,2 von 10 GB</value>
+  </data>
+  <data name="Home_Settings_Sub" xml:space="preserve">
+    <value>Lege fest, wie dein Team ausliefert</value>
+  </data>
+  <data name="Home_Settings_Team" xml:space="preserve">
+    <value>Team</value>
+  </data>
+  <data name="Home_Settings_Title" xml:space="preserve">
+    <value>Projekteinstellungen</value>
+  </data>
+  <data name="Home_Settings_Visibility" xml:space="preserve">
+    <value>Sichtbarkeit</value>
+  </data>
+  <data name="Home_SignIn" xml:space="preserve">
+    <value>Anmelden</value>
+  </data>
+  <data name="Home_Theming_Caption" xml:space="preserve">
+    <value>Drei Zeilen Theme.cs, die einen Live-Button neu gestalten: vollständig abgerundet, ein großer Schatten und eine neue Primärfarbe.</value>
+  </data>
+  <data name="Home_Theming_Defaults_Body" xml:space="preserve">
+    <value>Lege einen Standard einmal fest und überschreibe jede beliebige Instanz.</value>
+  </data>
+  <data name="Home_Theming_Defaults_Title" xml:space="preserve">
+    <value>Globale Standards, lokale Überschreibungen</value>
+  </data>
+  <data name="Home_Theming_Heading" xml:space="preserve">
+    <value>Das tiefste Tailwind-Theming aller Blazor-Bibliotheken</value>
+  </data>
+  <data name="Home_Theming_Jit_Body" xml:space="preserve">
+    <value>Ganz normale Stringliterale, die Tailwind sehen kann. Keine Safelists.</value>
+  </data>
+  <data name="Home_Theming_Jit_Title" xml:space="preserve">
+    <value>Echtes Tailwind, echtes JIT</value>
+  </data>
+  <data name="Home_Theming_Restyled" xml:space="preserve">
+    <value>Neu gestaltet über Theme.cs, ohne CSS</value>
+  </data>
+  <data name="Home_Theming_Sub" xml:space="preserve">
+    <value>Jedes visuelle Detail ist eine ganz normale Tailwind-Klasse, die dir gehört, typisiert pro Komponente. Keine Blackbox in einer DLL.</value>
+  </data>
+  <data name="Home_Theming_Tokens_Body" xml:space="preserve">
+    <value>Lege eine Farbe einmal fest, und jede Komponente folgt.</value>
+  </data>
+  <data name="Home_Theming_Tokens_Title" xml:space="preserve">
+    <value>Wiederverwendbare Design-Tokens</value>
+  </data>
+  <data name="Home_Theming_Typed_Body" xml:space="preserve">
+    <value>Eine C#-Theme-Klasse pro Komponente, jede Klasse eine benannte Eigenschaft.</value>
+  </data>
+  <data name="Home_Theming_Typed_Title" xml:space="preserve">
+    <value>Jede Klasse typisiert und überschreibbar</value>
+  </data>
+  <data name="Home_Why_Title" xml:space="preserve">
+    <value>Warum twblazor?</value>
+  </data>
+  <data name="Nav_AiAgents" xml:space="preserve">
+    <value>KI-Agenten und Skills</value>
+  </data>
+  <data name="Nav_ApiDocs" xml:space="preserve">
+    <value>API-Dokumentation</value>
+  </data>
+  <data name="Nav_ClassMerge" xml:space="preserve">
+    <value>Klassen-Merge</value>
+  </data>
+  <data name="Nav_Configuration" xml:space="preserve">
+    <value>Konfiguration</value>
+  </data>
+  <data name="Nav_ConfiguringLocalization" xml:space="preserve">
+    <value>Lokalisierung konfigurieren</value>
+  </data>
+  <data name="Nav_GetStarted" xml:space="preserve">
+    <value>Erste Schritte</value>
+  </data>
+  <data name="Nav_GetStartedGroup" xml:space="preserve">
+    <value>Erste Schritte</value>
+  </data>
+  <data name="Nav_Group_chart-comparison-navitem" xml:space="preserve">
+    <value>Vergleich</value>
+  </data>
+  <data name="Nav_Group_chart-distribution-navitem" xml:space="preserve">
+    <value>Verteilung</value>
+  </data>
+  <data name="Nav_Group_chart-flow-navitem" xml:space="preserve">
+    <value>Flüsse</value>
+  </data>
+  <data name="Nav_Group_chart-hierarchy-navitem" xml:space="preserve">
+    <value>Hierarchie</value>
+  </data>
+  <data name="Nav_Group_chart-parts-navitem" xml:space="preserve">
+    <value>Teile eines Ganzen</value>
+  </data>
+  <data name="Nav_Group_chart-relationship-navitem" xml:space="preserve">
+    <value>Beziehungen</value>
+  </data>
+  <data name="Nav_Group_chart-sets-navitem" xml:space="preserve">
+    <value>Mengen</value>
+  </data>
+  <data name="Nav_Group_chart-time-navitem" xml:space="preserve">
+    <value>Veränderung über die Zeit</value>
+  </data>
+  <data name="Nav_Group_chart-variables-navitem" xml:space="preserve">
+    <value>Mehrere Variablen</value>
+  </data>
+  <data name="Nav_Group_charts" xml:space="preserve">
+    <value>Diagramme</value>
+  </data>
+  <data name="Nav_Group_chat" xml:space="preserve">
+    <value>Chat</value>
+  </data>
+  <data name="Nav_Group_data" xml:space="preserve">
+    <value>Daten</value>
+  </data>
+  <data name="Nav_Group_feedback" xml:space="preserve">
+    <value>Feedback</value>
+  </data>
+  <data name="Nav_Group_forms" xml:space="preserve">
+    <value>Formulare</value>
+  </data>
+  <data name="Nav_Group_inputs-navitem" xml:space="preserve">
+    <value>Eingaben</value>
+  </data>
+  <data name="Nav_Group_layout" xml:space="preserve">
+    <value>Layout</value>
+  </data>
+  <data name="Nav_Group_services" xml:space="preserve">
+    <value>Dienste</value>
+  </data>
+  <data name="Nav_Home" xml:space="preserve">
+    <value>Startseite</value>
+  </data>
+  <data name="Nav_Localization" xml:space="preserve">
+    <value>Lokalisierung</value>
+  </data>
+  <data name="Nav_RtlProvider" xml:space="preserve">
+    <value>RTL-Provider</value>
+  </data>
+  <data name="Nav_TailwindBlazor" xml:space="preserve">
+    <value>Tailwind mit Blazor</value>
+  </data>
+  <data name="Nav_Theme" xml:space="preserve">
+    <value>Theme</value>
+  </data>
+  <data name="Nav_WhyTwBlazor" xml:space="preserve">
+    <value>Warum twblazor?</value>
+  </data>
+</root>

@@ -1,0 +1,772 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  English (neutral) strings for every TwBlazor component.
+
+  To add a language, copy this file to TwBlazorStrings.<culture>.resx (for example TwBlazorStrings.de.resx)
+  and translate each <value>. Keep the names and the {0} placeholders unchanged. A key that is missing from a
+  language file falls back to the value in this file.
+
+  The Format_ entries are optional .NET date and time format strings. Leave them empty to use the culture's own patterns.
+-->
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <!-- Common -->
+    <data name="Footer_Documentation" xml:space="preserve">
+    <value>డాక్యుమెంటేషన్</value>
+  </data>
+  <data name="Footer_FreeForever" xml:space="preserve">
+    <value>twblazor ఉచితం, ఓపెన్ సోర్స్, ఎప్పటికీ అలాగే ఉంటుంది.</value>
+  </data>
+  <data name="Footer_Label" xml:space="preserve">
+    <value>ఫుటర్</value>
+  </data>
+  <data name="Footer_License" xml:space="preserve">
+    <value>MIT లైసెన్స్</value>
+  </data>
+  <data name="Footer_NewTab" xml:space="preserve">
+    <value>(కొత్త ట్యాబ్‌లో తెరుచుకుంటుంది)</value>
+  </data>
+  <data name="Home_Back" xml:space="preserve">
+    <value>వెనుకకు</value>
+  </data>
+  <data name="Home_Brand_apple" xml:space="preserve">
+    <value>విశాలమైన ఖాళీ, మృదువైన ఆకారాలు: మాత్ర ఆకార బటన్‌లు, పెద్ద గుండ్రని టైల్స్, నీడలు లేవు, పారదర్శక నావిగేషన్ బార్.</value>
+  </data>
+  <data name="Home_Brand_Disclaimer" xml:space="preserve">
+    <value>twblazorకు Microsoft, Apple, LEGO గ్రూప్, Tesco లేదా Trading 212తో ఎలాంటి సంబంధం లేదు, అవి దీన్ని ఆమోదించలేదు లేదా ప్రాయోజితం చేయలేదు. ఇవి ఒక కస్టమ్ థీమ్ ఏమి చేయగలదో చూపడానికి చేసిన స్వతంత్ర ఉదాహరణలు, ఆ కంపెనీల వెబ్‌సైట్‌లు కావు. ఉత్పత్తుల పేర్లు, ధరలు, ఆఫర్‌లు, మార్కెట్ డేటా కేవలం ఉదాహరణ కోసమే, ఇక్కడ ఏదీ ఆర్థిక సలహా కాదు. లోగోలు, చిత్రాలు ప్రతి కంపెనీ సొంత వెబ్‌సైట్ నుండి తీసుకున్నవి, అవి ఆ కంపెనీకే చెందుతాయి; అన్ని ట్రేడ్‌మార్క్‌లు వాటి యజమానులవి.</value>
+  </data>
+  <data name="Home_Brand_lego" xml:space="preserve">
+    <value>ప్రకాశవంతంగా, స్నేహపూర్వకంగా: పసుపు బార్, ముదురు అక్షరాలతో నారింజ మాత్ర బటన్‌లు, నీలి లింక్‌లు, బోల్డ్ ఫాంట్, చదునైన తెల్ల కార్డులు.</value>
+  </data>
+  <data name="Home_Brand_microsoft" xml:space="preserve">
+    <value>స్పష్టమైన, ప్రశాంతమైన సిస్టమ్ రూపం: 2px మూలలు, సన్నని అంచులు, తేలికపాటి నీడ, ఫోకస్‌లో అండర్‌లైన్ అయ్యే ఇన్‌పుట్‌లు.</value>
+  </data>
+  <data name="Home_Brand_tesco" xml:space="preserve">
+    <value>స్పష్టంగా, ఆచరణాత్మకంగా: నమ్మకమైన నీలం, పెద్ద టచ్ ప్రాంతం గల మాత్ర బటన్‌లు, అంచులున్న చదునైన టైల్స్, ఆఫర్‌లకు ఎరుపు.</value>
+  </data>
+  <data name="Home_Brand_trading212" xml:space="preserve">
+    <value>శుభ్రంగా, ఆత్మవిశ్వాసంతో: మెరిసే నీలి మాత్ర బటన్‌లు, పెద్ద మృదువైన కార్డులు, చల్లని తటస్థ ఉపరితలాలు, ఆకుపచ్చ-ఎరుపు లాభనష్టాలకు మాత్రమే.</value>
+  </data>
+  <data name="Home_Case_Eyebrow" xml:space="preserve">
+    <value>పనిచేస్తుండగా చూడండి</value>
+  </data>
+  <data name="Home_Case_Heading" xml:space="preserve">
+    <value>ఐదు ప్రసిద్ధ రూపాలు, ఒకే కాంపోనెంట్ లైబ్రరీ</value>
+  </data>
+  <data name="Home_Case_Inspired" xml:space="preserve">
+    <value>{0}&lt;span class=&quot;font-normal text-purple-200&quot;&gt; శైలిలో&lt;/span&gt;</value>
+  </data>
+  <data name="Home_Case_SeeTheme" xml:space="preserve">
+    <value>థీమ్ చూడండి</value>
+  </data>
+  <data name="Home_Case_Sub" xml:space="preserve">
+    <value>అవే కాంపోనెంట్‌లు, వేరే &lt;code&gt;Theme.cs&lt;/code&gt;తో. CSS ఓవర్‌రైడ్‌లు లేవు.</value>
+  </data>
+  <data name="Home_Chart_Day" xml:space="preserve">
+    <value>రోజు</value>
+  </data>
+  <data name="Home_Chart_Deploys" xml:space="preserve">
+    <value>రోజుకు డిప్లాయ్‌లు</value>
+  </data>
+  <data name="Home_Chart_DeploysDesc" xml:space="preserve">
+    <value>గత 14 రోజులు</value>
+  </data>
+  <data name="Home_Chart_Folder" xml:space="preserve">
+    <value>ఫోల్డర్</value>
+  </data>
+  <data name="Home_Chart_Hour" xml:space="preserve">
+    <value>గంట</value>
+  </data>
+  <data name="Home_Chart_Response" xml:space="preserve">
+    <value>ప్రతిస్పందన సమయం</value>
+  </data>
+  <data name="Home_Chart_ResponseDesc" xml:space="preserve">
+    <value>95వ పర్సెంటైల్, గత 24 గంటలు</value>
+  </data>
+  <data name="Home_Chart_Size" xml:space="preserve">
+    <value>పరిమాణం</value>
+  </data>
+  <data name="Home_Chart_Storage" xml:space="preserve">
+    <value>ఫోల్డర్ వారీగా నిల్వ</value>
+  </data>
+  <data name="Home_Chart_StorageDesc" xml:space="preserve">
+    <value>10 ఫోల్డర్‌లలో 7.2 GB</value>
+  </data>
+  <data name="Home_Checkout_Account" xml:space="preserve">
+    <value>ఖాతా</value>
+  </data>
+  <data name="Home_Checkout_AccountDesc" xml:space="preserve">
+    <value>మీ లాగిన్ సృష్టించండి</value>
+  </data>
+  <data name="Home_Checkout_Done" xml:space="preserve">
+    <value>పూర్తయింది</value>
+  </data>
+  <data name="Home_Checkout_DoneDesc" xml:space="preserve">
+    <value>అంతా సిద్ధం</value>
+  </data>
+  <data name="Home_Checkout_Notifications" xml:space="preserve">
+    <value>ఇమెయిల్ నోటిఫికేషన్‌లు</value>
+  </data>
+  <data name="Home_Checkout_Preferences" xml:space="preserve">
+    <value>ప్రాధాన్యతలు</value>
+  </data>
+  <data name="Home_Checkout_PreferencesDesc" xml:space="preserve">
+    <value>మీ సెటప్‌ను సర్దుబాటు చేయండి</value>
+  </data>
+  <data name="Home_Checkout_Progress" xml:space="preserve">
+    <value>చెక్అవుట్ పురోగతి</value>
+  </data>
+  <data name="Home_Checkout_Thanks" xml:space="preserve">
+    <value>ధన్యవాదాలు, మీరు ప్రారంభించడానికి సిద్ధంగా ఉన్నారు.</value>
+  </data>
+  <data name="Home_Checkout_Title" xml:space="preserve">
+    <value>చెక్అవుట్ దశలు</value>
+  </data>
+  <data name="Home_Community_Heading" xml:space="preserve">
+    <value>Discordలో చర్చలో చేరండి</value>
+  </data>
+  <data name="Home_Community_Join" xml:space="preserve">
+    <value>Discordలో చేరండి</value>
+  </data>
+  <data name="Home_Community_Sub" xml:space="preserve">
+    <value>ప్రశ్నలు అడగండి, మీరు నిర్మిస్తున్నది పంచుకోండి.</value>
+  </data>
+  <data name="Home_Cta_Heading" xml:space="preserve">
+    <value>అద్భుతమైనది ఏదైనా నిర్మించడానికి సిద్ధమా?</value>
+  </data>
+  <data name="Home_Cta_Star" xml:space="preserve">
+    <value>GitHubలో స్టార్ ఇవ్వండి</value>
+  </data>
+  <data name="Home_Cta_Sub" xml:space="preserve">
+    <value>డాక్యుమెంటేషన్‌తో ప్రారంభించండి.</value>
+  </data>
+  <data name="Home_Cycle_Admin" xml:space="preserve">
+    <value>అడ్మిన్ ప్యానెల్</value>
+  </data>
+  <data name="Home_Cycle_Checkout" xml:space="preserve">
+    <value>చెక్అవుట్</value>
+  </data>
+  <data name="Home_Cycle_Dashboard" xml:space="preserve">
+    <value>డాష్‌బోర్డ్</value>
+  </data>
+  <data name="Home_Cycle_Settings" xml:space="preserve">
+    <value>సెట్టింగ్‌ల పేజీ</value>
+  </data>
+  <data name="Home_Cycle_SignIn" xml:space="preserve">
+    <value>సైన్-ఇన్ ఫారమ్</value>
+  </data>
+  <data name="Home_Email" xml:space="preserve">
+    <value>ఇమెయిల్</value>
+  </data>
+  <data name="Home_EmailPlaceholder" xml:space="preserve">
+    <value>మీ ఇమెయిల్ చిరునామా నమోదు చేయండి</value>
+  </data>
+  <data name="Home_Env_Development" xml:space="preserve">
+    <value>డెవలప్‌మెంట్</value>
+  </data>
+  <data name="Home_Env_Production" xml:space="preserve">
+    <value>ప్రొడక్షన్</value>
+  </data>
+  <data name="Home_Env_Staging" xml:space="preserve">
+    <value>స్టేజింగ్</value>
+  </data>
+  <data name="Home_Examples_Heading" xml:space="preserve">
+    <value>నిజమైన కాంపోనెంట్‌లు. మీ యాప్‌కు సిద్ధం.</value>
+  </data>
+  <data name="Home_Examples_Sub" xml:space="preserve">
+    <value>ప్రతి ఉదాహరణ లైవ్‌గా పనిచేస్తుంది. ప్రయత్నించండి.</value>
+  </data>
+  <data name="Home_Failed" xml:space="preserve">
+    <value>విఫలమైనవి</value>
+  </data>
+  <data name="Home_Feature_A11y_Body" xml:space="preserve">
+    <value>ARIA, కీబోర్డ్ మద్దతు అంతర్నిర్మితం.</value>
+  </data>
+  <data name="Home_Feature_A11y_Title" xml:space="preserve">
+    <value>డిఫాల్ట్‌గానే యాక్సెసిబుల్</value>
+  </data>
+  <data name="Home_Feature_Composable_Body" xml:space="preserve">
+    <value>సాధారణ Blazor పారామితులు. ఆశ్చర్యాలు లేవు.</value>
+  </data>
+  <data name="Home_Feature_Composable_Title" xml:space="preserve">
+    <value>కలపగలిగేవి</value>
+  </data>
+  <data name="Home_Feature_Custom_Body" xml:space="preserve">
+    <value>మీ బ్రాండ్, లైట్ మరియు డార్క్ మోడ్‌లలో.</value>
+  </data>
+  <data name="Home_Feature_Custom_Title" xml:space="preserve">
+    <value>పూర్తిగా అనుకూలీకరించదగినవి</value>
+  </data>
+  <data name="Home_Feature_Fast_Body" xml:space="preserve">
+    <value>25కి పైగా కాంపోనెంట్‌లు, విడుదలకు సిద్ధం.</value>
+  </data>
+  <data name="Home_Feature_Fast_Title" xml:space="preserve">
+    <value>వేగంగా నిర్మించండి</value>
+  </data>
+  <data name="Home_Features_HeadingFull" xml:space="preserve">
+    <value>మీ తదుపరి ప్రాజెక్ట్ కోసం: {0} లేదా {1}.</value>
+  </data>
+  <data name="Home_Features_HeadingLead" xml:space="preserve">
+    <value>మీ తదుపరి ప్రాజెక్ట్ కోసం:</value>
+  </data>
+  <data name="Home_Features_HeadingTrail" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Home_Features_Pause" xml:space="preserve">
+    <value>మారే శీర్షికను ఆపు</value>
+  </data>
+  <data name="Home_Features_Play" xml:space="preserve">
+    <value>మారే శీర్షికను ప్లే చేయి</value>
+  </data>
+  <data name="Home_Folder_Apps" xml:space="preserve">
+    <value>యాప్‌లు</value>
+  </data>
+  <data name="Home_Folder_Backups" xml:space="preserve">
+    <value>బ్యాకప్‌లు</value>
+  </data>
+  <data name="Home_Folder_Documents" xml:space="preserve">
+    <value>పత్రాలు</value>
+  </data>
+  <data name="Home_Folder_Downloads" xml:space="preserve">
+    <value>డౌన్‌లోడ్‌లు</value>
+  </data>
+  <data name="Home_Folder_Fonts" xml:space="preserve">
+    <value>ఫాంట్‌లు</value>
+  </data>
+  <data name="Home_Folder_Music" xml:space="preserve">
+    <value>సంగీతం</value>
+  </data>
+  <data name="Home_Folder_Photos" xml:space="preserve">
+    <value>ఫోటోలు</value>
+  </data>
+  <data name="Home_Folder_Projects" xml:space="preserve">
+    <value>ప్రాజెక్ట్‌లు</value>
+  </data>
+  <data name="Home_Folder_Temp" xml:space="preserve">
+    <value>తాత్కాలికం</value>
+  </data>
+  <data name="Home_Folder_Videos" xml:space="preserve">
+    <value>వీడియోలు</value>
+  </data>
+  <data name="Home_GetStarted" xml:space="preserve">
+    <value>ప్రారంభించండి</value>
+  </data>
+  <data name="Home_Guides_Heading" xml:space="preserve">
+    <value>Tailwind, Blazor కలిసి పనిచేస్తూ</value>
+  </data>
+  <data name="Home_Guides_Install" xml:space="preserve">
+    <value>Server లేదా WebAssembly, తొమ్మిది దశల్లో.</value>
+  </data>
+  <data name="Home_Guides_Install_Title" xml:space="preserve">
+    <value>ఇన్‌స్టాల్ గైడ్</value>
+  </data>
+  <data name="Home_Guides_Tailwind" xml:space="preserve">
+    <value>మీ క్లాస్‌లు ఎలా కనుగొనబడి థీమ్ చేయబడతాయి.</value>
+  </data>
+  <data name="Home_Guides_Tailwind_Title" xml:space="preserve">
+    <value>Blazorతో Tailwind CSS</value>
+  </data>
+  <data name="Home_Guides_Why" xml:space="preserve">
+    <value>MIT లైసెన్స్, Tailwind ఆధారితం.</value>
+  </data>
+  <data name="Home_Hero_Badge" xml:space="preserve">
+    <value>ఉచితం, ఓపెన్ సోర్స్, MIT లైసెన్స్</value>
+  </data>
+  <data name="Home_Hero_GitHub" xml:space="preserve">
+    <value>GitHubలో చూడండి</value>
+  </data>
+  <data name="Home_Hero_Install" xml:space="preserve">
+    <value>ఇన్‌స్టాల్</value>
+  </data>
+  <data name="Home_Hero_Subtitle" xml:space="preserve">
+    <value>Blazor Server, WebAssembly కోసం యాక్సెసిబుల్, థీమ్ చేయగల కాంపోనెంట్‌లు.</value>
+  </data>
+  <data name="Home_Hero_TitleAccent" xml:space="preserve">
+    <value>Blazor కోసం</value>
+  </data>
+  <data name="Home_Hero_TitleLead" xml:space="preserve">
+    <value>Tailwind CSS కాంపోనెంట్ లైబ్రరీ</value>
+  </data>
+  <data name="Home_Lang_ar" xml:space="preserve">
+    <value>అరబిక్</value>
+  </data>
+  <data name="Home_Lang_bn" xml:space="preserve">
+    <value>బెంగాలీ</value>
+  </data>
+  <data name="Home_Lang_de" xml:space="preserve">
+    <value>జర్మన్</value>
+  </data>
+  <data name="Home_Lang_en" xml:space="preserve">
+    <value>ఇంగ్లీష్</value>
+  </data>
+  <data name="Home_Lang_es" xml:space="preserve">
+    <value>స్పానిష్</value>
+  </data>
+  <data name="Home_Lang_fa" xml:space="preserve">
+    <value>పర్షియన్</value>
+  </data>
+  <data name="Home_Lang_fr" xml:space="preserve">
+    <value>ఫ్రెంచ్</value>
+  </data>
+  <data name="Home_Lang_hi" xml:space="preserve">
+    <value>హిందీ</value>
+  </data>
+  <data name="Home_Lang_id" xml:space="preserve">
+    <value>ఇండోనేషియన్</value>
+  </data>
+  <data name="Home_Lang_it" xml:space="preserve">
+    <value>ఇటాలియన్</value>
+  </data>
+  <data name="Home_Lang_ja" xml:space="preserve">
+    <value>జపనీస్</value>
+  </data>
+  <data name="Home_Lang_jv" xml:space="preserve">
+    <value>జావనీస్</value>
+  </data>
+  <data name="Home_Lang_ko" xml:space="preserve">
+    <value>కొరియన్</value>
+  </data>
+  <data name="Home_Lang_mr" xml:space="preserve">
+    <value>మరాఠీ</value>
+  </data>
+  <data name="Home_Lang_paArab" xml:space="preserve">
+    <value>పశ్చిమ పంజాబీ</value>
+  </data>
+  <data name="Home_Lang_pl" xml:space="preserve">
+    <value>పోలిష్</value>
+  </data>
+  <data name="Home_Lang_pt" xml:space="preserve">
+    <value>పోర్చుగీస్</value>
+  </data>
+  <data name="Home_Lang_ru" xml:space="preserve">
+    <value>రష్యన్</value>
+  </data>
+  <data name="Home_Lang_ta" xml:space="preserve">
+    <value>తమిళం</value>
+  </data>
+  <data name="Home_Lang_te" xml:space="preserve">
+    <value>తెలుగు</value>
+  </data>
+  <data name="Home_Lang_tr" xml:space="preserve">
+    <value>టర్కిష్</value>
+  </data>
+  <data name="Home_Lang_ur" xml:space="preserve">
+    <value>ఉర్దూ</value>
+  </data>
+  <data name="Home_Lang_vi" xml:space="preserve">
+    <value>వియత్నామీస్</value>
+  </data>
+  <data name="Home_Lang_zhHans" xml:space="preserve">
+    <value>సరళీకృత చైనీస్</value>
+  </data>
+  <data name="Home_Lang_zhHant" xml:space="preserve">
+    <value>సాంప్రదాయ చైనీస్</value>
+  </data>
+  <data name="Home_Live_Caption" xml:space="preserve">
+    <value>twblazor మార్కప్ నాలుగు పంక్తులు, అవి చూపే లైవ్ కాంపోనెంట్‌లు.</value>
+  </data>
+  <data name="Home_Live_Rendered" xml:space="preserve">
+    <value>4 కాంపోనెంట్‌లు రెండర్ అయ్యాయి</value>
+  </data>
+  <data name="Home_Live_Replay" xml:space="preserve">
+    <value>మళ్లీ ప్లే చేయి</value>
+  </data>
+  <data name="Home_Live_ReplayTarget" xml:space="preserve">
+    <value>లైవ్ బిల్డ్</value>
+  </data>
+  <data name="Home_Loc_Badge" xml:space="preserve">
+    <value>{0} భాషలు, అంతర్నిర్మితం</value>
+  </data>
+  <data name="Home_Loc_Config_Body" xml:space="preserve">
+    <value>కల్చర్‌ను స్థిరం చేయండి, ఫార్మాట్ సెట్ చేయండి లేదా లోకలైజర్ మార్చండి.</value>
+  </data>
+  <data name="Home_Loc_Config_Title" xml:space="preserve">
+    <value>AddTwBlazorలో కాన్ఫిగర్</value>
+  </data>
+  <data name="Home_Loc_Dates_Body" xml:space="preserve">
+    <value>వారం ప్రారంభం, 12 లేదా 24 గంటల సమయం కల్చర్‌ను అనుసరిస్తాయి.</value>
+  </data>
+  <data name="Home_Loc_Dates_Title" xml:space="preserve">
+    <value>సరిపోయే తేదీలు, సమయాలు</value>
+  </data>
+  <data name="Home_Loc_Disclaimer" xml:space="preserve">
+    <value>ఇంగ్లీష్ కాని అనువాదాలు AI చేసినవి, ఇంకా సమీక్షించబడలేదు. &lt;a href=&quot;/localization#localization-contributing&quot; class=&quot;font-medium text-purple-800 underline underline-offset-2 dark:text-purple-300&quot;&gt;దిద్దుబాటు సూచించండి&lt;/a&gt;.</value>
+  </data>
+  <data name="Home_Loc_HeadingAccent" xml:space="preserve">
+    <value>మొదటి నుంచే</value>
+  </data>
+  <data name="Home_Loc_HeadingLead" xml:space="preserve">
+    <value>మీ వినియోగదారుల భాష మాట్లాడుతుంది,</value>
+  </data>
+  <data name="Home_Loc_LanguagesLabel" xml:space="preserve">
+    <value>మద్దతు ఉన్న భాషలు</value>
+  </data>
+  <data name="Home_Loc_Link" xml:space="preserve">
+    <value>లోకలైజేషన్ ఎలా పనిచేస్తుందో చూడండి</value>
+  </data>
+  <data name="Home_Loc_More" xml:space="preserve">
+    <value>మరో {0} భాషలు</value>
+  </data>
+  <data name="Home_Loc_Resx_Body" xml:space="preserve">
+    <value>మీ సొంత రిసోర్స్ ఫైల్‌లతో ఏ వాక్యాన్నైనా జోడించండి లేదా మార్చండి.</value>
+  </data>
+  <data name="Home_Loc_Resx_Title" xml:space="preserve">
+    <value>ఒక్కో భాషకు ఒక .resx ఫైల్</value>
+  </data>
+  <data name="Home_Loc_Sub" xml:space="preserve">
+    <value>ప్రతి లేబుల్, సందేశం, స్క్రీన్ రీడర్ ప్రకటన అనువదించబడింది, తేదీలు కల్చర్‌ను అనుసరిస్తాయి. సెటప్ చేయాల్సిందేమీ లేదు.</value>
+  </data>
+  <data name="Home_Merge_Badge" xml:space="preserve">
+    <value>అంతర్నిర్మితం. npm లేదు, JavaScript లేదు.</value>
+  </data>
+  <data name="Home_Merge_Caption" xml:space="preserve">
+    <value>క్లాస్ మెర్జింగ్ లైవ్ ఉదాహరణ. కాంపోనెంట్‌కు పంపే క్లాస్‌ను మార్చడానికి ఒక ఉదాహరణ ఎంచుకోండి.</value>
+  </data>
+  <data name="Home_Merge_Color" xml:space="preserve">
+    <value>రంగు</value>
+  </data>
+  <data name="Home_Merge_Configure_Body" xml:space="preserve">
+    <value>కస్టమ్ యుటిలిటీలు, ఒక ప్రిఫిక్స్, లేదా ఆఫ్ చేయడం, AddTwBlazor నుండి.</value>
+  </data>
+  <data name="Home_Merge_Configure_Title" xml:space="preserve">
+    <value>మీకు నచ్చినట్లు కాన్ఫిగర్ చేయండి</value>
+  </data>
+  <data name="Home_Merge_GroupLabel" xml:space="preserve">
+    <value>క్లాస్ మెర్జింగ్ ఉదాహరణ</value>
+  </data>
+  <data name="Home_Merge_HeadingAccent" xml:space="preserve">
+    <value>లోపలే నిర్మించబడింది</value>
+  </data>
+  <data name="Home_Merge_HeadingLead" xml:space="preserve">
+    <value>Tailwind క్లాస్ మెర్జింగ్,</value>
+  </data>
+  <data name="Home_Merge_LastWins_Body" xml:space="preserve">
+    <value>tailwind-merge యొక్క C# పోర్ట్. ఇన్‌స్టాల్ చేయాల్సిందేమీ లేదు.</value>
+  </data>
+  <data name="Home_Merge_LastWins_Title" xml:space="preserve">
+    <value>చివరి క్లాస్ గెలుస్తుంది</value>
+  </data>
+  <data name="Home_Merge_Link" xml:space="preserve">
+    <value>క్లాస్ మెర్జింగ్ ఎలా పనిచేస్తుందో చూడండి</value>
+  </data>
+  <data name="Home_Merge_Padding" xml:space="preserve">
+    <value>ప్యాడింగ్</value>
+  </data>
+  <data name="Home_Merge_Replaced" xml:space="preserve">
+    <value>భర్తీ చేయబడింది:</value>
+  </data>
+  <data name="Home_Merge_Shape" xml:space="preserve">
+    <value>ఆకారం</value>
+  </data>
+  <data name="Home_Merge_Shorthand" xml:space="preserve">
+    <value>సంక్షిప్త రూపం</value>
+  </data>
+  <data name="Home_Merge_Sub" xml:space="preserve">
+    <value>&lt;code&gt;Class=&quot;px-3&quot;&lt;/code&gt; ఇవ్వండి, అది థీమ్‌లోని &lt;code&gt;px-6&lt;/code&gt;ను భర్తీ చేస్తుంది. మీ క్లాస్ ఎప్పుడూ గెలుస్తుంది.</value>
+  </data>
+  <data name="Home_Merge_Theme" xml:space="preserve">
+    <value>థీమ్</value>
+  </data>
+  <data name="Home_Merge_V4_Body" xml:space="preserve">
+    <value>వేరియంట్‌లు, ఏకపక్ష విలువలు, ప్రిఫిక్స్‌లు, 700కి పైగా కేసులపై పరీక్షించబడింది.</value>
+  </data>
+  <data name="Home_Merge_V4_Title" xml:space="preserve">
+    <value>Tailwind v4ను అర్థం చేసుకుంటుంది</value>
+  </data>
+  <data name="Home_Merge_YourClass" xml:space="preserve">
+    <value>మీ Class</value>
+  </data>
+  <data name="Home_Next" xml:space="preserve">
+    <value>తదుపరి</value>
+  </data>
+  <data name="Home_OpenSource" xml:space="preserve">
+    <value>ఎప్పటికీ ఉచితం, MIT లైసెన్స్. కమ్యూనిటీతో కలిసి బహిరంగంగా నిర్మించబడింది.</value>
+  </data>
+  <data name="Home_Password" xml:space="preserve">
+    <value>పాస్‌వర్డ్</value>
+  </data>
+  <data name="Home_PasswordPlaceholder" xml:space="preserve">
+    <value>మీ పాస్‌వర్డ్ నమోదు చేయండి</value>
+  </data>
+  <data name="Home_Preview" xml:space="preserve">
+    <value>ప్రివ్యూ</value>
+  </data>
+  <data name="Home_Quick_Caption" xml:space="preserve">
+    <value>twblazor ఇన్‌స్టాల్ చేయడం, తర్వాత రెండు పంక్తుల మార్కప్, అవి చూపే బటన్, అలర్ట్.</value>
+  </data>
+  <data name="Home_Quick_Heading" xml:space="preserve">
+    <value>నిమిషాల్లో సిద్ధం</value>
+  </data>
+  <data name="Home_Quick_Installed" xml:space="preserve">
+    <value>twblazor ఇన్‌స్టాల్ అయింది</value>
+  </data>
+  <data name="Home_Quick_Sub" xml:space="preserve">
+    <value>ఇన్‌స్టాల్ చేయండి, రిజిస్టర్ చేయండి, బిల్డ్ చేయండి.</value>
+  </data>
+  <data name="Home_Quick_Window" xml:space="preserve">
+    <value>టెర్మినల్, Home.razor</value>
+  </data>
+  <data name="Home_Release_AvgTime" xml:space="preserve">
+    <value>సగటు సమయం</value>
+  </data>
+  <data name="Home_Release_Deploys" xml:space="preserve">
+    <value>డిప్లాయ్‌లు</value>
+  </data>
+  <data name="Home_Release_Storage" xml:space="preserve">
+    <value>నిల్వ దాదాపు నిండిపోయింది.</value>
+  </data>
+  <data name="Home_Release_Title" xml:space="preserve">
+    <value>విడుదల స్థితి</value>
+  </data>
+  <data name="Home_RememberMe" xml:space="preserve">
+    <value>నన్ను గుర్తుంచుకో</value>
+  </data>
+  <data name="Home_Rendered" xml:space="preserve">
+    <value>ఫలితం</value>
+  </data>
+  <data name="Home_Rtl_Badge" xml:space="preserve">
+    <value>కుడి నుండి ఎడమకు, అంతర్నిర్మితం</value>
+  </data>
+  <data name="Home_Rtl_Caption" xml:space="preserve">
+    <value>అవే కాంపోనెంట్‌లు ఎడమ నుండి కుడికి, కుడి నుండి ఎడమకు అమర్చిన లైవ్ ఉదాహరణ. మార్చడానికి దిశను ఎంచుకోండి.</value>
+  </data>
+  <data name="Home_Rtl_Follows_Body" xml:space="preserve">
+    <value>కుడి నుండి ఎడమకు రాసే కల్చర్‌లు ఆటోమేటిక్‌గా ప్రతిబింబిస్తాయి.</value>
+  </data>
+  <data name="Home_Rtl_Follows_Title" xml:space="preserve">
+    <value>భాషను అనుసరిస్తుంది</value>
+  </data>
+  <data name="Home_Rtl_GroupLabel" xml:space="preserve">
+    <value>లేఅవుట్ దిశ</value>
+  </data>
+  <data name="Home_Rtl_HeadingAccent" xml:space="preserve">
+    <value>రెండో స్టైల్‌షీట్ లేకుండా</value>
+  </data>
+  <data name="Home_Rtl_HeadingLead" xml:space="preserve">
+    <value>కుడి నుండి ఎడమకు చదువుతుంది,</value>
+  </data>
+  <data name="Home_Rtl_Keys_Body" xml:space="preserve">
+    <value>ప్రతి కాంపోనెంట్‌లో బాణం కీలు అవి సూచించే దిశలోనే కదులుతాయి.</value>
+  </data>
+  <data name="Home_Rtl_Keys_Title" xml:space="preserve">
+    <value>స్క్రీన్‌కు సరిపోయే కీలు</value>
+  </data>
+  <data name="Home_Rtl_Link" xml:space="preserve">
+    <value>కుడి నుండి ఎడమ ఎలా పనిచేస్తుందో చూడండి</value>
+  </data>
+  <data name="Home_Rtl_Ltr" xml:space="preserve">
+    <value>ఎడమ నుండి కుడికి</value>
+  </data>
+  <data name="Home_Rtl_Mix_Body" xml:space="preserve">
+    <value>ఏ భాగాన్నైనా TwDirectionProviderలో చుట్టండి.</value>
+  </data>
+  <data name="Home_Rtl_Mix_Title" xml:space="preserve">
+    <value>ఒకే పేజీలో దిశలను కలపండి</value>
+  </data>
+  <data name="Home_Rtl_Rtl" xml:space="preserve">
+    <value>కుడి నుండి ఎడమకు</value>
+  </data>
+  <data name="Home_Rtl_Sub" xml:space="preserve">
+    <value>అరబిక్, హీబ్రూ, పర్షియన్, ఉర్దూ ప్రతి కాంపోనెంట్‌ను ప్రతిబింబిస్తాయి: ఖాళీలు, ఐకాన్‌లు, ప్యానెల్‌లు, బాణం కీలు.</value>
+  </data>
+  <data name="Home_SaveChanges" xml:space="preserve">
+    <value>మార్పులు సేవ్ చేయి</value>
+  </data>
+  <data name="Home_Series_Database" xml:space="preserve">
+    <value>డేటాబేస్</value>
+  </data>
+  <data name="Home_Series_Succeeded" xml:space="preserve">
+    <value>విజయవంతమైనవి</value>
+  </data>
+  <data name="Home_Series_WebApp" xml:space="preserve">
+    <value>వెబ్ యాప్</value>
+  </data>
+  <data name="Home_Series_Workers" xml:space="preserve">
+    <value>వర్కర్లు</value>
+  </data>
+  <data name="Home_Settings_DeployOnPush" xml:space="preserve">
+    <value>పుష్‌పై డిప్లాయ్</value>
+  </data>
+  <data name="Home_Settings_EmailAlerts" xml:space="preserve">
+    <value>ఇమెయిల్ అలర్ట్‌లు</value>
+  </data>
+  <data name="Home_Settings_Environment" xml:space="preserve">
+    <value>ఎన్విరాన్‌మెంట్</value>
+  </data>
+  <data name="Home_Settings_Private" xml:space="preserve">
+    <value>ప్రైవేట్</value>
+  </data>
+  <data name="Home_Settings_ProjectName" xml:space="preserve">
+    <value>ప్రాజెక్ట్ పేరు</value>
+  </data>
+  <data name="Home_Settings_Public" xml:space="preserve">
+    <value>పబ్లిక్</value>
+  </data>
+  <data name="Home_Settings_Reset" xml:space="preserve">
+    <value>రీసెట్</value>
+  </data>
+  <data name="Home_Settings_Saved" xml:space="preserve">
+    <value>సెట్టింగ్‌లు సేవ్ అయ్యాయి.</value>
+  </data>
+  <data name="Home_Settings_Storage" xml:space="preserve">
+    <value>ఉపయోగించిన నిల్వ</value>
+  </data>
+  <data name="Home_Settings_StorageAmount" xml:space="preserve">
+    <value>10 GBలో 7.2</value>
+  </data>
+  <data name="Home_Settings_Sub" xml:space="preserve">
+    <value>మీ టీమ్ ఎలా విడుదల చేస్తుందో నిర్వహించండి</value>
+  </data>
+  <data name="Home_Settings_Team" xml:space="preserve">
+    <value>టీమ్</value>
+  </data>
+  <data name="Home_Settings_Title" xml:space="preserve">
+    <value>ప్రాజెక్ట్ సెట్టింగ్‌లు</value>
+  </data>
+  <data name="Home_Settings_Visibility" xml:space="preserve">
+    <value>దృశ్యత</value>
+  </data>
+  <data name="Home_SignIn" xml:space="preserve">
+    <value>సైన్ ఇన్</value>
+  </data>
+  <data name="Home_Theming_Caption" xml:space="preserve">
+    <value>Theme.cs మూడు పంక్తులు ఒక లైవ్ బటన్ శైలిని మారుస్తాయి: పూర్తిగా గుండ్రంగా, పెద్ద నీడ, కొత్త ప్రాథమిక రంగు.</value>
+  </data>
+  <data name="Home_Theming_Defaults_Body" xml:space="preserve">
+    <value>డిఫాల్ట్‌ను ఒకసారి సెట్ చేయండి, ఏ ఇన్‌స్టెన్స్‌నైనా ఓవర్‌రైడ్ చేయండి.</value>
+  </data>
+  <data name="Home_Theming_Defaults_Title" xml:space="preserve">
+    <value>గ్లోబల్ డిఫాల్ట్‌లు, స్థానిక ఓవర్‌రైడ్‌లు</value>
+  </data>
+  <data name="Home_Theming_Heading" xml:space="preserve">
+    <value>ఏ Blazor లైబ్రరీలోనూ లేనంత లోతైన Tailwind థీమింగ్</value>
+  </data>
+  <data name="Home_Theming_Jit_Body" xml:space="preserve">
+    <value>Tailwind చూడగల సాధారణ స్ట్రింగ్ లిటరల్స్. safelistలు లేవు.</value>
+  </data>
+  <data name="Home_Theming_Jit_Title" xml:space="preserve">
+    <value>నిజమైన Tailwind, నిజమైన JIT</value>
+  </data>
+  <data name="Home_Theming_Restyled" xml:space="preserve">
+    <value>Theme.cs నుండి కొత్త శైలి, CSS లేకుండా</value>
+  </data>
+  <data name="Home_Theming_Sub" xml:space="preserve">
+    <value>ప్రతి దృశ్య వివరం మీకు చెందిన సాధారణ Tailwind క్లాస్, ప్రతి కాంపోనెంట్‌కు టైప్ చేయబడింది. DLL లోపల బ్లాక్ బాక్స్ లేదు.</value>
+  </data>
+  <data name="Home_Theming_Tokens_Body" xml:space="preserve">
+    <value>ఒకసారి రంగు సెట్ చేయండి, ప్రతి కాంపోనెంట్ దాన్ని అనుసరిస్తుంది.</value>
+  </data>
+  <data name="Home_Theming_Tokens_Title" xml:space="preserve">
+    <value>మళ్లీ వాడగల డిజైన్ టోకెన్‌లు</value>
+  </data>
+  <data name="Home_Theming_Typed_Body" xml:space="preserve">
+    <value>ప్రతి కాంపోనెంట్‌కు ఒక C# థీమ్ క్లాస్, ప్రతి క్లాస్ ఒక పేరున్న ప్రాపర్టీ.</value>
+  </data>
+  <data name="Home_Theming_Typed_Title" xml:space="preserve">
+    <value>ప్రతి క్లాస్ టైప్ చేయబడింది, ఓవర్‌రైడ్ చేయగలదు</value>
+  </data>
+  <data name="Home_Why_Title" xml:space="preserve">
+    <value>twblazor ఎందుకు?</value>
+  </data>
+  <data name="Nav_AiAgents" xml:space="preserve">
+    <value>AI ఏజెంట్లు, స్కిల్స్</value>
+  </data>
+  <data name="Nav_ApiDocs" xml:space="preserve">
+    <value>API డాక్యుమెంటేషన్</value>
+  </data>
+  <data name="Nav_ClassMerge" xml:space="preserve">
+    <value>క్లాస్ మెర్జ్</value>
+  </data>
+  <data name="Nav_Configuration" xml:space="preserve">
+    <value>కాన్ఫిగరేషన్</value>
+  </data>
+  <data name="Nav_ConfiguringLocalization" xml:space="preserve">
+    <value>లోకలైజేషన్ కాన్ఫిగర్ చేయడం</value>
+  </data>
+  <data name="Nav_GetStarted" xml:space="preserve">
+    <value>ప్రారంభించండి</value>
+  </data>
+  <data name="Nav_GetStartedGroup" xml:space="preserve">
+    <value>ప్రారంభించండి</value>
+  </data>
+  <data name="Nav_Group_chart-comparison-navitem" xml:space="preserve">
+    <value>పోలిక</value>
+  </data>
+  <data name="Nav_Group_chart-distribution-navitem" xml:space="preserve">
+    <value>పంపిణీ</value>
+  </data>
+  <data name="Nav_Group_chart-flow-navitem" xml:space="preserve">
+    <value>ప్రవాహాలు</value>
+  </data>
+  <data name="Nav_Group_chart-hierarchy-navitem" xml:space="preserve">
+    <value>అధికార క్రమం</value>
+  </data>
+  <data name="Nav_Group_chart-parts-navitem" xml:space="preserve">
+    <value>మొత్తంలో భాగాలు</value>
+  </data>
+  <data name="Nav_Group_chart-relationship-navitem" xml:space="preserve">
+    <value>సంబంధాలు</value>
+  </data>
+  <data name="Nav_Group_chart-sets-navitem" xml:space="preserve">
+    <value>సమితులు</value>
+  </data>
+  <data name="Nav_Group_chart-time-navitem" xml:space="preserve">
+    <value>కాలక్రమేణా మార్పు</value>
+  </data>
+  <data name="Nav_Group_chart-variables-navitem" xml:space="preserve">
+    <value>అనేక చరరాశులు</value>
+  </data>
+  <data name="Nav_Group_charts" xml:space="preserve">
+    <value>చార్ట్‌లు</value>
+  </data>
+  <data name="Nav_Group_chat" xml:space="preserve">
+    <value>చాట్</value>
+  </data>
+  <data name="Nav_Group_data" xml:space="preserve">
+    <value>డేటా</value>
+  </data>
+  <data name="Nav_Group_feedback" xml:space="preserve">
+    <value>ఫీడ్‌బ్యాక్</value>
+  </data>
+  <data name="Nav_Group_forms" xml:space="preserve">
+    <value>ఫారమ్‌లు</value>
+  </data>
+  <data name="Nav_Group_inputs-navitem" xml:space="preserve">
+    <value>ఇన్‌పుట్‌లు</value>
+  </data>
+  <data name="Nav_Group_layout" xml:space="preserve">
+    <value>లేఅవుట్</value>
+  </data>
+  <data name="Nav_Group_services" xml:space="preserve">
+    <value>సేవలు</value>
+  </data>
+  <data name="Nav_Home" xml:space="preserve">
+    <value>హోమ్</value>
+  </data>
+  <data name="Nav_Localization" xml:space="preserve">
+    <value>లోకలైజేషన్</value>
+  </data>
+  <data name="Nav_RtlProvider" xml:space="preserve">
+    <value>RTL ప్రొవైడర్</value>
+  </data>
+  <data name="Nav_TailwindBlazor" xml:space="preserve">
+    <value>Blazorతో Tailwind</value>
+  </data>
+  <data name="Nav_Theme" xml:space="preserve">
+    <value>థీమ్</value>
+  </data>
+  <data name="Nav_WhyTwBlazor" xml:space="preserve">
+    <value>twblazor ఎందుకు?</value>
+  </data>
+</root>

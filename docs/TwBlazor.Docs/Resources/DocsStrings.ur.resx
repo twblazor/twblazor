@@ -1,0 +1,772 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  English (neutral) strings for every TwBlazor component.
+
+  To add a language, copy this file to TwBlazorStrings.<culture>.resx (for example TwBlazorStrings.de.resx)
+  and translate each <value>. Keep the names and the {0} placeholders unchanged. A key that is missing from a
+  language file falls back to the value in this file.
+
+  The Format_ entries are optional .NET date and time format strings. Leave them empty to use the culture's own patterns.
+-->
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <!-- Common -->
+    <data name="Footer_Documentation" xml:space="preserve">
+    <value>دستاویزات</value>
+  </data>
+  <data name="Footer_FreeForever" xml:space="preserve">
+    <value>twblazor مفت اور اوپن سورس ہے اور ہمیشہ رہے گا۔</value>
+  </data>
+  <data name="Footer_Label" xml:space="preserve">
+    <value>فوٹر</value>
+  </data>
+  <data name="Footer_License" xml:space="preserve">
+    <value>MIT لائسنس</value>
+  </data>
+  <data name="Footer_NewTab" xml:space="preserve">
+    <value>(نئے ٹیب میں کھلتا ہے)</value>
+  </data>
+  <data name="Home_Back" xml:space="preserve">
+    <value>پیچھے</value>
+  </data>
+  <data name="Home_Brand_apple" xml:space="preserve">
+    <value>کشادہ جگہ اور نرم شکلیں: گولی نما بٹن، بڑے گول ٹائل، کوئی سایہ نہیں اور نیم شفاف نیویگیشن بار۔</value>
+  </data>
+  <data name="Home_Brand_Disclaimer" xml:space="preserve">
+    <value>twblazor کا Microsoft، Apple، LEGO گروپ، Tesco یا Trading 212 سے کوئی تعلق نہیں، نہ ہی انہوں نے اس کی توثیق یا سرپرستی کی ہے۔ یہ آزاد مثالیں ہیں جو یہ دکھانے کے لیے بنائی گئی ہیں کہ ایک حسبِ ضرورت تھیم کیا کر سکتی ہے، اور یہ ان کمپنیوں کی ویب سائٹس نہیں ہیں۔ مصنوعات کے نام، قیمتیں، پیشکشیں اور مارکیٹ کا ڈیٹا صرف مثال کے لیے ہیں، اور یہاں کچھ بھی مالی مشورہ نہیں ہے۔ لوگو اور تصاویر ہر کمپنی کی اپنی ویب سائٹ سے لی گئی ہیں اور اسی کی ملکیت رہتی ہیں، اور تمام ٹریڈ مارکس ان کے مالکان کے ہیں۔</value>
+  </data>
+  <data name="Home_Brand_lego" xml:space="preserve">
+    <value>روشن اور دوستانہ: پیلی پٹی، گہرے متن والے نارنجی گولی نما بٹن، نیلے لنکس، موٹا فونٹ اور سادہ سفید کارڈ۔</value>
+  </data>
+  <data name="Home_Brand_microsoft" xml:space="preserve">
+    <value>صاف اور پرسکون سسٹم انداز: 2px کونے، باریک کنارے، ہلکا سایہ اور فوکس پر نیچے لکیر والے ان پٹ۔</value>
+  </data>
+  <data name="Home_Brand_tesco" xml:space="preserve">
+    <value>واضح اور عملی: پُراعتماد نیلا، بڑے ٹچ ایریا والے گولی نما بٹن، کنارے والے سادہ ٹائل اور پیشکشوں کے لیے سرخ۔</value>
+  </data>
+  <data name="Home_Brand_trading212" xml:space="preserve">
+    <value>صاف اور پُراعتماد: چمکدار نیلے گولی نما بٹن، بڑے نرم کارڈ، ٹھنڈی غیر جانبدار سطحیں، اور سبز و سرخ صرف نفع و نقصان کے لیے۔</value>
+  </data>
+  <data name="Home_Case_Eyebrow" xml:space="preserve">
+    <value>عملی طور پر دیکھیں</value>
+  </data>
+  <data name="Home_Case_Heading" xml:space="preserve">
+    <value>پانچ مشہور انداز، ایک کمپوننٹ لائبریری</value>
+  </data>
+  <data name="Home_Case_Inspired" xml:space="preserve">
+    <value>&lt;span class=&quot;font-normal text-purple-200&quot;&gt;متاثر از &lt;/span&gt;{0}</value>
+  </data>
+  <data name="Home_Case_SeeTheme" xml:space="preserve">
+    <value>تھیم دیکھیں</value>
+  </data>
+  <data name="Home_Case_Sub" xml:space="preserve">
+    <value>وہی کمپوننٹس، ایک مختلف &lt;code&gt;Theme.cs&lt;/code&gt; کے ساتھ۔ کوئی CSS اوور رائیڈ نہیں۔</value>
+  </data>
+  <data name="Home_Chart_Day" xml:space="preserve">
+    <value>دن</value>
+  </data>
+  <data name="Home_Chart_Deploys" xml:space="preserve">
+    <value>روزانہ ڈیپلائے</value>
+  </data>
+  <data name="Home_Chart_DeploysDesc" xml:space="preserve">
+    <value>پچھلے 14 دن</value>
+  </data>
+  <data name="Home_Chart_Folder" xml:space="preserve">
+    <value>فولڈر</value>
+  </data>
+  <data name="Home_Chart_Hour" xml:space="preserve">
+    <value>گھنٹہ</value>
+  </data>
+  <data name="Home_Chart_Response" xml:space="preserve">
+    <value>جواب کا وقت</value>
+  </data>
+  <data name="Home_Chart_ResponseDesc" xml:space="preserve">
+    <value>95واں پرسنٹائل، پچھلے 24 گھنٹے</value>
+  </data>
+  <data name="Home_Chart_Size" xml:space="preserve">
+    <value>سائز</value>
+  </data>
+  <data name="Home_Chart_Storage" xml:space="preserve">
+    <value>فولڈر کے لحاظ سے اسٹوریج</value>
+  </data>
+  <data name="Home_Chart_StorageDesc" xml:space="preserve">
+    <value>10 فولڈرز میں 7.2 GB</value>
+  </data>
+  <data name="Home_Checkout_Account" xml:space="preserve">
+    <value>اکاؤنٹ</value>
+  </data>
+  <data name="Home_Checkout_AccountDesc" xml:space="preserve">
+    <value>اپنا لاگ ان بنائیں</value>
+  </data>
+  <data name="Home_Checkout_Done" xml:space="preserve">
+    <value>مکمل</value>
+  </data>
+  <data name="Home_Checkout_DoneDesc" xml:space="preserve">
+    <value>سب تیار ہے</value>
+  </data>
+  <data name="Home_Checkout_Notifications" xml:space="preserve">
+    <value>ای میل اطلاعات</value>
+  </data>
+  <data name="Home_Checkout_Preferences" xml:space="preserve">
+    <value>ترجیحات</value>
+  </data>
+  <data name="Home_Checkout_PreferencesDesc" xml:space="preserve">
+    <value>اپنی ترتیب درست کریں</value>
+  </data>
+  <data name="Home_Checkout_Progress" xml:space="preserve">
+    <value>چیک آؤٹ کی پیش رفت</value>
+  </data>
+  <data name="Home_Checkout_Thanks" xml:space="preserve">
+    <value>شکریہ، آپ شروع کرنے کے لیے تیار ہیں۔</value>
+  </data>
+  <data name="Home_Checkout_Title" xml:space="preserve">
+    <value>چیک آؤٹ کے مراحل</value>
+  </data>
+  <data name="Home_Community_Heading" xml:space="preserve">
+    <value>Discord پر گفتگو میں شامل ہوں</value>
+  </data>
+  <data name="Home_Community_Join" xml:space="preserve">
+    <value>Discord میں شامل ہوں</value>
+  </data>
+  <data name="Home_Community_Sub" xml:space="preserve">
+    <value>سوال پوچھیں اور بتائیں کہ آپ کیا بنا رہے ہیں۔</value>
+  </data>
+  <data name="Home_Cta_Heading" xml:space="preserve">
+    <value>کچھ شاندار بنانے کے لیے تیار ہیں؟</value>
+  </data>
+  <data name="Home_Cta_Star" xml:space="preserve">
+    <value>GitHub پر ستارہ دیں</value>
+  </data>
+  <data name="Home_Cta_Sub" xml:space="preserve">
+    <value>دستاویزات سے شروع کریں۔</value>
+  </data>
+  <data name="Home_Cycle_Admin" xml:space="preserve">
+    <value>ایڈمن پینل</value>
+  </data>
+  <data name="Home_Cycle_Checkout" xml:space="preserve">
+    <value>چیک آؤٹ</value>
+  </data>
+  <data name="Home_Cycle_Dashboard" xml:space="preserve">
+    <value>ڈیش بورڈ</value>
+  </data>
+  <data name="Home_Cycle_Settings" xml:space="preserve">
+    <value>سیٹنگز کا صفحہ</value>
+  </data>
+  <data name="Home_Cycle_SignIn" xml:space="preserve">
+    <value>سائن ان فارم</value>
+  </data>
+  <data name="Home_Email" xml:space="preserve">
+    <value>ای میل</value>
+  </data>
+  <data name="Home_EmailPlaceholder" xml:space="preserve">
+    <value>اپنا ای میل پتہ درج کریں</value>
+  </data>
+  <data name="Home_Env_Development" xml:space="preserve">
+    <value>ڈیولپمنٹ</value>
+  </data>
+  <data name="Home_Env_Production" xml:space="preserve">
+    <value>پروڈکشن</value>
+  </data>
+  <data name="Home_Env_Staging" xml:space="preserve">
+    <value>اسٹیجنگ</value>
+  </data>
+  <data name="Home_Examples_Heading" xml:space="preserve">
+    <value>حقیقی کمپوننٹس۔ آپ کی ایپ کے لیے تیار۔</value>
+  </data>
+  <data name="Home_Examples_Sub" xml:space="preserve">
+    <value>ہر مثال زندہ ہے۔ آزما کر دیکھیں۔</value>
+  </data>
+  <data name="Home_Failed" xml:space="preserve">
+    <value>ناکام</value>
+  </data>
+  <data name="Home_Feature_A11y_Body" xml:space="preserve">
+    <value>ARIA اور کی بورڈ سپورٹ پہلے سے شامل۔</value>
+  </data>
+  <data name="Home_Feature_A11y_Title" xml:space="preserve">
+    <value>شروع سے قابلِ رسائی</value>
+  </data>
+  <data name="Home_Feature_Composable_Body" xml:space="preserve">
+    <value>سادہ Blazor پیرامیٹرز۔ کوئی حیرانی نہیں۔</value>
+  </data>
+  <data name="Home_Feature_Composable_Title" xml:space="preserve">
+    <value>جوڑنے کے قابل</value>
+  </data>
+  <data name="Home_Feature_Custom_Body" xml:space="preserve">
+    <value>آپ کا برانڈ، روشن اور تاریک دونوں موڈ میں۔</value>
+  </data>
+  <data name="Home_Feature_Custom_Title" xml:space="preserve">
+    <value>مکمل طور پر حسبِ ضرورت</value>
+  </data>
+  <data name="Home_Feature_Fast_Body" xml:space="preserve">
+    <value>25 سے زیادہ کمپوننٹس، جاری کرنے کے لیے تیار۔</value>
+  </data>
+  <data name="Home_Feature_Fast_Title" xml:space="preserve">
+    <value>تیزی سے بنائیں</value>
+  </data>
+  <data name="Home_Features_HeadingFull" xml:space="preserve">
+    <value>آپ کے اگلے پروجیکٹ کے لیے: {0} یا {1}۔</value>
+  </data>
+  <data name="Home_Features_HeadingLead" xml:space="preserve">
+    <value>آپ کے اگلے پروجیکٹ کے لیے:</value>
+  </data>
+  <data name="Home_Features_HeadingTrail" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Home_Features_Pause" xml:space="preserve">
+    <value>بدلتی سرخی روکیں</value>
+  </data>
+  <data name="Home_Features_Play" xml:space="preserve">
+    <value>بدلتی سرخی چلائیں</value>
+  </data>
+  <data name="Home_Folder_Apps" xml:space="preserve">
+    <value>ایپس</value>
+  </data>
+  <data name="Home_Folder_Backups" xml:space="preserve">
+    <value>بیک اپس</value>
+  </data>
+  <data name="Home_Folder_Documents" xml:space="preserve">
+    <value>دستاویزات</value>
+  </data>
+  <data name="Home_Folder_Downloads" xml:space="preserve">
+    <value>ڈاؤن لوڈز</value>
+  </data>
+  <data name="Home_Folder_Fonts" xml:space="preserve">
+    <value>فونٹس</value>
+  </data>
+  <data name="Home_Folder_Music" xml:space="preserve">
+    <value>موسیقی</value>
+  </data>
+  <data name="Home_Folder_Photos" xml:space="preserve">
+    <value>تصاویر</value>
+  </data>
+  <data name="Home_Folder_Projects" xml:space="preserve">
+    <value>پروجیکٹس</value>
+  </data>
+  <data name="Home_Folder_Temp" xml:space="preserve">
+    <value>عارضی</value>
+  </data>
+  <data name="Home_Folder_Videos" xml:space="preserve">
+    <value>ویڈیوز</value>
+  </data>
+  <data name="Home_GetStarted" xml:space="preserve">
+    <value>شروع کریں</value>
+  </data>
+  <data name="Home_Guides_Heading" xml:space="preserve">
+    <value>Tailwind اور Blazor، ایک ساتھ</value>
+  </data>
+  <data name="Home_Guides_Install" xml:space="preserve">
+    <value>Server یا WebAssembly، نو مراحل میں۔</value>
+  </data>
+  <data name="Home_Guides_Install_Title" xml:space="preserve">
+    <value>انسٹالیشن گائیڈ</value>
+  </data>
+  <data name="Home_Guides_Tailwind" xml:space="preserve">
+    <value>آپ کی کلاسز کیسے ڈھونڈی اور تھیم کی جاتی ہیں۔</value>
+  </data>
+  <data name="Home_Guides_Tailwind_Title" xml:space="preserve">
+    <value>Blazor کے ساتھ Tailwind CSS</value>
+  </data>
+  <data name="Home_Guides_Why" xml:space="preserve">
+    <value>MIT لائسنس یافتہ اور Tailwind پر مبنی۔</value>
+  </data>
+  <data name="Home_Hero_Badge" xml:space="preserve">
+    <value>مفت، اوپن سورس اور MIT لائسنس یافتہ</value>
+  </data>
+  <data name="Home_Hero_GitHub" xml:space="preserve">
+    <value>GitHub پر دیکھیں</value>
+  </data>
+  <data name="Home_Hero_Install" xml:space="preserve">
+    <value>انسٹال</value>
+  </data>
+  <data name="Home_Hero_Subtitle" xml:space="preserve">
+    <value>Blazor Server اور WebAssembly کے لیے قابلِ رسائی اور تھیم کے قابل کمپوننٹس۔</value>
+  </data>
+  <data name="Home_Hero_TitleAccent" xml:space="preserve">
+    <value>Blazor کے لیے</value>
+  </data>
+  <data name="Home_Hero_TitleLead" xml:space="preserve">
+    <value>Tailwind CSS کمپوننٹ لائبریری</value>
+  </data>
+  <data name="Home_Lang_ar" xml:space="preserve">
+    <value>عربی</value>
+  </data>
+  <data name="Home_Lang_bn" xml:space="preserve">
+    <value>بنگالی</value>
+  </data>
+  <data name="Home_Lang_de" xml:space="preserve">
+    <value>جرمن</value>
+  </data>
+  <data name="Home_Lang_en" xml:space="preserve">
+    <value>انگریزی</value>
+  </data>
+  <data name="Home_Lang_es" xml:space="preserve">
+    <value>ہسپانوی</value>
+  </data>
+  <data name="Home_Lang_fa" xml:space="preserve">
+    <value>فارسی</value>
+  </data>
+  <data name="Home_Lang_fr" xml:space="preserve">
+    <value>فرانسیسی</value>
+  </data>
+  <data name="Home_Lang_hi" xml:space="preserve">
+    <value>ہندی</value>
+  </data>
+  <data name="Home_Lang_id" xml:space="preserve">
+    <value>انڈونیشیائی</value>
+  </data>
+  <data name="Home_Lang_it" xml:space="preserve">
+    <value>اطالوی</value>
+  </data>
+  <data name="Home_Lang_ja" xml:space="preserve">
+    <value>جاپانی</value>
+  </data>
+  <data name="Home_Lang_jv" xml:space="preserve">
+    <value>جاوی</value>
+  </data>
+  <data name="Home_Lang_ko" xml:space="preserve">
+    <value>کوریائی</value>
+  </data>
+  <data name="Home_Lang_mr" xml:space="preserve">
+    <value>مراٹھی</value>
+  </data>
+  <data name="Home_Lang_paArab" xml:space="preserve">
+    <value>مغربی پنجابی</value>
+  </data>
+  <data name="Home_Lang_pl" xml:space="preserve">
+    <value>پولش</value>
+  </data>
+  <data name="Home_Lang_pt" xml:space="preserve">
+    <value>پرتگالی</value>
+  </data>
+  <data name="Home_Lang_ru" xml:space="preserve">
+    <value>روسی</value>
+  </data>
+  <data name="Home_Lang_ta" xml:space="preserve">
+    <value>تمل</value>
+  </data>
+  <data name="Home_Lang_te" xml:space="preserve">
+    <value>تیلگو</value>
+  </data>
+  <data name="Home_Lang_tr" xml:space="preserve">
+    <value>ترکی</value>
+  </data>
+  <data name="Home_Lang_ur" xml:space="preserve">
+    <value>اردو</value>
+  </data>
+  <data name="Home_Lang_vi" xml:space="preserve">
+    <value>ویتنامی</value>
+  </data>
+  <data name="Home_Lang_zhHans" xml:space="preserve">
+    <value>سادہ چینی</value>
+  </data>
+  <data name="Home_Lang_zhHant" xml:space="preserve">
+    <value>روایتی چینی</value>
+  </data>
+  <data name="Home_Live_Caption" xml:space="preserve">
+    <value>twblazor مارک اپ کی چار سطریں اور ان سے بننے والے زندہ کمپوننٹس۔</value>
+  </data>
+  <data name="Home_Live_Rendered" xml:space="preserve">
+    <value>4 کمپوننٹس رینڈر ہوئے</value>
+  </data>
+  <data name="Home_Live_Replay" xml:space="preserve">
+    <value>دوبارہ چلائیں</value>
+  </data>
+  <data name="Home_Live_ReplayTarget" xml:space="preserve">
+    <value>لائیو بلڈ</value>
+  </data>
+  <data name="Home_Loc_Badge" xml:space="preserve">
+    <value>{0} زبانیں، پہلے سے شامل</value>
+  </data>
+  <data name="Home_Loc_Config_Body" xml:space="preserve">
+    <value>کلچر طے کریں، فارمیٹ مقرر کریں یا لوکلائزر بدلیں۔</value>
+  </data>
+  <data name="Home_Loc_Config_Title" xml:space="preserve">
+    <value>AddTwBlazor میں ترتیب</value>
+  </data>
+  <data name="Home_Loc_Dates_Body" xml:space="preserve">
+    <value>ہفتے کا آغاز اور 12 یا 24 گھنٹے کا وقت کلچر کے مطابق ہوتے ہیں۔</value>
+  </data>
+  <data name="Home_Loc_Dates_Title" xml:space="preserve">
+    <value>موزوں تاریخیں اور اوقات</value>
+  </data>
+  <data name="Home_Loc_Disclaimer" xml:space="preserve">
+    <value>غیر انگریزی تراجم AI نے تیار کیے ہیں اور ابھی ان کا جائزہ نہیں لیا گیا۔ &lt;a href=&quot;/localization#localization-contributing&quot; class=&quot;font-medium text-purple-800 underline underline-offset-2 dark:text-purple-300&quot;&gt;درستی تجویز کریں&lt;/a&gt;۔</value>
+  </data>
+  <data name="Home_Loc_HeadingAccent" xml:space="preserve">
+    <value>شروع سے ہی</value>
+  </data>
+  <data name="Home_Loc_HeadingLead" xml:space="preserve">
+    <value>آپ کے صارفین کی زبان بولتا ہے،</value>
+  </data>
+  <data name="Home_Loc_LanguagesLabel" xml:space="preserve">
+    <value>معاون زبانیں</value>
+  </data>
+  <data name="Home_Loc_Link" xml:space="preserve">
+    <value>دیکھیں لوکلائزیشن کیسے کام کرتی ہے</value>
+  </data>
+  <data name="Home_Loc_More" xml:space="preserve">
+    <value>اور {0} مزید زبانیں</value>
+  </data>
+  <data name="Home_Loc_Resx_Body" xml:space="preserve">
+    <value>اپنی ریسورس فائلوں سے کوئی بھی متن شامل کریں یا بدلیں۔</value>
+  </data>
+  <data name="Home_Loc_Resx_Title" xml:space="preserve">
+    <value>ہر زبان کے لیے ایک .resx فائل</value>
+  </data>
+  <data name="Home_Loc_Sub" xml:space="preserve">
+    <value>ہر لیبل، پیغام اور اسکرین ریڈر اعلان ترجمہ شدہ ہے، اور تاریخیں کلچر کے مطابق ہوتی ہیں۔ کچھ ترتیب دینے کی ضرورت نہیں۔</value>
+  </data>
+  <data name="Home_Merge_Badge" xml:space="preserve">
+    <value>پہلے سے شامل۔ نہ npm، نہ JavaScript۔</value>
+  </data>
+  <data name="Home_Merge_Caption" xml:space="preserve">
+    <value>کلاس ملانے کی زندہ مثال۔ کمپوننٹ کو دی جانے والی کلاس بدلنے کے لیے کوئی مثال چنیں۔</value>
+  </data>
+  <data name="Home_Merge_Color" xml:space="preserve">
+    <value>رنگ</value>
+  </data>
+  <data name="Home_Merge_Configure_Body" xml:space="preserve">
+    <value>حسبِ ضرورت یوٹیلٹیز، پریفکس، یا بند کرنا، AddTwBlazor سے۔</value>
+  </data>
+  <data name="Home_Merge_Configure_Title" xml:space="preserve">
+    <value>اپنی مرضی سے ترتیب دیں</value>
+  </data>
+  <data name="Home_Merge_GroupLabel" xml:space="preserve">
+    <value>کلاس ملانے کی مثال</value>
+  </data>
+  <data name="Home_Merge_HeadingAccent" xml:space="preserve">
+    <value>پہلے سے شامل</value>
+  </data>
+  <data name="Home_Merge_HeadingLead" xml:space="preserve">
+    <value>Tailwind کلاسز کا ملاپ،</value>
+  </data>
+  <data name="Home_Merge_LastWins_Body" xml:space="preserve">
+    <value>tailwind-merge کا C# ورژن۔ کچھ انسٹال کرنے کی ضرورت نہیں۔</value>
+  </data>
+  <data name="Home_Merge_LastWins_Title" xml:space="preserve">
+    <value>آخری کلاس جیتتی ہے</value>
+  </data>
+  <data name="Home_Merge_Link" xml:space="preserve">
+    <value>دیکھیں کلاس ملانا کیسے کام کرتا ہے</value>
+  </data>
+  <data name="Home_Merge_Padding" xml:space="preserve">
+    <value>پیڈنگ</value>
+  </data>
+  <data name="Home_Merge_Replaced" xml:space="preserve">
+    <value>بدلی گئی:</value>
+  </data>
+  <data name="Home_Merge_Shape" xml:space="preserve">
+    <value>شکل</value>
+  </data>
+  <data name="Home_Merge_Shorthand" xml:space="preserve">
+    <value>مختصر شکل</value>
+  </data>
+  <data name="Home_Merge_Sub" xml:space="preserve">
+    <value>&lt;code&gt;Class=&quot;px-3&quot;&lt;/code&gt; دیں اور یہ تھیم کی &lt;code&gt;px-6&lt;/code&gt; کی جگہ لے لیتی ہے۔ آپ کی کلاس ہمیشہ جیتتی ہے۔</value>
+  </data>
+  <data name="Home_Merge_Theme" xml:space="preserve">
+    <value>تھیم</value>
+  </data>
+  <data name="Home_Merge_V4_Body" xml:space="preserve">
+    <value>ویریئنٹس، من مانی ویلیوز اور پریفکسز، 700 سے زیادہ کیسز پر آزمودہ۔</value>
+  </data>
+  <data name="Home_Merge_V4_Title" xml:space="preserve">
+    <value>Tailwind v4 کو سمجھتا ہے</value>
+  </data>
+  <data name="Home_Merge_YourClass" xml:space="preserve">
+    <value>آپ کی Class</value>
+  </data>
+  <data name="Home_Next" xml:space="preserve">
+    <value>اگلا</value>
+  </data>
+  <data name="Home_OpenSource" xml:space="preserve">
+    <value>ہمیشہ مفت اور MIT لائسنس یافتہ۔ کمیونٹی کے ساتھ کھلے عام بنایا گیا۔</value>
+  </data>
+  <data name="Home_Password" xml:space="preserve">
+    <value>پاس ورڈ</value>
+  </data>
+  <data name="Home_PasswordPlaceholder" xml:space="preserve">
+    <value>اپنا پاس ورڈ درج کریں</value>
+  </data>
+  <data name="Home_Preview" xml:space="preserve">
+    <value>پیش نظارہ</value>
+  </data>
+  <data name="Home_Quick_Caption" xml:space="preserve">
+    <value>twblazor کی انسٹالیشن، پھر مارک اپ کی دو سطریں اور ان سے بننے والا بٹن اور الرٹ۔</value>
+  </data>
+  <data name="Home_Quick_Heading" xml:space="preserve">
+    <value>چند منٹوں میں تیار</value>
+  </data>
+  <data name="Home_Quick_Installed" xml:space="preserve">
+    <value>twblazor انسٹال ہو گیا</value>
+  </data>
+  <data name="Home_Quick_Sub" xml:space="preserve">
+    <value>انسٹال کریں، رجسٹر کریں، بلڈ کریں۔</value>
+  </data>
+  <data name="Home_Quick_Window" xml:space="preserve">
+    <value>ٹرمینل اور Home.razor</value>
+  </data>
+  <data name="Home_Release_AvgTime" xml:space="preserve">
+    <value>اوسط وقت</value>
+  </data>
+  <data name="Home_Release_Deploys" xml:space="preserve">
+    <value>ڈیپلائے</value>
+  </data>
+  <data name="Home_Release_Storage" xml:space="preserve">
+    <value>اسٹوریج تقریباً بھر گئی ہے۔</value>
+  </data>
+  <data name="Home_Release_Title" xml:space="preserve">
+    <value>ریلیز کی صحت</value>
+  </data>
+  <data name="Home_RememberMe" xml:space="preserve">
+    <value>مجھے یاد رکھیں</value>
+  </data>
+  <data name="Home_Rendered" xml:space="preserve">
+    <value>نتیجہ</value>
+  </data>
+  <data name="Home_Rtl_Badge" xml:space="preserve">
+    <value>دائیں سے بائیں، پہلے سے شامل</value>
+  </data>
+  <data name="Home_Rtl_Caption" xml:space="preserve">
+    <value>انہی کمپوننٹس کی زندہ مثال جو بائیں سے دائیں اور دائیں سے بائیں ترتیب دیے گئے ہیں۔ بدلنے کے لیے سمت چنیں۔</value>
+  </data>
+  <data name="Home_Rtl_Follows_Body" xml:space="preserve">
+    <value>دائیں سے بائیں کلچرز خود بخود الٹ جاتے ہیں۔</value>
+  </data>
+  <data name="Home_Rtl_Follows_Title" xml:space="preserve">
+    <value>زبان کے مطابق</value>
+  </data>
+  <data name="Home_Rtl_GroupLabel" xml:space="preserve">
+    <value>لے آؤٹ کی سمت</value>
+  </data>
+  <data name="Home_Rtl_HeadingAccent" xml:space="preserve">
+    <value>دوسری اسٹائل شیٹ کے بغیر</value>
+  </data>
+  <data name="Home_Rtl_HeadingLead" xml:space="preserve">
+    <value>دائیں سے بائیں پڑھا جاتا ہے،</value>
+  </data>
+  <data name="Home_Rtl_Keys_Body" xml:space="preserve">
+    <value>ہر کمپوننٹ میں تیر والی کلیدیں اسی طرف جاتی ہیں جدھر وہ اشارہ کرتی ہیں۔</value>
+  </data>
+  <data name="Home_Rtl_Keys_Title" xml:space="preserve">
+    <value>اسکرین سے میل کھاتی کلیدیں</value>
+  </data>
+  <data name="Home_Rtl_Link" xml:space="preserve">
+    <value>دیکھیں دائیں سے بائیں کیسے کام کرتا ہے</value>
+  </data>
+  <data name="Home_Rtl_Ltr" xml:space="preserve">
+    <value>بائیں سے دائیں</value>
+  </data>
+  <data name="Home_Rtl_Mix_Body" xml:space="preserve">
+    <value>کسی بھی حصے کو TwDirectionProvider میں لپیٹیں۔</value>
+  </data>
+  <data name="Home_Rtl_Mix_Title" xml:space="preserve">
+    <value>ایک صفحے پر سمتیں ملائیں</value>
+  </data>
+  <data name="Home_Rtl_Rtl" xml:space="preserve">
+    <value>دائیں سے بائیں</value>
+  </data>
+  <data name="Home_Rtl_Sub" xml:space="preserve">
+    <value>عربی، عبرانی، فارسی اور اردو ہر کمپوننٹ کو الٹ دیتی ہیں: فاصلے، آئیکنز، پینلز اور تیر والی کلیدیں۔</value>
+  </data>
+  <data name="Home_SaveChanges" xml:space="preserve">
+    <value>تبدیلیاں محفوظ کریں</value>
+  </data>
+  <data name="Home_Series_Database" xml:space="preserve">
+    <value>ڈیٹا بیس</value>
+  </data>
+  <data name="Home_Series_Succeeded" xml:space="preserve">
+    <value>کامیاب</value>
+  </data>
+  <data name="Home_Series_WebApp" xml:space="preserve">
+    <value>ویب ایپ</value>
+  </data>
+  <data name="Home_Series_Workers" xml:space="preserve">
+    <value>ورکرز</value>
+  </data>
+  <data name="Home_Settings_DeployOnPush" xml:space="preserve">
+    <value>پش پر ڈیپلائے</value>
+  </data>
+  <data name="Home_Settings_EmailAlerts" xml:space="preserve">
+    <value>ای میل الرٹس</value>
+  </data>
+  <data name="Home_Settings_Environment" xml:space="preserve">
+    <value>ماحول</value>
+  </data>
+  <data name="Home_Settings_Private" xml:space="preserve">
+    <value>نجی</value>
+  </data>
+  <data name="Home_Settings_ProjectName" xml:space="preserve">
+    <value>پروجیکٹ کا نام</value>
+  </data>
+  <data name="Home_Settings_Public" xml:space="preserve">
+    <value>عوامی</value>
+  </data>
+  <data name="Home_Settings_Reset" xml:space="preserve">
+    <value>ری سیٹ</value>
+  </data>
+  <data name="Home_Settings_Saved" xml:space="preserve">
+    <value>سیٹنگز محفوظ ہو گئیں۔</value>
+  </data>
+  <data name="Home_Settings_Storage" xml:space="preserve">
+    <value>استعمال شدہ اسٹوریج</value>
+  </data>
+  <data name="Home_Settings_StorageAmount" xml:space="preserve">
+    <value>10 GB میں سے 7.2</value>
+  </data>
+  <data name="Home_Settings_Sub" xml:space="preserve">
+    <value>طے کریں کہ آپ کی ٹیم کیسے جاری کرتی ہے</value>
+  </data>
+  <data name="Home_Settings_Team" xml:space="preserve">
+    <value>ٹیم</value>
+  </data>
+  <data name="Home_Settings_Title" xml:space="preserve">
+    <value>پروجیکٹ سیٹنگز</value>
+  </data>
+  <data name="Home_Settings_Visibility" xml:space="preserve">
+    <value>نمائش</value>
+  </data>
+  <data name="Home_SignIn" xml:space="preserve">
+    <value>سائن ان</value>
+  </data>
+  <data name="Home_Theming_Caption" xml:space="preserve">
+    <value>Theme.cs کی تین سطریں ایک زندہ بٹن کا انداز بدلتی ہیں: مکمل گول، بڑا سایہ اور نیا بنیادی رنگ۔</value>
+  </data>
+  <data name="Home_Theming_Defaults_Body" xml:space="preserve">
+    <value>ڈیفالٹ ایک بار طے کریں، کسی بھی مثال میں اوور رائیڈ کریں۔</value>
+  </data>
+  <data name="Home_Theming_Defaults_Title" xml:space="preserve">
+    <value>عالمی ڈیفالٹس، مقامی اوور رائیڈز</value>
+  </data>
+  <data name="Home_Theming_Heading" xml:space="preserve">
+    <value>Blazor لائبریریوں میں سب سے گہری Tailwind تھیمنگ</value>
+  </data>
+  <data name="Home_Theming_Jit_Body" xml:space="preserve">
+    <value>سادہ اسٹرنگ لٹرلز جو Tailwind دیکھ سکتا ہے۔ کوئی safelist نہیں۔</value>
+  </data>
+  <data name="Home_Theming_Jit_Title" xml:space="preserve">
+    <value>اصل Tailwind، اصل JIT</value>
+  </data>
+  <data name="Home_Theming_Restyled" xml:space="preserve">
+    <value>Theme.cs سے نیا انداز، بغیر CSS</value>
+  </data>
+  <data name="Home_Theming_Sub" xml:space="preserve">
+    <value>ہر بصری تفصیل ایک سادہ Tailwind کلاس ہے جو آپ کی ملکیت ہے، ہر کمپوننٹ کے لیے ٹائپ شدہ۔ DLL میں کوئی بلیک باکس نہیں۔</value>
+  </data>
+  <data name="Home_Theming_Tokens_Body" xml:space="preserve">
+    <value>ایک بار رنگ طے کریں اور ہر کمپوننٹ اس کی پیروی کرے گا۔</value>
+  </data>
+  <data name="Home_Theming_Tokens_Title" xml:space="preserve">
+    <value>دوبارہ استعمال ہونے والے ڈیزائن ٹوکنز</value>
+  </data>
+  <data name="Home_Theming_Typed_Body" xml:space="preserve">
+    <value>ہر کمپوننٹ کے لیے ایک C# تھیم کلاس، ہر کلاس ایک نام والی پراپرٹی۔</value>
+  </data>
+  <data name="Home_Theming_Typed_Title" xml:space="preserve">
+    <value>ہر کلاس ٹائپ شدہ اور قابلِ اوور رائیڈ</value>
+  </data>
+  <data name="Home_Why_Title" xml:space="preserve">
+    <value>twblazor کیوں؟</value>
+  </data>
+  <data name="Nav_AiAgents" xml:space="preserve">
+    <value>AI ایجنٹس اور اسکلز</value>
+  </data>
+  <data name="Nav_ApiDocs" xml:space="preserve">
+    <value>API دستاویزات</value>
+  </data>
+  <data name="Nav_ClassMerge" xml:space="preserve">
+    <value>کلاس کا ملاپ</value>
+  </data>
+  <data name="Nav_Configuration" xml:space="preserve">
+    <value>کنفیگریشن</value>
+  </data>
+  <data name="Nav_ConfiguringLocalization" xml:space="preserve">
+    <value>لوکلائزیشن کی ترتیب</value>
+  </data>
+  <data name="Nav_GetStarted" xml:space="preserve">
+    <value>آغاز کریں</value>
+  </data>
+  <data name="Nav_GetStartedGroup" xml:space="preserve">
+    <value>آغاز کریں</value>
+  </data>
+  <data name="Nav_Group_chart-comparison-navitem" xml:space="preserve">
+    <value>موازنہ</value>
+  </data>
+  <data name="Nav_Group_chart-distribution-navitem" xml:space="preserve">
+    <value>تقسیم</value>
+  </data>
+  <data name="Nav_Group_chart-flow-navitem" xml:space="preserve">
+    <value>بہاؤ</value>
+  </data>
+  <data name="Nav_Group_chart-hierarchy-navitem" xml:space="preserve">
+    <value>درجہ بندی</value>
+  </data>
+  <data name="Nav_Group_chart-parts-navitem" xml:space="preserve">
+    <value>کُل کے حصے</value>
+  </data>
+  <data name="Nav_Group_chart-relationship-navitem" xml:space="preserve">
+    <value>تعلقات</value>
+  </data>
+  <data name="Nav_Group_chart-sets-navitem" xml:space="preserve">
+    <value>مجموعے</value>
+  </data>
+  <data name="Nav_Group_chart-time-navitem" xml:space="preserve">
+    <value>وقت کے ساتھ تبدیلی</value>
+  </data>
+  <data name="Nav_Group_chart-variables-navitem" xml:space="preserve">
+    <value>متعدد متغیرات</value>
+  </data>
+  <data name="Nav_Group_charts" xml:space="preserve">
+    <value>چارٹس</value>
+  </data>
+  <data name="Nav_Group_chat" xml:space="preserve">
+    <value>چیٹ</value>
+  </data>
+  <data name="Nav_Group_data" xml:space="preserve">
+    <value>ڈیٹا</value>
+  </data>
+  <data name="Nav_Group_feedback" xml:space="preserve">
+    <value>فیڈ بیک</value>
+  </data>
+  <data name="Nav_Group_forms" xml:space="preserve">
+    <value>فارمز</value>
+  </data>
+  <data name="Nav_Group_inputs-navitem" xml:space="preserve">
+    <value>ان پٹس</value>
+  </data>
+  <data name="Nav_Group_layout" xml:space="preserve">
+    <value>لے آؤٹ</value>
+  </data>
+  <data name="Nav_Group_services" xml:space="preserve">
+    <value>سروسز</value>
+  </data>
+  <data name="Nav_Home" xml:space="preserve">
+    <value>ہوم</value>
+  </data>
+  <data name="Nav_Localization" xml:space="preserve">
+    <value>لوکلائزیشن</value>
+  </data>
+  <data name="Nav_RtlProvider" xml:space="preserve">
+    <value>RTL پرووائیڈر</value>
+  </data>
+  <data name="Nav_TailwindBlazor" xml:space="preserve">
+    <value>Blazor کے ساتھ Tailwind</value>
+  </data>
+  <data name="Nav_Theme" xml:space="preserve">
+    <value>تھیم</value>
+  </data>
+  <data name="Nav_WhyTwBlazor" xml:space="preserve">
+    <value>twblazor کیوں؟</value>
+  </data>
+</root>

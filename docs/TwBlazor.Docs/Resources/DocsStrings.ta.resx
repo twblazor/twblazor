@@ -1,0 +1,772 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  English (neutral) strings for every TwBlazor component.
+
+  To add a language, copy this file to TwBlazorStrings.<culture>.resx (for example TwBlazorStrings.de.resx)
+  and translate each <value>. Keep the names and the {0} placeholders unchanged. A key that is missing from a
+  language file falls back to the value in this file.
+
+  The Format_ entries are optional .NET date and time format strings. Leave them empty to use the culture's own patterns.
+-->
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <!-- Common -->
+    <data name="Footer_Documentation" xml:space="preserve">
+    <value>ஆவணங்கள்</value>
+  </data>
+  <data name="Footer_FreeForever" xml:space="preserve">
+    <value>twblazor இலவசமானது, திறந்த மூலமானது, எப்போதும் அப்படியே இருக்கும்.</value>
+  </data>
+  <data name="Footer_Label" xml:space="preserve">
+    <value>அடிக்குறிப்பு</value>
+  </data>
+  <data name="Footer_License" xml:space="preserve">
+    <value>MIT உரிமம்</value>
+  </data>
+  <data name="Footer_NewTab" xml:space="preserve">
+    <value>(புதிய தாவலில் திறக்கும்)</value>
+  </data>
+  <data name="Home_Back" xml:space="preserve">
+    <value>பின்செல்</value>
+  </data>
+  <data name="Home_Brand_apple" xml:space="preserve">
+    <value>தாராளமான இடைவெளியும் மென்மையான வடிவங்களும்: மாத்திரை வடிவ பொத்தான்கள், பெரிய வட்டமான ஓடுகள், நிழல் இல்லை, ஒளிபுகும் வழிசெலுத்தல் பட்டை.</value>
+  </data>
+  <data name="Home_Brand_Disclaimer" xml:space="preserve">
+    <value>twblazor-க்கு Microsoft, Apple, LEGO குழுமம், Tesco அல்லது Trading 212 உடன் எந்தத் தொடர்பும் இல்லை, அவை இதை அங்கீகரிக்கவோ நிதியுதவி செய்யவோ இல்லை. இவை ஒரு தனிப்பயன் தீம் என்ன செய்ய முடியும் என்பதைக் காட்ட உருவாக்கப்பட்ட சுயாதீன எடுத்துக்காட்டுகள், அந்த நிறுவனங்களின் இணையதளங்கள் அல்ல. தயாரிப்புப் பெயர்கள், விலைகள், சலுகைகள், சந்தைத் தரவு ஆகியவை விளக்கத்துக்காக மட்டுமே, இங்குள்ள எதுவும் நிதி ஆலோசனை அல்ல. லோகோக்களும் படங்களும் ஒவ்வொரு நிறுவனத்தின் சொந்த இணையதளத்திலிருந்து எடுக்கப்பட்டவை, அவை அந்த நிறுவனத்துக்கே சொந்தம்; அனைத்து வர்த்தக முத்திரைகளும் அவற்றின் உரிமையாளர்களுக்குச் சொந்தம்.</value>
+  </data>
+  <data name="Home_Brand_lego" xml:space="preserve">
+    <value>பளிச்சென்றும் நட்பாகவும்: மஞ்சள் பட்டை, அடர் உரையுடன் ஆரஞ்சு மாத்திரை பொத்தான்கள், நீல இணைப்புகள், தடித்த எழுத்துரு, தட்டையான வெள்ளை அட்டைகள்.</value>
+  </data>
+  <data name="Home_Brand_microsoft" xml:space="preserve">
+    <value>தெளிவான, அமைதியான கணினித் தோற்றம்: 2px மூலைகள், மெல்லிய கரைகள், லேசான நிழல், கவனம் பெறும்போது அடிக்கோடிடும் உள்ளீடுகள்.</value>
+  </data>
+  <data name="Home_Brand_tesco" xml:space="preserve">
+    <value>தெளிவும் நடைமுறையும்: உறுதியான நீலம், பெரிய தொடு பகுதியுடன் மாத்திரை பொத்தான்கள், கரையுடன் தட்டையான ஓடுகள், சலுகைகளுக்குச் சிவப்பு.</value>
+  </data>
+  <data name="Home_Brand_trading212" xml:space="preserve">
+    <value>சுத்தமும் தன்னம்பிக்கையும்: பளிச்சிடும் நீல மாத்திரை பொத்தான்கள், பெரிய மென்மையான அட்டைகள், குளிர்ந்த நடுநிலைப் பரப்புகள், பச்சையும் சிவப்பும் லாப நஷ்டத்துக்கு மட்டும்.</value>
+  </data>
+  <data name="Home_Case_Eyebrow" xml:space="preserve">
+    <value>செயலில் பாருங்கள்</value>
+  </data>
+  <data name="Home_Case_Heading" xml:space="preserve">
+    <value>ஐந்து பிரபலமான தோற்றங்கள், ஒரே கூறு நூலகம்</value>
+  </data>
+  <data name="Home_Case_Inspired" xml:space="preserve">
+    <value>{0}&lt;span class=&quot;font-normal text-purple-200&quot;&gt; பாணியில்&lt;/span&gt;</value>
+  </data>
+  <data name="Home_Case_SeeTheme" xml:space="preserve">
+    <value>தீமைப் பார்</value>
+  </data>
+  <data name="Home_Case_Sub" xml:space="preserve">
+    <value>அதே கூறுகள், வேறொரு &lt;code&gt;Theme.cs&lt;/code&gt; உடன். CSS மேலெழுதல் இல்லை.</value>
+  </data>
+  <data name="Home_Chart_Day" xml:space="preserve">
+    <value>நாள்</value>
+  </data>
+  <data name="Home_Chart_Deploys" xml:space="preserve">
+    <value>நாள்தோறும் வெளியீடுகள்</value>
+  </data>
+  <data name="Home_Chart_DeploysDesc" xml:space="preserve">
+    <value>கடந்த 14 நாட்கள்</value>
+  </data>
+  <data name="Home_Chart_Folder" xml:space="preserve">
+    <value>கோப்புறை</value>
+  </data>
+  <data name="Home_Chart_Hour" xml:space="preserve">
+    <value>மணி</value>
+  </data>
+  <data name="Home_Chart_Response" xml:space="preserve">
+    <value>பதில் நேரம்</value>
+  </data>
+  <data name="Home_Chart_ResponseDesc" xml:space="preserve">
+    <value>95-வது சதமானம், கடந்த 24 மணிநேரம்</value>
+  </data>
+  <data name="Home_Chart_Size" xml:space="preserve">
+    <value>அளவு</value>
+  </data>
+  <data name="Home_Chart_Storage" xml:space="preserve">
+    <value>கோப்புறை வாரியாகச் சேமிப்பகம்</value>
+  </data>
+  <data name="Home_Chart_StorageDesc" xml:space="preserve">
+    <value>10 கோப்புறைகளில் 7.2 GB</value>
+  </data>
+  <data name="Home_Checkout_Account" xml:space="preserve">
+    <value>கணக்கு</value>
+  </data>
+  <data name="Home_Checkout_AccountDesc" xml:space="preserve">
+    <value>உங்கள் உள்நுழைவை உருவாக்குங்கள்</value>
+  </data>
+  <data name="Home_Checkout_Done" xml:space="preserve">
+    <value>முடிந்தது</value>
+  </data>
+  <data name="Home_Checkout_DoneDesc" xml:space="preserve">
+    <value>எல்லாம் தயார்</value>
+  </data>
+  <data name="Home_Checkout_Notifications" xml:space="preserve">
+    <value>மின்னஞ்சல் அறிவிப்புகள்</value>
+  </data>
+  <data name="Home_Checkout_Preferences" xml:space="preserve">
+    <value>விருப்பங்கள்</value>
+  </data>
+  <data name="Home_Checkout_PreferencesDesc" xml:space="preserve">
+    <value>உங்கள் அமைப்பைச் சரிசெய்யுங்கள்</value>
+  </data>
+  <data name="Home_Checkout_Progress" xml:space="preserve">
+    <value>செக்அவுட் முன்னேற்றம்</value>
+  </data>
+  <data name="Home_Checkout_Thanks" xml:space="preserve">
+    <value>நன்றி, நீங்கள் தொடங்கத் தயார்.</value>
+  </data>
+  <data name="Home_Checkout_Title" xml:space="preserve">
+    <value>செக்அவுட் படிகள்</value>
+  </data>
+  <data name="Home_Community_Heading" xml:space="preserve">
+    <value>Discord-இல் உரையாடலில் சேருங்கள்</value>
+  </data>
+  <data name="Home_Community_Join" xml:space="preserve">
+    <value>Discord-இல் சேருங்கள்</value>
+  </data>
+  <data name="Home_Community_Sub" xml:space="preserve">
+    <value>கேள்விகள் கேளுங்கள், நீங்கள் உருவாக்குவதைப் பகிருங்கள்.</value>
+  </data>
+  <data name="Home_Cta_Heading" xml:space="preserve">
+    <value>அருமையான ஒன்றை உருவாக்கத் தயாரா?</value>
+  </data>
+  <data name="Home_Cta_Star" xml:space="preserve">
+    <value>GitHub-இல் நட்சத்திரம் கொடுங்கள்</value>
+  </data>
+  <data name="Home_Cta_Sub" xml:space="preserve">
+    <value>ஆவணங்களிலிருந்து தொடங்குங்கள்.</value>
+  </data>
+  <data name="Home_Cycle_Admin" xml:space="preserve">
+    <value>நிர்வாகப் பலகை</value>
+  </data>
+  <data name="Home_Cycle_Checkout" xml:space="preserve">
+    <value>செக்அவுட்</value>
+  </data>
+  <data name="Home_Cycle_Dashboard" xml:space="preserve">
+    <value>டாஷ்போர்டு</value>
+  </data>
+  <data name="Home_Cycle_Settings" xml:space="preserve">
+    <value>அமைப்புகள் பக்கம்</value>
+  </data>
+  <data name="Home_Cycle_SignIn" xml:space="preserve">
+    <value>உள்நுழைவுப் படிவம்</value>
+  </data>
+  <data name="Home_Email" xml:space="preserve">
+    <value>மின்னஞ்சல்</value>
+  </data>
+  <data name="Home_EmailPlaceholder" xml:space="preserve">
+    <value>உங்கள் மின்னஞ்சல் முகவரியை உள்ளிடுங்கள்</value>
+  </data>
+  <data name="Home_Env_Development" xml:space="preserve">
+    <value>உருவாக்கம்</value>
+  </data>
+  <data name="Home_Env_Production" xml:space="preserve">
+    <value>தயாரிப்பு</value>
+  </data>
+  <data name="Home_Env_Staging" xml:space="preserve">
+    <value>ஸ்டேஜிங்</value>
+  </data>
+  <data name="Home_Examples_Heading" xml:space="preserve">
+    <value>உண்மையான கூறுகள். உங்கள் ஆப்புக்குத் தயார்.</value>
+  </data>
+  <data name="Home_Examples_Sub" xml:space="preserve">
+    <value>ஒவ்வொரு எடுத்துக்காட்டும் நேரடியானது. முயன்று பாருங்கள்.</value>
+  </data>
+  <data name="Home_Failed" xml:space="preserve">
+    <value>தோல்வி</value>
+  </data>
+  <data name="Home_Feature_A11y_Body" xml:space="preserve">
+    <value>ARIA மற்றும் விசைப்பலகை ஆதரவு உள்ளமைந்தது.</value>
+  </data>
+  <data name="Home_Feature_A11y_Title" xml:space="preserve">
+    <value>இயல்பாகவே அணுகக்கூடியது</value>
+  </data>
+  <data name="Home_Feature_Composable_Body" xml:space="preserve">
+    <value>சாதாரண Blazor அளவுருக்கள். ஆச்சரியங்கள் இல்லை.</value>
+  </data>
+  <data name="Home_Feature_Composable_Title" xml:space="preserve">
+    <value>இணைக்கக்கூடியது</value>
+  </data>
+  <data name="Home_Feature_Custom_Body" xml:space="preserve">
+    <value>உங்கள் பிராண்ட், ஒளி மற்றும் இருண்ட பயன்முறையில்.</value>
+  </data>
+  <data name="Home_Feature_Custom_Title" xml:space="preserve">
+    <value>முழுமையாகத் தனிப்பயனாக்கலாம்</value>
+  </data>
+  <data name="Home_Feature_Fast_Body" xml:space="preserve">
+    <value>25-க்கும் மேற்பட்ட கூறுகள், வெளியிடத் தயார்.</value>
+  </data>
+  <data name="Home_Feature_Fast_Title" xml:space="preserve">
+    <value>வேகமாக உருவாக்குங்கள்</value>
+  </data>
+  <data name="Home_Features_HeadingFull" xml:space="preserve">
+    <value>உங்கள் அடுத்த திட்டத்துக்கு: {0} அல்லது {1}.</value>
+  </data>
+  <data name="Home_Features_HeadingLead" xml:space="preserve">
+    <value>உங்கள் அடுத்த திட்டத்துக்கு:</value>
+  </data>
+  <data name="Home_Features_HeadingTrail" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Home_Features_Pause" xml:space="preserve">
+    <value>மாறும் தலைப்பை இடைநிறுத்து</value>
+  </data>
+  <data name="Home_Features_Play" xml:space="preserve">
+    <value>மாறும் தலைப்பை இயக்கு</value>
+  </data>
+  <data name="Home_Folder_Apps" xml:space="preserve">
+    <value>ஆப்ஸ்</value>
+  </data>
+  <data name="Home_Folder_Backups" xml:space="preserve">
+    <value>காப்புப்பிரதிகள்</value>
+  </data>
+  <data name="Home_Folder_Documents" xml:space="preserve">
+    <value>ஆவணங்கள்</value>
+  </data>
+  <data name="Home_Folder_Downloads" xml:space="preserve">
+    <value>பதிவிறக்கங்கள்</value>
+  </data>
+  <data name="Home_Folder_Fonts" xml:space="preserve">
+    <value>எழுத்துருக்கள்</value>
+  </data>
+  <data name="Home_Folder_Music" xml:space="preserve">
+    <value>இசை</value>
+  </data>
+  <data name="Home_Folder_Photos" xml:space="preserve">
+    <value>புகைப்படங்கள்</value>
+  </data>
+  <data name="Home_Folder_Projects" xml:space="preserve">
+    <value>திட்டங்கள்</value>
+  </data>
+  <data name="Home_Folder_Temp" xml:space="preserve">
+    <value>தற்காலிகம்</value>
+  </data>
+  <data name="Home_Folder_Videos" xml:space="preserve">
+    <value>வீடியோக்கள்</value>
+  </data>
+  <data name="Home_GetStarted" xml:space="preserve">
+    <value>தொடங்குங்கள்</value>
+  </data>
+  <data name="Home_Guides_Heading" xml:space="preserve">
+    <value>Tailwind-உம் Blazor-உம், இணைந்து</value>
+  </data>
+  <data name="Home_Guides_Install" xml:space="preserve">
+    <value>Server அல்லது WebAssembly, ஒன்பது படிகளில்.</value>
+  </data>
+  <data name="Home_Guides_Install_Title" xml:space="preserve">
+    <value>நிறுவல் வழிகாட்டி</value>
+  </data>
+  <data name="Home_Guides_Tailwind" xml:space="preserve">
+    <value>உங்கள் வகுப்புகள் எப்படிக் கண்டறியப்பட்டு தீம் செய்யப்படுகின்றன.</value>
+  </data>
+  <data name="Home_Guides_Tailwind_Title" xml:space="preserve">
+    <value>Blazor உடன் Tailwind CSS</value>
+  </data>
+  <data name="Home_Guides_Why" xml:space="preserve">
+    <value>MIT உரிமம் பெற்றது, Tailwind-ஐ அடிப்படையாகக் கொண்டது.</value>
+  </data>
+  <data name="Home_Hero_Badge" xml:space="preserve">
+    <value>இலவசம், திறந்த மூலம், MIT உரிமம்</value>
+  </data>
+  <data name="Home_Hero_GitHub" xml:space="preserve">
+    <value>GitHub-இல் பார்</value>
+  </data>
+  <data name="Home_Hero_Install" xml:space="preserve">
+    <value>நிறுவு</value>
+  </data>
+  <data name="Home_Hero_Subtitle" xml:space="preserve">
+    <value>Blazor Server மற்றும் WebAssembly-க்கான அணுகக்கூடிய, தீம் செய்யக்கூடிய கூறுகள்.</value>
+  </data>
+  <data name="Home_Hero_TitleAccent" xml:space="preserve">
+    <value>Blazor-க்கானது</value>
+  </data>
+  <data name="Home_Hero_TitleLead" xml:space="preserve">
+    <value>Tailwind CSS கூறு நூலகம்</value>
+  </data>
+  <data name="Home_Lang_ar" xml:space="preserve">
+    <value>அரபு</value>
+  </data>
+  <data name="Home_Lang_bn" xml:space="preserve">
+    <value>வங்காளம்</value>
+  </data>
+  <data name="Home_Lang_de" xml:space="preserve">
+    <value>ஜெர்மன்</value>
+  </data>
+  <data name="Home_Lang_en" xml:space="preserve">
+    <value>ஆங்கிலம்</value>
+  </data>
+  <data name="Home_Lang_es" xml:space="preserve">
+    <value>ஸ்பானிஷ்</value>
+  </data>
+  <data name="Home_Lang_fa" xml:space="preserve">
+    <value>பாரசீகம்</value>
+  </data>
+  <data name="Home_Lang_fr" xml:space="preserve">
+    <value>பிரெஞ்சு</value>
+  </data>
+  <data name="Home_Lang_hi" xml:space="preserve">
+    <value>இந்தி</value>
+  </data>
+  <data name="Home_Lang_id" xml:space="preserve">
+    <value>இந்தோனேசியம்</value>
+  </data>
+  <data name="Home_Lang_it" xml:space="preserve">
+    <value>இத்தாலியம்</value>
+  </data>
+  <data name="Home_Lang_ja" xml:space="preserve">
+    <value>ஜப்பானியம்</value>
+  </data>
+  <data name="Home_Lang_jv" xml:space="preserve">
+    <value>ஜாவானியம்</value>
+  </data>
+  <data name="Home_Lang_ko" xml:space="preserve">
+    <value>கொரியம்</value>
+  </data>
+  <data name="Home_Lang_mr" xml:space="preserve">
+    <value>மராத்தி</value>
+  </data>
+  <data name="Home_Lang_paArab" xml:space="preserve">
+    <value>மேற்கு பஞ்சாபி</value>
+  </data>
+  <data name="Home_Lang_pl" xml:space="preserve">
+    <value>போலிஷ்</value>
+  </data>
+  <data name="Home_Lang_pt" xml:space="preserve">
+    <value>போர்த்துகீசியம்</value>
+  </data>
+  <data name="Home_Lang_ru" xml:space="preserve">
+    <value>ரஷ்யன்</value>
+  </data>
+  <data name="Home_Lang_ta" xml:space="preserve">
+    <value>தமிழ்</value>
+  </data>
+  <data name="Home_Lang_te" xml:space="preserve">
+    <value>தெலுங்கு</value>
+  </data>
+  <data name="Home_Lang_tr" xml:space="preserve">
+    <value>துருக்கியம்</value>
+  </data>
+  <data name="Home_Lang_ur" xml:space="preserve">
+    <value>உருது</value>
+  </data>
+  <data name="Home_Lang_vi" xml:space="preserve">
+    <value>வியட்நாமியம்</value>
+  </data>
+  <data name="Home_Lang_zhHans" xml:space="preserve">
+    <value>எளிய சீனம்</value>
+  </data>
+  <data name="Home_Lang_zhHant" xml:space="preserve">
+    <value>பாரம்பரிய சீனம்</value>
+  </data>
+  <data name="Home_Live_Caption" xml:space="preserve">
+    <value>twblazor மார்க்அப்பின் நான்கு வரிகளும் அவை உருவாக்கும் நேரடிக் கூறுகளும்.</value>
+  </data>
+  <data name="Home_Live_Rendered" xml:space="preserve">
+    <value>4 கூறுகள் காட்டப்பட்டன</value>
+  </data>
+  <data name="Home_Live_Replay" xml:space="preserve">
+    <value>மீண்டும் இயக்கு</value>
+  </data>
+  <data name="Home_Live_ReplayTarget" xml:space="preserve">
+    <value>நேரடி உருவாக்கம்</value>
+  </data>
+  <data name="Home_Loc_Badge" xml:space="preserve">
+    <value>{0} மொழிகள், உள்ளமைந்தவை</value>
+  </data>
+  <data name="Home_Loc_Config_Body" xml:space="preserve">
+    <value>ஒரு கலாச்சாரத்தை நிலைநிறுத்துங்கள், வடிவமைப்பை அமையுங்கள் அல்லது லோக்கலைசரை மாற்றுங்கள்.</value>
+  </data>
+  <data name="Home_Loc_Config_Title" xml:space="preserve">
+    <value>AddTwBlazor-இல் அமைக்கப்படுகிறது</value>
+  </data>
+  <data name="Home_Loc_Dates_Body" xml:space="preserve">
+    <value>வாரத் தொடக்கமும் 12 அல்லது 24 மணிநேர நேரமும் கலாச்சாரத்தைப் பின்பற்றுகின்றன.</value>
+  </data>
+  <data name="Home_Loc_Dates_Title" xml:space="preserve">
+    <value>பொருத்தமான தேதிகளும் நேரங்களும்</value>
+  </data>
+  <data name="Home_Loc_Disclaimer" xml:space="preserve">
+    <value>ஆங்கிலம் அல்லாத மொழிபெயர்ப்புகள் AI-ஆல் உருவாக்கப்பட்டவை, இன்னும் சரிபார்க்கப்படவில்லை. &lt;a href=&quot;/localization#localization-contributing&quot; class=&quot;font-medium text-purple-800 underline underline-offset-2 dark:text-purple-300&quot;&gt;திருத்தத்தைப் பரிந்துரையுங்கள்&lt;/a&gt;.</value>
+  </data>
+  <data name="Home_Loc_HeadingAccent" xml:space="preserve">
+    <value>தொடக்கத்திலிருந்தே</value>
+  </data>
+  <data name="Home_Loc_HeadingLead" xml:space="preserve">
+    <value>உங்கள் பயனர்களின் மொழியைப் பேசுகிறது,</value>
+  </data>
+  <data name="Home_Loc_LanguagesLabel" xml:space="preserve">
+    <value>ஆதரிக்கப்படும் மொழிகள்</value>
+  </data>
+  <data name="Home_Loc_Link" xml:space="preserve">
+    <value>உள்ளூர்மயமாக்கல் எப்படி வேலை செய்கிறது எனப் பாருங்கள்</value>
+  </data>
+  <data name="Home_Loc_More" xml:space="preserve">
+    <value>மேலும் {0} மொழிகள்</value>
+  </data>
+  <data name="Home_Loc_Resx_Body" xml:space="preserve">
+    <value>உங்கள் சொந்த வள கோப்புகளைக் கொண்டு எந்த உரையையும் சேர்க்கவும் அல்லது மாற்றவும்.</value>
+  </data>
+  <data name="Home_Loc_Resx_Title" xml:space="preserve">
+    <value>ஒவ்வொரு மொழிக்கும் ஒரு .resx கோப்பு</value>
+  </data>
+  <data name="Home_Loc_Sub" xml:space="preserve">
+    <value>ஒவ்வொரு லேபிளும் செய்தியும் திரை வாசிப்பான் அறிவிப்பும் மொழிபெயர்க்கப்பட்டுள்ளன, தேதிகள் கலாச்சாரத்தைப் பின்பற்றுகின்றன. அமைக்க எதுவும் இல்லை.</value>
+  </data>
+  <data name="Home_Merge_Badge" xml:space="preserve">
+    <value>உள்ளமைந்தது. npm இல்லை, JavaScript இல்லை.</value>
+  </data>
+  <data name="Home_Merge_Caption" xml:space="preserve">
+    <value>வகுப்பு இணைப்பின் நேரடி எடுத்துக்காட்டு. கூறுக்கு அனுப்பப்படும் வகுப்பை மாற்ற ஒரு எடுத்துக்காட்டைத் தேர்ந்தெடுங்கள்.</value>
+  </data>
+  <data name="Home_Merge_Color" xml:space="preserve">
+    <value>நிறம்</value>
+  </data>
+  <data name="Home_Merge_Configure_Body" xml:space="preserve">
+    <value>தனிப்பயன் பயன்பாடுகள், ஒரு முன்னொட்டு அல்லது அணைத்தல், AddTwBlazor-இலிருந்து.</value>
+  </data>
+  <data name="Home_Merge_Configure_Title" xml:space="preserve">
+    <value>உங்கள் விருப்பப்படி அமையுங்கள்</value>
+  </data>
+  <data name="Home_Merge_GroupLabel" xml:space="preserve">
+    <value>வகுப்பு இணைப்பு எடுத்துக்காட்டு</value>
+  </data>
+  <data name="Home_Merge_HeadingAccent" xml:space="preserve">
+    <value>உள்ளேயே அமைந்தது</value>
+  </data>
+  <data name="Home_Merge_HeadingLead" xml:space="preserve">
+    <value>Tailwind வகுப்பு இணைப்பு,</value>
+  </data>
+  <data name="Home_Merge_LastWins_Body" xml:space="preserve">
+    <value>tailwind-merge-இன் C# பதிப்பு. நிறுவ எதுவும் இல்லை.</value>
+  </data>
+  <data name="Home_Merge_LastWins_Title" xml:space="preserve">
+    <value>கடைசி வகுப்பே வெல்லும்</value>
+  </data>
+  <data name="Home_Merge_Link" xml:space="preserve">
+    <value>வகுப்பு இணைப்பு எப்படி வேலை செய்கிறது எனப் பாருங்கள்</value>
+  </data>
+  <data name="Home_Merge_Padding" xml:space="preserve">
+    <value>உள்ளிடைவெளி</value>
+  </data>
+  <data name="Home_Merge_Replaced" xml:space="preserve">
+    <value>மாற்றப்பட்டது:</value>
+  </data>
+  <data name="Home_Merge_Shape" xml:space="preserve">
+    <value>வடிவம்</value>
+  </data>
+  <data name="Home_Merge_Shorthand" xml:space="preserve">
+    <value>சுருக்கம்</value>
+  </data>
+  <data name="Home_Merge_Sub" xml:space="preserve">
+    <value>&lt;code&gt;Class=&quot;px-3&quot;&lt;/code&gt; ஐக் கொடுங்கள், அது தீமின் &lt;code&gt;px-6&lt;/code&gt; இடத்தைப் பிடிக்கும். உங்கள் வகுப்பே எப்போதும் வெல்லும்.</value>
+  </data>
+  <data name="Home_Merge_Theme" xml:space="preserve">
+    <value>தீம்</value>
+  </data>
+  <data name="Home_Merge_V4_Body" xml:space="preserve">
+    <value>வேரியன்ட்கள், விருப்ப மதிப்புகள், முன்னொட்டுகள், 700-க்கும் மேற்பட்ட நிகழ்வுகளில் சோதிக்கப்பட்டது.</value>
+  </data>
+  <data name="Home_Merge_V4_Title" xml:space="preserve">
+    <value>Tailwind v4-ஐப் புரிந்துகொள்கிறது</value>
+  </data>
+  <data name="Home_Merge_YourClass" xml:space="preserve">
+    <value>உங்கள் Class</value>
+  </data>
+  <data name="Home_Next" xml:space="preserve">
+    <value>அடுத்து</value>
+  </data>
+  <data name="Home_OpenSource" xml:space="preserve">
+    <value>எப்போதும் இலவசம், MIT உரிமம். சமூகத்துடன் வெளிப்படையாக உருவாக்கப்படுகிறது.</value>
+  </data>
+  <data name="Home_Password" xml:space="preserve">
+    <value>கடவுச்சொல்</value>
+  </data>
+  <data name="Home_PasswordPlaceholder" xml:space="preserve">
+    <value>உங்கள் கடவுச்சொல்லை உள்ளிடுங்கள்</value>
+  </data>
+  <data name="Home_Preview" xml:space="preserve">
+    <value>முன்னோட்டம்</value>
+  </data>
+  <data name="Home_Quick_Caption" xml:space="preserve">
+    <value>twblazor-ஐ நிறுவுதல், பிறகு மார்க்அப்பின் இரண்டு வரிகளும் அவை உருவாக்கும் பொத்தானும் எச்சரிக்கையும்.</value>
+  </data>
+  <data name="Home_Quick_Heading" xml:space="preserve">
+    <value>சில நிமிடங்களில் இயங்கும்</value>
+  </data>
+  <data name="Home_Quick_Installed" xml:space="preserve">
+    <value>twblazor நிறுவப்பட்டது</value>
+  </data>
+  <data name="Home_Quick_Sub" xml:space="preserve">
+    <value>நிறுவுங்கள், பதிவுசெய்யுங்கள், உருவாக்குங்கள்.</value>
+  </data>
+  <data name="Home_Quick_Window" xml:space="preserve">
+    <value>டெர்மினலும் Home.razor-உம்</value>
+  </data>
+  <data name="Home_Release_AvgTime" xml:space="preserve">
+    <value>சராசரி நேரம்</value>
+  </data>
+  <data name="Home_Release_Deploys" xml:space="preserve">
+    <value>வெளியீடுகள்</value>
+  </data>
+  <data name="Home_Release_Storage" xml:space="preserve">
+    <value>சேமிப்பகம் கிட்டத்தட்ட நிரம்பிவிட்டது.</value>
+  </data>
+  <data name="Home_Release_Title" xml:space="preserve">
+    <value>வெளியீட்டு நிலை</value>
+  </data>
+  <data name="Home_RememberMe" xml:space="preserve">
+    <value>என்னை நினைவில் வை</value>
+  </data>
+  <data name="Home_Rendered" xml:space="preserve">
+    <value>முடிவு</value>
+  </data>
+  <data name="Home_Rtl_Badge" xml:space="preserve">
+    <value>வலமிருந்து இடம், உள்ளமைந்தது</value>
+  </data>
+  <data name="Home_Rtl_Caption" xml:space="preserve">
+    <value>அதே கூறுகள் இடமிருந்து வலமாகவும் வலமிருந்து இடமாகவும் அமைக்கப்பட்ட நேரடி எடுத்துக்காட்டு. மாற்ற ஒரு திசையைத் தேர்ந்தெடுங்கள்.</value>
+  </data>
+  <data name="Home_Rtl_Follows_Body" xml:space="preserve">
+    <value>வலமிருந்து இடமாக எழுதும் கலாச்சாரங்கள் தானாகவே பிரதிபலிக்கின்றன.</value>
+  </data>
+  <data name="Home_Rtl_Follows_Title" xml:space="preserve">
+    <value>மொழியைப் பின்பற்றுகிறது</value>
+  </data>
+  <data name="Home_Rtl_GroupLabel" xml:space="preserve">
+    <value>தளவமைப்புத் திசை</value>
+  </data>
+  <data name="Home_Rtl_HeadingAccent" xml:space="preserve">
+    <value>இரண்டாவது ஸ்டைல்ஷீட் இல்லாமல்</value>
+  </data>
+  <data name="Home_Rtl_HeadingLead" xml:space="preserve">
+    <value>வலமிருந்து இடமாகப் படிக்கலாம்,</value>
+  </data>
+  <data name="Home_Rtl_Keys_Body" xml:space="preserve">
+    <value>ஒவ்வொரு கூறிலும் அம்புக்குறி விசைகள் சுட்டும் திசையிலேயே நகரும்.</value>
+  </data>
+  <data name="Home_Rtl_Keys_Title" xml:space="preserve">
+    <value>திரைக்கு ஏற்ற விசைகள்</value>
+  </data>
+  <data name="Home_Rtl_Link" xml:space="preserve">
+    <value>வலமிருந்து இடம் எப்படி வேலை செய்கிறது எனப் பாருங்கள்</value>
+  </data>
+  <data name="Home_Rtl_Ltr" xml:space="preserve">
+    <value>இடமிருந்து வலம்</value>
+  </data>
+  <data name="Home_Rtl_Mix_Body" xml:space="preserve">
+    <value>எந்தப் பகுதியையும் TwDirectionProvider-இல் சுற்றுங்கள்.</value>
+  </data>
+  <data name="Home_Rtl_Mix_Title" xml:space="preserve">
+    <value>ஒரே பக்கத்தில் திசைகளைக் கலக்குங்கள்</value>
+  </data>
+  <data name="Home_Rtl_Rtl" xml:space="preserve">
+    <value>வலமிருந்து இடம்</value>
+  </data>
+  <data name="Home_Rtl_Sub" xml:space="preserve">
+    <value>அரபு, ஹீப்ரு, பாரசீகம், உருது ஆகியவை ஒவ்வொரு கூறையும் பிரதிபலிக்கின்றன: இடைவெளி, ஐகான்கள், பலகைகள், அம்புக்குறி விசைகள்.</value>
+  </data>
+  <data name="Home_SaveChanges" xml:space="preserve">
+    <value>மாற்றங்களைச் சேமி</value>
+  </data>
+  <data name="Home_Series_Database" xml:space="preserve">
+    <value>தரவுத்தளம்</value>
+  </data>
+  <data name="Home_Series_Succeeded" xml:space="preserve">
+    <value>வெற்றி</value>
+  </data>
+  <data name="Home_Series_WebApp" xml:space="preserve">
+    <value>வலை ஆப்</value>
+  </data>
+  <data name="Home_Series_Workers" xml:space="preserve">
+    <value>பணியாளர்கள்</value>
+  </data>
+  <data name="Home_Settings_DeployOnPush" xml:space="preserve">
+    <value>புஷ் செய்யும்போது வெளியிடு</value>
+  </data>
+  <data name="Home_Settings_EmailAlerts" xml:space="preserve">
+    <value>மின்னஞ்சல் எச்சரிக்கைகள்</value>
+  </data>
+  <data name="Home_Settings_Environment" xml:space="preserve">
+    <value>சூழல்</value>
+  </data>
+  <data name="Home_Settings_Private" xml:space="preserve">
+    <value>தனிப்பட்டது</value>
+  </data>
+  <data name="Home_Settings_ProjectName" xml:space="preserve">
+    <value>திட்டப் பெயர்</value>
+  </data>
+  <data name="Home_Settings_Public" xml:space="preserve">
+    <value>பொது</value>
+  </data>
+  <data name="Home_Settings_Reset" xml:space="preserve">
+    <value>மீட்டமை</value>
+  </data>
+  <data name="Home_Settings_Saved" xml:space="preserve">
+    <value>அமைப்புகள் சேமிக்கப்பட்டன.</value>
+  </data>
+  <data name="Home_Settings_Storage" xml:space="preserve">
+    <value>பயன்படுத்திய சேமிப்பகம்</value>
+  </data>
+  <data name="Home_Settings_StorageAmount" xml:space="preserve">
+    <value>10 GB-இல் 7.2</value>
+  </data>
+  <data name="Home_Settings_Sub" xml:space="preserve">
+    <value>உங்கள் குழு எப்படி வெளியிடுகிறது என்பதை நிர்வகியுங்கள்</value>
+  </data>
+  <data name="Home_Settings_Team" xml:space="preserve">
+    <value>குழு</value>
+  </data>
+  <data name="Home_Settings_Title" xml:space="preserve">
+    <value>திட்ட அமைப்புகள்</value>
+  </data>
+  <data name="Home_Settings_Visibility" xml:space="preserve">
+    <value>தெரிவுநிலை</value>
+  </data>
+  <data name="Home_SignIn" xml:space="preserve">
+    <value>உள்நுழை</value>
+  </data>
+  <data name="Home_Theming_Caption" xml:space="preserve">
+    <value>Theme.cs-இன் மூன்று வரிகள் ஒரு நேரடிப் பொத்தானின் பாணியை மாற்றுகின்றன: முழு வட்டம், பெரிய நிழல், புதிய முதன்மை நிறம்.</value>
+  </data>
+  <data name="Home_Theming_Defaults_Body" xml:space="preserve">
+    <value>இயல்புநிலையை ஒருமுறை அமையுங்கள், எந்த நிகழ்வையும் மேலெழுதுங்கள்.</value>
+  </data>
+  <data name="Home_Theming_Defaults_Title" xml:space="preserve">
+    <value>உலகளாவிய இயல்புநிலைகள், உள்ளூர் மேலெழுதல்கள்</value>
+  </data>
+  <data name="Home_Theming_Heading" xml:space="preserve">
+    <value>எந்த Blazor நூலகத்திலும் இல்லாத ஆழமான Tailwind தீமிங்</value>
+  </data>
+  <data name="Home_Theming_Jit_Body" xml:space="preserve">
+    <value>Tailwind பார்க்கக்கூடிய சாதாரண சரம் லிட்டரல்கள். safelist தேவையில்லை.</value>
+  </data>
+  <data name="Home_Theming_Jit_Title" xml:space="preserve">
+    <value>உண்மையான Tailwind, உண்மையான JIT</value>
+  </data>
+  <data name="Home_Theming_Restyled" xml:space="preserve">
+    <value>Theme.cs மூலம் புதிய பாணி, CSS இல்லாமல்</value>
+  </data>
+  <data name="Home_Theming_Sub" xml:space="preserve">
+    <value>ஒவ்வொரு காட்சி விவரமும் உங்களுக்குச் சொந்தமான சாதாரண Tailwind வகுப்பு, ஒவ்வொரு கூறுக்கும் வகைப்படுத்தப்பட்டது. DLL-க்குள் கருப்புப் பெட்டி இல்லை.</value>
+  </data>
+  <data name="Home_Theming_Tokens_Body" xml:space="preserve">
+    <value>ஒருமுறை நிறத்தை அமையுங்கள், ஒவ்வொரு கூறும் அதைப் பின்பற்றும்.</value>
+  </data>
+  <data name="Home_Theming_Tokens_Title" xml:space="preserve">
+    <value>மீண்டும் பயன்படுத்தக்கூடிய வடிவமைப்பு டோக்கன்கள்</value>
+  </data>
+  <data name="Home_Theming_Typed_Body" xml:space="preserve">
+    <value>ஒவ்வொரு கூறுக்கும் ஒரு C# தீம் வகுப்பு, ஒவ்வொரு வகுப்பும் பெயரிடப்பட்ட பண்பு.</value>
+  </data>
+  <data name="Home_Theming_Typed_Title" xml:space="preserve">
+    <value>ஒவ்வொரு வகுப்பும் வகைப்படுத்தப்பட்டது, மேலெழுதக்கூடியது</value>
+  </data>
+  <data name="Home_Why_Title" xml:space="preserve">
+    <value>ஏன் twblazor?</value>
+  </data>
+  <data name="Nav_AiAgents" xml:space="preserve">
+    <value>AI முகவர்களும் திறன்களும்</value>
+  </data>
+  <data name="Nav_ApiDocs" xml:space="preserve">
+    <value>API ஆவணங்கள்</value>
+  </data>
+  <data name="Nav_ClassMerge" xml:space="preserve">
+    <value>வகுப்பு இணைப்பு</value>
+  </data>
+  <data name="Nav_Configuration" xml:space="preserve">
+    <value>உள்ளமைவு</value>
+  </data>
+  <data name="Nav_ConfiguringLocalization" xml:space="preserve">
+    <value>உள்ளூர்மயமாக்கலை அமைத்தல்</value>
+  </data>
+  <data name="Nav_GetStarted" xml:space="preserve">
+    <value>தொடங்குதல்</value>
+  </data>
+  <data name="Nav_GetStartedGroup" xml:space="preserve">
+    <value>தொடங்குதல்</value>
+  </data>
+  <data name="Nav_Group_chart-comparison-navitem" xml:space="preserve">
+    <value>ஒப்பீடு</value>
+  </data>
+  <data name="Nav_Group_chart-distribution-navitem" xml:space="preserve">
+    <value>பரவல்</value>
+  </data>
+  <data name="Nav_Group_chart-flow-navitem" xml:space="preserve">
+    <value>ஓட்டங்கள்</value>
+  </data>
+  <data name="Nav_Group_chart-hierarchy-navitem" xml:space="preserve">
+    <value>படிநிலை</value>
+  </data>
+  <data name="Nav_Group_chart-parts-navitem" xml:space="preserve">
+    <value>முழுமையின் பகுதிகள்</value>
+  </data>
+  <data name="Nav_Group_chart-relationship-navitem" xml:space="preserve">
+    <value>தொடர்புகள்</value>
+  </data>
+  <data name="Nav_Group_chart-sets-navitem" xml:space="preserve">
+    <value>கணங்கள்</value>
+  </data>
+  <data name="Nav_Group_chart-time-navitem" xml:space="preserve">
+    <value>காலப்போக்கில் மாற்றம்</value>
+  </data>
+  <data name="Nav_Group_chart-variables-navitem" xml:space="preserve">
+    <value>பல மாறிகள்</value>
+  </data>
+  <data name="Nav_Group_charts" xml:space="preserve">
+    <value>விளக்கப்படங்கள்</value>
+  </data>
+  <data name="Nav_Group_chat" xml:space="preserve">
+    <value>அரட்டை</value>
+  </data>
+  <data name="Nav_Group_data" xml:space="preserve">
+    <value>தரவு</value>
+  </data>
+  <data name="Nav_Group_feedback" xml:space="preserve">
+    <value>பின்னூட்டம்</value>
+  </data>
+  <data name="Nav_Group_forms" xml:space="preserve">
+    <value>படிவங்கள்</value>
+  </data>
+  <data name="Nav_Group_inputs-navitem" xml:space="preserve">
+    <value>உள்ளீடுகள்</value>
+  </data>
+  <data name="Nav_Group_layout" xml:space="preserve">
+    <value>தளவமைப்பு</value>
+  </data>
+  <data name="Nav_Group_services" xml:space="preserve">
+    <value>சேவைகள்</value>
+  </data>
+  <data name="Nav_Home" xml:space="preserve">
+    <value>முகப்பு</value>
+  </data>
+  <data name="Nav_Localization" xml:space="preserve">
+    <value>உள்ளூர்மயமாக்கல்</value>
+  </data>
+  <data name="Nav_RtlProvider" xml:space="preserve">
+    <value>RTL வழங்குநர்</value>
+  </data>
+  <data name="Nav_TailwindBlazor" xml:space="preserve">
+    <value>Blazor உடன் Tailwind</value>
+  </data>
+  <data name="Nav_Theme" xml:space="preserve">
+    <value>தீம்</value>
+  </data>
+  <data name="Nav_WhyTwBlazor" xml:space="preserve">
+    <value>ஏன் twblazor?</value>
+  </data>
+</root>

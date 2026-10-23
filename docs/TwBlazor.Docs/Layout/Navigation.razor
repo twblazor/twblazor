@@ -5,14 +5,15 @@
 <TwSidebar NavigationItems="_navigationItems" MainContentClass="@(MainContentPadding ? "p-3" : string.Empty)" NavbarClass="justify-between" @bind-IsSidebarOpen="isSidebarOpen" IsSearchable>
     <NavbarNavigationContent>
         <NavLink href="/" Match="NavLinkMatch.All" class="@navLinkClasses">
-            Home
+            @Loc.Text("Nav_Home", "Home")
         </NavLink>
         <NavLink href="/get-started" Match="NavLinkMatch.All" class="@navLinkClasses">
-            Get Started
+            @Loc.Text("Nav_GetStartedGroup", "Get Started")
         </NavLink>
     </NavbarNavigationContent>
     <NavbarActionsContent>
         <TwIcon Id="search-dialog-toggle" Icon="Icon.Search" AriaLabel="Open search dialog" OnClick="SearchDialog" Class="@navIconClasses" />
+        <LocaleSwitcher ButtonClass="@navIconClasses" />
         <TwIcon Id="theme-toggle" Icon="@themeIcon" AriaLabel="@themeToggleLabel" OnClick="ToggleTheme" Class="@navIconClasses" />
         <span class="sr-only" role="status" aria-live="polite">@themeStatusMessage</span>
     </NavbarActionsContent>
