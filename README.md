@@ -36,6 +36,9 @@
 - [Supported .NET Versions](#supported-net-versions)
 - [Dependencies](#dependencies)
 
+
+ [Support twblazor development 💜](#support-development)
+
 ## Why twblazor?
 
 - Every component is styled with plain Tailwind CSS classes, so there is no built-in CSS to fight when you want something to look different.
@@ -201,6 +204,14 @@ All our packages currently support and built in .NET 10.
 | Version      | Supported          | .NET    |
 | ------------ | ------------------ | ------- |
 | *            | :white_check_mark: | .NET 10 |
+
+## Support development
+
+This library is powered by Tailwind, Blazor and a dangerous amount of coffee. You can help with that last one: 
+
+https://buymeacoffee.com/twblazor
+
+Thank you! ☕
 
 ## Dependencies 
 
