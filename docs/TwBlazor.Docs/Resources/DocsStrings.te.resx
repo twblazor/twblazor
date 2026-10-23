@@ -22,10 +22,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <!-- Common -->
-    <data name="Footer_Documentation" xml:space="preserve">
-    <value>డాక్యుమెంటేషన్</value>
-  </data>
-  <data name="Footer_FreeForever" xml:space="preserve">
+    <data name="Footer_FreeForever" xml:space="preserve">
     <value>twblazor ఉచితం, ఓపెన్ సోర్స్, ఎప్పటికీ అలాగే ఉంటుంది.</value>
   </data>
   <data name="Footer_Label" xml:space="preserve">
@@ -34,29 +31,65 @@
   <data name="Footer_License" xml:space="preserve">
     <value>MIT లైసెన్స్</value>
   </data>
+  <data name="Footer_Link_AiAgents" xml:space="preserve">
+    <value>AI ఏజెంట్లు, స్కిల్స్</value>
+  </data>
+  <data name="Footer_Link_ApiDocs" xml:space="preserve">
+    <value>API డాక్యుమెంటేషన్</value>
+  </data>
+  <data name="Footer_Link_ClassMerge" xml:space="preserve">
+    <value>క్లాస్ మెర్జింగ్</value>
+  </data>
+  <data name="Footer_Link_CodeOfConduct" xml:space="preserve">
+    <value>ప్రవర్తనా నియమావళి</value>
+  </data>
+  <data name="Footer_Link_Contributing" xml:space="preserve">
+    <value>సహకరించండి</value>
+  </data>
+  <data name="Footer_Link_Install" xml:space="preserve">
+    <value>ఇన్‌స్టాల్ గైడ్</value>
+  </data>
+  <data name="Footer_Link_Issue" xml:space="preserve">
+    <value>సమస్యను నివేదించండి</value>
+  </data>
+  <data name="Footer_Link_Localization" xml:space="preserve">
+    <value>లోకలైజేషన్</value>
+  </data>
+  <data name="Footer_Link_Rtl" xml:space="preserve">
+    <value>కుడి నుండి ఎడమకు</value>
+  </data>
+  <data name="Footer_Link_Tailwind" xml:space="preserve">
+    <value>Blazorతో Tailwind CSS</value>
+  </data>
+  <data name="Footer_Link_Theming" xml:space="preserve">
+    <value>థీమింగ్</value>
+  </data>
+  <data name="Footer_Link_Why" xml:space="preserve">
+    <value>twblazor ఎందుకు?</value>
+  </data>
   <data name="Footer_NewTab" xml:space="preserve">
     <value>(కొత్త ట్యాబ్‌లో తెరుచుకుంటుంది)</value>
+  </data>
+  <data name="Footer_Sec_Community" xml:space="preserve">
+    <value>కమ్యూనిటీ</value>
+  </data>
+  <data name="Footer_Sec_GetStarted" xml:space="preserve">
+    <value>ప్రారంభించండి</value>
+  </data>
+  <data name="Footer_Sec_Guides" xml:space="preserve">
+    <value>గైడ్‌లు</value>
+  </data>
+  <data name="Footer_Sec_Resources" xml:space="preserve">
+    <value>వనరులు</value>
+  </data>
+  <data name="Footer_Tagline" xml:space="preserve">
+    <value>Blazor కోసం Tailwind CSS కాంపోనెంట్ లైబ్రరీ. యాక్సెసిబుల్, థీమ్ చేయగలది, MIT లైసెన్స్.</value>
   </data>
   <data name="Home_Back" xml:space="preserve">
     <value>వెనుకకు</value>
   </data>
-  <data name="Home_Brand_apple" xml:space="preserve">
-    <value>విశాలమైన ఖాళీ, మృదువైన ఆకారాలు: మాత్ర ఆకార బటన్‌లు, పెద్ద గుండ్రని టైల్స్, నీడలు లేవు, పారదర్శక నావిగేషన్ బార్.</value>
-  </data>
-  <data name="Home_Brand_Disclaimer" xml:space="preserve">
-    <value>twblazorకు Microsoft, Apple, LEGO గ్రూప్, Tesco లేదా Trading 212తో ఎలాంటి సంబంధం లేదు, అవి దీన్ని ఆమోదించలేదు లేదా ప్రాయోజితం చేయలేదు. ఇవి ఒక కస్టమ్ థీమ్ ఏమి చేయగలదో చూపడానికి చేసిన స్వతంత్ర ఉదాహరణలు, ఆ కంపెనీల వెబ్‌సైట్‌లు కావు. ఉత్పత్తుల పేర్లు, ధరలు, ఆఫర్‌లు, మార్కెట్ డేటా కేవలం ఉదాహరణ కోసమే, ఇక్కడ ఏదీ ఆర్థిక సలహా కాదు. లోగోలు, చిత్రాలు ప్రతి కంపెనీ సొంత వెబ్‌సైట్ నుండి తీసుకున్నవి, అవి ఆ కంపెనీకే చెందుతాయి; అన్ని ట్రేడ్‌మార్క్‌లు వాటి యజమానులవి.</value>
-  </data>
-  <data name="Home_Brand_lego" xml:space="preserve">
-    <value>ప్రకాశవంతంగా, స్నేహపూర్వకంగా: పసుపు బార్, ముదురు అక్షరాలతో నారింజ మాత్ర బటన్‌లు, నీలి లింక్‌లు, బోల్డ్ ఫాంట్, చదునైన తెల్ల కార్డులు.</value>
-  </data>
-  <data name="Home_Brand_microsoft" xml:space="preserve">
-    <value>స్పష్టమైన, ప్రశాంతమైన సిస్టమ్ రూపం: 2px మూలలు, సన్నని అంచులు, తేలికపాటి నీడ, ఫోకస్‌లో అండర్‌లైన్ అయ్యే ఇన్‌పుట్‌లు.</value>
-  </data>
-  <data name="Home_Brand_tesco" xml:space="preserve">
-    <value>స్పష్టంగా, ఆచరణాత్మకంగా: నమ్మకమైన నీలం, పెద్ద టచ్ ప్రాంతం గల మాత్ర బటన్‌లు, అంచులున్న చదునైన టైల్స్, ఆఫర్‌లకు ఎరుపు.</value>
-  </data>
-  <data name="Home_Brand_trading212" xml:space="preserve">
-    <value>శుభ్రంగా, ఆత్మవిశ్వాసంతో: మెరిసే నీలి మాత్ర బటన్‌లు, పెద్ద మృదువైన కార్డులు, చల్లని తటస్థ ఉపరితలాలు, ఆకుపచ్చ-ఎరుపు లాభనష్టాలకు మాత్రమే.</value>
+  <data name="Home_Brand_ShortDisclaimer" xml:space="preserve">
+    <value>స్వతంత్ర ఉదాహరణలు. twblazorకు ఈ కంపెనీలతో సంబంధం లేదు, అవి దీన్ని ఆమోదించలేదు.</value>
   </data>
   <data name="Home_Case_Eyebrow" xml:space="preserve">
     <value>పనిచేస్తుండగా చూడండి</value>
@@ -71,7 +104,7 @@
     <value>థీమ్ చూడండి</value>
   </data>
   <data name="Home_Case_Sub" xml:space="preserve">
-    <value>అవే కాంపోనెంట్‌లు, వేరే &lt;code&gt;Theme.cs&lt;/code&gt;తో. CSS ఓవర్‌రైడ్‌లు లేవు.</value>
+    <value>అవే కాంపోనెంట్‌లు, వేరే &lt;code&gt;Theme.cs&lt;/code&gt;.</value>
   </data>
   <data name="Home_Chart_Day" xml:space="preserve">
     <value>రోజు</value>
@@ -194,7 +227,7 @@
     <value>ARIA, కీబోర్డ్ మద్దతు అంతర్నిర్మితం.</value>
   </data>
   <data name="Home_Feature_A11y_Title" xml:space="preserve">
-    <value>డిఫాల్ట్‌గానే యాక్సెసిబుల్</value>
+    <value>యాక్సెసిబుల్</value>
   </data>
   <data name="Home_Feature_Composable_Body" xml:space="preserve">
     <value>సాధారణ Blazor పారామితులు. ఆశ్చర్యాలు లేవు.</value>
@@ -374,10 +407,10 @@
     <value>సాంప్రదాయ చైనీస్</value>
   </data>
   <data name="Home_Live_Caption" xml:space="preserve">
-    <value>twblazor మార్కప్ నాలుగు పంక్తులు, అవి చూపే లైవ్ కాంపోనెంట్‌లు.</value>
+    <value>twblazor మార్కప్ ఆరు పంక్తులు, అవి చూపే లైవ్ కాంపోనెంట్‌లు.</value>
   </data>
   <data name="Home_Live_Rendered" xml:space="preserve">
-    <value>4 కాంపోనెంట్‌లు రెండర్ అయ్యాయి</value>
+    <value>6 కాంపోనెంట్‌లు రెండర్ అయ్యాయి</value>
   </data>
   <data name="Home_Live_Replay" xml:space="preserve">
     <value>మళ్లీ ప్లే చేయి</value>
@@ -640,8 +673,23 @@
   <data name="Home_SignIn" xml:space="preserve">
     <value>సైన్ ఇన్</value>
   </data>
+  <data name="Home_Theming_After" xml:space="preserve">
+    <value>తర్వాత</value>
+  </data>
+  <data name="Home_Theming_Before" xml:space="preserve">
+    <value>ముందు</value>
+  </data>
   <data name="Home_Theming_Caption" xml:space="preserve">
-    <value>Theme.cs మూడు పంక్తులు ఒక లైవ్ బటన్ శైలిని మారుస్తాయి: పూర్తిగా గుండ్రంగా, పెద్ద నీడ, కొత్త ప్రాథమిక రంగు.</value>
+    <value>Theme.cs మూడు పంక్తులు ఒక లైవ్ బటన్ శైలిని మారుస్తాయి, దాన్ని అసలు బటన్ పక్కన చూపిస్తాయి: పూర్తిగా గుండ్రని మూలలు, పెద్ద నీడ, గులాబీ ప్రాథమిక రంగు.</value>
+  </data>
+  <data name="Home_Theming_Change_Colour" xml:space="preserve">
+    <value>రంగు: గులాబీ</value>
+  </data>
+  <data name="Home_Theming_Change_Corners" xml:space="preserve">
+    <value>మూలలు: పూర్తి గుండ్రం</value>
+  </data>
+  <data name="Home_Theming_Change_Shadow" xml:space="preserve">
+    <value>నీడ: పెద్దది</value>
   </data>
   <data name="Home_Theming_Defaults_Body" xml:space="preserve">
     <value>డిఫాల్ట్‌ను ఒకసారి సెట్ చేయండి, ఏ ఇన్‌స్టెన్స్‌నైనా ఓవర్‌రైడ్ చేయండి.</value>
@@ -675,6 +723,9 @@
   </data>
   <data name="Home_Theming_Typed_Title" xml:space="preserve">
     <value>ప్రతి క్లాస్ టైప్ చేయబడింది, ఓవర్‌రైడ్ చేయగలదు</value>
+  </data>
+  <data name="Home_Theming_WhatChanged" xml:space="preserve">
+    <value>ఏమి మారింది</value>
   </data>
   <data name="Home_Why_Title" xml:space="preserve">
     <value>twblazor ఎందుకు?</value>

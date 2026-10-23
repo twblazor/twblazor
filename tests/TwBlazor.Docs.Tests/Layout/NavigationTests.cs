@@ -90,7 +90,8 @@ public class NavigationTests : DocsTestBase
         Assert.Contains("Localization", toggle.TextContent);
         Assert.Null(toggle.GetAttribute("href"));
 
-        var links = cut.FindAll("a").ToList();
+        // Only the sidebar: the footer links to the same pages.
+        var links = cut.FindAll("nav[aria-label='sidebar navigation'] a").ToList();
         var configuring = links.Single(a => a.GetAttribute("href") == "/localization");
         var provider = links.Single(a => a.GetAttribute("href") == "/direction-provider");
         Assert.Contains("Configuring localization", configuring.TextContent);

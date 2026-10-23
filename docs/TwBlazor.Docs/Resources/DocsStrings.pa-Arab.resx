@@ -22,10 +22,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <!-- Common -->
-    <data name="Footer_Documentation" xml:space="preserve">
-    <value>دستاویزاں</value>
-  </data>
-  <data name="Footer_FreeForever" xml:space="preserve">
+    <data name="Footer_FreeForever" xml:space="preserve">
     <value>twblazor مفت تے اوپن سورس اے تے ہمیشہ رہوے گا۔</value>
   </data>
   <data name="Footer_Label" xml:space="preserve">
@@ -34,29 +31,65 @@
   <data name="Footer_License" xml:space="preserve">
     <value>MIT لائسنس</value>
   </data>
+  <data name="Footer_Link_AiAgents" xml:space="preserve">
+    <value>AI ایجنٹ تے ہنر</value>
+  </data>
+  <data name="Footer_Link_ApiDocs" xml:space="preserve">
+    <value>API دستاویزاں</value>
+  </data>
+  <data name="Footer_Link_ClassMerge" xml:space="preserve">
+    <value>کلاس دا ملاپ</value>
+  </data>
+  <data name="Footer_Link_CodeOfConduct" xml:space="preserve">
+    <value>رویے دا ضابطہ</value>
+  </data>
+  <data name="Footer_Link_Contributing" xml:space="preserve">
+    <value>حصہ پاؤ</value>
+  </data>
+  <data name="Footer_Link_Install" xml:space="preserve">
+    <value>انسٹال کرن دی گائیڈ</value>
+  </data>
+  <data name="Footer_Link_Issue" xml:space="preserve">
+    <value>مسئلہ دسو</value>
+  </data>
+  <data name="Footer_Link_Localization" xml:space="preserve">
+    <value>لوکلائزیشن</value>
+  </data>
+  <data name="Footer_Link_Rtl" xml:space="preserve">
+    <value>سجے توں کھبے</value>
+  </data>
+  <data name="Footer_Link_Tailwind" xml:space="preserve">
+    <value>Blazor نال Tailwind CSS</value>
+  </data>
+  <data name="Footer_Link_Theming" xml:space="preserve">
+    <value>تھیماں</value>
+  </data>
+  <data name="Footer_Link_Why" xml:space="preserve">
+    <value>twblazor کیوں؟</value>
+  </data>
   <data name="Footer_NewTab" xml:space="preserve">
     <value>(نویں ٹیب وچ کھلدا اے)</value>
+  </data>
+  <data name="Footer_Sec_Community" xml:space="preserve">
+    <value>کمیونٹی</value>
+  </data>
+  <data name="Footer_Sec_GetStarted" xml:space="preserve">
+    <value>شروع کرو</value>
+  </data>
+  <data name="Footer_Sec_Guides" xml:space="preserve">
+    <value>رہنمائیاں</value>
+  </data>
+  <data name="Footer_Sec_Resources" xml:space="preserve">
+    <value>وسیلے</value>
+  </data>
+  <data name="Footer_Tagline" xml:space="preserve">
+    <value>Blazor لئی Tailwind CSS کمپوننٹ لائبریری۔ پہنچ والی، تھیم جوگ تے MIT لائسنس والی۔</value>
   </data>
   <data name="Home_Back" xml:space="preserve">
     <value>پچھے</value>
   </data>
-  <data name="Home_Brand_apple" xml:space="preserve">
-    <value>کھلی تھاں تے نرم شکلاں: گولی ورگے بٹن، وڈے گول ٹائل، کوئی پرچھاواں نہیں تے ادھ صاف نیویگیشن بار۔</value>
-  </data>
-  <data name="Home_Brand_Disclaimer" xml:space="preserve">
-    <value>twblazor دا Microsoft، Apple، LEGO گروپ، Tesco یا Trading 212 نال کوئی تعلق نہیں، نہ ای اوہناں نے ایہدی تصدیق یا سرپرستی کیتی اے۔ ایہہ آزاد مثالاں نیں جو ایہہ وکھان لئی بنائیاں گئیاں نیں کہ اک اپنی تھیم کی کر سکدی اے، تے ایہہ اوہناں کمپنیاں دیاں ویب سائٹاں نہیں۔ چیزاں دے ناں، قیمتاں، پیشکشاں تے منڈی دا ڈیٹا صرف مثال لئی نیں، تے ایتھے کجھ وی مالی مشورہ نہیں۔ لوگو تے تصویراں ہر کمپنی دی اپنی ویب سائٹ توں لئیاں گئیاں نیں تے اوسے دی ملکیت رہندیاں نیں، تے سارے ٹریڈ مارک اوہناں دے مالکاں دے نیں۔</value>
-  </data>
-  <data name="Home_Brand_lego" xml:space="preserve">
-    <value>چمکیلا تے دوستانہ: پیلی پٹی، گوڑھے متن والے سنگترئی گولی ورگے بٹن، نیلے لنک، موٹا فونٹ تے سادے چٹے کارڈ۔</value>
-  </data>
-  <data name="Home_Brand_microsoft" xml:space="preserve">
-    <value>صاف تے ٹھنڈا سسٹم انداز: 2px کونے، باریک کنارے، ہلکا پرچھاواں تے فوکس اتے تھلے لکیر والے ان پٹ۔</value>
-  </data>
-  <data name="Home_Brand_tesco" xml:space="preserve">
-    <value>واضح تے کم دا: پکا نیلا، وڈے ٹچ ایریا والے گولی ورگے بٹن، کنارے والے سادے ٹائل تے پیشکشاں لئی لال۔</value>
-  </data>
-  <data name="Home_Brand_trading212" xml:space="preserve">
-    <value>صاف تے پکا: چمکدے نیلے گولی ورگے بٹن، وڈے نرم کارڈ، ٹھنڈیاں سادیاں سطحاں، تے ہرا تے لال صرف نفعے نقصان لئی۔</value>
+  <data name="Home_Brand_ShortDisclaimer" xml:space="preserve">
+    <value>آزاد مثالاں۔ twblazor دا ایہناں کمپنیاں نال کوئی تعلق نہیں تے نہ ای اوہناں نے ایہدی تصدیق کیتی اے۔</value>
   </data>
   <data name="Home_Case_Eyebrow" xml:space="preserve">
     <value>کم کردیاں ویکھو</value>
@@ -71,7 +104,7 @@
     <value>تھیم ویکھو</value>
   </data>
   <data name="Home_Case_Sub" xml:space="preserve">
-    <value>اوہی کمپوننٹ، اک وکھرے &lt;code&gt;Theme.cs&lt;/code&gt; نال۔ کوئی CSS اوور رائیڈ نہیں۔</value>
+    <value>اوہی کمپوننٹ، وکھرا &lt;code&gt;Theme.cs&lt;/code&gt;۔</value>
   </data>
   <data name="Home_Chart_Day" xml:space="preserve">
     <value>دن</value>
@@ -194,7 +227,7 @@
     <value>ARIA تے کی بورڈ سپورٹ پہلاں توں شامل۔</value>
   </data>
   <data name="Home_Feature_A11y_Title" xml:space="preserve">
-    <value>شروع توں پہنچ والا</value>
+    <value>پہنچ والا</value>
   </data>
   <data name="Home_Feature_Composable_Body" xml:space="preserve">
     <value>سادے Blazor پیرامیٹر۔ کوئی حیرانی نہیں۔</value>
@@ -374,10 +407,10 @@
     <value>روایتی چینی</value>
   </data>
   <data name="Home_Live_Caption" xml:space="preserve">
-    <value>twblazor مارک اپ دیاں چار سطراں تے اوہناں توں بنن والے جیوندے کمپوننٹ۔</value>
+    <value>twblazor مارک اپ دیاں چھ سطراں تے اوہناں توں بنن والے جیوندے کمپوننٹ۔</value>
   </data>
   <data name="Home_Live_Rendered" xml:space="preserve">
-    <value>4 کمپوننٹ رینڈر ہوئے</value>
+    <value>6 کمپوننٹ رینڈر ہوئے</value>
   </data>
   <data name="Home_Live_Replay" xml:space="preserve">
     <value>مڑ چلاؤ</value>
@@ -640,8 +673,23 @@
   <data name="Home_SignIn" xml:space="preserve">
     <value>سائن ان</value>
   </data>
+  <data name="Home_Theming_After" xml:space="preserve">
+    <value>مگروں</value>
+  </data>
+  <data name="Home_Theming_Before" xml:space="preserve">
+    <value>پہلاں</value>
+  </data>
   <data name="Home_Theming_Caption" xml:space="preserve">
-    <value>Theme.cs دیاں تن سطراں اک جیوندے بٹن دا انداز بدلدیاں نیں: پورا گول، وڈا پرچھاواں تے نواں مڈھلا رنگ۔</value>
+    <value>Theme.cs دیاں تن سطراں اک جیوندے بٹن دا انداز بدلدیاں نیں، جو اصلی بٹن دے نال وکھایا گیا اے: پورے گول کونے، وڈا پرچھاواں تے گلابی مڈھلا رنگ۔</value>
+  </data>
+  <data name="Home_Theming_Change_Colour" xml:space="preserve">
+    <value>رنگ: گلابی</value>
+  </data>
+  <data name="Home_Theming_Change_Corners" xml:space="preserve">
+    <value>کونے: پورے گول</value>
+  </data>
+  <data name="Home_Theming_Change_Shadow" xml:space="preserve">
+    <value>پرچھاواں: وڈا</value>
   </data>
   <data name="Home_Theming_Defaults_Body" xml:space="preserve">
     <value>ڈیفالٹ اک واری طے کرو، کسے وی مثال وچ اوور رائیڈ کرو۔</value>
@@ -675,6 +723,9 @@
   </data>
   <data name="Home_Theming_Typed_Title" xml:space="preserve">
     <value>ہر کلاس ٹائپ کیتی ہوئی تے اوور رائیڈ جوگ</value>
+  </data>
+  <data name="Home_Theming_WhatChanged" xml:space="preserve">
+    <value>کی بدلیا</value>
   </data>
   <data name="Home_Why_Title" xml:space="preserve">
     <value>twblazor کیوں؟</value>

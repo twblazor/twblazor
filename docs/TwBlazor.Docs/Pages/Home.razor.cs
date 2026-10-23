@@ -68,11 +68,11 @@ public partial class Home
         "rounded-2xl border border-purple-200/70 p-6 shadow-xs dark:border-white/10";
 
     /// <summary>
-    /// A feature card: the shared shell with the brand gradient along its top edge. These are not links, so
-    /// they have no hover state.
+    /// A feature card: the shared shell with the brand gradient along its top edge. Its own padding is removed
+    /// because <c>TwCard</c>'s content area already pads it. These are not links, so they have no hover state.
     /// </summary>
     private const string featureCardClasses =
-        cardClasses + " relative overflow-hidden before:absolute before:inset-x-0 before:top-0 before:h-1 before:bg-linear-to-r before:from-purple-600 before:to-fuchsia-500";
+        cardClasses + " p-0 relative overflow-hidden before:absolute before:inset-x-0 before:top-0 before:h-1 before:bg-linear-to-r before:from-purple-600 before:to-fuchsia-500";
 
     /// <summary>
     /// One word of the hero heading. Each word rises into place after the one before, set by its animation delay.
@@ -89,7 +89,7 @@ public partial class Home
     /// A guide card, which is a link: the shared shell on the same surface as <c>TwCard</c>, lifting on hover.
     /// </summary>
     private const string guideCardClasses =
-        "group flex items-start gap-4 " + cardClasses + " bg-white dark:bg-[oklch(28%_0.016_252.42)] transition duration-300 hover:-translate-y-1 hover:border-fuchsia-400 hover:shadow-xl hover:shadow-purple-500/15 motion-reduce:transition-none motion-reduce:hover:translate-y-0 dark:hover:border-fuchsia-400";
+        "group flex items-center gap-4 " + cardClasses + " bg-white dark:bg-[oklch(28%_0.016_252.42)] transition duration-300 hover:-translate-y-1 hover:border-fuchsia-400 hover:shadow-xl hover:shadow-purple-500/15 motion-reduce:transition-none motion-reduce:hover:translate-y-0 dark:hover:border-fuchsia-400";
 
     /// <summary>
     /// The icon tile on a guide card, which tilts as the card lifts. Each card adds its own colours.
@@ -103,6 +103,16 @@ public partial class Home
         new(IconEnum.Layers_Fill, Loc.Text("Home_Theming_Tokens_Title", "Reusable design tokens"), Loc.Text("Home_Theming_Tokens_Body", "Set a colour once and every component follows.")),
         new(IconEnum.Sliders, Loc.Text("Home_Theming_Defaults_Title", "Global defaults, local overrides"), Loc.Text("Home_Theming_Defaults_Body", "Set a default once, override any instance.")),
         new(IconEnum.Wind, Loc.Text("Home_Theming_Jit_Title", "Real Tailwind, real JIT"), Loc.Text("Home_Theming_Jit_Body", "Plain string literals Tailwind can see. No safelists.")),
+    ];
+
+    /// <summary>
+    /// What each line of the Theme.cs example changes on the button, in the order the lines type out.
+    /// </summary>
+    private readonly IReadOnlyList<string> _themeBuildChanges =
+    [
+        Loc.Text("Home_Theming_Change_Corners", "Corners: full"),
+        Loc.Text("Home_Theming_Change_Shadow", "Shadow: large"),
+        Loc.Text("Home_Theming_Change_Colour", "Colour: pink"),
     ];
 
     private const string mergeChipClasses = "rounded-md border px-2 py-1 font-mono text-xs";
@@ -186,13 +196,11 @@ public partial class Home
 
     private sealed record LocalizationLanguage(string NativeName, string Name, string Culture);
 
-    // How many of the languages a wide screen lists before the link to the rest.
-    private const int desktopLanguageCount = 10;
+    // How many of the languages are listed before the link to the rest. The full list is on the Localization page.
+    private const int shownLanguageCount = 10;
 
     private const string languageChipClasses =
         "inline-flex items-baseline gap-2 rounded-full border border-purple-200 bg-white px-3 py-1.5 text-sm shadow-xs dark:border-white/10 dark:bg-white/5";
-
-    private const string languageChipCollapsedClasses = languageChipClasses + " lg:hidden";
 
     private readonly IReadOnlyList<MergePoint> _rtlPoints =
     [
@@ -290,6 +298,9 @@ public partial class Home
 
     // Changing the key rebuilds the live build panel, which restarts its CSS animations.
     private int liveBuildRun;
+    private const string liveBuildDefaultService = "checkout-api";
+    private string liveBuildService = liveBuildDefaultService;
+    private bool liveBuildRunTests = true;
     private int liveBuildProgress = 40;
     private bool liveBuildAutoDeploy = true;
     private bool liveBuildDeployed;
@@ -309,6 +320,8 @@ public partial class Home
     /// </summary>
     private void ReplayLiveBuild()
     {
+        liveBuildService = liveBuildDefaultService;
+        liveBuildRunTests = true;
         liveBuildProgress = 40;
         liveBuildAutoDeploy = true;
         liveBuildDeployed = false;

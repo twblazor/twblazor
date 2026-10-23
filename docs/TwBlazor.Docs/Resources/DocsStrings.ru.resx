@@ -22,10 +22,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <!-- Common -->
-    <data name="Footer_Documentation" xml:space="preserve">
-    <value>Документация</value>
-  </data>
-  <data name="Footer_FreeForever" xml:space="preserve">
+    <data name="Footer_FreeForever" xml:space="preserve">
     <value>twblazor бесплатен и открыт и всегда таким останется.</value>
   </data>
   <data name="Footer_Label" xml:space="preserve">
@@ -34,29 +31,65 @@
   <data name="Footer_License" xml:space="preserve">
     <value>Лицензия MIT</value>
   </data>
+  <data name="Footer_Link_AiAgents" xml:space="preserve">
+    <value>ИИ-агенты и навыки</value>
+  </data>
+  <data name="Footer_Link_ApiDocs" xml:space="preserve">
+    <value>Документация API</value>
+  </data>
+  <data name="Footer_Link_ClassMerge" xml:space="preserve">
+    <value>Слияние классов</value>
+  </data>
+  <data name="Footer_Link_CodeOfConduct" xml:space="preserve">
+    <value>Кодекс поведения</value>
+  </data>
+  <data name="Footer_Link_Contributing" xml:space="preserve">
+    <value>Как внести вклад</value>
+  </data>
+  <data name="Footer_Link_Install" xml:space="preserve">
+    <value>Руководство по установке</value>
+  </data>
+  <data name="Footer_Link_Issue" xml:space="preserve">
+    <value>Сообщить о проблеме</value>
+  </data>
+  <data name="Footer_Link_Localization" xml:space="preserve">
+    <value>Локализация</value>
+  </data>
+  <data name="Footer_Link_Rtl" xml:space="preserve">
+    <value>Справа налево</value>
+  </data>
+  <data name="Footer_Link_Tailwind" xml:space="preserve">
+    <value>Tailwind CSS с Blazor</value>
+  </data>
+  <data name="Footer_Link_Theming" xml:space="preserve">
+    <value>Темы</value>
+  </data>
+  <data name="Footer_Link_Why" xml:space="preserve">
+    <value>Почему twblazor?</value>
+  </data>
   <data name="Footer_NewTab" xml:space="preserve">
     <value>(откроется в новой вкладке)</value>
+  </data>
+  <data name="Footer_Sec_Community" xml:space="preserve">
+    <value>Сообщество</value>
+  </data>
+  <data name="Footer_Sec_GetStarted" xml:space="preserve">
+    <value>Начало работы</value>
+  </data>
+  <data name="Footer_Sec_Guides" xml:space="preserve">
+    <value>Руководства</value>
+  </data>
+  <data name="Footer_Sec_Resources" xml:space="preserve">
+    <value>Ресурсы</value>
+  </data>
+  <data name="Footer_Tagline" xml:space="preserve">
+    <value>Библиотека компонентов на Tailwind CSS для Blazor. Доступная, настраиваемая и под лицензией MIT.</value>
   </data>
   <data name="Home_Back" xml:space="preserve">
     <value>Назад</value>
   </data>
-  <data name="Home_Brand_apple" xml:space="preserve">
-    <value>Много воздуха и мягкие формы: кнопки-таблетки, крупные скруглённые плитки, никаких теней и полупрозрачная панель навигации.</value>
-  </data>
-  <data name="Home_Brand_Disclaimer" xml:space="preserve">
-    <value>twblazor не связан с Microsoft, Apple, LEGO Group, Tesco или Trading 212 и не одобрен и не спонсируется ими. Это независимые примеры, созданные, чтобы показать возможности собственной темы, а не сайты этих компаний. Названия товаров, цены, предложения и рыночные данные приведены для иллюстрации, и ничто здесь не является финансовой рекомендацией. Логотипы и изображения взяты с сайта каждой компании и остаются её собственностью, а все товарные знаки принадлежат их владельцам.</value>
-  </data>
-  <data name="Home_Brand_lego" xml:space="preserve">
-    <value>Ярко и дружелюбно: жёлтая полоса, оранжевые кнопки-таблетки с тёмным текстом, синие ссылки, жирный шрифт и плоские белые карточки.</value>
-  </data>
-  <data name="Home_Brand_microsoft" xml:space="preserve">
-    <value>Чёткий, сдержанный системный стиль: углы 2px, тонкие рамки, лёгкая тень и поля, подчёркнутые при фокусе.</value>
-  </data>
-  <data name="Home_Brand_tesco" xml:space="preserve">
-    <value>Ясно и практично: уверенный синий, кнопки-таблетки с крупной областью нажатия, плоские плитки с рамкой и красный для акций.</value>
-  </data>
-  <data name="Home_Brand_trading212" xml:space="preserve">
-    <value>Чисто и уверенно: ярко-синие кнопки-таблетки, крупные мягкие карточки, холодные нейтральные поверхности, а зелёный и красный — только для прибыли и убытков.</value>
+  <data name="Home_Brand_ShortDisclaimer" xml:space="preserve">
+    <value>Независимые примеры. twblazor не связан с этими компаниями и не одобрен ими.</value>
   </data>
   <data name="Home_Case_Eyebrow" xml:space="preserve">
     <value>Посмотрите в деле</value>
@@ -71,7 +104,7 @@
     <value>Посмотреть тему</value>
   </data>
   <data name="Home_Case_Sub" xml:space="preserve">
-    <value>Те же компоненты с другим &lt;code&gt;Theme.cs&lt;/code&gt;. Без переопределения CSS.</value>
+    <value>Те же компоненты, другой &lt;code&gt;Theme.cs&lt;/code&gt;.</value>
   </data>
   <data name="Home_Chart_Day" xml:space="preserve">
     <value>День</value>
@@ -194,7 +227,7 @@
     <value>Поддержка ARIA и клавиатуры встроена.</value>
   </data>
   <data name="Home_Feature_A11y_Title" xml:space="preserve">
-    <value>Доступность по умолчанию</value>
+    <value>Доступность</value>
   </data>
   <data name="Home_Feature_Composable_Body" xml:space="preserve">
     <value>Обычные параметры Blazor. Без сюрпризов.</value>
@@ -374,10 +407,10 @@
     <value>Китайский (традиционный)</value>
   </data>
   <data name="Home_Live_Caption" xml:space="preserve">
-    <value>Четыре строки разметки twblazor и живые компоненты, которые из них получаются.</value>
+    <value>Шесть строк разметки twblazor и живые компоненты, которые из них получаются.</value>
   </data>
   <data name="Home_Live_Rendered" xml:space="preserve">
-    <value>Отрисовано 4 компонента</value>
+    <value>Отрисовано 6 компонентов</value>
   </data>
   <data name="Home_Live_Replay" xml:space="preserve">
     <value>Повторить</value>
@@ -640,8 +673,23 @@
   <data name="Home_SignIn" xml:space="preserve">
     <value>Войти</value>
   </data>
+  <data name="Home_Theming_After" xml:space="preserve">
+    <value>После</value>
+  </data>
+  <data name="Home_Theming_Before" xml:space="preserve">
+    <value>До</value>
+  </data>
   <data name="Home_Theming_Caption" xml:space="preserve">
-    <value>Три строки Theme.cs меняют стиль живой кнопки: полное скругление, большая тень и новый основной цвет.</value>
+    <value>Три строки Theme.cs меняют стиль живой кнопки, показанной рядом с исходной: полностью скруглённые углы, большая тень и розовый основной цвет.</value>
+  </data>
+  <data name="Home_Theming_Change_Colour" xml:space="preserve">
+    <value>Цвет: розовый</value>
+  </data>
+  <data name="Home_Theming_Change_Corners" xml:space="preserve">
+    <value>Углы: полное скругление</value>
+  </data>
+  <data name="Home_Theming_Change_Shadow" xml:space="preserve">
+    <value>Тень: большая</value>
   </data>
   <data name="Home_Theming_Defaults_Body" xml:space="preserve">
     <value>Задайте значение по умолчанию один раз и переопределяйте любой экземпляр.</value>
@@ -675,6 +723,9 @@
   </data>
   <data name="Home_Theming_Typed_Title" xml:space="preserve">
     <value>Каждый класс типизирован и переопределяем</value>
+  </data>
+  <data name="Home_Theming_WhatChanged" xml:space="preserve">
+    <value>Что изменилось</value>
   </data>
   <data name="Home_Why_Title" xml:space="preserve">
     <value>Почему twblazor?</value>
