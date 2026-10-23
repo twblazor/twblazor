@@ -118,9 +118,37 @@ public partial class TwRangeSlider<T> : TwBlazorInputComponentBase
 
     private string? groupAriaLabel => string.IsNullOrWhiteSpace(AriaLabel) ? null : AriaLabel;
 
-    private string? groupAriaLabelledBy => !string.IsNullOrWhiteSpace(AriaLabelledBy)
-        ? AriaLabelledBy
-        : string.IsNullOrWhiteSpace(Label) ? null : labelId;
+    private string? groupAriaLabelledBy
+    {
+        get
+        {
+            if (!string.IsNullOrWhiteSpace(AriaLabelledBy))
+                return AriaLabelledBy;
+
+            if (!string.IsNullOrWhiteSpace(Label))
+                return labelId;
+
+            return null;
+        }
+    }
+
+    private string? ariaReadOnly => ReadOnly ? "true" : null;
+
+    private string? ariaInvalid => fieldInvalid ? "true" : null;
+
+    private string minimumLabel => localizer[TwStrings.RangeSlider_Minimum];
+
+    private string maximumLabel => localizer[TwStrings.RangeSlider_Maximum];
+
+    private string fillStyle => $"inset-inline-start:{Format(lowerPercentage)}%;width:{Format(upperPercentage - lowerPercentage)}%";
+
+    private string lowerPositionStyle => $"inset-inline-start:{Format(lowerPercentage)}%";
+
+    private string upperPositionStyle => $"inset-inline-start:{Format(upperPercentage)}%";
+
+    private string lowerHandleStyle => $"z-index:{(lowerOnTop ? 2 : 1)}";
+
+    private string upperHandleStyle => $"z-index:{(lowerOnTop ? 1 : 2)}";
 
     private string wrapperClasses => new ClassBuilder(sliderTheme.Wrapper)
         .AddClass(Class)
@@ -230,11 +258,12 @@ public partial class TwRangeSlider<T> : TwBlazorInputComponentBase
         // The lower handle can go no higher than the upper value, less the minimum gap.
         var limit = (ToDouble(UpperValue) ?? max) - Gap();
         var accepted = Math.Max(Math.Min(requested, limit), min);
+        var rejected = requested > limit || requested < min;
 
         if (!TryConvert(accepted, out var value))
             return;
 
-        if (accepted != requested)
+        if (rejected)
             await SyncRejectedMove(requested, isLower: true);
 
         LowerValue = value;
@@ -251,11 +280,12 @@ public partial class TwRangeSlider<T> : TwBlazorInputComponentBase
         // The upper handle can go no lower than the lower value, plus the minimum gap.
         var limit = (ToDouble(LowerValue) ?? min) + Gap();
         var accepted = Math.Min(Math.Max(requested, limit), max);
+        var rejected = requested < limit || requested > max;
 
         if (!TryConvert(accepted, out var value))
             return;
 
-        if (accepted != requested)
+        if (rejected)
             await SyncRejectedMove(requested, isLower: false);
 
         UpperValue = value;
@@ -307,7 +337,9 @@ public partial class TwRangeSlider<T> : TwBlazorInputComponentBase
     }
 
     /// <inheritdoc />
-    protected override FieldIdentifier? CreateFieldIdentifier() => LowerValueExpression is not null
-        ? FieldIdentifier.Create(LowerValueExpression)
-        : UpperValueExpression is not null ? FieldIdentifier.Create(UpperValueExpression) : null;
+    protected override FieldIdentifier? CreateFieldIdentifier()
+    {
+        var expression = LowerValueExpression ?? UpperValueExpression;
+        return expression is null ? null : FieldIdentifier.Create(expression);
+    }
 }

@@ -501,6 +501,335 @@ public class TwRangeSliderTests : TwBlazorTestBase
         });
     }
 
+    [Fact]
+    public void Group_UsesAriaLabelledBy_OverTheLabel()
+    {
+        // Arrange & Act
+        var cut = Render(extra: p => p.Add(x => x.Label, "Price").Add(x => x.AriaLabelledBy, "heading"));
+
+        // Assert
+        Assert.Equal("heading", cut.Find("[role='group']").GetAttribute("aria-labelledby"));
+    }
+
+    [Fact]
+    public void Label_UsesTheGivenLabelId()
+    {
+        // Arrange & Act
+        var cut = Render(extra: p => p.Add(x => x.Label, "Price").Add(x => x.LabelId, "price-heading"));
+
+        // Assert
+        Assert.Equal("price-heading", cut.Find("label").GetAttribute("id"));
+        Assert.Equal("price-heading", cut.Find("[role='group']").GetAttribute("aria-labelledby"));
+    }
+
+    [Fact]
+    public void Group_HasNoName_WhenThereIsNoLabelOrAriaLabel()
+    {
+        // Arrange & Act
+        var group = Render().Find("[role='group']");
+
+        // Assert
+        Assert.False(group.HasAttribute("aria-label"));
+        Assert.False(group.HasAttribute("aria-labelledby"));
+    }
+
+    [Fact]
+    public void NoName_LeavesTheInputsUnnamed()
+    {
+        // Arrange & Act
+        var cut = Render();
+
+        // Assert
+        Assert.All(cut.FindAll("input[type='range']"), i => Assert.False(i.HasAttribute("name")));
+    }
+
+    [Fact]
+    public void Inputs_AreNotMarkedReadOnlyOrInvalid_ByDefault()
+    {
+        // Arrange & Act
+        var cut = Render();
+
+        // Assert
+        Assert.All(cut.FindAll("input[type='range']"), i =>
+        {
+            Assert.False(i.HasAttribute("aria-readonly"));
+            Assert.False(i.HasAttribute("aria-invalid"));
+            Assert.False(i.HasAttribute("disabled"));
+        });
+    }
+
+    [Fact]
+    public void Invalid_MarksBothInputs_AndShowsTheErrorMessage()
+    {
+        // Arrange & Act
+        var cut = Render(extra: p => p.Add(x => x.Invalid, true).Add(x => x.ErrorMessage, "Pick a range."));
+
+        // Assert
+        Assert.Contains("Pick a range.", cut.Markup);
+        Assert.All(cut.FindAll("input[type='range']"), i => Assert.Equal("true", i.GetAttribute("aria-invalid")));
+    }
+
+    [Fact]
+    public void MinEqualToMax_PutsBothHandlesAtTheStart()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwRangeSlider<int>>(p => p
+            .Add(x => x.LowerValue, 5)
+            .Add(x => x.UpperValue, 5)
+            .Add(x => x.Min, 5)
+            .Add(x => x.Max, 5)
+            .Add(x => x.Step, 1));
+
+        // Assert
+        Assert.Contains("inset-inline-start:0%;width:0%", cut.Find("[style*='width:']").GetAttribute("style"));
+    }
+
+    [Fact]
+    public void UpperValueBelowTheLowerValue_DrawsAnEmptyFill()
+    {
+        // Arrange & Act
+        var cut = Render(60, 40);
+
+        // Assert
+        Assert.Contains("inset-inline-start:60%;width:0%", cut.Find("[style*='width:']").GetAttribute("style"));
+    }
+
+    [Fact]
+    public void NullableValues_WithNoValue_StartAtTheEnds_AndCanBeMoved()
+    {
+        // Arrange
+        var cut = TestContext.Render<TwRangeSlider<int?>>(p => p
+            .Add(x => x.LowerValue, null)
+            .Add(x => x.UpperValue, null)
+            .Add(x => x.Min, 0)
+            .Add(x => x.Max, 100)
+            .Add(x => x.Step, 1));
+        var inputs = cut.FindAll("input[type='range']");
+        Assert.False(inputs[0].HasAttribute("value"));
+
+        // Act
+        cut.FindAll("input[type='range']")[0].Input("30");
+        cut.FindAll("input[type='range']")[1].Input("10");
+
+        // Assert - with no upper value the lower handle can use the whole track,
+        // and the upper handle stops at the lower one
+        Assert.Equal(30, cut.Instance.LowerValue);
+        Assert.Equal(30, cut.Instance.UpperValue);
+    }
+
+    [Fact]
+    public void NullableValues_UpperHandle_WithNoLowerValue_StopsAtMin()
+    {
+        // Arrange
+        var cut = TestContext.Render<TwRangeSlider<int?>>(p => p
+            .Add(x => x.LowerValue, null)
+            .Add(x => x.UpperValue, 50)
+            .Add(x => x.Min, 10)
+            .Add(x => x.Max, 100)
+            .Add(x => x.Step, 1));
+
+        // Act
+        cut.FindAll("input[type='range']")[1].Input("0");
+
+        // Assert
+        Assert.Equal(10, cut.Instance.UpperValue);
+    }
+
+    [Fact]
+    public void NonNumericType_IgnoresMoves()
+    {
+        // Arrange - DateTime can't be turned into or made from a number
+        var changed = false;
+        var cut = TestContext.Render<TwRangeSlider<DateTime>>(p => p
+            .Add(x => x.LowerValue, new DateTime(2026, 1, 1))
+            .Add(x => x.UpperValue, new DateTime(2026, 6, 1))
+            .Add(x => x.Min, DateTime.MinValue)
+            .Add(x => x.Max, DateTime.MaxValue)
+            .Add(x => x.Step, DateTime.MinValue)
+            .Add(x => x.LowerValueChanged, _ => changed = true)
+            .Add(x => x.UpperValueChanged, _ => changed = true));
+
+        // Act
+        cut.FindAll("input[type='range']")[0].Input("30");
+        cut.FindAll("input[type='range']")[1].Input("30");
+
+        // Assert
+        Assert.False(changed);
+        Assert.Contains("inset-inline-start:0%;width:0%", cut.Find("[style*='width:']").GetAttribute("style"));
+    }
+
+    [Fact]
+    public void NonFormattableType_WritesItsTextToTheInput()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwRangeSlider<string>>(p => p
+            .Add(x => x.LowerValue, "20")
+            .Add(x => x.UpperValue, "80")
+            .Add(x => x.Min, "0")
+            .Add(x => x.Max, "100")
+            .Add(x => x.Step, "1"));
+
+        // Act
+        cut.FindAll("input[type='range']")[0].Input("30");
+
+        // Assert
+        Assert.Equal("30", cut.FindAll("input[type='range']")[0].GetAttribute("value"));
+        Assert.Equal("30", cut.Instance.LowerValue);
+    }
+
+    [Fact]
+    public void NullEventValue_IsIgnored()
+    {
+        // Arrange
+        var changed = false;
+        var cut = Render(extra: p => p.Add(x => x.UpperValueChanged, _ => changed = true));
+
+        // Act
+        Upper(cut).Input(new ChangeEventArgs { Value = null });
+
+        // Assert
+        Assert.False(changed);
+    }
+
+    [Fact]
+    public void ReadOnly_IgnoresUpperMoves()
+    {
+        // Arrange
+        var changed = false;
+        var cut = Render(extra: p => p
+            .Add(x => x.ReadOnly, true)
+            .Add(x => x.UpperValueChanged, _ => changed = true));
+
+        // Act
+        Upper(cut).Input("90");
+
+        // Assert
+        Assert.False(changed);
+    }
+
+    [Fact]
+    public void Disabled_IgnoresLowerMoves_AndDimsTheTrackAndThumbs()
+    {
+        // Arrange
+        var changed = false;
+        var cut = Render(extra: p => p
+            .Add(x => x.Disabled, true)
+            .Add(x => x.LowerValueChanged, _ => changed = true));
+
+        // Act
+        Lower(cut).Input("10");
+
+        // Assert
+        Assert.False(changed);
+        Assert.Contains("cursor-not-allowed", Lower(cut).ClassList);
+        Assert.Contains("opacity-40", cut.Find("[role='group'] > div[aria-hidden='true']").ClassList);
+    }
+
+    [Fact]
+    public void ReadOnlyAndDisabled_DoesNotLockTheKeys()
+    {
+        // Arrange & Act
+        Render(extra: p => p.Add(x => x.ReadOnly, true).Add(x => x.Disabled, true));
+
+        // Assert
+        Assert.DoesNotContain(TestContext.JSInterop.Invocations, i => i.Identifier == lockIdentifier);
+    }
+
+    [Fact]
+    public void ReadOnly_TurnedOff_UnlocksTheKeys()
+    {
+        // Arrange
+        var cut = Render(extra: p => p.Add(x => x.ReadOnly, true));
+
+        // Act
+        cut.Render(p => p.Add(x => x.ReadOnly, false));
+
+        // Assert
+        var calls = TestContext.JSInterop.Invocations.Where(i => i.Identifier == lockIdentifier).ToList();
+        Assert.Equal(4, calls.Count);
+        Assert.All(calls.Skip(2), call => Assert.Equal(false, call.Arguments[1]));
+    }
+
+    [Fact]
+    public void NegativeMinDistance_IsTreatedAsZero()
+    {
+        // Arrange
+        var cut = Render(20, 50, p => p.Add(x => x.MinDistance, -10));
+
+        // Act
+        Lower(cut).Input("60");
+
+        // Assert
+        Assert.Equal(50, cut.Instance.LowerValue);
+    }
+
+    [Fact]
+    public void UpperHandle_RejectedMove_WritesTheAcceptedValueBackToTheInput()
+    {
+        // Arrange - both handles at the start
+        var cut = Render(0, 0);
+
+        // Act - the browser has moved the upper input below the lower handle
+        Upper(cut).Input("-1");
+
+        // Assert
+        Assert.Equal("0", Upper(cut).GetAttribute("value"));
+        Assert.Equal(0, cut.Instance.UpperValue);
+    }
+
+    [Fact]
+    public void InsideAnEditForm_ValidatesTheUpperValue_WhenOnlyItIsBound()
+    {
+        // Arrange
+        var model = new PriceFilter { Low = 10, High = 20 };
+        var context = new EditContext(model);
+        var messages = new ValidationMessageStore(context);
+
+        var cut = TestContext.Render<CascadingValue<EditContext>>(p => p
+            .Add(x => x.Value, context)
+            .Add(x => x.IsFixed, false)
+            .AddChildContent<TwRangeSlider<int>>(s => s
+                .Add(x => x.LowerValue, model.Low)
+                .Add(x => x.UpperValue, model.High)
+                .Add(x => x.UpperValueExpression, () => model.High)
+                .Add(x => x.Min, 0)
+                .Add(x => x.Max, 100)
+                .Add(x => x.Step, 1)));
+
+        // Act
+        messages.Add(context.Field(nameof(PriceFilter.High)), "Pick a lower maximum.");
+        context.NotifyValidationStateChanged();
+
+        // Assert
+        cut.WaitForAssertion(() => Assert.Contains("Pick a lower maximum.", cut.Markup));
+    }
+
+    [Fact]
+    public void InsideAnEditForm_WithNoBoundExpression_IgnoresValidationMessages()
+    {
+        // Arrange
+        var model = new PriceFilter { Low = 10, High = 20 };
+        var context = new EditContext(model);
+        var messages = new ValidationMessageStore(context);
+
+        var cut = TestContext.Render<CascadingValue<EditContext>>(p => p
+            .Add(x => x.Value, context)
+            .Add(x => x.IsFixed, false)
+            .AddChildContent<TwRangeSlider<int>>(s => s
+                .Add(x => x.LowerValue, model.Low)
+                .Add(x => x.UpperValue, model.High)
+                .Add(x => x.Min, 0)
+                .Add(x => x.Max, 100)
+                .Add(x => x.Step, 1)));
+
+        // Act
+        messages.Add(context.Field(nameof(PriceFilter.Low)), "Pick a higher minimum.");
+        context.NotifyValidationStateChanged();
+
+        // Assert
+        Assert.DoesNotContain("Pick a higher minimum.", cut.Markup);
+    }
+
     private sealed class PriceFilter
     {
         public int Low { get; set; }
