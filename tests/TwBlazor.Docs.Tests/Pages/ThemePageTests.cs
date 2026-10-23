@@ -1,4 +1,4 @@
-﻿using Bunit;
+using Bunit;
 using Microsoft.Extensions.DependencyInjection;
 using TwBlazor.Components;
 using TwBlazor.Docs.Pages.Configuration;
@@ -8,7 +8,7 @@ using ThemePage = TwBlazor.Docs.Pages.Configuration.Theme;
 
 namespace TwBlazor.Docs.Tests.Pages;
 
-public class ThemePageTests : DocsTestBase
+public partial class ThemePageTests : DocsTestBase
 {
     private static readonly string[] _colorIds = ["primary", "accent", "success", "danger", "warning", "info"];
 
@@ -473,8 +473,8 @@ public class ThemePageTests : DocsTestBase
         Assert.Contains("border", panel.ClassList);
         Assert.Contains("rounded-lg", panel.ClassList);
         var header = panel.FirstElementChild!.TextContent;
-        Assert.Matches(@"(\d+) / \1", header);
-        var total = int.Parse(System.Text.RegularExpressions.Regex.Match(header, @"(\d+) / \1").Groups[1].Value);
+        Assert.Matches(SelectedCountRegex(), header);
+        var total = int.Parse(SelectedCountRegex().Match(header).Groups[1].Value);
 
         cut.Find("#theme-component-twchip").Change(false);
 
@@ -1034,4 +1034,8 @@ public class ThemePageTests : DocsTestBase
     }
 
     #endregion
+
+    // A group's header count, such as "4 / 4" when every component in it is selected.
+    [System.Text.RegularExpressions.GeneratedRegex(@"(\d+) / \1")]
+    private static partial System.Text.RegularExpressions.Regex SelectedCountRegex();
 }
