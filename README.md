@@ -23,7 +23,7 @@
 ![Alt](https://repobeats.axiom.co/api/embed/2bfe82b583e4cb3dee72a558d767980587b57c6f.svg "Repobeats analytics image")
 
 <p align="center">
-    <a href="https://twblazor.github.io/twblazor/" target="_blank">API Documentation (docfx)</a> &bullet; <a href="https://twblazor.com/" target="_blank">Component Documentation (twblazor.com)</a> &bullet; <a href="https://twblazor.com/get-started" target="_blank">Get Started</a> &bullet; <a href="https://twblazor.com/ai-agents" target="_blank">AI Agents &amp; Skills</a>
+    <a href="https://twblazor.github.io/twblazor/" target="_blank">API Documentation (docfx)</a> &bullet; <a href="https://twblazor.com/" target="_blank">Component Documentation (twblazor.com)</a> &bullet; <a href="https://twblazor.com/get-started" target="_blank">Get Started</a> &bullet; <a href="https://twblazor.com/ai-agents" target="_blank">AI Agents &amp; Skills</a> &bullet; <a href="https://buymeacoffee.com/twblazor" target="_blank">Support development 💜</a>
 </p>
 
 ## Contents
@@ -35,9 +35,6 @@
 - [Localization](#localization)
 - [Supported .NET Versions](#supported-net-versions)
 - [Dependencies](#dependencies)
-
-
- [Support twblazor development 💜](#support-development)
 
 ## Why twblazor?
 
@@ -205,15 +202,24 @@ All our packages currently support and built in .NET 10.
 | ------------ | ------------------ | ------- |
 | *            | :white_check_mark: | .NET 10 |
 
-## Support development
-
-This library is powered by Tailwind, Blazor and a dangerous amount of coffee. You can help with that last one: 
-
-https://buymeacoffee.com/twblazor
-
-Thank you! ☕
-
 ## Dependencies 
 
 - [Tailwind CSS](https://tailwindcss.com/) - A utility-first CSS framework for styling components.
 - [Bootstrap Icons](https://icons.getbootstrap.com/) - An open-source icon library used for our TwIcon component.
+
+<br>
+
+---
+
+<br>
+
+<p align="center">
+  <a href="https://buymeacoffee.com/twblazor" target="_blank">
+    <img src="./images/twblazor-bmc-banner.png" alt="Support twblazor on Buy Me a Coffee" width="800">
+  </a>
+</p>
+
+<p align="center">
+  This library is powered by Tailwind, Blazor and a dangerous amount of coffee.<br>
+  You can help with that last one at <a href="https://buymeacoffee.com/twblazor" target="_blank"><strong>buymeacoffee.com/twblazor</strong></a>. Thank you! ☕
+</p>
