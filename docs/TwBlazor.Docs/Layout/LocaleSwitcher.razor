@@ -1,0 +1,128 @@
+@using System.Globalization
+@using Microsoft.JSInterop
+@using TwBlazor.Docs.Services
+@using TwBlazor.Models
+@inject IJSRuntime JS
+
+@* The navbar's language and direction switcher. The direction changes at once; a new language reloads the page,
+   because that is when Blazor picks up a culture. *@
+@* A trigger of its own, so it matches the other navbar icons and shows no tooltip. *@
+<TwPopover @ref="popover"
+           Id="locale-switcher"
+           Title="Language and direction"
+           Align="PopoverAlign.End"
+           PanelClass="w-72">
+    <TriggerContent>
+        <TwIcon Icon="Icon.Translate"
+                AriaLabel="Language and text direction"
+                Class="@ButtonClass"
+                Attributes="@(new Dictionary<string, object>(context.Attributes))"
+                OnClick="@context.ToggleAsync" />
+    </TriggerContent>
+    <ChildContent>
+    <div class="flex flex-col gap-4">
+        @if (DirectionState is not null)
+        {
+            <TwRadioGroup T="string"
+                          Legend="Text direction"
+                          Name="locale-switcher-direction"
+                          Horizontal
+                          Items="directionItems"
+                          Value="@currentDirection"
+                          ValueChanged="SetDirectionAsync" />
+        }
+
+        <div class="flex flex-col gap-2">
+            <h3 id="locale-switcher-languages" class="text-sm font-medium text-gray-900 dark:text-gray-100">Language</h3>
+            <ul aria-labelledby="locale-switcher-languages" class="flex flex-col gap-1 max-h-64 overflow-y-auto">
+                @foreach (var language in DocsLanguages.All)
+                {
+                    var isCurrent = language == currentLanguage;
+                    <li>
+                        <button type="button"
+                                aria-current="@(isCurrent ? "true" : null)"
+                                class="@LanguageButtonClasses(isCurrent)"
+                                @onclick="() => SetLanguageAsync(language)">
+                            <span class="flex flex-col items-start">
+                                <span lang="@language.Code" dir="auto">@language.NativeName</span>
+                                <span lang="en" class="text-xs text-gray-500 dark:text-gray-400">@language.EnglishName</span>
+                            </span>
+                            @if (isCurrent)
+                            {
+                                <i class="bi bi-check-lg" aria-hidden="true"></i>
+                            }
+                        </button>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+    </ChildContent>
+</TwPopover>
+
+@code {
+    [CascadingParameter] public DocsDirectionState? DirectionState { get; set; }
+
+    /// <summary>
+    /// Gets or sets extra classes for the icon button, so it matches the other navbar icons.
+    /// </summary>
+    [Parameter] public string? ButtonClass { get; set; }
+
+    private static readonly List<RadioGroupItem<string>> directionItems =
+    [
+        new() { Label = "Auto", Value = "auto" },
+        new() { Label = "LTR", Value = "ltr" },
+        new() { Label = "RTL", Value = "rtl" },
+    ];
+
+    private readonly DocsLanguage currentLanguage = DocsLanguages.Find(CultureInfo.CurrentUICulture);
+
+    private string currentDirection => DirectionState?.Direction switch
+    {
+        TextDirection.LeftToRight => "ltr",
+        TextDirection.RightToLeft => "rtl",
+        _ => "auto",
+    };
+
+    private static string LanguageButtonClasses(bool isCurrent) =>
+        "flex w-full items-center justify-between gap-2 rounded-md px-3 py-1.5 text-start text-sm transition-colors duration-200 motion-reduce:transition-none hover:bg-gray-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600 dark:hover:bg-white/5 dark:focus-visible:outline-purple-300 "
+        + (isCurrent
+            ? "bg-purple-50 text-purple-700 font-medium dark:bg-purple-500/15 dark:text-purple-100"
+            : "text-gray-700 dark:text-gray-200");
+
+    private TwPopover? popover;
+
+    // Applies the direction, then closes the panel so the reader sees the page turn.
+    private async Task SetDirectionAsync(string value)
+    {
+        if (DirectionState is not null)
+        {
+            await DirectionState.SetAsync(value switch
+            {
+                "ltr" => TextDirection.LeftToRight,
+                "rtl" => TextDirection.RightToLeft,
+                _ => null,
+            });
+        }
+
+        if (popover is not null)
+            await popover.CloseAsync();
+    }
+
+    private async Task SetLanguageAsync(DocsLanguage language)
+    {
+        if (language == currentLanguage)
+            return;
+
+        // English is the default, so it clears the saved choice rather than pinning "en".
+        var code = language.Code == DocsLanguages.DefaultCode ? null : language.Code;
+        try
+        {
+            await JS.InvokeVoidAsync("docsLocale.setCulture", code);
+        }
+        catch (JSDisconnectedException)
+        {
+            // The page is going away anyway.
+        }
+    }
+}

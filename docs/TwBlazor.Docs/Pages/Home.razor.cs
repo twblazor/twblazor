@@ -1,5 +1,6 @@
 using System.Globalization;
 using TwBlazor.Components;
+using TwBlazor.Docs.Layout;
 using TwBlazor.Docs.Services;
 using TwBlazor.Enums;
 using TwBlazor.Models;
@@ -15,38 +16,48 @@ public partial class Home
 
     private static readonly IReadOnlyList<string> _jsonLd = [SiteMetadata.HomeJsonLd()];
 
-    private readonly List<string> _environments = ["Production", "Staging", "Development"];
+    // The page's text is built when the component is created, in the language of the request, and kept: a
+    // language change reloads the page, and keeping the same arrays saves the charts from redrawing on every render.
+    private readonly List<string> _environments =
+    [
+        Loc.Text("Home_Env_Production", "Production"),
+        Loc.Text("Home_Env_Staging", "Staging"),
+        Loc.Text("Home_Env_Development", "Development")
+    ];
 
     private readonly List<Figure> _releaseFigures =
     [
-        new("Deploys", "128"),
-        new("Failed", "3"),
-        new("Avg. time", "4m")
+        new(Loc.Text("Home_Release_Deploys", "Deploys"), "128"),
+        new(Loc.Text("Home_Failed", "Failed"), "3"),
+        new(Loc.Text("Home_Release_AvgTime", "Avg. time"), "4m")
     ];
 
     private readonly ChartValue[] _storageFolders =
     [
-        new("Videos", 2.5), new("Photos", 1.8), new("Projects", 1.1), new("Music", 0.6), new("Documents", 0.4),
-        new("Downloads", 0.3), new("Backups", 0.2), new("Apps", 0.1), new("Fonts", 0.1), new("Temp", 0.1)
+        new(Loc.Text("Home_Folder_Videos", "Videos"), 2.5), new(Loc.Text("Home_Folder_Photos", "Photos"), 1.8),
+        new(Loc.Text("Home_Folder_Projects", "Projects"), 1.1), new(Loc.Text("Home_Folder_Music", "Music"), 0.6),
+        new(Loc.Text("Home_Folder_Documents", "Documents"), 0.4), new(Loc.Text("Home_Folder_Downloads", "Downloads"), 0.3),
+        new(Loc.Text("Home_Folder_Backups", "Backups"), 0.2), new(Loc.Text("Home_Folder_Apps", "Apps"), 0.1),
+        new(Loc.Text("Home_Folder_Fonts", "Fonts"), 0.1), new(Loc.Text("Home_Folder_Temp", "Temp"), 0.1)
     ];
 
     private readonly string[] _responseHours = [.. Enumerable.Range(0, 24).Select(hour => $"{hour:00}:00")];
 
     private readonly ChartSeries[] _responseTimes =
     [
-        new("Web app", [132, 128, 121, 118, 124, 139, 158, 181, 204, 226, 241, 252, 258, 249, 243, 236, 228, 215, 198, 182, 166, 151, 142, 136]),
+        new(Loc.Text("Home_Series_WebApp", "Web app"), [132, 128, 121, 118, 124, 139, 158, 181, 204, 226, 241, 252, 258, 249, 243, 236, 228, 215, 198, 182, 166, 151, 142, 136]),
         new("API", [188, 182, 176, 171, 179, 196, 221, 248, 274, 292, 305, 318, 341, 372, 418, 476, 538, 602, 648, 612, 541, 463, 392, 331]),
-        new("Database", [24, 22, 21, 20, 22, 25, 29, 33, 36, 39, 41, 43, 44, 42, 41, 58, 40, 38, 35, 32, 29, 27, 25, 24]),
-        new("Workers", [342, 335, 328, 322, 331, 349, 372, 398, 421, 447, 468, 512, 604, 742, 868, 912, 834, 701, 588, 497, 441, 402, 371, 352])
+        new(Loc.Text("Home_Series_Database", "Database"), [24, 22, 21, 20, 22, 25, 29, 33, 36, 39, 41, 43, 44, 42, 41, 58, 40, 38, 35, 32, 29, 27, 25, 24]),
+        new(Loc.Text("Home_Series_Workers", "Workers"), [342, 335, 328, 322, 331, 349, 372, 398, 421, 447, 468, 512, 604, 742, 868, 912, 834, 701, 588, 497, 441, 402, 371, 352])
     ];
 
     private readonly string[] _deployDays =
-        [.. Enumerable.Range(0, 14).Select(day => new DateOnly(2026, 9, 26).AddDays(day).ToString("d MMM", CultureInfo.InvariantCulture))];
+        [.. Enumerable.Range(0, 14).Select(day => new DateOnly(2026, 9, 26).AddDays(day).ToString("d MMM", Loc.Culture))];
 
     private readonly ChartSeries[] _deploys =
     [
-        new("Succeeded", [3, 2, 12, 14, 13, 15, 11, 2, 1, 13, 12, 14, 7, 6]),
-        new("Failed", [0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0])
+        new(Loc.Text("Home_Series_Succeeded", "Succeeded"), [3, 2, 12, 14, 13, 15, 11, 2, 1, 13, 12, 14, 7, 6]),
+        new(Loc.Text("Home_Failed", "Failed"), [0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0])
     ];
 
     /// <summary>
@@ -57,11 +68,11 @@ public partial class Home
         "rounded-2xl border border-purple-200/70 p-6 shadow-xs dark:border-white/10";
 
     /// <summary>
-    /// A feature card: the shared shell with the brand gradient along its top edge. These are not links, so
-    /// they have no hover state.
+    /// A feature card: the shared shell with the brand gradient along its top edge. Its own padding is removed
+    /// because <c>TwCard</c>'s content area already pads it. These are not links, so they have no hover state.
     /// </summary>
     private const string featureCardClasses =
-        cardClasses + " relative overflow-hidden before:absolute before:inset-x-0 before:top-0 before:h-1 before:bg-linear-to-r before:from-purple-600 before:to-fuchsia-500";
+        cardClasses + " p-0 relative overflow-hidden before:absolute before:inset-x-0 before:top-0 before:h-1 before:bg-linear-to-r before:from-purple-600 before:to-fuchsia-500";
 
     /// <summary>
     /// One word of the hero heading. Each word rises into place after the one before, set by its animation delay.
@@ -78,7 +89,7 @@ public partial class Home
     /// A guide card, which is a link: the shared shell on the same surface as <c>TwCard</c>, lifting on hover.
     /// </summary>
     private const string guideCardClasses =
-        "group flex items-start gap-4 " + cardClasses + " bg-white dark:bg-[oklch(28%_0.016_252.42)] transition duration-300 hover:-translate-y-1 hover:border-fuchsia-400 hover:shadow-xl hover:shadow-purple-500/15 motion-reduce:transition-none motion-reduce:hover:translate-y-0 dark:hover:border-fuchsia-400";
+        "group flex items-center gap-4 " + cardClasses + " bg-white dark:bg-[oklch(28%_0.016_252.42)] transition duration-300 hover:-translate-y-1 hover:border-fuchsia-400 hover:shadow-xl hover:shadow-purple-500/15 motion-reduce:transition-none motion-reduce:hover:translate-y-0 dark:hover:border-fuchsia-400";
 
     /// <summary>
     /// The icon tile on a guide card, which tilts as the card lifts. Each card adds its own colours.
@@ -86,12 +97,22 @@ public partial class Home
     private const string guideIconClasses =
         "inline-flex size-11 shrink-0 items-center justify-center rounded-xl text-xl transition duration-300 group-hover:-rotate-6 group-hover:scale-110 motion-reduce:transition-none motion-reduce:group-hover:rotate-0 motion-reduce:group-hover:scale-100";
 
-    private static readonly IReadOnlyList<ThemingPoint> _themingPoints =
+    private readonly IReadOnlyList<ThemingPoint> _themingPoints =
     [
-        new(IconEnum.Braces, "Every class, typed and overridable", "One C# theme class per component, every class a named property."),
-        new(IconEnum.Layers_Fill, "Reusable design tokens", "Set a colour once and every component follows."),
-        new(IconEnum.Sliders, "Global defaults, local overrides", "Set a default once, override any instance."),
-        new(IconEnum.Wind, "Real Tailwind, real JIT", "Plain string literals Tailwind can see. No safelists."),
+        new(IconEnum.Braces, Loc.Text("Home_Theming_Typed_Title", "Every class, typed and overridable"), Loc.Text("Home_Theming_Typed_Body", "One C# theme class per component, every class a named property.")),
+        new(IconEnum.Layers_Fill, Loc.Text("Home_Theming_Tokens_Title", "Reusable design tokens"), Loc.Text("Home_Theming_Tokens_Body", "Set a colour once and every component follows.")),
+        new(IconEnum.Sliders, Loc.Text("Home_Theming_Defaults_Title", "Global defaults, local overrides"), Loc.Text("Home_Theming_Defaults_Body", "Set a default once, override any instance.")),
+        new(IconEnum.Wind, Loc.Text("Home_Theming_Jit_Title", "Real Tailwind, real JIT"), Loc.Text("Home_Theming_Jit_Body", "Plain string literals Tailwind can see. No safelists.")),
+    ];
+
+    /// <summary>
+    /// What each line of the Theme.cs example changes on the button, in the order the lines type out.
+    /// </summary>
+    private readonly IReadOnlyList<string> _themeBuildChanges =
+    [
+        Loc.Text("Home_Theming_Change_Corners", "Corners: full"),
+        Loc.Text("Home_Theming_Change_Shadow", "Shadow: large"),
+        Loc.Text("Home_Theming_Change_Colour", "Colour: pink"),
     ];
 
     private const string mergeChipClasses = "rounded-md border px-2 py-1 font-mono text-xs";
@@ -166,34 +187,32 @@ public partial class Home
         new("Polski", "Polish", "pl"),
     ];
 
-    private static readonly IReadOnlyList<MergePoint> _localizationPoints =
+    private readonly IReadOnlyList<MergePoint> _localizationPoints =
     [
-        new("One .resx file per language", "Add or reword any string with your own resource files."),
-        new("Dates and times that fit", "Week starts and 12 or 24 hour time follow the culture."),
-        new("Configured in AddTwBlazor", "Pin a culture, set a format or swap the localizer."),
+        new(Loc.Text("Home_Loc_Resx_Title", "One .resx file per language"), Loc.Text("Home_Loc_Resx_Body", "Add or reword any string with your own resource files.")),
+        new(Loc.Text("Home_Loc_Dates_Title", "Dates and times that fit"), Loc.Text("Home_Loc_Dates_Body", "Week starts and 12 or 24 hour time follow the culture.")),
+        new(Loc.Text("Home_Loc_Config_Title", "Configured in AddTwBlazor"), Loc.Text("Home_Loc_Config_Body", "Pin a culture, set a format or swap the localizer.")),
     ];
 
     private sealed record LocalizationLanguage(string NativeName, string Name, string Culture);
 
-    // How many of the languages a wide screen lists before the link to the rest.
-    private const int desktopLanguageCount = 10;
+    // How many of the languages are listed before the link to the rest. The full list is on the Localization page.
+    private const int shownLanguageCount = 10;
 
     private const string languageChipClasses =
         "inline-flex items-baseline gap-2 rounded-full border border-purple-200 bg-white px-3 py-1.5 text-sm shadow-xs dark:border-white/10 dark:bg-white/5";
 
-    private const string languageChipCollapsedClasses = languageChipClasses + " lg:hidden";
-
-    private static readonly IReadOnlyList<MergePoint> _rtlPoints =
+    private readonly IReadOnlyList<MergePoint> _rtlPoints =
     [
-        new("Follows the language", "Right to left cultures mirror automatically."),
-        new("Keys that match the screen", "Arrow keys move the way they point, in every component."),
-        new("Mix directions on one page", "Wrap any part in TwDirectionProvider."),
+        new(Loc.Text("Home_Rtl_Follows_Title", "Follows the language"), Loc.Text("Home_Rtl_Follows_Body", "Right to left cultures mirror automatically.")),
+        new(Loc.Text("Home_Rtl_Keys_Title", "Keys that match the screen"), Loc.Text("Home_Rtl_Keys_Body", "Arrow keys move the way they point, in every component.")),
+        new(Loc.Text("Home_Rtl_Mix_Title", "Mix directions on one page"), Loc.Text("Home_Rtl_Mix_Body", "Wrap any part in TwDirectionProvider.")),
     ];
 
-    private static readonly IReadOnlyList<RtlDemoOption> _rtlDemoOptions =
+    private readonly IReadOnlyList<RtlDemoOption> _rtlDemoOptions =
     [
-        new("ltr", "Left to right", TextDirection.LeftToRight),
-        new("rtl", "Right to left", TextDirection.RightToLeft),
+        new("ltr", Loc.Text("Home_Rtl_Ltr", "Left to right"), TextDirection.LeftToRight),
+        new("rtl", Loc.Text("Home_Rtl_Rtl", "Right to left"), TextDirection.RightToLeft),
     ];
 
     private static readonly RtlDemoText _rtlDemoEnglish =
@@ -218,12 +237,31 @@ public partial class Home
 
     private sealed record RtlDemoText(string Culture, string Alert, string NameLabel, string NamePlaceholder, string SwitchLabel, string PaginationLabel);
 
-    private static readonly IReadOnlyList<MergePoint> _mergePoints =
+    private readonly IReadOnlyList<MergePoint> _mergePoints =
     [
-        new("The last class wins", "A C# port of tailwind-merge. Nothing to install."),
-        new("Understands Tailwind v4", "Variants, arbitrary values and prefixes, tested on 700+ cases."),
-        new("Yours to configure", "Custom utilities, a prefix, or off, from AddTwBlazor."),
+        new(Loc.Text("Home_Merge_LastWins_Title", "The last class wins"), Loc.Text("Home_Merge_LastWins_Body", "A C# port of tailwind-merge. Nothing to install.")),
+        new(Loc.Text("Home_Merge_V4_Title", "Understands Tailwind v4"), Loc.Text("Home_Merge_V4_Body", "Variants, arbitrary values and prefixes, tested on 700+ cases.")),
+        new(Loc.Text("Home_Merge_Configure_Title", "Yours to configure"), Loc.Text("Home_Merge_Configure_Body", "Custom utilities, a prefix, or off, from AddTwBlazor.")),
     ];
+
+    /// <summary>
+    /// The label of a class merging example, translated. The id and the class stay as they are.
+    /// </summary>
+    private static string MergeLabel(MergeExample example) => example.Id switch
+    {
+        "padding" => Loc.Text("Home_Merge_Padding", "Padding"),
+        "shorthand" => Loc.Text("Home_Merge_Shorthand", "Shorthand"),
+        "shape" => Loc.Text("Home_Merge_Shape", "Shape"),
+        "color" => Loc.Text("Home_Merge_Color", "Color"),
+        _ => example.Label,
+    };
+
+    /// <summary>
+    /// The words of a translated hero heading before its highlighted ending, or <see langword="null"/> in English,
+    /// whose heading is written out in the page with a delay class per word.
+    /// </summary>
+    private readonly string[]? _heroWords =
+        Loc.Get("Home_Hero_TitleLead")?.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
     private MergeExample mergeExample = _mergeExamples[0];
 
@@ -247,12 +285,22 @@ public partial class Home
     /// <summary>
     /// The words the features heading cycles through. The animation in input.css expects five.
     /// </summary>
-    private static readonly IReadOnlyList<string> _cycleWords = ["dashboard", "checkout", "admin panel", "sign-in form", "settings page"];
+    private readonly IReadOnlyList<string> _cycleWords =
+    [
+        Loc.Text("Home_Cycle_Dashboard", "dashboard"),
+        Loc.Text("Home_Cycle_Checkout", "checkout"),
+        Loc.Text("Home_Cycle_Admin", "admin panel"),
+        Loc.Text("Home_Cycle_SignIn", "sign-in form"),
+        Loc.Text("Home_Cycle_Settings", "settings page"),
+    ];
 
     private bool wordCyclePaused;
 
     // Changing the key rebuilds the live build panel, which restarts its CSS animations.
     private int liveBuildRun;
+    private const string liveBuildDefaultService = "checkout-api";
+    private string liveBuildService = liveBuildDefaultService;
+    private bool liveBuildRunTests = true;
     private int liveBuildProgress = 40;
     private bool liveBuildAutoDeploy = true;
     private bool liveBuildDeployed;
@@ -272,6 +320,8 @@ public partial class Home
     /// </summary>
     private void ReplayLiveBuild()
     {
+        liveBuildService = liveBuildDefaultService;
+        liveBuildRunTests = true;
         liveBuildProgress = 40;
         liveBuildAutoDeploy = true;
         liveBuildDeployed = false;
@@ -290,7 +340,7 @@ public partial class Home
 
     private string projectName = "Atlas";
     private string visibility = "team";
-    private string environment = "Production";
+    private string environment = Loc.Text("Home_Env_Production", "Production");
     private bool emailAlerts = true;
     private bool autoDeploy;
     private bool settingsSaved;
@@ -304,7 +354,7 @@ public partial class Home
     {
         projectName = "Atlas";
         visibility = "team";
-        environment = "Production";
+        environment = Loc.Text("Home_Env_Production", "Production");
         emailAlerts = true;
         autoDeploy = false;
         settingsSaved = false;

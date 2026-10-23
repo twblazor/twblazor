@@ -27,6 +27,65 @@ public class HomePageTests : DocsTestBase
     }
 
     [Fact]
+    public void CodeWindows_HaveAWindowsStyleTitleBar_HiddenFromAssistiveTechnology()
+    {
+        // Arrange & Act
+        var page = TestContext.Render<Home>();
+
+        // Assert
+        var bars = page.FindAll("[data-stage] [aria-hidden='true'].border-b");
+        Assert.Equal(["Deploy.razor", "Theme.cs", "Terminal and Home.razor"], bars.Select(bar => bar.QuerySelector(".truncate")!.TextContent));
+        Assert.All(bars, bar => Assert.Equal(3, bar.QuerySelectorAll(".w-10").Length));
+        Assert.Empty(page.FindAll("[data-stage] .bg-red-400\\/80"));
+    }
+
+    [Fact]
+    public void LiveBuild_TypesSixLines_AndPopsEachComponentInAWrapperThatHugsIt()
+    {
+        // Arrange & Act
+        var page = TestContext.Render<Home>();
+
+        // Assert
+        var stage = page.Find("figure[aria-labelledby='live-build-caption'] [data-stage]");
+        Assert.Equal(6, stage.QuerySelectorAll(".stage-line").Length);
+
+        var pops = stage.QuerySelectorAll(".stage-pop");
+        Assert.Equal(6, pops.Length);
+        Assert.All(pops, pop => Assert.Contains("grid", pop.ClassList));
+        Assert.NotNull(stage.QuerySelector("#live-build-service"));
+        Assert.NotNull(stage.QuerySelector("#live-build-tests"));
+        Assert.NotNull(stage.QuerySelector("#live-build-auto-deploy"));
+        Assert.Contains("6 components rendered", stage.QuerySelector(".stage-done")!.TextContent);
+    }
+
+    [Fact]
+    public void ThemeBuild_ShowsTheButtonBeforeAndAfter_AndATagForEachChange()
+    {
+        // Arrange & Act
+        var page = TestContext.Render<Home>();
+
+        // Assert
+        var stage = page.Find("figure[aria-labelledby='theme-build-caption'] [data-stage]");
+        Assert.DoesNotContain("theme-morph", stage.QuerySelector("#theme-build-before")!.ClassList);
+        Assert.Contains("theme-morph", stage.QuerySelector("#theme-build-after")!.ClassList);
+        Assert.Contains("\"bg-pink-700\"", stage.QuerySelector("code")!.TextContent);
+
+        var changes = stage.QuerySelectorAll("#theme-build-changes > li.stage-pop");
+        Assert.Equal(["Corners: full", "Shadow: large", "Colour: pink"], changes.Select(change => change.TextContent.Trim()));
+        Assert.Equal(stage.QuerySelectorAll(".stage-line").Length, changes.Length);
+    }
+
+    [Fact]
+    public void FeatureCards_HaveShortOneLineTitles()
+    {
+        // Arrange & Act
+        var page = TestContext.Render<Home>();
+
+        // Assert
+        Assert.Equal(["Fast to build", "Fully customisable", "Composable", "Accessible"], page.FindAll("section[aria-labelledby='features-heading'] h3").Select(h => h.TextContent.Trim()));
+    }
+
+    [Fact]
     public async Task Render_EmitsWebSiteAndLibraryJsonLd()
     {
         // Arrange
@@ -76,7 +135,7 @@ public class HomePageTests : DocsTestBase
     }
 
     [Fact]
-    public void Render_AdvertisesLocalization_ListsEveryShippedLanguage_AndLinksToItsPage()
+    public void Render_AdvertisesLocalization_ListsShippedLanguages_AndLinksToItsPage()
     {
         // Arrange & Act
         var page = TestContext.Render<Home>();
@@ -86,8 +145,9 @@ public class HomePageTests : DocsTestBase
         Assert.Contains("language", section.QuerySelector("h2#localization-heading")!.TextContent);
         Assert.Equal("/localization", section.QuerySelector("a#localization-docs")!.GetAttribute("href"));
 
+        Assert.Contains("25 languages, built in", section.TextContent);
+
         var cultures = section.QuerySelectorAll("#localization-languages > li > span[lang]").Select(span => span.GetAttribute("lang")!).ToList();
-        Assert.Equal(25, cultures.Count);
         Assert.Equal("en", cultures[0]);
         var resources = new System.Resources.ResourceManager("TwBlazor.Resources.TwBlazorStrings", typeof(TwBlazor.Localization.TwLocalizer).Assembly);
         Assert.All(cultures.Skip(1), culture =>
@@ -95,22 +155,20 @@ public class HomePageTests : DocsTestBase
     }
 
     [Fact]
-    public void LanguageList_OnAWideScreen_ShowsTheFirstTen_AndLinksToTheRest()
+    public void LanguageList_OnEveryScreen_ShowsTheFirstTen_AndLinksToTheRest()
     {
         // Arrange & Act
         var page = TestContext.Render<Home>();
 
-        // Assert - every language stays in the list; the later ones are only hidden from the "lg" breakpoint up
+        // Assert
         var languages = page.FindAll("#localization-languages > li").Where(item => item.QuerySelector("span[lang]") is not null).ToList();
-        Assert.Equal(10, languages.Count(item => !item.ClassList.Contains("lg:hidden")));
-        Assert.Equal(15, languages.Count(item => item.ClassList.Contains("lg:hidden")));
-        Assert.All(languages.Take(10), item => Assert.DoesNotContain("lg:hidden", item.ClassList));
+        Assert.Equal(10, languages.Count);
+        Assert.DoesNotContain(page.FindAll("#localization-languages li"), item => item.ClassList.Contains("hidden") || item.ClassList.Contains("lg:hidden"));
 
         var more = page.Find("#localization-more-languages");
         Assert.Equal("/localization#localization-languages", more.GetAttribute("href"));
         Assert.Equal("...", more.QuerySelector("[aria-hidden='true']")!.TextContent);
         Assert.Equal("and 15 more languages", more.QuerySelector(".sr-only")!.TextContent);
-        Assert.Equal(["hidden", "lg:inline-flex"], more.ParentElement!.ClassList);
     }
 
     [Fact]

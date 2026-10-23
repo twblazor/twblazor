@@ -15,7 +15,9 @@
         </div>
     }
     <span class="@options.Theme.Display.ScreenReaderOnly" aria-live="polite">@statusMessage</span>
-    <pre class="@panelClasses">
+    @* Code reads left to right in every language, so the panel never mirrors. The header above still follows
+       the page, so its title and copy button swap sides right to left. *@
+    <pre class="@panelClasses" dir="ltr">
         @* The highlighter makes the code element the one that scrolls, so it is the one that takes focus
            and carries the region's name. Keyed on the content, because the highlighter rewrites the element's
            children: new content gets a fresh element to highlight rather than one Blazor can no longer diff. *@

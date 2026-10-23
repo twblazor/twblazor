@@ -1,8 +1,11 @@
+using TwBlazor.Models;
+using IconEnum = TwBlazor.Enums.Icon;
+
 namespace TwBlazor.Docs.Layout;
 
 /// <summary>
-/// The site-wide footer: links to the Discord server, the GitHub project, the documentation, the MIT license and
-/// <c>llms.txt</c>, plus the open source statement.
+/// The site-wide footer, built on <c>TwFooter</c>: the twblazor name and tagline with links to the Discord server and
+/// the GitHub project, columns of guide, resource and community links, and the open source statement.
 /// </summary>
 public partial class SiteFooter
 {
@@ -21,7 +24,44 @@ public partial class SiteFooter
 
     /// <summary>Gets the URL of the <c>llms.txt</c> file that points AI assistants at the setup guide, Theme builder and component pages.</summary>
     public const string LlmsTxtUrl = "https://twblazor.com/llms.txt";
+
+    /// <summary>Gets the URL of the contributing guidelines.</summary>
+    public const string ContributingUrl = "https://github.com/TwBlazor/twblazor/blob/develop/CONTRIBUTING.md";
+
+    /// <summary>Gets the URL of the code of conduct.</summary>
+    public const string CodeOfConductUrl = "https://github.com/TwBlazor/twblazor/blob/develop/CODE_OF_CONDUCT.md";
+
+    /// <summary>Gets the URL for reporting an issue on GitHub.</summary>
+    public const string IssuesUrl = "https://github.com/TwBlazor/twblazor/issues";
 #pragma warning restore S1075
 
-    private const string linkClasses = "inline-flex items-center gap-2 rounded-md px-2.5 py-1 text-purple-900 dark:text-purple-200 transition-colors duration-150 hover:bg-purple-100 hover:text-purple-700 dark:hover:bg-purple-900/40 dark:hover:text-purple-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600 dark:focus-visible:outline-purple-400";
+    // Built per component, so the labels follow the language of the request.
+    private readonly IReadOnlyList<FooterSection> _sections =
+    [
+        new(Loc.Text("Footer_Sec_GetStarted", "Get started"), [
+            new FooterLink(Loc.Text("Footer_Link_Install", "Install guide"), "/get-started"),
+            new FooterLink(Loc.Text("Footer_Link_Theming", "Theming"), "/theme"),
+            new FooterLink(Loc.Text("Footer_Link_ClassMerge", "Class merging"), "/class-merge"),
+            new FooterLink(Loc.Text("Footer_Link_Localization", "Localization"), "/localization"),
+        ]),
+        new(Loc.Text("Footer_Sec_Guides", "Guides"), [
+            new FooterLink(Loc.Text("Footer_Link_Tailwind", "Tailwind CSS with Blazor"), "/tailwind-blazor"),
+            new FooterLink(Loc.Text("Footer_Link_Why", "Why twblazor?"), "/why-twblazor"),
+            new FooterLink(Loc.Text("Footer_Link_Rtl", "Right to left"), "/direction-provider"),
+            new FooterLink(Loc.Text("Footer_Link_AiAgents", "AI agents and skills"), "/ai-agents"),
+        ]),
+        new(Loc.Text("Footer_Sec_Resources", "Resources"), [
+            new FooterLink(Loc.Text("Footer_Link_ApiDocs", "API documentation"), DocumentationUrl, IconEnum.Book, OpensInNewTab: true),
+            new FooterLink("llms.txt", LlmsTxtUrl, IconEnum.Robot, OpensInNewTab: true),
+            new FooterLink(Loc.Text("Footer_License", "MIT License"), LicenseUrl, IconEnum.File_Earmark_Text, OpensInNewTab: true),
+        ]),
+        new(Loc.Text("Footer_Sec_Community", "Community"), [
+            new FooterLink(Loc.Text("Footer_Link_Contributing", "Contributing"), ContributingUrl, OpensInNewTab: true),
+            new FooterLink(Loc.Text("Footer_Link_CodeOfConduct", "Code of conduct"), CodeOfConductUrl, OpensInNewTab: true),
+            new FooterLink(Loc.Text("Footer_Link_Issue", "Report an issue"), IssuesUrl, OpensInNewTab: true),
+        ]),
+    ];
+
+    private const string socialLinkClasses =
+        "inline-flex min-h-10 items-center gap-2 rounded-lg border border-purple-200 bg-white px-3.5 text-sm font-medium text-purple-900 shadow-xs transition-colors duration-150 hover:border-fuchsia-400 hover:text-fuchsia-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600 dark:border-purple-500/30 dark:bg-purple-500/10 dark:text-purple-100 dark:hover:border-fuchsia-400 dark:hover:text-fuchsia-200 dark:focus-visible:outline-purple-300";
 }

@@ -1,0 +1,57 @@
+@namespace TwBlazor.Components
+@inherits TwBlazorComponentBase
+
+<div class="@theme.Root" @ref="rootRef">
+    @if (Modal)
+    {
+        <div class="@backdropClasses" data-state="@state" aria-hidden="true" @onclick="HandleBackdropClickAsync"></div>
+    }
+
+    <div id="@Id"
+         class="@panelClasses"
+         style="@Style"
+         role="dialog"
+         aria-modal="@(Modal ? "true" : null)"
+         aria-label="@effectiveAriaLabel"
+         aria-labelledby="@effectiveAriaLabelledBy"
+         aria-describedby="@(hasDescription ? descriptionId : null)"
+         tabindex="-1"
+         data-state="@state"
+         inert="@(!isOpen)"
+         @ref="panelRef"
+         @attributes="Attributes">
+        @if (hasRendered)
+        {
+            @if (hasTitle || hasDescription || ShowCloseButton)
+            {
+                <div class="@theme.Header">
+                    <div class="@theme.Heading">
+                        @if (hasTitle)
+                        {
+                            <h2 id="@titleId" class="@theme.Title">@Title</h2>
+                        }
+                        @if (hasDescription)
+                        {
+                            <p id="@descriptionId" class="@theme.Description">@Description</p>
+                        }
+                    </div>
+                    @if (ShowCloseButton)
+                    {
+                        <TwIcon Icon="Enums.Icon.X_Lg" AriaLabel="@localizer[TwStrings.Common_Close]" Class="@theme.CloseButton" OnClick="@CloseAsync" data-tw-drawer-close />
+                    }
+                </div>
+            }
+
+            <div class="@contentClasses">
+                @ChildContent
+            </div>
+
+            @if (FooterContent is not null)
+            {
+                <div class="@theme.Footer">
+                    @FooterContent
+                </div>
+            }
+        }
+    </div>
+</div>

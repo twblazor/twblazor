@@ -1,0 +1,823 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  English (neutral) strings for every TwBlazor component.
+
+  To add a language, copy this file to TwBlazorStrings.<culture>.resx (for example TwBlazorStrings.de.resx)
+  and translate each <value>. Keep the names and the {0} placeholders unchanged. A key that is missing from a
+  language file falls back to the value in this file.
+
+  The Format_ entries are optional .NET date and time format strings. Leave them empty to use the culture's own patterns.
+-->
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <!-- Common -->
+    <data name="Footer_FreeForever" xml:space="preserve">
+    <value>twblazor gratis dan open source, dan akan selalu begitu.</value>
+  </data>
+  <data name="Footer_Label" xml:space="preserve">
+    <value>Footer</value>
+  </data>
+  <data name="Footer_License" xml:space="preserve">
+    <value>Lisensi MIT</value>
+  </data>
+  <data name="Footer_Link_AiAgents" xml:space="preserve">
+    <value>Agen AI &amp; keterampilan</value>
+  </data>
+  <data name="Footer_Link_ApiDocs" xml:space="preserve">
+    <value>Dokumentasi API</value>
+  </data>
+  <data name="Footer_Link_ClassMerge" xml:space="preserve">
+    <value>Penggabungan kelas</value>
+  </data>
+  <data name="Footer_Link_CodeOfConduct" xml:space="preserve">
+    <value>Kode etik</value>
+  </data>
+  <data name="Footer_Link_Contributing" xml:space="preserve">
+    <value>Berkontribusi</value>
+  </data>
+  <data name="Footer_Link_Install" xml:space="preserve">
+    <value>Panduan instalasi</value>
+  </data>
+  <data name="Footer_Link_Issue" xml:space="preserve">
+    <value>Laporkan masalah</value>
+  </data>
+  <data name="Footer_Link_Localization" xml:space="preserve">
+    <value>Lokalisasi</value>
+  </data>
+  <data name="Footer_Link_Rtl" xml:space="preserve">
+    <value>Kanan ke kiri</value>
+  </data>
+  <data name="Footer_Link_Tailwind" xml:space="preserve">
+    <value>Tailwind CSS dengan Blazor</value>
+  </data>
+  <data name="Footer_Link_Theming" xml:space="preserve">
+    <value>Tema</value>
+  </data>
+  <data name="Footer_Link_Why" xml:space="preserve">
+    <value>Mengapa twblazor?</value>
+  </data>
+  <data name="Footer_NewTab" xml:space="preserve">
+    <value>(terbuka di tab baru)</value>
+  </data>
+  <data name="Footer_Sec_Community" xml:space="preserve">
+    <value>Komunitas</value>
+  </data>
+  <data name="Footer_Sec_GetStarted" xml:space="preserve">
+    <value>Mulai</value>
+  </data>
+  <data name="Footer_Sec_Guides" xml:space="preserve">
+    <value>Panduan</value>
+  </data>
+  <data name="Footer_Sec_Resources" xml:space="preserve">
+    <value>Sumber daya</value>
+  </data>
+  <data name="Footer_Tagline" xml:space="preserve">
+    <value>Pustaka komponen Tailwind CSS untuk Blazor. Aksesibel, mudah diberi tema, dan berlisensi MIT.</value>
+  </data>
+  <data name="Home_Back" xml:space="preserve">
+    <value>Kembali</value>
+  </data>
+  <data name="Home_Brand_ShortDisclaimer" xml:space="preserve">
+    <value>Contoh independen. twblazor tidak berafiliasi dengan atau didukung oleh perusahaan-perusahaan ini.</value>
+  </data>
+  <data name="Home_Case_Eyebrow" xml:space="preserve">
+    <value>Lihat langsung</value>
+  </data>
+  <data name="Home_Case_Heading" xml:space="preserve">
+    <value>Lima tampilan terkenal, satu pustaka komponen</value>
+  </data>
+  <data name="Home_Case_Inspired" xml:space="preserve">
+    <value>&lt;span class=&quot;font-normal text-purple-200&quot;&gt;Terinspirasi &lt;/span&gt;{0}</value>
+  </data>
+  <data name="Home_Case_SeeTheme" xml:space="preserve">
+    <value>Lihat temanya</value>
+  </data>
+  <data name="Home_Case_Sub" xml:space="preserve">
+    <value>Komponen yang sama, &lt;code&gt;Theme.cs&lt;/code&gt; yang berbeda.</value>
+  </data>
+  <data name="Home_Chart_Day" xml:space="preserve">
+    <value>Hari</value>
+  </data>
+  <data name="Home_Chart_Deploys" xml:space="preserve">
+    <value>Deploy per hari</value>
+  </data>
+  <data name="Home_Chart_DeploysDesc" xml:space="preserve">
+    <value>14 hari terakhir</value>
+  </data>
+  <data name="Home_Chart_Folder" xml:space="preserve">
+    <value>Folder</value>
+  </data>
+  <data name="Home_Chart_Hour" xml:space="preserve">
+    <value>Jam</value>
+  </data>
+  <data name="Home_Chart_Response" xml:space="preserve">
+    <value>Waktu respons</value>
+  </data>
+  <data name="Home_Chart_ResponseDesc" xml:space="preserve">
+    <value>Persentil ke-95, 24 jam terakhir</value>
+  </data>
+  <data name="Home_Chart_Size" xml:space="preserve">
+    <value>Ukuran</value>
+  </data>
+  <data name="Home_Chart_Storage" xml:space="preserve">
+    <value>Penyimpanan per folder</value>
+  </data>
+  <data name="Home_Chart_StorageDesc" xml:space="preserve">
+    <value>7,2 GB di 10 folder</value>
+  </data>
+  <data name="Home_Checkout_Account" xml:space="preserve">
+    <value>Akun</value>
+  </data>
+  <data name="Home_Checkout_AccountDesc" xml:space="preserve">
+    <value>Buat login Anda</value>
+  </data>
+  <data name="Home_Checkout_Done" xml:space="preserve">
+    <value>Selesai</value>
+  </data>
+  <data name="Home_Checkout_DoneDesc" xml:space="preserve">
+    <value>Semua siap</value>
+  </data>
+  <data name="Home_Checkout_Notifications" xml:space="preserve">
+    <value>Notifikasi email</value>
+  </data>
+  <data name="Home_Checkout_Preferences" xml:space="preserve">
+    <value>Preferensi</value>
+  </data>
+  <data name="Home_Checkout_PreferencesDesc" xml:space="preserve">
+    <value>Sesuaikan pengaturan Anda</value>
+  </data>
+  <data name="Home_Checkout_Progress" xml:space="preserve">
+    <value>Kemajuan checkout</value>
+  </data>
+  <data name="Home_Checkout_Thanks" xml:space="preserve">
+    <value>Terima kasih, Anda siap memulai.</value>
+  </data>
+  <data name="Home_Checkout_Title" xml:space="preserve">
+    <value>Langkah checkout</value>
+  </data>
+  <data name="Home_Community_Heading" xml:space="preserve">
+    <value>Ikut berdiskusi di Discord</value>
+  </data>
+  <data name="Home_Community_Join" xml:space="preserve">
+    <value>Gabung ke Discord</value>
+  </data>
+  <data name="Home_Community_Sub" xml:space="preserve">
+    <value>Ajukan pertanyaan dan bagikan apa yang sedang Anda buat.</value>
+  </data>
+  <data name="Home_Cta_Heading" xml:space="preserve">
+    <value>Siap membuat sesuatu yang hebat?</value>
+  </data>
+  <data name="Home_Cta_Star" xml:space="preserve">
+    <value>Beri bintang di GitHub</value>
+  </data>
+  <data name="Home_Cta_Sub" xml:space="preserve">
+    <value>Mulai dari dokumentasi.</value>
+  </data>
+  <data name="Home_Cycle_Admin" xml:space="preserve">
+    <value>panel admin</value>
+  </data>
+  <data name="Home_Cycle_Checkout" xml:space="preserve">
+    <value>halaman checkout</value>
+  </data>
+  <data name="Home_Cycle_Dashboard" xml:space="preserve">
+    <value>dasbor</value>
+  </data>
+  <data name="Home_Cycle_Settings" xml:space="preserve">
+    <value>halaman pengaturan</value>
+  </data>
+  <data name="Home_Cycle_SignIn" xml:space="preserve">
+    <value>formulir masuk</value>
+  </data>
+  <data name="Home_Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Home_EmailPlaceholder" xml:space="preserve">
+    <value>Masukkan alamat email Anda</value>
+  </data>
+  <data name="Home_Env_Development" xml:space="preserve">
+    <value>Pengembangan</value>
+  </data>
+  <data name="Home_Env_Production" xml:space="preserve">
+    <value>Produksi</value>
+  </data>
+  <data name="Home_Env_Staging" xml:space="preserve">
+    <value>Staging</value>
+  </data>
+  <data name="Home_Examples_Heading" xml:space="preserve">
+    <value>Komponen sungguhan. Siap untuk aplikasi Anda.</value>
+  </data>
+  <data name="Home_Examples_Sub" xml:space="preserve">
+    <value>Setiap contoh bisa dicoba langsung. Silakan coba.</value>
+  </data>
+  <data name="Home_Failed" xml:space="preserve">
+    <value>Gagal</value>
+  </data>
+  <data name="Home_Feature_A11y_Body" xml:space="preserve">
+    <value>Dukungan ARIA dan keyboard sudah tersedia.</value>
+  </data>
+  <data name="Home_Feature_A11y_Title" xml:space="preserve">
+    <value>Aksesibel</value>
+  </data>
+  <data name="Home_Feature_Composable_Body" xml:space="preserve">
+    <value>Parameter Blazor biasa. Tanpa kejutan.</value>
+  </data>
+  <data name="Home_Feature_Composable_Title" xml:space="preserve">
+    <value>Mudah dipadukan</value>
+  </data>
+  <data name="Home_Feature_Custom_Body" xml:space="preserve">
+    <value>Merek Anda, dalam mode terang dan gelap.</value>
+  </data>
+  <data name="Home_Feature_Custom_Title" xml:space="preserve">
+    <value>Sepenuhnya dapat disesuaikan</value>
+  </data>
+  <data name="Home_Feature_Fast_Body" xml:space="preserve">
+    <value>Lebih dari 25 komponen, siap dirilis.</value>
+  </data>
+  <data name="Home_Feature_Fast_Title" xml:space="preserve">
+    <value>Cepat dibangun</value>
+  </data>
+  <data name="Home_Features_HeadingFull" xml:space="preserve">
+    <value>Cocok untuk proyek Anda berikutnya: {0} atau {1}.</value>
+  </data>
+  <data name="Home_Features_HeadingLead" xml:space="preserve">
+    <value>Cocok untuk proyek Anda berikutnya:</value>
+  </data>
+  <data name="Home_Features_HeadingTrail" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Home_Features_Pause" xml:space="preserve">
+    <value>Jeda judul yang berganti</value>
+  </data>
+  <data name="Home_Features_Play" xml:space="preserve">
+    <value>Putar judul yang berganti</value>
+  </data>
+  <data name="Home_Folder_Apps" xml:space="preserve">
+    <value>Aplikasi</value>
+  </data>
+  <data name="Home_Folder_Backups" xml:space="preserve">
+    <value>Cadangan</value>
+  </data>
+  <data name="Home_Folder_Documents" xml:space="preserve">
+    <value>Dokumen</value>
+  </data>
+  <data name="Home_Folder_Downloads" xml:space="preserve">
+    <value>Unduhan</value>
+  </data>
+  <data name="Home_Folder_Fonts" xml:space="preserve">
+    <value>Font</value>
+  </data>
+  <data name="Home_Folder_Music" xml:space="preserve">
+    <value>Musik</value>
+  </data>
+  <data name="Home_Folder_Photos" xml:space="preserve">
+    <value>Foto</value>
+  </data>
+  <data name="Home_Folder_Projects" xml:space="preserve">
+    <value>Proyek</value>
+  </data>
+  <data name="Home_Folder_Temp" xml:space="preserve">
+    <value>Sementara</value>
+  </data>
+  <data name="Home_Folder_Videos" xml:space="preserve">
+    <value>Video</value>
+  </data>
+  <data name="Home_GetStarted" xml:space="preserve">
+    <value>Mulai</value>
+  </data>
+  <data name="Home_Guides_Heading" xml:space="preserve">
+    <value>Tailwind dan Blazor, bekerja bersama</value>
+  </data>
+  <data name="Home_Guides_Install" xml:space="preserve">
+    <value>Server atau WebAssembly dalam sembilan langkah.</value>
+  </data>
+  <data name="Home_Guides_Install_Title" xml:space="preserve">
+    <value>Panduan instalasi</value>
+  </data>
+  <data name="Home_Guides_Tailwind" xml:space="preserve">
+    <value>Cara kelas Anda ditemukan dan diberi tema.</value>
+  </data>
+  <data name="Home_Guides_Tailwind_Title" xml:space="preserve">
+    <value>Tailwind CSS dengan Blazor</value>
+  </data>
+  <data name="Home_Guides_Why" xml:space="preserve">
+    <value>Berlisensi MIT dan asli Tailwind.</value>
+  </data>
+  <data name="Home_Hero_Badge" xml:space="preserve">
+    <value>Gratis, open source, dan berlisensi MIT</value>
+  </data>
+  <data name="Home_Hero_GitHub" xml:space="preserve">
+    <value>Lihat di GitHub</value>
+  </data>
+  <data name="Home_Hero_Install" xml:space="preserve">
+    <value>Instal</value>
+  </data>
+  <data name="Home_Hero_Subtitle" xml:space="preserve">
+    <value>Komponen yang aksesibel dan mudah diberi tema untuk Blazor Server dan WebAssembly.</value>
+  </data>
+  <data name="Home_Hero_TitleAccent" xml:space="preserve">
+    <value>untuk Blazor</value>
+  </data>
+  <data name="Home_Hero_TitleLead" xml:space="preserve">
+    <value>Pustaka komponen Tailwind CSS</value>
+  </data>
+  <data name="Home_Lang_ar" xml:space="preserve">
+    <value>Arab</value>
+  </data>
+  <data name="Home_Lang_bn" xml:space="preserve">
+    <value>Bengali</value>
+  </data>
+  <data name="Home_Lang_de" xml:space="preserve">
+    <value>Jerman</value>
+  </data>
+  <data name="Home_Lang_en" xml:space="preserve">
+    <value>Inggris</value>
+  </data>
+  <data name="Home_Lang_es" xml:space="preserve">
+    <value>Spanyol</value>
+  </data>
+  <data name="Home_Lang_fa" xml:space="preserve">
+    <value>Persia</value>
+  </data>
+  <data name="Home_Lang_fr" xml:space="preserve">
+    <value>Prancis</value>
+  </data>
+  <data name="Home_Lang_hi" xml:space="preserve">
+    <value>Hindi</value>
+  </data>
+  <data name="Home_Lang_id" xml:space="preserve">
+    <value>Indonesia</value>
+  </data>
+  <data name="Home_Lang_it" xml:space="preserve">
+    <value>Italia</value>
+  </data>
+  <data name="Home_Lang_ja" xml:space="preserve">
+    <value>Jepang</value>
+  </data>
+  <data name="Home_Lang_jv" xml:space="preserve">
+    <value>Jawa</value>
+  </data>
+  <data name="Home_Lang_ko" xml:space="preserve">
+    <value>Korea</value>
+  </data>
+  <data name="Home_Lang_mr" xml:space="preserve">
+    <value>Marathi</value>
+  </data>
+  <data name="Home_Lang_paArab" xml:space="preserve">
+    <value>Punjabi Barat</value>
+  </data>
+  <data name="Home_Lang_pl" xml:space="preserve">
+    <value>Polandia</value>
+  </data>
+  <data name="Home_Lang_pt" xml:space="preserve">
+    <value>Portugis</value>
+  </data>
+  <data name="Home_Lang_ru" xml:space="preserve">
+    <value>Rusia</value>
+  </data>
+  <data name="Home_Lang_ta" xml:space="preserve">
+    <value>Tamil</value>
+  </data>
+  <data name="Home_Lang_te" xml:space="preserve">
+    <value>Telugu</value>
+  </data>
+  <data name="Home_Lang_tr" xml:space="preserve">
+    <value>Turki</value>
+  </data>
+  <data name="Home_Lang_ur" xml:space="preserve">
+    <value>Urdu</value>
+  </data>
+  <data name="Home_Lang_vi" xml:space="preserve">
+    <value>Vietnam</value>
+  </data>
+  <data name="Home_Lang_zhHans" xml:space="preserve">
+    <value>Tionghoa Sederhana</value>
+  </data>
+  <data name="Home_Lang_zhHant" xml:space="preserve">
+    <value>Tionghoa Tradisional</value>
+  </data>
+  <data name="Home_Live_Caption" xml:space="preserve">
+    <value>Enam baris markup twblazor dan komponen langsung yang dihasilkannya.</value>
+  </data>
+  <data name="Home_Live_Rendered" xml:space="preserve">
+    <value>6 komponen dirender</value>
+  </data>
+  <data name="Home_Live_Replay" xml:space="preserve">
+    <value>Putar ulang</value>
+  </data>
+  <data name="Home_Live_ReplayTarget" xml:space="preserve">
+    <value>build langsung</value>
+  </data>
+  <data name="Home_Loc_Badge" xml:space="preserve">
+    <value>{0} bahasa bawaan</value>
+  </data>
+  <data name="Home_Loc_Config_Body" xml:space="preserve">
+    <value>Kunci satu kultur, atur format, atau ganti localizer.</value>
+  </data>
+  <data name="Home_Loc_Config_Title" xml:space="preserve">
+    <value>Dikonfigurasi di AddTwBlazor</value>
+  </data>
+  <data name="Home_Loc_Dates_Body" xml:space="preserve">
+    <value>Awal minggu dan format 12 atau 24 jam mengikuti kultur.</value>
+  </data>
+  <data name="Home_Loc_Dates_Title" xml:space="preserve">
+    <value>Tanggal dan waktu yang pas</value>
+  </data>
+  <data name="Home_Loc_Disclaimer" xml:space="preserve">
+    <value>Terjemahan selain bahasa Inggris dibuat oleh AI dan belum ditinjau. &lt;a href=&quot;/localization#localization-contributing&quot; class=&quot;font-medium text-purple-800 underline underline-offset-2 dark:text-purple-300&quot;&gt;Sarankan perbaikan&lt;/a&gt;.</value>
+  </data>
+  <data name="Home_Loc_HeadingAccent" xml:space="preserve">
+    <value>langsung dari awal</value>
+  </data>
+  <data name="Home_Loc_HeadingLead" xml:space="preserve">
+    <value>Berbicara dalam bahasa pengguna Anda,</value>
+  </data>
+  <data name="Home_Loc_LanguagesLabel" xml:space="preserve">
+    <value>Bahasa yang didukung</value>
+  </data>
+  <data name="Home_Loc_Link" xml:space="preserve">
+    <value>Lihat cara kerja lokalisasi</value>
+  </data>
+  <data name="Home_Loc_More" xml:space="preserve">
+    <value>dan {0} bahasa lainnya</value>
+  </data>
+  <data name="Home_Loc_Resx_Body" xml:space="preserve">
+    <value>Tambahkan atau ubah teks apa pun dengan file resource Anda sendiri.</value>
+  </data>
+  <data name="Home_Loc_Resx_Title" xml:space="preserve">
+    <value>Satu file .resx per bahasa</value>
+  </data>
+  <data name="Home_Loc_Sub" xml:space="preserve">
+    <value>Setiap label, pesan, dan pengumuman pembaca layar sudah diterjemahkan, dan tanggal mengikuti kultur. Tidak perlu pengaturan apa pun.</value>
+  </data>
+  <data name="Home_Merge_Badge" xml:space="preserve">
+    <value>Bawaan. Tanpa npm, tanpa JavaScript.</value>
+  </data>
+  <data name="Home_Merge_Caption" xml:space="preserve">
+    <value>Contoh langsung penggabungan kelas. Pilih contoh untuk mengubah kelas yang diteruskan ke komponen.</value>
+  </data>
+  <data name="Home_Merge_Color" xml:space="preserve">
+    <value>Warna</value>
+  </data>
+  <data name="Home_Merge_Configure_Body" xml:space="preserve">
+    <value>Utilitas kustom, prefiks, atau dimatikan, dari AddTwBlazor.</value>
+  </data>
+  <data name="Home_Merge_Configure_Title" xml:space="preserve">
+    <value>Atur sesuka Anda</value>
+  </data>
+  <data name="Home_Merge_GroupLabel" xml:space="preserve">
+    <value>Contoh penggabungan kelas</value>
+  </data>
+  <data name="Home_Merge_HeadingAccent" xml:space="preserve">
+    <value>sudah terpasang</value>
+  </data>
+  <data name="Home_Merge_HeadingLead" xml:space="preserve">
+    <value>Penggabungan kelas Tailwind,</value>
+  </data>
+  <data name="Home_Merge_LastWins_Body" xml:space="preserve">
+    <value>Port C# dari tailwind-merge. Tidak ada yang perlu diinstal.</value>
+  </data>
+  <data name="Home_Merge_LastWins_Title" xml:space="preserve">
+    <value>Kelas terakhir yang menang</value>
+  </data>
+  <data name="Home_Merge_Link" xml:space="preserve">
+    <value>Lihat cara kerja penggabungan kelas</value>
+  </data>
+  <data name="Home_Merge_Padding" xml:space="preserve">
+    <value>Padding</value>
+  </data>
+  <data name="Home_Merge_Replaced" xml:space="preserve">
+    <value>Diganti:</value>
+  </data>
+  <data name="Home_Merge_Shape" xml:space="preserve">
+    <value>Bentuk</value>
+  </data>
+  <data name="Home_Merge_Shorthand" xml:space="preserve">
+    <value>Singkatan</value>
+  </data>
+  <data name="Home_Merge_Sub" xml:space="preserve">
+    <value>Berikan &lt;code&gt;Class=&quot;px-3&quot;&lt;/code&gt; dan ia menggantikan &lt;code&gt;px-6&lt;/code&gt; dari tema. Kelas Anda selalu menang.</value>
+  </data>
+  <data name="Home_Merge_Theme" xml:space="preserve">
+    <value>Tema</value>
+  </data>
+  <data name="Home_Merge_V4_Body" xml:space="preserve">
+    <value>Varian, nilai arbitrer, dan prefiks, diuji pada lebih dari 700 kasus.</value>
+  </data>
+  <data name="Home_Merge_V4_Title" xml:space="preserve">
+    <value>Memahami Tailwind v4</value>
+  </data>
+  <data name="Home_Merge_YourClass" xml:space="preserve">
+    <value>Class Anda</value>
+  </data>
+  <data name="Home_Next" xml:space="preserve">
+    <value>Berikutnya</value>
+  </data>
+  <data name="Home_OpenSource" xml:space="preserve">
+    <value>Gratis dan berlisensi MIT, selamanya. Dibangun secara terbuka bersama komunitas.</value>
+  </data>
+  <data name="Home_Password" xml:space="preserve">
+    <value>Kata sandi</value>
+  </data>
+  <data name="Home_PasswordPlaceholder" xml:space="preserve">
+    <value>Masukkan kata sandi Anda</value>
+  </data>
+  <data name="Home_Preview" xml:space="preserve">
+    <value>Pratinjau</value>
+  </data>
+  <data name="Home_Quick_Caption" xml:space="preserve">
+    <value>Menginstal twblazor, lalu dua baris markup serta tombol dan peringatan yang dihasilkannya.</value>
+  </data>
+  <data name="Home_Quick_Heading" xml:space="preserve">
+    <value>Siap dalam hitungan menit</value>
+  </data>
+  <data name="Home_Quick_Installed" xml:space="preserve">
+    <value>twblazor terinstal</value>
+  </data>
+  <data name="Home_Quick_Sub" xml:space="preserve">
+    <value>Instal, daftarkan, build.</value>
+  </data>
+  <data name="Home_Quick_Window" xml:space="preserve">
+    <value>Terminal dan Home.razor</value>
+  </data>
+  <data name="Home_Release_AvgTime" xml:space="preserve">
+    <value>Rata-rata waktu</value>
+  </data>
+  <data name="Home_Release_Deploys" xml:space="preserve">
+    <value>Deploy</value>
+  </data>
+  <data name="Home_Release_Storage" xml:space="preserve">
+    <value>Penyimpanan hampir penuh.</value>
+  </data>
+  <data name="Home_Release_Title" xml:space="preserve">
+    <value>Kondisi rilis</value>
+  </data>
+  <data name="Home_RememberMe" xml:space="preserve">
+    <value>Ingat saya</value>
+  </data>
+  <data name="Home_Rendered" xml:space="preserve">
+    <value>Hasil</value>
+  </data>
+  <data name="Home_Rtl_Badge" xml:space="preserve">
+    <value>Kanan ke kiri, bawaan</value>
+  </data>
+  <data name="Home_Rtl_Caption" xml:space="preserve">
+    <value>Contoh langsung komponen yang sama yang ditata dari kiri ke kanan dan dari kanan ke kiri. Pilih arah untuk beralih.</value>
+  </data>
+  <data name="Home_Rtl_Follows_Body" xml:space="preserve">
+    <value>Kultur kanan ke kiri dicerminkan secara otomatis.</value>
+  </data>
+  <data name="Home_Rtl_Follows_Title" xml:space="preserve">
+    <value>Mengikuti bahasa</value>
+  </data>
+  <data name="Home_Rtl_GroupLabel" xml:space="preserve">
+    <value>Arah tata letak</value>
+  </data>
+  <data name="Home_Rtl_HeadingAccent" xml:space="preserve">
+    <value>tanpa stylesheet kedua</value>
+  </data>
+  <data name="Home_Rtl_HeadingLead" xml:space="preserve">
+    <value>Dibaca dari kanan ke kiri,</value>
+  </data>
+  <data name="Home_Rtl_Keys_Body" xml:space="preserve">
+    <value>Tombol panah bergerak ke arah yang ditunjuknya, di setiap komponen.</value>
+  </data>
+  <data name="Home_Rtl_Keys_Title" xml:space="preserve">
+    <value>Tombol yang sesuai dengan layar</value>
+  </data>
+  <data name="Home_Rtl_Link" xml:space="preserve">
+    <value>Lihat cara kerja kanan ke kiri</value>
+  </data>
+  <data name="Home_Rtl_Ltr" xml:space="preserve">
+    <value>Kiri ke kanan</value>
+  </data>
+  <data name="Home_Rtl_Mix_Body" xml:space="preserve">
+    <value>Bungkus bagian mana pun dengan TwDirectionProvider.</value>
+  </data>
+  <data name="Home_Rtl_Mix_Title" xml:space="preserve">
+    <value>Padukan arah dalam satu halaman</value>
+  </data>
+  <data name="Home_Rtl_Rtl" xml:space="preserve">
+    <value>Kanan ke kiri</value>
+  </data>
+  <data name="Home_Rtl_Sub" xml:space="preserve">
+    <value>Bahasa Arab, Ibrani, Persia, dan Urdu mencerminkan setiap komponen: jarak, ikon, panel, dan tombol panah.</value>
+  </data>
+  <data name="Home_SaveChanges" xml:space="preserve">
+    <value>Simpan perubahan</value>
+  </data>
+  <data name="Home_Series_Database" xml:space="preserve">
+    <value>Database</value>
+  </data>
+  <data name="Home_Series_Succeeded" xml:space="preserve">
+    <value>Berhasil</value>
+  </data>
+  <data name="Home_Series_WebApp" xml:space="preserve">
+    <value>Aplikasi web</value>
+  </data>
+  <data name="Home_Series_Workers" xml:space="preserve">
+    <value>Worker</value>
+  </data>
+  <data name="Home_Settings_DeployOnPush" xml:space="preserve">
+    <value>Deploy saat push</value>
+  </data>
+  <data name="Home_Settings_EmailAlerts" xml:space="preserve">
+    <value>Peringatan email</value>
+  </data>
+  <data name="Home_Settings_Environment" xml:space="preserve">
+    <value>Lingkungan</value>
+  </data>
+  <data name="Home_Settings_Private" xml:space="preserve">
+    <value>Pribadi</value>
+  </data>
+  <data name="Home_Settings_ProjectName" xml:space="preserve">
+    <value>Nama proyek</value>
+  </data>
+  <data name="Home_Settings_Public" xml:space="preserve">
+    <value>Publik</value>
+  </data>
+  <data name="Home_Settings_Reset" xml:space="preserve">
+    <value>Atur ulang</value>
+  </data>
+  <data name="Home_Settings_Saved" xml:space="preserve">
+    <value>Pengaturan disimpan.</value>
+  </data>
+  <data name="Home_Settings_Storage" xml:space="preserve">
+    <value>Penyimpanan terpakai</value>
+  </data>
+  <data name="Home_Settings_StorageAmount" xml:space="preserve">
+    <value>7,2 dari 10 GB</value>
+  </data>
+  <data name="Home_Settings_Sub" xml:space="preserve">
+    <value>Kelola cara tim Anda merilis</value>
+  </data>
+  <data name="Home_Settings_Team" xml:space="preserve">
+    <value>Tim</value>
+  </data>
+  <data name="Home_Settings_Title" xml:space="preserve">
+    <value>Pengaturan proyek</value>
+  </data>
+  <data name="Home_Settings_Visibility" xml:space="preserve">
+    <value>Visibilitas</value>
+  </data>
+  <data name="Home_SignIn" xml:space="preserve">
+    <value>Masuk</value>
+  </data>
+  <data name="Home_Theming_After" xml:space="preserve">
+    <value>Sesudah</value>
+  </data>
+  <data name="Home_Theming_Before" xml:space="preserve">
+    <value>Sebelum</value>
+  </data>
+  <data name="Home_Theming_Caption" xml:space="preserve">
+    <value>Tiga baris Theme.cs yang mengubah gaya tombol langsung, ditampilkan di samping tombol aslinya: sudut membulat penuh, bayangan besar, dan warna utama merah muda.</value>
+  </data>
+  <data name="Home_Theming_Change_Colour" xml:space="preserve">
+    <value>Warna: merah muda</value>
+  </data>
+  <data name="Home_Theming_Change_Corners" xml:space="preserve">
+    <value>Sudut: bulat penuh</value>
+  </data>
+  <data name="Home_Theming_Change_Shadow" xml:space="preserve">
+    <value>Bayangan: besar</value>
+  </data>
+  <data name="Home_Theming_Defaults_Body" xml:space="preserve">
+    <value>Tetapkan default sekali, timpa di instans mana pun.</value>
+  </data>
+  <data name="Home_Theming_Defaults_Title" xml:space="preserve">
+    <value>Default global, penimpaan lokal</value>
+  </data>
+  <data name="Home_Theming_Heading" xml:space="preserve">
+    <value>Kustomisasi tema Tailwind terdalam dari pustaka Blazor mana pun</value>
+  </data>
+  <data name="Home_Theming_Jit_Body" xml:space="preserve">
+    <value>String literal biasa yang dapat dilihat Tailwind. Tanpa safelist.</value>
+  </data>
+  <data name="Home_Theming_Jit_Title" xml:space="preserve">
+    <value>Tailwind asli, JIT asli</value>
+  </data>
+  <data name="Home_Theming_Restyled" xml:space="preserve">
+    <value>Diberi gaya ulang lewat Theme.cs, tanpa CSS</value>
+  </data>
+  <data name="Home_Theming_Sub" xml:space="preserve">
+    <value>Setiap detail visual adalah kelas Tailwind biasa milik Anda, bertipe per komponen. Tidak ada kotak hitam di dalam DLL.</value>
+  </data>
+  <data name="Home_Theming_Tokens_Body" xml:space="preserve">
+    <value>Tetapkan warna sekali dan setiap komponen akan mengikutinya.</value>
+  </data>
+  <data name="Home_Theming_Tokens_Title" xml:space="preserve">
+    <value>Token desain yang dapat dipakai ulang</value>
+  </data>
+  <data name="Home_Theming_Typed_Body" xml:space="preserve">
+    <value>Satu kelas tema C# per komponen, setiap kelas adalah properti bernama.</value>
+  </data>
+  <data name="Home_Theming_Typed_Title" xml:space="preserve">
+    <value>Setiap kelas bertipe dan dapat ditimpa</value>
+  </data>
+  <data name="Home_Theming_WhatChanged" xml:space="preserve">
+    <value>Yang berubah</value>
+  </data>
+  <data name="Home_Why_Title" xml:space="preserve">
+    <value>Mengapa twblazor?</value>
+  </data>
+  <data name="Nav_AiAgents" xml:space="preserve">
+    <value>Agen AI &amp; keterampilan</value>
+  </data>
+  <data name="Nav_ApiDocs" xml:space="preserve">
+    <value>Dokumentasi API</value>
+  </data>
+  <data name="Nav_ClassMerge" xml:space="preserve">
+    <value>Penggabungan kelas</value>
+  </data>
+  <data name="Nav_Configuration" xml:space="preserve">
+    <value>Konfigurasi</value>
+  </data>
+  <data name="Nav_ConfiguringLocalization" xml:space="preserve">
+    <value>Mengonfigurasi lokalisasi</value>
+  </data>
+  <data name="Nav_GetStarted" xml:space="preserve">
+    <value>Memulai</value>
+  </data>
+  <data name="Nav_GetStartedGroup" xml:space="preserve">
+    <value>Memulai</value>
+  </data>
+  <data name="Nav_Group_chart-comparison-navitem" xml:space="preserve">
+    <value>Perbandingan</value>
+  </data>
+  <data name="Nav_Group_chart-distribution-navitem" xml:space="preserve">
+    <value>Distribusi</value>
+  </data>
+  <data name="Nav_Group_chart-flow-navitem" xml:space="preserve">
+    <value>Aliran</value>
+  </data>
+  <data name="Nav_Group_chart-hierarchy-navitem" xml:space="preserve">
+    <value>Hierarki</value>
+  </data>
+  <data name="Nav_Group_chart-parts-navitem" xml:space="preserve">
+    <value>Bagian dari keseluruhan</value>
+  </data>
+  <data name="Nav_Group_chart-relationship-navitem" xml:space="preserve">
+    <value>Hubungan</value>
+  </data>
+  <data name="Nav_Group_chart-sets-navitem" xml:space="preserve">
+    <value>Himpunan</value>
+  </data>
+  <data name="Nav_Group_chart-time-navitem" xml:space="preserve">
+    <value>Perubahan dari waktu ke waktu</value>
+  </data>
+  <data name="Nav_Group_chart-variables-navitem" xml:space="preserve">
+    <value>Beberapa variabel</value>
+  </data>
+  <data name="Nav_Group_charts" xml:space="preserve">
+    <value>Grafik</value>
+  </data>
+  <data name="Nav_Group_chat" xml:space="preserve">
+    <value>Obrolan</value>
+  </data>
+  <data name="Nav_Group_data" xml:space="preserve">
+    <value>Data</value>
+  </data>
+  <data name="Nav_Group_feedback" xml:space="preserve">
+    <value>Umpan balik</value>
+  </data>
+  <data name="Nav_Group_forms" xml:space="preserve">
+    <value>Formulir</value>
+  </data>
+  <data name="Nav_Group_inputs-navitem" xml:space="preserve">
+    <value>Input</value>
+  </data>
+  <data name="Nav_Group_layout" xml:space="preserve">
+    <value>Tata letak</value>
+  </data>
+  <data name="Nav_Group_services" xml:space="preserve">
+    <value>Layanan</value>
+  </data>
+  <data name="Nav_Home" xml:space="preserve">
+    <value>Beranda</value>
+  </data>
+  <data name="Nav_Localization" xml:space="preserve">
+    <value>Lokalisasi</value>
+  </data>
+  <data name="Nav_RtlProvider" xml:space="preserve">
+    <value>Penyedia RTL</value>
+  </data>
+  <data name="Nav_TailwindBlazor" xml:space="preserve">
+    <value>Tailwind dengan Blazor</value>
+  </data>
+  <data name="Nav_Theme" xml:space="preserve">
+    <value>Tema</value>
+  </data>
+  <data name="Nav_WhyTwBlazor" xml:space="preserve">
+    <value>Mengapa twblazor?</value>
+  </data>
+</root>

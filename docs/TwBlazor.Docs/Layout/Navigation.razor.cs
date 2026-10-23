@@ -68,7 +68,8 @@ public partial class Navigation : IDisposable
     // The ids of the items that show a "New" badge, filled while the navigation items are built.
     private readonly HashSet<string> _newItemIds = [];
 
-    // Category order in the sidebar follows components.json's array order.
+    // Category order in the sidebar follows components.json's array order. Labels other than component names are
+    // translated: the items are built per component instance, in the language of the request.
     private readonly List<NavigationItem> _navigationItems;
 
     public Navigation() => _navigationItems = BuildNavigationItems();
@@ -77,38 +78,38 @@ public partial class Navigation : IDisposable
     {
         List<NavigationItem> items =
         [
-            new() { Id = "home", Label = "Home", Href = "/", Icon = Icon.House },
+            new() { Id = "home", Label = Loc.Text("Nav_Home", "Home"), Href = "/", Icon = Icon.House },
             new()
             {
                 Id = "get-started-group",
-                Label = "Get Started",
+                Label = Loc.Text("Nav_GetStartedGroup", "Get Started"),
                 Icon = Icon.Rocket_Takeoff,
                 Collapsed = false,
                 NavigationItems =
                 [
-                    new() { Id = "get-started", Label = "Get started", Href = "/get-started" },
-                    new() { Id = "tailwind-blazor", Label = "Tailwind with Blazor", Href = "/tailwind-blazor" },
-                    new() { Id = "why-twblazor", Label = "Why twblazor?", Href = "/why-twblazor" },
+                    new() { Id = "get-started", Label = Loc.Text("Nav_GetStarted", "Get started"), Href = "/get-started" },
+                    new() { Id = "tailwind-blazor", Label = Loc.Text("Nav_TailwindBlazor", "Tailwind with Blazor"), Href = "/tailwind-blazor" },
+                    new() { Id = "why-twblazor", Label = Loc.Text("Nav_WhyTwBlazor", "Why twblazor?"), Href = "/why-twblazor" },
                 ],
             },
             new()
             {
                 Id = "configuration",
-                Label = "Configuration",
+                Label = Loc.Text("Nav_Configuration", "Configuration"),
                 Icon = Icon.Gear,
                 NavigationItems =
                 [
-                    new() { Id = "theme", Label = "Theme", Href = "/theme", Icon = Icon.Brush },
-                    new() { Id = "class-merge", Label = "Class Merge", Href = "/class-merge", Icon = Icon.Intersect },
+                    new() { Id = "theme", Label = Loc.Text("Nav_Theme", "Theme"), Href = "/theme", Icon = Icon.Brush },
+                    new() { Id = "class-merge", Label = Loc.Text("Nav_ClassMerge", "Class Merge"), Href = "/class-merge", Icon = Icon.Intersect },
                     new()
                     {
                         Id = "localization",
-                        Label = "Localization",
+                        Label = Loc.Text("Nav_Localization", "Localization"),
                         Icon = Icon.Translate,
                         NavigationItems =
                         [
-                            new() { Id = "configuring-localization", Label = "Configuring localization", Href = "/localization" },
-                            new() { Id = "rtl-provider", Label = "RTL Provider", Href = "/direction-provider" },
+                            new() { Id = "configuring-localization", Label = Loc.Text("Nav_ConfiguringLocalization", "Configuring localization"), Href = "/localization" },
+                            new() { Id = "rtl-provider", Label = Loc.Text("Nav_RtlProvider", "RTL Provider"), Href = "/direction-provider" },
                         ],
                     },
                 ],
@@ -122,11 +123,11 @@ public partial class Navigation : IDisposable
                 _newItemIds.Add(id);
 
             var children = category.Items.Select(entry => BuildNavigationItem(entry, category.IsNew)).ToList();
-            items.Add(new NavigationItem { Id = id, Label = category.Category, Icon = GetGroupIcon(id), NavigationItems = children });
+            items.Add(new NavigationItem { Id = id, Label = Loc.Text("Nav_Group_" + id, category.Category), Icon = GetGroupIcon(id), NavigationItems = children });
         }
 
-        items.Add(new() { Id = "api-doc", Label = "API Documentation", Href = _apiDocumentationUri, Icon = Icon.Journal_Code });
-        items.Add(new() { Id = "ai-agents", Label = "AI Agents & Skills", Href = "/ai-agents", Icon = Icon.Robot });
+        items.Add(new() { Id = "api-doc", Label = Loc.Text("Nav_ApiDocs", "API Documentation"), Href = _apiDocumentationUri, Icon = Icon.Journal_Code });
+        items.Add(new() { Id = "ai-agents", Label = Loc.Text("Nav_AiAgents", "AI Agents & Skills"), Href = "/ai-agents", Icon = Icon.Robot });
 
         return items;
     }
@@ -141,7 +142,7 @@ public partial class Navigation : IDisposable
             _newItemIds.Add(entry.Id);
 
         return entry.Items.Count > 0
-            ? new NavigationItem { Id = entry.Id, Label = entry.Display, Icon = GetGroupIcon(entry.Id), NavigationItems = entry.Items.Select(child => BuildNavigationItem(child, entry.IsNew)).ToList() }
+            ? new NavigationItem { Id = entry.Id, Label = Loc.Text("Nav_Group_" + entry.Id, entry.Display), Icon = GetGroupIcon(entry.Id), NavigationItems = entry.Items.Select(child => BuildNavigationItem(child, entry.IsNew)).ToList() }
             : new NavigationItem { Id = entry.Id, Label = entry.Display, Href = entry.Url };
     }
 

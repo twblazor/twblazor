@@ -1,7 +1,7 @@
 @namespace TwBlazor.Components
 @inherits TwBlazorComponentBase
 
-<div id="@Id" class="@Class" style="@Style" @ref="containerRef" @attributes="Attributes" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy">
+<div id="@Id" class="@Class" style="@Style" @ref="containerRef" data-tw-dialog-host @attributes="Attributes" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy">
     @foreach (var reference in _dialogs)
     {
         <TwDialog @key="reference.Id" Reference="reference" />

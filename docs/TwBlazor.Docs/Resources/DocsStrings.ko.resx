@@ -1,0 +1,823 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  English (neutral) strings for every TwBlazor component.
+
+  To add a language, copy this file to TwBlazorStrings.<culture>.resx (for example TwBlazorStrings.de.resx)
+  and translate each <value>. Keep the names and the {0} placeholders unchanged. A key that is missing from a
+  language file falls back to the value in this file.
+
+  The Format_ entries are optional .NET date and time format strings. Leave them empty to use the culture's own patterns.
+-->
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <!-- Common -->
+    <data name="Footer_FreeForever" xml:space="preserve">
+    <value>twblazor는 지금도 앞으로도 무료 오픈 소스입니다.</value>
+  </data>
+  <data name="Footer_Label" xml:space="preserve">
+    <value>바닥글</value>
+  </data>
+  <data name="Footer_License" xml:space="preserve">
+    <value>MIT 라이선스</value>
+  </data>
+  <data name="Footer_Link_AiAgents" xml:space="preserve">
+    <value>AI 에이전트와 스킬</value>
+  </data>
+  <data name="Footer_Link_ApiDocs" xml:space="preserve">
+    <value>API 문서</value>
+  </data>
+  <data name="Footer_Link_ClassMerge" xml:space="preserve">
+    <value>클래스 병합</value>
+  </data>
+  <data name="Footer_Link_CodeOfConduct" xml:space="preserve">
+    <value>행동 강령</value>
+  </data>
+  <data name="Footer_Link_Contributing" xml:space="preserve">
+    <value>기여하기</value>
+  </data>
+  <data name="Footer_Link_Install" xml:space="preserve">
+    <value>설치 가이드</value>
+  </data>
+  <data name="Footer_Link_Issue" xml:space="preserve">
+    <value>문제 신고</value>
+  </data>
+  <data name="Footer_Link_Localization" xml:space="preserve">
+    <value>현지화</value>
+  </data>
+  <data name="Footer_Link_Rtl" xml:space="preserve">
+    <value>오른쪽에서 왼쪽</value>
+  </data>
+  <data name="Footer_Link_Tailwind" xml:space="preserve">
+    <value>Blazor와 함께 쓰는 Tailwind CSS</value>
+  </data>
+  <data name="Footer_Link_Theming" xml:space="preserve">
+    <value>테마</value>
+  </data>
+  <data name="Footer_Link_Why" xml:space="preserve">
+    <value>왜 twblazor인가요?</value>
+  </data>
+  <data name="Footer_NewTab" xml:space="preserve">
+    <value>(새 탭에서 열림)</value>
+  </data>
+  <data name="Footer_Sec_Community" xml:space="preserve">
+    <value>커뮤니티</value>
+  </data>
+  <data name="Footer_Sec_GetStarted" xml:space="preserve">
+    <value>시작하기</value>
+  </data>
+  <data name="Footer_Sec_Guides" xml:space="preserve">
+    <value>가이드</value>
+  </data>
+  <data name="Footer_Sec_Resources" xml:space="preserve">
+    <value>리소스</value>
+  </data>
+  <data name="Footer_Tagline" xml:space="preserve">
+    <value>Blazor용 Tailwind CSS 컴포넌트 라이브러리. 접근성 높고, 테마를 바꿀 수 있으며, MIT 라이선스입니다.</value>
+  </data>
+  <data name="Home_Back" xml:space="preserve">
+    <value>이전</value>
+  </data>
+  <data name="Home_Brand_ShortDisclaimer" xml:space="preserve">
+    <value>독립적인 예시입니다. twblazor는 이 회사들과 제휴하거나 보증을 받지 않습니다.</value>
+  </data>
+  <data name="Home_Case_Eyebrow" xml:space="preserve">
+    <value>실제로 확인하기</value>
+  </data>
+  <data name="Home_Case_Heading" xml:space="preserve">
+    <value>잘 알려진 다섯 가지 스타일, 하나의 컴포넌트 라이브러리</value>
+  </data>
+  <data name="Home_Case_Inspired" xml:space="preserve">
+    <value>{0}&lt;span class=&quot;font-normal text-purple-200&quot;&gt; 스타일&lt;/span&gt;</value>
+  </data>
+  <data name="Home_Case_SeeTheme" xml:space="preserve">
+    <value>테마 보기</value>
+  </data>
+  <data name="Home_Case_Sub" xml:space="preserve">
+    <value>같은 컴포넌트, 다른 &lt;code&gt;Theme.cs&lt;/code&gt;.</value>
+  </data>
+  <data name="Home_Chart_Day" xml:space="preserve">
+    <value>날짜</value>
+  </data>
+  <data name="Home_Chart_Deploys" xml:space="preserve">
+    <value>일별 배포 수</value>
+  </data>
+  <data name="Home_Chart_DeploysDesc" xml:space="preserve">
+    <value>최근 14일</value>
+  </data>
+  <data name="Home_Chart_Folder" xml:space="preserve">
+    <value>폴더</value>
+  </data>
+  <data name="Home_Chart_Hour" xml:space="preserve">
+    <value>시간</value>
+  </data>
+  <data name="Home_Chart_Response" xml:space="preserve">
+    <value>응답 시간</value>
+  </data>
+  <data name="Home_Chart_ResponseDesc" xml:space="preserve">
+    <value>95번째 백분위수, 최근 24시간</value>
+  </data>
+  <data name="Home_Chart_Size" xml:space="preserve">
+    <value>크기</value>
+  </data>
+  <data name="Home_Chart_Storage" xml:space="preserve">
+    <value>폴더별 저장 공간</value>
+  </data>
+  <data name="Home_Chart_StorageDesc" xml:space="preserve">
+    <value>폴더 10개에 7.2GB</value>
+  </data>
+  <data name="Home_Checkout_Account" xml:space="preserve">
+    <value>계정</value>
+  </data>
+  <data name="Home_Checkout_AccountDesc" xml:space="preserve">
+    <value>로그인 만들기</value>
+  </data>
+  <data name="Home_Checkout_Done" xml:space="preserve">
+    <value>완료</value>
+  </data>
+  <data name="Home_Checkout_DoneDesc" xml:space="preserve">
+    <value>모두 준비됨</value>
+  </data>
+  <data name="Home_Checkout_Notifications" xml:space="preserve">
+    <value>이메일 알림</value>
+  </data>
+  <data name="Home_Checkout_Preferences" xml:space="preserve">
+    <value>환경 설정</value>
+  </data>
+  <data name="Home_Checkout_PreferencesDesc" xml:space="preserve">
+    <value>설정 조정</value>
+  </data>
+  <data name="Home_Checkout_Progress" xml:space="preserve">
+    <value>결제 진행 상황</value>
+  </data>
+  <data name="Home_Checkout_Thanks" xml:space="preserve">
+    <value>감사합니다. 이제 시작할 준비가 되었습니다.</value>
+  </data>
+  <data name="Home_Checkout_Title" xml:space="preserve">
+    <value>결제 단계</value>
+  </data>
+  <data name="Home_Community_Heading" xml:space="preserve">
+    <value>Discord에서 대화에 참여하세요</value>
+  </data>
+  <data name="Home_Community_Join" xml:space="preserve">
+    <value>Discord 참여하기</value>
+  </data>
+  <data name="Home_Community_Sub" xml:space="preserve">
+    <value>질문하고, 만들고 있는 것을 공유하세요.</value>
+  </data>
+  <data name="Home_Cta_Heading" xml:space="preserve">
+    <value>멋진 것을 만들 준비가 되셨나요?</value>
+  </data>
+  <data name="Home_Cta_Star" xml:space="preserve">
+    <value>GitHub에서 스타 주기</value>
+  </data>
+  <data name="Home_Cta_Sub" xml:space="preserve">
+    <value>문서부터 시작하세요.</value>
+  </data>
+  <data name="Home_Cycle_Admin" xml:space="preserve">
+    <value>관리자 패널</value>
+  </data>
+  <data name="Home_Cycle_Checkout" xml:space="preserve">
+    <value>결제 화면</value>
+  </data>
+  <data name="Home_Cycle_Dashboard" xml:space="preserve">
+    <value>대시보드</value>
+  </data>
+  <data name="Home_Cycle_Settings" xml:space="preserve">
+    <value>설정 페이지</value>
+  </data>
+  <data name="Home_Cycle_SignIn" xml:space="preserve">
+    <value>로그인 폼</value>
+  </data>
+  <data name="Home_Email" xml:space="preserve">
+    <value>이메일</value>
+  </data>
+  <data name="Home_EmailPlaceholder" xml:space="preserve">
+    <value>이메일 주소 입력</value>
+  </data>
+  <data name="Home_Env_Development" xml:space="preserve">
+    <value>개발</value>
+  </data>
+  <data name="Home_Env_Production" xml:space="preserve">
+    <value>운영</value>
+  </data>
+  <data name="Home_Env_Staging" xml:space="preserve">
+    <value>스테이징</value>
+  </data>
+  <data name="Home_Examples_Heading" xml:space="preserve">
+    <value>진짜 컴포넌트. 앱에 바로 쓸 수 있습니다.</value>
+  </data>
+  <data name="Home_Examples_Sub" xml:space="preserve">
+    <value>모든 예시가 실제로 동작합니다. 직접 해 보세요.</value>
+  </data>
+  <data name="Home_Failed" xml:space="preserve">
+    <value>실패</value>
+  </data>
+  <data name="Home_Feature_A11y_Body" xml:space="preserve">
+    <value>ARIA와 키보드 지원이 기본 내장.</value>
+  </data>
+  <data name="Home_Feature_A11y_Title" xml:space="preserve">
+    <value>접근성</value>
+  </data>
+  <data name="Home_Feature_Composable_Body" xml:space="preserve">
+    <value>평범한 Blazor 매개변수. 놀랄 일이 없습니다.</value>
+  </data>
+  <data name="Home_Feature_Composable_Title" xml:space="preserve">
+    <value>조합 가능</value>
+  </data>
+  <data name="Home_Feature_Custom_Body" xml:space="preserve">
+    <value>라이트 모드와 다크 모드에서 모두 우리 브랜드 그대로.</value>
+  </data>
+  <data name="Home_Feature_Custom_Title" xml:space="preserve">
+    <value>완전한 맞춤 설정</value>
+  </data>
+  <data name="Home_Feature_Fast_Body" xml:space="preserve">
+    <value>바로 출시할 수 있는 25개 이상의 컴포넌트.</value>
+  </data>
+  <data name="Home_Feature_Fast_Title" xml:space="preserve">
+    <value>빠른 개발</value>
+  </data>
+  <data name="Home_Features_HeadingFull" xml:space="preserve">
+    <value>다음 프로젝트에 딱: {0} 또는 {1}.</value>
+  </data>
+  <data name="Home_Features_HeadingLead" xml:space="preserve">
+    <value>다음 프로젝트에 딱:</value>
+  </data>
+  <data name="Home_Features_HeadingTrail" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Home_Features_Pause" xml:space="preserve">
+    <value>바뀌는 제목 일시 정지</value>
+  </data>
+  <data name="Home_Features_Play" xml:space="preserve">
+    <value>바뀌는 제목 재생</value>
+  </data>
+  <data name="Home_Folder_Apps" xml:space="preserve">
+    <value>앱</value>
+  </data>
+  <data name="Home_Folder_Backups" xml:space="preserve">
+    <value>백업</value>
+  </data>
+  <data name="Home_Folder_Documents" xml:space="preserve">
+    <value>문서</value>
+  </data>
+  <data name="Home_Folder_Downloads" xml:space="preserve">
+    <value>다운로드</value>
+  </data>
+  <data name="Home_Folder_Fonts" xml:space="preserve">
+    <value>글꼴</value>
+  </data>
+  <data name="Home_Folder_Music" xml:space="preserve">
+    <value>음악</value>
+  </data>
+  <data name="Home_Folder_Photos" xml:space="preserve">
+    <value>사진</value>
+  </data>
+  <data name="Home_Folder_Projects" xml:space="preserve">
+    <value>프로젝트</value>
+  </data>
+  <data name="Home_Folder_Temp" xml:space="preserve">
+    <value>임시</value>
+  </data>
+  <data name="Home_Folder_Videos" xml:space="preserve">
+    <value>동영상</value>
+  </data>
+  <data name="Home_GetStarted" xml:space="preserve">
+    <value>시작하기</value>
+  </data>
+  <data name="Home_Guides_Heading" xml:space="preserve">
+    <value>Tailwind와 Blazor, 함께 작동</value>
+  </data>
+  <data name="Home_Guides_Install" xml:space="preserve">
+    <value>Server 또는 WebAssembly를 9단계로.</value>
+  </data>
+  <data name="Home_Guides_Install_Title" xml:space="preserve">
+    <value>설치 가이드</value>
+  </data>
+  <data name="Home_Guides_Tailwind" xml:space="preserve">
+    <value>클래스를 찾고 테마를 적용하는 방식.</value>
+  </data>
+  <data name="Home_Guides_Tailwind_Title" xml:space="preserve">
+    <value>Blazor와 함께 쓰는 Tailwind CSS</value>
+  </data>
+  <data name="Home_Guides_Why" xml:space="preserve">
+    <value>MIT 라이선스, Tailwind 네이티브.</value>
+  </data>
+  <data name="Home_Hero_Badge" xml:space="preserve">
+    <value>무료, 오픈 소스, MIT 라이선스</value>
+  </data>
+  <data name="Home_Hero_GitHub" xml:space="preserve">
+    <value>GitHub에서 보기</value>
+  </data>
+  <data name="Home_Hero_Install" xml:space="preserve">
+    <value>설치</value>
+  </data>
+  <data name="Home_Hero_Subtitle" xml:space="preserve">
+    <value>Blazor Server와 WebAssembly를 위한 접근성 높고 테마 적용이 쉬운 컴포넌트.</value>
+  </data>
+  <data name="Home_Hero_TitleAccent" xml:space="preserve">
+    <value>Blazor용</value>
+  </data>
+  <data name="Home_Hero_TitleLead" xml:space="preserve">
+    <value>Tailwind CSS 컴포넌트 라이브러리</value>
+  </data>
+  <data name="Home_Lang_ar" xml:space="preserve">
+    <value>아랍어</value>
+  </data>
+  <data name="Home_Lang_bn" xml:space="preserve">
+    <value>벵골어</value>
+  </data>
+  <data name="Home_Lang_de" xml:space="preserve">
+    <value>독일어</value>
+  </data>
+  <data name="Home_Lang_en" xml:space="preserve">
+    <value>영어</value>
+  </data>
+  <data name="Home_Lang_es" xml:space="preserve">
+    <value>스페인어</value>
+  </data>
+  <data name="Home_Lang_fa" xml:space="preserve">
+    <value>페르시아어</value>
+  </data>
+  <data name="Home_Lang_fr" xml:space="preserve">
+    <value>프랑스어</value>
+  </data>
+  <data name="Home_Lang_hi" xml:space="preserve">
+    <value>힌디어</value>
+  </data>
+  <data name="Home_Lang_id" xml:space="preserve">
+    <value>인도네시아어</value>
+  </data>
+  <data name="Home_Lang_it" xml:space="preserve">
+    <value>이탈리아어</value>
+  </data>
+  <data name="Home_Lang_ja" xml:space="preserve">
+    <value>일본어</value>
+  </data>
+  <data name="Home_Lang_jv" xml:space="preserve">
+    <value>자와어</value>
+  </data>
+  <data name="Home_Lang_ko" xml:space="preserve">
+    <value>한국어</value>
+  </data>
+  <data name="Home_Lang_mr" xml:space="preserve">
+    <value>마라티어</value>
+  </data>
+  <data name="Home_Lang_paArab" xml:space="preserve">
+    <value>서부 펀자브어</value>
+  </data>
+  <data name="Home_Lang_pl" xml:space="preserve">
+    <value>폴란드어</value>
+  </data>
+  <data name="Home_Lang_pt" xml:space="preserve">
+    <value>포르투갈어</value>
+  </data>
+  <data name="Home_Lang_ru" xml:space="preserve">
+    <value>러시아어</value>
+  </data>
+  <data name="Home_Lang_ta" xml:space="preserve">
+    <value>타밀어</value>
+  </data>
+  <data name="Home_Lang_te" xml:space="preserve">
+    <value>텔루구어</value>
+  </data>
+  <data name="Home_Lang_tr" xml:space="preserve">
+    <value>튀르키예어</value>
+  </data>
+  <data name="Home_Lang_ur" xml:space="preserve">
+    <value>우르두어</value>
+  </data>
+  <data name="Home_Lang_vi" xml:space="preserve">
+    <value>베트남어</value>
+  </data>
+  <data name="Home_Lang_zhHans" xml:space="preserve">
+    <value>중국어(간체)</value>
+  </data>
+  <data name="Home_Lang_zhHant" xml:space="preserve">
+    <value>중국어(번체)</value>
+  </data>
+  <data name="Home_Live_Caption" xml:space="preserve">
+    <value>twblazor 마크업 여섯 줄과 그것이 그려 내는 실시간 컴포넌트.</value>
+  </data>
+  <data name="Home_Live_Rendered" xml:space="preserve">
+    <value>컴포넌트 6개 렌더링됨</value>
+  </data>
+  <data name="Home_Live_Replay" xml:space="preserve">
+    <value>다시 재생</value>
+  </data>
+  <data name="Home_Live_ReplayTarget" xml:space="preserve">
+    <value>실시간 빌드</value>
+  </data>
+  <data name="Home_Loc_Badge" xml:space="preserve">
+    <value>{0}개 언어 기본 내장</value>
+  </data>
+  <data name="Home_Loc_Config_Body" xml:space="preserve">
+    <value>문화권을 고정하거나, 형식을 설정하거나, 로컬라이저를 교체하세요.</value>
+  </data>
+  <data name="Home_Loc_Config_Title" xml:space="preserve">
+    <value>AddTwBlazor에서 설정</value>
+  </data>
+  <data name="Home_Loc_Dates_Body" xml:space="preserve">
+    <value>주의 시작과 12시간 또는 24시간 표기는 문화권을 따릅니다.</value>
+  </data>
+  <data name="Home_Loc_Dates_Title" xml:space="preserve">
+    <value>딱 맞는 날짜와 시간</value>
+  </data>
+  <data name="Home_Loc_Disclaimer" xml:space="preserve">
+    <value>영어 외 번역은 AI가 만들었으며 아직 검토되지 않았습니다. &lt;a href=&quot;/localization#localization-contributing&quot; class=&quot;font-medium text-purple-800 underline underline-offset-2 dark:text-purple-300&quot;&gt;수정 제안하기&lt;/a&gt;.</value>
+  </data>
+  <data name="Home_Loc_HeadingAccent" xml:space="preserve">
+    <value>처음부터 바로</value>
+  </data>
+  <data name="Home_Loc_HeadingLead" xml:space="preserve">
+    <value>사용자의 언어로 말합니다,</value>
+  </data>
+  <data name="Home_Loc_LanguagesLabel" xml:space="preserve">
+    <value>지원 언어</value>
+  </data>
+  <data name="Home_Loc_Link" xml:space="preserve">
+    <value>현지화 작동 방식 보기</value>
+  </data>
+  <data name="Home_Loc_More" xml:space="preserve">
+    <value>외 {0}개 언어</value>
+  </data>
+  <data name="Home_Loc_Resx_Body" xml:space="preserve">
+    <value>직접 만든 리소스 파일로 어떤 문자열이든 추가하거나 바꾸세요.</value>
+  </data>
+  <data name="Home_Loc_Resx_Title" xml:space="preserve">
+    <value>언어마다 .resx 파일 하나</value>
+  </data>
+  <data name="Home_Loc_Sub" xml:space="preserve">
+    <value>모든 레이블, 메시지, 스크린 리더 안내가 번역되며 날짜는 문화권을 따릅니다. 설정할 것이 없습니다.</value>
+  </data>
+  <data name="Home_Merge_Badge" xml:space="preserve">
+    <value>기본 내장. npm도 JavaScript도 필요 없습니다.</value>
+  </data>
+  <data name="Home_Merge_Caption" xml:space="preserve">
+    <value>클래스 병합의 실시간 예시. 예시를 고르면 컴포넌트에 전달되는 클래스가 바뀝니다.</value>
+  </data>
+  <data name="Home_Merge_Color" xml:space="preserve">
+    <value>색상</value>
+  </data>
+  <data name="Home_Merge_Configure_Body" xml:space="preserve">
+    <value>사용자 정의 유틸리티, 접두사, 끄기까지 AddTwBlazor에서.</value>
+  </data>
+  <data name="Home_Merge_Configure_Title" xml:space="preserve">
+    <value>원하는 대로 설정</value>
+  </data>
+  <data name="Home_Merge_GroupLabel" xml:space="preserve">
+    <value>클래스 병합 예시</value>
+  </data>
+  <data name="Home_Merge_HeadingAccent" xml:space="preserve">
+    <value>기본으로 내장</value>
+  </data>
+  <data name="Home_Merge_HeadingLead" xml:space="preserve">
+    <value>Tailwind 클래스 병합,</value>
+  </data>
+  <data name="Home_Merge_LastWins_Body" xml:space="preserve">
+    <value>tailwind-merge의 C# 포팅. 설치할 것이 없습니다.</value>
+  </data>
+  <data name="Home_Merge_LastWins_Title" xml:space="preserve">
+    <value>마지막 클래스가 이깁니다</value>
+  </data>
+  <data name="Home_Merge_Link" xml:space="preserve">
+    <value>클래스 병합 작동 방식 보기</value>
+  </data>
+  <data name="Home_Merge_Padding" xml:space="preserve">
+    <value>패딩</value>
+  </data>
+  <data name="Home_Merge_Replaced" xml:space="preserve">
+    <value>대체됨:</value>
+  </data>
+  <data name="Home_Merge_Shape" xml:space="preserve">
+    <value>모양</value>
+  </data>
+  <data name="Home_Merge_Shorthand" xml:space="preserve">
+    <value>축약형</value>
+  </data>
+  <data name="Home_Merge_Sub" xml:space="preserve">
+    <value>&lt;code&gt;Class=&quot;px-3&quot;&lt;/code&gt;를 전달하면 테마의 &lt;code&gt;px-6&lt;/code&gt;를 대체합니다. 항상 여러분의 클래스가 이깁니다.</value>
+  </data>
+  <data name="Home_Merge_Theme" xml:space="preserve">
+    <value>테마</value>
+  </data>
+  <data name="Home_Merge_V4_Body" xml:space="preserve">
+    <value>변형, 임의 값, 접두사까지 700개 이상의 사례로 테스트했습니다.</value>
+  </data>
+  <data name="Home_Merge_V4_Title" xml:space="preserve">
+    <value>Tailwind v4를 이해합니다</value>
+  </data>
+  <data name="Home_Merge_YourClass" xml:space="preserve">
+    <value>내 Class</value>
+  </data>
+  <data name="Home_Next" xml:space="preserve">
+    <value>다음</value>
+  </data>
+  <data name="Home_OpenSource" xml:space="preserve">
+    <value>언제나 무료이며 MIT 라이선스입니다. 커뮤니티와 함께 공개적으로 개발합니다.</value>
+  </data>
+  <data name="Home_Password" xml:space="preserve">
+    <value>비밀번호</value>
+  </data>
+  <data name="Home_PasswordPlaceholder" xml:space="preserve">
+    <value>비밀번호 입력</value>
+  </data>
+  <data name="Home_Preview" xml:space="preserve">
+    <value>미리 보기</value>
+  </data>
+  <data name="Home_Quick_Caption" xml:space="preserve">
+    <value>twblazor 설치, 이어서 마크업 두 줄과 그것이 그려 내는 버튼과 알림.</value>
+  </data>
+  <data name="Home_Quick_Heading" xml:space="preserve">
+    <value>몇 분 만에 시작</value>
+  </data>
+  <data name="Home_Quick_Installed" xml:space="preserve">
+    <value>twblazor 설치됨</value>
+  </data>
+  <data name="Home_Quick_Sub" xml:space="preserve">
+    <value>설치하고, 등록하고, 빌드하세요.</value>
+  </data>
+  <data name="Home_Quick_Window" xml:space="preserve">
+    <value>터미널과 Home.razor</value>
+  </data>
+  <data name="Home_Release_AvgTime" xml:space="preserve">
+    <value>평균 시간</value>
+  </data>
+  <data name="Home_Release_Deploys" xml:space="preserve">
+    <value>배포</value>
+  </data>
+  <data name="Home_Release_Storage" xml:space="preserve">
+    <value>저장 공간이 거의 찼습니다.</value>
+  </data>
+  <data name="Home_Release_Title" xml:space="preserve">
+    <value>릴리스 상태</value>
+  </data>
+  <data name="Home_RememberMe" xml:space="preserve">
+    <value>로그인 상태 유지</value>
+  </data>
+  <data name="Home_Rendered" xml:space="preserve">
+    <value>렌더링 결과</value>
+  </data>
+  <data name="Home_Rtl_Badge" xml:space="preserve">
+    <value>오른쪽에서 왼쪽, 기본 내장</value>
+  </data>
+  <data name="Home_Rtl_Caption" xml:space="preserve">
+    <value>같은 컴포넌트를 왼쪽에서 오른쪽, 오른쪽에서 왼쪽으로 배치한 실시간 예시. 방향을 골라 전환하세요.</value>
+  </data>
+  <data name="Home_Rtl_Follows_Body" xml:space="preserve">
+    <value>오른쪽에서 왼쪽으로 쓰는 문화권은 자동으로 뒤집힙니다.</value>
+  </data>
+  <data name="Home_Rtl_Follows_Title" xml:space="preserve">
+    <value>언어를 따름</value>
+  </data>
+  <data name="Home_Rtl_GroupLabel" xml:space="preserve">
+    <value>레이아웃 방향</value>
+  </data>
+  <data name="Home_Rtl_HeadingAccent" xml:space="preserve">
+    <value>두 번째 스타일시트 없이</value>
+  </data>
+  <data name="Home_Rtl_HeadingLead" xml:space="preserve">
+    <value>오른쪽에서 왼쪽으로 읽습니다,</value>
+  </data>
+  <data name="Home_Rtl_Keys_Body" xml:space="preserve">
+    <value>모든 컴포넌트에서 화살표 키가 가리키는 방향으로 움직입니다.</value>
+  </data>
+  <data name="Home_Rtl_Keys_Title" xml:space="preserve">
+    <value>화면과 일치하는 키</value>
+  </data>
+  <data name="Home_Rtl_Link" xml:space="preserve">
+    <value>오른쪽에서 왼쪽 작동 방식 보기</value>
+  </data>
+  <data name="Home_Rtl_Ltr" xml:space="preserve">
+    <value>왼쪽에서 오른쪽</value>
+  </data>
+  <data name="Home_Rtl_Mix_Body" xml:space="preserve">
+    <value>원하는 부분을 TwDirectionProvider로 감싸세요.</value>
+  </data>
+  <data name="Home_Rtl_Mix_Title" xml:space="preserve">
+    <value>한 페이지에서 방향 섞기</value>
+  </data>
+  <data name="Home_Rtl_Rtl" xml:space="preserve">
+    <value>오른쪽에서 왼쪽</value>
+  </data>
+  <data name="Home_Rtl_Sub" xml:space="preserve">
+    <value>아랍어, 히브리어, 페르시아어, 우르두어에서는 여백, 아이콘, 패널, 화살표 키까지 모든 컴포넌트가 뒤집힙니다.</value>
+  </data>
+  <data name="Home_SaveChanges" xml:space="preserve">
+    <value>변경 사항 저장</value>
+  </data>
+  <data name="Home_Series_Database" xml:space="preserve">
+    <value>데이터베이스</value>
+  </data>
+  <data name="Home_Series_Succeeded" xml:space="preserve">
+    <value>성공</value>
+  </data>
+  <data name="Home_Series_WebApp" xml:space="preserve">
+    <value>웹 앱</value>
+  </data>
+  <data name="Home_Series_Workers" xml:space="preserve">
+    <value>워커</value>
+  </data>
+  <data name="Home_Settings_DeployOnPush" xml:space="preserve">
+    <value>푸시할 때 배포</value>
+  </data>
+  <data name="Home_Settings_EmailAlerts" xml:space="preserve">
+    <value>이메일 알림</value>
+  </data>
+  <data name="Home_Settings_Environment" xml:space="preserve">
+    <value>환경</value>
+  </data>
+  <data name="Home_Settings_Private" xml:space="preserve">
+    <value>비공개</value>
+  </data>
+  <data name="Home_Settings_ProjectName" xml:space="preserve">
+    <value>프로젝트 이름</value>
+  </data>
+  <data name="Home_Settings_Public" xml:space="preserve">
+    <value>공개</value>
+  </data>
+  <data name="Home_Settings_Reset" xml:space="preserve">
+    <value>초기화</value>
+  </data>
+  <data name="Home_Settings_Saved" xml:space="preserve">
+    <value>설정이 저장되었습니다.</value>
+  </data>
+  <data name="Home_Settings_Storage" xml:space="preserve">
+    <value>사용한 저장 공간</value>
+  </data>
+  <data name="Home_Settings_StorageAmount" xml:space="preserve">
+    <value>10GB 중 7.2GB</value>
+  </data>
+  <data name="Home_Settings_Sub" xml:space="preserve">
+    <value>팀의 배포 방식을 관리하세요</value>
+  </data>
+  <data name="Home_Settings_Team" xml:space="preserve">
+    <value>팀</value>
+  </data>
+  <data name="Home_Settings_Title" xml:space="preserve">
+    <value>프로젝트 설정</value>
+  </data>
+  <data name="Home_Settings_Visibility" xml:space="preserve">
+    <value>공개 범위</value>
+  </data>
+  <data name="Home_SignIn" xml:space="preserve">
+    <value>로그인</value>
+  </data>
+  <data name="Home_Theming_After" xml:space="preserve">
+    <value>변경 후</value>
+  </data>
+  <data name="Home_Theming_Before" xml:space="preserve">
+    <value>변경 전</value>
+  </data>
+  <data name="Home_Theming_Caption" xml:space="preserve">
+    <value>Theme.cs 세 줄로 실시간 버튼의 스타일을 바꾸고 원래 버튼 옆에 보여 줍니다: 완전히 둥근 모서리, 큰 그림자, 분홍색 기본 색상.</value>
+  </data>
+  <data name="Home_Theming_Change_Colour" xml:space="preserve">
+    <value>색상: 분홍</value>
+  </data>
+  <data name="Home_Theming_Change_Corners" xml:space="preserve">
+    <value>모서리: 완전히 둥글게</value>
+  </data>
+  <data name="Home_Theming_Change_Shadow" xml:space="preserve">
+    <value>그림자: 크게</value>
+  </data>
+  <data name="Home_Theming_Defaults_Body" xml:space="preserve">
+    <value>기본값을 한 번 정하고 어떤 인스턴스든 덮어쓰세요.</value>
+  </data>
+  <data name="Home_Theming_Defaults_Title" xml:space="preserve">
+    <value>전역 기본값, 개별 덮어쓰기</value>
+  </data>
+  <data name="Home_Theming_Heading" xml:space="preserve">
+    <value>Blazor 라이브러리 중 가장 깊은 Tailwind 테마 설정</value>
+  </data>
+  <data name="Home_Theming_Jit_Body" xml:space="preserve">
+    <value>Tailwind가 볼 수 있는 평범한 문자열 리터럴. safelist가 필요 없습니다.</value>
+  </data>
+  <data name="Home_Theming_Jit_Title" xml:space="preserve">
+    <value>진짜 Tailwind, 진짜 JIT</value>
+  </data>
+  <data name="Home_Theming_Restyled" xml:space="preserve">
+    <value>CSS 없이 Theme.cs로 스타일 변경</value>
+  </data>
+  <data name="Home_Theming_Sub" xml:space="preserve">
+    <value>모든 시각적 요소는 여러분이 소유하는 평범한 Tailwind 클래스이며, 컴포넌트별로 타입이 지정됩니다. DLL 속 블랙박스는 없습니다.</value>
+  </data>
+  <data name="Home_Theming_Tokens_Body" xml:space="preserve">
+    <value>색을 한 번 정하면 모든 컴포넌트가 따릅니다.</value>
+  </data>
+  <data name="Home_Theming_Tokens_Title" xml:space="preserve">
+    <value>재사용 가능한 디자인 토큰</value>
+  </data>
+  <data name="Home_Theming_Typed_Body" xml:space="preserve">
+    <value>컴포넌트마다 C# 테마 클래스 하나, 모든 클래스가 이름 있는 속성입니다.</value>
+  </data>
+  <data name="Home_Theming_Typed_Title" xml:space="preserve">
+    <value>모든 클래스가 타입 지정되고 덮어쓸 수 있음</value>
+  </data>
+  <data name="Home_Theming_WhatChanged" xml:space="preserve">
+    <value>바뀐 점</value>
+  </data>
+  <data name="Home_Why_Title" xml:space="preserve">
+    <value>왜 twblazor인가요?</value>
+  </data>
+  <data name="Nav_AiAgents" xml:space="preserve">
+    <value>AI 에이전트와 스킬</value>
+  </data>
+  <data name="Nav_ApiDocs" xml:space="preserve">
+    <value>API 문서</value>
+  </data>
+  <data name="Nav_ClassMerge" xml:space="preserve">
+    <value>클래스 병합</value>
+  </data>
+  <data name="Nav_Configuration" xml:space="preserve">
+    <value>구성</value>
+  </data>
+  <data name="Nav_ConfiguringLocalization" xml:space="preserve">
+    <value>현지화 구성</value>
+  </data>
+  <data name="Nav_GetStarted" xml:space="preserve">
+    <value>시작하기</value>
+  </data>
+  <data name="Nav_GetStartedGroup" xml:space="preserve">
+    <value>시작하기</value>
+  </data>
+  <data name="Nav_Group_chart-comparison-navitem" xml:space="preserve">
+    <value>비교</value>
+  </data>
+  <data name="Nav_Group_chart-distribution-navitem" xml:space="preserve">
+    <value>분포</value>
+  </data>
+  <data name="Nav_Group_chart-flow-navitem" xml:space="preserve">
+    <value>흐름</value>
+  </data>
+  <data name="Nav_Group_chart-hierarchy-navitem" xml:space="preserve">
+    <value>계층</value>
+  </data>
+  <data name="Nav_Group_chart-parts-navitem" xml:space="preserve">
+    <value>전체의 부분</value>
+  </data>
+  <data name="Nav_Group_chart-relationship-navitem" xml:space="preserve">
+    <value>관계</value>
+  </data>
+  <data name="Nav_Group_chart-sets-navitem" xml:space="preserve">
+    <value>집합</value>
+  </data>
+  <data name="Nav_Group_chart-time-navitem" xml:space="preserve">
+    <value>시간에 따른 변화</value>
+  </data>
+  <data name="Nav_Group_chart-variables-navitem" xml:space="preserve">
+    <value>여러 변수</value>
+  </data>
+  <data name="Nav_Group_charts" xml:space="preserve">
+    <value>차트</value>
+  </data>
+  <data name="Nav_Group_chat" xml:space="preserve">
+    <value>채팅</value>
+  </data>
+  <data name="Nav_Group_data" xml:space="preserve">
+    <value>데이터</value>
+  </data>
+  <data name="Nav_Group_feedback" xml:space="preserve">
+    <value>피드백</value>
+  </data>
+  <data name="Nav_Group_forms" xml:space="preserve">
+    <value>폼</value>
+  </data>
+  <data name="Nav_Group_inputs-navitem" xml:space="preserve">
+    <value>입력</value>
+  </data>
+  <data name="Nav_Group_layout" xml:space="preserve">
+    <value>레이아웃</value>
+  </data>
+  <data name="Nav_Group_services" xml:space="preserve">
+    <value>서비스</value>
+  </data>
+  <data name="Nav_Home" xml:space="preserve">
+    <value>홈</value>
+  </data>
+  <data name="Nav_Localization" xml:space="preserve">
+    <value>현지화</value>
+  </data>
+  <data name="Nav_RtlProvider" xml:space="preserve">
+    <value>RTL 프로바이더</value>
+  </data>
+  <data name="Nav_TailwindBlazor" xml:space="preserve">
+    <value>Blazor와 Tailwind</value>
+  </data>
+  <data name="Nav_Theme" xml:space="preserve">
+    <value>테마</value>
+  </data>
+  <data name="Nav_WhyTwBlazor" xml:space="preserve">
+    <value>왜 twblazor인가요?</value>
+  </data>
+</root>

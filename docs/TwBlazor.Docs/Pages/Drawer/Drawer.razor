@@ -1,0 +1,192 @@
+@page "/drawer"
+
+<PageContainer Title="TwDrawer" Path="/drawer" Beta Description="TwDrawer is a Blazor drawer component: a panel that slides in from any edge of the screen, as a side sheet or a bottom sheet, with focus management built in." ThemeType="typeof(TwDrawerTheme)">
+    <PageCard Title="Basic usage">
+        <Description>Bind <code>Open</code> with <code>@@bind-Open</code> and open it from a button. Give it a <code>Title</code>, which also names it for screen readers, and an optional <code>Description</code>. Put the actions in <code>FooterContent</code>: the footer stays in view while the body scrolls. The drawer slides in from the end edge, moves focus to its first field, and closes on Escape, on the close button, or on a click on the backdrop.</Description>
+
+        <CodeExample Name="DrawerBasic" CSharpName="DrawerBasicCode">
+            <TwButton Label="Edit profile" StartIcon="Icon.Pencil" OnClick="@(() => profileOpen = true)" />
+
+            <TwDrawer @bind-Open="profileOpen" Title="Edit profile" Description="Changes are saved to your public profile.">
+                <ChildContent>
+                    <div class="flex flex-col gap-4">
+                        <TwTextfield T="string" Label="Name" @bind-Value="profileName" />
+                        <TwTextfield T="string" Label="Username" @bind-Value="profileUsername" />
+                        <TwTextfield T="string" Label="Website" InputType="url" @bind-Value="profileWebsite" />
+                    </div>
+                </ChildContent>
+                <FooterContent>
+                    <TwButton Label="Cancel" Variant="ButtonVariant.Outlined" OnClick="@(() => profileOpen = false)" />
+                    <TwButton Label="Save changes" OnClick="@(() => profileOpen = false)" />
+                </FooterContent>
+            </TwDrawer>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Position">
+        <Description>Set <code>Position</code> to slide the drawer in from another edge. <code>Start</code> and <code>End</code> follow the reading direction, so they swap sides in a right to left layout. <code>Bottom</code> makes a bottom sheet, which suits a phone, where it sits near the thumb.</Description>
+
+        <CodeExample Name="DrawerPosition" CSharpName="DrawerPositionCode">
+            <div class="flex flex-wrap gap-3">
+                <TwButton Label="Start" Variant="ButtonVariant.Outlined" OnClick="@(() => startOpen = true)" />
+                <TwButton Label="End" Variant="ButtonVariant.Outlined" OnClick="@(() => endOpen = true)" />
+                <TwButton Label="Top" Variant="ButtonVariant.Outlined" OnClick="@(() => topOpen = true)" />
+                <TwButton Label="Bottom" Variant="ButtonVariant.Outlined" OnClick="@(() => bottomOpen = true)" />
+            </div>
+
+            <TwDrawer @bind-Open="startOpen" Position="DrawerPosition.Start" Title="Start drawer">
+                <p>Slides in from the start edge: the left in a left to right layout.</p>
+            </TwDrawer>
+            <TwDrawer @bind-Open="endOpen" Position="DrawerPosition.End" Title="End drawer">
+                <p>Slides in from the end edge: the right in a left to right layout.</p>
+            </TwDrawer>
+            <TwDrawer @bind-Open="topOpen" Position="DrawerPosition.Top" Title="Top drawer">
+                <p>Slides down from the top edge, for a search or an announcement.</p>
+            </TwDrawer>
+            <TwDrawer @bind-Open="bottomOpen" Position="DrawerPosition.Bottom" Title="Bottom sheet">
+                <p>Slides up from the bottom edge and keeps clear of the home indicator on a phone.</p>
+            </TwDrawer>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Size">
+        <Description>Set <code>Size</code> to <code>Small</code>, <code>Medium</code> (the default), <code>Large</code> or <code>Full</code>. On the start and end edges it sets the width, on the top and bottom edges the most height the drawer takes before its body scrolls. Below <code>Full</code>, a side drawer leaves a strip of the page showing on a phone, so the backdrop can still be tapped to close it.</Description>
+
+        <CodeExample Name="DrawerSize" CSharpName="DrawerSizeCode">
+            <div class="flex flex-wrap gap-3">
+                @foreach (var size in Enum.GetValues<DrawerSize>())
+                {
+                    <TwButton Label="@size.ToString()" Variant="ButtonVariant.Outlined" OnClick="@(() => OpenSized(size))" />
+                }
+            </div>
+
+            <TwDrawer @bind-Open="sizedOpen" Size="sizedSize" Title="@($"{sizedSize} drawer")">
+                <p>This drawer uses <code>Size="DrawerSize.@sizedSize"</code>.</p>
+            </TwDrawer>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Action sheet">
+        <Description>A bottom sheet with a list of actions is a familiar pattern on a phone. Make each action a button tall enough to tap, with its icon beside a text label. The drawer has no title here, so it is named with <code>AriaLabel</code>, and <code>ShowCloseButton="false"</code> drops the close button because the sheet has a Cancel action of its own.</Description>
+
+        <CodeExample Name="DrawerActionSheet" CSharpName="DrawerActionSheetCode">
+            <TwButton Label="Share" StartIcon="Icon.Share" Variant="ButtonVariant.Outlined" OnClick="@(() => sheetOpen = true)" />
+
+            <TwDrawer @bind-Open="sheetOpen" Position="DrawerPosition.Bottom" Size="DrawerSize.Small" AriaLabel="Share document" ShowCloseButton="false" ContentClass="px-2 py-2">
+                <ul class="flex flex-col">
+                    @foreach (var action in sheetActions)
+                    {
+                        <li>
+                            <button type="button" class="flex w-full min-h-12 items-center gap-3 rounded-lg px-3 text-start hover:bg-black/5 dark:hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-purple-600 cursor-pointer" @onclick="@(() => RunAction(action.Label))">
+                                <TwIcon Icon="action.Icon" />
+                                <span>@action.Label</span>
+                            </button>
+                        </li>
+                    }
+                    <li class="mt-1 border-t border-black/10 pt-1 dark:border-white/15">
+                        <button type="button" class="flex w-full min-h-12 items-center justify-center rounded-lg px-3 font-medium hover:bg-black/5 dark:hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-purple-600 cursor-pointer" @onclick="@(() => sheetOpen = false)">Cancel</button>
+                    </li>
+                </ul>
+            </TwDrawer>
+            <p role="status" class="mt-3 text-sm">@sheetStatus</p>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Non-modal side sheet">
+        <Description>Set <code>Modal="false"</code> for a side sheet that sits over the page without blocking it: there is no backdrop, Tab can leave the drawer, and the page behind it still scrolls and responds. Use it for details or help that people read alongside their work. Escape and the close button still close it.</Description>
+
+        <CodeExample Name="DrawerNonModal" CSharpName="DrawerNonModalCode">
+            <TwButton Label="@(helpOpen ? "Hide help" : "Show help")" StartIcon="Icon.Layout_Sidebar_Reverse" Variant="ButtonVariant.Outlined" OnClick="@(() => helpOpen = !helpOpen)" aria-expanded="@(helpOpen ? "true" : "false")" />
+
+            <TwDrawer @bind-Open="helpOpen" Modal="false" Size="DrawerSize.Small" Title="Help" Description="Keep this open while you work.">
+                <p class="mb-3">Drawers suit content that relates to the page without replacing it, such as a record's details or a list of filters.</p>
+                <p>Unlike a dialog, a drawer keeps the page in sight, so people don't lose their place.</p>
+            </TwDrawer>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Opening from code">
+        <Description>Call <code>OpenAsync</code>, <code>CloseAsync</code> and <code>ToggleAsync</code> on a reference to the drawer, or set the bound value. Set <code>CloseOnBackdropClick="false"</code> where a stray click could lose work: Escape, the close button and the footer still close it. Put <code>data-tw-autofocus</code> on the element that should take focus when the drawer opens.</Description>
+
+        <CodeExample Name="DrawerControlled" CSharpName="DrawerControlledCode">
+            <TwButton Label="New note" OnClick="@(() => noteDrawer.OpenAsync())" />
+
+            <TwDrawer @ref="noteDrawer" Title="New note" Size="DrawerSize.Large" CloseOnBackdropClick="false">
+                <ChildContent>
+                    <TwTextfield T="string" Label="Note" @bind-Value="noteText" data-tw-autofocus />
+                </ChildContent>
+                <FooterContent>
+                    <TwButton Label="Discard" Variant="ButtonVariant.Outlined" OnClick="@DiscardNoteAsync" />
+                    <TwButton Label="Save note" OnClick="@(() => noteDrawer.CloseAsync())" />
+                </FooterContent>
+            </TwDrawer>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Accessibility">
+        <Description>
+            The panel is a dialog named by its <code>Title</code> (or <code>AriaLabel</code>) and described by its <code>Description</code>. Opening it moves focus inside: onto an element marked <code>data-tw-autofocus</code>, else the first control in its body or footer, else the panel itself so its name is read out. A modal drawer keeps Tab inside it, makes the page behind it inert and stops the page scrolling; toasts stay reachable. Escape closes it wherever focus is, and closing it returns focus to the control that opened it. While closed, the panel is hidden from assistive technology and out of the Tab order. The slide is turned off when the operating system asks for reduced motion. A dialog opened from inside a drawer, such as a confirmation, works as usual and Escape closes it first.
+        </Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample DrawerBasicCode
+    private bool profileOpen;
+    private string profileName = "John Doe";
+    private string profileUsername = "john";
+    private string profileWebsite = "https://twblazor.com";
+    #endregion
+
+    #region CodeExample DrawerPositionCode
+    private bool startOpen;
+    private bool endOpen;
+    private bool topOpen;
+    private bool bottomOpen;
+    #endregion
+
+    #region CodeExample DrawerSizeCode
+    private bool sizedOpen;
+    private DrawerSize sizedSize = DrawerSize.Medium;
+
+    private void OpenSized(DrawerSize size)
+    {
+        sizedSize = size;
+        sizedOpen = true;
+    }
+    #endregion
+
+    #region CodeExample DrawerActionSheetCode
+    private bool sheetOpen;
+    private string sheetStatus = string.Empty;
+
+    private readonly (Icon Icon, string Label)[] sheetActions =
+    [
+        (Icon.Copy, "Copy link"),
+        (Icon.Download, "Download"),
+        (Icon.Files, "Make a copy"),
+        (Icon.Trash, "Move to bin")
+    ];
+
+    private void RunAction(string label)
+    {
+        sheetStatus = $"{label} chosen.";
+        sheetOpen = false;
+    }
+    #endregion
+
+    #region CodeExample DrawerNonModalCode
+    private bool helpOpen;
+    #endregion
+
+    #region CodeExample DrawerControlledCode
+    private TwDrawer noteDrawer = null!;
+    private string noteText = string.Empty;
+
+    private async Task DiscardNoteAsync()
+    {
+        noteText = string.Empty;
+        await noteDrawer.CloseAsync();
+    }
+    #endregion
+}

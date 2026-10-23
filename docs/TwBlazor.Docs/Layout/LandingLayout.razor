@@ -1,9 +1,14 @@
-@inherits LayoutComponentBase
+@inherits DocsLayoutBase
 @using TwBlazor.Components
 
-<Navigation MainContentPadding="false">
-    @Body
-</Navigation>
+@* Follows the language unless the reader picks a direction in the navbar. *@
+<TwDirectionProvider Direction="@directionState.Direction">
+    <CascadingValue Value="directionState" IsFixed="true">
+        <Navigation MainContentPadding="false">
+            @Body
+        </Navigation>
+    </CascadingValue>
 
-<TwToastProvider />
-<TwDialogProvider />
+    <TwToastProvider />
+    <TwDialogProvider />
+</TwDirectionProvider>
