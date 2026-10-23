@@ -28,6 +28,7 @@
 
 ## Contents
 
+- [Support development](#support-development)
 - [Why twblazor?](#why-twblazor)
 - [AI agent skills](#ai-agent-skills)
 - [Setup](#setup)
@@ -35,6 +36,14 @@
 - [Localization](#localization)
 - [Supported .NET Versions](#supported-net-versions)
 - [Dependencies](#dependencies)
+
+## Support development
+
+This library is powered by Tailwind, Blazor and a dangerous amount of coffee. You can help with that last one: 
+
+https://buymeacoffee.com/twblazor
+
+Thank you! ☕
 
 ## Why twblazor?
 
