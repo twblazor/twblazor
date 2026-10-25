@@ -60,6 +60,12 @@ public class TwBlazorTheme
     public TwBlazorFlexbox Flexbox { get; set; } = new();
 
     /// <summary>
+    /// Gets or sets the shared CSS grid utility classes (column and row counts, spans and start lines at every
+    /// breakpoint, auto flow and cell alignment) reused across component themes. See <see cref="TwBlazorGrid"/>.
+    /// </summary>
+    public TwBlazorGrid Grid { get; set; } = new();
+
+    /// <summary>
     /// Gets or sets the shared spacing utility classes (gap and padding presets) reused across
     /// component themes. See <see cref="TwBlazorSpacing"/>.
     /// </summary>

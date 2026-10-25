@@ -44,7 +44,8 @@ public static class TescoTheme
                 End = "justify-end",
                 Between = "justify-between",
                 Around = "justify-around",
-                Evenly = "justify-evenly"
+                Evenly = "justify-evenly",
+                Stretch = "justify-stretch"
             },
             Align = new()
             {
@@ -71,7 +72,30 @@ public static class TescoTheme
                 End = "self-end",
                 Stretch = "self-stretch",
                 Baseline = "self-baseline"
-            }
+            },
+            ResponsiveDirection = new()
+            {
+                Row = new("flex-row", "sm:flex-row", "md:flex-row", "lg:flex-row", "xl:flex-row", "2xl:flex-row"),
+                RowReverse = new("flex-row-reverse", "sm:flex-row-reverse", "md:flex-row-reverse", "lg:flex-row-reverse", "xl:flex-row-reverse", "2xl:flex-row-reverse"),
+                Col = new("flex-col", "sm:flex-col", "md:flex-col", "lg:flex-col", "xl:flex-col", "2xl:flex-col"),
+                ColReverse = new("flex-col-reverse", "sm:flex-col-reverse", "md:flex-col-reverse", "lg:flex-col-reverse", "xl:flex-col-reverse", "2xl:flex-col-reverse")
+            },
+            Basis = new()
+            {
+                Auto = "basis-auto",
+                Full = "basis-full",
+                Half = "basis-1/2",
+                Third = "basis-1/3",
+                TwoThirds = "basis-2/3",
+                Quarter = "basis-1/4",
+                ThreeQuarters = "basis-3/4"
+            },
+            FlexAuto = "flex-auto",
+            FlexInitial = "flex-initial",
+            FlexNone = "flex-none",
+            Order = new() { [1] = "order-1", [2] = "order-2", [3] = "order-3", [4] = "order-4", [5] = "order-5", [6] = "order-6", [7] = "order-7", [8] = "order-8", [9] = "order-9", [10] = "order-10", [11] = "order-11", [12] = "order-12" },
+            OrderFirst = "order-first",
+            OrderLast = "order-last"
         };
 
         var anchor = new TwAnchorPosition
@@ -378,6 +402,7 @@ public static class TescoTheme
             },
             InteractiveRowPadding = "px-4 py-3",
             PushEnd = "ms-auto",
+            PushBottom = "mt-auto",
             Padding = new()
             {
                 Sm = "p-1",
@@ -433,6 +458,51 @@ public static class TescoTheme
                 Md = "me-2",
                 Lg = "me-3",
                 Xl = "me-4"
+            },
+            Steps = new()
+            {
+                Gap = new()
+                {
+                    [0] = "gap-0", [0.5] = "gap-0.5", [1] = "gap-1", [1.5] = "gap-1.5", [2] = "gap-2", [2.5] = "gap-2.5", [3] = "gap-3",
+                    [3.5] = "gap-3.5", [4] = "gap-4", [5] = "gap-5", [6] = "gap-6", [7] = "gap-7", [8] = "gap-8", [10] = "gap-10",
+                    [12] = "gap-12", [14] = "gap-14", [16] = "gap-16", [20] = "gap-20", [24] = "gap-24"
+                },
+                GapX = new()
+                {
+                    [0] = "gap-x-0", [0.5] = "gap-x-0.5", [1] = "gap-x-1", [1.5] = "gap-x-1.5", [2] = "gap-x-2", [2.5] = "gap-x-2.5", [3] = "gap-x-3",
+                    [3.5] = "gap-x-3.5", [4] = "gap-x-4", [5] = "gap-x-5", [6] = "gap-x-6", [7] = "gap-x-7", [8] = "gap-x-8", [10] = "gap-x-10",
+                    [12] = "gap-x-12", [14] = "gap-x-14", [16] = "gap-x-16", [20] = "gap-x-20", [24] = "gap-x-24"
+                },
+                GapY = new()
+                {
+                    [0] = "gap-y-0", [0.5] = "gap-y-0.5", [1] = "gap-y-1", [1.5] = "gap-y-1.5", [2] = "gap-y-2", [2.5] = "gap-y-2.5", [3] = "gap-y-3",
+                    [3.5] = "gap-y-3.5", [4] = "gap-y-4", [5] = "gap-y-5", [6] = "gap-y-6", [7] = "gap-y-7", [8] = "gap-y-8", [10] = "gap-y-10",
+                    [12] = "gap-y-12", [14] = "gap-y-14", [16] = "gap-y-16", [20] = "gap-y-20", [24] = "gap-y-24"
+                },
+                PaddingX = new()
+                {
+                    [0] = "px-0", [0.5] = "px-0.5", [1] = "px-1", [1.5] = "px-1.5", [2] = "px-2", [2.5] = "px-2.5", [3] = "px-3",
+                    [3.5] = "px-3.5", [4] = "px-4", [5] = "px-5", [6] = "px-6", [7] = "px-7", [8] = "px-8", [10] = "px-10",
+                    [12] = "px-12", [14] = "px-14", [16] = "px-16", [20] = "px-20", [24] = "px-24"
+                },
+                PaddingY = new()
+                {
+                    [0] = "py-0", [0.5] = "py-0.5", [1] = "py-1", [1.5] = "py-1.5", [2] = "py-2", [2.5] = "py-2.5", [3] = "py-3",
+                    [3.5] = "py-3.5", [4] = "py-4", [5] = "py-5", [6] = "py-6", [7] = "py-7", [8] = "py-8", [10] = "py-10",
+                    [12] = "py-12", [14] = "py-14", [16] = "py-16", [20] = "py-20", [24] = "py-24"
+                },
+                PaddingTop = new()
+                {
+                    [0] = "pt-0", [0.5] = "pt-0.5", [1] = "pt-1", [1.5] = "pt-1.5", [2] = "pt-2", [2.5] = "pt-2.5", [3] = "pt-3",
+                    [3.5] = "pt-3.5", [4] = "pt-4", [5] = "pt-5", [6] = "pt-6", [7] = "pt-7", [8] = "pt-8", [10] = "pt-10",
+                    [12] = "pt-12", [14] = "pt-14", [16] = "pt-16", [20] = "pt-20", [24] = "pt-24"
+                },
+                PaddingBottom = new()
+                {
+                    [0] = "pb-0", [0.5] = "pb-0.5", [1] = "pb-1", [1.5] = "pb-1.5", [2] = "pb-2", [2.5] = "pb-2.5", [3] = "pb-3",
+                    [3.5] = "pb-3.5", [4] = "pb-4", [5] = "pb-5", [6] = "pb-6", [7] = "pb-7", [8] = "pb-8", [10] = "pb-10",
+                    [12] = "pb-12", [14] = "pb-14", [16] = "pb-16", [20] = "pb-20", [24] = "pb-24"
+                }
             }
         };
 
@@ -460,6 +530,142 @@ public static class TescoTheme
                 Md = "size-5",
                 Lg = "size-6",
                 Xl = "size-8"
+            },
+            MaxWidth = new()
+            {
+                Xs = "max-w-xs",
+                Sm = "max-w-sm",
+                Md = "max-w-md",
+                Lg = "max-w-lg",
+                Xl = "max-w-xl",
+                Xl2 = "max-w-2xl",
+                Xl3 = "max-w-3xl",
+                Xl4 = "max-w-4xl",
+                Xl5 = "max-w-5xl",
+                Xl6 = "max-w-6xl",
+                Xl7 = "max-w-7xl",
+                Prose = "max-w-prose",
+                Full = "max-w-full",
+                None = "max-w-none"
+            }
+        };
+
+        // Tailwind only compiles class names written out in full, so every breakpoint's class is listed here.
+        var grid = new TwBlazorGrid
+        {
+            Columns = new()
+            {
+                [1] = new("grid-cols-1", "sm:grid-cols-1", "md:grid-cols-1", "lg:grid-cols-1", "xl:grid-cols-1", "2xl:grid-cols-1"),
+                [2] = new("grid-cols-2", "sm:grid-cols-2", "md:grid-cols-2", "lg:grid-cols-2", "xl:grid-cols-2", "2xl:grid-cols-2"),
+                [3] = new("grid-cols-3", "sm:grid-cols-3", "md:grid-cols-3", "lg:grid-cols-3", "xl:grid-cols-3", "2xl:grid-cols-3"),
+                [4] = new("grid-cols-4", "sm:grid-cols-4", "md:grid-cols-4", "lg:grid-cols-4", "xl:grid-cols-4", "2xl:grid-cols-4"),
+                [5] = new("grid-cols-5", "sm:grid-cols-5", "md:grid-cols-5", "lg:grid-cols-5", "xl:grid-cols-5", "2xl:grid-cols-5"),
+                [6] = new("grid-cols-6", "sm:grid-cols-6", "md:grid-cols-6", "lg:grid-cols-6", "xl:grid-cols-6", "2xl:grid-cols-6"),
+                [7] = new("grid-cols-7", "sm:grid-cols-7", "md:grid-cols-7", "lg:grid-cols-7", "xl:grid-cols-7", "2xl:grid-cols-7"),
+                [8] = new("grid-cols-8", "sm:grid-cols-8", "md:grid-cols-8", "lg:grid-cols-8", "xl:grid-cols-8", "2xl:grid-cols-8"),
+                [9] = new("grid-cols-9", "sm:grid-cols-9", "md:grid-cols-9", "lg:grid-cols-9", "xl:grid-cols-9", "2xl:grid-cols-9"),
+                [10] = new("grid-cols-10", "sm:grid-cols-10", "md:grid-cols-10", "lg:grid-cols-10", "xl:grid-cols-10", "2xl:grid-cols-10"),
+                [11] = new("grid-cols-11", "sm:grid-cols-11", "md:grid-cols-11", "lg:grid-cols-11", "xl:grid-cols-11", "2xl:grid-cols-11"),
+                [12] = new("grid-cols-12", "sm:grid-cols-12", "md:grid-cols-12", "lg:grid-cols-12", "xl:grid-cols-12", "2xl:grid-cols-12")
+            },
+            Rows = new()
+            {
+                [1] = new("grid-rows-1", "sm:grid-rows-1", "md:grid-rows-1", "lg:grid-rows-1", "xl:grid-rows-1", "2xl:grid-rows-1"),
+                [2] = new("grid-rows-2", "sm:grid-rows-2", "md:grid-rows-2", "lg:grid-rows-2", "xl:grid-rows-2", "2xl:grid-rows-2"),
+                [3] = new("grid-rows-3", "sm:grid-rows-3", "md:grid-rows-3", "lg:grid-rows-3", "xl:grid-rows-3", "2xl:grid-rows-3"),
+                [4] = new("grid-rows-4", "sm:grid-rows-4", "md:grid-rows-4", "lg:grid-rows-4", "xl:grid-rows-4", "2xl:grid-rows-4"),
+                [5] = new("grid-rows-5", "sm:grid-rows-5", "md:grid-rows-5", "lg:grid-rows-5", "xl:grid-rows-5", "2xl:grid-rows-5"),
+                [6] = new("grid-rows-6", "sm:grid-rows-6", "md:grid-rows-6", "lg:grid-rows-6", "xl:grid-rows-6", "2xl:grid-rows-6")
+            },
+            ColumnSpan = new()
+            {
+                [1] = new("col-span-1", "sm:col-span-1", "md:col-span-1", "lg:col-span-1", "xl:col-span-1", "2xl:col-span-1"),
+                [2] = new("col-span-2", "sm:col-span-2", "md:col-span-2", "lg:col-span-2", "xl:col-span-2", "2xl:col-span-2"),
+                [3] = new("col-span-3", "sm:col-span-3", "md:col-span-3", "lg:col-span-3", "xl:col-span-3", "2xl:col-span-3"),
+                [4] = new("col-span-4", "sm:col-span-4", "md:col-span-4", "lg:col-span-4", "xl:col-span-4", "2xl:col-span-4"),
+                [5] = new("col-span-5", "sm:col-span-5", "md:col-span-5", "lg:col-span-5", "xl:col-span-5", "2xl:col-span-5"),
+                [6] = new("col-span-6", "sm:col-span-6", "md:col-span-6", "lg:col-span-6", "xl:col-span-6", "2xl:col-span-6"),
+                [7] = new("col-span-7", "sm:col-span-7", "md:col-span-7", "lg:col-span-7", "xl:col-span-7", "2xl:col-span-7"),
+                [8] = new("col-span-8", "sm:col-span-8", "md:col-span-8", "lg:col-span-8", "xl:col-span-8", "2xl:col-span-8"),
+                [9] = new("col-span-9", "sm:col-span-9", "md:col-span-9", "lg:col-span-9", "xl:col-span-9", "2xl:col-span-9"),
+                [10] = new("col-span-10", "sm:col-span-10", "md:col-span-10", "lg:col-span-10", "xl:col-span-10", "2xl:col-span-10"),
+                [11] = new("col-span-11", "sm:col-span-11", "md:col-span-11", "lg:col-span-11", "xl:col-span-11", "2xl:col-span-11"),
+                [12] = new("col-span-12", "sm:col-span-12", "md:col-span-12", "lg:col-span-12", "xl:col-span-12", "2xl:col-span-12"),
+                Full = new("col-span-full", "sm:col-span-full", "md:col-span-full", "lg:col-span-full", "xl:col-span-full", "2xl:col-span-full")
+            },
+            RowSpan = new()
+            {
+                [1] = new("row-span-1", "sm:row-span-1", "md:row-span-1", "lg:row-span-1", "xl:row-span-1", "2xl:row-span-1"),
+                [2] = new("row-span-2", "sm:row-span-2", "md:row-span-2", "lg:row-span-2", "xl:row-span-2", "2xl:row-span-2"),
+                [3] = new("row-span-3", "sm:row-span-3", "md:row-span-3", "lg:row-span-3", "xl:row-span-3", "2xl:row-span-3"),
+                [4] = new("row-span-4", "sm:row-span-4", "md:row-span-4", "lg:row-span-4", "xl:row-span-4", "2xl:row-span-4"),
+                [5] = new("row-span-5", "sm:row-span-5", "md:row-span-5", "lg:row-span-5", "xl:row-span-5", "2xl:row-span-5"),
+                [6] = new("row-span-6", "sm:row-span-6", "md:row-span-6", "lg:row-span-6", "xl:row-span-6", "2xl:row-span-6"),
+                Full = new("row-span-full", "sm:row-span-full", "md:row-span-full", "lg:row-span-full", "xl:row-span-full", "2xl:row-span-full")
+            },
+            ColumnStart = new()
+            {
+                [1] = new("col-start-1", "sm:col-start-1", "md:col-start-1", "lg:col-start-1", "xl:col-start-1", "2xl:col-start-1"),
+                [2] = new("col-start-2", "sm:col-start-2", "md:col-start-2", "lg:col-start-2", "xl:col-start-2", "2xl:col-start-2"),
+                [3] = new("col-start-3", "sm:col-start-3", "md:col-start-3", "lg:col-start-3", "xl:col-start-3", "2xl:col-start-3"),
+                [4] = new("col-start-4", "sm:col-start-4", "md:col-start-4", "lg:col-start-4", "xl:col-start-4", "2xl:col-start-4"),
+                [5] = new("col-start-5", "sm:col-start-5", "md:col-start-5", "lg:col-start-5", "xl:col-start-5", "2xl:col-start-5"),
+                [6] = new("col-start-6", "sm:col-start-6", "md:col-start-6", "lg:col-start-6", "xl:col-start-6", "2xl:col-start-6"),
+                [7] = new("col-start-7", "sm:col-start-7", "md:col-start-7", "lg:col-start-7", "xl:col-start-7", "2xl:col-start-7"),
+                [8] = new("col-start-8", "sm:col-start-8", "md:col-start-8", "lg:col-start-8", "xl:col-start-8", "2xl:col-start-8"),
+                [9] = new("col-start-9", "sm:col-start-9", "md:col-start-9", "lg:col-start-9", "xl:col-start-9", "2xl:col-start-9"),
+                [10] = new("col-start-10", "sm:col-start-10", "md:col-start-10", "lg:col-start-10", "xl:col-start-10", "2xl:col-start-10"),
+                [11] = new("col-start-11", "sm:col-start-11", "md:col-start-11", "lg:col-start-11", "xl:col-start-11", "2xl:col-start-11"),
+                [12] = new("col-start-12", "sm:col-start-12", "md:col-start-12", "lg:col-start-12", "xl:col-start-12", "2xl:col-start-12"),
+                [13] = new("col-start-13", "sm:col-start-13", "md:col-start-13", "lg:col-start-13", "xl:col-start-13", "2xl:col-start-13")
+            },
+            RowStart = new()
+            {
+                [1] = new("row-start-1", "sm:row-start-1", "md:row-start-1", "lg:row-start-1", "xl:row-start-1", "2xl:row-start-1"),
+                [2] = new("row-start-2", "sm:row-start-2", "md:row-start-2", "lg:row-start-2", "xl:row-start-2", "2xl:row-start-2"),
+                [3] = new("row-start-3", "sm:row-start-3", "md:row-start-3", "lg:row-start-3", "xl:row-start-3", "2xl:row-start-3"),
+                [4] = new("row-start-4", "sm:row-start-4", "md:row-start-4", "lg:row-start-4", "xl:row-start-4", "2xl:row-start-4"),
+                [5] = new("row-start-5", "sm:row-start-5", "md:row-start-5", "lg:row-start-5", "xl:row-start-5", "2xl:row-start-5"),
+                [6] = new("row-start-6", "sm:row-start-6", "md:row-start-6", "lg:row-start-6", "xl:row-start-6", "2xl:row-start-6"),
+                [7] = new("row-start-7", "sm:row-start-7", "md:row-start-7", "lg:row-start-7", "xl:row-start-7", "2xl:row-start-7")
+            },
+            ColumnsSubgrid = "grid-cols-subgrid",
+            RowsSubgrid = "grid-rows-subgrid",
+            AutoFlow = new()
+            {
+                Row = "grid-flow-row",
+                Column = "grid-flow-col",
+                Dense = "grid-flow-dense",
+                RowDense = "grid-flow-row-dense",
+                ColumnDense = "grid-flow-col-dense"
+            },
+            AutoColumns = new()
+            {
+                Auto = "auto-cols-auto",
+                Min = "auto-cols-min",
+                Max = "auto-cols-max",
+                Fr = "auto-cols-fr"
+            },
+            AutoRows = new()
+            {
+                Auto = "auto-rows-auto",
+                Min = "auto-rows-min",
+                Max = "auto-rows-max",
+                Fr = "auto-rows-fr"
+            },
+            JustifyItems = new()
+            {
+                Start = "justify-items-start",
+                Center = "justify-items-center",
+                End = "justify-items-end",
+                Stretch = "justify-items-stretch"
+            },
+            JustifySelf = new()
+            {
+                Start = "justify-self-start",
+                Center = "justify-self-center",
+                End = "justify-self-end",
+                Stretch = "justify-self-stretch"
             }
         };
 
@@ -659,6 +865,7 @@ public static class TescoTheme
             Inset = inset,
             Display = display,
             Flexbox = flexbox,
+            Grid = grid,
             Spacing = spacing,
             Sizing = sizing,
             Interaction = interaction,
@@ -1168,6 +1375,41 @@ public static class TescoTheme
                     Bottom = $"mt-8 {display.Flex} {flexbox.Wrap} {flexbox.Align.Center} {flexbox.Justify.Between} gap-x-6 gap-y-3 border-t border-current/15 pt-6 first:mt-0 first:border-t-0 first:pt-0 {typography.Size.Xs}",
                     Copyright = "m-0 max-w-3xl",
                     BottomLinks = $"{display.Flex} {flexbox.Wrap} gap-x-4 gap-y-2 list-none m-0 p-0"
+                },
+                new TwContainerTheme
+                {
+                    Base = sizing.FullWidth,
+                    Centered = "mx-auto",
+                    Gutter = "px-4 sm:px-6 lg:px-8",
+                    DefaultMaxWidth = ContainerSize.Xl7,
+                    QueryContainer = "@container",
+                    SurfaceDefault = $"{neutralSurface.Background} {neutralText.Heading}",
+                    SurfaceSubtle = $"{neutralSurface.BackgroundSubtle} {neutralText.Heading}",
+                    SurfaceElevated = $"{neutralSurface.Elevated} {neutralText.Heading}"
+                },
+                new TwFlexTheme
+                {
+                    Base = display.Flex,
+                    Inline = display.InlineFlex,
+                    FullWidth = sizing.FullWidth,
+                    FullHeight = sizing.FullHeight,
+                    DivideX = "divide-x",
+                    DivideY = "divide-y",
+                    DivideXReverse = "divide-x-reverse",
+                    DivideYReverse = "divide-y-reverse",
+                    DivideColor = "divide-[oklch(92%_0.004_255)] dark:divide-[oklch(40%_0.03_255)]",
+                    Item = string.Empty,
+                    ItemMinWidthZero = sizing.MinWidthNone,
+                    ItemPushEnd = spacing.PushEnd,
+                    ItemPushEndColumn = spacing.PushBottom
+                },
+                new TwGridTheme
+                {
+                    Base = display.Grid,
+                    Inline = display.InlineGrid,
+                    AutoFit = "grid-cols-[repeat(auto-fit,minmax(min(var(--tw-grid-min),100%),1fr))]",
+                    AutoFill = "grid-cols-[repeat(auto-fill,minmax(min(var(--tw-grid-min),100%),1fr))]",
+                    Item = sizing.MinWidthNone
                 },
                 new TwFormTheme
                 {

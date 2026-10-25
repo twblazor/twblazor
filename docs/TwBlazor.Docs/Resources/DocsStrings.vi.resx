@@ -781,6 +781,9 @@
   <data name="Nav_Group_charts" xml:space="preserve">
     <value>Biểu đồ</value>
   </data>
+  <data name="Nav_Group_containers-navitem" xml:space="preserve">
+    <value>Vùng chứa</value>
+  </data>
   <data name="Nav_Group_chat" xml:space="preserve">
     <value>Trò chuyện</value>
   </data>

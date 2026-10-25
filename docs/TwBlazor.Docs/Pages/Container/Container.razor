@@ -1,0 +1,134 @@
+@page "/container"
+
+<PageContainer Title="TwContainer" Path="/container" Beta Description="TwContainer is a Blazor container component that centers content at a maximum width with side padding, rendered as any landmark or element." ThemeType="typeof(TwContainerTheme)">
+    <ThemeContent>
+        <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
+            The maximum widths come from the shared <code>Sizing.MaxWidth</code> scale and the numeric padding from <code>Spacing.Steps</code>, so any component theme can reuse them.
+            Padding accepts the steps 0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 5, 6, 7, 8, 10, 12, 14, 16, 20 and 24; add a step to <code>Spacing.Steps</code> in your theme to allow another.
+        </p>
+    </ThemeContent>
+    <ChildContent>
+        <PageCard Title="Basic usage">
+            <Description>A container is centered, grows no wider than its <code>MaxWidth</code> and pads its sides with the theme's <code>Gutter</code>, which widens on larger screens. The dashed outline shows the container's edges.</Description>
+
+            <CodeExample Name="ContainerBasic">
+                <div class="rounded-lg bg-gray-100 py-4 dark:bg-gray-900">
+                    <TwContainer MaxWidth="ContainerSize.Xl2" Class="rounded-md border border-dashed border-gray-400 py-4 dark:border-gray-500">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Release notes</h3>
+                        <p class="mt-1 text-sm text-gray-600 dark:text-gray-300">This text never runs wider than the container, however wide the page is.</p>
+                    </TwContainer>
+                </div>
+            </CodeExample>
+        </PageCard>
+
+        <PageCard Title="Maximum width">
+            <Description>Set <code>MaxWidth</code> to one of Tailwind's sizes, from <code>Xs</code> (20rem) to <code>Xl7</code> (80rem). <code>Prose</code> keeps lines to a comfortable reading length, <code>Full</code> matches the parent and <code>None</code> removes the limit. Without it, the theme's <code>DefaultMaxWidth</code> applies, <code>Xl7</code> by default.</Description>
+
+            <CodeExample Name="ContainerMaxWidth">
+                <TwFlex Direction="FlexDirection.Column" Gap="3">
+                    @foreach (var size in _sizes)
+                    {
+                        <TwContainer MaxWidth="size" Gutter="0">
+                            <p class="rounded-md bg-purple-100 px-3 py-2 text-sm font-medium text-purple-900 dark:bg-purple-500/20 dark:text-purple-100">MaxWidth="ContainerSize.@size"</p>
+                        </TwContainer>
+                    }
+                </TwFlex>
+            </CodeExample>
+        </PageCard>
+
+        <PageCard Title="Gutter and padding">
+            <Description>Set <code>Gutter</code> to a step on Tailwind's spacing scale for fixed side padding, such as <code>6</code> for <code>px-6</code>, or <code>0</code> for none. <code>PaddingY</code> pads the top and bottom, and <code>PaddingTop</code> and <code>PaddingBottom</code> override one end.</Description>
+
+            <CodeExample Name="ContainerPadding">
+                <TwFlex Direction="FlexDirection.Column" Gap="3">
+                    <TwContainer MaxWidth="ContainerSize.Xl3" Gutter="0" Surface="ContainerSurface.Subtle" Rounded="Rounded.Lg">
+                        <p class="text-sm text-gray-700 dark:text-gray-200">Gutter="0": the text touches the edges.</p>
+                    </TwContainer>
+                    <TwContainer MaxWidth="ContainerSize.Xl3" Gutter="8" PaddingY="6" Surface="ContainerSurface.Subtle" Rounded="Rounded.Lg">
+                        <p class="text-sm text-gray-700 dark:text-gray-200">Gutter="8" PaddingY="6": roomy on every side.</p>
+                    </TwContainer>
+                    <TwContainer MaxWidth="ContainerSize.Xl3" Gutter="4" PaddingY="6" PaddingBottom="2" Surface="ContainerSurface.Subtle" Rounded="Rounded.Lg">
+                        <p class="text-sm text-gray-700 dark:text-gray-200">PaddingBottom="2" tightens just the bottom.</p>
+                    </TwContainer>
+                </TwFlex>
+            </CodeExample>
+        </PageCard>
+
+        <PageCard Title="Surfaces, corners and shadows">
+            <Description>Set <code>Surface</code> to paint the theme's <code>Default</code>, <code>Subtle</code> or <code>Elevated</code> background behind the content, for a band of the page or a panel. A container has no corners or shadow of its own; set <code>Rounded</code> and <code>Shadow</code> to add them.</Description>
+
+            <CodeExample Name="ContainerSurfaces">
+                <TwGrid Columns="1" MdColumns="3" Gap="4">
+                    <TwContainer Surface="ContainerSurface.Default" Gutter="5" PaddingY="5" Rounded="Rounded.Lg" Shadow="Shadow.Md">
+                        <p class="text-sm font-semibold">Default</p>
+                        <p class="mt-1 text-sm text-gray-600 dark:text-gray-300">The same surface as a card.</p>
+                    </TwContainer>
+                    <TwContainer Surface="ContainerSurface.Subtle" Gutter="5" PaddingY="5" Rounded="Rounded.Lg">
+                        <p class="text-sm font-semibold">Subtle</p>
+                        <p class="mt-1 text-sm text-gray-600 dark:text-gray-300">A quiet tint for a band of the page.</p>
+                    </TwContainer>
+                    <TwContainer Surface="ContainerSurface.Elevated" Gutter="5" PaddingY="5" Rounded="Rounded.Lg" Shadow="Shadow.Sm">
+                        <p class="text-sm font-semibold">Elevated</p>
+                        <p class="mt-1 text-sm text-gray-600 dark:text-gray-300">A step up from the default surface.</p>
+                    </TwContainer>
+                </TwGrid>
+            </CodeExample>
+        </PageCard>
+
+        <PageCard Title="Landmarks and other elements">
+            <Description>Set <code>Element</code> to render the element the content calls for, so screen reader users can find it: <code>Main</code> for the page's main content, <code>Section</code> for a band named by its heading, <code>Nav</code>, <code>Aside</code>, <code>Header</code>, <code>Footer</code> and more. Name a section with <code>AriaLabelledBy</code> pointing at its heading to make it a region landmark.</Description>
+
+            <CodeExample Name="ContainerElement">
+                <TwContainer Element="LayoutElement.Section" AriaLabelledBy="container-offers-heading" MaxWidth="ContainerSize.Xl4" Surface="ContainerSurface.Subtle" PaddingY="8" Rounded="Rounded.Lg">
+                    <h3 id="container-offers-heading" class="text-xl font-semibold text-gray-900 dark:text-white">This week's offers</h3>
+                    <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Rendered as a section landmark called "This week's offers".</p>
+                </TwContainer>
+            </CodeExample>
+        </PageCard>
+
+        <PageCard Title="Aligned to the start">
+            <Description>Set <code>Centered="false"</code> to keep the container at the start of its parent, for example a form that lines up with a heading on the left. It moves to the right in a right to left layout.</Description>
+
+            <CodeExample Name="ContainerStart">
+                <TwContainer MaxWidth="ContainerSize.Md" Centered="false" Gutter="0">
+                    <TwTextfield Id="container-start-email" Label="Email address" @bind-Value="email" Placeholder="you@example.com" type="email" autocomplete="email" />
+                </TwContainer>
+            </CodeExample>
+        </PageCard>
+
+        <PageCard Title="Container queries">
+            <Description>Set <code>QueryContainer</code> to let the content respond to the container's width instead of the screen's, with Tailwind's <code>@@sm:</code>, <code>@@md:</code> and similar prefixes. The same markup sits in a narrow and a wide container below: the narrow one stacks, the wide one lays out in a row.</Description>
+
+            <CodeExample Name="ContainerQuery" CSharpName="ContainerQueryCode">
+                <TwFlex Direction="FlexDirection.Column" Gap="4">
+                    @foreach (var size in _querySizes)
+                    {
+                        <TwContainer MaxWidth="size" Gutter="4" PaddingY="4" Centered="false" QueryContainer Surface="ContainerSurface.Subtle" Rounded="Rounded.Lg">
+                            <div class="@queryLayout">
+                                <TwAvatar Name="Priya Patel" Color="Color.Primary" />
+                                <div class="min-w-0 flex-1">
+                                    <p class="font-semibold">Priya Patel</p>
+                                    <p class="text-sm text-gray-600 dark:text-gray-300">Product designer, London</p>
+                                </div>
+                                <TwButton Label="Message" Variant="ButtonVariant.Outlined" Color="Color.Primary" AriaLabel="@($"Message Priya Patel, {size} container")" />
+                            </div>
+                        </TwContainer>
+                    }
+                </TwFlex>
+            </CodeExample>
+        </PageCard>
+    </ChildContent>
+</PageContainer>
+
+@code {
+    private string email = string.Empty;
+
+    private static readonly ContainerSize[] _sizes = [ContainerSize.Sm, ContainerSize.Lg, ContainerSize.Xl2, ContainerSize.Xl4, ContainerSize.Full];
+
+    #region CodeExample ContainerQueryCode
+    private static readonly ContainerSize[] _querySizes = [ContainerSize.Xs, ContainerSize.Full];
+
+    // The @md: prefix responds to the nearest query container, not the screen.
+    private const string queryLayout = "flex flex-col items-start gap-3 @md:flex-row @md:items-center";
+    #endregion
+}

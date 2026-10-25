@@ -47,6 +47,7 @@ public partial class Navigation : IDisposable
     private static readonly Dictionary<string, Icon> _groupIcons = new()
     {
         ["layout"] = Icon.Columns_Gap,
+        ["containers-navitem"] = Icon.Grid_1X2,
         ["forms"] = Icon.Ui_Checks,
         ["inputs-navitem"] = Icon.Input_Cursor_Text,
         ["feedback"] = Icon.Chat_Square_Dots,

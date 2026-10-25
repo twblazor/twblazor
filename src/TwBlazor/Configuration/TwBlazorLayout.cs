@@ -196,6 +196,47 @@ public class TwBlazorFlexbox
     /// Gets or sets the align-self alignment scale (per-item cross-axis override).
     /// </summary>
     public TwFlexAlignmentScale AlignSelf { get; set; } = new();
+
+    /// <summary>
+    /// Gets or sets the direction classes written out at every breakpoint, for layouts that change direction
+    /// as the screen widens. See <see cref="TwResponsiveFlexDirection"/>.
+    /// </summary>
+    public TwResponsiveFlexDirection ResponsiveDirection { get; set; } = new();
+
+    /// <summary>
+    /// Gets or sets the flex basis classes (<c>basis-*</c>). See <see cref="TwFlexBasisScale"/>.
+    /// </summary>
+    public TwFlexBasisScale Basis { get; set; } = new();
+
+    /// <summary>
+    /// Gets or sets the "flex-auto" class: grow and shrink from the item's content size.
+    /// </summary>
+    public string FlexAuto { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the "flex-initial" class: shrink but never grow.
+    /// </summary>
+    public string FlexInitial { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the "flex-none" class: neither grow nor shrink.
+    /// </summary>
+    public string FlexNone { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the visual order classes (<c>order-*</c>), keyed by position. Shared by flex and grid items.
+    /// </summary>
+    public TwClassScale Order { get; set; } = new();
+
+    /// <summary>
+    /// Gets or sets the "order-first" class.
+    /// </summary>
+    public string OrderFirst { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the "order-last" class.
+    /// </summary>
+    public string OrderLast { get; set; } = string.Empty;
 }
 
 /// <summary>
@@ -277,6 +318,11 @@ public class TwBlazorSpacing
     public string PushEnd { get; set; } = string.Empty;
 
     /// <summary>
+    /// Gets or sets the "mt-auto" class used to push an element to the bottom of its flex column.
+    /// </summary>
+    public string PushBottom { get; set; } = string.Empty;
+
+    /// <summary>
     /// Gets or sets the padding presets used by container-style components.
     /// </summary>
     public TwBlazorSpacingScale Padding { get; set; } = new();
@@ -315,6 +361,12 @@ public class TwBlazorSpacing
     /// Gets or sets the margin-end scale (Tailwind's "me-*"). See <see cref="TwBlazorGapScale"/>.
     /// </summary>
     public TwBlazorGapScale MarginEnd { get; set; } = new();
+
+    /// <summary>
+    /// Gets or sets the gap and padding classes keyed by their step on Tailwind's spacing scale, used by the
+    /// layout components' numeric spacing parameters (e.g. <c>Gap="4"</c>). See <see cref="TwSpacingSteps"/>.
+    /// </summary>
+    public TwSpacingSteps Steps { get; set; } = new();
 }
 
 /// <summary>
@@ -720,6 +772,12 @@ public class TwBlazorSizing
     /// Gets or sets the reusable square icon size scale. See <see cref="TwBlazorIconSize"/>.
     /// </summary>
     public TwBlazorIconSize Icon { get; set; } = new();
+
+    /// <summary>
+    /// Gets or sets the maximum width classes (<c>max-w-*</c>), one per <see cref="Enums.ContainerSize"/>.
+    /// See <see cref="TwMaxWidthScale"/>.
+    /// </summary>
+    public TwMaxWidthScale MaxWidth { get; set; } = new();
 }
 
 /// <summary>

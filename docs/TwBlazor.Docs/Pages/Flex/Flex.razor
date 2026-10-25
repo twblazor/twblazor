@@ -1,0 +1,223 @@
+@page "/flex"
+
+<PageContainer Title="TwFlex" Path="/flex" Beta Description="TwFlex is a Blazor flexbox component: responsive direction, wrapping, alignment, gaps and dividers, with TwFlexItem to size and order each child." ThemeType="typeof(TwFlexTheme)">
+    <ThemeContent>
+        <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
+            Direction, wrapping, alignment, basis and order come from the shared <code>Flexbox</code> utilities, and the gaps from <code>Spacing.Steps</code>, so any component theme can reuse them.
+            Gaps accept the steps 0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 5, 6, 7, 8, 10, 12, 14, 16, 20 and 24.
+        </p>
+    </ThemeContent>
+    <ChildContent>
+        <PageCard Title="Basic usage">
+            <Description>A <code>TwFlex</code> lays its children out in a row. <code>Gap</code> sets the space between them as a step on Tailwind's spacing scale, such as <code>3</code> for <code>gap-3</code>.</Description>
+
+            <CodeExample Name="FlexBasic">
+                <TwFlex Gap="3" Wrap="FlexWrap.Wrap">
+                    <TwButton Label="Save" Color="Color.Primary" />
+                    <TwButton Label="Save as draft" Color="Color.Primary" Variant="ButtonVariant.Outlined" />
+                    <TwButton Label="Cancel" Color="Color.Primary" Variant="ButtonVariant.Text" />
+                </TwFlex>
+            </CodeExample>
+        </PageCard>
+
+        <PageCard Title="Direction">
+            <Description>Set <code>Direction</code> to <code>Column</code> to stack children. Add <code>SmDirection</code>, <code>MdDirection</code>, <code>LgDirection</code>, <code>XlDirection</code> or <code>Xl2Direction</code> to change direction from that breakpoint up: this one stacks on a phone and sits in a row from <code>md</code>.</Description>
+
+            <CodeExample Name="FlexDirection">
+                <TwFlex Direction="FlexDirection.Column" MdDirection="FlexDirection.Row" Gap="4">
+                    @foreach (var step in _steps)
+                    {
+                        <TwFlexItem Flex="FlexSize.Fill" Class="rounded-lg border border-gray-200 p-4 dark:border-gray-700">
+                            <p class="text-xs font-semibold uppercase tracking-wide text-purple-700 dark:text-purple-300">Step @step.Number</p>
+                            <p class="mt-1 font-semibold">@step.Title</p>
+                            <p class="mt-1 text-sm text-gray-600 dark:text-gray-300">@step.Text</p>
+                        </TwFlexItem>
+                    }
+                </TwFlex>
+            </CodeExample>
+        </PageCard>
+
+        <PageCard Title="Justify">
+            <Description>Set <code>Justify</code> to space children along the main axis: <code>Start</code>, <code>Center</code>, <code>End</code>, <code>Between</code>, <code>Around</code> or <code>Evenly</code>.</Description>
+
+            <CodeExample Name="FlexJustify">
+                <TwFlex Direction="FlexDirection.Column" Gap="3">
+                    @foreach (var justify in _justify)
+                    {
+                        <div>
+                            <p class="mb-1 text-xs text-gray-600 dark:text-gray-300">Justify="JustifyContent.@justify"</p>
+                            <TwFlex Justify="justify" Gap="2" Class="rounded-md bg-gray-100 p-2 dark:bg-gray-900">
+                                @for (var box = 1; box <= 3; box++)
+                                {
+                                    <span class="rounded bg-purple-600 px-3 py-1 text-sm font-medium text-white">@box</span>
+                                }
+                            </TwFlex>
+                        </div>
+                    }
+                </TwFlex>
+            </CodeExample>
+        </PageCard>
+
+        <PageCard Title="Align">
+            <Description>Set <code>Align</code> to align children of different heights on the cross axis: <code>Start</code>, <code>Center</code>, <code>End</code>, <code>Stretch</code> (the default) or <code>Baseline</code>, which lines up their text.</Description>
+
+            <CodeExample Name="FlexAlign">
+                <TwGrid Columns="1" SmColumns="2" LgColumns="3" Gap="4">
+                    @foreach (var align in _align)
+                    {
+                        <div>
+                            <p class="mb-1 text-xs text-gray-600 dark:text-gray-300">Align="AlignItems.@align"</p>
+                            <TwFlex Align="align" Gap="2" Class="h-28 rounded-md bg-gray-100 p-2 dark:bg-gray-900">
+                                <span class="rounded bg-purple-600 px-3 py-1 text-sm text-white">Short</span>
+                                <span class="rounded bg-purple-600 px-3 py-4 text-lg text-white">Tall</span>
+                                <span class="rounded bg-purple-600 px-3 py-2 text-xs text-white">Small</span>
+                            </TwFlex>
+                        </div>
+                    }
+                </TwGrid>
+            </CodeExample>
+        </PageCard>
+
+        <PageCard Title="Wrapping and separate gaps">
+            <Description>Set <code>Wrap</code> to let children flow onto new lines. <code>ColumnGap</code> and <code>RowGap</code> space columns and rows separately, and <code>AlignContent</code> spaces the wrapped lines.</Description>
+
+            <CodeExample Name="FlexWrap">
+                <TwFlex Element="LayoutElement.Ul" Wrap="FlexWrap.Wrap" ColumnGap="2" RowGap="3" AriaLabel="Topics">
+                    @foreach (var topic in _topics)
+                    {
+                        <li><TwChip Label="@topic" Color="Color.Primary" Variant="ButtonVariant.Outlined" /></li>
+                    }
+                </TwFlex>
+            </CodeExample>
+        </PageCard>
+
+        <PageCard Title="Dividers">
+            <Description>Set <code>Divided</code> to draw a line between children: down between a row, or across between a column. Render a list with <code>Element="LayoutElement.Ul"</code> and items with <code>Element="LayoutElement.Li"</code>; a list layout keeps its list meaning for screen readers.</Description>
+
+            <CodeExample Name="FlexDivided">
+                <TwFlex Element="LayoutElement.Ul" Divided Wrap="FlexWrap.Wrap" Class="rounded-lg border border-gray-200 dark:border-gray-700" AriaLabel="Account summary">
+                    @foreach (var (label, value) in _stats)
+                    {
+                        <TwFlexItem Element="LayoutElement.Li" Flex="FlexSize.Fill" Class="px-5 py-4">
+                            <p class="text-xs text-gray-600 dark:text-gray-300">@label</p>
+                            <p class="mt-1 text-xl font-semibold tabular-nums">@value</p>
+                        </TwFlexItem>
+                    }
+                </TwFlex>
+            </CodeExample>
+        </PageCard>
+
+        <PageCard Title="Growing, shrinking and basis">
+            <Description>Wrap a child in <code>TwFlexItem</code> to control its size. <code>Flex</code> sets the grow and shrink shorthand: <code>Fill</code> takes an equal share of the space, <code>Auto</code> grows from its content, <code>None</code> keeps its size. <code>Basis</code> sets the starting size, and <code>Grow</code> and <code>Shrink</code> switch each behaviour on or off.</Description>
+
+            <CodeExample Name="FlexItemSize">
+                <TwFlex Direction="FlexDirection.Column" Gap="3">
+                    <TwFlex Gap="2">
+                        <TwFlexItem Flex="FlexSize.None" Class="rounded bg-purple-600 px-3 py-2 text-sm text-white">None</TwFlexItem>
+                        <TwFlexItem Flex="FlexSize.Fill" Class="rounded bg-purple-200 px-3 py-2 text-sm text-purple-900">Fill</TwFlexItem>
+                        <TwFlexItem Flex="FlexSize.Fill" Class="rounded bg-purple-200 px-3 py-2 text-sm text-purple-900">Fill</TwFlexItem>
+                    </TwFlex>
+                    <TwFlex Gap="2">
+                        <TwFlexItem Basis="FlexBasis.Third" Shrink="false" Class="rounded bg-purple-600 px-3 py-2 text-sm text-white">Basis third</TwFlexItem>
+                        <TwFlexItem Grow="true" Class="rounded bg-purple-200 px-3 py-2 text-sm text-purple-900">Grow</TwFlexItem>
+                    </TwFlex>
+                </TwFlex>
+            </CodeExample>
+        </PageCard>
+
+        <PageCard Title="Pushing items to the end">
+            <Description>Set <code>PushEnd</code> on an item to push it, and everything after it, to the end of the layout: the end of a row, as in this toolbar, or the bottom of a column (see Full height below). Set <code>MinWidthZero</code> to let an item shrink below its content so long text inside it can truncate.</Description>
+
+            <CodeExample Name="FlexItemPushEnd">
+                <TwFlex Align="AlignItems.Center" Gap="3" Class="rounded-lg border border-gray-200 px-4 py-3 dark:border-gray-700">
+                    <TwIcon Icon="Icon.File_Earmark_Text" Class="text-xl text-purple-600 dark:text-purple-300" />
+                    <TwFlexItem MinWidthZero>
+                        <p class="truncate font-medium">Quarterly results presentation for the board, final version.pdf</p>
+                    </TwFlexItem>
+                    <TwFlexItem PushEnd Flex="FlexSize.None">
+                        <TwFlex Gap="2">
+                            <TwButton Label="Share" Variant="ButtonVariant.Text" Color="Color.Primary" Dense />
+                            <TwButton Label="Download" Color="Color.Primary" Dense />
+                        </TwFlex>
+                    </TwFlexItem>
+                </TwFlex>
+            </CodeExample>
+        </PageCard>
+
+        <PageCard Title="Self alignment and order">
+            <Description><code>AlignSelf</code> overrides the layout's alignment for one item. <code>Order</code> draws an item in another position, from 1 to 12 or <code>ItemOrder.First</code> and <code>ItemOrder.Last</code>. Order and reversed directions change only where items are drawn, not the Tab order or what a screen reader reads first, so use them for decoration and keep the markup in reading order.</Description>
+
+            <CodeExample Name="FlexItemOrder">
+                <TwFlex Align="AlignItems.Start" Gap="2" Class="h-24 rounded-md bg-gray-100 p-2 dark:bg-gray-900">
+                    <TwFlexItem Class="rounded bg-purple-600 px-3 py-1 text-sm text-white">A</TwFlexItem>
+                    <TwFlexItem AlignSelf="AlignSelf.End" Class="rounded bg-purple-600 px-3 py-1 text-sm text-white">B, AlignSelf End</TwFlexItem>
+                    <TwFlexItem Order="ItemOrder.First" Class="rounded bg-fuchsia-700 px-3 py-1 text-sm text-white">C, Order First</TwFlexItem>
+                    <TwFlexItem AlignSelf="AlignSelf.Center" Class="rounded bg-purple-600 px-3 py-1 text-sm text-white">D, AlignSelf Center</TwFlexItem>
+                </TwFlex>
+            </CodeExample>
+        </PageCard>
+
+        <PageCard Title="Full height">
+            <Description>Set <code>FullHeight</code> to fill the parent's height. In a column, <code>PushEnd</code> on an item pushes it to the bottom, so buttons line up across a row of cards of different lengths.</Description>
+
+            <CodeExample Name="FlexFullHeight">
+                <TwGrid Columns="1" SmColumns="2" Gap="4">
+                    @foreach (var plan in _plans)
+                    {
+                        <TwCard>
+                            <TwFlex Element="LayoutElement.Article" Direction="FlexDirection.Column" FullHeight Gap="2">
+                                <h3 class="text-lg font-semibold">@plan.Name</h3>
+                                <p class="text-sm text-gray-600 dark:text-gray-300">@plan.Text</p>
+                                <TwFlexItem PushEnd Class="pt-3">
+                                    <TwButton Label="Choose plan" AriaLabel="@($"Choose plan: {plan.Name}")" Color="Color.Primary" />
+                                </TwFlexItem>
+                            </TwFlex>
+                        </TwCard>
+                    }
+                </TwGrid>
+            </CodeExample>
+        </PageCard>
+
+        <PageCard Title="Inline">
+            <Description>Set <code>Inline</code> for a flex layout that sits in a line of text, such as an icon beside a word.</Description>
+
+            <CodeExample Name="FlexInline">
+                <p class="text-sm text-gray-700 dark:text-gray-200">
+                    Your order is
+                    <TwFlex Element="LayoutElement.Span" Inline Align="AlignItems.Center" Gap="1" Class="font-semibold text-green-700 dark:text-green-400">
+                        <TwIcon Icon="Icon.Check_Circle_Fill" />
+                        confirmed
+                    </TwFlex>
+                    and will arrive on Friday.
+                </p>
+            </CodeExample>
+        </PageCard>
+    </ChildContent>
+</PageContainer>
+
+@code {
+    private sealed record Step(int Number, string Title, string Text);
+
+    private static readonly Step[] _steps =
+    [
+        new(1, "Choose", "Pick the plan that suits you."),
+        new(2, "Connect", "Link your bank account securely."),
+        new(3, "Grow", "Watch your savings add up.")
+    ];
+
+    private static readonly JustifyContent[] _justify = [JustifyContent.Start, JustifyContent.Center, JustifyContent.End, JustifyContent.Between, JustifyContent.Around, JustifyContent.Evenly];
+
+    private static readonly AlignItems[] _align = [AlignItems.Start, AlignItems.Center, AlignItems.End, AlignItems.Stretch, AlignItems.Baseline];
+
+    private static readonly string[] _topics = ["Accessibility", "Blazor", "Dark mode", "Design tokens", "Forms", "Localization", "Performance", "Tailwind CSS", "Testing", "Theming"];
+
+    private static readonly (string Label, string Value)[] _stats = [("Balance", "£12,480"), ("Invested", "£10,950"), ("Return", "+13.98%"), ("Cash", "£1,162")];
+
+    private sealed record Plan(string Name, string Text);
+
+    private static readonly Plan[] _plans =
+    [
+        new("Starter", "Everything you need to try it out."),
+        new("Team", "Shared workspaces, roles and permissions, audit history, single sign-on and priority support for growing teams.")
+    ];
+}

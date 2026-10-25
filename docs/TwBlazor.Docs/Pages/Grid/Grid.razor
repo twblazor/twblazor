@@ -1,0 +1,255 @@
+@page "/grid"
+
+<PageContainer Title="TwGrid" Path="/grid" Beta Description="TwGrid is a Blazor CSS grid component: responsive columns, columns that fit the space, spans, named areas, subgrid and alignment, with TwGridItem for placement." ThemeType="typeof(TwGridTheme)">
+    <ThemeContent>
+        <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
+            Column and row counts, spans, start lines, auto flow and cell alignment come from the shared <code>Grid</code> utilities, written out at every breakpoint, and the gaps from
+            <code>Spacing.Steps</code>, so any component theme can reuse them. Columns and spans go up to 12, rows and row spans up to 6, column start lines up to 13 and row start lines up to 7.
+        </p>
+    </ThemeContent>
+    <ChildContent>
+        <PageCard Title="Basic usage">
+            <Description>Set <code>Columns</code> for equal columns, from 1 to 12, and <code>Gap</code> for the space between cells as a step on Tailwind's spacing scale, such as <code>4</code> for <code>gap-4</code>. Children fill the cells row by row.</Description>
+
+            <CodeExample Name="GridBasic">
+                <TwGrid Columns="3" Gap="4">
+                    @for (var cell = 1; cell <= 6; cell++)
+                    {
+                        <div class="rounded-md bg-purple-100 p-4 text-center text-sm font-medium text-purple-900 dark:bg-purple-500/20 dark:text-purple-100">@cell</div>
+                    }
+                </TwGrid>
+            </CodeExample>
+        </PageCard>
+
+        <PageCard Title="Responsive columns">
+            <Description>Add <code>SmColumns</code>, <code>MdColumns</code>, <code>LgColumns</code>, <code>XlColumns</code> or <code>Xl2Columns</code> to change the number of columns from that breakpoint up. These cards stack on a phone, sit two across from <code>sm</code> and four across from <code>lg</code>. Use <code>Element="LayoutElement.Ul"</code> for a list of things, so screen readers announce how many there are.</Description>
+
+            <CodeExample Name="GridResponsive" CSharpName="GridResponsiveCode">
+                <TwGrid Element="LayoutElement.Ul" Columns="1" SmColumns="2" LgColumns="4" Gap="4" AriaLabel="Products">
+                    @foreach (var product in _products)
+                    {
+                        <li>
+                            <TwCard Title="@product.Name" Class="h-full">
+                                <p class="text-sm text-gray-600 dark:text-gray-300">@product.Detail</p>
+                                <p class="text-lg font-semibold tabular-nums">@product.Price</p>
+                            </TwCard>
+                        </li>
+                    }
+                </TwGrid>
+            </CodeExample>
+        </PageCard>
+
+        <PageCard Title="Columns that fit the space">
+            <Description>Set <code>MinColumnWidth</code> to a CSS length and the grid makes as many columns as fit, with no breakpoints, dropping to one column when even one does not fit. Columns stretch to fill the row; set <code>AutoFill</code> to keep empty columns instead, so a short row keeps the same widths.</Description>
+
+            <CodeExample Name="GridAutoFit">
+                <TwFlex Direction="FlexDirection.Column" Gap="4">
+                    <div>
+                        <p class="mb-2 text-xs text-gray-600 dark:text-gray-300">MinColumnWidth="10rem"</p>
+                        <TwGrid MinColumnWidth="10rem" Gap="3">
+                            @for (var cell = 1; cell <= 3; cell++)
+                            {
+                                <div class="rounded-md bg-purple-100 p-4 text-center text-sm font-medium text-purple-900 dark:bg-purple-500/20 dark:text-purple-100">@cell</div>
+                            }
+                        </TwGrid>
+                    </div>
+                    <div>
+                        <p class="mb-2 text-xs text-gray-600 dark:text-gray-300">MinColumnWidth="10rem" AutoFill</p>
+                        <TwGrid MinColumnWidth="10rem" AutoFill Gap="3">
+                            @for (var cell = 1; cell <= 3; cell++)
+                            {
+                                <div class="rounded-md bg-purple-100 p-4 text-center text-sm font-medium text-purple-900 dark:bg-purple-500/20 dark:text-purple-100">@cell</div>
+                            }
+                        </TwGrid>
+                    </div>
+                </TwFlex>
+            </CodeExample>
+        </PageCard>
+
+        <PageCard Title="Spanning columns and rows">
+            <Description>Wrap a child in <code>TwGridItem</code> to place it. <code>ColumnSpan</code> and <code>RowSpan</code> stretch it across several tracks, and <code>GridSpan.Full</code> spans them all. Each has breakpoint variants, such as <code>MdColumnSpan</code>, so this dashboard stacks on a phone and becomes a bento layout from <code>md</code>.</Description>
+
+            <CodeExample Name="GridSpans">
+                <TwGrid Columns="1" MdColumns="4" Gap="4">
+                    <TwGridItem MdColumnSpan="2" MdRowSpan="2" Class="rounded-lg bg-purple-600 p-5 text-white">
+                        <p class="text-sm opacity-90">Revenue this month</p>
+                        <p class="mt-2 text-4xl font-semibold tabular-nums">£24,500</p>
+                        <p class="mt-1 text-sm">12.5% up on last month</p>
+                    </TwGridItem>
+                    <TwGridItem MdColumnSpan="2" Class="rounded-lg bg-purple-100 p-5 text-purple-900 dark:bg-purple-500/20 dark:text-purple-100">
+                        <p class="text-sm">Orders</p>
+                        <p class="mt-1 text-2xl font-semibold tabular-nums">1,234</p>
+                    </TwGridItem>
+                    <TwGridItem Class="rounded-lg bg-purple-100 p-5 text-purple-900 dark:bg-purple-500/20 dark:text-purple-100">
+                        <p class="text-sm">Customers</p>
+                        <p class="mt-1 text-2xl font-semibold tabular-nums">567</p>
+                    </TwGridItem>
+                    <TwGridItem Class="rounded-lg bg-purple-100 p-5 text-purple-900 dark:bg-purple-500/20 dark:text-purple-100">
+                        <p class="text-sm">Returns</p>
+                        <p class="mt-1 text-2xl font-semibold tabular-nums">12</p>
+                    </TwGridItem>
+                    <TwGridItem ColumnSpan="GridSpan.Full" Class="rounded-lg border border-gray-200 p-5 dark:border-gray-700">
+                        <p class="text-sm text-gray-600 dark:text-gray-300">ColumnSpan="GridSpan.Full" spans every column at every width.</p>
+                    </TwGridItem>
+                </TwGrid>
+            </CodeExample>
+        </PageCard>
+
+        <PageCard Title="Start lines and offsets">
+            <Description>Set <code>ColumnStart</code> to start an item on a given column line, leaving empty columns before it, and <code>RowStart</code> for a row line. Breakpoint variants such as <code>LgColumnStart</code> move it only on wider screens. Moving an item away from its place in the markup changes only where it is drawn, so keep the markup in reading order.</Description>
+
+            <CodeExample Name="GridStart">
+                <TwGrid Columns="6" Gap="3">
+                    <TwGridItem ColumnSpan="4" ColumnStart="2" Class="rounded-md bg-purple-100 p-3 text-center text-sm text-purple-900 dark:bg-purple-500/20 dark:text-purple-100">ColumnStart 2, span 4</TwGridItem>
+                    <TwGridItem ColumnSpan="2" ColumnStart="1" Class="rounded-md bg-purple-100 p-3 text-center text-sm text-purple-900 dark:bg-purple-500/20 dark:text-purple-100">Start 1, span 2</TwGridItem>
+                    <TwGridItem ColumnSpan="2" ColumnStart="5" Class="rounded-md bg-purple-100 p-3 text-center text-sm text-purple-900 dark:bg-purple-500/20 dark:text-purple-100">Start 5, span 2</TwGridItem>
+                    <TwGridItem ColumnSpan="2" MdColumnStart="3" Class="rounded-md bg-purple-600 p-3 text-center text-sm text-white">Centered from md</TwGridItem>
+                </TwGrid>
+            </CodeExample>
+        </PageCard>
+
+        <PageCard Title="Named areas">
+            <Description>Set <code>Areas</code> to name the cells, one string per row with names separated by spaces, and place each <code>TwGridItem</code> with <code>Area</code>. A name repeated across cells makes one larger area; a full stop leaves a cell empty. Pair it with <code>ColumnTemplate</code> and <code>RowTemplate</code> to size the tracks. Areas are set inline, so they apply at every width.</Description>
+
+            <CodeExample Name="GridAreas" CSharpName="GridAreasCode">
+                <TwGrid Areas="_areas" ColumnTemplate="10rem 1fr" RowTemplate="auto 1fr auto" Gap="3" Class="h-72">
+                    <TwGridItem Element="LayoutElement.Header" Area="header" Class="rounded-md bg-purple-600 p-3 text-sm font-semibold text-white">Header</TwGridItem>
+                    <TwGridItem Element="LayoutElement.Nav" Area="sidebar" AriaLabel="Example sections" Class="rounded-md bg-purple-100 p-3 text-sm text-purple-900 dark:bg-purple-500/20 dark:text-purple-100">Sidebar</TwGridItem>
+                    <TwGridItem Area="main" Class="rounded-md border border-gray-200 p-3 text-sm dark:border-gray-700">Main content</TwGridItem>
+                    <TwGridItem Element="LayoutElement.Footer" Area="footer" Class="rounded-md bg-gray-100 p-3 text-sm dark:bg-gray-800">Footer</TwGridItem>
+                </TwGrid>
+            </CodeExample>
+        </PageCard>
+
+        <PageCard Title="Custom track templates">
+            <Description>Set <code>ColumnTemplate</code> or <code>RowTemplate</code> to any CSS <code>grid-template-columns</code> or <code>grid-template-rows</code> value when equal tracks are not what you need, such as a fixed label column beside a flexible value column.</Description>
+
+            <CodeExample Name="GridTemplate">
+                <TwGrid Element="LayoutElement.Dl" ColumnTemplate="max-content 1fr" ColumnGap="6" RowGap="2" Class="text-sm">
+                    <dt class="text-gray-600 dark:text-gray-300">Order</dt>
+                    <dd class="font-medium tabular-nums">#1042</dd>
+                    <dt class="text-gray-600 dark:text-gray-300">Delivery address</dt>
+                    <dd class="font-medium">12 High Street, Manchester, M1 1AA</dd>
+                    <dt class="text-gray-600 dark:text-gray-300">Status</dt>
+                    <dd><TwChip Label="On its way" Color="Color.Info" Size="ChipSize.Small" /></dd>
+                </TwGrid>
+            </CodeExample>
+        </PageCard>
+
+        <PageCard Title="Subgrid">
+            <Description>Set <code>SubgridRows</code> on a grid nested in a grid item to line its rows up with the parent's, so the titles, text and buttons of neighbouring cards line up however long each one is. <code>SubgridColumns</code> does the same for columns.</Description>
+
+            <CodeExample Name="GridSubgrid" CSharpName="GridSubgridCode">
+                <TwGrid Columns="1" MdColumns="3" ColumnGap="4" RowGap="8" AutoRows="GridAutoSize.Auto">
+                    @foreach (var plan in _plans)
+                    {
+                        <TwGridItem RowSpan="3" Element="LayoutElement.Article">
+                            <TwGrid SubgridRows RowGap="2" Class="h-full rounded-lg border border-gray-200 p-5 dark:border-gray-700">
+                                <h3 class="text-lg font-semibold">@plan.Name</h3>
+                                <p class="text-sm text-gray-600 dark:text-gray-300">@plan.Text</p>
+                                <TwButton Label="Choose plan" AriaLabel="@($"Choose plan: {plan.Name}")" Color="Color.Primary" Class="justify-self-start self-end" />
+                            </TwGrid>
+                        </TwGridItem>
+                    }
+                </TwGrid>
+            </CodeExample>
+        </PageCard>
+
+        <PageCard Title="Auto flow and dense packing">
+            <Description>Set <code>AutoFlow</code> to <code>Column</code> to fill columns before rows; give the grid <code>Rows</code> and new columns are added as needed, sized by <code>AutoColumns</code>. <code>Dense</code> fills earlier gaps with later, smaller items. Both change only where items are drawn, not the reading order.</Description>
+
+            <CodeExample Name="GridAutoFlow">
+                <TwFlex Direction="FlexDirection.Column" Gap="4">
+                    <div>
+                        <p class="mb-2 text-xs text-gray-600 dark:text-gray-300">AutoFlow="GridAutoFlow.Column" Rows="2"</p>
+                        <TwGrid AutoFlow="GridAutoFlow.Column" Rows="2" AutoColumns="GridAutoSize.Fr" Gap="3">
+                            @for (var cell = 1; cell <= 6; cell++)
+                            {
+                                <div class="rounded-md bg-purple-100 p-3 text-center text-sm font-medium text-purple-900 dark:bg-purple-500/20 dark:text-purple-100">@cell</div>
+                            }
+                        </TwGrid>
+                    </div>
+                    <div>
+                        <p class="mb-2 text-xs text-gray-600 dark:text-gray-300">AutoFlow="GridAutoFlow.Dense" Columns="4"</p>
+                        <TwGrid AutoFlow="GridAutoFlow.Dense" Columns="4" Gap="3">
+                            @for (var cell = 1; cell <= 7; cell++)
+                            {
+                                <TwGridItem ColumnSpan="@(cell % 3 == 1 ? 2 : 1)" Class="rounded-md bg-purple-100 p-3 text-center text-sm font-medium text-purple-900 dark:bg-purple-500/20 dark:text-purple-100">@cell</TwGridItem>
+                            }
+                        </TwGrid>
+                    </div>
+                </TwFlex>
+            </CodeExample>
+        </PageCard>
+
+        <PageCard Title="Aligning items in their cells">
+            <Description><code>JustifyItems</code> and <code>AlignItems</code> align every item inside its cell, across and down. On a <code>TwGridItem</code>, <code>JustifySelf</code> and <code>AlignSelf</code> override them for one item. <code>JustifyContent</code> and <code>AlignContent</code> space the tracks themselves when they are smaller than the grid.</Description>
+
+            <CodeExample Name="GridAlign">
+                <TwGrid Columns="3" AutoRows="GridAutoSize.Fr" JustifyItems="JustifyItems.Center" AlignItems="AlignItems.Center" Gap="3" Class="h-56 rounded-md bg-gray-100 p-3 dark:bg-gray-900">
+                    <span class="rounded bg-purple-600 px-3 py-1 text-sm text-white">Center</span>
+                    <span class="rounded bg-purple-600 px-3 py-1 text-sm text-white">Center</span>
+                    <TwGridItem JustifySelf="JustifySelf.End" AlignSelf="AlignSelf.Start" Class="rounded bg-fuchsia-700 px-3 py-1 text-sm text-white">End, start</TwGridItem>
+                    <TwGridItem JustifySelf="JustifySelf.Stretch" Class="rounded bg-fuchsia-700 px-3 py-1 text-center text-sm text-white">Stretch</TwGridItem>
+                    <TwGridItem JustifySelf="JustifySelf.Start" AlignSelf="AlignSelf.End" Class="rounded bg-fuchsia-700 px-3 py-1 text-sm text-white">Start, end</TwGridItem>
+                    <span class="rounded bg-purple-600 px-3 py-1 text-sm text-white">Center</span>
+                </TwGrid>
+            </CodeExample>
+        </PageCard>
+
+        <PageCard Title="Equal height rows">
+            <Description>Set <code>AutoRows="GridAutoSize.Fr"</code> to make every row as tall as the tallest, so cards in different rows line up too.</Description>
+
+            <CodeExample Name="GridEqualRows">
+                <TwGrid Columns="2" AutoRows="GridAutoSize.Fr" Gap="3">
+                    <div class="rounded-md border border-gray-200 p-3 text-sm dark:border-gray-700">A short note.</div>
+                    <div class="rounded-md border border-gray-200 p-3 text-sm dark:border-gray-700">Another short note.</div>
+                    <div class="rounded-md border border-gray-200 p-3 text-sm dark:border-gray-700">A much longer note that wraps onto several lines, which makes its row taller, and every other row grows to match.</div>
+                    <div class="rounded-md border border-gray-200 p-3 text-sm dark:border-gray-700">Short again.</div>
+                </TwGrid>
+            </CodeExample>
+        </PageCard>
+
+        <PageCard Title="Visual order">
+            <Description>Set <code>Order</code> on a <code>TwGridItem</code> to draw it in another position among items without a set place, from 1 to 12 or <code>ItemOrder.First</code> and <code>ItemOrder.Last</code>. As with every placement feature, screen readers and the Tab key still follow the markup.</Description>
+
+            <CodeExample Name="GridOrder">
+                <TwGrid Columns="4" Gap="3">
+                    <TwGridItem Class="rounded-md bg-purple-100 p-3 text-center text-sm text-purple-900 dark:bg-purple-500/20 dark:text-purple-100">First in markup</TwGridItem>
+                    <TwGridItem Class="rounded-md bg-purple-100 p-3 text-center text-sm text-purple-900 dark:bg-purple-500/20 dark:text-purple-100">Second</TwGridItem>
+                    <TwGridItem Class="rounded-md bg-purple-100 p-3 text-center text-sm text-purple-900 dark:bg-purple-500/20 dark:text-purple-100">Third</TwGridItem>
+                    <TwGridItem Order="ItemOrder.First" Class="rounded-md bg-purple-600 p-3 text-center text-sm text-white">Last in markup, drawn first</TwGridItem>
+                </TwGrid>
+            </CodeExample>
+        </PageCard>
+    </ChildContent>
+</PageContainer>
+
+@code {
+    #region CodeExample GridResponsiveCode
+    private sealed record Product(string Name, string Detail, string Price);
+
+    private static readonly Product[] _products =
+    [
+        new("Headphones", "Noise cancelling, 30 hour battery", "£149.00"),
+        new("Smartwatch", "Heart rate, GPS and sleep tracking", "£169.00"),
+        new("Speaker", "Waterproof, 12 hour battery", "£59.99"),
+        new("Keyboard", "Hot swappable switches", "£89.00")
+    ];
+    #endregion
+
+    #region CodeExample GridAreasCode
+    private static readonly string[] _areas = ["header header", "sidebar main", "footer footer"];
+    #endregion
+
+    #region CodeExample GridSubgridCode
+    private sealed record Plan(string Name, string Text);
+
+    private static readonly Plan[] _plans =
+    [
+        new("Starter", "Everything you need to try it out."),
+        new("Team", "Shared workspaces, roles and permissions, audit history and single sign-on for growing teams."),
+        new("Enterprise", "Dedicated support and a service agreement.")
+    ];
+    #endregion
+}
