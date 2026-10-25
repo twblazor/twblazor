@@ -11,12 +11,12 @@
                 <a href="@_brand.Path" class="@focusClass"><ShowcaseLogo Brand="_brand" /></a>
             </BrandContent>
             <NavigationContent>
-                <div class="flex flex-1 flex-wrap justify-center gap-x-1">
+                <TwFlex Wrap="FlexWrap.Wrap" Justify="JustifyContent.Center" ColGap="1" Class="flex-1">
                     @foreach (var link in _navigation)
                     {
                         <a href="@Anchor("showcase-products")" class="px-2.5 py-2 text-xs opacity-80 hover:opacity-100 @focusClass">@link</a>
                     }
-                </div>
+                </TwFlex>
             </NavigationContent>
             <ActionsContent>
                 <TwIcon Icon="IconEnum.Search" AriaLabel="Search" OnClick="@OnIconClick" />
@@ -24,56 +24,60 @@
             </ActionsContent>
         </TwNavbar>
 
-        <main id="showcase-main" class="flex flex-col gap-3">
+        <TwFlex Element="LayoutElement.Main" Id="showcase-main" Direction="FlexDirection.Col" Gap="3">
             @* Each band takes the background of its own picture, black then white, so the picture runs edge to edge with no seam.
                The white band opts out of dark mode, since its picture is on white whatever the visitor's setting. *@
             <section class="bg-black text-center text-[#f5f5f7]" aria-labelledby="showcase-hero-heading">
-                <div class="mx-auto flex max-w-5xl flex-col items-center px-6 pt-14">
-                    <h1 id="showcase-hero-heading" class="text-5xl font-semibold tracking-tight md:text-[56px]">iPhone 18 Pro</h1>
-                    <p class="mt-1 text-xl md:text-[28px]">Built for brilliance.</p>
-                    <div class="mt-5 flex flex-wrap justify-center gap-4">
-                        <TwButton Label="Learn more" Color="Color.Primary" Href="@Anchor("showcase-products")" />
-                        <TwButton Label="Buy" Color="Color.Light" Variant="ButtonVariant.Outlined" Href="@Anchor("showcase-products")" />
-                    </div>
-                </div>
+                <TwContainer MaxWidth="ContainerSize.Xl5" Gutter="6" PaddingTop="14">
+                    <TwFlex Direction="FlexDirection.Col" Align="AlignItems.Center">
+                        <h1 id="showcase-hero-heading" class="text-5xl font-semibold tracking-tight md:text-[56px]">iPhone 18 Pro</h1>
+                        <p class="mt-1 text-xl md:text-[28px]">Built for brilliance.</p>
+                        <TwFlex Wrap="FlexWrap.Wrap" Justify="JustifyContent.Center" Gap="4" Class="mt-5">
+                            <TwButton Label="Learn more" Color="Color.Primary" Href="@Anchor("showcase-products")" />
+                            <TwButton Label="Buy" Color="Color.Light" Variant="ButtonVariant.Outlined" Href="@Anchor("showcase-products")" />
+                        </TwFlex>
+                    </TwFlex>
+                </TwContainer>
                 <ShowcaseImage Url="@_brand.HeroImage" Alt="iPhone 18 Pro lying across the word Pro" Icon="IconEnum.Phone" Class="h-64 w-full object-cover object-center md:h-[26rem]" FallbackClass="items-end text-[14rem] leading-none text-[#86868b]" />
             </section>
 
             <section class="theme-light bg-white text-center text-[#1d1d1f]" aria-labelledby="showcase-second-heading">
-                <div class="mx-auto flex max-w-5xl flex-col items-center px-6 pt-14">
-                    <h2 id="showcase-second-heading" class="text-5xl font-semibold tracking-tight md:text-[56px]">iPad Air</h2>
-                    <p class="mt-1 text-xl md:text-[28px]">Thin. Light. Ready for anything.</p>
-                    <div class="mt-5 flex flex-wrap justify-center gap-4">
-                        <TwButton Label="Learn more" Color="Color.Primary" Href="@Anchor("showcase-products")" />
-                        <TwButton Label="Buy" Color="Color.Primary" Variant="ButtonVariant.Outlined" Href="@Anchor("showcase-products")" />
-                    </div>
-                </div>
+                <TwContainer MaxWidth="ContainerSize.Xl5" Gutter="6" PaddingTop="14">
+                    <TwFlex Direction="FlexDirection.Col" Align="AlignItems.Center">
+                        <h2 id="showcase-second-heading" class="text-5xl font-semibold tracking-tight md:text-[56px]">iPad Air</h2>
+                        <p class="mt-1 text-xl md:text-[28px]">Thin. Light. Ready for anything.</p>
+                        <TwFlex Wrap="FlexWrap.Wrap" Justify="JustifyContent.Center" Gap="4" Class="mt-5">
+                            <TwButton Label="Learn more" Color="Color.Primary" Href="@Anchor("showcase-products")" />
+                            <TwButton Label="Buy" Color="Color.Primary" Variant="ButtonVariant.Outlined" Href="@Anchor("showcase-products")" />
+                        </TwFlex>
+                    </TwFlex>
+                </TwContainer>
                 <img src="@($"{ShowcaseBrand.LocalImages}/ipad-hero.jpg")" alt="iPad Air in blue, with the other colors fanned out behind it" loading="lazy" decoding="async" width="1260" height="680" class="mx-auto h-auto w-full max-w-5xl" />
             </section>
 
-            <section id="showcase-products" class="scroll-mt-6 px-3 pb-3" aria-labelledby="showcase-products-heading">
+            <TwContainer Element="LayoutElement.Section" Id="showcase-products" AriaLabelledBy="showcase-products-heading" MaxWidth="ContainerSize.None" Gutter="3" PaddingBottom="3" Class="scroll-mt-6">
                 <h2 id="showcase-products-heading" class="sr-only">More from the store</h2>
-                <div class="grid grid-cols-1 gap-3 md:grid-cols-2">
+                <TwGrid Cols="1" ColsMd="2" Gap="3">
                     @foreach (var product in _brand.Products)
                     {
                         <TwCard>
-                        <article class="flex flex-col items-center text-center">
+                        <TwFlex Element="LayoutElement.Article" Direction="FlexDirection.Col" Align="AlignItems.Center" Class="text-center">
                             <TwChip Label="@product.Tag" Color="Color.Warning" Variant="ButtonVariant.Text" Size="ChipSize.Small" Class="font-semibold uppercase tracking-wide text-[#bf4800] dark:text-[#f56300]" />
                             <h3 class="mt-1 text-[40px] font-semibold tracking-tight">@product.Name</h3>
                             <p class="mt-1 text-[21px]">@product.Description</p>
                             <p class="mt-2 text-sm text-[#6e6e73] dark:text-[#a1a1a6]">@product.Price</p>
-                            <div class="mt-4 flex flex-wrap justify-center gap-3">
+                            <TwFlex Wrap="FlexWrap.Wrap" Justify="JustifyContent.Center" Gap="3" Class="mt-4">
                                 <TwButton Label="Learn more" AriaLabel="@($"Learn more about {product.Name}")" Color="Color.Primary" Href="@Anchor("showcase-components")" />
                                 <TwButton Label="Buy" AriaLabel="@($"Buy {product.Name}")" Color="Color.Primary" Variant="ButtonVariant.Outlined" OnClick="@(() => basket++)" />
-                            </div>
+                            </TwFlex>
                             <ShowcaseImage Url="@product.Image" Alt="@product.Name" Icon="product.Icon" Class="mt-8 h-56 w-full rounded-2xl object-cover" FallbackClass="items-end text-[9rem] leading-none text-[#86868b]" />
-                        </article>
+                        </TwFlex>
                         </TwCard>
                     }
-                </div>
+                </TwGrid>
                 <p class="mt-6 text-center text-sm" aria-live="polite">@(basket == 0 ? "Your bag is empty." : $"{basket} in your bag.")</p>
-            </section>
-        </main>
+            </TwContainer>
+        </TwFlex>
     </ChildContent>
     <Footer>
         <TwFooter Sections="@_footer" BottomLinks="@_legal" Copyright="An example page, not an Apple website." NavigationLabel="Apple example footer">

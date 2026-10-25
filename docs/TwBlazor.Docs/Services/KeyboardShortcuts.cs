@@ -134,6 +134,8 @@ internal static class KeyboardShortcuts
 
         ["/card"] = _notInteractive,
 
+        ["/container"] = _notInteractive,
+
         ["/carousel"] = Guide(
             "The arrow keys change slide from anywhere in the carousel, except while you are typing in a field or using "
             + "a control inside a slide that needs them. An automatic slideshow pauses while the carousel has focus, "
@@ -221,6 +223,16 @@ internal static class KeyboardShortcuts
             Key("Moves to the upload control, then to each file's remove button.", tab),
             Key("On the upload control: opens the system file dialog.", enter, space),
             Key("On a remove button: removes that file. Focus returns to the upload control.", enter, space)),
+
+        ["/flex"] = Guide(
+            "A flex layout is not interactive, so it has no keyboard controls of its own and is not a Tab stop. "
+            + "Tab moves through the controls inside it in the order they are written in the markup. A reversed direction or an Order on an item "
+            + "changes only where things are drawn, not the Tab order or what a screen reader reads first, so keep the markup in reading order."),
+
+        ["/grid"] = Guide(
+            "A grid layout is not interactive, so it has no keyboard controls of its own and is not a Tab stop. It is a visual layout, not a data grid, "
+            + "so it has no arrow key navigation. Tab moves through the controls inside it in the order they are written in the markup. Start lines, "
+            + "named areas, dense packing and Order change only where items are drawn, not the Tab order or what a screen reader reads first, so keep the markup in reading order."),
 
         ["/icon"] = Guide(
             "An icon is decorative and is not a Tab stop. An icon with OnClick is a button.",

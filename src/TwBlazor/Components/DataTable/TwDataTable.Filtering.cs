@@ -27,10 +27,10 @@ public partial class TwDataTable<TItem>
 
     private string filterFormClasses => new ClassBuilder(options.Theme.Display.Flex)
         .AddClass(options.Theme.Flexbox.Col)
-        .AddClass(options.Theme.Spacing.Gap.Md).Build();
+        .AddClass(options.Theme.Spacing.Gap.Get(2)).Build();
 
     private string filterButtonsClasses => new ClassBuilder(options.Theme.Display.Flex)
-        .AddClass(options.Theme.Spacing.Gap.Sm).Build();
+        .AddClass(options.Theme.Spacing.Gap.Get(1)).Build();
 
     private TwDataTableColumnFilter? FilterOf(string columnName) =>
         columnStates.FirstOrDefault(s => s.Name == columnName)?.Filter;

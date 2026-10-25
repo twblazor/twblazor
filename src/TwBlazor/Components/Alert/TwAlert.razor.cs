@@ -117,7 +117,7 @@ public partial class TwAlert : TwBlazorComponentBase
         .AddClass(theme.Padding, !Dense)
         .AddClass(options.Theme.Display.Flex, !Dismissed)
         .AddClass(options.Theme.Flexbox.Align.Center, !Dismissed)
-        .AddClass(options.Theme.Spacing.Gap.Sm, !Dismissed)
+        .AddClass(options.Theme.Spacing.Gap.Get(1), !Dismissed)
         .AddClass(theme.Transition, !Dismissed)
         .AddClass(Class)
         .Build();

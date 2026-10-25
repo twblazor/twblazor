@@ -60,7 +60,7 @@ public partial class TwDataTable<TItem>
 
     private string actionButtonsClasses => new ClassBuilder(options.Theme.Display.Flex)
         .AddClass(options.Theme.Flexbox.Align.Center)
-        .AddClass(options.Theme.Spacing.Gap.Sm).Build();
+        .AddClass(options.Theme.Spacing.Gap.Get(1)).Build();
 
     private bool IsEditingRow(TItem row) => isEditing && EqualityComparer<TItem>.Default.Equals(row, editingItem);
 

@@ -1,0 +1,476 @@
+@page "/grid"
+
+<PageContainer Title="TwGrid" Path="/grid" Description="TwGrid is a Blazor CSS grid component: responsive columns, columns that fit the space, spans, named areas, subgrid and alignment, with TwGridItem for placement." ThemeType="typeof(TwGridTheme)">
+    <ThemeContent>
+        <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
+            Column and row counts, spans, start lines, auto flow and cell alignment come from the shared <code>Grid</code> utilities, written out at every breakpoint, and the gaps from
+            <code>Spacing</code>, so any component theme can reuse them. Columns and spans go up to 12, rows and row spans up to 6, column start lines up to 13 and row start lines up to 7.
+        </p>
+    </ThemeContent>
+    <ChildContent>
+        <PageCard Title="Basic usage">
+            <Description>Set <code>Cols</code> for equal columns, from 1 to 12, and <code>Gap</code> for the space between cells as a step on Tailwind's spacing scale, such as <code>4</code> for <code>gap-4</code>. Children fill the cells row by row.</Description>
+
+            <CodeExample Name="GridBasic" CSharpName="GridBasicCode">
+                <TwGrid Element="LayoutElement.Ul" Cols="2" ColsSm="3" Gap="3" AriaLabel="Apps">
+                    @foreach (var app in _apps)
+                    {
+                        <li class="rounded-xl bg-white p-4 shadow-sm ring-1 ring-gray-900/5 dark:bg-white/5 dark:ring-white/10">
+                            <span class="flex size-10 items-center justify-center rounded-lg bg-purple-50 text-lg text-purple-700 ring-1 ring-purple-600/10 dark:bg-purple-500/15 dark:text-purple-300 dark:ring-purple-400/20">
+                                <TwIcon Icon="@app.Icon" />
+                            </span>
+                            <p class="mt-3 font-semibold text-gray-900 dark:text-white">@app.Name</p>
+                            <p class="mt-0.5 text-sm text-gray-600 dark:text-gray-300">@app.Detail</p>
+                        </li>
+                    }
+                </TwGrid>
+            </CodeExample>
+        </PageCard>
+
+        <PageCard Title="Responsive columns">
+            <Description>Add <code>ColsSm</code>, <code>ColsMd</code>, <code>ColsLg</code>, <code>ColsXl</code> or <code>ColsXl2</code> to change the number of columns from that breakpoint up. These cards stack on a phone, sit two across from <code>sm</code> and four across from <code>lg</code>. Use <code>Element="LayoutElement.Ul"</code> for a list of things, so screen readers announce how many there are.</Description>
+
+            <CodeExample Name="GridResponsive" CSharpName="GridResponsiveCode">
+                <TwGrid Element="LayoutElement.Ul" Cols="1" ColsSm="2" ColsLg="4" Gap="4" AriaLabel="Products">
+                    @foreach (var product in _products)
+                    {
+                        <li>
+                            <TwCard Title="@product.Name" Class="h-full">
+                                <MediaContent>
+                                    <TwFlex Align="AlignItems.Center" Justify="JustifyContent.Center" Class="@($"aspect-4/3 bg-linear-to-br {product.Tone} text-5xl text-white")">
+                                        <TwIcon Icon="@product.Icon" />
+                                    </TwFlex>
+                                </MediaContent>
+                                <HeaderContent>
+                                    <p class="text-sm text-gray-600 dark:text-gray-300">@product.Detail</p>
+                                </HeaderContent>
+                                <FooterContent>
+                                    <p class="me-auto text-lg font-semibold tabular-nums text-gray-900 dark:text-white">@product.Price</p>
+                                    <TwChip Label="In stock" Color="Color.Success" Size="ChipSize.Small" StartIcon="Icon.Check_Lg" />
+                                </FooterContent>
+                            </TwCard>
+                        </li>
+                    }
+                </TwGrid>
+            </CodeExample>
+        </PageCard>
+
+        <PageCard Title="Columns that fit the space">
+            <Description>Set <code>MinColWidth</code> to a CSS length and the grid makes as many columns as fit, with no breakpoints, dropping to one column when even one does not fit. Columns stretch to fill the row; set <code>AutoFill</code> to keep empty columns instead, so a short row keeps the same widths.</Description>
+
+            <CodeExample Name="GridAutoFit" CSharpName="GridAutoFitCode">
+                <TwFlex Direction="FlexDirection.Col" Gap="5">
+                    @foreach (var (label, fill, people) in _directories)
+                    {
+                        <div>
+                            <p class="mb-2 font-mono text-xs text-gray-600 dark:text-gray-400">@label</p>
+                            <TwGrid MinColWidth="11rem" AutoFill="fill" Gap="3">
+                                @foreach (var person in people)
+                                {
+                                    <TwFlex Align="AlignItems.Center" Gap="3" Class="rounded-xl bg-white p-3 shadow-sm ring-1 ring-gray-900/5 dark:bg-white/5 dark:ring-white/10">
+                                        <TwAvatar Name="@person.Name" Color="Color.Primary" Size="AvatarSize.Small" />
+                                        <TwFlexItem MinWidthZero>
+                                            <p class="truncate text-sm font-semibold text-gray-900 dark:text-white">@person.Name</p>
+                                            <p class="truncate text-xs text-gray-600 dark:text-gray-300">@person.Role</p>
+                                        </TwFlexItem>
+                                    </TwFlex>
+                                }
+                            </TwGrid>
+                        </div>
+                    }
+                </TwFlex>
+            </CodeExample>
+        </PageCard>
+
+        <PageCard Title="Spanning columns and rows">
+            <Description>Wrap a child in <code>TwGridItem</code> to place it. <code>ColSpan</code> and <code>RowSpan</code> stretch it across several tracks, and <code>GridSpan.Full</code> spans them all. Each has breakpoint variants, such as <code>ColSpanMd</code>, so this dashboard stacks on a phone and becomes a bento layout from <code>md</code>.</Description>
+
+            <CodeExample Name="GridSpans" CSharpName="GridSpansCode">
+                <TwGrid Cols="1" ColsMd="4" Gap="4">
+                    <TwGridItem ColSpanMd="2" RowSpanMd="2" Class="rounded-2xl bg-linear-to-br from-purple-600 to-fuchsia-700 p-6 text-white shadow-lg shadow-purple-600/20">
+                        <TwFlex Direction="FlexDirection.Col" FullHeight Gap="2">
+                            <TwFlex Align="AlignItems.Center" Gap="2" Class="text-sm font-medium text-purple-50">
+                                <TwIcon Icon="Icon.Graph_Up_Arrow" />
+                                Revenue this month
+                            </TwFlex>
+                            <p class="text-4xl font-semibold tracking-tight tabular-nums">£24,500</p>
+                            <p class="text-sm text-purple-50">12.5% up on last month</p>
+                            <TwFlexItem PushEnd Class="pt-4">
+                                <TwFlex Align="AlignItems.End" Gap="1.5" Class="h-20" aria-hidden="true">
+                                    @foreach (var height in _revenueBars)
+                                    {
+                                        <TwFlexItem Flex="FlexSize.Fill" Class="rounded-t-md bg-white/70" Style="@($"height: {height}%")" />
+                                    }
+                                </TwFlex>
+                            </TwFlexItem>
+                        </TwFlex>
+                    </TwGridItem>
+                    @foreach (var stat in _stats)
+                    {
+                        <TwGridItem ColSpanMd="@stat.Span" Class="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-gray-900/5 dark:bg-white/5 dark:ring-white/10">
+                            <TwFlex Align="AlignItems.Center" Justify="JustifyContent.Between" Gap="2">
+                                <p class="text-sm font-medium text-gray-600 dark:text-gray-300">@stat.Label</p>
+                                <TwIcon Icon="@stat.Icon" Class="text-lg text-purple-700 dark:text-purple-300" />
+                            </TwFlex>
+                            <p class="mt-2 text-2xl font-semibold tabular-nums text-gray-900 dark:text-white">@stat.Value</p>
+                            <p class="mt-1 text-xs text-gray-600 dark:text-gray-300">@stat.Note</p>
+                        </TwGridItem>
+                    }
+                    <TwGridItem ColSpan="GridSpan.Full" Class="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-gray-900/5 dark:bg-white/5 dark:ring-white/10">
+                        <TwProgress T="int" Label="Quarterly target, 72% reached" Value="72" Max="100" Color="Color.Primary" />
+                    </TwGridItem>
+                </TwGrid>
+            </CodeExample>
+        </PageCard>
+
+        <PageCard Title="Start lines and offsets">
+            <Description>Set <code>ColStart</code> to start an item on a given column line, leaving empty columns before it, and <code>RowStart</code> for a row line. Breakpoint variants such as <code>ColStartLg</code> move it only on wider screens. This sprint plan places each task on the day it starts. Moving an item away from its place in the markup changes only where it is drawn, so keep the markup in reading order.</Description>
+
+            <CodeExample Name="GridStart" CSharpName="GridStartCode">
+                <div class="rounded-xl bg-white p-4 shadow-sm ring-1 ring-gray-900/5 dark:bg-white/5 dark:ring-white/10">
+                    <TwGrid Cols="6" ColGap="2" RowGap="2">
+                        @foreach (var day in _days)
+                        {
+                            <p class="border-b border-gray-200 pb-2 text-center text-xs font-semibold uppercase tracking-wide text-gray-600 dark:border-gray-700 dark:text-gray-300">@day</p>
+                        }
+                        @foreach (var task in _tasks)
+                        {
+                            <TwGridItem ColStart="task.Start" ColSpan="task.Days" Class="@($"rounded-lg px-2 py-2 text-xs font-medium text-white shadow-sm sm:px-3 sm:text-sm {task.Tone}")">
+                                @task.Name
+                                <span class="block text-xs font-normal text-white/90">@task.Days @(task.Days == 1 ? "day" : "days")</span>
+                            </TwGridItem>
+                        }
+                    </TwGrid>
+                </div>
+            </CodeExample>
+        </PageCard>
+
+        <PageCard Title="Named areas">
+            <Description>Set <code>Areas</code> to name the cells, one string per row with names separated by spaces, and place each <code>TwGridItem</code> with <code>Area</code>. A name repeated across cells makes one larger area; a full stop leaves a cell empty. Pair it with <code>ColTemplate</code> and <code>RowTemplate</code> to size the tracks. Areas are set inline, so they apply at every width.</Description>
+
+            <CodeExample Name="GridAreas" CSharpName="GridAreasCode">
+                <TwGrid Areas="_areas" ColTemplate="11rem 1fr" RowTemplate="auto 1fr auto" Class="h-80 overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-gray-900/5 dark:bg-white/5 dark:ring-white/10">
+                    <TwGridItem Element="LayoutElement.Header" Area="header" Class="border-b border-gray-200 px-4 py-3 dark:border-gray-700">
+                        <TwFlex Align="AlignItems.Center" Gap="3">
+                            <span class="size-6 rounded-md bg-linear-to-br from-purple-600 to-fuchsia-700" aria-hidden="true"></span>
+                            <p class="font-semibold text-gray-900 dark:text-white">Acme Studio</p>
+                            <TwFlexItem PushEnd>
+                                <TwFlex Align="AlignItems.Center" Gap="2" Class="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-600 dark:bg-white/10 dark:text-gray-300">
+                                    <TwIcon Icon="Icon.Search" />
+                                    Search
+                                </TwFlex>
+                            </TwFlexItem>
+                        </TwFlex>
+                    </TwGridItem>
+                    <TwGridItem Element="LayoutElement.Nav" Area="sidebar" AriaLabel="Example sections" Class="border-e border-gray-200 bg-gray-50 p-3 dark:border-gray-700 dark:bg-white/5">
+                        <TwFlex Element="LayoutElement.Ul" Direction="FlexDirection.Col" Gap="1">
+                            @foreach (var (label, icon, current) in _sections)
+                            {
+                                <li>
+                                    <TwFlex Align="AlignItems.Center" Gap="2" Class="@($"rounded-md px-2 py-1.5 text-sm {(current ? "bg-purple-100 font-medium text-purple-800 dark:bg-purple-500/20 dark:text-purple-200" : "text-gray-700 dark:text-gray-300")}")">
+                                        <TwIcon Icon="icon" />
+                                        @label
+                                    </TwFlex>
+                                </li>
+                            }
+                        </TwFlex>
+                    </TwGridItem>
+                    <TwGridItem Area="main" Class="p-4">
+                        <p class="text-sm font-semibold text-gray-900 dark:text-white">Overview</p>
+                        <TwGrid Cols="1" ColsSm="3" Gap="3" Class="mt-3">
+                            @foreach (var (label, value) in _overview)
+                            {
+                                <div class="rounded-lg bg-gray-50 p-3 ring-1 ring-gray-900/5 dark:bg-white/5 dark:ring-white/10">
+                                    <p class="text-xs text-gray-600 dark:text-gray-300">@label</p>
+                                    <p class="mt-1 font-semibold tabular-nums text-gray-900 dark:text-white">@value</p>
+                                </div>
+                            }
+                        </TwGrid>
+                    </TwGridItem>
+                    <TwGridItem Element="LayoutElement.Footer" Area="footer" Class="border-t border-gray-200 px-4 py-2 text-xs text-gray-600 dark:border-gray-700 dark:text-gray-300">
+                        All systems operational
+                    </TwGridItem>
+                </TwGrid>
+            </CodeExample>
+        </PageCard>
+
+        <PageCard Title="Custom track templates">
+            <Description>Set <code>ColTemplate</code> or <code>RowTemplate</code> to any CSS <code>grid-template-columns</code> or <code>grid-template-rows</code> value when equal tracks are not what you need, such as a label column sized to its longest label beside a flexible value column.</Description>
+
+            <CodeExample Name="GridTemplate">
+                <div class="max-w-md rounded-xl bg-white p-5 shadow-sm ring-1 ring-gray-900/5 dark:bg-white/5 dark:ring-white/10">
+                    <TwFlex Align="AlignItems.Center" Justify="JustifyContent.Between" Gap="3">
+                        <p class="font-semibold text-gray-900 dark:text-white">Order #1042</p>
+                        <TwChip Label="On its way" Color="Color.Info" Size="ChipSize.Small" StartIcon="Icon.Truck" />
+                    </TwFlex>
+                    <TwGrid Element="LayoutElement.Dl" ColTemplate="max-content 1fr" ColGap="6" RowGap="3" Class="mt-4 border-t border-gray-200 pt-4 text-sm dark:border-gray-700">
+                        <dt class="text-gray-600 dark:text-gray-300">Placed</dt>
+                        <dd class="font-medium text-gray-900 dark:text-white">14 October 2026</dd>
+                        <dt class="text-gray-600 dark:text-gray-300">Delivery address</dt>
+                        <dd class="font-medium text-gray-900 dark:text-white">12 High Street, Manchester, M1 1AA</dd>
+                        <dt class="text-gray-600 dark:text-gray-300">Arriving</dt>
+                        <dd class="font-medium text-gray-900 dark:text-white">Friday, 9am to 1pm</dd>
+                        <dt class="text-gray-600 dark:text-gray-300">Total</dt>
+                        <dd class="font-semibold tabular-nums text-gray-900 dark:text-white">£248.00</dd>
+                    </TwGrid>
+                </div>
+            </CodeExample>
+        </PageCard>
+
+        <PageCard Title="Subgrid">
+            <Description>Set <code>SubgridRows</code> on a grid nested in a grid item to line its rows up with the parent's, so the names, prices, descriptions and buttons of neighbouring cards line up however long each one is. <code>SubgridCols</code> does the same for columns.</Description>
+
+            <CodeExample Name="GridSubgrid" CSharpName="GridSubgridCode">
+                <TwGrid Cols="1" ColsMd="3" ColGap="4" RowGap="8">
+                    @foreach (var plan in _plans)
+                    {
+                        <TwGridItem RowSpan="4" Element="LayoutElement.Article">
+                            <TwGrid SubgridRows RowGap="3" Class="@($"h-full rounded-2xl bg-white p-6 shadow-sm dark:bg-white/5 {(plan.Featured ? "ring-2 ring-purple-600 dark:ring-purple-400" : "ring-1 ring-gray-900/5 dark:ring-white/10")}")">
+                                <TwFlex Align="AlignItems.Center" Justify="JustifyContent.Between" Gap="2">
+                                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">@plan.Name</h3>
+                                    @if (plan.Featured)
+                                    {
+                                        <TwChip Label="Most popular" Color="Color.Primary" Size="ChipSize.Small" />
+                                    }
+                                </TwFlex>
+                                <p class="text-3xl font-semibold tracking-tight tabular-nums text-gray-900 dark:text-white">@plan.Price<span class="text-sm font-normal text-gray-600 dark:text-gray-300"> per month</span></p>
+                                <p class="text-sm text-gray-600 dark:text-gray-300">@plan.Text</p>
+                                <TwButton Label="Choose plan" AriaLabel="@($"Choose plan: {plan.Name}")" Color="Color.Primary" Variant="@(plan.Featured ? ButtonVariant.Filled : ButtonVariant.Outlined)" Class="self-end" />
+                            </TwGrid>
+                        </TwGridItem>
+                    }
+                </TwGrid>
+            </CodeExample>
+        </PageCard>
+
+        <PageCard Title="Auto flow and dense packing">
+            <Description>Set <code>AutoFlow</code> to <code>Col</code> to fill columns before rows; give the grid <code>Rows</code> and new columns are added as needed, sized by <code>AutoCols</code>. This shortcut sheet reads down each column. <code>Dense</code> fills earlier gaps with later, smaller items, as in the photo mosaic. Both change only where items are drawn, not the reading order.</Description>
+
+            <CodeExample Name="GridAutoFlow" CSharpName="GridAutoFlowCode">
+                <TwFlex Direction="FlexDirection.Col" Gap="6">
+                    <TwGrid Element="LayoutElement.Dl" AutoFlow="GridAutoFlow.Col" Rows="3" AutoCols="GridAutoSize.Fr" ColGap="6" RowGap="2" Class="rounded-xl bg-white p-4 shadow-sm ring-1 ring-gray-900/5 dark:bg-white/5 dark:ring-white/10">
+                        @foreach (var (keys, action) in _shortcuts)
+                        {
+                            <TwFlex Align="AlignItems.Center" Justify="JustifyContent.Between" Gap="3" Class="text-sm">
+                                <dt class="text-gray-700 dark:text-gray-200">@action</dt>
+                                <dd><kbd class="rounded-md border border-gray-300 bg-gray-50 px-1.5 py-0.5 font-mono text-xs text-gray-800 dark:border-gray-600 dark:bg-white/10 dark:text-gray-100">@keys</kbd></dd>
+                            </TwFlex>
+                        }
+                    </TwGrid>
+                    <TwGrid Element="LayoutElement.Ul" AutoFlow="GridAutoFlow.Dense" Cols="4" Gap="3" AriaLabel="Photos">
+                        @foreach (var (photo, index) in _mosaic.Select((photo, index) => (photo, index)))
+                        {
+                            <TwGridItem Element="LayoutElement.Li" ColSpan="@(index % 3 == 0 ? 2 : 1)" Class="@($"flex h-24 items-end rounded-xl bg-linear-to-br p-3 text-sm font-medium text-white {photo.Tone}")">
+                                @photo.Name
+                            </TwGridItem>
+                        }
+                    </TwGrid>
+                </TwFlex>
+            </CodeExample>
+        </PageCard>
+
+        <PageCard Title="Aligning items in their cells">
+            <Description><code>JustifyItems</code> and <code>Align</code> align every item inside its cell, across and down. On a <code>TwGridItem</code>, <code>JustifySelf</code> and <code>AlignSelf</code> override them for one item. <code>Justify</code> and <code>AlignContent</code> space the tracks themselves when they are smaller than the grid.</Description>
+
+            <CodeExample Name="GridAlign">
+                <TwGrid Cols="3" AutoRows="GridAutoSize.Fr" JustifyItems="JustifyItems.Center" Align="AlignItems.Center" Gap="3" Class="h-56 rounded-xl bg-gray-50 bg-[radial-gradient(var(--color-gray-300)_1px,transparent_1px)] bg-size-[14px_14px] p-3 ring-1 ring-gray-900/5 dark:bg-gray-950/40 dark:bg-[radial-gradient(var(--color-gray-700)_1px,transparent_1px)] dark:ring-white/10">
+                    <span class="rounded-full bg-white px-3 py-1 text-sm font-medium text-gray-800 shadow-sm ring-1 ring-gray-900/10 dark:bg-gray-800 dark:text-gray-100 dark:ring-white/10">Center</span>
+                    <span class="rounded-full bg-white px-3 py-1 text-sm font-medium text-gray-800 shadow-sm ring-1 ring-gray-900/10 dark:bg-gray-800 dark:text-gray-100 dark:ring-white/10">Center</span>
+                    <TwGridItem JustifySelf="JustifySelf.End" AlignSelf="AlignSelf.Start" Class="rounded-full bg-purple-600 px-3 py-1 text-sm font-medium text-white shadow-sm">End, start</TwGridItem>
+                    <TwGridItem JustifySelf="JustifySelf.Stretch" Class="rounded-full bg-purple-600 px-3 py-1 text-center text-sm font-medium text-white shadow-sm">Stretch</TwGridItem>
+                    <TwGridItem JustifySelf="JustifySelf.Start" AlignSelf="AlignSelf.End" Class="rounded-full bg-purple-600 px-3 py-1 text-sm font-medium text-white shadow-sm">Start, end</TwGridItem>
+                    <span class="rounded-full bg-white px-3 py-1 text-sm font-medium text-gray-800 shadow-sm ring-1 ring-gray-900/10 dark:bg-gray-800 dark:text-gray-100 dark:ring-white/10">Center</span>
+                </TwGrid>
+            </CodeExample>
+        </PageCard>
+
+        <PageCard Title="Equal height rows">
+            <Description>Set <code>AutoRows="GridAutoSize.Fr"</code> to make every row as tall as the tallest, so cards in different rows line up too.</Description>
+
+            <CodeExample Name="GridEqualRows" CSharpName="GridEqualRowsCode">
+                <TwGrid Element="LayoutElement.Ul" Cols="1" ColsSm="2" AutoRows="GridAutoSize.Fr" Gap="4" AriaLabel="Reviews">
+                    @foreach (var review in _reviews)
+                    {
+                        <li class="rounded-xl bg-white p-5 shadow-sm ring-1 ring-gray-900/5 dark:bg-white/5 dark:ring-white/10">
+                            <TwFlex Element="LayoutElement.Article" Direction="FlexDirection.Col" FullHeight Gap="4">
+                                <TwIcon Icon="Icon.Quote" Class="text-2xl text-purple-600 dark:text-purple-300" />
+                                <p class="text-sm text-gray-700 dark:text-gray-200">@review.Text</p>
+                                <TwFlexItem PushEnd>
+                                    <TwFlex Align="AlignItems.Center" Gap="3">
+                                        <TwAvatar Name="@review.Name" Size="AvatarSize.Small" />
+                                        <div>
+                                            <p class="text-sm font-semibold text-gray-900 dark:text-white">@review.Name</p>
+                                            <p class="text-xs text-gray-600 dark:text-gray-300">@review.Role</p>
+                                        </div>
+                                    </TwFlex>
+                                </TwFlexItem>
+                            </TwFlex>
+                        </li>
+                    }
+                </TwGrid>
+            </CodeExample>
+        </PageCard>
+
+        <PageCard Title="Visual order">
+            <Description>Set <code>Order</code> on a <code>TwGridItem</code> to draw it in another position among items without a set place, from 1 to 12 or <code>ItemOrder.First</code> and <code>ItemOrder.Last</code>. The announcement is last in the markup, so screen readers reach it after the steps, but it is drawn first. As with every placement feature, screen readers and the Tab key still follow the markup.</Description>
+
+            <CodeExample Name="GridOrder" CSharpName="GridOrderCode">
+                <TwGrid Cols="1" ColsMd="3" Gap="3">
+                    @foreach (var (number, title, text) in _onboarding)
+                    {
+                        <TwGridItem Class="rounded-xl bg-white p-4 shadow-sm ring-1 ring-gray-900/5 dark:bg-white/5 dark:ring-white/10">
+                            <span class="flex size-7 items-center justify-center rounded-full bg-purple-600 text-xs font-semibold text-white">@number</span>
+                            <p class="mt-3 font-semibold text-gray-900 dark:text-white">@title</p>
+                            <p class="mt-0.5 text-sm text-gray-600 dark:text-gray-300">@text</p>
+                        </TwGridItem>
+                    }
+                    <TwGridItem Order="ItemOrder.First" ColSpan="GridSpan.Full" Class="rounded-xl bg-linear-to-r from-purple-600 to-fuchsia-700 px-4 py-3 text-sm font-medium text-white">
+                        <TwFlex Align="AlignItems.Center" Gap="2">
+                            <TwIcon Icon="Icon.Megaphone" />
+                            New: invite your whole team in one step.
+                        </TwFlex>
+                    </TwGridItem>
+                </TwGrid>
+            </CodeExample>
+        </PageCard>
+    </ChildContent>
+</PageContainer>
+
+@code {
+    #region CodeExample GridBasicCode
+    private static readonly (string Name, string Detail, Icon Icon)[] _apps =
+    [
+        ("Analytics", "Traffic and sales", Icon.Bar_Chart_Line),
+        ("Billing", "Invoices and plans", Icon.Credit_Card),
+        ("Calendar", "Meetings and events", Icon.Calendar_Event),
+        ("Messages", "Team conversations", Icon.Chat_Dots),
+        ("Storage", "Files and backups", Icon.Cloud_Arrow_Up),
+        ("Security", "Access and audits", Icon.Shield_Check)
+    ];
+    #endregion
+
+    #region CodeExample GridResponsiveCode
+    private sealed record Product(string Name, string Detail, string Price, Icon Icon, string Tone);
+
+    private static readonly Product[] _products =
+    [
+        new("Headphones", "Noise cancelling, 30 hour battery", "£149.00", Icon.Headphones, "from-purple-600 to-indigo-700"),
+        new("Smartwatch", "Heart rate, GPS and sleep tracking", "£169.00", Icon.Smartwatch, "from-fuchsia-700 to-purple-700"),
+        new("Speaker", "Waterproof, 12 hour battery", "£59.99", Icon.Speaker, "from-indigo-600 to-sky-700"),
+        new("Keyboard", "Hot swappable switches", "£89.00", Icon.Keyboard, "from-slate-600 to-slate-800")
+    ];
+    #endregion
+
+    #region CodeExample GridAutoFitCode
+    private sealed record Person(string Name, string Role);
+
+    private static readonly Person[] _team =
+    [
+        new("Priya Patel", "Product designer"),
+        new("Ben Okafor", "Frontend engineer"),
+        new("Chloe Williams", "Researcher"),
+        new("Dan Murphy", "Data analyst"),
+        new("Ella Chen", "Engineering lead")
+    ];
+
+    private static readonly (string Label, bool Fill, Person[] People)[] _directories =
+    [
+        ("MinColWidth=\"11rem\"", false, _team),
+        ("MinColWidth=\"11rem\" AutoFill", true, _team[..2])
+    ];
+    #endregion
+
+    #region CodeExample GridSpansCode
+    private static readonly int[] _revenueBars = [38, 52, 45, 63, 58, 72, 66, 84, 78, 95];
+
+    private static readonly (string Label, string Value, string Note, Icon Icon, int Span)[] _stats =
+    [
+        ("Orders", "1,234", "8.2% up on last month", Icon.Bag, 2),
+        ("Customers", "567", "42 new this week", Icon.People, 1),
+        ("Returns", "12", "Down from 19", Icon.Arrow_Repeat, 1)
+    ];
+    #endregion
+
+    #region CodeExample GridStartCode
+    private static readonly string[] _days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+    private sealed record SprintTask(string Name, int Start, int Days, string Tone);
+
+    private static readonly SprintTask[] _tasks =
+    [
+        new("Research", 1, 2, "bg-purple-600"),
+        new("Design", 2, 3, "bg-fuchsia-700"),
+        new("Build", 3, 3, "bg-indigo-600"),
+        new("Launch", 6, 1, "bg-emerald-700")
+    ];
+    #endregion
+
+    #region CodeExample GridAreasCode
+    private static readonly string[] _areas = ["header header", "sidebar main", "sidebar footer"];
+
+    private static readonly (string Label, Icon Icon, bool Current)[] _sections =
+    [
+        ("Overview", Icon.House, true),
+        ("Projects", Icon.Kanban, false),
+        ("Inbox", Icon.Inbox, false),
+        ("Settings", Icon.Gear, false)
+    ];
+
+    private static readonly (string Label, string Value)[] _overview = [("Visitors", "8,240"), ("Sign-ups", "312"), ("Revenue", "£4.1k")];
+    #endregion
+
+    #region CodeExample GridSubgridCode
+    private sealed record Plan(string Name, string Price, string Text, bool Featured = false);
+
+    private static readonly Plan[] _plans =
+    [
+        new("Starter", "£0", "Everything you need to try it out."),
+        new("Team", "£12", "Shared workspaces, roles and permissions, audit history and single sign-on for growing teams.", true),
+        new("Enterprise", "£39", "Dedicated support and a service agreement.")
+    ];
+    #endregion
+
+    #region CodeExample GridAutoFlowCode
+    private static readonly (string Keys, string Action)[] _shortcuts =
+    [
+        ("Ctrl + K", "Search"),
+        ("Ctrl + N", "New file"),
+        ("Ctrl + S", "Save"),
+        ("Ctrl + Z", "Undo"),
+        ("Ctrl + B", "Bold"),
+        ("Ctrl + /", "Comment")
+    ];
+
+    private static readonly (string Name, string Tone)[] _mosaic =
+    [
+        ("Lake District", "from-sky-700 to-indigo-700"),
+        ("Snowdon", "from-emerald-700 to-teal-800"),
+        ("Brighton", "from-purple-600 to-fuchsia-700"),
+        ("Skye", "from-indigo-600 to-purple-800"),
+        ("Cornwall", "from-teal-700 to-sky-800"),
+        ("Edinburgh", "from-slate-600 to-slate-800"),
+        ("Bath", "from-fuchsia-700 to-rose-800")
+    ];
+    #endregion
+
+    #region CodeExample GridEqualRowsCode
+    private sealed record Review(string Text, string Name, string Role);
+
+    private static readonly Review[] _reviews =
+    [
+        new("Set up in an afternoon.", "Alice Johnson", "CTO, Northwind"),
+        new("The theme file meant our designers could restyle everything without touching a component.", "Ben Okafor", "Lead developer"),
+        new("Keyboard support out of the box saved us weeks of accessibility work, and the docs answered every question we had along the way.", "Chloe Williams", "Accessibility lead"),
+        new("Our dashboards finally look consistent.", "Dan Murphy", "Product manager")
+    ];
+    #endregion
+
+    #region CodeExample GridOrderCode
+    private static readonly (int Number, string Title, string Text)[] _onboarding =
+    [
+        (1, "Create your account", "Sign up with your work email."),
+        (2, "Verify your domain", "Add one DNS record."),
+        (3, "Invite your team", "Send invites from settings.")
+    ];
+    #endregion
+}

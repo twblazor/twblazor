@@ -781,6 +781,9 @@
   <data name="Nav_Group_charts" xml:space="preserve">
     <value>圖表</value>
   </data>
+  <data name="Nav_Group_containers-navitem" xml:space="preserve">
+    <value>容器</value>
+  </data>
   <data name="Nav_Group_chat" xml:space="preserve">
     <value>聊天</value>
   </data>

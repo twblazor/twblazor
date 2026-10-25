@@ -224,7 +224,7 @@ public partial class TwDateTimeRangePicker : TwPopoverPickerComponentBase
     // The shared date picker panel has no top padding because its calendar header normally sits flush at
     // the top; the Start/End tabs sit there instead, so they need the same inset as the sides.
     private string panelWidthClasses => new ClassBuilder(theme.PanelWidth)
-        .AddClass(options.Theme.Spacing.PaddingTop.Md)
+        .AddClass(options.Theme.Spacing.PaddingTop.Get(2))
         .Build();
 
     private string datepickerContainerClasses => new ClassBuilder(theme.PanelMaxHeight)

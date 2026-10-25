@@ -6,12 +6,12 @@
 
 <ShowcasePage Brand="_brand">
     <ChildContent>
-        <nav class="flex flex-wrap justify-end gap-x-5 gap-y-1 border-b border-neutral-200 px-6 py-1.5 text-xs text-grocerblue-600" aria-label="Tesco example services">
+        <TwFlex Element="LayoutElement.Nav" Wrap="FlexWrap.Wrap" Justify="JustifyContent.End" ColGap="5" RowGap="1" AriaLabel="Tesco example services" Class="border-b border-neutral-200 px-6 py-1.5 text-xs text-grocerblue-600">
             @foreach (var link in _services)
             {
                 <a href="@Anchor("showcase-main")" class="underline-offset-4 hover:underline @focusClass">@link</a>
             }
-        </nav>
+        </TwFlex>
 
         <TwNavbar AriaLabel="Tesco example header">
             <BrandContent>
@@ -31,57 +31,63 @@
         </TwNavbar>
 
         <nav class="bg-grocerblue-600 text-white" aria-label="Tesco example departments">
-            <ul class="mx-auto flex max-w-7xl flex-wrap gap-x-1 px-4">
-                @foreach (var link in _departments)
-                {
-                    <li><a href="@Anchor("showcase-products")" class="block px-3 py-3 text-sm font-bold underline-offset-4 hover:underline @focusClass">@link</a></li>
-                }
-            </ul>
+            <TwContainer MaxWidth="ContainerSize.Xl7" Gutter="4">
+                <TwFlex Element="LayoutElement.Ul" Wrap="FlexWrap.Wrap" ColGap="1">
+                    @foreach (var link in _departments)
+                    {
+                        <li><a href="@Anchor("showcase-products")" class="block px-3 py-3 text-sm font-bold underline-offset-4 hover:underline @focusClass">@link</a></li>
+                    }
+                </TwFlex>
+            </TwContainer>
         </nav>
 
         <main id="showcase-main">
-            <section class="mx-auto grid max-w-7xl grid-cols-1 gap-6 px-6 py-10 md:grid-cols-3" aria-labelledby="showcase-hero-heading">
-                <div class="flex flex-col items-start justify-center gap-4 md:col-span-2">
-                    <h1 id="showcase-hero-heading" class="text-4xl font-bold text-balance text-grocerblue-600 md:text-5xl">Your weekly shop, sorted</h1>
-                    <p class="max-w-lg text-lg text-neutral-800">Book a delivery or Click+Collect slot, fill your basket and leave the rest to us.</p>
-                    <div class="flex flex-wrap gap-3">
-                        <TwButton Label="Book a slot" Color="Color.Primary" Href="@Anchor("showcase-products")" />
-                        <TwButton Label="Shop groceries" Color="Color.Primary" Variant="ButtonVariant.Outlined" Href="@Anchor("showcase-products")" />
-                    </div>
-                </div>
-                <div class="flex flex-col justify-between gap-4 rounded-md bg-clubyellow-400 p-6 text-grocerblue-700">
-                    <p class="text-sm font-bold uppercase tracking-wide">Clubcard Prices</p>
-                    <p class="text-3xl font-black text-balance">Better baskets with Clubcard</p>
-                    <a href="@Anchor("showcase-products")" class="inline-flex items-center gap-1 self-start font-bold underline underline-offset-4 @focusClass">See this week's offers <TwIcon Icon="IconEnum.Chevron_Right" Plain /></a>
-                </div>
-            </section>
+            <TwContainer Element="LayoutElement.Section" AriaLabelledBy="showcase-hero-heading" MaxWidth="ContainerSize.Xl7" Gutter="6" PaddingY="10">
+                <TwGrid Cols="1" ColsMd="3" Gap="6">
+                    <TwGridItem ColSpanMd="2">
+                        <TwFlex Direction="FlexDirection.Col" Align="AlignItems.Start" Justify="JustifyContent.Center" Gap="4" FullHeight>
+                            <h1 id="showcase-hero-heading" class="text-4xl font-bold text-balance text-grocerblue-600 md:text-5xl">Your weekly shop, sorted</h1>
+                            <p class="max-w-lg text-lg text-neutral-800">Book a delivery or Click+Collect slot, fill your basket and leave the rest to us.</p>
+                            <TwFlex Wrap="FlexWrap.Wrap" Gap="3">
+                                <TwButton Label="Book a slot" Color="Color.Primary" Href="@Anchor("showcase-products")" />
+                                <TwButton Label="Shop groceries" Color="Color.Primary" Variant="ButtonVariant.Outlined" Href="@Anchor("showcase-products")" />
+                            </TwFlex>
+                        </TwFlex>
+                    </TwGridItem>
+                    <TwFlex Direction="FlexDirection.Col" Justify="JustifyContent.Between" Gap="4" Class="rounded-md bg-clubyellow-400 p-6 text-grocerblue-700">
+                        <p class="text-sm font-bold uppercase tracking-wide">Clubcard Prices</p>
+                        <p class="text-3xl font-black text-balance">Better baskets with Clubcard</p>
+                        <a href="@Anchor("showcase-products")" class="inline-flex items-center gap-1 self-start font-bold underline underline-offset-4 @focusClass">See this week's offers <TwIcon Icon="IconEnum.Chevron_Right" Plain /></a>
+                    </TwFlex>
+                </TwGrid>
+            </TwContainer>
 
-            <section id="showcase-products" class="mx-auto max-w-7xl scroll-mt-6 px-6 pb-12" aria-labelledby="showcase-products-heading">
+            <TwContainer Element="LayoutElement.Section" Id="showcase-products" AriaLabelledBy="showcase-products-heading" MaxWidth="ContainerSize.Xl7" Gutter="6" PaddingBottom="12" Class="scroll-mt-6">
                 <h2 id="showcase-products-heading" class="text-2xl font-bold text-grocerblue-600">This week's Clubcard Prices</h2>
-                <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                <TwGrid Cols="1" ColsSm="2" ColsLg="4" Gap="4" Class="mt-6">
                     @foreach (var product in _brand.Products)
                     {
                         <TwCard>
-                            <article class="flex h-full flex-col gap-3">
+                            <TwFlex Element="LayoutElement.Article" Direction="FlexDirection.Col" FullHeight Gap="3">
                                 <ShowcaseImage Url="@product.Image" Alt="@($"Tesco {product.Name}")" Icon="product.Icon" Class="aspect-4/3 w-full rounded-sm object-contain" FallbackClass="bg-neutral-100 text-6xl text-neutral-400" />
                                 <h3 class="font-bold text-grocerblue-600">Tesco @product.Name</h3>
-                                <p class="flex items-baseline gap-2">
+                                <TwFlex Element="LayoutElement.P" Align="AlignItems.Baseline" Gap="2">
                                     <span class="text-xl font-bold text-neutral-900">@product.Price</span>
                                     <span class="text-sm text-neutral-600">@product.Description</span>
-                                </p>
-                                <p class="flex items-center gap-2 self-start bg-clubyellow-400 pe-3 text-sm font-bold text-grocerblue-700">
+                                </TwFlex>
+                                <TwFlex Element="LayoutElement.P" Align="AlignItems.Center" Gap="2" Class="self-start bg-clubyellow-400 pe-3 text-sm font-bold text-grocerblue-700">
                                     <TwChip Label="Clubcard" Color="Color.Primary" Size="ChipSize.Small" Rounded="Rounded.None" />
                                     @product.Tag
-                                </p>
-                                <div class="mt-auto">
+                                </TwFlex>
+                                <TwFlexItem PushEnd>
                                     <TwButton Label="Add" AriaLabel="@($"Add Tesco {product.Name} to basket")" Color="Color.Primary" Class="w-full justify-center" OnClick="@(() => basket++)" />
-                                </div>
-                            </article>
+                                </TwFlexItem>
+                            </TwFlex>
                         </TwCard>
                     }
-                </div>
+                </TwGrid>
                 <p class="mt-6 text-sm font-bold text-grocerblue-600" aria-live="polite">@(basket == 0 ? "Your basket is empty." : $"{basket} in your basket.")</p>
-            </section>
+            </TwContainer>
         </main>
     </ChildContent>
     <Footer>

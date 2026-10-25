@@ -626,15 +626,14 @@ public partial class ThemePageTests : DocsTestBase
     }
 
     [Fact]
-    public async Task TheBarcodeAndQrCode_ShareOneEncodingCard_AtTheEndOfTheCards()
+    public async Task ThePreview_LeavesOutTheBarcodeAndQrCode_ButStillOffersThemInTheTheme()
     {
         var cut = await RenderAsync();
-        var cards = cut.Find("[data-testid='theme-preview-cards']").Children;
 
-        var encoding = cards[^1];
-        Assert.Contains("Encoding", encoding.TextContent);
-        Assert.NotNull(encoding.QuerySelector("#preview-barcode"));
-        Assert.NotNull(encoding.QuerySelector("#preview-qr-code"));
+        Assert.Empty(cut.FindAll("#preview-barcode, #preview-qr-code"));
+        Assert.DoesNotContain("Encoding", cut.Find("[data-testid='theme-preview-cards']").TextContent);
+        Assert.Contains("new TwBarcodeTheme", Code(cut));
+        Assert.Contains("new TwQrCodeTheme", Code(cut));
     }
 
     [Fact]

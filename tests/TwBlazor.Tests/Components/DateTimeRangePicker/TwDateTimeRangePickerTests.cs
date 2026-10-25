@@ -628,6 +628,6 @@ public class TwDateTimeRangePickerTests : TwBlazorTestBase
 
         // Assert
         var tabsParent = cut.Find("[data-tw-popover] [role='group']").ParentElement!;
-        Assert.Contains(Theme.Spacing.PaddingTop.Md, tabsParent.ClassList);
+        Assert.Contains(Theme.Spacing.PaddingTop[2], tabsParent.ClassList);
     }
 }

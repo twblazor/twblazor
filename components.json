@@ -98,6 +98,32 @@
     ]
   },
   {
+    "category": "Containers",
+    "items": [
+      {
+        "id": "container-navitem",
+        "display": "Container",
+        "name": "TwContainer",
+        "url": "/container",
+        "theme": "TwContainerTheme"
+      },
+      {
+        "id": "flex-navitem",
+        "display": "Flex",
+        "name": "TwFlex",
+        "url": "/flex",
+        "theme": "TwFlexTheme"
+      },
+      {
+        "id": "grid-navitem",
+        "display": "Grid",
+        "name": "TwGrid",
+        "url": "/grid",
+        "theme": "TwGridTheme"
+      }
+    ]
+  },
+  {
     "category": "Forms",
     "items": [
       {

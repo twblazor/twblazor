@@ -140,7 +140,7 @@ public partial class TwTable
 
     private string? ariaBusy => rowsBusy ? "true" : null;
 
-    private string paginationClasses => new ClassBuilder(options.Theme.Spacing.MarginTop.Xl)
+    private string paginationClasses => new ClassBuilder(options.Theme.Spacing.MarginTop.Get(4))
         .AddClass(options.Theme.Sizing.FullWidth)
         .AddClass(options.Theme.Flexbox.Justify.Between).Build();
 

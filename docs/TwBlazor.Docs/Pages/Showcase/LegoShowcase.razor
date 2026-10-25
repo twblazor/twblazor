@@ -40,16 +40,18 @@
                     <img src="@heroImage" alt="" decoding="async" class="absolute inset-0 -z-20 size-full object-cover" />
                     <div class="absolute inset-0 -z-10 bg-linear-to-r from-brickblue-900/90 via-brickblue-800/60 to-transparent" aria-hidden="true"></div>
                 }
-                <div class="mx-auto flex max-w-7xl flex-col items-start gap-4 px-6 py-16 md:py-28">
-                    <h1 id="showcase-hero-heading" class="max-w-xl text-4xl font-black text-balance md:text-6xl">Build your next adventure</h1>
-                    <p class="max-w-md text-lg font-medium">New sets have landed. Find the one that gets the whole family building.</p>
-                    <TwButton Label="Shop now" Color="Color.Light" EndIcon="IconEnum.Chevron_Right" Href="@Anchor("showcase-products")" />
-                </div>
+                <TwContainer MaxWidth="ContainerSize.Xl7" Gutter="6" PaddingY="16" Class="md:py-28">
+                    <TwFlex Direction="FlexDirection.Col" Align="AlignItems.Start" Gap="4">
+                        <h1 id="showcase-hero-heading" class="max-w-xl text-4xl font-black text-balance md:text-6xl">Build your next adventure</h1>
+                        <p class="max-w-md text-lg font-medium">New sets have landed. Find the one that gets the whole family building.</p>
+                        <TwButton Label="Shop now" Color="Color.Light" EndIcon="IconEnum.Chevron_Right" Href="@Anchor("showcase-products")" />
+                    </TwFlex>
+                </TwContainer>
             </section>
 
-            <section class="mx-auto max-w-7xl px-6 pt-12" aria-labelledby="showcase-themes-heading">
+            <TwContainer Element="LayoutElement.Section" AriaLabelledBy="showcase-themes-heading" MaxWidth="ContainerSize.Xl7" Gutter="6" PaddingTop="12">
                 <h2 id="showcase-themes-heading" class="text-2xl font-black">Shop by theme</h2>
-                <ul class="mt-6 grid grid-cols-2 gap-4 md:grid-cols-4">
+                <TwGrid Element="LayoutElement.Ul" Cols="2" ColsMd="4" Gap="4" Class="mt-6">
                     @foreach (var (label, classes, image) in _themes)
                     {
                         <li>
@@ -59,39 +61,39 @@
                             </a>
                         </li>
                     }
-                </ul>
-            </section>
+                </TwGrid>
+            </TwContainer>
 
-            <section id="showcase-products" class="mx-auto max-w-7xl scroll-mt-6 px-6 py-12" aria-labelledby="showcase-products-heading">
+            <TwContainer Element="LayoutElement.Section" Id="showcase-products" AriaLabelledBy="showcase-products-heading" MaxWidth="ContainerSize.Xl7" Gutter="6" PaddingY="12" Class="scroll-mt-6">
                 <h2 id="showcase-products-heading" class="text-2xl font-black">Recommended for you</h2>
-                <div class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                <TwGrid Cols="1" ColsSm="2" ColsLg="4" Gap="6" Class="mt-6">
                     @foreach (var product in _brand.Products)
                     {
                         <TwCard>
-                            <article class="flex h-full flex-col">
+                            <TwFlex Element="LayoutElement.Article" Direction="FlexDirection.Col" FullHeight>
                                 <div class="relative">
                                     <ShowcaseImage Url="@product.Image" Alt="@product.Name" Icon="product.Icon" Class="aspect-square w-full rounded-lg object-contain" FallbackClass="bg-neutral-100 text-7xl text-neutral-400" />
                                     <div class="absolute start-3 top-3"><TwChip Label="@product.Tag" Color="Color.Warning" Size="ChipSize.Small" Rounded="Rounded.Sm" Class="bg-brickyellow-400 font-bold text-black" /></div>
                                 </div>
                                 <h3 class="mt-3 font-bold">@product.Name</h3>
-                                <p class="mt-1 flex items-center gap-0.5 text-sm text-brickorange-500" aria-label="Rated 4.5 out of 5">
+                                <TwFlex Element="LayoutElement.P" Align="AlignItems.Center" Gap="0.5" AriaLabel="Rated 4.5 out of 5" Class="mt-1 text-sm text-brickorange-500">
                                     @for (var star = 0; star < 4; star++)
                                     {
                                         <TwIcon Icon="IconEnum.Star_Fill" Plain />
                                     }
                                     <TwIcon Icon="IconEnum.Star_Half" Plain />
-                                </p>
+                                </TwFlex>
                                 <p class="mt-1 text-sm text-neutral-600">@product.Description</p>
                                 <p class="mt-2 text-lg font-bold">@product.Price</p>
-                                <div class="mt-auto pt-3">
+                                <TwFlexItem PushEnd Class="pt-3">
                                     <TwButton Label="Add to Bag" AriaLabel="@($"Add {product.Name} to Bag")" Color="Color.Accent" StartIcon="IconEnum.Bag" Class="w-full justify-center" OnClick="@(() => basket++)" />
-                                </div>
-                            </article>
+                                </TwFlexItem>
+                            </TwFlex>
                         </TwCard>
                     }
-                </div>
+                </TwGrid>
                 <p class="mt-6 text-sm font-medium" aria-live="polite">@(basket == 0 ? "Your bag is empty." : $"{basket} in your bag.")</p>
-            </section>
+            </TwContainer>
         </main>
     </ChildContent>
     <Footer>
