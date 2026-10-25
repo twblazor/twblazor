@@ -95,11 +95,37 @@ See [AI Agents & Skills](https://twblazor.com/ai-agents) for what each skill cov
 
 ## Setup
 
-1. Install the [twblazor NuGet package](https://www.nuget.org/packages/twblazor) in your Blazor project.
+The fastest way to start is the project template. Install the [twblazor.templates](https://www.nuget.org/packages/twblazor.templates) .NET tool once:
+
 ```pwsh
-$ dotnet add package twblazor --version 3.0.0
+dotnet tool install -g twblazor.templates
 ```
-2. Head to the [Get Started guide](https://twblazor.com/get-started) for the rest of the setup - stylesheets, imports, providers, theming and dependency injection - covering both Interactive Server and WebAssembly Blazor Web Apps step by step.
+
+Then create a complete app with the sidebar layout. The command creates the solution, pages, layout, theme, Tailwind build and restores the packages:
+
+**WebAssembly**
+
+```pwsh
+twblazor new MyApp -i wasm -t sidebar
+```
+
+**Auto**
+
+```pwsh
+twblazor new MyApp -i auto -t sidebar
+```
+
+**Server**
+
+```pwsh
+twblazor new MyApp -i server -t sidebar
+```
+
+`twblazor new` is the only command you need after the tool is installed. If you are adding twblazor to an existing app instead, install the [twblazor NuGet package](https://www.nuget.org/packages/twblazor) and follow the [Get Started guide](https://twblazor.com/get-started) for stylesheets, imports, providers, theming and dependency injection:
+
+```pwsh
+dotnet add package twblazor --version 3.0.0
+```
 
 ## Class merging
 

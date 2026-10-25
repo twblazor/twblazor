@@ -1,14 +1,208 @@
 @page "/get-started"
 
-<PageContainer Title="Get Started" Path="/get-started" Category="Introduction" Description="Install twblazor in a Blazor Server or WebAssembly app: add the NuGet package, imports, providers and a theme, register AddTwBlazor and build your Tailwind CSS." SeoTitle="Get Started | twblazor - Install Tailwind CSS Components for Blazor">
+<PageContainer Title="Get Started" Path="/get-started" Category="Introduction" Description="Create a twblazor Blazor Web App with the project template, or add twblazor to an existing Server or WebAssembly app." SeoTitle="Get Started | twblazor - Install Tailwind CSS Components for Blazor">
     <TwAlert Color="TwBlazor.Enums.Color.Primary" StartIcon="TwBlazor.Enums.Icon.Brush" Class="mb-6 ps-3">
-        <p class="font-semibold">Make it match your brand</p>
+        <p class="font-semibold">Start from the project template</p>
         <p>
-            TwBlazor is fully themeable. Use the <a href="/theme" class="font-semibold underline">Theme builder</a> to pick your brand colors, choose only the components you need and copy a ready-made <code>Theme.cs</code> to use in step 6.
+            The <strong>Project template</strong> tab creates a complete app in one command: solution, pages, theme, Tailwind CSS and a dashboard, sidebar or navbar layout. Use the other tabs to create the project yourself or add twblazor to an existing app, and the <a href="/theme" class="font-semibold underline">Theme builder</a> to change the default theme.
         </p>
     </TwAlert>
 
-    <TwTabContainer AriaLabel="Hosting model">
+    <TwTabContainer AriaLabel="Setup method">
+        <TwTab Label="Project template">
+            <PageCard Title="Choose a layout" NoMarginTop>
+                <p class="mb-4 max-w-2xl text-sm leading-6 text-gray-600 dark:text-gray-300">
+                    Pick the starting layout. The commands below update to match.
+                </p>
+
+                <TwGrid Cols="1" ColsSm="3" Gap="3">
+                    <button type="button"
+                            aria-pressed="@(selectedLayout == "dashboard" ? "true" : "false")"
+                            class="@(LayoutCardClass("dashboard"))"
+                            @onclick="SelectDashboard">
+                        <span class="flex items-center justify-between gap-2">
+                            <span class="text-sm font-semibold">Dashboard</span>
+                            @if (selectedLayout == "dashboard")
+                            {
+                                <TwIcon Icon="TwBlazor.Enums.Icon.Check_Circle_Fill" Class="text-purple-600 dark:text-purple-300" />
+                            }
+                        </span>
+                        <span class="@(LayoutPreviewContainerClass("dashboard"))" aria-hidden="true">
+                            <svg viewBox="0 0 120 72" class="h-full w-full" fill="none" stroke="currentColor" stroke-width="1.5" focusable="false">
+                                <rect x="2" y="2" width="116" height="68" rx="5" />
+                                <path d="M2 15h116M30 15v55" />
+                                <path d="M4 17h24v51H4z" fill="currentColor" stroke="none" opacity=".12" />
+                                <path d="M8 25h16M8 31h16M8 37h12M8 43h14" stroke-linecap="round" />
+                                <rect x="35" y="21" width="23" height="12" rx="2" />
+                                <rect x="62" y="21" width="23" height="12" rx="2" />
+                                <rect x="89" y="21" width="25" height="12" rx="2" />
+                                <rect x="35" y="39" width="51" height="26" rx="2" />
+                                <rect x="89" y="39" width="25" height="26" rx="2" />
+                                <path d="m39 58 10-8 8 5 10-10 7 4" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </span>
+                        <span class="mt-3 block text-xs leading-5 text-gray-600 dark:text-gray-400">Sidebar, top bar, KPI cards and charts.</span>
+                    </button>
+
+                    <button type="button"
+                            aria-pressed="@(selectedLayout == "sidebar" ? "true" : "false")"
+                            class="@(LayoutCardClass("sidebar"))"
+                            @onclick="SelectSidebar">
+                        <span class="flex items-center justify-between gap-2">
+                            <span class="text-sm font-semibold">Sidebar</span>
+                            @if (selectedLayout == "sidebar")
+                            {
+                                <TwIcon Icon="TwBlazor.Enums.Icon.Check_Circle_Fill" Class="text-purple-600 dark:text-purple-300" />
+                            }
+                        </span>
+                        <span class="@(LayoutPreviewContainerClass("sidebar"))" aria-hidden="true">
+                            <svg viewBox="0 0 120 72" class="h-full w-full" fill="none" stroke="currentColor" stroke-width="1.5" focusable="false">
+                                <rect x="2" y="2" width="116" height="68" rx="5" />
+                                <path d="M2 2h26v68H2z" fill="currentColor" stroke="none" opacity=".12" />
+                                <path d="M28 2v68" />
+                                <path d="M7 12h16M7 19h16M7 26h12M7 33h14" stroke-linecap="round" />
+                                <rect x="35" y="9" width="78" height="11" rx="2" />
+                                <rect x="35" y="26" width="35" height="36" rx="2" />
+                                <rect x="76" y="26" width="37" height="18" rx="2" />
+                                <rect x="76" y="49" width="37" height="13" rx="2" />
+                            </svg>
+                        </span>
+                        <span class="mt-3 block text-xs leading-5 text-gray-600 dark:text-gray-400">Grouped sidebar navigation with a focused content area.</span>
+                    </button>
+
+                    <button type="button"
+                            aria-pressed="@(selectedLayout == "navbar" ? "true" : "false")"
+                            class="@(LayoutCardClass("navbar"))"
+                            @onclick="SelectNavbar">
+                        <span class="flex items-center justify-between gap-2">
+                            <span class="text-sm font-semibold">Navbar</span>
+                            @if (selectedLayout == "navbar")
+                            {
+                                <TwIcon Icon="TwBlazor.Enums.Icon.Check_Circle_Fill" Class="text-purple-600 dark:text-purple-300" />
+                            }
+                        </span>
+                        <span class="@(LayoutPreviewContainerClass("navbar"))" aria-hidden="true">
+                            <svg viewBox="0 0 120 72" class="h-full w-full" fill="none" stroke="currentColor" stroke-width="1.5" focusable="false">
+                                <rect x="2" y="2" width="116" height="68" rx="5" />
+                                <path d="M2 16h116" />
+                                <path d="M2 2h116v14H2z" fill="currentColor" stroke="none" opacity=".12" />
+                                <path d="M8 9h15M29 9h10M44 9h10" stroke-linecap="round" />
+                                <rect x="35" y="25" width="51" height="18" rx="2" />
+                                <rect x="90" y="25" width="22" height="18" rx="2" />
+                                <rect x="35" y="49" width="23" height="13" rx="2" />
+                                <rect x="62" y="49" width="23" height="13" rx="2" />
+                                <rect x="90" y="49" width="22" height="13" rx="2" />
+                            </svg>
+                        </span>
+                        <span class="mt-3 block text-xs leading-5 text-gray-600 dark:text-gray-400">Top navigation bar with a wide content area.</span>
+                    </button>
+                </TwGrid>
+
+                <span class="sr-only" role="status" aria-live="polite">Selected layout: @SelectedLayoutLabel</span>
+
+                <p class="mt-5 text-sm text-gray-600 dark:text-gray-300">
+                    Create <strong class="text-gray-900 dark:text-white">MyApp</strong> with the
+                    <strong class="text-gray-900 dark:text-white">@SelectedLayoutLabel</strong> layout:
+                </p>
+                <TwCodeBlock Content="@TemplateCreateCommand" Language="powershell" Class="mt-3" />
+            </PageCard>
+
+            <PageCard Title="1. Install the templates tool">
+                <p class="mb-3">
+                    The <code>twblazor.templates</code> .NET tool installs the project templates and creates a complete app: the solution, pages, theme, Tailwind build and a dashboard, sidebar or navbar layout. Install it once:
+                </p>
+                <TwCodeBlock Content="@templateInstallTool" Language="powershell" />
+                <p class="my-3">
+                    The command it puts on your PATH is <code>twblazor</code>; the package is <code>twblazor.templates</code>. This is a .NET tool, so install it with <code>dotnet tool install</code>, not <code>dotnet new install</code>.
+                </p>
+            </PageCard>
+
+            <PageCard Title="2. Create the app">
+                <p class="mb-3">
+                    One command installs the templates, creates the solution, restores packages and builds the Tailwind stylesheet. Replace <code>MyApp</code> with your own project's name:
+                </p>
+                <TwCodeBlock Content="@TemplateCreateCommand" Language="powershell" />
+                <p class="my-3">
+                    For WebAssembly or Auto interactivity, change <code>-i</code>:
+                </p>
+                <TwCodeBlock Content="@TemplateCreateWasmCommand" Language="powershell" />
+                <p class="my-3">
+                    <code>twblazor new</code> is the only command you need after the tool is installed. <code>twblazor install</code> only registers the templates with <code>dotnet new</code>; it does not create an app.
+                </p>
+            </PageCard>
+
+            <PageCard Title="3. Choose the render mode and layout">
+                <p class="mb-3">
+                    The defaults are Server interactivity and the dashboard layout. Every option can be passed in any order:
+                </p>
+                <TwTable Id="template-options" Hoverable>
+                    <Caption>Options accepted by the twblazor new command</Caption>
+                    <TableHeader>
+                        <tr>
+                            <th scope="col" class="px-4 py-3 whitespace-nowrap">Option</th>
+                            <th scope="col" class="px-4 py-3">Values</th>
+                            <th scope="col" class="px-4 py-3">Default</th>
+                        </tr>
+                    </TableHeader>
+                    <TableBody>
+                        <tr>
+                            <th scope="row" class="px-4 py-3 text-start font-medium whitespace-nowrap"><code>-i</code>, <code>--interactivity</code></th>
+                            <td class="px-4 py-3"><code>server</code>, <code>wasm</code> (or <code>webassembly</code>), <code>auto</code></td>
+                            <td class="px-4 py-3"><code>server</code></td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="px-4 py-3 text-start font-medium whitespace-nowrap"><code>-t</code>, <code>--template</code></th>
+                            <td class="px-4 py-3"><code>dashboard</code>, <code>sidebar</code>, <code>navbar</code></td>
+                            <td class="px-4 py-3"><code>dashboard</code></td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="px-4 py-3 text-start font-medium whitespace-nowrap"><code>-o</code>, <code>--output</code></th>
+                            <td class="px-4 py-3">Folder to create the app in</td>
+                            <td class="px-4 py-3"><code>./MyApp</code></td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="px-4 py-3 text-start font-medium whitespace-nowrap"><code>--no-restore</code></th>
+                            <td class="px-4 py-3">Skip <code>dotnet restore</code></td>
+                            <td class="px-4 py-3">Restore runs</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="px-4 py-3 text-start font-medium whitespace-nowrap"><code>--no-npm</code></th>
+                            <td class="px-4 py-3">Skip <code>npm install</code> and the Tailwind build</td>
+                            <td class="px-4 py-3">Both run</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="px-4 py-3 text-start font-medium whitespace-nowrap"><code>--force</code></th>
+                            <td class="px-4 py-3">Write into a folder that is not empty</td>
+                            <td class="px-4 py-3">Refuses</td>
+                        </tr>
+                    </TableBody>
+                </TwTable>
+            </PageCard>
+
+            <PageCard Title="4. Run it">
+                <p class="mb-3">
+                    The command prints the same instructions when it finishes. Build the HTTP launch profile the first time so you do not need a development certificate just to preview:
+                </p>
+                <TwCodeBlock Content="@templateRun" Language="powershell" />
+                <p class="my-3">
+                    Open <code>MyApp.slnx</code> in Visual Studio to work on it there. The generated <code>.vsconfig</code> asks for the ASP.NET and web development workload, which is all the app needs.
+                </p>
+                <p>
+                    For WebAssembly and Auto, run the host project (<code>MyApp</code>), not <code>MyApp.Client</code>.
+                </p>
+            </PageCard>
+
+            <PageCard Title="Install and create in one line">
+                <p class="mb-3">
+                    Once the tool is installed, creating a templated app is a single command. To install the tool and create the app in one PowerShell line:
+                </p>
+                <TwCodeBlock Content="@TemplateOneLineCommand" Language="powershell" />
+                <p class="my-3">
+                    Use <code>;</code> rather than <code>&amp;&amp;</code> on Windows PowerShell 5.1. PowerShell 7 accepts either.
+                </p>
+            </PageCard>
+        </TwTab>
+
         <TwTab Label="Blazor Server">
             <PageCard Title="1. Create the project" NoMarginTop>
                 <p Class="mb-3">
@@ -185,10 +379,54 @@
                 </p>
             </PageCard>
         </TwTab>
+
+
     </TwTabContainer>
 </PageContainer>
 
 @code {
+    private string selectedLayout = "dashboard";
+
+    private string SelectedLayoutLabel => selectedLayout switch
+    {
+        "sidebar" => "Sidebar",
+        "navbar" => "Navbar",
+        _ => "Dashboard"
+    };
+
+    private string TemplateCreateCommand => $"twblazor new MyApp -i server -t {selectedLayout}";
+
+    private string TemplateCreateWasmCommand => $"twblazor new MyApp -i wasm -t {selectedLayout}";
+
+    private string TemplateOneLineCommand =>
+        $"dotnet tool install -g twblazor.templates; twblazor new MyApp -i server -t {selectedLayout}";
+
+    private void SelectDashboard() => selectedLayout = "dashboard";
+
+    private void SelectSidebar() => selectedLayout = "sidebar";
+
+    private void SelectNavbar() => selectedLayout = "navbar";
+
+    private string LayoutCardClass(string layout) => selectedLayout == layout
+        ? "h-full cursor-pointer rounded-xl border-2 border-purple-600 bg-purple-50 p-4 text-start shadow-sm transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600 dark:border-purple-400 dark:bg-purple-500/10"
+        : "h-full cursor-pointer rounded-xl border-2 border-gray-200 bg-white p-4 text-start transition hover:border-purple-300 hover:bg-gray-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600 dark:border-white/10 dark:bg-white/5 dark:hover:border-purple-400/40 dark:hover:bg-white/10";
+
+    private string LayoutPreviewClass(string layout) => selectedLayout == layout
+        ? "bg-white text-purple-700 ring-1 ring-purple-200 dark:bg-gray-900/60 dark:text-purple-300 dark:ring-purple-400/20"
+        : "bg-gray-50 text-gray-500 ring-1 ring-gray-200 dark:bg-gray-900/40 dark:text-gray-400 dark:ring-white/10";
+
+    private string LayoutPreviewContainerClass(string layout) =>
+        $"mt-3 flex h-24 items-center justify-center rounded-lg p-3 {LayoutPreviewClass(layout)}";
+
+    private const string templateInstallTool = """
+        dotnet tool install -g twblazor.templates
+        """;
+
+    private const string templateRun = """
+        cd MyApp
+        dotnet run --project MyApp --launch-profile http
+        """;
+
     // These illustrate what to add to a *consuming* app's own files (Program.cs, App.razor,
     // _Imports.razor, MainLayout.razor, Theme.cs, input.css) for a project called
     // "{YourProjectName}" - they intentionally don't match this docs site's own
@@ -615,3 +853,4 @@
         private void Increment() => count++;
         """;
 }
+

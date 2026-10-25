@@ -1,10 +1,13 @@
 @page "/ai-agents"
 @using TwBlazor.Docs.Generated
 
-<PageContainer Title="AI Agents & Skills" Path="/ai-agents" Category="Guides" Description="Help AI coding assistants write correct twblazor code with llms.txt, a Markdown copy of every docs page and Agent Skills for Claude Code." SeoTitle="AI Agents & Skills | twblazor - llms.txt and Claude Skills">
+<PageContainer Title="AI Agents & Skills" Path="/ai-agents" Category="Guides" Description="Help AI coding assistants create twblazor apps with the project template and write correct twblazor code using llms.txt, Markdown pages and Agent Skills." SeoTitle="AI Agents & Skills | twblazor - llms.txt and Claude Skills">
     <PageCard Title="Overview">
         <p class="mb-3">
             AI coding assistants often guess at a component library: they invent parameters, borrow another library's setup steps or write a theme by hand. twblazor publishes everything an assistant needs in the formats assistants read, so it can use the real components from the first try.
+        </p>
+        <p class="mb-3">
+            For a new app, the assistant should start from the project template: <code>dotnet tool install -g TwBlazor.Templates</code>, then <code>twblazor new MyApp -i wasm -t dashboard</code>. It creates the solution, theme, Tailwind build and layout, so there are no manual setup steps to guess.
         </p>
         <p>
             All of it is generated from these docs every time the site is built. Each component's parameters come straight from the library's own source, so an assistant only ever sees components and parameters that exist in the current release.
@@ -13,7 +16,7 @@
 
     <PageCard Title="llms.txt">
         <p class="mb-3">
-            <code>llms.txt</code> is a plain text index written for language models. It sets out the rules for using twblazor, the setup steps and a link to the Markdown page of every component and guide.
+            <code>llms.txt</code> is a plain text index written for language models. It sets out the rules for using twblazor, the project template, the manual setup steps and a link to the Markdown page of every component and guide.
         </p>
         <TwTable Id="llms-files" Bordered>
             <Caption>The files published for AI assistants</Caption>
@@ -26,7 +29,7 @@
             <TableBody>
                 <tr>
                     <th scope="row" class="px-4 py-3 text-left font-normal"><a href="/llms.txt" target="_blank" rel="noopener noreferrer" class="@linkClass"><code>/llms.txt</code><span class="sr-only"> (opens in a new tab)</span></a></th>
-                    <td class="px-4 py-3">The rules, the setup steps and a link to every page. Start here.</td>
+                    <td class="px-4 py-3">The rules, the project template, the manual setup steps and a link to every page. Start here.</td>
                 </tr>
                 <tr>
                     <th scope="row" class="px-4 py-3 text-left font-normal"><a href="/llms-full.txt" target="_blank" rel="noopener noreferrer" class="@linkClass"><code>/llms-full.txt</code><span class="sr-only"> (opens in a new tab)</span></a></th>
@@ -129,6 +132,9 @@
 
     private const string instructions = """
         ## twblazor
+
+        For a new app, use the twblazor project template instead of setting it up by hand:
+        `dotnet tool install -g TwBlazor.Templates`, then `twblazor new MyApp -i wasm -t dashboard`.
 
         This project uses the twblazor component library. Before writing or changing twblazor code, read
         https://twblazor.com/llms.txt and the Markdown page of each component you use. Use only the parameters

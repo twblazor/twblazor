@@ -186,6 +186,8 @@ public partial class Navigation : IDisposable
 
     private async Task SearchDialog() => await dialogService.ShowAsync<SearchDisplay>("Search documentation", new TwDialogOptions { NoHeader = true });
 
+    private async Task OpenGitHub() => await JS.InvokeVoidAsync("open", SiteMetadata.GitHubUrl, "_blank", "noopener,noreferrer");
+
     public void Dispose()
     {
         Dispose(true);
