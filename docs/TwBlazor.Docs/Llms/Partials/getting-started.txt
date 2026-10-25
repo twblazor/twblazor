@@ -1,6 +1,19 @@
+Fastest path: create the app with the twblazor project template. `TwBlazor.Templates` is a .NET tool, so install it with `dotnet tool install`, not `dotnet new install`.
+
+```bash
+dotnet tool install -g TwBlazor.Templates
+twblazor new MyApp -i server -t dashboard
+twblazor new MyApp -i wasm -t dashboard
+twblazor new MyApp -i auto -t sidebar
+```
+
+`-i` is `server`, `wasm` or `auto`; `-t` is `dashboard`, `sidebar` or `navbar`. The command installs the templates, creates the solution, restores packages and builds the Tailwind stylesheet. Use it for every new app.
+
+Manual setup for an existing app, or when the template cannot be used:
+
 Full guide with both hosting models: {{link:/get-started}}
 
-1. Create a Blazor Web App:
+1. Create a Blazor Web App manually:
    - Interactive Server: `dotnet new blazor -o {YourProjectName}`
    - Interactive WebAssembly: `dotnet new blazor -o {YourProjectName} --interactivity WebAssembly` (this creates a host project `{YourProjectName}` and a client project `{YourProjectName}.Client`)
 2. Install the package. With WebAssembly, install it in BOTH projects.

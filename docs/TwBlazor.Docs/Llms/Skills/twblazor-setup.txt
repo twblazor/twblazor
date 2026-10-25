@@ -1,11 +1,11 @@
 ---
 name: twblazor-setup
-description: Installs and sets up the twblazor Tailwind CSS component library in a Blazor Server or Blazor WebAssembly app, covering the NuGet package, App.razor links, imports, toast and dialog providers, Theme.cs, AddTwBlazor and the Tailwind build. Use when adding twblazor to a project, or when twblazor components render unstyled or throw on startup.
+description: Creates a new twblazor app with the project template, or adds twblazor to an existing Blazor Server or Blazor WebAssembly app. Covers the NuGet package, App.razor links, imports, toast and dialog providers, Theme.cs, AddTwBlazor and the Tailwind build. Use when creating a twblazor project, adding twblazor to an existing project, or when twblazor components render unstyled or throw on startup.
 references: /get-started
 ---
 # twblazor setup
 
-Takes a Blazor Web App from empty to a working, themed twblazor page. twblazor is not MudBlazor, Radzen or Blazorise, so never borrow their setup steps or service names.
+Takes a Blazor Web App from empty to a working, themed twblazor page. Start with the project template for a new app; use the manual steps only for an existing app. twblazor is not MudBlazor, Radzen or Blazorise, so never borrow their setup steps or service names.
 
 ## Rules
 
@@ -17,6 +17,7 @@ Takes a Blazor Web App from empty to a working, themed twblazor page. twblazor i
 
 ## When something is wrong
 
+- **The project template cannot restore `twblazor`:** the requested twblazor version may not be indexed on NuGet yet. Retry after it is published, or install the same version in a manually created app.
 - **Components render with no styling:** `input.css` is missing an `@source` line for `Theme.cs`, or `output.css` was not rebuilt after `Theme.cs` changed. With WebAssembly, the `@source` paths must reach into `{YourProjectName}.Client`.
 - **`InvalidOperationException: No Tw...Theme has been configured on the theme`:** the component was not ticked when `Theme.cs` was generated. Regenerate it at https://twblazor.com/theme with the component ticked and replace the whole file.
 - **Toasts or dialogs never appear:** `<TwToastProvider />` and `<TwDialogProvider />` must be in `MainLayout.razor`, which must render interactively. With WebAssembly that layout lives in the client project.
@@ -25,5 +26,5 @@ Takes a Blazor Web App from empty to a working, themed twblazor page. twblazor i
 
 ## Reference
 
-- `references/get-started.md`: the full Get Started guide for both hosting models, including the default `Theme.cs` and the complete `input.css`.
+- `references/get-started.md`: the full Get Started guide, starting with the project template and then the manual setup for both hosting models, including the default `Theme.cs` and the complete `input.css`.
 - Every component and its parameters: the `twblazor-components` skill, or https://twblazor.com/llms.txt.

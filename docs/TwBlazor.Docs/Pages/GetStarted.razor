@@ -1,14 +1,111 @@
 @page "/get-started"
 
-<PageContainer Title="Get Started" Path="/get-started" Category="Introduction" Description="Install twblazor in a Blazor Server or WebAssembly app: add the NuGet package, imports, providers and a theme, register AddTwBlazor and build your Tailwind CSS." SeoTitle="Get Started | twblazor - Install Tailwind CSS Components for Blazor">
+<PageContainer Title="Get Started" Path="/get-started" Category="Introduction" Description="Create a twblazor Blazor Web App with the project template, or add twblazor to an existing Server or WebAssembly app." SeoTitle="Get Started | twblazor - Install Tailwind CSS Components for Blazor">
     <TwAlert Color="TwBlazor.Enums.Color.Primary" StartIcon="TwBlazor.Enums.Icon.Brush" Class="mb-6 ps-3">
-        <p class="font-semibold">Make it match your brand</p>
+        <p class="font-semibold">Start from the project template</p>
         <p>
-            TwBlazor is fully themeable. Use the <a href="/theme" class="font-semibold underline">Theme builder</a> to pick your brand colors, choose only the components you need and copy a ready-made <code>Theme.cs</code> to use in step 6.
+            The <strong>Project template</strong> tab creates a complete app in one command: solution, pages, theme, Tailwind CSS and a dashboard, sidebar or navbar layout. Use the other tabs to create the project yourself or add twblazor to an existing app, and the <a href="/theme" class="font-semibold underline">Theme builder</a> to change the default theme.
         </p>
     </TwAlert>
 
-    <TwTabContainer AriaLabel="Hosting model">
+    <TwTabContainer AriaLabel="Setup method">
+        <TwTab Label="Project template">
+            <PageCard Title="1. Install the templates tool" NoMarginTop>
+                <p class="mb-3">
+                    The <code>TwBlazor.Templates</code> .NET tool installs the project templates and creates a complete app: the solution, pages, theme, Tailwind build and a dashboard, sidebar or navbar layout. Install it once:
+                </p>
+                <TwCodeBlock Content="@templateInstallTool" Language="powershell" />
+                <p class="my-3">
+                    The command it puts on your PATH is <code>twblazor</code>; the package is <code>TwBlazor.Templates</code>. This is a .NET tool, so install it with <code>dotnet tool install</code>, not <code>dotnet new install</code>.
+                </p>
+            </PageCard>
+
+            <PageCard Title="2. Create the app">
+                <p class="mb-3">
+                    One command installs the templates, creates the solution, restores packages and builds the Tailwind stylesheet. Replace <code>MyApp</code> with your own project's name:
+                </p>
+                <TwCodeBlock Content="@templateCreateServer" Language="powershell" />
+                <p class="my-3">
+                    For WebAssembly or Auto interactivity, change <code>-i</code>:
+                </p>
+                <TwCodeBlock Content="@templateCreateWasm" Language="powershell" />
+                <p class="my-3">
+                    <code>twblazor new</code> is the only command you need after the tool is installed. <code>twblazor install</code> only registers the templates with <code>dotnet new</code>; it does not create an app.
+                </p>
+            </PageCard>
+
+            <PageCard Title="3. Choose the render mode and layout">
+                <p class="mb-3">
+                    The defaults are Server interactivity and the dashboard layout. Every option can be passed in any order:
+                </p>
+                <TwTable Id="template-options" Hoverable>
+                    <Caption>Options accepted by the twblazor new command</Caption>
+                    <TableHeader>
+                        <tr>
+                            <th scope="col" class="px-4 py-3 whitespace-nowrap">Option</th>
+                            <th scope="col" class="px-4 py-3">Values</th>
+                            <th scope="col" class="px-4 py-3">Default</th>
+                        </tr>
+                    </TableHeader>
+                    <TableBody>
+                        <tr>
+                            <th scope="row" class="px-4 py-3 text-start font-medium whitespace-nowrap"><code>-i</code>, <code>--interactivity</code></th>
+                            <td class="px-4 py-3"><code>server</code>, <code>wasm</code> (or <code>webassembly</code>), <code>auto</code></td>
+                            <td class="px-4 py-3"><code>server</code></td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="px-4 py-3 text-start font-medium whitespace-nowrap"><code>-t</code>, <code>--template</code></th>
+                            <td class="px-4 py-3"><code>dashboard</code>, <code>sidebar</code>, <code>navbar</code></td>
+                            <td class="px-4 py-3"><code>dashboard</code></td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="px-4 py-3 text-start font-medium whitespace-nowrap"><code>-o</code>, <code>--output</code></th>
+                            <td class="px-4 py-3">Folder to create the app in</td>
+                            <td class="px-4 py-3"><code>./MyApp</code></td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="px-4 py-3 text-start font-medium whitespace-nowrap"><code>--no-restore</code></th>
+                            <td class="px-4 py-3">Skip <code>dotnet restore</code></td>
+                            <td class="px-4 py-3">Restore runs</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="px-4 py-3 text-start font-medium whitespace-nowrap"><code>--no-npm</code></th>
+                            <td class="px-4 py-3">Skip <code>npm install</code> and the Tailwind build</td>
+                            <td class="px-4 py-3">Both run</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="px-4 py-3 text-start font-medium whitespace-nowrap"><code>--force</code></th>
+                            <td class="px-4 py-3">Write into a folder that is not empty</td>
+                            <td class="px-4 py-3">Refuses</td>
+                        </tr>
+                    </TableBody>
+                </TwTable>
+            </PageCard>
+
+            <PageCard Title="4. Run it">
+                <p class="mb-3">
+                    The command prints the same instructions when it finishes. Build the HTTP launch profile the first time so you do not need a development certificate just to preview:
+                </p>
+                <TwCodeBlock Content="@templateRun" Language="powershell" />
+                <p class="my-3">
+                    Open <code>MyApp.slnx</code> in Visual Studio to work on it there. The generated <code>.vsconfig</code> asks for the ASP.NET and web development workload, which is all the app needs.
+                </p>
+                <p>
+                    For WebAssembly and Auto, run the host project (<code>MyApp</code>), not <code>MyApp.Client</code>.
+                </p>
+            </PageCard>
+
+            <PageCard Title="Install and create in one line">
+                <p class="mb-3">
+                    Once the tool is installed, creating a templated app is a single command. To install the tool and create the app in one PowerShell line:
+                </p>
+                <TwCodeBlock Content="@templateOneLine" Language="powershell" />
+                <p class="my-3">
+                    Use <code>;</code> rather than <code>&amp;&amp;</code> on Windows PowerShell 5.1. PowerShell 7 accepts either.
+                </p>
+            </PageCard>
+        </TwTab>
+
         <TwTab Label="Blazor Server">
             <PageCard Title="1. Create the project" NoMarginTop>
                 <p Class="mb-3">
@@ -185,10 +282,33 @@
                 </p>
             </PageCard>
         </TwTab>
+
+
     </TwTabContainer>
 </PageContainer>
 
 @code {
+    private const string templateInstallTool = """
+        dotnet tool install -g TwBlazor.Templates
+        """;
+
+    private const string templateCreateServer = """
+        twblazor new MyApp -i server -t dashboard
+        """;
+
+    private const string templateCreateWasm = """
+        twblazor new MyApp -i wasm -t dashboard
+        """;
+
+    private const string templateRun = """
+        cd MyApp
+        dotnet run --project MyApp --launch-profile http
+        """;
+
+    private const string templateOneLine = """
+        dotnet tool install -g TwBlazor.Templates; twblazor new MyApp -i server -t dashboard
+        """;
+
     // These illustrate what to add to a *consuming* app's own files (Program.cs, App.razor,
     // _Imports.razor, MainLayout.razor, Theme.cs, input.css) for a project called
     // "{YourProjectName}" - they intentionally don't match this docs site's own
@@ -615,3 +735,4 @@
         private void Increment() => count++;
         """;
 }
+
