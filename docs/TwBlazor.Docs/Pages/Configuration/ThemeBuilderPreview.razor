@@ -408,25 +408,6 @@
                 <TwPickList TItem="string" @bind-SourceItems="availableToppings" @bind-TargetItems="chosenToppings" SourceLabel="Available" TargetLabel="Chosen" AriaLabel="Topping picker" Rounded="@Defaults.Rounded" />
             </TwCard>
         }
-
-        @if (Has("TwBarcode", "TwQrCode"))
-        {
-            <TwCard Title="Encoding" Class="@cardClass" @attributes="look">
-                <div class="flex flex-col gap-4">
-                    @if (Has("TwBarcode"))
-                    {
-                        <TwBarcode Id="preview-barcode" Value="5012345678900" Format="BarcodeFormat.Ean13" Size="BarcodeSize.Small" />
-                    }
-                    @if (Has("TwQrCode"))
-                    {
-                        <div class="flex items-center gap-4">
-                            <TwQrCode Id="preview-qr-code" Value="https://twblazor.com" Size="QrCodeSize.Small" Rounded="@Defaults.Rounded" />
-                            <p class="text-sm">Scan to visit twblazor.com</p>
-                        </div>
-                    }
-                </div>
-            </TwCard>
-        }
     </div>
 
     @if (showLateSamples && Has(_charts))
@@ -525,7 +506,7 @@
         "TwTextfield", "TwNumeric", "TwSelect", "TwAutocomplete", "TwColorPicker", "TwDatePicker", "TwTimePicker", "TwDateTimePicker", "TwDateRangePicker", "TwTimeRangePicker", "TwDateTimeRangePicker", "TwSwitch", "TwCheckbox", "TwRadioButton", "TwRating", "TwRangeSlider", "TwSlider",
         "TwAlert", "TwChip", "TwAvatar", "TwProgress", "TwSpinner", "TwSkeleton",
         "TwBreadcrumb", "TwStepper", "TwPagination", "TwTabContainer", "TwCollapse", "TwTreeList", "TwCarousel", "TwFooter",
-        "TwDataTable", "TwTable", "TwPickList", "TwBarcode", "TwQrCode",
+        "TwDataTable", "TwTable", "TwPickList",
         .. _charts
     ];
 

@@ -2075,6 +2075,9 @@
   .bg-\[oklch\(88\%_0\.002_286\)\] {
     background-color: oklch(88% 0.002 286);
   }
+  .bg-\[oklch\(89\%_0\.003_286\)\] {
+    background-color: oklch(89% 0.003 286);
+  }
   .bg-\[oklch\(91\%_0\.003_286\)\] {
     background-color: oklch(91% 0.003 286);
   }
@@ -5452,6 +5455,9 @@
   }
   .dark\:bg-\[oklch\(18\%_0\.004_286\)\]:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
     background-color: oklch(18% 0.004 286);
+  }
+  .dark\:bg-\[oklch\(30\%_0\.004_286\)\]:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
+    background-color: oklch(30% 0.004 286);
   }
   .dark\:bg-\[oklch\(32\%_0\.004_286\)\]:where(.dark, .dark *):not(:where(.theme-light, .theme-light *)) {
     background-color: oklch(32% 0.004 286);

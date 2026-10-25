@@ -257,7 +257,7 @@ public class TwSkeletonTests : TwBlazorTestBase
         Assert.Contains("rounded-full", circleRect.GetAttribute("class"));
 
         var rectRect = generated.Single(d => d.GetAttribute("style")!.Contains("width:200px"));
-        Assert.Contains("bg-[oklch(95%_0_0)]", rectRect.GetAttribute("class"));
+        Assert.Contains(Theme.Tokens.Placeholder.Split(' ')[0], rectRect.GetAttribute("class"));
     }
 
     [Fact]

@@ -226,7 +226,7 @@ public class TwBlazorFlexbox
     /// <summary>
     /// Gets or sets the visual order classes (<c>order-*</c>), keyed by position. Shared by flex and grid items.
     /// </summary>
-    public TwClassScale Order { get; set; } = new();
+    public TwClassScale Order { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the "order-first" class.
@@ -250,72 +250,72 @@ public class TwBlazorSpacing
     /// <summary>
     /// Gets or sets the gap between rows and columns (<c>gap-*</c>), keyed by step. See <see cref="TwSpacingStepScale"/>.
     /// </summary>
-    public TwSpacingStepScale Gap { get; set; } = new();
+    public TwSpacingStepScale Gap { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the gap between columns (<c>gap-x-*</c>), keyed by step. See <see cref="TwSpacingStepScale"/>.
     /// </summary>
-    public TwSpacingStepScale GapX { get; set; } = new();
+    public TwSpacingStepScale GapX { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the gap between rows (<c>gap-y-*</c>), keyed by step. See <see cref="TwSpacingStepScale"/>.
     /// </summary>
-    public TwSpacingStepScale GapY { get; set; } = new();
+    public TwSpacingStepScale GapY { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the padding on every side (<c>p-*</c>), keyed by step. See <see cref="TwSpacingStepScale"/>.
     /// </summary>
-    public TwSpacingStepScale Padding { get; set; } = new();
+    public TwSpacingStepScale Padding { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the padding on the start and end (<c>px-*</c>), keyed by step. See <see cref="TwSpacingStepScale"/>.
     /// </summary>
-    public TwSpacingStepScale PaddingX { get; set; } = new();
+    public TwSpacingStepScale PaddingX { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the padding on the top and bottom (<c>py-*</c>), keyed by step. See <see cref="TwSpacingStepScale"/>.
     /// </summary>
-    public TwSpacingStepScale PaddingY { get; set; } = new();
+    public TwSpacingStepScale PaddingY { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the padding on the top (<c>pt-*</c>), keyed by step. See <see cref="TwSpacingStepScale"/>.
     /// </summary>
-    public TwSpacingStepScale PaddingTop { get; set; } = new();
+    public TwSpacingStepScale PaddingTop { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the padding on the bottom (<c>pb-*</c>), keyed by step. See <see cref="TwSpacingStepScale"/>.
     /// </summary>
-    public TwSpacingStepScale PaddingBottom { get; set; } = new();
+    public TwSpacingStepScale PaddingBottom { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the padding on the start, for example to clear a leading icon (<c>ps-*</c>), keyed by step. See <see cref="TwSpacingStepScale"/>.
     /// </summary>
-    public TwSpacingStepScale PaddingStart { get; set; } = new();
+    public TwSpacingStepScale PaddingStart { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the margin on every side (<c>m-*</c>), keyed by step. See <see cref="TwSpacingStepScale"/>.
     /// </summary>
-    public TwSpacingStepScale Margin { get; set; } = new();
+    public TwSpacingStepScale Margin { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the margin on the top (<c>mt-*</c>), keyed by step. See <see cref="TwSpacingStepScale"/>.
     /// </summary>
-    public TwSpacingStepScale MarginTop { get; set; } = new();
+    public TwSpacingStepScale MarginTop { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the margin on the bottom (<c>mb-*</c>), keyed by step. See <see cref="TwSpacingStepScale"/>.
     /// </summary>
-    public TwSpacingStepScale MarginBottom { get; set; } = new();
+    public TwSpacingStepScale MarginBottom { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the margin on the start (<c>ms-*</c>), keyed by step. See <see cref="TwSpacingStepScale"/>.
     /// </summary>
-    public TwSpacingStepScale MarginStart { get; set; } = new();
+    public TwSpacingStepScale MarginStart { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the margin on the end (<c>me-*</c>), keyed by step. See <see cref="TwSpacingStepScale"/>.
     /// </summary>
-    public TwSpacingStepScale MarginEnd { get; set; } = new();
+    public TwSpacingStepScale MarginEnd { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the padding preset used for interactive list/menu rows.

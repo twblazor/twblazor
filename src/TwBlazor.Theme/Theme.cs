@@ -358,6 +358,7 @@ public static class Theme
             Transparent = "bg-transparent",
             Track = "bg-[oklch(95%_0_0)] dark:bg-[oklch(21.15%_0.012_254.09)]",
             TrackStrong = "bg-[oklch(91%_0_0)] dark:bg-[oklch(32%_0.016_253)]",
+            Placeholder = "bg-[oklch(89%_0_0)] dark:bg-[oklch(40%_0.016_253)]",
             RaisedSurface = "bg-white dark:bg-[oklch(34%_0.018_253)]",
             SurfaceRing = "ring-[oklch(100%_0_0)] dark:ring-[oklch(28%_0.016_252.42)]",
             HoverText = "hover:text-[oklch(21%_0.006_285.885)] dark:hover:text-[oklch(97.807%_0.029_256.847)]",
@@ -1589,7 +1590,7 @@ public static class Theme
                 },
                 new TwSkeletonTheme
                 {
-                    Base = $"{display.Block} {positioning.Relative} {overflow.Hidden} {tokens.Track}",
+                    Base = $"{display.Block} {positioning.Relative} {overflow.Hidden} {tokens.Placeholder}",
                     Text = $"{sizing.FullWidth} h-4",
                     Circle = "size-12",
                     Rectangle = $"{sizing.FullWidth} h-24",

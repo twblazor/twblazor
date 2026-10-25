@@ -365,34 +365,34 @@ public class TwBlazorGrid
     /// <summary>
     /// Gets or sets the column counts at every breakpoint (<c>grid-cols-*</c>), keyed by the number of columns.
     /// </summary>
-    public TwResponsiveScale Cols { get; set; } = new();
+    public TwResponsiveScale Cols { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the row counts at every breakpoint (<c>grid-rows-*</c>), keyed by the number of rows.
     /// </summary>
-    public TwResponsiveScale Rows { get; set; } = new();
+    public TwResponsiveScale Rows { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the column spans at every breakpoint (<c>col-span-*</c>), keyed by the number of columns, with
     /// <see cref="TwResponsiveScale.Full"/> for <c>col-span-full</c>.
     /// </summary>
-    public TwResponsiveScale ColSpan { get; set; } = new();
+    public TwResponsiveScale ColSpan { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the row spans at every breakpoint (<c>row-span-*</c>), keyed by the number of rows, with
     /// <see cref="TwResponsiveScale.Full"/> for <c>row-span-full</c>.
     /// </summary>
-    public TwResponsiveScale RowSpan { get; set; } = new();
+    public TwResponsiveScale RowSpan { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the column start lines at every breakpoint (<c>col-start-*</c>), keyed by the line number.
     /// </summary>
-    public TwResponsiveScale ColStart { get; set; } = new();
+    public TwResponsiveScale ColStart { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the row start lines at every breakpoint (<c>row-start-*</c>), keyed by the line number.
     /// </summary>
-    public TwResponsiveScale RowStart { get; set; } = new();
+    public TwResponsiveScale RowStart { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the class that makes a nested grid share its parent's columns (<c>grid-cols-subgrid</c>).

@@ -72,6 +72,13 @@ public class TwBlazorTokens
     public string TrackStrong { get; set; } = string.Empty;
 
     /// <summary>
+    /// Gets or sets the fill of a loading placeholder, such as a skeleton. It sits a clear step from the surface in
+    /// both modes, lighter than a dark surface rather than recessed like <see cref="Track"/>, so it stays visible
+    /// while it pulses.
+    /// </summary>
+    public string Placeholder { get; set; } = string.Empty;
+
+    /// <summary>
     /// Gets or sets the surface of a selected segment raised above a <see cref="Track"/>, such as the active tab of a
     /// segmented control.
     /// </summary>

@@ -366,6 +366,7 @@ public static class AppleTheme
             Transparent = "bg-transparent",
             Track = "bg-[oklch(95%_0.003_286)] dark:bg-[oklch(14%_0.004_286)]",
             TrackStrong = "bg-[oklch(91%_0.003_286)] dark:bg-[oklch(32%_0.004_286)]",
+            Placeholder = "bg-[oklch(89%_0.003_286)] dark:bg-[oklch(30%_0.004_286)]",
             RaisedSurface = "bg-white dark:bg-[oklch(34%_0.018_253)]",
             SurfaceRing = "ring-[oklch(100%_0.003_286)] dark:ring-[oklch(18%_0.004_286)]",
             HoverText = "hover:text-[oklch(21%_0.004_286)] dark:hover:text-[oklch(97.807%_0.002_286)]",
@@ -1592,7 +1593,7 @@ public static class AppleTheme
                 },
                 new TwSkeletonTheme
                 {
-                    Base = $"{display.Block} {positioning.Relative} {overflow.Hidden} {tokens.Track}",
+                    Base = $"{display.Block} {positioning.Relative} {overflow.Hidden} {tokens.Placeholder}",
                     Text = $"{sizing.FullWidth} h-4",
                     Circle = "size-12",
                     Rectangle = $"{sizing.FullWidth} h-24",

@@ -366,6 +366,7 @@ public static class Trading212Theme
             Transparent = "bg-transparent",
             Track = "bg-[oklch(95%_0.004_250)] dark:bg-[oklch(21.15%_0.02_250)]",
             TrackStrong = "bg-[oklch(91%_0.004_250)] dark:bg-[oklch(32%_0.02_250)]",
+            Placeholder = "bg-[oklch(89%_0.004_250)] dark:bg-[oklch(37%_0.02_250)]",
             RaisedSurface = "bg-white dark:bg-[oklch(34%_0.018_253)]",
             SurfaceRing = "ring-[oklch(100%_0.004_250)] dark:ring-[oklch(25.33%_0.02_250)]",
             HoverText = "hover:text-[oklch(21%_0.02_250)] dark:hover:text-[oklch(97.807%_0.012_250)]",
@@ -1592,7 +1593,7 @@ public static class Trading212Theme
                 },
                 new TwSkeletonTheme
                 {
-                    Base = $"{display.Block} {positioning.Relative} {overflow.Hidden} {tokens.Track}",
+                    Base = $"{display.Block} {positioning.Relative} {overflow.Hidden} {tokens.Placeholder}",
                     Text = $"{sizing.FullWidth} h-4",
                     Circle = "size-12",
                     Rectangle = $"{sizing.FullWidth} h-24",

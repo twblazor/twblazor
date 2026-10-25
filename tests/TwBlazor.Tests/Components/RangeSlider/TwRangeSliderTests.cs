@@ -747,7 +747,7 @@ public class TwRangeSliderTests : TwBlazorTestBase
         // Assert
         var calls = TestContext.JSInterop.Invocations.Where(i => i.Identifier == lockIdentifier).ToList();
         Assert.Equal(4, calls.Count);
-        Assert.All(calls.Skip(2), call => Assert.Equal(false, call.Arguments[1]));
+        Assert.All(calls.Skip(2), call => Assert.False(Assert.IsType<bool>(call.Arguments[1])));
     }
 
     [Fact]
