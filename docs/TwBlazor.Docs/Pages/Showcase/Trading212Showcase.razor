@@ -23,92 +23,94 @@
         </TwNavbar>
 
         <main id="showcase-main">
-            <section class="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-6 py-14 lg:grid-cols-2 lg:py-20" aria-labelledby="showcase-hero-heading">
-                <div class="flex flex-col items-start gap-5">
-                    <h1 id="showcase-hero-heading" class="text-4xl font-black tracking-tight text-balance md:text-6xl">Invest in stocks and ETFs. <span class="text-tradeblue-600 dark:text-tradeblue-300">Commission-free.</span></h1>
-                    <p class="max-w-lg text-lg">Fractional shares from £1, a Stocks and Shares ISA and interest on your uninvested cash, all in one app.</p>
-                    <div class="flex flex-wrap gap-3">
-                        <TwButton Label="Open account" Color="Color.Primary" Href="@Anchor("showcase-products")" />
-                        <TwButton Label="Practise for free" Color="Color.Primary" Variant="ButtonVariant.Outlined" Href="@Anchor("showcase-components")" />
-                    </div>
-                    <p class="text-xs opacity-70">When investing, your capital is at risk. The figures on this page are made up.</p>
-                </div>
+            <TwContainer Element="LayoutElement.Section" AriaLabelledBy="showcase-hero-heading" MaxWidth="ContainerSize.Xl7" Gutter="6" PaddingY="14" Class="lg:py-20">
+                <TwGrid Cols="1" ColsLg="2" Align="AlignItems.Center" Gap="10">
+                    <TwFlex Direction="FlexDirection.Col" Align="AlignItems.Start" Gap="5">
+                        <h1 id="showcase-hero-heading" class="text-4xl font-black tracking-tight text-balance md:text-6xl">Invest in stocks and ETFs. <span class="text-tradeblue-600 dark:text-tradeblue-300">Commission-free.</span></h1>
+                        <p class="max-w-lg text-lg">Fractional shares from £1, a Stocks and Shares ISA and interest on your uninvested cash, all in one app.</p>
+                        <TwFlex Wrap="FlexWrap.Wrap" Gap="3">
+                            <TwButton Label="Open account" Color="Color.Primary" Href="@Anchor("showcase-products")" />
+                            <TwButton Label="Practise for free" Color="Color.Primary" Variant="ButtonVariant.Outlined" Href="@Anchor("showcase-components")" />
+                        </TwFlex>
+                        <p class="text-xs opacity-70">When investing, your capital is at risk. The figures on this page are made up.</p>
+                    </TwFlex>
 
-                <TwCard Title="Your portfolio">
-                    <div class="flex flex-col gap-5">
-                        <div>
-                            <p class="text-4xl font-black tabular-nums">£12,480.36</p>
-                            <div class="mt-2 flex flex-wrap items-center gap-2">
-                                <TwChip Label="Up £342.18 (2.82%) today" Color="Color.Success" StartIcon="IconEnum.Arrow_Up_Right" />
-                                <span class="text-sm opacity-70">Invested £10,950.00</span>
+                    <TwCard Title="Your portfolio">
+                        <TwFlex Direction="FlexDirection.Col" Gap="5">
+                            <div>
+                                <p class="text-4xl font-black tabular-nums">£12,480.36</p>
+                                <TwFlex Wrap="FlexWrap.Wrap" Align="AlignItems.Center" Gap="2" Class="mt-2">
+                                    <TwChip Label="Up £342.18 (2.82%) today" Color="Color.Success" StartIcon="IconEnum.Arrow_Up_Right" />
+                                    <span class="text-sm opacity-70">Invested £10,950.00</span>
+                                </TwFlex>
                             </div>
-                        </div>
-                        <TwProgress T="int" Label="ISA allowance used this tax year" Value="62" Max="100" Color="Color.Primary" />
-                        <div class="grid grid-cols-3 gap-3 text-sm">
-                            @foreach (var (label, value) in _holdings)
-                            {
-                                <div>
-                                    <p class="opacity-70">@label</p>
-                                    <p class="font-bold tabular-nums">@value</p>
-                                </div>
-                            }
-                        </div>
-                    </div>
-                </TwCard>
-            </section>
+                            <TwProgress T="int" Label="ISA allowance used this tax year" Value="62" Max="100" Color="Color.Primary" />
+                            <TwGrid Cols="3" Gap="3" Class="text-sm">
+                                @foreach (var (label, value) in _holdings)
+                                {
+                                    <div>
+                                        <p class="opacity-70">@label</p>
+                                        <p class="font-bold tabular-nums">@value</p>
+                                    </div>
+                                }
+                            </TwGrid>
+                        </TwFlex>
+                    </TwCard>
+                </TwGrid>
+            </TwContainer>
 
-            <section id="showcase-products" class="mx-auto max-w-7xl scroll-mt-6 px-6 pb-14" aria-labelledby="showcase-products-heading">
+            <TwContainer Element="LayoutElement.Section" Id="showcase-products" AriaLabelledBy="showcase-products-heading" MaxWidth="ContainerSize.Xl7" Gutter="6" PaddingBottom="14" Class="scroll-mt-6">
                 <h2 id="showcase-products-heading" class="text-2xl font-black tracking-tight md:text-3xl">Markets</h2>
-                <div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
-                    <div class="lg:col-span-2">
+                <TwGrid Cols="1" ColsLg="3" Gap="6" Class="mt-6">
+                    <TwGridItem ColSpanLg="2">
                         <TwCard>
                             <TwChart Title="Apple (AAPL)" Description="Daily candles for the last eight weeks, US dollars">
                                 <TwCandlestickChart Items="@_candles" ValueFormat="0.00" LabelHeader="Day" Height="ChartHeight.Large" />
                             </TwChart>
                         </TwCard>
-                    </div>
+                    </TwGridItem>
 
                     <TwCard Title="Watchlist" TitleLevel="3">
-                        <ul class="flex flex-col divide-y divide-current/10">
+                        <TwFlex Element="LayoutElement.Ul" Direction="FlexDirection.Col" Divided Class="divide-current/10 dark:divide-current/10">
                             @foreach (var instrument in _brand.Products)
                             {
                                 var rising = instrument.Tag.StartsWith('+');
                                 <li>
-                                    <article class="flex items-center gap-3 py-3">
-                                        <span class="flex size-10 shrink-0 items-center justify-center rounded-full bg-tradeblue-50 text-lg text-tradeblue-700 dark:bg-tradeblue-900/40 dark:text-tradeblue-200" aria-hidden="true">
+                                    <TwFlex Element="LayoutElement.Article" Align="AlignItems.Center" Gap="3" Class="py-3">
+                                        <TwFlex Element="LayoutElement.Span" Align="AlignItems.Center" Justify="JustifyContent.Center" aria-hidden="true" Class="size-10 shrink-0 rounded-full bg-tradeblue-50 text-lg text-tradeblue-700 dark:bg-tradeblue-900/40 dark:text-tradeblue-200">
                                             <TwIcon Icon="instrument.Icon" Plain />
-                                        </span>
-                                        <div class="min-w-0 flex-1">
+                                        </TwFlex>
+                                        <TwFlexItem Flex="FlexSize.Fill" MinWidthZero>
                                             <h4 class="truncate font-bold">@instrument.Name</h4>
                                             <p class="text-xs opacity-70">@instrument.Description</p>
-                                        </div>
+                                        </TwFlexItem>
                                         <div class="text-end">
                                             <p class="font-bold tabular-nums">@instrument.Price</p>
                                             @* The sign and the arrow carry the direction as well as the color. *@
                                             <TwChip Label="@instrument.Tag" Color="@(rising ? Color.Success : Color.Danger)" Size="ChipSize.Small" StartIcon="@(rising ? IconEnum.Arrow_Up_Right : IconEnum.Arrow_Down_Right)" />
                                         </div>
                                         <TwButton Label="Buy" AriaLabel="@($"Buy {instrument.Name}")" Color="Color.Primary" Dense OnClick="@(() => orders++)" />
-                                    </article>
+                                    </TwFlex>
                                 </li>
                             }
-                        </ul>
+                        </TwFlex>
                         <p class="mt-4 text-sm font-medium" aria-live="polite">@(orders == 0 ? "Your order ticket is empty." : $"{orders} in your order ticket.")</p>
                     </TwCard>
-                </div>
+                </TwGrid>
 
-                <div class="mt-6 grid grid-cols-1 gap-6 md:grid-cols-3">
+                <TwGrid Cols="1" ColsMd="3" Gap="6" Class="mt-6">
                     @foreach (var (title, text, icon) in _features)
                     {
                         <TwCard>
-                            <div class="flex flex-col gap-2">
+                            <TwFlex Direction="FlexDirection.Col" Gap="2">
                                 <span class="text-3xl text-tradeblue-600 dark:text-tradeblue-300" aria-hidden="true"><TwIcon Icon="icon" Plain /></span>
                                 <p class="text-lg font-bold">@title</p>
                                 <p class="text-sm opacity-80">@text</p>
-                            </div>
+                            </TwFlex>
                         </TwCard>
                     }
-                </div>
-            </section>
+                </TwGrid>
+            </TwContainer>
         </main>
     </ChildContent>
     <Footer>

@@ -225,10 +225,10 @@ public partial class TwButton : TwBlazorComponentBase
     private void ResetTooltipDismissal() => tooltipDismissed = false;
 
     private string startIconClasses => new ClassBuilder(theme.IconTypography)
-        .AddClass(options.Theme.Spacing.MarginEnd.Md).Build();
+        .AddClass(options.Theme.Spacing.MarginEnd.Get(2)).Build();
 
     private string endIconClasses => new ClassBuilder(theme.IconTypography)
-        .AddClass(options.Theme.Spacing.MarginStart.Md).Build();
+        .AddClass(options.Theme.Spacing.MarginStart.Get(2)).Build();
 
     /// <summary>
     /// Handles the click event asynchronously, invoking the associated callback if the component is enabled.

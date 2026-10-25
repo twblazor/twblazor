@@ -39,7 +39,7 @@ public partial class TwDataTable<TItem> : IAsyncDisposable
 
     private string headerCellRowClasses => new ClassBuilder(options.Theme.Display.Flex)
         .AddClass(options.Theme.Flexbox.Align.Center)
-        .AddClass(options.Theme.Spacing.Gap.Sm).Build();
+        .AddClass(options.Theme.Spacing.Gap.Get(1)).Build();
 
     private string headerActionsClasses => new ClassBuilder(options.Theme.Display.Flex)
         .AddClass(options.Theme.Flexbox.Align.Center)

@@ -66,7 +66,7 @@ public partial class TwPagination : TwBlazorComponentBase
 
     private string rootClasses => new ClassBuilder(options.Theme.Display.Flex)
         .AddClass(options.Theme.Flexbox.Align.Center)
-        .AddClass(options.Theme.Spacing.Gap.Lg)
+        .AddClass(options.Theme.Spacing.Gap.Get(3))
         .AddClass(Class).Build();
 
     /// <summary>

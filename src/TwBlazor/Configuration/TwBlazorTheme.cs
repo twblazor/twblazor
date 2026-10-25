@@ -30,6 +30,12 @@ public class TwBlazorTheme
     public TwBlazorColor Colors { get; set; } = new();
 
     /// <summary>
+    /// Gets or sets the shared design tokens (focus rings, neutral fills and inks, the disabled look and similar)
+    /// reused across component themes. See <see cref="TwBlazorTokens"/>.
+    /// </summary>
+    public TwBlazorTokens Tokens { get; set; } = new();
+
+    /// <summary>
     /// Gets or sets the classes for each screen-anchored position (e.g. toasts, dialogs can be positioned using this).
     /// </summary>
     public required TwAnchorPosition Anchor { get; set; }
@@ -58,6 +64,12 @@ public class TwBlazorTheme
     /// justify/align alignment scales) reused across component themes. See <see cref="TwBlazorFlexbox"/>.
     /// </summary>
     public TwBlazorFlexbox Flexbox { get; set; } = new();
+
+    /// <summary>
+    /// Gets or sets the shared CSS grid utility classes (column and row counts, spans and start lines at every
+    /// breakpoint, auto flow and cell alignment) reused across component themes. See <see cref="TwBlazorGrid"/>.
+    /// </summary>
+    public TwBlazorGrid Grid { get; set; } = new();
 
     /// <summary>
     /// Gets or sets the shared spacing utility classes (gap and padding presets) reused across

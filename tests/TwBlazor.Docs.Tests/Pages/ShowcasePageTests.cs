@@ -55,6 +55,34 @@ public class ShowcasePageTests : DocsTestBase
 
     [Theory]
     [MemberData(nameof(Slugs))]
+    public void Theme_WritesOutTheSameLayoutScales_AsTheDefault(string slug)
+    {
+        var theme = Brand(slug).Theme;
+
+        Assert.Equal(Theme.Grid.Cols.Keys.Order(), theme.Grid.Cols.Keys.Order());
+        Assert.Equal(Theme.Grid.ColSpan.Keys.Order(), theme.Grid.ColSpan.Keys.Order());
+        Assert.Equal(Theme.Grid.ColSpan[2].Lg, theme.Grid.ColSpan[2].Lg);
+        Assert.Equal(Theme.Spacing.Gap.Keys.Order(), theme.Spacing.Gap.Keys.Order());
+        Assert.Equal(Theme.Spacing.PaddingTop[14], theme.Spacing.PaddingTop[14]);
+        Assert.Equal(Theme.Sizing.MaxWidth.Xl7, theme.Sizing.MaxWidth.Xl7);
+        Assert.Equal(Theme.Flexbox.ResponsiveDirection.Col.Md, theme.Flexbox.ResponsiveDirection.Col.Md);
+    }
+
+    [Theory]
+    [MemberData(nameof(Slugs))]
+    public void Page_LaysItsProductsOut_WithTheLayoutComponents(string slug)
+    {
+        var brand = Brand(slug);
+        var cut = Render(brand);
+        var container = brand.Theme.Components.Require<TwContainerTheme>();
+        var grid = brand.Theme.Components.Require<TwGridTheme>();
+
+        Assert.Contains(container.Base, cut.Find("#showcase-products").ClassList);
+        Assert.NotEmpty(cut.FindAll($"#showcase-products .{grid.Base}"));
+    }
+
+    [Theory]
+    [MemberData(nameof(Slugs))]
     public void Theme_ReplacesTheDefaultBrandColors(string slug)
     {
         var colors = Brand(slug).Theme.Colors;

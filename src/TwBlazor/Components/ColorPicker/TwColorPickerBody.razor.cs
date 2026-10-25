@@ -89,11 +89,11 @@ public partial class TwColorPickerBody : TwBlazorComponentBase
 
     private string sliderContainerClasses => new ClassBuilder(options.Theme.Display.Flex)
         .AddClass(options.Theme.Flexbox.Align.Center)
-        .AddClass(options.Theme.Spacing.Gap.Sm)
+        .AddClass(options.Theme.Spacing.Gap.Get(1))
         .Build();
 
     private string inputRowClasses => new ClassBuilder(options.Theme.Display.Flex)
-        .AddClass(options.Theme.Spacing.Gap.Sm)
+        .AddClass(options.Theme.Spacing.Gap.Get(1))
         .Build();
 
     private string alphaReadoutClasses => new ClassBuilder(theme.AlphaLabel)

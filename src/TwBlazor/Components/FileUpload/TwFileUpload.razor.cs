@@ -86,7 +86,7 @@ public partial class TwFileUpload : TwBlazorInputComponentBase
         .AddClass(buttonBuilder.GetVariantClasses(Variant, Color, Disabled))
         .AddClass(shadowBuilder.GetButtonShadow(theme))
         .AddClass(fileUploadTheme.FocusRing)
-        .AddClass(options.Theme.Spacing.Padding.Lg)
+        .AddClass(options.Theme.Spacing.Padding.Get(3))
         .AddClass(LabelClasses)
         .AddClass(Class).Build();
 
@@ -96,8 +96,8 @@ public partial class TwFileUpload : TwBlazorInputComponentBase
 
     private string fileListClasses =>
         new ClassBuilder(fileUploadTheme.FileList)
-        .AddClass(options.Theme.Spacing.MarginTop.Lg)
-        .AddClass(options.Theme.Spacing.Gap.Md)
+        .AddClass(options.Theme.Spacing.MarginTop.Get(3))
+        .AddClass(options.Theme.Spacing.Gap.Get(2))
         .AddClass(options.Theme.Display.Flex)
         .AddClass(options.Theme.Flexbox.Wrap).Build();
 

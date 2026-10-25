@@ -87,7 +87,7 @@ public partial class TwBubble : TwBlazorComponentBase
 
     private string rootClasses => new ClassBuilder(options.Theme.Display.Flex)
         .AddClass(options.Theme.Flexbox.Col)
-        .AddClass(options.Theme.Spacing.Gap.Md)
+        .AddClass(options.Theme.Spacing.Gap.Get(2))
         .AddClass(options.Theme.Sizing.MinWidthNone)
         .AddClass(effectiveAlign == MessageAlign.End ? options.Theme.Flexbox.Align.End : options.Theme.Flexbox.Align.Start)
         .AddClass(Class)

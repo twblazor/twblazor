@@ -175,7 +175,7 @@ public partial class TwCalendar<T> : TwBlazorComponentBase, IDisposable
 
     private string viewSwitcherClasses => new ClassBuilder(options.Theme.Display.Flex)
         .AddClass(options.Theme.Flexbox.Align.Center)
-        .AddClass(options.Theme.Spacing.Gap.Sm)
+        .AddClass(options.Theme.Spacing.Gap.Get(1))
         .Build();
 
     private string GetViewButtonClasses(TwCalendarView view) => new ClassBuilder(theme.NavButton)
@@ -185,13 +185,13 @@ public partial class TwCalendar<T> : TwBlazorComponentBase, IDisposable
     private string headerControlsClasses => new ClassBuilder(options.Theme.Display.Flex)
         .AddClass(options.Theme.Flexbox.Align.Center)
         .AddClass(options.Theme.Flexbox.Wrap)
-        .AddClass(options.Theme.Spacing.Gap.Md)
+        .AddClass(options.Theme.Spacing.Gap.Get(2))
         .Build();
 
     private string headerLeadClasses => new ClassBuilder(options.Theme.Display.Flex)
         .AddClass(options.Theme.Flexbox.Align.Center)
         .AddClass(options.Theme.Flexbox.Wrap)
-        .AddClass(options.Theme.Spacing.Gap.Xl)
+        .AddClass(options.Theme.Spacing.Gap.Get(4))
         .Build();
 
     /// <summary>

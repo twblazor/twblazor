@@ -12,6 +12,7 @@ Every twblazor component has a reference page in `references/` with its examples
 - Before using a component, read its reference page below. Use only parameters listed in its "Parameters" section. If a parameter is not listed, it does not exist, whatever another library calls it.
 - Components are named `Tw*`. Enums such as `Color`, `ButtonVariant`, `InputVariant`, `Icon`, `Rounded` and `Shadow` come from `TwBlazor.Enums`, so write `Color="Color.Primary"`, never a string.
 - Bind values with `@bind-Value` (or the bindable parameter the page names, such as `@bind-SelectedValue`), and handle events with the `EventCallback` parameters listed on the page.
+- Lay pages out with `TwContainer`, `TwFlex` (with `TwFlexItem`) and `TwGrid` (with `TwGridItem`) rather than hand-written flex and grid classes. Their spacing parameters take a step on Tailwind's spacing scale as a number, such as `Gap="4"` for `gap-4`, and responsive values end in their breakpoint, such as `ColsMd="2"`.
 - Dialogs and toasts are services. They need `<TwDialogProvider />` and `<TwToastProvider />` in `MainLayout.razor`; see the Dialog Service and Toast Service pages.
 - Every component needs its theme in `Theme.cs`. If a component throws `No Tw...Theme has been configured on the theme`, regenerate the theme at https://twblazor.com/theme with that component ticked. Never write the theme by hand.
 - Keep the accessibility the components provide: give inputs a `Label`, give icon-only buttons an `AriaLabel`, and keep the keyboard behaviour each page documents.

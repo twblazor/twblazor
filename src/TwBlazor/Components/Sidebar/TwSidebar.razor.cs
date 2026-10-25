@@ -450,10 +450,10 @@ public partial class TwSidebar : TwBlazorComponentBase, IDisposable
             .AddClass(theme.MobileOverlay).Build();
 
     private string navigationListClasses =>
-        new ClassBuilder(options.Theme.Spacing.MarginTop.Lg)
+        new ClassBuilder(options.Theme.Spacing.MarginTop.Get(3))
             .AddClass(options.Theme.Display.Flex)
             .AddClass(options.Theme.Flexbox.Col)
-            .AddClass(options.Theme.Spacing.Gap.Sm)
+            .AddClass(options.Theme.Spacing.Gap.Get(1))
             .AddClass(theme.NavigationList).Build();
 
     private string sidebarClasses =>

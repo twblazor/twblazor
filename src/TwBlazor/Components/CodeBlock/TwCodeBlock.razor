@@ -30,7 +30,7 @@
 @code {
     private RenderFragment copyButton => @<TwIcon OnClick="@Copy"
         Icon="@(copied ? Icon.Check2 : Icon.Copy)"
-        Class="@options.Theme.Spacing.Padding.Md"
+        Class="@options.Theme.Spacing.Padding.Get(2)"
         RootClass="@copyButtonClasses"
         AriaLabel="@(copied ? localizer[TwStrings.CodeBlock_Copied] : localizer[TwStrings.CodeBlock_Copy])" />;
 }

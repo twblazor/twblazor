@@ -1,4 +1,11 @@
-@ChildContent
+@if (Frame is not null && ChildContent is not null)
+{
+    @Frame(ChildContent)
+}
+else
+{
+    @ChildContent
+}
 
 <ExampleCodeBlock Razor="@exampleCode" CSharp="@cSharpCode" />
 
@@ -6,6 +13,12 @@
     [Parameter, EditorRequired] public string Name { get; set; } = string.Empty;
     [Parameter] public string? CSharpName { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>
+    /// Gets or sets decoration drawn around the live preview only, such as a browser window. The code block stays
+    /// below it and shows only the markup between the <c>CodeExample</c> tags.
+    /// </summary>
+    [Parameter] public RenderFragment<RenderFragment>? Frame { get; set; }
 
     private string exampleCode => CodeExamples.Get(Name);
     private string cSharpCode => CSharpName is null ? string.Empty : CodeExamples.Get(CSharpName);
