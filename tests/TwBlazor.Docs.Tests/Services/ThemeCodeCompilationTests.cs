@@ -20,16 +20,14 @@ public class ThemeCodeCompilationTests
     // Every component the builder offers, the same list its checkboxes come from.
     private static readonly string[] _allComponents = [.. ComponentCatalog.LoadLeafEntries().Select(leaf => leaf.Entry.Name).Where(name => name.Length > 0)];
 
-    public static TheoryData<string[]> Selections => new()
-    {
-        _allComponents,
-        new[] { "TwGrid" },
-        new[] { "TwFlex" },
-        new[] { "TwContainer" },
-        new[] { "TwButton" },
-        new[] { "TwDataTable" },
-        Array.Empty<string>()
-    };
+    private static readonly string[] _gridOnly = ["TwGrid"];
+    private static readonly string[] _flexOnly = ["TwFlex"];
+    private static readonly string[] _containerOnly = ["TwContainer"];
+    private static readonly string[] _buttonOnly = ["TwButton"];
+    private static readonly string[] _dataTableOnly = ["TwDataTable"];
+    private static readonly string[] _nothing = [];
+
+    public static TheoryData<string[]> Selections => [_allComponents, _gridOnly, _flexOnly, _containerOnly, _buttonOnly, _dataTableOnly, _nothing];
 
     private static IReadOnlyList<Diagnostic> CompileErrors(string code)
     {
