@@ -9,68 +9,68 @@
     </ThemeContent>
     <ChildContent>
         <PageCard Title="Basic usage">
-            <Description>A container is centered, grows no wider than its <code>MaxWidth</code> and pads its sides with the theme's <code>Gutter</code>, which widens on larger screens. The dashed outline shows the container's edges.</Description>
+            <Description>A container is centered, grows no wider than its <code>MaxWidth</code> and pads its sides with the theme's <code>Gutter</code>, which widens on larger screens. The dashed outline shows the container's edges inside a wider page.</Description>
 
-            <CodeExample Name="ContainerBasic">
-                <div class="rounded-lg bg-gray-100 py-4 dark:bg-gray-900">
-                    <TwContainer MaxWidth="ContainerSize.Xl2" Class="rounded-md border border-dashed border-gray-400 py-4 dark:border-gray-500">
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Release notes</h3>
-                        <p class="mt-1 text-sm text-gray-600 dark:text-gray-300">This text never runs wider than the container, however wide the page is.</p>
-                    </TwContainer>
-                </div>
+            <CodeExample Name="ContainerBasic" Frame="browserWindow">
+                <TwContainer Element="LayoutElement.Article" MaxWidth="ContainerSize.Xl2" Class="relative rounded-xl border-2 border-dashed border-purple-400 bg-white py-6 dark:border-purple-400/60 dark:bg-gray-900">
+                    <span class="absolute -top-3 start-4 rounded-full bg-purple-600 px-2 py-0.5 font-mono text-xs font-medium text-white">max-w-2xl</span>
+                    <p class="text-xs font-semibold uppercase tracking-wide text-purple-700 dark:text-purple-300">Release notes</p>
+                    <h3 class="mt-1 text-xl font-semibold text-gray-900 dark:text-white">Layout components are here</h3>
+                    <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">This article never runs wider than its container, however wide the page is, so lines stay easy to read.</p>
+                </TwContainer>
             </CodeExample>
         </PageCard>
 
         <PageCard Title="Maximum width">
-            <Description>Set <code>MaxWidth</code> to one of Tailwind's sizes, from <code>Xs</code> (20rem) to <code>Xl7</code> (80rem). <code>Prose</code> keeps lines to a comfortable reading length, <code>Full</code> matches the parent and <code>None</code> removes the limit. Without it, the theme's <code>DefaultMaxWidth</code> applies, <code>Xl7</code> by default.</Description>
+            <Description>Set <code>MaxWidth</code> to one of Tailwind's sizes, from <code>Xs</code> (20rem) to <code>Xl7</code> (80rem). <code>Prose</code> keeps lines to a comfortable reading length, <code>Full</code> matches the parent and <code>None</code> removes the limit. Without it, the theme's <code>DefaultMaxWidth</code> applies, <code>Xl7</code> by default. Each bar below is a container inside the same full-width track.</Description>
 
-            <CodeExample Name="ContainerMaxWidth">
-                <TwFlex Direction="FlexDirection.Col" Gap="3">
-                    @foreach (var size in _sizes)
+            <TwFlex Direction="FlexDirection.Col" Gap="3">
+                <CodeExample Name="ContainerMaxWidth" CSharpName="ContainerMaxWidthCode">
+                    @foreach (var (size, label) in _sizes)
                     {
-                        <TwContainer MaxWidth="size" Gutter="0">
-                            <p class="rounded-md bg-purple-100 px-3 py-2 text-sm font-medium text-purple-900 dark:bg-purple-500/20 dark:text-purple-100">MaxWidth="ContainerSize.@size"</p>
-                        </TwContainer>
+                        <div class="rounded-full bg-gray-100 p-1 dark:bg-white/5">
+                            <TwContainer MaxWidth="size" Gutter="0" Centered="false">
+                                <TwFlex Align="AlignItems.Center" Justify="JustifyContent.Between" Gap="2" Class="rounded-full bg-linear-to-r from-purple-600 to-fuchsia-700 px-3 py-1.5 text-xs text-white">
+                                    <span class="font-mono font-medium">@size</span>
+                                    <span class="text-white/90">@label</span>
+                                </TwFlex>
+                            </TwContainer>
+                        </div>
                     }
-                </TwFlex>
-            </CodeExample>
+                </CodeExample>
+            </TwFlex>
         </PageCard>
 
         <PageCard Title="Gutter and padding">
-            <Description>Set <code>Gutter</code> to a step on Tailwind's spacing scale for fixed side padding, such as <code>6</code> for <code>px-6</code>, or <code>0</code> for none. <code>PaddingY</code> pads the top and bottom, and <code>PaddingTop</code> and <code>PaddingBottom</code> override one end.</Description>
+            <Description>Set <code>Gutter</code> to a step on Tailwind's spacing scale for fixed side padding, such as <code>6</code> for <code>px-6</code>, or <code>0</code> for none. <code>PaddingY</code> pads the top and bottom, and <code>PaddingTop</code> and <code>PaddingBottom</code> override one end. The tinted area is the padding.</Description>
 
-            <CodeExample Name="ContainerPadding">
-                <TwFlex Direction="FlexDirection.Col" Gap="3">
-                    <TwContainer MaxWidth="ContainerSize.Xl3" Gutter="0" Surface="ContainerSurface.Subtle" Rounded="Rounded.Lg">
-                        <p class="text-sm text-gray-700 dark:text-gray-200">Gutter="0": the text touches the edges.</p>
-                    </TwContainer>
-                    <TwContainer MaxWidth="ContainerSize.Xl3" Gutter="8" PaddingY="6" Surface="ContainerSurface.Subtle" Rounded="Rounded.Lg">
-                        <p class="text-sm text-gray-700 dark:text-gray-200">Gutter="8" PaddingY="6": roomy on every side.</p>
-                    </TwContainer>
-                    <TwContainer MaxWidth="ContainerSize.Xl3" Gutter="4" PaddingY="6" PaddingBottom="2" Surface="ContainerSurface.Subtle" Rounded="Rounded.Lg">
-                        <p class="text-sm text-gray-700 dark:text-gray-200">PaddingBottom="2" tightens just the bottom.</p>
-                    </TwContainer>
-                </TwFlex>
-            </CodeExample>
+            <TwFlex Direction="FlexDirection.Col" Gap="3">
+                <CodeExample Name="ContainerPadding" CSharpName="ContainerPaddingCode">
+                    @foreach (var (label, gutter, paddingY, paddingBottom) in _paddings)
+                    {
+                        <TwContainer MaxWidth="ContainerSize.Xl3" Gutter="gutter" PaddingY="paddingY" PaddingBottom="paddingBottom" Rounded="Rounded.Lg" Class="bg-purple-100 bg-[repeating-linear-gradient(45deg,transparent,transparent_6px,rgb(147_51_234/0.12)_6px,rgb(147_51_234/0.12)_7px)] ring-1 ring-purple-600/20 dark:bg-purple-500/15 dark:ring-purple-400/30">
+                            <p class="rounded-md bg-white px-3 py-2 font-mono text-xs text-gray-800 shadow-sm dark:bg-gray-900 dark:text-gray-100">@label</p>
+                        </TwContainer>
+                    }
+                </CodeExample>
+            </TwFlex>
         </PageCard>
 
         <PageCard Title="Surfaces, corners and shadows">
             <Description>Set <code>Surface</code> to paint the theme's <code>Default</code>, <code>Subtle</code> or <code>Elevated</code> background behind the content, for a band of the page or a panel. A container has no corners or shadow of its own; set <code>Rounded</code> and <code>Shadow</code> to add them.</Description>
 
-            <CodeExample Name="ContainerSurfaces">
+            <CodeExample Name="ContainerSurfaces" CSharpName="ContainerSurfacesCode">
                 <TwGrid Cols="1" ColsMd="3" Gap="4">
-                    <TwContainer Surface="ContainerSurface.Default" Gutter="5" PaddingY="5" Rounded="Rounded.Lg" Shadow="Shadow.Md">
-                        <p class="text-sm font-semibold">Default</p>
-                        <p class="mt-1 text-sm text-gray-600 dark:text-gray-300">The same surface as a card.</p>
-                    </TwContainer>
-                    <TwContainer Surface="ContainerSurface.Subtle" Gutter="5" PaddingY="5" Rounded="Rounded.Lg">
-                        <p class="text-sm font-semibold">Subtle</p>
-                        <p class="mt-1 text-sm text-gray-600 dark:text-gray-300">A quiet tint for a band of the page.</p>
-                    </TwContainer>
-                    <TwContainer Surface="ContainerSurface.Elevated" Gutter="5" PaddingY="5" Rounded="Rounded.Lg" Shadow="Shadow.Sm">
-                        <p class="text-sm font-semibold">Elevated</p>
-                        <p class="mt-1 text-sm text-gray-600 dark:text-gray-300">A step up from the default surface.</p>
-                    </TwContainer>
+                    @foreach (var (surface, shadow, text, icon) in _surfaces)
+                    {
+                        <TwContainer Surface="surface" Shadow="shadow" Gutter="5" PaddingY="5" Rounded="Rounded.Lg" Class="ring-1 ring-gray-900/5 dark:ring-white/10">
+                            <span class="flex size-9 items-center justify-center rounded-lg bg-purple-50 text-purple-700 ring-1 ring-purple-600/10 dark:bg-purple-500/15 dark:text-purple-300 dark:ring-purple-400/20">
+                                <TwIcon Icon="icon" />
+                            </span>
+                            <p class="mt-3 text-sm font-semibold">@surface</p>
+                            <p class="mt-1 text-sm text-gray-600 dark:text-gray-300">@text</p>
+                        </TwContainer>
+                    }
                 </TwGrid>
             </CodeExample>
         </PageCard>
@@ -79,9 +79,12 @@
             <Description>Set <code>Element</code> to render the element the content calls for, so screen reader users can find it: <code>Main</code> for the page's main content, <code>Section</code> for a band named by its heading, <code>Nav</code>, <code>Aside</code>, <code>Header</code>, <code>Footer</code> and more. Name a section with <code>AriaLabelledBy</code> pointing at its heading to make it a region landmark.</Description>
 
             <CodeExample Name="ContainerElement">
-                <TwContainer Element="LayoutElement.Section" AriaLabelledBy="container-offers-heading" MaxWidth="ContainerSize.Xl4" Surface="ContainerSurface.Subtle" PaddingY="8" Rounded="Rounded.Lg">
-                    <h3 id="container-offers-heading" class="text-xl font-semibold text-gray-900 dark:text-white">This week's offers</h3>
-                    <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Rendered as a section landmark called "This week's offers".</p>
+                <TwContainer Element="LayoutElement.Section" AriaLabelledBy="container-offers-heading" MaxWidth="ContainerSize.Xl4" Gutter="8" PaddingY="10" Rounded="Rounded.Lg" Class="relative overflow-hidden bg-linear-to-br from-purple-700 via-purple-700 to-fuchsia-800 text-white">
+                    <TwIcon Icon="Icon.Tag" Class="pointer-events-none absolute -end-6 -bottom-8 text-[10rem] text-white/10" />
+                    <TwChip Label="Ends Sunday" Color="Color.Light" Size="ChipSize.Small" StartIcon="Icon.Clock" />
+                    <h3 id="container-offers-heading" class="mt-3 text-2xl font-semibold tracking-tight">This week's offers</h3>
+                    <p class="mt-2 max-w-md text-sm text-purple-50">Up to 30% off headphones, speakers and smart watches. This band is a section landmark named by its heading.</p>
+                    <TwButton Label="Shop the offers" Color="Color.Light" EndIcon="Icon.Arrow_Up_Right" Class="mt-5" />
                 </TwContainer>
             </CodeExample>
         </PageCard>
@@ -90,8 +93,18 @@
             <Description>Set <code>Centered="false"</code> to keep the container at the start of its parent, for example a form that lines up with a heading on the left. It moves to the right in a right to left layout.</Description>
 
             <CodeExample Name="ContainerStart">
-                <TwContainer MaxWidth="ContainerSize.Md" Centered="false" Gutter="0">
-                    <TwTextfield Id="container-start-email" Label="Email address" @bind-Value="email" Placeholder="you@example.com" type="email" autocomplete="email" />
+                <TwContainer Element="LayoutElement.Section" AriaLabelledBy="container-newsletter-heading" MaxWidth="ContainerSize.Lg" Centered="false" Gutter="0">
+                    <TwFlex Align="AlignItems.Center" Gap="2">
+                        <TwIcon Icon="Icon.Envelope" Class="text-lg text-purple-700 dark:text-purple-300" />
+                        <h3 id="container-newsletter-heading" class="font-semibold text-gray-900 dark:text-white">Get the monthly update</h3>
+                    </TwFlex>
+                    <p class="mt-1 text-sm text-gray-600 dark:text-gray-300">New components and releases, once a month. No spam.</p>
+                    <TwFlex Align="AlignItems.End" Gap="2" Class="mt-4">
+                        <TwFlexItem Flex="FlexSize.Fill">
+                            <TwTextfield Id="container-start-email" Label="Email address" @bind-Value="email" Placeholder="you@example.com" type="email" autocomplete="email" />
+                        </TwFlexItem>
+                        <TwButton Label="Subscribe" Color="Color.Primary" />
+                    </TwFlex>
                 </TwContainer>
             </CodeExample>
         </PageCard>
@@ -99,31 +112,79 @@
         <PageCard Title="Container queries">
             <Description>Set <code>QueryContainer</code> to let the content respond to the container's width instead of the screen's, with Tailwind's <code>@@sm:</code>, <code>@@md:</code> and similar prefixes. The same markup sits in a narrow and a wide container below: the narrow one stacks, the wide one lays out in a row.</Description>
 
-            <CodeExample Name="ContainerQuery" CSharpName="ContainerQueryCode">
-                <TwFlex Direction="FlexDirection.Col" Gap="4">
+            <TwFlex Direction="FlexDirection.Col" Gap="4">
+                <CodeExample Name="ContainerQuery" CSharpName="ContainerQueryCode">
                     @foreach (var size in _querySizes)
                     {
-                        <TwContainer MaxWidth="size" Gutter="4" PaddingY="4" Centered="false" QueryContainer Surface="ContainerSurface.Subtle" Rounded="Rounded.Lg">
+                        <TwContainer MaxWidth="size" Gutter="4" PaddingY="4" Centered="false" QueryContainer Surface="ContainerSurface.Default" Rounded="Rounded.Lg" Shadow="Shadow.Sm" Class="ring-1 ring-gray-900/5 dark:ring-white/10">
                             <div class="@queryLayout">
-                                <TwAvatar Name="Priya Patel" Color="Color.Primary" />
+                                <TwAvatar Name="Priya Patel" Color="Color.Primary" Size="AvatarSize.Large" />
                                 <div class="min-w-0 flex-1">
                                     <p class="font-semibold">Priya Patel</p>
                                     <p class="text-sm text-gray-600 dark:text-gray-300">Product designer, London</p>
+                                    <TwChip Label="Available" Color="Color.Success" Size="ChipSize.Small" Class="mt-1.5" />
                                 </div>
-                                <TwButton Label="Message" Variant="ButtonVariant.Outlined" Color="Color.Primary" AriaLabel="@($"Message Priya Patel, {size} container")" />
+                                <TwButton Label="Message" Variant="ButtonVariant.Outlined" Color="Color.Primary" StartIcon="Icon.Chat_Dots" AriaLabel="@($"Message Priya Patel, {size} container")" />
                             </div>
                         </TwContainer>
                     }
-                </TwFlex>
-            </CodeExample>
+                </CodeExample>
+            </TwFlex>
         </PageCard>
     </ChildContent>
 </PageContainer>
 
 @code {
+    // The browser window around the basic example's preview. It frames the preview only, so the code block
+    // below shows just the container.
+    private readonly RenderFragment<RenderFragment> browserWindow = preview =>
+        @<div class="overflow-hidden rounded-lg border border-white/10 bg-gray-950 shadow-2xl shadow-purple-500/15">
+            <TwFlex Align="AlignItems.Center" Justify="JustifyContent.Between" Class="border-b border-white/10 bg-white/5 font-sans" aria-hidden="true">
+                <TwFlex Align="AlignItems.Center" Gap="2" Class="min-w-0 px-4 py-2 text-xs text-gray-300">
+                    <TwIcon Icon="Icon.Globe2" Plain Class="shrink-0 text-sky-300" />
+                    <span class="truncate">example.com/blog</span>
+                </TwFlex>
+                <TwFlex Class="shrink-0 text-[11px] text-gray-400">
+                    <TwFlex Element="LayoutElement.Span" Inline Align="AlignItems.Center" Justify="JustifyContent.Center" Class="h-8 w-10"><TwIcon Icon="Icon.Dash_Lg" Plain /></TwFlex>
+                    <TwFlex Element="LayoutElement.Span" Inline Align="AlignItems.Center" Justify="JustifyContent.Center" Class="h-8 w-10"><TwIcon Icon="Icon.Square" Plain /></TwFlex>
+                    <TwFlex Element="LayoutElement.Span" Inline Align="AlignItems.Center" Justify="JustifyContent.Center" Class="h-8 w-10"><TwIcon Icon="Icon.X_Lg" Plain /></TwFlex>
+                </TwFlex>
+            </TwFlex>
+            <div class="bg-gray-50 bg-[radial-gradient(var(--color-gray-300)_1px,transparent_1px)] bg-size-[14px_14px] py-8 dark:bg-gray-950/40 dark:bg-[radial-gradient(var(--color-gray-700)_1px,transparent_1px)]">
+                @preview
+            </div>
+        </div>;
+
     private string email = string.Empty;
 
-    private static readonly ContainerSize[] _sizes = [ContainerSize.Sm, ContainerSize.Lg, ContainerSize.Xl2, ContainerSize.Xl4, ContainerSize.Full];
+    #region CodeExample ContainerMaxWidthCode
+    private static readonly (ContainerSize Size, string Label)[] _sizes =
+    [
+        (ContainerSize.Xs, "20rem"),
+        (ContainerSize.Lg, "32rem"),
+        (ContainerSize.Xl2, "42rem"),
+        (ContainerSize.Xl4, "56rem"),
+        (ContainerSize.Full, "100%")
+    ];
+    #endregion
+
+    #region CodeExample ContainerPaddingCode
+    private static readonly (string Label, double Gutter, double? PaddingY, double? PaddingBottom)[] _paddings =
+    [
+        ("Gutter=\"0\"", 0, null, null),
+        ("Gutter=\"8\" PaddingY=\"6\"", 8, 6, null),
+        ("Gutter=\"4\" PaddingY=\"6\" PaddingBottom=\"2\"", 4, 6, 2)
+    ];
+    #endregion
+
+    #region CodeExample ContainerSurfacesCode
+    private static readonly (ContainerSurface Surface, Shadow Shadow, string Text, Icon Icon)[] _surfaces =
+    [
+        (ContainerSurface.Default, Shadow.Md, "The same surface as a card.", Icon.Grid_3X3_Gap),
+        (ContainerSurface.Subtle, Shadow.None, "A quiet tint for a band of the page.", Icon.Columns_Gap),
+        (ContainerSurface.Elevated, Shadow.Sm, "A step up from the default surface.", Icon.Lightning_Charge)
+    ];
+    #endregion
 
     #region CodeExample ContainerQueryCode
     private static readonly ContainerSize[] _querySizes = [ContainerSize.Xs, ContainerSize.Full];

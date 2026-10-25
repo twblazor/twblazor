@@ -12,24 +12,29 @@
             <Description>A <code>TwFlex</code> lays its children out in a row. <code>Gap</code> sets the space between them as a step on Tailwind's spacing scale, such as <code>3</code> for <code>gap-3</code>.</Description>
 
             <CodeExample Name="FlexBasic">
-                <TwFlex Gap="3" Wrap="FlexWrap.Wrap">
-                    <TwButton Label="Save" Color="Color.Primary" />
-                    <TwButton Label="Save as draft" Color="Color.Primary" Variant="ButtonVariant.Outlined" />
-                    <TwButton Label="Cancel" Color="Color.Primary" Variant="ButtonVariant.Text" />
+                <TwFlex Wrap="FlexWrap.Wrap" Align="AlignItems.Center" Gap="3" Class="rounded-xl bg-white p-3 shadow-sm ring-1 ring-gray-900/5 dark:bg-white/5 dark:ring-white/10">
+                    <TwButton Label="Publish" Color="Color.Primary" StartIcon="Icon.Rocket_Takeoff" />
+                    <TwButton Label="Save draft" Color="Color.Primary" Variant="ButtonVariant.Outlined" StartIcon="Icon.Pencil" />
+                    <TwButton Label="Share" Color="Color.Primary" Variant="ButtonVariant.Text" StartIcon="Icon.Share" />
                 </TwFlex>
             </CodeExample>
         </PageCard>
 
         <PageCard Title="Direction">
-            <Description>Set <code>Direction</code> to <code>Col</code> to stack children. Add <code>DirectionSm</code>, <code>DirectionMd</code>, <code>DirectionLg</code>, <code>DirectionXl</code> or <code>DirectionXl2</code> to change direction from that breakpoint up: this one stacks on a phone and sits in a row from <code>md</code>.</Description>
+            <Description>Set <code>Direction</code> to <code>Col</code> to stack children. Add <code>DirectionSm</code>, <code>DirectionMd</code>, <code>DirectionLg</code>, <code>DirectionXl</code> or <code>DirectionXl2</code> to change direction from that breakpoint up: these steps stack on a phone and sit in a row from <code>md</code>.</Description>
 
-            <CodeExample Name="FlexDirection">
-                <TwFlex Direction="FlexDirection.Col" DirectionMd="FlexDirection.Row" Gap="4">
+            <CodeExample Name="FlexDirection" CSharpName="FlexDirectionCode">
+                <TwFlex Element="LayoutElement.Ol" Direction="FlexDirection.Col" DirectionMd="FlexDirection.Row" Gap="4">
                     @foreach (var step in _steps)
                     {
-                        <TwFlexItem Flex="FlexSize.Fill" Class="rounded-lg border border-gray-200 p-4 dark:border-gray-700">
-                            <p class="text-xs font-semibold uppercase tracking-wide text-purple-700 dark:text-purple-300">Step @step.Number</p>
-                            <p class="mt-1 font-semibold">@step.Title</p>
+                        <TwFlexItem Element="LayoutElement.Li" Flex="FlexSize.Fill" Class="rounded-xl bg-white p-5 shadow-sm ring-1 ring-gray-900/5 dark:bg-white/5 dark:ring-white/10">
+                            <TwFlex Align="AlignItems.Center" Gap="3">
+                                <span class="flex size-10 items-center justify-center rounded-lg bg-linear-to-br from-purple-600 to-fuchsia-700 text-lg text-white shadow-sm shadow-purple-600/30">
+                                    <TwIcon Icon="@step.Icon" />
+                                </span>
+                                <p class="text-xs font-semibold uppercase tracking-wide text-purple-700 dark:text-purple-300">Step @step.Number</p>
+                            </TwFlex>
+                            <p class="mt-3 font-semibold text-gray-900 dark:text-white">@step.Title</p>
                             <p class="mt-1 text-sm text-gray-600 dark:text-gray-300">@step.Text</p>
                         </TwFlexItem>
                     }
@@ -45,11 +50,13 @@
                     @foreach (var justify in _justify)
                     {
                         <div>
-                            <p class="mb-1 text-xs text-gray-600 dark:text-gray-300">Justify="JustifyContent.@justify"</p>
-                            <TwFlex Justify="justify" Gap="2" Class="rounded-md bg-gray-100 p-2 dark:bg-gray-900">
-                                @for (var box = 1; box <= 3; box++)
+                            <p class="mb-1.5 font-mono text-xs text-gray-600 dark:text-gray-400">Justify="JustifyContent.@justify"</p>
+                            <TwFlex Justify="justify" Gap="2" Class="rounded-xl bg-gray-50 bg-[radial-gradient(var(--color-gray-300)_1px,transparent_1px)] bg-size-[14px_14px] p-2 ring-1 ring-gray-900/5 dark:bg-gray-950/40 dark:bg-[radial-gradient(var(--color-gray-700)_1px,transparent_1px)] dark:ring-white/10">
+                                @foreach (var icon in _justifyIcons)
                                 {
-                                    <span class="rounded bg-purple-600 px-3 py-1 text-sm font-medium text-white">@box</span>
+                                    <span class="flex size-9 items-center justify-center rounded-lg bg-white text-purple-700 shadow-sm ring-1 ring-gray-900/10 dark:bg-gray-800 dark:text-purple-300 dark:ring-white/10">
+                                        <TwIcon Icon="icon" />
+                                    </span>
                                 }
                             </TwFlex>
                         </div>
@@ -66,11 +73,11 @@
                     @foreach (var align in _align)
                     {
                         <div>
-                            <p class="mb-1 text-xs text-gray-600 dark:text-gray-300">Align="AlignItems.@align"</p>
-                            <TwFlex Align="align" Gap="2" Class="h-28 rounded-md bg-gray-100 p-2 dark:bg-gray-900">
-                                <span class="rounded bg-purple-600 px-3 py-1 text-sm text-white">Short</span>
-                                <span class="rounded bg-purple-600 px-3 py-4 text-lg text-white">Tall</span>
-                                <span class="rounded bg-purple-600 px-3 py-2 text-xs text-white">Small</span>
+                            <p class="mb-1.5 font-mono text-xs text-gray-600 dark:text-gray-400">Align="AlignItems.@align"</p>
+                            <TwFlex Align="align" Gap="2" Class="h-28 rounded-xl bg-gray-50 bg-[radial-gradient(var(--color-gray-300)_1px,transparent_1px)] bg-size-[14px_14px] p-2 ring-1 ring-gray-900/5 dark:bg-gray-950/40 dark:bg-[radial-gradient(var(--color-gray-700)_1px,transparent_1px)] dark:ring-white/10">
+                                <span class="rounded-lg bg-purple-600 px-3 py-1 text-sm font-medium text-white shadow-sm">Short</span>
+                                <span class="rounded-lg bg-fuchsia-700 px-3 py-4 text-lg font-medium text-white shadow-sm">Tall</span>
+                                <span class="rounded-lg bg-indigo-600 px-3 py-2 text-xs font-medium text-white shadow-sm">Small</span>
                             </TwFlex>
                         </div>
                     }
@@ -81,26 +88,35 @@
         <PageCard Title="Wrapping and separate gaps">
             <Description>Set <code>Wrap</code> to let children flow onto new lines. <code>ColGap</code> and <code>RowGap</code> space columns and rows separately, and <code>AlignContent</code> spaces the wrapped lines.</Description>
 
-            <CodeExample Name="FlexWrap">
-                <TwFlex Element="LayoutElement.Ul" Wrap="FlexWrap.Wrap" ColGap="2" RowGap="3" AriaLabel="Topics">
-                    @foreach (var topic in _topics)
-                    {
-                        <li><TwChip Label="@topic" Color="Color.Primary" Variant="ButtonVariant.Outlined" /></li>
-                    }
-                </TwFlex>
+            <CodeExample Name="FlexWrap" CSharpName="FlexWrapCode">
+                <div class="rounded-xl bg-white p-4 shadow-sm ring-1 ring-gray-900/5 dark:bg-white/5 dark:ring-white/10">
+                    <TwFlex Align="AlignItems.Center" Gap="2" Class="mb-3 text-sm font-semibold text-gray-900 dark:text-white">
+                        <TwIcon Icon="Icon.Funnel" Class="text-purple-700 dark:text-purple-300" />
+                        Filter by topic
+                    </TwFlex>
+                    <TwFlex Element="LayoutElement.Ul" Wrap="FlexWrap.Wrap" ColGap="2" RowGap="3" AriaLabel="Topics">
+                        @foreach (var (topic, selected) in _topics)
+                        {
+                            <li><TwChip Label="@topic" Color="Color.Primary" Variant="@(selected ? ButtonVariant.Filled : ButtonVariant.Outlined)" StartIcon="@(selected ? Icon.Check_Lg : (Icon?)null)" /></li>
+                        }
+                    </TwFlex>
+                </div>
             </CodeExample>
         </PageCard>
 
         <PageCard Title="Dividers">
             <Description>Set <code>Divided</code> to draw a line between children: down between a row, or across between a column. Render a list with <code>Element="LayoutElement.Ul"</code> and items with <code>Element="LayoutElement.Li"</code>; a list layout keeps its list meaning for screen readers.</Description>
 
-            <CodeExample Name="FlexDivided">
-                <TwFlex Element="LayoutElement.Ul" Divided Wrap="FlexWrap.Wrap" Class="rounded-lg border border-gray-200 dark:border-gray-700" AriaLabel="Account summary">
-                    @foreach (var (label, value) in _stats)
+            <CodeExample Name="FlexDivided" CSharpName="FlexDividedCode">
+                <TwFlex Element="LayoutElement.Ul" Divided Wrap="FlexWrap.Wrap" Class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-gray-900/5 dark:bg-white/5 dark:ring-white/10" AriaLabel="Account summary">
+                    @foreach (var stat in _stats)
                     {
-                        <TwFlexItem Element="LayoutElement.Li" Flex="FlexSize.Fill" Class="px-5 py-4">
-                            <p class="text-xs text-gray-600 dark:text-gray-300">@label</p>
-                            <p class="mt-1 text-xl font-semibold tabular-nums">@value</p>
+                        <TwFlexItem Element="LayoutElement.Li" Flex="FlexSize.Fill" Class="min-w-36 px-5 py-4">
+                            <TwFlex Align="AlignItems.Center" Gap="2" Class="text-xs font-medium text-gray-600 dark:text-gray-300">
+                                <TwIcon Icon="@stat.Icon" Class="text-purple-700 dark:text-purple-300" />
+                                @stat.Label
+                            </TwFlex>
+                            <p class="mt-1 text-xl font-semibold tabular-nums text-gray-900 dark:text-white">@stat.Value</p>
                         </TwFlexItem>
                     }
                 </TwFlex>
@@ -108,36 +124,46 @@
         </PageCard>
 
         <PageCard Title="Growing, shrinking and basis">
-            <Description>Wrap a child in <code>TwFlexItem</code> to control its size. <code>Flex</code> sets the grow and shrink shorthand: <code>Fill</code> takes an equal share of the space, <code>Auto</code> grows from its content, <code>None</code> keeps its size. <code>Basis</code> sets the starting size, and <code>Grow</code> and <code>Shrink</code> switch each behaviour on or off.</Description>
+            <Description>Wrap a child in <code>TwFlexItem</code> to control its size. <code>Flex</code> sets the grow and shrink shorthand: <code>Fill</code> takes an equal share of the space, <code>Auto</code> grows from its content, <code>None</code> keeps its size. <code>Basis</code> sets the starting size, and <code>Grow</code> and <code>Shrink</code> switch each behaviour on or off. In this search bar the field fills the row and the buttons keep their size; below it, a sidebar starts at a third and the content grows into the rest.</Description>
 
-            <CodeExample Name="FlexItemSize">
-                <TwFlex Direction="FlexDirection.Col" Gap="3">
-                    <TwFlex Gap="2">
-                        <TwFlexItem Flex="FlexSize.None" Class="rounded bg-purple-600 px-3 py-2 text-sm text-white">None</TwFlexItem>
-                        <TwFlexItem Flex="FlexSize.Fill" Class="rounded bg-purple-200 px-3 py-2 text-sm text-purple-900">Fill</TwFlexItem>
-                        <TwFlexItem Flex="FlexSize.Fill" Class="rounded bg-purple-200 px-3 py-2 text-sm text-purple-900">Fill</TwFlexItem>
+            <CodeExample Name="FlexItemSize" CSharpName="FlexItemSizeCode">
+                <TwFlex Direction="FlexDirection.Col" Gap="4">
+                    <TwFlex Align="AlignItems.End" Gap="2" Class="rounded-xl bg-white p-3 shadow-sm ring-1 ring-gray-900/5 dark:bg-white/5 dark:ring-white/10">
+                        <TwFlexItem Flex="FlexSize.Fill">
+                            <TwTextfield Id="flex-search" Label="Search orders" @bind-Value="search" Placeholder="Order number or customer" type="search" />
+                        </TwFlexItem>
+                        <TwFlexItem Flex="FlexSize.None">
+                            <TwButton Label="Search" Color="Color.Primary" StartIcon="Icon.Search" />
+                        </TwFlexItem>
                     </TwFlex>
-                    <TwFlex Gap="2">
-                        <TwFlexItem Basis="FlexBasis.Third" Shrink="false" Class="rounded bg-purple-600 px-3 py-2 text-sm text-white">Basis third</TwFlexItem>
-                        <TwFlexItem Grow="true" Class="rounded bg-purple-200 px-3 py-2 text-sm text-purple-900">Grow</TwFlexItem>
+                    <TwFlex Gap="3" Class="h-32">
+                        <TwFlexItem Basis="FlexBasis.Third" Shrink="false" Class="rounded-xl bg-purple-50 p-3 ring-1 ring-purple-600/10 dark:bg-purple-500/15 dark:ring-purple-400/20">
+                            <p class="font-mono text-xs text-purple-800 dark:text-purple-200">Basis="FlexBasis.Third"</p>
+                        </TwFlexItem>
+                        <TwFlexItem Grow="true" Class="rounded-xl bg-white p-3 shadow-sm ring-1 ring-gray-900/5 dark:bg-white/5 dark:ring-white/10">
+                            <p class="font-mono text-xs text-gray-600 dark:text-gray-300">Grow="true"</p>
+                        </TwFlexItem>
                     </TwFlex>
                 </TwFlex>
             </CodeExample>
         </PageCard>
 
         <PageCard Title="Pushing items to the end">
-            <Description>Set <code>PushEnd</code> on an item to push it, and everything after it, to the end of the layout: the end of a row, as in this toolbar, or the bottom of a column (see Full height below). Set <code>MinWidthZero</code> to let an item shrink below its content so long text inside it can truncate.</Description>
+            <Description>Set <code>PushEnd</code> on an item to push it, and everything after it, to the end of the layout: the end of a row, as in this file row, or the bottom of a column (see Full height below). Set <code>MinWidthZero</code> to let an item shrink below its content so long text inside it can truncate.</Description>
 
             <CodeExample Name="FlexItemPushEnd">
-                <TwFlex Align="AlignItems.Center" Gap="3" Class="rounded-lg border border-gray-200 px-4 py-3 dark:border-gray-700">
-                    <TwIcon Icon="Icon.File_Earmark_Text" Class="text-xl text-purple-600 dark:text-purple-300" />
+                <TwFlex Align="AlignItems.Center" Gap="3" Class="rounded-xl bg-white p-3 shadow-sm ring-1 ring-gray-900/5 dark:bg-white/5 dark:ring-white/10">
+                    <span class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-red-50 text-lg text-red-700 ring-1 ring-red-600/10 dark:bg-red-500/15 dark:text-red-300 dark:ring-red-400/20">
+                        <TwIcon Icon="Icon.File_Earmark_Pdf" />
+                    </span>
                     <TwFlexItem MinWidthZero>
-                        <p class="truncate font-medium">Quarterly results presentation for the board, final version.pdf</p>
+                        <p class="truncate text-sm font-semibold text-gray-900 dark:text-white">Quarterly results presentation for the board, final version.pdf</p>
+                        <p class="text-xs text-gray-600 dark:text-gray-300">2.4 MB, updated today</p>
                     </TwFlexItem>
                     <TwFlexItem PushEnd Flex="FlexSize.None">
                         <TwFlex Gap="2">
-                            <TwButton Label="Share" Variant="ButtonVariant.Text" Color="Color.Primary" Dense />
-                            <TwButton Label="Download" Color="Color.Primary" Dense />
+                            <TwButton Label="Share" Variant="ButtonVariant.Text" Color="Color.Primary" StartIcon="Icon.Share" Dense />
+                            <TwButton Label="Download" Color="Color.Primary" StartIcon="Icon.Download" Dense />
                         </TwFlex>
                     </TwFlexItem>
                 </TwFlex>
@@ -148,11 +174,11 @@
             <Description><code>AlignSelf</code> overrides the layout's alignment for one item. <code>Order</code> draws an item in another position, from 1 to 12 or <code>ItemOrder.First</code> and <code>ItemOrder.Last</code>. Order and reversed directions change only where items are drawn, not the Tab order or what a screen reader reads first, so use them for decoration and keep the markup in reading order.</Description>
 
             <CodeExample Name="FlexItemOrder">
-                <TwFlex Align="AlignItems.Start" Gap="2" Class="h-24 rounded-md bg-gray-100 p-2 dark:bg-gray-900">
-                    <TwFlexItem Class="rounded bg-purple-600 px-3 py-1 text-sm text-white">A</TwFlexItem>
-                    <TwFlexItem AlignSelf="AlignSelf.End" Class="rounded bg-purple-600 px-3 py-1 text-sm text-white">B, AlignSelf End</TwFlexItem>
-                    <TwFlexItem Order="ItemOrder.First" Class="rounded bg-fuchsia-700 px-3 py-1 text-sm text-white">C, Order First</TwFlexItem>
-                    <TwFlexItem AlignSelf="AlignSelf.Center" Class="rounded bg-purple-600 px-3 py-1 text-sm text-white">D, AlignSelf Center</TwFlexItem>
+                <TwFlex Align="AlignItems.Start" Gap="2" Class="h-28 rounded-xl bg-gray-50 bg-[radial-gradient(var(--color-gray-300)_1px,transparent_1px)] bg-size-[14px_14px] p-2 ring-1 ring-gray-900/5 dark:bg-gray-950/40 dark:bg-[radial-gradient(var(--color-gray-700)_1px,transparent_1px)] dark:ring-white/10">
+                    <TwFlexItem Class="rounded-lg bg-white px-3 py-1.5 text-sm font-medium text-gray-800 shadow-sm ring-1 ring-gray-900/10 dark:bg-gray-800 dark:text-gray-100 dark:ring-white/10">A</TwFlexItem>
+                    <TwFlexItem AlignSelf="AlignSelf.End" Class="rounded-lg bg-white px-3 py-1.5 text-sm font-medium text-gray-800 shadow-sm ring-1 ring-gray-900/10 dark:bg-gray-800 dark:text-gray-100 dark:ring-white/10">B, AlignSelf End</TwFlexItem>
+                    <TwFlexItem Order="ItemOrder.First" Class="rounded-lg bg-purple-600 px-3 py-1.5 text-sm font-medium text-white shadow-sm">C, Order First</TwFlexItem>
+                    <TwFlexItem AlignSelf="AlignSelf.Center" Class="rounded-lg bg-white px-3 py-1.5 text-sm font-medium text-gray-800 shadow-sm ring-1 ring-gray-900/10 dark:bg-gray-800 dark:text-gray-100 dark:ring-white/10">D, AlignSelf Center</TwFlexItem>
                 </TwFlex>
             </CodeExample>
         </PageCard>
@@ -160,16 +186,25 @@
         <PageCard Title="Full height">
             <Description>Set <code>FullHeight</code> to fill the parent's height. In a column, <code>PushEnd</code> on an item pushes it to the bottom, so buttons line up across a row of cards of different lengths.</Description>
 
-            <CodeExample Name="FlexFullHeight">
+            <CodeExample Name="FlexFullHeight" CSharpName="FlexFullHeightCode">
                 <TwGrid Cols="1" ColsSm="2" Gap="4">
                     @foreach (var plan in _plans)
                     {
                         <TwCard>
-                            <TwFlex Element="LayoutElement.Article" Direction="FlexDirection.Col" FullHeight Gap="2">
-                                <h3 class="text-lg font-semibold">@plan.Name</h3>
-                                <p class="text-sm text-gray-600 dark:text-gray-300">@plan.Text</p>
+                            <TwFlex Element="LayoutElement.Article" Direction="FlexDirection.Col" FullHeight Gap="3">
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">@plan.Name</h3>
+                                <p class="text-3xl font-semibold tracking-tight tabular-nums text-gray-900 dark:text-white">@plan.Price<span class="text-sm font-normal text-gray-600 dark:text-gray-300"> per month</span></p>
+                                <TwFlex Element="LayoutElement.Ul" Direction="FlexDirection.Col" Gap="2" Class="text-sm text-gray-700 dark:text-gray-200">
+                                    @foreach (var feature in plan.Features)
+                                    {
+                                        <TwFlex Element="LayoutElement.Li" Align="AlignItems.Center" Gap="2">
+                                            <TwIcon Icon="Icon.Check_Lg" Class="text-purple-700 dark:text-purple-300" />
+                                            @feature
+                                        </TwFlex>
+                                    }
+                                </TwFlex>
                                 <TwFlexItem PushEnd Class="pt-3">
-                                    <TwButton Label="Choose plan" AriaLabel="@($"Choose plan: {plan.Name}")" Color="Color.Primary" />
+                                    <TwButton Label="Choose plan" AriaLabel="@($"Choose plan: {plan.Name}")" Color="Color.Primary" Class="w-full" />
                                 </TwFlexItem>
                             </TwFlex>
                         </TwCard>
@@ -182,9 +217,9 @@
             <Description>Set <code>Inline</code> for a flex layout that sits in a line of text, such as an icon beside a word.</Description>
 
             <CodeExample Name="FlexInline">
-                <p class="text-sm text-gray-700 dark:text-gray-200">
+                <p class="rounded-xl bg-white p-4 text-sm text-gray-700 shadow-sm ring-1 ring-gray-900/5 dark:bg-white/5 dark:text-gray-200 dark:ring-white/10">
                     Your order is
-                    <TwFlex Element="LayoutElement.Span" Inline Align="AlignItems.Center" Gap="1" Class="font-semibold text-green-700 dark:text-green-400">
+                    <TwFlex Element="LayoutElement.Span" Inline Align="AlignItems.Center" Gap="1" Class="rounded-full bg-green-50 px-2 py-0.5 font-semibold text-green-800 dark:bg-green-500/15 dark:text-green-300">
                         <TwIcon Icon="Icon.Check_Circle_Fill" />
                         confirmed
                     </TwFlex>
@@ -196,28 +231,50 @@
 </PageContainer>
 
 @code {
-    private sealed record Step(int Number, string Title, string Text);
-
-    private static readonly Step[] _steps =
-    [
-        new(1, "Choose", "Pick the plan that suits you."),
-        new(2, "Connect", "Link your bank account securely."),
-        new(3, "Grow", "Watch your savings add up.")
-    ];
+    private string search = string.Empty;
 
     private static readonly JustifyContent[] _justify = [JustifyContent.Start, JustifyContent.Center, JustifyContent.End, JustifyContent.Between, JustifyContent.Around, JustifyContent.Evenly];
 
+    private static readonly Icon[] _justifyIcons = [Icon.Bell, Icon.Envelope, Icon.Gear];
+
     private static readonly AlignItems[] _align = [AlignItems.Start, AlignItems.Center, AlignItems.End, AlignItems.Stretch, AlignItems.Baseline];
 
-    private static readonly string[] _topics = ["Accessibility", "Blazor", "Dark mode", "Design tokens", "Forms", "Localization", "Performance", "Tailwind CSS", "Testing", "Theming"];
+    #region CodeExample FlexDirectionCode
+    private sealed record Step(int Number, string Title, string Text, Icon Icon);
 
-    private static readonly (string Label, string Value)[] _stats = [("Balance", "£12,480"), ("Invested", "£10,950"), ("Return", "+13.98%"), ("Cash", "£1,162")];
+    private static readonly Step[] _steps =
+    [
+        new(1, "Choose a plan", "Pick the plan that suits you.", Icon.Wallet2),
+        new(2, "Connect your bank", "Link your account securely.", Icon.Shield_Check),
+        new(3, "Watch it grow", "Savings add up automatically.", Icon.Piggy_Bank)
+    ];
+    #endregion
 
-    private sealed record Plan(string Name, string Text);
+    #region CodeExample FlexWrapCode
+    private static readonly (string Topic, bool Selected)[] _topics =
+    [
+        ("Accessibility", true), ("Blazor", true), ("Dark mode", false), ("Design tokens", false), ("Forms", false),
+        ("Localization", false), ("Performance", false), ("Tailwind CSS", true), ("Testing", false), ("Theming", false)
+    ];
+    #endregion
+
+    #region CodeExample FlexDividedCode
+    private static readonly (string Label, string Value, Icon Icon)[] _stats =
+    [
+        ("Balance", "£12,480", Icon.Wallet2),
+        ("Invested", "£10,950", Icon.Graph_Up_Arrow),
+        ("Return", "+13.98%", Icon.Arrow_Up_Right),
+        ("Cash", "£1,162", Icon.Piggy_Bank)
+    ];
+    #endregion
+
+    #region CodeExample FlexFullHeightCode
+    private sealed record Plan(string Name, string Price, string[] Features);
 
     private static readonly Plan[] _plans =
     [
-        new("Starter", "Everything you need to try it out."),
-        new("Team", "Shared workspaces, roles and permissions, audit history, single sign-on and priority support for growing teams.")
+        new("Starter", "£0", ["One workspace", "Community support"]),
+        new("Team", "£12", ["Unlimited workspaces", "Roles and permissions", "Audit history", "Single sign-on", "Priority support"])
     ];
+    #endregion
 }

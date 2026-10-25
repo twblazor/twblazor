@@ -31,34 +31,6 @@
         "theme": "TwCollapseTheme"
       },
       {
-        "id": "containers-navitem",
-        "display": "Containers",
-        "isNew": true,
-        "items": [
-          {
-            "id": "container-navitem",
-            "display": "Container",
-            "name": "TwContainer",
-            "url": "/container",
-            "theme": "TwContainerTheme"
-          },
-          {
-            "id": "flex-navitem",
-            "display": "Flex",
-            "name": "TwFlex",
-            "url": "/flex",
-            "theme": "TwFlexTheme"
-          },
-          {
-            "id": "grid-navitem",
-            "display": "Grid",
-            "name": "TwGrid",
-            "url": "/grid",
-            "theme": "TwGridTheme"
-          }
-        ]
-      },
-      {
         "id": "drawer-navitem",
         "display": "Drawer",
         "name": "TwDrawer",
@@ -122,6 +94,32 @@
         "name": "TwTreeList",
         "url": "/tree-list",
         "theme": "TwTreeListTheme"
+      }
+    ]
+  },
+  {
+    "category": "Containers",
+    "items": [
+      {
+        "id": "container-navitem",
+        "display": "Container",
+        "name": "TwContainer",
+        "url": "/container",
+        "theme": "TwContainerTheme"
+      },
+      {
+        "id": "flex-navitem",
+        "display": "Flex",
+        "name": "TwFlex",
+        "url": "/flex",
+        "theme": "TwFlexTheme"
+      },
+      {
+        "id": "grid-navitem",
+        "display": "Grid",
+        "name": "TwGrid",
+        "url": "/grid",
+        "theme": "TwGridTheme"
       }
     ]
   },
