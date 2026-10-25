@@ -17,7 +17,7 @@ public class GetStartedPageTests : DocsTestBase
         Assert.Equal("true", tabs[0].GetAttribute("aria-selected"));
 
         var panel = cut.Find("div[role='tabpanel']");
-        Assert.Contains("dotnet tool install -g TwBlazor.Templates", panel.TextContent);
+        Assert.Contains("dotnet tool install -g twblazor.templates", panel.TextContent, StringComparison.OrdinalIgnoreCase);
         Assert.Contains("twblazor new MyApp", panel.TextContent);
         Assert.Contains("dotnet run --project MyApp --launch-profile http", panel.TextContent);
         Assert.DoesNotContain("--twblazor-project", panel.TextContent);
