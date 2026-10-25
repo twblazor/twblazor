@@ -97,7 +97,7 @@ See [AI Agents & Skills](https://twblazor.com/ai-agents) for what each skill cov
 
 1. Install the [twblazor NuGet package](https://www.nuget.org/packages/twblazor) in your Blazor project.
 ```pwsh
-$ dotnet add package twblazor --version 2.3.3
+$ dotnet add package twblazor --version 3.0.0
 ```
 2. Head to the [Get Started guide](https://twblazor.com/get-started) for the rest of the setup - stylesheets, imports, providers, theming and dependency injection - covering both Interactive Server and WebAssembly Blazor Web Apps step by step.
 
