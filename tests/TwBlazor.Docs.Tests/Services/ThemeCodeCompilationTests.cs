@@ -76,7 +76,7 @@ public class ThemeCodeCompilationTests
     [Fact]
     public void ALayoutComponent_BringsTheSharedScalesItUses()
     {
-        var code = ThemeCodeGenerator.Generate(_template, _template.ResolveThemeTypes(["TwGrid"]), _defaultColors);
+        var code = ThemeCodeGenerator.Generate(_template, _template.ResolveThemeTypes(_gridOnly), _defaultColors);
 
         Assert.Contains("new TwGridTheme", code);
         Assert.Contains("var spacing = new TwBlazorSpacing", code);
