@@ -40,12 +40,12 @@ public class TwGridTests : TwBlazorTestBase
     public void Columns_AndTheirBreakpointVariants_AddTheirPrefixedClasses()
     {
         var element = Render(p => p
-            .Add(x => x.Columns, 1)
-            .Add(x => x.SmColumns, 2)
-            .Add(x => x.MdColumns, 3)
-            .Add(x => x.LgColumns, 4)
-            .Add(x => x.XlColumns, 6)
-            .Add(x => x.Xl2Columns, 12));
+            .Add(x => x.Cols, 1)
+            .Add(x => x.ColsSm, 2)
+            .Add(x => x.ColsMd, 3)
+            .Add(x => x.ColsLg, 4)
+            .Add(x => x.ColsXl, 6)
+            .Add(x => x.ColsXl2, 12));
 
         Assert.Contains("grid-cols-1", element.ClassList);
         Assert.Contains("sm:grid-cols-2", element.ClassList);
@@ -60,11 +60,11 @@ public class TwGridTests : TwBlazorTestBase
     {
         var element = Render(p => p
             .Add(x => x.Rows, 2)
-            .Add(x => x.SmRows, 3)
-            .Add(x => x.MdRows, 4)
-            .Add(x => x.LgRows, 5)
-            .Add(x => x.XlRows, 6)
-            .Add(x => x.Xl2Rows, 1));
+            .Add(x => x.RowsSm, 3)
+            .Add(x => x.RowsMd, 4)
+            .Add(x => x.RowsLg, 5)
+            .Add(x => x.RowsXl, 6)
+            .Add(x => x.RowsXl2, 1));
 
         Assert.Contains("grid-rows-2", element.ClassList);
         Assert.Contains("sm:grid-rows-3", element.ClassList);
@@ -77,15 +77,15 @@ public class TwGridTests : TwBlazorTestBase
     [Fact]
     public void CountsOffTheScale_AddNoClasses()
     {
-        var element = Render(p => p.Add(x => x.Columns, 13).Add(x => x.Rows, 7));
+        var element = Render(p => p.Add(x => x.Cols, 13).Add(x => x.Rows, 7));
 
         Assert.Equal([theme.Base], element.ClassList);
     }
 
     [Fact]
-    public void MinColumnWidth_FitsColumnsToTheSpace_InsteadOfTheColumnCounts()
+    public void MinColWidth_FitsColsToTheSpace_InsteadOfTheColCounts()
     {
-        var element = Render(p => p.Add(x => x.MinColumnWidth, "14rem").Add(x => x.Columns, 3).Add(x => x.MdColumns, 2));
+        var element = Render(p => p.Add(x => x.MinColWidth, "14rem").Add(x => x.Cols, 3).Add(x => x.ColsMd, 2));
 
         Assert.Contains(theme.AutoFit, element.ClassList);
         Assert.DoesNotContain("grid-cols-3", element.ClassList);
@@ -96,19 +96,19 @@ public class TwGridTests : TwBlazorTestBase
     [Fact]
     public void AutoFill_KeepsEmptyColumns()
     {
-        var element = Render(p => p.Add(x => x.MinColumnWidth, "10rem").Add(x => x.AutoFill, true));
+        var element = Render(p => p.Add(x => x.MinColWidth, "10rem").Add(x => x.AutoFill, true));
 
         Assert.Contains(theme.AutoFill, element.ClassList);
         Assert.DoesNotContain(theme.AutoFit, element.ClassList);
     }
 
     [Fact]
-    public void ColumnTemplate_SetsTheColumnsInline_AndWinsOverCountsAndMinColumnWidth()
+    public void ColTemplate_SetsTheColsInline_AndWinsOverCountsAndMinColWidth()
     {
         var element = Render(p => p
-            .Add(x => x.ColumnTemplate, "16rem 1fr")
-            .Add(x => x.MinColumnWidth, "10rem")
-            .Add(x => x.Columns, 3));
+            .Add(x => x.ColTemplate, "16rem 1fr")
+            .Add(x => x.MinColWidth, "10rem")
+            .Add(x => x.Cols, 3));
 
         Assert.Equal("grid-template-columns: 16rem 1fr", element.GetAttribute("style"));
         Assert.Equal([theme.Base], element.ClassList);
@@ -135,7 +135,7 @@ public class TwGridTests : TwBlazorTestBase
     public void InlineValues_CannotBreakOutOfTheirDeclaration()
     {
         var element = Render(p => p
-            .Add(x => x.ColumnTemplate, "1fr; color: red")
+            .Add(x => x.ColTemplate, "1fr; color: red")
             .Add(x => x.Areas, ["main\" } body { color: red"]));
 
         var style = element.GetAttribute("style")!;
@@ -147,7 +147,7 @@ public class TwGridTests : TwBlazorTestBase
     [Fact]
     public void Style_IsAddedAfterTheGridsOwnDeclarations()
     {
-        var element = Render(p => p.Add(x => x.ColumnTemplate, "1fr 1fr").Add(x => x.Style, "height: 10rem;"));
+        var element = Render(p => p.Add(x => x.ColTemplate, "1fr 1fr").Add(x => x.Style, "height: 10rem;"));
 
         Assert.Equal("grid-template-columns: 1fr 1fr; height: 10rem", element.GetAttribute("style"));
     }
@@ -156,11 +156,11 @@ public class TwGridTests : TwBlazorTestBase
     public void Subgrid_SharesTheParentsTracks_InsteadOfItsOwn()
     {
         var element = Render(p => p
-            .Add(x => x.SubgridColumns, true)
+            .Add(x => x.SubgridCols, true)
             .Add(x => x.SubgridRows, true)
-            .Add(x => x.Columns, 3)
+            .Add(x => x.Cols, 3)
             .Add(x => x.Rows, 2)
-            .Add(x => x.MinColumnWidth, "10rem"));
+            .Add(x => x.MinColWidth, "10rem"));
 
         Assert.Contains("grid-cols-subgrid", element.ClassList);
         Assert.Contains("grid-rows-subgrid", element.ClassList);
@@ -172,7 +172,7 @@ public class TwGridTests : TwBlazorTestBase
     [Fact]
     public void Gaps_UseTheSpacingSteps()
     {
-        var element = Render(p => p.Add(x => x.Gap, 6).Add(x => x.ColumnGap, 4).Add(x => x.RowGap, 8));
+        var element = Render(p => p.Add(x => x.Gap, 6).Add(x => x.ColGap, 4).Add(x => x.RowGap, 8));
 
         Assert.Contains("gap-6", element.ClassList);
         Assert.Contains("gap-x-4", element.ClassList);
@@ -181,10 +181,10 @@ public class TwGridTests : TwBlazorTestBase
 
     [Theory]
     [InlineData(GridAutoFlow.Row, "grid-flow-row")]
-    [InlineData(GridAutoFlow.Column, "grid-flow-col")]
+    [InlineData(GridAutoFlow.Col, "grid-flow-col")]
     [InlineData(GridAutoFlow.Dense, "grid-flow-dense")]
     [InlineData(GridAutoFlow.RowDense, "grid-flow-row-dense")]
-    [InlineData(GridAutoFlow.ColumnDense, "grid-flow-col-dense")]
+    [InlineData(GridAutoFlow.ColDense, "grid-flow-col-dense")]
     public void AutoFlow_AddsItsClass(GridAutoFlow flow, string expected)
     {
         Assert.Contains(expected, Render(p => p.Add(x => x.AutoFlow, flow)).ClassList);
@@ -195,9 +195,9 @@ public class TwGridTests : TwBlazorTestBase
     [InlineData(GridAutoSize.Min, "auto-cols-min", "auto-rows-min")]
     [InlineData(GridAutoSize.Max, "auto-cols-max", "auto-rows-max")]
     [InlineData(GridAutoSize.Fr, "auto-cols-fr", "auto-rows-fr")]
-    public void AutoColumns_AndAutoRows_SizeImplicitTracks(GridAutoSize size, string columns, string rows)
+    public void AutoCols_AndAutoRows_SizeImplicitTracks(GridAutoSize size, string columns, string rows)
     {
-        var element = Render(p => p.Add(x => x.AutoColumns, size).Add(x => x.AutoRows, size));
+        var element = Render(p => p.Add(x => x.AutoCols, size).Add(x => x.AutoRows, size));
 
         Assert.Contains(columns, element.ClassList);
         Assert.Contains(rows, element.ClassList);
@@ -214,11 +214,11 @@ public class TwGridTests : TwBlazorTestBase
     }
 
     [Fact]
-    public void AlignItems_JustifyContent_AndAlignContent_AddTheirClasses()
+    public void Align_Justify_AndAlignContent_AddTheirClasses()
     {
         var element = Render(p => p
-            .Add(x => x.AlignItems, AlignItems.Center)
-            .Add(x => x.JustifyContent, JustifyContent.Between)
+            .Add(x => x.Align, AlignItems.Center)
+            .Add(x => x.Justify, JustifyContent.Between)
             .Add(x => x.AlignContent, AlignContent.End));
 
         Assert.Contains("items-center", element.ClassList);
@@ -238,7 +238,7 @@ public class TwGridTests : TwBlazorTestBase
     [Fact]
     public void Class_IsMergedLast_SoItWinsOverTheParameters()
     {
-        var element = Render(p => p.Add(x => x.Columns, 2).Add(x => x.Class, "grid-cols-5"));
+        var element = Render(p => p.Add(x => x.Cols, 2).Add(x => x.Class, "grid-cols-5"));
 
         Assert.Contains("grid-cols-5", element.ClassList);
         Assert.DoesNotContain("grid-cols-2", element.ClassList);

@@ -14,8 +14,8 @@ namespace TwBlazor.Components;
 /// </summary>
 /// <remarks>
 /// <para>
-/// Columns are chosen in this order: <see cref="SubgridColumns"/>, then <see cref="ColumnTemplate"/>, then
-/// <see cref="MinColumnWidth"/>, then <see cref="Columns"/> and its breakpoint variants. Rows work the same way
+/// Columns are chosen in this order: <see cref="SubgridCols"/>, then <see cref="ColTemplate"/>, then
+/// <see cref="MinColWidth"/>, then <see cref="Cols"/> and its breakpoint variants. Rows work the same way
 /// with <see cref="SubgridRows"/>, <see cref="RowTemplate"/> and <see cref="Rows"/>.
 /// </para>
 /// <para>
@@ -35,32 +35,32 @@ public class TwGrid : TwLayoutComponentBase
     /// <summary>
     /// Gets or sets the number of equal columns at every width, from 1 to 12.
     /// </summary>
-    [Parameter] public int? Columns { get; set; }
+    [Parameter] public int? Cols { get; set; }
 
     /// <summary>
     /// Gets or sets the number of columns from the <c>sm</c> breakpoint (40rem) upwards.
     /// </summary>
-    [Parameter] public int? SmColumns { get; set; }
+    [Parameter] public int? ColsSm { get; set; }
 
     /// <summary>
     /// Gets or sets the number of columns from the <c>md</c> breakpoint (48rem) upwards.
     /// </summary>
-    [Parameter] public int? MdColumns { get; set; }
+    [Parameter] public int? ColsMd { get; set; }
 
     /// <summary>
     /// Gets or sets the number of columns from the <c>lg</c> breakpoint (64rem) upwards.
     /// </summary>
-    [Parameter] public int? LgColumns { get; set; }
+    [Parameter] public int? ColsLg { get; set; }
 
     /// <summary>
     /// Gets or sets the number of columns from the <c>xl</c> breakpoint (80rem) upwards.
     /// </summary>
-    [Parameter] public int? XlColumns { get; set; }
+    [Parameter] public int? ColsXl { get; set; }
 
     /// <summary>
     /// Gets or sets the number of columns from the <c>2xl</c> breakpoint (96rem) upwards.
     /// </summary>
-    [Parameter] public int? Xl2Columns { get; set; }
+    [Parameter] public int? ColsXl2 { get; set; }
 
     /// <summary>
     /// Gets or sets the number of equal rows at every width, from 1 to 6.
@@ -70,36 +70,36 @@ public class TwGrid : TwLayoutComponentBase
     /// <summary>
     /// Gets or sets the number of rows from the <c>sm</c> breakpoint upwards.
     /// </summary>
-    [Parameter] public int? SmRows { get; set; }
+    [Parameter] public int? RowsSm { get; set; }
 
     /// <summary>
     /// Gets or sets the number of rows from the <c>md</c> breakpoint upwards.
     /// </summary>
-    [Parameter] public int? MdRows { get; set; }
+    [Parameter] public int? RowsMd { get; set; }
 
     /// <summary>
     /// Gets or sets the number of rows from the <c>lg</c> breakpoint upwards.
     /// </summary>
-    [Parameter] public int? LgRows { get; set; }
+    [Parameter] public int? RowsLg { get; set; }
 
     /// <summary>
     /// Gets or sets the number of rows from the <c>xl</c> breakpoint upwards.
     /// </summary>
-    [Parameter] public int? XlRows { get; set; }
+    [Parameter] public int? RowsXl { get; set; }
 
     /// <summary>
     /// Gets or sets the number of rows from the <c>2xl</c> breakpoint upwards.
     /// </summary>
-    [Parameter] public int? Xl2Rows { get; set; }
+    [Parameter] public int? RowsXl2 { get; set; }
 
     /// <summary>
     /// Gets or sets the narrowest a column may be, as a CSS length such as <c>16rem</c>. The grid then makes as many
     /// columns as fit, with no breakpoints needed, and drops to a single column when even one does not fit.
     /// </summary>
-    [Parameter] public string? MinColumnWidth { get; set; }
+    [Parameter] public string? MinColWidth { get; set; }
 
     /// <summary>
-    /// Gets or sets whether a grid with <see cref="MinColumnWidth"/> keeps empty columns when there are too few
+    /// Gets or sets whether a grid with <see cref="MinColWidth"/> keeps empty columns when there are too few
     /// items to fill a row, so items keep the same width instead of stretching to fill it.
     /// </summary>
     [Parameter] public bool AutoFill { get; set; }
@@ -108,7 +108,7 @@ public class TwGrid : TwLayoutComponentBase
     /// Gets or sets a custom column template, as the value of CSS <c>grid-template-columns</c>, such as
     /// <c>16rem 1fr</c> for a fixed sidebar beside a flexible main column.
     /// </summary>
-    [Parameter] public string? ColumnTemplate { get; set; }
+    [Parameter] public string? ColTemplate { get; set; }
 
     /// <summary>
     /// Gets or sets a custom row template, as the value of CSS <c>grid-template-rows</c>, such as <c>auto 1fr auto</c>.
@@ -125,7 +125,7 @@ public class TwGrid : TwLayoutComponentBase
     /// <summary>
     /// Gets or sets whether this grid, nested in a grid item, lines its columns up with its parent grid's columns.
     /// </summary>
-    [Parameter] public bool SubgridColumns { get; set; }
+    [Parameter] public bool SubgridCols { get; set; }
 
     /// <summary>
     /// Gets or sets whether this grid, nested in a grid item, lines its rows up with its parent grid's rows, so
@@ -142,7 +142,7 @@ public class TwGrid : TwLayoutComponentBase
     /// Gets or sets the space between columns as a step on Tailwind's spacing scale. It takes the place of
     /// <see cref="Gap"/> between columns.
     /// </summary>
-    [Parameter] public double? ColumnGap { get; set; }
+    [Parameter] public double? ColGap { get; set; }
 
     /// <summary>
     /// Gets or sets the space between rows as a step on Tailwind's spacing scale. It takes the place of
@@ -156,9 +156,9 @@ public class TwGrid : TwLayoutComponentBase
     [Parameter] public GridAutoFlow? AutoFlow { get; set; }
 
     /// <summary>
-    /// Gets or sets the size of columns the browser adds on its own, for example with <see cref="GridAutoFlow.Column"/>.
+    /// Gets or sets the size of columns the browser adds on its own, for example with <see cref="GridAutoFlow.Col"/>.
     /// </summary>
-    [Parameter] public GridAutoSize? AutoColumns { get; set; }
+    [Parameter] public GridAutoSize? AutoCols { get; set; }
 
     /// <summary>
     /// Gets or sets the size of rows the browser adds on its own. <see cref="GridAutoSize.Fr"/> makes every row as
@@ -174,12 +174,12 @@ public class TwGrid : TwLayoutComponentBase
     /// <summary>
     /// Gets or sets how every item is aligned inside its cell on the column axis.
     /// </summary>
-    [Parameter] public AlignItems? AlignItems { get; set; }
+    [Parameter] public AlignItems? Align { get; set; }
 
     /// <summary>
     /// Gets or sets how the columns are spaced when they are narrower than the grid.
     /// </summary>
-    [Parameter] public JustifyContent? JustifyContent { get; set; }
+    [Parameter] public JustifyContent? Justify { get; set; }
 
     /// <summary>
     /// Gets or sets how the rows are spaced when they are shorter than the grid.
@@ -191,14 +191,14 @@ public class TwGrid : TwLayoutComponentBase
         .AddClass(columnClasses)
         .AddClass(rowClasses)
         .AddClass(spacing.Gap.Get(Gap))
-        .AddClass(spacing.GapX.Get(ColumnGap))
+        .AddClass(spacing.GapX.Get(ColGap))
         .AddClass(spacing.GapY.Get(RowGap))
         .AddClass(grid.AutoFlow.Get(AutoFlow))
-        .AddClass(grid.AutoColumns.Get(AutoColumns))
+        .AddClass(grid.AutoCols.Get(AutoCols))
         .AddClass(grid.AutoRows.Get(AutoRows))
         .AddClass(justifyItemsClass)
-        .AddClass(AlignItemsClass(AlignItems))
-        .AddClass(JustifyContentClass(JustifyContent))
+        .AddClass(AlignItemsClass(Align))
+        .AddClass(JustifyContentClass(Justify))
         .AddClass(AlignContentClass(AlignContent))
         .AddClass(decorationClasses)
         .AddClass(Class)
@@ -206,34 +206,34 @@ public class TwGrid : TwLayoutComponentBase
 
     /// <inheritdoc />
     protected override string? rootStyle => JoinStyles(
-        usesMinColumnWidth ? $"--tw-grid-min: {CssValue(MinColumnWidth!)}" : null,
-        HasText(ColumnTemplate) ? $"grid-template-columns: {CssValue(ColumnTemplate!)}" : null,
+        usesMinColWidth ? $"--tw-grid-min: {CssValue(MinColWidth!)}" : null,
+        HasText(ColTemplate) ? $"grid-template-columns: {CssValue(ColTemplate!)}" : null,
         HasText(RowTemplate) ? $"grid-template-rows: {CssValue(RowTemplate!)}" : null,
         areasStyle,
         Style);
 
-    private bool usesMinColumnWidth => !SubgridColumns && !HasText(ColumnTemplate) && HasText(MinColumnWidth);
+    private bool usesMinColWidth => !SubgridCols && !HasText(ColTemplate) && HasText(MinColWidth);
 
     private string columnClasses
     {
         get
         {
-            if (SubgridColumns)
+            if (SubgridCols)
             {
-                return grid.ColumnsSubgrid;
+                return grid.ColsSubgrid;
             }
 
-            if (HasText(ColumnTemplate))
+            if (HasText(ColTemplate))
             {
                 return string.Empty;
             }
 
-            if (usesMinColumnWidth)
+            if (usesMinColWidth)
             {
                 return AutoFill ? theme.AutoFill : theme.AutoFit;
             }
 
-            return ResponsiveClasses(grid.Columns, Columns, SmColumns, MdColumns, LgColumns, XlColumns, Xl2Columns);
+            return ResponsiveClasses(grid.Cols, Cols, ColsSm, ColsMd, ColsLg, ColsXl, ColsXl2);
         }
     }
 
@@ -248,7 +248,7 @@ public class TwGrid : TwLayoutComponentBase
 
             return HasText(RowTemplate)
                 ? string.Empty
-                : ResponsiveClasses(grid.Rows, Rows, SmRows, MdRows, LgRows, XlRows, Xl2Rows);
+                : ResponsiveClasses(grid.Rows, Rows, RowsSm, RowsMd, RowsLg, RowsXl, RowsXl2);
         }
     }
 

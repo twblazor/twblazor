@@ -245,12 +245,12 @@ public enum FlexDirection
     /// <summary>
     /// Stacked top to bottom (<c>flex-col</c>).
     /// </summary>
-    Column,
+    Col,
 
     /// <summary>
     /// Stacked bottom to top (<c>flex-col-reverse</c>). Only the visual order changes.
     /// </summary>
-    ColumnReverse
+    ColReverse
 }
 
 /// <summary>
@@ -550,7 +550,7 @@ public enum GridAutoFlow
     /// <summary>
     /// Fills each column before starting the next (<c>grid-flow-col</c>).
     /// </summary>
-    Column,
+    Col,
 
     /// <summary>
     /// Fills earlier gaps with later, smaller items (<c>grid-flow-dense</c>). Only the visual order changes.
@@ -565,7 +565,7 @@ public enum GridAutoFlow
     /// <summary>
     /// Fills columns and backfills gaps (<c>grid-flow-col-dense</c>). Only the visual order changes.
     /// </summary>
-    ColumnDense
+    ColDense
 }
 
 /// <summary>

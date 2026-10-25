@@ -29,12 +29,12 @@ public class TwGridItemTests : TwBlazorTestBase
     public void ColumnSpan_AndItsBreakpointVariants_AddTheirPrefixedClasses()
     {
         var element = Render(p => p
-            .Add(x => x.ColumnSpan, GridSpan.Full)
-            .Add(x => x.SmColumnSpan, 1)
-            .Add(x => x.MdColumnSpan, 2)
-            .Add(x => x.LgColumnSpan, 3)
-            .Add(x => x.XlColumnSpan, 6)
-            .Add(x => x.Xl2ColumnSpan, 12));
+            .Add(x => x.ColSpan, GridSpan.Full)
+            .Add(x => x.ColSpanSm, 1)
+            .Add(x => x.ColSpanMd, 2)
+            .Add(x => x.ColSpanLg, 3)
+            .Add(x => x.ColSpanXl, 6)
+            .Add(x => x.ColSpanXl2, 12));
 
         Assert.Contains("col-span-full", element.ClassList);
         Assert.Contains("sm:col-span-1", element.ClassList);
@@ -49,11 +49,11 @@ public class TwGridItemTests : TwBlazorTestBase
     {
         var element = Render(p => p
             .Add(x => x.RowSpan, 2)
-            .Add(x => x.SmRowSpan, 3)
-            .Add(x => x.MdRowSpan, GridSpan.Full)
-            .Add(x => x.LgRowSpan, 4)
-            .Add(x => x.XlRowSpan, 5)
-            .Add(x => x.Xl2RowSpan, 6));
+            .Add(x => x.RowSpanSm, 3)
+            .Add(x => x.RowSpanMd, GridSpan.Full)
+            .Add(x => x.RowSpanLg, 4)
+            .Add(x => x.RowSpanXl, 5)
+            .Add(x => x.RowSpanXl2, 6));
 
         Assert.Contains("row-span-2", element.ClassList);
         Assert.Contains("sm:row-span-3", element.ClassList);
@@ -67,12 +67,12 @@ public class TwGridItemTests : TwBlazorTestBase
     public void ColumnStart_AndItsBreakpointVariants_AddTheirPrefixedClasses()
     {
         var element = Render(p => p
-            .Add(x => x.ColumnStart, 1)
-            .Add(x => x.SmColumnStart, 2)
-            .Add(x => x.MdColumnStart, 3)
-            .Add(x => x.LgColumnStart, 4)
-            .Add(x => x.XlColumnStart, 5)
-            .Add(x => x.Xl2ColumnStart, 13));
+            .Add(x => x.ColStart, 1)
+            .Add(x => x.ColStartSm, 2)
+            .Add(x => x.ColStartMd, 3)
+            .Add(x => x.ColStartLg, 4)
+            .Add(x => x.ColStartXl, 5)
+            .Add(x => x.ColStartXl2, 13));
 
         Assert.Contains("col-start-1", element.ClassList);
         Assert.Contains("sm:col-start-2", element.ClassList);
@@ -87,11 +87,11 @@ public class TwGridItemTests : TwBlazorTestBase
     {
         var element = Render(p => p
             .Add(x => x.RowStart, 1)
-            .Add(x => x.SmRowStart, 2)
-            .Add(x => x.MdRowStart, 3)
-            .Add(x => x.LgRowStart, 4)
-            .Add(x => x.XlRowStart, 5)
-            .Add(x => x.Xl2RowStart, 7));
+            .Add(x => x.RowStartSm, 2)
+            .Add(x => x.RowStartMd, 3)
+            .Add(x => x.RowStartLg, 4)
+            .Add(x => x.RowStartXl, 5)
+            .Add(x => x.RowStartXl2, 7));
 
         Assert.Contains("row-start-1", element.ClassList);
         Assert.Contains("sm:row-start-2", element.ClassList);
@@ -105,9 +105,9 @@ public class TwGridItemTests : TwBlazorTestBase
     public void ValuesOffTheScale_AddNoClasses()
     {
         var element = Render(p => p
-            .Add(x => x.ColumnSpan, 13)
+            .Add(x => x.ColSpan, 13)
             .Add(x => x.RowSpan, 7)
-            .Add(x => x.ColumnStart, 14)
+            .Add(x => x.ColStart, 14)
             .Add(x => x.RowStart, 0));
 
         Assert.Equal([theme.Item], element.ClassList);
@@ -145,8 +145,8 @@ public class TwGridItemTests : TwBlazorTestBase
     {
         var cut = TestContext.Render<TwGrid>(p => p
             .Add(x => x.Element, LayoutElement.Ul)
-            .Add(x => x.Columns, 2)
-            .AddChildContent<TwGridItem>(item => item.Add(x => x.Element, LayoutElement.Li).Add(x => x.ColumnSpan, 2)));
+            .Add(x => x.Cols, 2)
+            .AddChildContent<TwGridItem>(item => item.Add(x => x.Element, LayoutElement.Li).Add(x => x.ColSpan, 2)));
 
         var item = cut.Find("ul > li");
         Assert.Contains("col-span-2", item.ClassList);

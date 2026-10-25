@@ -106,8 +106,8 @@ public class TwFlexItemTests : TwBlazorTestBase
     }
 
     [Theory]
-    [InlineData(FlexDirection.Column)]
-    [InlineData(FlexDirection.ColumnReverse)]
+    [InlineData(FlexDirection.Col)]
+    [InlineData(FlexDirection.ColReverse)]
     public void PushEnd_InAColumn_PushesToTheBottom(FlexDirection direction)
     {
         var element = RenderInFlex(direction, p => p.Add(x => x.PushEnd, true));

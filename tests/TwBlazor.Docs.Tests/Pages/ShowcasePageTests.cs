@@ -59,9 +59,9 @@ public class ShowcasePageTests : DocsTestBase
     {
         var theme = Brand(slug).Theme;
 
-        Assert.Equal(Theme.Grid.Columns.Keys.Order(), theme.Grid.Columns.Keys.Order());
-        Assert.Equal(Theme.Grid.ColumnSpan.Keys.Order(), theme.Grid.ColumnSpan.Keys.Order());
-        Assert.Equal(Theme.Grid.ColumnSpan[2].Lg, theme.Grid.ColumnSpan[2].Lg);
+        Assert.Equal(Theme.Grid.Cols.Keys.Order(), theme.Grid.Cols.Keys.Order());
+        Assert.Equal(Theme.Grid.ColSpan.Keys.Order(), theme.Grid.ColSpan.Keys.Order());
+        Assert.Equal(Theme.Grid.ColSpan[2].Lg, theme.Grid.ColSpan[2].Lg);
         Assert.Equal(Theme.Spacing.Gap.Keys.Order(), theme.Spacing.Gap.Keys.Order());
         Assert.Equal(Theme.Spacing.PaddingTop[14], theme.Spacing.PaddingTop[14]);
         Assert.Equal(Theme.Sizing.MaxWidth.Xl7, theme.Sizing.MaxWidth.Xl7);

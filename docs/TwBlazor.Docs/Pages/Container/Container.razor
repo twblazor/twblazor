@@ -25,7 +25,7 @@
             <Description>Set <code>MaxWidth</code> to one of Tailwind's sizes, from <code>Xs</code> (20rem) to <code>Xl7</code> (80rem). <code>Prose</code> keeps lines to a comfortable reading length, <code>Full</code> matches the parent and <code>None</code> removes the limit. Without it, the theme's <code>DefaultMaxWidth</code> applies, <code>Xl7</code> by default.</Description>
 
             <CodeExample Name="ContainerMaxWidth">
-                <TwFlex Direction="FlexDirection.Column" Gap="3">
+                <TwFlex Direction="FlexDirection.Col" Gap="3">
                     @foreach (var size in _sizes)
                     {
                         <TwContainer MaxWidth="size" Gutter="0">
@@ -40,7 +40,7 @@
             <Description>Set <code>Gutter</code> to a step on Tailwind's spacing scale for fixed side padding, such as <code>6</code> for <code>px-6</code>, or <code>0</code> for none. <code>PaddingY</code> pads the top and bottom, and <code>PaddingTop</code> and <code>PaddingBottom</code> override one end.</Description>
 
             <CodeExample Name="ContainerPadding">
-                <TwFlex Direction="FlexDirection.Column" Gap="3">
+                <TwFlex Direction="FlexDirection.Col" Gap="3">
                     <TwContainer MaxWidth="ContainerSize.Xl3" Gutter="0" Surface="ContainerSurface.Subtle" Rounded="Rounded.Lg">
                         <p class="text-sm text-gray-700 dark:text-gray-200">Gutter="0": the text touches the edges.</p>
                     </TwContainer>
@@ -58,7 +58,7 @@
             <Description>Set <code>Surface</code> to paint the theme's <code>Default</code>, <code>Subtle</code> or <code>Elevated</code> background behind the content, for a band of the page or a panel. A container has no corners or shadow of its own; set <code>Rounded</code> and <code>Shadow</code> to add them.</Description>
 
             <CodeExample Name="ContainerSurfaces">
-                <TwGrid Columns="1" MdColumns="3" Gap="4">
+                <TwGrid Cols="1" ColsMd="3" Gap="4">
                     <TwContainer Surface="ContainerSurface.Default" Gutter="5" PaddingY="5" Rounded="Rounded.Lg" Shadow="Shadow.Md">
                         <p class="text-sm font-semibold">Default</p>
                         <p class="mt-1 text-sm text-gray-600 dark:text-gray-300">The same surface as a card.</p>
@@ -100,7 +100,7 @@
             <Description>Set <code>QueryContainer</code> to let the content respond to the container's width instead of the screen's, with Tailwind's <code>@@sm:</code>, <code>@@md:</code> and similar prefixes. The same markup sits in a narrow and a wide container below: the narrow one stacks, the wide one lays out in a row.</Description>
 
             <CodeExample Name="ContainerQuery" CSharpName="ContainerQueryCode">
-                <TwFlex Direction="FlexDirection.Column" Gap="4">
+                <TwFlex Direction="FlexDirection.Col" Gap="4">
                     @foreach (var size in _querySizes)
                     {
                         <TwContainer MaxWidth="size" Gutter="4" PaddingY="4" Centered="false" QueryContainer Surface="ContainerSurface.Subtle" Rounded="Rounded.Lg">

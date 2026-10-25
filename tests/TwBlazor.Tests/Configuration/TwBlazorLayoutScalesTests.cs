@@ -92,8 +92,8 @@ public class TwBlazorLayoutScalesTests
     [Theory]
     [InlineData(FlexDirection.Row, "sm:flex-row")]
     [InlineData(FlexDirection.RowReverse, "sm:flex-row-reverse")]
-    [InlineData(FlexDirection.Column, "sm:flex-col")]
-    [InlineData(FlexDirection.ColumnReverse, "sm:flex-col-reverse")]
+    [InlineData(FlexDirection.Col, "sm:flex-col")]
+    [InlineData(FlexDirection.ColReverse, "sm:flex-col-reverse")]
     public void ResponsiveDirection_InTheDefaultTheme_HasEveryDirection(FlexDirection direction, string expected)
     {
         Assert.Equal(expected, _theme.Flexbox.ResponsiveDirection.Get(direction, Breakpoint.Sm));
@@ -113,17 +113,17 @@ public class TwBlazorLayoutScalesTests
     {
         var grid = _theme.Grid;
 
-        Assert.Equal(Enumerable.Range(1, 12), grid.Columns.Keys.Order());
+        Assert.Equal(Enumerable.Range(1, 12), grid.Cols.Keys.Order());
         Assert.Equal(Enumerable.Range(1, 6), grid.Rows.Keys.Order());
-        Assert.Equal(Enumerable.Range(1, 12), grid.ColumnSpan.Keys.Order());
+        Assert.Equal(Enumerable.Range(1, 12), grid.ColSpan.Keys.Order());
         Assert.Equal(Enumerable.Range(1, 6), grid.RowSpan.Keys.Order());
-        Assert.Equal(Enumerable.Range(1, 13), grid.ColumnStart.Keys.Order());
+        Assert.Equal(Enumerable.Range(1, 13), grid.ColStart.Keys.Order());
         Assert.Equal(Enumerable.Range(1, 7), grid.RowStart.Keys.Order());
-        Assert.Equal("2xl:col-span-full", grid.ColumnSpan.Full.Xl2);
+        Assert.Equal("2xl:col-span-full", grid.ColSpan.Full.Xl2);
         Assert.Equal("row-span-full", grid.RowSpan.Full.Base);
 
         string[] prefixes = ["", "sm:", "md:", "lg:", "xl:", "2xl:"];
-        Assert.All(grid.Columns, pair => Assert.Equal(
+        Assert.All(grid.Cols, pair => Assert.Equal(
             prefixes.Select(prefix => $"{prefix}grid-cols-{pair.Key}"),
             Enum.GetValues<Breakpoint>().Select(pair.Value.Get)));
     }

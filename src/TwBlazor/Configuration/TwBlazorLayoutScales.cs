@@ -238,8 +238,8 @@ public class TwResponsiveFlexDirection
     {
         FlexDirection.Row => Row.Get(breakpoint),
         FlexDirection.RowReverse => RowReverse.Get(breakpoint),
-        FlexDirection.Column => Col.Get(breakpoint),
-        FlexDirection.ColumnReverse => ColReverse.Get(breakpoint),
+        FlexDirection.Col => Col.Get(breakpoint),
+        FlexDirection.ColReverse => ColReverse.Get(breakpoint),
         _ => string.Empty
     };
 }
@@ -297,7 +297,7 @@ public class TwGridAutoFlowScale
     public string Row { get; set; } = string.Empty;
 
     /// <summary>Gets or sets the <c>grid-flow-col</c> class.</summary>
-    public string Column { get; set; } = string.Empty;
+    public string Col { get; set; } = string.Empty;
 
     /// <summary>Gets or sets the <c>grid-flow-dense</c> class.</summary>
     public string Dense { get; set; } = string.Empty;
@@ -306,7 +306,7 @@ public class TwGridAutoFlowScale
     public string RowDense { get; set; } = string.Empty;
 
     /// <summary>Gets or sets the <c>grid-flow-col-dense</c> class.</summary>
-    public string ColumnDense { get; set; } = string.Empty;
+    public string ColDense { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets the class for a flow.
@@ -316,10 +316,10 @@ public class TwGridAutoFlowScale
     public string Get(GridAutoFlow? flow) => flow switch
     {
         GridAutoFlow.Row => Row,
-        GridAutoFlow.Column => Column,
+        GridAutoFlow.Col => Col,
         GridAutoFlow.Dense => Dense,
         GridAutoFlow.RowDense => RowDense,
-        GridAutoFlow.ColumnDense => ColumnDense,
+        GridAutoFlow.ColDense => ColDense,
         _ => string.Empty
     };
 }
@@ -365,7 +365,7 @@ public class TwBlazorGrid
     /// <summary>
     /// Gets or sets the column counts at every breakpoint (<c>grid-cols-*</c>), keyed by the number of columns.
     /// </summary>
-    public TwResponsiveScale Columns { get; set; } = new();
+    public TwResponsiveScale Cols { get; set; } = new();
 
     /// <summary>
     /// Gets or sets the row counts at every breakpoint (<c>grid-rows-*</c>), keyed by the number of rows.
@@ -376,7 +376,7 @@ public class TwBlazorGrid
     /// Gets or sets the column spans at every breakpoint (<c>col-span-*</c>), keyed by the number of columns, with
     /// <see cref="TwResponsiveScale.Full"/> for <c>col-span-full</c>.
     /// </summary>
-    public TwResponsiveScale ColumnSpan { get; set; } = new();
+    public TwResponsiveScale ColSpan { get; set; } = new();
 
     /// <summary>
     /// Gets or sets the row spans at every breakpoint (<c>row-span-*</c>), keyed by the number of rows, with
@@ -387,7 +387,7 @@ public class TwBlazorGrid
     /// <summary>
     /// Gets or sets the column start lines at every breakpoint (<c>col-start-*</c>), keyed by the line number.
     /// </summary>
-    public TwResponsiveScale ColumnStart { get; set; } = new();
+    public TwResponsiveScale ColStart { get; set; } = new();
 
     /// <summary>
     /// Gets or sets the row start lines at every breakpoint (<c>row-start-*</c>), keyed by the line number.
@@ -397,7 +397,7 @@ public class TwBlazorGrid
     /// <summary>
     /// Gets or sets the class that makes a nested grid share its parent's columns (<c>grid-cols-subgrid</c>).
     /// </summary>
-    public string ColumnsSubgrid { get; set; } = string.Empty;
+    public string ColsSubgrid { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets or sets the class that makes a nested grid share its parent's rows (<c>grid-rows-subgrid</c>).
@@ -412,7 +412,7 @@ public class TwBlazorGrid
     /// <summary>
     /// Gets or sets the implicit column size classes (<c>auto-cols-*</c>).
     /// </summary>
-    public TwGridAutoSizeScale AutoColumns { get; set; } = new();
+    public TwGridAutoSizeScale AutoCols { get; set; } = new();
 
     /// <summary>
     /// Gets or sets the implicit row size classes (<c>auto-rows-*</c>).

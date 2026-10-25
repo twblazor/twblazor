@@ -11,7 +11,7 @@
                 <a href="@_brand.Path" class="@focusClass"><ShowcaseLogo Brand="_brand" /></a>
             </BrandContent>
             <NavigationContent>
-                <TwFlex Wrap="FlexWrap.Wrap" Justify="JustifyContent.Center" ColumnGap="1" Class="flex-1">
+                <TwFlex Wrap="FlexWrap.Wrap" Justify="JustifyContent.Center" ColGap="1" Class="flex-1">
                     @foreach (var link in _navigation)
                     {
                         <a href="@Anchor("showcase-products")" class="px-2.5 py-2 text-xs opacity-80 hover:opacity-100 @focusClass">@link</a>
@@ -24,12 +24,12 @@
             </ActionsContent>
         </TwNavbar>
 
-        <TwFlex Element="LayoutElement.Main" Id="showcase-main" Direction="FlexDirection.Column" Gap="3">
+        <TwFlex Element="LayoutElement.Main" Id="showcase-main" Direction="FlexDirection.Col" Gap="3">
             @* Each band takes the background of its own picture, black then white, so the picture runs edge to edge with no seam.
                The white band opts out of dark mode, since its picture is on white whatever the visitor's setting. *@
             <section class="bg-black text-center text-[#f5f5f7]" aria-labelledby="showcase-hero-heading">
                 <TwContainer MaxWidth="ContainerSize.Xl5" Gutter="6" PaddingTop="14">
-                    <TwFlex Direction="FlexDirection.Column" Align="AlignItems.Center">
+                    <TwFlex Direction="FlexDirection.Col" Align="AlignItems.Center">
                         <h1 id="showcase-hero-heading" class="text-5xl font-semibold tracking-tight md:text-[56px]">iPhone 18 Pro</h1>
                         <p class="mt-1 text-xl md:text-[28px]">Built for brilliance.</p>
                         <TwFlex Wrap="FlexWrap.Wrap" Justify="JustifyContent.Center" Gap="4" Class="mt-5">
@@ -43,7 +43,7 @@
 
             <section class="theme-light bg-white text-center text-[#1d1d1f]" aria-labelledby="showcase-second-heading">
                 <TwContainer MaxWidth="ContainerSize.Xl5" Gutter="6" PaddingTop="14">
-                    <TwFlex Direction="FlexDirection.Column" Align="AlignItems.Center">
+                    <TwFlex Direction="FlexDirection.Col" Align="AlignItems.Center">
                         <h2 id="showcase-second-heading" class="text-5xl font-semibold tracking-tight md:text-[56px]">iPad Air</h2>
                         <p class="mt-1 text-xl md:text-[28px]">Thin. Light. Ready for anything.</p>
                         <TwFlex Wrap="FlexWrap.Wrap" Justify="JustifyContent.Center" Gap="4" Class="mt-5">
@@ -57,11 +57,11 @@
 
             <TwContainer Element="LayoutElement.Section" Id="showcase-products" AriaLabelledBy="showcase-products-heading" MaxWidth="ContainerSize.None" Gutter="3" PaddingBottom="3" Class="scroll-mt-6">
                 <h2 id="showcase-products-heading" class="sr-only">More from the store</h2>
-                <TwGrid Columns="1" MdColumns="2" Gap="3">
+                <TwGrid Cols="1" ColsMd="2" Gap="3">
                     @foreach (var product in _brand.Products)
                     {
                         <TwCard>
-                        <TwFlex Element="LayoutElement.Article" Direction="FlexDirection.Column" Align="AlignItems.Center" Class="text-center">
+                        <TwFlex Element="LayoutElement.Article" Direction="FlexDirection.Col" Align="AlignItems.Center" Class="text-center">
                             <TwChip Label="@product.Tag" Color="Color.Warning" Variant="ButtonVariant.Text" Size="ChipSize.Small" Class="font-semibold uppercase tracking-wide text-[#bf4800] dark:text-[#f56300]" />
                             <h3 class="mt-1 text-[40px] font-semibold tracking-tight">@product.Name</h3>
                             <p class="mt-1 text-[21px]">@product.Description</p>

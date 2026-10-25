@@ -25,32 +25,32 @@ public class TwGridItem : TwLayoutComponentBase
     /// Gets or sets how many columns the item spans at every width, from 1 to 12, or <see cref="GridSpan.Full"/>
     /// for every column.
     /// </summary>
-    [Parameter] public int? ColumnSpan { get; set; }
+    [Parameter] public int? ColSpan { get; set; }
 
     /// <summary>
     /// Gets or sets how many columns the item spans from the <c>sm</c> breakpoint (40rem) upwards.
     /// </summary>
-    [Parameter] public int? SmColumnSpan { get; set; }
+    [Parameter] public int? ColSpanSm { get; set; }
 
     /// <summary>
     /// Gets or sets how many columns the item spans from the <c>md</c> breakpoint (48rem) upwards.
     /// </summary>
-    [Parameter] public int? MdColumnSpan { get; set; }
+    [Parameter] public int? ColSpanMd { get; set; }
 
     /// <summary>
     /// Gets or sets how many columns the item spans from the <c>lg</c> breakpoint (64rem) upwards.
     /// </summary>
-    [Parameter] public int? LgColumnSpan { get; set; }
+    [Parameter] public int? ColSpanLg { get; set; }
 
     /// <summary>
     /// Gets or sets how many columns the item spans from the <c>xl</c> breakpoint (80rem) upwards.
     /// </summary>
-    [Parameter] public int? XlColumnSpan { get; set; }
+    [Parameter] public int? ColSpanXl { get; set; }
 
     /// <summary>
     /// Gets or sets how many columns the item spans from the <c>2xl</c> breakpoint (96rem) upwards.
     /// </summary>
-    [Parameter] public int? Xl2ColumnSpan { get; set; }
+    [Parameter] public int? ColSpanXl2 { get; set; }
 
     /// <summary>
     /// Gets or sets how many rows the item spans at every width, from 1 to 6, or <see cref="GridSpan.Full"/> for every row.
@@ -60,58 +60,58 @@ public class TwGridItem : TwLayoutComponentBase
     /// <summary>
     /// Gets or sets how many rows the item spans from the <c>sm</c> breakpoint upwards.
     /// </summary>
-    [Parameter] public int? SmRowSpan { get; set; }
+    [Parameter] public int? RowSpanSm { get; set; }
 
     /// <summary>
     /// Gets or sets how many rows the item spans from the <c>md</c> breakpoint upwards.
     /// </summary>
-    [Parameter] public int? MdRowSpan { get; set; }
+    [Parameter] public int? RowSpanMd { get; set; }
 
     /// <summary>
     /// Gets or sets how many rows the item spans from the <c>lg</c> breakpoint upwards.
     /// </summary>
-    [Parameter] public int? LgRowSpan { get; set; }
+    [Parameter] public int? RowSpanLg { get; set; }
 
     /// <summary>
     /// Gets or sets how many rows the item spans from the <c>xl</c> breakpoint upwards.
     /// </summary>
-    [Parameter] public int? XlRowSpan { get; set; }
+    [Parameter] public int? RowSpanXl { get; set; }
 
     /// <summary>
     /// Gets or sets how many rows the item spans from the <c>2xl</c> breakpoint upwards.
     /// </summary>
-    [Parameter] public int? Xl2RowSpan { get; set; }
+    [Parameter] public int? RowSpanXl2 { get; set; }
 
     /// <summary>
     /// Gets or sets the column line the item starts on at every width, from 1 to 13. Use it to leave empty
     /// columns before the item.
     /// </summary>
-    [Parameter] public int? ColumnStart { get; set; }
+    [Parameter] public int? ColStart { get; set; }
 
     /// <summary>
     /// Gets or sets the column line the item starts on from the <c>sm</c> breakpoint upwards.
     /// </summary>
-    [Parameter] public int? SmColumnStart { get; set; }
+    [Parameter] public int? ColStartSm { get; set; }
 
     /// <summary>
     /// Gets or sets the column line the item starts on from the <c>md</c> breakpoint upwards.
     /// </summary>
-    [Parameter] public int? MdColumnStart { get; set; }
+    [Parameter] public int? ColStartMd { get; set; }
 
     /// <summary>
     /// Gets or sets the column line the item starts on from the <c>lg</c> breakpoint upwards.
     /// </summary>
-    [Parameter] public int? LgColumnStart { get; set; }
+    [Parameter] public int? ColStartLg { get; set; }
 
     /// <summary>
     /// Gets or sets the column line the item starts on from the <c>xl</c> breakpoint upwards.
     /// </summary>
-    [Parameter] public int? XlColumnStart { get; set; }
+    [Parameter] public int? ColStartXl { get; set; }
 
     /// <summary>
     /// Gets or sets the column line the item starts on from the <c>2xl</c> breakpoint upwards.
     /// </summary>
-    [Parameter] public int? Xl2ColumnStart { get; set; }
+    [Parameter] public int? ColStartXl2 { get; set; }
 
     /// <summary>
     /// Gets or sets the row line the item starts on at every width, from 1 to 7.
@@ -121,27 +121,27 @@ public class TwGridItem : TwLayoutComponentBase
     /// <summary>
     /// Gets or sets the row line the item starts on from the <c>sm</c> breakpoint upwards.
     /// </summary>
-    [Parameter] public int? SmRowStart { get; set; }
+    [Parameter] public int? RowStartSm { get; set; }
 
     /// <summary>
     /// Gets or sets the row line the item starts on from the <c>md</c> breakpoint upwards.
     /// </summary>
-    [Parameter] public int? MdRowStart { get; set; }
+    [Parameter] public int? RowStartMd { get; set; }
 
     /// <summary>
     /// Gets or sets the row line the item starts on from the <c>lg</c> breakpoint upwards.
     /// </summary>
-    [Parameter] public int? LgRowStart { get; set; }
+    [Parameter] public int? RowStartLg { get; set; }
 
     /// <summary>
     /// Gets or sets the row line the item starts on from the <c>xl</c> breakpoint upwards.
     /// </summary>
-    [Parameter] public int? XlRowStart { get; set; }
+    [Parameter] public int? RowStartXl { get; set; }
 
     /// <summary>
     /// Gets or sets the row line the item starts on from the <c>2xl</c> breakpoint upwards.
     /// </summary>
-    [Parameter] public int? Xl2RowStart { get; set; }
+    [Parameter] public int? RowStartXl2 { get; set; }
 
     /// <summary>
     /// Gets or sets the named area the item fills, one of the names in its grid's <see cref="TwGrid.Areas"/>.
@@ -166,10 +166,10 @@ public class TwGridItem : TwLayoutComponentBase
 
     /// <inheritdoc />
     protected override string rootClasses => new ClassBuilder(theme.Item)
-        .AddClass(ResponsiveClasses(grid.ColumnSpan, ColumnSpan, SmColumnSpan, MdColumnSpan, LgColumnSpan, XlColumnSpan, Xl2ColumnSpan))
-        .AddClass(ResponsiveClasses(grid.RowSpan, RowSpan, SmRowSpan, MdRowSpan, LgRowSpan, XlRowSpan, Xl2RowSpan))
-        .AddClass(ResponsiveClasses(grid.ColumnStart, ColumnStart, SmColumnStart, MdColumnStart, LgColumnStart, XlColumnStart, Xl2ColumnStart))
-        .AddClass(ResponsiveClasses(grid.RowStart, RowStart, SmRowStart, MdRowStart, LgRowStart, XlRowStart, Xl2RowStart))
+        .AddClass(ResponsiveClasses(grid.ColSpan, ColSpan, ColSpanSm, ColSpanMd, ColSpanLg, ColSpanXl, ColSpanXl2))
+        .AddClass(ResponsiveClasses(grid.RowSpan, RowSpan, RowSpanSm, RowSpanMd, RowSpanLg, RowSpanXl, RowSpanXl2))
+        .AddClass(ResponsiveClasses(grid.ColStart, ColStart, ColStartSm, ColStartMd, ColStartLg, ColStartXl, ColStartXl2))
+        .AddClass(ResponsiveClasses(grid.RowStart, RowStart, RowStartSm, RowStartMd, RowStartLg, RowStartXl, RowStartXl2))
         .AddClass(justifySelfClass)
         .AddClass(AlignSelfClass(AlignSelf))
         .AddClass(OrderClass(Order))

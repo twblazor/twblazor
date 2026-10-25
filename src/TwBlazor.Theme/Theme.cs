@@ -525,7 +525,7 @@ public static class Theme
         // Tailwind only compiles class names written out in full, so every breakpoint's class is listed here.
         var grid = new TwBlazorGrid
         {
-            Columns = new()
+            Cols = new()
             {
                 [1] = new("grid-cols-1", "sm:grid-cols-1", "md:grid-cols-1", "lg:grid-cols-1", "xl:grid-cols-1", "2xl:grid-cols-1"),
                 [2] = new("grid-cols-2", "sm:grid-cols-2", "md:grid-cols-2", "lg:grid-cols-2", "xl:grid-cols-2", "2xl:grid-cols-2"),
@@ -549,7 +549,7 @@ public static class Theme
                 [5] = new("grid-rows-5", "sm:grid-rows-5", "md:grid-rows-5", "lg:grid-rows-5", "xl:grid-rows-5", "2xl:grid-rows-5"),
                 [6] = new("grid-rows-6", "sm:grid-rows-6", "md:grid-rows-6", "lg:grid-rows-6", "xl:grid-rows-6", "2xl:grid-rows-6")
             },
-            ColumnSpan = new()
+            ColSpan = new()
             {
                 [1] = new("col-span-1", "sm:col-span-1", "md:col-span-1", "lg:col-span-1", "xl:col-span-1", "2xl:col-span-1"),
                 [2] = new("col-span-2", "sm:col-span-2", "md:col-span-2", "lg:col-span-2", "xl:col-span-2", "2xl:col-span-2"),
@@ -575,7 +575,7 @@ public static class Theme
                 [6] = new("row-span-6", "sm:row-span-6", "md:row-span-6", "lg:row-span-6", "xl:row-span-6", "2xl:row-span-6"),
                 Full = new("row-span-full", "sm:row-span-full", "md:row-span-full", "lg:row-span-full", "xl:row-span-full", "2xl:row-span-full")
             },
-            ColumnStart = new()
+            ColStart = new()
             {
                 [1] = new("col-start-1", "sm:col-start-1", "md:col-start-1", "lg:col-start-1", "xl:col-start-1", "2xl:col-start-1"),
                 [2] = new("col-start-2", "sm:col-start-2", "md:col-start-2", "lg:col-start-2", "xl:col-start-2", "2xl:col-start-2"),
@@ -601,17 +601,17 @@ public static class Theme
                 [6] = new("row-start-6", "sm:row-start-6", "md:row-start-6", "lg:row-start-6", "xl:row-start-6", "2xl:row-start-6"),
                 [7] = new("row-start-7", "sm:row-start-7", "md:row-start-7", "lg:row-start-7", "xl:row-start-7", "2xl:row-start-7")
             },
-            ColumnsSubgrid = "grid-cols-subgrid",
+            ColsSubgrid = "grid-cols-subgrid",
             RowsSubgrid = "grid-rows-subgrid",
             AutoFlow = new()
             {
                 Row = "grid-flow-row",
-                Column = "grid-flow-col",
+                Col = "grid-flow-col",
                 Dense = "grid-flow-dense",
                 RowDense = "grid-flow-row-dense",
-                ColumnDense = "grid-flow-col-dense"
+                ColDense = "grid-flow-col-dense"
             },
-            AutoColumns = new()
+            AutoCols = new()
             {
                 Auto = "auto-cols-auto",
                 Min = "auto-cols-min",

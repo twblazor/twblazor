@@ -7,12 +7,12 @@
 @* A stylesheet link is allowed in the body. It sits here because the page's head content is already taken by PageSeo. *@
 <link rel="stylesheet" href="@Brand.Stylesheet" />
 
-<TwFlex Id="@($"showcase-{Brand.Slug}")" Direction="FlexDirection.Column" Class="min-h-dvh">
+<TwFlex Id="@($"showcase-{Brand.Slug}")" Direction="FlexDirection.Col" Class="min-h-dvh">
     <ShowcaseBar Current="@Brand" BackHref="/#theme-case-study">An example theme inspired by @Brand.Name. Not affiliated with @Brand.Name.</ShowcaseBar>
 
     @if (!isThemed)
     {
-        <TwFlex Direction="FlexDirection.Column" Align="AlignItems.Center" Justify="JustifyContent.Center" Gap="3" role="status" Class="flex-1 px-6 py-24 text-center text-gray-700 dark:text-gray-300">
+        <TwFlex Direction="FlexDirection.Col" Align="AlignItems.Center" Justify="JustifyContent.Center" Gap="3" role="status" Class="flex-1 px-6 py-24 text-center text-gray-700 dark:text-gray-300">
             <TwSpinner Color="Color.Dark" />
             <p>Loading the @Brand.Name-inspired theme.</p>
         </TwFlex>
@@ -24,12 +24,12 @@
 
             <div class="@Options.Theme.Colors.NeutralSurface.BackgroundSubtle">
                 <TwContainer MaxWidth="ContainerSize.Xl7" Gutter="6" PaddingY="16">
-                    <TwFlex Direction="FlexDirection.Column" Gap="16">
+                    <TwFlex Direction="FlexDirection.Col" Gap="16">
                         <section aria-labelledby="showcase-traits-heading">
                             <p class="text-xs font-semibold uppercase tracking-wide @neutralText.Muted">About this example</p>
                             <h2 id="showcase-traits-heading" class="mt-1 @sectionHeadingClass">What this theme changes</h2>
                             <p class="mt-2 max-w-2xl @neutralText.Secondary">@Brand.Summary</p>
-                            <TwGrid Element="LayoutElement.Dl" Columns="1" SmColumns="2" LgColumns="4" Gap="4" Class="mt-6">
+                            <TwGrid Element="LayoutElement.Dl" Cols="1" ColsSm="2" ColsLg="4" Gap="4" Class="mt-6">
                                 @foreach (var trait in Brand.Traits)
                                 {
                                     <TwCard>

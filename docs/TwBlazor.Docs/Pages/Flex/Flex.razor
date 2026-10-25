@@ -21,10 +21,10 @@
         </PageCard>
 
         <PageCard Title="Direction">
-            <Description>Set <code>Direction</code> to <code>Column</code> to stack children. Add <code>SmDirection</code>, <code>MdDirection</code>, <code>LgDirection</code>, <code>XlDirection</code> or <code>Xl2Direction</code> to change direction from that breakpoint up: this one stacks on a phone and sits in a row from <code>md</code>.</Description>
+            <Description>Set <code>Direction</code> to <code>Col</code> to stack children. Add <code>DirectionSm</code>, <code>DirectionMd</code>, <code>DirectionLg</code>, <code>DirectionXl</code> or <code>DirectionXl2</code> to change direction from that breakpoint up: this one stacks on a phone and sits in a row from <code>md</code>.</Description>
 
             <CodeExample Name="FlexDirection">
-                <TwFlex Direction="FlexDirection.Column" MdDirection="FlexDirection.Row" Gap="4">
+                <TwFlex Direction="FlexDirection.Col" DirectionMd="FlexDirection.Row" Gap="4">
                     @foreach (var step in _steps)
                     {
                         <TwFlexItem Flex="FlexSize.Fill" Class="rounded-lg border border-gray-200 p-4 dark:border-gray-700">
@@ -41,7 +41,7 @@
             <Description>Set <code>Justify</code> to space children along the main axis: <code>Start</code>, <code>Center</code>, <code>End</code>, <code>Between</code>, <code>Around</code> or <code>Evenly</code>.</Description>
 
             <CodeExample Name="FlexJustify">
-                <TwFlex Direction="FlexDirection.Column" Gap="3">
+                <TwFlex Direction="FlexDirection.Col" Gap="3">
                     @foreach (var justify in _justify)
                     {
                         <div>
@@ -62,7 +62,7 @@
             <Description>Set <code>Align</code> to align children of different heights on the cross axis: <code>Start</code>, <code>Center</code>, <code>End</code>, <code>Stretch</code> (the default) or <code>Baseline</code>, which lines up their text.</Description>
 
             <CodeExample Name="FlexAlign">
-                <TwGrid Columns="1" SmColumns="2" LgColumns="3" Gap="4">
+                <TwGrid Cols="1" ColsSm="2" ColsLg="3" Gap="4">
                     @foreach (var align in _align)
                     {
                         <div>
@@ -79,10 +79,10 @@
         </PageCard>
 
         <PageCard Title="Wrapping and separate gaps">
-            <Description>Set <code>Wrap</code> to let children flow onto new lines. <code>ColumnGap</code> and <code>RowGap</code> space columns and rows separately, and <code>AlignContent</code> spaces the wrapped lines.</Description>
+            <Description>Set <code>Wrap</code> to let children flow onto new lines. <code>ColGap</code> and <code>RowGap</code> space columns and rows separately, and <code>AlignContent</code> spaces the wrapped lines.</Description>
 
             <CodeExample Name="FlexWrap">
-                <TwFlex Element="LayoutElement.Ul" Wrap="FlexWrap.Wrap" ColumnGap="2" RowGap="3" AriaLabel="Topics">
+                <TwFlex Element="LayoutElement.Ul" Wrap="FlexWrap.Wrap" ColGap="2" RowGap="3" AriaLabel="Topics">
                     @foreach (var topic in _topics)
                     {
                         <li><TwChip Label="@topic" Color="Color.Primary" Variant="ButtonVariant.Outlined" /></li>
@@ -111,7 +111,7 @@
             <Description>Wrap a child in <code>TwFlexItem</code> to control its size. <code>Flex</code> sets the grow and shrink shorthand: <code>Fill</code> takes an equal share of the space, <code>Auto</code> grows from its content, <code>None</code> keeps its size. <code>Basis</code> sets the starting size, and <code>Grow</code> and <code>Shrink</code> switch each behaviour on or off.</Description>
 
             <CodeExample Name="FlexItemSize">
-                <TwFlex Direction="FlexDirection.Column" Gap="3">
+                <TwFlex Direction="FlexDirection.Col" Gap="3">
                     <TwFlex Gap="2">
                         <TwFlexItem Flex="FlexSize.None" Class="rounded bg-purple-600 px-3 py-2 text-sm text-white">None</TwFlexItem>
                         <TwFlexItem Flex="FlexSize.Fill" Class="rounded bg-purple-200 px-3 py-2 text-sm text-purple-900">Fill</TwFlexItem>
@@ -161,11 +161,11 @@
             <Description>Set <code>FullHeight</code> to fill the parent's height. In a column, <code>PushEnd</code> on an item pushes it to the bottom, so buttons line up across a row of cards of different lengths.</Description>
 
             <CodeExample Name="FlexFullHeight">
-                <TwGrid Columns="1" SmColumns="2" Gap="4">
+                <TwGrid Cols="1" ColsSm="2" Gap="4">
                     @foreach (var plan in _plans)
                     {
                         <TwCard>
-                            <TwFlex Element="LayoutElement.Article" Direction="FlexDirection.Column" FullHeight Gap="2">
+                            <TwFlex Element="LayoutElement.Article" Direction="FlexDirection.Col" FullHeight Gap="2">
                                 <h3 class="text-lg font-semibold">@plan.Name</h3>
                                 <p class="text-sm text-gray-600 dark:text-gray-300">@plan.Text</p>
                                 <TwFlexItem PushEnd Class="pt-3">

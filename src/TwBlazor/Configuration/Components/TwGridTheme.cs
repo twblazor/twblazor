@@ -27,13 +27,13 @@ public class TwGridTheme
     public required string Inline { get; set; }
 
     /// <summary>
-    /// Gets or sets the columns used with <c>MinColumnWidth</c>: as many columns as fit, stretched to share the
+    /// Gets or sets the columns used with <c>MinColWidth</c>: as many columns as fit, stretched to share the
     /// row. The minimum width is read from the <c>--tw-grid-min</c> custom property.
     /// </summary>
     public required string AutoFit { get; set; }
 
     /// <summary>
-    /// Gets or sets the columns used with <c>MinColumnWidth</c> and <c>AutoFill</c>: as many columns as fit,
+    /// Gets or sets the columns used with <c>MinColWidth</c> and <c>AutoFill</c>: as many columns as fit,
     /// keeping empty tracks so a short last row does not stretch. The minimum width is read from the
     /// <c>--tw-grid-min</c> custom property.
     /// </summary>

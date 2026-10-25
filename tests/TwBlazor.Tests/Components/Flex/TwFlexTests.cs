@@ -37,12 +37,12 @@ public class TwFlexTests : TwBlazorTestBase
     public void Direction_AndItsBreakpointVariants_AddTheirPrefixedClasses()
     {
         var element = Render(p => p
-            .Add(x => x.Direction, FlexDirection.Column)
-            .Add(x => x.SmDirection, FlexDirection.ColumnReverse)
-            .Add(x => x.MdDirection, FlexDirection.Row)
-            .Add(x => x.LgDirection, FlexDirection.RowReverse)
-            .Add(x => x.XlDirection, FlexDirection.Column)
-            .Add(x => x.Xl2Direction, FlexDirection.Row));
+            .Add(x => x.Direction, FlexDirection.Col)
+            .Add(x => x.DirectionSm, FlexDirection.ColReverse)
+            .Add(x => x.DirectionMd, FlexDirection.Row)
+            .Add(x => x.DirectionLg, FlexDirection.RowReverse)
+            .Add(x => x.DirectionXl, FlexDirection.Col)
+            .Add(x => x.DirectionXl2, FlexDirection.Row));
 
         Assert.Contains("flex-col", element.ClassList);
         Assert.Contains("sm:flex-col-reverse", element.ClassList);
@@ -101,7 +101,7 @@ public class TwFlexTests : TwBlazorTestBase
     [Fact]
     public void Gaps_UseTheSpacingSteps()
     {
-        var element = Render(p => p.Add(x => x.Gap, 0.5).Add(x => x.ColumnGap, 5).Add(x => x.RowGap, 1));
+        var element = Render(p => p.Add(x => x.Gap, 0.5).Add(x => x.ColGap, 5).Add(x => x.RowGap, 1));
 
         Assert.Contains("gap-0.5", element.ClassList);
         Assert.Contains("gap-x-5", element.ClassList);
@@ -129,8 +129,8 @@ public class TwFlexTests : TwBlazorTestBase
     [InlineData(null, "divide-x", null)]
     [InlineData(FlexDirection.Row, "divide-x", null)]
     [InlineData(FlexDirection.RowReverse, "divide-x", "divide-x-reverse")]
-    [InlineData(FlexDirection.Column, "divide-y", null)]
-    [InlineData(FlexDirection.ColumnReverse, "divide-y", "divide-y-reverse")]
+    [InlineData(FlexDirection.Col, "divide-y", null)]
+    [InlineData(FlexDirection.ColReverse, "divide-y", "divide-y-reverse")]
     public void Divided_DrawsLinesAcrossTheDirection(FlexDirection? direction, string expected, string? reverse)
     {
         var element = Render(p => p.Add(x => x.Divided, true).Add(x => x.Direction, direction));
@@ -146,7 +146,7 @@ public class TwFlexTests : TwBlazorTestBase
     [Fact]
     public void Divided_False_DrawsNoLines()
     {
-        var element = Render(p => p.Add(x => x.Direction, FlexDirection.Column));
+        var element = Render(p => p.Add(x => x.Direction, FlexDirection.Col));
 
         Assert.DoesNotContain(element.ClassList, value => value.StartsWith("divide-", StringComparison.Ordinal));
     }

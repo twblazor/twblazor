@@ -41,7 +41,7 @@
                     <div class="absolute inset-0 -z-10 bg-linear-to-r from-brickblue-900/90 via-brickblue-800/60 to-transparent" aria-hidden="true"></div>
                 }
                 <TwContainer MaxWidth="ContainerSize.Xl7" Gutter="6" PaddingY="16" Class="md:py-28">
-                    <TwFlex Direction="FlexDirection.Column" Align="AlignItems.Start" Gap="4">
+                    <TwFlex Direction="FlexDirection.Col" Align="AlignItems.Start" Gap="4">
                         <h1 id="showcase-hero-heading" class="max-w-xl text-4xl font-black text-balance md:text-6xl">Build your next adventure</h1>
                         <p class="max-w-md text-lg font-medium">New sets have landed. Find the one that gets the whole family building.</p>
                         <TwButton Label="Shop now" Color="Color.Light" EndIcon="IconEnum.Chevron_Right" Href="@Anchor("showcase-products")" />
@@ -51,7 +51,7 @@
 
             <TwContainer Element="LayoutElement.Section" AriaLabelledBy="showcase-themes-heading" MaxWidth="ContainerSize.Xl7" Gutter="6" PaddingTop="12">
                 <h2 id="showcase-themes-heading" class="text-2xl font-black">Shop by theme</h2>
-                <TwGrid Element="LayoutElement.Ul" Columns="2" MdColumns="4" Gap="4" Class="mt-6">
+                <TwGrid Element="LayoutElement.Ul" Cols="2" ColsMd="4" Gap="4" Class="mt-6">
                     @foreach (var (label, classes, image) in _themes)
                     {
                         <li>
@@ -66,11 +66,11 @@
 
             <TwContainer Element="LayoutElement.Section" Id="showcase-products" AriaLabelledBy="showcase-products-heading" MaxWidth="ContainerSize.Xl7" Gutter="6" PaddingY="12" Class="scroll-mt-6">
                 <h2 id="showcase-products-heading" class="text-2xl font-black">Recommended for you</h2>
-                <TwGrid Columns="1" SmColumns="2" LgColumns="4" Gap="6" Class="mt-6">
+                <TwGrid Cols="1" ColsSm="2" ColsLg="4" Gap="6" Class="mt-6">
                     @foreach (var product in _brand.Products)
                     {
                         <TwCard>
-                            <TwFlex Element="LayoutElement.Article" Direction="FlexDirection.Column" FullHeight>
+                            <TwFlex Element="LayoutElement.Article" Direction="FlexDirection.Col" FullHeight>
                                 <div class="relative">
                                     <ShowcaseImage Url="@product.Image" Alt="@product.Name" Icon="product.Icon" Class="aspect-square w-full rounded-lg object-contain" FallbackClass="bg-neutral-100 text-7xl text-neutral-400" />
                                     <div class="absolute start-3 top-3"><TwChip Label="@product.Tag" Color="Color.Warning" Size="ChipSize.Small" Rounded="Rounded.Sm" Class="bg-brickyellow-400 font-bold text-black" /></div>

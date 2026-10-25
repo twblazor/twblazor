@@ -24,8 +24,8 @@
 
         <main id="showcase-main">
             <TwContainer Element="LayoutElement.Section" AriaLabelledBy="showcase-hero-heading" MaxWidth="ContainerSize.Xl7" Gutter="6" PaddingY="14" Class="lg:py-20">
-                <TwGrid Columns="1" LgColumns="2" AlignItems="AlignItems.Center" Gap="10">
-                    <TwFlex Direction="FlexDirection.Column" Align="AlignItems.Start" Gap="5">
+                <TwGrid Cols="1" ColsLg="2" Align="AlignItems.Center" Gap="10">
+                    <TwFlex Direction="FlexDirection.Col" Align="AlignItems.Start" Gap="5">
                         <h1 id="showcase-hero-heading" class="text-4xl font-black tracking-tight text-balance md:text-6xl">Invest in stocks and ETFs. <span class="text-tradeblue-600 dark:text-tradeblue-300">Commission-free.</span></h1>
                         <p class="max-w-lg text-lg">Fractional shares from £1, a Stocks and Shares ISA and interest on your uninvested cash, all in one app.</p>
                         <TwFlex Wrap="FlexWrap.Wrap" Gap="3">
@@ -36,7 +36,7 @@
                     </TwFlex>
 
                     <TwCard Title="Your portfolio">
-                        <TwFlex Direction="FlexDirection.Column" Gap="5">
+                        <TwFlex Direction="FlexDirection.Col" Gap="5">
                             <div>
                                 <p class="text-4xl font-black tabular-nums">£12,480.36</p>
                                 <TwFlex Wrap="FlexWrap.Wrap" Align="AlignItems.Center" Gap="2" Class="mt-2">
@@ -45,7 +45,7 @@
                                 </TwFlex>
                             </div>
                             <TwProgress T="int" Label="ISA allowance used this tax year" Value="62" Max="100" Color="Color.Primary" />
-                            <TwGrid Columns="3" Gap="3" Class="text-sm">
+                            <TwGrid Cols="3" Gap="3" Class="text-sm">
                                 @foreach (var (label, value) in _holdings)
                                 {
                                     <div>
@@ -61,8 +61,8 @@
 
             <TwContainer Element="LayoutElement.Section" Id="showcase-products" AriaLabelledBy="showcase-products-heading" MaxWidth="ContainerSize.Xl7" Gutter="6" PaddingBottom="14" Class="scroll-mt-6">
                 <h2 id="showcase-products-heading" class="text-2xl font-black tracking-tight md:text-3xl">Markets</h2>
-                <TwGrid Columns="1" LgColumns="3" Gap="6" Class="mt-6">
-                    <TwGridItem LgColumnSpan="2">
+                <TwGrid Cols="1" ColsLg="3" Gap="6" Class="mt-6">
+                    <TwGridItem ColSpanLg="2">
                         <TwCard>
                             <TwChart Title="Apple (AAPL)" Description="Daily candles for the last eight weeks, US dollars">
                                 <TwCandlestickChart Items="@_candles" ValueFormat="0.00" LabelHeader="Day" Height="ChartHeight.Large" />
@@ -71,7 +71,7 @@
                     </TwGridItem>
 
                     <TwCard Title="Watchlist" TitleLevel="3">
-                        <TwFlex Element="LayoutElement.Ul" Direction="FlexDirection.Column" Divided Class="divide-current/10 dark:divide-current/10">
+                        <TwFlex Element="LayoutElement.Ul" Direction="FlexDirection.Col" Divided Class="divide-current/10 dark:divide-current/10">
                             @foreach (var instrument in _brand.Products)
                             {
                                 var rising = instrument.Tag.StartsWith('+');
@@ -98,11 +98,11 @@
                     </TwCard>
                 </TwGrid>
 
-                <TwGrid Columns="1" MdColumns="3" Gap="6" Class="mt-6">
+                <TwGrid Cols="1" ColsMd="3" Gap="6" Class="mt-6">
                     @foreach (var (title, text, icon) in _features)
                     {
                         <TwCard>
-                            <TwFlex Direction="FlexDirection.Column" Gap="2">
+                            <TwFlex Direction="FlexDirection.Col" Gap="2">
                                 <span class="text-3xl text-tradeblue-600 dark:text-tradeblue-300" aria-hidden="true"><TwIcon Icon="icon" Plain /></span>
                                 <p class="text-lg font-bold">@title</p>
                                 <p class="text-sm opacity-80">@text</p>

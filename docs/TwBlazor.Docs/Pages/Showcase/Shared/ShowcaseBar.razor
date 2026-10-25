@@ -1,7 +1,7 @@
 @using IconEnum = TwBlazor.Enums.Icon
 
 @* The strip across the top of every example theme and the theme builder: a way back to the docs, a short note and links between them. *@
-<TwFlex Wrap="FlexWrap.Wrap" Align="AlignItems.Center" ColumnGap="4" RowGap="1" Class="bg-gray-950 px-4 py-2 text-xs text-gray-200">
+<TwFlex Wrap="FlexWrap.Wrap" Align="AlignItems.Center" ColGap="4" RowGap="1" Class="bg-gray-950 px-4 py-2 text-xs text-gray-200">
     <a href="@BackHref" class="@($"{linkClass} font-semibold text-white")">
         <TwIcon Icon="IconEnum.Arrow_Left" Plain /> Back to twblazor
     </a>
@@ -9,7 +9,7 @@
     {
         <span>@ChildContent</span>
     }
-    <TwFlex Element="LayoutElement.Nav" Wrap="FlexWrap.Wrap" Align="AlignItems.Center" ColumnGap="3" RowGap="1" AriaLabel="Example themes" Class="ms-auto">
+    <TwFlex Element="LayoutElement.Nav" Wrap="FlexWrap.Wrap" Align="AlignItems.Center" ColGap="3" RowGap="1" AriaLabel="Example themes" Class="ms-auto">
         @foreach (var brand in ShowcaseBrand.All)
         {
             <a href="@brand.Path" aria-current="@(brand == Current ? "page" : null)" class="@($"{linkClass} {currentClass}")">@brand.Name</a>

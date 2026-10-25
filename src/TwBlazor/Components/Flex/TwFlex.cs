@@ -34,27 +34,27 @@ public class TwFlex : TwLayoutComponentBase
     /// <summary>
     /// Gets or sets the direction from the <c>sm</c> breakpoint (40rem) upwards.
     /// </summary>
-    [Parameter] public FlexDirection? SmDirection { get; set; }
+    [Parameter] public FlexDirection? DirectionSm { get; set; }
 
     /// <summary>
     /// Gets or sets the direction from the <c>md</c> breakpoint (48rem) upwards.
     /// </summary>
-    [Parameter] public FlexDirection? MdDirection { get; set; }
+    [Parameter] public FlexDirection? DirectionMd { get; set; }
 
     /// <summary>
     /// Gets or sets the direction from the <c>lg</c> breakpoint (64rem) upwards.
     /// </summary>
-    [Parameter] public FlexDirection? LgDirection { get; set; }
+    [Parameter] public FlexDirection? DirectionLg { get; set; }
 
     /// <summary>
     /// Gets or sets the direction from the <c>xl</c> breakpoint (80rem) upwards.
     /// </summary>
-    [Parameter] public FlexDirection? XlDirection { get; set; }
+    [Parameter] public FlexDirection? DirectionXl { get; set; }
 
     /// <summary>
     /// Gets or sets the direction from the <c>2xl</c> breakpoint (96rem) upwards.
     /// </summary>
-    [Parameter] public FlexDirection? Xl2Direction { get; set; }
+    [Parameter] public FlexDirection? DirectionXl2 { get; set; }
 
     /// <summary>
     /// Gets or sets whether children wrap onto new lines. Leave it unset for the browser default, no wrapping.
@@ -85,7 +85,7 @@ public class TwFlex : TwLayoutComponentBase
     /// Gets or sets the space between columns as a step on Tailwind's spacing scale, such as <c>5</c> for
     /// <c>gap-x-5</c>. It takes the place of <see cref="Gap"/> between columns.
     /// </summary>
-    [Parameter] public double? ColumnGap { get; set; }
+    [Parameter] public double? ColGap { get; set; }
 
     /// <summary>
     /// Gets or sets the space between rows as a step on Tailwind's spacing scale, such as <c>1</c> for
@@ -113,17 +113,17 @@ public class TwFlex : TwLayoutComponentBase
     protected override string rootClasses => new ClassBuilder(Inline ? theme.Inline : theme.Base)
         .AddClass(JoinClasses(
             flexbox.ResponsiveDirection.Get(Direction, Breakpoint.Base),
-            flexbox.ResponsiveDirection.Get(SmDirection, Breakpoint.Sm),
-            flexbox.ResponsiveDirection.Get(MdDirection, Breakpoint.Md),
-            flexbox.ResponsiveDirection.Get(LgDirection, Breakpoint.Lg),
-            flexbox.ResponsiveDirection.Get(XlDirection, Breakpoint.Xl),
-            flexbox.ResponsiveDirection.Get(Xl2Direction, Breakpoint.Xl2)))
+            flexbox.ResponsiveDirection.Get(DirectionSm, Breakpoint.Sm),
+            flexbox.ResponsiveDirection.Get(DirectionMd, Breakpoint.Md),
+            flexbox.ResponsiveDirection.Get(DirectionLg, Breakpoint.Lg),
+            flexbox.ResponsiveDirection.Get(DirectionXl, Breakpoint.Xl),
+            flexbox.ResponsiveDirection.Get(DirectionXl2, Breakpoint.Xl2)))
         .AddClass(wrapClass)
         .AddClass(JustifyContentClass(Justify))
         .AddClass(AlignItemsClass(Align))
         .AddClass(AlignContentClass(AlignContent))
         .AddClass(spacing.Gap.Get(Gap))
-        .AddClass(spacing.GapX.Get(ColumnGap))
+        .AddClass(spacing.GapX.Get(ColGap))
         .AddClass(spacing.GapY.Get(RowGap))
         .AddClass(theme.FullWidth, FullWidth)
         .AddClass(theme.FullHeight, FullHeight)
@@ -136,7 +136,7 @@ public class TwFlex : TwLayoutComponentBase
     /// Gets whether the layout stacks its children at every width, which decides the way
     /// <see cref="TwFlexItem.PushEnd"/> pushes.
     /// </summary>
-    internal bool isColumn => Direction is FlexDirection.Column or FlexDirection.ColumnReverse;
+    internal bool isColumn => Direction is FlexDirection.Col or FlexDirection.ColReverse;
 
     /// <inheritdoc />
     protected override void BuildContent(RenderTreeBuilder builder)
@@ -157,8 +157,8 @@ public class TwFlex : TwLayoutComponentBase
 
     private string dividerClasses => Direction switch
     {
-        FlexDirection.Column => JoinClasses(theme.DivideY, theme.DivideColor),
-        FlexDirection.ColumnReverse => JoinClasses(theme.DivideY, theme.DivideYReverse, theme.DivideColor),
+        FlexDirection.Col => JoinClasses(theme.DivideY, theme.DivideColor),
+        FlexDirection.ColReverse => JoinClasses(theme.DivideY, theme.DivideYReverse, theme.DivideColor),
         FlexDirection.RowReverse => JoinClasses(theme.DivideX, theme.DivideXReverse, theme.DivideColor),
         _ => JoinClasses(theme.DivideX, theme.DivideColor)
     };

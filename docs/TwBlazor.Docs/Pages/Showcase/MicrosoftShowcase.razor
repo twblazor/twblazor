@@ -27,8 +27,8 @@
         <main id="showcase-main">
             <section class="bg-neutral-100 dark:bg-neutral-900" aria-labelledby="showcase-hero-heading">
                 <TwContainer MaxWidth="ContainerSize.Xl7" Gutter="6" PaddingY="12" Class="md:py-16">
-                    <TwGrid Columns="1" MdColumns="2" AlignItems="AlignItems.Center" Gap="8">
-                        <TwFlex Direction="FlexDirection.Column" Align="AlignItems.Start" Gap="4">
+                    <TwGrid Cols="1" ColsMd="2" Align="AlignItems.Center" Gap="8">
+                        <TwFlex Direction="FlexDirection.Col" Align="AlignItems.Start" Gap="4">
                             <TwChip Label="New" Color="Color.Warning" Size="ChipSize.Small" Rounded="Rounded.None" Class="bg-[#FFB900] font-semibold text-black" />
                             <h1 id="showcase-hero-heading" class="text-4xl font-semibold text-balance md:text-[46px] md:leading-[1.15]">Meet Surface Laptop Ultra</h1>
                             <p class="max-w-md text-lg">Our most powerful Surface Laptop yet: a Copilot+ PC built for the work that matters.</p>
@@ -44,11 +44,11 @@
 
             <TwContainer Element="LayoutElement.Section" Id="showcase-products" AriaLabelledBy="showcase-products-heading" MaxWidth="ContainerSize.Xl7" Gutter="6" PaddingY="12" Class="scroll-mt-6">
                 <h2 id="showcase-products-heading" class="sr-only">Featured products</h2>
-                <TwGrid Columns="1" SmColumns="2" LgColumns="4" Gap="6">
+                <TwGrid Cols="1" ColsSm="2" ColsLg="4" Gap="6">
                     @foreach (var product in _brand.Products)
                     {
                         <TwCard>
-                            <TwFlex Element="LayoutElement.Article" Direction="FlexDirection.Column" FullHeight>
+                            <TwFlex Element="LayoutElement.Article" Direction="FlexDirection.Col" FullHeight>
                                 <ShowcaseImage Url="@product.Image" Alt="@product.Name" Icon="product.Icon" Class="aspect-video w-full object-cover" FallbackClass="bg-neutral-100 text-6xl text-neutral-500 dark:bg-neutral-800 dark:text-neutral-300" />
                                 <div class="mt-4"><TwChip Label="@product.Tag" Color="Color.Warning" Size="ChipSize.Small" Rounded="Rounded.None" Class="bg-[#FFB900] font-semibold text-black" /></div>
                                 <h3 class="mt-3 text-xl font-semibold">@product.Name</h3>
@@ -66,7 +66,7 @@
 
             <section class="bg-[#243A5E] text-white" aria-labelledby="showcase-business-heading">
                 <TwContainer MaxWidth="ContainerSize.Xl7" Gutter="6" PaddingY="12">
-                    <TwFlex Direction="FlexDirection.Column" Align="AlignItems.Start" Gap="4">
+                    <TwFlex Direction="FlexDirection.Col" Align="AlignItems.Start" Gap="4">
                         <h2 id="showcase-business-heading" class="text-3xl font-semibold">For business</h2>
                         <p class="max-w-xl text-lg">Bring your team together with the apps and devices that keep work moving.</p>
                         <TwButton Label="Shop for business" Color="Color.Light" Href="@Anchor("showcase-products")" />
