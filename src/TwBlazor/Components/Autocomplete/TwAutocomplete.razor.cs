@@ -222,7 +222,7 @@ public partial class TwAutocomplete<T> : TwPopoverPickerComponentBase
 
     private string messageClasses => new ClassBuilder(theme.SelectCustomPlaceholder)
         .AddClass(options.Theme.Typography.Size.Sm)
-        .AddClass(options.Theme.Spacing.Padding.Md)
+        .AddClass(options.Theme.Spacing.Padding.Get(2))
         .Build();
 
     /// <inheritdoc />

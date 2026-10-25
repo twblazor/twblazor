@@ -58,7 +58,7 @@ public partial class TwDataTable<TItem>
         .AddClass(options.Theme.Flexbox.Wrap)
         .AddClass(options.Theme.Flexbox.Align.Center)
         .AddClass(options.Theme.Flexbox.Justify.Between)
-        .AddClass(options.Theme.Spacing.Gap.Md).Build();
+        .AddClass(options.Theme.Spacing.Gap.Get(2)).Build();
 
     private Icon GroupToggleIcon(TwDataTableGroup<TItem> group) =>
         group.Expanded ? Icon.Chevron_Down : DirectionalIcon(Icon.Chevron_Right, Icon.Chevron_Left);

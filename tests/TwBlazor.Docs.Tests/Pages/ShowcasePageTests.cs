@@ -62,8 +62,8 @@ public class ShowcasePageTests : DocsTestBase
         Assert.Equal(Theme.Grid.Columns.Keys.Order(), theme.Grid.Columns.Keys.Order());
         Assert.Equal(Theme.Grid.ColumnSpan.Keys.Order(), theme.Grid.ColumnSpan.Keys.Order());
         Assert.Equal(Theme.Grid.ColumnSpan[2].Lg, theme.Grid.ColumnSpan[2].Lg);
-        Assert.Equal(Theme.Spacing.Steps.Gap.Keys.Order(), theme.Spacing.Steps.Gap.Keys.Order());
-        Assert.Equal(Theme.Spacing.Steps.PaddingTop[14], theme.Spacing.Steps.PaddingTop[14]);
+        Assert.Equal(Theme.Spacing.Gap.Keys.Order(), theme.Spacing.Gap.Keys.Order());
+        Assert.Equal(Theme.Spacing.PaddingTop[14], theme.Spacing.PaddingTop[14]);
         Assert.Equal(Theme.Sizing.MaxWidth.Xl7, theme.Sizing.MaxWidth.Xl7);
         Assert.Equal(Theme.Flexbox.ResponsiveDirection.Col.Md, theme.Flexbox.ResponsiveDirection.Col.Md);
     }

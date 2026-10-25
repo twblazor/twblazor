@@ -167,7 +167,7 @@ public partial class TwCalendarDayColumn<T> : TwBlazorComponentBase, IAsyncDispo
     private string placeholderClasses => new ClassBuilder(theme.DropPlaceholder)
         .AddClass(options.Theme.Position.Absolute)
         .AddClass(options.Theme.Interaction.PointerEventsNone)
-        .AddClass(options.Theme.Spacing.Padding.Sm)
+        .AddClass(options.Theme.Spacing.Padding.Get(1))
         .Build();
 
     /// <summary>

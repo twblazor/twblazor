@@ -140,48 +140,6 @@ public class TwSpacingStepScale : Dictionary<double, string>
 }
 
 /// <summary>
-/// The spacing utilities that layout components size by a step on Tailwind's spacing scale, such as
-/// <c>Gap="4"</c> for <c>gap-4</c>. Each scale lists the steps the theme supports.
-/// </summary>
-public class TwSpacingSteps
-{
-    /// <summary>
-    /// Gets or sets the gap between rows and columns (<c>gap-*</c>).
-    /// </summary>
-    public TwSpacingStepScale Gap { get; set; } = new();
-
-    /// <summary>
-    /// Gets or sets the gap between columns (<c>gap-x-*</c>).
-    /// </summary>
-    public TwSpacingStepScale GapX { get; set; } = new();
-
-    /// <summary>
-    /// Gets or sets the gap between rows (<c>gap-y-*</c>).
-    /// </summary>
-    public TwSpacingStepScale GapY { get; set; } = new();
-
-    /// <summary>
-    /// Gets or sets the padding on the start and end (<c>px-*</c>).
-    /// </summary>
-    public TwSpacingStepScale PaddingX { get; set; } = new();
-
-    /// <summary>
-    /// Gets or sets the padding on the top and bottom (<c>py-*</c>).
-    /// </summary>
-    public TwSpacingStepScale PaddingY { get; set; } = new();
-
-    /// <summary>
-    /// Gets or sets the padding on the top (<c>pt-*</c>).
-    /// </summary>
-    public TwSpacingStepScale PaddingTop { get; set; } = new();
-
-    /// <summary>
-    /// Gets or sets the padding on the bottom (<c>pb-*</c>).
-    /// </summary>
-    public TwSpacingStepScale PaddingBottom { get; set; } = new();
-}
-
-/// <summary>
 /// The maximum width classes, one for each <see cref="ContainerSize"/>.
 /// </summary>
 public class TwMaxWidthScale

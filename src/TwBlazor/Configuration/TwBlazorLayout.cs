@@ -240,72 +240,82 @@ public class TwBlazorFlexbox
 }
 
 /// <summary>
-/// A reusable four-step scale of uniform spacing presets (all sides equal, e.g. Tailwind's "p-*"
-/// or "m-*"), used by <see cref="TwBlazorSpacing"/> for both its <see cref="TwBlazorSpacing.Padding"/>
-/// and <see cref="TwBlazorSpacing.Margin"/> scales.
-/// </summary>
-[ExcludeFromCodeCoverage]
-public class TwBlazorSpacingScale
-{
-    /// <summary>
-    /// Gets or sets the tightest preset, used for the smallest touch targets.
-    /// </summary>
-    public string Sm { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Gets or sets the compact preset, used for dense controls.
-    /// </summary>
-    public string Md { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Gets or sets the standard preset, a step up from <see cref="Md"/>.
-    /// </summary>
-    public string Lg { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Gets or sets the comfortable preset, used for cards, dialogs, and toasts.
-    /// </summary>
-    public string Xl { get; set; } = string.Empty;
-}
-
-/// <summary>
-/// A reusable four-step scale of gap sizes (Tailwind's "gap-*"), used by <see cref="TwBlazorSpacing.Gap"/>.
-/// </summary>
-[ExcludeFromCodeCoverage]
-public class TwBlazorGapScale
-{
-    /// <summary>
-    /// Gets or sets the small gap preset.
-    /// </summary>
-    public string Sm { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Gets or sets the medium (default) gap preset, used between most flex/grid children.
-    /// </summary>
-    public string Md { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Gets or sets the large gap preset.
-    /// </summary>
-    public string Lg { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Gets or sets the extra-large gap preset.
-    /// </summary>
-    public string Xl { get; set; } = string.Empty;
-}
-
-/// <summary>
-/// Global configuration for spacing utility classes (gap, padding, and margin presets) shared by
-/// all components.
+/// Global configuration for spacing utility classes shared by all components. Each scale is keyed by its step on
+/// Tailwind's spacing scale, so <c>Gap[4]</c> holds <c>gap-4</c> and <c>Padding[0.5]</c> holds <c>p-0.5</c>, and
+/// every class is written out once.
 /// </summary>
 [ExcludeFromCodeCoverage]
 public class TwBlazorSpacing
 {
     /// <summary>
-    /// Gets or sets the gap scale used between flex/grid children. See <see cref="TwBlazorGapScale"/>.
+    /// Gets or sets the gap between rows and columns (<c>gap-*</c>), keyed by step. See <see cref="TwSpacingStepScale"/>.
     /// </summary>
-    public TwBlazorGapScale Gap { get; set; } = new();
+    public TwSpacingStepScale Gap { get; set; } = new();
+
+    /// <summary>
+    /// Gets or sets the gap between columns (<c>gap-x-*</c>), keyed by step. See <see cref="TwSpacingStepScale"/>.
+    /// </summary>
+    public TwSpacingStepScale GapX { get; set; } = new();
+
+    /// <summary>
+    /// Gets or sets the gap between rows (<c>gap-y-*</c>), keyed by step. See <see cref="TwSpacingStepScale"/>.
+    /// </summary>
+    public TwSpacingStepScale GapY { get; set; } = new();
+
+    /// <summary>
+    /// Gets or sets the padding on every side (<c>p-*</c>), keyed by step. See <see cref="TwSpacingStepScale"/>.
+    /// </summary>
+    public TwSpacingStepScale Padding { get; set; } = new();
+
+    /// <summary>
+    /// Gets or sets the padding on the start and end (<c>px-*</c>), keyed by step. See <see cref="TwSpacingStepScale"/>.
+    /// </summary>
+    public TwSpacingStepScale PaddingX { get; set; } = new();
+
+    /// <summary>
+    /// Gets or sets the padding on the top and bottom (<c>py-*</c>), keyed by step. See <see cref="TwSpacingStepScale"/>.
+    /// </summary>
+    public TwSpacingStepScale PaddingY { get; set; } = new();
+
+    /// <summary>
+    /// Gets or sets the padding on the top (<c>pt-*</c>), keyed by step. See <see cref="TwSpacingStepScale"/>.
+    /// </summary>
+    public TwSpacingStepScale PaddingTop { get; set; } = new();
+
+    /// <summary>
+    /// Gets or sets the padding on the bottom (<c>pb-*</c>), keyed by step. See <see cref="TwSpacingStepScale"/>.
+    /// </summary>
+    public TwSpacingStepScale PaddingBottom { get; set; } = new();
+
+    /// <summary>
+    /// Gets or sets the padding on the start, for example to clear a leading icon (<c>ps-*</c>), keyed by step. See <see cref="TwSpacingStepScale"/>.
+    /// </summary>
+    public TwSpacingStepScale PaddingStart { get; set; } = new();
+
+    /// <summary>
+    /// Gets or sets the margin on every side (<c>m-*</c>), keyed by step. See <see cref="TwSpacingStepScale"/>.
+    /// </summary>
+    public TwSpacingStepScale Margin { get; set; } = new();
+
+    /// <summary>
+    /// Gets or sets the margin on the top (<c>mt-*</c>), keyed by step. See <see cref="TwSpacingStepScale"/>.
+    /// </summary>
+    public TwSpacingStepScale MarginTop { get; set; } = new();
+
+    /// <summary>
+    /// Gets or sets the margin on the bottom (<c>mb-*</c>), keyed by step. See <see cref="TwSpacingStepScale"/>.
+    /// </summary>
+    public TwSpacingStepScale MarginBottom { get; set; } = new();
+
+    /// <summary>
+    /// Gets or sets the margin on the start (<c>ms-*</c>), keyed by step. See <see cref="TwSpacingStepScale"/>.
+    /// </summary>
+    public TwSpacingStepScale MarginStart { get; set; } = new();
+
+    /// <summary>
+    /// Gets or sets the margin on the end (<c>me-*</c>), keyed by step. See <see cref="TwSpacingStepScale"/>.
+    /// </summary>
+    public TwSpacingStepScale MarginEnd { get; set; } = new();
 
     /// <summary>
     /// Gets or sets the padding preset used for interactive list/menu rows.
@@ -313,7 +323,7 @@ public class TwBlazorSpacing
     public string InteractiveRowPadding { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets or sets the "ml-auto" class used to push an element to the end of its flex row.
+    /// Gets or sets the "ms-auto" class used to push an element to the end of its flex row.
     /// </summary>
     public string PushEnd { get; set; } = string.Empty;
 
@@ -321,52 +331,6 @@ public class TwBlazorSpacing
     /// Gets or sets the "mt-auto" class used to push an element to the bottom of its flex column.
     /// </summary>
     public string PushBottom { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Gets or sets the padding presets used by container-style components.
-    /// </summary>
-    public TwBlazorSpacingScale Padding { get; set; } = new();
-
-    /// <summary>
-    /// Gets or sets the margin presets used by container-style components.
-    /// </summary>
-    public TwBlazorSpacingScale Margin { get; set; } = new();
-
-    /// <summary>
-    /// Gets or sets the top-margin scale (Tailwind's "mt-*"). See <see cref="TwBlazorGapScale"/>.
-    /// </summary>
-    public TwBlazorGapScale MarginTop { get; set; } = new();
-
-    /// <summary>
-    /// Gets or sets the bottom-margin scale (Tailwind's "mb-*"). See <see cref="TwBlazorGapScale"/>.
-    /// </summary>
-    public TwBlazorGapScale MarginBottom { get; set; } = new();
-
-    /// <summary>
-    /// Gets or sets the top-padding scale (Tailwind's "pt-*"). See <see cref="TwBlazorGapScale"/>.
-    /// </summary>
-    public TwBlazorGapScale PaddingTop { get; set; } = new();
-
-    /// <summary>
-    /// Gets or sets the start-padding scale (Tailwind's "ps-*"), e.g. for clearing a leading icon. See <see cref="TwBlazorGapScale"/>.
-    /// </summary>
-    public TwBlazorGapScale PaddingStart { get; set; } = new();
-
-    /// <summary>
-    /// Gets or sets the margin-start scale (Tailwind's "ms-*"). See <see cref="TwBlazorGapScale"/>.
-    /// </summary>
-    public TwBlazorGapScale MarginStart { get; set; } = new();
-
-    /// <summary>
-    /// Gets or sets the margin-end scale (Tailwind's "me-*"). See <see cref="TwBlazorGapScale"/>.
-    /// </summary>
-    public TwBlazorGapScale MarginEnd { get; set; } = new();
-
-    /// <summary>
-    /// Gets or sets the gap and padding classes keyed by their step on Tailwind's spacing scale, used by the
-    /// layout components' numeric spacing parameters (e.g. <c>Gap="4"</c>). See <see cref="TwSpacingSteps"/>.
-    /// </summary>
-    public TwSpacingSteps Steps { get; set; } = new();
 }
 
 /// <summary>
@@ -613,6 +577,11 @@ public class TwBlazorTransition
 [ExcludeFromCodeCoverage]
 public class TwBlazorFontSizeScale
 {
+    /// <summary>
+    /// Gets or sets the smallest text size class, for dense captions such as calendar labels and small chips.
+    /// </summary>
+    public string Xxs { get; set; } = string.Empty;
+
     /// <summary>
     /// Gets or sets the extra-small text size class.
     /// </summary>

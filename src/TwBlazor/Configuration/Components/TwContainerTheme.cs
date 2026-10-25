@@ -12,7 +12,7 @@ namespace TwBlazor.Configuration.Components;
 /// </summary>
 /// <remarks>
 /// The maximum widths and the numeric padding steps come from the shared
-/// <see cref="TwBlazorSizing.MaxWidth"/> and <see cref="TwBlazorSpacing.Steps"/> scales.
+/// <see cref="TwBlazorSizing.MaxWidth"/> and <see cref="TwBlazorSpacing"/> scales.
 /// </remarks>
 [ExcludeFromCodeCoverage]
 public class TwContainerTheme

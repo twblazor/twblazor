@@ -11,7 +11,7 @@ namespace TwBlazor.Configuration.Components;
 /// </summary>
 /// <remarks>
 /// Direction, wrapping, alignment, basis and order come from the shared <see cref="TwBlazorFlexbox"/> utilities,
-/// and the numeric gaps from <see cref="TwBlazorSpacing.Steps"/>.
+/// and the numeric gaps from <see cref="TwBlazorSpacing"/>.
 /// </remarks>
 [ExcludeFromCodeCoverage]
 public class TwFlexTheme

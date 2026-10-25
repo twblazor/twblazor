@@ -219,7 +219,7 @@ public partial class TwCalendarMonthView<T> : TwBlazorComponentBase, IAsyncDispo
         .AddClass(options.Theme.Flexbox.Align.Center)
         .AddClass(options.Theme.Sizing.FullWidth)
         .AddClass(options.Theme.Interaction.PointerEventsNone)
-        .AddClass(options.Theme.Spacing.Padding.Sm)
+        .AddClass(options.Theme.Spacing.Padding.Get(1))
         .Build();
 
     private bool IsDropTarget(DateTime day) =>

@@ -11,7 +11,7 @@ namespace TwBlazor.Configuration.Components;
 /// </summary>
 /// <remarks>
 /// Column and row counts, spans, start lines, auto flow and cell alignment come from the shared
-/// <see cref="TwBlazorGrid"/> utilities, and the numeric gaps from <see cref="TwBlazorSpacing.Steps"/>.
+/// <see cref="TwBlazorGrid"/> utilities, and the numeric gaps from <see cref="TwBlazorSpacing"/>.
 /// </remarks>
 [ExcludeFromCodeCoverage]
 public class TwGridTheme

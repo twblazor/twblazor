@@ -231,8 +231,8 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
     private string toolbarClasses => new ClassBuilder(options.Theme.Display.Flex)
         .AddClass(options.Theme.Flexbox.Wrap)
         .AddClass(options.Theme.Flexbox.Align.End)
-        .AddClass(options.Theme.Spacing.Gap.Md)
-        .AddClass(options.Theme.Spacing.MarginBottom.Xl).Build();
+        .AddClass(options.Theme.Spacing.Gap.Get(2))
+        .AddClass(options.Theme.Spacing.MarginBottom.Get(4)).Build();
 
     // The search always comes last in the toolbar, pushed to the end of the row.
     private string searchColumnClasses => new ClassBuilder(options.Theme.Sizing.FullWidth)
@@ -241,7 +241,7 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
 
     private string toolbarActionsClasses => new ClassBuilder(options.Theme.Display.Flex)
         .AddClass(options.Theme.Flexbox.Wrap)
-        .AddClass(options.Theme.Spacing.Gap.Sm).Build();
+        .AddClass(options.Theme.Spacing.Gap.Get(1)).Build();
 
     private string sortIconClasses => theme.SortIcon;
 

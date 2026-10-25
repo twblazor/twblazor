@@ -65,9 +65,9 @@ public abstract class TwLayoutComponentBase : TwBlazorComponentBase
     protected TwBlazorGrid grid => options.Theme.Grid;
 
     /// <summary>
-    /// Gets the shared numeric spacing scales from the theme.
+    /// Gets the shared spacing scales from the theme.
     /// </summary>
-    protected TwSpacingSteps steps => options.Theme.Spacing.Steps;
+    protected TwBlazorSpacing spacing => options.Theme.Spacing;
 
     /// <inheritdoc />
     protected override void BuildRenderTree(RenderTreeBuilder builder)

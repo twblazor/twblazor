@@ -131,13 +131,49 @@ public class TwBlazorLayoutScalesTests
     [Fact]
     public void TheDefaultTheme_ListsTheSameSpacingSteps_ForEveryScale()
     {
-        var steps = _theme.Spacing.Steps;
-        var expected = steps.Gap.Keys.Order().ToList();
+        var spacing = _theme.Spacing;
+        var expected = spacing.Gap.Keys.Order().ToList();
+        TwSpacingStepScale[] scales =
+        [
+            spacing.GapX, spacing.GapY, spacing.Padding, spacing.PaddingX, spacing.PaddingY, spacing.PaddingTop, spacing.PaddingBottom,
+            spacing.PaddingStart, spacing.Margin, spacing.MarginTop, spacing.MarginBottom, spacing.MarginStart, spacing.MarginEnd
+        ];
 
         Assert.Contains(0.5, expected);
         Assert.Contains(24, expected);
-        Assert.All(new[] { steps.GapX, steps.GapY, steps.PaddingX, steps.PaddingY, steps.PaddingTop, steps.PaddingBottom }, scale => Assert.Equal(expected, scale.Keys.Order()));
-        Assert.Equal("gap-x-2.5", steps.GapX.Get(2.5));
-        Assert.Equal("pb-12", steps.PaddingBottom.Get(12));
+        Assert.All(scales, scale => Assert.Equal(expected, scale.Keys.Order()));
+        Assert.Equal("gap-x-2.5", spacing.GapX.Get(2.5));
+        Assert.Equal("pb-12", spacing.PaddingBottom.Get(12));
+        Assert.Equal("ms-2", spacing.MarginStart.Get(2));
+        Assert.Equal("p-0.5", spacing.Padding.Get(0.5));
+    }
+
+    [Theory]
+    [InlineData("gap", 2, "gap-2")]
+    [InlineData("p", 4, "p-4")]
+    [InlineData("mt", 3, "mt-3")]
+    public void SpacingSteps_HoldTheTailwindClassForTheirStep(string utility, double step, string expected)
+    {
+        var scale = utility switch
+        {
+            "gap" => _theme.Spacing.Gap,
+            "p" => _theme.Spacing.Padding,
+            _ => _theme.Spacing.MarginTop
+        };
+
+        Assert.Equal(expected, scale[step]);
+    }
+
+    [Fact]
+    public void TheDefaultTheme_DeclaresEveryToken()
+    {
+        var tokens = _theme.Tokens;
+        var empty = typeof(TwBlazorTokens).GetProperties()
+            .Where(property => string.IsNullOrWhiteSpace((string?)property.GetValue(tokens)))
+            .Select(property => property.Name);
+
+        Assert.Empty(empty);
+        Assert.Equal(tokens.Transparent, _theme.Colors.Transparent);
+        Assert.Equal("text-[10px]", _theme.Typography.Size.Xxs);
     }
 }
