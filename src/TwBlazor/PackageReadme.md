@@ -42,7 +42,7 @@ twblazor new MyApp -i server -t sidebar
 `twblazor new` is the only command you need after the tool is installed. If you are adding twblazor to an existing app instead, install the [twblazor NuGet package](https://www.nuget.org/packages/twblazor) and follow the [Get Started guide](https://twblazor.com/get-started) for stylesheets, imports, providers, theming and dependency injection:
 
 ```pwsh
-dotnet add package twblazor --version 3.0.0
+dotnet add package twblazor --version 3.1.0
 ```
 
 Using an AI coding assistant? Point it at [twblazor.com/llms.txt](https://twblazor.com/llms.txt) so it uses the real components, setup steps and Theme builder instead of guessing.
