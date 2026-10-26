@@ -668,15 +668,23 @@ public static class Theme
                 Xs = "text-xs",
                 Sm = "text-sm",
                 Base = "text-base",
-                Lg = "text-lg"
+                Lg = "text-lg",
+                Xl = "text-xl",
+                Xl2 = "text-2xl",
+                Xl3 = "text-3xl",
+                Xl4 = "text-4xl",
+                Xl5 = "text-5xl"
             },
             Weight = new()
             {
+                Normal = "font-normal",
                 Medium = "font-medium",
-                Semibold = "font-semibold"
+                Semibold = "font-semibold",
+                Bold = "font-bold"
             },
             AlignCenter = "text-center",
-            WrapBreakWord = "wrap-break-word"
+            WrapBreakWord = "wrap-break-word",
+            Truncate = "truncate"
         };
 
         var rounded = new TwBlazorRounded

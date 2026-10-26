@@ -601,6 +601,31 @@ public class TwBlazorFontSizeScale
     /// Gets or sets the large text size class.
     /// </summary>
     public string Lg { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the extra-large text size class.
+    /// </summary>
+    public string Xl { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the 2xl text size class.
+    /// </summary>
+    public string Xl2 { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the 3xl text size class.
+    /// </summary>
+    public string Xl3 { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the 4xl text size class.
+    /// </summary>
+    public string Xl4 { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the 5xl text size class.
+    /// </summary>
+    public string Xl5 { get; set; } = string.Empty;
 }
 
 /// <summary>
@@ -610,6 +635,11 @@ public class TwBlazorFontSizeScale
 public class TwBlazorFontWeightScale
 {
     /// <summary>
+    /// Gets or sets the normal font-weight class.
+    /// </summary>
+    public string Normal { get; set; } = string.Empty;
+
+    /// <summary>
     /// Gets or sets the medium font-weight class.
     /// </summary>
     public string Medium { get; set; } = string.Empty;
@@ -618,11 +648,16 @@ public class TwBlazorFontWeightScale
     /// Gets or sets the semibold font-weight class.
     /// </summary>
     public string Semibold { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the bold font-weight class.
+    /// </summary>
+    public string Bold { get; set; } = string.Empty;
 }
 
 /// <summary>
 /// Global configuration for shared typography utility classes (font-size scale, font-weight scale,
-/// and text alignment) reused across component themes.
+/// text alignment and truncation) reused across component themes.
 /// </summary>
 [ExcludeFromCodeCoverage]
 public class TwBlazorTypography
@@ -646,6 +681,11 @@ public class TwBlazorTypography
     /// Gets or sets the "wrap-break-word" text-alignment class.
     /// </summary>
     public string WrapBreakWord { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the class that truncates text with an ellipsis when it overflows.
+    /// </summary>
+    public string Truncate { get; set; } = string.Empty;
 }
 
 /// <summary>

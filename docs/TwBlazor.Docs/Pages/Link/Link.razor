@@ -1,0 +1,67 @@
+@page "/link"
+
+<PageContainer Title="TwLink" Path="/link" Description="TwLink renders an accessible anchor that follows the theme's primary colour by default, with optional semantic colours, neutral tones and typography sizes." ThemeType="typeof(TwLinkTheme)">
+    <PageCard Title="Basic usage">
+        <Description>
+            Set <code>Href</code> and put the link text in <code>ChildContent</code>. With no custom class, a link uses the theme's primary text colour and the default underline treatment from <code>TwLinkTheme</code>.
+        </Description>
+
+        <CodeExample Name="LinkBasic">
+            <p class="text-sm">
+                Read the <TwLink Href="https://twblazor.com" Color="Color.Primary" Class="underline">twblazor documentation</TwLink> for guides and examples.
+            </p>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Colour and tone">
+        <Description>
+            Set <code>Color</code> for a semantic theme colour, or <code>Tone</code> for a neutral text token. An explicit colour or tone is applied even when you also set a custom class.
+        </Description>
+
+        <CodeExample Name="LinkColours">
+            <TwFlex Direction="FlexDirection.Col" Gap="1">
+                <TwLink Href="#">Primary link</TwLink>
+                <TwLink Href="#" Color="Color.Danger">Danger link</TwLink>
+                <TwLink Href="#" Tone="TextTone.Secondary">Secondary neutral link</TwLink>
+                <TwLink Href="#" Tone="TextTone.Muted">Muted neutral link</TwLink>
+                <TwLink Href="#" Tone="TextTone.Inherit" Class="text-sm">Inherits the surrounding colour</TwLink>
+            </TwFlex>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Size, weight and truncation">
+        <Description>
+            <code>Size</code> and <code>Weight</code> use the shared typography scales. <code>Truncate</code> cuts overflowing link text with an ellipsis.
+        </Description>
+
+        <CodeExample Name="LinkTypography">
+            <TwFlex Direction="FlexDirection.Col" Gap="1">
+                <TwLink Href="#" Size="TextSize.Lg" Weight="TextWeight.Semibold">Large semibold link</TwLink>
+                <TwLink Href="#" Size="TextSize.Sm" Tone="TextTone.Secondary">Small secondary link</TwLink>
+                <TwLink Href="#" Truncate Class="block max-w-48">A long link label that is truncated when it no longer fits</TwLink>
+            </TwFlex>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Opening a new tab">
+        <Description>
+            Set <code>Target="_blank"</code> to open a link in a new tab. The component adds <code>rel="noopener"</code> and tells assistive technology that the link opens a new tab. Set <code>Rel</code> yourself to override the default.
+        </Description>
+
+        <CodeExample Name="LinkNewTab">
+            <TwLink Href="https://github.com/twblazor/twblazor" Target="_blank">Open the twblazor repository</TwLink>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Custom styling">
+        <Description>
+            A custom <code>Class</code> replaces the default link treatment, which is useful inside a button or a card. The focus ring is kept so keyboard users can still see where they are; set <code>Color</code> to keep a theme colour alongside your own classes.
+        </Description>
+
+        <CodeExample Name="LinkClass">
+            <TwLink Href="https://twblazor.com" Color="Color.Primary" Class="font-semibold underline underline-offset-4">
+                A custom-styled link
+            </TwLink>
+        </CodeExample>
+    </PageCard>
+</PageContainer>

@@ -102,6 +102,13 @@ internal static class KeyboardShortcuts
 
         ["/avatar"] = _notInteractive,
 
+        ["/link"] = Guide(
+            "A link is a native anchor, so it is one Tab stop and follows its Href with Enter. A link that opens a new tab says so to screen readers.",
+            Key("Moves focus to the link.", tab, shiftTab),
+            Key("Follows the link.", enter)),
+
+        ["/text"] = _notInteractive,
+
         ["/barcode"] = Guide(
             "A barcode is not interactive and is not a Tab stop. Screen readers announce it as an image named after the text it holds, "
             + "unless it is given a label of its own."),
