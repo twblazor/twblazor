@@ -124,6 +124,25 @@
     ]
   },
   {
+    "category": "Typography",
+    "items": [
+      {
+        "id": "text-navitem",
+        "display": "Text",
+        "name": "TwText",
+        "url": "/text",
+        "isNew": true
+      },
+      {
+        "id": "link-navitem",
+        "display": "Link",
+        "name": "TwLink",
+        "url": "/link",
+        "theme": "TwLinkTheme"
+      }
+    ]
+  },
+  {
     "category": "Forms",
     "items": [
       {

@@ -122,7 +122,57 @@ public enum LayoutElement
     /// <summary>
     /// A <c>p</c> (paragraph).
     /// </summary>
-    P
+    P,
+
+    /// <summary>
+    /// An <c>h1</c>, the page's main heading.
+    /// </summary>
+    H1,
+
+    /// <summary>
+    /// An <c>h2</c>, a section heading.
+    /// </summary>
+    H2,
+
+    /// <summary>
+    /// An <c>h3</c>, a subsection heading.
+    /// </summary>
+    H3,
+
+    /// <summary>
+    /// An <c>h4</c>.
+    /// </summary>
+    H4,
+
+    /// <summary>
+    /// An <c>h5</c>.
+    /// </summary>
+    H5,
+
+    /// <summary>
+    /// An <c>h6</c>.
+    /// </summary>
+    H6,
+
+    /// <summary>
+    /// A <c>label</c>, for the caption of a form control.
+    /// </summary>
+    Label,
+
+    /// <summary>
+    /// A <c>strong</c>, for text with strong importance.
+    /// </summary>
+    Strong,
+
+    /// <summary>
+    /// An <c>em</c>, for text with stress emphasis.
+    /// </summary>
+    Em,
+
+    /// <summary>
+    /// A <c>small</c>, for side comments and fine print.
+    /// </summary>
+    Small
 }
 
 /// <summary>

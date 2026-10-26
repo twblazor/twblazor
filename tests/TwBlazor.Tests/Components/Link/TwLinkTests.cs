@@ -1,5 +1,6 @@
 using Bunit;
 using TwBlazor.Components;
+using TwBlazor.Enums;
 
 namespace TwBlazor.Tests.Components.Link;
 
@@ -189,5 +190,79 @@ public class TwLinkTests : TwBlazorTestBase
         var classes = cut.Find("a").ClassList;
         Assert.Contains("focus-visible:ring-red-500", classes);
         Assert.DoesNotContain("focus-visible:ring-purple-500", classes);
+    }
+
+    [Fact]
+    public void TwLink_WithCustomClass_DoesNotAddTheDefaultPrimaryColour()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwLink>(parameters => parameters
+            .Add(p => p.Href, "/alert")
+            .Add(p => p.Class, "underline"));
+
+        // Assert - a custom Class replaces the default look, which is what TwButton relies on.
+        Assert.DoesNotContain("text-purple-600", cut.Find("a").ClassList);
+    }
+
+    [Fact]
+    public void TwLink_WithExplicitColor_AppliesItEvenWithACustomClass()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwLink>(parameters => parameters
+            .Add(p => p.Href, "/alert")
+            .Add(p => p.Color, Color.Info)
+            .Add(p => p.Class, "underline"));
+
+        // Assert
+        var classes = cut.Find("a").ClassList;
+        Assert.Contains("text-blue-600", classes);
+        Assert.Contains("focus-visible:ring-blue-500", classes);
+    }
+
+    [Fact]
+    public void TwLink_WithExplicitColor_UsesTheMatchingFocusRing()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwLink>(parameters => parameters
+            .Add(p => p.Href, "/alert")
+            .Add(p => p.Color, Color.Info));
+
+        // Assert
+        var classes = cut.Find("a").ClassList;
+        Assert.Contains("text-blue-600", classes);
+        Assert.Contains("focus-visible:ring-blue-500", classes);
+        Assert.DoesNotContain("focus-visible:ring-purple-500", classes);
+    }
+
+    [Fact]
+    public void TwLink_WithTone_UsesTheThemeNeutralTextColour()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwLink>(parameters => parameters
+            .Add(p => p.Href, "/alert")
+            .Add(p => p.Tone, TextTone.Secondary));
+
+        // Assert
+        var classes = cut.Find("a").ClassList;
+        Assert.All(
+            Theme.Colors.NeutralText.Secondary.Split(' ', StringSplitOptions.RemoveEmptyEntries),
+            value => Assert.Contains(value, classes));
+    }
+
+    [Fact]
+    public void TwLink_WithSizeWeightAndTruncate_UsesTheThemeScales()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwLink>(parameters => parameters
+            .Add(p => p.Href, "/alert")
+            .Add(p => p.Size, TextSize.Lg)
+            .Add(p => p.Weight, TextWeight.Bold)
+            .Add(p => p.Truncate, true));
+
+        // Assert
+        var classes = cut.Find("a").ClassList;
+        Assert.Contains(Theme.Typography.Size.Lg, classes);
+        Assert.Contains(Theme.Typography.Weight.Bold, classes);
+        Assert.Contains(Theme.Typography.Truncate, classes);
     }
 }

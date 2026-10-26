@@ -48,6 +48,7 @@ public partial class Navigation : IDisposable
     {
         ["layout"] = Icon.Columns_Gap,
         ["containers"] = Icon.Grid_1X2,
+        ["typography"] = Icon.Type,
         ["forms"] = Icon.Ui_Checks,
         ["inputs-navitem"] = Icon.Input_Cursor_Text,
         ["feedback"] = Icon.Chat_Square_Dots,
