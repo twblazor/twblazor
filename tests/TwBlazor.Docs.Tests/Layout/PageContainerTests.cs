@@ -140,6 +140,15 @@ public class PageContainerTests : DocsTestBase
     }
 
     [Fact]
+    public void Render_ExcludesTheBetaWarning_FromSearchSnippets()
+    {
+        var cut = Render(beta: true);
+
+        var alert = cut.Find(".tw-alert");
+        Assert.True(alert.HasAttribute("data-nosnippet"));
+    }
+
+    [Fact]
     public void Render_PlacesTheBetaAlertAboveTheContent_AndBelowTheIntro()
     {
         var cut = Render(beta: true);
