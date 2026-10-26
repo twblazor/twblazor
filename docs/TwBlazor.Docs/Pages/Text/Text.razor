@@ -1,0 +1,90 @@
+@page "/text"
+
+<PageContainer Title="TwText" Path="/text" Description="TwText renders text with the theme's neutral colours and shared typography scale, so light and dark mode stay readable without hard-coded gray classes." Beta>
+    <ChildContent>
+        <PageCard Title="Theme">
+            <Description>
+                <code>TwText</code> reads the shared <code>Typography</code> section and the <code>Colors.NeutralText</code> palette from <code>Theme.cs</code>. Change those values once and every text component follows.
+            </Description>
+            <p class="text-sm text-gray-600 dark:text-gray-400">
+                <code>Typography.Size</code> and <code>Typography.Weight</code> drive <code>Size</code> and <code>Weight</code>; <code>Typography.Truncate</code> drives <code>Truncate</code>. The <code>Tone</code> values map to <code>NeutralText.Heading</code>, <code>Secondary</code>, <code>Muted</code> and <code>Subtle</code>.
+            </p>
+        </PageCard>
+
+        <PageCard Title="Basic usage">
+            <Description>
+                The element defaults to a <code>span</code>, so it can sit inside a line of text. Set <code>Element</code> to a paragraph, heading or other semantic element when the text is a block of its own.
+            </Description>
+
+            <CodeExample Name="TextBasic">
+                <TwText Element="LayoutElement.P" Size="TextSize.Lg" Weight="TextWeight.Semibold">A paragraph rendered by TwText.</TwText>
+                <TwText Element="LayoutElement.P" Tone="TextTone.Secondary" Class="mt-2">
+                    Supporting copy uses the theme's secondary neutral colour, including its dark-mode variant.
+                </TwText>
+            </CodeExample>
+        </PageCard>
+
+        <PageCard Title="Tone and colour">
+            <Description>
+                <code>Tone</code> picks one of the neutral text tokens: <code>Default</code>, <code>Secondary</code>, <code>Muted</code> or <code>Subtle</code>. Set <code>Color</code> to use a semantic theme colour instead, or <code>Tone="TextTone.Inherit"</code> to keep the surrounding colour.
+            </Description>
+
+            <CodeExample Name="TextTones">
+                <TwFlex Direction="FlexDirection.Col" Gap="1">
+                    <TwText Tone="TextTone.Default">Default: the highest-contrast body and heading text.</TwText>
+                    <TwText Tone="TextTone.Secondary">Secondary: supporting copy one step quieter.</TwText>
+                    <TwText Tone="TextTone.Muted">Muted: labels, captions and form hints.</TwText>
+                    <TwText Tone="TextTone.Subtle">Subtle: decorative or low-emphasis text.</TwText>
+                    <TwText Color="Color.Primary">Primary: a semantic theme colour.</TwText>
+                    <TwText Color="Color.Danger">Danger: a semantic theme colour for destructive text.</TwText>
+                </TwFlex>
+            </CodeExample>
+        </PageCard>
+
+        <PageCard Title="Size and weight">
+            <Description>
+                <code>Size</code> and <code>Weight</code> resolve against the shared font scales in the theme. Leave either one unset to inherit the surrounding font size or weight.
+            </Description>
+
+            <CodeExample Name="TextScale">
+                <TwFlex Direction="FlexDirection.Col" Gap="1">
+                    <TwText Size="TextSize.Xl5" Weight="TextWeight.Bold">5xl bold</TwText>
+                    <TwText Size="TextSize.Xl3" Weight="TextWeight.Semibold">3xl semibold</TwText>
+                    <TwText Size="TextSize.Lg" Weight="TextWeight.Medium">lg medium</TwText>
+                    <TwText Size="TextSize.Base">base</TwText>
+                    <TwText Size="TextSize.Sm" Tone="TextTone.Secondary">sm secondary</TwText>
+                    <TwText Size="TextSize.Xs" Tone="TextTone.Muted">xs muted</TwText>
+                </TwFlex>
+            </CodeExample>
+        </PageCard>
+
+        <PageCard Title="Semantic elements">
+            <Description>
+                Use the element that says what the text is. Headings appear in a screen reader's heading list, <code>Strong</code> and <code>Em</code> carry emphasis, and <code>Label</code> names a form control.
+            </Description>
+
+            <CodeExample Name="TextElements">
+                <TwText Element="LayoutElement.H1" Size="TextSize.Xl3" Weight="TextWeight.Bold">Page heading</TwText>
+                <TwText Element="LayoutElement.H2" Size="TextSize.Xl" Weight="TextWeight.Semibold" Class="mt-3">Section heading</TwText>
+                <TwText Element="LayoutElement.P" Class="mt-3">
+                    A paragraph with <TwText Element="LayoutElement.Strong" Tone="TextTone.Inherit">strong importance</TwText> and
+                    <TwText Element="LayoutElement.Em" Tone="TextTone.Inherit"> stress emphasis</TwText>.
+                </TwText>
+                <TwText Element="LayoutElement.Small" Tone="TextTone.Muted" Class="mt-2 block">Fine print and side comments.</TwText>
+            </CodeExample>
+        </PageCard>
+
+        <PageCard Title="Truncation and custom classes">
+            <Description>
+                Set <code>Truncate</code> to cut overflowing text with an ellipsis. <code>Class</code> is merged last, so a utility such as <code>mt-4</code> or <code>max-w-sm</code> wins over the component's defaults.
+            </Description>
+
+            <CodeExample Name="TextTruncate">
+                <div class="max-w-xs rounded-lg border border-gray-200 bg-white p-3 dark:border-white/10 dark:bg-white/5">
+                    <TwText Truncate>A long line of text that no longer fits its container.</TwText>
+                </div>
+                <TwText Class="mt-3 block" Tone="TextTone.Muted">A custom class moved this line down.</TwText>
+            </CodeExample>
+        </PageCard>
+    </ChildContent>
+</PageContainer>

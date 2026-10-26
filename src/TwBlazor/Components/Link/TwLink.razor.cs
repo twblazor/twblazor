@@ -26,12 +26,44 @@ public partial class TwLink : TwBlazorComponentBase
     [Parameter] public string? Target { get; set; }
 
     /// <summary>
-    /// Gets or sets the color of the link.
+    /// Gets or sets the semantic colour of the link.
     /// </summary>
     /// <remarks>
-    /// When not specified, defaults to blue. Can be customized via theme configuration.
+    /// When neither <see cref="Color"/> nor <see cref="Tone"/> is set, a link without a custom
+    /// <see cref="TwBlazorComponentBase.Class"/> uses the theme's primary text colour. A custom class replaces that
+    /// default look, so links used inside a button keep the button's own colour; an explicit colour or tone is still
+    /// applied.
     /// </remarks>
     [Parameter] public Color? Color { get; set; }
+
+    /// <summary>
+    /// Gets or sets the neutral colour of the link.
+    /// </summary>
+    /// <remarks>
+    /// Ignored when <see cref="Color"/> is set. Use <see cref="TextTone.Inherit"/> to keep the surrounding colour.
+    /// </remarks>
+    [Parameter] public TextTone? Tone { get; set; }
+
+    /// <summary>
+    /// Gets or sets the size on the theme's font-size scale.
+    /// </summary>
+    /// <remarks>
+    /// Leave it unset to inherit the surrounding font size.
+    /// </remarks>
+    [Parameter] public TextSize? Size { get; set; }
+
+    /// <summary>
+    /// Gets or sets the weight on the theme's font-weight scale.
+    /// </summary>
+    /// <remarks>
+    /// Leave it unset to inherit the surrounding font weight.
+    /// </remarks>
+    [Parameter] public TextWeight? Weight { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether overflowing link text is truncated with an ellipsis.
+    /// </summary>
+    [Parameter] public bool Truncate { get; set; }
 
     /// <summary>
     /// The child content of the link element.
@@ -49,13 +81,48 @@ public partial class TwLink : TwBlazorComponentBase
 
     private string? effectiveRel => Rel ?? (Target == "_blank" ? "noopener" : null);
 
-    private string? classes => string.IsNullOrEmpty(Class)
-        ? new ClassBuilder()
-            .AddClass(colorBuilder.GetTextColor(Color ?? Enums.Color.Primary))
-            .AddClass(theme.Default)
-            .Build()
-        : new ClassBuilder(colorBuilder.GetFocusRing(Color))
-            .AddClass(options.Theme.Interaction.FocusOutlineNone)
-            .AddClass(Class)
-            .Build();
+    private string classes
+    {
+        get
+        {
+            var builder = new ClassBuilder();
+            var hasCustomClass = !string.IsNullOrEmpty(Class);
+            var hasExplicitTone = Color is not null || Tone is not null;
+
+            if (hasExplicitTone)
+            {
+                builder.AddClass(TextClasses.Tone(options, colorBuilder, Color, Tone));
+            }
+            else if (!hasCustomClass)
+            {
+                builder.AddClass(colorBuilder.GetTextColor(Enums.Color.Primary));
+            }
+
+            if (hasCustomClass)
+            {
+                // A custom class replaces the theme's default link treatment, but it must not remove the
+                // visible focus ring that keeps keyboard focus usable.
+                builder.AddClass(colorBuilder.GetFocusRing(Color));
+                builder.AddClass(options.Theme.Interaction.FocusOutlineNone);
+            }
+            else
+            {
+                builder.AddClass(theme.Default);
+
+                // The default link treatment carries the primary focus ring, so give an explicit
+                // semantic colour its matching ring as well.
+                if (Color is not null)
+                {
+                    builder.AddClass(colorBuilder.GetFocusRing(Color));
+                }
+            }
+
+            builder.AddClass(TextClasses.Size(options.Theme.Typography, Size));
+            builder.AddClass(TextClasses.Weight(options.Theme.Typography, Weight));
+            builder.AddClass(options.Theme.Typography.Truncate, Truncate);
+            builder.AddClass(Class);
+
+            return builder.Build();
+        }
+    }
 }

@@ -108,8 +108,8 @@ public class TwBlazorTheme
     public TwBlazorTransition Transition { get; set; } = new();
 
     /// <summary>
-    /// Gets or sets the shared typography utility classes (font-size scale, font-weight scale, and
-    /// text alignment) reused across component themes. See <see cref="TwBlazorTypography"/>.
+    /// Gets or sets the shared typography utility classes (font-size scale, font-weight scale, text
+    /// alignment and truncation) reused across component themes. See <see cref="TwBlazorTypography"/>.
     /// </summary>
     public TwBlazorTypography Typography { get; set; } = new();
 

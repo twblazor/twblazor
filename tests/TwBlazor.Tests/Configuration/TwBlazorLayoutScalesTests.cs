@@ -175,5 +175,8 @@ public class TwBlazorLayoutScalesTests
         Assert.Empty(empty);
         Assert.Equal(tokens.Transparent, _theme.Colors.Transparent);
         Assert.Equal("text-[10px]", _theme.Typography.Size.Xxs);
+        Assert.Equal("text-5xl", _theme.Typography.Size.Xl5);
+        Assert.Equal("font-bold", _theme.Typography.Weight.Bold);
+        Assert.Equal("truncate", _theme.Typography.Truncate);
     }
 }
