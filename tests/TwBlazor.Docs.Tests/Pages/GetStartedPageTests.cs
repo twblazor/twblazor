@@ -23,4 +23,28 @@ public class GetStartedPageTests : DocsTestBase
         Assert.DoesNotContain("--twblazor-project", panel.TextContent);
         Assert.DoesNotContain("Until twblazor v3 is published", panel.TextContent);
     }
+
+    [Fact]
+    public void ProjectTemplateTab_UpdatesTheCommandsFromTheRenderModeAndLayoutCards()
+    {
+        // Arrange
+        var cut = TestContext.Render<GetStartedPage>();
+
+        // Act - choose WebAssembly, then the blank layout
+        var webAssembly = cut.Find("div[role='tabpanel']").QuerySelectorAll("button[aria-pressed]")
+            .First(button => button.QuerySelector("span.font-semibold")?.TextContent.Trim() == "WebAssembly");
+        webAssembly.Click();
+
+        var blank = cut.Find("div[role='tabpanel']").QuerySelectorAll("button[aria-pressed]")
+            .First(button => button.QuerySelector("span.font-semibold")?.TextContent.Trim() == "Blank");
+        blank.Click();
+
+        // Assert - both the one-line command and the create-only command follow the cards
+        Assert.Contains(
+            "dotnet tool install -g twblazor.templates; twblazor new MyApp -i wasm -t blank",
+            cut.Markup);
+        Assert.Contains(
+            "twblazor new MyApp -i wasm -t blank",
+            cut.Markup);
+    }
 }
