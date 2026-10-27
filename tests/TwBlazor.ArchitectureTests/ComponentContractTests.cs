@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Components;
 using System.Reflection;
 using TwBlazor.Abstraction;
 using TwBlazor.Enums;
-using TwBlazor.Tests.Components;
+using TwBlazor.ArchitectureTests.Components;
 
-namespace TwBlazor.Tests;
+namespace TwBlazor.ArchitectureTests;
 
 /// <summary>
 /// Dynamic tests that verify ALL components properly implement ITwBlazorComponent contract.

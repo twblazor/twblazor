@@ -50,6 +50,7 @@ jobs:
           BUILD_CONFIGURATION: ${{ inputs.configuration }}
         run: |
           dotnet test tests/TwBlazor.Tests/TwBlazor.Tests.csproj --configuration "$BUILD_CONFIGURATION" --no-build --verbosity normal --results-directory ./test-results -- --report-xunit-trx --report-xunit-trx-filename unit-tests.trx
+          dotnet test tests/TwBlazor.ArchitectureTests/TwBlazor.ArchitectureTests.csproj --configuration "$BUILD_CONFIGURATION" --no-build --verbosity normal --results-directory ./test-results -- --report-xunit-trx --report-xunit-trx-filename architecture-tests.trx
           dotnet test tests/TwBlazor.Docs.Tests/TwBlazor.Docs.Tests.csproj --configuration "$BUILD_CONFIGURATION" --no-build --verbosity normal --results-directory ./test-results -- --report-xunit-trx --report-xunit-trx-filename docs-tests.trx
 
       # The accessibility tests start the docs site and scan every page in a real browser, so they are slower

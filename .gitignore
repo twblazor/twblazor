@@ -182,9 +182,10 @@ DocProject/Help/*.hhk
 # Local editor and agent settings
 /.vscode/settings.json
 /.claude/
-# Local OpenCode config
+# Local OpenCode config and agent notes
 /opencode.json
 /opencode.jsonc
+/.opencode/
 DocProject/Help/*.hhp
 DocProject/Help/Html2
 DocProject/Help/html
