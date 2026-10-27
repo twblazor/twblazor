@@ -19,7 +19,9 @@ public partial class ThemePageTests : DocsTestBase
     private async Task<IRenderedComponent<ThemePage>> RenderAsync()
     {
         var cut = TestContext.Render<ThemePage>();
-        await cut.WaitForElementAsync("#preview-charts");
+        // The charts render just after the first paint, off the test thread, and can exceed bUnit's default
+        // wait on slower or loaded machines, so give them a generous, load-tolerant timeout.
+        await cut.WaitForElementAsync("#preview-charts", TimeSpan.FromSeconds(15));
         await cut.InvokeAsync(() => { });
         return cut;
     }

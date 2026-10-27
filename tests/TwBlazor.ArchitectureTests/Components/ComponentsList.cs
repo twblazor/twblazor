@@ -1,6 +1,6 @@
 using TwBlazor.Abstraction;
 
-namespace TwBlazor.Tests.Components;
+namespace TwBlazor.ArchitectureTests.Components;
 
 /// <summary>
 /// Provides a list of all components that inherit from TwBlazorComponentBase or implement IComponent.

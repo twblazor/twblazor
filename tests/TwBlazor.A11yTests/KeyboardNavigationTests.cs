@@ -78,6 +78,18 @@ public class KeyboardNavigationTests(A11yFixture fixture)
             await page.GetByRole(AriaRole.Button, new() { Name = "Show Confirm Dialog" }).ClickAsync();
             await Expect(Dialog(page)).ToBeVisibleAsync();
 
+            // The dialog is visible before its after-render script has run. That script traps Tab, moves focus
+            // into the dialog and then registers the Escape listener, each in its own round trip on Blazor
+            // Server. Wait for the last step, so the blur below is not undone by the initial focus arriving late
+            // and Escape is not pressed before anything listens for it.
+            await page.WaitForFunctionAsync(
+                """
+                () => {
+                    const dialog = document.querySelector("[role='dialog'][aria-modal='true']");
+                    return !!dialog && (globalThis.twDialog?._escapeStack ?? []).some(entry => entry.surface === dialog);
+                }
+                """);
+
             // The state a screen reader's reading cursor, or a re-render of the focused control, leaves behind.
             await page.EvaluateAsync("document.activeElement.blur()");
             Assert.Equal("BODY", await page.EvaluateAsync<string>("document.activeElement.tagName"));

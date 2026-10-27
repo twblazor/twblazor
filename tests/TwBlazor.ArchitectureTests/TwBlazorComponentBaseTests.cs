@@ -1,7 +1,7 @@
 using Bunit;
 using Microsoft.AspNetCore.Components;
 
-namespace TwBlazor.Tests;
+namespace TwBlazor.ArchitectureTests;
 
 public class TwBlazorComponentBaseTests : TwBlazorTestBase
 {

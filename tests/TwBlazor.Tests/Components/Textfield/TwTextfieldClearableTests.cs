@@ -58,6 +58,46 @@ public class TwTextfieldClearableTests : TwBlazorTestBase
         Assert.False(cut.Find($"button[aria-label='{clearLabel}']").HasAttribute("disabled"));
     }
 
+    [Fact]
+    public void HasValueFalse_DisablesTheButton_EvenWithNonEmptyText()
+    {
+        // Act - a wrapper such as TwMaskedInput draws its placeholders into the field, so the text is non-empty
+        // while the wrapped value is not.
+        var cut = TestContext.Render<TwTextfield<string>>(p => p
+            .Add(x => x.Clearable, true)
+            .Add(x => x.Value, "(___) ___-____")
+            .Add(x => x.HasValue, false));
+
+        // Assert
+        Assert.True(cut.Find($"button[aria-label='{clearLabel}']").HasAttribute("disabled"));
+    }
+
+    [Fact]
+    public void HasValueTrue_EnablesTheButton_EvenWhenEmpty()
+    {
+        // Act
+        var cut = TestContext.Render<TwTextfield<string>>(p => p
+            .Add(x => x.Clearable, true)
+            .Add(x => x.Value, string.Empty)
+            .Add(x => x.HasValue, true));
+
+        // Assert
+        Assert.False(cut.Find($"button[aria-label='{clearLabel}']").HasAttribute("disabled"));
+    }
+
+    [Fact]
+    public void HasValue_Unset_KeepsTheBoundValueCheck()
+    {
+        // Act
+        var empty = TestContext.Render<TwTextfield<string>>(p => p.Add(x => x.Clearable, true).Add(x => x.Value, string.Empty));
+        var filled = TestContext.Render<TwTextfield<string>>(p => p.Add(x => x.Clearable, true).Add(x => x.Value, "x"));
+
+        // Assert
+        Assert.Null(empty.Instance.HasValue);
+        Assert.True(empty.Find($"button[aria-label='{clearLabel}']").HasAttribute("disabled"));
+        Assert.False(filled.Find($"button[aria-label='{clearLabel}']").HasAttribute("disabled"));
+    }
+
     [Theory]
     [InlineData(true, false)]
     [InlineData(false, true)]
