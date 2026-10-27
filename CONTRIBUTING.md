@@ -395,6 +395,14 @@ Merging automatically:
 - Publishes the **stable** package to both GitHub Packages and
   [NuGet.org](https://www.nuget.org/packages/twblazor)
 - Creates a GitHub Release with the packed `.nupkg` attached
+- Asks [twblazor.templates](https://github.com/twblazor/twblazor.templates) to
+  release the same version, with its `Theme.cs` and package references synced
+  to this release
+
+The two packages share version numbers. If twblazor.templates has had a release
+of its own since the last twblazor release (say templates `3.1.2` while twblazor
+is on `3.1.1`), the bump is applied to the higher of the two, so a patch release
+becomes `3.1.3` and both packages match again.
 
 There is nothing further to do on `develop` afterwards. Its next build picks
 up the new release tag on its own and continues previewing from there (e.g.

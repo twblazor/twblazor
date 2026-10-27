@@ -132,7 +132,20 @@ jobs:
               "version=$($tag.Substring(1))" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
               "tag=$tag"                     | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           } else {
-              ./scripts/next-release-version.ps1 -Bump '${{ needs.determine-bump.outputs.bump }}'
+              # twblazor.templates takes the same version as every twblazor release, so bump from
+              # whichever of the two is further ahead. A templates-only patch (say 3.1.2 while
+              # twblazor is on 3.1.1) then makes this release 3.1.3, and both packages match again.
+              $templates = @(git ls-remote --tags --refs https://github.com/twblazor/twblazor.templates.git 'v*' 2>$null |
+                  ForEach-Object { ($_ -split 'refs/tags/')[-1] } |
+                  Where-Object { $_ -match '^v\d+\.\d+\.\d+$' } |
+                  Sort-Object { [version]$_.Substring(1) })
+              if ($templates.Count -gt 0) {
+                  Write-Host "Latest twblazor.templates release: $($templates[-1])"
+                  ./scripts/next-release-version.ps1 -Bump '${{ needs.determine-bump.outputs.bump }}' -AlsoAbove $templates[-1]
+              } else {
+                  Write-Host "::warning::Could not read the twblazor.templates release tags, so this version ignores them."
+                  ./scripts/next-release-version.ps1 -Bump '${{ needs.determine-bump.outputs.bump }}'
+              }
           }
 
       # Deliberately ahead of the tag: the README commit has to be part of what
@@ -341,4 +354,41 @@ jobs:
           else
             echo "$OUT"
             echo "::warning::Could not fast-forward develop to $SHA; it has likely moved on since this release started. Merge main into develop by hand."
+          fi
+
+      # twblazor.templates releases with the same version after every twblazor
+      # release. This starts its "Update twblazor" workflow, which waits for this
+      # version on NuGet.org, syncs Theme.cs and the package references, then
+      # publishes twblazor.templates with the same number. It runs in this job
+      # because the twblazor-release app's credentials belong to the release
+      # environment. The package is already out by now, so a failure here only
+      # warns: run "Update twblazor" in twblazor.templates by hand instead.
+      - name: Create app token for twblazor.templates
+        id: templates-token
+        continue-on-error: true
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ vars.RELEASE_BOT_CLIENT_ID }}
+          private-key: ${{ secrets.RELEASE_BOT_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: twblazor.templates
+          permission-contents: write
+
+      - name: Ask twblazor.templates to release the same version
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ steps.templates-token.outputs.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -z "$GH_TOKEN" ]; then
+            echo "::warning::No token for twblazor.templates. Run Update twblazor there by hand with version $VERSION."
+            exit 1
+          fi
+          if gh api -X POST repos/twblazor/twblazor.templates/dispatches                -f event_type=twblazor-release                -f "client_payload[version]=$VERSION"; then
+            echo "Asked twblazor.templates to release $VERSION."
+          else
+            echo "::warning::Could not notify twblazor.templates. Run Update twblazor there by hand with version $VERSION."
+            exit 1
           fi
