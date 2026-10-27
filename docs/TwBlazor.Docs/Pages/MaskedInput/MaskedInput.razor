@@ -1,0 +1,132 @@
+@page "/masked-input"
+
+<PageContainer Title="TwMaskedInput" Path="/masked-input" Beta Description="TwMaskedInput is a Blazor input that enforces a structured format as you type, such as a phone number or custom code. Bind the raw value and set a Mask.">
+    <PageCard Title="Basic usage">
+        <Description>Set <code>Mask</code> to a string of tokens and literals, and bind the raw value with <code>@@bind-Value</code>. A <code>9</code> accepts a digit 0-9, <code>A</code> a letter A-Z or a-z and <code>*</code> either; every other character is a literal shown between them. The mask needs at least one token, its <code>9</code>, <code>A</code> and <code>*</code> cannot be escaped, and characters past the mask's length are dropped - digits and letters fill left to right. Here the mask <code>(999) 999-9999</code> formats a phone number, and the bound value stays as the ten raw digits.</Description>
+
+        <CodeExample Name="MaskedInputBasic" CSharpName="MaskedInputBasicCode">
+            <TwMaskedInput Label="Phone number" Mask="(999) 999-9999" @bind-Value="phone" />
+            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Value: <strong>@phone</strong></p>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Custom mask">
+        <Description>Tokens can be mixed freely. A part number such as <code>ABC-1234</code> is three letters, a dash, then four digits: the mask <code>AAA-9999</code>. A character the position does not accept is ignored, and the mobile keyboard matches the mask when it is all digits.</Description>
+
+        <CodeExample Name="MaskedInputCustom" CSharpName="MaskedInputCustomCode">
+            <TwMaskedInput Label="Part number" Mask="AAA-9999" @bind-Value="partNumber" />
+            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Value: <strong>@partNumber</strong></p>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Placeholder character">
+        <Description><code>PlaceholderChar</code> is the character shown for each unfilled mask position, <code>_</code> by default. Choose another, such as a space, to make the unfilled positions subtler.</Description>
+
+        <CodeExample Name="MaskedInputPlaceholderChar" CSharpName="MaskedInputPlaceholderCharCode">
+            <TwMaskedInput Label="Account number" Mask="9999-9999-9999" PlaceholderChar="'·'" @bind-Value="accountNumber" />
+            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Value: <strong>@accountNumber</strong></p>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Show mask">
+        <Description>By default (<code>ShowMask</code> is <code>true</code>) an empty field shows the full mask so its structure is visible up front. Set <code>ShowMask="false"</code> to leave an empty field empty, so the mask only reveals itself as the user types.</Description>
+
+        <CodeExample Name="MaskedInputShowMask" CSharpName="MaskedInputShowMaskCode">
+            <div class="grid gap-4 sm:grid-cols-2">
+                <TwMaskedInput Label="Mask shown" Mask="999-999" @bind-Value="maskShown" />
+                <TwMaskedInput Label="Mask hidden" Mask="999-999" ShowMask="false" Placeholder="Enter digits" @bind-Value="maskHidden" />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Clearable">
+        <Description><code>Clearable</code> shows the textfield's clear button, which empties the field and sets the bound value back to an empty string.</Description>
+
+        <CodeExample Name="MaskedInputClearable" CSharpName="MaskedInputClearableCode">
+            <TwMaskedInput Label="Phone number" Mask="(999) 999-9999" Clearable @bind-Value="clearablePhone" />
+            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Value: <strong>@clearablePhone</strong></p>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Variants and dense">
+        <Description><code>Variant</code> and <code>Dense</code> work exactly as they do on <code>TwTextfield</code>, so a masked input lines up with the other inputs.</Description>
+
+        <CodeExample Name="MaskedInputVariants" CSharpName="MaskedInputVariantsCode">
+            <div class="grid gap-4 sm:grid-cols-3">
+                <TwMaskedInput Label="Default" Mask="9999" Variant="InputVariant.Default" @bind-Value="variantValue" />
+                <TwMaskedInput Label="Outlined" Mask="9999" Variant="InputVariant.Outlined" @bind-Value="variantValue" />
+                <TwMaskedInput Label="Filled" Mask="9999" Variant="InputVariant.Filled" Dense @bind-Value="variantValue" />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Disabled and readonly">
+        <Description><code>Disabled</code> dims the field and prevents input. <code>ReadOnly</code> keeps the value readable and focusable, but it cannot be changed.</Description>
+
+        <CodeExample Name="MaskedInputDisabledReadonly">
+            <div class="grid gap-4 sm:grid-cols-2">
+                <TwMaskedInput Label="Disabled" Mask="(999) 999-9999" Value="5551234567" Disabled />
+                <TwMaskedInput Label="Readonly" Mask="(999) 999-9999" Value="5551234567" ReadOnly />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Validation">
+        <Description>Validation works as it does on <code>TwTextfield</code>: pass a <code>Validator</code> that returns an error message, or <code>null</code> when the value is valid, or set <code>Invalid</code> and <code>ErrorMessage</code> yourself. The message is tied to the field with <code>aria-describedby</code>, so screen readers read it with the field. The mask lives in the field's value, so screen readers announce the placeholder characters and <code>Required</code> alone does not block submit - use model validation through <code>ValueExpression</code> for a required field.</Description>
+
+        <CodeExample Name="MaskedInputValidation" CSharpName="MaskedInputValidationCode">
+            <div class="grid gap-4 sm:grid-cols-2">
+                <TwMaskedInput Label="SSN" Mask="999-99-9999" Required Validator="ValidateSsn" @bind-Value="ssn" />
+                <TwMaskedInput Label="Extension" Mask="9999" Invalid="@(extension.Length > 0 && extension.Length < 4)" ErrorMessage="Enter all four digits." @bind-Value="extension" />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Update on input">
+        <Description>Typed text is committed when the field loses focus or Enter is pressed. Set <code>BindEvent="oninput"</code> to update the value on every keystroke instead.</Description>
+
+        <CodeExample Name="MaskedInputBindEvent" CSharpName="MaskedInputBindEventCode">
+            <TwMaskedInput Label="Live value" Mask="9999-9999" BindEvent="oninput" @bind-Value="liveValue" />
+            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Value: <strong>@liveValue</strong></p>
+        </CodeExample>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample MaskedInputBasicCode
+    private string phone = string.Empty;
+    #endregion
+
+    #region CodeExample MaskedInputCustomCode
+    private string partNumber = string.Empty;
+    #endregion
+
+    #region CodeExample MaskedInputPlaceholderCharCode
+    private string accountNumber = string.Empty;
+    #endregion
+
+    #region CodeExample MaskedInputShowMaskCode
+    private string maskShown = string.Empty;
+    private string maskHidden = string.Empty;
+    #endregion
+
+    #region CodeExample MaskedInputClearableCode
+    private string clearablePhone = "5551234567";
+    #endregion
+
+    #region CodeExample MaskedInputVariantsCode
+    private string variantValue = string.Empty;
+    #endregion
+
+    #region CodeExample MaskedInputValidationCode
+    private string ssn = string.Empty;
+    private string extension = string.Empty;
+
+    private static Task<string?> ValidateSsn(string value) =>
+        Task.FromResult<string?>(value.Length == 9 ? null : "Enter the full 9 digits.");
+    #endregion
+
+    #region CodeExample MaskedInputBindEventCode
+    private string liveValue = string.Empty;
+    #endregion
+}

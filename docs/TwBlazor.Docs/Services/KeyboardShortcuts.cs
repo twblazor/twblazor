@@ -261,6 +261,12 @@ internal static class KeyboardShortcuts
             "A marker is not interactive and is not a Tab stop. A status marker writes its state out for screen readers after its label, and a live one announces changes. "
             + "A separator marker is read as a separator named by its label."),
 
+        ["/masked-input"] = Guide(
+            "A masked input is a text field that keeps its text in the shape of a mask. Its clear button is not a Tab stop.",
+            Key("Moves focus into or out of the field.", tab, shiftTab),
+            Key("Moves the caret through the text.", left, right, home, end),
+            Key("Commits the typed value, when the field binds on change.", enter)),
+
         ["/menu"] = Guide(
             "The button tells screen readers that it opens a menu and whether the menu is open. The menu follows the ARIA menu pattern: one item has focus at a time, and the arrow keys move between them.",
             Key("Moves focus to the menu's button.", tab),
