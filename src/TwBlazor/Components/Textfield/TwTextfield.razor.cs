@@ -170,6 +170,16 @@ public partial class TwTextfield<T> : TwBlazorTextInputComponentBase
     [Parameter] public bool Clearable { get; set; }
 
     /// <summary>
+    /// Gets or sets whether the field currently holds a value, overriding the emptiness check the clear button uses.
+    /// </summary>
+    /// <remarks>
+    /// <see langword="null"/> (the default) keeps the usual check: a non-empty bound value. A wrapper component whose
+    /// displayed text is never empty - such as a masked or numeric field that keeps its placeholders in the field - sets
+    /// this from its own raw value, so the clear button is disabled while the real value is empty.
+    /// </remarks>
+    [Parameter] public bool? HasValue { get; set; }
+
+    /// <summary>
     /// Gets or sets the callback invoked after the clear button (see <see cref="Clearable"/>) has emptied the field.
     /// </summary>
     [Parameter] public EventCallback OnClear { get; set; }
@@ -199,7 +209,7 @@ public partial class TwTextfield<T> : TwBlazorTextInputComponentBase
     // Always shown, and disabled while empty, so the buttons beside it do not shift under the pointer when it appears.
     private bool showClearButton => Clearable && !Disabled && !ReadOnly;
 
-    private bool hasValue => Value is string text ? text.Length > 0 : !EqualityComparer<T>.Default.Equals(Value, default!);
+    private bool hasValue => HasValue ?? (Value is string text ? text.Length > 0 : !EqualityComparer<T>.Default.Equals(Value, default!));
 
     private string startContentClasses => new ClassBuilder(theme.FieldStartContent).AddClass(inputSizeClasses).Build();
 

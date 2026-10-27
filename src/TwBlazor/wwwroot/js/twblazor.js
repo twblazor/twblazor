@@ -826,6 +826,125 @@ globalThis.twNumeric = {
     }
 };
 
+// Masked input: keeps the field's text in the shape of a mask as the user types, pastes or deletes.
+// - The mask tokens are '9' (digit), 'A' (letter) and '*' (letter or digit); any other character is a literal.
+// - On every input the current text is stripped back to its raw characters and re-formatted through the mask,
+//   so paste, IME, Backspace and Delete all resolve to the same, well-formed result.
+// - The caret is restored to the first unfilled position, so typing carries on in place.
+globalThis.twMaskedInput = {
+    _tokenType: function (character) {
+        if (character === '9') return 'digit';
+        if (character === 'A') return 'letter';
+        if (character === '*') return 'alphanumeric';
+        return null;
+    },
+
+    _matches: function (type, character) {
+        if (type === 'digit') return /\d/.test(character);
+        if (type === 'letter') return /[A-Za-z]/.test(character);
+        if (type === 'alphanumeric') return /[\dA-Za-z]/.test(character);
+        return false;
+    },
+
+    _strip: function (mask, value, placeholderChar) {
+        let raw = '';
+        let tokenIndex = 0;
+        for (const character of value) {
+            // Skip the mask's literal separators to the next fillable token.
+            while (tokenIndex < mask.length && !globalThis.twMaskedInput._tokenType(mask[tokenIndex])) {
+                tokenIndex++;
+            }
+            if (tokenIndex >= mask.length) break;
+
+            const type = globalThis.twMaskedInput._tokenType(mask[tokenIndex]);
+            if (character !== placeholderChar && globalThis.twMaskedInput._matches(type, character)) {
+                raw += character;
+                tokenIndex++;
+            }
+        }
+        return raw;
+    },
+
+    _format: function (mask, raw, placeholderChar, showMask) {
+        let full = '';
+        let rawIndex = 0;
+        let lastFilled = -1;
+
+        for (const token of mask) {
+            const type = globalThis.twMaskedInput._tokenType(token);
+            if (type) {
+                // Fill from raw only while the next character matches this token. The first character that does not
+                // (wrong type, non-ASCII, or past the end of the mask) stops filling, and every later token stays a
+                // placeholder. This keeps _strip(_format(v)) === v for every token-valid v.
+                if (rawIndex < raw.length && globalThis.twMaskedInput._matches(type, raw[rawIndex])) {
+                    full += raw[rawIndex];
+                    rawIndex++;
+                    lastFilled = full.length - 1;
+                } else {
+                    full += placeholderChar;
+                }
+            } else {
+                full += token;
+            }
+        }
+
+        if (showMask) return full;
+        return lastFilled < 0 ? '' : full.substring(0, lastFilled + 1);
+    },
+
+    _caret: function (mask, rawLength) {
+        let filled = 0;
+        for (let i = 0; i < mask.length; i++) {
+            if (!globalThis.twMaskedInput._tokenType(mask[i])) continue;
+            if (filled === rawLength) return i;
+            filled++;
+        }
+        return mask.length;
+    },
+
+    attach: function (el, mask, placeholderChar, showMask) {
+        if (!el) return;
+        globalThis.twMaskedInput.update(el, mask, placeholderChar, showMask);
+        if (el.__twMaskedInput) return;
+
+        const input = function (e) {
+            if (e.isComposing) return;
+
+            const state = el.__twMaskedInputState;
+            if (!state) return;
+
+            const value = el.value || '';
+            const raw = globalThis.twMaskedInput._strip(state.mask, value, state.placeholderChar);
+            const formatted = globalThis.twMaskedInput._format(state.mask, raw, state.placeholderChar, state.showMask);
+
+            if (value !== formatted) {
+                const caret = globalThis.twMaskedInput._caret(state.mask, raw.length);
+                el.value = formatted;
+                el.setSelectionRange(caret, caret);
+            }
+        };
+
+        el.__twMaskedInput = input;
+        el.addEventListener('input', input);
+    },
+
+    update: function (el, mask, placeholderChar, showMask) {
+        if (!el) return;
+        el.__twMaskedInputState = {
+            mask: mask || '',
+            placeholderChar: placeholderChar || '_',
+            showMask: !!showMask
+        };
+    },
+
+    detach: function (el) {
+        if (!el?.__twMaskedInput) return;
+        el.removeEventListener('input', el.__twMaskedInput);
+        delete el.__twMaskedInput;
+        delete el.__twMaskedInputState;
+    }
+};
+
 // Tabs: prevents native scroll for the WAI-ARIA APG tablist navigation keys (arrows, Home, End)
 // without ever preventDefault-ing Tab, whose default action (moving focus out) must stay intact.
 // Runs alongside Blazor's own keydown binding (which does the actual tab-switching in C#); a

@@ -225,6 +225,13 @@
             "theme": "TwNumericTheme"
           },
           {
+            "id": "masked-input-navitem",
+            "display": "Masked Input",
+            "name": "TwMaskedInput",
+            "url": "/masked-input",
+            "isNew": true
+          },
+          {
             "id": "radio-button-navitem",
             "display": "Radio Button",
             "name": "TwRadioButton",

@@ -1,0 +1,36 @@
+@inherits TwBlazorTextInputComponentBase
+@namespace TwBlazor.Components
+
+<TwInputRoot RootId="@RootId" RootClass="@RootClass" RootAttributes="@RootAttributes" RootStyle="@Style" RootAriaLabel="@AriaLabel" RootAriaLabelledBy="@AriaLabelledBy">
+    @if (!string.IsNullOrWhiteSpace(Label))
+    {
+        <TwInputLabel Id="@LabelId" For="@Id" Label="@Label" Class="@LabelClasses" @attributes="@LabelAttributes" />
+    }
+
+    <TwTextfield @ref="@textfield"
+                 T="string"
+                 Id="@Id"
+                 Value="@text"
+                 ValueChanged="@OnTextChangedAsync"
+                 BindEvent="@BindEvent"
+                 Class="@Class"
+                 Placeholder="@Placeholder"
+                 Required="@Required"
+                 Variant="@Variant"
+                 Dense="@Dense"
+                 ReadOnly="@ReadOnly"
+                 Disabled="@Disabled"
+                 Invalid="@effectiveInvalid"
+                 ErrorMessage="@effectiveErrorMessage"
+                 AriaLabel="@AriaLabel"
+                 AriaLabelledBy="@AriaLabelledBy"
+                 Clearable="@Clearable"
+                 HasValue="@(Value.Length > 0)"
+                 OnClear="@ClearAsync"
+                 OnFocus="@OnFocus"
+                 OnBlur="@OnBlur"
+                 OnClick="@OnClick"
+                 OnKeyDown="@OnKeyDown"
+                 Attributes="@inputAttributes"
+                 RootAttributes="@_textfieldRootAttributes" />
+</TwInputRoot>
