@@ -1,6 +1,6 @@
 ﻿using TwBlazor.Abstraction;
 
-namespace TwBlazor.Tests.Components;
+namespace TwBlazor.ArchitectureTests.Components;
 
 /// <summary>
 /// Provides a list of all input components that implement IInputComponent or inherit from TwBlazorInputComponentBase.

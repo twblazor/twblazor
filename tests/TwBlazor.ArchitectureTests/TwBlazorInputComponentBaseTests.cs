@@ -2,7 +2,7 @@ using Bunit;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Enums;
 
-namespace TwBlazor.Tests;
+namespace TwBlazor.ArchitectureTests;
 
 public class TwBlazorInputComponentBaseTests : TwBlazorTestBase
 {

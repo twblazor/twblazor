@@ -291,6 +291,7 @@ We follow a **develop-main** workflow:
 - **`develop`** → Integration branch for all features and fixes
 - **`feature/*`** → New features (e.g., `feature/toast-component`)
 - **`bug/*`** → Bug fixes (e.g., `bug/fix-modal-close`)
+- **`chore/*`** → Maintenance, tooling, tests and docs (e.g., `chore/arch-tests`)
 
 ### Merge Flow
 
@@ -300,9 +301,9 @@ feature/my-feature  →  develop  →  main
 ```
 
 **Important:** 
-- ✅ PRs from `feature/*` or `bug/*` → `develop`
+- ✅ PRs from `feature/*`, `bug/*` or `chore/*` → `develop`
 - ✅ PRs from `develop` → `main` (releases only)
-- ❌ Direct PRs to `main` from feature/bug branches are **blocked**
+- ❌ Direct PRs to `main` from feature/bug/chore branches are **blocked**
 
 ---
 
@@ -312,6 +313,7 @@ feature/my-feature  →  develop  →  main
 - Fork the repo and create a **feature branch** from `develop`:
   - `feature/my-feature`
   - `bug/my-bug`
+  - `chore/my-chore`
 - **Always target `develop`** for feature/bug PRs
 - Make sure:
   - Project builds

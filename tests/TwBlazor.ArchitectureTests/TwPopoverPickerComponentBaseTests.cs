@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.JSInterop;
 using TwBlazor.Components;
 
-namespace TwBlazor.Tests;
+namespace TwBlazor.ArchitectureTests;
 
 public class TwPopoverPickerComponentBaseTests : TwBlazorTestBase
 {
