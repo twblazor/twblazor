@@ -14,7 +14,11 @@ namespace TwBlazor.Tests.Localization;
 [Collection("ServiceCollectionExtensions")]
 public class CultureTests
 {
-    public static TheoryData<CultureInfo> Cultures => new(TestCultures.All);
+    // Theory rows are culture names rather than CultureInfo instances, because CultureInfo is not serializable
+    // and Test Explorer would then show the theory as a single test instead of one row per culture.
+    public static TheoryData<string> Cultures => [.. TestCultures.All.Select(culture => culture.Name)];
+
+    private static CultureInfo GetCulture(string name) => TestCultures.All.Single(culture => culture.Name == name);
 
     private static BunitContext CreateContext(CultureInfo culture)
     {
@@ -33,8 +37,9 @@ public class CultureTests
 
     [Theory]
     [MemberData(nameof(Cultures))]
-    public void Numeric_FormatsWithTheCulturesSeparators(CultureInfo culture)
+    public void Numeric_FormatsWithTheCulturesSeparators(string cultureName)
     {
+        var culture = GetCulture(cultureName);
         using var context = CreateContext(culture);
 
         var cut = context.Render<TwNumeric<decimal>>(p => p.Add(x => x.Value, 1234.5m));
@@ -46,8 +51,9 @@ public class CultureTests
 
     [Theory]
     [MemberData(nameof(Cultures))]
-    public void Attachment_FileSize_UsesTheCulturesSeparator(CultureInfo culture)
+    public void Attachment_FileSize_UsesTheCulturesSeparator(string cultureName)
     {
+        var culture = GetCulture(cultureName);
         // FormatFileSize rounds 1536 bytes down to "1.5 KB", and its "0.#" format uses the culture's decimal
         // separator, which for a single decimal place matches the culture's general format of 1.5.
         Assert.Equal((1.5).ToString(culture) + " KB", TwAttachment.FormatFileSize(1536, culture));
@@ -55,8 +61,9 @@ public class CultureTests
 
     [Theory]
     [MemberData(nameof(Cultures))]
-    public void Localizer_DerivesTheCulturesDateFormats(CultureInfo culture)
+    public void Localizer_DerivesTheCulturesDateFormats(string cultureName)
     {
+        var culture = GetCulture(cultureName);
         var formats = CreateLocalizer(culture).Formats;
 
         Assert.Equal(culture.DateTimeFormat.LongDatePattern, formats.LongDate);
@@ -67,8 +74,9 @@ public class CultureTests
 
     [Theory]
     [MemberData(nameof(Cultures))]
-    public void Direction_FollowsTheLanguage(CultureInfo culture)
+    public void Direction_FollowsTheLanguage(string cultureName)
     {
+        var culture = GetCulture(cultureName);
         var expected = culture.TextInfo.IsRightToLeft ? TextDirection.RightToLeft : TextDirection.LeftToRight;
 
         Assert.Equal(expected, CreateLocalizer(culture).Direction);
