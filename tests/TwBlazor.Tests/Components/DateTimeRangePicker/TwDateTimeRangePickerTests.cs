@@ -630,4 +630,27 @@ public class TwDateTimeRangePickerTests : TwBlazorTestBase
         var tabsParent = cut.Find("[data-tw-popover] [role='group']").ParentElement!;
         Assert.Contains(Theme.Spacing.PaddingTop[2], tabsParent.ClassList);
     }
+
+    [Fact]
+    public void CalendarNavigation_MovesTheMonth_AndSwitchesView()
+    {
+        // Arrange
+        var cut = TestContext.Render<TwDateTimeRangePicker>(p => p
+            .Add(x => x.SelectedRange, new KeyValuePair<DateTime?, DateTime?>(new DateTime(2025, 11, 1), null))
+            .Add(x => x.SelectedRangeChanged, NoOpRangeCallback(this))
+        );
+        cut.Find("input").Click();
+
+        // Act - next month
+        cut.Find("button.next-btn").Click();
+
+        // Assert
+        Assert.Contains("December 2025", cut.Markup);
+
+        // Act - the title opens the month view
+        cut.FindAll("button").First(b => b.TextContent.Trim() == "December 2025").Click();
+
+        // Assert
+        Assert.NotEmpty(cut.FindAll("button.month"));
+    }
 }

@@ -668,5 +668,22 @@ public class TwRatingTests : TwBlazorTestBase
         Assert.Equal("Aucune note", cut.Find("input[data-rating-empty]").GetAttribute("aria-label"));
     }
 
+    [Fact]
+    public void ChoosingTheEmptyOption_ClearsTheValue()
+    {
+        // Arrange
+        int? changed = null;
+        var cut = TestContext.Render<TwRating<int>>(p => p
+            .Add(x => x.Min, 0)
+            .Add(x => x.Value, 3)
+            .Add(x => x.ValueChanged, (int value) => changed = value));
+
+        // Act
+        cut.Find("input[data-rating-empty]").Change(true);
+
+        // Assert
+        Assert.Equal(0, changed);
+    }
+
     #endregion
 }
