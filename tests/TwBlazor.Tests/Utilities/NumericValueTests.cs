@@ -131,7 +131,7 @@ public class NumericValueTests
     public void Add_StopsAtTheTypesLimits_InsteadOfOverflowing()
     {
         Assert.Equal(int.MaxValue, NumericValue<int>.Instance.Add(int.MaxValue - 1, 5, 1, int.MinValue, int.MaxValue));
-        Assert.Equal(byte.MinValue, NumericValue<byte>.Instance.Add((byte)1, (byte)5, -1, byte.MinValue, byte.MaxValue));
+        Assert.Equal(byte.MinValue, NumericValue<byte>.Instance.Add(1, 5, -1, byte.MinValue, byte.MaxValue));
         Assert.Equal(double.MaxValue, NumericValue<double>.Instance.Add(double.MaxValue, double.MaxValue, 1, double.MinValue, double.MaxValue));
     }
 

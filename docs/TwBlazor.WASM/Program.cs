@@ -1,7 +1,7 @@
-using System.Globalization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.JSInterop;
+using System.Globalization;
 using TwBlazor;
 using TwBlazor.Docs.Services;
 using TwBlazor.Theme;

@@ -1,9 +1,9 @@
 // Copyright (c) 2025 Jack Shuter @ TwBlazor - twblazor.com
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
-using System.Text;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using System.Text;
 using TwBlazor.Enums;
 using TwBlazor.Localization;
 

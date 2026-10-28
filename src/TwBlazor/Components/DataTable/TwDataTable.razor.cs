@@ -310,7 +310,7 @@ public partial class TwDataTable<TItem> : TwBlazorComponentBase
             return;
         }
 
-        IEnumerable<TItem> rows = Items.Where(item => !EqualityComparer<TItem>.Default.Equals(item, default));
+        var rows = Items.Where(item => !EqualityComparer<TItem>.Default.Equals(item, default));
 
         var filters = AllColumns()
             .Where(c => c.PropertySelector is not null && FilterOf(c.Name)?.IsActive == true)
