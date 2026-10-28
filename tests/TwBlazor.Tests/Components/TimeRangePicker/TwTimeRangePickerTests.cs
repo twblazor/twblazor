@@ -396,4 +396,23 @@ public class TwTimeRangePickerTests : TwBlazorTestBase
     {
         Assert.Throws<ArgumentOutOfRangeException>(() => TestContext.Render<TwTimeRangePicker>(p => p.Add(x => x.Step, 45)));
     }
+
+    [Fact]
+    public void SwitchingBackToStartTab_MakesStartActive()
+    {
+        // Arrange
+        var cut = TestContext.Render<TwTimeRangePicker>(p => p
+            .Add(x => x.SelectedRange, new KeyValuePair<TimeOnly?, TimeOnly?>(new TimeOnly(9, 0), new TimeOnly(17, 0)))
+            .Add(x => x.SelectedRangeChanged, NoOpRangeCallback(this))
+        );
+        cut.Find("input").Click();
+        cut.FindAll("[role='group'][aria-label='Range step'] button").First(b => b.TextContent.Trim() == "End").Click();
+
+        // Act
+        cut.FindAll("[role='group'][aria-label='Range step'] button").First(b => b.TextContent.Trim() == "Start").Click();
+
+        // Assert
+        Assert.True(IsStageActive(cut, "Start"));
+        Assert.False(IsStageActive(cut, "End"));
+    }
 }

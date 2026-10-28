@@ -88,19 +88,22 @@ public class TwAttachmentTests : TwBlazorTestBase
     }
 
     [Theory]
-    [InlineData("photo.bin", "image/png", TwBlazor.Enums.Icon.File_Earmark_Image)]
-    [InlineData("song.bin", "audio/mpeg", TwBlazor.Enums.Icon.File_Earmark_Music)]
-    [InlineData("clip.bin", "video/mp4", TwBlazor.Enums.Icon.File_Earmark_Play)]
-    [InlineData("doc.bin", "application/pdf", TwBlazor.Enums.Icon.File_Earmark_Pdf)]
-    [InlineData("photo.JPG", null, TwBlazor.Enums.Icon.File_Earmark_Image)]
-    [InlineData("notes.docx", null, TwBlazor.Enums.Icon.File_Earmark_Word)]
-    [InlineData("data.csv", null, TwBlazor.Enums.Icon.File_Earmark_Spreadsheet)]
-    [InlineData("deck.pptx", null, TwBlazor.Enums.Icon.File_Earmark_Slides)]
-    [InlineData("bundle.zip", null, TwBlazor.Enums.Icon.File_Earmark_Zip)]
-    [InlineData("readme.md", null, TwBlazor.Enums.Icon.File_Earmark_Text)]
-    [InlineData("Program.cs", null, TwBlazor.Enums.Icon.File_Earmark_Code)]
-    [InlineData("unknown", "application/octet-stream", TwBlazor.Enums.Icon.File_Earmark)]
-    [InlineData(null, null, TwBlazor.Enums.Icon.File_Earmark)]
+    [InlineData("photo.bin", "image/png", Enums.Icon.File_Earmark_Image)]
+    [InlineData("song.bin", "audio/mpeg", Enums.Icon.File_Earmark_Music)]
+    [InlineData("clip.bin", "video/mp4", Enums.Icon.File_Earmark_Play)]
+    [InlineData("doc.bin", "application/pdf", Enums.Icon.File_Earmark_Pdf)]
+    [InlineData("photo.JPG", null, Enums.Icon.File_Earmark_Image)]
+    [InlineData("song.flac", null, Enums.Icon.File_Earmark_Music)]
+    [InlineData("clip.mkv", null, Enums.Icon.File_Earmark_Play)]
+    [InlineData("scan.pdf", "", Enums.Icon.File_Earmark_Pdf)]
+    [InlineData("notes.docx", null, Enums.Icon.File_Earmark_Word)]
+    [InlineData("data.csv", null, Enums.Icon.File_Earmark_Spreadsheet)]
+    [InlineData("deck.pptx", null, Enums.Icon.File_Earmark_Slides)]
+    [InlineData("bundle.zip", null, Enums.Icon.File_Earmark_Zip)]
+    [InlineData("readme.md", null, Enums.Icon.File_Earmark_Text)]
+    [InlineData("Program.cs", null, Enums.Icon.File_Earmark_Code)]
+    [InlineData("unknown", "application/octet-stream", Enums.Icon.File_Earmark)]
+    [InlineData(null, null, Enums.Icon.File_Earmark)]
     public void GetFileIcon_PicksTheIconForTheKindOfFile(string? fileName, string? contentType, TwBlazor.Enums.Icon expected)
     {
         Assert.Equal(expected, TwAttachment.GetFileIcon(fileName, contentType));
@@ -119,7 +122,7 @@ public class TwAttachmentTests : TwBlazorTestBase
     [Fact]
     public void TwAttachment_Icon_OverridesTheTypeIcon()
     {
-        Assert.Contains("bi-robot", Render(p => p.Add(x => x.Icon, TwBlazor.Enums.Icon.Robot)).Find($"span[class='{theme.IconBox}']").InnerHtml);
+        Assert.Contains("bi-robot", Render(p => p.Add(x => x.Icon, Enums.Icon.Robot)).Find($"span[class='{theme.IconBox}']").InnerHtml);
     }
 
     [Fact]
