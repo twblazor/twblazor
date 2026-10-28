@@ -1,0 +1,10 @@
+{
+  "platformOptions": {
+    "Coverlet": {
+      "include": "[TwBlazor]*",
+      "excludeByAttribute": "ExcludeFromCodeCoverage,ExcludeFromCodeCoverageAttribute,GeneratedCodeAttribute",
+      "skipAutoProps": true,
+      "excludeAssembliesWithoutSources": "MissingAll"
+    }
+  }
+}
