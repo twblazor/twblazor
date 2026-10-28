@@ -76,16 +76,16 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ITwDialogService, TwDialogService>();
         services.TryAddSingleton<ITwQrCodeService, TwQrCodeService>();
         services.TryAddSingleton<ITwBarcodeService, TwBarcodeService>();
-        services.AddScoped<ColorBuilder>();
-        services.AddScoped<IconColorBuilder>();
-        services.AddScoped<ShadowBuilder>();
-        services.AddScoped<RoundedBuilder>();
-        services.AddScoped<ButtonBuilder>();
-        services.AddScoped<InputVariantBuilder>();
-        services.AddScoped<ChipBuilder>();
-        services.AddScoped<ToastBuilder>();
-        services.AddScoped<DialogBuilder>();
-        services.AddScoped<PopoverBuilder>();
+        services.AddSingleton<ColorBuilder>();
+        services.AddSingleton<IconColorBuilder>();
+        services.AddSingleton<ShadowBuilder>();
+        services.AddSingleton<RoundedBuilder>();
+        services.AddSingleton<ButtonBuilder>();
+        services.AddSingleton<InputVariantBuilder>();
+        services.AddSingleton<ChipBuilder>();
+        services.AddSingleton<ToastBuilder>();
+        services.AddSingleton<DialogBuilder>();
+        services.AddSingleton<PopoverBuilder>();
         return services;
     }
 }

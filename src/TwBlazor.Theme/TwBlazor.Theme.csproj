@@ -8,7 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\build\TwBlazor.Docs.Compiler\TwBlazor.Docs.Compiler.csproj" />
     <ProjectReference Include="..\TwBlazor\TwBlazor.csproj" />
   </ItemGroup>
 

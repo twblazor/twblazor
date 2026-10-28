@@ -108,7 +108,7 @@ public class TwDataTableEditingTests : TwBlazorTestBase
     public void CanEditRow_HidesTheEditButtonForRowsItRejects()
     {
         // Act
-        var cut = Render(p => p.Add(x => x.CanEditRow, (Func<Product, bool>)(p => p.InStock)));
+        var cut = Render(p => p.Add(x => x.CanEditRow, p => p.InStock));
 
         // Assert
         Assert.NotEmpty(cut.FindAll("#products-edit-row-0"));
@@ -119,7 +119,7 @@ public class TwDataTableEditingTests : TwBlazorTestBase
     public void RowLabel_NamesTheRowInTheButtons()
     {
         // Act
-        var cut = Render(p => p.Add(x => x.RowLabel, (Func<Product, string>)(p => $"the {p.Name.ToLowerInvariant()}")));
+        var cut = Render(p => p.Add(x => x.RowLabel, p => $"the {p.Name.ToLowerInvariant()}"));
 
         // Assert
         Assert.Equal("Edit the kettle", cut.Find("#products-edit-row-0").GetAttribute("aria-label"));

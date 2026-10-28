@@ -77,7 +77,7 @@ public partial class TwDataTable<TItem> : IAsyncDisposable
                     builder.CloseComponent();
                 }
             }
-            : ColumnGroup;
+    : ColumnGroup;
 
     private string? ColumnWidth(TwDataTableColumn<TItem> column) =>
         columnStates.FirstOrDefault(s => s.Name == column.Name)?.Width ?? column.Width;

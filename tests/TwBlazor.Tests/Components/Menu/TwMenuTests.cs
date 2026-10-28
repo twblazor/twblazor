@@ -2,7 +2,6 @@ using Bunit;
 using Microsoft.AspNetCore.Components;
 using TwBlazor.Components;
 using TwBlazor.Configuration.Components;
-using TwBlazor.Enums;
 
 namespace TwBlazor.Tests.Components.Menu;
 

@@ -1,5 +1,4 @@
 using Bunit;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using TwBlazor.Components;
 using TwBlazor.Configuration.Components;
@@ -130,7 +129,7 @@ public class TwTextfieldClearableTests : TwBlazorTestBase
     {
         // Arrange
         var calls = new List<string>();
-        string? value = "Order 1042";
+        var value = "Order 1042";
         var cut = TestContext.Render<TwTextfield<string>>(p => p
             .Add(x => x.Clearable, true)
             .Add(x => x.Value, value)
@@ -215,8 +214,8 @@ public class TwTextfieldClearableTests : TwBlazorTestBase
     {
         // Act
         var cut = TestContext.Render<TwTextfield<string>>(p => p
-            .Add(x => x.StartContent, (RenderFragment)(b => b.AddMarkupContent(0, "<span id=\"start\">£</span>")))
-            .Add(x => x.EndContent, (RenderFragment)(b => b.AddMarkupContent(0, "<span id=\"end\">kg</span>"))));
+            .Add(x => x.StartContent, b => b.AddMarkupContent(0, "<span id=\"start\">£</span>"))
+            .Add(x => x.EndContent, b => b.AddMarkupContent(0, "<span id=\"end\">kg</span>")));
 
         // Assert
         Assert.Equal(inputTheme.FieldWrapper, cut.Find("input").ParentElement!.GetAttribute("class"));
@@ -231,7 +230,7 @@ public class TwTextfieldClearableTests : TwBlazorTestBase
         var cut = TestContext.Render<TwTextfield<string>>(p => p
             .Add(x => x.Clearable, true)
             .Add(x => x.Value, "12")
-            .Add(x => x.EndContent, (RenderFragment)(b => b.AddMarkupContent(0, "<span id=\"end\">kg</span>"))));
+            .Add(x => x.EndContent, b => b.AddMarkupContent(0, "<span id=\"end\">kg</span>")));
 
         // Assert
         var row = cut.Find("#end").ParentElement!;

@@ -1,7 +1,7 @@
-using System.ComponentModel.DataAnnotations;
 using Bunit;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using System.ComponentModel.DataAnnotations;
 using TwBlazor.Components;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Models;
@@ -49,7 +49,7 @@ public class TwFormTests : TwBlazorTestBase
         builder.AddComponentParameter(2, "Label", "Name");
         builder.AddComponentParameter(3, "Value", person.Name);
         builder.AddComponentParameter(4, "ValueChanged", EventCallback.Factory.Create<string>(person, value => person.Name = value));
-        builder.AddComponentParameter(5, "ValueExpression", (System.Linq.Expressions.Expression<Func<string>>)(() => person.Name!));
+        builder.AddComponentParameter(5, "ValueExpression", () => person.Name!);
         builder.CloseComponent();
     };
 
@@ -357,7 +357,7 @@ public class TwFormTests : TwBlazorTestBase
             builder.AddComponentParameter(1, "Id", "arrival");
             builder.AddComponentParameter(2, "Value", person.Arrival);
             builder.AddComponentParameter(3, "ValueChanged", EventCallback.Factory.Create<string>(person, value => person.Arrival = value));
-            builder.AddComponentParameter(4, "ValueExpression", (System.Linq.Expressions.Expression<Func<string?>>)(() => person.Arrival));
+            builder.AddComponentParameter(4, "ValueExpression", () => person.Arrival);
             builder.CloseComponent();
         };
         var cut = RenderForm(person, content, p => p.Add(x => x.ShowSummary, true));
@@ -384,7 +384,7 @@ public class TwFormTests : TwBlazorTestBase
             builder.AddComponentParameter(3, "Items", new List<RadioGroupItem<string>> { new() { Label = "Single", Value = "single" }, new() { Label = "Double", Value = "double" } });
             builder.AddComponentParameter(4, "Value", person.Room);
             builder.AddComponentParameter(5, "ValueChanged", EventCallback.Factory.Create<string>(person, value => person.Room = value));
-            builder.AddComponentParameter(6, "ValueExpression", (System.Linq.Expressions.Expression<Func<string>>)(() => person.Room!));
+            builder.AddComponentParameter(6, "ValueExpression", () => person.Room!);
             builder.CloseComponent();
         };
         var cut = RenderForm(person, content, p => p.Add(x => x.ShowSummary, true));
@@ -414,7 +414,7 @@ public class TwFormTests : TwBlazorTestBase
             builder.AddComponentParameter(2, "Label", "Agree");
             builder.AddComponentParameter(3, "Value", person.Agree);
             builder.AddComponentParameter(4, "ValueChanged", EventCallback.Factory.Create<bool>(person, value => person.Agree = value));
-            builder.AddComponentParameter(5, "ValueExpression", (System.Linq.Expressions.Expression<Func<bool>>)(() => person.Agree));
+            builder.AddComponentParameter(5, "ValueExpression", () => person.Agree);
             builder.CloseComponent();
         };
         var cut = RenderForm(person, content);
@@ -439,7 +439,7 @@ public class TwFormTests : TwBlazorTestBase
             builder.AddComponentParameter(3, "Values", _plans);
             builder.AddComponentParameter(4, "SelectedValue", person.Plan);
             builder.AddComponentParameter(5, "SelectedValueChanged", EventCallback.Factory.Create<string>(person, value => person.Plan = value));
-            builder.AddComponentParameter(6, "SelectedValueExpression", (System.Linq.Expressions.Expression<Func<string>>)(() => person.Plan!));
+            builder.AddComponentParameter(6, "SelectedValueExpression", () => person.Plan!);
             builder.CloseComponent();
         };
         var cut = RenderForm(person, content);
@@ -459,12 +459,12 @@ public class TwFormTests : TwBlazorTestBase
 
         var cut = TestContext.Render<EditForm>(p => p
             .Add(x => x.EditContext, context)
-            .Add(x => x.ChildContent, (RenderFragment<EditContext>)(_ => builder =>
+            .Add(x => x.ChildContent, _ => builder =>
             {
                 builder.OpenComponent<DataAnnotationsValidator>(0);
                 builder.CloseComponent();
                 builder.AddContent(1, NameField(person)(context));
-            })));
+            }));
 
         cut.Find("#name").Change("Jo");
         cut.Find("#name").Change(string.Empty);

@@ -23,6 +23,13 @@
     <ProjectReference Include="..\..\src\TwBlazor\TwBlazor.csproj" />
   </ItemGroup>
 
+  <!-- Build order only: makes the outer build compile TwBlazor.BuildTools (and TwBlazor.Theme) before this project,
+       so GenerateDefaultTheme can run it with no-build instead of starting a second build that races this one for
+       the same output files. Nothing from it is referenced or passed on to the docs hosts. -->
+  <ItemGroup Condition="'$(CF_PAGES)' != '1'">
+    <ProjectReference Include="..\..\build\TwBlazor.BuildTools\TwBlazor.BuildTools.csproj" ReferenceOutputAssembly="false" PrivateAssets="all" SkipGetTargetFrameworkProperties="true" />
+  </ItemGroup>
+
   <ItemGroup>
     <EmbeddedResource Include="..\..\components.json" Link="components.json" />
   </ItemGroup>
@@ -83,10 +90,33 @@
     </Content>
   </ItemGroup>
 
-  <!-- Auto-generate CodeExamples.cs from TwBlazor.BuildTools before build -->
-  <Target Name="GenerateDefaultTheme" BeforeTargets="BeforeBuild" Condition="'$(CF_PAGES)' != '1'">
+  <!-- Everything TwBlazor.BuildTools reads and writes, so GenerateDefaultTheme only runs when one of the
+       inputs is newer than the outputs (or an output is missing). The git index stands in for the git history
+       that PageLastModified.cs and sitemap.xml come from. Pass -p:ForceDocsGeneration=true to always run it. -->
+  <PropertyGroup>
+    <_TwRepoRoot>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)../../'))</_TwRepoRoot>
+  </PropertyGroup>
+  <ItemGroup>
+    <_DocsGenInput Include="Pages\**\*.razor;Pages\**\*.cs;Layout\**\*.razor;Layout\**\*.cs;Llms\**\*.txt" />
+    <_DocsGenInput Include="$(_TwRepoRoot)components.json" />
+    <_DocsGenInput Include="$(_TwRepoRoot)src\TwBlazor.Theme\Theme.cs" />
+    <_DocsGenInput Include="$(_TwRepoRoot)docs\TwBlazor.Server\Program.cs" />
+    <_DocsGenInput Include="$(_TwRepoRoot)src\TwBlazor\**\*.cs;$(_TwRepoRoot)src\TwBlazor\**\*.razor" Exclude="$(_TwRepoRoot)src\TwBlazor\bin\**;$(_TwRepoRoot)src\TwBlazor\obj\**" />
+    <_DocsGenInput Include="$(_TwRepoRoot)build\**\*.cs;$(_TwRepoRoot)build\**\*.csproj" Exclude="$(_TwRepoRoot)build\**\bin\**;$(_TwRepoRoot)build\**\obj\**" />
+    <_DocsGenInput Include="$(_TwRepoRoot).git\index" Condition="Exists('$(_TwRepoRoot).git\index')" />
+    <_DocsGenOutput Include="Generated\CodeExamples.cs;Generated\PageLastModified.cs;Generated\ThemeTemplateData.cs;Generated\AgentSkills.cs" />
+    <_DocsGenOutput Include="$(_TwRepoRoot)docs\TwBlazor.WASM\wwwroot\sitemap.xml;$(_TwRepoRoot)docs\TwBlazor.WASM\wwwroot\llms.txt;$(_TwRepoRoot)docs\TwBlazor.WASM\wwwroot\llms-full.txt" />
+  </ItemGroup>
+
+  <!-- A missing output always makes MSBuild run the target, so forcing just adds one that never exists. -->
+  <ItemGroup Condition="'$(ForceDocsGeneration)' == 'true'">
+    <_DocsGenOutput Include="obj\docs-generation.force" />
+  </ItemGroup>
+
+  <!-- Generates CodeExamples.cs and the other files above by running TwBlazor.BuildTools before the build. -->
+  <Target Name="GenerateDefaultTheme" BeforeTargets="BeforeBuild" Condition="'$(CF_PAGES)' != '1'" Inputs="@(_DocsGenInput)" Outputs="@(_DocsGenOutput)">
     <Message Text="Running TwBlazor build tools..." Importance="high" />
-    <Exec Command="dotnet run --project $(MSBuildThisFileDirectory)../../build/TwBlazor.BuildTools/TwBlazor.BuildTools.csproj" WorkingDirectory="$(MSBuildThisFileDirectory)../.." />
+    <Exec Command="dotnet run --no-build --configuration $(Configuration) --project $(MSBuildThisFileDirectory)../../build/TwBlazor.BuildTools/TwBlazor.BuildTools.csproj" WorkingDirectory="$(MSBuildThisFileDirectory)../.." />
   </Target>
 
   <!-- Explicit Include: the default glob is evaluated before GenerateDefaultTheme
