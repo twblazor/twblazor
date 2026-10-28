@@ -113,8 +113,10 @@
     <_DocsGenOutput Include="obj\docs-generation.force" />
   </ItemGroup>
 
-  <!-- Generates CodeExamples.cs and the other files above by running TwBlazor.BuildTools before the build. -->
-  <Target Name="GenerateDefaultTheme" BeforeTargets="BeforeBuild" Condition="'$(CF_PAGES)' != '1'" Inputs="@(_DocsGenInput)" Outputs="@(_DocsGenOutput)">
+  <!-- Generates CodeExamples.cs and the other files above by running TwBlazor.BuildTools before the build.
+       BeforeBuild runs before MSBuild builds project references, so DependsOnTargets pulls ResolveProjectReferences
+       forward; without it a clean build tries to run TwBlazor.BuildTools before it has been compiled. -->
+  <Target Name="GenerateDefaultTheme" BeforeTargets="BeforeBuild" DependsOnTargets="ResolveProjectReferences" Condition="'$(CF_PAGES)' != '1'" Inputs="@(_DocsGenInput)" Outputs="@(_DocsGenOutput)">
     <Message Text="Running TwBlazor build tools..." Importance="high" />
     <Exec Command="dotnet run --no-build --configuration $(Configuration) --project $(MSBuildThisFileDirectory)../../build/TwBlazor.BuildTools/TwBlazor.BuildTools.csproj" WorkingDirectory="$(MSBuildThisFileDirectory)../.." />
   </Target>
