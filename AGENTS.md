@@ -14,13 +14,14 @@ add only guidance an agent would plausibly miss.
 
 - `dotnet restore`
 - `dotnet build` — CI builds Release: `dotnet build --configuration Release --no-restore`
-- Tests: `dotnet test tests/TwBlazor.Tests` and `dotnet test tests/TwBlazor.Docs.Tests` (CI adds
+- Tests: `dotnet test tests/TwBlazor.Tests`, `dotnet test tests/TwBlazor.ArchitectureTests` and
+  `dotnet test tests/TwBlazor.Docs.Tests` (CI adds
   `--no-build --configuration Release --results-directory ./test-results` plus trx reporting).
 - JS unit tests (library JS in `src/TwBlazor/wwwroot/js`): `npm test` — runs
   `vitest run --coverage --config tests/vitest.config.js`; include pattern is `tests/TwBlazor.Tests/js/**/*.test.js`.
 - Docs site: `dotnet run --project docs/TwBlazor.Server` or `dotnet run --project docs/TwBlazor.WasmHost`.
-- Regenerate doc code snippets: `dotnet run --project build/TwBlazor.BuildTools` (runs automatically before
-  `TwBlazor.Docs` builds).
+- Regenerate doc code snippets: `dotnet run --project build/TwBlazor.BuildTools`. It runs automatically before
+  `TwBlazor.Docs` builds, but only when one of its inputs changed; force it with `-p:ForceDocsGeneration=true`.
 
 ## Layout
 
@@ -28,7 +29,10 @@ add only guidance an agent would plausibly miss.
 - `src/TwBlazor.Theme` — `Theme.cs` holding every Tailwind class literal used by the components (`TwBlazorTheme`).
 - `docs/` — docs content (`TwBlazor.Docs`), hosts (`TwBlazor.Server`, `TwBlazor.WASM`, `TwBlazor.WasmHost`), docfx config.
 - `build/` — `TwBlazor.BuildTools` + `TwBlazor.Docs.Compiler` (code snippet extraction).
-- `tests/` — `TwBlazor.Tests` (bUnit/xUnit), `TwBlazor.Docs.Tests`, `TwBlazor.A11yTests` (axe-core + Playwright).
+- `tests/` — `TwBlazor.Tests` (bUnit/xUnit), `TwBlazor.ArchitectureTests` (reflection rules over the public API),
+  `TwBlazor.Docs.Tests`, `TwBlazor.A11yTests` (axe-core + Playwright).
+- `ARCHITECTURE.md` has the project dependency, runtime and docs-build diagrams. Projects in `build/` must never be
+  referenced from `src/` or the docs hosts (it would put Roslyn in the WebAssembly download).
 
 ## Gotchas
 
@@ -75,4 +79,4 @@ add only guidance an agent would plausibly miss.
 
 ## References
 
-- `CONTRIBUTING.md`, `README.md`, `docs/CODE_SNIPPETS.md`, `.github/workflows/`.
+- `ARCHITECTURE.md`, `CONTRIBUTING.md`, `README.md`, `docs/CODE_SNIPPETS.md`, `.github/workflows/`.
