@@ -147,13 +147,13 @@ public class TwTableResizingTests : TwBlazorTestBase
         await cut.InvokeAsync(() => cut.Instance.CommitColumnWidths(new() { ["col-price"] = 200 }));
 
         // Act
-        cut.Render(p => p.Add(x => x.ColumnGroup, (RenderFragment)(builder =>
+        cut.Render(p => p.Add(x => x.ColumnGroup, builder =>
         {
             builder.OpenComponent<TwTableColumn>(0);
             builder.AddComponentParameter(1, nameof(TwTableColumn.Id), "col-price");
             builder.AddComponentParameter(2, nameof(TwTableColumn.Width), "150px");
             builder.CloseComponent();
-        })));
+        }));
 
         // Assert
         Assert.Equal("width:150px;", cut.Find("#col-price").GetAttribute("style"));

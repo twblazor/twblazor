@@ -33,6 +33,48 @@ public class ServiceCollectionExtensionsTests
         Assert.NotNull(provider.GetService<DialogBuilder>());
     }
 
+    [Theory]
+    [InlineData(typeof(ColorBuilder))]
+    [InlineData(typeof(IconColorBuilder))]
+    [InlineData(typeof(ShadowBuilder))]
+    [InlineData(typeof(RoundedBuilder))]
+    [InlineData(typeof(ButtonBuilder))]
+    [InlineData(typeof(InputVariantBuilder))]
+    [InlineData(typeof(ChipBuilder))]
+    [InlineData(typeof(ToastBuilder))]
+    [InlineData(typeof(DialogBuilder))]
+    [InlineData(typeof(PopoverBuilder))]
+    public void AddTwBlazor_RegistersBuildersAsSingletons(Type builderType)
+    {
+        // Arrange
+        var services = new ServiceCollection();
+
+        // Act
+        services.AddTwBlazor(ThemeBase.CreateDefaultTheme());
+
+        // Assert
+        var descriptor = Assert.Single(services, s => s.ServiceType == builderType);
+        Assert.Equal(ServiceLifetime.Singleton, descriptor.Lifetime);
+    }
+
+    [Fact]
+    public void AddTwBlazor_BuildersResolveFromTheRootProvider()
+    {
+        // Arrange
+        var services = new ServiceCollection();
+        services.AddTwBlazor(ThemeBase.CreateDefaultTheme());
+        using var provider = services.BuildServiceProvider(new ServiceProviderOptions { ValidateScopes = true });
+
+        // Act
+        using var firstScope = provider.CreateScope();
+        using var secondScope = provider.CreateScope();
+
+        // Assert
+        Assert.Same(
+            firstScope.ServiceProvider.GetRequiredService<ButtonBuilder>(),
+            secondScope.ServiceProvider.GetRequiredService<ButtonBuilder>());
+    }
+
     [Fact]
     public void AddTwBlazor_WithConfigureAndTheme_AppliesConfiguration()
     {

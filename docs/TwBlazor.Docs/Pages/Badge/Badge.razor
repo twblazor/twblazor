@@ -1,0 +1,65 @@
+@page "/badge"
+@using TwBlazor.Components
+@using TwBlazor.Enums
+
+<PageContainer Title="TwBadge" Path="/badge" Beta Description="TwBadge overlays a count, text label or dot on a corner of any content - an icon, avatar or button." ThemeType="typeof(TwBadgeTheme)">
+    <PageCard Title="Basic usage">
+        <Description>Wrap any content and set <code>Count</code>, <code>Content</code> or <code>Dot</code> to overlay a badge. On a primary/purple button, use <code>Color="Color.Accent"</code> so the badge doesn't blend in.</Description>
+        <CodeExample Name="BadgeBasic">
+            <div class="flex items-center gap-8">
+                <TwBadge Count="5"><TwIcon Icon="Icon.Bell" Class="text-2xl" /></TwBadge>
+                <TwBadge Content="New" Color="Color.Accent"><TwButton Label="Inbox" Color="Color.Primary" /></TwBadge>
+                <TwBadge Dot><TwAvatar Name="Jane Doe" /></TwBadge>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Count with cap">
+        <Description>Use <code>Max</code> to cap a large count, e.g. <code>99+</code>.</Description>
+        <CodeExample Name="BadgeCountCap">
+            <div class="flex items-center gap-8">
+                <TwBadge Count="3"><TwIcon Icon="Icon.Envelope" Class="text-2xl" /></TwBadge>
+                <TwBadge Count="150"><TwIcon Icon="Icon.Envelope" Class="text-2xl" /></TwBadge>
+                <TwBadge Count="120" Max="10"><TwIcon Icon="Icon.Envelope" Class="text-2xl" /></TwBadge>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Placement">
+        <Description>Set <code>Placement</code> to choose the corner. Defaults to <code>BadgePlacement.TopEnd</code>.</Description>
+        <CodeExample Name="BadgePlacement">
+            <div class="flex items-center gap-8">
+                <TwBadge Count="1" Placement="BadgePlacement.TopStart"><TwAvatar Name="A" /></TwBadge>
+                <TwBadge Count="1" Placement="BadgePlacement.TopEnd"><TwAvatar Name="A" /></TwBadge>
+                <TwBadge Count="1" Placement="BadgePlacement.BottomStart"><TwAvatar Name="A" /></TwBadge>
+                <TwBadge Count="1" Placement="BadgePlacement.BottomEnd"><TwAvatar Name="A" /></TwBadge>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Colors">
+        <Description>Badges default to <code>Color.Primary</code>. Choose any of the theme colors.</Description>
+        <CodeExample Name="BadgeColors">
+            <div class="flex items-center gap-8">
+                <TwBadge Count="1"><TwIcon Icon="Icon.Bell" Class="text-2xl" /></TwBadge>
+                <TwBadge Count="1" Color="Color.Success"><TwIcon Icon="Icon.Bell" Class="text-2xl" /></TwBadge>
+                <TwBadge Count="1" Color="Color.Warning"><TwIcon Icon="Icon.Bell" Class="text-2xl" /></TwBadge>
+                <TwBadge Count="1" Color="Color.Info"><TwIcon Icon="Icon.Bell" Class="text-2xl" /></TwBadge>
+            </div>
+        </CodeExample>
+        <Description>On a purple/primary surface use <code>Accent</code>, <code>Light</code> or <code>Dark</code> so the badge doesn't blend in.</Description>
+        <CodeExample Name="BadgeOnPrimary">
+            <div class="flex items-center gap-8">
+                <TwBadge Count="3" Color="Color.Accent"><TwButton Label="Inbox" Color="Color.Primary" /></TwBadge>
+                <TwBadge Count="3" Color="Color.Light"><TwButton Label="Inbox" Color="Color.Primary" /></TwBadge>
+                <TwBadge Count="3" Color="Color.Dark"><TwButton Label="Inbox" Color="Color.Primary" /></TwBadge>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Accessibility">
+        <Description>
+            The count or label pill is exposed with <code>role="status"</code>. Pass <code>AriaLabel</code> (e.g. <code>&lt;TwBadge Count="3" AriaLabel="3 unread messages" /&gt;</code>) so a screen reader announces the count with context rather than a bare number. A <code>Dot</code> badge is decorative and is hidden with <code>aria-hidden</code>.
+        </Description>
+    </PageCard>
+</PageContainer>

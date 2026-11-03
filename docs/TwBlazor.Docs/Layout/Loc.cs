@@ -1,7 +1,7 @@
-using System.Globalization;
-using System.Resources;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
+using System.Globalization;
+using System.Resources;
 
 namespace TwBlazor.Docs.Layout;
 

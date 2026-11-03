@@ -15,8 +15,15 @@
                         OnClick="@ReactionClickCallback(reaction)"
                         aria-pressed="@AriaPressed(reaction)">
                     <span class="@theme.ReactionEmoji" aria-hidden="true">@reaction.Emoji</span>
-                    <span class="@theme.ReactionCount" aria-hidden="true">@FormatCount(reaction.Count)</span>
-                    <span class="@options.Theme.Display.ScreenReaderOnly">@localizer[TwStrings.Bubble_Reaction, reaction.Label ?? reaction.Emoji, FormatCount(reaction.Count)]</span>
+                    @if (reaction.Count > 0)
+                    {
+                        <span class="@theme.ReactionCount" aria-hidden="true">@FormatCount(reaction.Count)</span>
+                        <span class="@options.Theme.Display.ScreenReaderOnly">@localizer[TwStrings.Bubble_Reaction, reaction.Label ?? reaction.Emoji, FormatCount(reaction.Count)]</span>
+                    }
+                    else
+                    {
+                        <span class="@options.Theme.Display.ScreenReaderOnly">@(reaction.Label ?? reaction.Emoji)</span>
+                    }
                 </TwChip>
             }
         </div>

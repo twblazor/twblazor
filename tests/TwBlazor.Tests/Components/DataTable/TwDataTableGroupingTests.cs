@@ -2,7 +2,6 @@ using AngleSharp.Dom;
 using Bunit;
 using Microsoft.AspNetCore.Components;
 using TwBlazor.Components;
-using TwBlazor.Enums;
 
 namespace TwBlazor.Tests.Components.DataTable;
 
@@ -365,7 +364,7 @@ public class TwDataTableGroupingTests : TwBlazorTestBase
         List<TwDataTableColumn<Product>> columns =
         [
             new() { Name = "name", Title = "Name", PropertySelector = p => p.Name },
-            new() { Name = "mixed", Title = "Mixed", Groupable = true, PropertySelector = p => p.Price > 100 ? "large" : (object)p.Price }
+            new() { Name = "mixed", Title = "Mixed", Groupable = true, PropertySelector = p => p.Price > 100 ? "large" : p.Price }
         ];
 
         // Act

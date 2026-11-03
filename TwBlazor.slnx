@@ -21,6 +21,7 @@
   </Folder>
   <Folder Name="/_slnx/">
     <File Path=".editorconfig" />
+    <File Path="ARCHITECTURE.md" />
     <File Path="CODE_OF_CONDUCT.md" />
     <File Path="components.json" />
     <File Path="CONTRIBUTING.md" />

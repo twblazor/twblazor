@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Components;
 using System.Reflection;
 using TwBlazor.Abstraction;
-using TwBlazor.Enums;
 using TwBlazor.ArchitectureTests.Components;
+using TwBlazor.Enums;
 
 namespace TwBlazor.ArchitectureTests;
 

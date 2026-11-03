@@ -1,7 +1,7 @@
-using System.ComponentModel.DataAnnotations;
 using Bunit;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using System.ComponentModel.DataAnnotations;
 using TwBlazor.Components;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Models;
@@ -459,12 +459,12 @@ public class TwFormTests : TwBlazorTestBase
 
         var cut = TestContext.Render<EditForm>(p => p
             .Add(x => x.EditContext, context)
-            .Add(x => x.ChildContent, (RenderFragment<EditContext>)(_ => builder =>
+            .Add(x => x.ChildContent, _ => builder =>
             {
                 builder.OpenComponent<DataAnnotationsValidator>(0);
                 builder.CloseComponent();
                 builder.AddContent(1, NameField(person)(context));
-            })));
+            }));
 
         cut.Find("#name").Change("Jo");
         cut.Find("#name").Change(string.Empty);

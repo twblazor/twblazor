@@ -1,4 +1,3 @@
-using System.Globalization;
 using TwBlazor.Components;
 using TwBlazor.Docs.Layout;
 using TwBlazor.Docs.Services;
