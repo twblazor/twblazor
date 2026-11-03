@@ -1200,6 +1200,27 @@ public static class MicrosoftTheme
                     Image = $"{sizing.Full} object-cover",
                     Icon = "text-[1.25em]"
                 },
+                new TwBadgeTheme
+                {
+                    Colors = new()
+                    {
+                        Primary = $"{background.Medium.Primary} {text.Medium.Light}",
+                        Accent = "bg-neutral-700 text-gray-100",
+                        Success = $"{background.Medium.Success} text-white",
+                        Danger = "bg-red-700 text-gray-100",
+                        Warning = $"{background.Medium.Warning} {text.Medium.Dark}",
+                        Info = $"{background.Medium.Info} {text.Medium.Light}",
+                        Light = $"{background.Medium.Light} {text.Medium.Dark}",
+                        Dark = $"{background.Dark.Dark} {text.Medium.Light}",
+                    },
+                    Wrapper = $"{positioning.Relative} {display.InlineFlex} [--badge-inset:0px] has-[>.rounded-full:first-child]:[--badge-inset:6%]",
+                    Badge = $"{positioning.Absolute} {display.InlineFlex} {anchor.Center} {flexbox.ShrinkNone} min-w-5 h-5 {spacing.PaddingX[1]} {typography.Size.Xxs} {typography.Weight.Semibold} leading-none tabular-nums ring-2 {tokens.SurfaceRing} {interaction.PointerEventsNone}",
+                    Dot = $"{positioning.Absolute} {flexbox.ShrinkNone} size-2.5 {rounded.Full} ring-2 {tokens.SurfaceRing} {interaction.PointerEventsNone}",
+                    TopStart = $"top-(--badge-inset) start-(--badge-inset) -translate-x-1/3 -translate-y-1/3 rtl:translate-x-1/3",
+                    TopEnd = $"top-(--badge-inset) end-(--badge-inset) translate-x-1/3 -translate-y-1/3 rtl:-translate-x-1/3",
+                    BottomStart = $"bottom-(--badge-inset) start-(--badge-inset) -translate-x-1/3 translate-y-1/3 rtl:translate-x-1/3",
+                    BottomEnd = $"bottom-(--badge-inset) end-(--badge-inset) translate-x-1/3 translate-y-1/3 rtl:-translate-x-1/3",
+                },
                 new TwAttachmentTheme
                 {
                     Base = $"{display.InlineFlex} {flexbox.Align.Center} {spacing.Gap[3]} w-72 max-w-full {spacing.Padding[2]} {borderWidth.Thin} {neutralSurface.Border} {neutralSurface.Background}",
@@ -1216,7 +1237,7 @@ public static class MicrosoftTheme
                 new TwBubbleTheme
                 {
                     Surface = $"{positioning.Relative} {display.Block} max-w-full {spacing.PaddingX[4]} {spacing.PaddingY[2.5]} {typography.Size.Sm} {typography.WrapBreakWord} text-start",
-                    Tip = "before:absolute before:bottom-0 before:w-2 before:h-3 before:origin-bottom before:bg-inherit before:[border-color:inherit] before:[border-style:inherit] before:[border-bottom-width:inherit] before:content-['']",
+                    Tip = "before:absolute before:bottom-0 [&.border]:before:-bottom-px before:w-1.5 before:h-2 before:origin-bottom before:bg-inherit before:[border-color:inherit] before:[border-style:inherit] before:[border-bottom-width:inherit] before:content-['']",
                     Soft = new()
                     {
                         Primary = $"{background.Light.Primary} {darkBackground.Dark.Primary} {text.Dark.Primary} {darkText.Light.Primary}",
@@ -1252,8 +1273,8 @@ public static class MicrosoftTheme
                     },
                     Neutral = $"{tokens.Track} {neutralText.Heading}",
                     NeutralOutlined = $"{neutralSurface.Background} {neutralSurface.BorderStrong} {neutralText.Heading}",
-                    StartTail = "rounded-es-none before:-start-2 before:[border-inline-start-width:inherit] before:-skew-x-[34deg] rtl:before:skew-x-[34deg]",
-                    EndTail = "rounded-ee-none before:-end-2 before:[border-inline-end-width:inherit] before:skew-x-[34deg] rtl:before:-skew-x-[34deg]",
+                    StartTail = "rounded-es-none before:-start-1.5 before:[border-inline-start-width:inherit] before:-skew-x-[34deg] rtl:before:skew-x-[34deg]",
+                    EndTail = "rounded-ee-none before:-end-1.5 before:[border-inline-end-width:inherit] before:skew-x-[34deg] rtl:before:-skew-x-[34deg]",
                     Reactions = $"{display.Flex} {flexbox.Wrap} {spacing.Gap[2]}",
                     ReactionEmoji = $"{typography.Size.Base} leading-none",
                     ReactionCount = "tabular-nums"

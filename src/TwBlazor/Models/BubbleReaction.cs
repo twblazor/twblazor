@@ -17,7 +17,7 @@ public class BubbleReaction
     public required string Emoji { get; set; }
 
     /// <summary>
-    /// Gets or sets how many people chose the reaction.
+    /// Gets or sets how many people chose the reaction. A count of 0 is not shown, so only the emoji appears.
     /// </summary>
     public int Count { get; set; }
 

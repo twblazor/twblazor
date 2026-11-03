@@ -316,6 +316,14 @@
         "theme": "TwAvatarTheme"
       },
       {
+        "id": "badge-navitem",
+        "display": "Badge",
+        "name": "TwBadge",
+        "url": "/badge",
+        "isNew": true,
+        "theme": "TwBadgeTheme"
+      },
+      {
         "id": "chip-navitem",
         "display": "Chip",
         "name": "TwChip",
