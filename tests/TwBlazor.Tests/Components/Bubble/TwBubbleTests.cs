@@ -167,6 +167,16 @@ public class TwBubbleTests : TwBlazorTestBase
     }
 
     [Fact]
+    public void TwBubble_ReactionWithNoCount_HidesTheZero_AndIsAnnouncedByItsLabel()
+    {
+        var cut = Render(p => p.Add(x => x.Reactions, [new BubbleReaction { Emoji = "👎", Label = "Not helpful" }]));
+
+        Assert.Empty(cut.FindAll($"span[class='{theme.ReactionCount}']"));
+        Assert.Equal("Not helpful", cut.Find($"span[class='{Theme.Display.ScreenReaderOnly}']").TextContent);
+        Assert.Equal("👎", cut.Find($"span[class='{theme.ReactionEmoji}']").TextContent);
+    }
+
+    [Fact]
     public void TwBubble_ReactionCount_FollowsTheCulture()
     {
         var cut = Render(p => p.Add(x => x.Reactions, Reactions()));

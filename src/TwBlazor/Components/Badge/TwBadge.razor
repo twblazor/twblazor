@@ -1,0 +1,15 @@
+@namespace TwBlazor.Components
+@using TwBlazor.Enums
+@inherits TwBlazorComponentBase
+
+<span id="@Id" class="@wrapperClasses" style="@Style" @attributes="@Attributes">
+    @ChildContent
+    @if (Dot)
+    {
+        <span class="@dotClasses" aria-hidden="true"></span>
+    }
+    else if (badgeText is not null)
+    {
+        <span class="@badgeClasses" role="status" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy">@badgeText</span>
+    }
+</span>
