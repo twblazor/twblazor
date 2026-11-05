@@ -945,4 +945,19 @@
   <data name="Form_SummaryTitle" xml:space="preserve">
     <value>توجد مشكلة</value>
   </data>
+  <data name="TimePicker_HourLabel" xml:space="preserve">
+    <value>ساعة</value>
+  </data>
+  <data name="TimePicker_MinuteLabel" xml:space="preserve">
+    <value>دقيقة</value>
+  </data>
+  <data name="TimePicker_Period" xml:space="preserve">
+    <value>ص أو م</value>
+  </data>
+  <data name="TimePicker_Now" xml:space="preserve">
+    <value>الآن</value>
+  </data>
+  <data name="TimePicker_Done" xml:space="preserve">
+    <value>تم</value>
+  </data>
 </root>

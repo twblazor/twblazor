@@ -1184,4 +1184,19 @@
     <value>There is a problem</value>
     <comment>The heading of the list of errors shown after a form fails to submit.</comment>
   </data>
+  <data name="TimePicker_HourLabel" xml:space="preserve">
+    <value>Hour</value>
+  </data>
+  <data name="TimePicker_MinuteLabel" xml:space="preserve">
+    <value>Min</value>
+  </data>
+  <data name="TimePicker_Period" xml:space="preserve">
+    <value>AM or PM</value>
+  </data>
+  <data name="TimePicker_Now" xml:space="preserve">
+    <value>Now</value>
+  </data>
+  <data name="TimePicker_Done" xml:space="preserve">
+    <value>Done</value>
+  </data>
 </root>

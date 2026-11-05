@@ -95,7 +95,7 @@
     <value>Uygulamada görün</value>
   </data>
   <data name="Home_Case_Heading" xml:space="preserve">
-    <value>Beş tanıdık görünüm, tek bir bileşen kitaplığı</value>
+    <value>Tanıdık görünümler, tek bir bileşen kitaplığı</value>
   </data>
   <data name="Home_Case_Inspired" xml:space="preserve">
     <value>{0}&lt;span class=&quot;font-normal text-purple-200&quot;&gt; esintili&lt;/span&gt;</value>
@@ -223,29 +223,8 @@
   <data name="Home_Failed" xml:space="preserve">
     <value>Başarısız</value>
   </data>
-  <data name="Home_Feature_A11y_Body" xml:space="preserve">
-    <value>ARIA ve klavye desteği yerleşik.</value>
-  </data>
-  <data name="Home_Feature_A11y_Title" xml:space="preserve">
-    <value>Erişilebilir</value>
-  </data>
   <data name="Home_Feature_Composable_Body" xml:space="preserve">
     <value>Sıradan Blazor parametreleri. Sürpriz yok.</value>
-  </data>
-  <data name="Home_Feature_Composable_Title" xml:space="preserve">
-    <value>Birleştirilebilir</value>
-  </data>
-  <data name="Home_Feature_Custom_Body" xml:space="preserve">
-    <value>Markanız, açık ve koyu modda.</value>
-  </data>
-  <data name="Home_Feature_Custom_Title" xml:space="preserve">
-    <value>Tamamen özelleştirilebilir</value>
-  </data>
-  <data name="Home_Feature_Fast_Body" xml:space="preserve">
-    <value>Yayına hazır 25&apos;ten fazla bileşen.</value>
-  </data>
-  <data name="Home_Feature_Fast_Title" xml:space="preserve">
-    <value>Hızlı geliştirin</value>
   </data>
   <data name="Home_Features_HeadingFull" xml:space="preserve">
     <value>Sıradaki projeniz için: {0} ya da {1}.</value>
@@ -405,18 +384,6 @@
   </data>
   <data name="Home_Lang_zhHant" xml:space="preserve">
     <value>Geleneksel Çince</value>
-  </data>
-  <data name="Home_Live_Caption" xml:space="preserve">
-    <value>Altı satır twblazor işaretlemesi ve oluşturdukları canlı bileşenler.</value>
-  </data>
-  <data name="Home_Live_Rendered" xml:space="preserve">
-    <value>6 bileşen oluşturuldu</value>
-  </data>
-  <data name="Home_Live_Replay" xml:space="preserve">
-    <value>Yeniden oynat</value>
-  </data>
-  <data name="Home_Live_ReplayTarget" xml:space="preserve">
-    <value>canlı derlemeyi</value>
   </data>
   <data name="Home_Loc_Badge" xml:space="preserve">
     <value>{0} yerleşik dil</value>
@@ -822,5 +789,278 @@
   </data>
   <data name="Nav_WhyTwBlazor" xml:space="preserve">
     <value>Neden twblazor?</value>
+  </data>
+  <data name="Nav_Menu_Components" xml:space="preserve">
+    <value>Bileşenler</value>
+  </data>
+  <data name="Nav_Menu_Description" xml:space="preserve">
+    <value>Blazor için erişilebilir, temalanabilir yapı taşları.</value>
+  </data>
+  <data name="Nav_Menu_Search" xml:space="preserve">
+    <value>{0} bileşende ara</value>
+  </data>
+  <data name="Nav_Menu_Count" xml:space="preserve">
+    <value>{0} bileşen</value>
+  </data>
+  <data name="Nav_Menu_CountOne" xml:space="preserve">
+    <value>1 bileşen</value>
+  </data>
+  <data name="Nav_Menu_NoMatch" xml:space="preserve">
+    <value>Aramanızla eşleşen bileşen yok.</value>
+  </data>
+  <data name="Nav_Menu_Back" xml:space="preserve">
+    <value>Tüm kategoriler</value>
+  </data>
+  <data name="Home_Showcase_Tabs" xml:space="preserve">
+    <value>Örnekler</value>
+  </data>
+  <data name="Home_Showcase_Theme" xml:space="preserve">
+    <value>Örnek rengi</value>
+  </data>
+  <data name="Home_Showcase_Light" xml:space="preserve">
+    <value>Örneği açık modda göster</value>
+  </data>
+  <data name="Home_Showcase_Dark" xml:space="preserve">
+    <value>Örneği koyu modda göster</value>
+  </data>
+  <data name="Home_Showcase_ChartTypes" xml:space="preserve">
+    <value>Grafik türü</value>
+  </data>
+  <data name="Home_Showcase_Docs" xml:space="preserve">
+    <value>Belgeleri aç</value>
+  </data>
+  <data name="Home_Showcase_Dashboard_Desc" xml:space="preserve">
+    <value>Panoya hazır uyarılar, rakamlar ve grafikler.</value>
+  </data>
+  <data name="Home_Showcase_Charts_Desc" xml:space="preserve">
+    <value>{0}+ grafik türü, tek tutarlı görünüm. Dokuzunu burada deneyin.</value>
+  </data>
+  <data name="Home_Showcase_Purple" xml:space="preserve">
+    <value>Mor</value>
+  </data>
+  <data name="Home_Showcase_Blue" xml:space="preserve">
+    <value>Mavi</value>
+  </data>
+  <data name="Home_Showcase_Green" xml:space="preserve">
+    <value>Yeşil</value>
+  </data>
+  <data name="Home_Showcase_Orange" xml:space="preserve">
+    <value>Turuncu</value>
+  </data>
+  <data name="Home_Showcase_DashboardTab" xml:space="preserve">
+    <value>Pano</value>
+  </data>
+  <data name="Home_Showcase_Forms_Desc" xml:space="preserve">
+    <value>Aynı alanlardan oluşan giriş, ödeme ve ayar formları.</value>
+  </data>
+  <data name="Home_Form_SignInSub" xml:space="preserve">
+    <value>Tekrar hoş geldiniz. Devam etmek için giriş yapın.</value>
+  </data>
+  <data name="Home_Db_Title" xml:space="preserve">
+    <value>Veritabanı oluştur</value>
+  </data>
+  <data name="Home_Db_Sub" xml:space="preserve">
+    <value>Bir plan ve bölge seçin.</value>
+  </data>
+  <data name="Home_Db_Plan" xml:space="preserve">
+    <value>Plan</value>
+  </data>
+  <data name="Home_Db_Region" xml:space="preserve">
+    <value>Bölge</value>
+  </data>
+  <data name="Home_Db_Storage" xml:space="preserve">
+    <value>Depolama</value>
+  </data>
+  <data name="Home_Db_Cost" xml:space="preserve">
+    <value>Tahmini maliyet</value>
+  </data>
+  <data name="Home_Db_PerMonth" xml:space="preserve">
+    <value>Aylık {0}</value>
+  </data>
+  <data name="Home_Db_Create" xml:space="preserve">
+    <value>Oluştur</value>
+  </data>
+  <data name="Home_Db_Created" xml:space="preserve">
+    <value>Oluşturuldu</value>
+  </data>
+  <data name="Home_Meet_Title" xml:space="preserve">
+    <value>Görüşme planla</value>
+  </data>
+  <data name="Home_Meet_Sub" xml:space="preserve">
+    <value>Size uyan bir zaman bulun.</value>
+  </data>
+  <data name="Home_Meet_Date" xml:space="preserve">
+    <value>Tarih</value>
+  </data>
+  <data name="Home_Meet_Time" xml:space="preserve">
+    <value>Saat</value>
+  </data>
+  <data name="Home_Meet_Duration" xml:space="preserve">
+    <value>Süre</value>
+  </data>
+  <data name="Home_Meet_Reminder" xml:space="preserve">
+    <value>Bana e-postayla hatırlat</value>
+  </data>
+  <data name="Home_Meet_Book" xml:space="preserve">
+    <value>Görüşmeyi planla</value>
+  </data>
+  <data name="Home_Meet_Booked" xml:space="preserve">
+    <value>Planlandı</value>
+  </data>
+  <data name="Home_Meet_Minutes" xml:space="preserve">
+    <value>{0} dakika</value>
+  </data>
+  <data name="Home_Pay_Title" xml:space="preserve">
+    <value>Pro'ya geç</value>
+  </data>
+  <data name="Home_Pay_Sub" xml:space="preserve">
+    <value>Aylık faturalandırılır. İstediğiniz zaman iptal edin.</value>
+  </data>
+  <data name="Home_Pay_Seats" xml:space="preserve">
+    <value>Koltuk</value>
+  </data>
+  <data name="Home_Pay_Card" xml:space="preserve">
+    <value>Kart numarası</value>
+  </data>
+  <data name="Home_Pay_Expiry" xml:space="preserve">
+    <value>Son kullanma</value>
+  </data>
+  <data name="Home_Pay_Cvc" xml:space="preserve">
+    <value>CVC</value>
+  </data>
+  <data name="Home_Pay_Total" xml:space="preserve">
+    <value>Toplam</value>
+  </data>
+  <data name="Home_Pay_Button" xml:space="preserve">
+    <value>{0} öde</value>
+  </data>
+  <data name="Home_Pay_Paid" xml:space="preserve">
+    <value>Ödendi</value>
+  </data>
+  <data name="Home_Ws_Title" xml:space="preserve">
+    <value>Çalışma alanınızı kurun</value>
+  </data>
+  <data name="Home_Ws_Sub" xml:space="preserve">
+    <value>Markanıza benzetin.</value>
+  </data>
+  <data name="Home_Ws_Name" xml:space="preserve">
+    <value>Çalışma alanı adı</value>
+  </data>
+  <data name="Home_Ws_Colour" xml:space="preserve">
+    <value>Marka rengi</value>
+  </data>
+  <data name="Home_Ws_Logo" xml:space="preserve">
+    <value>Logo yükle</value>
+  </data>
+  <data name="Home_Ws_LogoHint" xml:space="preserve">
+    <value>PNG veya SVG, en fazla 2 MB.</value>
+  </data>
+  <data name="Home_Ws_Create" xml:space="preserve">
+    <value>Çalışma alanı oluştur</value>
+  </data>
+  <data name="Home_Ws_Created" xml:space="preserve">
+    <value>Çalışma alanı oluşturuldu</value>
+  </data>
+  <data name="Home_Review_Title" xml:space="preserve">
+    <value>Yorum bırakın</value>
+  </data>
+  <data name="Home_Review_Sub" xml:space="preserve">
+    <value>Nasıl geçtiğini anlatın.</value>
+  </data>
+  <data name="Home_Review_Rating" xml:space="preserve">
+    <value>Puanınız</value>
+  </data>
+  <data name="Home_Review_Tags" xml:space="preserve">
+    <value>Neler iyiydi?</value>
+  </data>
+  <data name="Home_Review_Tag_Speed" xml:space="preserve">
+    <value>Hız</value>
+  </data>
+  <data name="Home_Review_Tag_Docs" xml:space="preserve">
+    <value>Belgeler</value>
+  </data>
+  <data name="Home_Review_Tag_Support" xml:space="preserve">
+    <value>Destek</value>
+  </data>
+  <data name="Home_Review_Tag_Design" xml:space="preserve">
+    <value>Tasarım</value>
+  </data>
+  <data name="Home_Review_Tag_Price" xml:space="preserve">
+    <value>Fiyat</value>
+  </data>
+  <data name="Home_Review_Submit" xml:space="preserve">
+    <value>Yorumu gönder</value>
+  </data>
+  <data name="Home_Review_Thanks" xml:space="preserve">
+    <value>Yorumunuz için teşekkürler.</value>
+  </data>
+  <data name="Home_Crumb_Projects" xml:space="preserve">
+    <value>Projeler</value>
+  </data>
+  <data name="Home_Stats_Label" xml:space="preserve">
+    <value>Bir bakışta twblazor</value>
+  </data>
+  <data name="Home_Stats_Components" xml:space="preserve">
+    <value>{0}+ bileşen</value>
+  </data>
+  <data name="Home_Stats_Charts" xml:space="preserve">
+    <value>{0}+ grafik türü</value>
+  </data>
+  <data name="Home_Stats_Accessible" xml:space="preserve">
+    <value>Klavye ve ekran okuyucuya hazır</value>
+  </data>
+  <data name="Home_Stats_Languages" xml:space="preserve">
+    <value>{0} dil</value>
+  </data>
+  <data name="Home_Stats_Mit" xml:space="preserve">
+    <value>Ücretsiz ve MIT lisanslı</value>
+  </data>
+  <data name="Home_A11y_Badge" xml:space="preserve">
+    <value>Varsayılan olarak erişilebilir</value>
+  </data>
+  <data name="Home_A11y_HeadingLead" xml:space="preserve">
+    <value>Herkes için,</value>
+  </data>
+  <data name="Home_A11y_HeadingAccent" xml:space="preserve">
+    <value>klavyeden ekran okuyucuya</value>
+  </data>
+  <data name="Home_A11y_Sub" xml:space="preserve">
+    <value>Her bileşen WAI-ARIA kalıplarını izler, böylece herkes uygulamanızı kendi yoluyla kullanır. Açılacak bir şey yok.</value>
+  </data>
+  <data name="Home_A11y_Keyboard_Title" xml:space="preserve">
+    <value>Önce klavye</value>
+  </data>
+  <data name="Home_A11y_Keyboard_Body" xml:space="preserve">
+    <value>Tab, ok tuşları, Home, End ve Escape her bileşende WAI-ARIA'nın tarif ettiği gibi çalışır.</value>
+  </data>
+  <data name="Home_A11y_Reader_Title" xml:space="preserve">
+    <value>Ekran okuyucuya hazır</value>
+  </data>
+  <data name="Home_A11y_Reader_Body" xml:space="preserve">
+    <value>Roller, adlar ve canlı duyurular, gelen her dile çevrilmiş.</value>
+  </data>
+  <data name="Home_A11y_Focus_Title" xml:space="preserve">
+    <value>Görünür odak</value>
+  </data>
+  <data name="Home_A11y_Focus_Body" xml:space="preserve">
+    <value>Her denetimde net bir odak halkası; bir açılır pencere kapanınca odak yerine döner.</value>
+  </data>
+  <data name="Home_A11y_Motion_Title" xml:space="preserve">
+    <value>İstenince sakin</value>
+  </data>
+  <data name="Home_A11y_Motion_Body" xml:space="preserve">
+    <value>Sistem daha az hareket istediğinde animasyonlar durur.</value>
+  </data>
+  <data name="Home_A11y_Contrast_Title" xml:space="preserve">
+    <value>Yüksek karşıtlık modu</value>
+  </data>
+  <data name="Home_A11y_Contrast_Body" xml:space="preserve">
+    <value>Windows yüksek karşıtlık renklerine uyulur, böylece durumlar görünür kalır.</value>
+  </data>
+  <data name="Home_A11y_Tested_Title" xml:space="preserve">
+    <value>axe-core ile test edildi</value>
+  </data>
+  <data name="Home_A11y_Tested_Body" xml:space="preserve">
+    <value>Her belge sayfası test paketinde erişilebilirlik sorunlarına karşı taranır.</value>
   </data>
 </root>

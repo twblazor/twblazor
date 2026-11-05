@@ -939,4 +939,19 @@
   <data name="Form_SummaryTitle" xml:space="preserve">
     <value>Có vấn đề</value>
   </data>
+  <data name="TimePicker_HourLabel" xml:space="preserve">
+    <value>Giờ</value>
+  </data>
+  <data name="TimePicker_MinuteLabel" xml:space="preserve">
+    <value>Phút</value>
+  </data>
+  <data name="TimePicker_Period" xml:space="preserve">
+    <value>SA hoặc CH</value>
+  </data>
+  <data name="TimePicker_Now" xml:space="preserve">
+    <value>Bây giờ</value>
+  </data>
+  <data name="TimePicker_Done" xml:space="preserve">
+    <value>Xong</value>
+  </data>
 </root>

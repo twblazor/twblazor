@@ -95,7 +95,7 @@
     <value>شاهده عمليًا</value>
   </data>
   <data name="Home_Case_Heading" xml:space="preserve">
-    <value>خمسة أنماط معروفة، ومكتبة مكونات واحدة</value>
+    <value>أنماط معروفة، ومكتبة مكونات واحدة</value>
   </data>
   <data name="Home_Case_Inspired" xml:space="preserve">
     <value>&lt;span class=&quot;font-normal text-purple-200&quot;&gt;مستوحى من &lt;/span&gt;{0}</value>
@@ -223,29 +223,8 @@
   <data name="Home_Failed" xml:space="preserve">
     <value>فاشلة</value>
   </data>
-  <data name="Home_Feature_A11y_Body" xml:space="preserve">
-    <value>دعم ARIA ولوحة المفاتيح مدمج.</value>
-  </data>
-  <data name="Home_Feature_A11y_Title" xml:space="preserve">
-    <value>سهل الوصول</value>
-  </data>
   <data name="Home_Feature_Composable_Body" xml:space="preserve">
     <value>معلمات Blazor عادية. بلا مفاجآت.</value>
-  </data>
-  <data name="Home_Feature_Composable_Title" xml:space="preserve">
-    <value>قابل للتركيب</value>
-  </data>
-  <data name="Home_Feature_Custom_Body" xml:space="preserve">
-    <value>علامتك التجارية، في الوضعين الفاتح والداكن.</value>
-  </data>
-  <data name="Home_Feature_Custom_Title" xml:space="preserve">
-    <value>قابل للتخصيص بالكامل</value>
-  </data>
-  <data name="Home_Feature_Fast_Body" xml:space="preserve">
-    <value>أكثر من 25 مكونًا جاهزًا للإطلاق.</value>
-  </data>
-  <data name="Home_Feature_Fast_Title" xml:space="preserve">
-    <value>سريع البناء</value>
   </data>
   <data name="Home_Features_HeadingFull" xml:space="preserve">
     <value>مناسب لمشروعك القادم: {0} أو {1}.</value>
@@ -405,18 +384,6 @@
   </data>
   <data name="Home_Lang_zhHant" xml:space="preserve">
     <value>الصينية التقليدية</value>
-  </data>
-  <data name="Home_Live_Caption" xml:space="preserve">
-    <value>ستة أسطر من ترميز twblazor والمكونات الحية التي تنتجها.</value>
-  </data>
-  <data name="Home_Live_Rendered" xml:space="preserve">
-    <value>تم عرض 6 مكونات</value>
-  </data>
-  <data name="Home_Live_Replay" xml:space="preserve">
-    <value>إعادة التشغيل</value>
-  </data>
-  <data name="Home_Live_ReplayTarget" xml:space="preserve">
-    <value>البناء الحي</value>
   </data>
   <data name="Home_Loc_Badge" xml:space="preserve">
     <value>{0} لغة مدمجة</value>
@@ -822,5 +789,278 @@
   </data>
   <data name="Nav_WhyTwBlazor" xml:space="preserve">
     <value>لماذا twblazor؟</value>
+  </data>
+  <data name="Nav_Menu_Components" xml:space="preserve">
+    <value>المكوّنات</value>
+  </data>
+  <data name="Nav_Menu_Description" xml:space="preserve">
+    <value>لبنات بناء سهلة الوصول وقابلة للتخصيص لـ Blazor.</value>
+  </data>
+  <data name="Nav_Menu_Search" xml:space="preserve">
+    <value>ابحث في {0} مكوّنًا</value>
+  </data>
+  <data name="Nav_Menu_Count" xml:space="preserve">
+    <value>{0} مكوّنًا</value>
+  </data>
+  <data name="Nav_Menu_CountOne" xml:space="preserve">
+    <value>مكوّن واحد</value>
+  </data>
+  <data name="Nav_Menu_NoMatch" xml:space="preserve">
+    <value>لا توجد مكوّنات تطابق بحثك.</value>
+  </data>
+  <data name="Nav_Menu_Back" xml:space="preserve">
+    <value>كل الفئات</value>
+  </data>
+  <data name="Home_Showcase_Tabs" xml:space="preserve">
+    <value>أمثلة</value>
+  </data>
+  <data name="Home_Showcase_Theme" xml:space="preserve">
+    <value>لون المثال</value>
+  </data>
+  <data name="Home_Showcase_Light" xml:space="preserve">
+    <value>اعرض المثال في الوضع الفاتح</value>
+  </data>
+  <data name="Home_Showcase_Dark" xml:space="preserve">
+    <value>اعرض المثال في الوضع الداكن</value>
+  </data>
+  <data name="Home_Showcase_ChartTypes" xml:space="preserve">
+    <value>نوع المخطط</value>
+  </data>
+  <data name="Home_Showcase_Docs" xml:space="preserve">
+    <value>فتح التوثيق</value>
+  </data>
+  <data name="Home_Showcase_Dashboard_Desc" xml:space="preserve">
+    <value>تنبيهات وأرقام ومخططات جاهزة للوحة المعلومات.</value>
+  </data>
+  <data name="Home_Showcase_Charts_Desc" xml:space="preserve">
+    <value>أكثر من {0} نوعًا من المخططات بمظهر واحد متسق. جرّب تسعة منها هنا.</value>
+  </data>
+  <data name="Home_Showcase_Purple" xml:space="preserve">
+    <value>بنفسجي</value>
+  </data>
+  <data name="Home_Showcase_Blue" xml:space="preserve">
+    <value>أزرق</value>
+  </data>
+  <data name="Home_Showcase_Green" xml:space="preserve">
+    <value>أخضر</value>
+  </data>
+  <data name="Home_Showcase_Orange" xml:space="preserve">
+    <value>برتقالي</value>
+  </data>
+  <data name="Home_Showcase_DashboardTab" xml:space="preserve">
+    <value>لوحة المعلومات</value>
+  </data>
+  <data name="Home_Showcase_Forms_Desc" xml:space="preserve">
+    <value>نماذج تسجيل الدخول والدفع والإعدادات، مبنية من الحقول نفسها.</value>
+  </data>
+  <data name="Home_Form_SignInSub" xml:space="preserve">
+    <value>مرحبًا بعودتك. سجّل الدخول للمتابعة.</value>
+  </data>
+  <data name="Home_Db_Title" xml:space="preserve">
+    <value>إنشاء قاعدة بيانات</value>
+  </data>
+  <data name="Home_Db_Sub" xml:space="preserve">
+    <value>اختر خطة ومنطقة.</value>
+  </data>
+  <data name="Home_Db_Plan" xml:space="preserve">
+    <value>الخطة</value>
+  </data>
+  <data name="Home_Db_Region" xml:space="preserve">
+    <value>المنطقة</value>
+  </data>
+  <data name="Home_Db_Storage" xml:space="preserve">
+    <value>التخزين</value>
+  </data>
+  <data name="Home_Db_Cost" xml:space="preserve">
+    <value>التكلفة التقديرية</value>
+  </data>
+  <data name="Home_Db_PerMonth" xml:space="preserve">
+    <value>{0} شهريًا</value>
+  </data>
+  <data name="Home_Db_Create" xml:space="preserve">
+    <value>إنشاء</value>
+  </data>
+  <data name="Home_Db_Created" xml:space="preserve">
+    <value>تم الإنشاء</value>
+  </data>
+  <data name="Home_Meet_Title" xml:space="preserve">
+    <value>احجز مكالمة</value>
+  </data>
+  <data name="Home_Meet_Sub" xml:space="preserve">
+    <value>اختر وقتًا يناسبك.</value>
+  </data>
+  <data name="Home_Meet_Date" xml:space="preserve">
+    <value>التاريخ</value>
+  </data>
+  <data name="Home_Meet_Time" xml:space="preserve">
+    <value>الوقت</value>
+  </data>
+  <data name="Home_Meet_Duration" xml:space="preserve">
+    <value>المدة</value>
+  </data>
+  <data name="Home_Meet_Reminder" xml:space="preserve">
+    <value>أرسل لي تذكيرًا بالبريد</value>
+  </data>
+  <data name="Home_Meet_Book" xml:space="preserve">
+    <value>احجز المكالمة</value>
+  </data>
+  <data name="Home_Meet_Booked" xml:space="preserve">
+    <value>تم الحجز</value>
+  </data>
+  <data name="Home_Meet_Minutes" xml:space="preserve">
+    <value>{0} دقيقة</value>
+  </data>
+  <data name="Home_Pay_Title" xml:space="preserve">
+    <value>الترقية إلى Pro</value>
+  </data>
+  <data name="Home_Pay_Sub" xml:space="preserve">
+    <value>فوترة شهرية. ألغِ في أي وقت.</value>
+  </data>
+  <data name="Home_Pay_Seats" xml:space="preserve">
+    <value>المقاعد</value>
+  </data>
+  <data name="Home_Pay_Card" xml:space="preserve">
+    <value>رقم البطاقة</value>
+  </data>
+  <data name="Home_Pay_Expiry" xml:space="preserve">
+    <value>تاريخ الانتهاء</value>
+  </data>
+  <data name="Home_Pay_Cvc" xml:space="preserve">
+    <value>CVC</value>
+  </data>
+  <data name="Home_Pay_Total" xml:space="preserve">
+    <value>الإجمالي</value>
+  </data>
+  <data name="Home_Pay_Button" xml:space="preserve">
+    <value>ادفع {0}</value>
+  </data>
+  <data name="Home_Pay_Paid" xml:space="preserve">
+    <value>تم الدفع</value>
+  </data>
+  <data name="Home_Ws_Title" xml:space="preserve">
+    <value>أعدّ مساحة عملك</value>
+  </data>
+  <data name="Home_Ws_Sub" xml:space="preserve">
+    <value>اجعلها تشبه علامتك التجارية.</value>
+  </data>
+  <data name="Home_Ws_Name" xml:space="preserve">
+    <value>اسم مساحة العمل</value>
+  </data>
+  <data name="Home_Ws_Colour" xml:space="preserve">
+    <value>لون العلامة</value>
+  </data>
+  <data name="Home_Ws_Logo" xml:space="preserve">
+    <value>رفع الشعار</value>
+  </data>
+  <data name="Home_Ws_LogoHint" xml:space="preserve">
+    <value>PNG أو SVG، حتى 2 ميغابايت.</value>
+  </data>
+  <data name="Home_Ws_Create" xml:space="preserve">
+    <value>إنشاء مساحة العمل</value>
+  </data>
+  <data name="Home_Ws_Created" xml:space="preserve">
+    <value>تم إنشاء مساحة العمل</value>
+  </data>
+  <data name="Home_Review_Title" xml:space="preserve">
+    <value>اترك تقييمًا</value>
+  </data>
+  <data name="Home_Review_Sub" xml:space="preserve">
+    <value>أخبرنا كيف كانت التجربة.</value>
+  </data>
+  <data name="Home_Review_Rating" xml:space="preserve">
+    <value>تقييمك</value>
+  </data>
+  <data name="Home_Review_Tags" xml:space="preserve">
+    <value>ما الذي أعجبك؟</value>
+  </data>
+  <data name="Home_Review_Tag_Speed" xml:space="preserve">
+    <value>السرعة</value>
+  </data>
+  <data name="Home_Review_Tag_Docs" xml:space="preserve">
+    <value>التوثيق</value>
+  </data>
+  <data name="Home_Review_Tag_Support" xml:space="preserve">
+    <value>الدعم</value>
+  </data>
+  <data name="Home_Review_Tag_Design" xml:space="preserve">
+    <value>التصميم</value>
+  </data>
+  <data name="Home_Review_Tag_Price" xml:space="preserve">
+    <value>السعر</value>
+  </data>
+  <data name="Home_Review_Submit" xml:space="preserve">
+    <value>إرسال التقييم</value>
+  </data>
+  <data name="Home_Review_Thanks" xml:space="preserve">
+    <value>شكرًا على تقييمك.</value>
+  </data>
+  <data name="Home_Crumb_Projects" xml:space="preserve">
+    <value>المشاريع</value>
+  </data>
+  <data name="Home_Stats_Label" xml:space="preserve">
+    <value>twblazor في لمحة</value>
+  </data>
+  <data name="Home_Stats_Components" xml:space="preserve">
+    <value>أكثر من {0} مكوّنًا</value>
+  </data>
+  <data name="Home_Stats_Charts" xml:space="preserve">
+    <value>أكثر من {0} نوعًا من المخططات</value>
+  </data>
+  <data name="Home_Stats_Accessible" xml:space="preserve">
+    <value>جاهز للوحة المفاتيح وقارئ الشاشة</value>
+  </data>
+  <data name="Home_Stats_Languages" xml:space="preserve">
+    <value>{0} لغة</value>
+  </data>
+  <data name="Home_Stats_Mit" xml:space="preserve">
+    <value>مجاني ومرخّص بـ MIT</value>
+  </data>
+  <data name="Home_A11y_Badge" xml:space="preserve">
+    <value>سهل الوصول افتراضيًا</value>
+  </data>
+  <data name="Home_A11y_HeadingLead" xml:space="preserve">
+    <value>مصمم للجميع،</value>
+  </data>
+  <data name="Home_A11y_HeadingAccent" xml:space="preserve">
+    <value>من لوحة المفاتيح إلى قارئ الشاشة</value>
+  </data>
+  <data name="Home_A11y_Sub" xml:space="preserve">
+    <value>يتبع كل مكوّن أنماط WAI-ARIA، ليستخدم الجميع تطبيقك بطريقتهم. لا شيء لتفعيله.</value>
+  </data>
+  <data name="Home_A11y_Keyboard_Title" xml:space="preserve">
+    <value>لوحة المفاتيح أولًا</value>
+  </data>
+  <data name="Home_A11y_Keyboard_Body" xml:space="preserve">
+    <value>تعمل Tab والأسهم وHome وEnd وEscape في كل مكوّن كما تصف WAI-ARIA.</value>
+  </data>
+  <data name="Home_A11y_Reader_Title" xml:space="preserve">
+    <value>جاهز لقارئ الشاشة</value>
+  </data>
+  <data name="Home_A11y_Reader_Body" xml:space="preserve">
+    <value>أدوار وأسماء وإعلانات مباشرة، مترجمة إلى كل اللغات المرفقة.</value>
+  </data>
+  <data name="Home_A11y_Focus_Title" xml:space="preserve">
+    <value>تركيز ظاهر</value>
+  </data>
+  <data name="Home_A11y_Focus_Body" xml:space="preserve">
+    <value>حلقة تركيز واضحة على كل عنصر تحكم، ويعود التركيز إلى مكانه عند إغلاق النافذة المنبثقة.</value>
+  </data>
+  <data name="Home_A11y_Motion_Title" xml:space="preserve">
+    <value>هادئ عند الطلب</value>
+  </data>
+  <data name="Home_A11y_Motion_Body" xml:space="preserve">
+    <value>تتوقف الحركات عندما يطلب النظام تقليل الحركة.</value>
+  </data>
+  <data name="Home_A11y_Contrast_Title" xml:space="preserve">
+    <value>وضع التباين العالي</value>
+  </data>
+  <data name="Home_A11y_Contrast_Body" xml:space="preserve">
+    <value>تُحترم ألوان التباين العالي في Windows، فتبقى الحالات ظاهرة.</value>
+  </data>
+  <data name="Home_A11y_Tested_Title" xml:space="preserve">
+    <value>مختبر باستخدام axe-core</value>
+  </data>
+  <data name="Home_A11y_Tested_Body" xml:space="preserve">
+    <value>تُفحص كل صفحة توثيق بحثًا عن مشكلات إمكانية الوصول ضمن الاختبارات.</value>
   </data>
 </root>

@@ -95,7 +95,7 @@
     <value>प्रत्यक्ष पाहा</value>
   </data>
   <data name="Home_Case_Heading" xml:space="preserve">
-    <value>पाच ओळखीचे लुक, एक कंपोनेंट लायब्ररी</value>
+    <value>ओळखीचे लुक, एक कंपोनेंट लायब्ररी</value>
   </data>
   <data name="Home_Case_Inspired" xml:space="preserve">
     <value>{0}&lt;span class=&quot;font-normal text-purple-200&quot;&gt;-प्रेरित&lt;/span&gt;</value>
@@ -223,29 +223,8 @@
   <data name="Home_Failed" xml:space="preserve">
     <value>अयशस्वी</value>
   </data>
-  <data name="Home_Feature_A11y_Body" xml:space="preserve">
-    <value>ARIA आणि कीबोर्ड सपोर्ट आधीपासून समाविष्ट.</value>
-  </data>
-  <data name="Home_Feature_A11y_Title" xml:space="preserve">
-    <value>सुलभ</value>
-  </data>
   <data name="Home_Feature_Composable_Body" xml:space="preserve">
     <value>साधे Blazor पॅरामीटर्स. कोणतेही आश्चर्य नाही.</value>
-  </data>
-  <data name="Home_Feature_Composable_Title" xml:space="preserve">
-    <value>जोडता येण्याजोगे</value>
-  </data>
-  <data name="Home_Feature_Custom_Body" xml:space="preserve">
-    <value>तुमचा ब्रँड, लाइट आणि डार्क मोडमध्ये.</value>
-  </data>
-  <data name="Home_Feature_Custom_Title" xml:space="preserve">
-    <value>पूर्णपणे सानुकूल</value>
-  </data>
-  <data name="Home_Feature_Fast_Body" xml:space="preserve">
-    <value>25 पेक्षा जास्त कंपोनेंट, प्रकाशित करण्यास तयार.</value>
-  </data>
-  <data name="Home_Feature_Fast_Title" xml:space="preserve">
-    <value>पटकन बनवा</value>
   </data>
   <data name="Home_Features_HeadingFull" xml:space="preserve">
     <value>तुमच्या पुढच्या प्रोजेक्टसाठी: {0} किंवा {1}.</value>
@@ -405,18 +384,6 @@
   </data>
   <data name="Home_Lang_zhHant" xml:space="preserve">
     <value>पारंपरिक चिनी</value>
-  </data>
-  <data name="Home_Live_Caption" xml:space="preserve">
-    <value>twblazor मार्कअपच्या सहा ओळी आणि त्यातून तयार होणारे लाइव्ह कंपोनेंट.</value>
-  </data>
-  <data name="Home_Live_Rendered" xml:space="preserve">
-    <value>6 कंपोनेंट रेंडर झाले</value>
-  </data>
-  <data name="Home_Live_Replay" xml:space="preserve">
-    <value>पुन्हा चालवा</value>
-  </data>
-  <data name="Home_Live_ReplayTarget" xml:space="preserve">
-    <value>लाइव्ह बिल्ड</value>
   </data>
   <data name="Home_Loc_Badge" xml:space="preserve">
     <value>{0} भाषा, आधीपासून समाविष्ट</value>
@@ -822,5 +789,278 @@
   </data>
   <data name="Nav_WhyTwBlazor" xml:space="preserve">
     <value>twblazor का?</value>
+  </data>
+  <data name="Nav_Menu_Components" xml:space="preserve">
+    <value>कंपोनंट</value>
+  </data>
+  <data name="Nav_Menu_Description" xml:space="preserve">
+    <value>Blazor साठी सुलभ, थीम बदलता येणारे घटक.</value>
+  </data>
+  <data name="Nav_Menu_Search" xml:space="preserve">
+    <value>{0} कंपोनंटमध्ये शोधा</value>
+  </data>
+  <data name="Nav_Menu_Count" xml:space="preserve">
+    <value>{0} कंपोनंट</value>
+  </data>
+  <data name="Nav_Menu_CountOne" xml:space="preserve">
+    <value>1 कंपोनंट</value>
+  </data>
+  <data name="Nav_Menu_NoMatch" xml:space="preserve">
+    <value>तुमच्या शोधाशी कोणताही कंपोनंट जुळत नाही.</value>
+  </data>
+  <data name="Nav_Menu_Back" xml:space="preserve">
+    <value>सर्व श्रेणी</value>
+  </data>
+  <data name="Home_Showcase_Tabs" xml:space="preserve">
+    <value>उदाहरणे</value>
+  </data>
+  <data name="Home_Showcase_Theme" xml:space="preserve">
+    <value>उदाहरणाचा रंग</value>
+  </data>
+  <data name="Home_Showcase_Light" xml:space="preserve">
+    <value>उदाहरण लाइट मोडमध्ये दाखवा</value>
+  </data>
+  <data name="Home_Showcase_Dark" xml:space="preserve">
+    <value>उदाहरण डार्क मोडमध्ये दाखवा</value>
+  </data>
+  <data name="Home_Showcase_ChartTypes" xml:space="preserve">
+    <value>चार्टचा प्रकार</value>
+  </data>
+  <data name="Home_Showcase_Docs" xml:space="preserve">
+    <value>दस्तऐवज उघडा</value>
+  </data>
+  <data name="Home_Showcase_Dashboard_Desc" xml:space="preserve">
+    <value>डॅशबोर्डसाठी तयार सूचना, आकडे आणि चार्ट.</value>
+  </data>
+  <data name="Home_Showcase_Charts_Desc" xml:space="preserve">
+    <value>{0}+ प्रकारचे चार्ट, एकसारखे रूप. येथे नऊ वापरून पहा.</value>
+  </data>
+  <data name="Home_Showcase_Purple" xml:space="preserve">
+    <value>जांभळा</value>
+  </data>
+  <data name="Home_Showcase_Blue" xml:space="preserve">
+    <value>निळा</value>
+  </data>
+  <data name="Home_Showcase_Green" xml:space="preserve">
+    <value>हिरवा</value>
+  </data>
+  <data name="Home_Showcase_Orange" xml:space="preserve">
+    <value>नारिंगी</value>
+  </data>
+  <data name="Home_Showcase_DashboardTab" xml:space="preserve">
+    <value>डॅशबोर्ड</value>
+  </data>
+  <data name="Home_Showcase_Forms_Desc" xml:space="preserve">
+    <value>एकाच इनपुटपासून बनवलेले साइन-इन, चेकआउट आणि सेटिंग्ज फॉर्म.</value>
+  </data>
+  <data name="Home_Form_SignInSub" xml:space="preserve">
+    <value>पुन्हा स्वागत आहे. पुढे जाण्यासाठी साइन इन करा.</value>
+  </data>
+  <data name="Home_Db_Title" xml:space="preserve">
+    <value>डेटाबेस तयार करा</value>
+  </data>
+  <data name="Home_Db_Sub" xml:space="preserve">
+    <value>प्लॅन आणि प्रदेश निवडा.</value>
+  </data>
+  <data name="Home_Db_Plan" xml:space="preserve">
+    <value>प्लॅन</value>
+  </data>
+  <data name="Home_Db_Region" xml:space="preserve">
+    <value>प्रदेश</value>
+  </data>
+  <data name="Home_Db_Storage" xml:space="preserve">
+    <value>स्टोरेज</value>
+  </data>
+  <data name="Home_Db_Cost" xml:space="preserve">
+    <value>अंदाजे खर्च</value>
+  </data>
+  <data name="Home_Db_PerMonth" xml:space="preserve">
+    <value>{0} दरमहा</value>
+  </data>
+  <data name="Home_Db_Create" xml:space="preserve">
+    <value>तयार करा</value>
+  </data>
+  <data name="Home_Db_Created" xml:space="preserve">
+    <value>तयार झाला</value>
+  </data>
+  <data name="Home_Meet_Title" xml:space="preserve">
+    <value>कॉल बुक करा</value>
+  </data>
+  <data name="Home_Meet_Sub" xml:space="preserve">
+    <value>तुमच्या सोयीची वेळ निवडा.</value>
+  </data>
+  <data name="Home_Meet_Date" xml:space="preserve">
+    <value>तारीख</value>
+  </data>
+  <data name="Home_Meet_Time" xml:space="preserve">
+    <value>वेळ</value>
+  </data>
+  <data name="Home_Meet_Duration" xml:space="preserve">
+    <value>कालावधी</value>
+  </data>
+  <data name="Home_Meet_Reminder" xml:space="preserve">
+    <value>मला ईमेलने आठवण करून द्या</value>
+  </data>
+  <data name="Home_Meet_Book" xml:space="preserve">
+    <value>कॉल बुक करा</value>
+  </data>
+  <data name="Home_Meet_Booked" xml:space="preserve">
+    <value>बुक झाला</value>
+  </data>
+  <data name="Home_Meet_Minutes" xml:space="preserve">
+    <value>{0} मिनिटे</value>
+  </data>
+  <data name="Home_Pay_Title" xml:space="preserve">
+    <value>Pro वर अपग्रेड करा</value>
+  </data>
+  <data name="Home_Pay_Sub" xml:space="preserve">
+    <value>दरमहा बिल. कधीही रद्द करा.</value>
+  </data>
+  <data name="Home_Pay_Seats" xml:space="preserve">
+    <value>जागा</value>
+  </data>
+  <data name="Home_Pay_Card" xml:space="preserve">
+    <value>कार्ड क्रमांक</value>
+  </data>
+  <data name="Home_Pay_Expiry" xml:space="preserve">
+    <value>मुदत</value>
+  </data>
+  <data name="Home_Pay_Cvc" xml:space="preserve">
+    <value>CVC</value>
+  </data>
+  <data name="Home_Pay_Total" xml:space="preserve">
+    <value>एकूण</value>
+  </data>
+  <data name="Home_Pay_Button" xml:space="preserve">
+    <value>{0} भरा</value>
+  </data>
+  <data name="Home_Pay_Paid" xml:space="preserve">
+    <value>भरले</value>
+  </data>
+  <data name="Home_Ws_Title" xml:space="preserve">
+    <value>तुमचे वर्कस्पेस सेट करा</value>
+  </data>
+  <data name="Home_Ws_Sub" xml:space="preserve">
+    <value>ते तुमच्या ब्रँडसारखे बनवा.</value>
+  </data>
+  <data name="Home_Ws_Name" xml:space="preserve">
+    <value>वर्कस्पेसचे नाव</value>
+  </data>
+  <data name="Home_Ws_Colour" xml:space="preserve">
+    <value>ब्रँड रंग</value>
+  </data>
+  <data name="Home_Ws_Logo" xml:space="preserve">
+    <value>लोगो अपलोड करा</value>
+  </data>
+  <data name="Home_Ws_LogoHint" xml:space="preserve">
+    <value>PNG किंवा SVG, 2 MB पर्यंत.</value>
+  </data>
+  <data name="Home_Ws_Create" xml:space="preserve">
+    <value>वर्कस्पेस तयार करा</value>
+  </data>
+  <data name="Home_Ws_Created" xml:space="preserve">
+    <value>वर्कस्पेस तयार झाले</value>
+  </data>
+  <data name="Home_Review_Title" xml:space="preserve">
+    <value>पुनरावलोकन द्या</value>
+  </data>
+  <data name="Home_Review_Sub" xml:space="preserve">
+    <value>कसे वाटले ते सांगा.</value>
+  </data>
+  <data name="Home_Review_Rating" xml:space="preserve">
+    <value>तुमचे रेटिंग</value>
+  </data>
+  <data name="Home_Review_Tags" xml:space="preserve">
+    <value>काय चांगले होते?</value>
+  </data>
+  <data name="Home_Review_Tag_Speed" xml:space="preserve">
+    <value>वेग</value>
+  </data>
+  <data name="Home_Review_Tag_Docs" xml:space="preserve">
+    <value>दस्तऐवज</value>
+  </data>
+  <data name="Home_Review_Tag_Support" xml:space="preserve">
+    <value>सहाय्य</value>
+  </data>
+  <data name="Home_Review_Tag_Design" xml:space="preserve">
+    <value>डिझाइन</value>
+  </data>
+  <data name="Home_Review_Tag_Price" xml:space="preserve">
+    <value>किंमत</value>
+  </data>
+  <data name="Home_Review_Submit" xml:space="preserve">
+    <value>पुनरावलोकन पाठवा</value>
+  </data>
+  <data name="Home_Review_Thanks" xml:space="preserve">
+    <value>पुनरावलोकनाबद्दल धन्यवाद.</value>
+  </data>
+  <data name="Home_Crumb_Projects" xml:space="preserve">
+    <value>प्रकल्प</value>
+  </data>
+  <data name="Home_Stats_Label" xml:space="preserve">
+    <value>एका नजरेत twblazor</value>
+  </data>
+  <data name="Home_Stats_Components" xml:space="preserve">
+    <value>{0}+ कंपोनंट</value>
+  </data>
+  <data name="Home_Stats_Charts" xml:space="preserve">
+    <value>{0}+ चार्ट प्रकार</value>
+  </data>
+  <data name="Home_Stats_Accessible" xml:space="preserve">
+    <value>कीबोर्ड आणि स्क्रीन रीडरसाठी तयार</value>
+  </data>
+  <data name="Home_Stats_Languages" xml:space="preserve">
+    <value>{0} भाषा</value>
+  </data>
+  <data name="Home_Stats_Mit" xml:space="preserve">
+    <value>मोफत आणि MIT परवाना</value>
+  </data>
+  <data name="Home_A11y_Badge" xml:space="preserve">
+    <value>सुरुवातीपासून सुलभ</value>
+  </data>
+  <data name="Home_A11y_HeadingLead" xml:space="preserve">
+    <value>सर्वांसाठी बनवलेले,</value>
+  </data>
+  <data name="Home_A11y_HeadingAccent" xml:space="preserve">
+    <value>कीबोर्डपासून स्क्रीन रीडरपर्यंत</value>
+  </data>
+  <data name="Home_A11y_Sub" xml:space="preserve">
+    <value>प्रत्येक कंपोनंट WAI-ARIA पॅटर्न पाळतो, त्यामुळे प्रत्येकजण तुमचे अ‍ॅप आपल्या पद्धतीने वापरू शकतो. काहीही सुरू करावे लागत नाही.</value>
+  </data>
+  <data name="Home_A11y_Keyboard_Title" xml:space="preserve">
+    <value>आधी कीबोर्ड</value>
+  </data>
+  <data name="Home_A11y_Keyboard_Body" xml:space="preserve">
+    <value>Tab, बाण कळा, Home, End आणि Escape प्रत्येक कंपोनंटमध्ये WAI-ARIA नुसार काम करतात.</value>
+  </data>
+  <data name="Home_A11y_Reader_Title" xml:space="preserve">
+    <value>स्क्रीन रीडरसाठी तयार</value>
+  </data>
+  <data name="Home_A11y_Reader_Body" xml:space="preserve">
+    <value>भूमिका, नावे आणि थेट घोषणा, प्रत्येक समाविष्ट भाषेत अनुवादित.</value>
+  </data>
+  <data name="Home_A11y_Focus_Title" xml:space="preserve">
+    <value>दिसणारा फोकस</value>
+  </data>
+  <data name="Home_A11y_Focus_Body" xml:space="preserve">
+    <value>प्रत्येक नियंत्रणावर स्पष्ट फोकस रिंग, आणि पॉपअप बंद झाल्यावर फोकस जागेवर परततो.</value>
+  </data>
+  <data name="Home_A11y_Motion_Title" xml:space="preserve">
+    <value>सांगितल्यावर शांत</value>
+  </data>
+  <data name="Home_A11y_Motion_Body" xml:space="preserve">
+    <value>सिस्टम कमी हालचाल मागते तेव्हा अ‍ॅनिमेशन थांबतात.</value>
+  </data>
+  <data name="Home_A11y_Contrast_Title" xml:space="preserve">
+    <value>हाय कॉन्ट्रास्ट मोड</value>
+  </data>
+  <data name="Home_A11y_Contrast_Body" xml:space="preserve">
+    <value>Windows चे हाय कॉन्ट्रास्ट रंग पाळले जातात, त्यामुळे स्थिती दिसत राहतात.</value>
+  </data>
+  <data name="Home_A11y_Tested_Title" xml:space="preserve">
+    <value>axe-core ने तपासलेले</value>
+  </data>
+  <data name="Home_A11y_Tested_Body" xml:space="preserve">
+    <value>प्रत्येक डॉक्स पान चाचण्यांमध्ये सुलभतेच्या समस्यांसाठी तपासले जाते.</value>
   </data>
 </root>

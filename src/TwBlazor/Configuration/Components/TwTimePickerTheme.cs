@@ -113,11 +113,9 @@ public class TwTimePickerTheme
     public required string NumberWrapper { get; set; }
 
     /// <summary>
-    /// Gets or sets the structural/typography classes for the hour/minute number inputs (sizing,
-    /// alignment, font weight, text color, transitions). Excludes border, background, and rounding -
-    /// those come from <see cref="Builders.InputVariantBuilder"/> so the inputs follow the same
-    /// Default/Outlined/Filled variant as every other text input - and excludes hover/focus border and
-    /// ring colors, which are resolved dynamically from the shared theme color tokens.
+    /// Gets or sets the classes for the hour/minute number inputs (sizing, alignment, font weight, text color).
+    /// The input sits borderless inside <see cref="Spinner"/>; its focus ring color is resolved from the shared
+    /// theme color tokens.
     /// </summary>
     public required string NumberInput { get; set; }
 
@@ -132,7 +130,39 @@ public class TwTimePickerTheme
     public required string AmPmWrapper { get; set; }
 
     /// <summary>
-    /// Gets or sets the typography classes applied to the AM/PM toggle <see cref="TwBlazor.Components.TwButton"/>.
+    /// Gets or sets the classes applied to both the AM and the PM button, whichever is selected.
     /// </summary>
     public required string AmPmButtonClass { get; set; }
+
+    /// <summary>
+    /// Gets or sets the classes for the short label above each column ("Hour", "Min").
+    /// </summary>
+    public string ColumnLabel { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the layout classes for the box around each value and its step buttons. Its border, background
+    /// and rounding come from <see cref="Builders.InputVariantBuilder"/>, so it follows the same Default, Outlined or
+    /// Filled variant as every other input.
+    /// </summary>
+    public string Spinner { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes added to the selected AM or PM button.
+    /// </summary>
+    public string AmPmOptionActive { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes added to the AM or PM button that is not selected.
+    /// </summary>
+    public string AmPmOptionInactive { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes for the row holding the "Now" and "Done" buttons.
+    /// </summary>
+    public string Actions { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes for the "Now" and "Done" buttons.
+    /// </summary>
+    public string ActionButton { get; set; } = string.Empty;
 }

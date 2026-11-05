@@ -95,7 +95,7 @@
     <value>Veja na prática</value>
   </data>
   <data name="Home_Case_Heading" xml:space="preserve">
-    <value>Cinco visuais conhecidos, uma biblioteca de componentes</value>
+    <value>Visuais conhecidos, uma biblioteca de componentes</value>
   </data>
   <data name="Home_Case_Inspired" xml:space="preserve">
     <value>&lt;span class=&quot;font-normal text-purple-200&quot;&gt;Inspirado em &lt;/span&gt;{0}</value>
@@ -223,29 +223,8 @@
   <data name="Home_Failed" xml:space="preserve">
     <value>Com falha</value>
   </data>
-  <data name="Home_Feature_A11y_Body" xml:space="preserve">
-    <value>Suporte a ARIA e teclado integrado.</value>
-  </data>
-  <data name="Home_Feature_A11y_Title" xml:space="preserve">
-    <value>Acessível</value>
-  </data>
   <data name="Home_Feature_Composable_Body" xml:space="preserve">
     <value>Parâmetros Blazor comuns. Sem surpresas.</value>
-  </data>
-  <data name="Home_Feature_Composable_Title" xml:space="preserve">
-    <value>Combinável</value>
-  </data>
-  <data name="Home_Feature_Custom_Body" xml:space="preserve">
-    <value>Sua marca, no modo claro e escuro.</value>
-  </data>
-  <data name="Home_Feature_Custom_Title" xml:space="preserve">
-    <value>Totalmente personalizável</value>
-  </data>
-  <data name="Home_Feature_Fast_Body" xml:space="preserve">
-    <value>Mais de 25 componentes, prontos para publicar.</value>
-  </data>
-  <data name="Home_Feature_Fast_Title" xml:space="preserve">
-    <value>Rápido de construir</value>
   </data>
   <data name="Home_Features_HeadingFull" xml:space="preserve">
     <value>Feito para o seu próximo {0} ou {1}.</value>
@@ -405,18 +384,6 @@
   </data>
   <data name="Home_Lang_zhHant" xml:space="preserve">
     <value>Chinês tradicional</value>
-  </data>
-  <data name="Home_Live_Caption" xml:space="preserve">
-    <value>Seis linhas de marcação do twblazor e os componentes ao vivo que elas geram.</value>
-  </data>
-  <data name="Home_Live_Rendered" xml:space="preserve">
-    <value>6 componentes renderizados</value>
-  </data>
-  <data name="Home_Live_Replay" xml:space="preserve">
-    <value>Repetir</value>
-  </data>
-  <data name="Home_Live_ReplayTarget" xml:space="preserve">
-    <value>a construção ao vivo</value>
   </data>
   <data name="Home_Loc_Badge" xml:space="preserve">
     <value>{0} idiomas integrados</value>
@@ -822,5 +789,278 @@
   </data>
   <data name="Nav_WhyTwBlazor" xml:space="preserve">
     <value>Por que twblazor?</value>
+  </data>
+  <data name="Nav_Menu_Components" xml:space="preserve">
+    <value>Componentes</value>
+  </data>
+  <data name="Nav_Menu_Description" xml:space="preserve">
+    <value>Blocos acessíveis e personalizáveis para Blazor.</value>
+  </data>
+  <data name="Nav_Menu_Search" xml:space="preserve">
+    <value>Pesquisar {0} componentes</value>
+  </data>
+  <data name="Nav_Menu_Count" xml:space="preserve">
+    <value>{0} componentes</value>
+  </data>
+  <data name="Nav_Menu_CountOne" xml:space="preserve">
+    <value>1 componente</value>
+  </data>
+  <data name="Nav_Menu_NoMatch" xml:space="preserve">
+    <value>Nenhum componente corresponde à sua pesquisa.</value>
+  </data>
+  <data name="Nav_Menu_Back" xml:space="preserve">
+    <value>Todas as categorias</value>
+  </data>
+  <data name="Home_Showcase_Tabs" xml:space="preserve">
+    <value>Exemplos</value>
+  </data>
+  <data name="Home_Showcase_Theme" xml:space="preserve">
+    <value>Cor do exemplo</value>
+  </data>
+  <data name="Home_Showcase_Light" xml:space="preserve">
+    <value>Mostrar o exemplo no modo claro</value>
+  </data>
+  <data name="Home_Showcase_Dark" xml:space="preserve">
+    <value>Mostrar o exemplo no modo escuro</value>
+  </data>
+  <data name="Home_Showcase_ChartTypes" xml:space="preserve">
+    <value>Tipo de gráfico</value>
+  </data>
+  <data name="Home_Showcase_Docs" xml:space="preserve">
+    <value>Abrir documentação</value>
+  </data>
+  <data name="Home_Showcase_Dashboard_Desc" xml:space="preserve">
+    <value>Alertas, números e gráficos, prontos para um painel.</value>
+  </data>
+  <data name="Home_Showcase_Charts_Desc" xml:space="preserve">
+    <value>Mais de {0} tipos de gráfico com um visual consistente. Experimente nove aqui.</value>
+  </data>
+  <data name="Home_Showcase_Purple" xml:space="preserve">
+    <value>Roxo</value>
+  </data>
+  <data name="Home_Showcase_Blue" xml:space="preserve">
+    <value>Azul</value>
+  </data>
+  <data name="Home_Showcase_Green" xml:space="preserve">
+    <value>Verde</value>
+  </data>
+  <data name="Home_Showcase_Orange" xml:space="preserve">
+    <value>Laranja</value>
+  </data>
+  <data name="Home_Showcase_DashboardTab" xml:space="preserve">
+    <value>Painel</value>
+  </data>
+  <data name="Home_Showcase_Forms_Desc" xml:space="preserve">
+    <value>Formulários de login, checkout e configurações, feitos com os mesmos campos.</value>
+  </data>
+  <data name="Home_Form_SignInSub" xml:space="preserve">
+    <value>Bem-vindo de volta. Entre para continuar.</value>
+  </data>
+  <data name="Home_Db_Title" xml:space="preserve">
+    <value>Criar um banco de dados</value>
+  </data>
+  <data name="Home_Db_Sub" xml:space="preserve">
+    <value>Escolha um plano e uma região.</value>
+  </data>
+  <data name="Home_Db_Plan" xml:space="preserve">
+    <value>Plano</value>
+  </data>
+  <data name="Home_Db_Region" xml:space="preserve">
+    <value>Região</value>
+  </data>
+  <data name="Home_Db_Storage" xml:space="preserve">
+    <value>Armazenamento</value>
+  </data>
+  <data name="Home_Db_Cost" xml:space="preserve">
+    <value>Custo estimado</value>
+  </data>
+  <data name="Home_Db_PerMonth" xml:space="preserve">
+    <value>{0} por mês</value>
+  </data>
+  <data name="Home_Db_Create" xml:space="preserve">
+    <value>Criar</value>
+  </data>
+  <data name="Home_Db_Created" xml:space="preserve">
+    <value>Criado</value>
+  </data>
+  <data name="Home_Meet_Title" xml:space="preserve">
+    <value>Agendar uma chamada</value>
+  </data>
+  <data name="Home_Meet_Sub" xml:space="preserve">
+    <value>Encontre um horário que funcione para você.</value>
+  </data>
+  <data name="Home_Meet_Date" xml:space="preserve">
+    <value>Data</value>
+  </data>
+  <data name="Home_Meet_Time" xml:space="preserve">
+    <value>Hora</value>
+  </data>
+  <data name="Home_Meet_Duration" xml:space="preserve">
+    <value>Duração</value>
+  </data>
+  <data name="Home_Meet_Reminder" xml:space="preserve">
+    <value>Enviar um lembrete por e-mail</value>
+  </data>
+  <data name="Home_Meet_Book" xml:space="preserve">
+    <value>Agendar chamada</value>
+  </data>
+  <data name="Home_Meet_Booked" xml:space="preserve">
+    <value>Agendada</value>
+  </data>
+  <data name="Home_Meet_Minutes" xml:space="preserve">
+    <value>{0} minutos</value>
+  </data>
+  <data name="Home_Pay_Title" xml:space="preserve">
+    <value>Mude para o Pro</value>
+  </data>
+  <data name="Home_Pay_Sub" xml:space="preserve">
+    <value>Cobrança mensal. Cancele quando quiser.</value>
+  </data>
+  <data name="Home_Pay_Seats" xml:space="preserve">
+    <value>Lugares</value>
+  </data>
+  <data name="Home_Pay_Card" xml:space="preserve">
+    <value>Número do cartão</value>
+  </data>
+  <data name="Home_Pay_Expiry" xml:space="preserve">
+    <value>Validade</value>
+  </data>
+  <data name="Home_Pay_Cvc" xml:space="preserve">
+    <value>CVC</value>
+  </data>
+  <data name="Home_Pay_Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="Home_Pay_Button" xml:space="preserve">
+    <value>Pagar {0}</value>
+  </data>
+  <data name="Home_Pay_Paid" xml:space="preserve">
+    <value>Pago</value>
+  </data>
+  <data name="Home_Ws_Title" xml:space="preserve">
+    <value>Configure seu espaço de trabalho</value>
+  </data>
+  <data name="Home_Ws_Sub" xml:space="preserve">
+    <value>Deixe com a cara da sua marca.</value>
+  </data>
+  <data name="Home_Ws_Name" xml:space="preserve">
+    <value>Nome do espaço</value>
+  </data>
+  <data name="Home_Ws_Colour" xml:space="preserve">
+    <value>Cor da marca</value>
+  </data>
+  <data name="Home_Ws_Logo" xml:space="preserve">
+    <value>Enviar logo</value>
+  </data>
+  <data name="Home_Ws_LogoHint" xml:space="preserve">
+    <value>PNG ou SVG, até 2 MB.</value>
+  </data>
+  <data name="Home_Ws_Create" xml:space="preserve">
+    <value>Criar espaço</value>
+  </data>
+  <data name="Home_Ws_Created" xml:space="preserve">
+    <value>Espaço criado</value>
+  </data>
+  <data name="Home_Review_Title" xml:space="preserve">
+    <value>Deixe uma avaliação</value>
+  </data>
+  <data name="Home_Review_Sub" xml:space="preserve">
+    <value>Conte como foi.</value>
+  </data>
+  <data name="Home_Review_Rating" xml:space="preserve">
+    <value>Sua nota</value>
+  </data>
+  <data name="Home_Review_Tags" xml:space="preserve">
+    <value>O que foi bom?</value>
+  </data>
+  <data name="Home_Review_Tag_Speed" xml:space="preserve">
+    <value>Velocidade</value>
+  </data>
+  <data name="Home_Review_Tag_Docs" xml:space="preserve">
+    <value>Documentação</value>
+  </data>
+  <data name="Home_Review_Tag_Support" xml:space="preserve">
+    <value>Suporte</value>
+  </data>
+  <data name="Home_Review_Tag_Design" xml:space="preserve">
+    <value>Design</value>
+  </data>
+  <data name="Home_Review_Tag_Price" xml:space="preserve">
+    <value>Preço</value>
+  </data>
+  <data name="Home_Review_Submit" xml:space="preserve">
+    <value>Enviar avaliação</value>
+  </data>
+  <data name="Home_Review_Thanks" xml:space="preserve">
+    <value>Obrigado pela sua avaliação.</value>
+  </data>
+  <data name="Home_Crumb_Projects" xml:space="preserve">
+    <value>Projetos</value>
+  </data>
+  <data name="Home_Stats_Label" xml:space="preserve">
+    <value>twblazor num relance</value>
+  </data>
+  <data name="Home_Stats_Components" xml:space="preserve">
+    <value>Mais de {0} componentes</value>
+  </data>
+  <data name="Home_Stats_Charts" xml:space="preserve">
+    <value>Mais de {0} tipos de gráfico</value>
+  </data>
+  <data name="Home_Stats_Accessible" xml:space="preserve">
+    <value>Pronto para teclado e leitor de tela</value>
+  </data>
+  <data name="Home_Stats_Languages" xml:space="preserve">
+    <value>{0} idiomas</value>
+  </data>
+  <data name="Home_Stats_Mit" xml:space="preserve">
+    <value>Gratuito e com licença MIT</value>
+  </data>
+  <data name="Home_A11y_Badge" xml:space="preserve">
+    <value>Acessível por padrão</value>
+  </data>
+  <data name="Home_A11y_HeadingLead" xml:space="preserve">
+    <value>Feito para todos,</value>
+  </data>
+  <data name="Home_A11y_HeadingAccent" xml:space="preserve">
+    <value>do teclado ao leitor de tela</value>
+  </data>
+  <data name="Home_A11y_Sub" xml:space="preserve">
+    <value>Cada componente segue os padrões WAI-ARIA, para que cada pessoa use seu app do seu jeito. Nada para ativar.</value>
+  </data>
+  <data name="Home_A11y_Keyboard_Title" xml:space="preserve">
+    <value>Teclado em primeiro lugar</value>
+  </data>
+  <data name="Home_A11y_Keyboard_Body" xml:space="preserve">
+    <value>Tab, setas, Home, End e Esc funcionam em todos os componentes, como o WAI-ARIA descreve.</value>
+  </data>
+  <data name="Home_A11y_Reader_Title" xml:space="preserve">
+    <value>Pronto para leitores de tela</value>
+  </data>
+  <data name="Home_A11y_Reader_Body" xml:space="preserve">
+    <value>Papéis, nomes e anúncios ao vivo, traduzidos para todos os idiomas incluídos.</value>
+  </data>
+  <data name="Home_A11y_Focus_Title" xml:space="preserve">
+    <value>Foco visível</value>
+  </data>
+  <data name="Home_A11y_Focus_Body" xml:space="preserve">
+    <value>Um anel de foco nítido em cada controle, e o foco volta ao lugar certo quando um popup fecha.</value>
+  </data>
+  <data name="Home_A11y_Motion_Title" xml:space="preserve">
+    <value>Calmo quando pedido</value>
+  </data>
+  <data name="Home_A11y_Motion_Body" xml:space="preserve">
+    <value>As animações param quando o sistema pede menos movimento.</value>
+  </data>
+  <data name="Home_A11y_Contrast_Title" xml:space="preserve">
+    <value>Modo de alto contraste</value>
+  </data>
+  <data name="Home_A11y_Contrast_Body" xml:space="preserve">
+    <value>As cores de alto contraste do Windows são respeitadas, então os estados continuam visíveis.</value>
+  </data>
+  <data name="Home_A11y_Tested_Title" xml:space="preserve">
+    <value>Testado com axe-core</value>
+  </data>
+  <data name="Home_A11y_Tested_Body" xml:space="preserve">
+    <value>Cada página da documentação é verificada quanto a problemas de acessibilidade nos testes.</value>
   </data>
 </root>

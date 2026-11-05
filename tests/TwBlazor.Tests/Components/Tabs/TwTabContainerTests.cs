@@ -1078,4 +1078,97 @@ public class TwTabContainerTests : TwBlazorTestBase
         Assert.Contains("focus-visible:ring-inset", tabpanel.ClassList);
         Assert.Contains("focus-visible:ring-purple-500", tabpanel.ClassList);
     }
+
+    private static RenderFragment TwoTabs(TwBlazor.Enums.Icon? icon = null) => builder =>
+    {
+        builder.OpenComponent<TwTab>(0);
+        builder.AddAttribute(1, "Label", "Tab 1");
+        builder.AddAttribute(2, "Icon", icon);
+        builder.AddAttribute(3, "ChildContent", (RenderFragment)(b => b.AddContent(4, "Content 1")));
+        builder.CloseComponent();
+
+        builder.OpenComponent<TwTab>(5);
+        builder.AddAttribute(6, "Label", "Tab 2");
+        builder.AddAttribute(7, "ChildContent", (RenderFragment)(b => b.AddContent(8, "Content 2")));
+        builder.CloseComponent();
+    };
+
+    [Fact]
+    public void TwTabContainer_WithoutScrollableOrTabBarContent_RendersNoTabBar()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwTabContainer>(parameters => parameters
+            .Add(p => p.ChildContent, TwoTabs()));
+
+        // Assert - the tablist stays a direct child of the root, as before the tab bar existed
+        Assert.NotNull(cut.Find("div > div[role='tablist']").ParentElement!.QuerySelector(":scope > div[role='tabpanel']"));
+        Assert.Empty(cut.FindAll("[data-tw-tabs-scroll]"));
+        Assert.DoesNotContain("overflow-x-auto", cut.Find("div[role='tablist']").ClassList);
+    }
+
+    [Fact]
+    public void TwTabContainer_Scrollable_KeepsTabsOnOneLine_WithHiddenScrollButtonsOutOfTheTabOrder()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwTabContainer>(parameters => parameters
+            .Add(p => p.Scrollable, true)
+            .Add(p => p.ChildContent, TwoTabs()));
+
+        // Assert
+        var tablist = cut.Find("div[role='tablist']");
+        Assert.Contains("overflow-x-auto", tablist.ClassList);
+        Assert.Contains("flex-nowrap", tablist.ClassList);
+        Assert.DoesNotContain("flex-wrap", tablist.ClassList);
+
+        var buttons = cut.FindAll("[data-tw-tabs-scroll]");
+        Assert.Equal(["start", "end"], buttons.Select(b => b.GetAttribute("data-tw-tabs-scroll")));
+        Assert.All(buttons, button =>
+        {
+            Assert.True(button.HasAttribute("hidden"));
+            Assert.Equal("-1", button.GetAttribute("tabindex"));
+            Assert.Equal("true", button.GetAttribute("aria-hidden"));
+        });
+    }
+
+    [Fact]
+    public void TwTabContainer_Scrollable_RegistersTheScrollButtonsWithTheScript()
+    {
+        // Arrange & Act
+        TestContext.Render<TwTabContainer>(parameters => parameters
+            .Add(p => p.Scrollable, true)
+            .Add(p => p.ChildContent, TwoTabs()));
+
+        // Assert
+        Assert.Contains(TestContext.JSInterop.Invocations, i => i.Identifier == "twTabs.registerScroll");
+    }
+
+    [Fact]
+    public void TwTabContainer_TabBarContent_IsRenderedAfterTheTablist_OutsideIt()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwTabContainer>(parameters => parameters
+            .Add(p => p.TabBarClass, "my-bar")
+            .Add(p => p.TabBarContent, b => b.AddMarkupContent(0, "<button id=\"extra\">Filter</button>"))
+            .Add(p => p.ChildContent, TwoTabs()));
+
+        // Assert
+        var extra = cut.Find("#extra");
+        Assert.Null(extra.Closest("[role='tablist']"));
+        var bar = cut.Find(".my-bar");
+        Assert.NotNull(bar.QuerySelector("[role='tablist']"));
+        Assert.NotNull(bar.QuerySelector("#extra"));
+    }
+
+    [Fact]
+    public void TwTab_Icon_IsShownBeforeTheLabel()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwTabContainer>(parameters => parameters
+            .Add(p => p.ChildContent, TwoTabs(TwBlazor.Enums.Icon.Gear)));
+
+        // Assert
+        var tabs = cut.FindAll("[role='tab']");
+        Assert.NotEmpty(tabs[0].Children);
+        Assert.Empty(tabs[1].Children);
+    }
 }

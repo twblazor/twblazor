@@ -95,7 +95,7 @@
     <value>کم کردیاں ویکھو</value>
   </data>
   <data name="Home_Case_Heading" xml:space="preserve">
-    <value>پنج مشہور انداز، اک کمپوننٹ لائبریری</value>
+    <value>مشہور انداز، اک کمپوننٹ لائبریری</value>
   </data>
   <data name="Home_Case_Inspired" xml:space="preserve">
     <value>&lt;span class=&quot;font-normal text-purple-200&quot;&gt;متاثر از &lt;/span&gt;{0}</value>
@@ -223,29 +223,8 @@
   <data name="Home_Failed" xml:space="preserve">
     <value>ناکام</value>
   </data>
-  <data name="Home_Feature_A11y_Body" xml:space="preserve">
-    <value>ARIA تے کی بورڈ سپورٹ پہلاں توں شامل۔</value>
-  </data>
-  <data name="Home_Feature_A11y_Title" xml:space="preserve">
-    <value>پہنچ والا</value>
-  </data>
   <data name="Home_Feature_Composable_Body" xml:space="preserve">
     <value>سادے Blazor پیرامیٹر۔ کوئی حیرانی نہیں۔</value>
-  </data>
-  <data name="Home_Feature_Composable_Title" xml:space="preserve">
-    <value>جوڑن جوگ</value>
-  </data>
-  <data name="Home_Feature_Custom_Body" xml:space="preserve">
-    <value>تہاڈا برانڈ، لو تے ہنیرے دونویں موڈ وچ۔</value>
-  </data>
-  <data name="Home_Feature_Custom_Title" xml:space="preserve">
-    <value>پوری طرح اپنی مرضی دا</value>
-  </data>
-  <data name="Home_Feature_Fast_Body" xml:space="preserve">
-    <value>25 توں ودھ کمپوننٹ، جاری کرن لئی تیار۔</value>
-  </data>
-  <data name="Home_Feature_Fast_Title" xml:space="preserve">
-    <value>چھیتی بناؤ</value>
   </data>
   <data name="Home_Features_HeadingFull" xml:space="preserve">
     <value>تہاڈے اگلے پروجیکٹ لئی: {0} یا {1}۔</value>
@@ -405,18 +384,6 @@
   </data>
   <data name="Home_Lang_zhHant" xml:space="preserve">
     <value>روایتی چینی</value>
-  </data>
-  <data name="Home_Live_Caption" xml:space="preserve">
-    <value>twblazor مارک اپ دیاں چھ سطراں تے اوہناں توں بنن والے جیوندے کمپوننٹ۔</value>
-  </data>
-  <data name="Home_Live_Rendered" xml:space="preserve">
-    <value>6 کمپوننٹ رینڈر ہوئے</value>
-  </data>
-  <data name="Home_Live_Replay" xml:space="preserve">
-    <value>مڑ چلاؤ</value>
-  </data>
-  <data name="Home_Live_ReplayTarget" xml:space="preserve">
-    <value>لائیو بلڈ</value>
   </data>
   <data name="Home_Loc_Badge" xml:space="preserve">
     <value>{0} بولیاں، پہلاں توں شامل</value>
@@ -822,5 +789,278 @@
   </data>
   <data name="Nav_WhyTwBlazor" xml:space="preserve">
     <value>twblazor کیوں؟</value>
+  </data>
+  <data name="Nav_Menu_Components" xml:space="preserve">
+    <value>کمپوننٹس</value>
+  </data>
+  <data name="Nav_Menu_Description" xml:space="preserve">
+    <value>Blazor لئی پہنچ والے تے تھیم بدلن والے بلڈنگ بلاکس۔</value>
+  </data>
+  <data name="Nav_Menu_Search" xml:space="preserve">
+    <value>{0} کمپوننٹس وچ لبھو</value>
+  </data>
+  <data name="Nav_Menu_Count" xml:space="preserve">
+    <value>{0} کمپوننٹس</value>
+  </data>
+  <data name="Nav_Menu_CountOne" xml:space="preserve">
+    <value>1 کمپوننٹ</value>
+  </data>
+  <data name="Nav_Menu_NoMatch" xml:space="preserve">
+    <value>تہاڈی کھوج نال کوئی کمپوننٹ نہیں ملدا۔</value>
+  </data>
+  <data name="Nav_Menu_Back" xml:space="preserve">
+    <value>سارے زمرے</value>
+  </data>
+  <data name="Home_Showcase_Tabs" xml:space="preserve">
+    <value>مثالاں</value>
+  </data>
+  <data name="Home_Showcase_Theme" xml:space="preserve">
+    <value>مثال دا رنگ</value>
+  </data>
+  <data name="Home_Showcase_Light" xml:space="preserve">
+    <value>مثال لائٹ موڈ وچ وکھاؤ</value>
+  </data>
+  <data name="Home_Showcase_Dark" xml:space="preserve">
+    <value>مثال ڈارک موڈ وچ وکھاؤ</value>
+  </data>
+  <data name="Home_Showcase_ChartTypes" xml:space="preserve">
+    <value>چارٹ دی قسم</value>
+  </data>
+  <data name="Home_Showcase_Docs" xml:space="preserve">
+    <value>دستاویزاں کھولو</value>
+  </data>
+  <data name="Home_Showcase_Dashboard_Desc" xml:space="preserve">
+    <value>ڈیش بورڈ لئی تیار الرٹ، انکڑے تے چارٹ۔</value>
+  </data>
+  <data name="Home_Showcase_Charts_Desc" xml:space="preserve">
+    <value>{0}+ قسم دے چارٹ، اک جیہا انداز۔ ایتھے نو ورت کے ویکھو۔</value>
+  </data>
+  <data name="Home_Showcase_Purple" xml:space="preserve">
+    <value>جامنی</value>
+  </data>
+  <data name="Home_Showcase_Blue" xml:space="preserve">
+    <value>نیلا</value>
+  </data>
+  <data name="Home_Showcase_Green" xml:space="preserve">
+    <value>ہرا</value>
+  </data>
+  <data name="Home_Showcase_Orange" xml:space="preserve">
+    <value>سنگتری</value>
+  </data>
+  <data name="Home_Showcase_DashboardTab" xml:space="preserve">
+    <value>ڈیش بورڈ</value>
+  </data>
+  <data name="Home_Showcase_Forms_Desc" xml:space="preserve">
+    <value>انہاں ای ان پٹاں نال بنے سائن ان، چیک آؤٹ تے سیٹنگز فارم۔</value>
+  </data>
+  <data name="Home_Form_SignInSub" xml:space="preserve">
+    <value>جی آیاں نوں۔ اگے ودھن لئی سائن ان کرو۔</value>
+  </data>
+  <data name="Home_Db_Title" xml:space="preserve">
+    <value>ڈیٹا بیس بناؤ</value>
+  </data>
+  <data name="Home_Db_Sub" xml:space="preserve">
+    <value>اک پلان تے ریجن چنو۔</value>
+  </data>
+  <data name="Home_Db_Plan" xml:space="preserve">
+    <value>پلان</value>
+  </data>
+  <data name="Home_Db_Region" xml:space="preserve">
+    <value>ریجن</value>
+  </data>
+  <data name="Home_Db_Storage" xml:space="preserve">
+    <value>سٹوریج</value>
+  </data>
+  <data name="Home_Db_Cost" xml:space="preserve">
+    <value>اندازاً خرچہ</value>
+  </data>
+  <data name="Home_Db_PerMonth" xml:space="preserve">
+    <value>{0} مہینے دا</value>
+  </data>
+  <data name="Home_Db_Create" xml:space="preserve">
+    <value>بناؤ</value>
+  </data>
+  <data name="Home_Db_Created" xml:space="preserve">
+    <value>بن گیا</value>
+  </data>
+  <data name="Home_Meet_Title" xml:space="preserve">
+    <value>کال بک کرو</value>
+  </data>
+  <data name="Home_Meet_Sub" xml:space="preserve">
+    <value>اپنے لئی ٹھیک ویلا لبھو۔</value>
+  </data>
+  <data name="Home_Meet_Date" xml:space="preserve">
+    <value>تاریخ</value>
+  </data>
+  <data name="Home_Meet_Time" xml:space="preserve">
+    <value>ویلا</value>
+  </data>
+  <data name="Home_Meet_Duration" xml:space="preserve">
+    <value>عرصہ</value>
+  </data>
+  <data name="Home_Meet_Reminder" xml:space="preserve">
+    <value>مینوں ای میل یاد دہانی گھلو</value>
+  </data>
+  <data name="Home_Meet_Book" xml:space="preserve">
+    <value>کال بک کرو</value>
+  </data>
+  <data name="Home_Meet_Booked" xml:space="preserve">
+    <value>بک ہو گئی</value>
+  </data>
+  <data name="Home_Meet_Minutes" xml:space="preserve">
+    <value>{0} منٹ</value>
+  </data>
+  <data name="Home_Pay_Title" xml:space="preserve">
+    <value>Pro تے اپ گریڈ کرو</value>
+  </data>
+  <data name="Home_Pay_Sub" xml:space="preserve">
+    <value>مہینہ وار بل۔ جدوں چاہو منسوخ کرو۔</value>
+  </data>
+  <data name="Home_Pay_Seats" xml:space="preserve">
+    <value>سیٹاں</value>
+  </data>
+  <data name="Home_Pay_Card" xml:space="preserve">
+    <value>کارڈ نمبر</value>
+  </data>
+  <data name="Home_Pay_Expiry" xml:space="preserve">
+    <value>میعاد</value>
+  </data>
+  <data name="Home_Pay_Cvc" xml:space="preserve">
+    <value>CVC</value>
+  </data>
+  <data name="Home_Pay_Total" xml:space="preserve">
+    <value>کل</value>
+  </data>
+  <data name="Home_Pay_Button" xml:space="preserve">
+    <value>{0} ادا کرو</value>
+  </data>
+  <data name="Home_Pay_Paid" xml:space="preserve">
+    <value>ادا ہو گیا</value>
+  </data>
+  <data name="Home_Ws_Title" xml:space="preserve">
+    <value>اپنا ورک سپیس بناؤ</value>
+  </data>
+  <data name="Home_Ws_Sub" xml:space="preserve">
+    <value>اینوں اپنے برانڈ ورگا بناؤ۔</value>
+  </data>
+  <data name="Home_Ws_Name" xml:space="preserve">
+    <value>ورک سپیس دا ناں</value>
+  </data>
+  <data name="Home_Ws_Colour" xml:space="preserve">
+    <value>برانڈ دا رنگ</value>
+  </data>
+  <data name="Home_Ws_Logo" xml:space="preserve">
+    <value>لوگو اپ لوڈ کرو</value>
+  </data>
+  <data name="Home_Ws_LogoHint" xml:space="preserve">
+    <value>PNG یا SVG، 2 MB تک۔</value>
+  </data>
+  <data name="Home_Ws_Create" xml:space="preserve">
+    <value>ورک سپیس بناؤ</value>
+  </data>
+  <data name="Home_Ws_Created" xml:space="preserve">
+    <value>ورک سپیس بن گیا</value>
+  </data>
+  <data name="Home_Review_Title" xml:space="preserve">
+    <value>جائزہ دیو</value>
+  </data>
+  <data name="Home_Review_Sub" xml:space="preserve">
+    <value>سانوں دسو کیویں رہیا۔</value>
+  </data>
+  <data name="Home_Review_Rating" xml:space="preserve">
+    <value>تہاڈی ریٹنگ</value>
+  </data>
+  <data name="Home_Review_Tags" xml:space="preserve">
+    <value>کی چنگا رہیا؟</value>
+  </data>
+  <data name="Home_Review_Tag_Speed" xml:space="preserve">
+    <value>رفتار</value>
+  </data>
+  <data name="Home_Review_Tag_Docs" xml:space="preserve">
+    <value>دستاویزاں</value>
+  </data>
+  <data name="Home_Review_Tag_Support" xml:space="preserve">
+    <value>سپورٹ</value>
+  </data>
+  <data name="Home_Review_Tag_Design" xml:space="preserve">
+    <value>ڈیزائن</value>
+  </data>
+  <data name="Home_Review_Tag_Price" xml:space="preserve">
+    <value>قیمت</value>
+  </data>
+  <data name="Home_Review_Submit" xml:space="preserve">
+    <value>جائزہ گھلو</value>
+  </data>
+  <data name="Home_Review_Thanks" xml:space="preserve">
+    <value>تہاڈے جائزے دا شکریہ۔</value>
+  </data>
+  <data name="Home_Crumb_Projects" xml:space="preserve">
+    <value>پروجیکٹ</value>
+  </data>
+  <data name="Home_Stats_Label" xml:space="preserve">
+    <value>twblazor اک نظر وچ</value>
+  </data>
+  <data name="Home_Stats_Components" xml:space="preserve">
+    <value>{0}+ کمپوننٹ</value>
+  </data>
+  <data name="Home_Stats_Charts" xml:space="preserve">
+    <value>{0}+ چارٹ قسماں</value>
+  </data>
+  <data name="Home_Stats_Accessible" xml:space="preserve">
+    <value>کی بورڈ تے سکرین ریڈر لئی تیار</value>
+  </data>
+  <data name="Home_Stats_Languages" xml:space="preserve">
+    <value>{0} بولیاں</value>
+  </data>
+  <data name="Home_Stats_Mit" xml:space="preserve">
+    <value>مفت تے MIT لائسنس</value>
+  </data>
+  <data name="Home_A11y_Badge" xml:space="preserve">
+    <value>پہلوں توں رسائی والا</value>
+  </data>
+  <data name="Home_A11y_HeadingLead" xml:space="preserve">
+    <value>ہر کسے لئی بنایا،</value>
+  </data>
+  <data name="Home_A11y_HeadingAccent" xml:space="preserve">
+    <value>کی بورڈ توں سکرین ریڈر تیکر</value>
+  </data>
+  <data name="Home_A11y_Sub" xml:space="preserve">
+    <value>ہر کمپوننٹ WAI-ARIA پیٹرن تے چلدا اے، تاں جو ہر کوئی تہاڈی ایپ اپنے طریقے نال ورتے۔ کجھ چالو کرن دی لوڑ نہیں۔</value>
+  </data>
+  <data name="Home_A11y_Keyboard_Title" xml:space="preserve">
+    <value>پہلوں کی بورڈ</value>
+  </data>
+  <data name="Home_A11y_Keyboard_Body" xml:space="preserve">
+    <value>Tab، تیر والیاں کنجیاں، Home، End تے Escape ہر کمپوننٹ وچ WAI-ARIA مطابق کم کردیاں نیں۔</value>
+  </data>
+  <data name="Home_A11y_Reader_Title" xml:space="preserve">
+    <value>سکرین ریڈر لئی تیار</value>
+  </data>
+  <data name="Home_A11y_Reader_Body" xml:space="preserve">
+    <value>رول، ناں تے لائیو اعلان، ہر شامل بولی وچ ترجمہ کیتے۔</value>
+  </data>
+  <data name="Home_A11y_Focus_Title" xml:space="preserve">
+    <value>دسن والا فوکس</value>
+  </data>
+  <data name="Home_A11y_Focus_Body" xml:space="preserve">
+    <value>ہر کنٹرول تے صاف فوکس رنگ، تے پاپ اپ بند ہون تے فوکس اپنی تھاں مڑ آؤندا اے۔</value>
+  </data>
+  <data name="Home_A11y_Motion_Title" xml:space="preserve">
+    <value>کہن تے سکون</value>
+  </data>
+  <data name="Home_A11y_Motion_Body" xml:space="preserve">
+    <value>جدوں سسٹم گھٹ حرکت منگے تاں اینیمیشن رک جاندیاں نیں۔</value>
+  </data>
+  <data name="Home_A11y_Contrast_Title" xml:space="preserve">
+    <value>ہائی کنٹراسٹ موڈ</value>
+  </data>
+  <data name="Home_A11y_Contrast_Body" xml:space="preserve">
+    <value>Windows دے ہائی کنٹراسٹ رنگاں دا خیال رکھیا جاندا اے تاں جو حالتاں دسدیاں رہن۔</value>
+  </data>
+  <data name="Home_A11y_Tested_Title" xml:space="preserve">
+    <value>axe-core نال جانچیا</value>
+  </data>
+  <data name="Home_A11y_Tested_Body" xml:space="preserve">
+    <value>ہر دستاویزی صفحہ ٹیسٹاں وچ رسائی دے مسئلیاں لئی جانچیا جاندا اے۔</value>
   </data>
 </root>

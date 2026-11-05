@@ -95,7 +95,7 @@
     <value>看看实际效果</value>
   </data>
   <data name="Home_Case_Heading" xml:space="preserve">
-    <value>五种知名风格，同一个组件库</value>
+    <value>知名风格，同一个组件库</value>
   </data>
   <data name="Home_Case_Inspired" xml:space="preserve">
     <value>&lt;span class=&quot;font-normal text-purple-200&quot;&gt;灵感来自 &lt;/span&gt;{0}</value>
@@ -223,29 +223,8 @@
   <data name="Home_Failed" xml:space="preserve">
     <value>失败</value>
   </data>
-  <data name="Home_Feature_A11y_Body" xml:space="preserve">
-    <value>内置 ARIA 和键盘支持。</value>
-  </data>
-  <data name="Home_Feature_A11y_Title" xml:space="preserve">
-    <value>无障碍</value>
-  </data>
   <data name="Home_Feature_Composable_Body" xml:space="preserve">
     <value>普通的 Blazor 参数，没有意外。</value>
-  </data>
-  <data name="Home_Feature_Composable_Title" xml:space="preserve">
-    <value>可组合</value>
-  </data>
-  <data name="Home_Feature_Custom_Body" xml:space="preserve">
-    <value>你的品牌，浅色和深色模式皆宜。</value>
-  </data>
-  <data name="Home_Feature_Custom_Title" xml:space="preserve">
-    <value>完全可定制</value>
-  </data>
-  <data name="Home_Feature_Fast_Body" xml:space="preserve">
-    <value>25 个以上组件，随时可以发布。</value>
-  </data>
-  <data name="Home_Feature_Fast_Title" xml:space="preserve">
-    <value>快速构建</value>
   </data>
   <data name="Home_Features_HeadingFull" xml:space="preserve">
     <value>适合你的下一个项目：{0} 或 {1}。</value>
@@ -405,18 +384,6 @@
   </data>
   <data name="Home_Lang_zhHant" xml:space="preserve">
     <value>繁体中文</value>
-  </data>
-  <data name="Home_Live_Caption" xml:space="preserve">
-    <value>六行 twblazor 标记及其渲染出的实时组件。</value>
-  </data>
-  <data name="Home_Live_Rendered" xml:space="preserve">
-    <value>已渲染 6 个组件</value>
-  </data>
-  <data name="Home_Live_Replay" xml:space="preserve">
-    <value>重播</value>
-  </data>
-  <data name="Home_Live_ReplayTarget" xml:space="preserve">
-    <value>实时构建</value>
   </data>
   <data name="Home_Loc_Badge" xml:space="preserve">
     <value>内置 {0} 种语言</value>
@@ -822,5 +789,278 @@
   </data>
   <data name="Nav_WhyTwBlazor" xml:space="preserve">
     <value>为什么选择 twblazor？</value>
+  </data>
+  <data name="Nav_Menu_Components" xml:space="preserve">
+    <value>组件</value>
+  </data>
+  <data name="Nav_Menu_Description" xml:space="preserve">
+    <value>面向 Blazor 的无障碍、可定制主题的构建块。</value>
+  </data>
+  <data name="Nav_Menu_Search" xml:space="preserve">
+    <value>搜索 {0} 个组件</value>
+  </data>
+  <data name="Nav_Menu_Count" xml:space="preserve">
+    <value>{0} 个组件</value>
+  </data>
+  <data name="Nav_Menu_CountOne" xml:space="preserve">
+    <value>1 个组件</value>
+  </data>
+  <data name="Nav_Menu_NoMatch" xml:space="preserve">
+    <value>没有与搜索匹配的组件。</value>
+  </data>
+  <data name="Nav_Menu_Back" xml:space="preserve">
+    <value>所有类别</value>
+  </data>
+  <data name="Home_Showcase_Tabs" xml:space="preserve">
+    <value>示例</value>
+  </data>
+  <data name="Home_Showcase_Theme" xml:space="preserve">
+    <value>示例颜色</value>
+  </data>
+  <data name="Home_Showcase_Light" xml:space="preserve">
+    <value>以浅色模式显示示例</value>
+  </data>
+  <data name="Home_Showcase_Dark" xml:space="preserve">
+    <value>以深色模式显示示例</value>
+  </data>
+  <data name="Home_Showcase_ChartTypes" xml:space="preserve">
+    <value>图表类型</value>
+  </data>
+  <data name="Home_Showcase_Docs" xml:space="preserve">
+    <value>打开文档</value>
+  </data>
+  <data name="Home_Showcase_Dashboard_Desc" xml:space="preserve">
+    <value>提示、数据和图表，可直接用于仪表板。</value>
+  </data>
+  <data name="Home_Showcase_Charts_Desc" xml:space="preserve">
+    <value>{0}+ 种图表类型，统一外观。在这里试用其中九种。</value>
+  </data>
+  <data name="Home_Showcase_Purple" xml:space="preserve">
+    <value>紫色</value>
+  </data>
+  <data name="Home_Showcase_Blue" xml:space="preserve">
+    <value>蓝色</value>
+  </data>
+  <data name="Home_Showcase_Green" xml:space="preserve">
+    <value>绿色</value>
+  </data>
+  <data name="Home_Showcase_Orange" xml:space="preserve">
+    <value>橙色</value>
+  </data>
+  <data name="Home_Showcase_DashboardTab" xml:space="preserve">
+    <value>仪表板</value>
+  </data>
+  <data name="Home_Showcase_Forms_Desc" xml:space="preserve">
+    <value>用同一套输入组件构建的登录、结账和设置表单。</value>
+  </data>
+  <data name="Home_Form_SignInSub" xml:space="preserve">
+    <value>欢迎回来。登录以继续。</value>
+  </data>
+  <data name="Home_Db_Title" xml:space="preserve">
+    <value>创建数据库</value>
+  </data>
+  <data name="Home_Db_Sub" xml:space="preserve">
+    <value>选择套餐和区域。</value>
+  </data>
+  <data name="Home_Db_Plan" xml:space="preserve">
+    <value>套餐</value>
+  </data>
+  <data name="Home_Db_Region" xml:space="preserve">
+    <value>区域</value>
+  </data>
+  <data name="Home_Db_Storage" xml:space="preserve">
+    <value>存储</value>
+  </data>
+  <data name="Home_Db_Cost" xml:space="preserve">
+    <value>预估费用</value>
+  </data>
+  <data name="Home_Db_PerMonth" xml:space="preserve">
+    <value>每月 {0}</value>
+  </data>
+  <data name="Home_Db_Create" xml:space="preserve">
+    <value>创建</value>
+  </data>
+  <data name="Home_Db_Created" xml:space="preserve">
+    <value>已创建</value>
+  </data>
+  <data name="Home_Meet_Title" xml:space="preserve">
+    <value>预约通话</value>
+  </data>
+  <data name="Home_Meet_Sub" xml:space="preserve">
+    <value>找一个适合你的时间。</value>
+  </data>
+  <data name="Home_Meet_Date" xml:space="preserve">
+    <value>日期</value>
+  </data>
+  <data name="Home_Meet_Time" xml:space="preserve">
+    <value>时间</value>
+  </data>
+  <data name="Home_Meet_Duration" xml:space="preserve">
+    <value>时长</value>
+  </data>
+  <data name="Home_Meet_Reminder" xml:space="preserve">
+    <value>通过电子邮件提醒我</value>
+  </data>
+  <data name="Home_Meet_Book" xml:space="preserve">
+    <value>预约</value>
+  </data>
+  <data name="Home_Meet_Booked" xml:space="preserve">
+    <value>已预约</value>
+  </data>
+  <data name="Home_Meet_Minutes" xml:space="preserve">
+    <value>{0} 分钟</value>
+  </data>
+  <data name="Home_Pay_Title" xml:space="preserve">
+    <value>升级到 Pro</value>
+  </data>
+  <data name="Home_Pay_Sub" xml:space="preserve">
+    <value>按月计费，随时可取消。</value>
+  </data>
+  <data name="Home_Pay_Seats" xml:space="preserve">
+    <value>席位</value>
+  </data>
+  <data name="Home_Pay_Card" xml:space="preserve">
+    <value>卡号</value>
+  </data>
+  <data name="Home_Pay_Expiry" xml:space="preserve">
+    <value>有效期</value>
+  </data>
+  <data name="Home_Pay_Cvc" xml:space="preserve">
+    <value>CVC</value>
+  </data>
+  <data name="Home_Pay_Total" xml:space="preserve">
+    <value>合计</value>
+  </data>
+  <data name="Home_Pay_Button" xml:space="preserve">
+    <value>支付 {0}</value>
+  </data>
+  <data name="Home_Pay_Paid" xml:space="preserve">
+    <value>已支付</value>
+  </data>
+  <data name="Home_Ws_Title" xml:space="preserve">
+    <value>设置你的工作区</value>
+  </data>
+  <data name="Home_Ws_Sub" xml:space="preserve">
+    <value>让它符合你的品牌。</value>
+  </data>
+  <data name="Home_Ws_Name" xml:space="preserve">
+    <value>工作区名称</value>
+  </data>
+  <data name="Home_Ws_Colour" xml:space="preserve">
+    <value>品牌颜色</value>
+  </data>
+  <data name="Home_Ws_Logo" xml:space="preserve">
+    <value>上传标志</value>
+  </data>
+  <data name="Home_Ws_LogoHint" xml:space="preserve">
+    <value>PNG 或 SVG，最大 2 MB。</value>
+  </data>
+  <data name="Home_Ws_Create" xml:space="preserve">
+    <value>创建工作区</value>
+  </data>
+  <data name="Home_Ws_Created" xml:space="preserve">
+    <value>工作区已创建</value>
+  </data>
+  <data name="Home_Review_Title" xml:space="preserve">
+    <value>发表评价</value>
+  </data>
+  <data name="Home_Review_Sub" xml:space="preserve">
+    <value>告诉我们使用体验。</value>
+  </data>
+  <data name="Home_Review_Rating" xml:space="preserve">
+    <value>你的评分</value>
+  </data>
+  <data name="Home_Review_Tags" xml:space="preserve">
+    <value>哪些方面不错？</value>
+  </data>
+  <data name="Home_Review_Tag_Speed" xml:space="preserve">
+    <value>速度</value>
+  </data>
+  <data name="Home_Review_Tag_Docs" xml:space="preserve">
+    <value>文档</value>
+  </data>
+  <data name="Home_Review_Tag_Support" xml:space="preserve">
+    <value>支持</value>
+  </data>
+  <data name="Home_Review_Tag_Design" xml:space="preserve">
+    <value>设计</value>
+  </data>
+  <data name="Home_Review_Tag_Price" xml:space="preserve">
+    <value>价格</value>
+  </data>
+  <data name="Home_Review_Submit" xml:space="preserve">
+    <value>提交评价</value>
+  </data>
+  <data name="Home_Review_Thanks" xml:space="preserve">
+    <value>感谢你的评价。</value>
+  </data>
+  <data name="Home_Crumb_Projects" xml:space="preserve">
+    <value>项目</value>
+  </data>
+  <data name="Home_Stats_Label" xml:space="preserve">
+    <value>twblazor 一览</value>
+  </data>
+  <data name="Home_Stats_Components" xml:space="preserve">
+    <value>{0}+ 个组件</value>
+  </data>
+  <data name="Home_Stats_Charts" xml:space="preserve">
+    <value>{0}+ 种图表类型</value>
+  </data>
+  <data name="Home_Stats_Accessible" xml:space="preserve">
+    <value>支持键盘和屏幕阅读器</value>
+  </data>
+  <data name="Home_Stats_Languages" xml:space="preserve">
+    <value>{0} 种语言</value>
+  </data>
+  <data name="Home_Stats_Mit" xml:space="preserve">
+    <value>免费，MIT 许可</value>
+  </data>
+  <data name="Home_A11y_Badge" xml:space="preserve">
+    <value>默认即无障碍</value>
+  </data>
+  <data name="Home_A11y_HeadingLead" xml:space="preserve">
+    <value>为每个人而建，</value>
+  </data>
+  <data name="Home_A11y_HeadingAccent" xml:space="preserve">
+    <value>从键盘到屏幕阅读器</value>
+  </data>
+  <data name="Home_A11y_Sub" xml:space="preserve">
+    <value>每个组件都遵循 WAI-ARIA 模式，让每个人都能用自己的方式使用你的应用。无需额外开启。</value>
+  </data>
+  <data name="Home_A11y_Keyboard_Title" xml:space="preserve">
+    <value>键盘优先</value>
+  </data>
+  <data name="Home_A11y_Keyboard_Body" xml:space="preserve">
+    <value>Tab、方向键、Home、End 和 Esc 在每个组件中都按 WAI-ARIA 的描述工作。</value>
+  </data>
+  <data name="Home_A11y_Reader_Title" xml:space="preserve">
+    <value>支持屏幕阅读器</value>
+  </data>
+  <data name="Home_A11y_Reader_Body" xml:space="preserve">
+    <value>角色、名称和实时播报，已翻译成所有内置语言。</value>
+  </data>
+  <data name="Home_A11y_Focus_Title" xml:space="preserve">
+    <value>清晰可见的焦点</value>
+  </data>
+  <data name="Home_A11y_Focus_Body" xml:space="preserve">
+    <value>每个控件都有清晰的焦点环，弹出层关闭后焦点会回到原处。</value>
+  </data>
+  <data name="Home_A11y_Motion_Title" xml:space="preserve">
+    <value>按需保持平静</value>
+  </data>
+  <data name="Home_A11y_Motion_Body" xml:space="preserve">
+    <value>当系统要求减少动态效果时，动画会停止。</value>
+  </data>
+  <data name="Home_A11y_Contrast_Title" xml:space="preserve">
+    <value>高对比度模式</value>
+  </data>
+  <data name="Home_A11y_Contrast_Body" xml:space="preserve">
+    <value>尊重 Windows 高对比度颜色，让状态始终可见。</value>
+  </data>
+  <data name="Home_A11y_Tested_Title" xml:space="preserve">
+    <value>经 axe-core 测试</value>
+  </data>
+  <data name="Home_A11y_Tested_Body" xml:space="preserve">
+    <value>测试套件会扫描每个文档页面的无障碍问题。</value>
   </data>
 </root>

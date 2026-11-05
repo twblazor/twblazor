@@ -939,4 +939,19 @@
   <data name="Form_SummaryTitle" xml:space="preserve">
     <value>Ana masalah</value>
   </data>
+  <data name="TimePicker_HourLabel" xml:space="preserve">
+    <value>Jam</value>
+  </data>
+  <data name="TimePicker_MinuteLabel" xml:space="preserve">
+    <value>Mnt</value>
+  </data>
+  <data name="TimePicker_Period" xml:space="preserve">
+    <value>AM utawa PM</value>
+  </data>
+  <data name="TimePicker_Now" xml:space="preserve">
+    <value>Saiki</value>
+  </data>
+  <data name="TimePicker_Done" xml:space="preserve">
+    <value>Rampung</value>
+  </data>
 </root>

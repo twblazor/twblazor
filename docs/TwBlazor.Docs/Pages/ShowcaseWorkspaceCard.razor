@@ -1,0 +1,23 @@
+﻿@using IconEnum = TwBlazor.Enums.Icon
+
+@* A card of its own: its colour picker reports every step of a drag. *@
+<form class="@LandingStyles.FormCard" @onsubmit="CreateWorkspace" @onsubmit:preventDefault>
+    <div class="flex items-center gap-3">
+        <span class="@LandingStyles.FormIcon"><TwIcon Icon="IconEnum.Palette_Fill" Plain /></span>
+        <div>
+            <h4 class="font-semibold text-gray-950 dark:text-white"><Loc Key="Home_Ws_Title">Set up your workspace</Loc></h4>
+            <p class="text-sm text-gray-600 dark:text-gray-400"><Loc Key="Home_Ws_Sub">Make it look like your brand.</Loc></p>
+        </div>
+    </div>
+    <TwTextfield Id="showcase-ws-name" Label="@Loc.Text("Home_Ws_Name", "Workspace name")" @bind-Value="workspaceName" />
+    <TwColorPicker Id="showcase-ws-colour" Label="@Loc.Text("Home_Ws_Colour", "Brand colour")" @bind-Value="workspaceColour" />
+    <div class="flex flex-col gap-1.5">
+        <TwFileUpload Id="showcase-ws-logo" Icon="IconEnum.Upload" Label="@Loc.Text("Home_Ws_Logo", "Upload logo")" Variant="ButtonVariant.Outlined" Color="Color.Primary" AllowedFileTypes="_logoTypes" @bind-Files="workspaceLogo" />
+        <p class="text-xs text-gray-600 dark:text-gray-400">@(workspaceLogo is { Count: > 0 } files ? files[0].Name : Loc.Text("Home_Ws_LogoHint", "PNG or SVG, up to 2 MB."))</p>
+    </div>
+    <div class="flex items-center gap-3 rounded-xl border border-gray-200 p-3 dark:border-white/10">
+        <span class="inline-flex size-9 shrink-0 items-center justify-center rounded-lg text-sm font-bold text-white" style="@($"background-color:{workspaceColour}")" aria-hidden="true">@(string.IsNullOrWhiteSpace(workspaceName) ? "?" : workspaceName.Trim()[..1].ToUpper(Loc.Culture))</span>
+        <span class="min-w-0 truncate text-sm font-medium text-gray-950 dark:text-white">@workspaceName</span>
+    </div>
+    <TwButton Type="submit" Class="w-full justify-center" Color="Color.Primary" StartIcon="@(workspaceCreated ? IconEnum.Check_Lg : IconEnum.Plus_Lg)" Label="@(workspaceCreated ? Loc.Text("Home_Ws_Created", "Workspace created") : Loc.Text("Home_Ws_Create", "Create workspace"))" />
+</form>

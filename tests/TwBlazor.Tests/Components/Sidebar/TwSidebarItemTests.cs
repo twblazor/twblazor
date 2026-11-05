@@ -228,7 +228,7 @@ public class TwSidebarItemTests : TwBlazorTestBase
     }
 
     [Fact]
-    public void CurrentPageItem_ShowsAFullHeightGradientMarkerOnItsStartEdge()
+    public void CurrentPageItem_ShowsAnInsetGradientPillOnItsStartEdge()
     {
         // Arrange & Act - the test navigation manager starts at the site root, so "/" is the current page
         var cut = TestContext.Render<TwSidebarItem>(p => p
@@ -240,9 +240,11 @@ public class TwSidebarItemTests : TwBlazorTestBase
         Assert.Equal("page", link.GetAttribute("aria-current"));
         Assert.Contains("relative", link.ClassList);
         Assert.Contains("before:absolute", link.ClassList);
-        Assert.Contains("before:start-0", link.ClassList);
-        Assert.Contains("before:inset-y-0", link.ClassList);
-        Assert.Contains("overflow-hidden", link.ClassList);
+        // Inset from the row's ends and rounded, so it never runs into the rounded corners of the row.
+        Assert.Contains("before:start-1", link.ClassList);
+        Assert.Contains("before:inset-y-2", link.ClassList);
+        Assert.Contains("before:rounded-full", link.ClassList);
+        Assert.DoesNotContain("overflow-hidden", link.ClassList);
         Assert.Contains("before:bg-linear-to-b", link.ClassList);
         Assert.Contains("before:from-purple-600", link.ClassList);
         Assert.Contains("before:to-fuchsia-500", link.ClassList);

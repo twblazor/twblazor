@@ -1,13 +1,48 @@
 ﻿@namespace TwBlazor.Components
 @inherits TwBlazorComponentBase
 
-<div id="@Id" class="@Class" style="@Style" @attributes="@Attributes" @ref="@TabsElement">
-    <div class="@tabContainerClasses" role="tablist" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy" @onkeydown="HandleTabKeyDown" @ref="tablistElement">
+@{
+    RenderFragment tablist = @<div class="@tabContainerClasses" role="tablist" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy" @onkeydown="HandleTabKeyDown" @ref="tablistElement">
         @foreach (var tab in _tabs)
         {
-            <TwButton @ref="tab.buttonRef" Id="@tab.Id" Class="@tab.TabClasses" OnClick="@(() => ViewTab(tab))" Label="@tab.Label" role="tab" tabindex="@(tab == ActiveTab ? "0" : "-1")" aria-selected="@(tab == ActiveTab ? "true" : "false")" aria-controls="@panelId" Disabled="@tab.Disabled" Plain />
+            <TwButton @ref="tab.buttonRef" Id="@tab.Id" Class="@tab.TabClasses" OnClick="@(() => ViewTab(tab))" Label="@tab.Label" StartIcon="@tab.Icon" role="tab" tabindex="@(tab == ActiveTab ? "0" : "-1")" aria-selected="@(tab == ActiveTab ? "true" : "false")" aria-controls="@panelId" Disabled="@tab.Disabled" Plain />
         }
-    </div>
+    </div>;
+}
+
+<div id="@Id" class="@Class" style="@Style" @attributes="@Attributes" @ref="@TabsElement">
+    @if (hasTabBar)
+    {
+        <div class="@tabBarClasses">
+            @if (Scrollable)
+            {
+                @* The scroll buttons are a pointer shortcut: keyboard users move through the tabs with the arrow keys,
+                   which bring the focused tab into view, so the buttons stay out of the tab order and the
+                   accessibility tree. The script shows each one only while tabs are hidden on its side. *@
+                <div class="@theme.ScrollContainer" @ref="scrollContainerElement">
+                    <button type="button" class="@scrollButtonStartClasses" data-tw-tabs-scroll="start" tabindex="-1" aria-hidden="true" hidden>
+                        <TwIcon Icon="Enums.Icon.Chevron_Left" Plain Class="rtl:-scale-x-100" />
+                    </button>
+                    @tablist
+                    <button type="button" class="@scrollButtonEndClasses" data-tw-tabs-scroll="end" tabindex="-1" aria-hidden="true" hidden>
+                        <TwIcon Icon="Enums.Icon.Chevron_Right" Plain Class="rtl:-scale-x-100" />
+                    </button>
+                </div>
+            }
+            else
+            {
+                @tablist
+            }
+            @if (TabBarContent is not null)
+            {
+                <div class="@theme.TabBarContent">@TabBarContent</div>
+            }
+        </div>
+    }
+    else
+    {
+        @tablist
+    }
 
     <div id="@panelId" class="@containerClasses" role="tabpanel" tabindex="0" aria-labelledby="@(ActiveTab?.Id)">
         @if (ActiveTab != null)

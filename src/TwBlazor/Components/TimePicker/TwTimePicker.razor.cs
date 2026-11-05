@@ -209,6 +209,11 @@ public partial class TwTimePicker : TwPopoverPickerComponentBase
     }
 
     /// <summary>
+    /// Closes the panel when its "Done" button is pressed, returning focus to the field.
+    /// </summary>
+    private Task CloseFromDoneAsync() => ClosePanelAsync();
+
+    /// <summary>
     /// Handles text value changes from the input field.
     /// </summary>
     /// <remarks>

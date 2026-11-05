@@ -63,5 +63,5 @@ public partial class SiteFooter
     ];
 
     private const string socialLinkClasses =
-        "inline-flex min-h-10 items-center gap-2 rounded-lg border border-purple-200 bg-white px-3.5 text-sm font-medium text-purple-900 shadow-xs transition-colors duration-150 hover:border-fuchsia-400 hover:text-fuchsia-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600 dark:border-purple-500/30 dark:bg-purple-500/10 dark:text-purple-100 dark:hover:border-fuchsia-400 dark:hover:text-fuchsia-200 dark:focus-visible:outline-purple-300";
+        "inline-flex min-h-10 items-center gap-2 rounded-lg border border-purple-200/70 bg-white px-3.5 text-sm font-medium text-purple-900 shadow-xs transition-colors duration-150 hover:border-purple-400 hover:text-purple-950 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600 dark:border-white/10 dark:bg-[oklch(28%_0.016_252.42)] dark:text-white dark:hover:border-purple-300/60 dark:focus-visible:outline-purple-300";
 }

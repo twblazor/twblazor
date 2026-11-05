@@ -64,6 +64,20 @@ public partial class TwTimePickerBody
     [Parameter] public EventCallback<TimeOnly> SelectedTimeChanged { get; set; }
 
     /// <summary>
+    /// Gets or sets whether the "Now" and "Done" buttons are shown under the time.
+    /// </summary>
+    /// <remarks>
+    /// "Now" sets the current time, rounded down to <see cref="Step"/>. "Done" raises <see cref="OnDone"/>, for the
+    /// picker that owns the panel to close it.
+    /// </remarks>
+    [Parameter] public bool ShowActions { get; set; }
+
+    /// <summary>
+    /// Raised when the "Done" button is pressed. Only shown when <see cref="ShowActions"/> is set.
+    /// </summary>
+    [Parameter] public EventCallback OnDone { get; set; }
+
+    /// <summary>
     /// Event callback invoked when the hour increment button is clicked.
     /// </summary>
     [Parameter] public EventCallback OnHourIncreased { get; set; }
@@ -113,9 +127,21 @@ public partial class TwTimePickerBody
     /// the shared theme color tokens (<see cref="TwBlazor.Builders.ColorBuilder.GetFocusRing"/>) so the
     /// inputs track the app's primary color.
     /// </summary>
-    private string numberInputClasses => new ClassBuilder(theme.NumberInput)
+    // The box around each value takes the input variant, so it looks like the other fields; the value inside it
+    // is borderless.
+    private string spinnerClasses => new ClassBuilder(theme.Spinner)
         .AddClass(inputVariantBuilder.GetClasses(effectiveVariant, inputTheme, effectiveRounded))
         .AddClass(ToHoverVariant(options.Theme.Border.Colors.Primary))
+        .Build();
+
+    private string numberInputClasses => new ClassBuilder(theme.NumberInput)
+        .AddClass(colorBuilder.GetFocusRing(Enums.Color.Primary))
+        .Build();
+
+    private bool isPm => SelectedTime.Hour >= 12;
+
+    private string AmPmOptionClasses(bool selected) => new ClassBuilder(theme.AmPmButtonClass)
+        .AddClass(selected ? theme.AmPmOptionActive : theme.AmPmOptionInactive)
         .AddClass(colorBuilder.GetFocusRing(Enums.Color.Primary))
         .Build();
 
@@ -278,6 +304,29 @@ public partial class TwTimePickerBody
         "ArrowDown" => DecrementMinute(),
         _ => Task.CompletedTask
     };
+
+    /// <summary>
+    /// Selects the morning or the afternoon, keeping the hour on the clock face and the minutes.
+    /// </summary>
+    private async Task SetPeriodAsync(bool pm)
+    {
+        if (pm == isPm)
+            return;
+
+        await StepAsync(ToggleAmPm);
+    }
+
+    /// <summary>
+    /// Sets the current time, rounded down to the step so it is a time the step buttons could reach.
+    /// </summary>
+    private async Task SetNowAsync()
+    {
+        var now = TimeOnly.FromDateTime(DateTime.Now);
+        var minutes = now.Hour * 60 + now.Minute;
+        minutes -= minutes % Step;
+        await UpdateSelectedTime(new TimeOnly(minutes / 60, minutes % 60));
+        statusMessage = SelectedTime.ToString(Is12HourFormat ? "h:mm tt" : "HH:mm", localizer.Formats.Culture);
+    }
 
     private async Task ToggleAmPm()
     {

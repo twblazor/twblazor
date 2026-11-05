@@ -95,7 +95,7 @@
     <value>در عمل ببینید</value>
   </data>
   <data name="Home_Case_Heading" xml:space="preserve">
-    <value>پنج ظاهر شناخته‌شده، یک کتابخانه کامپوننت</value>
+    <value>ظاهرهای شناخته‌شده، یک کتابخانه کامپوننت</value>
   </data>
   <data name="Home_Case_Inspired" xml:space="preserve">
     <value>&lt;span class=&quot;font-normal text-purple-200&quot;&gt;الهام‌گرفته از &lt;/span&gt;{0}</value>
@@ -223,29 +223,8 @@
   <data name="Home_Failed" xml:space="preserve">
     <value>ناموفق</value>
   </data>
-  <data name="Home_Feature_A11y_Body" xml:space="preserve">
-    <value>پشتیبانی ARIA و صفحه‌کلید به‌صورت داخلی.</value>
-  </data>
-  <data name="Home_Feature_A11y_Title" xml:space="preserve">
-    <value>دسترس‌پذیر</value>
-  </data>
   <data name="Home_Feature_Composable_Body" xml:space="preserve">
     <value>پارامترهای ساده Blazor. بدون غافلگیری.</value>
-  </data>
-  <data name="Home_Feature_Composable_Title" xml:space="preserve">
-    <value>ترکیب‌پذیر</value>
-  </data>
-  <data name="Home_Feature_Custom_Body" xml:space="preserve">
-    <value>برند شما، در حالت روشن و تیره.</value>
-  </data>
-  <data name="Home_Feature_Custom_Title" xml:space="preserve">
-    <value>کاملاً قابل سفارشی‌سازی</value>
-  </data>
-  <data name="Home_Feature_Fast_Body" xml:space="preserve">
-    <value>بیش از ۲۵ کامپوننت، آماده انتشار.</value>
-  </data>
-  <data name="Home_Feature_Fast_Title" xml:space="preserve">
-    <value>ساخت سریع</value>
   </data>
   <data name="Home_Features_HeadingFull" xml:space="preserve">
     <value>مناسب پروژه بعدی شما: {0} یا {1}.</value>
@@ -405,18 +384,6 @@
   </data>
   <data name="Home_Lang_zhHant" xml:space="preserve">
     <value>چینی سنتی</value>
-  </data>
-  <data name="Home_Live_Caption" xml:space="preserve">
-    <value>شش خط نشانه‌گذاری twblazor و کامپوننت‌های زنده‌ای که می‌سازند.</value>
-  </data>
-  <data name="Home_Live_Rendered" xml:space="preserve">
-    <value>۶ کامپوننت رندر شد</value>
-  </data>
-  <data name="Home_Live_Replay" xml:space="preserve">
-    <value>پخش دوباره</value>
-  </data>
-  <data name="Home_Live_ReplayTarget" xml:space="preserve">
-    <value>ساخت زنده</value>
   </data>
   <data name="Home_Loc_Badge" xml:space="preserve">
     <value>{0} زبان داخلی</value>
@@ -822,5 +789,278 @@
   </data>
   <data name="Nav_WhyTwBlazor" xml:space="preserve">
     <value>چرا twblazor؟</value>
+  </data>
+  <data name="Nav_Menu_Components" xml:space="preserve">
+    <value>کامپوننت‌ها</value>
+  </data>
+  <data name="Nav_Menu_Description" xml:space="preserve">
+    <value>بلوک‌های ساختاری دسترس‌پذیر و قابل‌تنظیم برای Blazor.</value>
+  </data>
+  <data name="Nav_Menu_Search" xml:space="preserve">
+    <value>جستجو در {0} کامپوننت</value>
+  </data>
+  <data name="Nav_Menu_Count" xml:space="preserve">
+    <value>{0} کامپوننت</value>
+  </data>
+  <data name="Nav_Menu_CountOne" xml:space="preserve">
+    <value>۱ کامپوننت</value>
+  </data>
+  <data name="Nav_Menu_NoMatch" xml:space="preserve">
+    <value>هیچ کامپوننتی با جستجوی شما مطابقت ندارد.</value>
+  </data>
+  <data name="Nav_Menu_Back" xml:space="preserve">
+    <value>همه دسته‌ها</value>
+  </data>
+  <data name="Home_Showcase_Tabs" xml:space="preserve">
+    <value>نمونه‌ها</value>
+  </data>
+  <data name="Home_Showcase_Theme" xml:space="preserve">
+    <value>رنگ نمونه</value>
+  </data>
+  <data name="Home_Showcase_Light" xml:space="preserve">
+    <value>نمایش نمونه در حالت روشن</value>
+  </data>
+  <data name="Home_Showcase_Dark" xml:space="preserve">
+    <value>نمایش نمونه در حالت تیره</value>
+  </data>
+  <data name="Home_Showcase_ChartTypes" xml:space="preserve">
+    <value>نوع نمودار</value>
+  </data>
+  <data name="Home_Showcase_Docs" xml:space="preserve">
+    <value>باز کردن مستندات</value>
+  </data>
+  <data name="Home_Showcase_Dashboard_Desc" xml:space="preserve">
+    <value>هشدارها، اعداد و نمودارها، آماده برای داشبورد.</value>
+  </data>
+  <data name="Home_Showcase_Charts_Desc" xml:space="preserve">
+    <value>بیش از {0} نوع نمودار با یک ظاهر یکسان. نُه نوع را اینجا امتحان کنید.</value>
+  </data>
+  <data name="Home_Showcase_Purple" xml:space="preserve">
+    <value>بنفش</value>
+  </data>
+  <data name="Home_Showcase_Blue" xml:space="preserve">
+    <value>آبی</value>
+  </data>
+  <data name="Home_Showcase_Green" xml:space="preserve">
+    <value>سبز</value>
+  </data>
+  <data name="Home_Showcase_Orange" xml:space="preserve">
+    <value>نارنجی</value>
+  </data>
+  <data name="Home_Showcase_DashboardTab" xml:space="preserve">
+    <value>داشبورد</value>
+  </data>
+  <data name="Home_Showcase_Forms_Desc" xml:space="preserve">
+    <value>فرم‌های ورود، پرداخت و تنظیمات، ساخته‌شده از همان ورودی‌ها.</value>
+  </data>
+  <data name="Home_Form_SignInSub" xml:space="preserve">
+    <value>خوش برگشتید. برای ادامه وارد شوید.</value>
+  </data>
+  <data name="Home_Db_Title" xml:space="preserve">
+    <value>ساخت پایگاه داده</value>
+  </data>
+  <data name="Home_Db_Sub" xml:space="preserve">
+    <value>یک طرح و منطقه انتخاب کنید.</value>
+  </data>
+  <data name="Home_Db_Plan" xml:space="preserve">
+    <value>طرح</value>
+  </data>
+  <data name="Home_Db_Region" xml:space="preserve">
+    <value>منطقه</value>
+  </data>
+  <data name="Home_Db_Storage" xml:space="preserve">
+    <value>فضای ذخیره‌سازی</value>
+  </data>
+  <data name="Home_Db_Cost" xml:space="preserve">
+    <value>هزینه تخمینی</value>
+  </data>
+  <data name="Home_Db_PerMonth" xml:space="preserve">
+    <value>{0} در ماه</value>
+  </data>
+  <data name="Home_Db_Create" xml:space="preserve">
+    <value>ساخت</value>
+  </data>
+  <data name="Home_Db_Created" xml:space="preserve">
+    <value>ساخته شد</value>
+  </data>
+  <data name="Home_Meet_Title" xml:space="preserve">
+    <value>رزرو تماس</value>
+  </data>
+  <data name="Home_Meet_Sub" xml:space="preserve">
+    <value>زمانی مناسب برای خود پیدا کنید.</value>
+  </data>
+  <data name="Home_Meet_Date" xml:space="preserve">
+    <value>تاریخ</value>
+  </data>
+  <data name="Home_Meet_Time" xml:space="preserve">
+    <value>ساعت</value>
+  </data>
+  <data name="Home_Meet_Duration" xml:space="preserve">
+    <value>مدت</value>
+  </data>
+  <data name="Home_Meet_Reminder" xml:space="preserve">
+    <value>یادآوری را برایم ایمیل کن</value>
+  </data>
+  <data name="Home_Meet_Book" xml:space="preserve">
+    <value>رزرو تماس</value>
+  </data>
+  <data name="Home_Meet_Booked" xml:space="preserve">
+    <value>رزرو شد</value>
+  </data>
+  <data name="Home_Meet_Minutes" xml:space="preserve">
+    <value>{0} دقیقه</value>
+  </data>
+  <data name="Home_Pay_Title" xml:space="preserve">
+    <value>ارتقا به Pro</value>
+  </data>
+  <data name="Home_Pay_Sub" xml:space="preserve">
+    <value>صورتحساب ماهانه. هر زمان لغو کنید.</value>
+  </data>
+  <data name="Home_Pay_Seats" xml:space="preserve">
+    <value>جایگاه‌ها</value>
+  </data>
+  <data name="Home_Pay_Card" xml:space="preserve">
+    <value>شماره کارت</value>
+  </data>
+  <data name="Home_Pay_Expiry" xml:space="preserve">
+    <value>تاریخ انقضا</value>
+  </data>
+  <data name="Home_Pay_Cvc" xml:space="preserve">
+    <value>CVC</value>
+  </data>
+  <data name="Home_Pay_Total" xml:space="preserve">
+    <value>جمع کل</value>
+  </data>
+  <data name="Home_Pay_Button" xml:space="preserve">
+    <value>پرداخت {0}</value>
+  </data>
+  <data name="Home_Pay_Paid" xml:space="preserve">
+    <value>پرداخت شد</value>
+  </data>
+  <data name="Home_Ws_Title" xml:space="preserve">
+    <value>فضای کاری خود را راه‌اندازی کنید</value>
+  </data>
+  <data name="Home_Ws_Sub" xml:space="preserve">
+    <value>آن را شبیه برندتان کنید.</value>
+  </data>
+  <data name="Home_Ws_Name" xml:space="preserve">
+    <value>نام فضای کاری</value>
+  </data>
+  <data name="Home_Ws_Colour" xml:space="preserve">
+    <value>رنگ برند</value>
+  </data>
+  <data name="Home_Ws_Logo" xml:space="preserve">
+    <value>بارگذاری لوگو</value>
+  </data>
+  <data name="Home_Ws_LogoHint" xml:space="preserve">
+    <value>PNG یا SVG، حداکثر ۲ مگابایت.</value>
+  </data>
+  <data name="Home_Ws_Create" xml:space="preserve">
+    <value>ساخت فضای کاری</value>
+  </data>
+  <data name="Home_Ws_Created" xml:space="preserve">
+    <value>فضای کاری ساخته شد</value>
+  </data>
+  <data name="Home_Review_Title" xml:space="preserve">
+    <value>نظر بدهید</value>
+  </data>
+  <data name="Home_Review_Sub" xml:space="preserve">
+    <value>بگویید چطور بود.</value>
+  </data>
+  <data name="Home_Review_Rating" xml:space="preserve">
+    <value>امتیاز شما</value>
+  </data>
+  <data name="Home_Review_Tags" xml:space="preserve">
+    <value>چه چیزی خوب بود؟</value>
+  </data>
+  <data name="Home_Review_Tag_Speed" xml:space="preserve">
+    <value>سرعت</value>
+  </data>
+  <data name="Home_Review_Tag_Docs" xml:space="preserve">
+    <value>مستندات</value>
+  </data>
+  <data name="Home_Review_Tag_Support" xml:space="preserve">
+    <value>پشتیبانی</value>
+  </data>
+  <data name="Home_Review_Tag_Design" xml:space="preserve">
+    <value>طراحی</value>
+  </data>
+  <data name="Home_Review_Tag_Price" xml:space="preserve">
+    <value>قیمت</value>
+  </data>
+  <data name="Home_Review_Submit" xml:space="preserve">
+    <value>ارسال نظر</value>
+  </data>
+  <data name="Home_Review_Thanks" xml:space="preserve">
+    <value>از نظر شما سپاسگزاریم.</value>
+  </data>
+  <data name="Home_Crumb_Projects" xml:space="preserve">
+    <value>پروژه‌ها</value>
+  </data>
+  <data name="Home_Stats_Label" xml:space="preserve">
+    <value>twblazor در یک نگاه</value>
+  </data>
+  <data name="Home_Stats_Components" xml:space="preserve">
+    <value>بیش از {0} کامپوننت</value>
+  </data>
+  <data name="Home_Stats_Charts" xml:space="preserve">
+    <value>بیش از {0} نوع نمودار</value>
+  </data>
+  <data name="Home_Stats_Accessible" xml:space="preserve">
+    <value>آماده برای صفحه‌کلید و صفحه‌خوان</value>
+  </data>
+  <data name="Home_Stats_Languages" xml:space="preserve">
+    <value>{0} زبان</value>
+  </data>
+  <data name="Home_Stats_Mit" xml:space="preserve">
+    <value>رایگان با مجوز MIT</value>
+  </data>
+  <data name="Home_A11y_Badge" xml:space="preserve">
+    <value>دسترس‌پذیر به‌طور پیش‌فرض</value>
+  </data>
+  <data name="Home_A11y_HeadingLead" xml:space="preserve">
+    <value>ساخته‌شده برای همه،</value>
+  </data>
+  <data name="Home_A11y_HeadingAccent" xml:space="preserve">
+    <value>از صفحه‌کلید تا صفحه‌خوان</value>
+  </data>
+  <data name="Home_A11y_Sub" xml:space="preserve">
+    <value>هر کامپوننت از الگوهای WAI-ARIA پیروی می‌کند تا هر کس به روش خودش از برنامه شما استفاده کند. چیزی برای روشن‌کردن نیست.</value>
+  </data>
+  <data name="Home_A11y_Keyboard_Title" xml:space="preserve">
+    <value>اول صفحه‌کلید</value>
+  </data>
+  <data name="Home_A11y_Keyboard_Body" xml:space="preserve">
+    <value>Tab، کلیدهای جهت، Home، End و Escape در هر کامپوننت همان‌طور که WAI-ARIA می‌گوید کار می‌کنند.</value>
+  </data>
+  <data name="Home_A11y_Reader_Title" xml:space="preserve">
+    <value>آماده برای صفحه‌خوان</value>
+  </data>
+  <data name="Home_A11y_Reader_Body" xml:space="preserve">
+    <value>نقش‌ها، نام‌ها و اعلان‌های زنده، ترجمه‌شده به همه زبان‌های همراه.</value>
+  </data>
+  <data name="Home_A11y_Focus_Title" xml:space="preserve">
+    <value>تمرکز قابل دیدن</value>
+  </data>
+  <data name="Home_A11y_Focus_Body" xml:space="preserve">
+    <value>حلقه تمرکز واضح روی هر کنترل، و بازگشت تمرکز به جای خود هنگام بسته‌شدن پنجره بازشو.</value>
+  </data>
+  <data name="Home_A11y_Motion_Title" xml:space="preserve">
+    <value>آرام در صورت درخواست</value>
+  </data>
+  <data name="Home_A11y_Motion_Body" xml:space="preserve">
+    <value>وقتی سیستم کاهش حرکت را بخواهد، انیمیشن‌ها متوقف می‌شوند.</value>
+  </data>
+  <data name="Home_A11y_Contrast_Title" xml:space="preserve">
+    <value>حالت کنتراست بالا</value>
+  </data>
+  <data name="Home_A11y_Contrast_Body" xml:space="preserve">
+    <value>رنگ‌های کنتراست بالای Windows رعایت می‌شوند تا وضعیت‌ها دیده شوند.</value>
+  </data>
+  <data name="Home_A11y_Tested_Title" xml:space="preserve">
+    <value>آزموده با axe-core</value>
+  </data>
+  <data name="Home_A11y_Tested_Body" xml:space="preserve">
+    <value>هر صفحه مستندات در مجموعه آزمون‌ها برای مشکلات دسترس‌پذیری بررسی می‌شود.</value>
   </data>
 </root>

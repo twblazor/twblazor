@@ -95,7 +95,7 @@
     <value>పనిచేస్తుండగా చూడండి</value>
   </data>
   <data name="Home_Case_Heading" xml:space="preserve">
-    <value>ఐదు ప్రసిద్ధ రూపాలు, ఒకే కాంపోనెంట్ లైబ్రరీ</value>
+    <value>ప్రసిద్ధ రూపాలు, ఒకే కాంపోనెంట్ లైబ్రరీ</value>
   </data>
   <data name="Home_Case_Inspired" xml:space="preserve">
     <value>{0}&lt;span class=&quot;font-normal text-purple-200&quot;&gt; శైలిలో&lt;/span&gt;</value>
@@ -223,29 +223,8 @@
   <data name="Home_Failed" xml:space="preserve">
     <value>విఫలమైనవి</value>
   </data>
-  <data name="Home_Feature_A11y_Body" xml:space="preserve">
-    <value>ARIA, కీబోర్డ్ మద్దతు అంతర్నిర్మితం.</value>
-  </data>
-  <data name="Home_Feature_A11y_Title" xml:space="preserve">
-    <value>యాక్సెసిబుల్</value>
-  </data>
   <data name="Home_Feature_Composable_Body" xml:space="preserve">
     <value>సాధారణ Blazor పారామితులు. ఆశ్చర్యాలు లేవు.</value>
-  </data>
-  <data name="Home_Feature_Composable_Title" xml:space="preserve">
-    <value>కలపగలిగేవి</value>
-  </data>
-  <data name="Home_Feature_Custom_Body" xml:space="preserve">
-    <value>మీ బ్రాండ్, లైట్ మరియు డార్క్ మోడ్‌లలో.</value>
-  </data>
-  <data name="Home_Feature_Custom_Title" xml:space="preserve">
-    <value>పూర్తిగా అనుకూలీకరించదగినవి</value>
-  </data>
-  <data name="Home_Feature_Fast_Body" xml:space="preserve">
-    <value>25కి పైగా కాంపోనెంట్‌లు, విడుదలకు సిద్ధం.</value>
-  </data>
-  <data name="Home_Feature_Fast_Title" xml:space="preserve">
-    <value>వేగంగా నిర్మించండి</value>
   </data>
   <data name="Home_Features_HeadingFull" xml:space="preserve">
     <value>మీ తదుపరి ప్రాజెక్ట్ కోసం: {0} లేదా {1}.</value>
@@ -405,18 +384,6 @@
   </data>
   <data name="Home_Lang_zhHant" xml:space="preserve">
     <value>సాంప్రదాయ చైనీస్</value>
-  </data>
-  <data name="Home_Live_Caption" xml:space="preserve">
-    <value>twblazor మార్కప్ ఆరు పంక్తులు, అవి చూపే లైవ్ కాంపోనెంట్‌లు.</value>
-  </data>
-  <data name="Home_Live_Rendered" xml:space="preserve">
-    <value>6 కాంపోనెంట్‌లు రెండర్ అయ్యాయి</value>
-  </data>
-  <data name="Home_Live_Replay" xml:space="preserve">
-    <value>మళ్లీ ప్లే చేయి</value>
-  </data>
-  <data name="Home_Live_ReplayTarget" xml:space="preserve">
-    <value>లైవ్ బిల్డ్</value>
   </data>
   <data name="Home_Loc_Badge" xml:space="preserve">
     <value>{0} భాషలు, అంతర్నిర్మితం</value>
@@ -822,5 +789,278 @@
   </data>
   <data name="Nav_WhyTwBlazor" xml:space="preserve">
     <value>twblazor ఎందుకు?</value>
+  </data>
+  <data name="Nav_Menu_Components" xml:space="preserve">
+    <value>కాంపోనెంట్లు</value>
+  </data>
+  <data name="Nav_Menu_Description" xml:space="preserve">
+    <value>Blazor కోసం అందుబాటులో ఉండే, థీమ్ మార్చగల బిల్డింగ్ బ్లాక్‌లు.</value>
+  </data>
+  <data name="Nav_Menu_Search" xml:space="preserve">
+    <value>{0} కాంపోనెంట్లలో వెతకండి</value>
+  </data>
+  <data name="Nav_Menu_Count" xml:space="preserve">
+    <value>{0} కాంపోనెంట్లు</value>
+  </data>
+  <data name="Nav_Menu_CountOne" xml:space="preserve">
+    <value>1 కాంపోనెంట్</value>
+  </data>
+  <data name="Nav_Menu_NoMatch" xml:space="preserve">
+    <value>మీ శోధనకు సరిపోయే కాంపోనెంట్ లేదు.</value>
+  </data>
+  <data name="Nav_Menu_Back" xml:space="preserve">
+    <value>అన్ని వర్గాలు</value>
+  </data>
+  <data name="Home_Showcase_Tabs" xml:space="preserve">
+    <value>ఉదాహరణలు</value>
+  </data>
+  <data name="Home_Showcase_Theme" xml:space="preserve">
+    <value>ఉదాహరణ రంగు</value>
+  </data>
+  <data name="Home_Showcase_Light" xml:space="preserve">
+    <value>ఉదాహరణను లైట్ మోడ్‌లో చూపించు</value>
+  </data>
+  <data name="Home_Showcase_Dark" xml:space="preserve">
+    <value>ఉదాహరణను డార్క్ మోడ్‌లో చూపించు</value>
+  </data>
+  <data name="Home_Showcase_ChartTypes" xml:space="preserve">
+    <value>చార్ట్ రకం</value>
+  </data>
+  <data name="Home_Showcase_Docs" xml:space="preserve">
+    <value>డాక్యుమెంటేషన్ తెరవండి</value>
+  </data>
+  <data name="Home_Showcase_Dashboard_Desc" xml:space="preserve">
+    <value>డాష్‌బోర్డ్‌కు సిద్ధంగా ఉన్న హెచ్చరికలు, సంఖ్యలు, చార్ట్‌లు.</value>
+  </data>
+  <data name="Home_Showcase_Charts_Desc" xml:space="preserve">
+    <value>{0}+ చార్ట్ రకాలు, ఒకే రూపం. ఇక్కడ తొమ్మిదింటిని ప్రయత్నించండి.</value>
+  </data>
+  <data name="Home_Showcase_Purple" xml:space="preserve">
+    <value>ఊదా</value>
+  </data>
+  <data name="Home_Showcase_Blue" xml:space="preserve">
+    <value>నీలం</value>
+  </data>
+  <data name="Home_Showcase_Green" xml:space="preserve">
+    <value>ఆకుపచ్చ</value>
+  </data>
+  <data name="Home_Showcase_Orange" xml:space="preserve">
+    <value>నారింజ</value>
+  </data>
+  <data name="Home_Showcase_DashboardTab" xml:space="preserve">
+    <value>డాష్‌బోర్డ్</value>
+  </data>
+  <data name="Home_Showcase_Forms_Desc" xml:space="preserve">
+    <value>ఒకే ఇన్‌పుట్‌లతో చేసిన సైన్-ఇన్, చెక్అవుట్, సెట్టింగ్‌ల ఫారమ్‌లు.</value>
+  </data>
+  <data name="Home_Form_SignInSub" xml:space="preserve">
+    <value>మళ్ళీ స్వాగతం. కొనసాగడానికి సైన్ ఇన్ చేయండి.</value>
+  </data>
+  <data name="Home_Db_Title" xml:space="preserve">
+    <value>డేటాబేస్ సృష్టించండి</value>
+  </data>
+  <data name="Home_Db_Sub" xml:space="preserve">
+    <value>ఒక ప్లాన్, ప్రాంతాన్ని ఎంచుకోండి.</value>
+  </data>
+  <data name="Home_Db_Plan" xml:space="preserve">
+    <value>ప్లాన్</value>
+  </data>
+  <data name="Home_Db_Region" xml:space="preserve">
+    <value>ప్రాంతం</value>
+  </data>
+  <data name="Home_Db_Storage" xml:space="preserve">
+    <value>నిల్వ</value>
+  </data>
+  <data name="Home_Db_Cost" xml:space="preserve">
+    <value>అంచనా ఖర్చు</value>
+  </data>
+  <data name="Home_Db_PerMonth" xml:space="preserve">
+    <value>నెలకు {0}</value>
+  </data>
+  <data name="Home_Db_Create" xml:space="preserve">
+    <value>సృష్టించు</value>
+  </data>
+  <data name="Home_Db_Created" xml:space="preserve">
+    <value>సృష్టించబడింది</value>
+  </data>
+  <data name="Home_Meet_Title" xml:space="preserve">
+    <value>కాల్ బుక్ చేయండి</value>
+  </data>
+  <data name="Home_Meet_Sub" xml:space="preserve">
+    <value>మీకు అనుకూలమైన సమయం ఎంచుకోండి.</value>
+  </data>
+  <data name="Home_Meet_Date" xml:space="preserve">
+    <value>తేదీ</value>
+  </data>
+  <data name="Home_Meet_Time" xml:space="preserve">
+    <value>సమయం</value>
+  </data>
+  <data name="Home_Meet_Duration" xml:space="preserve">
+    <value>వ్యవధి</value>
+  </data>
+  <data name="Home_Meet_Reminder" xml:space="preserve">
+    <value>ఇమెయిల్‌లో గుర్తు చేయండి</value>
+  </data>
+  <data name="Home_Meet_Book" xml:space="preserve">
+    <value>కాల్ బుక్ చేయండి</value>
+  </data>
+  <data name="Home_Meet_Booked" xml:space="preserve">
+    <value>బుక్ అయింది</value>
+  </data>
+  <data name="Home_Meet_Minutes" xml:space="preserve">
+    <value>{0} నిమిషాలు</value>
+  </data>
+  <data name="Home_Pay_Title" xml:space="preserve">
+    <value>Proకి అప్‌గ్రేడ్ చేయండి</value>
+  </data>
+  <data name="Home_Pay_Sub" xml:space="preserve">
+    <value>నెలవారీ బిల్లు. ఎప్పుడైనా రద్దు చేయండి.</value>
+  </data>
+  <data name="Home_Pay_Seats" xml:space="preserve">
+    <value>సీట్లు</value>
+  </data>
+  <data name="Home_Pay_Card" xml:space="preserve">
+    <value>కార్డ్ నంబర్</value>
+  </data>
+  <data name="Home_Pay_Expiry" xml:space="preserve">
+    <value>గడువు</value>
+  </data>
+  <data name="Home_Pay_Cvc" xml:space="preserve">
+    <value>CVC</value>
+  </data>
+  <data name="Home_Pay_Total" xml:space="preserve">
+    <value>మొత్తం</value>
+  </data>
+  <data name="Home_Pay_Button" xml:space="preserve">
+    <value>{0} చెల్లించండి</value>
+  </data>
+  <data name="Home_Pay_Paid" xml:space="preserve">
+    <value>చెల్లించబడింది</value>
+  </data>
+  <data name="Home_Ws_Title" xml:space="preserve">
+    <value>మీ వర్క్‌స్పేస్‌ను సెటప్ చేయండి</value>
+  </data>
+  <data name="Home_Ws_Sub" xml:space="preserve">
+    <value>దాన్ని మీ బ్రాండ్‌లా చేయండి.</value>
+  </data>
+  <data name="Home_Ws_Name" xml:space="preserve">
+    <value>వర్క్‌స్పేస్ పేరు</value>
+  </data>
+  <data name="Home_Ws_Colour" xml:space="preserve">
+    <value>బ్రాండ్ రంగు</value>
+  </data>
+  <data name="Home_Ws_Logo" xml:space="preserve">
+    <value>లోగో అప్‌లోడ్ చేయండి</value>
+  </data>
+  <data name="Home_Ws_LogoHint" xml:space="preserve">
+    <value>PNG లేదా SVG, 2 MB వరకు.</value>
+  </data>
+  <data name="Home_Ws_Create" xml:space="preserve">
+    <value>వర్క్‌స్పేస్ సృష్టించండి</value>
+  </data>
+  <data name="Home_Ws_Created" xml:space="preserve">
+    <value>వర్క్‌స్పేస్ సృష్టించబడింది</value>
+  </data>
+  <data name="Home_Review_Title" xml:space="preserve">
+    <value>సమీక్ష ఇవ్వండి</value>
+  </data>
+  <data name="Home_Review_Sub" xml:space="preserve">
+    <value>ఎలా ఉందో చెప్పండి.</value>
+  </data>
+  <data name="Home_Review_Rating" xml:space="preserve">
+    <value>మీ రేటింగ్</value>
+  </data>
+  <data name="Home_Review_Tags" xml:space="preserve">
+    <value>ఏది బాగుంది?</value>
+  </data>
+  <data name="Home_Review_Tag_Speed" xml:space="preserve">
+    <value>వేగం</value>
+  </data>
+  <data name="Home_Review_Tag_Docs" xml:space="preserve">
+    <value>డాక్యుమెంటేషన్</value>
+  </data>
+  <data name="Home_Review_Tag_Support" xml:space="preserve">
+    <value>సహాయం</value>
+  </data>
+  <data name="Home_Review_Tag_Design" xml:space="preserve">
+    <value>డిజైన్</value>
+  </data>
+  <data name="Home_Review_Tag_Price" xml:space="preserve">
+    <value>ధర</value>
+  </data>
+  <data name="Home_Review_Submit" xml:space="preserve">
+    <value>సమీక్ష పంపండి</value>
+  </data>
+  <data name="Home_Review_Thanks" xml:space="preserve">
+    <value>మీ సమీక్షకు ధన్యవాదాలు.</value>
+  </data>
+  <data name="Home_Crumb_Projects" xml:space="preserve">
+    <value>ప్రాజెక్ట్‌లు</value>
+  </data>
+  <data name="Home_Stats_Label" xml:space="preserve">
+    <value>ఒక్క చూపులో twblazor</value>
+  </data>
+  <data name="Home_Stats_Components" xml:space="preserve">
+    <value>{0}+ కాంపోనెంట్లు</value>
+  </data>
+  <data name="Home_Stats_Charts" xml:space="preserve">
+    <value>{0}+ చార్ట్ రకాలు</value>
+  </data>
+  <data name="Home_Stats_Accessible" xml:space="preserve">
+    <value>కీబోర్డ్, స్క్రీన్ రీడర్‌కు సిద్ధం</value>
+  </data>
+  <data name="Home_Stats_Languages" xml:space="preserve">
+    <value>{0} భాషలు</value>
+  </data>
+  <data name="Home_Stats_Mit" xml:space="preserve">
+    <value>ఉచితం, MIT లైసెన్స్</value>
+  </data>
+  <data name="Home_A11y_Badge" xml:space="preserve">
+    <value>మొదటి నుంచే అందుబాటులో</value>
+  </data>
+  <data name="Home_A11y_HeadingLead" xml:space="preserve">
+    <value>అందరి కోసం నిర్మించాం,</value>
+  </data>
+  <data name="Home_A11y_HeadingAccent" xml:space="preserve">
+    <value>కీబోర్డ్ నుంచి స్క్రీన్ రీడర్ వరకు</value>
+  </data>
+  <data name="Home_A11y_Sub" xml:space="preserve">
+    <value>ప్రతి కాంపోనెంట్ WAI-ARIA నమూనాలను అనుసరిస్తుంది, కాబట్టి అందరూ మీ యాప్‌ను తమ పద్ధతిలో వాడవచ్చు. ఏదీ ఆన్ చేయనక్కర్లేదు.</value>
+  </data>
+  <data name="Home_A11y_Keyboard_Title" xml:space="preserve">
+    <value>ముందు కీబోర్డ్</value>
+  </data>
+  <data name="Home_A11y_Keyboard_Body" xml:space="preserve">
+    <value>Tab, బాణం కీలు, Home, End, Escape ప్రతి కాంపోనెంట్‌లో WAI-ARIA చెప్పినట్లు పనిచేస్తాయి.</value>
+  </data>
+  <data name="Home_A11y_Reader_Title" xml:space="preserve">
+    <value>స్క్రీన్ రీడర్‌కు సిద్ధం</value>
+  </data>
+  <data name="Home_A11y_Reader_Body" xml:space="preserve">
+    <value>పాత్రలు, పేర్లు, ప్రత్యక్ష ప్రకటనలు, అందించిన ప్రతి భాషలోకి అనువదించబడ్డాయి.</value>
+  </data>
+  <data name="Home_A11y_Focus_Title" xml:space="preserve">
+    <value>కనిపించే ఫోకస్</value>
+  </data>
+  <data name="Home_A11y_Focus_Body" xml:space="preserve">
+    <value>ప్రతి కంట్రోల్‌పై స్పష్టమైన ఫోకస్ రింగ్, పాపప్ మూసినప్పుడు ఫోకస్ తన స్థానానికి తిరిగి వస్తుంది.</value>
+  </data>
+  <data name="Home_A11y_Motion_Title" xml:space="preserve">
+    <value>అడిగితే ప్రశాంతం</value>
+  </data>
+  <data name="Home_A11y_Motion_Body" xml:space="preserve">
+    <value>సిస్టమ్ తక్కువ కదలిక కోరినప్పుడు యానిమేషన్‌లు ఆగిపోతాయి.</value>
+  </data>
+  <data name="Home_A11y_Contrast_Title" xml:space="preserve">
+    <value>హై కాంట్రాస్ట్ మోడ్</value>
+  </data>
+  <data name="Home_A11y_Contrast_Body" xml:space="preserve">
+    <value>Windows హై కాంట్రాస్ట్ రంగులను గౌరవిస్తాం, కాబట్టి స్థితులు కనిపిస్తూనే ఉంటాయి.</value>
+  </data>
+  <data name="Home_A11y_Tested_Title" xml:space="preserve">
+    <value>axe-core తో పరీక్షించబడింది</value>
+  </data>
+  <data name="Home_A11y_Tested_Body" xml:space="preserve">
+    <value>ప్రతి డాక్స్ పేజీని పరీక్షల్లో యాక్సెసిబిలిటీ సమస్యల కోసం స్కాన్ చేస్తాం.</value>
   </data>
 </root>
