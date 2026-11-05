@@ -942,4 +942,19 @@
   <data name="Form_SummaryTitle" xml:space="preserve">
     <value>Hay un problema</value>
   </data>
+  <data name="TimePicker_HourLabel" xml:space="preserve">
+    <value>Hora</value>
+  </data>
+  <data name="TimePicker_MinuteLabel" xml:space="preserve">
+    <value>Min</value>
+  </data>
+  <data name="TimePicker_Period" xml:space="preserve">
+    <value>a. m. o p. m.</value>
+  </data>
+  <data name="TimePicker_Now" xml:space="preserve">
+    <value>Ahora</value>
+  </data>
+  <data name="TimePicker_Done" xml:space="preserve">
+    <value>Listo</value>
+  </data>
 </root>

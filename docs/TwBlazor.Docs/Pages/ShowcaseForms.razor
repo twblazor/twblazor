@@ -1,0 +1,132 @@
+﻿@using IconEnum = TwBlazor.Enums.Icon
+
+@* The Forms tab of the landing page's showcase. The cards with a slider or a colour picker are components of their
+   own, so each step of a drag re-renders that one card rather than every form, or the whole landing page. *@
+<div class="columns-1 gap-4 md:columns-2 xl:columns-3 [&>*]:mb-4 [&>*]:break-inside-avoid">
+    @* Sign in *@
+    <form class="@LandingStyles.FormCard" @onsubmit="SignIn" @onsubmit:preventDefault>
+        <div class="text-center">
+            <h4 class="text-lg font-semibold text-gray-950 dark:text-white"><Loc Key="Home_SignIn">Sign in</Loc></h4>
+            <p class="mt-0.5 text-sm text-gray-600 dark:text-gray-400"><Loc Key="Home_Form_SignInSub">Welcome back. Sign in to carry on.</Loc></p>
+        </div>
+        <TwTextfield Label="@Loc.Text("Home_Email", "Email")" @bind-Value="signInEmail" InputType="email" Placeholder="you@example.com" />
+        <TwTextfield Label="@Loc.Text("Home_Password", "Password")" @bind-Value="signInPassword" InputType="password" autocomplete="current-password" Placeholder="@Loc.Text("Home_PasswordPlaceholder", "Enter your password")" />
+        <TwCheckbox T="bool" @bind-Value="rememberMe" Label="@Loc.Text("Home_RememberMe", "Remember me")" />
+        <TwButton Type="submit" Class="w-full justify-center" Color="Color.Primary" Label="@Loc.Text("Home_SignIn", "Sign in")" />
+    </form>
+
+    @* Upgrade: masked inputs and a numeric *@
+    <form class="@LandingStyles.FormCard" @onsubmit="Pay" @onsubmit:preventDefault>
+        <div class="flex items-center gap-3">
+            <span class="@LandingStyles.FormIcon"><TwIcon Icon="IconEnum.Credit_Card" Plain /></span>
+            <div>
+                <h4 class="font-semibold text-gray-950 dark:text-white"><Loc Key="Home_Pay_Title">Upgrade to Pro</Loc></h4>
+                <p class="text-sm text-gray-600 dark:text-gray-400"><Loc Key="Home_Pay_Sub">Billed monthly. Cancel any time.</Loc></p>
+            </div>
+        </div>
+        <TwNumeric T="int" Id="showcase-pay-seats" Label="@Loc.Text("Home_Pay_Seats", "Seats")" Min="1" Max="50" @bind-Value="paySeats" />
+        <TwMaskedInput Id="showcase-pay-card" Label="@Loc.Text("Home_Pay_Card", "Card number")" Mask="9999 9999 9999 9999" @bind-Value="payCard" inputmode="numeric" autocomplete="cc-number" />
+        <div class="grid grid-cols-2 gap-4">
+            <TwMaskedInput Id="showcase-pay-expiry" Label="@Loc.Text("Home_Pay_Expiry", "Expiry")" Mask="99/99" @bind-Value="payExpiry" inputmode="numeric" autocomplete="cc-exp" />
+            <TwMaskedInput Id="showcase-pay-cvc" Label="@Loc.Text("Home_Pay_Cvc", "CVC")" Mask="999" @bind-Value="payCvc" inputmode="numeric" autocomplete="cc-csc" />
+        </div>
+        <div class="flex items-baseline justify-between border-t border-gray-200 pt-4 dark:border-white/10">
+            <span class="text-sm text-gray-600 dark:text-gray-400"><Loc Key="Home_Pay_Total">Total</Loc></span>
+            <span class="text-lg font-bold tabular-nums text-gray-950 dark:text-white">@payTotal</span>
+        </div>
+        <TwButton Type="submit" Class="w-full justify-center" Color="Color.Primary" StartIcon="@(payDone ? IconEnum.Check_Lg : IconEnum.Lock_Fill)" Label="@(payDone ? Loc.Text("Home_Pay_Paid", "Paid") : Loc.Format("Home_Pay_Button", "Pay {0}", payTotal))" />
+    </form>
+
+    <ShowcaseDatabaseCard />
+
+    <ShowcaseWorkspaceCard BrandColour="@BrandColour" />
+
+    @* Checkout *@
+    <div class="@LandingStyles.FormCard">
+        <div class="flex items-center gap-3">
+            <span class="@LandingStyles.FormIcon"><TwIcon Icon="IconEnum.Cart3" Plain /></span>
+            <h4 class="font-semibold text-gray-950 dark:text-white"><Loc Key="Home_Checkout_Title">Checkout stepper</Loc></h4>
+        </div>
+        <TwStepper @ref="checkoutStepper" @bind-ActiveStepIndex="checkoutStep" Orientation="StepperOrientation.Vertical" AriaLabel="@Loc.Text("Home_Checkout_Progress", "Checkout progress")">
+            <TwStep Label="@Loc.Text("Home_Checkout_Account", "Account")" Description="@Loc.Text("Home_Checkout_AccountDesc", "Create your login")">
+                <TwTextfield Label="@Loc.Text("Home_Email", "Email")" @bind-Value="email" Placeholder="@Loc.Text("Home_EmailPlaceholder", "Enter your email address")" />
+            </TwStep>
+            <TwStep Label="@Loc.Text("Home_Checkout_Preferences", "Preferences")" Description="@Loc.Text("Home_Checkout_PreferencesDesc", "Tune your setup")">
+                <TwSwitch @bind-Value="notificationsEnabled" Label="@Loc.Text("Home_Checkout_Notifications", "Email notifications")" Color="Color.Primary" />
+            </TwStep>
+            <TwStep Label="@Loc.Text("Home_Checkout_Done", "Done")" Description="@Loc.Text("Home_Checkout_DoneDesc", "All set")">
+                <p class="text-sm"><Loc Key="Home_Checkout_Thanks">Thanks, you're ready to go.</Loc></p>
+            </TwStep>
+        </TwStepper>
+        <div class="flex gap-2">
+            <TwButton Label="@Loc.Text("Home_Back", "Back")" Variant="ButtonVariant.Outlined" Color="Color.Primary" Disabled="@(checkoutStep <= 0)" OnClick="@(async () => { if (checkoutStepper is not null) await checkoutStepper.PreviousStep(); })" />
+            <TwButton Label="@Loc.Text("Home_Next", "Next")" Variant="ButtonVariant.Filled" Color="Color.Primary" Disabled="@(checkoutStep >= 2)" OnClick="@(async () => { if (checkoutStepper is not null) await checkoutStepper.NextStep(); })" />
+        </div>
+    </div>
+
+    @* Book a call *@
+    <form class="@LandingStyles.FormCard" @onsubmit="BookCall" @onsubmit:preventDefault>
+        <div class="flex items-center gap-3">
+            <span class="@LandingStyles.FormIcon"><TwIcon Icon="IconEnum.Calendar_Event" Plain /></span>
+            <div>
+                <h4 class="font-semibold text-gray-950 dark:text-white"><Loc Key="Home_Meet_Title">Book a call</Loc></h4>
+                <p class="text-sm text-gray-600 dark:text-gray-400"><Loc Key="Home_Meet_Sub">Find a time that works for you.</Loc></p>
+            </div>
+        </div>
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2">
+            <TwDatePicker Id="showcase-call-date" Label="@Loc.Text("Home_Meet_Date", "Date")" @bind-SelectedDate="callDate" />
+            <TwTimePicker Id="showcase-call-time" Label="@Loc.Text("Home_Meet_Time", "Time")" @bind-SelectedTime="callTime" />
+        </div>
+        <TwSelect T="string" Label="@Loc.Text("Home_Meet_Duration", "Duration")" Values="_callDurations" @bind-SelectedValue="callDuration" />
+        <TwSwitch @bind-Value="callReminder" Label="@Loc.Text("Home_Meet_Reminder", "Email me a reminder")" />
+        <TwButton Type="submit" Class="w-full justify-center" Color="Color.Primary" StartIcon="@(callBooked ? IconEnum.Check_Lg : IconEnum.Calendar_Check)" Label="@(callBooked ? Loc.Text("Home_Meet_Booked", "Booked") : Loc.Text("Home_Meet_Book", "Book call"))" />
+    </form>
+
+    @* Review: rating and a multiple select *@
+    <form class="@LandingStyles.FormCard" @onsubmit="SendReview" @onsubmit:preventDefault>
+        <div class="flex items-center gap-3">
+            <span class="@LandingStyles.FormIcon"><TwIcon Icon="IconEnum.Star_Fill" Plain /></span>
+            <div>
+                <h4 class="font-semibold text-gray-950 dark:text-white"><Loc Key="Home_Review_Title">Leave a review</Loc></h4>
+                <p class="text-sm text-gray-600 dark:text-gray-400"><Loc Key="Home_Review_Sub">Tell us how it went.</Loc></p>
+            </div>
+        </div>
+        <TwRating Id="showcase-review-rating" Label="@Loc.Text("Home_Review_Rating", "Your rating")" @bind-Value="reviewRating" Color="Color.Primary" />
+        <TwSelect T="string" Id="showcase-review-tags" Label="@Loc.Text("Home_Review_Tags", "What went well?")" Values="_reviewTags" Multiple Clearable @bind-SelectedValues="reviewSelectedTags" />
+        @if (reviewSent)
+        {
+            <TwAlert Dense Color="Color.Success" StartIcon="IconEnum.Check_Circle"><Loc Key="Home_Review_Thanks">Thanks for your review.</Loc></TwAlert>
+        }
+        <TwButton Type="submit" Class="w-full justify-center" Color="Color.Primary" StartIcon="IconEnum.Send" Label="@Loc.Text("Home_Review_Submit", "Send review")" />
+    </form>
+
+    @* Project settings *@
+    <form class="@LandingStyles.FormCard" @onsubmit="SaveSettings" @onsubmit:preventDefault>
+        <div class="flex items-center gap-3">
+            <span class="@LandingStyles.FormIcon"><TwIcon Icon="IconEnum.Gear_Fill" Plain /></span>
+            <div>
+                <h4 class="font-semibold text-gray-950 dark:text-white"><Loc Key="Home_Settings_Title">Project settings</Loc></h4>
+                <p class="text-sm text-gray-600 dark:text-gray-400"><Loc Key="Home_Settings_Sub">Manage how your team ships</Loc></p>
+            </div>
+        </div>
+        <TwTextfield Label="@Loc.Text("Home_Settings_ProjectName", "Project name")" @bind-Value="projectName" />
+        <TwRadioGroup T="string" Legend="@Loc.Text("Home_Settings_Visibility", "Visibility")" Name="visibility" Horizontal>
+            <TwRadioButton Value="@("private")" Label="@Loc.Text("Home_Settings_Private", "Private")" @bind-SelectedValue="visibility" />
+            <TwRadioButton Value="@("team")" Label="@Loc.Text("Home_Settings_Team", "Team")" @bind-SelectedValue="visibility" />
+            <TwRadioButton Value="@("public")" Label="@Loc.Text("Home_Settings_Public", "Public")" @bind-SelectedValue="visibility" />
+        </TwRadioGroup>
+        <TwSelect T="string" Label="@Loc.Text("Home_Settings_Environment", "Environment")" Values="_environments" @bind-SelectedValue="environment" Required />
+        <div class="flex flex-col gap-3">
+            <TwSwitch @bind-Value="emailAlerts" Label="@Loc.Text("Home_Settings_EmailAlerts", "Email alerts")" />
+            <TwSwitch @bind-Value="autoDeploy" Label="@Loc.Text("Home_Settings_DeployOnPush", "Deploy on push")" />
+        </div>
+        @if (settingsSaved)
+        {
+            <TwAlert Dense Color="Color.Success" StartIcon="IconEnum.Check_Circle"><Loc Key="Home_Settings_Saved">Settings saved.</Loc></TwAlert>
+        }
+        <div class="flex justify-end gap-2 border-t border-gray-200 pt-4 dark:border-white/10">
+            <TwButton Type="button" Label="@Loc.Text("Home_Settings_Reset", "Reset")" Variant="ButtonVariant.Outlined" Color="Color.Primary" OnClick="ResetSettings" />
+            <TwButton Type="submit" Label="@Loc.Text("Home_SaveChanges", "Save changes")" Color="Color.Primary" />
+        </div>
+    </form>
+</div>

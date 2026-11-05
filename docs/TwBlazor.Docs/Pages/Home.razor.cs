@@ -1,3 +1,6 @@
+using System.Globalization;
+using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using TwBlazor.Components;
 using TwBlazor.Docs.Layout;
 using TwBlazor.Docs.Services;
@@ -67,34 +70,45 @@ public partial class Home
         "rounded-2xl border border-purple-200/70 p-6 shadow-xs dark:border-white/10";
 
     /// <summary>
-    /// A feature card: the shared shell with the brand gradient along its top edge. Its own padding is removed
-    /// because <c>TwCard</c>'s content area already pads it. These are not links, so they have no hover state.
-    /// </summary>
-    private const string featureCardClasses =
-        cardClasses + " p-0 relative overflow-hidden before:absolute before:inset-x-0 before:top-0 before:h-1 before:bg-linear-to-r before:from-purple-600 before:to-fuchsia-500";
-
-    /// <summary>
     /// One word of the hero heading. Each word rises into place after the one before, set by its animation delay.
     /// </summary>
     private const string heroWordClasses = "inline-block animate-word-rise motion-reduce:animate-none";
 
     /// <summary>
-    /// The gradient icon tile on a feature card. Each card adds its own gradient and glow colours.
-    /// </summary>
-    private const string featureIconClasses =
-        "inline-flex size-11 shrink-0 items-center justify-center rounded-xl bg-linear-to-br text-xl text-white shadow-lg";
-
-    /// <summary>
     /// A guide card, which is a link: the shared shell on the same surface as <c>TwCard</c>, lifting on hover.
     /// </summary>
     private const string guideCardClasses =
-        "group flex items-center gap-4 " + cardClasses + " bg-white dark:bg-[oklch(28%_0.016_252.42)] transition duration-300 hover:-translate-y-1 hover:border-fuchsia-400 hover:shadow-xl hover:shadow-purple-500/15 motion-reduce:transition-none motion-reduce:hover:translate-y-0 dark:hover:border-fuchsia-400";
+        "group flex items-center gap-4 " + cardClasses + " " + LandingStyles.Surface + " " + LandingStyles.HoverLift;
 
     /// <summary>
-    /// The icon tile on a guide card, which tilts as the card lifts. Each card adds its own colours.
+    /// The soft icon tile on a guide card, which tilts as the card lifts.
     /// </summary>
     private const string guideIconClasses =
-        "inline-flex size-11 shrink-0 items-center justify-center rounded-xl text-xl transition duration-300 group-hover:-rotate-6 group-hover:scale-110 motion-reduce:transition-none motion-reduce:group-hover:rotate-0 motion-reduce:group-hover:scale-100";
+        LandingStyles.IconTileSoft + " transition duration-300 group-hover:-rotate-6 group-hover:scale-110 motion-reduce:transition-none motion-reduce:group-hover:rotate-0 motion-reduce:group-hover:scale-100";
+
+    // Counted from components.json, leaving out the chart overview page, and rounded down to a ten so the "+"
+    // stays true. The languages are the ones twblazor ships, English included.
+    private static readonly int _componentCount =
+        ComponentCatalog.LoadLeafEntries().Count(leaf => leaf.Entry.Url != "/chart") / 10 * 10;
+
+    private readonly IReadOnlyList<Stat> _stats =
+    [
+        new(IconEnum.Grid_3X3_Gap, Loc.Format("Home_Stats_Components", "{0}+ components", _componentCount)),
+        new(IconEnum.Bar_Chart_Line, Loc.Format("Home_Stats_Charts", "{0}+ chart types", _chartTypeCount)),
+        new(IconEnum.Universal_Access, Loc.Text("Home_Stats_Accessible", "Keyboard and screen reader ready")),
+        new(IconEnum.Translate, Loc.Format("Home_Stats_Languages", "{0} languages", _localizationLanguages.Count)),
+        new(IconEnum.Unlock, Loc.Text("Home_Stats_Mit", "Free and MIT licensed")),
+    ];
+
+    private readonly IReadOnlyList<ThemingPoint> _accessibilityPoints =
+    [
+        new(IconEnum.Keyboard, Loc.Text("Home_A11y_Keyboard_Title", "Keyboard first"), Loc.Text("Home_A11y_Keyboard_Body", "Tab, arrow keys, Home, End and Escape work in every component, as WAI-ARIA describes.")),
+        new(IconEnum.Megaphone, Loc.Text("Home_A11y_Reader_Title", "Screen reader ready"), Loc.Text("Home_A11y_Reader_Body", "Roles, names and live announcements, translated into every shipped language.")),
+        new(IconEnum.Bullseye, Loc.Text("Home_A11y_Focus_Title", "Focus you can see"), Loc.Text("Home_A11y_Focus_Body", "A clear focus ring on every control, and focus returned where it belongs when a popup closes.")),
+        new(IconEnum.Pause_Circle, Loc.Text("Home_A11y_Motion_Title", "Calm when asked"), Loc.Text("Home_A11y_Motion_Body", "Animations stop when the system asks for reduced motion.")),
+        new(IconEnum.Circle_Half, Loc.Text("Home_A11y_Contrast_Title", "High contrast mode"), Loc.Text("Home_A11y_Contrast_Body", "Windows high contrast colours are respected, so states stay visible.")),
+        new(IconEnum.Shield_Check, Loc.Text("Home_A11y_Tested_Title", "Tested with axe-core"), Loc.Text("Home_A11y_Tested_Body", "Every docs page is scanned for accessibility issues in the test suite.")),
+    ];
 
     private readonly IReadOnlyList<ThemingPoint> _themingPoints =
     [
@@ -199,7 +213,7 @@ public partial class Home
     private const int shownLanguageCount = 10;
 
     private const string languageChipClasses =
-        "inline-flex items-baseline gap-2 rounded-full border border-purple-200 bg-white px-3 py-1.5 text-sm shadow-xs dark:border-white/10 dark:bg-white/5";
+        "inline-flex items-baseline gap-2 rounded-full border border-purple-200 bg-white px-3 py-1.5 text-sm shadow-xs dark:border-white/10 dark:bg-[oklch(28%_0.016_252.42)]";
 
     private readonly IReadOnlyList<MergePoint> _rtlPoints =
     [
@@ -295,80 +309,146 @@ public partial class Home
 
     private bool wordCyclePaused;
 
-    // Changing the key rebuilds the live build panel, which restarts its CSS animations.
-    private int liveBuildRun;
-    private const string liveBuildDefaultService = "checkout-api";
-    private string liveBuildService = liveBuildDefaultService;
-    private bool liveBuildRunTests = true;
-    private int liveBuildProgress = 40;
-    private bool liveBuildAutoDeploy = true;
-    private bool liveBuildDeployed;
+    // --- Live examples showcase ---
+
+    [Inject] private IJSRuntime js { get; set; } = null!;
 
     /// <summary>
-    /// Fills the live build's progress bar, then marks it deployed once the bar's own transition has had time to run.
+    /// The colours the showcase can take. Each swatch is drawn with fixed colours, because the showcase remaps the
+    /// purple and fuchsia it sits inside. <see cref="ShowcaseSwatch.ThemeClass"/> is defined in input.css.
     /// </summary>
-    private async Task Deploy()
+    private readonly IReadOnlyList<ShowcaseSwatch> _showcaseSwatches =
+    [
+        new("purple", Loc.Text("Home_Showcase_Purple", "Purple"), "bg-[oklch(55.8%_0.288_302.321)]", string.Empty, "#9333ea"),
+        new("blue", Loc.Text("Home_Showcase_Blue", "Blue"), "bg-[oklch(54.6%_0.245_262.881)]", "showcase-blue", "#2563eb"),
+        new("green", Loc.Text("Home_Showcase_Green", "Green"), "bg-[oklch(59.6%_0.145_163.225)]", "showcase-green", "#059669"),
+        new("orange", Loc.Text("Home_Showcase_Orange", "Orange"), "bg-[oklch(64.6%_0.222_41.116)]", "showcase-orange", "#ea580c"),
+    ];
+
+    /// <summary>
+    /// How many chart types the docs list, rounded down to a ten for the "50+" in the Charts tab. Read from
+    /// components.json, leaving out the overview page, so it keeps up as charts are added.
+    /// </summary>
+    private static readonly int _chartTypeCount =
+        ComponentCatalog.LoadLeafEntries().Count(leaf => leaf.Category == "Charts" && leaf.Entry.Url != "/chart") / 10 * 10;
+
+    private static readonly IReadOnlyList<string> _showcaseChartTypes =
+        ["Area", "Column", "Line", "Bar", "Pie", "Treemap", "Funnel", "Gauge", "Heatmap"];
+
+    private readonly ChartSeries[] _environmentDeploys =
+    [
+        new(Loc.Text("Home_Series_Succeeded", "Succeeded"), [96, 214, 342]),
+        new(Loc.Text("Home_Failed", "Failed"), [2, 9, 21]),
+    ];
+
+    private readonly ChartValue[] _checkoutFunnel =
+    [
+        new(Loc.Text("Home_Checkout_Account", "Account"), 1200),
+        new(Loc.Text("Home_Checkout_Preferences", "Preferences"), 860),
+        new(Loc.Text("Home_Checkout_Done", "Done"), 640),
+    ];
+
+    private readonly string[] _weekdays = [.. Loc.Culture.DateTimeFormat.AbbreviatedDayNames.Skip(1).Take(5)];
+
+    private readonly ChartSeries[] _environmentWeek;
+
+    private ShowcaseSwatch showcaseSwatch;
+    private string showcaseChartType = "Area";
+
+    // The showcase follows the site's mode until its own toggle is used. Before then this holds the site's mode,
+    // read once the page is interactive, so the toggle's label names the mode it will switch to.
+    private bool showcaseDark;
+    private bool showcaseModeSet;
+
+    public Home()
     {
-        liveBuildProgress = 100;
-        await Task.Delay(700);
-        liveBuildDeployed = true;
+        showcaseSwatch = _showcaseSwatches[0];
+        _environmentWeek =
+        [
+            new(_environments[0], [3, 5, 4, 6, 2]),
+            new(_environments[1], [8, 11, 9, 12, 7]),
+            new(_environments[2], [14, 18, 16, 21, 11]),
+        ];
+    }
+
+    // No overflow-hidden: the date, time and select popups inside the forms must not be clipped by the frame.
+    private string showcaseFrameClasses => string.Join(' ',
+        "mt-5 text-gray-950 dark:text-white " + LandingStyles.Figure,
+        showcaseSwatch.ThemeClass,
+        showcaseModeClass).Trim();
+
+    // Until its own toggle is used, the showcase has no mode class and follows the site.
+    private string showcaseModeClass
+    {
+        get
+        {
+            if (!showcaseModeSet)
+                return string.Empty;
+
+            return showcaseDark ? "dark" : "theme-light";
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender)
+            return;
+
+        try
+        {
+            showcaseDark = await js.InvokeAsync<bool>("themeToggle.isDarkMode");
+            StateHasChanged();
+        }
+        catch (JSException)
+        {
+            // The theme script is missing, so the toggle starts from light.
+        }
+        catch (JSDisconnectedException)
+        {
+            // The circuit went away before the page became interactive.
+        }
     }
 
     /// <summary>
-    /// Resets the live build panel and plays its animation again.
+    /// Recolours the showcase. The Forms tab gives its workspace colour picker the same colour.
     /// </summary>
-    private void ReplayLiveBuild()
+    private void SelectSwatch(ShowcaseSwatch swatch) => showcaseSwatch = swatch;
+
+    // The dashboard's breadcrumb. The links stay on the page: it is a picture of an app, not a way out of this one.
+    private readonly List<BreadcrumbItem> _dashboardCrumbs =
+    [
+        new() { Label = Loc.Text("Nav_Home", "Home"), Href = "#showcase", Icon = IconEnum.House },
+        new() { Label = Loc.Text("Home_Crumb_Projects", "Projects"), Href = "#showcase", Icon = IconEnum.Folder2 },
+        new() { Label = "Atlas", Href = "#showcase", Icon = IconEnum.Box },
+        new() { Label = Loc.Text("Home_Release_Title", "Release health"), Icon = IconEnum.Rocket_Takeoff, AriaCurrent = true },
+    ];
+
+    private void ToggleShowcaseMode()
     {
-        liveBuildService = liveBuildDefaultService;
-        liveBuildRunTests = true;
-        liveBuildProgress = 40;
-        liveBuildAutoDeploy = true;
-        liveBuildDeployed = false;
-        liveBuildRun++;
+        showcaseDark = !showcaseDark;
+        showcaseModeSet = true;
     }
 
-    private string email = string.Empty;
-    private bool notificationsEnabled = true;
+    private const string chartTypeClasses =
+        "shrink-0 cursor-pointer rounded-lg px-3 py-1.5 text-sm text-gray-600 transition-colors duration-200 motion-reduce:transition-none hover:text-gray-950 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600 dark:text-gray-400 dark:hover:text-white dark:focus-visible:outline-purple-300";
 
-    private TwStepper? checkoutStepper;
-    private int checkoutStep;
+    // An inset ring: the chart type row scrolls sideways, and a ring drawn outside the button would be clipped.
+    private const string chartTypeActiveClasses =
+        "shrink-0 cursor-pointer rounded-lg bg-white px-3 py-1.5 text-sm font-medium text-purple-700 shadow-xs ring-1 ring-inset ring-purple-300 transition-colors duration-200 motion-reduce:transition-none focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-purple-600 forced-colors:underline dark:bg-gray-900 dark:text-purple-200 dark:ring-purple-400/50 dark:focus-visible:outline-purple-300";
 
-    private string signInEmail = string.Empty;
-    private string signInPassword = string.Empty;
-    private bool rememberMe = true;
+    private const string showcaseFooterButtonClasses =
+        "inline-flex min-h-9 cursor-pointer items-center gap-1.5 rounded-lg px-3 font-medium text-gray-700 transition-colors hover:bg-gray-200/70 hover:text-gray-950 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600 dark:text-gray-200 dark:hover:bg-white/10 dark:hover:text-white dark:focus-visible:outline-purple-300";
 
-    private string projectName = "Atlas";
-    private string visibility = "team";
-    private string environment = Loc.Text("Home_Env_Production", "Production");
-    private bool emailAlerts = true;
-    private bool autoDeploy;
-    private bool settingsSaved;
-
-    /// <summary>
-    /// Handles the sample settings form. It only demonstrates the controls, so it just confirms the save.
-    /// </summary>
-    private void SaveSettings() => settingsSaved = true;
-
-    private void ResetSettings()
-    {
-        projectName = "Atlas";
-        visibility = "team";
-        environment = Loc.Text("Home_Env_Production", "Production");
-        emailAlerts = true;
-        autoDeploy = false;
-        settingsSaved = false;
-    }
-
-    /// <summary>
-    /// Handles the sample sign-in form. It only demonstrates the controls, so it just clears the password.
-    /// </summary>
-    private void SignIn() => signInPassword = string.Empty;
+    /// <param name="Hex">The swatch's 600 shade, given to the Forms tab's colour picker so it matches the example.</param>
+    private sealed record ShowcaseSwatch(string Id, string Label, string SwatchClass, string ThemeClass, string Hex);
 
     private sealed record Figure(string Label, string Value);
 
     private sealed record MergeExample(string Id, string Label, string YourClass);
 
     private sealed record MergePoint(string Title, string Description);
+
+    private sealed record Stat(IconEnum Icon, string Text);
 
     private sealed record ThemingPoint(IconEnum Icon, string Title, string Description);
 }

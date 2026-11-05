@@ -14,10 +14,8 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
     [Fact]
     public void NumberInputs_UseGlobalDefaultVariant_WhenNotSet()
     {
-        // Arrange - the hour/minute number inputs used to be styled with a hardcoded
-        // transparent-background/bottom-border look, completely independent of
-        // TwInputTheme.DefaultInputVariant, so they never looked "Filled" even when that was
-        // the configured global default. They must now follow it like every other text input.
+        // Arrange - the box around each hour/minute value must follow TwInputTheme.DefaultInputVariant
+        // like every other text input; the value inside the box is borderless.
         inputTheme.DefaultInputVariant = InputVariant.Filled;
 
         // Act
@@ -27,15 +25,13 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
         var hourInput = cut.FindAll("input[type='text']")[0];
         var minuteInput = cut.FindAll("input[type='text']")[1];
         var expectedClasses = InputVariantBuilder.GetClasses(InputVariant.Filled, inputTheme);
-        Assert.Contains(expectedClasses, hourInput.GetAttribute("class"));
-        Assert.Contains(expectedClasses, minuteInput.GetAttribute("class"));
+        Assert.Contains(expectedClasses, hourInput.ParentElement!.ParentElement!.GetAttribute("class"));
+        Assert.Contains(expectedClasses, minuteInput.ParentElement!.ParentElement!.GetAttribute("class"));
 
-        // A conflicting "bg-transparent" baked into TwTimePickerTheme.NumberInput regressed once
-        // before without any test catching it, because asserting the Filled classes were merely
-        // *present* doesn't notice an extra class silently fighting them for the background - assert
+        // A conflicting "bg-transparent" on the box would silently fight the Filled background - assert
         // it's actually absent too.
-        Assert.DoesNotContain("bg-transparent", hourInput.GetAttribute("class"));
-        Assert.DoesNotContain("bg-transparent", minuteInput.GetAttribute("class"));
+        Assert.DoesNotContain("bg-transparent", hourInput.ParentElement!.ParentElement!.GetAttribute("class"));
+        Assert.DoesNotContain("bg-transparent", minuteInput.ParentElement!.ParentElement!.GetAttribute("class"));
     }
 
     [Fact]
@@ -51,7 +47,7 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
         // Assert
         var hourInput = cut.FindAll("input[type='text']")[0];
         var expectedClasses = InputVariantBuilder.GetClasses(InputVariant.Outlined, inputTheme);
-        Assert.Contains(expectedClasses, hourInput.GetAttribute("class"));
+        Assert.Contains(expectedClasses, hourInput.ParentElement!.ParentElement!.GetAttribute("class"));
     }
 
     [Fact]
@@ -68,7 +64,7 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
         // Assert
         var hourInput = cut.FindAll("input[type='text']")[0];
         var expectedClasses = InputVariantBuilder.GetClasses(InputVariant.Filled, inputTheme);
-        Assert.Contains(expectedClasses, hourInput.GetAttribute("class"));
+        Assert.Contains(expectedClasses, hourInput.ParentElement!.ParentElement!.GetAttribute("class"));
     }
 
     [Fact]
@@ -454,10 +450,10 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
         Assert.Equal(15, callbackTime.Value.Hour); // 3 PM = 15 in 24h
     }
 
-    #region AM/PM Toggle Button Tests
+    #region AM/PM Buttons Tests
 
     [Fact]
-    public void TwTimePickerBody_ShowsAmPmButton_When12HourFormat()
+    public void TwTimePickerBody_ShowsAmAndPmButtons_When12HourFormat()
     {
         // Arrange & Act
         var cut = TestContext.Render<TwTimePickerBody>(p => p
@@ -466,13 +462,12 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
         );
 
         // Assert
-        var buttons = cut.FindAll("button");
-        var amPmButton = buttons.FirstOrDefault(b => b.TextContent.Contains(Localizer.Formats.AmDesignator) || b.TextContent.Contains(Localizer.Formats.PmDesignator));
-        Assert.NotNull(amPmButton);
+        var buttons = cut.FindAll("button[aria-pressed]");
+        Assert.Equal([Localizer.Formats.AmDesignator, Localizer.Formats.PmDesignator], buttons.Select(b => b.TextContent.Trim()));
     }
 
     [Fact]
-    public void TwTimePickerBody_HidesAmPmButton_When24HourFormat()
+    public void TwTimePickerBody_HidesAmPmButtons_When24HourFormat()
     {
         // Arrange & Act
         var cut = TestContext.Render<TwTimePickerBody>(p => p
@@ -481,110 +476,142 @@ public class TwTimePickerBodyTests : TwBlazorTestBase
         );
 
         // Assert
-        var buttons = cut.FindAll("button");
-        var amPmButton = buttons.FirstOrDefault(b => b.TextContent.Contains(Localizer.Formats.AmDesignator) || b.TextContent.Contains(Localizer.Formats.PmDesignator));
-        Assert.Null(amPmButton);
+        Assert.Empty(cut.FindAll("button[aria-pressed]"));
     }
 
     [Fact]
-    public void TwTimePickerBody_AmPmButton_DisplaysAM_ForMorningHours()
+    public void TwTimePickerBody_AmIsPressed_ForMorningHours()
     {
         // Arrange & Act
         var cut = TestContext.Render<TwTimePickerBody>(p => p
             .Add(x => x.Is12HourFormat, true)
-            .Add(x => x.SelectedTime, new TimeOnly(10, 30)) // 10:30 am
+            .Add(x => x.SelectedTime, new TimeOnly(10, 30))
         );
 
         // Assert
-        var buttons = cut.FindAll("button");
-        var amPmButton = buttons.First(b => b.TextContent.Contains(Localizer.Formats.AmDesignator) || b.TextContent.Contains(Localizer.Formats.PmDesignator));
-        Assert.Contains(Localizer.Formats.AmDesignator, amPmButton.TextContent);
+        Assert.Equal(Localizer.Formats.AmDesignator, cut.Find("button[aria-pressed='true']").TextContent.Trim());
     }
 
     [Fact]
-    public void TwTimePickerBody_AmPmButton_DisplaysPM_ForAfternoonHours()
+    public void TwTimePickerBody_PmIsPressed_ForAfternoonHours()
     {
         // Arrange & Act
         var cut = TestContext.Render<TwTimePickerBody>(p => p
             .Add(x => x.Is12HourFormat, true)
-            .Add(x => x.SelectedTime, new TimeOnly(14, 30)) // 2:30 pm
+            .Add(x => x.SelectedTime, new TimeOnly(14, 30))
         );
 
         // Assert
-        var buttons = cut.FindAll("button");
-        var amPmButton = buttons.First(b => b.TextContent.Contains(Localizer.Formats.AmDesignator) || b.TextContent.Contains(Localizer.Formats.PmDesignator));
-        Assert.Contains(Localizer.Formats.PmDesignator, amPmButton.TextContent);
+        Assert.Equal(Localizer.Formats.PmDesignator, cut.Find("button[aria-pressed='true']").TextContent.Trim());
     }
 
-    [Fact]
-    public void TwTimePickerBody_ToggleAmPm_AM_To_PM()
+    [Theory]
+    [InlineData(10, 30, 22)]
+    [InlineData(14, 30, 2)]
+    [InlineData(10, 45, 22)]
+    public void TwTimePickerBody_ChoosingTheOtherPeriod_MovesTwelveHours_AndKeepsTheMinutes(int hour, int minute, int expectedHour)
     {
         // Arrange
         TimeOnly? callbackTime = null;
-        var initialTime = new TimeOnly(10, 30); // 10:30 am
-
         var cut = TestContext.Render<TwTimePickerBody>(p => p
             .Add(x => x.Is12HourFormat, true)
-            .Add(x => x.SelectedTime, initialTime)
+            .Add(x => x.SelectedTime, new TimeOnly(hour, minute))
             .Add(x => x.SelectedTimeChanged, EventCallback.Factory.Create<TimeOnly>(this, t => callbackTime = t))
         );
 
         // Act
-        var buttons = cut.FindAll("button");
-        var amPmButton = buttons.First(b => b.TextContent.Contains(Localizer.Formats.AmDesignator) || b.TextContent.Contains(Localizer.Formats.PmDesignator));
-        amPmButton.Click();
+        cut.Find("button[aria-pressed='false']").Click();
 
         // Assert
-        Assert.NotNull(callbackTime);
-        Assert.Equal(22, callbackTime.Value.Hour); // 10:30 am + 12 hours = 22:30 (10:30 pm)
-        Assert.Equal(30, callbackTime.Value.Minute);
+        Assert.Equal(new TimeOnly(expectedHour, minute), callbackTime);
     }
 
     [Fact]
-    public void TwTimePickerBody_ToggleAmPm_PM_To_AM()
+    public void TwTimePickerBody_ChoosingTheSelectedPeriod_ChangesNothing()
     {
         // Arrange
         TimeOnly? callbackTime = null;
-        var initialTime = new TimeOnly(14, 30); // 2:30 pm
-
         var cut = TestContext.Render<TwTimePickerBody>(p => p
             .Add(x => x.Is12HourFormat, true)
-            .Add(x => x.SelectedTime, initialTime)
+            .Add(x => x.SelectedTime, new TimeOnly(10, 30))
             .Add(x => x.SelectedTimeChanged, EventCallback.Factory.Create<TimeOnly>(this, t => callbackTime = t))
         );
 
         // Act
-        var buttons = cut.FindAll("button");
-        var amPmButton = buttons.First(b => b.TextContent.Contains(Localizer.Formats.AmDesignator) || b.TextContent.Contains(Localizer.Formats.PmDesignator));
-        amPmButton.Click();
+        cut.Find("button[aria-pressed='true']").Click();
 
         // Assert
-        Assert.NotNull(callbackTime);
-        Assert.Equal(2, callbackTime.Value.Hour); // 2:30 pm - 12 hours = 02:30 (2:30 am)
-        Assert.Equal(30, callbackTime.Value.Minute);
+        Assert.Null(callbackTime);
+    }
+
+    #endregion
+
+    #region Actions Tests
+
+    [Fact]
+    public void TwTimePickerBody_HidesNowAndDone_ByDefault()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwTimePickerBody>(p => p
+            .Add(x => x.SelectedTime, new TimeOnly(10, 30)));
+
+        // Assert
+        Assert.DoesNotContain(cut.FindAll("button"), b => b.TextContent.Trim() is "Now" or "Done");
     }
 
     [Fact]
-    public void TwTimePickerBody_ToggleAmPm_PreservesMinutes()
+    public void TwTimePickerBody_Now_SetsTheCurrentTime_RoundedDownToTheStep()
     {
         // Arrange
         TimeOnly? callbackTime = null;
-        var initialTime = new TimeOnly(10, 45); // 10:45 am
-
         var cut = TestContext.Render<TwTimePickerBody>(p => p
-            .Add(x => x.Is12HourFormat, true)
-            .Add(x => x.SelectedTime, initialTime)
-            .Add(x => x.SelectedTimeChanged, EventCallback.Factory.Create<TimeOnly>(this, t => callbackTime = t))
-        );
+            .Add(x => x.SelectedTime, new TimeOnly(3, 0))
+            .Add(x => x.Step, 15)
+            .Add(x => x.ShowActions, true)
+            .Add(x => x.SelectedTimeChanged, EventCallback.Factory.Create<TimeOnly>(this, t => callbackTime = t)));
+        var before = TimeOnly.FromDateTime(DateTime.Now);
 
         // Act
-        var buttons = cut.FindAll("button");
-        var amPmButton = buttons.First(b => b.TextContent.Contains(Localizer.Formats.AmDesignator) || b.TextContent.Contains(Localizer.Formats.PmDesignator));
-        amPmButton.Click();
+        cut.FindAll("button").First(b => b.TextContent.Trim() == "Now").Click();
 
         // Assert
         Assert.NotNull(callbackTime);
-        Assert.Equal(45, callbackTime.Value.Minute); // Minutes preserved
+        Assert.Equal(0, callbackTime.Value.Minute % 15);
+        Assert.Equal(0, callbackTime.Value.Second);
+        var gap = before.ToTimeSpan() - callbackTime.Value.ToTimeSpan();
+        Assert.InRange(gap.Duration(), TimeSpan.Zero, TimeSpan.FromMinutes(16));
+    }
+
+    [Fact]
+    public void TwTimePickerBody_Done_RaisesOnDone()
+    {
+        // Arrange
+        var done = false;
+        var cut = TestContext.Render<TwTimePickerBody>(p => p
+            .Add(x => x.SelectedTime, new TimeOnly(10, 30))
+            .Add(x => x.ShowActions, true)
+            .Add(x => x.OnDone, EventCallback.Factory.Create(this, () => done = true)));
+
+        // Act
+        cut.FindAll("button").First(b => b.TextContent.Trim() == "Done").Click();
+
+        // Assert
+        Assert.True(done);
+    }
+
+    [Fact]
+    public void TwTimePickerBody_LabelsEachColumn_WithoutChangingTheValuesAccessibleNames()
+    {
+        // Arrange & Act
+        var cut = TestContext.Render<TwTimePickerBody>(p => p
+            .Add(x => x.SelectedTime, new TimeOnly(10, 30)));
+
+        // Assert
+        var labels = cut.FindAll("span[aria-hidden='true']").Select(l => l.TextContent.Trim()).ToList();
+        Assert.Contains("Hour", labels);
+        Assert.Contains("Min", labels);
+        Assert.NotNull(cut.Find("input[aria-label='Hours']"));
+        Assert.NotNull(cut.Find("input[aria-label='Minutes']"));
     }
 
     #endregion

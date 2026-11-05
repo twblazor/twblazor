@@ -130,30 +130,6 @@ public sealed class ShowcaseBrand
         ]
     };
 
-    /// <summary>Gets the Apple-inspired example.</summary>
-    public static ShowcaseBrand Apple { get; } = new(AppleTheme.CreateTheme)
-    {
-        Name = "Apple",
-        Slug = "apple",
-        Summary = "Generous space and soft geometry: pill buttons, large rounded tiles, no shadows and a translucent navigation bar.",
-        CodeExample = "ShowcaseAppleTheme",
-        Swatches = ["#0071E3", "#1D1D1F", "#F5F5F7"],
-        Traits = [new("Corners", "Pills and 24px tiles"), new(elevationTrait, "None"), new("Navigation", "Translucent, blurred"), new("Type", "System font, tight headings")],
-        FontClass = "font-cupertino",
-        WordmarkClass = "text-lg",
-        LogoIcon = IconEnum.Apple,
-        LogoIconOnly = true,
-        HeroImage = $"{LocalImages}/apple-hero.jpg",
-        PageName = "AppleShowcase",
-        Products =
-        [
-            new("iPhone Air", "The thinnest iPhone ever.", "From £999", "New", IconEnum.Phone, $"{LocalImages}/iphone-air.jpg"),
-            new("iPhone 17", "Even more delightful. Even more durable.", "From £799", "iPhone", IconEnum.Phone, $"{LocalImages}/iphone-17.jpg"),
-            new("Apple Watch Ultra 3", "Personal beast.", "From £749", "Watch", IconEnum.Smartwatch, $"{LocalImages}/apple-watch-ultra-3.jpg"),
-            new("MacBook", "iPhone and Mac. Better together.", "From £999", "Mac", IconEnum.Laptop, $"{LocalImages}/macbook.jpg")
-        ]
-    };
-
     /// <summary>Gets the LEGO-inspired example.</summary>
     public static ShowcaseBrand Lego { get; } = new(LegoTheme.CreateTheme)
     {
@@ -227,7 +203,7 @@ public sealed class ShowcaseBrand
     };
 
     /// <summary>Gets every example, in the order they are listed on the site.</summary>
-    public static IReadOnlyList<ShowcaseBrand> All { get; } = [Microsoft, Apple, Lego, Tesco, Trading212];
+    public static IReadOnlyList<ShowcaseBrand> All { get; } = [Microsoft, Lego, Tesco, Trading212];
 
     /// <summary>
     /// The one-line notice shown where the examples are linked from. Each example page shows the full <see cref="Disclaimer"/>.
@@ -237,5 +213,5 @@ public sealed class ShowcaseBrand
     /// <summary>
     /// The full notice shown at the bottom of each example page.
     /// </summary>
-    public const string Disclaimer = "twblazor is not affiliated with, endorsed by or sponsored by Microsoft, Apple, the LEGO Group, Tesco or Trading 212. These are independent examples made to show what a custom theme can do, and are not those companies' websites. Product names, prices, offers and market data are illustrative, and nothing here is financial advice. Logos and pictures come from each company's own website and remain its property, and all trademarks belong to their owners.";
+    public const string Disclaimer = "twblazor is not affiliated with, endorsed by or sponsored by Microsoft, the LEGO Group, Tesco or Trading 212. These are independent examples made to show what a custom theme can do, and are not those companies' websites. Product names, prices, offers and market data are illustrative, and nothing here is financial advice. Logos and pictures come from each company's own website and remain its property, and all trademarks belong to their owners.";
 }

@@ -942,4 +942,19 @@
   <data name="Form_SummaryTitle" xml:space="preserve">
     <value>اک مسئلہ اے</value>
   </data>
+  <data name="TimePicker_HourLabel" xml:space="preserve">
+    <value>گھنٹہ</value>
+  </data>
+  <data name="TimePicker_MinuteLabel" xml:space="preserve">
+    <value>منٹ</value>
+  </data>
+  <data name="TimePicker_Period" xml:space="preserve">
+    <value>سویر یا شام</value>
+  </data>
+  <data name="TimePicker_Now" xml:space="preserve">
+    <value>ہُݨ</value>
+  </data>
+  <data name="TimePicker_Done" xml:space="preserve">
+    <value>ہو گیا</value>
+  </data>
 </root>

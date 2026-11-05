@@ -945,4 +945,19 @@
   <data name="Form_SummaryTitle" xml:space="preserve">
     <value>問題があります</value>
   </data>
+  <data name="TimePicker_HourLabel" xml:space="preserve">
+    <value>時</value>
+  </data>
+  <data name="TimePicker_MinuteLabel" xml:space="preserve">
+    <value>分</value>
+  </data>
+  <data name="TimePicker_Period" xml:space="preserve">
+    <value>午前または午後</value>
+  </data>
+  <data name="TimePicker_Now" xml:space="preserve">
+    <value>現在</value>
+  </data>
+  <data name="TimePicker_Done" xml:space="preserve">
+    <value>完了</value>
+  </data>
 </root>

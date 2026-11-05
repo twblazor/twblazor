@@ -95,7 +95,7 @@
     <value>실제로 확인하기</value>
   </data>
   <data name="Home_Case_Heading" xml:space="preserve">
-    <value>잘 알려진 다섯 가지 스타일, 하나의 컴포넌트 라이브러리</value>
+    <value>잘 알려진 스타일, 하나의 컴포넌트 라이브러리</value>
   </data>
   <data name="Home_Case_Inspired" xml:space="preserve">
     <value>{0}&lt;span class=&quot;font-normal text-purple-200&quot;&gt; 스타일&lt;/span&gt;</value>
@@ -223,29 +223,8 @@
   <data name="Home_Failed" xml:space="preserve">
     <value>실패</value>
   </data>
-  <data name="Home_Feature_A11y_Body" xml:space="preserve">
-    <value>ARIA와 키보드 지원이 기본 내장.</value>
-  </data>
-  <data name="Home_Feature_A11y_Title" xml:space="preserve">
-    <value>접근성</value>
-  </data>
   <data name="Home_Feature_Composable_Body" xml:space="preserve">
     <value>평범한 Blazor 매개변수. 놀랄 일이 없습니다.</value>
-  </data>
-  <data name="Home_Feature_Composable_Title" xml:space="preserve">
-    <value>조합 가능</value>
-  </data>
-  <data name="Home_Feature_Custom_Body" xml:space="preserve">
-    <value>라이트 모드와 다크 모드에서 모두 우리 브랜드 그대로.</value>
-  </data>
-  <data name="Home_Feature_Custom_Title" xml:space="preserve">
-    <value>완전한 맞춤 설정</value>
-  </data>
-  <data name="Home_Feature_Fast_Body" xml:space="preserve">
-    <value>바로 출시할 수 있는 25개 이상의 컴포넌트.</value>
-  </data>
-  <data name="Home_Feature_Fast_Title" xml:space="preserve">
-    <value>빠른 개발</value>
   </data>
   <data name="Home_Features_HeadingFull" xml:space="preserve">
     <value>다음 프로젝트에 딱: {0} 또는 {1}.</value>
@@ -405,18 +384,6 @@
   </data>
   <data name="Home_Lang_zhHant" xml:space="preserve">
     <value>중국어(번체)</value>
-  </data>
-  <data name="Home_Live_Caption" xml:space="preserve">
-    <value>twblazor 마크업 여섯 줄과 그것이 그려 내는 실시간 컴포넌트.</value>
-  </data>
-  <data name="Home_Live_Rendered" xml:space="preserve">
-    <value>컴포넌트 6개 렌더링됨</value>
-  </data>
-  <data name="Home_Live_Replay" xml:space="preserve">
-    <value>다시 재생</value>
-  </data>
-  <data name="Home_Live_ReplayTarget" xml:space="preserve">
-    <value>실시간 빌드</value>
   </data>
   <data name="Home_Loc_Badge" xml:space="preserve">
     <value>{0}개 언어 기본 내장</value>
@@ -822,5 +789,278 @@
   </data>
   <data name="Nav_WhyTwBlazor" xml:space="preserve">
     <value>왜 twblazor인가요?</value>
+  </data>
+  <data name="Nav_Menu_Components" xml:space="preserve">
+    <value>컴포넌트</value>
+  </data>
+  <data name="Nav_Menu_Description" xml:space="preserve">
+    <value>Blazor를 위한 접근성 높고 테마 지정 가능한 구성 요소.</value>
+  </data>
+  <data name="Nav_Menu_Search" xml:space="preserve">
+    <value>컴포넌트 {0}개 검색</value>
+  </data>
+  <data name="Nav_Menu_Count" xml:space="preserve">
+    <value>컴포넌트 {0}개</value>
+  </data>
+  <data name="Nav_Menu_CountOne" xml:space="preserve">
+    <value>컴포넌트 1개</value>
+  </data>
+  <data name="Nav_Menu_NoMatch" xml:space="preserve">
+    <value>검색과 일치하는 컴포넌트가 없습니다.</value>
+  </data>
+  <data name="Nav_Menu_Back" xml:space="preserve">
+    <value>모든 카테고리</value>
+  </data>
+  <data name="Home_Showcase_Tabs" xml:space="preserve">
+    <value>예제</value>
+  </data>
+  <data name="Home_Showcase_Theme" xml:space="preserve">
+    <value>예제 색상</value>
+  </data>
+  <data name="Home_Showcase_Light" xml:space="preserve">
+    <value>예제를 라이트 모드로 보기</value>
+  </data>
+  <data name="Home_Showcase_Dark" xml:space="preserve">
+    <value>예제를 다크 모드로 보기</value>
+  </data>
+  <data name="Home_Showcase_ChartTypes" xml:space="preserve">
+    <value>차트 유형</value>
+  </data>
+  <data name="Home_Showcase_Docs" xml:space="preserve">
+    <value>문서 열기</value>
+  </data>
+  <data name="Home_Showcase_Dashboard_Desc" xml:space="preserve">
+    <value>대시보드에 바로 쓰는 알림, 수치, 차트.</value>
+  </data>
+  <data name="Home_Showcase_Charts_Desc" xml:space="preserve">
+    <value>{0}가지 이상의 차트, 하나의 일관된 모양. 여기서 아홉 가지를 사용해 보세요.</value>
+  </data>
+  <data name="Home_Showcase_Purple" xml:space="preserve">
+    <value>보라</value>
+  </data>
+  <data name="Home_Showcase_Blue" xml:space="preserve">
+    <value>파랑</value>
+  </data>
+  <data name="Home_Showcase_Green" xml:space="preserve">
+    <value>초록</value>
+  </data>
+  <data name="Home_Showcase_Orange" xml:space="preserve">
+    <value>주황</value>
+  </data>
+  <data name="Home_Showcase_DashboardTab" xml:space="preserve">
+    <value>대시보드</value>
+  </data>
+  <data name="Home_Showcase_Forms_Desc" xml:space="preserve">
+    <value>같은 입력 요소로 만든 로그인, 결제, 설정 폼.</value>
+  </data>
+  <data name="Home_Form_SignInSub" xml:space="preserve">
+    <value>다시 오신 것을 환영합니다. 로그인해 계속하세요.</value>
+  </data>
+  <data name="Home_Db_Title" xml:space="preserve">
+    <value>데이터베이스 만들기</value>
+  </data>
+  <data name="Home_Db_Sub" xml:space="preserve">
+    <value>요금제와 리전을 선택하세요.</value>
+  </data>
+  <data name="Home_Db_Plan" xml:space="preserve">
+    <value>요금제</value>
+  </data>
+  <data name="Home_Db_Region" xml:space="preserve">
+    <value>리전</value>
+  </data>
+  <data name="Home_Db_Storage" xml:space="preserve">
+    <value>스토리지</value>
+  </data>
+  <data name="Home_Db_Cost" xml:space="preserve">
+    <value>예상 비용</value>
+  </data>
+  <data name="Home_Db_PerMonth" xml:space="preserve">
+    <value>월 {0}</value>
+  </data>
+  <data name="Home_Db_Create" xml:space="preserve">
+    <value>만들기</value>
+  </data>
+  <data name="Home_Db_Created" xml:space="preserve">
+    <value>생성됨</value>
+  </data>
+  <data name="Home_Meet_Title" xml:space="preserve">
+    <value>통화 예약</value>
+  </data>
+  <data name="Home_Meet_Sub" xml:space="preserve">
+    <value>편한 시간을 찾아보세요.</value>
+  </data>
+  <data name="Home_Meet_Date" xml:space="preserve">
+    <value>날짜</value>
+  </data>
+  <data name="Home_Meet_Time" xml:space="preserve">
+    <value>시간</value>
+  </data>
+  <data name="Home_Meet_Duration" xml:space="preserve">
+    <value>길이</value>
+  </data>
+  <data name="Home_Meet_Reminder" xml:space="preserve">
+    <value>이메일로 알림 받기</value>
+  </data>
+  <data name="Home_Meet_Book" xml:space="preserve">
+    <value>예약하기</value>
+  </data>
+  <data name="Home_Meet_Booked" xml:space="preserve">
+    <value>예약됨</value>
+  </data>
+  <data name="Home_Meet_Minutes" xml:space="preserve">
+    <value>{0}분</value>
+  </data>
+  <data name="Home_Pay_Title" xml:space="preserve">
+    <value>Pro로 업그레이드</value>
+  </data>
+  <data name="Home_Pay_Sub" xml:space="preserve">
+    <value>매월 청구됩니다. 언제든 해지할 수 있습니다.</value>
+  </data>
+  <data name="Home_Pay_Seats" xml:space="preserve">
+    <value>좌석</value>
+  </data>
+  <data name="Home_Pay_Card" xml:space="preserve">
+    <value>카드 번호</value>
+  </data>
+  <data name="Home_Pay_Expiry" xml:space="preserve">
+    <value>유효 기간</value>
+  </data>
+  <data name="Home_Pay_Cvc" xml:space="preserve">
+    <value>CVC</value>
+  </data>
+  <data name="Home_Pay_Total" xml:space="preserve">
+    <value>합계</value>
+  </data>
+  <data name="Home_Pay_Button" xml:space="preserve">
+    <value>{0} 결제</value>
+  </data>
+  <data name="Home_Pay_Paid" xml:space="preserve">
+    <value>결제됨</value>
+  </data>
+  <data name="Home_Ws_Title" xml:space="preserve">
+    <value>워크스페이스 설정</value>
+  </data>
+  <data name="Home_Ws_Sub" xml:space="preserve">
+    <value>브랜드에 맞게 꾸며 보세요.</value>
+  </data>
+  <data name="Home_Ws_Name" xml:space="preserve">
+    <value>워크스페이스 이름</value>
+  </data>
+  <data name="Home_Ws_Colour" xml:space="preserve">
+    <value>브랜드 색상</value>
+  </data>
+  <data name="Home_Ws_Logo" xml:space="preserve">
+    <value>로고 업로드</value>
+  </data>
+  <data name="Home_Ws_LogoHint" xml:space="preserve">
+    <value>PNG 또는 SVG, 최대 2MB.</value>
+  </data>
+  <data name="Home_Ws_Create" xml:space="preserve">
+    <value>워크스페이스 만들기</value>
+  </data>
+  <data name="Home_Ws_Created" xml:space="preserve">
+    <value>워크스페이스가 생성됨</value>
+  </data>
+  <data name="Home_Review_Title" xml:space="preserve">
+    <value>리뷰 남기기</value>
+  </data>
+  <data name="Home_Review_Sub" xml:space="preserve">
+    <value>어땠는지 알려 주세요.</value>
+  </data>
+  <data name="Home_Review_Rating" xml:space="preserve">
+    <value>내 평점</value>
+  </data>
+  <data name="Home_Review_Tags" xml:space="preserve">
+    <value>무엇이 좋았나요?</value>
+  </data>
+  <data name="Home_Review_Tag_Speed" xml:space="preserve">
+    <value>속도</value>
+  </data>
+  <data name="Home_Review_Tag_Docs" xml:space="preserve">
+    <value>문서</value>
+  </data>
+  <data name="Home_Review_Tag_Support" xml:space="preserve">
+    <value>지원</value>
+  </data>
+  <data name="Home_Review_Tag_Design" xml:space="preserve">
+    <value>디자인</value>
+  </data>
+  <data name="Home_Review_Tag_Price" xml:space="preserve">
+    <value>가격</value>
+  </data>
+  <data name="Home_Review_Submit" xml:space="preserve">
+    <value>리뷰 보내기</value>
+  </data>
+  <data name="Home_Review_Thanks" xml:space="preserve">
+    <value>리뷰를 남겨 주셔서 감사합니다.</value>
+  </data>
+  <data name="Home_Crumb_Projects" xml:space="preserve">
+    <value>프로젝트</value>
+  </data>
+  <data name="Home_Stats_Label" xml:space="preserve">
+    <value>한눈에 보는 twblazor</value>
+  </data>
+  <data name="Home_Stats_Components" xml:space="preserve">
+    <value>컴포넌트 {0}개 이상</value>
+  </data>
+  <data name="Home_Stats_Charts" xml:space="preserve">
+    <value>차트 유형 {0}개 이상</value>
+  </data>
+  <data name="Home_Stats_Accessible" xml:space="preserve">
+    <value>키보드와 스크린 리더 지원</value>
+  </data>
+  <data name="Home_Stats_Languages" xml:space="preserve">
+    <value>{0}개 언어</value>
+  </data>
+  <data name="Home_Stats_Mit" xml:space="preserve">
+    <value>무료, MIT 라이선스</value>
+  </data>
+  <data name="Home_A11y_Badge" xml:space="preserve">
+    <value>기본으로 접근성 제공</value>
+  </data>
+  <data name="Home_A11y_HeadingLead" xml:space="preserve">
+    <value>모두를 위해 만들었습니다,</value>
+  </data>
+  <data name="Home_A11y_HeadingAccent" xml:space="preserve">
+    <value>키보드부터 스크린 리더까지</value>
+  </data>
+  <data name="Home_A11y_Sub" xml:space="preserve">
+    <value>모든 컴포넌트가 WAI-ARIA 패턴을 따르므로 누구나 자기 방식대로 앱을 쓸 수 있습니다. 따로 켤 것이 없습니다.</value>
+  </data>
+  <data name="Home_A11y_Keyboard_Title" xml:space="preserve">
+    <value>키보드 우선</value>
+  </data>
+  <data name="Home_A11y_Keyboard_Body" xml:space="preserve">
+    <value>Tab, 화살표 키, Home, End, Escape가 WAI-ARIA 설명대로 모든 컴포넌트에서 동작합니다.</value>
+  </data>
+  <data name="Home_A11y_Reader_Title" xml:space="preserve">
+    <value>스크린 리더 지원</value>
+  </data>
+  <data name="Home_A11y_Reader_Body" xml:space="preserve">
+    <value>역할, 이름, 실시간 알림을 함께 제공되는 모든 언어로 번역했습니다.</value>
+  </data>
+  <data name="Home_A11y_Focus_Title" xml:space="preserve">
+    <value>눈에 보이는 포커스</value>
+  </data>
+  <data name="Home_A11y_Focus_Body" xml:space="preserve">
+    <value>모든 컨트롤에 선명한 포커스 링을 표시하고, 팝업이 닫히면 포커스가 제자리로 돌아갑니다.</value>
+  </data>
+  <data name="Home_A11y_Motion_Title" xml:space="preserve">
+    <value>요청하면 차분하게</value>
+  </data>
+  <data name="Home_A11y_Motion_Body" xml:space="preserve">
+    <value>시스템이 동작 줄이기를 요청하면 애니메이션이 멈춥니다.</value>
+  </data>
+  <data name="Home_A11y_Contrast_Title" xml:space="preserve">
+    <value>고대비 모드</value>
+  </data>
+  <data name="Home_A11y_Contrast_Body" xml:space="preserve">
+    <value>Windows 고대비 색상을 존중해 상태가 계속 보입니다.</value>
+  </data>
+  <data name="Home_A11y_Tested_Title" xml:space="preserve">
+    <value>axe-core로 테스트</value>
+  </data>
+  <data name="Home_A11y_Tested_Body" xml:space="preserve">
+    <value>모든 문서 페이지를 테스트에서 접근성 문제가 있는지 검사합니다.</value>
   </data>
 </root>

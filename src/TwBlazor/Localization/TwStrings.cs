@@ -876,6 +876,21 @@ public static class TwStrings
     /// <summary>The key for "{0}, switch to {1}".</summary>
     public const string TimePicker_SwitchPeriod = "TimePicker_SwitchPeriod";
 
+    /// <summary>The key for "Hour", the short label above the hours.</summary>
+    public const string TimePicker_HourLabel = "TimePicker_HourLabel";
+
+    /// <summary>The key for "Min", the short label above the minutes.</summary>
+    public const string TimePicker_MinuteLabel = "TimePicker_MinuteLabel";
+
+    /// <summary>The key for "AM or PM", the name of the pair of AM and PM buttons.</summary>
+    public const string TimePicker_Period = "TimePicker_Period";
+
+    /// <summary>The key for "Now", the button that sets the current time.</summary>
+    public const string TimePicker_Now = "TimePicker_Now";
+
+    /// <summary>The key for "Done", the button that closes the time picker.</summary>
+    public const string TimePicker_Done = "TimePicker_Done";
+
     /// <summary>The key for "Open time range picker".</summary>
     public const string TimeRangePicker_Open = "TimeRangePicker_Open";
 

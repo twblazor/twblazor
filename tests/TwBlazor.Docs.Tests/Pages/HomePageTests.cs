@@ -34,28 +34,9 @@ public class HomePageTests : DocsTestBase
 
         // Assert
         var bars = page.FindAll("[data-stage] [aria-hidden='true'].border-b");
-        Assert.Equal(["Deploy.razor", "Theme.cs", "Terminal and Home.razor"], bars.Select(bar => bar.QuerySelector(".truncate")!.TextContent));
+        Assert.Equal(["Theme.cs", "Terminal and Home.razor"], bars.Select(bar => bar.QuerySelector(".truncate")!.TextContent));
         Assert.All(bars, bar => Assert.Equal(3, bar.QuerySelectorAll(".w-10").Length));
         Assert.Empty(page.FindAll("[data-stage] .bg-red-400\\/80"));
-    }
-
-    [Fact]
-    public void LiveBuild_TypesSixLines_AndPopsEachComponentInAWrapperThatHugsIt()
-    {
-        // Arrange & Act
-        var page = TestContext.Render<Home>();
-
-        // Assert
-        var stage = page.Find("figure[aria-labelledby='live-build-caption'] [data-stage]");
-        Assert.Equal(6, stage.QuerySelectorAll(".stage-line").Length);
-
-        var pops = stage.QuerySelectorAll(".stage-pop");
-        Assert.Equal(6, pops.Length);
-        Assert.All(pops, pop => Assert.Contains("grid", pop.ClassList));
-        Assert.NotNull(stage.QuerySelector("#live-build-service"));
-        Assert.NotNull(stage.QuerySelector("#live-build-tests"));
-        Assert.NotNull(stage.QuerySelector("#live-build-auto-deploy"));
-        Assert.Contains("6 components rendered", stage.QuerySelector(".stage-done")!.TextContent);
     }
 
     [Fact]
@@ -73,16 +54,6 @@ public class HomePageTests : DocsTestBase
         var changes = stage.QuerySelectorAll("#theme-build-changes > li.stage-pop");
         Assert.Equal(["Corners: full", "Shadow: large", "Colour: pink"], changes.Select(change => change.TextContent.Trim()));
         Assert.Equal(stage.QuerySelectorAll(".stage-line").Length, changes.Length);
-    }
-
-    [Fact]
-    public void FeatureCards_HaveShortOneLineTitles()
-    {
-        // Arrange & Act
-        var page = TestContext.Render<Home>();
-
-        // Assert
-        Assert.Equal(["Fast to build", "Fully customisable", "Composable", "Accessible"], page.FindAll("section[aria-labelledby='features-heading'] h3").Select(h => h.TextContent.Trim()));
     }
 
     [Fact]
@@ -279,5 +250,164 @@ public class HomePageTests : DocsTestBase
         Assert.Equal(replaced.Select(name => $"Replaced: {name}"), page.FindAll("section[aria-labelledby='merge-heading'] del").Select(del => del.TextContent));
         Assert.Equal("true", page.Find($"#merge-example-{id}").GetAttribute("aria-pressed"));
         Assert.Equal("false", page.Find("#merge-example-padding").GetAttribute("aria-pressed"));
+    }
+
+    [Fact]
+    public void Showcase_SitsInTheHero_UnderTheInstallCommand_InPlaceOfTheLiveBuild()
+    {
+        // Arrange & Act
+        var page = TestContext.Render<Home>();
+
+        // Assert
+        var hero = page.Find("section");
+        Assert.NotNull(hero.QuerySelector("#showcase"));
+        Assert.Empty(page.FindAll("#live-build-caption"));
+        Assert.True(hero.InnerHtml.IndexOf("Install", StringComparison.Ordinal) < hero.InnerHtml.IndexOf("id=\"showcase\"", StringComparison.Ordinal));
+    }
+
+    [Fact]
+    public void Showcase_HasFormsDashboardAndChartsTabs_InAScrollableTabBar()
+    {
+        // Arrange & Act
+        var page = TestContext.Render<Home>();
+
+        // Assert
+        var tabs = page.FindAll("#showcase [role='tab']");
+        Assert.Equal(["showcase-tab-forms", "showcase-tab-dashboard", "showcase-tab-charts"], tabs.Select(tab => tab.Id));
+        Assert.Equal("true", tabs[0].GetAttribute("aria-selected"));
+        Assert.Equal(2, page.FindAll("#showcase [data-tw-tabs-scroll]").Count);
+        Assert.Equal("/form", page.Find("#showcase-docs").GetAttribute("href"));
+    }
+
+    [Fact]
+    public void Showcase_FormsTab_GroupsSeveralFormsInOnePanel()
+    {
+        // Arrange
+        var page = TestContext.Render<Home>();
+
+        // Act
+        page.Find("#showcase-tab-forms").Click();
+
+        // Assert
+        var panel = page.Find("#showcase [role='tabpanel']");
+        Assert.True(panel.QuerySelectorAll("form").Length >= 4);
+        Assert.NotNull(panel.QuerySelector("#showcase-call-date"));
+        Assert.Contains("Create a database", panel.TextContent);
+        Assert.NotNull(panel.QuerySelector("#showcase-pay-card"));
+        Assert.NotNull(panel.QuerySelector("#showcase-pay-seats"));
+        Assert.NotNull(panel.QuerySelector("#showcase-ws-colour"));
+        Assert.NotNull(panel.QuerySelector("#showcase-ws-logo"));
+        Assert.NotNull(panel.QuerySelector("#showcase-review-rating"));
+        Assert.NotNull(panel.QuerySelector("#showcase-review-tags"));
+        Assert.Equal("/form", page.Find("#showcase-docs").GetAttribute("href"));
+    }
+
+    [Fact]
+    public void Showcase_ChartsTab_SwitchesChartType_AndLinksToThatChartsDocs()
+    {
+        // Arrange
+        var page = TestContext.Render<Home>();
+        page.Find("#showcase-tab-charts").Click();
+
+        // Act
+        page.Find("#showcase-chart-funnel").Click();
+
+        // Assert
+        Assert.Equal("true", page.Find("#showcase-chart-funnel").GetAttribute("aria-pressed"));
+        Assert.Contains("50+ chart types", page.Find("#showcase [role='tabpanel']").TextContent);
+        Assert.Equal("/chart/funnel", page.Find("#showcase-docs").GetAttribute("href"));
+    }
+
+    [Fact]
+    public void Showcase_ColourAndModeControls_RestyleOnlyTheShowcase()
+    {
+        // Arrange
+        var page = TestContext.Render<Home>();
+
+        // Act
+        page.FindAll("#showcase input[name='showcase-colour']")[1].Change(true);
+        page.Find("#showcase-mode").Click();
+
+        // Assert
+        var frame = page.Find("#showcase");
+        Assert.Contains("showcase-blue", frame.ClassList);
+        Assert.Contains("dark", frame.ClassList);
+        Assert.DoesNotContain("overflow-hidden", frame.ClassList);
+    }
+
+    [Fact]
+    public void Showcase_ExampleColour_SetsTheWorkspaceColourPickerToMatch()
+    {
+        // Arrange
+        var page = TestContext.Render<Home>();
+
+        // Act
+        page.FindAll("#showcase input[name='showcase-colour']")[3].Change(true);
+
+        // Assert
+        Assert.Contains("#ea580c", page.Find("#showcase").InnerHtml, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
+    public void Showcase_Dashboard_ShowsABreadcrumbBesideTheBadge_AndTheAlertBelow()
+    {
+        // Arrange
+        var page = TestContext.Render<Home>();
+
+        // Act
+        page.Find("#showcase-tab-dashboard").Click();
+
+        // Assert
+        var breadcrumb = page.Find("#showcase-breadcrumb");
+        Assert.Equal("page", breadcrumb.QuerySelector("[aria-current]")!.GetAttribute("aria-current"));
+        Assert.Contains("Release health", breadcrumb.TextContent);
+        var row = breadcrumb.ParentElement!;
+        Assert.Contains("v2.4.0", row.TextContent);
+        Assert.Contains("Storage nearing capacity.", row.NextElementSibling!.TextContent);
+    }
+
+    [Fact]
+    public void Showcase_IsHeadedByTheCyclingHeading_UnderRealComponentsReadyForYourApp()
+    {
+        // Arrange & Act
+        var page = TestContext.Render<Home>();
+
+        // Assert
+        var heading = page.Find("#examples-heading");
+        Assert.Contains("Built for your next", heading.TextContent);
+        Assert.NotNull(heading.QuerySelector(".word-cycle"));
+        Assert.Equal("Real components. Ready for your app.", heading.PreviousElementSibling!.TextContent.Trim());
+        Assert.NotNull(page.Find("#word-cycle-toggle"));
+        Assert.Empty(page.FindAll("#features-heading"));
+    }
+
+    [Fact]
+    public void Stats_CountTheComponentsAndChartTypes_FromTheCatalog()
+    {
+        // Arrange
+        var leaves = ComponentCatalog.LoadLeafEntries().Where(leaf => leaf.Entry.Url != "/chart").ToList();
+
+        // Act
+        var page = TestContext.Render<Home>();
+
+        // Assert
+        var stats = page.Find("ul[aria-label='twblazor at a glance']").TextContent;
+        Assert.Contains($"{leaves.Count / 10 * 10}+ components", stats);
+        Assert.Contains($"{leaves.Count(leaf => leaf.Category == "Charts") / 10 * 10}+ chart types", stats);
+        Assert.Contains("25 languages", stats);
+        Assert.DoesNotContain("25+ components", page.Markup);
+    }
+
+    [Fact]
+    public void Accessibility_HasItsOwnSection_WithSixPoints()
+    {
+        // Arrange & Act
+        var page = TestContext.Render<Home>();
+
+        // Assert
+        var section = page.Find("section[aria-labelledby='accessibility-heading']");
+        Assert.Contains("Built for everyone", section.QuerySelector("h2")!.TextContent);
+        Assert.Equal(6, section.QuerySelectorAll("li").Length);
+        Assert.Contains("Tested with axe-core", section.TextContent);
     }
 }

@@ -32,6 +32,13 @@ public partial class TwTabContainer : TwBlazorComponentBase, IAsyncDisposable
     private bool keydownGuardRegistered;
 
     /// <summary>
+    /// The wrapper around a scrollable tablist and its scroll buttons, handed to the script that shows the buttons.
+    /// </summary>
+    private ElementReference scrollContainerElement;
+
+    private bool scrollRegistered;
+
+    /// <summary>
     /// Gets or sets a reference to the tabs element in the user interface.
     /// </summary>
     /// <remarks>This property enables direct interaction with the underlying tabs element, such as for
@@ -94,6 +101,29 @@ public partial class TwTabContainer : TwBlazorComponentBase, IAsyncDisposable
     /// plain text or form fields.</remarks>
     [Parameter] public bool Container { get; set; }
 
+    /// <summary>
+    /// Gets or sets whether the tabs stay on one line and scroll sideways when they do not fit, instead of
+    /// wrapping onto more lines.
+    /// </summary>
+    /// <remarks>While some tabs are out of view, a button at that end of the tablist scrolls them in. The buttons
+    /// are for pointers only: the arrow keys already move between the tabs and bring the focused one into view.
+    /// </remarks>
+    [Parameter] public bool Scrollable { get; set; }
+
+    /// <summary>
+    /// Gets or sets content shown at the end of the tab bar, after the tabs, such as filters or actions that apply
+    /// to every tab.
+    /// </summary>
+    /// <remarks>It sits outside the tablist, so its controls are reached with the Tab key as usual.</remarks>
+    [Parameter] public RenderFragment? TabBarContent { get; set; }
+
+    /// <summary>
+    /// Gets or sets additional CSS classes for the tab bar, which holds the tablist and
+    /// <see cref="TabBarContent"/>. The bar is only rendered when <see cref="Scrollable"/> or
+    /// <see cref="TabBarContent"/> is set.
+    /// </summary>
+    [Parameter] public string? TabBarClass { get; set; }
+
     private readonly List<TwTab> _tabs = [];
 
     public TwTab? ActiveTab { get; private set; }
@@ -104,8 +134,19 @@ public partial class TwTabContainer : TwBlazorComponentBase, IAsyncDisposable
         ? new ClassBuilder(theme.TabListContainer)
             .AddClass(theme.Background, !TransparentContainer)
             .AddClass($"{roundedBuilder.GetRoundedTop(options.Theme.Rounded.DefaultRounded)}")
+            .AddClass(theme.ScrollableTabList, Scrollable)
             .AddClass(TabContainerClass ?? string.Empty).Build()
-        : new ClassBuilder(theme.IsolatedTabListContainer).AddClass(TabContainerClass ?? string.Empty).Build();
+        : new ClassBuilder(theme.IsolatedTabListContainer)
+            .AddClass(theme.ScrollableTabList, Scrollable)
+            .AddClass(TabContainerClass ?? string.Empty).Build();
+
+    private bool hasTabBar => Scrollable || TabBarContent is not null;
+
+    private string tabBarClasses => new ClassBuilder(theme.TabBar).AddClass(TabBarClass ?? string.Empty).Build();
+
+    private string scrollButtonStartClasses => new ClassBuilder(theme.ScrollButton).AddClass(theme.ScrollButtonStart).Build();
+
+    private string scrollButtonEndClasses => new ClassBuilder(theme.ScrollButton).AddClass(theme.ScrollButtonEnd).Build();
 
     private string containerClasses => Container
         ? new ClassBuilder(theme.PanelContainer)
@@ -212,21 +253,42 @@ public partial class TwTabContainer : TwBlazorComponentBase, IAsyncDisposable
                 // The circuit disconnected before the script could run; nothing to register.
             }
         }
+
+        if (Scrollable && !scrollRegistered)
+        {
+            try
+            {
+                await jSRuntime.InvokeVoidAsync("twTabs.registerScroll", scrollContainerElement);
+                scrollRegistered = true;
+            }
+            catch (JSDisconnectedException)
+            {
+                // The circuit disconnected before the script could run; the buttons stay hidden.
+            }
+        }
     }
 
     /// <summary>
-    /// Releases the JS-side keydown guard registered for this tablist.
+    /// Releases the JS-side keydown guard and scroll buttons registered for this tablist.
     /// </summary>
     public async ValueTask DisposeAsync()
     {
-        if (!keydownGuardRegistered)
+        if (!keydownGuardRegistered && !scrollRegistered)
         {
             return;
         }
 
         try
         {
-            await jSRuntime.InvokeVoidAsync("twTabs.unregisterKeydownGuard", tablistElement);
+            if (keydownGuardRegistered)
+            {
+                await jSRuntime.InvokeVoidAsync("twTabs.unregisterKeydownGuard", tablistElement);
+            }
+
+            if (scrollRegistered)
+            {
+                await jSRuntime.InvokeVoidAsync("twTabs.unregisterScroll", scrollContainerElement);
+            }
         }
         catch (JSDisconnectedException)
         {
