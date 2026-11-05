@@ -1904,6 +1904,109 @@ describe('twTabs', () => {
             expect(removeSpy).not.toHaveBeenCalled();
         });
     });
+
+    describe('registerScroll / unregisterScroll', () => {
+        // jsdom has no layout, so each test sets the sizes the script reads.
+        function build({ scrollWidth, clientWidth, scrollLeft = 0, dir }) {
+            const container = document.createElement('div');
+            container.innerHTML = '<button data-tw-tabs-scroll="start" hidden></button><div role="tablist"><button role="tab">A</button></div><button data-tw-tabs-scroll="end" hidden></button>';
+            if (dir) container.setAttribute('dir', dir);
+            document.body.appendChild(container);
+            const list = container.querySelector('[role="tablist"]');
+            if (dir) list.style.direction = dir;
+            Object.defineProperty(list, 'scrollWidth', { configurable: true, value: scrollWidth });
+            Object.defineProperty(list, 'clientWidth', { configurable: true, value: clientWidth });
+            list.scrollLeft = scrollLeft;
+            list.scrollBy = vi.fn();
+            return {
+                container,
+                list,
+                start: container.querySelector('[data-tw-tabs-scroll="start"]'),
+                end: container.querySelector('[data-tw-tabs-scroll="end"]'),
+            };
+        }
+
+        afterEach(() => {
+            vi.restoreAllMocks();
+        });
+
+        test('does nothing without a container or a tablist', () => {
+            expect(() => window.twTabs.registerScroll(null)).not.toThrow();
+            expect(() => window.twTabs.registerScroll(document.createElement('div'))).not.toThrow();
+        });
+
+        test('keeps both buttons hidden when the tabs fit', () => {
+            const { container, start, end } = build({ scrollWidth: 300, clientWidth: 300 });
+
+            window.twTabs.registerScroll(container);
+
+            expect(start.hidden).toBe(true);
+            expect(end.hidden).toBe(true);
+        });
+
+        test('shows only the end button at the start of an overflowing tablist', () => {
+            const { container, start, end } = build({ scrollWidth: 600, clientWidth: 300 });
+
+            window.twTabs.registerScroll(container);
+
+            expect(start.hidden).toBe(true);
+            expect(end.hidden).toBe(false);
+        });
+
+        test('shows the start button once scrolled, and hides the end button at the end', () => {
+            const { container, list, start, end } = build({ scrollWidth: 600, clientWidth: 300 });
+            window.twTabs.registerScroll(container);
+
+            list.scrollLeft = 300;
+            list.dispatchEvent(new Event('scroll'));
+
+            expect(start.hidden).toBe(false);
+            expect(end.hidden).toBe(true);
+        });
+
+        test('measures from the start in a right to left tablist, where scrollLeft is negative', () => {
+            const { container, list, start, end } = build({ scrollWidth: 600, clientWidth: 300, dir: 'rtl' });
+            window.twTabs.registerScroll(container);
+
+            list.scrollLeft = -150;
+            list.dispatchEvent(new Event('scroll'));
+
+            expect(start.hidden).toBe(false);
+            expect(end.hidden).toBe(false);
+        });
+
+        test('the end button scrolls toward the end, and the start button back', () => {
+            const { container, list, start, end } = build({ scrollWidth: 600, clientWidth: 400 });
+            window.twTabs.registerScroll(container);
+
+            end.click();
+            start.click();
+
+            expect(list.scrollBy.mock.calls[0][0].left).toBe(300);
+            expect(list.scrollBy.mock.calls[1][0].left).toBe(-300);
+        });
+
+        test('reverses the scroll direction in a right to left tablist', () => {
+            const { container, list, end } = build({ scrollWidth: 600, clientWidth: 400, dir: 'rtl' });
+            window.twTabs.registerScroll(container);
+
+            end.click();
+
+            expect(list.scrollBy.mock.calls[0][0].left).toBe(-300);
+        });
+
+        test('unregisterScroll removes the listeners', () => {
+            const { container, list, end } = build({ scrollWidth: 600, clientWidth: 400 });
+            window.twTabs.registerScroll(container);
+
+            window.twTabs.unregisterScroll(container);
+            end.click();
+
+            expect(list.scrollBy).not.toHaveBeenCalled();
+            expect(container.__twTabsScroll).toBeUndefined();
+            expect(() => window.twTabs.unregisterScroll(container)).not.toThrow();
+        });
+    });
 });
 
 describe('twSidebar', () => {

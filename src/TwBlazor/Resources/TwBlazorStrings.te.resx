@@ -939,4 +939,19 @@
   <data name="Form_SummaryTitle" xml:space="preserve">
     <value>ఒక సమస్య ఉంది</value>
   </data>
+  <data name="TimePicker_HourLabel" xml:space="preserve">
+    <value>గంట</value>
+  </data>
+  <data name="TimePicker_MinuteLabel" xml:space="preserve">
+    <value>నిమి</value>
+  </data>
+  <data name="TimePicker_Period" xml:space="preserve">
+    <value>AM లేదా PM</value>
+  </data>
+  <data name="TimePicker_Now" xml:space="preserve">
+    <value>ఇప్పుడు</value>
+  </data>
+  <data name="TimePicker_Done" xml:space="preserve">
+    <value>పూర్తయింది</value>
+  </data>
 </root>

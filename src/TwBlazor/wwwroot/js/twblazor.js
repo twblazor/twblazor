@@ -977,6 +977,58 @@ globalThis.twTabs = {
         if (!tablist?.__twTabsKeydownHandler) return;
         tablist.removeEventListener('keydown', tablist.__twTabsKeydownHandler);
         delete tablist.__twTabsKeydownHandler;
+    },
+
+    // A scrollable tablist: shows the button at each end only while tabs are hidden on that side, and scrolls
+    // most of a tablist's width per press. In a right to left layout scrollLeft runs from 0 to negative values,
+    // so positions are measured from the start whichever way the text runs.
+    registerScroll: function (container) {
+        if (!container || container.__twTabsScroll) return;
+        const list = container.querySelector('[role="tablist"]');
+        if (!list) return;
+        const start = container.querySelector('[data-tw-tabs-scroll="start"]');
+        const end = container.querySelector('[data-tw-tabs-scroll="end"]');
+
+        const update = function () {
+            const max = list.scrollWidth - list.clientWidth;
+            const position = Math.abs(list.scrollLeft);
+            if (start) start.hidden = !(max > 1 && position > 1);
+            if (end) end.hidden = !(max > 1 && position < max - 1);
+        };
+
+        const scroll = function (towardEnd) {
+            const rtl = globalThis.getComputedStyle(list).direction === 'rtl';
+            const distance = Math.max(list.clientWidth * 0.75, 80) * (towardEnd ? 1 : -1) * (rtl ? -1 : 1);
+            const reduce = globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+            list.scrollBy({ left: distance, behavior: reduce ? 'auto' : 'smooth' });
+        };
+        const onStart = function () { scroll(false); };
+        const onEnd = function () { scroll(true); };
+
+        start?.addEventListener('click', onStart);
+        end?.addEventListener('click', onEnd);
+        list.addEventListener('scroll', update, { passive: true });
+
+        // The tablist's box can stay the same while its tabs change width (a label or font loading), so each
+        // tab is watched as well.
+        const observer = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(update);
+        if (observer) {
+            observer.observe(list);
+            Array.from(list.children).forEach(function (tab) { observer.observe(tab); });
+        }
+
+        container.__twTabsScroll = { list: list, start: start, end: end, onStart: onStart, onEnd: onEnd, update: update, observer: observer };
+        update();
+    },
+
+    unregisterScroll: function (container) {
+        const state = container?.__twTabsScroll;
+        if (!state) return;
+        state.start?.removeEventListener('click', state.onStart);
+        state.end?.removeEventListener('click', state.onEnd);
+        state.list.removeEventListener('scroll', state.update);
+        state.observer?.disconnect();
+        delete container.__twTabsScroll;
     }
 };
 

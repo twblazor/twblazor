@@ -34,6 +34,11 @@ public partial class TwTab : TwBlazorComponentBase
     [Parameter] public required RenderFragment ChildContent { get; set; }
 
     /// <summary>
+    /// An icon shown before the tab's label.
+    /// </summary>
+    [Parameter] public Icon? Icon { get; set; }
+
+    /// <summary>
     /// The color of the tab's text and underline indicator while it is the active tab. If not specified, it will inherit the color from the parent tab container.
     /// </summary>
     [Parameter] public Color? Color { get; set; }

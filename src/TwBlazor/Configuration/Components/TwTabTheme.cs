@@ -108,4 +108,45 @@ public class TwTabTheme
     /// background of its own, so content such as cards sits directly on the page.
     /// </summary>
     public required string IsolatedPanelContainer { get; set; }
+
+    /// <summary>
+    /// Gets or sets the classes for the bar that holds the tablist and
+    /// <see cref="TwBlazor.Components.TwTabContainer.TabBarContent"/>. Only rendered when the container is
+    /// <see cref="TwBlazor.Components.TwTabContainer.Scrollable"/> or has tab bar content.
+    /// </summary>
+    public string TabBar { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes for the wrapper around <see cref="TwBlazor.Components.TwTabContainer.TabBarContent"/>,
+    /// shown at the end of the tab bar.
+    /// </summary>
+    public string TabBarContent { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes for the wrapper around a scrollable tablist and its scroll buttons.
+    /// </summary>
+    public string ScrollContainer { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes added to the tablist when
+    /// <see cref="TwBlazor.Components.TwTabContainer.Scrollable"/> is set: the tabs stay on one line and scroll
+    /// sideways instead of wrapping.
+    /// </summary>
+    public string ScrollableTabList { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes for both scroll buttons. A button is shown only while there are tabs out of view
+    /// on its side.
+    /// </summary>
+    public string ScrollButton { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes for the scroll button at the start of the tablist.
+    /// </summary>
+    public string ScrollButtonStart { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes for the scroll button at the end of the tablist.
+    /// </summary>
+    public string ScrollButtonEnd { get; set; } = string.Empty;
 }

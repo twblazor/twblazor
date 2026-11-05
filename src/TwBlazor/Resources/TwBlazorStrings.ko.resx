@@ -942,4 +942,19 @@
   <data name="Form_SummaryTitle" xml:space="preserve">
     <value>문제가 있습니다</value>
   </data>
+  <data name="TimePicker_HourLabel" xml:space="preserve">
+    <value>시</value>
+  </data>
+  <data name="TimePicker_MinuteLabel" xml:space="preserve">
+    <value>분</value>
+  </data>
+  <data name="TimePicker_Period" xml:space="preserve">
+    <value>오전 또는 오후</value>
+  </data>
+  <data name="TimePicker_Now" xml:space="preserve">
+    <value>지금</value>
+  </data>
+  <data name="TimePicker_Done" xml:space="preserve">
+    <value>완료</value>
+  </data>
 </root>

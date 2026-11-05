@@ -41,7 +41,9 @@
                                     Is12HourFormat="@effectiveIs12HourFormat"
                                     Step="@Step"
                                     SelectedTime="@SelectedTime"
-                                    SelectedTimeChanged="@OnTimePickerChanged" />
+                                    SelectedTimeChanged="@OnTimePickerChanged"
+                                    ShowActions="true"
+                                    OnDone="@CloseFromDoneAsync" />
             </div>
         }
     </div>

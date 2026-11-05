@@ -309,8 +309,8 @@ public class TwDateTimePickerTests : TwBlazorTestBase
         var hourInput = cut.FindAll("input")[1];
         var minuteInput = cut.FindAll("input")[2];
         var expectedClasses = InputVariantBuilder.GetClasses(InputVariant.Filled, inputTheme);
-        Assert.Contains(expectedClasses, hourInput.GetAttribute("class"));
-        Assert.Contains(expectedClasses, minuteInput.GetAttribute("class"));
+        Assert.Contains(expectedClasses, hourInput.ParentElement!.ParentElement!.GetAttribute("class"));
+        Assert.Contains(expectedClasses, minuteInput.ParentElement!.ParentElement!.GetAttribute("class"));
     }
 
     [Fact]

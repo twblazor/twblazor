@@ -1,0 +1,30 @@
+﻿@using IconEnum = TwBlazor.Enums.Icon
+
+@* A card of its own: its storage slider reports every step of a drag. *@
+<form class="@LandingStyles.FormCard" @onsubmit="CreateDatabase" @onsubmit:preventDefault>
+    <div class="flex items-center gap-3">
+        <span class="@LandingStyles.FormIcon"><TwIcon Icon="IconEnum.Database" Plain /></span>
+        <div>
+            <h4 class="font-semibold text-gray-950 dark:text-white"><Loc Key="Home_Db_Title">Create a database</Loc></h4>
+            <p class="text-sm text-gray-600 dark:text-gray-400"><Loc Key="Home_Db_Sub">Pick a plan and a region.</Loc></p>
+        </div>
+    </div>
+    <TwRadioGroup T="string" Legend="@Loc.Text("Home_Db_Plan", "Plan")" Name="database-plan" Horizontal>
+        @foreach (var plan in _databasePlans)
+        {
+            <TwRadioButton Value="@plan.Id" Label="@plan.Label" @bind-SelectedValue="databasePlan" />
+        }
+    </TwRadioGroup>
+    <TwSelect T="string" Label="@Loc.Text("Home_Db_Region", "Region")" Values="_regions" @bind-SelectedValue="databaseRegion" />
+    <div>
+        <TwSlider T="int" Label="@Loc.Text("Home_Db_Storage", "Storage")" @bind-Value="databaseStorage" Min="10" Max="500" Step="10" Color="Color.Primary" />
+        <p class="mt-1 text-end text-xs tabular-nums text-gray-600 dark:text-gray-400">@($"{databaseStorage} GB")</p>
+    </div>
+    <div class="flex items-center justify-between gap-3 border-t border-gray-200 pt-4 dark:border-white/10">
+        <div>
+            <p class="text-xs text-gray-600 dark:text-gray-400"><Loc Key="Home_Db_Cost">Estimated cost</Loc></p>
+            <p class="text-lg font-bold tabular-nums text-gray-950 dark:text-white">@Loc.Format("Home_Db_PerMonth", "{0} a month", databaseCost)</p>
+        </div>
+        <TwButton Type="submit" Color="Color.Primary" StartIcon="@(databaseCreated ? IconEnum.Check_Lg : IconEnum.Plus_Lg)" Label="@(databaseCreated ? Loc.Text("Home_Db_Created", "Created") : Loc.Text("Home_Db_Create", "Create"))" />
+    </div>
+</form>

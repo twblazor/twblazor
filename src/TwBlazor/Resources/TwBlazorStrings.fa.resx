@@ -945,4 +945,19 @@
   <data name="Form_SummaryTitle" xml:space="preserve">
     <value>مشکلی وجود دارد</value>
   </data>
+  <data name="TimePicker_HourLabel" xml:space="preserve">
+    <value>ساعت</value>
+  </data>
+  <data name="TimePicker_MinuteLabel" xml:space="preserve">
+    <value>دقیقه</value>
+  </data>
+  <data name="TimePicker_Period" xml:space="preserve">
+    <value>ق.ظ یا ب.ظ</value>
+  </data>
+  <data name="TimePicker_Now" xml:space="preserve">
+    <value>اکنون</value>
+  </data>
+  <data name="TimePicker_Done" xml:space="preserve">
+    <value>تمام</value>
+  </data>
 </root>

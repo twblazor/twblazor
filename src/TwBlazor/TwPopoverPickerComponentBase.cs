@@ -401,7 +401,7 @@ public abstract class TwPopoverPickerComponentBase : TwBlazorTextInputComponentB
     /// <summary>
     /// Closes the panel and returns focus to whatever opened it.
     /// </summary>
-    private async Task ClosePanelAsync()
+    protected async Task ClosePanelAsync()
     {
         // Escape reaches this from the panel, from the field and from the document-level listener, and
         // more than one of them can fire for a single press.

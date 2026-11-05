@@ -269,15 +269,17 @@ public class AccessibilityBehaviourTests : TwBlazorTestBase
     }
 
     [Fact]
-    public void AmPmButton_SaysWhichHalfOfTheDayIsSelected()
+    public void AmPmButtons_SayWhichHalfOfTheDayIsSelected()
     {
         // Arrange & Act
         var cut = TestContext.Render<TwTimePickerBody>(p => p
             .Add(x => x.Is12HourFormat, true)
             .Add(x => x.SelectedTime, new TimeOnly(15, 0)));
 
-        // Assert - the accessible name starts with the visible text, so it is announced and voice control can say it
-        Assert.NotNull(cut.Find("button[aria-label='pm, switch to am']"));
+        // Assert - both halves are named by their visible text, in a named group, and the selected one is pressed
+        var group = cut.Find("[role='group'][aria-label='AM or PM']");
+        Assert.Equal("pm", group.QuerySelector("button[aria-pressed='true']")!.TextContent.Trim());
+        Assert.Equal("am", group.QuerySelector("button[aria-pressed='false']")!.TextContent.Trim());
         Assert.Equal("3", cut.Find("input[aria-label='Hours']").GetAttribute("aria-valuenow"));
         Assert.Equal("12", cut.Find("input[aria-label='Hours']").GetAttribute("aria-valuemax"));
     }
