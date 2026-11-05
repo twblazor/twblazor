@@ -70,7 +70,7 @@ public partial class ShowcaseForms
 
     private DateTime callDate = DateTime.Today.AddDays(1);
     private TimeOnly callTime = new(10, 30);
-    private string callDuration = string.Empty;
+    private string callDuration;
     private bool callReminder = true;
     private bool callBooked;
 

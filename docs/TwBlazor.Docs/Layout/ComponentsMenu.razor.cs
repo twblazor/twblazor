@@ -127,8 +127,14 @@ public partial class ComponentsMenu : IDisposable
 
     public void Dispose()
     {
-        navigationManager.LocationChanged -= OnLocationChanged;
+        Dispose(true);
         GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (disposing)
+            navigationManager.LocationChanged -= OnLocationChanged;
     }
 
     private sealed record MenuCategory(string Id, string Label, Icon Icon, IReadOnlyList<MenuGroup> Groups)

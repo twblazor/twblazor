@@ -673,7 +673,7 @@
     /// <summary>
     /// One tab of the showcase: its heading, the live preview and a footer linking to the docs.
     /// </summary>
-    private RenderFragment ShowcasePane(string title, string description, string docsHref, RenderFragment preview) =>
+    private static RenderFragment ShowcasePane(string title, string description, string docsHref, RenderFragment preview) =>
         @<div>
             <div class="min-h-[30rem] p-4 sm:p-6">
                 <div class="mb-5">

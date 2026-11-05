@@ -375,7 +375,19 @@ public partial class Home
     private string showcaseFrameClasses => string.Join(' ',
         "mt-5 text-gray-950 dark:text-white " + LandingStyles.Figure,
         showcaseSwatch.ThemeClass,
-        showcaseModeSet ? (showcaseDark ? "dark" : "theme-light") : string.Empty).Trim();
+        showcaseModeClass).Trim();
+
+    // Until its own toggle is used, the showcase has no mode class and follows the site.
+    private string showcaseModeClass
+    {
+        get
+        {
+            if (!showcaseModeSet)
+                return string.Empty;
+
+            return showcaseDark ? "dark" : "theme-light";
+        }
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
