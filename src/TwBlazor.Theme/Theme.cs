@@ -1820,6 +1820,15 @@ public static class Theme
                     IsolatedActiveTab = $"{tokens.RaisedSurface} {shadows.Sm} {tokens.HairlineRing} forced-colors:underline forced-colors:decoration-2 forced-colors:underline-offset-4",
                     IsolatedInactiveTab = $"{neutralText.Muted} {tokens.HoverText} {tokens.HoverFill}",
                     IsolatedPanelContainer = $"{spacing.MarginTop[4]} {rounded.Lg} {tokens.FocusRing} {interaction.FocusOutlineNone}",
+                    TabBar = $"{display.Flex} {flexbox.Wrap} {flexbox.Align.Center} gap-x-4 gap-y-3",
+                    TabBarContent = $"{display.Flex} {flexbox.Align.Center} {spacing.Gap[3]} {spacing.PushEnd}",
+                    ScrollContainer = $"{positioning.Relative} {display.Flex} {sizing.MinWidthNone} max-w-full",
+                    // The tablist's own padding leaves room for the active tab's ring and shadow, which the scrolling
+                    // box would otherwise clip. The scroll padding keeps a focused tab clear of the scroll buttons.
+                    ScrollableTabList = "flex-nowrap min-w-0 overflow-x-auto overscroll-x-contain scroll-px-10 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
+                    ScrollButton = $"{positioning.Absolute} top-1/2 z-10 -translate-y-1/2 {display.InlineFlex} size-7 {flexbox.Align.Center} {flexbox.Justify.Center} {rounded.Full} {typography.Size.Xs} {tokens.RaisedSurface} {shadows.Sm} {tokens.HairlineRing} {neutralText.Secondary} {tokens.HoverText} {transition.ColorsFast} {interaction.PointerCursor}",
+                    ScrollButtonStart = "start-1",
+                    ScrollButtonEnd = "end-1",
                 },
                 new TwBarcodeTheme
                 {
@@ -1885,7 +1894,7 @@ public static class Theme
                     Sidebar = $"z-100 overflow-auto scrollbar-gutter-stable overscroll-contain {flexbox.ShrinkNone} h-dvh w-64 {spacing.Padding[4]} {neutralSurface.Background} border-e {neutralSurface.Border} {transition.TransformFast} {transition.EaseInOut}",
                     NavigationItemBase = $"{display.Flex} {flexbox.Align.Center} {spacing.Gap[2]} {sizing.MinWidthNone} {spacing.PaddingX[3]} {spacing.PaddingY[2]} {typography.Size.Sm} {neutralText.Secondary} {neutralSurface.Hover} {tokens.FocusRingInset} {transition.ColorsFast} {interaction.FocusOutlineNone} {interaction.PointerCursor}",
                     NavigationItemActive = $"{tokens.Track} {neutralText.Heading}",
-                    NavigationItemCurrent = $"{positioning.Relative} {overflow.Hidden} before:absolute before:inset-y-0 before:start-0 before:w-0.5 before:bg-linear-to-b before:from-purple-600 before:to-fuchsia-500 forced-colors:before:bg-[Highlight]",
+                    NavigationItemCurrent = $"{positioning.Relative} before:absolute before:inset-y-2 before:start-1 before:w-1 before:rounded-full before:bg-linear-to-b before:from-purple-600 before:to-fuchsia-500 forced-colors:before:bg-[Highlight]",
                     NavigationItemParent = typography.Weight.Semibold,
                     NavigationItemIcon = flexbox.ShrinkNone,
                     NavigationItemContent = $"{display.InlineFlex} {flexbox.Align.Center} {flexbox.ShrinkNone} {spacing.PushEnd}",
@@ -2069,14 +2078,21 @@ public static class Theme
                     BodySurface = $"{spacing.Padding[4]} {typography.AlignCenter} {typography.Weight.Medium} {neutralText.Heading}",
                     BodyRoot = "",
                     BodyInner = $"{spacing.Padding[2]} {typography.AlignCenter} {typography.Weight.Medium} {neutralText.Heading}",
-                    ContentRow = $"{display.Flex} {anchor.Center} {spacing.Gap[3]}",
-                    Column = $"{display.Flex} {flexbox.Col} {flexbox.Align.Center} {spacing.Gap[1]}",
-                    StepButton = $"{neutralText.Subtle} hover:text-purple-600 dark:hover:text-purple-400 {interaction.PointerCursor}",
+                    ContentRow = $"{display.Flex} {flexbox.Align.Start} {flexbox.Justify.Center} {spacing.Gap[2]}",
+                    Column = $"{display.Flex} {flexbox.Col} {flexbox.Align.Center} {spacing.Gap[1.5]}",
+                    ColumnLabel = $"{typography.Size.Xs} {typography.Weight.Medium} {neutralText.Subtle}",
+                    Spinner = $"{display.Flex} {flexbox.Col} {flexbox.Align.Center} w-16 {spacing.PaddingY[1]} {transition.ColorsFast}",
+                    StepButton = $"{display.InlineFlex} size-8 {anchor.Center} {rounded.Md} {neutralText.Subtle} {tokens.HoverFill} {tokens.HoverText} {transition.ColorsFast} {interaction.PointerCursor}",
                     NumberWrapper = $"{display.Flex} {flexbox.Align.Center} {flexbox.Justify.Center}",
-                    NumberInput = $"w-12 {spacing.PaddingY[1]} {typography.AlignCenter} {typography.Size.Lg} {typography.Weight.Semibold} {neutralText.Heading} {transition.ColorsFast} {rounded.Md} {tokens.FocusRing} {interaction.FocusOutlineNone}",
-                    Separator = $"self-center {spacing.PaddingX[1]} {typography.Size.Lg} {typography.Weight.Semibold} {neutralText.Subtle}",
-                    AmPmWrapper = $"{display.Flex} {flexbox.Align.Center} {spacing.MarginStart[2]}",
-                    AmPmButtonClass = "min-w-12"
+                    NumberInput = $"w-12 bg-transparent {spacing.PaddingY[0.5]} {typography.AlignCenter} {typography.Size.Xl2} {typography.Weight.Semibold} tabular-nums {neutralText.Heading} {rounded.Md} {interaction.FocusOutlineNone}",
+                    Separator = $"self-center {spacing.MarginTop[5]} {typography.Size.Xl2} {typography.Weight.Semibold} {neutralText.Subtle}",
+                    // Lined up with the boxes, below the column labels.
+                    AmPmWrapper = $"{display.Flex} {flexbox.Col} {spacing.Gap[1]} {spacing.MarginStart[2]} {spacing.MarginTop[6]} {spacing.Padding[1]} {rounded.Lg} {tokens.Track}",
+                    AmPmButtonClass = $"min-w-12 {spacing.PaddingX[3]} {spacing.PaddingY[2]} {rounded.Md} {typography.Size.Sm} {typography.Weight.Semibold} {interaction.PointerCursor} {transition.ColorsFast} {interaction.FocusOutlineNone}",
+                    AmPmOptionActive = "bg-purple-600 text-white shadow-sm dark:bg-purple-500 forced-colors:bg-[Highlight] forced-colors:text-[HighlightText]",
+                    AmPmOptionInactive = $"{neutralText.Secondary} {tokens.HoverFill} {tokens.HoverText}",
+                    Actions = $"{display.Grid} grid-cols-2 {spacing.Gap[2]} {spacing.MarginTop[3]}",
+                    ActionButton = "w-full justify-center"
                 },
                 new TwTableTheme
                 {

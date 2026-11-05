@@ -152,7 +152,7 @@ public partial class Navigation : IDisposable
     /// Returns the icon for a group built from <c>components.json</c>, or <see langword="null"/> when the
     /// group has none in <see cref="_groupIcons"/>.
     /// </summary>
-    private static Icon? GetGroupIcon(string id) => _groupIcons.TryGetValue(id, out var icon) ? icon : null;
+    internal static Icon? GetGroupIcon(string id) => _groupIcons.TryGetValue(id, out var icon) ? icon : null;
 
     private bool IsNew(NavigationItem item) => item.Id is { } id && _newItemIds.Contains(id);
 

@@ -1,6 +1,6 @@
 @page "/tabs"
 
-<PageContainer Title="TwTabs" Path="/tabs" Description="TwTabs is a Blazor tabs component, built from TwTabContainer and TwTab. Set Label, Color, Dense and Disabled, and colour the whole container or single tabs." ThemeType="typeof(TwTabTheme)">
+<PageContainer Title="TwTabs" Path="/tabs" Description="TwTabs is a Blazor tabs component, built from TwTabContainer and TwTab. Set Label, Icon, Color, Dense and Disabled, and scroll tabs that do not fit." ThemeType="typeof(TwTabTheme)">
     <PageCard Title="Basic tabs">
         <Description>Use <code>TwTabContainer</code> and <code>TwTab</code> to split content into switchable panels. By default the tab bar floats on its own as a segmented control, separate from the content below it.</Description>
         <CodeExample Name="TabsBasic">
@@ -119,6 +119,26 @@
                     <p>This is the content of Tab 2.</p>
                 </TwTab>
             </TwTabContainer>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Scrollable tabs with icons">
+        <Description>Set <code>Scrollable</code> to keep the tabs on one line. When they do not fit, arrow buttons appear at the ends to scroll them, and the arrow keys bring the focused tab into view. Give a <code>TwTab</code> an <code>Icon</code> to show it before the label, and use <code>TabBarContent</code> for controls that sit beside the tabs.</Description>
+        <CodeExample Name="TabsScrollable">
+            <div class="max-w-md">
+                <TwTabContainer AriaLabel="Example tabs 6" Scrollable Dense>
+                    <TabBarContent>
+                        <TwButton Label="New" StartIcon="Icon.Plus_Lg" Dense />
+                    </TabBarContent>
+                    <ChildContent>
+                        <TwTab Label="Overview" Icon="Icon.Speedometer2"><p>Overview content.</p></TwTab>
+                        <TwTab Label="Analytics" Icon="Icon.Bar_Chart_Line"><p>Analytics content.</p></TwTab>
+                        <TwTab Label="Customers" Icon="Icon.People"><p>Customers content.</p></TwTab>
+                        <TwTab Label="Invoices" Icon="Icon.Receipt"><p>Invoices content.</p></TwTab>
+                        <TwTab Label="Settings" Icon="Icon.Gear"><p>Settings content.</p></TwTab>
+                    </ChildContent>
+                </TwTabContainer>
+            </div>
         </CodeExample>
     </PageCard>
 </PageContainer>

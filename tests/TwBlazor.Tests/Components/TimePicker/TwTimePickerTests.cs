@@ -121,7 +121,7 @@ public class TwTimePickerTests : TwBlazorTestBase
         var expectedClasses = InputVariantBuilder.GetClasses(InputVariant.Filled, inputTheme);
         foreach (var input in numberInputs)
         {
-            Assert.Contains(expectedClasses, input.GetAttribute("class"));
+            Assert.Contains(expectedClasses, input.ParentElement!.ParentElement!.GetAttribute("class"));
         }
     }
 
@@ -983,5 +983,22 @@ public class TwTimePickerTests : TwBlazorTestBase
     public void Step_Unsupported_Throws()
     {
         Assert.Throws<ArgumentOutOfRangeException>(() => TestContext.Render<TwTimePicker>(p => p.Add(x => x.Step, 7)));
+    }
+
+    [Fact]
+    public void Done_ClosesThePanel()
+    {
+        // Arrange
+        var cut = TestContext.Render<TwTimePicker>(p => p
+            .Add(x => x.Label, "Time")
+            .Add(x => x.SelectedTime, new TimeOnly(10, 30)));
+        cut.Find("input[type='text']").Click();
+        Assert.NotEmpty(cut.FindAll("[role='dialog']"));
+
+        // Act
+        cut.FindAll("[role='dialog'] button").First(b => b.TextContent.Trim() == "Done").Click();
+
+        // Assert
+        Assert.Empty(cut.FindAll("[role='dialog']"));
     }
 }

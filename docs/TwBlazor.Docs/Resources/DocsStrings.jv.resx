@@ -95,7 +95,7 @@
     <value>Delengen langsung</value>
   </data>
   <data name="Home_Case_Heading" xml:space="preserve">
-    <value>Lima tampilan kondhang, siji pustaka komponen</value>
+    <value>Tampilan kondhang, siji pustaka komponen</value>
   </data>
   <data name="Home_Case_Inspired" xml:space="preserve">
     <value>&lt;span class=&quot;font-normal text-purple-200&quot;&gt;Kainspirasi &lt;/span&gt;{0}</value>
@@ -223,29 +223,8 @@
   <data name="Home_Failed" xml:space="preserve">
     <value>Gagal</value>
   </data>
-  <data name="Home_Feature_A11y_Body" xml:space="preserve">
-    <value>Dhukungan ARIA lan keyboard wis kalebu.</value>
-  </data>
-  <data name="Home_Feature_A11y_Title" xml:space="preserve">
-    <value>Gampang diakses</value>
-  </data>
   <data name="Home_Feature_Composable_Body" xml:space="preserve">
     <value>Parameter Blazor biasa. Ora ana kejutan.</value>
-  </data>
-  <data name="Home_Feature_Composable_Title" xml:space="preserve">
-    <value>Gampang digabung</value>
-  </data>
-  <data name="Home_Feature_Custom_Body" xml:space="preserve">
-    <value>Merek sampeyan, ing mode padhang lan peteng.</value>
-  </data>
-  <data name="Home_Feature_Custom_Title" xml:space="preserve">
-    <value>Bisa diatur sakabehe</value>
-  </data>
-  <data name="Home_Feature_Fast_Body" xml:space="preserve">
-    <value>Luwih saka 25 komponen, siyap dirilis.</value>
-  </data>
-  <data name="Home_Feature_Fast_Title" xml:space="preserve">
-    <value>Cepet digawe</value>
   </data>
   <data name="Home_Features_HeadingFull" xml:space="preserve">
     <value>Cocog kanggo proyek sampeyan sabanjure: {0} utawa {1}.</value>
@@ -405,18 +384,6 @@
   </data>
   <data name="Home_Lang_zhHant" xml:space="preserve">
     <value>Tionghoa Tradhisional</value>
-  </data>
-  <data name="Home_Live_Caption" xml:space="preserve">
-    <value>Enem baris markup twblazor lan komponen langsung sing diasilake.</value>
-  </data>
-  <data name="Home_Live_Rendered" xml:space="preserve">
-    <value>6 komponen dirender</value>
-  </data>
-  <data name="Home_Live_Replay" xml:space="preserve">
-    <value>Puter maneh</value>
-  </data>
-  <data name="Home_Live_ReplayTarget" xml:space="preserve">
-    <value>build langsung</value>
   </data>
   <data name="Home_Loc_Badge" xml:space="preserve">
     <value>{0} basa wis kalebu</value>
@@ -822,5 +789,278 @@
   </data>
   <data name="Nav_WhyTwBlazor" xml:space="preserve">
     <value>Kenapa twblazor?</value>
+  </data>
+  <data name="Nav_Menu_Components" xml:space="preserve">
+    <value>Komponen</value>
+  </data>
+  <data name="Nav_Menu_Description" xml:space="preserve">
+    <value>Blok pambangun sing gampang diakses lan bisa diganti tema kanggo Blazor.</value>
+  </data>
+  <data name="Nav_Menu_Search" xml:space="preserve">
+    <value>Goleki {0} komponen</value>
+  </data>
+  <data name="Nav_Menu_Count" xml:space="preserve">
+    <value>{0} komponen</value>
+  </data>
+  <data name="Nav_Menu_CountOne" xml:space="preserve">
+    <value>1 komponen</value>
+  </data>
+  <data name="Nav_Menu_NoMatch" xml:space="preserve">
+    <value>Ora ana komponen sing cocog karo panelusuran sampeyan.</value>
+  </data>
+  <data name="Nav_Menu_Back" xml:space="preserve">
+    <value>Kabeh kategori</value>
+  </data>
+  <data name="Home_Showcase_Tabs" xml:space="preserve">
+    <value>Conto</value>
+  </data>
+  <data name="Home_Showcase_Theme" xml:space="preserve">
+    <value>Warna conto</value>
+  </data>
+  <data name="Home_Showcase_Light" xml:space="preserve">
+    <value>Tampilake conto ing mode padhang</value>
+  </data>
+  <data name="Home_Showcase_Dark" xml:space="preserve">
+    <value>Tampilake conto ing mode peteng</value>
+  </data>
+  <data name="Home_Showcase_ChartTypes" xml:space="preserve">
+    <value>Jinis bagan</value>
+  </data>
+  <data name="Home_Showcase_Docs" xml:space="preserve">
+    <value>Bukak dokumentasi</value>
+  </data>
+  <data name="Home_Showcase_Dashboard_Desc" xml:space="preserve">
+    <value>Pènget, angka lan bagan, siyap kanggo dasbor.</value>
+  </data>
+  <data name="Home_Showcase_Charts_Desc" xml:space="preserve">
+    <value>{0}+ jinis bagan kanthi tampilan sing padha. Jajal sanga ing kene.</value>
+  </data>
+  <data name="Home_Showcase_Purple" xml:space="preserve">
+    <value>Ungu</value>
+  </data>
+  <data name="Home_Showcase_Blue" xml:space="preserve">
+    <value>Biru</value>
+  </data>
+  <data name="Home_Showcase_Green" xml:space="preserve">
+    <value>Ijo</value>
+  </data>
+  <data name="Home_Showcase_Orange" xml:space="preserve">
+    <value>Oranye</value>
+  </data>
+  <data name="Home_Showcase_DashboardTab" xml:space="preserve">
+    <value>Dasbor</value>
+  </data>
+  <data name="Home_Showcase_Forms_Desc" xml:space="preserve">
+    <value>Formulir mlebu, checkout lan setelan saka isian sing padha.</value>
+  </data>
+  <data name="Home_Form_SignInSub" xml:space="preserve">
+    <value>Sugeng rawuh maneh. Mlebu kanggo nerusake.</value>
+  </data>
+  <data name="Home_Db_Title" xml:space="preserve">
+    <value>Gawe database</value>
+  </data>
+  <data name="Home_Db_Sub" xml:space="preserve">
+    <value>Pilih paket lan wilayah.</value>
+  </data>
+  <data name="Home_Db_Plan" xml:space="preserve">
+    <value>Paket</value>
+  </data>
+  <data name="Home_Db_Region" xml:space="preserve">
+    <value>Wilayah</value>
+  </data>
+  <data name="Home_Db_Storage" xml:space="preserve">
+    <value>Panyimpenan</value>
+  </data>
+  <data name="Home_Db_Cost" xml:space="preserve">
+    <value>Kira-kira biaya</value>
+  </data>
+  <data name="Home_Db_PerMonth" xml:space="preserve">
+    <value>{0} saben sasi</value>
+  </data>
+  <data name="Home_Db_Create" xml:space="preserve">
+    <value>Gawe</value>
+  </data>
+  <data name="Home_Db_Created" xml:space="preserve">
+    <value>Wis digawe</value>
+  </data>
+  <data name="Home_Meet_Title" xml:space="preserve">
+    <value>Jadwalake telpon</value>
+  </data>
+  <data name="Home_Meet_Sub" xml:space="preserve">
+    <value>Golek wektu sing cocog kanggo sampeyan.</value>
+  </data>
+  <data name="Home_Meet_Date" xml:space="preserve">
+    <value>Tanggal</value>
+  </data>
+  <data name="Home_Meet_Time" xml:space="preserve">
+    <value>Wektu</value>
+  </data>
+  <data name="Home_Meet_Duration" xml:space="preserve">
+    <value>Suwene</value>
+  </data>
+  <data name="Home_Meet_Reminder" xml:space="preserve">
+    <value>Kirimi aku pangeling lewat email</value>
+  </data>
+  <data name="Home_Meet_Book" xml:space="preserve">
+    <value>Jadwalake</value>
+  </data>
+  <data name="Home_Meet_Booked" xml:space="preserve">
+    <value>Wis dijadwal</value>
+  </data>
+  <data name="Home_Meet_Minutes" xml:space="preserve">
+    <value>{0} menit</value>
+  </data>
+  <data name="Home_Pay_Title" xml:space="preserve">
+    <value>Munggah menyang Pro</value>
+  </data>
+  <data name="Home_Pay_Sub" xml:space="preserve">
+    <value>Ditagih saben sasi. Batalake kapan wae.</value>
+  </data>
+  <data name="Home_Pay_Seats" xml:space="preserve">
+    <value>Kursi</value>
+  </data>
+  <data name="Home_Pay_Card" xml:space="preserve">
+    <value>Nomer kertu</value>
+  </data>
+  <data name="Home_Pay_Expiry" xml:space="preserve">
+    <value>Kadaluwarsa</value>
+  </data>
+  <data name="Home_Pay_Cvc" xml:space="preserve">
+    <value>CVC</value>
+  </data>
+  <data name="Home_Pay_Total" xml:space="preserve">
+    <value>Gunggung</value>
+  </data>
+  <data name="Home_Pay_Button" xml:space="preserve">
+    <value>Bayar {0}</value>
+  </data>
+  <data name="Home_Pay_Paid" xml:space="preserve">
+    <value>Wis dibayar</value>
+  </data>
+  <data name="Home_Ws_Title" xml:space="preserve">
+    <value>Siyapake papan kerja sampeyan</value>
+  </data>
+  <data name="Home_Ws_Sub" xml:space="preserve">
+    <value>Gawe kaya merek sampeyan.</value>
+  </data>
+  <data name="Home_Ws_Name" xml:space="preserve">
+    <value>Jeneng papan kerja</value>
+  </data>
+  <data name="Home_Ws_Colour" xml:space="preserve">
+    <value>Warna merek</value>
+  </data>
+  <data name="Home_Ws_Logo" xml:space="preserve">
+    <value>Unggah logo</value>
+  </data>
+  <data name="Home_Ws_LogoHint" xml:space="preserve">
+    <value>PNG utawa SVG, nganti 2 MB.</value>
+  </data>
+  <data name="Home_Ws_Create" xml:space="preserve">
+    <value>Gawe papan kerja</value>
+  </data>
+  <data name="Home_Ws_Created" xml:space="preserve">
+    <value>Papan kerja wis digawe</value>
+  </data>
+  <data name="Home_Review_Title" xml:space="preserve">
+    <value>Wenehi ulasan</value>
+  </data>
+  <data name="Home_Review_Sub" xml:space="preserve">
+    <value>Critakna kepiye lakune.</value>
+  </data>
+  <data name="Home_Review_Rating" xml:space="preserve">
+    <value>Biji sampeyan</value>
+  </data>
+  <data name="Home_Review_Tags" xml:space="preserve">
+    <value>Apa sing apik?</value>
+  </data>
+  <data name="Home_Review_Tag_Speed" xml:space="preserve">
+    <value>Kacepetan</value>
+  </data>
+  <data name="Home_Review_Tag_Docs" xml:space="preserve">
+    <value>Dokumentasi</value>
+  </data>
+  <data name="Home_Review_Tag_Support" xml:space="preserve">
+    <value>Dhukungan</value>
+  </data>
+  <data name="Home_Review_Tag_Design" xml:space="preserve">
+    <value>Desain</value>
+  </data>
+  <data name="Home_Review_Tag_Price" xml:space="preserve">
+    <value>Rega</value>
+  </data>
+  <data name="Home_Review_Submit" xml:space="preserve">
+    <value>Kirim ulasan</value>
+  </data>
+  <data name="Home_Review_Thanks" xml:space="preserve">
+    <value>Matur nuwun kanggo ulasane.</value>
+  </data>
+  <data name="Home_Crumb_Projects" xml:space="preserve">
+    <value>Proyek</value>
+  </data>
+  <data name="Home_Stats_Label" xml:space="preserve">
+    <value>twblazor sakilas</value>
+  </data>
+  <data name="Home_Stats_Components" xml:space="preserve">
+    <value>{0}+ komponen</value>
+  </data>
+  <data name="Home_Stats_Charts" xml:space="preserve">
+    <value>{0}+ jinis bagan</value>
+  </data>
+  <data name="Home_Stats_Accessible" xml:space="preserve">
+    <value>Siyap kanggo keyboard lan pamaca layar</value>
+  </data>
+  <data name="Home_Stats_Languages" xml:space="preserve">
+    <value>{0} basa</value>
+  </data>
+  <data name="Home_Stats_Mit" xml:space="preserve">
+    <value>Gratis lan lisensi MIT</value>
+  </data>
+  <data name="Home_A11y_Badge" xml:space="preserve">
+    <value>Gampang diakses wiwit wiwitan</value>
+  </data>
+  <data name="Home_A11y_HeadingLead" xml:space="preserve">
+    <value>Digawe kanggo kabeh wong,</value>
+  </data>
+  <data name="Home_A11y_HeadingAccent" xml:space="preserve">
+    <value>saka keyboard nganti pamaca layar</value>
+  </data>
+  <data name="Home_A11y_Sub" xml:space="preserve">
+    <value>Saben komponen ngetutake pola WAI-ARIA, supaya saben wong bisa nganggo aplikasi sampeyan kanthi carane dhewe. Ora ana sing kudu diuripake.</value>
+  </data>
+  <data name="Home_A11y_Keyboard_Title" xml:space="preserve">
+    <value>Keyboard dhisik</value>
+  </data>
+  <data name="Home_A11y_Keyboard_Body" xml:space="preserve">
+    <value>Tab, tombol panah, Home, End lan Escape mlaku ing saben komponen, kaya sing diterangake WAI-ARIA.</value>
+  </data>
+  <data name="Home_A11y_Reader_Title" xml:space="preserve">
+    <value>Siyap kanggo pamaca layar</value>
+  </data>
+  <data name="Home_A11y_Reader_Body" xml:space="preserve">
+    <value>Peran, jeneng lan pawartos langsung, diterjemahake menyang saben basa sing kalebu.</value>
+  </data>
+  <data name="Home_A11y_Focus_Title" xml:space="preserve">
+    <value>Fokus sing katon</value>
+  </data>
+  <data name="Home_A11y_Focus_Body" xml:space="preserve">
+    <value>Bunderan fokus sing cetha ing saben kontrol, lan fokus bali menyang panggonane nalika popup ditutup.</value>
+  </data>
+  <data name="Home_A11y_Motion_Title" xml:space="preserve">
+    <value>Tenang yen dijaluk</value>
+  </data>
+  <data name="Home_A11y_Motion_Body" xml:space="preserve">
+    <value>Animasi mandheg nalika sistem njaluk gerakan dikurangi.</value>
+  </data>
+  <data name="Home_A11y_Contrast_Title" xml:space="preserve">
+    <value>Mode kontras dhuwur</value>
+  </data>
+  <data name="Home_A11y_Contrast_Body" xml:space="preserve">
+    <value>Warna kontras dhuwur Windows diajeni, supaya status tetep katon.</value>
+  </data>
+  <data name="Home_A11y_Tested_Title" xml:space="preserve">
+    <value>Dites nganggo axe-core</value>
+  </data>
+  <data name="Home_A11y_Tested_Body" xml:space="preserve">
+    <value>Saben kaca dokumentasi dipindai kanggo masalah aksesibilitas ing tes.</value>
   </data>
 </root>

@@ -28,7 +28,6 @@ public class ShowcasePageTests : DocsTestBase
         return brand.Slug switch
         {
             "microsoft" => TestContext.Render<IComponent>(builder => Open<MicrosoftShowcase>(builder)),
-            "apple" => TestContext.Render<IComponent>(builder => Open<AppleShowcase>(builder)),
             "lego" => TestContext.Render<IComponent>(builder => Open<LegoShowcase>(builder)),
             "tesco" => TestContext.Render<IComponent>(builder => Open<TescoShowcase>(builder)),
             _ => TestContext.Render<IComponent>(builder => Open<Trading212Showcase>(builder))
@@ -97,17 +96,12 @@ public class ShowcasePageTests : DocsTestBase
     public void Themes_EachHaveTheirOwnShape()
     {
         var microsoft = ShowcaseBrand.Microsoft.Theme;
-        var apple = ShowcaseBrand.Apple.Theme;
         var lego = ShowcaseBrand.Lego.Theme;
         var tesco = ShowcaseBrand.Tesco.Theme;
 
         Assert.Equal("rounded-xs", microsoft.Rounded.Md);
         Assert.Contains("border-b-2", microsoft.Components.Require<TwInputTheme>().FocusBorder);
         Assert.Contains("bg-neutral-900", microsoft.Colors.SurfaceColors.Filled.Accent);
-
-        Assert.Equal("rounded-3xl", apple.Rounded.Lg);
-        Assert.Equal(Shadow.None, apple.Shadows.DefaultShadow);
-        Assert.Contains("rounded-full!", apple.Components.Require<TwButtonTheme>().Base);
 
         // The orange call to action carries dark text, and the bar is yellow.
         Assert.Equal("bg-brickorange-400 hover:bg-brickorange-300 active:bg-brickorange-500 text-gray-950", lego.Colors.SurfaceColors.Filled.Accent);
@@ -348,7 +342,6 @@ public class ShowcasePageTests : DocsTestBase
 
     [Theory]
     [InlineData("microsoft", false)]
-    [InlineData("apple", false)]
     [InlineData("lego", true)]
     [InlineData("tesco", true)]
     [InlineData("trading212", false)]
@@ -386,11 +379,11 @@ public class ShowcasePageTests : DocsTestBase
     [Fact]
     public void ThemeSwitcher_KeepsTheNextPagesTheme_WhenOneShowcasePageReplacesAnother()
     {
-        ShowcaseThemeSwitcher.Apply(options, ShowcaseBrand.Apple);
+        ShowcaseThemeSwitcher.Apply(options, ShowcaseBrand.Microsoft);
 
         // The page being navigated to starts before the page being left is disposed.
         ShowcaseThemeSwitcher.Apply(options, ShowcaseBrand.Tesco);
-        ShowcaseThemeSwitcher.Restore(options, ShowcaseBrand.Apple);
+        ShowcaseThemeSwitcher.Restore(options, ShowcaseBrand.Microsoft);
         Assert.Same(ShowcaseBrand.Tesco.Theme, options.Theme);
 
         ShowcaseThemeSwitcher.Restore(options, ShowcaseBrand.Tesco);
@@ -441,7 +434,6 @@ public class ShowcasePageTests : DocsTestBase
     }
 
     [Theory]
-    [InlineData("apple")]
     [InlineData("lego")]
     [InlineData("tesco")]
     [InlineData("trading212")]
@@ -471,7 +463,8 @@ public class ShowcasePageTests : DocsTestBase
     {
         var disclaimer = ShowcaseBrand.Disclaimer;
 
-        Assert.All((string[])["Microsoft", "Apple", "LEGO", "Tesco", "Trading 212"], name => Assert.Contains(name, disclaimer));
+        Assert.All((string[])["Microsoft", "LEGO", "Tesco", "Trading 212"], name => Assert.Contains(name, disclaimer));
+        Assert.DoesNotContain("Apple", disclaimer);
         Assert.Contains("not affiliated", disclaimer);
     }
 

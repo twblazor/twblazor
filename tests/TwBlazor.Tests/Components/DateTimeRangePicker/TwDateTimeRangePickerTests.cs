@@ -81,7 +81,7 @@ public class TwDateTimeRangePickerTests : TwBlazorTestBase
         var expectedClasses = InputVariantBuilder.GetClasses(InputVariant.Filled, inputTheme);
         foreach (var input in numberInputs)
         {
-            Assert.Contains(expectedClasses, input.GetAttribute("class"));
+            Assert.Contains(expectedClasses, input.ParentElement!.ParentElement!.GetAttribute("class"));
         }
     }
 
