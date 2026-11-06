@@ -798,6 +798,12 @@
   <data name="Menu_Options" xml:space="preserve">
     <value>اختیارات</value>
   </data>
+  <data name="ContextMenu_Label" xml:space="preserve">
+    <value>سیاق و سباق مینو</value>
+  </data>
+  <data name="ContextMenu_Hint" xml:space="preserve">
+    <value>مزید اختیارات کے لیے Shift+F10 یا مینو کی دبائیں۔</value>
+  </data>
   <data name="DataTable_ColumnOptions" xml:space="preserve">
     <value>{0} کالم کے اختیارات</value>
   </data>

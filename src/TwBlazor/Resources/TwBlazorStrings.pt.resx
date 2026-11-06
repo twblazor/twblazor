@@ -795,6 +795,12 @@
   <data name="Menu_Options" xml:space="preserve">
     <value>Opções</value>
   </data>
+  <data name="ContextMenu_Label" xml:space="preserve">
+    <value>Menu de contexto</value>
+  </data>
+  <data name="ContextMenu_Hint" xml:space="preserve">
+    <value>Prima Shift+F10 ou a tecla de menu para mais opções.</value>
+  </data>
   <data name="DataTable_ColumnOptions" xml:space="preserve">
     <value>Opções da coluna {0}</value>
   </data>

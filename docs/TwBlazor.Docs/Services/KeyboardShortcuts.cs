@@ -281,6 +281,17 @@ internal static class KeyboardShortcuts
             Key("Closes the menu and returns focus to the button.", escape),
             Key("Closes the menu and moves focus on.", tab)),
 
+        ["/context-menu"] = Guide(
+            "Right-click the area to open the menu at the pointer. When the area can take focus, Shift+F10 or the Menu key opens it too, with focus on its first item. The menu follows the ARIA menu pattern: one item has focus at a time, and the arrow keys move between them.",
+            Key("Moves focus to the area, when the area is a Tab stop.", tab),
+            Key("On the focusable area: opens the menu with focus on its first item.", "Shift + F10", "Menu"),
+            Key("In the menu: moves to the next or previous item, wrapping round at either end. Disabled items are skipped.", down, up),
+            Key("In the menu: moves to the first or last item.", home, end),
+            Key("In the menu: moves to the next item that starts with the typed letter.", "A to Z"),
+            Key("In the menu: chooses the focused item. An action closes the menu and returns focus to where it was; a tick option flips and the menu stays open.", enter, space),
+            Key("Closes the menu and returns focus to where it was.", escape),
+            Key("Closes the menu and moves focus on.", tab)),
+
         ["/message"] = Guide(
             "A message is not a Tab stop. Each message is an article named by its author and time, so screen readers can move between messages with their article shortcut. "
             + "Anything interactive inside a message, such as reactions or actions in its footer, keeps its own keyboard behaviour."),

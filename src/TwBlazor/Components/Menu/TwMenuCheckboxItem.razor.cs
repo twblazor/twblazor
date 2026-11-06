@@ -8,12 +8,12 @@ using TwBlazor.Utilities;
 namespace TwBlazor.Components;
 
 /// <summary>
-/// An option in a <see cref="TwMenu"/> that is on or off, such as whether a column is shown. Choosing it flips
+/// An option in a <see cref="TwMenu"/> or <see cref="TwContextMenu"/> that is on or off, such as whether a column is shown. Choosing it flips
 /// <see cref="Checked"/>, and by default leaves the menu open so several options can be changed in a row.
 /// </summary>
 public partial class TwMenuCheckboxItem : TwBlazorComponentBase
 {
-    [CascadingParameter] private TwMenu? menu { get; set; }
+    [CascadingParameter] private ITwMenuHost? menu { get; set; }
 
     private TwMenuTheme theme => options.Theme.Components.Require<TwMenuTheme>();
 
@@ -53,6 +53,13 @@ public partial class TwMenuCheckboxItem : TwBlazorComponentBase
     [Parameter]
     public bool CloseOnClick { get; set; }
 
+    /// <summary>
+    /// Gets or sets a keyboard shortcut shown at the end of the item as a hint, such as <c>Ctrl+Shift+B</c>. It is
+    /// only a hint: the app handles the shortcut itself.
+    /// </summary>
+    [Parameter]
+    public string? Shortcut { get; set; }
+
     private string itemClasses => new ClassBuilder(theme.Item)
         .AddClass(theme.ItemDisabled, Disabled)
         .AddClass(Class).Build();
@@ -72,7 +79,7 @@ public partial class TwMenuCheckboxItem : TwBlazorComponentBase
 
         if (CloseOnClick && menu is not null)
         {
-            await menu.CloseAsync(returnFocus: true);
+            await menu.CloseMenuAsync(returnFocus: true);
         }
     }
 }

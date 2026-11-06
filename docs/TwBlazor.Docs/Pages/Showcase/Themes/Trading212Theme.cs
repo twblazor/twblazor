@@ -1742,7 +1742,13 @@ public static class Trading212Theme
                     CheckIcon = $"{typography.Size.Base} {flexbox.ShrinkNone} text-tradeblue-600 dark:text-tradeblue-300",
                     CheckIconHidden = "invisible",
                     Divider = $"my-1 border-t {neutralSurface.Border}",
-                    GroupLabel = $"{spacing.PaddingX[3]} {spacing.PaddingTop[2]} {spacing.PaddingBottom[1]} {typography.Size.Xs} {typography.Weight.Semibold} {neutralText.Muted}"
+                    GroupLabel = $"{spacing.PaddingX[3]} {spacing.PaddingTop[2]} {spacing.PaddingBottom[1]} {typography.Size.Xs} {typography.Weight.Semibold} {neutralText.Muted}",
+                    ItemShortcut = $"ms-auto {spacing.PaddingStart[6]} {typography.Size.Xs} tracking-widest {neutralText.Muted}",
+                    ItemDestructive = $"{text.Medium.Danger} {darkText.Light.Danger} [&_i]:text-current hover:bg-red-50 dark:hover:bg-red-950/40 focus-visible:bg-red-50 dark:focus-visible:bg-red-950/40",
+                    ItemInset = spacing.PaddingStart[8],
+                    SubmenuTrigger = "aria-expanded:bg-[oklch(21%_0.006_285.885)]/5 dark:aria-expanded:bg-[oklch(97.807%_0.029_256.847)]/8",
+                    SubmenuIcon = $"ms-auto {typography.Size.Xs} {flexbox.ShrinkNone} {neutralText.Subtle}",
+                    ContextArea = $"{interaction.FocusOutlineNone} {tokens.FocusRing}"
                 },
                 new TwOnThisPageTheme
                 {

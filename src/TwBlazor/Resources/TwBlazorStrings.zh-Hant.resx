@@ -798,6 +798,12 @@
   <data name="Menu_Options" xml:space="preserve">
     <value>選項</value>
   </data>
+  <data name="ContextMenu_Label" xml:space="preserve">
+    <value>內容功能表</value>
+  </data>
+  <data name="ContextMenu_Hint" xml:space="preserve">
+    <value>按 Shift+F10 或功能表鍵以查看更多選項。</value>
+  </data>
   <data name="DataTable_ColumnOptions" xml:space="preserve">
     <value>「{0}」欄選項</value>
   </data>

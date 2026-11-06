@@ -801,6 +801,12 @@
   <data name="Menu_Options" xml:space="preserve">
     <value>Параметры</value>
   </data>
+  <data name="ContextMenu_Label" xml:space="preserve">
+    <value>Контекстное меню</value>
+  </data>
+  <data name="ContextMenu_Hint" xml:space="preserve">
+    <value>Нажмите Shift+F10 или клавишу меню, чтобы открыть дополнительные параметры.</value>
+  </data>
   <data name="DataTable_ColumnOptions" xml:space="preserve">
     <value>Параметры столбца «{0}»</value>
   </data>

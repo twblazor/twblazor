@@ -31,6 +31,13 @@
         "theme": "TwCollapseTheme"
       },
       {
+        "id": "context-menu-navitem",
+        "display": "Context Menu",
+        "name": "TwContextMenu",
+        "url": "/context-menu",
+        "isNew": true
+      },
+      {
         "id": "drawer-navitem",
         "display": "Drawer",
         "name": "TwDrawer",

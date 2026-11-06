@@ -9,11 +9,12 @@ using TwBlazor.Utilities;
 namespace TwBlazor.Components;
 
 /// <summary>
-/// An action in a <see cref="TwMenu"/>. Choosing it runs <see cref="OnClick"/> and closes the menu.
+/// An action in a <see cref="TwMenu"/>, <see cref="TwContextMenu"/> or <see cref="TwSubmenu"/>. Choosing it runs
+/// <see cref="OnClick"/> and closes the menu.
 /// </summary>
 public partial class TwMenuItem : TwBlazorComponentBase
 {
-    [CascadingParameter] private TwMenu? menu { get; set; }
+    [CascadingParameter] private ITwMenuHost? menu { get; set; }
 
     private TwMenuTheme theme => options.Theme.Components.Require<TwMenuTheme>();
 
@@ -37,6 +38,26 @@ public partial class TwMenuItem : TwBlazorComponentBase
     public Icon? StartIcon { get; set; }
 
     /// <summary>
+    /// Gets or sets a keyboard shortcut shown at the end of the item as a hint, such as <c>Ctrl+C</c>. It is only a
+    /// hint: the app handles the shortcut itself.
+    /// </summary>
+    [Parameter]
+    public string? Shortcut { get; set; }
+
+    /// <summary>
+    /// Whether the item does something destructive or hard to undo, such as Delete. It is shown in a warning colour,
+    /// so give it a label that says what it does too.
+    /// </summary>
+    [Parameter]
+    public bool Destructive { get; set; }
+
+    /// <summary>
+    /// Whether the item's text is indented to line up with items that have a <see cref="StartIcon"/> or a tick.
+    /// </summary>
+    [Parameter]
+    public bool Inset { get; set; }
+
+    /// <summary>
     /// Raised when a person chooses the item, by clicking it or pressing Enter or Space on it.
     /// </summary>
     [Parameter]
@@ -55,6 +76,8 @@ public partial class TwMenuItem : TwBlazorComponentBase
     public bool CloseOnClick { get; set; } = true;
 
     private string itemClasses => new ClassBuilder(theme.Item)
+        .AddClass(theme.ItemDestructive, Destructive)
+        .AddClass(theme.ItemInset, Inset && StartIcon is null)
         .AddClass(theme.ItemDisabled, Disabled)
         .AddClass(Class).Build();
 
@@ -69,7 +92,7 @@ public partial class TwMenuItem : TwBlazorComponentBase
 
         if (CloseOnClick && menu is not null)
         {
-            await menu.CloseAsync(returnFocus: true);
+            await menu.CloseMenuAsync(returnFocus: true);
         }
     }
 }

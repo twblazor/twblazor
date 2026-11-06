@@ -798,6 +798,12 @@
   <data name="Menu_Options" xml:space="preserve">
     <value>Seçenekler</value>
   </data>
+  <data name="ContextMenu_Label" xml:space="preserve">
+    <value>Bağlam menüsü</value>
+  </data>
+  <data name="ContextMenu_Hint" xml:space="preserve">
+    <value>Daha fazla seçenek için Shift+F10 veya Menü tuşuna basın.</value>
+  </data>
   <data name="DataTable_ColumnOptions" xml:space="preserve">
     <value>{0} sütun seçenekleri</value>
   </data>

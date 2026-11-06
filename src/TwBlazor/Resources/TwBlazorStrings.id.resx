@@ -795,6 +795,12 @@
   <data name="Menu_Options" xml:space="preserve">
     <value>Opsi</value>
   </data>
+  <data name="ContextMenu_Label" xml:space="preserve">
+    <value>Menu konteks</value>
+  </data>
+  <data name="ContextMenu_Hint" xml:space="preserve">
+    <value>Tekan Shift+F10 atau tombol Menu untuk opsi lainnya.</value>
+  </data>
   <data name="DataTable_ColumnOptions" xml:space="preserve">
     <value>Opsi kolom {0}</value>
   </data>
