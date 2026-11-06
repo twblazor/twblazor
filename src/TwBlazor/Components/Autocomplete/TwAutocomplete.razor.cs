@@ -1,4 +1,4 @@
-// Copyright (c) 2025 Jack Shuter @ TwBlazor - twblazor.com
+﻿// Copyright (c) 2025 Jack Shuter @ TwBlazor - twblazor.com
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Components;
@@ -197,8 +197,9 @@ public partial class TwAutocomplete<T> : TwPopoverPickerComponentBase
 
     private string inputClasses => new ClassBuilder(theme.TextfieldBase)
         .AddClass(inputVariantBuilder.GetClasses(effectiveVariant, theme, effectiveRounded))
-        .AddClass(Disabled ? $"{options.Theme.Interaction.DisabledOpacity} {options.Theme.Interaction.DisabledCursor}" : string.Empty)
+        .AddClass(Disabled && !isInInputGroup ? $"{options.Theme.Interaction.DisabledOpacity} {options.Theme.Interaction.DisabledCursor}" : string.Empty)
         .AddClass(inputSizeClasses)
+        .AddClass(inputGroupControlClasses)
         .AddClass(Class)
         .Build();
 

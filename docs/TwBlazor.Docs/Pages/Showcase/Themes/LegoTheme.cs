@@ -1732,6 +1732,29 @@ public static class LegoTheme
                     Button = $"{display.InlineFlex} {flexbox.Align.Center} {flexbox.Justify.Center} {flexbox.ShrinkNone} {rounded.Md} {neutralText.Secondary} {tokens.HoverText} {tokens.HoverFill} {interaction.PointerCursor} {transition.ColorsFast} {tokens.FocusRing} {interaction.FocusOutlineNone} {tokens.DisabledControl}",
                     ButtonIcon = $"{typography.Size.Sm} leading-none"
                 },
+                new TwInputGroupTheme
+                {
+                    Root = $"{display.Flex} {flexbox.Col} {sizing.FullWidth} {sizing.MinWidthNone}",
+                    Group = $"{positioning.Relative} {display.Flex} {flexbox.Align.Center} {spacing.Gap[2]} {sizing.FullWidth} {sizing.MinWidthNone} {neutralText.Heading} {transition.ColorsFast} has-[>[data-align^=block]]:flex-col has-[>[data-align^=block]]:items-stretch",
+                    Padding = spacing.PaddingX[3],
+                    DefaultPadding = spacing.PaddingX[0],
+                    FocusBorder = "has-[[data-tw-input-group-control]:focus]:border-brickblue-600 dark:has-[[data-tw-input-group-control]:focus]:border-brickblue-400 has-[[data-tw-input-group-control]:focus]:ring-2 has-[[data-tw-input-group-control]:focus]:ring-brickblue-500 dark:has-[[data-tw-input-group-control]:focus]:ring-brickblue-400",
+                    InvalidBorder = "has-[[aria-invalid=true]]:border-red-700 dark:has-[[aria-invalid=true]]:border-rose-300",
+                    Disabled = "has-[[data-tw-input-group-control]:disabled]:opacity-40 has-[[data-tw-input-group-control]:disabled]:cursor-not-allowed",
+                    Control = $"border-0 {tokens.Transparent} dark:bg-transparent {rounded.None} shadow-none {spacing.PaddingX[0]} focus:border-0 focus-visible:border-0 focus:ring-0 focus-visible:ring-0",
+                    ControlRoot = $"{flexbox.Flex1} {sizing.MinWidthNone}",
+                    ControlRootOutlinedOffset = "-my-px",
+                    ControlRootUnderlinedOffset = "-mb-px",
+                    Addon = $"{display.Flex} {flexbox.Align.Center} {spacing.Gap[2]} {flexbox.ShrinkNone} {typography.Size.Sm} {neutralText.Secondary} whitespace-nowrap",
+                    AddonInlineStart = flexbox.OrderFirst,
+                    AddonInlineEnd = flexbox.OrderLast,
+                    AddonBlockStart = $"{flexbox.OrderFirst} {sizing.FullWidth} {spacing.PaddingTop[2]}",
+                    AddonBlockEnd = $"{flexbox.OrderLast} {sizing.FullWidth} {spacing.PaddingBottom[2]}",
+                    Text = "whitespace-nowrap select-none",
+                    Button = flexbox.ShrinkNone,
+                    ButtonDense = $"min-h-6 h-6 {spacing.PaddingX[2]} {spacing.PaddingY[0]} {typography.Size.Xs}",
+                    IconButtonDense = sizing.Icon.Lg
+                },
                 new TwMenuTheme
                 {
                     Root = $"{positioning.Relative} {display.InlineFlex}",

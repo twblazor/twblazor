@@ -1,0 +1,27 @@
+@namespace TwBlazor.Components
+@inherits TwBlazorComponentBase
+@implements IDisposable
+
+<div id="@Id"
+     class="@rootClasses"
+     style="@Style"
+     role="group"
+     aria-label="@AriaLabel"
+     aria-labelledby="@groupLabelledBy"
+     @attributes="@Attributes">
+    @if (!string.IsNullOrWhiteSpace(Label))
+    {
+        <TwInputLabel Id="@labelId" For="@(For ?? string.Empty)" Label="@Label" Class="@LabelClass" />
+    }
+
+    <div class="@groupClasses" data-tw-input-group>
+        <CascadingValue Value="@context">
+            @ChildContent
+        </CascadingValue>
+    </div>
+
+    @foreach (var error in errors)
+    {
+        <p id="@error.Id" class="@inputTheme.ErrorMessage" role="alert">@error.Message</p>
+    }
+</div>

@@ -233,6 +233,12 @@ internal static class KeyboardShortcuts
             Key("On the upload control: opens the system file dialog.", enter, space),
             Key("On a remove button: removes that file. Focus returns to the upload control.", enter, space)),
 
+        ["/input-group"] = Guide(
+            "An input group is a group named by its label. It adds no keys of its own: the input and any buttons in its addons keep their usual keys, "
+            + "and Tab moves through them in the order they are written in the markup, so write the addons in the order they appear. Text in an addon is read with the input.",
+            Key("Moves focus to the input, then to each button in the addons.", tab, shiftTab),
+            Key("On a button: activates it.", enter, space)),
+
         ["/flex"] = Guide(
             "A flex layout is not interactive, so it has no keyboard controls of its own and is not a Tab stop. "
             + "Tab moves through the controls inside it in the order they are written in the markup. A reversed direction or an Order on an item "
