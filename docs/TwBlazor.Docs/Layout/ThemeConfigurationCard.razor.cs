@@ -55,6 +55,7 @@ public partial class ThemeConfigurationCard : ComponentBase
         [typeof(TwInputTheme)] = ("TwTextfield", "/textfield"),
         [typeof(TwButtonTheme)] = ("TwButton", "/button"),
         [typeof(TwTableTheme)] = ("TwTable", "/table"),
+        [typeof(TwToggleTheme)] = ("TwToggle", "/toggle"),
     };
 
     [Parameter, EditorRequired]

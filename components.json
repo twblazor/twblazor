@@ -309,8 +309,7 @@
         "display": "Toggle Group",
         "name": "TwToggleGroup",
         "url": "/toggle-group",
-        "isNew": true,
-        "theme": "TwToggleTheme"
+        "isNew": true
       }
     ]
   },

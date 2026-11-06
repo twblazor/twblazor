@@ -50,6 +50,20 @@ public partial class TwToggleGroup<T> : TwBlazorComponentBase, IAsyncDisposable
     private TwToggleGroupItem<T>? activeItem;
 
     /// <summary>
+    /// Whether the group currently has a single-select value. Tracked separately from <see cref="Value"/> because,
+    /// for an unconstrained <typeparamref name="T"/>, the <c>?</c> on <see cref="Value"/> is only a nullability
+    /// annotation: at runtime a value-type <c>T</c> is non-nullable, so "no selection" cannot be expressed as
+    /// <see langword="null"/> and <see langword="default"/> is a real value.
+    /// </summary>
+    private bool hasSelection;
+
+    /// <summary>
+    /// The last <see cref="Value"/> observed from the parent, so a value supplied by the parent can be told apart
+    /// from a change the group made itself while handling a click or key press.
+    /// </summary>
+    private T? lastValue;
+
+    /// <summary>
     /// Gets or sets the items of the group, each a <see cref="TwToggleGroupItem{T}"/>.
     /// </summary>
     [Parameter] public RenderFragment? ChildContent { get; set; }
@@ -87,6 +101,12 @@ public partial class TwToggleGroup<T> : TwBlazorComponentBase, IAsyncDisposable
     /// Gets or sets whether pressing the pressed item of a single-select group releases it, leaving no item
     /// pressed. Defaults to <see langword="false"/>, so a selection, once made, always stays, as in a radio group.
     /// </summary>
+    /// <remarks>
+    /// Releasing the pressed item clears the selection rather than re-selecting the item whose value equals
+    /// <see langword="default"/>. Because a value-type <typeparamref name="T"/> is non-nullable at runtime, a
+    /// value-type group cannot represent "no selection" through its bound <see cref="Value"/>; a value equal to
+    /// <see langword="default"/> (0, or the first member of an enum) is therefore treated as no selection.
+    /// </remarks>
     [Parameter] public bool Deselectable { get; set; }
 
     /// <summary>
@@ -178,11 +198,11 @@ public partial class TwToggleGroup<T> : TwBlazorComponentBase, IAsyncDisposable
 
     /// <summary>
     /// Gets whether an item is pressed: it holds <see cref="Value"/>, or one of <see cref="Values"/> when the group
-    /// is <see cref="Multiple"/>.
+    /// is <see cref="Multiple"/>. A single-select group with no selection has no pressed item.
     /// </summary>
     internal bool IsPressed(TwToggleGroupItem<T> item) => Multiple
         ? Values.Contains(item.Value, EqualityComparer<T>.Default)
-        : EqualityComparer<T?>.Default.Equals(Value, item.Value);
+        : hasSelection && EqualityComparer<T?>.Default.Equals(Value, item.Value);
 
     private bool IsEnabled(TwToggleGroupItem<T> item) => !Disabled && !item.Disabled;
 
@@ -256,6 +276,8 @@ public partial class TwToggleGroup<T> : TwBlazorComponentBase, IAsyncDisposable
         else if (Deselectable)
         {
             Value = default;
+            lastValue = default;
+            hasSelection = false;
             await ValueChanged.InvokeAsync(Value);
         }
 
@@ -267,7 +289,25 @@ public partial class TwToggleGroup<T> : TwBlazorComponentBase, IAsyncDisposable
     private async Task SelectAsync(TwToggleGroupItem<T> item)
     {
         Value = item.Value;
+        lastValue = item.Value;
+        hasSelection = true;
         await ValueChanged.InvokeAsync(Value);
+    }
+
+    /// <summary>
+    /// Synchronizes <see cref="hasSelection"/> with a <see cref="Value"/> supplied by the parent. The parent's
+    /// value is detected by comparing against the last value the group saw: a change the group made itself while
+    /// handling a click or key press already updated <see cref="lastValue"/>, so it is not re-interpreted here.
+    /// </summary>
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+
+        if (!EqualityComparer<T?>.Default.Equals(Value, lastValue))
+        {
+            lastValue = Value;
+            hasSelection = !EqualityComparer<T?>.Default.Equals(Value, default);
+        }
     }
 
     /// <summary>

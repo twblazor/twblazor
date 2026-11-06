@@ -29,7 +29,7 @@ public partial class TwToggleGroupItem<T> : TwBlazorComponentBase, IDisposable
     /// Gets or sets the value the item stands for. The item is pressed while the group's value (or one of its
     /// values) equals it.
     /// </summary>
-    [Parameter] public T Value { get; set; } = default!;
+    [Parameter, EditorRequired] public T Value { get; set; } = default!;
 
     /// <summary>
     /// Gets or sets the text shown in the item. Ignored when <see cref="ChildContent"/> is set.
