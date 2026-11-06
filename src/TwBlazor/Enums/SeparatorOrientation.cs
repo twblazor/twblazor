@@ -7,7 +7,7 @@ namespace TwBlazor.Enums;
 /// Defines whether a component runs along a row or down a column, for example a
 /// <see cref="TwBlazor.Components.TwSeparator"/>.
 /// </summary>
-public enum Orientation
+public enum SeparatorOrientation
 {
     /// <summary>
     /// Runs from the start edge to the end edge, along a row. The default.

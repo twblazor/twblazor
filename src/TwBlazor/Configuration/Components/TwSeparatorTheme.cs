@@ -50,12 +50,21 @@ public class TwSeparatorTheme
     /// Gets or sets the border classes that draw a horizontal line, on the separator itself or on each line
     /// beside a label.
     /// </summary>
+    /// <remarks>
+    /// The default theme sets the border width from the <c>--separator-width</c> CSS variable, which
+    /// <see cref="Thin"/>, <see cref="Medium"/> and <see cref="Thick"/> set on the root element, so one class draws
+    /// every thickness. Keep the two in step when overriding either.
+    /// </remarks>
     public required string HorizontalLine { get; set; }
 
     /// <summary>
     /// Gets or sets the border classes that draw a vertical line, on the separator itself or on each line
     /// beside a label.
     /// </summary>
+    /// <remarks>
+    /// The default theme sets the border width from the <c>--separator-width</c> CSS variable; see
+    /// <see cref="HorizontalLine"/>.
+    /// </remarks>
     public required string VerticalLine { get; set; }
 
     /// <summary>
@@ -82,16 +91,28 @@ public class TwSeparatorTheme
     /// <summary>
     /// Gets or sets the classes for a <see cref="Enums.SeparatorThickness.Thin"/> line.
     /// </summary>
+    /// <remarks>
+    /// Applied to the root element. The default theme sets the <c>--separator-width</c> CSS variable read by
+    /// <see cref="HorizontalLine"/> and <see cref="VerticalLine"/>, for example <c>[--separator-width:1px]</c>.
+    /// </remarks>
     public required string Thin { get; set; }
 
     /// <summary>
     /// Gets or sets the classes for a <see cref="Enums.SeparatorThickness.Medium"/> line.
     /// </summary>
+    /// <remarks>
+    /// Applied to the root element. The default theme sets the <c>--separator-width</c> CSS variable read by
+    /// <see cref="HorizontalLine"/> and <see cref="VerticalLine"/>, for example <c>[--separator-width:2px]</c>.
+    /// </remarks>
     public required string Medium { get; set; }
 
     /// <summary>
     /// Gets or sets the classes for a <see cref="Enums.SeparatorThickness.Thick"/> line.
     /// </summary>
+    /// <remarks>
+    /// Applied to the root element. The default theme sets the <c>--separator-width</c> CSS variable read by
+    /// <see cref="HorizontalLine"/> and <see cref="VerticalLine"/>, for example <c>[--separator-width:4px]</c>.
+    /// </remarks>
     public required string Thick { get; set; }
 
     /// <summary>

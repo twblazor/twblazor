@@ -1751,7 +1751,7 @@ public static class Theme
                 },
                 new TwSeparatorTheme
                 {
-                    Base = $"{flexbox.ShrinkNone} forced-colors:border-[CanvasText]",
+                    Base = $"{flexbox.ShrinkNone} forced-colors:border-[CanvasText] [--separator-width:1px]",
                     Horizontal = sizing.FullWidth,
                     Vertical = $"{display.InlineBlock} {flexbox.AlignSelf.Stretch} min-h-4 align-middle",
                     LabeledHorizontal = $"{display.Flex} {flexbox.Align.Center} {spacing.Gap[3]} {sizing.FullWidth}",
@@ -1761,7 +1761,7 @@ public static class Theme
                     LabelLine = "border-inherit",
                     LineStretch = flexbox.Flex1,
                     LineInset = $"{flexbox.ShrinkNone} basis-4",
-                    Label = $"{sizing.MinWidthNone} text-center {typography.WrapBreakWord} {typography.Size.Xs} {typography.Weight.Medium}",
+                    Label = $"{sizing.MinWidthNone} {typography.AlignCenter} {typography.WrapBreakWord} {typography.Size.Xs} {typography.Weight.Medium}",
                     Thin = "[--separator-width:1px]",
                     Medium = "[--separator-width:2px]",
                     Thick = "[--separator-width:4px]",

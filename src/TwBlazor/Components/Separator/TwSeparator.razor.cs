@@ -24,13 +24,13 @@ public partial class TwSeparator : TwBlazorComponentBase
 
     /// <summary>
     /// Gets or sets whether the separator runs across (a row) or down (a column). Defaults to
-    /// <see cref="Orientation.Horizontal"/>.
+    /// <see cref="SeparatorOrientation.Horizontal"/>.
     /// </summary>
     /// <remarks>
     /// A vertical separator stretches to the height of its parent row, for example between the items of a flex
     /// toolbar.
     /// </remarks>
-    [Parameter] public Orientation Orientation { get; set; } = Orientation.Horizontal;
+    [Parameter] public SeparatorOrientation Orientation { get; set; } = SeparatorOrientation.Horizontal;
 
     /// <summary>
     /// Gets or sets whether the separator is purely visual. Defaults to <see langword="false"/>.
@@ -84,7 +84,7 @@ public partial class TwSeparator : TwBlazorComponentBase
 
     private bool hasLabel => ChildContent != null || !string.IsNullOrWhiteSpace(Label);
 
-    private bool isVertical => Orientation == Orientation.Vertical;
+    private bool isVertical => Orientation == SeparatorOrientation.Vertical;
 
     private string role => Decorative ? "none" : "separator";
 

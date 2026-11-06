@@ -105,7 +105,7 @@ public class TwSeparatorTests : TwBlazorTestBase
     [Fact]
     public void TwSeparator_Vertical_HasVerticalOrientationAndClasses()
     {
-        var cut = Render(p => p.Add(x => x.Orientation, Orientation.Vertical));
+        var cut = Render(p => p.Add(x => x.Orientation, SeparatorOrientation.Vertical));
 
         var root = Root(cut);
         Assert.Equal("vertical", root.GetAttribute("aria-orientation"));
@@ -120,7 +120,7 @@ public class TwSeparatorTests : TwBlazorTestBase
     {
         var cut = Render(p => p
             .Add(x => x.Decorative, true)
-            .Add(x => x.Orientation, Orientation.Vertical));
+            .Add(x => x.Orientation, SeparatorOrientation.Vertical));
 
         var root = Root(cut);
         Assert.Equal("none", root.GetAttribute("role"));
@@ -238,6 +238,33 @@ public class TwSeparatorTests : TwBlazorTestBase
     }
 
     [Fact]
+    public void TwSeparator_Decorative_WithChildContent_ShowsTheContentAsPlainText()
+    {
+        var cut = Render(p => p
+            .Add(x => x.Decorative, true)
+            .Add(x => x.ChildContent, RenderFragmentBuilder("Custom")));
+
+        var root = Root(cut);
+        Assert.Equal("none", root.GetAttribute("role"));
+        Assert.False(root.HasAttribute("aria-hidden"));
+        Assert.Equal("Custom", root.Children[1].TextContent.Trim());
+    }
+
+    [Fact]
+    public void TwSeparator_Decorative_WithoutLabel_IgnoresAriaNaming()
+    {
+        var cut = Render(p => p
+            .Add(x => x.Decorative, true)
+            .Add(x => x.AriaLabel, "ignored")
+            .Add(x => x.AriaLabelledBy, "heading"));
+
+        var root = Root(cut);
+        Assert.Equal("true", root.GetAttribute("aria-hidden"));
+        Assert.False(root.HasAttribute("aria-label"));
+        Assert.False(root.HasAttribute("aria-labelledby"));
+    }
+
+    [Fact]
     public void TwSeparator_ChildContent_TakesPrecedenceOverLabelText_WhileLabelStillNamesIt()
     {
         var cut = Render(p => p
@@ -278,7 +305,7 @@ public class TwSeparatorTests : TwBlazorTestBase
     public void TwSeparator_VerticalWithLabel_StacksTheLinesAboveAndBelowTheLabel()
     {
         var root = Root(Render(p => p
-            .Add(x => x.Orientation, Orientation.Vertical)
+            .Add(x => x.Orientation, SeparatorOrientation.Vertical)
             .Add(x => x.Label, "or")));
 
         Assert.Equal("vertical", root.GetAttribute("aria-orientation"));
@@ -377,7 +404,7 @@ public class TwSeparatorTests : TwBlazorTestBase
     {
         var separator = new TwSeparator();
 
-        Assert.Equal(Orientation.Horizontal, separator.Orientation);
+        Assert.Equal(SeparatorOrientation.Horizontal, separator.Orientation);
         Assert.False(separator.Decorative);
         Assert.Equal(SeparatorVariant.Solid, separator.Variant);
         Assert.Equal(SeparatorThickness.Thin, separator.Thickness);
@@ -395,5 +422,20 @@ public class TwSeparatorTests : TwBlazorTestBase
         Assert.DoesNotContain("border-l", theme.VerticalLine);
         Assert.Contains("border-t", theme.HorizontalLine);
         Assert.DoesNotContain("bg-", theme.HorizontalLine + theme.VerticalLine + theme.Base);
+    }
+
+    [Fact]
+    public void TwSeparatorTheme_LineWidth_IsDrivenByTheSeparatorWidthVariable()
+    {
+        // The border width of both lines reads the --separator-width variable, which Thin/Medium/Thick each set to
+        // a distinct value on the root element.
+        Assert.Contains("length:--separator-width", theme.HorizontalLine);
+        Assert.Contains("length:--separator-width", theme.VerticalLine);
+
+        Assert.Contains("--separator-width", theme.Thin);
+        Assert.Contains("--separator-width", theme.Medium);
+        Assert.Contains("--separator-width", theme.Thick);
+
+        Assert.Equal(3, new[] { theme.Thin, theme.Medium, theme.Thick }.Distinct().Count());
     }
 }
