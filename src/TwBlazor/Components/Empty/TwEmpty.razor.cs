@@ -21,7 +21,7 @@ namespace TwBlazor.Components;
 /// empty state with no media.
 /// </para>
 /// <para>
-/// Accessibility: the icon is decorative and hidden from assistive technology. The title is a heading whose level is
+/// Accessibility: the icon or avatar is decorative and hidden from assistive technology. The title is a heading whose level is
 /// set with <see cref="TitleLevel"/>, so it fits the page's heading outline. Set <see cref="Live"/> when the empty
 /// state replaces results in response to the user, such as a search with no matches, so screen readers announce it.
 /// </para>
@@ -111,12 +111,14 @@ public partial class TwEmpty : TwBlazorComponentBase
     [Parameter] public Icon? ActionIcon { get; set; }
 
     /// <summary>
-    /// Gets or sets the URL the primary action button links to. When set, the button renders as a link.
+    /// Gets or sets the URL the primary action button links to. When set, the button renders as a link and
+    /// <see cref="OnAction"/> is not invoked.
     /// </summary>
     [Parameter] public string? ActionHref { get; set; }
 
     /// <summary>
-    /// Gets or sets the callback invoked when the primary action button is clicked.
+    /// Gets or sets the callback invoked when the primary action button is clicked. Not used when
+    /// <see cref="ActionHref"/> is set.
     /// </summary>
     [Parameter] public EventCallback OnAction { get; set; }
 
@@ -127,12 +129,14 @@ public partial class TwEmpty : TwBlazorComponentBase
     [Parameter] public string? SecondaryActionText { get; set; }
 
     /// <summary>
-    /// Gets or sets the URL the secondary action button links to. When set, the button renders as a link.
+    /// Gets or sets the URL the secondary action button links to. When set, the button renders as a link and
+    /// <see cref="OnSecondaryAction"/> is not invoked.
     /// </summary>
     [Parameter] public string? SecondaryActionHref { get; set; }
 
     /// <summary>
-    /// Gets or sets the callback invoked when the secondary action button is clicked.
+    /// Gets or sets the callback invoked when the secondary action button is clicked. Not used when
+    /// <see cref="SecondaryActionHref"/> is set.
     /// </summary>
     [Parameter] public EventCallback OnSecondaryAction { get; set; }
 
@@ -156,6 +160,11 @@ public partial class TwEmpty : TwBlazorComponentBase
     /// Gets or sets whether the empty state is a live region (<c>role="status"</c>), so screen readers announce it
     /// when it appears in response to the user, such as a search or filter that returns no results.
     /// </summary>
+    /// <remarks>
+    /// Some screen readers only announce changes inside a live region that is already on the page, so a status that
+    /// appears together with its text may not be read out. For the most reliable announcement, also update a
+    /// persistent status message, such as a result count, when the results change.
+    /// </remarks>
     [Parameter] public bool Live { get; set; }
 
     private string? effectiveTitle => Title ?? localizer[TwStrings.Empty_Title];

@@ -9,7 +9,8 @@
     }
     else if (showAvatar)
     {
-        <div class="@theme.Media">
+        @* The avatar is decorative, like the icon: the title carries the message, so the avatar's name is not read out. *@
+        <div class="@theme.Media" aria-hidden="true">
             <TwAvatar Src="@AvatarSrc" Name="@AvatarName" Size="@avatarSize" Rounded="@Rounded" />
         </div>
     }

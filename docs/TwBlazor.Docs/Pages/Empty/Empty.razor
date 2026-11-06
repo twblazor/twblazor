@@ -75,6 +75,25 @@
         </CodeExample>
     </PageCard>
 
+    <PageCard Title="In a data table">
+        <Description>Put a <code>TwEmpty</code> in a <code>TwDataTable</code>'s <code>EmptyContent</code> to replace the plain "No data available." message.</Description>
+        <CodeExample Name="EmptyInDataTable">
+            <TwDataTable TItem="string" Items="@invoices">
+                <TableHeader>
+                    <tr>
+                        <th scope="col" class="px-6 py-3">Invoice</th>
+                    </tr>
+                </TableHeader>
+                <TableRow Context="invoice">
+                    <td class="px-6 py-4">@invoice</td>
+                </TableRow>
+                <EmptyContent>
+                    <TwEmpty Size="Size.Sm" TitleLevel="4" Icon="Icon.Receipt" Title="No invoices yet" Description="Invoices you send will be listed here." />
+                </EmptyContent>
+            </TwDataTable>
+        </CodeExample>
+    </PageCard>
+
     <PageCard Title="Search results">
         <Description>Set <code>Live</code> when the empty state replaces results in response to the user, so screen readers announce it. Extra content, such as a hint, goes in <code>ChildContent</code>.</Description>
         <CodeExample Name="EmptySearch">
@@ -101,13 +120,14 @@
 
     <PageCard Title="Accessibility">
         <Description>
-            The icon or avatar is decorative and hidden from screen readers, so the <code>Title</code> and <code>Description</code> carry the message. The title is an <code>h3</code> by default; set <code>TitleLevel</code> (1 to 6) to fit the page's heading outline. Set <code>Live</code> to make the empty state a <code>role="status"</code> live region when it appears after a search or filter. Giving it an <code>AriaLabel</code> without <code>Live</code> makes it a named region. Layout uses logical properties, so it mirrors in a right to left layout.
+            The icon or avatar is decorative and hidden from screen readers, so the <code>Title</code> and <code>Description</code> carry the message. The title is an <code>h3</code> by default; set <code>TitleLevel</code> (1 to 6) to fit the page's heading outline. Set <code>Live</code> to make the empty state a <code>role="status"</code> live region when it appears after a search or filter. Some screen readers only announce a live region that was already on the page, so for a reliable announcement also update a persistent status, such as a result count. Giving it an <code>AriaLabel</code> without <code>Live</code> makes it a named region. Layout uses logical properties, so it mirrors in a right to left layout.
         </Description>
     </PageCard>
 </PageContainer>
 
 @code {
     private int projectsCreated;
+    private readonly List<string> invoices = [];
     private string query = "kiwi fruit";
 
     private static readonly string[] fruit = ["Apple", "Banana", "Cherry", "Mango", "Orange", "Pear"];

@@ -278,6 +278,16 @@ public class TwEmptyTests : TwBlazorTestBase
     }
 
     [Fact]
+    public void TwEmpty_Avatar_IsHiddenFromAssistiveTechnology()
+    {
+        var cut = TestContext.Render<TwEmpty>(p => p
+            .Add(x => x.AvatarName, "Jane Doe"));
+
+        var avatar = cut.Find("[role=img]");
+        Assert.Equal("true", avatar.ParentElement!.GetAttribute("aria-hidden"));
+    }
+
+    [Fact]
     public void TwEmpty_AvatarSrc_RendersPicture()
     {
         var cut = TestContext.Render<TwEmpty>(p => p
@@ -343,6 +353,7 @@ public class TwEmptyTests : TwBlazorTestBase
         var link = cut.Find("a");
         Assert.Equal("/shop", link.GetAttribute("href"));
         Assert.Contains("Shop", link.TextContent);
+        Assert.Empty(cut.FindAll("button"));
     }
 
     [Fact]
