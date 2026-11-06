@@ -1,0 +1,116 @@
+@page "/toggle"
+@using TwBlazor.Components
+@using TwBlazor.Enums
+
+<PageContainer Title="TwToggle" Path="/toggle" Beta Description="TwToggle is a two-state button that switches a formatting option, feature or mode on and off. Use Pressed, Variant, Size, Color, Icon and Disabled." ThemeType="typeof(TwToggleTheme)">
+    <PageCard Title="Basic usage">
+        <Description>Bind the state with <code>@@bind-Pressed</code>. A toggle that shows only an icon needs an <code>AriaLabel</code>.</Description>
+        <CodeExample Name="ToggleBasic" CSharpName="ToggleBasicCode">
+            <div class="flex items-center gap-4">
+                <TwToggle @bind-Pressed="bookmarked" Icon="Icon.Bookmark" AriaLabel="Bookmark" />
+                <span class="text-sm">@(bookmarked ? "Bookmarked" : "Not bookmarked")</span>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Variants">
+        <Description><code>ToggleVariant.Text</code> (the default) has no border or background until it is hovered or pressed. <code>ToggleVariant.Outlined</code> adds a border.</Description>
+        <CodeExample Name="ToggleVariants">
+            <div class="flex items-center gap-4">
+                <TwToggle Icon="Icon.Type_Italic" AriaLabel="Italic" />
+                <TwToggle Icon="Icon.Type_Italic" AriaLabel="Italic" Variant="ToggleVariant.Outlined" />
+                <TwToggle Icon="Icon.Type_Italic" AriaLabel="Italic" Variant="ToggleVariant.Outlined" Pressed="true" />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="With text">
+        <Description>Set <code>Label</code> next to an <code>Icon</code>, or pass any <code>ChildContent</code>.</Description>
+        <CodeExample Name="ToggleWithText">
+            <div class="flex items-center gap-4">
+                <TwToggle Icon="Icon.Wifi" Label="Wi-Fi" Variant="ToggleVariant.Outlined" Pressed="true" />
+                <TwToggle Icon="Icon.Bell" Label="Notifications" Variant="ToggleVariant.Outlined" />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Sizes">
+        <Description>Set <code>Size</code> to <code>Size.Sm</code>, <code>Size.Md</code> (the default) or <code>Size.Lg</code>. The icon grows with the toggle.</Description>
+        <CodeExample Name="ToggleSizes">
+            <div class="flex items-center gap-4">
+                <TwToggle Icon="Icon.Type_Bold" AriaLabel="Bold" Size="Size.Sm" Variant="ToggleVariant.Outlined" />
+                <TwToggle Icon="Icon.Type_Bold" AriaLabel="Bold" Size="Size.Md" Variant="ToggleVariant.Outlined" />
+                <TwToggle Icon="Icon.Type_Bold" AriaLabel="Bold" Size="Size.Lg" Variant="ToggleVariant.Outlined" />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Colors">
+        <Description>A pressed toggle is drawn in a neutral tint. Set <code>Color</code> to tint it with one of the theme colors instead.</Description>
+        <CodeExample Name="ToggleColors">
+            <div class="flex flex-wrap items-center gap-4">
+                <TwToggle Icon="Icon.Star" Label="Neutral" Pressed="true" />
+                <TwToggle Icon="Icon.Star" Label="Primary" Color="Color.Primary" Pressed="true" />
+                <TwToggle Icon="Icon.Heart" Label="Danger" Color="Color.Danger" Pressed="true" />
+                <TwToggle Icon="Icon.Pin" Label="Success" Color="Color.Success" Pressed="true" />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Disabled">
+        <Description>A <code>Disabled</code> toggle cannot be focused or switched, and does not raise <code>PressedChanged</code>.</Description>
+        <CodeExample Name="ToggleDisabled">
+            <div class="flex items-center gap-4">
+                <TwToggle Icon="Icon.Type_Underline" AriaLabel="Underline" Disabled="true" />
+                <TwToggle Icon="Icon.Type_Underline" AriaLabel="Underline" Disabled="true" Pressed="true" />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Custom styling">
+        <Description>The pressed state is exposed as <code>data-state="on"</code>, so a <code>Class</code> can restyle it with Tailwind's <code>data-[state=on]:</code> variant. Your classes are merged last and win over the theme's.</Description>
+        <CodeExample Name="ToggleCustom">
+            <TwToggle Icon="Icon.Heart" Label="Favourite" Pressed="true" Class="data-[state=on]:bg-pink-100 data-[state=on]:text-pink-700 dark:data-[state=on]:bg-pink-500/25 dark:data-[state=on]:text-pink-100" />
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Formatting toolbar">
+        <Description>Independent toggles, each with its own state, make a text formatting toolbar.</Description>
+        <CodeExample Name="ToggleToolbar" CSharpName="ToggleToolbarCode">
+            <div class="flex flex-col gap-3">
+                <div class="flex items-center gap-1" role="toolbar" aria-label="Text formatting">
+                    <TwToggle @bind-Pressed="bold" Icon="Icon.Type_Bold" AriaLabel="Bold" />
+                    <TwToggle @bind-Pressed="italic" Icon="Icon.Type_Italic" AriaLabel="Italic" />
+                    <TwToggle @bind-Pressed="underline" Icon="Icon.Type_Underline" AriaLabel="Underline" />
+                    <TwToggle @bind-Pressed="strikethrough" Icon="Icon.Type_Strikethrough" AriaLabel="Strikethrough" />
+                </div>
+                <p class="@previewClasses">The quick brown fox jumps over the lazy dog.</p>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Accessibility">
+        <Description>
+            A toggle is a native <code>&lt;button&gt;</code> with <code>aria-pressed</code>, so screen readers announce it as a toggle button and say whether it is pressed. Keep its label the same in both states (for example "Bold", not "Make bold" and "Remove bold"), because the pressed state is announced separately. Icon-only toggles need an <code>AriaLabel</code>. In forced colors (Windows high contrast) mode a pressed toggle is drawn in the system highlight color.
+        </Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample ToggleBasicCode
+    private bool bookmarked;
+    #endregion
+
+    #region CodeExample ToggleToolbarCode
+    private bool bold = true;
+    private bool italic;
+    private bool underline;
+    private bool strikethrough;
+
+    private string previewClasses => string.Join(' ',
+        "text-sm",
+        bold ? "font-bold" : string.Empty,
+        italic ? "italic" : string.Empty,
+        underline && strikethrough ? "underline line-through" : underline ? "underline" : strikethrough ? "line-through" : string.Empty);
+    #endregion
+}

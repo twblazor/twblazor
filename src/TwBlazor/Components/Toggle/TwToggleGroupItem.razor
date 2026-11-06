@@ -1,0 +1,25 @@
+@namespace TwBlazor.Components
+@typeparam T
+@inherits TwBlazorComponentBase
+
+<CascadingValue Value="@group.itemContext">
+    <TwToggle @ref="toggle"
+              Id="@Id"
+              Class="@Class"
+              Style="@Style"
+              Pressed="@group.IsPressed(this)"
+              PressedChanged="@OnPressedChangedAsync"
+              Label="@Label"
+              Icon="@Icon"
+              ChildContent="@ChildContent"
+              Variant="@group.itemVariant"
+              Size="@group.itemSize"
+              Color="@(Color ?? group.itemColor)"
+              Disabled="@(Disabled || group.itemsDisabled)"
+              Rounded="@(Rounded ?? group.itemRounded)"
+              Shadow="@Shadow"
+              Tooltip="@Tooltip"
+              Attributes="@toggleAttributes"
+              AriaLabel="@AriaLabel"
+              AriaLabelledBy="@AriaLabelledBy" />
+</CascadingValue>

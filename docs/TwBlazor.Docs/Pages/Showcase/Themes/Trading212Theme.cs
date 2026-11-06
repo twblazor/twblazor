@@ -2027,6 +2027,39 @@ public static class Trading212Theme
                     LabelNonInteractiveCursor = interaction.PointerEventsNone,
                     LabelDisabled = interaction.DisabledOpacity
                 },
+                new TwToggleTheme
+                {
+                    Colors = new()
+                    {
+                        Primary = "bg-tradeblue-100 text-tradeblue-800 dark:bg-tradeblue-500/25 dark:text-tradeblue-100",
+                        Accent = "bg-slate-100 text-slate-800 dark:bg-slate-500/25 dark:text-slate-100",
+                        Success = "bg-green-100 text-green-800 dark:bg-green-500/25 dark:text-green-100",
+                        Danger = "bg-red-100 text-red-800 dark:bg-red-500/25 dark:text-red-100",
+                        Warning = "bg-yellow-100 text-yellow-900 dark:bg-yellow-500/25 dark:text-yellow-100",
+                        Info = "bg-blue-100 text-blue-800 dark:bg-blue-500/25 dark:text-blue-100",
+                        Light = $"bg-white {text.Medium.Dark}",
+                        Dark = $"{background.Dark.Dark} {text.Medium.Light} dark:bg-gray-950",
+                    },
+                    Base = $"{display.InlineFlex} {anchor.Center} {spacing.Gap[2]} {flexbox.ShrinkNone} {typography.Weight.Medium} whitespace-nowrap select-none {transition.ColorsFast} {interaction.FocusOutlineNone} touch-manipulation forced-colors:border forced-colors:border-[ButtonBorder]",
+                    Sm = $"h-8 min-w-8 {spacing.PaddingX[2]} {typography.Size.Xs}",
+                    Md = $"h-9 min-w-9 {spacing.PaddingX[2.5]} {typography.Size.Sm}",
+                    Lg = $"h-10 min-w-10 {spacing.PaddingX[3]} {typography.Size.Sm}",
+                    IconSm = $"{typography.Size.Sm} leading-none",
+                    IconMd = $"{typography.Size.Base} leading-none",
+                    IconLg = $"{typography.Size.Lg} leading-none",
+                    Unpressed = $"{tokens.Transparent} {neutralText.Secondary}",
+                    Hover = $"{tokens.HoverFill} {tokens.HoverText}",
+                    Pressed = $"{tokens.TrackStrong} {neutralText.Heading}",
+                    GroupPressed = $"{tokens.RaisedSurface} {neutralText.Heading} {shadows.Sm} {tokens.HairlineRing}",
+                    PressedForcedColors = "forced-colors:bg-[Highlight] forced-colors:text-[HighlightText]",
+                    Outlined = $"{borderWidth.Thin} {neutralSurface.BorderStrong}",
+                    Disabled = interaction.DisabledOpacity,
+                    GroupBase = $"{display.InlineFlex} max-w-full {spacing.Gap[1]} {spacing.Padding[1]}",
+                    GroupHorizontal = $"{flexbox.Row} {flexbox.Wrap}",
+                    GroupVertical = flexbox.Col,
+                    GroupText = $"{tokens.Track} {borderWidth.Thin} {neutralSurface.Border}",
+                    GroupOutlined = $"{borderWidth.Thin} {neutralSurface.BorderStrong}"
+                },
                 new TwSpinnerTheme
                 {
                     Colors = new()

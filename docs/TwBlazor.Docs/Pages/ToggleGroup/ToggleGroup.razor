@@ -1,0 +1,168 @@
+@page "/toggle-group"
+@using TwBlazor.Components
+@using TwBlazor.Enums
+
+<PageContainer Title="TwToggleGroup" Path="/toggle-group" Beta Description="TwToggleGroup is a set of toggle buttons with single or multiple selection, for alignment, view modes or filters. Bind Value or Values, or set Multiple." ThemeType="typeof(TwToggleTheme)">
+    <PageCard Title="Single selection">
+        <Description>By default one item can be pressed at a time. Bind it with <code>@@bind-Value</code>; each <code>TwToggleGroupItem</code> sets the <code>Value</code> it stands for.</Description>
+        <CodeExample Name="ToggleGroupSingle" CSharpName="ToggleGroupSingleCode">
+            <div class="flex flex-col items-start gap-3">
+                <TwToggleGroup @bind-Value="alignment" AriaLabel="Text alignment">
+                    <TwToggleGroupItem Value="@("left")" Icon="Icon.Text_Left" AriaLabel="Align left" />
+                    <TwToggleGroupItem Value="@("center")" Icon="Icon.Text_Center" AriaLabel="Align center" />
+                    <TwToggleGroupItem Value="@("right")" Icon="Icon.Text_Right" AriaLabel="Align right" />
+                    <TwToggleGroupItem Value="@("justify")" Icon="Icon.Justify" AriaLabel="Justify" />
+                </TwToggleGroup>
+                <span class="text-sm">Alignment: @alignment</span>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Multiple selection">
+        <Description>Set <code>Multiple</code> to let any number of items be pressed, and bind them with <code>@@bind-Values</code>.</Description>
+        <CodeExample Name="ToggleGroupMultiple" CSharpName="ToggleGroupMultipleCode">
+            <div class="flex flex-col items-start gap-3">
+                <TwToggleGroup Multiple @bind-Values="formatting" AriaLabel="Text formatting">
+                    <TwToggleGroupItem Value="@("bold")" Icon="Icon.Type_Bold" AriaLabel="Bold" />
+                    <TwToggleGroupItem Value="@("italic")" Icon="Icon.Type_Italic" AriaLabel="Italic" />
+                    <TwToggleGroupItem Value="@("underline")" Icon="Icon.Type_Underline" AriaLabel="Underline" />
+                </TwToggleGroup>
+                <span class="text-sm">Formatting: @(formatting.Any() ? string.Join(", ", formatting) : "none")</span>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Deselectable">
+        <Description>A single-select group keeps its selection, like a radio group. Set <code>Deselectable</code> so pressing the pressed item releases it, leaving none pressed.</Description>
+        <CodeExample Name="ToggleGroupDeselectable" CSharpName="ToggleGroupDeselectableCode">
+            <div class="flex flex-col items-start gap-3">
+                <TwToggleGroup @bind-Value="rating" Deselectable AriaLabel="Rating">
+                    <TwToggleGroupItem Value="@("up")" Icon="Icon.Hand_Thumbs_Up" AriaLabel="Helpful" />
+                    <TwToggleGroupItem Value="@("down")" Icon="Icon.Hand_Thumbs_Down" AriaLabel="Not helpful" />
+                </TwToggleGroup>
+                <span class="text-sm">Rating: @(rating ?? "none")</span>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Variants">
+        <Description><code>ToggleVariant.Text</code> (the default) sets the items on a filled bar. <code>ToggleVariant.Outlined</code> draws a border around the group instead.</Description>
+        <CodeExample Name="ToggleGroupVariants">
+            <div class="flex flex-wrap items-center gap-4">
+                <TwToggleGroup Value="@("grid")" AriaLabel="View (filled bar)">
+                    <TwToggleGroupItem Value="@("grid")" Icon="Icon.Grid" Label="Grid" />
+                    <TwToggleGroupItem Value="@("list")" Icon="Icon.List_Ul" Label="List" />
+                </TwToggleGroup>
+                <TwToggleGroup Value="@("grid")" Variant="ToggleVariant.Outlined" AriaLabel="View (outlined)">
+                    <TwToggleGroupItem Value="@("grid")" Icon="Icon.Grid" Label="Grid" />
+                    <TwToggleGroupItem Value="@("list")" Icon="Icon.List_Ul" Label="List" />
+                </TwToggleGroup>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Sizes">
+        <Description>Set <code>Size</code> on the group to size every item.</Description>
+        <CodeExample Name="ToggleGroupSizes">
+            <div class="flex flex-wrap items-center gap-4">
+                <TwToggleGroup Size="Size.Sm" Multiple Values="@(new[] { "bold" })" AriaLabel="Small formatting">
+                    <TwToggleGroupItem Value="@("bold")" Icon="Icon.Type_Bold" AriaLabel="Bold" />
+                    <TwToggleGroupItem Value="@("italic")" Icon="Icon.Type_Italic" AriaLabel="Italic" />
+                </TwToggleGroup>
+                <TwToggleGroup Size="Size.Md" Multiple Values="@(new[] { "bold" })" AriaLabel="Medium formatting">
+                    <TwToggleGroupItem Value="@("bold")" Icon="Icon.Type_Bold" AriaLabel="Bold" />
+                    <TwToggleGroupItem Value="@("italic")" Icon="Icon.Type_Italic" AriaLabel="Italic" />
+                </TwToggleGroup>
+                <TwToggleGroup Size="Size.Lg" Multiple Values="@(new[] { "bold" })" AriaLabel="Large formatting">
+                    <TwToggleGroupItem Value="@("bold")" Icon="Icon.Type_Bold" AriaLabel="Bold" />
+                    <TwToggleGroupItem Value="@("italic")" Icon="Icon.Type_Italic" AriaLabel="Italic" />
+                </TwToggleGroup>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Colors">
+        <Description>Set <code>Color</code> on the group to tint every pressed item, or on a <code>TwToggleGroupItem</code> to tint just that one.</Description>
+        <CodeExample Name="ToggleGroupColors">
+            <TwToggleGroup Multiple Values="@(new[] { "wifi", "bluetooth" })" Color="Color.Primary" Variant="ToggleVariant.Outlined" AriaLabel="Connections">
+                <TwToggleGroupItem Value="@("wifi")" Icon="Icon.Wifi" Label="Wi-Fi" />
+                <TwToggleGroupItem Value="@("bluetooth")" Icon="Icon.Bluetooth" Label="Bluetooth" />
+                <TwToggleGroupItem Value="@("airplane")" Icon="Icon.Airplane" Label="Flight mode" Color="Color.Warning" />
+            </TwToggleGroup>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Vertical">
+        <Description>Set <code>Vertical</code> to stack the items. The arrow keys work in either direction.</Description>
+        <CodeExample Name="ToggleGroupVertical">
+            <TwToggleGroup Value="@("week")" Vertical AriaLabel="Calendar view">
+                <TwToggleGroupItem Value="@("day")" Label="Day" />
+                <TwToggleGroupItem Value="@("week")" Label="Week" />
+                <TwToggleGroupItem Value="@("month")" Label="Month" />
+            </TwToggleGroup>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Disabled">
+        <Description>Set <code>Disabled</code> on the group to disable every item, or on a <code>TwToggleGroupItem</code> to disable just that one. The arrow keys skip disabled items.</Description>
+        <CodeExample Name="ToggleGroupDisabled">
+            <div class="flex flex-wrap items-center gap-4">
+                <TwToggleGroup Value="@("left")" Disabled AriaLabel="Alignment (disabled)">
+                    <TwToggleGroupItem Value="@("left")" Icon="Icon.Text_Left" AriaLabel="Align left" />
+                    <TwToggleGroupItem Value="@("center")" Icon="Icon.Text_Center" AriaLabel="Align center" />
+                </TwToggleGroup>
+                <TwToggleGroup Value="@("left")" AriaLabel="Alignment (one disabled)">
+                    <TwToggleGroupItem Value="@("left")" Icon="Icon.Text_Left" AriaLabel="Align left" />
+                    <TwToggleGroupItem Value="@("center")" Icon="Icon.Text_Center" AriaLabel="Align center" Disabled />
+                    <TwToggleGroupItem Value="@("right")" Icon="Icon.Text_Right" AriaLabel="Align right" />
+                </TwToggleGroup>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="View mode selector">
+        <Description>Bind an enum to switch between views of the same content.</Description>
+        <CodeExample Name="ToggleGroupViewMode" CSharpName="ToggleGroupViewModeCode">
+            <div class="flex flex-col gap-4">
+                <TwToggleGroup @bind-Value="view" AriaLabel="View">
+                    <TwToggleGroupItem Value="ViewMode.Grid" Icon="Icon.Grid" Label="Grid" />
+                    <TwToggleGroupItem Value="ViewMode.List" Icon="Icon.List_Ul" Label="List" />
+                </TwToggleGroup>
+                <div class="@(view == ViewMode.Grid ? "grid grid-cols-3 gap-2" : "flex flex-col gap-2")">
+                    @foreach (var file in files)
+                    {
+                        <div class="rounded-lg border border-[oklch(21%_0.006_285.885)]/15 dark:border-[oklch(97.807%_0.029_256.847)]/15 p-3 text-sm">@file</div>
+                    }
+                </div>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Accessibility">
+        <Description>
+            A single-select group is a <code>radiogroup</code> of <code>radio</code> items with <code>aria-checked</code>, following the WAI-ARIA radio group pattern: moving to an item with the arrow keys also selects it. A <code>Multiple</code> group is a <code>group</code> of toggle buttons with <code>aria-pressed</code>, following the toolbar pattern: the arrow keys move focus and Space or Enter presses the focused item. Either way the group is a single Tab stop, and Arrow Left and Arrow Right swap in a right to left layout. Name the group with <code>AriaLabel</code> or <code>AriaLabelledBy</code>, and give icon-only items an <code>AriaLabel</code>.
+        </Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample ToggleGroupSingleCode
+    private string? alignment = "left";
+    #endregion
+
+    #region CodeExample ToggleGroupMultipleCode
+    private IEnumerable<string> formatting = ["bold"];
+    #endregion
+
+    #region CodeExample ToggleGroupDeselectableCode
+    private string? rating;
+    #endregion
+
+    #region CodeExample ToggleGroupViewModeCode
+    private enum ViewMode { Grid, List }
+
+    private ViewMode view = ViewMode.Grid;
+
+    private readonly string[] files = ["Report.pdf", "Budget.xlsx", "Photo.jpg", "Notes.txt", "Slides.pptx", "Logo.svg"];
+    #endregion
+}
