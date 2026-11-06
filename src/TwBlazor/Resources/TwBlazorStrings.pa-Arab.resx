@@ -798,6 +798,12 @@
   <data name="Menu_Options" xml:space="preserve">
     <value>اختیارات</value>
   </data>
+  <data name="ContextMenu_Label" xml:space="preserve">
+    <value>سیاق مینیو</value>
+  </data>
+  <data name="ContextMenu_Hint" xml:space="preserve">
+    <value>ہور چوݨاں لئی Shift+F10 یا مینیو کنجی دباؤ۔</value>
+  </data>
   <data name="DataTable_ColumnOptions" xml:space="preserve">
     <value>{0} کالم دے اختیارات</value>
   </data>

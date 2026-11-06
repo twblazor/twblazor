@@ -1,0 +1,27 @@
+@namespace TwBlazor.Components
+@inherits TwBlazorComponentBase
+
+<TwButton @ref="button"
+          Id="@Id"
+          Class="@classes"
+          Style="@Style"
+          Disabled="@Disabled"
+          Tooltip="@Tooltip"
+          OnClick="@OnClickAsync"
+          Attributes="@buttonAttributes"
+          AriaLabel="@AriaLabel"
+          AriaLabelledBy="@AriaLabelledBy"
+          Plain>
+    @if (Icon.HasValue)
+    {
+        <TwIcon Icon="@Icon.Value" Class="@iconClasses" />
+    }
+    @if (ChildContent != null)
+    {
+        @ChildContent
+    }
+    else if (!string.IsNullOrEmpty(Label))
+    {
+        @Label
+    }
+</TwButton>

@@ -801,6 +801,12 @@
   <data name="Menu_Options" xml:space="preserve">
     <value>الخيارات</value>
   </data>
+  <data name="ContextMenu_Label" xml:space="preserve">
+    <value>قائمة السياق</value>
+  </data>
+  <data name="ContextMenu_Hint" xml:space="preserve">
+    <value>اضغط Shift+F10 أو مفتاح القائمة لمزيد من الخيارات.</value>
+  </data>
   <data name="DataTable_ColumnOptions" xml:space="preserve">
     <value>خيارات العمود {0}</value>
   </data>

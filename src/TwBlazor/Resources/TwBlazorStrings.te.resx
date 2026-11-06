@@ -795,6 +795,12 @@
   <data name="Menu_Options" xml:space="preserve">
     <value>ఎంపికలు</value>
   </data>
+  <data name="ContextMenu_Label" xml:space="preserve">
+    <value>సందర్భ మెనూ</value>
+  </data>
+  <data name="ContextMenu_Hint" xml:space="preserve">
+    <value>మరిన్ని ఎంపికల కోసం Shift+F10 లేదా మెనూ కీని నొక్కండి.</value>
+  </data>
   <data name="DataTable_ColumnOptions" xml:space="preserve">
     <value>{0} నిలువు వరుస ఎంపికలు</value>
   </data>

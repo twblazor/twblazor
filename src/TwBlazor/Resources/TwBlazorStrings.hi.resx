@@ -795,6 +795,12 @@
   <data name="Menu_Options" xml:space="preserve">
     <value>विकल्प</value>
   </data>
+  <data name="ContextMenu_Label" xml:space="preserve">
+    <value>संदर्भ मेनू</value>
+  </data>
+  <data name="ContextMenu_Hint" xml:space="preserve">
+    <value>अधिक विकल्पों के लिए Shift+F10 या मेनू कुंजी दबाएँ।</value>
+  </data>
   <data name="DataTable_ColumnOptions" xml:space="preserve">
     <value>{0} कॉलम के विकल्प</value>
   </data>

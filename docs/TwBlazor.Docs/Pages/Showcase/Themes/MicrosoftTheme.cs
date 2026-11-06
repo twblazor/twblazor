@@ -1783,7 +1783,45 @@ public static class MicrosoftTheme
                     CheckIcon = $"{typography.Size.Base} {flexbox.ShrinkNone} text-fluentblue-600 dark:text-fluentblue-300",
                     CheckIconHidden = "invisible",
                     Divider = $"my-1 border-t {neutralSurface.Border}",
-                    GroupLabel = $"{spacing.PaddingX[3]} {spacing.PaddingTop[2]} {spacing.PaddingBottom[1]} {typography.Size.Xs} {typography.Weight.Semibold} {neutralText.Muted}"
+                    GroupLabel = $"{spacing.PaddingX[3]} {spacing.PaddingTop[2]} {spacing.PaddingBottom[1]} {typography.Size.Xs} {typography.Weight.Semibold} {neutralText.Muted}",
+                    ItemShortcut = $"ms-auto {spacing.PaddingStart[6]} {typography.Size.Xs} tracking-widest {neutralText.Muted}",
+                    ItemDestructive = $"{text.Medium.Danger} {darkText.Light.Danger} [&_i]:text-current hover:bg-red-50 dark:hover:bg-red-950/40 focus-visible:bg-red-50 dark:focus-visible:bg-red-950/40",
+                    ItemInset = spacing.PaddingStart[8],
+                    SubmenuTrigger = "aria-expanded:bg-[oklch(21%_0.006_285.885)]/5 dark:aria-expanded:bg-[oklch(97.807%_0.029_256.847)]/8",
+                    SubmenuIcon = $"ms-auto {typography.Size.Xs} {flexbox.ShrinkNone} {neutralText.Subtle}",
+                    ContextArea = $"{interaction.FocusOutlineNone} {tokens.FocusRing}"
+                },
+                new TwSeparatorTheme
+                {
+                    Base = $"{flexbox.ShrinkNone} forced-colors:border-[CanvasText] [--separator-width:1px]",
+                    Horizontal = sizing.FullWidth,
+                    Vertical = $"{display.InlineBlock} {flexbox.AlignSelf.Stretch} min-h-4 align-middle",
+                    LabeledHorizontal = $"{display.Flex} {flexbox.Align.Center} {spacing.Gap[3]} {sizing.FullWidth}",
+                    LabeledVertical = $"{display.InlineFlex} {flexbox.Col} {flexbox.Align.Center} {spacing.Gap[2]} {flexbox.AlignSelf.Stretch} min-h-16 align-middle",
+                    HorizontalLine = "border-t-(length:--separator-width)",
+                    VerticalLine = "border-s-(length:--separator-width)",
+                    LabelLine = "border-inherit",
+                    LineStretch = flexbox.Flex1,
+                    LineInset = $"{flexbox.ShrinkNone} basis-4",
+                    Label = $"{sizing.MinWidthNone} {typography.AlignCenter} {typography.WrapBreakWord} {typography.Size.Xs} {typography.Weight.Medium}",
+                    Thin = "[--separator-width:1px]",
+                    Medium = "[--separator-width:2px]",
+                    Thick = "[--separator-width:4px]",
+                    Solid = "border-solid",
+                    Dashed = "border-dashed",
+                    Dotted = "border-dotted",
+                    Neutral = $"{neutralSurface.Border} {neutralText.Muted}",
+                    Colors = new()
+                    {
+                        Primary = $"{borderColors.Primary} {text.Medium.Primary} {darkText.Light.Primary}",
+                        Accent = $"{borderColors.Accent} {text.Medium.Accent} {darkText.Light.Accent}",
+                        Success = $"{borderColors.Success} {text.Medium.Success} {darkText.Light.Success}",
+                        Danger = $"{borderColors.Danger} {text.Medium.Danger} {darkText.Light.Danger}",
+                        Warning = $"{borderColors.Warning} {text.Medium.Warning} {darkText.Light.Warning}",
+                        Info = $"{borderColors.Info} {text.Medium.Info} {darkText.Light.Info}",
+                        Light = $"{borderColors.Light} {neutralText.Secondary}",
+                        Dark = $"{borderColors.Dark} {neutralText.Heading}",
+                    }
                 },
                 new TwOnThisPageTheme
                 {
@@ -2067,6 +2105,39 @@ public static class MicrosoftTheme
                     LabelInteractiveCursor = interaction.PointerCursor,
                     LabelNonInteractiveCursor = interaction.PointerEventsNone,
                     LabelDisabled = interaction.DisabledOpacity
+                },
+                new TwToggleTheme
+                {
+                    Colors = new()
+                    {
+                        Primary = "bg-fluentblue-100 text-fluentblue-800 dark:bg-fluentblue-500/25 dark:text-fluentblue-100",
+                        Accent = "bg-neutral-100 text-neutral-800 dark:bg-neutral-500/25 dark:text-neutral-100",
+                        Success = "bg-green-100 text-green-800 dark:bg-green-500/25 dark:text-green-100",
+                        Danger = "bg-red-100 text-red-800 dark:bg-red-500/25 dark:text-red-100",
+                        Warning = "bg-yellow-100 text-yellow-900 dark:bg-yellow-500/25 dark:text-yellow-100",
+                        Info = "bg-blue-100 text-blue-800 dark:bg-blue-500/25 dark:text-blue-100",
+                        Light = $"bg-white {text.Medium.Dark}",
+                        Dark = $"{background.Dark.Dark} {text.Medium.Light} dark:bg-gray-950",
+                    },
+                    Base = $"{display.InlineFlex} {anchor.Center} {spacing.Gap[2]} {flexbox.ShrinkNone} {typography.Weight.Medium} whitespace-nowrap select-none {transition.ColorsFast} {interaction.FocusOutlineNone} touch-manipulation forced-colors:border forced-colors:border-[ButtonBorder]",
+                    Sm = $"h-8 min-w-8 {spacing.PaddingX[2]} {typography.Size.Xs}",
+                    Md = $"h-9 min-w-9 {spacing.PaddingX[2.5]} {typography.Size.Sm}",
+                    Lg = $"h-10 min-w-10 {spacing.PaddingX[3]} {typography.Size.Sm}",
+                    IconSm = $"{typography.Size.Sm} leading-none",
+                    IconMd = $"{typography.Size.Base} leading-none",
+                    IconLg = $"{typography.Size.Lg} leading-none",
+                    Unpressed = $"{tokens.Transparent} {neutralText.Secondary}",
+                    Hover = $"{tokens.HoverFill} {tokens.HoverText}",
+                    Pressed = $"{tokens.TrackStrong} {neutralText.Heading}",
+                    GroupPressed = $"{tokens.RaisedSurface} {neutralText.Heading} {shadows.Sm} {tokens.HairlineRing}",
+                    PressedForcedColors = "forced-colors:bg-[Highlight] forced-colors:text-[HighlightText]",
+                    Outlined = $"{borderWidth.Thin} {neutralSurface.BorderStrong}",
+                    Disabled = interaction.DisabledOpacity,
+                    GroupBase = $"{display.InlineFlex} max-w-full {spacing.Gap[1]} {spacing.Padding[1]}",
+                    GroupHorizontal = $"{flexbox.Row} {flexbox.Wrap}",
+                    GroupVertical = flexbox.Col,
+                    GroupText = $"{tokens.Track} {borderWidth.Thin} {neutralSurface.Border}",
+                    GroupOutlined = $"{borderWidth.Thin} {neutralSurface.BorderStrong}"
                 },
                 new TwSpinnerTheme
                 {

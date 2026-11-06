@@ -795,6 +795,12 @@
   <data name="Menu_Options" xml:space="preserve">
     <value>Tùy chọn</value>
   </data>
+  <data name="ContextMenu_Label" xml:space="preserve">
+    <value>Menu ngữ cảnh</value>
+  </data>
+  <data name="ContextMenu_Hint" xml:space="preserve">
+    <value>Nhấn Shift+F10 hoặc phím Menu để xem thêm tùy chọn.</value>
+  </data>
   <data name="DataTable_ColumnOptions" xml:space="preserve">
     <value>Tùy chọn cột {0}</value>
   </data>

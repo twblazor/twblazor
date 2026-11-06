@@ -963,6 +963,12 @@ public static class TwStrings
     /// <summary>The key for "Options".</summary>
     public const string Menu_Options = "Menu_Options";
 
+    /// <summary>The key for "Context menu", the name of a context menu when the app gives it no name of its own.</summary>
+    public const string ContextMenu_Label = "ContextMenu_Label";
+
+    /// <summary>The key for the hint read out on a focusable context menu area, saying how to open its menu from the keyboard.</summary>
+    public const string ContextMenu_Hint = "ContextMenu_Hint";
+
     /// <summary>The key for "Reactions", the name of the row of reactions under a chat bubble.</summary>
     public const string Bubble_Reactions = "Bubble_Reactions";
 

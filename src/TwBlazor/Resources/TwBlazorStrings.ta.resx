@@ -795,6 +795,12 @@
   <data name="Menu_Options" xml:space="preserve">
     <value>விருப்பங்கள்</value>
   </data>
+  <data name="ContextMenu_Label" xml:space="preserve">
+    <value>சூழல் மெனு</value>
+  </data>
+  <data name="ContextMenu_Hint" xml:space="preserve">
+    <value>மேலும் விருப்பங்களுக்கு Shift+F10 அல்லது மெனு விசையை அழுத்தவும்.</value>
+  </data>
   <data name="DataTable_ColumnOptions" xml:space="preserve">
     <value>{0} நெடுவரிசை விருப்பங்கள்</value>
   </data>

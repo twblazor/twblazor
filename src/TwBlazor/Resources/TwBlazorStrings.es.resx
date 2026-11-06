@@ -798,6 +798,12 @@
   <data name="Menu_Options" xml:space="preserve">
     <value>Opciones</value>
   </data>
+  <data name="ContextMenu_Label" xml:space="preserve">
+    <value>Menú contextual</value>
+  </data>
+  <data name="ContextMenu_Hint" xml:space="preserve">
+    <value>Pulse Mayús+F10 o la tecla de menú para ver más opciones.</value>
+  </data>
   <data name="DataTable_ColumnOptions" xml:space="preserve">
     <value>Opciones de la columna {0}</value>
   </data>

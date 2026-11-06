@@ -795,6 +795,12 @@
   <data name="Menu_Options" xml:space="preserve">
     <value>বিকল্প</value>
   </data>
+  <data name="ContextMenu_Label" xml:space="preserve">
+    <value>প্রসঙ্গ মেনু</value>
+  </data>
+  <data name="ContextMenu_Hint" xml:space="preserve">
+    <value>আরও বিকল্পের জন্য Shift+F10 বা মেনু কী চাপুন।</value>
+  </data>
   <data name="DataTable_ColumnOptions" xml:space="preserve">
     <value>{0} কলামের বিকল্প</value>
   </data>
