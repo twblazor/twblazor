@@ -361,6 +361,14 @@
         "theme": "TwChipTheme"
       },
       {
+        "id": "empty-navitem",
+        "display": "Empty",
+        "name": "TwEmpty",
+        "url": "/empty",
+        "isNew": true,
+        "theme": "TwEmptyTheme"
+      },
+      {
         "id": "icon-navitem",
         "display": "Icon",
         "name": "TwIcon",
