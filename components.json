@@ -295,6 +295,21 @@
             "url": "/time-range-picker"
           }
         ]
+      },
+      {
+        "id": "toggle-navitem",
+        "display": "Toggle",
+        "name": "TwToggle",
+        "url": "/toggle",
+        "isNew": true,
+        "theme": "TwToggleTheme"
+      },
+      {
+        "id": "toggle-group-navitem",
+        "display": "Toggle Group",
+        "name": "TwToggleGroup",
+        "url": "/toggle-group",
+        "isNew": true
       }
     ]
   },
