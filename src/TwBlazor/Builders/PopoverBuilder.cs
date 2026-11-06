@@ -27,9 +27,17 @@ public class PopoverBuilder(TwBlazorOptions options, RoundedBuilder roundedBuild
     /// <param name="rounded">Instance-level rounded override.</param>
     /// <param name="shadow">Instance-level shadow override.</param>
     /// <param name="customClass">Additional custom classes to append.</param>
-    public string GetSurfaceClasses(Rounded? rounded, Shadow? shadow, string? customClass = null)
+    /// <remarks><see cref="Rounded.Full"/> is capped at <see cref="Rounded.Lg"/>, so a panel never turns into a pill.</remarks>
+    public string GetSurfaceClasses(Rounded? rounded, Shadow? shadow, string? customClass = null) =>
+        GetSurfaceClasses(rounded, shadow, customClass, capFull: true);
+
+    // Tooltips skip the cap: a one-line bubble reads fine as a pill.
+    private string GetSurfaceClasses(Rounded? rounded, Shadow? shadow, string? customClass, bool capFull)
     {
         var effectiveRounded = rounded ?? theme.Rounded ?? options.Theme.Rounded.DefaultRounded;
+        if (capFull)
+            effectiveRounded = RoundedBuilder.ForSurface(effectiveRounded);
+
         var effectiveShadow = shadow ?? theme.Shadow ?? options.Theme.Shadows.DefaultShadow;
 
         return new ClassBuilder(theme.Background)
@@ -63,7 +71,7 @@ public class PopoverBuilder(TwBlazorOptions options, RoundedBuilder roundedBuild
         string? customClass = null) =>
         new ClassBuilder(tooltipTheme.Bubble)
             .AddClass(GetPlacementClasses(placement))
-            .AddClass(GetSurfaceClasses(rounded, shadow, customClass))
+            .AddClass(GetSurfaceClasses(rounded, shadow, customClass, capFull: false))
             .AddClass(options.Theme.Display.Hidden, dismissed)
             .AddClass(tooltipTheme.Dismissed, dismissed)
             .Build();

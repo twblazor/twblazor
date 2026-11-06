@@ -63,7 +63,8 @@ public partial class TwDatePickerHeader : TwBlazorComponentBase
     [Parameter] public bool NextDisabled { get; set; }
 
     private string classes => new ClassBuilder("datepicker-header")
-        .AddClass(theme.Header).Build();
+        .AddClass(theme.Header)
+        .AddClass(roundedBuilder.GetRoundedTop(effectiveSurfaceRounded)).Build();
 
     private string headerControlsClasses => new ClassBuilder("datepicker-controls")
         .AddClass(theme.HeaderControls).Build();

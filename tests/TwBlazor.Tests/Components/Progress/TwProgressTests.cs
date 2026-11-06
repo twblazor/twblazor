@@ -170,7 +170,8 @@ public class TwProgressTests : TwBlazorTestBase
 
         // Assert - the shimmer is a decorative overlay sized to the filled portion, not a class on the bar
         var overlay = cut.Find("progress + span");
-        Assert.Equal(progressTheme.Animated, overlay.GetAttribute("class"));
+        Assert.StartsWith(progressTheme.Animated, overlay.GetAttribute("class"));
+        Assert.Contains(RoundedBuilder.GetRounded(Theme.Rounded.DefaultRounded), overlay.ClassList);
         Assert.Contains("tw-wave", overlay.GetAttribute("class"));
         Assert.Equal("width: 40%", overlay.GetAttribute("style"));
         Assert.Equal("true", overlay.GetAttribute("aria-hidden"));

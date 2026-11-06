@@ -61,7 +61,7 @@ public partial class TwPagination : TwBlazorComponentBase
 
     private string buttonBaseClasses => new ClassBuilder(theme.Base)
         .AddClass(Dense ? theme.DenseSize : theme.Size)
-        .AddClass(roundedBuilder.GetRounded())
+        .AddClass(roundedBuilder.GetRounded(effectiveRounded))
         .Build();
 
     private string rootClasses => new ClassBuilder(options.Theme.Display.Flex)

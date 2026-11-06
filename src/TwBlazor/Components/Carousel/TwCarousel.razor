@@ -7,7 +7,7 @@
         @* First in the tab order, so the rotation can be stopped before anything inside it is reached. *@
         @if (AutoPlay)
         {
-            <TwIcon Id="@($"{Id}-playpause")" Icon="@(IsAutoPlayManuallyPaused ? Icon.Play_Fill : Icon.Pause_Fill)" ButtonVariant="ButtonVariant.Filled" Color="ButtonColor" RootClass="@theme.PlayPauseButton" AriaLabel="@(IsAutoPlayManuallyPaused ? localizer[TwStrings.Carousel_Play] : localizer[TwStrings.Carousel_Pause])" OnClick="ToggleAutoPlayPaused" />
+            <TwIcon Id="@($"{Id}-playpause")" Icon="@(IsAutoPlayManuallyPaused ? Icon.Play_Fill : Icon.Pause_Fill)" ButtonVariant="ButtonVariant.Filled" Color="ButtonColor" Rounded="@effectiveRounded" RootClass="@theme.PlayPauseButton" AriaLabel="@(IsAutoPlayManuallyPaused ? localizer[TwStrings.Carousel_Play] : localizer[TwStrings.Carousel_Pause])" OnClick="ToggleAutoPlayPaused" />
         }
 
         <div class="@theme.Slide" aria-live="@(AutoPlay && !IsAutoPlayManuallyPaused ? "off" : "polite")">
@@ -27,7 +27,7 @@
             }
             else if (ShowArrows)
             {
-                <TwIcon Id="@($"{Id}-previous")" Icon="@DirectionalIcon(Icon.Chevron_Left, Icon.Chevron_Right)" ButtonVariant="ButtonVariant.Filled" Color="ButtonColor" RootClass="@previousArrowClasses" AriaLabel="@localizer[TwStrings.Carousel_PreviousSlide]" OnClick="PreviousSlide" Readonly="@(!Loop && IsFirstSlide)" />
+                <TwIcon Id="@($"{Id}-previous")" Icon="@DirectionalIcon(Icon.Chevron_Left, Icon.Chevron_Right)" ButtonVariant="ButtonVariant.Filled" Color="ButtonColor" Rounded="@effectiveRounded" RootClass="@previousArrowClasses" AriaLabel="@localizer[TwStrings.Carousel_PreviousSlide]" OnClick="PreviousSlide" Readonly="@(!Loop && IsFirstSlide)" />
             }
 
             if (RightNavigation != null)
@@ -36,7 +36,7 @@
             }
             else if (ShowArrows)
             {
-                <TwIcon Id="@($"{Id}-next")" Icon="@DirectionalIcon(Icon.Chevron_Right, Icon.Chevron_Left)" ButtonVariant="ButtonVariant.Filled" Color="ButtonColor" RootClass="@nextArrowClasses" AriaLabel="@localizer[TwStrings.Carousel_NextSlide]" OnClick="NextSlide" Readonly="@(!Loop && IsLastSlide)" />
+                <TwIcon Id="@($"{Id}-next")" Icon="@DirectionalIcon(Icon.Chevron_Right, Icon.Chevron_Left)" ButtonVariant="ButtonVariant.Filled" Color="ButtonColor" Rounded="@effectiveRounded" RootClass="@nextArrowClasses" AriaLabel="@localizer[TwStrings.Carousel_NextSlide]" OnClick="NextSlide" Readonly="@(!Loop && IsLastSlide)" />
             }
         }
 
@@ -48,7 +48,7 @@
             }
             else if (ShowIndicators)
             {
-                <div class="@theme.IndicatorContainer" role="group" aria-label="@localizer[TwStrings.Carousel_ChooseSlide]">
+                <div class="@indicatorContainerClasses" role="group" aria-label="@localizer[TwStrings.Carousel_ChooseSlide]">
                     @foreach (var index in Enumerable.Range(0, _items.Count))
                     {
                         <button type="button" class="@GetIndicatorClasses(index)" aria-label="@localizer[TwStrings.Carousel_SlideOf, index + 1, _items.Count]" aria-current="@(index == SelectedIndex ? "true" : "false")" @onclick="@(() => GoToSlide(index))"></button>

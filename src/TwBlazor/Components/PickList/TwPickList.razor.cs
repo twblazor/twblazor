@@ -354,7 +354,7 @@ public partial class TwPickList<TItem> : TwBlazorComponentBase
 
     private string GetListBoxClasses() => new ClassBuilder(theme.ListBox)
         .AddClass(theme.ListBoxDisabled, Disabled)
-        .AddClass(roundedBuilder.GetRounded(effectiveRounded))
+        .AddClass(roundedBuilder.GetRounded(effectiveSurfaceRounded))
         .Build();
 
     private string GetItemClasses(TItem item, bool isSource) => new ClassBuilder(theme.Item)

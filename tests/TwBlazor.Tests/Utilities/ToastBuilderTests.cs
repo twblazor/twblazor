@@ -12,11 +12,20 @@ public class ToastBuilderTests : TwBlazorTestBase
     public void GetToastClasses_UsesCustomRounded()
     {
         // Act
-        var result = ToastBuilder.GetToastClasses(Rounded.Full);
+        var result = ToastBuilder.GetToastClasses(Rounded.Sm);
 
         // Assert
-        Assert.Contains("rounded-full", result);
+        Assert.Contains("rounded-sm", result);
         Assert.DoesNotContain("rounded-lg", result);
+    }
+
+    [Fact]
+    public void GetToastClasses_CapsFullRounding_AtLarge()
+    {
+        var result = ToastBuilder.GetToastClasses(Rounded.Full);
+
+        Assert.Contains("rounded-lg", result);
+        Assert.DoesNotContain("rounded-full", result);
     }
 
     [Fact]

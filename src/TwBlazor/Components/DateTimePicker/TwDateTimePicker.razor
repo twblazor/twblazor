@@ -33,6 +33,7 @@
     LabelId="@LabelId"
     LabelAttributes="@LabelAttributes"
     Variant="@Variant"
+    Rounded="@Rounded"
     Dense="@Dense"
     ReadOnly="@ReadOnly"
     Disabled="@Disabled">
@@ -40,6 +41,7 @@
         <TwDatePickerBody Class="time">
             <TwTimePickerBody Id="@($"{Id}-time")"
                               Variant="@effectiveVariant"
+                              Rounded="@Rounded"
                               Is12HourFormat="@effectiveIs12HourFormat"
                               Step="@Step"
                               SelectedTime="@currentTime"

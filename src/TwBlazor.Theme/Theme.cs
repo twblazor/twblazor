@@ -1365,8 +1365,8 @@ public static class Theme
                     ArrowButtonStart = "start-2",
                     ArrowButtonEnd = "end-2",
                     PlayPauseButton = $"{positioning.Absolute} top-2 end-2 z-10 text-sm {shadows.Md}",
-                    IndicatorContainer = $"{positioning.Absolute} bottom-2 inset-x-0 z-10 w-fit mx-auto {display.Flex} {flexbox.Justify.Center} {flexbox.Align.Center} {spacing.Gap[4]} {spacing.PaddingX[4]} {spacing.PaddingY[2]} {rounded.Full} bg-white/45 dark:bg-black/60 {shadows.Md}",
-                    Indicator = $"{positioning.Relative} size-2.5 before:absolute before:-inset-2 before:content-[''] {rounded.Full} {interaction.PointerCursor} {interaction.FocusOutlineNone} {tokens.FocusRing} focus-visible:ring-offset-2 {tokens.FocusRingOffset} forced-colors:border forced-colors:border-[ButtonText] {transition.ColorsFast}",
+                    IndicatorContainer = $"{positioning.Absolute} bottom-2 inset-x-0 z-10 w-fit mx-auto {display.Flex} {flexbox.Justify.Center} {flexbox.Align.Center} {spacing.Gap[4]} {spacing.PaddingX[4]} {spacing.PaddingY[2]} bg-white/45 dark:bg-black/60 {shadows.Md}",
+                    Indicator = $"{positioning.Relative} size-2.5 before:absolute before:-inset-2 before:content-[''] {interaction.PointerCursor} {interaction.FocusOutlineNone} {tokens.FocusRing} focus-visible:ring-offset-2 {tokens.FocusRingOffset} forced-colors:border forced-colors:border-[ButtonText] {transition.ColorsFast}",
                     IndicatorActive = "bg-purple-600 dark:bg-purple-500 forced-colors:bg-[Highlight]",
                     IndicatorInactive = "bg-[oklch(21%_0.006_285.885)]/45 dark:bg-[oklch(97.807%_0.029_256.847)]/50 hover:bg-[oklch(21%_0.006_285.885)]/65 dark:hover:bg-[oklch(97.807%_0.029_256.847)]/70"
                 },
@@ -1520,7 +1520,7 @@ public static class Theme
                 },
                 new TwDatePickerTheme
                 {
-                    Header = $"{typography.AlignCenter} {typography.Weight.Medium} {overlayTheme.Popover.Background} {rounded.RoundedTop.Lg} border-b {neutralSurface.BorderStrong}",
+                    Header = $"{typography.AlignCenter} {typography.Weight.Medium} {overlayTheme.Popover.Background} border-b {neutralSurface.BorderStrong}",
                     WeekdaysHeader = $"{display.Flex} {anchor.Center} h-8 {typography.Size.Xs} font-normal {neutralText.Muted}",
                     Base = $"{positioning.Fixed} z-120 {flexbox.Row} md:flex-row {flexbox.Align.Center} {spacing.MarginTop[1]} {spacing.PaddingX[2]} {spacing.PaddingBottom[2]} {typography.AlignCenter} {typography.Size.Sm} {typography.Weight.Medium} {transition.ColorsFast} {interaction.PointerCursor}",
                     ActiveClass = $"{tokens.Track} {neutralText.Heading} {typography.Weight.Semibold}",
@@ -1548,7 +1548,7 @@ public static class Theme
                     DayGrid = $"{sizing.FullWidth} border-collapse",
                     DayHeaderCellPadding = spacing.Padding[0],
                     DayAbbreviation = "no-underline",
-                    RangeStageTabsContainer = $"{display.Flex} {spacing.Gap[1]} {spacing.Padding[1]} {rounded.Lg} {tokens.Track} {spacing.MarginBottom[2]}",
+                    RangeStageTabsContainer = $"{display.Flex} {spacing.Gap[1]} {spacing.Padding[1]} {tokens.Track} {spacing.MarginBottom[2]}",
                     RangeStageTabInactive = neutralText.Subtle,
                     PanelMaxHeight = "overflow-y-auto max-h-[calc(100vh-2rem)]",
                     PanelMaxWidth = "overflow-x-auto max-w-[calc(100vw-2rem)]",
@@ -1699,7 +1699,7 @@ public static class Theme
                     FieldStartContent = $"{positioning.Absolute} top-0 start-0 {display.Flex} {flexbox.Align.Center} {interaction.PointerEventsNone}",
                     FieldEndContent = $"{positioning.Absolute} top-0 end-0 {display.Flex} {flexbox.Align.Stretch} {spacing.Gap[1]} py-px pe-px",
                     ClearablePadding = "pe-10",
-                    ClearButton = $"{display.InlineFlex} w-8 {flexbox.Align.Center} {flexbox.Justify.Center} {flexbox.ShrinkNone} {rounded.Md} {neutralText.Secondary} {tokens.HoverText} {tokens.HoverFill} {interaction.PointerCursor} {transition.ColorsFast} {tokens.FocusRing} {interaction.FocusOutlineNone} {tokens.DisabledControl}",
+                    ClearButton = $"{display.InlineFlex} w-8 {flexbox.Align.Center} {flexbox.Justify.Center} {flexbox.ShrinkNone} {neutralText.Secondary} {tokens.HoverText} {tokens.HoverFill} {interaction.PointerCursor} {transition.ColorsFast} {tokens.FocusRing} {interaction.FocusOutlineNone} {tokens.DisabledControl}",
                     ClearButtonIcon = $"{typography.Size.Sm} leading-none",
                     SelectOption = $"{spacing.Padding[3]} dark:bg-gray-800 dark:text-white supports-[appearance:base-select]:[padding-inline:revert] supports-[appearance:base-select]:py-2 supports-[appearance:base-select]:bg-transparent dark:supports-[appearance:base-select]:bg-transparent supports-[appearance:base-select]:hover:bg-[oklch(97%_0_0)] dark:supports-[appearance:base-select]:hover:bg-[oklch(34%_0.018_253)] supports-[appearance:base-select]:checked:bg-purple-50 supports-[appearance:base-select]:checked:text-purple-700 dark:supports-[appearance:base-select]:checked:bg-purple-500/20 dark:supports-[appearance:base-select]:checked:text-purple-300",
                     SelectNativeBackground = "!bg-white dark:!bg-gray-800",
@@ -1734,7 +1734,7 @@ public static class Theme
                 new TwNumericTheme
                 {
                     Adornment = $"self-center whitespace-nowrap select-none {neutralText.Secondary}",
-                    Button = $"{display.InlineFlex} {flexbox.Align.Center} {flexbox.Justify.Center} {flexbox.ShrinkNone} {rounded.Md} {neutralText.Secondary} {tokens.HoverText} {tokens.HoverFill} {interaction.PointerCursor} {transition.ColorsFast} {tokens.FocusRing} {interaction.FocusOutlineNone} {tokens.DisabledControl}",
+                    Button = $"{display.InlineFlex} {flexbox.Align.Center} {flexbox.Justify.Center} {flexbox.ShrinkNone} {neutralText.Secondary} {tokens.HoverText} {tokens.HoverFill} {interaction.PointerCursor} {transition.ColorsFast} {tokens.FocusRing} {interaction.FocusOutlineNone} {tokens.DisabledControl}",
                     ButtonIcon = $"{typography.Size.Sm} leading-none"
                 },
                 new TwMenuTheme
@@ -1795,12 +1795,12 @@ public static class Theme
                         Light = "[&::-webkit-progress-value]:bg-gray-400 dark:[&::-webkit-progress-value]:bg-gray-300 [&::-moz-progress-bar]:bg-gray-400 dark:[&::-moz-progress-bar]:bg-gray-300",
                         Dark = "[&::-webkit-progress-value]:bg-gray-900 dark:[&::-webkit-progress-value]:bg-gray-100 [&::-moz-progress-bar]:bg-gray-900 dark:[&::-moz-progress-bar]:bg-gray-100"
                     },
-                    Base = $"{display.Block} {overflow.Hidden} {sizing.FullWidth} {sizing.MinWidthNone} tabular-nums {tokens.TrackStrong} {rounded.Full} {borderWidth.Thin} {neutralSurface.BorderStrong} forced-colors:[&::-webkit-progress-value]:bg-[Highlight] forced-colors:[&::-moz-progress-bar]:bg-[Highlight] indeterminate:animate-pulse indeterminate:motion-reduce:animate-none appearance-none [&::-webkit-progress-bar]:rounded-full [&::-webkit-progress-bar]:bg-transparent [&::-webkit-progress-value]:rounded-full [&::-webkit-progress-value]:transition-[width] [&::-webkit-progress-value]:{transition.DurationSlow} [&::-moz-progress-bar]:rounded-full [&::-moz-progress-bar]:transition-[width] [&::-moz-progress-bar]:{transition.DurationSlow}",
+                    Base = $"{display.Block} {overflow.Hidden} {sizing.FullWidth} {sizing.MinWidthNone} tabular-nums {tokens.TrackStrong} {borderWidth.Thin} {neutralSurface.BorderStrong} forced-colors:[&::-webkit-progress-value]:bg-[Highlight] forced-colors:[&::-moz-progress-bar]:bg-[Highlight] indeterminate:animate-pulse indeterminate:motion-reduce:animate-none appearance-none [&::-webkit-progress-bar]:rounded-[inherit] [&::-webkit-progress-bar]:bg-transparent [&::-webkit-progress-value]:rounded-[inherit] [&::-webkit-progress-value]:transition-[width] [&::-webkit-progress-value]:{transition.DurationSlow} [&::-moz-progress-bar]:rounded-[inherit] [&::-moz-progress-bar]:transition-[width] [&::-moz-progress-bar]:{transition.DurationSlow}",
                     Small = "h-1.5",
                     Medium = "h-2.5",
                     Large = "h-4",
                     Wrapper = $"{positioning.Relative} {display.Block}",
-                    Animated = $"{positioning.Absolute} inset-y-0 start-0 {overflow.Hidden} {rounded.Full} {interaction.PointerEventsNone} transition-[width] {transition.DurationSlow} tw-wave [--tw-wave-color:rgb(255_255_255/0.7)] dark:[--tw-wave-color:rgb(255_255_255/0.4)]"
+                    Animated = $"{positioning.Absolute} inset-y-0 start-0 {overflow.Hidden} {interaction.PointerEventsNone} transition-[width] {transition.DurationSlow} tw-wave [--tw-wave-color:rgb(255_255_255/0.7)] dark:[--tw-wave-color:rgb(255_255_255/0.4)]"
                 },
                 new TwTabTheme
                 {
@@ -1813,8 +1813,8 @@ public static class Theme
                     TabListContainer = $"{display.Flex} {flexbox.Wrap} {overflow.Hidden} {borderWidth.Thin} {neutralSurface.Border}",
                     PanelContainer = $"{spacing.PaddingX[6]} {spacing.PaddingY[5]} border-x border-b {neutralSurface.Border} {tokens.FocusRingInset} {interaction.FocusOutlineNone}",
                     Background = neutralSurface.Background,
-                    IsolatedTabListContainer = $"{display.InlineFlex} {flexbox.Wrap} max-w-full {spacing.Gap[1]} {spacing.Padding[1]} {rounded.Lg} {tokens.Track} {borderWidth.Thin} {neutralSurface.Border}",
-                    IsolatedTab = rounded.Md,
+                    IsolatedTabListContainer = $"{display.InlineFlex} {flexbox.Wrap} max-w-full {spacing.Gap[1]} {spacing.Padding[1]} {tokens.Track} {borderWidth.Thin} {neutralSurface.Border}",
+                    IsolatedTab = string.Empty,
                     IsolatedTabPadding = $"{spacing.PaddingX[4]} {spacing.PaddingY[1.5]}",
                     IsolatedTabDensePadding = $"{spacing.PaddingX[3]} {spacing.PaddingY[1]}",
                     IsolatedActiveTab = $"{tokens.RaisedSurface} {shadows.Sm} {tokens.HairlineRing} forced-colors:underline forced-colors:decoration-2 forced-colors:underline-offset-4",
@@ -1983,7 +1983,7 @@ public static class Theme
                     },
                     Wrapper = $"{positioning.Relative} {display.Flex} {flexbox.Align.Center} {sizing.FullWidth} h-6 select-none",
                     Base = $"peer {positioning.Absolute} inset-0 z-20 {sizing.Full} {spacing.Margin[0]} {tokens.Transparent} appearance-none {interaction.PointerCursor} {interaction.FocusOutlineNone} focus-visible:outline-hidden touch-manipulation",
-                    Track = $"{positioning.Absolute} inset-x-0 top-1/2 {overflow.Hidden} h-2 {tokens.TrackStrong} {borderWidth.Thin} {neutralSurface.BorderStrong} {rounded.Full} -translate-y-1/2 {interaction.PointerEventsNone}",
+                    Track = $"{positioning.Absolute} inset-x-0 top-1/2 {overflow.Hidden} h-2 {tokens.TrackStrong} {borderWidth.Thin} {neutralSurface.BorderStrong} -translate-y-1/2 {interaction.PointerEventsNone}",
                     Fill = $"{sizing.FullHeight} forced-colors:bg-[Highlight]",
                     Thumb = $"{positioning.Absolute} top-1/2 z-10 {sizing.Icon.Md} bg-white dark:bg-gray-100 {rounded.Full} {borderWidth.Thick} -translate-x-1/2 rtl:translate-x-1/2 -translate-y-1/2 {shadows.Md} ring-1 ring-black/5 peer-hover:scale-110 peer-active:scale-95 {transition.TransformFast} {transition.EaseInOut} {interaction.PointerEventsNone}",
                     Bubble = $"{positioning.Absolute} bottom-full z-10 {spacing.MarginBottom[2]} {spacing.PaddingX[2]} {spacing.PaddingY[1]} whitespace-nowrap {typography.Size.Xs} {typography.Weight.Medium} tabular-nums {overlayTheme.Popover.Background} {neutralText.Heading} {overlayTheme.Popover.Border} {rounded.Md} -translate-x-1/2 rtl:translate-x-1/2 {shadows.Lg} opacity-0 scale-95 peer-hover:opacity-100 peer-hover:scale-100 peer-focus-visible:opacity-100 peer-focus-visible:scale-100 transition-[opacity,transform] {transition.DurationFast} {tokens.ReduceMotion} {transition.EaseInOut} {interaction.PointerEventsNone}"
@@ -2070,7 +2070,7 @@ public static class Theme
                     TextfieldPadding = $"{spacing.PaddingStart[10]} pe-3",
                     NativeInputAppearance = "appearance-none !flex items-center [&::-webkit-date-and-time-value]:min-h-0 [&::-webkit-date-and-time-value]:text-start [&::-webkit-datetime-edit]:p-0",
                     PanelWrapper = $"{positioning.Absolute} top-full start-0 z-120 {spacing.MarginTop[2]}",
-                    RangeStageTabsContainer = $"{display.Flex} {spacing.Gap[1]} {spacing.Padding[1]} {rounded.Lg} {tokens.Track} {spacing.MarginBottom[2]}",
+                    RangeStageTabsContainer = $"{display.Flex} {spacing.Gap[1]} {spacing.Padding[1]} {tokens.Track} {spacing.MarginBottom[2]}",
                     RangeStageTabInactive = neutralText.Subtle,
                     StageTabBase = $"{flexbox.Flex1} {spacing.PaddingY[1.5]} {typography.Size.Sm} {typography.Weight.Medium} {typography.AlignCenter} {interaction.PointerCursor} {transition.ColorsFast} {tokens.FocusRing} {interaction.FocusOutlineNone}",
                     StageTabActive = $"{tokens.RaisedSurface} {neutralText.Heading} {shadows.Sm}",
@@ -2082,13 +2082,13 @@ public static class Theme
                     Column = $"{display.Flex} {flexbox.Col} {flexbox.Align.Center} {spacing.Gap[1.5]}",
                     ColumnLabel = $"{typography.Size.Xs} {typography.Weight.Medium} {neutralText.Subtle}",
                     Spinner = $"{display.Flex} {flexbox.Col} {flexbox.Align.Center} w-16 {spacing.PaddingY[1]} {transition.ColorsFast}",
-                    StepButton = $"{display.InlineFlex} size-8 {anchor.Center} {rounded.Md} {neutralText.Subtle} {tokens.HoverFill} {tokens.HoverText} {transition.ColorsFast} {interaction.PointerCursor}",
+                    StepButton = $"{display.InlineFlex} size-8 {anchor.Center} {neutralText.Subtle} {tokens.HoverFill} {tokens.HoverText} {transition.ColorsFast} {interaction.PointerCursor}",
                     NumberWrapper = $"{display.Flex} {flexbox.Align.Center} {flexbox.Justify.Center}",
-                    NumberInput = $"w-12 bg-transparent {spacing.PaddingY[0.5]} {typography.AlignCenter} {typography.Size.Xl2} {typography.Weight.Semibold} tabular-nums {neutralText.Heading} {rounded.Md} {interaction.FocusOutlineNone}",
+                    NumberInput = $"w-12 bg-transparent {spacing.PaddingY[0.5]} {typography.AlignCenter} {typography.Size.Xl2} {typography.Weight.Semibold} tabular-nums {neutralText.Heading} {interaction.FocusOutlineNone}",
                     Separator = $"self-center {spacing.MarginTop[5]} {typography.Size.Xl2} {typography.Weight.Semibold} {neutralText.Subtle}",
                     // Lined up with the boxes, below the column labels.
-                    AmPmWrapper = $"{display.Flex} {flexbox.Col} {spacing.Gap[1]} {spacing.MarginStart[2]} {spacing.MarginTop[6]} {spacing.Padding[1]} {rounded.Lg} {tokens.Track}",
-                    AmPmButtonClass = $"min-w-12 {spacing.PaddingX[3]} {spacing.PaddingY[2]} {rounded.Md} {typography.Size.Sm} {typography.Weight.Semibold} {interaction.PointerCursor} {transition.ColorsFast} {interaction.FocusOutlineNone}",
+                    AmPmWrapper = $"{display.Flex} {flexbox.Col} {spacing.Gap[1]} {spacing.MarginStart[2]} {spacing.MarginTop[6]} {spacing.Padding[1]} {tokens.Track}",
+                    AmPmButtonClass = $"min-w-12 {spacing.PaddingX[3]} {spacing.PaddingY[2]} {typography.Size.Sm} {typography.Weight.Semibold} {interaction.PointerCursor} {transition.ColorsFast} {interaction.FocusOutlineNone}",
                     AmPmOptionActive = "bg-purple-600 text-white shadow-sm dark:bg-purple-500 forced-colors:bg-[Highlight] forced-colors:text-[HighlightText]",
                     AmPmOptionInactive = $"{neutralText.Secondary} {tokens.HoverFill} {tokens.HoverText}",
                     Actions = $"{display.Grid} grid-cols-2 {spacing.Gap[2]} {spacing.MarginTop[3]}",

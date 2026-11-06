@@ -17,6 +17,27 @@ public class RoundedBuilder(TwBlazorOptions options)
     public Rounded DefaultRounded => options.Theme.Rounded.DefaultRounded;
 
     /// <summary>
+    /// Caps <see cref="Rounded.Full"/> at <see cref="Rounded.Lg"/> for surfaces such as cards, tables, alerts and
+    /// panels, where a pill shape cuts into the content. Small controls like buttons, chips and inputs keep it.
+    /// </summary>
+    /// <param name="rounded">The rounding asked for.</param>
+    /// <returns><paramref name="rounded"/>, or <see cref="Rounded.Lg"/> when it is <see cref="Rounded.Full"/>.</returns>
+    public static Rounded ForSurface(Rounded rounded) => rounded == Rounded.Full ? Rounded.Lg : rounded;
+
+    /// <summary>
+    /// One step tighter than <paramref name="rounded"/>, for a control sitting inside a rounded bar (a tab in a tab
+    /// list, an AM/PM toggle) so its corners follow the bar's. <see cref="Rounded.Full"/> stays full.
+    /// </summary>
+    /// <param name="rounded">The rounding of the surrounding bar.</param>
+    /// <returns>The rounding for the control inside it.</returns>
+    public static Rounded Inset(Rounded rounded) => rounded switch
+    {
+        Rounded.Lg => Rounded.Md,
+        Rounded.Md => Rounded.Sm,
+        _ => rounded
+    };
+
+    /// <summary>
     /// Gets the Tailwind CSS border-radius class for the default rounded level defined in the theme.
     /// </summary>
     /// <returns>The corresponding Tailwind CSS class.</returns>

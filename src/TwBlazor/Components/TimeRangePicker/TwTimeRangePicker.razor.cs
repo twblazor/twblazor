@@ -144,7 +144,7 @@ public partial class TwTimeRangePicker : TwPopoverPickerComponentBase
     private string panelSurfaceClasses =>
         popoverBuilder.GetSurfaceClasses(Rounded, Shadow, popoverTheme.TimeRangeSize);
 
-    private string stageTabsClasses => new ClassBuilder(theme.RangeStageTabsContainer).Build();
+    private string stageTabsClasses => new ClassBuilder(theme.RangeStageTabsContainer).AddClass(roundedBuilder.GetRounded(effectiveRounded)).Build();
 
     /// <summary>
     /// Gets the CSS classes for the Start/End step tab buttons.
@@ -153,7 +153,7 @@ public partial class TwTimeRangePicker : TwPopoverPickerComponentBase
     {
         var isActive = stage == tabStage;
         return new ClassBuilder(theme.StageTabBase)
-            .AddClass(roundedBuilder.GetRounded())
+            .AddClass(roundedBuilder.GetRounded(effectiveInsetRounded))
             .AddClass(theme.StageTabHover, !isActive)
             .AddClass(theme.RangeStageTabInactive, !isActive)
             .AddClass(theme.StageTabActive, isActive)

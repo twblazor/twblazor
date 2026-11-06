@@ -135,12 +135,23 @@ public partial class TwTimePickerBody
         .Build();
 
     private string numberInputClasses => new ClassBuilder(theme.NumberInput)
+        .AddClass(roundedBuilder.GetRounded(effectiveInsetRounded))
         .AddClass(colorBuilder.GetFocusRing(Enums.Color.Primary))
         .Build();
 
     private bool isPm => SelectedTime.Hour >= 12;
 
+    // The step buttons and the value sit inside the box, so they are one step tighter than it.
+    private string stepButtonClasses => new ClassBuilder(theme.StepButton)
+        .AddClass(roundedBuilder.GetRounded(effectiveInsetRounded))
+        .Build();
+
+    private string amPmWrapperClasses => new ClassBuilder(theme.AmPmWrapper)
+        .AddClass(roundedBuilder.GetRounded(effectiveRounded))
+        .Build();
+
     private string AmPmOptionClasses(bool selected) => new ClassBuilder(theme.AmPmButtonClass)
+        .AddClass(roundedBuilder.GetRounded(effectiveInsetRounded))
         .AddClass(selected ? theme.AmPmOptionActive : theme.AmPmOptionInactive)
         .AddClass(colorBuilder.GetFocusRing(Enums.Color.Primary))
         .Build();

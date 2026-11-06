@@ -197,7 +197,7 @@ public partial class TwTable : TwBlazorComponentBase
     /// instead of creating space around the whole component.
     /// </remarks>
     private string containerClasses => new ClassBuilder()
-        .AddClass(roundedBuilder.GetRounded(effectiveRounded))
+        .AddClass(roundedBuilder.GetRounded(effectiveSurfaceRounded))
         .AddClass(theme.ContainerClip)
         .AddClass(theme.Body)
         .AddClass(theme.Bordered, !NoBorder)

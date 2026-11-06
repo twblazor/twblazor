@@ -80,7 +80,7 @@ public partial class TwCheckbox<T> : TwBlazorInputComponentBase
         .AddClass(Class).Build();
 
     /// <summary>
-    /// The corner radius of the box: the theme's default, capped so a box this small never reads as a circle
+    /// The corner radius of the box: the component's rounding (or the theme's default), capped so a box this small never reads as a circle
     /// (which is how a radio button looks). The cap is one step tighter for the small size.
     /// </summary>
     private Rounded boxRounded
@@ -88,7 +88,7 @@ public partial class TwCheckbox<T> : TwBlazorInputComponentBase
         get
         {
             var cap = Size == Enums.Size.Sm ? Enums.Rounded.Sm : Enums.Rounded.Md;
-            var themed = options.Theme.Rounded.DefaultRounded;
+            var themed = effectiveRounded;
 
             return themed < cap ? themed : cap;
         }

@@ -1,4 +1,4 @@
-/*! tailwindcss v4.3.4 | MIT License | https://tailwindcss.com */
+/*! tailwindcss v4.3.5 | MIT License | https://tailwindcss.com */
 @layer properties;
 @layer theme, base, components, utilities;
 @layer theme {
@@ -114,15 +114,6 @@
     --color-gray-800: oklch(27.8% 0.033 256.848);
     --color-gray-900: oklch(21% 0.034 264.665);
     --color-gray-950: oklch(13% 0.028 261.692);
-    --color-zinc-50: oklch(98.5% 0 0);
-    --color-zinc-200: oklch(92% 0.004 286.32);
-    --color-zinc-400: oklch(70.5% 0.015 286.067);
-    --color-zinc-500: oklch(55.2% 0.016 285.938);
-    --color-zinc-600: oklch(44.2% 0.017 285.786);
-    --color-zinc-700: oklch(37% 0.013 285.805);
-    --color-zinc-800: oklch(27.4% 0.006 286.033);
-    --color-zinc-900: oklch(21% 0.006 285.885);
-    --color-zinc-950: oklch(14.1% 0.005 285.823);
     --color-neutral-50: oklch(98.5% 0 0);
     --color-neutral-100: oklch(97% 0 0);
     --color-neutral-200: oklch(92.2% 0 0);
@@ -188,14 +179,12 @@
     --radius-lg: 0.5rem;
     --radius-xl: 0.75rem;
     --radius-2xl: 1rem;
-    --radius-3xl: 1.5rem;
     --ease-in: cubic-bezier(0.4, 0, 1, 1);
     --ease-out: cubic-bezier(0, 0, 0.2, 1);
     --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
     --animate-spin: spin 1s linear infinite;
     --animate-ping: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
     --animate-pulse: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-    --blur-xl: 24px;
     --blur-2xl: 40px;
     --blur-3xl: 64px;
     --aspect-video: 16 / 9;
@@ -7334,9 +7323,6 @@
     .sm\:rotate-0 {
       rotate: 0deg;
     }
-    .sm\:auto-rows-fr {
-      grid-auto-rows: minmax(0, 1fr);
-    }
     .sm\:grid-cols-1 {
       grid-template-columns: repeat(1, minmax(0, 1fr));
     }
@@ -10839,6 +10825,9 @@
     content: var(--tw-content);
     bottom: -1px;
   }
+  .\[\&\:\:-moz-progress-bar\]\:rounded-\[inherit\]::-moz-progress-bar {
+    border-radius: inherit;
+  }
   .\[\&\:\:-moz-progress-bar\]\:rounded-full::-moz-progress-bar {
     border-radius: calc(infinity * 1px);
   }
@@ -10941,11 +10930,17 @@
   .\[\&\:\:-webkit-datetime-edit\]\:p-0::-webkit-datetime-edit {
     padding: 0px;
   }
+  .\[\&\:\:-webkit-progress-bar\]\:rounded-\[inherit\]::-webkit-progress-bar {
+    border-radius: inherit;
+  }
   .\[\&\:\:-webkit-progress-bar\]\:rounded-full::-webkit-progress-bar {
     border-radius: calc(infinity * 1px);
   }
   .\[\&\:\:-webkit-progress-bar\]\:bg-transparent::-webkit-progress-bar {
     background-color: transparent;
+  }
+  .\[\&\:\:-webkit-progress-value\]\:rounded-\[inherit\]::-webkit-progress-value {
+    border-radius: inherit;
   }
   .\[\&\:\:-webkit-progress-value\]\:rounded-full::-webkit-progress-value {
     border-radius: calc(infinity * 1px);

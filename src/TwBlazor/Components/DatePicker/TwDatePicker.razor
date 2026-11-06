@@ -23,6 +23,7 @@
             ValueChanged="@((e) => OnTextValueChanged(e))"
             ReadOnly="@ReadOnly"
             Variant="@Variant"
+            Rounded="@Rounded"
             Dense="@Dense"
             Invalid="@fieldInvalid"
             ErrorMessage="@fieldErrorMessage"
@@ -35,7 +36,7 @@
     {
         <div class="@datepickerContainerClasses" role="dialog" aria-label="@localizer[TwStrings.DatePicker_Dialog]" id="@panelId" data-tw-popover tabindex="-1" @ref="PanelRef" @onkeydown="OnPanelKeyDownAsync">
             <div class="@theme.PanelWidth">
-                <TwDatePickerCalendar AnchorDate="anchorDate" AnchorDateChanged="@((d) => anchorDate = d)" View="view" ViewChanged="@((v) => view = v)" SelectedDate="SelectedDate" BodyClasses="@BodyClasses" DaySelected="SelectDateAsync" Navigated="@(() => pendingViewFocus = true)" />
+                <TwDatePickerCalendar Rounded="@Rounded" AnchorDate="anchorDate" AnchorDateChanged="@((d) => anchorDate = d)" View="view" ViewChanged="@((v) => view = v)" SelectedDate="SelectedDate" BodyClasses="@BodyClasses" DaySelected="SelectDateAsync" Navigated="@(() => pendingViewFocus = true)" />
             </div>
         @if (FocusedChildContent is not null)
         {

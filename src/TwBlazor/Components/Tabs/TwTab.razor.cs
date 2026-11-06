@@ -68,6 +68,7 @@ public partial class TwTab : TwBlazorComponentBase
     public string TabClasses => new ClassBuilder(tabPadding)
         .AddClass(theme.TabBase)
         .AddClass(theme.IsolatedTab, !Parent.Container)
+        .AddClass(roundedBuilder.GetRounded(Parent.isolatedTabRounded), !Parent.Container)
         .AddClass(tabTextColor, isActive && !Disabled)
         .AddClass(Parent.Container ? theme.ActiveIndicator : theme.IsolatedActiveTab, isActive && !Disabled)
         .AddClass(Parent.Container ? theme.InactiveIndicator : theme.IsolatedInactiveTab, !isActive && !Disabled)

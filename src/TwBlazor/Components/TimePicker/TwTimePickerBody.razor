@@ -13,7 +13,7 @@
                 <div class="@spinnerClasses">
                     <TwIcon OnClick="@(() => StepAsync(IncrementHour))"
                             Icon="Icon.Chevron_Up"
-                            Class="@theme.StepButton"
+                            Class="@stepButtonClasses"
                             AriaLabel="@localizer[TwStrings.TimePicker_IncreaseHour]" />
 
                     <div class="@theme.NumberWrapper">
@@ -32,7 +32,7 @@
 
                     <TwIcon OnClick="@(() => StepAsync(DecrementHour))"
                             Icon="Icon.Chevron_Down"
-                            Class="@theme.StepButton"
+                            Class="@stepButtonClasses"
                             AriaLabel="@localizer[TwStrings.TimePicker_DecreaseHour]" />
                 </div>
             </div>
@@ -53,7 +53,7 @@
                     {
                         <TwIcon OnClick="@(() => StepAsync(IncrementMinute))"
                                 Icon="Icon.Chevron_Up"
-                                Class="@theme.StepButton"
+                                Class="@stepButtonClasses"
                                 AriaLabel="@localizer[TwStrings.TimePicker_IncreaseMinute]" />
 
                         <div class="@theme.NumberWrapper">
@@ -72,7 +72,7 @@
 
                         <TwIcon OnClick="@(() => StepAsync(DecrementMinute))"
                                 Icon="Icon.Chevron_Down"
-                                Class="@theme.StepButton"
+                                Class="@stepButtonClasses"
                                 AriaLabel="@localizer[TwStrings.TimePicker_DecreaseMinute]" />
                     }
                 </div>
@@ -82,7 +82,7 @@
             {
                 @* Both halves of the day are shown, the selected one filled, so the choice is visible at a glance.
                    Each is a toggle button whose pressed state says which is selected. *@
-                <div class="@theme.AmPmWrapper" role="group" aria-label="@localizer[TwStrings.TimePicker_Period]">
+                <div class="@amPmWrapperClasses" role="group" aria-label="@localizer[TwStrings.TimePicker_Period]">
                     <button type="button"
                             class="@AmPmOptionClasses(!isPm)"
                             aria-pressed="@(isPm ? "false" : "true")"
@@ -102,8 +102,8 @@
         @if (ShowActions)
         {
             <div class="@theme.Actions">
-                <TwButton Type="button" Label="@localizer[TwStrings.TimePicker_Now]" Variant="ButtonVariant.Outlined" Dense Class="@theme.ActionButton" OnClick="SetNowAsync" />
-                <TwButton Type="button" Label="@localizer[TwStrings.TimePicker_Done]" Variant="ButtonVariant.Outlined" Dense Class="@theme.ActionButton" OnClick="OnDone" />
+                <TwButton Type="button" Label="@localizer[TwStrings.TimePicker_Now]" Variant="ButtonVariant.Outlined" Rounded="@Rounded" Dense Class="@theme.ActionButton" OnClick="SetNowAsync" />
+                <TwButton Type="button" Label="@localizer[TwStrings.TimePicker_Done]" Variant="ButtonVariant.Outlined" Rounded="@Rounded" Dense Class="@theme.ActionButton" OnClick="OnDone" />
             </div>
         }
     </div>

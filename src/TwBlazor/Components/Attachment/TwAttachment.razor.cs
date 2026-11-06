@@ -153,7 +153,7 @@ public partial class TwAttachment : TwBlazorComponentBase
 
     private string classes => new ClassBuilder(theme.Base)
         .AddClass(theme.Failed, Status == AttachmentStatus.Failed)
-        .AddClass(roundedBuilder.GetRounded(effectiveRounded))
+        .AddClass(roundedBuilder.GetRounded(effectiveSurfaceRounded))
         .AddClass(Class)
         .Build();
 

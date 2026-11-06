@@ -212,8 +212,8 @@
                 <div class="flex flex-col gap-4">
                     @if (Has("TwProgress"))
                     {
-                        <TwProgress T="int" Label="Upload" Value="60" Max="100" Color="Color.Primary" />
-                        <TwProgress T="int" Label="Storage used" Value="85" Max="100" Color="Color.Warning" />
+                        <TwProgress T="int" Label="Upload" Value="60" Max="100" Color="Color.Primary" Rounded="@Defaults.Rounded" />
+                        <TwProgress T="int" Label="Storage used" Value="85" Max="100" Color="Color.Warning" Rounded="@Defaults.Rounded" />
                     }
                     @if (Has("TwSpinner"))
                     {

@@ -145,7 +145,7 @@ public partial class TwDatePickerCalendar : TwBlazorComponentBase
     /// </summary>
     private string GetButtonClasses(string name, bool isSelected, bool isToday) =>
         new ClassBuilder($"{name} cursor-pointer")
-        .AddClass(roundedBuilder.GetRounded())
+        .AddClass(roundedBuilder.GetRounded(effectiveRounded))
         .AddClass(theme.ButtonClass)
         .AddClass(theme.HoverClass, !isSelected)
         .AddClass(theme.ActiveClass, isToday && !isSelected)

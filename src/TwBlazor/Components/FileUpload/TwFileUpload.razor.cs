@@ -72,7 +72,7 @@ public partial class TwFileUpload : TwBlazorInputComponentBase
 
     private string rootClasses =>
         new ClassBuilder(RootClass)
-        .AddClass(roundedBuilder.GetRounded())
+        .AddClass(roundedBuilder.GetRounded(effectiveRounded))
         .AddClass(buttonBuilder.GetTypographyClasses(theme.ButtonUppercase))
         .Build();
 
@@ -82,7 +82,7 @@ public partial class TwFileUpload : TwBlazorInputComponentBase
     // so the ring is keyed on the label containing the focused input (has-[:focus-visible]).
     private string classes =>
         new ClassBuilder(options.Theme.Display.Block)
-        .AddClass(roundedBuilder.GetRounded())
+        .AddClass(roundedBuilder.GetRounded(effectiveRounded))
         .AddClass(buttonBuilder.GetVariantClasses(Variant, Color, Disabled))
         .AddClass(shadowBuilder.GetButtonShadow(theme))
         .AddClass(fileUploadTheme.FocusRing)

@@ -87,7 +87,7 @@ public partial class TwSkeleton : TwBlazorComponentBase, IAsyncDisposable
         .AddClass(theme.Rectangle, SkeletonType == SkeletonType.Rectangle)
         .AddClass(theme.Circle, SkeletonType == SkeletonType.Circle)
         .AddClass(options.Theme.Rounded.Full, SkeletonType == SkeletonType.Circle)
-        .AddClass(roundedBuilder.GetRounded(effectiveRounded), SkeletonType != SkeletonType.Circle)
+        .AddClass(roundedBuilder.GetRounded(effectiveSurfaceRounded), SkeletonType != SkeletonType.Circle)
         .Build();
 
     private string rootClasses => new ClassBuilder(isStandalonePlaceholder ? standaloneVisualClasses : options.Theme.Position.Relative)
@@ -135,7 +135,7 @@ public partial class TwSkeleton : TwBlazorComponentBase, IAsyncDisposable
     private string RectClasses(SkeletonRect rect) => new ClassBuilder(theme.Base)
         .AddClass(animationClass)
         .AddClass(options.Theme.Rounded.Full, rect.Shape is "circle" or "text")
-        .AddClass(roundedBuilder.GetRounded(effectiveRounded), rect.Shape == "rect")
+        .AddClass(roundedBuilder.GetRounded(effectiveSurfaceRounded), rect.Shape == "rect")
         .Build();
 
     private static string RectStyle(SkeletonRect rect) => string.Create(CultureInfo.InvariantCulture,

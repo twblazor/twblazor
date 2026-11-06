@@ -24,6 +24,7 @@
             ValueChanged="@((e) => OnTextValueChanged(e))"
             ReadOnly="@ReadOnly"
             Variant="@Variant"
+            Rounded="@Rounded"
             Dense="@Dense"
             Invalid="@fieldInvalid"
             ErrorMessage="@fieldErrorMessage"
@@ -44,11 +45,11 @@
                         @localizer[TwStrings.Common_End]
                     </button>
                 </div>
-                <TwDatePickerCalendar AnchorDate="anchorDate" AnchorDateChanged="@((d) => anchorDate = d)" View="view" ViewChanged="@((v) => view = v)" SelectedDate="stageDate" Range="SelectedRange" MinDate="@effectiveMinDate" MaxDate="MaxDate" PreserveAnchorDay="false" ShowTodayIndicator="false" DaySelected="SelectDateAsync" Navigated="@(() => pendingViewFocus = true)" />
+                <TwDatePickerCalendar Rounded="@Rounded" AnchorDate="anchorDate" AnchorDateChanged="@((d) => anchorDate = d)" View="view" ViewChanged="@((v) => view = v)" SelectedDate="stageDate" Range="SelectedRange" MinDate="@effectiveMinDate" MaxDate="MaxDate" PreserveAnchorDay="false" ShowTodayIndicator="false" DaySelected="SelectDateAsync" Navigated="@(() => pendingViewFocus = true)" />
                 @if (view == DatePickerCalendarView.Day)
                 {
                     <TwDatePickerBody Class="time">
-                        <TwTimePickerBody Id="@($"{Id}-time")" Variant="@effectiveVariant" Is12HourFormat="@effectiveIs12HourFormat" Step="@Step" SelectedTime="@pendingTime" SelectedTimeChanged="@OnPendingTimeChanged" />
+                        <TwTimePickerBody Id="@($"{Id}-time")" Variant="@effectiveVariant" Rounded="@Rounded" Is12HourFormat="@effectiveIs12HourFormat" Step="@Step" SelectedTime="@pendingTime" SelectedTimeChanged="@OnPendingTimeChanged" />
                     </TwDatePickerBody>
                 }
             </div>

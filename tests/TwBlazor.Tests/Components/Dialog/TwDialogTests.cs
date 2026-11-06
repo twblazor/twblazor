@@ -335,13 +335,28 @@ public class TwDialogTests : TwBlazorTestBase
     public void TwDialog_AppliesRoundedOverride_FromOptions()
     {
         // Arrange
+        var reference = CreateReference(options: new TwDialogOptions { Rounded = Rounded.Sm });
+
+        // Act
+        var cut = TestContext.Render<TwDialog>(p => p.Add(x => x.Reference, reference));
+
+        // Assert
+        Assert.Contains(Theme.Rounded.Sm, cut.Find("div[role='dialog']").GetAttribute("class"));
+    }
+
+    [Fact]
+    public void TwDialog_CapsFullRounding_AtLarge()
+    {
+        // Arrange
         var reference = CreateReference(options: new TwDialogOptions { Rounded = Rounded.Full });
 
         // Act
         var cut = TestContext.Render<TwDialog>(p => p.Add(x => x.Reference, reference));
 
         // Assert
-        Assert.Contains(Theme.Rounded.Full, cut.Find("div[role='dialog']").GetAttribute("class"));
+        var classes = cut.Find("div[role='dialog']").GetAttribute("class");
+        Assert.Contains(Theme.Rounded.Lg, classes);
+        Assert.DoesNotContain(Theme.Rounded.Full, classes);
     }
 
     [Fact]
