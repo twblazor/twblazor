@@ -963,4 +963,34 @@
   <data name="Empty_Title" xml:space="preserve">
     <value>कोई डेटा नहीं</value>
   </data>
+  <data name="TagInput_Tags" xml:space="preserve">
+    <value>टैग</value>
+  </data>
+  <data name="TagInput_Added" xml:space="preserve">
+    <value>{0} जोड़ा गया</value>
+  </data>
+  <data name="TagInput_Removed" xml:space="preserve">
+    <value>{0} हटाया गया</value>
+  </data>
+  <data name="TagInput_Cleared" xml:space="preserve">
+    <value>सभी टैग हटा दिए गए</value>
+  </data>
+  <data name="TagInput_ClearAll" xml:space="preserve">
+    <value>सभी टैग हटाएँ</value>
+  </data>
+  <data name="TagInput_Duplicate" xml:space="preserve">
+    <value>{0} पहले ही जोड़ा जा चुका है</value>
+  </data>
+  <data name="TagInput_LimitOne" xml:space="preserve">
+    <value>आप केवल {0} टैग जोड़ सकते हैं</value>
+  </data>
+  <data name="TagInput_LimitOther" xml:space="preserve">
+    <value>आप अधिकतम {0} टैग जोड़ सकते हैं</value>
+  </data>
+  <data name="TagInput_TooLongOne" xml:space="preserve">
+    <value>टैग में अधिकतम {0} वर्ण हो सकता है</value>
+  </data>
+  <data name="TagInput_TooLongOther" xml:space="preserve">
+    <value>टैग में अधिकतम {0} वर्ण हो सकते हैं</value>
+  </data>
 </root>

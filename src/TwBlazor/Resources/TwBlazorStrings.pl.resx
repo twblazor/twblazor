@@ -969,4 +969,34 @@
   <data name="Empty_Title" xml:space="preserve">
     <value>Brak danych</value>
   </data>
+  <data name="TagInput_Tags" xml:space="preserve">
+    <value>Tagi</value>
+  </data>
+  <data name="TagInput_Added" xml:space="preserve">
+    <value>Dodano {0}</value>
+  </data>
+  <data name="TagInput_Removed" xml:space="preserve">
+    <value>Usunięto {0}</value>
+  </data>
+  <data name="TagInput_Cleared" xml:space="preserve">
+    <value>Usunięto wszystkie tagi</value>
+  </data>
+  <data name="TagInput_ClearAll" xml:space="preserve">
+    <value>Usuń wszystkie tagi</value>
+  </data>
+  <data name="TagInput_Duplicate" xml:space="preserve">
+    <value>{0} został już dodany</value>
+  </data>
+  <data name="TagInput_LimitOne" xml:space="preserve">
+    <value>Możesz dodać tylko {0} tag</value>
+  </data>
+  <data name="TagInput_LimitOther" xml:space="preserve">
+    <value>Możesz dodać maksymalnie {0} tagów</value>
+  </data>
+  <data name="TagInput_TooLongOne" xml:space="preserve">
+    <value>Tag może mieć najwyżej {0} znak</value>
+  </data>
+  <data name="TagInput_TooLongOther" xml:space="preserve">
+    <value>Tag może mieć najwyżej {0} znaków</value>
+  </data>
 </root>

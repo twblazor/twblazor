@@ -969,4 +969,34 @@
   <data name="Empty_Title" xml:space="preserve">
     <value>لا توجد بيانات</value>
   </data>
+  <data name="TagInput_Tags" xml:space="preserve">
+    <value>الوسوم</value>
+  </data>
+  <data name="TagInput_Added" xml:space="preserve">
+    <value>تمت إضافة {0}</value>
+  </data>
+  <data name="TagInput_Removed" xml:space="preserve">
+    <value>تمت إزالة {0}</value>
+  </data>
+  <data name="TagInput_Cleared" xml:space="preserve">
+    <value>تمت إزالة جميع الوسوم</value>
+  </data>
+  <data name="TagInput_ClearAll" xml:space="preserve">
+    <value>إزالة جميع الوسوم</value>
+  </data>
+  <data name="TagInput_Duplicate" xml:space="preserve">
+    <value>تمت إضافة {0} بالفعل</value>
+  </data>
+  <data name="TagInput_LimitOne" xml:space="preserve">
+    <value>يمكنك إضافة {0} وسم فقط</value>
+  </data>
+  <data name="TagInput_LimitOther" xml:space="preserve">
+    <value>يمكنك إضافة ما يصل إلى {0} وسوم</value>
+  </data>
+  <data name="TagInput_TooLongOne" xml:space="preserve">
+    <value>يمكن أن يتكون الوسم من {0} حرف كحد أقصى</value>
+  </data>
+  <data name="TagInput_TooLongOther" xml:space="preserve">
+    <value>يمكن أن يتكون الوسم من {0} أحرف كحد أقصى</value>
+  </data>
 </root>

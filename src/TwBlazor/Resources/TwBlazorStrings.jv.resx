@@ -963,4 +963,34 @@
   <data name="Empty_Title" xml:space="preserve">
     <value>Ora ana data</value>
   </data>
+  <data name="TagInput_Tags" xml:space="preserve">
+    <value>Tag</value>
+  </data>
+  <data name="TagInput_Added" xml:space="preserve">
+    <value>{0} ditambahaké</value>
+  </data>
+  <data name="TagInput_Removed" xml:space="preserve">
+    <value>{0} dibusak</value>
+  </data>
+  <data name="TagInput_Cleared" xml:space="preserve">
+    <value>Kabèh tag dibusak</value>
+  </data>
+  <data name="TagInput_ClearAll" xml:space="preserve">
+    <value>Busak kabèh tag</value>
+  </data>
+  <data name="TagInput_Duplicate" xml:space="preserve">
+    <value>{0} wis ditambahaké</value>
+  </data>
+  <data name="TagInput_LimitOne" xml:space="preserve">
+    <value>Sampéyan mung bisa nambahaké {0} tag</value>
+  </data>
+  <data name="TagInput_LimitOther" xml:space="preserve">
+    <value>Sampéyan bisa nambahaké nganti {0} tag</value>
+  </data>
+  <data name="TagInput_TooLongOne" xml:space="preserve">
+    <value>Tag paling akèh {0} karakter</value>
+  </data>
+  <data name="TagInput_TooLongOther" xml:space="preserve">
+    <value>Tag paling akèh {0} karakter</value>
+  </data>
 </root>

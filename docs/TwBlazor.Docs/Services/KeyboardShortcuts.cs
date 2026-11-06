@@ -274,6 +274,17 @@ internal static class KeyboardShortcuts
             Key("Moves the caret through the text.", left, right, home, end),
             Key("Commits the typed value, when the field binds on change.", enter)),
 
+        ["/tag-input"] = Guide(
+            "Each tag is a chip in a list before the text field. The arrow keys move between the tags, so Tab stops only on the text field, and the remove buttons are not Tab stops. Additions and removals are announced to screen readers.",
+            Key("Moves focus into or out of the field.", tab, shiftTab),
+            Key("Adds the typed text as a tag. With a suggestion highlighted, adds the suggestion instead.", enter, ","),
+            Key("In the empty text field: removes the last tag.", "Backspace"),
+            Key("In the empty text field: moves to the last tag. On a tag: moves to the previous or next tag, or back to the text field after the last. Reversed in a right to left layout.", left, right),
+            Key("On a tag: moves to the first tag, or to the text field.", home, end),
+            Key("On a tag: removes it and moves to the tag beside it.", "Delete", "Backspace"),
+            Key("Opens the suggestions and highlights the first or last one, or moves through them.", down, up),
+            Key("Closes the suggestions. Focus stays in the field.", escape)),
+
         ["/menu"] = Guide(
             "The button tells screen readers that it opens a menu and whether the menu is open. The menu follows the ARIA menu pattern: one item has focus at a time, and the arrow keys move between them.",
             Key("Moves focus to the menu's button.", tab),

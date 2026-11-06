@@ -1004,4 +1004,34 @@ public static class TwStrings
 
     /// <summary>The key for "No data", the default title of an empty state.</summary>
     public const string Empty_Title = "Empty_Title";
+
+    /// <summary>The key for "Tags", the name of a tag input's list of tags when it has no label.</summary>
+    public const string TagInput_Tags = "TagInput_Tags";
+
+    /// <summary>The key for "{0} added", where {0} is the tag.</summary>
+    public const string TagInput_Added = "TagInput_Added";
+
+    /// <summary>The key for "{0} removed", where {0} is the tag.</summary>
+    public const string TagInput_Removed = "TagInput_Removed";
+
+    /// <summary>The key for "All tags removed".</summary>
+    public const string TagInput_Cleared = "TagInput_Cleared";
+
+    /// <summary>The key for "Remove all tags".</summary>
+    public const string TagInput_ClearAll = "TagInput_ClearAll";
+
+    /// <summary>The key for "{0} has already been added", where {0} is the tag.</summary>
+    public const string TagInput_Duplicate = "TagInput_Duplicate";
+
+    /// <summary>The key for "You can add only {0} tag".</summary>
+    public const string TagInput_LimitOne = "TagInput_LimitOne";
+
+    /// <summary>The key for "You can add up to {0} tags".</summary>
+    public const string TagInput_LimitOther = "TagInput_LimitOther";
+
+    /// <summary>The key for "A tag can be at most {0} character long".</summary>
+    public const string TagInput_TooLongOne = "TagInput_TooLongOne";
+
+    /// <summary>The key for "A tag can be at most {0} characters long".</summary>
+    public const string TagInput_TooLongOther = "TagInput_TooLongOther";
 }
