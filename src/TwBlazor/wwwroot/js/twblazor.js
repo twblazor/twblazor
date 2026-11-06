@@ -2687,26 +2687,47 @@ globalThis.twMenu = {
         (first ?? menu).focus();
     },
 
+    // The arrows that move into and out of a submenu, in the layout direction.
+    _arrows: function (owner) {
+        const rtl = globalThis.twDirection.isRtl(owner);
+        return { inward: rtl ? 'ArrowLeft' : 'ArrowRight', outward: rtl ? 'ArrowRight' : 'ArrowLeft' };
+    },
+
+    // Whether a key is a printable, unmodified character to typeahead on.
+    _isTypeaheadKey: function (e) {
+        return e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey && e.key.trim() !== '';
+    },
+
+    // The item an arrow key or a typed character moves focus to, or null when the key leaves focus alone.
+    _nextTarget: function (items, current, e) {
+        switch (e.key) {
+            case 'ArrowDown': return items[(current + 1) % items.length];
+            case 'ArrowUp': return items[(current - 1 + items.length) % items.length];
+            case 'Home': return items[0];
+            case 'End': return items.at(-1);
+        }
+        if (!globalThis.twMenu._isTypeaheadKey(e)) return null;
+        return globalThis.twMenu._typeahead(items, items[current] ?? null, e.key.toLowerCase());
+    },
+
     _onKeyDown: function (menu, dotnetRef, tabMethod, e) {
         const twMenu = globalThis.twMenu;
         const owner = twMenu._owner(e.target) ?? menu;
         const nested = owner !== menu;
-        const rtl = globalThis.twDirection.isRtl(owner);
-        const inward = rtl ? 'ArrowLeft' : 'ArrowRight';
-        const outward = rtl ? 'ArrowRight' : 'ArrowLeft';
+        const arrows = twMenu._arrows(owner);
         const items = twMenu._items(owner);
         const current = items.indexOf(document.activeElement);
 
         // Escape and the outward arrow close only the submenu focus is in. Escape is marked as handled, so the shared
         // Escape stack leaves the menu around it open.
-        if (e.key === 'Escape' || e.key === outward) {
+        if (e.key === 'Escape' || e.key === arrows.outward) {
             if (!nested) return;
             e.preventDefault();
             twMenu.closeSubmenu(twMenu._triggerOf(owner), true);
             return;
         }
 
-        if (e.key === inward) {
+        if (e.key === arrows.inward) {
             const item = items[current];
             if (!twMenu._isSubmenuTrigger(item)) return;
             e.preventDefault();
@@ -2715,39 +2736,21 @@ globalThis.twMenu = {
         }
 
         if (items.length === 0) return;
-        let target = null;
 
-        switch (e.key) {
-            case 'ArrowDown':
-                target = items[(current + 1) % items.length];
-                break;
-            case 'ArrowUp':
-                target = items[(current - 1 + items.length) % items.length];
-                break;
-            case 'Home':
-                target = items[0];
-                break;
-            case 'End':
-                target = items.at(-1);
-                break;
-            case 'Tab':
-                // Tab leaves the menu: close it and let the browser carry focus on.
-                if (dotnetRef) void globalThis.twPicker._invokeSafely(dotnetRef, tabMethod);
-                return;
-            case ' ':
-                // A menu item is a <button>, so Space clicks it; this only stops the page scrolling.
-                return;
-            default:
-                if (e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey && e.key.trim() !== '') {
-                    target = twMenu._typeahead(items, items[current] ?? null, e.key.toLowerCase());
-                    if (!target) return;
-                } else {
-                    return;
-                }
+        // Tab leaves the menu: close it and let the browser carry focus on. A menu item is a <button>, so Space clicks
+        // it; this only stops the page scrolling.
+        if (e.key === 'Tab') {
+            if (dotnetRef) void globalThis.twPicker._invokeSafely(dotnetRef, tabMethod);
+            return;
         }
 
+        if (e.key === ' ') return;
+
+        const target = twMenu._nextTarget(items, current, e);
+        if (!target) return;
+
         e.preventDefault();
-        target?.focus();
+        target.focus();
         // A submenu opened by hovering closes once focus moves on from its item.
         twMenu.closeSubmenus(owner, target);
     },

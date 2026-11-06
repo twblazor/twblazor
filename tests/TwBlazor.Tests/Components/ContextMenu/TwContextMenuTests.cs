@@ -154,7 +154,7 @@ public class TwContextMenuTests : TwBlazorTestBase
         Assert.False(opened);
         Assert.Empty(cut.FindAll("[role='menu']"));
         var close = Assert.Single(js.Invocations, i => i.Identifier == "twContextMenu.close");
-        Assert.Equal(true, close.Arguments[2]);
+        Assert.True((bool)close.Arguments[2]!);
     }
 
     [Fact]
