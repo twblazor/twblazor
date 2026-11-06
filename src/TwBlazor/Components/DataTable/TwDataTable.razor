@@ -10,7 +10,7 @@
             @if (showGroupBySelect)
             {
                 <div class="@groupByColumnClasses">
-                    <TwSelect T="GroupOption"
+                    <TwSelect Rounded="@Rounded" T="GroupOption"
                               Id="@($"{Id}-group-by")"
                               Label="@effectiveGroupByLabel"
                               Values="@groupOptions"
@@ -25,12 +25,12 @@
                 <div class="@toolbarActionsClasses">
                     @if (isGrouped)
                     {
-                        <TwButton Id="@($"{Id}-expand-groups")"
+                        <TwButton Rounded="@Rounded" Id="@($"{Id}-expand-groups")"
                                   Label="@localizer[TwStrings.DataTable_ExpandAllGroups]"
                                   StartIcon="Icon.Arrows_Expand"
                                   Variant="ButtonVariant.Outlined"
                                   OnClick="@(() => SetAllGroupsExpandedAsync(true))" />
-                        <TwButton Id="@($"{Id}-collapse-groups")"
+                        <TwButton Rounded="@Rounded" Id="@($"{Id}-collapse-groups")"
                                   Label="@localizer[TwStrings.DataTable_CollapseAllGroups]"
                                   StartIcon="Icon.Arrows_Collapse"
                                   Variant="ButtonVariant.Outlined"
@@ -38,7 +38,7 @@
                     }
                     @if (showExportButtons && ExportFormats.HasFlag(TwDataTableExportFormats.Csv))
                     {
-                        <TwButton Id="@($"{Id}-export-csv")"
+                        <TwButton Rounded="@Rounded" Id="@($"{Id}-export-csv")"
                                   Label="@localizer[TwStrings.DataTable_ExportCsv]"
                                   StartIcon="Icon.Filetype_Csv"
                                   Variant="ButtonVariant.Outlined"
@@ -46,7 +46,7 @@
                     }
                     @if (showExportButtons && ExportFormats.HasFlag(TwDataTableExportFormats.Excel))
                     {
-                        <TwButton Id="@($"{Id}-export-excel")"
+                        <TwButton Rounded="@Rounded" Id="@($"{Id}-export-excel")"
                                   Label="@localizer[TwStrings.DataTable_ExportExcel]"
                                   StartIcon="Icon.Filetype_Xlsx"
                                   Variant="ButtonVariant.Outlined"
@@ -57,7 +57,7 @@
             @if (Searchable)
             {
                 <div class="@searchColumnClasses">
-                    <TwTextfield T="string"
+                    <TwTextfield Rounded="@Rounded" T="string"
                         Id="@($"{Id}-search")"
                         Class="@options.Theme.Sizing.FullWidth"
                         Label="@effectiveSearchLabel"
@@ -72,7 +72,7 @@
     @* Announces sort, search, filter, paging and column changes to assistive technology *@
     <span class="@options.Theme.Display.ScreenReaderOnly" role="status" aria-live="polite">@sortStatusMessage</span>
 
-    <TwTable Id="@Id"
+    <TwTable Rounded="@Rounded" Id="@Id"
              Striped="@Striped"
              Hoverable="@Hoverable"
              Bordered="@Bordered"
@@ -200,13 +200,13 @@
             <form class="@filterFormClasses" @onsubmit="@ApplyFilterAsync">
                 @filterCondition((filterColumnDefinition, filterDraft.First, "first"))
                 <div class="@filterButtonsClasses" role="group" aria-label="@localizer[TwStrings.DataTable_FilterLogic]">
-                    <TwButton Id="@($"{filterPanelId}-and")"
+                    <TwButton Rounded="@Rounded" Id="@($"{filterPanelId}-and")"
                               Label="@localizer[TwStrings.DataTable_FilterAnd]"
                               Dense
                               Variant="@(filterDraft.Logic == TwDataTableFilterLogic.And ? ButtonVariant.Filled : ButtonVariant.Outlined)"
                               Attributes="@FilterLogicAttributes(TwDataTableFilterLogic.And)"
                               OnClick="@(() => SetFilterLogic(TwDataTableFilterLogic.And))" />
-                    <TwButton Id="@($"{filterPanelId}-or")"
+                    <TwButton Rounded="@Rounded" Id="@($"{filterPanelId}-or")"
                               Label="@localizer[TwStrings.DataTable_FilterOr]"
                               Dense
                               Variant="@(filterDraft.Logic == TwDataTableFilterLogic.Or ? ButtonVariant.Filled : ButtonVariant.Outlined)"
@@ -215,12 +215,12 @@
                 </div>
                 @filterCondition((filterColumnDefinition, filterDraft.Second!, "second"))
                 <div class="@filterButtonsClasses">
-                    <TwButton Id="@($"{filterPanelId}-apply")"
+                    <TwButton Rounded="@Rounded" Id="@($"{filterPanelId}-apply")"
                               Type="submit"
                               Label="@localizer[TwStrings.DataTable_ApplyFilter]"
                               StartIcon="Icon.Funnel"
                               Variant="ButtonVariant.Filled" />
-                    <TwButton Id="@($"{filterPanelId}-clear")"
+                    <TwButton Rounded="@Rounded" Id="@($"{filterPanelId}-clear")"
                               Label="@localizer[TwStrings.DataTable_ClearFilter]"
                               StartIcon="Icon.X_Circle"
                               Variant="ButtonVariant.Outlined"
@@ -295,7 +295,7 @@
 
     private RenderFragment<(TwDataTableColumn<TItem> Column, TwDataTableFilterCondition Condition, string Part)> filterCondition => context =>
         @<div class="@filterFormClasses">
-            <TwSelect T="FilterOperatorOption"
+            <TwSelect Rounded="@Rounded" T="FilterOperatorOption"
                       Id="@($"{filterPanelId}-{context.Part}-operator")"
                       Label="@(context.Part == "first" ? localizer[TwStrings.DataTable_FirstCondition] : localizer[TwStrings.DataTable_SecondCondition])"
                       Values="@OperatorOptions(context.Column)"
@@ -329,7 +329,7 @@
                                ValueChanged="@(value => condition.Value = value?.ToString(System.Globalization.CultureInfo.InvariantCulture))" />
                     break;
                 case TwDataTableFilterType.Date:
-                    <TwTextfield T="string"
+                    <TwTextfield Rounded="@Rounded" T="string"
                                  Id="@id"
                                  Label="@label"
                                  Dense
@@ -341,7 +341,7 @@
                 case TwDataTableFilterType.Boolean:
                 case TwDataTableFilterType.Enum:
                     var choices = ValueOptions(context.Column);
-                    <TwSelect T="FilterValueOption"
+                    <TwSelect Rounded="@Rounded" T="FilterValueOption"
                               Id="@id"
                               Label="@label"
                               Values="@choices"
@@ -351,7 +351,7 @@
                               SelectedValueChanged="@(option => condition.Value = option?.Value)" />
                     break;
                 default:
-                    <TwTextfield T="string"
+                    <TwTextfield Rounded="@Rounded" T="string"
                                  Id="@id"
                                  Label="@label"
                                  Dense
@@ -511,7 +511,7 @@
         var type = EditValueType(column);
         return type switch
         {
-            _ when type == typeof(bool) => @<TwCheckbox T="bool"
+            _ when type == typeof(bool) => @<TwCheckbox Rounded="@Rounded" T="bool"
                                                    Id="@EditorId(column)"
                                                    AriaLabel="@column.Title"
                                                    Value="@(EditValue(column) is true)"
@@ -531,7 +531,7 @@
                                                        Invalid="@(EditError(column) is not null)"
                                                        ErrorMessage="@(EditError(column) ?? string.Empty)"
                                                        SelectedDateChanged="@(value => SetEditValue(column, value))" />,
-            { IsEnum: true } enumType => @<TwSelect T="object"
+            { IsEnum: true } enumType => @<TwSelect Rounded="@Rounded" T="object"
                                                 Id="@EditorId(column)"
                                                 AriaLabel="@column.Title"
                                                 Dense
@@ -541,7 +541,7 @@
                                                 Invalid="@(EditError(column) is not null)"
                                                 ErrorMessage="@(EditError(column) ?? string.Empty)"
                                                 SelectedValueChanged="@(value => SetEditValue(column, value))" />,
-            _ => @<TwTextfield T="string"
+            _ => @<TwTextfield Rounded="@Rounded" T="string"
                                Id="@EditorId(column)"
                                AriaLabel="@column.Title"
                                Dense

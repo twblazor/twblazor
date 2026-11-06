@@ -307,4 +307,26 @@ public class RoundedBuilderTests : TwBlazorTestBase
         // Assert
         Assert.Equal(RoundedBuilder.GetRoundedEnd(Theme.Rounded.DefaultRounded), result);
     }
+
+    [Theory]
+    [InlineData(Rounded.None, Rounded.None)]
+    [InlineData(Rounded.Sm, Rounded.Sm)]
+    [InlineData(Rounded.Md, Rounded.Md)]
+    [InlineData(Rounded.Lg, Rounded.Lg)]
+    [InlineData(Rounded.Full, Rounded.Lg)]
+    public void ForSurface_CapsFullAtLarge(Rounded rounded, Rounded expected)
+    {
+        Assert.Equal(expected, TwBlazor.Builders.RoundedBuilder.ForSurface(rounded));
+    }
+
+    [Theory]
+    [InlineData(Rounded.None, Rounded.None)]
+    [InlineData(Rounded.Sm, Rounded.Sm)]
+    [InlineData(Rounded.Md, Rounded.Sm)]
+    [InlineData(Rounded.Lg, Rounded.Md)]
+    [InlineData(Rounded.Full, Rounded.Full)]
+    public void Inset_IsOneStepTighter_AndKeepsFull(Rounded rounded, Rounded expected)
+    {
+        Assert.Equal(expected, TwBlazor.Builders.RoundedBuilder.Inset(rounded));
+    }
 }

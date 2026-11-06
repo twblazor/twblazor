@@ -103,6 +103,7 @@ public partial class TwSlider<T> : TwBlazorInputComponentBase
     /// Gets the classes for the background track behind the filled portion of the slider.
     /// </summary>
     private string trackClasses => new ClassBuilder(theme.Track)
+        .AddClass(roundedBuilder.GetRounded(effectiveRounded))
         .AddClass(Disabled ? "opacity-40" : string.Empty)
         .Build();
 
@@ -114,7 +115,7 @@ public partial class TwSlider<T> : TwBlazorInputComponentBase
     /// animating it would make the fill visibly lag behind the (instantly-positioned) thumb on fast drags.
     /// </remarks>
     private string fillClasses => new ClassBuilder(theme.Fill)
-        .AddClass(roundedBuilder.GetRounded())
+        .AddClass(roundedBuilder.GetRounded(effectiveRounded))
         .AddClass(GetSliderColor(Color))
         .Build();
 

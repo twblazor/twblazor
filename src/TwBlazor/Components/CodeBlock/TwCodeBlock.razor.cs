@@ -90,7 +90,7 @@ public partial class TwCodeBlock : TwBlazorComponentBase, IAsyncDisposable
 
     private string classes =>
         new ClassBuilder(shadowBuilder.GetShadow(effectiveShadow))
-        .AddClass(roundedBuilder.GetRounded(effectiveRounded))
+        .AddClass(roundedBuilder.GetRounded(effectiveSurfaceRounded))
         .AddClass(options.Theme.Position.Relative)
         .AddClass(options.Theme.Display.Flex)
         .AddClass(options.Theme.Flexbox.Col)

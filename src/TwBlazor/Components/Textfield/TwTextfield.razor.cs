@@ -437,4 +437,7 @@ public partial class TwTextfield<T> : TwBlazorTextInputComponentBase
         await InvokeAsync(StateHasChanged);
         return await base.ValidateAsync();
     }
+
+    // Sits inside the field, so it is one step tighter than the field's own corners.
+    private string clearButtonClasses => new ClassBuilder(theme.ClearButton).AddClass(roundedBuilder.GetRounded(effectiveInsetRounded)).Build();
 }

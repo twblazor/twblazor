@@ -54,7 +54,7 @@ public class DialogBuilder(TwBlazorOptions options, RoundedBuilder roundedBuilde
         }
         else
         {
-            var effectiveRounded = rounded ?? theme.Rounded ?? options.Theme.Rounded.DefaultRounded;
+            var effectiveRounded = RoundedBuilder.ForSurface(rounded ?? theme.Rounded ?? options.Theme.Rounded.DefaultRounded);
             builder = builder
                 .AddClass(roundedBuilder.GetRounded(effectiveRounded))
                 .AddClass(GetMaxWidthClasses(maxWidth))

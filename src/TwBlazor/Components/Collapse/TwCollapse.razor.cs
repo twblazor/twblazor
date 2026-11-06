@@ -71,14 +71,14 @@ public partial class TwCollapse : TwBlazorComponentBase
     private string containerClasses =>
         new ClassBuilder(theme.Container)
         .AddClass(shadowBuilder.GetShadow(effectiveShadow))
-        .AddClass(roundedBuilder.GetRounded(effectiveRounded))
+        .AddClass(roundedBuilder.GetRounded(effectiveSurfaceRounded))
         .AddClass(Class)
         .Build();
 
     private string triggerClasses =>
         new ClassBuilder(theme.Trigger)
-        .AddClass(roundedBuilder.GetRounded(effectiveRounded), !IsOpen)
-        .AddClass(roundedBuilder.GetRoundedTop(effectiveRounded), IsOpen)
+        .AddClass(roundedBuilder.GetRounded(effectiveSurfaceRounded), !IsOpen)
+        .AddClass(roundedBuilder.GetRoundedTop(effectiveSurfaceRounded), IsOpen)
         .Build();
 
     private string iconClasses =>

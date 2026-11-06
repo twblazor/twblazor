@@ -207,10 +207,19 @@ public class DialogBuilderTests : TwBlazorTestBase
     public void GetSurfaceClasses_UsesCustomRounded_WhenProvided()
     {
         // Act
-        var result = dialogBuilder.GetSurfaceClasses(DialogMaxWidth.Small, false, false, Rounded.Full, null);
+        var result = dialogBuilder.GetSurfaceClasses(DialogMaxWidth.Small, false, false, Rounded.Sm, null);
 
         // Assert
-        Assert.Contains(Theme.Rounded.Full, result);
+        Assert.Contains(Theme.Rounded.Sm, result);
+    }
+
+    [Fact]
+    public void GetSurfaceClasses_CapsFullRounding_AtLarge()
+    {
+        var result = dialogBuilder.GetSurfaceClasses(DialogMaxWidth.Small, false, false, Rounded.Full, null);
+
+        Assert.Contains(Theme.Rounded.Lg, result);
+        Assert.DoesNotContain(Theme.Rounded.Full, result);
     }
 
     [Fact]

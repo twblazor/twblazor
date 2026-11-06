@@ -96,7 +96,7 @@ public partial class TwBubble : TwBlazorComponentBase
     private string surfaceClasses => new ClassBuilder(theme.Surface)
         .AddClass(variantClasses)
         .AddClass(options.Theme.Border.Width.Thin, Variant == BubbleVariant.Outlined)
-        .AddClass(roundedBuilder.GetRounded(effectiveRounded))
+        .AddClass(roundedBuilder.GetRounded(effectiveSurfaceRounded))
         .AddClass(theme.Tip, Tail)
         .AddClass(effectiveAlign == MessageAlign.End ? theme.EndTail : theme.StartTail, Tail)
         .Build();

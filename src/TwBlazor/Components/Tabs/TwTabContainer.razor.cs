@@ -126,6 +126,11 @@ public partial class TwTabContainer : TwBlazorComponentBase, IAsyncDisposable
 
     private readonly List<TwTab> _tabs = [];
 
+    /// <summary>
+    /// The rounding of each tab in the isolated (pill bar) style: one step tighter than the bar around it.
+    /// </summary>
+    internal Rounded isolatedTabRounded => effectiveInsetRounded;
+
     public TwTab? ActiveTab { get; private set; }
 
     private TwTabTheme theme => options.Theme.Components.Require<TwTabTheme>();
@@ -133,10 +138,11 @@ public partial class TwTabContainer : TwBlazorComponentBase, IAsyncDisposable
     private string tabContainerClasses => Container
         ? new ClassBuilder(theme.TabListContainer)
             .AddClass(theme.Background, !TransparentContainer)
-            .AddClass($"{roundedBuilder.GetRoundedTop(options.Theme.Rounded.DefaultRounded)}")
+            .AddClass($"{roundedBuilder.GetRoundedTop(effectiveSurfaceRounded)}")
             .AddClass(theme.ScrollableTabList, Scrollable)
             .AddClass(TabContainerClass ?? string.Empty).Build()
         : new ClassBuilder(theme.IsolatedTabListContainer)
+            .AddClass(roundedBuilder.GetRounded(effectiveRounded))
             .AddClass(theme.ScrollableTabList, Scrollable)
             .AddClass(TabContainerClass ?? string.Empty).Build();
 
@@ -151,7 +157,7 @@ public partial class TwTabContainer : TwBlazorComponentBase, IAsyncDisposable
     private string containerClasses => Container
         ? new ClassBuilder(theme.PanelContainer)
             .AddClass(theme.Background, !TransparentContainer)
-            .AddClass($"{roundedBuilder.GetRoundedBottom(options.Theme.Rounded.DefaultRounded)}")
+            .AddClass($"{roundedBuilder.GetRoundedBottom(effectiveSurfaceRounded)}")
             .AddClass(ContainerClass ?? string.Empty).Build()
         : new ClassBuilder(theme.IsolatedPanelContainer).AddClass(ContainerClass ?? string.Empty).Build();
 

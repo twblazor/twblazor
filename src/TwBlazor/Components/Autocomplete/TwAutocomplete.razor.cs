@@ -673,4 +673,7 @@ public partial class TwAutocomplete<T> : TwPopoverPickerComponentBase
 
     /// <inheritdoc />
     protected override FieldIdentifier? CreateFieldIdentifier() => SelectedValueExpression is null ? null : FieldIdentifier.Create(SelectedValueExpression);
+
+    // Sits inside the field, so it is one step tighter than the field's own corners.
+    private string clearButtonClasses => new ClassBuilder(theme.ClearButton).AddClass(roundedBuilder.GetRounded(effectiveInsetRounded)).Build();
 }

@@ -31,6 +31,8 @@ public class ButtonBuilder(TwBlazorOptions options, RoundedBuilder roundedBuilde
             .AddClass(theme.DensePadding, !iconButton && dense)
             .AddClass(theme.IconButton, iconButton)
             .AddClass(roundedBuilder.GetRounded(effectiveRounded), !iconButton)
+            // Icon buttons are circles unless the component asks for a rounding of its own.
+            .AddClass(roundedBuilder.GetRounded(componentRounded), iconButton && componentRounded is not null)
             .Build();
     }
 

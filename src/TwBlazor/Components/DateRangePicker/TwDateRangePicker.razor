@@ -23,6 +23,7 @@
             ValueChanged="@((e) => OnTextValueChanged(e))"
             ReadOnly="@ReadOnly"
             Variant="@Variant"
+            Rounded="@Rounded"
             Dense="@Dense"
             Invalid="@fieldInvalid"
             ErrorMessage="@fieldErrorMessage"
@@ -37,7 +38,7 @@
             <div class="@panelWidthClasses">
                 @if (view == DateRangePickerView.Year)
                 {
-                    <TwDatePickerHeader OnPreviousClick="PreviousDecade" OnNextClick="NextDecade" PreviousLabel="@localizer[TwStrings.DatePicker_PreviousDecade]" NextLabel="@localizer[TwStrings.DatePicker_NextDecade]">
+                    <TwDatePickerHeader Rounded="@Rounded" OnPreviousClick="PreviousDecade" OnNextClick="NextDecade" PreviousLabel="@localizer[TwStrings.DatePicker_PreviousDecade]" NextLabel="@localizer[TwStrings.DatePicker_NextDecade]">
                         @localizer.Formats.Format(anchorMonth, localizer.Formats.Year)
                     </TwDatePickerHeader>
                     <TwDatePickerBody Class="@bodyClasses">
@@ -55,7 +56,7 @@
                 }
                 else if (view == DateRangePickerView.Month)
                 {
-                    <TwDatePickerHeader OnPreviousClick="PreviousYear" OnNextClick="NextYear" OnTitleClick="@(() => SwitchView(DateRangePickerView.Year))" PreviousLabel="@localizer[TwStrings.DatePicker_PreviousYear]" NextLabel="@localizer[TwStrings.DatePicker_NextYear]">
+                    <TwDatePickerHeader Rounded="@Rounded" OnPreviousClick="PreviousYear" OnNextClick="NextYear" OnTitleClick="@(() => SwitchView(DateRangePickerView.Year))" PreviousLabel="@localizer[TwStrings.DatePicker_PreviousYear]" NextLabel="@localizer[TwStrings.DatePicker_NextYear]">
                         @localizer.Formats.Format(anchorMonth, localizer.Formats.Year)
                     </TwDatePickerHeader>
                     <TwDatePickerBody Class="@bodyClasses">
@@ -73,16 +74,16 @@
                 }
                 else
                 {
-                    <TwDatePickerHeader OnPreviousClick="PreviousMonth" OnNextClick="NextMonth" OnTitleClick="@(() => SwitchView(DateRangePickerView.Month))" PreviousLabel="@localizer[TwStrings.DatePicker_PreviousMonth]" NextLabel="@localizer[TwStrings.DatePicker_NextMonth]" PreviousDisabled="@isPreviousMonthDisabled" NextDisabled="@isNextMonthDisabled">
+                    <TwDatePickerHeader Rounded="@Rounded" OnPreviousClick="PreviousMonth" OnNextClick="NextMonth" OnTitleClick="@(() => SwitchView(DateRangePickerView.Month))" PreviousLabel="@localizer[TwStrings.DatePicker_PreviousMonth]" NextLabel="@localizer[TwStrings.DatePicker_NextMonth]" PreviousDisabled="@isPreviousMonthDisabled" NextDisabled="@isNextMonthDisabled">
                         @localizer[TwStrings.Common_Range, localizer.Formats.Format(anchorMonth, localizer.Formats.MonthYear), localizer.Formats.Format(anchorMonth.AddMonths(1), localizer.Formats.MonthYear)]
                     </TwDatePickerHeader>
                     <TwDatePickerBody Class="@bodyClasses">
                         <div class="@theme.DualMonthLayout">
                             <div class="@theme.DualMonthColumn">
-                                <TwDatePickerDayView @ref="firstMonthView" Value="anchorMonth" Range="SelectedRange" MinDate="MinDate" MaxDate="MaxDate" ShowMonthCaption="true" ValueChanged="SelectRangeDateAsync" NavigationRequested="OnDayNavigationRequested" />
+                                <TwDatePickerDayView Rounded="@Rounded" @ref="firstMonthView" Value="anchorMonth" Range="SelectedRange" MinDate="MinDate" MaxDate="MaxDate" ShowMonthCaption="true" ValueChanged="SelectRangeDateAsync" NavigationRequested="OnDayNavigationRequested" />
                             </div>
                             <div class="@theme.DualMonthColumn">
-                                <TwDatePickerDayView @ref="secondMonthView" Value="anchorMonth.AddMonths(1)" Range="SelectedRange" MinDate="MinDate" MaxDate="MaxDate" ShowMonthCaption="true" ValueChanged="SelectRangeDateAsync" NavigationRequested="OnDayNavigationRequested" />
+                                <TwDatePickerDayView Rounded="@Rounded" @ref="secondMonthView" Value="anchorMonth.AddMonths(1)" Range="SelectedRange" MinDate="MinDate" MaxDate="MaxDate" ShowMonthCaption="true" ValueChanged="SelectRangeDateAsync" NavigationRequested="OnDayNavigationRequested" />
                             </div>
                         </div>
                     </TwDatePickerBody>

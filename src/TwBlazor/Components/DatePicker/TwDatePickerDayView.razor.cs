@@ -319,7 +319,7 @@ public partial class TwDatePickerDayView : TwBlazorComponentBase, IAsyncDisposab
             .AddClass(options.Theme.Interaction.ReadonlyCursor)
             .AddClass(theme.ButtonClass)
             .AddClass(GetRangeAwareRoundedClass(isRangeStart, isRangeEnd, isInRange), isRangePart)
-            .AddClass(options.Theme.Rounded.Lg, !isRangePart)
+            .AddClass(roundedBuilder.GetRounded(effectiveRounded), !isRangePart)
             .AddClass(theme.RangeClass, isRangePart)
             .AddClass(theme.PrevMonthClass, !isRangePart)
             .Build();
@@ -336,10 +336,10 @@ public partial class TwDatePickerDayView : TwBlazorComponentBase, IAsyncDisposab
     /// </summary>
     private string GetRangeAwareRoundedClass(bool isRangeStart, bool isRangeEnd, bool isInRange) => (isRangeStart, isRangeEnd) switch
     {
-        (true, true) => roundedBuilder.GetRounded(),
-        (true, false) => roundedBuilder.GetRoundedStart(),
-        (false, true) => roundedBuilder.GetRoundedEnd(),
-        _ => isInRange ? string.Empty : roundedBuilder.GetRounded()
+        (true, true) => roundedBuilder.GetRounded(effectiveRounded),
+        (true, false) => roundedBuilder.GetRoundedStart(effectiveRounded),
+        (false, true) => roundedBuilder.GetRoundedEnd(effectiveRounded),
+        _ => isInRange ? string.Empty : roundedBuilder.GetRounded(effectiveRounded)
     };
 
     /// <summary>

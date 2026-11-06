@@ -50,7 +50,7 @@
 </div>
 @if (isPaged)
 {
-    <TwPagination Id="@($"{Id}-pagination")"
+    <TwPagination Id="@($"{Id}-pagination")" Rounded="@Rounded"
                   Class="@paginationClasses"
                   TotalPages="@totalPages"
                   ActivePage="@currentPage"

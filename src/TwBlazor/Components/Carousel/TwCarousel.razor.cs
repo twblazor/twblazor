@@ -168,8 +168,12 @@ public partial class TwCarousel : TwBlazorComponentBase, IAsyncDisposable
     private string effectiveAriaLabel => string.IsNullOrEmpty(AriaLabel) && string.IsNullOrEmpty(AriaLabelledBy) ? localizer[TwStrings.Carousel_Label] : AriaLabel ?? string.Empty;
 
     private string containerClasses => new ClassBuilder(theme.Container)
-        .AddClass(roundedBuilder.GetRounded(effectiveRounded))
+        .AddClass(roundedBuilder.GetRounded(effectiveSurfaceRounded))
         .AddClass(Class).Build();
+
+    // The bar holding the slide dots: a small control, so it keeps the full rounding the carousel itself caps.
+    private string indicatorContainerClasses => new ClassBuilder(theme.IndicatorContainer)
+        .AddClass(roundedBuilder.GetRounded(effectiveRounded)).Build();
 
     private string previousArrowClasses => new ClassBuilder(theme.ArrowButton)
         .AddClass(theme.ArrowButtonStart).Build();
@@ -254,7 +258,7 @@ public partial class TwCarousel : TwBlazorComponentBase, IAsyncDisposable
 
     private string GetIndicatorClasses(int index)
     {
-        var builder = new ClassBuilder(theme.Indicator);
+        var builder = new ClassBuilder(theme.Indicator).AddClass(roundedBuilder.GetRounded(effectiveRounded));
 
         if (index != SelectedIndex)
         {

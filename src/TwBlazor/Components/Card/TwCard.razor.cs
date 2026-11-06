@@ -90,7 +90,7 @@ public partial class TwCard : TwBlazorComponentBase
     [Parameter] public RenderFragment? FooterContent { get; set; }
 
     private string cardClasses => new ClassBuilder()
-        .AddClass(roundedBuilder.GetRounded(effectiveRounded))
+        .AddClass(roundedBuilder.GetRounded(effectiveSurfaceRounded))
         .AddClass(shadowBuilder.GetShadow(effectiveShadow))
         .AddClass(theme.Container)
         .AddClass(theme.Bordered, Bordered)
@@ -98,7 +98,7 @@ public partial class TwCard : TwBlazorComponentBase
         .Build();
 
     private string mediaClasses => new ClassBuilder(theme.Media)
-        .AddClass(roundedBuilder.GetRoundedTop(effectiveRounded))
+        .AddClass(roundedBuilder.GetRoundedTop(effectiveSurfaceRounded))
         .Build();
 
     private string imageClasses => new ClassBuilder(theme.Image)

@@ -73,7 +73,7 @@ public class TwSkeletonTests : TwBlazorTestBase
 
     [Theory]
     [InlineData(Rounded.None, "rounded-none")]
-    [InlineData(Rounded.Full, "rounded-full")]
+    [InlineData(Rounded.Full, "rounded-lg")]
     public void TwSkeleton_Rectangle_AppliesRoundedParameter(Rounded rounded, string expectedClass)
     {
         // Arrange & Act

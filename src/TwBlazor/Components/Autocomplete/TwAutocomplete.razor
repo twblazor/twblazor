@@ -39,7 +39,7 @@
             @if (showClearButton)
             {
                 <button type="button"
-                        class="@theme.ClearButton"
+                        class="@clearButtonClasses"
                         tabindex="-1"
                         aria-label="@localizer[TwStrings.Textfield_Clear]"
                         aria-controls="@Id"
@@ -52,7 +52,7 @@
             }
 
             <button type="button"
-                    class="@theme.ClearButton"
+                    class="@clearButtonClasses"
                     tabindex="-1"
                     aria-label="@listboxLabel"
                     aria-expanded="@(isFocused ? "true" : "false")"
