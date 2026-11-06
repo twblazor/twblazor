@@ -65,7 +65,7 @@ public partial class TwToggleGroupItem<T> : TwBlazorComponentBase, IDisposable
     /// The attributes handed to the toggle: the consumer's own, plus the roving tabindex that makes the group a
     /// single Tab stop and a focus listener that tells the group which item has focus.
     /// </summary>
-    private Dictionary<string, object> toggleAttributes => new(Attributes)
+    private Dictionary<string, object> GetToggleAttributes() => new(Attributes)
     {
         ["tabindex"] = group.IsTabStop(this) ? "0" : "-1",
         ["onfocus"] = EventCallback.Factory.Create<FocusEventArgs>(this, () => group.OnItemFocused(this)),
@@ -90,7 +90,18 @@ public partial class TwToggleGroupItem<T> : TwBlazorComponentBase, IDisposable
     /// </summary>
     public void Dispose()
     {
-        cascadedGroup?.Unregister(this);
+        Dispose(true);
         GC.SuppressFinalize(this);
+    }
+
+    /// <summary>
+    /// Unregisters the item from its group.
+    /// </summary>
+    protected virtual void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            cascadedGroup?.Unregister(this);
+        }
     }
 }

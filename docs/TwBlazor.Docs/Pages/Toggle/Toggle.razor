@@ -111,6 +111,26 @@
         "text-sm",
         bold ? "font-bold" : string.Empty,
         italic ? "italic" : string.Empty,
-        underline && strikethrough ? "underline line-through" : underline ? "underline" : strikethrough ? "line-through" : string.Empty);
+        TextDecorationClass());
+
+    private string TextDecorationClass()
+    {
+        if (underline && strikethrough)
+        {
+            return "underline line-through";
+        }
+
+        if (underline)
+        {
+            return "underline";
+        }
+
+        if (strikethrough)
+        {
+            return "line-through";
+        }
+
+        return string.Empty;
+    }
     #endregion
 }

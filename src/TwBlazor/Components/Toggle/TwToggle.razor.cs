@@ -115,9 +115,17 @@ public partial class TwToggle : TwBlazorComponentBase
     /// The pressed colors: the <see cref="Color"/>'s palette entry when one is set, otherwise the neutral tint,
     /// which on the filled bar of a <see cref="ToggleVariant.Text"/> group is a raised surface instead.
     /// </summary>
-    private string pressedClasses => Color.HasValue
-        ? ColorBuilder.GetPaletteColor(Color, theme.Colors, theme.Pressed)
-        : inGroup && effectiveVariant == ToggleVariant.Text ? theme.GroupPressed : theme.Pressed;
+    private string pressedClasses => GetPressedClasses();
+
+    private string GetPressedClasses()
+    {
+        if (Color.HasValue)
+        {
+            return ColorBuilder.GetPaletteColor(Color, theme.Colors, theme.Pressed);
+        }
+
+        return inGroup && effectiveVariant == ToggleVariant.Text ? theme.GroupPressed : theme.Pressed;
+    }
 
     private string classes =>
         new ClassBuilder(theme.Base)

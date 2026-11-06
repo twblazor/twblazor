@@ -7,7 +7,7 @@
      class="@classes"
      style="@Style"
      role="@(Multiple ? "group" : "radiogroup")"
-     aria-orientation="@(Multiple ? null : (Vertical ? "vertical" : "horizontal"))"
+     aria-orientation="@orientation"
      aria-disabled="@(Disabled ? "true" : null)"
      @onkeydown="OnKeyDownAsync"
      @ref="groupElement"

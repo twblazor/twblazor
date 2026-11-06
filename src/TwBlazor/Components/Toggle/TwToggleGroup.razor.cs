@@ -159,6 +159,19 @@ public partial class TwToggleGroup<T> : TwBlazorComponentBase, IAsyncDisposable
 
     internal TwToggleGroupItemContext itemContext => Multiple ? TwToggleGroupItemContext.Multiple : TwToggleGroupItemContext.Single;
 
+    private string? orientation
+    {
+        get
+        {
+            if (Multiple)
+            {
+                return null;
+            }
+
+            return Vertical ? "vertical" : "horizontal";
+        }
+    }
+
     private string classes =>
         new ClassBuilder(theme.GroupBase)
         .AddClass(Vertical ? theme.GroupVertical : theme.GroupHorizontal)

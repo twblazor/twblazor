@@ -11,6 +11,8 @@ public class TwToggleGroupTests : TwBlazorTestBase
 {
     private TwToggleTheme theme => Theme.Components.Require<TwToggleTheme>();
 
+    private static readonly int[] _twoValue = [2];
+
     private static string[] ClassesOf(AngleSharp.Dom.IElement element) =>
         (element.GetAttribute("class") ?? string.Empty).Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
@@ -401,7 +403,7 @@ public class TwToggleGroupTests : TwBlazorTestBase
         // Act
         var cut = TestContext.Render<TwToggleGroup<int>>(p => p
             .Add(x => x.Multiple, true)
-            .Add(x => x.Values, new[] { 2 })
+            .Add(x => x.Values, _twoValue)
             .Add(x => x.ChildContent, (RenderFragment)(b =>
             {
                 for (var i = 1; i <= 3; i++)
