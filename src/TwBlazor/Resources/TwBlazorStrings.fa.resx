@@ -801,6 +801,12 @@
   <data name="Menu_Options" xml:space="preserve">
     <value>گزینه‌ها</value>
   </data>
+  <data name="ContextMenu_Label" xml:space="preserve">
+    <value>منوی زمینه</value>
+  </data>
+  <data name="ContextMenu_Hint" xml:space="preserve">
+    <value>برای گزینه‌های بیشتر Shift+F10 یا کلید منو را فشار دهید.</value>
+  </data>
   <data name="DataTable_ColumnOptions" xml:space="preserve">
     <value>گزینه‌های ستون {0}</value>
   </data>

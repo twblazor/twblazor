@@ -1,0 +1,34 @@
+@namespace TwBlazor.Components
+@inherits TwBlazorComponentBase
+
+<div role="none" data-tw-submenu>
+    <button type="button"
+            id="@Id"
+            role="menuitem"
+            tabindex="-1"
+            class="@triggerClasses"
+            style="@Style"
+            aria-haspopup="menu"
+            aria-expanded="false"
+            aria-controls="@panelId"
+            aria-disabled="@(Disabled ? "true" : null)"
+            aria-label="@AriaLabel"
+            aria-labelledby="@AriaLabelledBy"
+            @attributes="Attributes">
+        @if (StartIcon is { } icon)
+        {
+            <TwIcon Icon="@icon" Class="@theme.ItemIcon" />
+        }
+        <span>@if (LabelContent != null) { @LabelContent } else { @Label }</span>
+        <TwIcon Icon="@DirectionalIcon(TwBlazor.Enums.Icon.Chevron_Right, TwBlazor.Enums.Icon.Chevron_Left)" Class="@theme.SubmenuIcon" />
+    </button>
+    <div id="@panelId"
+         role="menu"
+         aria-orientation="vertical"
+         aria-labelledby="@Id"
+         tabindex="-1"
+         class="@theme.Panel"
+         hidden>
+        @ChildContent
+    </div>
+</div>

@@ -801,6 +801,12 @@
   <data name="Menu_Options" xml:space="preserve">
     <value>オプション</value>
   </data>
+  <data name="ContextMenu_Label" xml:space="preserve">
+    <value>コンテキスト メニュー</value>
+  </data>
+  <data name="ContextMenu_Hint" xml:space="preserve">
+    <value>その他のオプションを表示するには Shift+F10 またはメニュー キーを押します。</value>
+  </data>
   <data name="DataTable_ColumnOptions" xml:space="preserve">
     <value>{0} 列のオプション</value>
   </data>

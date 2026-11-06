@@ -801,6 +801,12 @@
   <data name="Menu_Options" xml:space="preserve">
     <value>Opcje</value>
   </data>
+  <data name="ContextMenu_Label" xml:space="preserve">
+    <value>Menu kontekstowe</value>
+  </data>
+  <data name="ContextMenu_Hint" xml:space="preserve">
+    <value>Naciśnij Shift+F10 lub klawisz menu, aby zobaczyć więcej opcji.</value>
+  </data>
   <data name="DataTable_ColumnOptions" xml:space="preserve">
     <value>Opcje kolumny {0}</value>
   </data>

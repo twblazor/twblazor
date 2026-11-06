@@ -15,4 +15,8 @@
         @attributes="Attributes">
     <TwIcon Icon="TwBlazor.Enums.Icon.Check2" Class="@checkClasses" />
     <span>@if (ChildContent != null) { @ChildContent } else { @Label }</span>
+    @if (!string.IsNullOrEmpty(Shortcut))
+    {
+        <span class="@theme.ItemShortcut" aria-hidden="true">@Shortcut</span>
+    }
 </button>

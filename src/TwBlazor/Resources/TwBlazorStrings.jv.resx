@@ -795,6 +795,12 @@
   <data name="Menu_Options" xml:space="preserve">
     <value>Pilihan</value>
   </data>
+  <data name="ContextMenu_Label" xml:space="preserve">
+    <value>Menu konteks</value>
+  </data>
+  <data name="ContextMenu_Hint" xml:space="preserve">
+    <value>Pencet Shift+F10 utawa tombol Menu kanggo pilihan liyane.</value>
+  </data>
   <data name="DataTable_ColumnOptions" xml:space="preserve">
     <value>Pilihan kolom {0}</value>
   </data>

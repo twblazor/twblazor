@@ -7,7 +7,7 @@ using TwBlazor.Configuration.Components;
 namespace TwBlazor.Components;
 
 /// <summary>
-/// A labelled group of items in a <see cref="TwMenu"/>, such as the columns that can be shown or hidden. Assistive
+/// A labelled group of items in a <see cref="TwMenu"/> or <see cref="TwContextMenu"/>, such as the columns that can be shown or hidden. Assistive
 /// technology reads the <see cref="Label"/> as the group's name.
 /// </summary>
 public partial class TwMenuGroup : TwBlazorComponentBase

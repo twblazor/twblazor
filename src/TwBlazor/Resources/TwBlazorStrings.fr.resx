@@ -798,6 +798,12 @@
   <data name="Menu_Options" xml:space="preserve">
     <value>Options</value>
   </data>
+  <data name="ContextMenu_Label" xml:space="preserve">
+    <value>Menu contextuel</value>
+  </data>
+  <data name="ContextMenu_Hint" xml:space="preserve">
+    <value>Appuyez sur Maj+F10 ou sur la touche Menu pour plus d’options.</value>
+  </data>
   <data name="DataTable_ColumnOptions" xml:space="preserve">
     <value>Options de la colonne {0}</value>
   </data>
