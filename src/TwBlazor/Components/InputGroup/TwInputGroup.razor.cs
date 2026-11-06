@@ -88,9 +88,18 @@ public partial class TwInputGroup : TwBlazorComponentBase
 
     private bool hasLabel => !string.IsNullOrWhiteSpace(Label);
 
-    private string? groupLabelledBy => !string.IsNullOrWhiteSpace(AriaLabelledBy)
-        ? AriaLabelledBy
-        : hasLabel && string.IsNullOrWhiteSpace(AriaLabel) ? labelId : null;
+    private string? groupLabelledBy
+    {
+        get
+        {
+            if (!string.IsNullOrWhiteSpace(AriaLabelledBy))
+            {
+                return AriaLabelledBy;
+            }
+
+            return hasLabel && string.IsNullOrWhiteSpace(AriaLabel) ? labelId : null;
+        }
+    }
 
     private IEnumerable<(string Id, string Message)> errors => _errorEntries.Select(e => (e.Id, e.Message));
 
@@ -229,7 +238,18 @@ public partial class TwInputGroup : TwBlazorComponentBase
     /// <inheritdoc />
     public void Dispose()
     {
-        disposed = true;
+        Dispose(true);
         GC.SuppressFinalize(this);
+    }
+
+    /// <summary>
+    /// Releases the group's managed resources.
+    /// </summary>
+    protected virtual void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            disposed = true;
+        }
     }
 }

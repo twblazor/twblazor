@@ -113,8 +113,19 @@ public partial class TwInputRoot : IDisposable
     /// <inheritdoc />
     public void Dispose()
     {
-        reportedGroup?.SetError(this, null, null);
-        reportedGroup = null;
+        Dispose(true);
         GC.SuppressFinalize(this);
+    }
+
+    /// <summary>
+    /// Unreports the input's validation message from its group.
+    /// </summary>
+    protected virtual void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            reportedGroup?.SetError(this, null, null);
+            reportedGroup = null;
+        }
     }
 }

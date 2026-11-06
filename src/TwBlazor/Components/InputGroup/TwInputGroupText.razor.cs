@@ -77,7 +77,18 @@ public partial class TwInputGroupText : TwBlazorComponentBase, IDisposable
     /// <inheritdoc />
     public void Dispose()
     {
-        Unregister();
+        Dispose(true);
         GC.SuppressFinalize(this);
+    }
+
+    /// <summary>
+    /// Unregisters the text from its group.
+    /// </summary>
+    protected virtual void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            Unregister();
+        }
     }
 }

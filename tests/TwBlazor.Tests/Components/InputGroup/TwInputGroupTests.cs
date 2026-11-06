@@ -12,6 +12,10 @@ public class TwInputGroupTests : TwBlazorTestBase
 {
     private const string controlMarker = "data-tw-input-group-control";
 
+    private static readonly string[] _countries = ["UK", "USA"];
+
+    private static readonly string[] _cities = ["London", "Leeds"];
+
     private TwInputGroupTheme theme => Theme.Components.Require<TwInputGroupTheme>();
 
     private TwInputTheme inputTheme => Theme.Components.Require<TwInputTheme>();
@@ -464,7 +468,7 @@ public class TwInputGroupTests : TwBlazorTestBase
         {
             builder.OpenComponent<TwSelect<string>>(0);
             builder.AddAttribute(1, "Id", "country");
-            builder.AddAttribute(2, "Values", new[] { "UK", "USA" });
+            builder.AddAttribute(2, "Values", _countries);
             builder.AddAttribute(3, "PreferNativePicker", true);
             builder.CloseComponent();
         };
@@ -484,7 +488,7 @@ public class TwInputGroupTests : TwBlazorTestBase
     public void TwSelect_OutsideAGroup_IsNotMarked()
     {
         var cut = TestContext.Render<TwSelect<string>>(p => p
-            .Add(x => x.Values, new[] { "UK", "USA" })
+            .Add(x => x.Values, _countries)
             .Add(x => x.PreferNativePicker, true));
 
         Assert.False(cut.Find("select").HasAttribute(controlMarker));
@@ -497,7 +501,7 @@ public class TwInputGroupTests : TwBlazorTestBase
         {
             builder.OpenComponent<TwSelect<string>>(0);
             builder.AddAttribute(1, "Id", "country");
-            builder.AddAttribute(2, "Values", new[] { "UK", "USA" });
+            builder.AddAttribute(2, "Values", _countries);
             builder.AddAttribute(3, "PreferNativePicker", false);
             builder.CloseComponent();
         };
@@ -515,7 +519,7 @@ public class TwInputGroupTests : TwBlazorTestBase
         {
             builder.OpenComponent<TwAutocomplete<string>>(0);
             builder.AddAttribute(1, "Id", "city");
-            builder.AddAttribute(2, "Values", new[] { "London", "Leeds" });
+            builder.AddAttribute(2, "Values", _cities);
             builder.CloseComponent();
         };
         var cut = RenderGroup(content);
