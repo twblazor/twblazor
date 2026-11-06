@@ -374,6 +374,8 @@ internal static class KeyboardShortcuts
             Key("On a clearable select with the list closed: clears the selection.", "Delete", "Backspace"),
             Key("On a selected item's remove button in a multiple select: removes that item and returns focus to the field.", enter, space)),
 
+        ["/separator"] = _notInteractive,
+
         ["/sidebar"] = Guide(
             "The first Tab stop on the page is a link that skips the navigation. A closed sidebar is taken out of the Tab order entirely. "
             + "On a narrow screen the sidebar opens over the page as a drawer: focus moves into it and the page behind it cannot be reached until it closes.",
