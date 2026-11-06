@@ -238,7 +238,7 @@
                 </p>
             </div>
 
-            <ul class="reveal-group mt-10 grid grid-cols-1 gap-4 sm:auto-rows-fr sm:grid-cols-2 lg:grid-cols-3" aria-labelledby="accessibility-heading">
+            <ul class="reveal-group mt-10 grid auto-rows-fr grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" aria-labelledby="accessibility-heading">
                 @foreach (var point in _accessibilityPoints)
                 {
                     <li class="@($"flex items-center gap-4 p-5 {LandingStyles.Card}")">
@@ -266,7 +266,7 @@
                 </div>
 
                 <div class="mt-8 grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-14">
-                    <div class="reveal-group flex flex-col justify-between gap-4">
+                    <div class="reveal-group grid auto-rows-fr gap-6">
                         @foreach (var point in _themingPoints)
                         {
                             <div class="flex items-start gap-4">
