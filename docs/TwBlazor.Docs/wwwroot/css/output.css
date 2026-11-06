@@ -1472,6 +1472,9 @@
   .min-h-0 {
     min-height: 0px;
   }
+  .min-h-4 {
+    min-height: calc(var(--spacing) * 4);
+  }
   .min-h-6 {
     min-height: calc(var(--spacing) * 6);
   }
@@ -2680,6 +2683,10 @@
     border-inline-start-style: var(--tw-border-style);
     border-inline-start-width: 1px;
   }
+  .border-s-\(length\:--separator-width\) {
+    border-inline-start-style: var(--tw-border-style);
+    border-inline-start-width: var(--separator-width);
+  }
   .border-s-0 {
     border-inline-start-style: var(--tw-border-style);
     border-inline-start-width: 0px;
@@ -2703,6 +2710,10 @@
   .border-t {
     border-top-style: var(--tw-border-style);
     border-top-width: 1px;
+  }
+  .border-t-\(length\:--separator-width\) {
+    border-top-style: var(--tw-border-style);
+    border-top-width: var(--separator-width);
   }
   .border-t-0 {
     border-top-style: var(--tw-border-style);
@@ -2748,9 +2759,17 @@
     --tw-border-style: dashed;
     border-style: dashed;
   }
+  .border-dotted {
+    --tw-border-style: dotted;
+    border-style: dotted;
+  }
   .border-none {
     --tw-border-style: none;
     border-style: none;
+  }
+  .border-solid {
+    --tw-border-style: solid;
+    border-style: solid;
   }
   .border-\[oklch\(15\%_0_0\)\]\/15 {
     border-color: color-mix(in oklab, oklch(15% 0 0) 15%, transparent);
@@ -5399,6 +5418,15 @@
   }
   .\[--scroll-offset\:56px\] {
     --scroll-offset: 56px;
+  }
+  .\[--separator-width\:1px\] {
+    --separator-width: 1px;
+  }
+  .\[--separator-width\:2px\] {
+    --separator-width: 2px;
+  }
+  .\[--separator-width\:4px\] {
+    --separator-width: 4px;
   }
   .\[--textarea-py\:0\.5rem\] {
     --textarea-py: 0.5rem;
@@ -10581,6 +10609,9 @@
     }
     .forced-colors\:border-\[ButtonText\] {
       border-color: ButtonText;
+    }
+    .forced-colors\:border-\[CanvasText\] {
+      border-color: CanvasText;
     }
     .forced-colors\:bg-\[ButtonText\] {
       background-color: ButtonText;

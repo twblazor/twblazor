@@ -68,6 +68,14 @@
         "isNew": true
       },
       {
+        "id": "separator-navitem",
+        "display": "Separator",
+        "name": "TwSeparator",
+        "url": "/separator",
+        "isNew": true,
+        "theme": "TwSeparatorTheme"
+      },
+      {
         "id": "sidebar-navitem",
         "display": "Sidebar",
         "name": "TwSidebar",

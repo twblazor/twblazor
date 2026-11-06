@@ -1744,6 +1744,38 @@ public static class LegoTheme
                     Divider = $"my-1 border-t {neutralSurface.Border}",
                     GroupLabel = $"{spacing.PaddingX[3]} {spacing.PaddingTop[2]} {spacing.PaddingBottom[1]} {typography.Size.Xs} {typography.Weight.Semibold} {neutralText.Muted}"
                 },
+                new TwSeparatorTheme
+                {
+                    Base = $"{flexbox.ShrinkNone} forced-colors:border-[CanvasText]",
+                    Horizontal = sizing.FullWidth,
+                    Vertical = $"{display.InlineBlock} {flexbox.AlignSelf.Stretch} min-h-4 align-middle",
+                    LabeledHorizontal = $"{display.Flex} {flexbox.Align.Center} {spacing.Gap[3]} {sizing.FullWidth}",
+                    LabeledVertical = $"{display.InlineFlex} {flexbox.Col} {flexbox.Align.Center} {spacing.Gap[2]} {flexbox.AlignSelf.Stretch} min-h-16 align-middle",
+                    HorizontalLine = "border-t-(length:--separator-width)",
+                    VerticalLine = "border-s-(length:--separator-width)",
+                    LabelLine = "border-inherit",
+                    LineStretch = flexbox.Flex1,
+                    LineInset = $"{flexbox.ShrinkNone} basis-4",
+                    Label = $"{sizing.MinWidthNone} text-center {typography.WrapBreakWord} {typography.Size.Xs} {typography.Weight.Medium}",
+                    Thin = "[--separator-width:1px]",
+                    Medium = "[--separator-width:2px]",
+                    Thick = "[--separator-width:4px]",
+                    Solid = "border-solid",
+                    Dashed = "border-dashed",
+                    Dotted = "border-dotted",
+                    Neutral = $"{neutralSurface.Border} {neutralText.Muted}",
+                    Colors = new()
+                    {
+                        Primary = $"{borderColors.Primary} {text.Medium.Primary} {darkText.Light.Primary}",
+                        Accent = $"{borderColors.Accent} {text.Medium.Accent} {darkText.Light.Accent}",
+                        Success = $"{borderColors.Success} {text.Medium.Success} {darkText.Light.Success}",
+                        Danger = $"{borderColors.Danger} {text.Medium.Danger} {darkText.Light.Danger}",
+                        Warning = $"{borderColors.Warning} {text.Medium.Warning} {darkText.Light.Warning}",
+                        Info = $"{borderColors.Info} {text.Medium.Info} {darkText.Light.Info}",
+                        Light = $"{borderColors.Light} {neutralText.Secondary}",
+                        Dark = $"{borderColors.Dark} {neutralText.Heading}",
+                    }
+                },
                 new TwOnThisPageTheme
                 {
                     Title = $"{spacing.MarginBottom[3]} {typography.Weight.Semibold} {neutralText.Heading}",
