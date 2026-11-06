@@ -145,6 +145,11 @@ internal static class KeyboardShortcuts
 
         ["/container"] = _notInteractive,
 
+        ["/empty"] = Guide(
+            "An empty state is not a Tab stop itself. Its action buttons and links are, in reading order, and keep their own keyboard behaviour.",
+            Key("Moves to the next or previous action.", tab, shiftTab),
+            Key("Presses the focused action button.", enter, space)),
+
         ["/carousel"] = Guide(
             "The arrow keys change slide from anywhere in the carousel, except while you are typing in a field or using "
             + "a control inside a slide that needs them. An automatic slideshow pauses while the carousel has focus, "

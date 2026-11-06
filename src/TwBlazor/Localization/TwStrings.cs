@@ -995,4 +995,7 @@ public static class TwStrings
 
     /// <summary>The key for "There is a problem", the heading of a form's error summary.</summary>
     public const string Form_SummaryTitle = "Form_SummaryTitle";
+
+    /// <summary>The key for "No data", the default title of an empty state.</summary>
+    public const string Empty_Title = "Empty_Title";
 }

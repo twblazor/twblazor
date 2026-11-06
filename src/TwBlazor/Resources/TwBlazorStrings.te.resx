@@ -954,4 +954,7 @@
   <data name="TimePicker_Done" xml:space="preserve">
     <value>పూర్తయింది</value>
   </data>
+  <data name="Empty_Title" xml:space="preserve">
+    <value>డేటా లేదు</value>
+  </data>
 </root>

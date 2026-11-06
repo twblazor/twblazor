@@ -435,6 +435,14 @@
         "url": "/attachment",
         "isNew": true,
         "theme": "TwAttachmentTheme"
+      },
+      {
+        "id": "empty-navitem",
+        "display": "Empty",
+        "name": "TwEmpty",
+        "url": "/empty",
+        "isNew": true,
+        "theme": "TwEmptyTheme"
       }
     ]
   },

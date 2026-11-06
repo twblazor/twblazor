@@ -1354,6 +1354,47 @@ public static class LegoTheme
                     Image = "block w-full aspect-video object-cover",
                     Footer = $"flex flex-wrap items-center {spacing.Gap[2]} {spacing.PaddingX[5]} {spacing.PaddingY[4]} border-t {neutralSurface.Border}"
                 },
+                new TwEmptyTheme
+                {
+                    Base = $"{display.Flex} {flexbox.Col} {anchor.Center} {sizing.FullWidth} {sizing.MinWidthNone} {typography.AlignCenter} {typography.WrapBreakWord}",
+                    Outlined = $"{borderWidth.Thin} border-dashed {neutralSurface.Border}",
+                    Filled = tokens.Track,
+                    Small = $"{spacing.Gap[3]} {spacing.Padding[4]}",
+                    Medium = $"{spacing.Gap[4]} {spacing.Padding[8]}",
+                    Large = $"{spacing.Gap[5]} {spacing.Padding[12]}",
+                    Media = $"{display.Flex} {flexbox.ShrinkNone} {anchor.Center}",
+                    Tile = $"{display.InlineFlex} {flexbox.ShrinkNone} {anchor.Center}",
+                    TileNeutral = $"{tokens.TrackStrong} {neutralText.Secondary}",
+                    TileColors = new()
+                    {
+                        Primary = $"{background.Light.Primary} {darkBackground.Dark.Primary} {text.Dark.Primary} {darkText.Light.Primary}",
+                        Accent = $"{background.Light.Accent} {darkBackground.Dark.Accent} {text.Dark.Accent} {darkText.Light.Accent}",
+                        Success = $"{background.Light.Success} {darkBackground.Dark.Success} {text.Dark.Success} {darkText.Light.Success}",
+                        Danger = $"{background.Light.Danger} {darkBackground.Dark.Danger} {text.Dark.Danger} {darkText.Light.Danger}",
+                        Warning = $"{background.Light.Warning} {darkBackground.Dark.Warning} {text.Dark.Warning} {darkText.Light.Warning}",
+                        Info = $"{background.Light.Info} {darkBackground.Dark.Info} {text.Dark.Info} {darkText.Light.Info}",
+                        Light = $"{background.Light.Light} {darkBackground.Dark.Light} {text.Medium.Dark} {darkText.Medium.Dark}",
+                        Dark = $"{background.Light.Dark} dark:bg-gray-700 {text.Medium.Dark} {darkText.Light.Dark}",
+                    },
+                    TileSmall = $"size-10 {typography.Size.Lg}",
+                    TileMedium = $"size-12 {typography.Size.Xl}",
+                    TileLarge = $"size-16 {typography.Size.Xl3}",
+                    PlainIcon = neutralText.Muted,
+                    PlainIconSmall = typography.Size.Xl3,
+                    PlainIconMedium = typography.Size.Xl4,
+                    PlainIconLarge = typography.Size.Xl5,
+                    Header = $"{display.Flex} {flexbox.Col} {flexbox.Align.Center} {spacing.Gap[1]} {sizing.MaxWidth.Md}",
+                    Title = $"{typography.Weight.Semibold} {neutralText.Heading}",
+                    TitleSmall = typography.Size.Base,
+                    TitleMedium = typography.Size.Lg,
+                    TitleLarge = typography.Size.Xl,
+                    Description = $"{neutralText.Muted} text-balance",
+                    DescriptionSmall = typography.Size.Xs,
+                    DescriptionMedium = typography.Size.Sm,
+                    DescriptionLarge = typography.Size.Base,
+                    Content = $"{sizing.FullWidth} {sizing.MaxWidth.Md} {typography.Size.Sm} {neutralText.Muted}",
+                    Actions = $"{display.Flex} {flexbox.Wrap} {anchor.Center} {spacing.Gap[2]}"
+                },
                 new TwCarouselTheme
                 {
                     Container = $"{positioning.Relative} {overflow.Hidden} {sizing.FullWidth}",
