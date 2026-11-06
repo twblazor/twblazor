@@ -17,4 +17,8 @@
         <TwIcon Icon="@icon" Class="@theme.ItemIcon" />
     }
     <span>@if (ChildContent != null) { @ChildContent } else { @Label }</span>
+    @if (!string.IsNullOrEmpty(Shortcut))
+    {
+        <span class="@theme.ItemShortcut" aria-hidden="true">@Shortcut</span>
+    }
 </button>

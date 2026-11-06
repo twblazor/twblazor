@@ -17,10 +17,12 @@ namespace TwBlazor.Components;
 /// <remarks>The menu follows the ARIA menu button pattern. The button says that it opens a menu and whether the menu
 /// is open. Enter, Space or Arrow Down open the menu on its first item and Arrow Up on its last. In the menu the arrow
 /// keys move between the items and wrap round, Home and End move to the first and last, and typing a letter moves to the
-/// next item starting with it. Escape closes the menu and returns focus to the button, and Tab closes it and moves on.
-/// Put <see cref="TwMenuItem"/>, <see cref="TwMenuCheckboxItem"/>, <see cref="TwMenuDivider"/> and
-/// <see cref="TwMenuGroup"/> in it.</remarks>
-public partial class TwMenu : TwBlazorComponentBase, IAsyncDisposable
+/// next item starting with it. Arrow Right opens a submenu and Arrow Left closes it again (the two swap in a right to
+/// left layout). Escape closes the menu, or just the submenu focus is in, and returns focus to the item or button that
+/// opened it, and Tab closes it and moves on. Put <see cref="TwMenuItem"/>, <see cref="TwMenuCheckboxItem"/>,
+/// <see cref="TwMenuRadioGroup{TValue}"/>, <see cref="TwSubmenu"/>, <see cref="TwMenuDivider"/> and
+/// <see cref="TwMenuGroup"/> in it. To open the same items with a right-click, use <see cref="TwContextMenu"/>.</remarks>
+public partial class TwMenu : TwBlazorComponentBase, IAsyncDisposable, ITwMenuHost
 {
     private bool isOpen;
     private string? pendingFocus;
@@ -144,6 +146,8 @@ public partial class TwMenu : TwBlazorComponentBase, IAsyncDisposable
     /// <returns>A task that completes once the menu is closed.</returns>
     [JSInvokable]
     public Task CloseFromTab() => CloseAsync(returnFocus: false);
+
+    Task ITwMenuHost.CloseMenuAsync(bool returnFocus) => CloseAsync(returnFocus);
 
     internal async Task CloseAsync(bool returnFocus)
     {

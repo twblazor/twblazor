@@ -1,0 +1,106 @@
+@inherits TwPopoverPickerComponentBase
+@namespace TwBlazor.Components
+@using TwBlazor.Enums
+
+<TwInputRoot @ref="@InputRoot" RootId="@RootId" RootClass="@RootClass" RootAttributes="@RootAttributes" RootStyle="@Style" RootAriaLabel="@AriaLabel" RootAriaLabelledBy="@AriaLabelledBy" RootErrorMessage="@shownErrorMessage" RootErrorId="@shownErrorId">
+    @if (!string.IsNullOrWhiteSpace(Label))
+    {
+        <TwInputLabel Id="@LabelId" For="@Id" Label="@Label" Class="@LabelClasses" @attributes="@LabelAttributes" />
+    }
+
+    <div class="@fieldClasses" data-tw-tag-field @onclick="@OnFieldClick">
+        @if (tags.Count > 0)
+        {
+            <ul class="@theme.TagList" role="list" aria-label="@tagListLabel">
+                @for (var i = 0; i < tags.Count; i++)
+                {
+                    var index = i;
+                    var tag = tags[index];
+                    <li @key="@($"{index}-{tag}")"
+                        id="@TagId(index)"
+                        role="listitem"
+                        tabindex="@(canEdit ? "-1" : null)"
+                        data-tw-tag="@index"
+                        @onkeydown="@TagKeyDownHandler(index)">
+                        <TwChip Label="@tag"
+                                Size="@chipSize"
+                                Color="@ChipColor"
+                                Variant="@ChipVariant"
+                                Rounded="@effectiveInsetRounded"
+                                Disabled="@Disabled"
+                                Closable="@canEdit"
+                                CloseInTabOrder="false"
+                                OnClose="@(() => RemoveFromButtonAsync(index))" />
+                    </li>
+                }
+            </ul>
+        }
+
+        <input id="@Id"
+               @ref="@inputRef"
+               type="text"
+               class="@theme.Input"
+               placeholder="@(tags.Count == 0 ? Placeholder : null)"
+               value="@text"
+               autocomplete="off"
+               enterkeyhint="enter"
+               role="@(hasSuggestions ? "combobox" : null)"
+               aria-autocomplete="@(hasSuggestions ? "list" : null)"
+               aria-expanded="@(hasSuggestions ? (isListboxShown ? "true" : "false") : null)"
+               aria-controls="@(isListboxShown ? listboxId : null)"
+               aria-required="@(Required ? "true" : null)"
+               aria-invalid="@(shownInvalid ? "true" : null)"
+               aria-describedby="@describedBy"
+               aria-label="@AriaLabel"
+               aria-labelledby="@AriaLabelledBy"
+               readonly="@ReadOnly"
+               disabled="@Disabled"
+               @attributes="@Attributes"
+               @oninput="@OnInputAsync"
+               @onkeydown="@OnInputKeyDownAsync"
+               @onblur="@OnInputBlurAsync" />
+
+        @if (showClearButton)
+        {
+            <div class="@theme.EndContent">
+                <button type="button"
+                        class="@clearButtonClasses"
+                        tabindex="-1"
+                        aria-label="@localizer[TwStrings.TagInput_ClearAll]"
+                        aria-controls="@Id"
+                        disabled="@(tags.Count == 0 && text.Length == 0)"
+                        data-tw-field-button
+                        @onmousedown:preventDefault="true"
+                        @onclick="@ClearAsync"
+                        @onclick:stopPropagation="true">
+                    <TwIcon Icon="Icon.X_Lg" Class="@inputTheme.ClearButtonIcon" />
+                </button>
+            </div>
+        }
+    </div>
+
+    @if (!string.IsNullOrWhiteSpace(HelperText))
+    {
+        <p id="@helperId" class="@theme.HelperText">@HelperText</p>
+    }
+
+    @if (isListboxShown)
+    {
+        <div class="@inputTheme.SelectPanelPosition" id="@panelId" data-tw-popover @ref="PanelRef" @onmousedown:preventDefault="true">
+            <div class="@panelSurfaceClasses">
+                <div id="@listboxId" class="@inputTheme.SelectCustomListbox" role="listbox" aria-label="@tagListLabel">
+                    @foreach (var (key, suggestion) in shownSuggestions)
+                    {
+                        <div id="@OptionId(key)" role="option" class="@inputTheme.SelectCustomOption" data-value="@key"
+                             aria-selected="false"
+                             @onclick="@(() => SelectOptionAsync(key))">
+                            <span class="truncate">@suggestion</span>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="@options.Theme.Display.ScreenReaderOnly" role="status" aria-live="polite" aria-atomic="true">@statusMessage</div>
+</TwInputRoot>

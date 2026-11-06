@@ -7,7 +7,7 @@ using TwBlazor.Utilities;
 namespace TwBlazor.Components;
 
 /// <summary>
-/// A line between groups of items in a <see cref="TwMenu"/>. Assistive technology reads it as a separator, and the
+/// A line between groups of items in a <see cref="TwMenu"/> or <see cref="TwContextMenu"/>. Assistive technology reads it as a separator, and the
 /// arrow keys pass over it.
 /// </summary>
 public partial class TwMenuDivider : TwBlazorComponentBase

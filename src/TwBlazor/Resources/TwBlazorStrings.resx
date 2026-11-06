@@ -992,6 +992,14 @@
     <value>Options</value>
     <comment>The name of an icon only button that opens a menu, when the app gives it no name of its own.</comment>
   </data>
+  <data name="ContextMenu_Label" xml:space="preserve">
+    <value>Context menu</value>
+    <comment>The name of a context menu (the menu opened by a right-click), when the app gives it no name of its own.</comment>
+  </data>
+  <data name="ContextMenu_Hint" xml:space="preserve">
+    <value>Press Shift+F10 or the Menu key for more options.</value>
+    <comment>Read out by screen readers on an area that has a context menu, to say how to open it from the keyboard. Shift+F10 and the Menu key are the standard keys.</comment>
+  </data>
   <data name="DataTable_ColumnOptions" xml:space="preserve">
     <value>{0} column options</value>
     <comment>{0} = column heading. The name of the button that opens a column's menu.</comment>
@@ -1198,5 +1206,49 @@
   </data>
   <data name="TimePicker_Done" xml:space="preserve">
     <value>Done</value>
+  </data>
+  <data name="Empty_Title" xml:space="preserve">
+    <value>No data</value>
+    <comment>The default title of an empty state, shown where there is no data or content.</comment>
+  </data>
+  <data name="TagInput_Tags" xml:space="preserve">
+    <value>Tags</value>
+    <comment>Accessible name of a tag input's list of tags when the field has no label.</comment>
+  </data>
+  <data name="TagInput_Added" xml:space="preserve">
+    <value>{0} added</value>
+    <comment>{0} = the tag. Announced to screen readers when a tag is added.</comment>
+  </data>
+  <data name="TagInput_Removed" xml:space="preserve">
+    <value>{0} removed</value>
+    <comment>{0} = the tag. Announced to screen readers when a tag is removed.</comment>
+  </data>
+  <data name="TagInput_Cleared" xml:space="preserve">
+    <value>All tags removed</value>
+    <comment>Announced to screen readers when the clear button removes every tag.</comment>
+  </data>
+  <data name="TagInput_ClearAll" xml:space="preserve">
+    <value>Remove all tags</value>
+    <comment>Accessible name of a tag input's clear button.</comment>
+  </data>
+  <data name="TagInput_Duplicate" xml:space="preserve">
+    <value>{0} has already been added</value>
+    <comment>{0} = the tag. Shown when a tag is already in the field.</comment>
+  </data>
+  <data name="TagInput_LimitOne" xml:space="preserve">
+    <value>You can add only {0} tag</value>
+    <comment>{0} = the most tags allowed (singular form). Shown when the field is full.</comment>
+  </data>
+  <data name="TagInput_LimitOther" xml:space="preserve">
+    <value>You can add up to {0} tags</value>
+    <comment>{0} = the most tags allowed (plural form). Shown when the field is full.</comment>
+  </data>
+  <data name="TagInput_TooLongOne" xml:space="preserve">
+    <value>A tag can be at most {0} character long</value>
+    <comment>{0} = the most characters allowed (singular form). Shown when a tag is too long.</comment>
+  </data>
+  <data name="TagInput_TooLongOther" xml:space="preserve">
+    <value>A tag can be at most {0} characters long</value>
+    <comment>{0} = the most characters allowed (plural form). Shown when a tag is too long.</comment>
   </data>
 </root>

@@ -798,6 +798,12 @@
   <data name="Menu_Options" xml:space="preserve">
     <value>選項</value>
   </data>
+  <data name="ContextMenu_Label" xml:space="preserve">
+    <value>內容功能表</value>
+  </data>
+  <data name="ContextMenu_Hint" xml:space="preserve">
+    <value>按 Shift+F10 或功能表鍵以查看更多選項。</value>
+  </data>
   <data name="DataTable_ColumnOptions" xml:space="preserve">
     <value>「{0}」欄選項</value>
   </data>
@@ -956,5 +962,38 @@
   </data>
   <data name="TimePicker_Done" xml:space="preserve">
     <value>完成</value>
+  </data>
+  <data name="Empty_Title" xml:space="preserve">
+    <value>暫無資料</value>
+  </data>
+  <data name="TagInput_Tags" xml:space="preserve">
+    <value>標籤</value>
+  </data>
+  <data name="TagInput_Added" xml:space="preserve">
+    <value>已新增 {0}</value>
+  </data>
+  <data name="TagInput_Removed" xml:space="preserve">
+    <value>已移除 {0}</value>
+  </data>
+  <data name="TagInput_Cleared" xml:space="preserve">
+    <value>已移除所有標籤</value>
+  </data>
+  <data name="TagInput_ClearAll" xml:space="preserve">
+    <value>移除所有標籤</value>
+  </data>
+  <data name="TagInput_Duplicate" xml:space="preserve">
+    <value>{0} 已新增</value>
+  </data>
+  <data name="TagInput_LimitOne" xml:space="preserve">
+    <value>只能新增 {0} 個標籤</value>
+  </data>
+  <data name="TagInput_LimitOther" xml:space="preserve">
+    <value>最多可新增 {0} 個標籤</value>
+  </data>
+  <data name="TagInput_TooLongOne" xml:space="preserve">
+    <value>標籤最多 {0} 個字元</value>
+  </data>
+  <data name="TagInput_TooLongOther" xml:space="preserve">
+    <value>標籤最多 {0} 個字元</value>
   </data>
 </root>

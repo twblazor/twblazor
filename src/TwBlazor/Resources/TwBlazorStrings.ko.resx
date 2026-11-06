@@ -798,6 +798,12 @@
   <data name="Menu_Options" xml:space="preserve">
     <value>옵션</value>
   </data>
+  <data name="ContextMenu_Label" xml:space="preserve">
+    <value>상황에 맞는 메뉴</value>
+  </data>
+  <data name="ContextMenu_Hint" xml:space="preserve">
+    <value>더 많은 옵션을 보려면 Shift+F10 또는 메뉴 키를 누르세요.</value>
+  </data>
   <data name="DataTable_ColumnOptions" xml:space="preserve">
     <value>{0} 열 옵션</value>
   </data>
@@ -956,5 +962,38 @@
   </data>
   <data name="TimePicker_Done" xml:space="preserve">
     <value>완료</value>
+  </data>
+  <data name="Empty_Title" xml:space="preserve">
+    <value>데이터 없음</value>
+  </data>
+  <data name="TagInput_Tags" xml:space="preserve">
+    <value>태그</value>
+  </data>
+  <data name="TagInput_Added" xml:space="preserve">
+    <value>{0} 추가됨</value>
+  </data>
+  <data name="TagInput_Removed" xml:space="preserve">
+    <value>{0} 제거됨</value>
+  </data>
+  <data name="TagInput_Cleared" xml:space="preserve">
+    <value>모든 태그가 제거됨</value>
+  </data>
+  <data name="TagInput_ClearAll" xml:space="preserve">
+    <value>모든 태그 제거</value>
+  </data>
+  <data name="TagInput_Duplicate" xml:space="preserve">
+    <value>{0}은(는) 이미 추가되었습니다</value>
+  </data>
+  <data name="TagInput_LimitOne" xml:space="preserve">
+    <value>태그는 {0}개만 추가할 수 있습니다</value>
+  </data>
+  <data name="TagInput_LimitOther" xml:space="preserve">
+    <value>태그는 최대 {0}개까지 추가할 수 있습니다</value>
+  </data>
+  <data name="TagInput_TooLongOne" xml:space="preserve">
+    <value>태그는 최대 {0}자까지 입력할 수 있습니다</value>
+  </data>
+  <data name="TagInput_TooLongOther" xml:space="preserve">
+    <value>태그는 최대 {0}자까지 입력할 수 있습니다</value>
   </data>
 </root>

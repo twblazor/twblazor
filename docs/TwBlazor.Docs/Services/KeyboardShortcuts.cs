@@ -145,6 +145,11 @@ internal static class KeyboardShortcuts
 
         ["/container"] = _notInteractive,
 
+        ["/empty"] = Guide(
+            "An empty state is not a Tab stop itself. Its action buttons and links are, in reading order, and keep their own keyboard behaviour.",
+            Key("Moves to the next or previous action.", tab, shiftTab),
+            Key("Presses the focused action button.", enter, space)),
+
         ["/carousel"] = Guide(
             "The arrow keys change slide from anywhere in the carousel, except while you are typing in a field or using "
             + "a control inside a slide that needs them. An automatic slideshow pauses while the carousel has focus, "
@@ -275,6 +280,17 @@ internal static class KeyboardShortcuts
             Key("Moves the caret through the text.", left, right, home, end),
             Key("Commits the typed value, when the field binds on change.", enter)),
 
+        ["/tag-input"] = Guide(
+            "Each tag is a chip in a list before the text field. The arrow keys move between the tags, so Tab stops only on the text field, and the remove buttons are not Tab stops. Additions and removals are announced to screen readers.",
+            Key("Moves focus into or out of the field.", tab, shiftTab),
+            Key("Adds the typed text as a tag. With a suggestion highlighted, adds the suggestion instead.", enter, ","),
+            Key("In the empty text field: removes the last tag.", "Backspace"),
+            Key("In the empty text field: moves to the last tag. On a tag: moves to the previous or next tag, or back to the text field after the last. Reversed in a right to left layout.", left, right),
+            Key("On a tag: moves to the first tag, or to the text field.", home, end),
+            Key("On a tag: removes it and moves to the tag beside it.", "Delete", "Backspace"),
+            Key("Opens the suggestions and highlights the first or last one, or moves through them.", down, up),
+            Key("Closes the suggestions. Focus stays in the field.", escape)),
+
         ["/menu"] = Guide(
             "The button tells screen readers that it opens a menu and whether the menu is open. The menu follows the ARIA menu pattern: one item has focus at a time, and the arrow keys move between them.",
             Key("Moves focus to the menu's button.", tab),
@@ -285,6 +301,17 @@ internal static class KeyboardShortcuts
             Key("In the menu: moves to the next item that starts with the typed letter.", "A to Z"),
             Key("In the menu: chooses the focused item. An action closes the menu and returns focus to the button; a tick option flips and the menu stays open.", enter, space),
             Key("Closes the menu and returns focus to the button.", escape),
+            Key("Closes the menu and moves focus on.", tab)),
+
+        ["/context-menu"] = Guide(
+            "Right-click the area to open the menu at the pointer. When the area can take focus, Shift+F10 or the Menu key opens it too, with focus on its first item. The menu follows the ARIA menu pattern: one item has focus at a time, and the arrow keys move between them.",
+            Key("Moves focus to the area, when the area is a Tab stop.", tab),
+            Key("On the focusable area: opens the menu with focus on its first item.", "Shift + F10", "Menu"),
+            Key("In the menu: moves to the next or previous item, wrapping round at either end. Disabled items are skipped.", down, up),
+            Key("In the menu: moves to the first or last item.", home, end),
+            Key("In the menu: moves to the next item that starts with the typed letter.", "A to Z"),
+            Key("In the menu: chooses the focused item. An action closes the menu and returns focus to where it was; a tick option flips and the menu stays open.", enter, space),
+            Key("Closes the menu and returns focus to where it was.", escape),
             Key("Closes the menu and moves focus on.", tab)),
 
         ["/message"] = Guide(
@@ -380,6 +407,8 @@ internal static class KeyboardShortcuts
             Key("On a clearable select with the list closed: clears the selection.", "Delete", "Backspace"),
             Key("On a selected item's remove button in a multiple select: removes that item and returns focus to the field.", enter, space)),
 
+        ["/separator"] = _notInteractive,
+
         ["/sidebar"] = Guide(
             "The first Tab stop on the page is a link that skips the navigation. A closed sidebar is taken out of the Tab order entirely. "
             + "On a narrow screen the sidebar opens over the page as a drawer: focus moves into it and the page behind it cannot be reached until it closes.",
@@ -455,6 +484,21 @@ internal static class KeyboardShortcuts
             + "Its timer pauses while it has focus or the pointer is over it, and toasts stay reachable while a dialog is open.",
             Key("Moves focus to a toast's close button.", tab),
             Key("Closes the toast.", enter, space)),
+
+        ["/toggle"] = Guide(
+            "A toggle is a native button that announces whether it is pressed. A disabled toggle is not a Tab stop.",
+            Key("Moves focus to the toggle.", tab),
+            Key("Presses or releases the toggle.", enter, space),
+            Key("Hides the toggle's tooltip, if it has one.", escape)),
+
+        ["/toggle-group"] = Guide(
+            "The group is a single Tab stop, and disabled items are skipped. In a single-select group moving to an item also selects it; "
+            + "in a Multiple group the arrow keys only move focus. In a right to left layout Arrow Left moves to the next item and Arrow Right to the previous one.",
+            Key("Moves focus into the group, onto the pressed item of a single-select group, or the item that last had focus, or the first item.", tab),
+            Key("Moves to the next item. From the last item it wraps to the first.", right, down),
+            Key("Moves to the previous item. From the first item it wraps to the last.", left, up),
+            Key("Moves to the first or last item.", home, end),
+            Key("Presses or releases the focused item.", enter, space)),
 
         ["/tooltip"] = Guide(
             "A tooltip appears when its content gets keyboard focus, as well as on hover. Wrapped around a button or a link it "

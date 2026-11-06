@@ -1,0 +1,136 @@
+@page "/empty"
+@using TwBlazor.Components
+@using TwBlazor.Enums
+
+<PageContainer Title="TwEmpty" Path="/empty" Beta Description="TwEmpty is a Blazor empty state component for when there is no data yet. Set Icon, Title, Description and actions, with Outlined, Filled and Size variants." ThemeType="typeof(TwEmptyTheme)">
+    <PageCard Title="Basic usage">
+        <Description>Give <code>TwEmpty</code> a <code>Title</code> and a <code>Description</code> that says why there is nothing here. The icon defaults to <code>Icon.Inbox</code>, and without a <code>Title</code> the localized text "No data" is shown.</Description>
+        <CodeExample Name="EmptyBasic">
+            <TwEmpty Title="No messages yet" Description="When someone sends you a message it will show up here." />
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Actions">
+        <Description>Set <code>ActionText</code> and <code>OnAction</code> (or <code>ActionHref</code>) for a primary button, and <code>SecondaryActionText</code> for an outlined one beside it. Put anything else in <code>ActionContent</code>.</Description>
+        <CodeExample Name="EmptyActions">
+            <TwEmpty Icon="Icon.Folder2_Open"
+                     Title="No projects yet"
+                     Description="You haven't created any projects yet. Get started by creating your first project."
+                     ActionText="Create project"
+                     ActionIcon="Icon.Plus_Lg"
+                     OnAction="@(() => projectsCreated++)"
+                     SecondaryActionText="Import project"
+                     OnSecondaryAction="@(() => projectsCreated++)">
+                <ActionContent>
+                    <TwLink Href="/empty">Learn more</TwLink>
+                </ActionContent>
+            </TwEmpty>
+        </CodeExample>
+        @if (projectsCreated > 0)
+        {
+            <p class="mt-2 text-sm">Clicked @projectsCreated time(s).</p>
+        }
+    </PageCard>
+
+    <PageCard Title="Media">
+        <Description>The icon sits on a tile by default. Set <code>MediaVariant="EmptyMediaVariant.Plain"</code> for a larger icon with no tile, <code>Color</code> to tint it, or <code>AvatarSrc</code> / <code>AvatarName</code> to show a <code>TwAvatar</code> instead. <code>MediaContent</code> takes any markup, and <code>Icon="null"</code> shows no media at all.</Description>
+        <CodeExample Name="EmptyMedia">
+            <div class="grid gap-4 md:grid-cols-2">
+                <TwEmpty Icon="Icon.Bell" Color="Color.Primary" Title="No notifications" Description="You're all caught up." Outlined />
+                <TwEmpty Icon="Icon.Cloud_Slash" MediaVariant="EmptyMediaVariant.Plain" Title="You're offline" Description="Check your connection and try again." Outlined />
+                <TwEmpty AvatarName="Jane Doe" Title="Jane hasn't posted yet" Description="Follow Jane to see her posts here." Outlined />
+                <TwEmpty Title="No media" Description="This empty state has no icon." Icon="null" Outlined />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Outlined and filled">
+        <Description>Set <code>Outlined</code> for a dashed border that marks out the empty area, such as a drop zone, or <code>Filled</code> for a subtle background. They can be combined, and both follow the theme's rounding.</Description>
+        <CodeExample Name="EmptyVariants">
+            <div class="grid gap-4 md:grid-cols-3">
+                <TwEmpty Icon="Icon.Upload" Title="Outlined" Description="A dashed border." Outlined />
+                <TwEmpty Icon="Icon.Inboxes" Title="Filled" Description="A subtle background." Filled />
+                <TwEmpty Icon="Icon.Search" Title="Both" Description="A dashed border on a subtle background." Outlined Filled />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Sizes">
+        <Description>Set <code>Size</code> to <code>Size.Sm</code>, <code>Size.Md</code> (the default) or <code>Size.Lg</code>. It scales the padding, the media and the text.</Description>
+        <CodeExample Name="EmptySizes">
+            <div class="grid gap-4 md:grid-cols-3">
+                <TwEmpty Size="Size.Sm" Title="Small" Description="For tight spaces such as a card or a menu." Outlined />
+                <TwEmpty Size="Size.Md" Title="Medium" Description="The default size." Outlined />
+                <TwEmpty Size="Size.Lg" Title="Large" Description="For a whole page or section." Outlined />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="In a card">
+        <Description>A small empty state fits inside a <code>TwCard</code>. Set <code>TitleLevel</code> so its heading sits below the card's own heading in the page outline.</Description>
+        <CodeExample Name="EmptyInCard">
+            <TwCard Title="Recent orders" Class="max-w-sm">
+                <TwEmpty Size="Size.Sm" TitleLevel="4" Icon="Icon.Bag" Title="No orders yet" Description="Orders you place will appear here." ActionText="Start shopping" ActionHref="/empty" />
+            </TwCard>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="In a data table">
+        <Description>Put a <code>TwEmpty</code> in a <code>TwDataTable</code>'s <code>EmptyContent</code> to replace the plain "No data available." message.</Description>
+        <CodeExample Name="EmptyInDataTable">
+            <TwDataTable TItem="string" Items="@invoices">
+                <TableHeader>
+                    <tr>
+                        <th scope="col" class="px-6 py-3">Invoice</th>
+                    </tr>
+                </TableHeader>
+                <TableRow Context="invoice">
+                    <td class="px-6 py-4">@invoice</td>
+                </TableRow>
+                <EmptyContent>
+                    <TwEmpty Size="Size.Sm" TitleLevel="4" Icon="Icon.Receipt" Title="No invoices yet" Description="Invoices you send will be listed here." />
+                </EmptyContent>
+            </TwDataTable>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Search results">
+        <Description>Set <code>Live</code> when the empty state replaces results in response to the user, so screen readers announce it. Extra content, such as a hint, goes in <code>ChildContent</code>.</Description>
+        <CodeExample Name="EmptySearch">
+            <div class="flex flex-col gap-4 max-w-md">
+                <TwTextfield T="string" Label="Search fruit" @bind-Value="query" BindEvent="oninput" />
+                @if (matches.Count == 0)
+                {
+                    <TwEmpty Live Size="Size.Sm" Icon="Icon.Search" Title="No results" Description="@($"Nothing matches \"{query}\".")" SecondaryActionText="Clear search" OnSecondaryAction="@(() => query = string.Empty)">
+                        Try a shorter or different word.
+                    </TwEmpty>
+                }
+                else
+                {
+                    <ul class="list-disc ps-5 text-sm">
+                        @foreach (var fruit in matches)
+                        {
+                            <li>@fruit</li>
+                        }
+                    </ul>
+                }
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Accessibility">
+        <Description>
+            The icon or avatar is decorative and hidden from screen readers, so the <code>Title</code> and <code>Description</code> carry the message. The title is an <code>h3</code> by default; set <code>TitleLevel</code> (1 to 6) to fit the page's heading outline. Set <code>Live</code> to make the empty state a <code>role="status"</code> live region when it appears after a search or filter. Some screen readers only announce a live region that was already on the page, so for a reliable announcement also update a persistent status, such as a result count. Giving it an <code>AriaLabel</code> without <code>Live</code> makes it a named region. Layout uses logical properties, so it mirrors in a right to left layout.
+        </Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    private int projectsCreated;
+    private readonly List<string> invoices = [];
+    private string query = "kiwi fruit";
+
+    private static readonly string[] fruit = ["Apple", "Banana", "Cherry", "Mango", "Orange", "Pear"];
+
+    private List<string> matches => [.. fruit.Where(f => f.Contains(query ?? string.Empty, StringComparison.OrdinalIgnoreCase))];
+}

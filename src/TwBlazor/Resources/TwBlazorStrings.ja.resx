@@ -801,6 +801,12 @@
   <data name="Menu_Options" xml:space="preserve">
     <value>オプション</value>
   </data>
+  <data name="ContextMenu_Label" xml:space="preserve">
+    <value>コンテキスト メニュー</value>
+  </data>
+  <data name="ContextMenu_Hint" xml:space="preserve">
+    <value>その他のオプションを表示するには Shift+F10 またはメニュー キーを押します。</value>
+  </data>
   <data name="DataTable_ColumnOptions" xml:space="preserve">
     <value>{0} 列のオプション</value>
   </data>
@@ -959,5 +965,38 @@
   </data>
   <data name="TimePicker_Done" xml:space="preserve">
     <value>完了</value>
+  </data>
+  <data name="Empty_Title" xml:space="preserve">
+    <value>データがありません</value>
+  </data>
+  <data name="TagInput_Tags" xml:space="preserve">
+    <value>タグ</value>
+  </data>
+  <data name="TagInput_Added" xml:space="preserve">
+    <value>{0} を追加しました</value>
+  </data>
+  <data name="TagInput_Removed" xml:space="preserve">
+    <value>{0} を削除しました</value>
+  </data>
+  <data name="TagInput_Cleared" xml:space="preserve">
+    <value>すべてのタグを削除しました</value>
+  </data>
+  <data name="TagInput_ClearAll" xml:space="preserve">
+    <value>すべてのタグを削除</value>
+  </data>
+  <data name="TagInput_Duplicate" xml:space="preserve">
+    <value>{0} はすでに追加されています</value>
+  </data>
+  <data name="TagInput_LimitOne" xml:space="preserve">
+    <value>追加できるタグは {0} 個だけです</value>
+  </data>
+  <data name="TagInput_LimitOther" xml:space="preserve">
+    <value>タグは最大 {0} 個まで追加できます</value>
+  </data>
+  <data name="TagInput_TooLongOne" xml:space="preserve">
+    <value>タグは最大 {0} 文字までです</value>
+  </data>
+  <data name="TagInput_TooLongOther" xml:space="preserve">
+    <value>タグは最大 {0} 文字までです</value>
   </data>
 </root>

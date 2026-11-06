@@ -795,6 +795,12 @@
   <data name="Menu_Options" xml:space="preserve">
     <value>விருப்பங்கள்</value>
   </data>
+  <data name="ContextMenu_Label" xml:space="preserve">
+    <value>சூழல் மெனு</value>
+  </data>
+  <data name="ContextMenu_Hint" xml:space="preserve">
+    <value>மேலும் விருப்பங்களுக்கு Shift+F10 அல்லது மெனு விசையை அழுத்தவும்.</value>
+  </data>
   <data name="DataTable_ColumnOptions" xml:space="preserve">
     <value>{0} நெடுவரிசை விருப்பங்கள்</value>
   </data>
@@ -953,5 +959,38 @@
   </data>
   <data name="TimePicker_Done" xml:space="preserve">
     <value>முடிந்தது</value>
+  </data>
+  <data name="Empty_Title" xml:space="preserve">
+    <value>தரவு இல்லை</value>
+  </data>
+  <data name="TagInput_Tags" xml:space="preserve">
+    <value>குறிச்சொற்கள்</value>
+  </data>
+  <data name="TagInput_Added" xml:space="preserve">
+    <value>{0} சேர்க்கப்பட்டது</value>
+  </data>
+  <data name="TagInput_Removed" xml:space="preserve">
+    <value>{0} அகற்றப்பட்டது</value>
+  </data>
+  <data name="TagInput_Cleared" xml:space="preserve">
+    <value>எல்லா குறிச்சொற்களும் அகற்றப்பட்டன</value>
+  </data>
+  <data name="TagInput_ClearAll" xml:space="preserve">
+    <value>எல்லா குறிச்சொற்களையும் அகற்று</value>
+  </data>
+  <data name="TagInput_Duplicate" xml:space="preserve">
+    <value>{0} ஏற்கனவே சேர்க்கப்பட்டுள்ளது</value>
+  </data>
+  <data name="TagInput_LimitOne" xml:space="preserve">
+    <value>நீங்கள் {0} குறிச்சொல்லை மட்டுமே சேர்க்க முடியும்</value>
+  </data>
+  <data name="TagInput_LimitOther" xml:space="preserve">
+    <value>நீங்கள் அதிகபட்சம் {0} குறிச்சொற்களைச் சேர்க்கலாம்</value>
+  </data>
+  <data name="TagInput_TooLongOne" xml:space="preserve">
+    <value>ஒரு குறிச்சொல்லில் அதிகபட்சம் {0} எழுத்து இருக்கலாம்</value>
+  </data>
+  <data name="TagInput_TooLongOther" xml:space="preserve">
+    <value>ஒரு குறிச்சொல்லில் அதிகபட்சம் {0} எழுத்துகள் இருக்கலாம்</value>
   </data>
 </root>

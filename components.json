@@ -31,6 +31,13 @@
         "theme": "TwCollapseTheme"
       },
       {
+        "id": "context-menu-navitem",
+        "display": "Context Menu",
+        "name": "TwContextMenu",
+        "url": "/context-menu",
+        "isNew": true
+      },
+      {
         "id": "drawer-navitem",
         "display": "Drawer",
         "name": "TwDrawer",
@@ -66,6 +73,14 @@
         "url": "/on-this-page",
         "theme": "TwOnThisPageTheme",
         "isNew": true
+      },
+      {
+        "id": "separator-navitem",
+        "display": "Separator",
+        "name": "TwSeparator",
+        "url": "/separator",
+        "isNew": true,
+        "theme": "TwSeparatorTheme"
       },
       {
         "id": "sidebar-navitem",
@@ -283,6 +298,14 @@
             "theme": "TwSwitchTheme"
           },
           {
+            "id": "tag-input-navitem",
+            "display": "Tag Input",
+            "name": "TwTagInput",
+            "url": "/tag-input",
+            "isNew": true,
+            "theme": "TwTagInputTheme"
+          },
+          {
             "id": "textfield-navitem",
             "display": "Textfield",
             "name": "TwTextfield",
@@ -303,6 +326,21 @@
             "url": "/time-range-picker"
           }
         ]
+      },
+      {
+        "id": "toggle-navitem",
+        "display": "Toggle",
+        "name": "TwToggle",
+        "url": "/toggle",
+        "isNew": true,
+        "theme": "TwToggleTheme"
+      },
+      {
+        "id": "toggle-group-navitem",
+        "display": "Toggle Group",
+        "name": "TwToggleGroup",
+        "url": "/toggle-group",
+        "isNew": true
       }
     ]
   },
@@ -337,6 +375,14 @@
         "name": "TwChip",
         "url": "/chip",
         "theme": "TwChipTheme"
+      },
+      {
+        "id": "empty-navitem",
+        "display": "Empty",
+        "name": "TwEmpty",
+        "url": "/empty",
+        "isNew": true,
+        "theme": "TwEmptyTheme"
       },
       {
         "id": "icon-navitem",

@@ -6,7 +6,8 @@ using System.Diagnostics.CodeAnalysis;
 namespace TwBlazor.Configuration.Components;
 
 /// <summary>
-/// Theme configuration for menus (<see cref="TwBlazor.Components.TwMenu"/> and its items).
+/// Theme configuration for menus (<see cref="TwBlazor.Components.TwMenu"/>,
+/// <see cref="TwBlazor.Components.TwContextMenu"/> and their items and submenus), which share one look.
 /// Override any property to customize menu styles globally.
 /// </summary>
 /// <remarks>
@@ -64,4 +65,39 @@ public class TwMenuTheme
     /// Gets or sets the classes for the heading of a group of items.
     /// </summary>
     public required string GroupLabel { get; set; }
+
+    /// <summary>
+    /// Gets or sets the classes for the keyboard shortcut hint at the end of an item (e.g. <c>Ctrl+C</c>). It is
+    /// pushed to the end of the item, so the hints of several items line up.
+    /// </summary>
+    public string ItemShortcut { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes added to a destructive item, such as Delete, which marks it in a warning colour.
+    /// Colour is never the only sign, so give the item a clear label too.
+    /// </summary>
+    public string ItemDestructive { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes added to an inset item, which indents its text to line up with items that have an
+    /// icon or a tick.
+    /// </summary>
+    public string ItemInset { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes added to the item that opens a submenu, including its look while the submenu is open
+    /// (it has <c>aria-expanded="true"</c> then).
+    /// </summary>
+    public string SubmenuTrigger { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes for the arrow at the end of the item that opens a submenu.
+    /// </summary>
+    public string SubmenuIcon { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the classes for the area a <see cref="TwBlazor.Components.TwContextMenu"/> opens its menu from.
+    /// When the area is focusable it needs a visible focus indicator.
+    /// </summary>
+    public string ContextArea { get; set; } = string.Empty;
 }

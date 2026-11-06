@@ -1,0 +1,25 @@
+@namespace TwBlazor.Components
+@using TwBlazor.Enums
+@inherits TwBlazorComponentBase
+
+@if (hasLabel)
+{
+    <div id="@Id" class="@labeledClasses" style="@Style" role="@role" aria-orientation="@ariaOrientation" aria-hidden="@ariaHidden" aria-label="@accessibleName" aria-labelledby="@accessibleLabelledBy" @attributes="Attributes">
+        <span class="@startLineClasses"></span>
+        <span class="@theme.Label">
+            @if (ChildContent != null)
+            {
+                @ChildContent
+            }
+            else
+            {
+                @Label
+            }
+        </span>
+        <span class="@endLineClasses"></span>
+    </div>
+}
+else
+{
+    <div id="@Id" class="@lineClasses" style="@Style" role="@role" aria-orientation="@ariaOrientation" aria-hidden="@ariaHidden" aria-label="@accessibleName" aria-labelledby="@accessibleLabelledBy" @attributes="Attributes"></div>
+}

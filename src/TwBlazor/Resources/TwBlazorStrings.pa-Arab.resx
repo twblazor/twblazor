@@ -798,6 +798,12 @@
   <data name="Menu_Options" xml:space="preserve">
     <value>اختیارات</value>
   </data>
+  <data name="ContextMenu_Label" xml:space="preserve">
+    <value>سیاق مینیو</value>
+  </data>
+  <data name="ContextMenu_Hint" xml:space="preserve">
+    <value>ہور چوݨاں لئی Shift+F10 یا مینیو کنجی دباؤ۔</value>
+  </data>
   <data name="DataTable_ColumnOptions" xml:space="preserve">
     <value>{0} کالم دے اختیارات</value>
   </data>
@@ -956,5 +962,38 @@
   </data>
   <data name="TimePicker_Done" xml:space="preserve">
     <value>ہو گیا</value>
+  </data>
+  <data name="Empty_Title" xml:space="preserve">
+    <value>کوئی ڈیٹا نئیں</value>
+  </data>
+  <data name="TagInput_Tags" xml:space="preserve">
+    <value>ٹیگ</value>
+  </data>
+  <data name="TagInput_Added" xml:space="preserve">
+    <value>{0} شامل کیتا گیا</value>
+  </data>
+  <data name="TagInput_Removed" xml:space="preserve">
+    <value>{0} ہٹایا گیا</value>
+  </data>
+  <data name="TagInput_Cleared" xml:space="preserve">
+    <value>سارے ٹیگ ہٹا دتے گئے</value>
+  </data>
+  <data name="TagInput_ClearAll" xml:space="preserve">
+    <value>سارے ٹیگ ہٹاؤ</value>
+  </data>
+  <data name="TagInput_Duplicate" xml:space="preserve">
+    <value>{0} پہلاں ای شامل کیتا جا چکیا اے</value>
+  </data>
+  <data name="TagInput_LimitOne" xml:space="preserve">
+    <value>تسیں صرف {0} ٹیگ شامل کر سکدے او</value>
+  </data>
+  <data name="TagInput_LimitOther" xml:space="preserve">
+    <value>تسیں ودھ توں ودھ {0} ٹیگ شامل کر سکدے او</value>
+  </data>
+  <data name="TagInput_TooLongOne" xml:space="preserve">
+    <value>ٹیگ وچ ودھ توں ودھ {0} حرف ہو سکدا اے</value>
+  </data>
+  <data name="TagInput_TooLongOther" xml:space="preserve">
+    <value>ٹیگ وچ ودھ توں ودھ {0} حرف ہو سکدے نیں</value>
   </data>
 </root>

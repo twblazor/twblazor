@@ -963,6 +963,12 @@ public static class TwStrings
     /// <summary>The key for "Options".</summary>
     public const string Menu_Options = "Menu_Options";
 
+    /// <summary>The key for "Context menu", the name of a context menu when the app gives it no name of its own.</summary>
+    public const string ContextMenu_Label = "ContextMenu_Label";
+
+    /// <summary>The key for the hint read out on a focusable context menu area, saying how to open its menu from the keyboard.</summary>
+    public const string ContextMenu_Hint = "ContextMenu_Hint";
+
     /// <summary>The key for "Reactions", the name of the row of reactions under a chat bubble.</summary>
     public const string Bubble_Reactions = "Bubble_Reactions";
 
@@ -995,4 +1001,37 @@ public static class TwStrings
 
     /// <summary>The key for "There is a problem", the heading of a form's error summary.</summary>
     public const string Form_SummaryTitle = "Form_SummaryTitle";
+
+    /// <summary>The key for "No data", the default title of an empty state.</summary>
+    public const string Empty_Title = "Empty_Title";
+
+    /// <summary>The key for "Tags", the name of a tag input's list of tags when it has no label.</summary>
+    public const string TagInput_Tags = "TagInput_Tags";
+
+    /// <summary>The key for "{0} added", where {0} is the tag.</summary>
+    public const string TagInput_Added = "TagInput_Added";
+
+    /// <summary>The key for "{0} removed", where {0} is the tag.</summary>
+    public const string TagInput_Removed = "TagInput_Removed";
+
+    /// <summary>The key for "All tags removed".</summary>
+    public const string TagInput_Cleared = "TagInput_Cleared";
+
+    /// <summary>The key for "Remove all tags".</summary>
+    public const string TagInput_ClearAll = "TagInput_ClearAll";
+
+    /// <summary>The key for "{0} has already been added", where {0} is the tag.</summary>
+    public const string TagInput_Duplicate = "TagInput_Duplicate";
+
+    /// <summary>The key for "You can add only {0} tag".</summary>
+    public const string TagInput_LimitOne = "TagInput_LimitOne";
+
+    /// <summary>The key for "You can add up to {0} tags".</summary>
+    public const string TagInput_LimitOther = "TagInput_LimitOther";
+
+    /// <summary>The key for "A tag can be at most {0} character long".</summary>
+    public const string TagInput_TooLongOne = "TagInput_TooLongOne";
+
+    /// <summary>The key for "A tag can be at most {0} characters long".</summary>
+    public const string TagInput_TooLongOther = "TagInput_TooLongOther";
 }

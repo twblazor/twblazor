@@ -1,0 +1,37 @@
+@namespace TwBlazor.Components
+@inherits TwBlazorComponentBase
+
+<div id="@Id"
+     class="@areaClasses"
+     style="@Style"
+     role="@(Focusable ? "group" : null)"
+     tabindex="@(Focusable ? "0" : null)"
+     aria-haspopup="@(Focusable ? "menu" : null)"
+     aria-label="@AriaLabel"
+     aria-describedby="@(Focusable ? hintId : null)"
+     data-tw-context-menu="@(Disabled ? "disabled" : "enabled")"
+     @ref="areaRef"
+     @attributes="Attributes">
+    @ChildContent
+    @if (Focusable)
+    {
+        <span id="@hintId" class="@options.Theme.Display.ScreenReaderOnly">@localizer[TwStrings.ContextMenu_Hint]</span>
+    }
+</div>
+@if (isOpen)
+{
+    <div id="@menuId"
+         class="@panelClasses"
+         style="position:fixed;left:0;top:0;visibility:hidden"
+         role="menu"
+         aria-orientation="vertical"
+         aria-label="@effectiveMenuLabel"
+         aria-labelledby="@AriaLabelledBy"
+         tabindex="-1"
+         data-tw-popover
+         @ref="menuRef">
+        <CascadingValue Value="this" IsFixed="true">
+            @MenuContent
+        </CascadingValue>
+    </div>
+}
