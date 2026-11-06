@@ -1,0 +1,154 @@
+@page "/separator"
+
+<PageContainer Title="TwSeparator" Path="/separator" Beta Description="TwSeparator is a Blazor horizontal or vertical divider, with an optional label, line style, thickness and color." ThemeType="typeof(TwSeparatorTheme)">
+    <PageCard Title="Horizontal">
+        <Description>By default <code>TwSeparator</code> is a full width line between blocks of content. Add margin with <code>Class</code>, for example <code>Class="my-4"</code>.</Description>
+
+        <CodeExample Name="SeparatorHorizontal">
+            <div>
+                <p class="text-sm font-medium text-gray-900 dark:text-white">TwBlazor</p>
+                <p class="text-sm text-gray-600 dark:text-gray-300">A Tailwind CSS component library for Blazor.</p>
+                <TwSeparator Class="my-4" />
+                <p class="text-sm text-gray-600 dark:text-gray-300">Free and open source under the MIT License.</p>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Vertical">
+        <Description>Set <code>Orientation</code> to <code>SeparatorOrientation.Vertical</code> for a line between items in a row, such as links or toolbar groups. It stretches to the height of the row.</Description>
+
+        <CodeExample Name="SeparatorVertical">
+            <div class="flex h-5 items-center gap-4 text-sm text-gray-900 dark:text-white">
+                <span>Blog</span>
+                <TwSeparator Orientation="SeparatorOrientation.Vertical" />
+                <span>Docs</span>
+                <TwSeparator Orientation="SeparatorOrientation.Vertical" />
+                <span>Source</span>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="With a label">
+        <Description>Set <code>Label</code> to show text in the line, such as "or continue with" between ways to sign in. The label also names the separator for screen readers.</Description>
+
+        <CodeExample Name="SeparatorLabel">
+            <div class="flex max-w-sm flex-col gap-4">
+                <TwButton Label="Sign in with email" Color="Color.Primary" Class="w-full" />
+                <TwSeparator Label="or continue with" />
+                <div class="grid grid-cols-2 gap-3">
+                    <TwButton Label="GitHub" StartIcon="Icon.Github" Variant="ButtonVariant.Outlined" Class="w-full" />
+                    <TwButton Label="Google" StartIcon="Icon.Google" Variant="ButtonVariant.Outlined" Class="w-full" />
+                </div>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Label alignment">
+        <Description>Set <code>LabelAlign</code> to put the label at the <code>Start</code>, <code>Center</code> or <code>End</code> of the line. Start and end follow the reading direction, so they swap sides in a right to left layout.</Description>
+
+        <CodeExample Name="SeparatorLabelAlign">
+            <div class="flex flex-col gap-4">
+                <TwSeparator Label="Start" LabelAlign="SeparatorLabelAlign.Start" />
+                <TwSeparator Label="Center" />
+                <TwSeparator Label="End" LabelAlign="SeparatorLabelAlign.End" />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Custom content">
+        <Description>Put any content, such as an icon, between the tags instead of a <code>Label</code>. Screen readers do not read the content of a separator, so name it with <code>AriaLabel</code>.</Description>
+
+        <CodeExample Name="SeparatorCustomContent">
+            <div class="flex flex-col gap-4">
+                <TwSeparator AriaLabel="End of section">
+                    <TwIcon Icon="Icon.Stars" />
+                </TwSeparator>
+                <TwSeparator AriaLabel="Today, 3 unread">
+                    <strong>Today</strong>&nbsp;· 3 unread
+                </TwSeparator>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Vertical with a label">
+        <Description>A vertical separator can have a label too. The lines run above and below it.</Description>
+
+        <CodeExample Name="SeparatorVerticalLabel">
+            <div class="flex h-32 items-stretch gap-4 text-sm text-gray-600 dark:text-gray-300">
+                <div class="flex flex-1 items-center justify-center">Sign in</div>
+                <TwSeparator Orientation="SeparatorOrientation.Vertical" Label="or" />
+                <div class="flex flex-1 items-center justify-center">Create an account</div>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Line style and thickness">
+        <Description>Set <code>Variant</code> to <code>Solid</code>, <code>Dashed</code> or <code>Dotted</code>, and <code>Thickness</code> to <code>Thin</code>, <code>Medium</code> or <code>Thick</code>.</Description>
+
+        <CodeExample Name="SeparatorVariants">
+            <div class="flex flex-col gap-6">
+                <TwSeparator Label="Solid" />
+                <TwSeparator Label="Dashed" Variant="SeparatorVariant.Dashed" />
+                <TwSeparator Label="Dotted" Variant="SeparatorVariant.Dotted" />
+                <TwSeparator Label="Medium" Thickness="SeparatorThickness.Medium" />
+                <TwSeparator Label="Thick dashed" Thickness="SeparatorThickness.Thick" Variant="SeparatorVariant.Dashed" />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Colors">
+        <Description>Separators are neutral by default. Set <code>Color</code> to color the line and its label, for example a danger colored "New messages" divider.</Description>
+
+        <CodeExample Name="SeparatorColors">
+            <div class="flex flex-col gap-4">
+                <TwSeparator Label="Primary" Color="Color.Primary" />
+                <TwSeparator Label="Success" Color="Color.Success" />
+                <TwSeparator Label="New messages" Color="Color.Danger" Thickness="SeparatorThickness.Medium" />
+                <TwSeparator Color="Color.Info" Variant="SeparatorVariant.Dashed" />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="In a card">
+        <Description>Separate groups of settings or fields inside a <code>TwCard</code>. A line that only decorates, where the groups need no announced break, can be <code>Decorative</code>.</Description>
+
+        <CodeExample Name="SeparatorInCard">
+            <TwCard Title="Notifications" Class="max-w-md">
+                <div class="flex flex-col gap-4 text-sm">
+                    <TwSwitch Label="Email" @bind-Value="email" />
+                    <TwSwitch Label="Push notifications" @bind-Value="push" />
+                    <TwSeparator Decorative />
+                    <TwSwitch Label="Weekly summary" @bind-Value="summary" />
+                    <TwSwitch Label="Product news" @bind-Value="news" />
+                </div>
+            </TwCard>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Decorative separators">
+        <Description>
+            A separator is announced as a break between content, with its orientation. Set <code>Decorative</code> when the line only decorates. It then has <code>role="none"</code>, and without a label it is hidden from screen readers. A decorative label is read as plain text.
+        </Description>
+
+        <CodeExample Name="SeparatorDecorative">
+            <div class="flex flex-col gap-4">
+                <TwSeparator Label="Announced as a separator" />
+                <TwSeparator Label="Read as plain text" Decorative />
+                <TwSeparator Decorative />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Accessibility">
+        <Description>
+            A separator has <code>role="separator"</code> and <code>aria-orientation</code>, and is named by its <code>Label</code>. Name a separator with custom content with <code>AriaLabel</code>, or point <code>AriaLabelledBy</code> at a heading. A separator is not focusable, so the keyboard passes over it. The line is drawn as a border, so it stays visible in forced colors (Windows high contrast) mode, and start and end follow the reading direction.
+        </Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    private bool email = true;
+    private bool push;
+    private bool summary = true;
+    private bool news;
+}

@@ -385,6 +385,8 @@ internal static class KeyboardShortcuts
             Key("On a clearable select with the list closed: clears the selection.", "Delete", "Backspace"),
             Key("On a selected item's remove button in a multiple select: removes that item and returns focus to the field.", enter, space)),
 
+        ["/separator"] = _notInteractive,
+
         ["/sidebar"] = Guide(
             "The first Tab stop on the page is a link that skips the navigation. A closed sidebar is taken out of the Tab order entirely. "
             + "On a narrow screen the sidebar opens over the page as a drawer: focus moves into it and the page behind it cannot be reached until it closes.",
@@ -460,6 +462,21 @@ internal static class KeyboardShortcuts
             + "Its timer pauses while it has focus or the pointer is over it, and toasts stay reachable while a dialog is open.",
             Key("Moves focus to a toast's close button.", tab),
             Key("Closes the toast.", enter, space)),
+
+        ["/toggle"] = Guide(
+            "A toggle is a native button that announces whether it is pressed. A disabled toggle is not a Tab stop.",
+            Key("Moves focus to the toggle.", tab),
+            Key("Presses or releases the toggle.", enter, space),
+            Key("Hides the toggle's tooltip, if it has one.", escape)),
+
+        ["/toggle-group"] = Guide(
+            "The group is a single Tab stop, and disabled items are skipped. In a single-select group moving to an item also selects it; "
+            + "in a Multiple group the arrow keys only move focus. In a right to left layout Arrow Left moves to the next item and Arrow Right to the previous one.",
+            Key("Moves focus into the group, onto the pressed item of a single-select group, or the item that last had focus, or the first item.", tab),
+            Key("Moves to the next item. From the last item it wraps to the first.", right, down),
+            Key("Moves to the previous item. From the first item it wraps to the last.", left, up),
+            Key("Moves to the first or last item.", home, end),
+            Key("Presses or releases the focused item.", enter, space)),
 
         ["/tooltip"] = Guide(
             "A tooltip appears when its content gets keyboard focus, as well as on hover. Wrapped around a button or a link it "
