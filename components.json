@@ -290,6 +290,14 @@
             "theme": "TwSwitchTheme"
           },
           {
+            "id": "tag-input-navitem",
+            "display": "Tag Input",
+            "name": "TwTagInput",
+            "url": "/tag-input",
+            "isNew": true,
+            "theme": "TwTagInputTheme"
+          },
+          {
             "id": "textfield-navitem",
             "display": "Textfield",
             "name": "TwTextfield",

@@ -1648,6 +1648,73 @@ globalThis.twAutocomplete = {
     }
 };
 
+// Tag input: the keys and paste that turn typed text into tags. Enter and the separator keys are stopped here, so
+// Enter never submits the form and a comma is never typed into the field, and the field's text is handed to .NET to
+// become a tag. Enter on a highlighted suggestion is handled by twAutocomplete (attached first), which prevents its
+// default, so it is skipped here. Pasted text holding a separator or a line break is split in .NET instead of being
+// inserted, since a single-line field would otherwise strip the line breaks. Keys typed during IME composition are
+// left to the IME.
+globalThis.twTagInput = {
+    // Whether `text` holds anything that splits it into more than one tag.
+    _splits: function (text, separators) {
+        if (/[\r\n\t]/.test(text)) return true;
+        for (const separator of separators) {
+            if (text.includes(separator)) return true;
+        }
+        return false;
+    },
+
+    attach: function (input, dotnetRef, separators) {
+        if (!input || input.__twTagInput) return;
+
+        const state = { separators: separators || '' };
+
+        const keydown = function (e) {
+            if (e.isComposing || e.keyCode === 229 || e.ctrlKey || e.metaKey || e.altKey) return;
+            if (input.readOnly || input.disabled || e.defaultPrevented) return;
+
+            const isSeparator = e.key.length === 1 && state.separators.includes(e.key);
+            if (e.key !== 'Enter' && !isSeparator) return;
+
+            // Enter in an empty field keeps its default, so it still submits a form.
+            if (e.key === 'Enter' && input.value.trim() === '') return;
+
+            e.preventDefault();
+            if (input.value.trim() !== '') {
+                void globalThis.twPicker._invokeSafely(dotnetRef, 'CommitText', input.value);
+            }
+        };
+
+        const paste = function (e) {
+            if (input.readOnly || input.disabled) return;
+            const pasted = e.clipboardData?.getData('text') ?? '';
+            if (!globalThis.twTagInput._splits(pasted, state.separators)) return;
+
+            e.preventDefault();
+            const start = input.selectionStart ?? input.value.length;
+            const end = input.selectionEnd ?? input.value.length;
+            const combined = input.value.slice(0, start) + pasted + input.value.slice(end);
+            void globalThis.twPicker._invokeSafely(dotnetRef, 'PasteText', combined);
+        };
+
+        input.__twTagInput = { keydown, paste, state };
+        input.addEventListener('keydown', keydown);
+        input.addEventListener('paste', paste);
+    },
+
+    update: function (input, separators) {
+        if (!input?.__twTagInput) return;
+        input.__twTagInput.state.separators = separators || '';
+    },
+
+    detach: function (input) {
+        if (!input?.__twTagInput) return;
+        input.removeEventListener('keydown', input.__twTagInput.keydown);
+        input.removeEventListener('paste', input.__twTagInput.paste);
+        delete input.__twTagInput;
+    }
+};
+
 // Color picker: touch events. Blazor's TouchEventArgs only gives viewport-relative clientX/clientY
 // (unlike MouseEventArgs' element-relative offsetX/offsetY), so these helpers translate a touch
 // point the same way the mouse handlers already do via e.OffsetX/e.OffsetY.

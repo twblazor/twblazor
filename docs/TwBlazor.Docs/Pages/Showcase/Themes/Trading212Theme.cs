@@ -1773,6 +1773,18 @@ public static class Trading212Theme
                     Button = $"{display.InlineFlex} {flexbox.Align.Center} {flexbox.Justify.Center} {flexbox.ShrinkNone} {rounded.Md} {neutralText.Secondary} {tokens.HoverText} {tokens.HoverFill} {interaction.PointerCursor} {transition.ColorsFast} {tokens.FocusRing} {interaction.FocusOutlineNone} {tokens.DisabledControl}",
                     ButtonIcon = $"{typography.Size.Sm} leading-none"
                 },
+                new TwTagInputTheme
+                {
+                    Field = $"{positioning.Relative} {display.Flex} {flexbox.Wrap} {flexbox.Align.Center} {spacing.Gap[1]} {sizing.FullWidth} {sizing.MinWidthNone} {spacing.PaddingY[1]} text-start {neutralText.Heading} {transition.ColorsFast} cursor-text",
+                    Size = $"min-h-10 {typography.Size.Base}",
+                    DenseSize = $"min-h-8 {typography.Size.Sm}",
+                    ChipsPadding = "ps-1",
+                    TagList = display.Contents,
+                    Input = $"{flexbox.Flex1} min-w-24 h-6 {spacing.PaddingX[1]} py-0 border-0 {tokens.Transparent} {neutralText.Heading} placeholder:text-[oklch(21%_0.02_250)]/65 dark:placeholder:text-[oklch(97.807%_0.012_250)]/65 {interaction.FocusOutlineNone} disabled:cursor-not-allowed",
+                    EndContent = $"{positioning.Absolute} inset-y-0 end-0 {display.Flex} {flexbox.Align.Center} pe-1",
+                    ClearButton = "h-8",
+                    HelperText = $"{spacing.MarginTop[2]} {spacing.MarginStart[1]} {typography.Size.Sm} leading-4 {neutralText.Secondary}"
+                },
                 new TwMenuTheme
                 {
                     Root = $"{positioning.Relative} {display.InlineFlex}",

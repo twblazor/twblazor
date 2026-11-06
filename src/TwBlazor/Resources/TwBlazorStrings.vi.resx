@@ -963,4 +963,34 @@
   <data name="Empty_Title" xml:space="preserve">
     <value>Không có dữ liệu</value>
   </data>
+  <data name="TagInput_Tags" xml:space="preserve">
+    <value>Thẻ</value>
+  </data>
+  <data name="TagInput_Added" xml:space="preserve">
+    <value>Đã thêm {0}</value>
+  </data>
+  <data name="TagInput_Removed" xml:space="preserve">
+    <value>Đã xóa {0}</value>
+  </data>
+  <data name="TagInput_Cleared" xml:space="preserve">
+    <value>Đã xóa tất cả thẻ</value>
+  </data>
+  <data name="TagInput_ClearAll" xml:space="preserve">
+    <value>Xóa tất cả thẻ</value>
+  </data>
+  <data name="TagInput_Duplicate" xml:space="preserve">
+    <value>{0} đã được thêm</value>
+  </data>
+  <data name="TagInput_LimitOne" xml:space="preserve">
+    <value>Bạn chỉ có thể thêm {0} thẻ</value>
+  </data>
+  <data name="TagInput_LimitOther" xml:space="preserve">
+    <value>Bạn có thể thêm tối đa {0} thẻ</value>
+  </data>
+  <data name="TagInput_TooLongOne" xml:space="preserve">
+    <value>Thẻ có thể dài tối đa {0} ký tự</value>
+  </data>
+  <data name="TagInput_TooLongOther" xml:space="preserve">
+    <value>Thẻ có thể dài tối đa {0} ký tự</value>
+  </data>
 </root>
