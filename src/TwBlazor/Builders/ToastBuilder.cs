@@ -21,7 +21,7 @@ public class ToastBuilder(TwBlazorOptions options, RoundedBuilder roundedBuilder
     /// <param name="componentRounded">Component-level Rounded parameter value.</param>
     public string GetToastClasses(Rounded? componentRounded = null)
     {
-        var effectiveRounded = componentRounded ?? theme.ToastRounded ?? options.Theme.Rounded.DefaultRounded;
+        var effectiveRounded = RoundedBuilder.ForSurface(componentRounded ?? theme.ToastRounded ?? options.Theme.Rounded.DefaultRounded);
 
         return new ClassBuilder(theme.Toast)
             .AddClass(roundedBuilder.GetRounded(effectiveRounded))

@@ -110,7 +110,7 @@ public partial class TwAlert : TwBlazorComponentBase
     private string classes =>
         new ClassBuilder("tw-alert")
         .AddClass(shadowBuilder.GetShadow(effectiveShadow))
-        .AddClass(roundedBuilder.GetRounded(effectiveRounded))
+        .AddClass(roundedBuilder.GetRounded(effectiveSurfaceRounded))
         .AddClass(GetAlertColor(Color))
         .AddClass(options.Theme.Display.Hidden, Dismissed)
         .AddClass(theme.DensePadding, Dense)

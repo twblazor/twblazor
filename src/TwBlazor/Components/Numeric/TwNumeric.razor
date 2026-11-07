@@ -21,6 +21,7 @@
                      Placeholder="@Placeholder"
                      Required="@Required"
                      Variant="@Variant"
+                     Rounded="@Rounded"
                      Dense="@Dense"
                      ReadOnly="@ReadOnly"
                      Disabled="@Disabled"
@@ -58,7 +59,7 @@
         @if (!HideSpinButtons)
         {
             <button type="button"
-                    class="@theme.Button"
+                    class="@stepButtonClasses"
                     style="@buttonStyle"
                     tabindex="-1"
                     aria-label="@localizer[TwStrings.Numeric_Decrease]"
@@ -69,7 +70,7 @@
                 <TwIcon Icon="Icon.Dash_Lg" Class="@theme.ButtonIcon" />
             </button>
             <button type="button"
-                    class="@theme.Button"
+                    class="@stepButtonClasses"
                     style="@buttonStyle"
                     tabindex="-1"
                     aria-label="@localizer[TwStrings.Numeric_Increase]"

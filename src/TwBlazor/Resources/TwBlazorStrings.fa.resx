@@ -801,6 +801,12 @@
   <data name="Menu_Options" xml:space="preserve">
     <value>گزینه‌ها</value>
   </data>
+  <data name="ContextMenu_Label" xml:space="preserve">
+    <value>منوی زمینه</value>
+  </data>
+  <data name="ContextMenu_Hint" xml:space="preserve">
+    <value>برای گزینه‌های بیشتر Shift+F10 یا کلید منو را فشار دهید.</value>
+  </data>
   <data name="DataTable_ColumnOptions" xml:space="preserve">
     <value>گزینه‌های ستون {0}</value>
   </data>
@@ -959,5 +965,38 @@
   </data>
   <data name="TimePicker_Done" xml:space="preserve">
     <value>تمام</value>
+  </data>
+  <data name="Empty_Title" xml:space="preserve">
+    <value>داده‌ای وجود ندارد</value>
+  </data>
+  <data name="TagInput_Tags" xml:space="preserve">
+    <value>برچسب‌ها</value>
+  </data>
+  <data name="TagInput_Added" xml:space="preserve">
+    <value>{0} افزوده شد</value>
+  </data>
+  <data name="TagInput_Removed" xml:space="preserve">
+    <value>{0} حذف شد</value>
+  </data>
+  <data name="TagInput_Cleared" xml:space="preserve">
+    <value>همه برچسب‌ها حذف شدند</value>
+  </data>
+  <data name="TagInput_ClearAll" xml:space="preserve">
+    <value>حذف همه برچسب‌ها</value>
+  </data>
+  <data name="TagInput_Duplicate" xml:space="preserve">
+    <value>{0} قبلاً افزوده شده است</value>
+  </data>
+  <data name="TagInput_LimitOne" xml:space="preserve">
+    <value>فقط می‌توانید {0} برچسب بیفزایید</value>
+  </data>
+  <data name="TagInput_LimitOther" xml:space="preserve">
+    <value>حداکثر می‌توانید {0} برچسب بیفزایید</value>
+  </data>
+  <data name="TagInput_TooLongOne" xml:space="preserve">
+    <value>برچسب حداکثر می‌تواند {0} نویسه داشته باشد</value>
+  </data>
+  <data name="TagInput_TooLongOther" xml:space="preserve">
+    <value>برچسب حداکثر می‌تواند {0} نویسه داشته باشد</value>
   </data>
 </root>

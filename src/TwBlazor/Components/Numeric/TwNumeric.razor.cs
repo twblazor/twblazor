@@ -795,4 +795,7 @@ public partial class TwNumeric<T> : TwBlazorTextInputComponentBase
             GC.SuppressFinalize(this);
         }
     }
+
+    // The +/- buttons sit inside the field, so they are one step tighter than the field's own corners.
+    private string stepButtonClasses => new ClassBuilder(theme.Button).AddClass(roundedBuilder.GetRounded(effectiveInsetRounded)).Build();
 }

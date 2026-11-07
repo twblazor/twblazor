@@ -1,0 +1,152 @@
+@page "/tag-input"
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Components.Forms
+@using TwBlazor.Models
+
+<PageContainer Title="TwTagInput" Path="/tag-input" Beta Description="TwTagInput is a Blazor tag input for lists of free-form tags. Add tags with Enter or a comma, paste a whole list and get suggestions as you type." ThemeType="typeof(TwTagInputTheme)">
+    <PageCard Title="Basic usage">
+        <Description>Bind the tags with <code>@@bind-Value</code> to an <code>IReadOnlyList&lt;string&gt;</code>. Type a tag and press <code>Enter</code> or type a comma to add it. Each tag is a removable <code>TwChip</code>: click its remove button, or press <code>Backspace</code> in the empty field to remove the last tag. Surrounding spaces are trimmed and empty tags are ignored.</Description>
+
+        <CodeExample Name="TagInputBasic" CSharpName="TagInputBasicCode">
+            <TwTagInput Label="Skills" Placeholder="Add a skill" @bind-Value="skills" />
+            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Value: <strong>@string.Join(", ", skills)</strong></p>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Separators and paste">
+        <Description><code>Separators</code> are the characters that add a tag when typed, a comma by default. Pasted text is split on them and on line breaks, so a whole list can be pasted at once. Here a space, a comma and a semicolon all separate tags. Pass an empty list to add tags with <code>Enter</code> only, so a tag can contain commas.</Description>
+
+        <CodeExample Name="TagInputSeparators" CSharpName="TagInputSeparatorsCode">
+            <TwTagInput Label="Keywords" Separators="@keywordSeparators" HelperText="Separate keywords with a space, a comma or a semicolon, or paste a list." @bind-Value="keywords" />
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Suggestions">
+        <Description>Pass <code>Suggestions</code> to list matching tags as the user types. The arrow keys move through them and <code>Enter</code> adds the highlighted one, or click one. Tags already added are left out, and any other text can still be added. For a server-side search, set <code>SearchFunc</code> instead, with <code>DebounceInterval</code> to wait for a pause in typing.</Description>
+
+        <CodeExample Name="TagInputSuggestions" CSharpName="TagInputSuggestionsCode">
+            <TwTagInput Label="Frameworks" Placeholder="Search frameworks" Suggestions="@frameworks" MaxSuggestions="6" @bind-Value="chosenFrameworks" />
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Limits and duplicates">
+        <Description><code>MaxTags</code> caps how many tags the field holds and <code>MaxTagLength</code> how long each one can be. Duplicates are rejected, ignoring case, unless <code>AllowDuplicates</code> is set. A tag that cannot be added stays in the field, the reason is shown under it and announced, and <code>OnTagRejected</code> is invoked with the tag and a <code>TagRejectionReason</code>.</Description>
+
+        <CodeExample Name="TagInputLimits" CSharpName="TagInputLimitsCode">
+            <TwTagInput Label="Labels" MaxTags="3" MaxTagLength="12" HelperText="Up to 3 labels of at most 12 characters." OnTagRejected="@OnLabelRejected" @bind-Value="labels" />
+            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Last rejected: <strong>@lastRejection</strong></p>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Validation">
+        <Description><code>TagValidator</code> checks each tag before it is added: return an error message to reject it, or <code>null</code> to accept it. Inside an <code>EditForm</code> or a <code>TwForm</code> the field reports every change, so validation attributes on the bound list, such as <code>[MinLength]</code>, run for it and their message is shown under the field.</Description>
+
+        <CodeExample Name="TagInputValidation" CSharpName="TagInputValidationCode">
+            <EditForm Model="@invite" class="flex flex-col gap-4">
+                <DataAnnotationsValidator />
+                <TwTagInput Label="Invite by email" Required Separators="@emailSeparators" TagValidator="@ValidateEmail" @bind-Value="invite.Emails" />
+                <div>
+                    <TwButton Type="submit" Variant="ButtonVariant.Filled" Color="Color.Primary" Label="Send invites" />
+                </div>
+            </EditForm>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Add on blur">
+        <Description>Set <code>AddOnBlur</code> to add the typed text as a tag when focus leaves the field, so a tag the user typed but did not confirm is not lost.</Description>
+
+        <CodeExample Name="TagInputAddOnBlur" CSharpName="TagInputAddOnBlurCode">
+            <TwTagInput Label="Ingredients" AddOnBlur @bind-Value="ingredients" />
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Clearable">
+        <Description><code>Clearable</code> shows a button at the end of the field that removes every tag. Like the text field's clear button it is not a Tab stop, since keyboard users can remove tags with <code>Backspace</code>.</Description>
+
+        <CodeExample Name="TagInputClearable" CSharpName="TagInputClearableCode">
+            <TwTagInput Label="Recipients" Clearable @bind-Value="recipients" />
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Variants, dense and chip style">
+        <Description><code>Variant</code> and <code>Dense</code> work as they do on <code>TwTextfield</code>, so a tag input lines up with the other inputs; a dense field uses smaller tags. <code>ChipColor</code> and <code>ChipVariant</code> style the tags.</Description>
+
+        <CodeExample Name="TagInputVariants" CSharpName="TagInputVariantsCode">
+            <div class="grid gap-4 sm:grid-cols-3">
+                <TwTagInput Label="Default" Variant="InputVariant.Default" @bind-Value="variantTags" />
+                <TwTagInput Label="Outlined" Variant="InputVariant.Outlined" ChipVariant="ButtonVariant.Filled" @bind-Value="variantTags" />
+                <TwTagInput Label="Filled, dense" Variant="InputVariant.Filled" Dense ChipColor="Color.Success" @bind-Value="variantTags" />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Disabled and readonly">
+        <Description><code>Disabled</code> dims the field, and its tags can neither be added nor removed. <code>ReadOnly</code> keeps the tags readable, but hides their remove buttons and blocks typing.</Description>
+
+        <CodeExample Name="TagInputDisabledReadonly" CSharpName="TagInputDisabledReadonlyCode">
+            <div class="grid gap-4 sm:grid-cols-2">
+                <TwTagInput Label="Disabled" Value="@fixedTags" Disabled />
+                <TwTagInput Label="Readonly" Value="@fixedTags" ReadOnly />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Accessibility">
+        <Description>
+            The tags are a list named after the field's <code>Label</code>, placed before the text field, and each remove button is named after its tag, such as "Remove Blazor". Tab stops only on the text field: the arrow keys move between the tags, and <code>Delete</code> or <code>Backspace</code> removes the focused one, so a long list of tags does not fill the Tab order. Every tag added or removed is announced through a live region, in the language of the app. <code>HelperText</code> and any error message are linked to the text field with <code>aria-describedby</code>. In a right to left layout the arrow keys follow the reading direction.
+        </Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample TagInputBasicCode
+    private IReadOnlyList<string> skills = ["Blazor", "C#"];
+    #endregion
+
+    #region CodeExample TagInputSeparatorsCode
+    private readonly char[] keywordSeparators = [' ', ',', ';'];
+    private IReadOnlyList<string> keywords = [];
+    #endregion
+
+    #region CodeExample TagInputSuggestionsCode
+    private readonly string[] frameworks = ["Angular", "ASP.NET Core", "Blazor", "Django", "Express", "Laravel", "Next.js", "Nuxt", "Rails", "React", "Spring", "Svelte", "Vue"];
+    private IReadOnlyList<string> chosenFrameworks = ["Blazor"];
+    #endregion
+
+    #region CodeExample TagInputLimitsCode
+    private IReadOnlyList<string> labels = ["bug"];
+    private string lastRejection = "none";
+
+    private void OnLabelRejected(TagRejectedEventArgs rejection) => lastRejection = $"{rejection.Tag} ({rejection.Reason})";
+    #endregion
+
+    #region CodeExample TagInputValidationCode
+    private readonly char[] emailSeparators = [',', ';', ' '];
+    private readonly InviteModel invite = new();
+
+    private static string? ValidateEmail(string tag) =>
+        new EmailAddressAttribute().IsValid(tag) ? null : $"{tag} is not an email address";
+
+    private sealed class InviteModel
+    {
+        [MinLength(1, ErrorMessage = "Add at least one email address")]
+        public IReadOnlyList<string> Emails { get; set; } = [];
+    }
+    #endregion
+
+    #region CodeExample TagInputAddOnBlurCode
+    private IReadOnlyList<string> ingredients = ["Flour"];
+    #endregion
+
+    #region CodeExample TagInputClearableCode
+    private IReadOnlyList<string> recipients = ["Ada", "Grace", "Alan"];
+    #endregion
+
+    #region CodeExample TagInputVariantsCode
+    private IReadOnlyList<string> variantTags = ["Design", "Code"];
+    #endregion
+
+    #region CodeExample TagInputDisabledReadonlyCode
+    private readonly IReadOnlyList<string> fixedTags = ["Archived", "Internal"];
+    #endregion
+}

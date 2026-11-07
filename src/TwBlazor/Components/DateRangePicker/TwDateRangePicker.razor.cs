@@ -215,7 +215,7 @@ public partial class TwDateRangePicker : TwPopoverPickerComponentBase
     /// </summary>
     private string GetButtonClasses(string name, bool isSelected) =>
         new ClassBuilder($"{name} cursor-pointer")
-        .AddClass(roundedBuilder.GetRounded())
+        .AddClass(roundedBuilder.GetRounded(effectiveRounded))
         .AddClass(theme.ButtonClass)
         .AddClass(theme.HoverClass, !isSelected)
         .AddClass(theme.SelectedClass, isSelected)

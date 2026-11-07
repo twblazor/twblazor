@@ -70,7 +70,7 @@ public partial class TwColorPickerBody : TwBlazorComponentBase
     /// dialog's own rounding instead of a hardcoded radius of their own. The small circular swatch and
     /// slider thumbs stay "rounded-full" regardless - a circle, not a corner-radius choice.
     /// </summary>
-    private string roundedClass => roundedBuilder.GetRounded(effectiveRounded);
+    private string roundedClass => roundedBuilder.GetRounded(effectiveSurfaceRounded);
 
     private string selectorSquareClasses => new ClassBuilder(theme.SelectorSquare)
         .AddClass(roundedClass)

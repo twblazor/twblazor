@@ -1,0 +1,24 @@
+@namespace TwBlazor.Components
+@using TwBlazor.Enums
+@inherits TwBlazorComponentBase
+
+<TwButton Id="@Id"
+          Type="@Type"
+          Label="@Label"
+          StartIcon="@StartIcon"
+          EndIcon="@EndIcon"
+          IconButton="@IconButton"
+          Variant="@(Variant ?? ButtonVariant.Text)"
+          Color="@Color"
+          Disabled="@Disabled"
+          Dense="true"
+          Tooltip="@Tooltip"
+          OnClick="@OnClick"
+          Rounded="@buttonRounded"
+          Shadow="@Shadow"
+          Class="@classes"
+          Style="@Style"
+          AriaLabel="@AriaLabel"
+          AriaLabelledBy="@AriaLabelledBy"
+          Attributes="@Attributes"
+          ChildContent="@ChildContent" />

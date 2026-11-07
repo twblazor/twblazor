@@ -281,7 +281,7 @@ public partial class TwTreeListItem : TwBlazorComponentBase
 
     private string groupClasses =>
         new ClassBuilder(theme.Group)
-            .AddClass(roundedBuilder.GetRounded(effectiveRounded))
+            .AddClass(roundedBuilder.GetRounded(effectiveSurfaceRounded))
             .Build();
 
     private string toggleIconClasses =>

@@ -1,4 +1,4 @@
-@namespace TwBlazor.Components
+﻿@namespace TwBlazor.Components
 @using TwBlazor.Components.ColorPicker
 @inherits TwPopoverPickerComponentBase
 
@@ -39,6 +39,7 @@
                      @bind-Value:after="@HandleTextInputChangeAsync"
                      Id="@Id"
                      Variant="@effectiveVariant"
+                     Rounded="@Rounded"
                      Dense="@Dense"
                      Placeholder="@GetPlaceholder()"
                      Disabled="@Disabled"
@@ -54,7 +55,10 @@
         @if (isFocused)
         {
             <div class="@colorPickerTheme.DialogPosition" role="dialog" aria-label="@localizer[TwStrings.ColorPicker_Dialog]" @onkeydown="OnPanelKeyDownAsync" id="@panelId" data-tw-popover tabindex="-1" @ref="PanelRef">
-                <TwColorPickerBody Value="@Value" ShowAlpha="@ShowAlpha" ShowModeSwitch="@ShowModeSwitch" OutputFormat="@OutputFormat" ValueChanged="OnDialogValueChanged" OnClose="OnDialogClose" Variant="@effectiveVariant" Rounded="@Rounded" Shadow="@Shadow" />
+                @* The panel's own fields are not part of an input group the picker sits in. *@
+                <CascadingValue TValue="TwInputGroupContext" Value="null" IsFixed="true">
+                    <TwColorPickerBody Value="@Value" ShowAlpha="@ShowAlpha" ShowModeSwitch="@ShowModeSwitch" OutputFormat="@OutputFormat" ValueChanged="OnDialogValueChanged" OnClose="OnDialogClose" Variant="@effectiveVariant" Rounded="@Rounded" Shadow="@Shadow" />
+                </CascadingValue>
             </div>
         }
     </div>

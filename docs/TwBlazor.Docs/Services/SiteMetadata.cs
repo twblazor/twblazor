@@ -63,6 +63,11 @@ internal static partial class SiteMetadata
     public static string AbsoluteUrl(string path) => BaseUrl + path;
 
     /// <summary>
+    /// Words in component names that are acronyms, so the title reads "QR Code" rather than "Qr Code".
+    /// </summary>
+    private static readonly Dictionary<string, string> _acronyms = new(StringComparer.Ordinal) { ["Qr"] = "QR" };
+
+    /// <summary>
     /// The longest a full <c>&lt;title&gt;</c> can be before Google starts truncating it in results.
     /// </summary>
     public const int MaxTitleLength = 60;
@@ -86,7 +91,7 @@ internal static partial class SiteMetadata
     public static string ComponentTitle(string componentName)
     {
         var bare = componentName.StartsWith("Tw", StringComparison.Ordinal) ? componentName[2..] : componentName;
-        var words = WordBoundaryPattern().Replace(bare, " ");
+        var words = string.Join(' ', WordBoundaryPattern().Split(bare).Select(w => _acronyms.GetValueOrDefault(w, w)));
         var withSuffix = ComposeTitle(componentName, $"Blazor {words} Component");
 
         return withSuffix.Length > MaxTitleLength ? ComposeTitle(componentName, $"Blazor {words}") : withSuffix;

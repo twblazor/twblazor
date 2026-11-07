@@ -116,7 +116,7 @@ public partial class TwProgress<T> : TwBlazorInputComponentBase
         }
 
         builder.OpenElement(0, "span");
-        builder.AddAttribute(1, "class", theme.Animated);
+        builder.AddAttribute(1, "class", new ClassBuilder(theme.Animated).AddClass(roundedBuilder.GetRounded(effectiveRounded)).Build());
         builder.AddAttribute(2, "style", $"width: {percentageText}%");
         builder.AddAttribute(3, "aria-hidden", "true");
         builder.CloseElement();
@@ -175,6 +175,7 @@ public partial class TwProgress<T> : TwBlazorInputComponentBase
     /// Gets the classes applied to the &lt;progress&gt; element.
     /// </summary>
     private string classes => new ClassBuilder(theme.Base)
+        .AddClass(roundedBuilder.GetRounded(effectiveRounded))
         .AddClass(sizeClasses)
         .AddClass(GetProgressColor(Color))
         .AddClass(options.Theme.Interaction.DisabledOpacity, Disabled)

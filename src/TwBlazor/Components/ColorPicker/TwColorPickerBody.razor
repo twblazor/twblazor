@@ -120,19 +120,19 @@
         <!-- Color mode's value input(s), full width and at the same level as the control row above -->
         @if (currentMode == ColorMode.Hex)
         {
-            <TwTextfield Label="HEX" T="string" Variant="@Variant" @onchange="OnHexInputChanged" @oninput="OnHexInputCommitted" Value="@hexInput" Dense Placeholder="#000000" />
+            <TwTextfield Label="HEX" T="string" Variant="@Variant" Rounded="@Rounded" @onchange="OnHexInputChanged" @oninput="OnHexInputCommitted" Value="@hexInput" Dense Placeholder="#000000" />
         }
         else if (currentMode == ColorMode.Rgb)
         {
             <div class="@inputRowClasses">
                 <div class="@theme.InputColumn">
-                    <TwTextfield Label="R" T="int" InputType="number" min="0" max="255" Variant="@Variant" ValueChanged="@((r) => OnRInputChanged(r.ToString()))" Value="@r" BindEvent="oninput" Dense />
+                    <TwTextfield Label="R" T="int" InputType="number" min="0" max="255" Variant="@Variant" Rounded="@Rounded" ValueChanged="@((r) => OnRInputChanged(r.ToString()))" Value="@r" BindEvent="oninput" Dense />
                 </div>
                 <div class="@theme.InputColumn">
-                    <TwTextfield Label="G" T="int" InputType="number" min="0" max="255" Variant="@Variant" ValueChanged="@((g) => OnGInputChanged(g.ToString()))" Value="@g" BindEvent="oninput" Dense />
+                    <TwTextfield Label="G" T="int" InputType="number" min="0" max="255" Variant="@Variant" Rounded="@Rounded" ValueChanged="@((g) => OnGInputChanged(g.ToString()))" Value="@g" BindEvent="oninput" Dense />
                 </div>
                 <div class="@theme.InputColumn">
-                    <TwTextfield Label="B" T="int" InputType="number" min="0" max="255" Variant="@Variant" ValueChanged="@((b) => OnBInputChanged(b.ToString()))" Value="@b" BindEvent="oninput" Dense />
+                    <TwTextfield Label="B" T="int" InputType="number" min="0" max="255" Variant="@Variant" Rounded="@Rounded" ValueChanged="@((b) => OnBInputChanged(b.ToString()))" Value="@b" BindEvent="oninput" Dense />
                 </div>
             </div>
         }
@@ -140,13 +140,13 @@
         {
             <div class="@inputRowClasses">
                 <div class="@theme.InputColumn">
-                    <TwTextfield Label="H" T="int" InputType="number" min="0" max="360" Variant="@Variant" ValueChanged="@((h) => OnHInputChanged(h.ToString()))" Value="@h" BindEvent="oninput" Dense />
+                    <TwTextfield Label="H" T="int" InputType="number" min="0" max="360" Variant="@Variant" Rounded="@Rounded" ValueChanged="@((h) => OnHInputChanged(h.ToString()))" Value="@h" BindEvent="oninput" Dense />
                 </div>
                 <div class="@theme.InputColumn">
-                    <TwTextfield Label="S" T="int" InputType="number" min="0" max="100" Variant="@Variant" ValueChanged="@((s) => OnSInputChanged(s.ToString()))" Value="@s" BindEvent="oninput" Dense />
+                    <TwTextfield Label="S" T="int" InputType="number" min="0" max="100" Variant="@Variant" Rounded="@Rounded" ValueChanged="@((s) => OnSInputChanged(s.ToString()))" Value="@s" BindEvent="oninput" Dense />
                 </div>
                 <div class="@theme.InputColumn">
-                    <TwTextfield Label="L" T="int" InputType="number" min="0" max="100" Variant="@Variant" ValueChanged="@((l) => OnLInputChanged(l.ToString()))" Value="@l" BindEvent="oninput" Dense />
+                    <TwTextfield Label="L" T="int" InputType="number" min="0" max="100" Variant="@Variant" Rounded="@Rounded" ValueChanged="@((l) => OnLInputChanged(l.ToString()))" Value="@l" BindEvent="oninput" Dense />
                 </div>
             </div>
         }

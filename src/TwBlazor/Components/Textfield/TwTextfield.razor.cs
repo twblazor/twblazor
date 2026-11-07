@@ -204,6 +204,8 @@ public partial class TwTextfield<T> : TwBlazorTextInputComponentBase
     /// </remarks>
     [Parameter] public RenderFragment? EndContent { get; set; }
 
+    private string? describedBy => GetDescribedBy(errorId);
+
     private bool hasFieldContent => Clearable || StartContent is not null || EndContent is not null;
 
     // Always shown, and disabled while empty, so the buttons beside it do not shift under the pointer when it appears.
@@ -227,13 +229,15 @@ public partial class TwTextfield<T> : TwBlazorTextInputComponentBase
     /// </remarks>
     private string classes => new ClassBuilder(theme.TextfieldBase)
         .AddClass(inputVariantBuilder.GetClasses(effectiveVariant, theme, effectiveRounded))
-        .AddClass(Disabled ? "opacity-40 cursor-not-allowed" : string.Empty)
+        // In a group the group dims as a whole, addons included, so the field is not dimmed twice.
+        .AddClass(Disabled && !isInInputGroup ? "opacity-40 cursor-not-allowed" : string.Empty)
         .AddClass(Multiline ? multilineClasses : inputSizeClasses)
+        .AddClass(inputGroupControlClasses)
         .AddClass(theme.ClearablePadding, Clearable && !Multiline && !Disabled && !ReadOnly)
         .AddClass(Class)
         .Build();
 
-    private string multilineClasses => new ClassBuilder(Dense ? theme.MultilineDenseSize : theme.MultilineSize)
+    private string multilineClasses => new ClassBuilder(effectiveDense ? theme.MultilineDenseSize : theme.MultilineSize)
         .AddClass(AutoGrow ? theme.MultilineAutoGrow : theme.MultilineResize)
         .Build();
 
@@ -437,4 +441,7 @@ public partial class TwTextfield<T> : TwBlazorTextInputComponentBase
         await InvokeAsync(StateHasChanged);
         return await base.ValidateAsync();
     }
+
+    // Sits inside the field, so it is one step tighter than the field's own corners.
+    private string clearButtonClasses => new ClassBuilder(theme.ClearButton).AddClass(roundedBuilder.GetRounded(effectiveInsetRounded)).Build();
 }

@@ -63,6 +63,16 @@ public partial class TwChip : TwBlazorComponentBase
     [Parameter] public Icon CloseIcon { get; set; } = Icon.X;
 
     /// <summary>
+    /// Gets or sets whether the close button is a Tab stop. Defaults to <see langword="true"/>.
+    /// </summary>
+    /// <remarks>
+    /// Turn this off when the chip is removed from the keyboard some other way, such as the tags of a
+    /// <see cref="TwTagInput"/>, which are reached with the arrow keys and removed with Delete or Backspace, so
+    /// Tab does not stop on every chip on its way through the page. The button can still be clicked.
+    /// </remarks>
+    [Parameter] public bool CloseInTabOrder { get; set; } = true;
+
+    /// <summary>
     /// Gets or sets the callback that is invoked when the close button is clicked.
     /// </summary>
     [Parameter] public EventCallback OnClose { get; set; }

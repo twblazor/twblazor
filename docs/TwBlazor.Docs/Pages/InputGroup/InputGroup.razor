@@ -1,0 +1,251 @@
+@page "/input-group"
+@using TwBlazor.Enums
+
+<PageContainer Title="TwInputGroup" Path="/input-group" Beta Description="TwInputGroup wraps a Blazor input with text, icons or buttons before, after, above or below it, drawn as a single field." ThemeType="typeof(TwInputGroupTheme)">
+    <PageCard Title="Icons">
+        <Description>Put a <code>TwIcon</code> in a <code>TwInputGroupAddon</code>. An addon sits at the start of the input by default; set <code>Align="InputGroupAlign.InlineEnd"</code> to put it at the end. Start and end follow the layout direction, so they swap sides in a right to left layout.</Description>
+        <CodeExample Name="InputGroupIcons" CSharpName="InputGroupIconsCode">
+            <div class="grid gap-4 sm:grid-cols-2">
+                <TwInputGroup Label="Search" For="input-group-search">
+                    <TwInputGroupAddon>
+                        <TwIcon Icon="Icon.Search" />
+                    </TwInputGroupAddon>
+                    <TwTextfield Id="input-group-search" T="string" InputType="search" Placeholder="Search components" @bind-Value="search" />
+                </TwInputGroup>
+
+                <TwInputGroup Label="Email" For="input-group-email">
+                    <TwTextfield Id="input-group-email" T="string" InputType="email" Placeholder="you@example.com" @bind-Value="email" />
+                    <TwInputGroupAddon Align="InputGroupAlign.InlineEnd">
+                        <TwIcon Icon="Icon.Check_Circle" Class="text-green-700 dark:text-green-400" />
+                    </TwInputGroupAddon>
+                </TwInputGroup>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Text">
+        <Description>Use <code>TwInputGroupText</code> for a protocol, a currency symbol or a unit. It is added to the input's <code>aria-describedby</code>, so a screen reader reads it with the field. Use as many addons as you need on either side.</Description>
+        <CodeExample Name="InputGroupText" CSharpName="InputGroupTextCode">
+            <div class="grid gap-4 sm:grid-cols-2">
+                <TwInputGroup Label="Website" For="input-group-website">
+                    <TwInputGroupAddon>
+                        <TwInputGroupText Text="https://" />
+                    </TwInputGroupAddon>
+                    <TwTextfield Id="input-group-website" T="string" Placeholder="example" @bind-Value="website" />
+                    <TwInputGroupAddon Align="InputGroupAlign.InlineEnd">
+                        <TwInputGroupText Text=".com" />
+                    </TwInputGroupAddon>
+                </TwInputGroup>
+
+                <TwInputGroup Label="Price" For="input-group-price">
+                    <TwInputGroupAddon>
+                        <TwInputGroupText Text="$" />
+                    </TwInputGroupAddon>
+                    <TwNumeric Id="input-group-price" T="decimal" Format="N2" Min="0m" HideSpinButtons @bind-Value="price" />
+                    <TwInputGroupAddon Align="InputGroupAlign.InlineEnd">
+                        <TwInputGroupText Text="USD" />
+                    </TwInputGroupAddon>
+                </TwInputGroup>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Buttons">
+        <Description><code>TwInputGroupButton</code> is a <code>TwButton</code> sized for the field: a compact <code>ButtonVariant.Text</code> button by default, rounded to follow the field's corners. Give an icon-only button an <code>AriaLabel</code>.</Description>
+        <CodeExample Name="InputGroupButtons" CSharpName="InputGroupButtonsCode">
+            <div class="grid gap-4 sm:grid-cols-2">
+                <TwInputGroup Label="Subscribe" For="input-group-subscribe">
+                    <TwTextfield Id="input-group-subscribe" T="string" InputType="email" Placeholder="you@example.com" @bind-Value="subscribeEmail" />
+                    <TwInputGroupAddon Align="InputGroupAlign.InlineEnd">
+                        <TwInputGroupButton Label="Subscribe" Variant="ButtonVariant.Filled" Color="Color.Primary" OnClick="Subscribe" />
+                    </TwInputGroupAddon>
+                </TwInputGroup>
+
+                <TwInputGroup Label="Invite link" For="input-group-invite">
+                    <TwTextfield Id="input-group-invite" T="string" ReadOnly Value="@inviteLink" />
+                    <TwInputGroupAddon Align="InputGroupAlign.InlineEnd">
+                        <TwInputGroupButton IconButton StartIcon="@(copied ? Icon.Check : Icon.Copy)" AriaLabel="@(copied ? "Copied" : "Copy link")" Tooltip="@(copied ? "Copied" : "Copy link")" OnClick="CopyLink" />
+                    </TwInputGroupAddon>
+                </TwInputGroup>
+            </div>
+            @if (subscribed)
+            {
+                <p class="mt-2 text-sm text-gray-600 dark:text-gray-400" role="status">Subscribed @subscribeEmail.</p>
+            }
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Password toggle">
+        <Description>Combine an icon at the start with a button at the end that switches the field between <code>password</code> and <code>text</code>.</Description>
+        <CodeExample Name="InputGroupPassword" CSharpName="InputGroupPasswordCode">
+            <TwInputGroup Label="Password" For="input-group-password">
+                <TwInputGroupAddon>
+                    <TwIcon Icon="Icon.Lock" />
+                </TwInputGroupAddon>
+                <TwTextfield Id="input-group-password" T="string" InputType="@(showPassword ? "text" : "password")" Placeholder="Enter your password" @bind-Value="password" />
+                <TwInputGroupAddon Align="InputGroupAlign.InlineEnd">
+                    <TwInputGroupButton IconButton StartIcon="@(showPassword ? Icon.Eye_Slash : Icon.Eye)" AriaLabel="@(showPassword ? "Hide password" : "Show password")" aria-pressed="@(showPassword ? "true" : "false")" OnClick="@(() => showPassword = !showPassword)" />
+                </TwInputGroupAddon>
+            </TwInputGroup>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Multiline text with block addons">
+        <Description>Set <code>Align</code> to <code>InputGroupAlign.BlockStart</code> or <code>InputGroupAlign.BlockEnd</code> to put an addon on its own row above or below the input, such as a toolbar, a character counter or a send button for a <code>Multiline</code> text field.</Description>
+        <CodeExample Name="InputGroupBlock" CSharpName="InputGroupBlockCode">
+            <TwInputGroup Label="Message" For="input-group-message">
+                <TwInputGroupAddon Align="InputGroupAlign.BlockStart" Class="justify-between">
+                    <TwInputGroupText Text="To: design-team" />
+                    <TwInputGroupButton IconButton StartIcon="Icon.Paperclip" AriaLabel="Attach a file" />
+                </TwInputGroupAddon>
+                <TwTextfield Id="input-group-message" T="string" Multiline AutoGrow Rows="3" MaxRows="8" BindEvent="oninput" Placeholder="Write a message" @bind-Value="message" />
+                <TwInputGroupAddon Align="InputGroupAlign.BlockEnd" Class="justify-between">
+                    <TwInputGroupText Text="@($"{message.Length}/280")" DescribesInput="false" aria-live="polite" />
+                    <TwInputGroupButton Label="Send" EndIcon="Icon.Send" Variant="ButtonVariant.Filled" Color="Color.Primary" Disabled="@(message.Length == 0 || message.Length > 280)" />
+                </TwInputGroupAddon>
+            </TwInputGroup>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Variants">
+        <Description>The group draws the field for its <code>Variant</code> - <code>Default</code>, <code>Outlined</code> or <code>Filled</code> - and the input inside takes off its own border, background and rounding. Without a <code>Variant</code>, the group uses the theme's default input variant, the same as the inputs.</Description>
+        <CodeExample Name="InputGroupVariants" CSharpName="InputGroupVariantsCode">
+            <div class="grid gap-4 sm:grid-cols-3">
+                <TwInputGroup Label="Default" For="input-group-variant-default" Variant="InputVariant.Default">
+                    <TwInputGroupAddon><TwIcon Icon="Icon.At" /></TwInputGroupAddon>
+                    <TwTextfield Id="input-group-variant-default" T="string" Placeholder="username" @bind-Value="username" />
+                </TwInputGroup>
+                <TwInputGroup Label="Outlined" For="input-group-variant-outlined" Variant="InputVariant.Outlined">
+                    <TwInputGroupAddon><TwIcon Icon="Icon.At" /></TwInputGroupAddon>
+                    <TwTextfield Id="input-group-variant-outlined" T="string" Placeholder="username" @bind-Value="username" />
+                </TwInputGroup>
+                <TwInputGroup Label="Filled" For="input-group-variant-filled" Variant="InputVariant.Filled">
+                    <TwInputGroupAddon><TwIcon Icon="Icon.At" /></TwInputGroupAddon>
+                    <TwTextfield Id="input-group-variant-filled" T="string" Placeholder="username" @bind-Value="username" />
+                </TwInputGroup>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Dense">
+        <Description>Set <code>Dense</code> on the group for the compact height. The input and the buttons inside it shrink to match, so the group lines up with other dense inputs.</Description>
+        <CodeExample Name="InputGroupDense" CSharpName="InputGroupDenseCode">
+            <div class="flex flex-wrap items-end gap-4">
+                <TwInputGroup Label="Filter" For="input-group-dense" Dense Class="w-64">
+                    <TwInputGroupAddon><TwIcon Icon="Icon.Search" /></TwInputGroupAddon>
+                    <TwTextfield Id="input-group-dense" T="string" Placeholder="Filter rows" @bind-Value="filter" />
+                    <TwInputGroupAddon Align="InputGroupAlign.InlineEnd">
+                        <TwInputGroupButton Label="Apply" />
+                    </TwInputGroupAddon>
+                </TwInputGroup>
+                <TwTextfield T="string" Label="Dense text field" Dense Placeholder="For comparison" Class="w-48" @bind-Value="filter" />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Other inputs">
+        <Description>Any single-line input can go in a group: a <code>TwSelect</code>, a <code>TwMaskedInput</code>, a <code>TwNumeric</code>, a <code>TwAutocomplete</code> or a picker such as <code>TwDatePicker</code>.</Description>
+        <CodeExample Name="InputGroupOtherInputs" CSharpName="InputGroupOtherInputsCode">
+            <div class="grid gap-4 sm:grid-cols-3">
+                <TwInputGroup Label="Country" For="input-group-country">
+                    <TwInputGroupAddon><TwIcon Icon="Icon.Globe" /></TwInputGroupAddon>
+                    <TwSelect Id="input-group-country" T="string" Values="@_countries" Placeholder="Choose a country" @bind-SelectedValue="country" />
+                </TwInputGroup>
+                <TwInputGroup Label="Phone" For="input-group-phone">
+                    <TwInputGroupAddon><TwIcon Icon="Icon.Telephone" /></TwInputGroupAddon>
+                    <TwMaskedInput Id="input-group-phone" Mask="(999) 999-9999" @bind-Value="phone" />
+                </TwInputGroup>
+                <TwInputGroup Label="Weight" For="input-group-weight">
+                    <TwNumeric Id="input-group-weight" T="int" Min="0" Max="500" @bind-Value="weight" />
+                    <TwInputGroupAddon Align="InputGroupAlign.InlineEnd"><TwInputGroupText Text="kg" /></TwInputGroupAddon>
+                </TwInputGroup>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Validation and disabled">
+        <Description>An invalid input turns the group's border red, and its message is shown below the group rather than inside it, still linked to the input through <code>aria-describedby</code>. A disabled input dims the whole group.</Description>
+        <CodeExample Name="InputGroupStates" CSharpName="InputGroupStatesCode">
+            <div class="grid gap-4 sm:grid-cols-2">
+                <TwInputGroup Label="Username" For="input-group-invalid">
+                    <TwInputGroupAddon><TwInputGroupText Text="@@" /></TwInputGroupAddon>
+                    <TwTextfield Id="input-group-invalid" T="string" Placeholder="username" BindEvent="oninput" Invalid="@(handle.Length < 3)" ErrorMessage="Use at least 3 characters." @bind-Value="handle" />
+                </TwInputGroup>
+                <TwInputGroup Label="Disabled" For="input-group-disabled">
+                    <TwInputGroupAddon><TwIcon Icon="Icon.Lock" /></TwInputGroupAddon>
+                    <TwTextfield Id="input-group-disabled" T="string" Disabled Value="@("Not editable")" />
+                </TwInputGroup>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Custom styling">
+        <Description><code>Class</code> styles the group itself and is merged with the theme's classes, so it can replace the rounding or border colour. <code>RootClass</code> styles the element that also holds the label and messages.</Description>
+        <CodeExample Name="InputGroupCustom">
+            <TwInputGroup AriaLabel="Search the docs" Variant="InputVariant.Outlined" Rounded="Rounded.Full" Class="border-purple-600 dark:border-purple-400">
+                <TwInputGroupAddon><TwIcon Icon="Icon.Search" /></TwInputGroupAddon>
+                <TwTextfield T="string" InputType="search" AriaLabel="Search the docs" Placeholder="Search the docs" @bind-Value="search" />
+                <TwInputGroupAddon Align="InputGroupAlign.InlineEnd">
+                    <TwInputGroupButton Label="Search" Variant="ButtonVariant.Filled" Color="Color.Primary" />
+                </TwInputGroupAddon>
+            </TwInputGroup>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Accessibility">
+        <Description>
+            The group is rendered with <code>role="group"</code> and named by its <code>Label</code> (or <code>AriaLabel</code>). Set <code>For</code> to the input's <code>Id</code> so the label names the input too and clicking it focuses the input; otherwise give the input its own <code>AriaLabel</code>. Text in a <code>TwInputGroupText</code> is added to the input's <code>aria-describedby</code>; set <code>DescribesInput="false"</code> for text that adds nothing, such as a live counter. Icons are decorative and hidden from screen readers unless they have an <code>AriaLabel</code>. Addons are placed by <code>Align</code> rather than by their order in the markup, but Tab follows the markup, so write them in the order they appear. The group's focus ring follows the input, while each button in an addon shows its own.
+        </Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample InputGroupIconsCode
+    private string search = string.Empty;
+    private string email = string.Empty;
+    #endregion
+
+    #region CodeExample InputGroupTextCode
+    private string website = string.Empty;
+    private decimal price = 49.99m;
+    #endregion
+
+    #region CodeExample InputGroupButtonsCode
+    private string subscribeEmail = string.Empty;
+    private bool subscribed;
+    private readonly string inviteLink = "https://example.com/invite/7Q2X9";
+    private bool copied;
+
+    private void Subscribe() => subscribed = !string.IsNullOrWhiteSpace(subscribeEmail);
+
+    private void CopyLink() => copied = true;
+    #endregion
+
+    #region CodeExample InputGroupPasswordCode
+    private string password = string.Empty;
+    private bool showPassword;
+    #endregion
+
+    #region CodeExample InputGroupBlockCode
+    private string message = string.Empty;
+    #endregion
+
+    #region CodeExample InputGroupVariantsCode
+    private string username = string.Empty;
+    #endregion
+
+    #region CodeExample InputGroupDenseCode
+    private string filter = string.Empty;
+    #endregion
+
+    #region CodeExample InputGroupOtherInputsCode
+    private string country = string.Empty;
+    private string phone = string.Empty;
+    private int weight = 70;
+    private readonly string[] _countries = ["USA", "Canada", "UK", "Germany", "France", "Japan", "Australia"];
+    #endregion
+
+    #region CodeExample InputGroupStatesCode
+    private string handle = "a";
+    #endregion
+}

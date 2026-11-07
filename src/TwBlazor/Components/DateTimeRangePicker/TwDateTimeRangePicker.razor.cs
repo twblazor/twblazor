@@ -219,7 +219,7 @@ public partial class TwDateTimeRangePicker : TwPopoverPickerComponentBase
     // a title bar. This tab row sits above that header instead, so it needs its own top padding to
     // avoid looking cramped against the popover's top edge; pt-2 matches the container's own px-2/
     // pb-2 spacing so the whole panel reads as evenly padded.
-    private string stageTabsClasses => new ClassBuilder(theme.RangeStageTabsContainer).Build();
+    private string stageTabsClasses => new ClassBuilder(theme.RangeStageTabsContainer).AddClass(roundedBuilder.GetRounded(effectiveRounded)).Build();
 
     // The shared date picker panel has no top padding because its calendar header normally sits flush at
     // the top; the Start/End tabs sit there instead, so they need the same inset as the sides.
@@ -244,7 +244,7 @@ public partial class TwDateTimeRangePicker : TwPopoverPickerComponentBase
     {
         var isActive = stage == tabStage;
         return new ClassBuilder(theme.StageTabBase)
-            .AddClass(roundedBuilder.GetRounded())
+            .AddClass(roundedBuilder.GetRounded(effectiveInsetRounded))
             .AddClass(theme.HoverClass, !isActive)
             .AddClass(theme.RangeStageTabInactive, !isActive)
             .AddClass(theme.StageTabActive, isActive)

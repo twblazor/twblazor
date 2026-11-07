@@ -811,4 +811,19 @@ public class TwCheckboxTests : TwBlazorTestBase
         var radiusClasses = cut.Find("input").ClassList.Where(c => c == "rounded" || c.StartsWith("rounded-")).ToList();
         Assert.Equal([expected], radiusClasses);
     }
+
+    [Fact]
+    public void TwCheckbox_UsesTheInstanceRounded_OverTheThemeDefault()
+    {
+        // Arrange
+        Theme.Rounded.DefaultRounded = Rounded.Lg;
+
+        // Act
+        var cut = TestContext.Render<TwCheckbox<bool>>(parameters => parameters
+            .Add(p => p.Rounded, Rounded.None));
+
+        // Assert
+        var radiusClasses = cut.Find("input").ClassList.Where(c => c == "rounded" || c.StartsWith("rounded-")).ToList();
+        Assert.Equal(["rounded-none"], radiusClasses);
+    }
 }

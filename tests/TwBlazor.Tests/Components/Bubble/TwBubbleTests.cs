@@ -117,9 +117,18 @@ public class TwBubbleTests : TwBlazorTestBase
     [Fact]
     public void TwBubble_Rounded_SetsTheCornerRadius()
     {
+        var classes = Surface(Render(p => p.Add(x => x.Rounded, Rounded.Sm))).GetAttribute("class")!;
+
+        Assert.Contains(RoundedBuilder.GetRounded(Rounded.Sm), classes);
+    }
+
+    [Fact]
+    public void TwBubble_FullRounding_IsCappedAtLarge()
+    {
         var classes = Surface(Render(p => p.Add(x => x.Rounded, Rounded.Full))).GetAttribute("class")!;
 
-        Assert.Contains(RoundedBuilder.GetRounded(Rounded.Full), classes);
+        Assert.Contains(RoundedBuilder.GetRounded(Rounded.Lg), classes);
+        Assert.DoesNotContain(RoundedBuilder.GetRounded(Rounded.Full), classes);
     }
 
     [Fact]

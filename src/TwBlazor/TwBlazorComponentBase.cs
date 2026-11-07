@@ -94,6 +94,18 @@ public class TwBlazorComponentBase : ComponentBase, ITwComponent
     protected Rounded effectiveRounded => Rounded ?? options.Theme.Rounded.DefaultRounded;
 
     /// <summary>
+    /// Gets the effective rounded for a surface such as a card, table or panel: the same as
+    /// <see cref="effectiveRounded"/>, but with <see cref="Rounded.Full"/> capped at <see cref="Rounded.Lg"/>.
+    /// </summary>
+    protected Rounded effectiveSurfaceRounded => RoundedBuilder.ForSurface(effectiveRounded);
+
+    /// <summary>
+    /// Gets the rounding for a control inside a rounded bar of this component: one step tighter than
+    /// <see cref="effectiveRounded"/>, see <see cref="RoundedBuilder.Inset"/>.
+    /// </summary>
+    protected Rounded effectiveInsetRounded => RoundedBuilder.Inset(effectiveRounded);
+
+    /// <summary>
     /// Invoked when the component's parameters have been set. Ensures that the component has a unique identifier by
     /// generating one if none is provided.
     /// </summary>

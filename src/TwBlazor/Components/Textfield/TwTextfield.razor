@@ -28,7 +28,8 @@
                   @onclick="@OnClick"
                   @onkeydown="@OnKeyDown"
                   aria-invalid="@(fieldInvalid ? "true" : null)"
-                  aria-describedby="@errorId"
+                  data-tw-input-group-control="@isInInputGroup"
+                  aria-describedby="@describedBy"
                   aria-label="@AriaLabel"
                   aria-labelledby="@AriaLabelledBy"></textarea>
     }
@@ -50,7 +51,7 @@
                     @if (showClearButton)
                     {
                         <button type="button"
-                                class="@theme.ClearButton"
+                                class="@clearButtonClasses"
                                 tabindex="-1"
                                 aria-label="@localizer[TwStrings.Textfield_Clear]"
                                 aria-controls="@Id"
@@ -87,7 +88,8 @@
                                                        @onclick="@OnClick"
                                                        @onkeydown="@OnKeyDown"
                                                        aria-invalid="@(fieldInvalid ? "true" : null)"
-                                                       aria-describedby="@errorId"
+                                                       data-tw-input-group-control="@isInInputGroup"
+                                                       aria-describedby="@describedBy"
                                                        aria-label="@AriaLabel"
                                                        aria-labelledby="@AriaLabelledBy" />;
 }

@@ -1,0 +1,66 @@
+@namespace TwBlazor.Components
+@using TwBlazor.Enums
+@inherits TwBlazorComponentBase
+
+<div id="@Id" class="@rootClasses" style="@Style" role="@effectiveRole" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy" @attributes="Attributes">
+    @if (MediaContent is not null)
+    {
+        <div class="@theme.Media">@MediaContent</div>
+    }
+    else if (showAvatar)
+    {
+        @* The avatar is decorative, like the icon: the title carries the message, so the avatar's name is not read out. *@
+        <div class="@theme.Media" aria-hidden="true">
+            <TwAvatar Src="@AvatarSrc" Name="@AvatarName" Size="@avatarSize" Rounded="@Rounded" />
+        </div>
+    }
+    else if (Icon is { } icon)
+    {
+        <div class="@theme.Media">
+            @if (MediaVariant == EmptyMediaVariant.Plain)
+            {
+                <TwIcon Icon="@icon" Color="@Color" Class="@plainIconClasses" />
+            }
+            else
+            {
+                <span class="@tileClasses" aria-hidden="true">
+                    <TwIcon Icon="@icon" />
+                </span>
+            }
+        </div>
+    }
+
+    @if (hasHeader)
+    {
+        <div class="@theme.Header">
+            @if (hasTitle)
+            {
+                @renderTitle
+            }
+            @if (!string.IsNullOrWhiteSpace(Description))
+            {
+                <p id="@descriptionId" class="@descriptionClasses">@Description</p>
+            }
+        </div>
+    }
+
+    @if (ChildContent is not null)
+    {
+        <div class="@theme.Content">@ChildContent</div>
+    }
+
+    @if (hasActions)
+    {
+        <div class="@theme.Actions">
+            @if (showPrimaryAction)
+            {
+                <TwButton Id="@($"{Id}-action")" Label="@(ActionText ?? string.Empty)" Color="TwBlazor.Enums.Color.Primary" StartIcon="@ActionIcon" Href="@(ActionHref ?? string.Empty)" OnClick="@OnAction" Rounded="@Rounded" />
+            }
+            @if (showSecondaryAction)
+            {
+                <TwButton Id="@($"{Id}-secondary-action")" Label="@(SecondaryActionText ?? string.Empty)" Variant="ButtonVariant.Outlined" Href="@(SecondaryActionHref ?? string.Empty)" OnClick="@OnSecondaryAction" Rounded="@Rounded" />
+            }
+            @ActionContent
+        </div>
+    }
+</div>

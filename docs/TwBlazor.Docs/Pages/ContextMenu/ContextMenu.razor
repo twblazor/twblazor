@@ -1,0 +1,175 @@
+@page "/context-menu"
+
+<PageContainer Title="TwContextMenu" Path="/context-menu" Beta Description="TwContextMenu is a Blazor right-click context menu with icons, shortcut hints, check and radio items, submenus and full keyboard support." ThemeType="typeof(TwMenuTheme)">
+    <PageCard Title="Basic context menu">
+        <Description>Put the area that is right-clicked in <code>TwContextMenu</code> and its items in <code>MenuContent</code>. The menu opens at the pointer instead of the browser's own menu and stays inside the window. It takes the same items as <code>TwMenu</code>: give a <code>TwMenuItem</code> a <code>StartIcon</code> and a <code>Shortcut</code> hint. Choosing an item runs its <code>OnClick</code> and closes the menu; Escape, a click elsewhere or a scroll close it too.</Description>
+
+        <CodeExample Name="ContextMenuBasic" CSharpName="ContextMenuBasicCode">
+            <TwContextMenu Id="clipboard-context-menu" Class="flex h-40 items-center justify-center rounded-lg border-2 border-dashed border-gray-300 text-sm text-gray-600 dark:border-gray-600 dark:text-gray-300">
+                <ChildContent>Right-click here</ChildContent>
+                <MenuContent>
+                    <TwMenuItem Label="Cut" StartIcon="Icon.Scissors" Shortcut="Ctrl+X" OnClick="@(() => lastAction = "Cut")" />
+                    <TwMenuItem Label="Copy" StartIcon="Icon.Copy" Shortcut="Ctrl+C" OnClick="@(() => lastAction = "Copy")" />
+                    <TwMenuItem Label="Paste" StartIcon="Icon.Clipboard" Shortcut="Ctrl+V" OnClick="@(() => lastAction = "Paste")" />
+                    <TwMenuDivider />
+                    <TwMenuItem Label="Print" StartIcon="Icon.Printer" Shortcut="Ctrl+P" OnClick="@(() => lastAction = "Print")" />
+                </MenuContent>
+            </TwContextMenu>
+            <p class="mt-3" role="status">@(lastAction is null ? "Nothing chosen yet." : $"You chose {lastAction}.")</p>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Submenus, disabled and destructive items">
+        <Description>A <code>TwSubmenu</code> opens a further menu beside its item when it is hovered, clicked or reached with Arrow Right, and closes with Arrow Left or Escape. It opens towards the start in a right to left layout, where the two arrows swap. A <code>Disabled</code> item is skipped by the arrow keys and cannot be chosen. Set <code>Destructive</code> on an action that is hard to undo to mark it in a warning colour, and <code>Inset</code> to line an item without an icon up with those that have one.</Description>
+
+        <CodeExample Name="ContextMenuSubmenu">
+            <TwContextMenu Id="browser-context-menu" Class="flex h-40 items-center justify-center rounded-lg border-2 border-dashed border-gray-300 text-sm text-gray-600 dark:border-gray-600 dark:text-gray-300">
+                <ChildContent>Right-click for page actions</ChildContent>
+                <MenuContent>
+                    <TwMenuItem Label="Back" Shortcut="Alt+←" Inset />
+                    <TwMenuItem Label="Forward" Shortcut="Alt+→" Inset Disabled />
+                    <TwMenuItem Label="Reload" Shortcut="Ctrl+R" Inset />
+                    <TwSubmenu Label="More tools" Inset>
+                        <TwMenuItem Label="Save page as…" Shortcut="Ctrl+S" />
+                        <TwMenuItem Label="Create shortcut…" />
+                        <TwMenuItem Label="Name window…" />
+                        <TwMenuDivider />
+                        <TwSubmenu Label="Developer tools">
+                            <TwMenuItem Label="Console" />
+                            <TwMenuItem Label="Network" />
+                        </TwSubmenu>
+                        <TwMenuDivider />
+                        <TwMenuItem Label="Delete" StartIcon="Icon.Trash" Destructive />
+                    </TwSubmenu>
+                </MenuContent>
+            </TwContextMenu>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Tick and radio options">
+        <Description>A <code>TwMenuCheckboxItem</code> is an option that is on or off; bind <code>@@bind-Checked</code>. A <code>TwMenuRadioGroup</code> holds <code>TwMenuRadioItem</code> options of which one is chosen; bind its <code>@@bind-Value</code> and give it a <code>Label</code>, which screen readers read as the group's name. Choosing either kind leaves the menu open, so several options can be changed in a row; set <code>CloseOnClick</code> to close it instead.</Description>
+
+        <CodeExample Name="ContextMenuOptions" CSharpName="ContextMenuOptionsCode">
+            <TwContextMenu Id="options-context-menu" Class="flex h-40 items-center justify-center rounded-lg border-2 border-dashed border-gray-300 text-sm text-gray-600 dark:border-gray-600 dark:text-gray-300">
+                <ChildContent>Right-click to change the view</ChildContent>
+                <MenuContent>
+                    <TwMenuCheckboxItem Label="Show bookmarks" Shortcut="Ctrl+Shift+B" @bind-Checked="showBookmarks" />
+                    <TwMenuCheckboxItem Label="Show full URLs" @bind-Checked="showFullUrls" />
+                    <TwMenuDivider />
+                    <TwMenuRadioGroup Label="People" @bind-Value="person">
+                        <TwMenuRadioItem Value="@("Pedro Duarte")" Label="Pedro Duarte" />
+                        <TwMenuRadioItem Value="@("Colm Tuite")" Label="Colm Tuite" />
+                    </TwMenuRadioGroup>
+                </MenuContent>
+            </TwContextMenu>
+            <p class="mt-3">Bookmarks @(showBookmarks ? "shown" : "hidden"), full URLs @(showFullUrls ? "shown" : "hidden"), signed in as @person.</p>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Groups">
+        <Description>Use <code>TwMenuGroup</code> to put items under a heading, which screen readers read as the group's name, and <code>TwMenuDivider</code> for a line between groups. The arrow keys pass over both.</Description>
+
+        <CodeExample Name="ContextMenuGroups">
+            <TwContextMenu Id="groups-context-menu" Class="flex h-40 items-center justify-center rounded-lg border-2 border-dashed border-gray-300 text-sm text-gray-600 dark:border-gray-600 dark:text-gray-300">
+                <ChildContent>Right-click for account actions</ChildContent>
+                <MenuContent>
+                    <TwMenuGroup Label="My account">
+                        <TwMenuItem Label="Profile" StartIcon="Icon.Person" Shortcut="Ctrl+Shift+P" />
+                        <TwMenuItem Label="Settings" StartIcon="Icon.Gear" Shortcut="Ctrl+," />
+                    </TwMenuGroup>
+                    <TwMenuDivider />
+                    <TwMenuGroup Label="Team">
+                        <TwMenuItem Label="Invite people" StartIcon="Icon.Person_Plus" />
+                        <TwMenuItem Label="New team" StartIcon="Icon.People" />
+                    </TwMenuGroup>
+                    <TwMenuDivider />
+                    <TwMenuItem Label="Sign out" StartIcon="Icon.Box_Arrow_Right" Destructive />
+                </MenuContent>
+            </TwContextMenu>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="One menu for each item in a list">
+        <Description>Wrap each item of a list or each row of a table in its own <code>TwContextMenu</code> to give it actions of its own. Keyboard users open the menu of the focused item with Shift+F10 or the Menu key; it opens below the item with focus on its first action, and Escape returns focus to the item.</Description>
+
+        <CodeExample Name="ContextMenuList" CSharpName="ContextMenuListCode">
+            <ul class="divide-y divide-gray-200 rounded-lg border border-gray-200 dark:divide-gray-700 dark:border-gray-700">
+                @foreach (var file in files)
+                {
+                    <li>
+                        <TwContextMenu Id="@($"file-{file.Id}")" AriaLabel="@($"{file.Name} actions")">
+                            <ChildContent>
+                                <button type="button" class="flex w-full items-center gap-3 px-4 py-3 text-start text-sm hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-purple-500 dark:hover:bg-white/5" @onclick="@(() => openedFile = file.Name)">
+                                    <TwIcon Icon="Icon.File_Earmark_Text" Class="text-gray-500 dark:text-gray-400" />
+                                    <span>@file.Name</span>
+                                    <span class="ms-auto text-xs text-gray-500 dark:text-gray-400">@file.Size</span>
+                                </button>
+                            </ChildContent>
+                            <MenuContent>
+                                <TwMenuItem Label="Open" StartIcon="Icon.Box_Arrow_Up_Right" OnClick="@(() => openedFile = file.Name)" />
+                                <TwMenuItem Label="Download" StartIcon="Icon.Download" />
+                                <TwSubmenu Label="Share" StartIcon="Icon.Share">
+                                    <TwMenuItem Label="Email" StartIcon="Icon.Envelope" />
+                                    <TwMenuItem Label="Copy link" StartIcon="Icon.Link_45Deg" />
+                                </TwSubmenu>
+                                <TwMenuDivider />
+                                <TwMenuItem Label="Delete" StartIcon="Icon.Trash" Destructive OnClick="@(() => Delete(file))" />
+                            </MenuContent>
+                        </TwContextMenu>
+                    </li>
+                }
+            </ul>
+            <p class="mt-3" role="status">@(openedFile is null ? $"{files.Count} files." : $"Opened {openedFile}.")</p>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="An area that can take focus">
+        <Description>When nothing inside the area can take focus, such as a canvas or an image, set <code>Focusable</code> to make the area a Tab stop of its own, and name it with an <code>aria-label</code> attribute. Screen readers are then told that Shift+F10 or the Menu key opens its menu. Set <code>Disabled</code> to turn the menu off and leave the browser's own menu in its place.</Description>
+
+        <CodeExample Name="ContextMenuFocusable" CSharpName="ContextMenuFocusableCode">
+            <div class="flex flex-col gap-3">
+                <TwContextMenu Id="canvas-context-menu" Focusable Disabled="@menuOff" aria-label="Drawing canvas" Class="flex h-40 items-center justify-center rounded-lg bg-gray-100 text-sm text-gray-600 dark:bg-gray-800 dark:text-gray-300">
+                    <ChildContent>Tab here, then press Shift+F10</ChildContent>
+                    <MenuContent>
+                        <TwMenuItem Label="Add shape" StartIcon="Icon.Square" />
+                        <TwMenuItem Label="Add text" StartIcon="Icon.Fonts" />
+                        <TwMenuDivider />
+                        <TwMenuItem Label="Clear canvas" StartIcon="Icon.Eraser" Destructive />
+                    </MenuContent>
+                </TwContextMenu>
+                <TwCheckbox Label="Turn the menu off" @bind-Value="menuOff" />
+            </div>
+        </CodeExample>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample ContextMenuBasicCode
+    private string? lastAction;
+    #endregion
+
+    #region CodeExample ContextMenuOptionsCode
+    private bool showBookmarks = true;
+    private bool showFullUrls;
+    private string? person = "Pedro Duarte";
+    #endregion
+
+    #region CodeExample ContextMenuListCode
+    private sealed record FileEntry(int Id, string Name, string Size);
+
+    private readonly List<FileEntry> files =
+    [
+        new(1, "report.pdf", "2.4 MB"),
+        new(2, "budget.xlsx", "86 KB"),
+        new(3, "notes.txt", "4 KB"),
+    ];
+
+    private string? openedFile;
+
+    private void Delete(FileEntry file) => files.Remove(file);
+    #endregion
+
+    #region CodeExample ContextMenuFocusableCode
+    private bool menuOff;
+    #endregion
+}

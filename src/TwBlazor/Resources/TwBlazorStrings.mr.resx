@@ -795,6 +795,12 @@
   <data name="Menu_Options" xml:space="preserve">
     <value>पर्याय</value>
   </data>
+  <data name="ContextMenu_Label" xml:space="preserve">
+    <value>संदर्भ मेनू</value>
+  </data>
+  <data name="ContextMenu_Hint" xml:space="preserve">
+    <value>अधिक पर्यायांसाठी Shift+F10 किंवा मेनू की दाबा.</value>
+  </data>
   <data name="DataTable_ColumnOptions" xml:space="preserve">
     <value>{0} स्तंभाचे पर्याय</value>
   </data>
@@ -953,5 +959,38 @@
   </data>
   <data name="TimePicker_Done" xml:space="preserve">
     <value>झाले</value>
+  </data>
+  <data name="Empty_Title" xml:space="preserve">
+    <value>डेटा नाही</value>
+  </data>
+  <data name="TagInput_Tags" xml:space="preserve">
+    <value>टॅग</value>
+  </data>
+  <data name="TagInput_Added" xml:space="preserve">
+    <value>{0} जोडला</value>
+  </data>
+  <data name="TagInput_Removed" xml:space="preserve">
+    <value>{0} काढला</value>
+  </data>
+  <data name="TagInput_Cleared" xml:space="preserve">
+    <value>सर्व टॅग काढले</value>
+  </data>
+  <data name="TagInput_ClearAll" xml:space="preserve">
+    <value>सर्व टॅग काढा</value>
+  </data>
+  <data name="TagInput_Duplicate" xml:space="preserve">
+    <value>{0} आधीच जोडला आहे</value>
+  </data>
+  <data name="TagInput_LimitOne" xml:space="preserve">
+    <value>तुम्ही फक्त {0} टॅग जोडू शकता</value>
+  </data>
+  <data name="TagInput_LimitOther" xml:space="preserve">
+    <value>तुम्ही जास्तीत जास्त {0} टॅग जोडू शकता</value>
+  </data>
+  <data name="TagInput_TooLongOne" xml:space="preserve">
+    <value>टॅगमध्ये जास्तीत जास्त {0} अक्षर असू शकते</value>
+  </data>
+  <data name="TagInput_TooLongOther" xml:space="preserve">
+    <value>टॅगमध्ये जास्तीत जास्त {0} अक्षरे असू शकतात</value>
   </data>
 </root>

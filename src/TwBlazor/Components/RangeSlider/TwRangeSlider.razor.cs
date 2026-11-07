@@ -160,12 +160,13 @@ public partial class TwRangeSlider<T> : TwBlazorInputComponentBase
         .Build();
 
     private string trackClasses => new ClassBuilder(sliderTheme.Track)
+        .AddClass(roundedBuilder.GetRounded(effectiveRounded))
         .AddClass(Disabled ? "opacity-40" : string.Empty)
         .Build();
 
     private string fillClasses => new ClassBuilder(sliderTheme.Fill)
         .AddClass(theme.Fill)
-        .AddClass(roundedBuilder.GetRounded())
+        .AddClass(roundedBuilder.GetRounded(effectiveRounded))
         .AddClass(ColorBuilder.GetPaletteColor(Color, sliderTheme.Colors, sliderTheme.Colors.Primary))
         .Build();
 

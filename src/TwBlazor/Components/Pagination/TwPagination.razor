@@ -29,7 +29,7 @@
 
     @if (ShowPageSize)
     {
-        <TwSelect T="int"
+        <TwSelect T="int" Rounded="@Rounded"
             Id="@($"{Id}-page-size")"
             Variant="Enums.InputVariant.Outlined"
             Values="@PageSizeOptions"

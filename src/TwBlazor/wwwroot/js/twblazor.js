@@ -1648,6 +1648,73 @@ globalThis.twAutocomplete = {
     }
 };
 
+// Tag input: the keys and paste that turn typed text into tags. Enter and the separator keys are stopped here, so
+// Enter never submits the form and a comma is never typed into the field, and the field's text is handed to .NET to
+// become a tag. Enter on a highlighted suggestion is handled by twAutocomplete (attached first), which prevents its
+// default, so it is skipped here. Pasted text holding a separator or a line break is split in .NET instead of being
+// inserted, since a single-line field would otherwise strip the line breaks. Keys typed during IME composition are
+// left to the IME.
+globalThis.twTagInput = {
+    // Whether `text` holds anything that splits it into more than one tag.
+    _splits: function (text, separators) {
+        if (/[\r\n\t]/.test(text)) return true;
+        for (const separator of separators) {
+            if (text.includes(separator)) return true;
+        }
+        return false;
+    },
+
+    attach: function (input, dotnetRef, separators) {
+        if (!input || input.__twTagInput) return;
+
+        const state = { separators: separators || '' };
+
+        const keydown = function (e) {
+            if (e.isComposing || e.keyCode === 229 || e.ctrlKey || e.metaKey || e.altKey) return;
+            if (input.readOnly || input.disabled || e.defaultPrevented) return;
+
+            const isSeparator = e.key.length === 1 && state.separators.includes(e.key);
+            if (e.key !== 'Enter' && !isSeparator) return;
+
+            // Enter in an empty field keeps its default, so it still submits a form.
+            if (e.key === 'Enter' && input.value.trim() === '') return;
+
+            e.preventDefault();
+            if (input.value.trim() !== '') {
+                void globalThis.twPicker._invokeSafely(dotnetRef, 'CommitText', input.value);
+            }
+        };
+
+        const paste = function (e) {
+            if (input.readOnly || input.disabled) return;
+            const pasted = e.clipboardData?.getData('text') ?? '';
+            if (!globalThis.twTagInput._splits(pasted, state.separators)) return;
+
+            e.preventDefault();
+            const start = input.selectionStart ?? input.value.length;
+            const end = input.selectionEnd ?? input.value.length;
+            const combined = input.value.slice(0, start) + pasted + input.value.slice(end);
+            void globalThis.twPicker._invokeSafely(dotnetRef, 'PasteText', combined);
+        };
+
+        input.__twTagInput = { keydown, paste, state };
+        input.addEventListener('keydown', keydown);
+        input.addEventListener('paste', paste);
+    },
+
+    update: function (input, separators) {
+        if (!input?.__twTagInput) return;
+        input.__twTagInput.state.separators = separators || '';
+    },
+
+    detach: function (input) {
+        if (!input?.__twTagInput) return;
+        input.removeEventListener('keydown', input.__twTagInput.keydown);
+        input.removeEventListener('paste', input.__twTagInput.paste);
+        delete input.__twTagInput;
+    }
+};
+
 // Color picker: touch events. Blazor's TouchEventArgs only gives viewport-relative clientX/clientY
 // (unlike MouseEventArgs' element-relative offsetX/offsetY), so these helpers translate a touch
 // point the same way the mouse handlers already do via e.OffsetX/e.OffsetY.
@@ -2499,15 +2566,30 @@ globalThis.twTable = {
     }
 };
 
-// Menu (TwMenu): positions the open menu against its button and moves focus between its items, following the ARIA
-// menu button pattern. Escape and clicks outside are handled by twPicker.registerOutsideClick and the shared Escape
-// stack; choosing an item is a click on its <button>, handled in .NET.
+// Menu (TwMenu, TwContextMenu): moves focus between a menu's items and opens and closes its submenus, following the
+// ARIA menu pattern. TwMenu positions the open menu against its button; TwContextMenu (twContextMenu below) places it
+// at the pointer. Escape and clicks outside are handled by twPicker.registerOutsideClick (TwMenu) or twContextMenu, and
+// the shared Escape stack; choosing an item is a click on its <button>, handled in .NET.
+//
+// A submenu (TwSubmenu) is rendered inside the menu that holds it: a wrapper with the item that opens it and, after
+// that item, its own role="menu" panel, hidden until it opens. Opening and closing a submenu happens here alone, so
+// hovering an item never waits on a round trip to the server.
 globalThis.twMenu = {
     _itemSelector: '[role="menuitem"], [role="menuitemcheckbox"], [role="menuitemradio"]',
 
+    // How long (ms) the pointer rests on an item before its submenu opens, or a sibling's submenu closes. Long enough
+    // that crossing another item on the way into an open submenu does not close it.
+    _hoverDelay: 120,
+
+    // The menu (or submenu) an element belongs to.
+    _owner: function (el) {
+        return el instanceof Element ? el.closest('[role="menu"]') : null;
+    },
+
+    // The items of one menu that can take focus: not disabled, not hidden, and not inside one of its submenus.
     _items: function (menu) {
         return Array.from(menu.querySelectorAll(globalThis.twMenu._itemSelector)).filter(function (item) {
-            return item.getAttribute('aria-disabled') !== 'true' && !item.hidden;
+            return item.getAttribute('aria-disabled') !== 'true' && !item.hidden && globalThis.twMenu._owner(item) === menu;
         });
     },
 
@@ -2525,10 +2607,202 @@ globalThis.twMenu = {
         return null;
     },
 
+    _isSubmenuTrigger: function (item) {
+        return item instanceof Element && item.getAttribute('aria-haspopup') === 'menu' && item.closest('[data-tw-submenu]') !== null;
+    },
+
+    // The submenu panel an item opens, which follows the item inside their shared wrapper.
+    _submenuOf: function (trigger) {
+        return trigger.parentElement?.querySelector(':scope > [role="menu"]') ?? null;
+    },
+
+    // The item that opened a submenu panel.
+    _triggerOf: function (panel) {
+        return panel.parentElement?.querySelector(':scope > [aria-haspopup="menu"]') ?? null;
+    },
+
+    _focusFirst: function (menu) {
+        const first = globalThis.twMenu._items(menu)[0];
+        (first ?? menu).focus();
+    },
+
+    openSubmenu: function (trigger, focusFirst) {
+        if (!globalThis.twMenu._isSubmenuTrigger(trigger) || trigger.getAttribute('aria-disabled') === 'true') return;
+        const panel = globalThis.twMenu._submenuOf(trigger);
+        if (!panel) return;
+
+        const owner = globalThis.twMenu._owner(trigger);
+        if (owner) globalThis.twMenu.closeSubmenus(owner, trigger);
+
+        if (trigger.getAttribute('aria-expanded') !== 'true') {
+            // Shown but invisible first: a hidden panel has no size to measure.
+            panel.style.visibility = 'hidden';
+            panel.hidden = false;
+            trigger.setAttribute('aria-expanded', 'true');
+            globalThis.twPopover.position(trigger, panel, 'end', 'start', 0);
+            panel.style.visibility = '';
+        }
+
+        if (focusFirst) globalThis.twMenu._focusFirst(panel);
+    },
+
+    // Closes a submenu and any submenus open inside it. Focus goes back to its item when asked, or when it was inside
+    // the submenu, so it is never lost.
+    closeSubmenu: function (trigger, refocus) {
+        if (!trigger) return;
+        const panel = globalThis.twMenu._submenuOf(trigger);
+        trigger.setAttribute('aria-expanded', 'false');
+        if (!panel) return;
+        globalThis.twMenu.closeSubmenus(panel, null);
+        const hadFocus = panel.contains(document.activeElement);
+        panel.hidden = true;
+        if (refocus || hadFocus) trigger.focus();
+    },
+
+    // Closes the open submenus of one menu, except the one opened by keep.
+    closeSubmenus: function (menu, keep) {
+        menu.querySelectorAll('[aria-haspopup="menu"][aria-expanded="true"]').forEach(function (trigger) {
+            if (trigger !== keep && globalThis.twMenu._isSubmenuTrigger(trigger) && globalThis.twMenu._owner(trigger) === menu) {
+                globalThis.twMenu.closeSubmenu(trigger, false);
+            }
+        });
+    },
+
     focus: function (el) {
         if (!el) return;
         const target = el.matches?.('button, [tabindex]') ? el : el.querySelector('button, [tabindex]');
         target?.focus();
+    },
+
+    // Moves focus into a menu that has just opened: its first or last item, or the menu itself ("menu"), from where
+    // the arrow keys reach the items.
+    focusInitial: function (menu, focusWhich) {
+        if (!menu) return;
+        if (focusWhich === 'menu') {
+            menu.focus();
+            return;
+        }
+        const items = globalThis.twMenu._items(menu);
+        const first = focusWhich === 'last' ? items.at(-1) : items[0];
+        (first ?? menu).focus();
+    },
+
+    // The arrows that move into and out of a submenu, in the layout direction.
+    _arrows: function (owner) {
+        const rtl = globalThis.twDirection.isRtl(owner);
+        return { inward: rtl ? 'ArrowLeft' : 'ArrowRight', outward: rtl ? 'ArrowRight' : 'ArrowLeft' };
+    },
+
+    // Whether a key is a printable, unmodified character to typeahead on.
+    _isTypeaheadKey: function (e) {
+        return e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey && e.key.trim() !== '';
+    },
+
+    // The item an arrow key or a typed character moves focus to, or null when the key leaves focus alone.
+    _nextTarget: function (items, current, e) {
+        switch (e.key) {
+            case 'ArrowDown': return items[(current + 1) % items.length];
+            case 'ArrowUp': return items[(current - 1 + items.length) % items.length];
+            case 'Home': return items[0];
+            case 'End': return items.at(-1);
+        }
+        if (!globalThis.twMenu._isTypeaheadKey(e)) return null;
+        return globalThis.twMenu._typeahead(items, items[current] ?? null, e.key.toLowerCase());
+    },
+
+    _onKeyDown: function (menu, dotnetRef, tabMethod, e) {
+        const twMenu = globalThis.twMenu;
+        const owner = twMenu._owner(e.target) ?? menu;
+        const nested = owner !== menu;
+        const arrows = twMenu._arrows(owner);
+        const items = twMenu._items(owner);
+        const current = items.indexOf(document.activeElement);
+
+        // Escape and the outward arrow close only the submenu focus is in. Escape is marked as handled, so the shared
+        // Escape stack leaves the menu around it open.
+        if (e.key === 'Escape' || e.key === arrows.outward) {
+            if (!nested) return;
+            e.preventDefault();
+            twMenu.closeSubmenu(twMenu._triggerOf(owner), true);
+            return;
+        }
+
+        if (e.key === arrows.inward) {
+            const item = items[current];
+            if (!twMenu._isSubmenuTrigger(item)) return;
+            e.preventDefault();
+            twMenu.openSubmenu(item, true);
+            return;
+        }
+
+        if (items.length === 0) return;
+
+        // Tab leaves the menu: close it and let the browser carry focus on. A menu item is a <button>, so Space clicks
+        // it; this only stops the page scrolling.
+        if (e.key === 'Tab') {
+            if (dotnetRef) void globalThis.twPicker._invokeSafely(dotnetRef, tabMethod);
+            return;
+        }
+
+        if (e.key === ' ') return;
+
+        const target = twMenu._nextTarget(items, current, e);
+        if (!target) return;
+
+        e.preventDefault();
+        target.focus();
+        // A submenu opened by hovering closes once focus moves on from its item.
+        twMenu.closeSubmenus(owner, target);
+    },
+
+    // A click on a submenu's item opens it. From the keyboard (Enter or Space, which report no clicks in detail) focus
+    // moves into the submenu; from a pointer it stays on the item.
+    _onClick: function (menu, e) {
+        const trigger = e.target instanceof Element ? e.target.closest('[aria-haspopup="menu"]') : null;
+        if (!trigger || trigger === menu || !menu.contains(trigger)) return;
+        globalThis.twMenu.openSubmenu(trigger, e.detail === 0);
+    },
+
+    // Resting the pointer on an item opens its submenu and closes the other submenus of the same menu. Moving into an
+    // open submenu cancels a pending close, so crossing another item on the way there does not shut it.
+    _onPointerOver: function (menu, state, e) {
+        if (e.pointerType === 'touch') return;
+        const twMenu = globalThis.twMenu;
+        const owner = twMenu._owner(e.target);
+        if (!owner || !menu.contains(owner)) return;
+        const item = e.target.closest(twMenu._itemSelector);
+        const trigger = item && twMenu._owner(item) === owner && twMenu._isSubmenuTrigger(item) ? item : null;
+
+        clearTimeout(state.hoverTimer);
+        state.hoverTimer = setTimeout(function () {
+            if (!owner.isConnected) return;
+            twMenu.closeSubmenus(owner, trigger);
+            if (trigger) twMenu.openSubmenu(trigger, false);
+        }, twMenu._hoverDelay);
+    },
+
+    // Adds the keyboard, click and hover handling to an open menu. tabMethod is the .NET method Tab calls to close it
+    // without moving focus back.
+    attach: function (menu, dotnetRef, tabMethod) {
+        if (!menu || menu.__twMenu) return;
+        const state = { hoverTimer: 0 };
+        state.onKeyDown = function (e) { globalThis.twMenu._onKeyDown(menu, dotnetRef, tabMethod || 'CloseFromTab', e); };
+        state.onClick = function (e) { globalThis.twMenu._onClick(menu, e); };
+        state.onPointerOver = function (e) { globalThis.twMenu._onPointerOver(menu, state, e); };
+        menu.addEventListener('keydown', state.onKeyDown);
+        menu.addEventListener('click', state.onClick);
+        menu.addEventListener('pointerover', state.onPointerOver);
+        menu.__twMenu = state;
+    },
+
+    detach: function (menu) {
+        const state = menu?.__twMenu;
+        if (!state) return;
+        clearTimeout(state.hoverTimer);
+        menu.removeEventListener('keydown', state.onKeyDown);
+        menu.removeEventListener('click', state.onClick);
+        menu.removeEventListener('pointerover', state.onPointerOver);
+        delete menu.__twMenu;
     },
 
     open: function (menu, anchor, dotnetRef, focusWhich) {
@@ -2540,61 +2814,203 @@ globalThis.twMenu = {
             globalThis.twPicker.registerScrollReposition(anchor, menu, false, dotnetRef);
         }
 
-        if (!menu.__twMenuKeyDown) {
-            const onKeyDown = function (e) {
-                const items = globalThis.twMenu._items(menu);
-                if (items.length === 0) return;
-                const current = items.indexOf(document.activeElement);
-                let target = null;
-
-                switch (e.key) {
-                    case 'ArrowDown':
-                        target = items[(current + 1) % items.length];
-                        break;
-                    case 'ArrowUp':
-                        target = items[(current - 1 + items.length) % items.length];
-                        break;
-                    case 'Home':
-                        target = items[0];
-                        break;
-                    case 'End':
-                        target = items.at(-1);
-                        break;
-                    case 'Tab':
-                        // Tab leaves the menu: close it and let the browser carry focus on.
-                        if (dotnetRef) void globalThis.twPicker._invokeSafely(dotnetRef, 'CloseFromTab');
-                        return;
-                    case ' ':
-                        // A menu item is a <button>, so Space clicks it; this only stops the page scrolling.
-                        return;
-                    default:
-                        if (e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey && e.key.trim() !== '') {
-                            target = globalThis.twMenu._typeahead(items, items[current] ?? null, e.key.toLowerCase());
-                            if (!target) return;
-                        } else {
-                            return;
-                        }
-                }
-
-                e.preventDefault();
-                target?.focus();
-            };
-            menu.addEventListener('keydown', onKeyDown);
-            menu.__twMenuKeyDown = onKeyDown;
-        }
-
-        const items = globalThis.twMenu._items(menu);
-        const first = focusWhich === 'last' ? items.at(-1) : items[0];
-        (first ?? menu).focus();
+        globalThis.twMenu.attach(menu, dotnetRef, 'CloseFromTab');
+        globalThis.twMenu.focusInitial(menu, focusWhich);
     },
 
     close: function (menu) {
         if (!menu) return;
         globalThis.twPicker.unregisterScrollReposition(menu);
-        if (menu.__twMenuKeyDown) {
-            menu.removeEventListener('keydown', menu.__twMenuKeyDown);
-            delete menu.__twMenuKeyDown;
+        globalThis.twMenu.detach(menu);
+    }
+};
+
+// Context menu (TwContextMenu): an area that opens a menu at the pointer on a right-click, or against the focused
+// element on Shift+F10 or the Menu key. The menu is placed with fixed positioning and kept inside the viewport: it
+// opens towards the end of the line and down, and flips to the other side of the point where there is no room. A press
+// outside the menu, a scroll or a resize close it without moving focus; Escape closes it and returns focus to where it
+// was before the menu opened.
+globalThis.twContextMenu = {
+    _isOpenKey: function (e) {
+        return e.key === 'ContextMenu' || (e.key === 'F10' && e.shiftKey && !e.ctrlKey && !e.altKey && !e.metaKey);
+    },
+
+    _enabled: function (area) {
+        return area.dataset.twContextMenu !== 'disabled';
+    },
+
+    // Where a menu opened from the keyboard goes: under the focused element's starting edge, or under the area's.
+    _keyboardPoint: function (area) {
+        const active = document.activeElement;
+        const from = active instanceof Element && area.contains(active) ? active : area;
+        const rect = from.getBoundingClientRect();
+        return { x: globalThis.twDirection.isRtl(area) ? rect.right : rect.left, y: rect.bottom };
+    },
+
+    // Places the panel's corner at the point, flipping it to the other side of the point on an axis where it would
+    // overflow and fits the other way, then keeps it inside the viewport. A panel taller than the viewport is capped so
+    // it scrolls.
+    place: function (area, panel, x, y) {
+        if (!panel) return;
+        const gap = globalThis.twPicker._panelEdgeGapPx;
+        const clamp = globalThis.twPopover._clamp;
+        const viewport = globalThis.twPopover._viewport();
+
+        panel.style.position = 'fixed';
+        panel.style.maxHeight = '';
+        const block = globalThis.twPicker._fixedContainingBlock(panel);
+        panel.style.left = '0px';
+        panel.style.top = '0px';
+        panel.style.right = 'auto';
+        panel.style.bottom = 'auto';
+
+        const room = Math.max(viewport.height - 2 * gap, 0);
+        let size = panel.getBoundingClientRect();
+        if (room > 0 && size.height > room) {
+            panel.style.maxHeight = room + 'px';
+            size = panel.getBoundingClientRect();
         }
+
+        // The other side of the point is used only where the panel fits there; otherwise it is clamped in place.
+        const rtl = globalThis.twDirection.isRtl(area);
+        const fitsAfter = x + size.width <= viewport.width - gap;
+        const fitsBefore = x - size.width >= gap;
+        let left = rtl ? x - size.width : x;
+        if (rtl && !fitsBefore && fitsAfter) left = x;
+        if (!rtl && !fitsAfter && fitsBefore) left = x - size.width;
+        let top = y;
+        if (y + size.height > viewport.height - gap && y - size.height >= gap) top = y - size.height;
+
+        left = clamp(left, gap, viewport.width - size.width - gap);
+        top = clamp(top, gap, viewport.height - size.height - gap);
+
+        panel.style.left = (left - block.left) + 'px';
+        panel.style.top = (top - block.top) + 'px';
+        panel.style.visibility = '';
+    },
+
+    // Called once the area is on the page. Its listeners stay for as long as it is, so a right-click can open the menu.
+    attach: function (area, dotnetRef) {
+        if (!area || area.__twContextMenu) return;
+
+        const state = { dotnetRef: dotnetRef, menu: null, returnFocus: null, closing: false, keyboardAt: -Infinity };
+
+        state.onContextMenu = function (e) {
+            if (!globalThis.twContextMenu._enabled(area)) return;
+            // A nested area handles its own right-click, so an outer one does not open as well.
+            e.preventDefault();
+            e.stopPropagation();
+            // The Menu key also raises contextmenu, on key up, after keydown below has already opened the menu.
+            if (performance.now() - state.keyboardAt < 1000) return;
+            void globalThis.twPicker._invokeSafely(dotnetRef, 'OpenAt', e.clientX, e.clientY, false);
+        };
+
+        state.onKeyDown = function (e) {
+            if (!globalThis.twContextMenu._isOpenKey(e) || !globalThis.twContextMenu._enabled(area)) return;
+            e.preventDefault();
+            e.stopPropagation();
+            state.keyboardAt = performance.now();
+            const point = globalThis.twContextMenu._keyboardPoint(area);
+            void globalThis.twPicker._invokeSafely(dotnetRef, 'OpenAt', point.x, point.y, true);
+        };
+
+        area.addEventListener('contextmenu', state.onContextMenu);
+        area.addEventListener('keydown', state.onKeyDown);
+        area.__twContextMenu = state;
+    },
+
+    // Shows the menu at the point, or moves it there if it is already open.
+    open: function (area, menu, dotnetRef, x, y, focusWhich) {
+        const state = area?.__twContextMenu;
+        if (!state || !menu) return;
+
+        if (state.menu !== menu) {
+            globalThis.twContextMenu._release(area, state);
+            state.menu = menu;
+            state.closing = false;
+
+            const active = document.activeElement;
+            state.returnFocus = active instanceof HTMLElement && active !== document.body && !menu.contains(active) ? active : null;
+
+            const close = function (method) {
+                if (state.closing || !menu.isConnected) return;
+                state.closing = true;
+                void globalThis.twPicker._invokeSafely(dotnetRef, method);
+            };
+
+            // A press outside the menu closes it. A right-click inside the area is left to its contextmenu event,
+            // which moves the menu to the new point instead.
+            state.onPointerDown = function (e) {
+                const target = e.target;
+                if (target instanceof Node && menu.contains(target)) return;
+                if (e.button === 2 && target instanceof Node && area.contains(target)) return;
+                close('Dismiss');
+            };
+
+            // The page moving away from the menu closes it. A scroll inside the menu is someone using it.
+            state.onScroll = function (e) {
+                if (e?.target instanceof Node && menu.contains(e.target)) return;
+                close('Dismiss');
+            };
+
+            // The browser's own context menu never opens over this one.
+            state.onMenuContextMenu = function (e) { e.preventDefault(); };
+
+            document.addEventListener('pointerdown', state.onPointerDown, true);
+            document.addEventListener('scroll', state.onScroll, true);
+            window.addEventListener('resize', state.onScroll);
+            menu.addEventListener('contextmenu', state.onMenuContextMenu);
+
+            globalThis.twDialog._pushEscape({
+                surface: menu,
+                dotnetRef: dotnetRef,
+                method: 'Close',
+                isOpen: function () { return menu.isConnected; }
+            });
+            globalThis.twMenu.attach(menu, dotnetRef, 'Dismiss');
+        } else {
+            globalThis.twMenu.closeSubmenus(menu, null);
+        }
+
+        globalThis.twContextMenu.place(area, menu, x, y);
+        globalThis.twMenu.focusInitial(menu, focusWhich);
+    },
+
+    _release: function (area, state) {
+        const menu = state.menu;
+        if (!menu) return;
+        document.removeEventListener('pointerdown', state.onPointerDown, true);
+        document.removeEventListener('scroll', state.onScroll, true);
+        window.removeEventListener('resize', state.onScroll);
+        menu.removeEventListener('contextmenu', state.onMenuContextMenu);
+        globalThis.twDialog.unregisterEscape(menu);
+        globalThis.twMenu.detach(menu);
+        state.menu = null;
+    },
+
+    // Removes the open menu's listeners and, when asked, puts focus back where it was before the menu opened: the
+    // element that had it, or else the area when it can take focus.
+    close: function (area, menu, returnFocus) {
+        const state = area?.__twContextMenu;
+        if (!state) return;
+        if (!menu || state.menu === menu) globalThis.twContextMenu._release(area, state);
+        const previous = state.returnFocus;
+        state.returnFocus = null;
+        if (!returnFocus) return;
+        if (previous?.isConnected) {
+            previous.focus();
+        } else if (area.hasAttribute('tabindex')) {
+            area.focus();
+        }
+    },
+
+    detach: function (area) {
+        const state = area?.__twContextMenu;
+        if (!state) return;
+        globalThis.twContextMenu._release(area, state);
+        area.removeEventListener('contextmenu', state.onContextMenu);
+        area.removeEventListener('keydown', state.onKeyDown);
+        delete area.__twContextMenu;
     }
 };
 

@@ -801,6 +801,12 @@
   <data name="Menu_Options" xml:space="preserve">
     <value>Параметры</value>
   </data>
+  <data name="ContextMenu_Label" xml:space="preserve">
+    <value>Контекстное меню</value>
+  </data>
+  <data name="ContextMenu_Hint" xml:space="preserve">
+    <value>Нажмите Shift+F10 или клавишу меню, чтобы открыть дополнительные параметры.</value>
+  </data>
   <data name="DataTable_ColumnOptions" xml:space="preserve">
     <value>Параметры столбца «{0}»</value>
   </data>
@@ -959,5 +965,38 @@
   </data>
   <data name="TimePicker_Done" xml:space="preserve">
     <value>Готово</value>
+  </data>
+  <data name="Empty_Title" xml:space="preserve">
+    <value>Нет данных</value>
+  </data>
+  <data name="TagInput_Tags" xml:space="preserve">
+    <value>Теги</value>
+  </data>
+  <data name="TagInput_Added" xml:space="preserve">
+    <value>{0} добавлен</value>
+  </data>
+  <data name="TagInput_Removed" xml:space="preserve">
+    <value>{0} удалён</value>
+  </data>
+  <data name="TagInput_Cleared" xml:space="preserve">
+    <value>Все теги удалены</value>
+  </data>
+  <data name="TagInput_ClearAll" xml:space="preserve">
+    <value>Удалить все теги</value>
+  </data>
+  <data name="TagInput_Duplicate" xml:space="preserve">
+    <value>{0} уже добавлен</value>
+  </data>
+  <data name="TagInput_LimitOne" xml:space="preserve">
+    <value>Можно добавить только {0} тег</value>
+  </data>
+  <data name="TagInput_LimitOther" xml:space="preserve">
+    <value>Можно добавить не более {0} тегов</value>
+  </data>
+  <data name="TagInput_TooLongOne" xml:space="preserve">
+    <value>Тег может содержать не более {0} символа</value>
+  </data>
+  <data name="TagInput_TooLongOther" xml:space="preserve">
+    <value>Тег может содержать не более {0} символов</value>
   </data>
 </root>

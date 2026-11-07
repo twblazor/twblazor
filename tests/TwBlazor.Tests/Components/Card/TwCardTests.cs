@@ -364,7 +364,7 @@ public class TwCardTests : TwBlazorTestBase
     [InlineData(Rounded.Sm, "rounded-sm")]
     [InlineData(Rounded.Md, "rounded")]
     [InlineData(Rounded.Lg, "rounded-lg")]
-    [InlineData(Rounded.Full, "rounded-full")]
+    [InlineData(Rounded.Full, "rounded-lg")]
     public void TwCard_AppliesRounded(Rounded rounded, string expectedClass)
     {
         // Arrange & Act
