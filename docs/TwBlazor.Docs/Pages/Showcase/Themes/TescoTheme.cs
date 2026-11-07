@@ -1795,6 +1795,7 @@ public static class TescoTheme
                     Button = flexbox.ShrinkNone,
                     ButtonDense = $"min-h-6 h-6 {spacing.PaddingX[2]} {spacing.PaddingY[0]} {typography.Size.Xs}",
                     IconButtonDense = sizing.Icon.Lg
+                },
                 new TwTagInputTheme
                 {
                     Field = $"{positioning.Relative} {display.Flex} {flexbox.Wrap} {flexbox.Align.Center} {spacing.Gap[1]} {sizing.FullWidth} {sizing.MinWidthNone} {spacing.PaddingY[1]} text-start {neutralText.Heading} {transition.ColorsFast} cursor-text",
