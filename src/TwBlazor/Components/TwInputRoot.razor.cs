@@ -4,6 +4,7 @@
 using Microsoft.AspNetCore.Components;
 using TwBlazor.Configuration;
 using TwBlazor.Configuration.Components;
+using TwBlazor.Utilities;
 
 namespace TwBlazor.Components;
 
@@ -11,11 +12,28 @@ namespace TwBlazor.Components;
 /// Used for all input components to wrap the input element and provide a
 /// consistent root element for styling and attributes.
 /// </summary>
-public partial class TwInputRoot
+public partial class TwInputRoot : IDisposable
 {
+    private TwInputGroup? reportedGroup;
+
     [Inject] private TwBlazorOptions options { get; set; } = null!;
 
     private TwInputTheme theme => options.Theme.Components.Require<TwInputTheme>();
+
+    /// <summary>
+    /// Gets or sets the <see cref="TwInputGroup"/> this input sits in, if any.
+    /// </summary>
+    [CascadingParameter] private TwInputGroupContext? inputGroup { get; set; }
+
+    /// <summary>
+    /// Gets or sets the root of the input this one is part of, such as the text field inside a date picker.
+    /// </summary>
+    [CascadingParameter] private TwInputRoot? parentRoot { get; set; }
+
+    // Only the outermost input in a group is laid out by it; one nested inside another input sits in that input's root.
+    private string? rootClasses => inputGroup is not null && parentRoot is null
+        ? new ClassBuilder(inputGroup.ControlRootClasses).AddClass(RootClass ?? string.Empty).Build()
+        : RootClass;
 
     /// <summary>
     /// The input element is rendered as a child of this component, allowing it to apply consistent 
@@ -75,4 +93,39 @@ public partial class TwInputRoot
     /// Consumers capture this by holding a @ref to the TwInputRoot component instance.
     /// </summary>
     public ElementReference RootRef { get; private set; }
+
+    /// <inheritdoc />
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+
+        // Inside a group the message is shown below the group rather than inside it, beside the addons.
+        var group = inputGroup?.Group;
+        if (!ReferenceEquals(group, reportedGroup))
+        {
+            reportedGroup?.SetError(this, null, null);
+            reportedGroup = group;
+        }
+
+        reportedGroup?.SetError(this, RootErrorId, RootErrorMessage);
+    }
+
+    /// <inheritdoc />
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    /// <summary>
+    /// Unreports the input's validation message from its group.
+    /// </summary>
+    protected virtual void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            reportedGroup?.SetError(this, null, null);
+            reportedGroup = null;
+        }
+    }
 }

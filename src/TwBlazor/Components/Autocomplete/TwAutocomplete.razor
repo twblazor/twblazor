@@ -1,4 +1,4 @@
-@typeparam T
+﻿@typeparam T
 @inherits TwPopoverPickerComponentBase
 @namespace TwBlazor.Components
 @using TwBlazor.Enums
@@ -24,7 +24,8 @@
                aria-controls="@(isListboxShown ? listboxId : null)"
                aria-required="@(Required ? "true" : null)"
                aria-invalid="@(fieldInvalid ? "true" : null)"
-               aria-describedby="@errorId"
+               data-tw-input-group-control="@isInInputGroup"
+               aria-describedby="@GetDescribedBy(errorId)"
                aria-label="@AriaLabel"
                aria-labelledby="@AriaLabelledBy"
                required="@Required"

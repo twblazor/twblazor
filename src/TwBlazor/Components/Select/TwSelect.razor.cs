@@ -173,6 +173,8 @@ public partial class TwSelect<T> : TwPopoverPickerComponentBase
 
     private string listboxId => $"{Id}-listbox";
 
+    private string? describedBy => GetDescribedBy(errorId);
+
     private string OptionId(int key) => $"{Id}-option-{key}";
 
     private bool hasSelection => parsedValues.ContainsKey(selectedValueId);
@@ -197,10 +199,17 @@ public partial class TwSelect<T> : TwPopoverPickerComponentBase
         // with the surrounding page - fine for <input>, but a native <select> popup renders using
         // the element's own background/text colors, so a transparent one falls back to the OS's
         // native (often light) popup surface and can pair unreadable white dark-mode text onto it.
-        // The Filled variant already sets a real background, so it's left alone here.
-        .AddClass(theme.SelectNativeBackground, effectiveVariant != InputVariant.Filled)
+        // The Filled variant already sets a real background, so it's left alone here. Inside an input
+        // group the group's Control classes strip the background, so the select mirrors the group's
+        // variant surface instead - Filled -> FilledBackgroundColor (re-added after Control, so the
+        // merger keeps it over the stripped background), otherwise the popup-safe SelectNativeBackground -
+        // keeping the native popup readable without a solid box inside the group.
+        .AddClass(theme.SelectNativeBackground, surfaceVariant != InputVariant.Filled)
+        // Before the base classes, so their end padding still keeps the text clear of the chevron.
+        .AddClass(inputGroupControlClasses)
+        .AddClass(theme.FilledBackgroundColor, isInInputGroup && surfaceVariant == InputVariant.Filled)
         .AddClass(baseClasses ?? theme.SelectBase)
-        .AddClass(Disabled ? $"{options.Theme.Interaction.DisabledOpacity} {options.Theme.Interaction.DisabledCursor}" : string.Empty)
+        .AddClass(Disabled && !isInInputGroup ? $"{options.Theme.Interaction.DisabledOpacity} {options.Theme.Interaction.DisabledCursor}" : string.Empty)
         .AddClass(ReadOnly ? theme.SelectReadOnlyBackground : string.Empty)
         .AddClass(ReadOnly && !Disabled ? options.Theme.Interaction.PointerEventsNone : string.Empty)
         .Build();
@@ -223,7 +232,8 @@ public partial class TwSelect<T> : TwPopoverPickerComponentBase
         .AddClass(inputSizeClasses)
         .AddClass(inputVariantBuilder.GetClasses(effectiveVariant, theme, InputFocusStyle.FocusVisible, effectiveRounded))
         .AddClass(theme.SelectDefaultPadding, effectiveVariant == InputVariant.Default)
-        .AddClass(Disabled ? $"{options.Theme.Interaction.DisabledOpacity} {options.Theme.Interaction.DisabledCursor}" : string.Empty)
+        .AddClass(inputGroupControlClasses)
+        .AddClass(Disabled && !isInInputGroup ? $"{options.Theme.Interaction.DisabledOpacity} {options.Theme.Interaction.DisabledCursor}" : string.Empty)
         .AddClass(ReadOnly && !Disabled ? options.Theme.Interaction.PointerEventsNone : string.Empty)
         .AddClass(Class)
         .Build();

@@ -1,4 +1,4 @@
-@typeparam T
+﻿@typeparam T
 @inherits TwPopoverPickerComponentBase
 @namespace TwBlazor.Components
 @using TwBlazor.Enums
@@ -22,7 +22,8 @@
                 aria-required="@(Required ? "true" : null)"
                 aria-readonly="@(ReadOnly ? "true" : null)"
                 aria-invalid="@(fieldInvalid ? "true" : null)"
-                aria-describedby="@errorId"
+                data-tw-input-group-control="@isInInputGroup"
+                aria-describedby="@describedBy"
                 aria-label="@AriaLabel"
                 aria-labelledby="@AriaLabelledBy">
             @if (!Required)
@@ -52,7 +53,8 @@
                     aria-required="@(Required ? "true" : null)"
                     aria-readonly="@(ReadOnly ? "true" : null)"
                     aria-invalid="@(fieldInvalid ? "true" : null)"
-                    aria-describedby="@errorId"
+                    data-tw-input-group-control="@isInInputGroup"
+                    aria-describedby="@describedBy"
                     aria-label="@AriaLabel"
                     aria-labelledby="@AriaLabelledBy"
                     disabled="@Disabled"
@@ -124,7 +126,8 @@
                     aria-required="@(Required ? "true" : null)"
                     aria-readonly="@(ReadOnly ? "true" : null)"
                     aria-invalid="@(fieldInvalid ? "true" : null)"
-                    aria-describedby="@errorId"
+                    data-tw-input-group-control="@isInInputGroup"
+                    aria-describedby="@describedBy"
                     aria-label="@AriaLabel"
                     aria-labelledby="@AriaLabelledBy">
                 @foreach (var (key, value) in parsedValues)
@@ -157,7 +160,8 @@
                         aria-required="@(Required ? "true" : null)"
                         aria-readonly="@(ReadOnly ? "true" : null)"
                         aria-invalid="@(fieldInvalid ? "true" : null)"
-                        aria-describedby="@errorId"
+                        data-tw-input-group-control="@isInInputGroup"
+                        aria-describedby="@describedBy"
                         aria-label="@AriaLabel"
                         aria-labelledby="@AriaLabelledBy"
                         @attributes="@Attributes"

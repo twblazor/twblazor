@@ -1,0 +1,8 @@
+@namespace TwBlazor.Components
+@inherits TwBlazorComponentBase
+
+<span id="@Id" class="@classes" style="@Style" aria-label="@AriaLabel" aria-labelledby="@AriaLabelledBy" @attributes="@Attributes">@(ChildContent ?? textFragment)</span>
+
+@code {
+    private RenderFragment textFragment => builder => builder.AddContent(0, Text);
+}

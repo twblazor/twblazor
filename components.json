@@ -232,6 +232,14 @@
             "url": "/file-upload"
           },
           {
+            "id": "input-group-navitem",
+            "display": "Input Group",
+            "name": "TwInputGroup",
+            "url": "/input-group",
+            "isNew": true,
+            "theme": "TwInputGroupTheme"
+          },
+          {
             "id": "numeric-navitem",
             "display": "Numeric",
             "name": "TwNumeric",
