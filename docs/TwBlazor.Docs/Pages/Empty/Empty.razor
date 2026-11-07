@@ -11,7 +11,7 @@
     </PageCard>
 
     <PageCard Title="Actions">
-        <Description>Set <code>ActionText</code> and <code>OnAction</code> (or <code>ActionHref</code>) for a primary button, and <code>SecondaryActionText</code> for an outlined one beside it. Put anything else in <code>ActionContent</code>.</Description>
+        <Description>Set <code>ActionText</code> and <code>OnAction</code> (or <code>ActionHref</code>) for a primary button, and <code>SecondaryActionText</code> for an outlined one beside it. Put anything else in <code>ActionContent</code>; give it <code>basis-full</code> to put it on a row of its own, as the link here does.</Description>
         <CodeExample Name="EmptyActions">
             <TwEmpty Icon="Icon.Folder2_Open"
                      Title="No projects yet"
@@ -22,7 +22,9 @@
                      SecondaryActionText="Import project"
                      OnSecondaryAction="@(() => projectsCreated++)">
                 <ActionContent>
-                    <TwLink Href="/empty">Learn more</TwLink>
+                    <div class="basis-full text-center text-sm">
+                        <TwLink Href="/empty">Learn more</TwLink>
+                    </div>
                 </ActionContent>
             </TwEmpty>
         </CodeExample>
