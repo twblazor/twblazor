@@ -114,7 +114,7 @@
     <PageCard Title="Search results">
         <Description>Set <code>Live</code> when the empty state replaces results in response to the user, so screen readers announce it. Extra content, such as a hint, goes in <code>ChildContent</code>.</Description>
         <CodeExample Name="EmptySearch">
-            <div class="flex flex-col gap-4 max-w-md">
+            <div class="flex flex-col gap-4">
                 <TwTextfield T="string" Label="Search fruit" @bind-Value="query" BindEvent="oninput" />
                 @if (matches.Count == 0)
                 {
