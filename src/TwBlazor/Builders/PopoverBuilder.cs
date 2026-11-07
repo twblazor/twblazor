@@ -55,7 +55,7 @@ public class PopoverBuilder(TwBlazorOptions options, RoundedBuilder roundedBuild
 
     /// <summary>
     /// Gets the classes for a tooltip bubble: the shared tooltip layout/visibility classes on top of the
-    /// popover surface from <see cref="GetSurfaceClasses"/>, so tooltips match popover panels.
+    /// popover surface from <see cref="GetSurfaceClasses(Rounded?, Shadow?, string?)"/>, so tooltips match popover panels.
     /// </summary>
     /// <param name="dismissed">Whether the user has dismissed the tooltip (Escape), which hides it
     /// regardless of hover or focus until they leave the control.</param>
