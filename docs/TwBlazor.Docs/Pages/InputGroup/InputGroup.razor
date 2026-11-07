@@ -78,7 +78,7 @@
     <PageCard Title="Password toggle">
         <Description>Combine an icon at the start with a button at the end that switches the field between <code>password</code> and <code>text</code>.</Description>
         <CodeExample Name="InputGroupPassword" CSharpName="InputGroupPasswordCode">
-            <TwInputGroup Label="Password" For="input-group-password" Class="max-w-sm">
+            <TwInputGroup Label="Password" For="input-group-password">
                 <TwInputGroupAddon>
                     <TwIcon Icon="Icon.Lock" />
                 </TwInputGroupAddon>
@@ -182,7 +182,7 @@
     <PageCard Title="Custom styling">
         <Description><code>Class</code> styles the group itself and is merged with the theme's classes, so it can replace the rounding or border colour. <code>RootClass</code> styles the element that also holds the label and messages.</Description>
         <CodeExample Name="InputGroupCustom">
-            <TwInputGroup AriaLabel="Search the docs" Variant="InputVariant.Outlined" Rounded="Rounded.Full" Class="border-purple-600 dark:border-purple-400 max-w-md">
+            <TwInputGroup AriaLabel="Search the docs" Variant="InputVariant.Outlined" Rounded="Rounded.Full" Class="border-purple-600 dark:border-purple-400">
                 <TwInputGroupAddon><TwIcon Icon="Icon.Search" /></TwInputGroupAddon>
                 <TwTextfield T="string" InputType="search" AriaLabel="Search the docs" Placeholder="Search the docs" @bind-Value="search" />
                 <TwInputGroupAddon Align="InputGroupAlign.InlineEnd">

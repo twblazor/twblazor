@@ -11,7 +11,7 @@
     </PageCard>
 
     <PageCard Title="Actions">
-        <Description>Set <code>ActionText</code> and <code>OnAction</code> (or <code>ActionHref</code>) for a primary button, and <code>SecondaryActionText</code> for an outlined one beside it. Put anything else in <code>ActionContent</code>.</Description>
+        <Description>Set <code>ActionText</code> and <code>OnAction</code> (or <code>ActionHref</code>) for a primary button, and <code>SecondaryActionText</code> for an outlined one beside it. Put anything else in <code>ActionContent</code>; give it <code>basis-full</code> to put it on a row of its own, as the link here does.</Description>
         <CodeExample Name="EmptyActions">
             <TwEmpty Icon="Icon.Folder2_Open"
                      Title="No projects yet"
@@ -22,7 +22,9 @@
                      SecondaryActionText="Import project"
                      OnSecondaryAction="@(() => projectsCreated++)">
                 <ActionContent>
-                    <TwLink Href="/empty">Learn more</TwLink>
+                    <div class="basis-full text-center text-sm">
+                        <TwLink Href="/empty">Learn more</TwLink>
+                    </div>
                 </ActionContent>
             </TwEmpty>
         </CodeExample>
@@ -69,9 +71,24 @@
     <PageCard Title="In a card">
         <Description>A small empty state fits inside a <code>TwCard</code>. Set <code>TitleLevel</code> so its heading sits below the card's own heading in the page outline.</Description>
         <CodeExample Name="EmptyInCard">
-            <TwCard Title="Recent orders" Class="max-w-sm">
-                <TwEmpty Size="Size.Sm" TitleLevel="4" Icon="Icon.Bag" Title="No orders yet" Description="Orders you place will appear here." ActionText="Start shopping" ActionHref="/empty" />
-            </TwCard>
+            <div class="grid gap-4 md:grid-cols-2">
+                <TwCard Title="Recent orders">
+                    <HeaderContent>
+                        <p class="text-sm text-gray-600 dark:text-gray-300">Purchases from the last 30 days.</p>
+                    </HeaderContent>
+                    <ChildContent>
+                        <TwEmpty Size="Size.Sm" TitleLevel="4" Icon="Icon.Bag" Color="Color.Primary" Title="No orders yet" Description="Orders you place will appear here." ActionText="Start shopping" ActionHref="/empty" />
+                    </ChildContent>
+                </TwCard>
+                <TwCard Title="Wishlist">
+                    <HeaderContent>
+                        <p class="text-sm text-gray-600 dark:text-gray-300">Items you have saved for later.</p>
+                    </HeaderContent>
+                    <ChildContent>
+                        <TwEmpty Size="Size.Sm" TitleLevel="4" Icon="Icon.Bookmark_Heart" Color="Color.Danger" Title="Nothing saved yet" Description="Save a product and it will show up here." SecondaryActionText="Browse products" SecondaryActionHref="/empty" Filled />
+                    </ChildContent>
+                </TwCard>
+            </div>
         </CodeExample>
     </PageCard>
 
@@ -97,7 +114,7 @@
     <PageCard Title="Search results">
         <Description>Set <code>Live</code> when the empty state replaces results in response to the user, so screen readers announce it. Extra content, such as a hint, goes in <code>ChildContent</code>.</Description>
         <CodeExample Name="EmptySearch">
-            <div class="flex flex-col gap-4 max-w-md">
+            <div class="flex flex-col gap-4">
                 <TwTextfield T="string" Label="Search fruit" @bind-Value="query" BindEvent="oninput" />
                 @if (matches.Count == 0)
                 {
