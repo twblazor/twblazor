@@ -32,7 +32,7 @@
         <Description>Set <code>Label</code> to show text in the line, such as "or continue with" between ways to sign in. The label also names the separator for screen readers.</Description>
 
         <CodeExample Name="SeparatorLabel">
-            <div class="flex max-w-sm flex-col gap-4">
+            <div class="mx-auto flex w-full max-w-sm flex-col gap-4">
                 <TwButton Label="Sign in with email" Color="Color.Primary" Class="w-full" />
                 <TwSeparator Label="or continue with" />
                 <div class="grid grid-cols-2 gap-3">
@@ -113,14 +113,29 @@
         <Description>Separate groups of settings or fields inside a <code>TwCard</code>. A line that only decorates, where the groups need no announced break, can be <code>Decorative</code>.</Description>
 
         <CodeExample Name="SeparatorInCard">
-            <TwCard Title="Notifications" Class="max-w-md">
-                <div class="flex flex-col gap-4 text-sm">
-                    <TwSwitch Label="Email" @bind-Value="email" />
-                    <TwSwitch Label="Push notifications" @bind-Value="push" />
-                    <TwSeparator Decorative />
-                    <TwSwitch Label="Weekly summary" @bind-Value="summary" />
-                    <TwSwitch Label="Product news" @bind-Value="news" />
-                </div>
+            <TwCard Title="Notifications">
+                <HeaderContent>
+                    <p class="text-sm text-gray-600 dark:text-gray-300">Choose how and when we get in touch.</p>
+                </HeaderContent>
+                <ChildContent>
+                    <div class="flex flex-col gap-4 text-sm">
+                        <div class="grid gap-4 sm:grid-cols-2">
+                            <TwSwitch Label="Email" @bind-Value="email" />
+                            <TwSwitch Label="Push notifications" @bind-Value="push" />
+                        </div>
+                        <TwSeparator Decorative />
+                        <div class="grid gap-4 sm:grid-cols-2">
+                            <TwSwitch Label="Weekly summary" @bind-Value="summary" />
+                            <TwSwitch Label="Product news" @bind-Value="news" />
+                        </div>
+                    </div>
+                </ChildContent>
+                <FooterContent>
+                    <div class="ms-auto flex flex-wrap gap-2">
+                        <TwButton Variant="ButtonVariant.Text" Color="Color.Primary">Cancel</TwButton>
+                        <TwButton Variant="ButtonVariant.Filled" Color="Color.Primary">Save changes</TwButton>
+                    </div>
+                </FooterContent>
             </TwCard>
         </CodeExample>
     </PageCard>

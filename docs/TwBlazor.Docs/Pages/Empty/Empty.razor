@@ -69,9 +69,24 @@
     <PageCard Title="In a card">
         <Description>A small empty state fits inside a <code>TwCard</code>. Set <code>TitleLevel</code> so its heading sits below the card's own heading in the page outline.</Description>
         <CodeExample Name="EmptyInCard">
-            <TwCard Title="Recent orders" Class="max-w-sm">
-                <TwEmpty Size="Size.Sm" TitleLevel="4" Icon="Icon.Bag" Title="No orders yet" Description="Orders you place will appear here." ActionText="Start shopping" ActionHref="/empty" />
-            </TwCard>
+            <div class="grid gap-4 md:grid-cols-2">
+                <TwCard Title="Recent orders">
+                    <HeaderContent>
+                        <p class="text-sm text-gray-600 dark:text-gray-300">Purchases from the last 30 days.</p>
+                    </HeaderContent>
+                    <ChildContent>
+                        <TwEmpty Size="Size.Sm" TitleLevel="4" Icon="Icon.Bag" Color="Color.Primary" Title="No orders yet" Description="Orders you place will appear here." ActionText="Start shopping" ActionHref="/empty" />
+                    </ChildContent>
+                </TwCard>
+                <TwCard Title="Wishlist">
+                    <HeaderContent>
+                        <p class="text-sm text-gray-600 dark:text-gray-300">Items you have saved for later.</p>
+                    </HeaderContent>
+                    <ChildContent>
+                        <TwEmpty Size="Size.Sm" TitleLevel="4" Icon="Icon.Bookmark_Heart" Color="Color.Danger" Title="Nothing saved yet" Description="Save a product and it will show up here." SecondaryActionText="Browse products" SecondaryActionHref="/empty" Filled />
+                    </ChildContent>
+                </TwCard>
+            </div>
         </CodeExample>
     </PageCard>
 
