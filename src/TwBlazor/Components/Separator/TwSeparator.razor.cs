@@ -88,7 +88,18 @@ public partial class TwSeparator : TwBlazorComponentBase
 
     private string role => Decorative ? "none" : "separator";
 
-    private string? ariaOrientation => Decorative ? null : isVertical ? "vertical" : "horizontal";
+    private string? ariaOrientation
+    {
+        get
+        {
+            if (Decorative)
+            {
+                return null;
+            }
+
+            return isVertical ? "vertical" : "horizontal";
+        }
+    }
 
     private string? ariaHidden => Decorative && !hasLabel ? "true" : null;
 

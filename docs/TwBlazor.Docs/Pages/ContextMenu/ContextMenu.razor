@@ -5,7 +5,7 @@
         <Description>Put the area that is right-clicked in <code>TwContextMenu</code> and its items in <code>MenuContent</code>. The menu opens at the pointer instead of the browser's own menu and stays inside the window. It takes the same items as <code>TwMenu</code>: give a <code>TwMenuItem</code> a <code>StartIcon</code> and a <code>Shortcut</code> hint. Choosing an item runs its <code>OnClick</code> and closes the menu; Escape, a click elsewhere or a scroll close it too.</Description>
 
         <CodeExample Name="ContextMenuBasic" CSharpName="ContextMenuBasicCode">
-            <TwContextMenu Id="basic-context-menu" Class="flex h-40 items-center justify-center rounded-lg border-2 border-dashed border-gray-300 text-sm text-gray-600 dark:border-gray-600 dark:text-gray-300">
+            <TwContextMenu Id="clipboard-context-menu" Class="flex h-40 items-center justify-center rounded-lg border-2 border-dashed border-gray-300 text-sm text-gray-600 dark:border-gray-600 dark:text-gray-300">
                 <ChildContent>Right-click here</ChildContent>
                 <MenuContent>
                     <TwMenuItem Label="Cut" StartIcon="Icon.Scissors" Shortcut="Ctrl+X" OnClick="@(() => lastAction = "Cut")" />

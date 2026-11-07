@@ -14,6 +14,8 @@ public class TwMenuItemFeatureTests : TwBlazorTestBase
 {
     private TwMenuTheme menuTheme => Theme.Components.Require<TwMenuTheme>();
 
+    private static readonly string[] _radioOptions = ["Pedro", "Colm", "Ana"];
+
     private IRenderedComponent<TwMenu> RenderMenu(RenderFragment items) =>
         TestContext.Render<TwMenu>(parameters => parameters
             .Add(p => p.Id, "actions")
@@ -29,7 +31,7 @@ public class TwMenuItemFeatureTests : TwBlazorTestBase
         builder.AddComponentParameter(4, nameof(TwMenuRadioGroup<string>.ValueChanged), EventCallback.Factory.Create(new object(), changed));
         builder.AddComponentParameter(5, nameof(TwMenuRadioGroup<string>.ChildContent), (RenderFragment)(items =>
         {
-            foreach (var (name, index) in new[] { "Pedro", "Colm", "Ana" }.Select((name, index) => (name, index)))
+            foreach (var (name, index) in _radioOptions.Select((name, index) => (name, index)))
             {
                 items.OpenComponent<TwMenuRadioItem<string>>(10 + index);
                 items.AddComponentParameter(20, nameof(TwMenuRadioItem<string>.Value), name);

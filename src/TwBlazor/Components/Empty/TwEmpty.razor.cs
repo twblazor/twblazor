@@ -185,7 +185,18 @@ public partial class TwEmpty : TwBlazorComponentBase
 
     // A live empty state is a status; a named one is a region so its name is announced. Otherwise the root is a
     // plain container, as an aria-label is not allowed on an element with no role.
-    private string? effectiveRole => Live ? "status" : hasAccessibleName ? "region" : null;
+    private string? effectiveRole
+    {
+        get
+        {
+            if (Live)
+            {
+                return "status";
+            }
+
+            return hasAccessibleName ? "region" : null;
+        }
+    }
 
     private string titleId => $"{Id}-title";
 
