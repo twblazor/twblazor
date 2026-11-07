@@ -2,7 +2,7 @@
 @using System.ComponentModel.DataAnnotations
 @using Microsoft.AspNetCore.Components.Forms
 
-<PageContainer Title="TwForm" Path="/form" Beta Description="TwForm is a Blazor form that validates fields with data annotations and validators, shows an error summary and focuses the first error." ThemeType="typeof(TwFormTheme)">
+<PageContainer Title="TwForm" Path="/form" Description="TwForm is a Blazor form that validates fields with data annotations and validators, shows an error summary and focuses the first error." ThemeType="typeof(TwFormTheme)">
     <PageCard Title="Validating a model">
         <Description>Give <code>TwForm</code> a <code>Model</code> and bind each field to it with <code>@@bind-Value</code>. The model's data annotations, such as <code>[Required]</code>, are checked when the form is submitted and again as each field changes. A field with an error shows its message, and is marked invalid for screen readers. <code>OnValidSubmit</code> only runs once every field is valid.</Description>
 
