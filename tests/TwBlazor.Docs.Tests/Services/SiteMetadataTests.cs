@@ -9,6 +9,7 @@ public class SiteMetadataTests
     [InlineData("TwCard", "TwCard | twblazor - Blazor Card Component")]
     [InlineData("TwDataTable", "TwDataTable | twblazor - Blazor Data Table Component")]
     [InlineData("TwRadioButton", "TwRadioButton | twblazor - Blazor Radio Button Component")]
+    [InlineData("TwQrCode", "TwQrCode | twblazor - Blazor QR Code Component")]
     public void ComponentTitle_SplitsTheTypeNameIntoWords(string componentName, string expected)
     {
         // Act & Assert

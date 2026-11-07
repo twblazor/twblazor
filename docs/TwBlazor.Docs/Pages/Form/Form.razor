@@ -2,7 +2,7 @@
 @using System.ComponentModel.DataAnnotations
 @using Microsoft.AspNetCore.Components.Forms
 
-<PageContainer Title="TwForm" Path="/form" Beta Description="TwForm is a Blazor form that validates fields with data annotations and validators, shows an error summary and focuses the first error." ThemeType="typeof(TwFormTheme)">
+<PageContainer Title="TwForm" Path="/form" Description="TwForm is a Blazor form that validates fields with data annotations and validators, shows an error summary and focuses the first error." ThemeType="typeof(TwFormTheme)">
     <PageCard Title="Validating a model">
         <Description>Give <code>TwForm</code> a <code>Model</code> and bind each field to it with <code>@@bind-Value</code>. The model's data annotations, such as <code>[Required]</code>, are checked when the form is submitted and again as each field changes. A field with an error shows its message, and is marked invalid for screen readers. <code>OnValidSubmit</code> only runs once every field is valid.</Description>
 
@@ -57,7 +57,7 @@
     </PageCard>
 
     <PageCard Title="Choices, dates and numbers">
-        <Description>Every TwBlazor input takes part in validation, including radio groups, switches, sliders, ratings, and the date, time and color pickers. Bind each one with its own value parameter, for example <code>@@bind-SelectedDate</code> on a date picker.</Description>
+        <Description>Every twblazor input takes part in validation, including radio groups, switches, sliders, ratings, and the date, time and color pickers. Bind each one with its own value parameter, for example <code>@@bind-SelectedDate</code> on a date picker.</Description>
 
         <CodeExample Name="FormChoices" CSharpName="FormChoicesCode">
             <TwForm Model="@booking">
@@ -87,7 +87,7 @@
     </PageCard>
 
     <PageCard Title="In an EditForm">
-        <Description>TwBlazor fields also work in Blazor's own <code>EditForm</code>, with <code>DataAnnotationsValidator</code> or any other validator. They show the form's messages and report every change, just as they do in a <code>TwForm</code>.</Description>
+        <Description>twblazor fields also work in Blazor's own <code>EditForm</code>, with <code>DataAnnotationsValidator</code> or any other validator. They show the form's messages and report every change, just as they do in a <code>TwForm</code>.</Description>
 
         <CodeExample Name="FormEditForm" CSharpName="FormEditFormCode">
             <EditForm Model="@newsletter" class="flex flex-col gap-4">

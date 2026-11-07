@@ -71,8 +71,7 @@
         "display": "On This Page",
         "name": "TwOnThisPage",
         "url": "/on-this-page",
-        "theme": "TwOnThisPageTheme",
-        "isNew": true
+        "theme": "TwOnThisPageTheme"
       },
       {
         "id": "separator-navitem",
@@ -145,8 +144,7 @@
         "id": "text-navitem",
         "display": "Text",
         "name": "TwText",
-        "url": "/text",
-        "isNew": true
+        "url": "/text"
       },
       {
         "id": "link-navitem",
@@ -172,8 +170,7 @@
         "display": "Form",
         "name": "TwForm",
         "url": "/form",
-        "theme": "TwFormTheme",
-        "isNew": true
+        "theme": "TwFormTheme"
       },
       {
         "id": "inputs-navitem",

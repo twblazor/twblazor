@@ -13,7 +13,7 @@ public class SearchDisplayTests : DocsTestBase
     {
         var cut = TestContext.Render<SearchDisplay>();
 
-        Assert.Contains("Search across TwBlazor components, theme configuration, and API documentation.", cut.Markup);
+        Assert.Contains("Search across twblazor components, theme configuration, and API documentation.", cut.Markup);
         Assert.Empty(cut.FindAll("a[href]"));
     }
 
