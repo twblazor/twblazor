@@ -385,9 +385,11 @@ public abstract partial class TwChartBase : TwBlazorComponentBase, IAsyncDisposa
     {
         scene = CreateScene();
 
+        // Blazor captures an element reference only when the element is first rendered, so the references of
+        // data points that stay on screen must be kept when the count changes, such as when a Gantt summary opens.
         if (hitRefs.Length != scene.Datums.Count)
         {
-            hitRefs = new ElementReference[scene.Datums.Count];
+            Array.Resize(ref hitRefs, scene.Datums.Count);
         }
 
         activeIndex = Math.Clamp(activeIndex, 0, Math.Max(0, scene.Datums.Count - 1));
@@ -433,7 +435,11 @@ public abstract partial class TwChartBase : TwBlazorComponentBase, IAsyncDisposa
         if (next != activeIndex)
         {
             activeIndex = next;
-            await hitRefs[next].FocusAsync();
+            // A data point added since the last render has no reference yet; it takes focus from its tabindex instead.
+            if (hitRefs[next].Context is not null)
+            {
+                await hitRefs[next].FocusAsync();
+            }
         }
     }
 
