@@ -1834,6 +1834,24 @@ public static class Trading212Theme
                     ClearButton = "h-8",
                     HelperText = $"{spacing.MarginTop[2]} {spacing.MarginStart[1]} {typography.Size.Sm} leading-4 {neutralText.Secondary}"
                 },
+                new TwTextEditorTheme
+                {
+                    Root = $"{positioning.Relative} {display.Flex} {flexbox.Col} {sizing.FullWidth} {sizing.MinWidthNone} text-start {neutralText.Heading} {transition.ColorsFast}",
+                    Disabled = $"{interaction.DisabledOpacity} {interaction.DisabledCursor}",
+                    Toolbar = $"{display.Flex} {flexbox.Wrap} {flexbox.Align.Center} {spacing.Gap[1]} {spacing.Padding[1.5]} rounded-t-[inherit] border-b {neutralSurface.Border} {neutralSurface.BackgroundSubtle}",
+                    ToolbarGroup = "!gap-0.5 !border-0 !bg-transparent !p-0 !shadow-none",
+                    ToolbarSeparator = "mx-1 h-5",
+                    BlockSelect = $"w-36 {flexbox.ShrinkNone}",
+                    Content = $"{positioning.Relative} min-h-0 overflow-y-auto {spacing.PaddingX[4]} {spacing.PaddingY[3]} {typography.Size.Base} leading-relaxed {typography.WrapBreakWord} {interaction.FocusOutlineNone} data-[empty]:before:content-[attr(data-placeholder)] data-[empty]:before:absolute data-[empty]:before:pointer-events-none data-[empty]:before:text-[oklch(21%_0.02_250)]/65 dark:data-[empty]:before:text-[oklch(97.807%_0.012_250)]/65",
+                    ContentDefaultVariant = "px-0",
+                    Typography = "[&>:first-child]:mt-0 [&>:last-child]:mb-0 [&_p]:my-2 [&_h1]:mt-6 [&_h1]:mb-2 [&_h1]:text-2xl [&_h1]:leading-tight [&_h1]:font-bold [&_h1]:tracking-tight [&_h2]:mt-5 [&_h2]:mb-2 [&_h2]:text-xl [&_h2]:leading-snug [&_h2]:font-semibold [&_h2]:tracking-tight [&_h3]:mt-4 [&_h3]:mb-1.5 [&_h3]:text-lg [&_h3]:leading-snug [&_h3]:font-semibold [&_ul]:my-2 [&_ul]:list-disc [&_ul]:ps-6 [&_ol]:my-2 [&_ol]:list-decimal [&_ol]:ps-6 [&_li]:my-1 [&_li]:ps-1 [&_li]:marker:text-current/70 [&_blockquote]:my-4 [&_blockquote]:border-s-[3px] [&_blockquote]:border-current/30 [&_blockquote]:ps-4 [&_blockquote]:italic [&_pre]:my-4 [&_pre]:overflow-x-auto [&_pre]:rounded-lg [&_pre]:border [&_pre]:border-current/10 [&_pre]:bg-current/5 [&_pre]:px-4 [&_pre]:py-3 [&_pre]:font-mono [&_pre]:text-sm [&_pre]:leading-6 [&_a]:font-medium [&_a]:underline [&_a]:decoration-current/40 [&_a]:decoration-1 [&_a]:underline-offset-[3px] [&_a]:hover:decoration-current forced-colors:[&_a]:text-[LinkText]",
+                    LinkPanel = $"{display.Flex} {flexbox.Wrap} {flexbox.Align.Center} {spacing.Gap[2]} {spacing.Padding[2]} border-b {neutralSurface.Border} {neutralSurface.BackgroundSubtle}",
+                    LinkInput = $"{flexbox.Flex1} min-w-48",
+                    LinkInputField = "ps-9",
+                    Source = positioning.Relative,
+                    SourceInput = $"font-mono {typography.Size.Sm} leading-6 !rounded-none !border-0 !bg-transparent !px-4 !py-3 !shadow-none focus:!ring-0",
+                    HelperText = $"{spacing.MarginTop[2]} {spacing.MarginStart[1]} {typography.Size.Sm} leading-4 {neutralText.Secondary}"
+                },
                 new TwMenuTheme
                 {
                     Root = $"{positioning.Relative} {display.InlineFlex}",

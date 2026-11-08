@@ -1,0 +1,260 @@
+@namespace TwBlazor.Components
+@inherits TwBlazorTextInputComponentBase
+@using TwBlazor.Enums
+
+<TwInputRoot RootId="@RootId" RootClass="@RootClass" RootAttributes="@RootAttributes" RootStyle="@Style" RootErrorMessage="@fieldErrorMessage" RootErrorId="@errorId">
+    @if (!string.IsNullOrWhiteSpace(Label))
+    {
+        <TwInputLabel Id="@labelId" Label="@Label" Class="@LabelClasses" @attributes="@labelAttributes" />
+    }
+
+    <div class="@rootClasses" data-tw-text-editor>
+        @if (showToolbar)
+        {
+            <div id="@toolbarId" class="@theme.Toolbar" role="toolbar" aria-label="@localizer[TwStrings.TextEditor_Toolbar]" aria-controls="@contentId">
+                @if (Toolbar != TextEditorToolbar.Custom)
+                {
+                    @if (hasStandard)
+                    {
+                        <TwSelect T="BlockOption"
+                                  Values="@blockOptions"
+                                  SelectedValue="@selectedBlock"
+                                  SelectedValueChanged="@OnBlockChangedAsync"
+                                  Dense
+                                  Variant="@effectiveVariant"
+                                  Disabled="@toolbarDisabled"
+                                  RootClass="@theme.BlockSelect"
+                                  AriaLabel="@localizer[TwStrings.TextEditor_TextStyle]" />
+                        <TwSeparator Orientation="SeparatorOrientation.Vertical" Decorative Class="@theme.ToolbarSeparator" />
+                    }
+
+                    <div class="contents" @onmousedown:preventDefault="true">
+                        <TwToggleGroup T="TextEditorFormat"
+                                       Multiple
+                                       Variant="ToggleVariant.Outlined"
+                                       Class="@theme.ToolbarGroup"
+                                       Size="Size.Sm"
+                                       Values="@ActiveIn(_markFormats)"
+                                       ValuesChanged="@(v => OnGroupChangedAsync(v, _markFormats))"
+                                       Disabled="@toolbarDisabled"
+                                       AriaLabel="@localizer[TwStrings.TextEditor_TextFormatting]">
+                            <TwToggleGroupItem Value="TextEditorFormat.Bold" Icon="Icon.Type_Bold" AriaLabel="@localizer[TwStrings.TextEditor_Bold]" Tooltip="@WithShortcut(TwStrings.TextEditor_Bold, "Ctrl+B")" Attributes="@KeyShortcuts("Control+B")" />
+                            <TwToggleGroupItem Value="TextEditorFormat.Italic" Icon="Icon.Type_Italic" AriaLabel="@localizer[TwStrings.TextEditor_Italic]" Tooltip="@WithShortcut(TwStrings.TextEditor_Italic, "Ctrl+I")" Attributes="@KeyShortcuts("Control+I")" />
+                            <TwToggleGroupItem Value="TextEditorFormat.Underline" Icon="Icon.Type_Underline" AriaLabel="@localizer[TwStrings.TextEditor_Underline]" Tooltip="@WithShortcut(TwStrings.TextEditor_Underline, "Ctrl+U")" Attributes="@KeyShortcuts("Control+U")" />
+                            @if (hasStandard)
+                            {
+                                <TwToggleGroupItem Value="TextEditorFormat.Strikethrough" Icon="Icon.Type_Strikethrough" AriaLabel="@localizer[TwStrings.TextEditor_Strikethrough]" Tooltip="@WithShortcut(TwStrings.TextEditor_Strikethrough, "Ctrl+Shift+X")" Attributes="@KeyShortcuts("Control+Shift+X")" />
+                            }
+                        </TwToggleGroup>
+
+                        <TwSeparator Orientation="SeparatorOrientation.Vertical" Decorative Class="@theme.ToolbarSeparator" />
+
+                        <TwToggleGroup T="TextEditorFormat"
+                                       Multiple
+                                       Variant="ToggleVariant.Outlined"
+                                       Class="@theme.ToolbarGroup"
+                                       Size="Size.Sm"
+                                       Values="@ActiveIn(_listFormats)"
+                                       ValuesChanged="@(v => OnGroupChangedAsync(v, _listFormats))"
+                                       Disabled="@toolbarDisabled"
+                                       AriaLabel="@localizer[TwStrings.TextEditor_Lists]">
+                            <TwToggleGroupItem Value="TextEditorFormat.BulletList" Icon="Icon.List_Ul" AriaLabel="@localizer[TwStrings.TextEditor_BulletList]" Tooltip="@WithShortcut(TwStrings.TextEditor_BulletList, "Ctrl+Shift+8")" Attributes="@KeyShortcuts("Control+Shift+8")" />
+                            <TwToggleGroupItem Value="TextEditorFormat.NumberedList" Icon="Icon.List_Ol" AriaLabel="@localizer[TwStrings.TextEditor_NumberedList]" Tooltip="@WithShortcut(TwStrings.TextEditor_NumberedList, "Ctrl+Shift+7")" Attributes="@KeyShortcuts("Control+Shift+7")" />
+                        </TwToggleGroup>
+
+                        @if (hasFull)
+                        {
+                            <TwSeparator Orientation="SeparatorOrientation.Vertical" Decorative Class="@theme.ToolbarSeparator" />
+
+                            <TwToggleGroup T="TextEditorFormat"
+                                           Multiple
+                                           Variant="ToggleVariant.Outlined"
+                                           Class="@theme.ToolbarGroup"
+                                           Size="Size.Sm"
+                                           Values="@ActiveIn(_blockFormats)"
+                                           ValuesChanged="@(v => OnGroupChangedAsync(v, _blockFormats))"
+                                           Disabled="@toolbarDisabled"
+                                           AriaLabel="@localizer[TwStrings.TextEditor_Blocks]">
+                                <TwToggleGroupItem Value="TextEditorFormat.Blockquote" Icon="Icon.Quote" AriaLabel="@localizer[TwStrings.TextEditor_Blockquote]" Tooltip="@WithShortcut(TwStrings.TextEditor_Blockquote, "Ctrl+Shift+9")" Attributes="@KeyShortcuts("Control+Shift+9")" />
+                                <TwToggleGroupItem Value="TextEditorFormat.CodeBlock" Icon="Icon.Code_Square" AriaLabel="@localizer[TwStrings.TextEditor_CodeBlock]" Tooltip="@localizer[TwStrings.TextEditor_CodeBlock]" />
+                            </TwToggleGroup>
+                        }
+
+                        @if (hasStandard)
+                        {
+                            <TwSeparator Orientation="SeparatorOrientation.Vertical" Decorative Class="@theme.ToolbarSeparator" />
+
+                            <TwToggle Pressed="@(linkPanelOpen || IsActive(TextEditorFormat.Link))"
+                                      PressedChanged="@OnLinkToggleAsync"
+                                      Icon="Icon.Link_45Deg"
+                                      Size="Size.Sm"
+                                      Disabled="@toolbarDisabled"
+                                      AriaLabel="@localizer[TwStrings.TextEditor_Link]"
+                                      Tooltip="@WithShortcut(TwStrings.TextEditor_Link, "Ctrl+K")"
+                                      Attributes="@linkToggleAttributes" />
+                        }
+
+                        @if (hasFull)
+                        {
+                            <TwSeparator Orientation="SeparatorOrientation.Vertical" Decorative Class="@theme.ToolbarSeparator" />
+
+                            <div role="group" class="contents" aria-label="@localizer[TwStrings.TextEditor_History]">
+                                @ToolbarButton(Icon.Eraser, TwStrings.TextEditor_ClearFormatting, "Ctrl+\\", "Control+\\", "ClearFormatting")
+                                @ToolbarButton(Icon.Arrow_Counterclockwise, TwStrings.TextEditor_Undo, "Ctrl+Z", "Control+Z", "Undo")
+                                @ToolbarButton(Icon.Arrow_Clockwise, TwStrings.TextEditor_Redo, "Ctrl+Y", "Control+Y", "Redo")
+                            </div>
+                        }
+                    </div>
+
+                    @if (hasFull)
+                    {
+                        <TwSeparator Orientation="SeparatorOrientation.Vertical" Decorative Class="@theme.ToolbarSeparator" />
+
+                        <TwToggle Pressed="@sourceMode"
+                                  PressedChanged="@OnSourceToggleAsync"
+                                  Icon="Icon.Code_Slash"
+                                  Size="Size.Sm"
+                                  Disabled="@(Disabled || ReadOnly)"
+                                  AriaLabel="@localizer[TwStrings.TextEditor_Source]"
+                                  Tooltip="@localizer[TwStrings.TextEditor_Source]"
+                                  Attributes="@sourceToggleAttributes" />
+                    }
+                }
+
+                @if (ToolbarContent is not null)
+                {
+                    @ToolbarContent(this)
+                }
+
+                @if (ExportFormats.Count > 0)
+                {
+                    <TwSeparator Orientation="SeparatorOrientation.Vertical" Decorative Class="@theme.ToolbarSeparator" />
+                    <TwMenu Id="@exportMenuId"
+                            Icon="Icon.Download"
+                            IconOnly
+                            ButtonClass="@exportButtonClasses"
+                            Disabled="@Disabled"
+                            AriaLabel="@localizer[TwStrings.TextEditor_Export]">
+                        @foreach (var format in ExportFormats.Distinct())
+                        {
+                            <TwMenuItem Label="@ExportLabel(format)" StartIcon="@ExportIcon(format)" OnClick="@(() => ExportAsync(format))" />
+                        }
+                    </TwMenu>
+                }
+            </div>
+        }
+
+        @if (linkPanelOpen)
+        {
+            <div id="@linkPanelId" class="@theme.LinkPanel" role="group" aria-label="@localizer[TwStrings.TextEditor_Link]" @onkeydown="@OnLinkPanelKeyDownAsync">
+                <TwTextfield T="string"
+                             Id="@linkInputId"
+                             RootClass="@theme.LinkInput"
+                             Class="@theme.LinkInputField"
+                             InputType="url"
+                             Dense
+                             Variant="@effectiveVariant"
+                             Placeholder="https://"
+                             AriaLabel="@localizer[TwStrings.TextEditor_LinkUrl]"
+                             Value="@linkUrl"
+                             ValueChanged="@OnLinkUrlChanged"
+                             BindEvent="oninput"
+                             Invalid="@linkInvalid"
+                             ErrorMessage="@localizer[TwStrings.TextEditor_LinkInvalid]">
+                    <StartContent>
+                        <TwIcon Icon="Icon.Link_45Deg" Class="@toggleTheme.IconSm" />
+                    </StartContent>
+                </TwTextfield>
+                <TwButton Label="@localizer[TwStrings.TextEditor_LinkApply]" Dense Variant="ButtonVariant.Filled" Color="Color.Primary" OnClick="@(() => ApplyLinkAsync(linkUrl))" />
+                @if (IsActive(TextEditorFormat.Link))
+                {
+                    <TwButton Label="@localizer[TwStrings.TextEditor_LinkRemove]" Dense Variant="ButtonVariant.Text" OnClick="@RemoveLinkAsync" />
+                }
+                <TwButton Label="@localizer[TwStrings.Common_Cancel]" Dense Variant="ButtonVariant.Text" OnClick="@CloseLinkPanelAsync" />
+            </div>
+        }
+
+        <TwContextMenu Id="@contextMenuId" Disabled="@(!ShowContextMenu || !canEdit || sourceMode)">
+            <ChildContent>
+                <div id="@contentId"
+                     @ref="contentRef"
+                     class="@contentClasses"
+                     style="@contentStyle"
+                     role="textbox"
+                     aria-multiline="true"
+                     contenteditable="@(canEdit ? "true" : "false")"
+                     tabindex="@(ReadOnly && !Disabled ? "0" : null)"
+                     spellcheck="true"
+                     hidden="@sourceMode"
+                     data-placeholder="@Placeholder"
+                     aria-placeholder="@(string.IsNullOrEmpty(Placeholder) ? null : Placeholder)"
+                     aria-label="@contentAriaLabel"
+                     aria-labelledby="@contentLabelledBy"
+                     aria-describedby="@describedBy"
+                     aria-invalid="@(fieldInvalid ? "true" : null)"
+                     aria-required="@(Required ? "true" : null)"
+                     aria-readonly="@(ReadOnly ? "true" : null)"
+                     aria-disabled="@(Disabled ? "true" : null)"></div>
+            </ChildContent>
+            <MenuContent>
+                <TwMenuCheckboxItem Label="@localizer[TwStrings.TextEditor_Bold]" Checked="@IsActive(TextEditorFormat.Bold)" CheckedChanged="@(_ => FormatAsync(TextEditorFormat.Bold))" Shortcut="Ctrl+B" CloseOnClick />
+                <TwMenuCheckboxItem Label="@localizer[TwStrings.TextEditor_Italic]" Checked="@IsActive(TextEditorFormat.Italic)" CheckedChanged="@(_ => FormatAsync(TextEditorFormat.Italic))" Shortcut="Ctrl+I" CloseOnClick />
+                <TwMenuCheckboxItem Label="@localizer[TwStrings.TextEditor_Underline]" Checked="@IsActive(TextEditorFormat.Underline)" CheckedChanged="@(_ => FormatAsync(TextEditorFormat.Underline))" Shortcut="Ctrl+U" CloseOnClick />
+                <TwMenuDivider />
+                @if (hasStandard || Toolbar == TextEditorToolbar.None)
+                {
+                    <TwMenuItem Label="@localizer[TwStrings.TextEditor_Link]" StartIcon="Icon.Link_45Deg" Shortcut="Ctrl+K" OnClick="@OpenLinkPanelAsync" />
+                }
+                <TwMenuItem Label="@localizer[TwStrings.TextEditor_ClearFormatting]" StartIcon="Icon.Eraser" Shortcut="Ctrl+\" OnClick="@ClearFormattingAsync" />
+                <TwMenuDivider />
+                <TwMenuItem Label="@localizer[TwStrings.TextEditor_SelectAll]" Shortcut="Ctrl+A" OnClick="@(() => RunCommandAsync("SelectAll"))" />
+            </MenuContent>
+        </TwContextMenu>
+
+        @if (sourceMode)
+        {
+            <div class="@theme.Source">
+                <TwTextfield T="string"
+                             Id="@sourceId"
+                             Multiline
+                             AutoGrow
+                             Rows="8"
+                             MaxRows="24"
+                             Variant="InputVariant.Outlined"
+                             Class="@theme.SourceInput"
+                             AriaLabel="@localizer[TwStrings.TextEditor_Source]"
+                             Value="@sourceHtml"
+                             ValueChanged="@OnSourceChangedAsync"
+                             spellcheck="false" />
+            </div>
+        }
+    </div>
+
+    @if (!string.IsNullOrWhiteSpace(HelperText))
+    {
+        <p id="@helperId" class="@theme.HelperText">@HelperText</p>
+    }
+
+    @if (showToolbar)
+    {
+        <span id="@hintId" class="@options.Theme.Display.ScreenReaderOnly">@localizer[TwStrings.TextEditor_ToolbarHint]</span>
+    }
+
+    <div class="@options.Theme.Display.ScreenReaderOnly" role="status" aria-live="polite" aria-atomic="true">@statusMessage</div>
+</TwInputRoot>
+
+@code {
+    /// <summary>
+    /// Renders a toolbar button for a command that has no on or off state, such as undo.
+    /// </summary>
+    private RenderFragment ToolbarButton(Icon icon, string labelKey, string shortcut, string ariaShortcut, string command) =>
+        @<TwButton Plain
+                   Class="@toolbarButtonClasses"
+                   Disabled="@toolbarDisabled"
+                   AriaLabel="@localizer[labelKey]"
+                   Tooltip="@WithShortcut(labelKey, shortcut)"
+                   Attributes="@KeyShortcuts(ariaShortcut)"
+                   OnClick="@(() => RunCommandAsync(command))">
+            <TwIcon Icon="@icon" Class="@toggleTheme.IconSm" />
+        </TwButton>;
+}

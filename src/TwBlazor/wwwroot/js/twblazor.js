@@ -1715,6 +1715,628 @@ globalThis.twTagInput = {
     }
 };
 
+// Text editor: the editing area of TwTextEditor, a contenteditable element. Formatting runs through the browser's own
+// editing commands (document.execCommand), so typing, undo and redo, spell checking and screen reader support behave as
+// in any editable field. Everything that enters the area (a value from .NET, pasted or dropped content) and everything
+// handed back to .NET goes through an allowlist sanitizer, so only the tags the editor can produce survive and links
+// keep only safe addresses. The selection is remembered while focus is in the toolbar, so a command applies to the text
+// that was selected before a toolbar control took focus.
+globalThis.twTextEditor = {
+    // Tags kept as they are, by the name they are written out with.
+    _allowed: new Set(['P', 'BR', 'STRONG', 'EM', 'U', 'S', 'H1', 'H2', 'H3', 'UL', 'OL', 'LI', 'BLOCKQUOTE', 'PRE', 'CODE', 'A']),
+
+    // Tags written out under another name: the browser's <b> and <i> become <strong> and <em>, and headings below the
+    // third level become third level headings.
+    _renamed: { B: 'STRONG', I: 'EM', STRIKE: 'S', DEL: 'S', H4: 'H3', H5: 'H3', H6: 'H3', DIV: 'P' },
+
+    // Tags dropped with everything inside them. Any other tag is unwrapped, keeping its text.
+    _dropped: new Set(['SCRIPT', 'STYLE', 'TEMPLATE', 'NOSCRIPT', 'IFRAME', 'FRAME', 'FRAMESET', 'OBJECT', 'EMBED', 'APPLET',
+        'SVG', 'MATH', 'HEAD', 'TITLE', 'META', 'LINK', 'BASE', 'TEXTAREA', 'SELECT', 'OPTION', 'BUTTON', 'INPUT', 'FORM',
+        'IMG', 'PICTURE', 'VIDEO', 'AUDIO', 'SOURCE', 'TRACK', 'CANVAS', 'MAP', 'AREA']),
+
+    // Elements that hold inline content, so a run of loose text at the top level is wrapped in a paragraph.
+    _blocks: new Set(['P', 'H1', 'H2', 'H3', 'UL', 'OL', 'BLOCKQUOTE', 'PRE']),
+
+    _marks: { Bold: 'bold', Italic: 'italic', Underline: 'underline', Strikethrough: 'strikeThrough', BulletList: 'insertUnorderedList', NumberedList: 'insertOrderedList' },
+
+    _blockTags: { Paragraph: 'P', Heading1: 'H1', Heading2: 'H2', Heading3: 'H3', Blockquote: 'BLOCKQUOTE', CodeBlock: 'PRE' },
+
+    _commands: { Undo: 'undo', Redo: 'redo', ClearFormatting: 'removeFormat', SelectAll: 'selectAll' },
+
+    // Returns the address when it is safe to link to (http, https, mailto, tel, or a relative address), otherwise null.
+    // Control characters and white space are removed first, since browsers ignore them inside "java\nscript:".
+    safeHref: function (href) {
+        if (typeof href !== 'string') return null;
+        const trimmed = href.trim();
+        if (trimmed === '') return null;
+        const compact = trimmed.replace(/[\u0000- \u007f-\u009f]/g, '');
+        const scheme = /^([a-z][a-z0-9+.-]*):/i.exec(compact);
+        if (!scheme) return trimmed;
+        return ['http', 'https', 'mailto', 'tel'].includes(scheme[1].toLowerCase()) ? trimmed : null;
+    },
+
+    // Parses HTML in an inert document (nothing in it runs or loads) and rebuilds it from the allowed tags only.
+    sanitize: function (html) {
+        if (!html) return '';
+        const source = new DOMParser().parseFromString('<body>' + html + '</body>', 'text/html').body;
+        const doc = document.implementation.createHTMLDocument('');
+        const root = doc.createElement('div');
+        this._copyChildren(source, root, doc, true);
+        this._wrapLooseInline(root, doc);
+        return root.innerHTML;
+    },
+
+    _copyChildren: function (source, target, doc, atRoot) {
+        for (const child of Array.from(source.childNodes)) {
+            if (child.nodeType === 3) {
+                target.appendChild(doc.createTextNode(child.nodeValue));
+                continue;
+            }
+            if (child.nodeType !== 1) continue;
+
+            const name = child.tagName.toUpperCase();
+            if (this._dropped.has(name)) continue;
+
+            let tag = this._renamed[name] || name;
+            // A <div> is only a paragraph at the top level or in a quote; elsewhere, such as in a list item, it is
+            // unwrapped so paragraphs never nest.
+            if (name === 'DIV' && !(atRoot || target.tagName === 'BLOCKQUOTE')) tag = null;
+
+            if (!tag || !this._allowed.has(tag)) {
+                this._copyChildren(child, target, doc, atRoot);
+                continue;
+            }
+
+            const el = doc.createElement(tag.toLowerCase());
+            if (tag === 'A') {
+                const href = this.safeHref(child.getAttribute('href'));
+                if (!href) {
+                    this._copyChildren(child, target, doc, atRoot);
+                    continue;
+                }
+                el.setAttribute('href', href);
+            }
+
+            target.appendChild(el);
+            this._copyChildren(child, el, doc, false);
+        }
+    },
+
+    // Wraps each run of text and inline elements sitting directly in `root` in a paragraph.
+    _wrapLooseInline: function (root, doc) {
+        let paragraph = null;
+        for (const child of Array.from(root.childNodes)) {
+            const isBlock = child.nodeType === 1 && this._blocks.has(child.tagName);
+            if (isBlock) {
+                paragraph = null;
+                continue;
+            }
+            if (child.nodeType === 3 && child.nodeValue.trim() === '' && !paragraph) {
+                child.remove();
+                continue;
+            }
+            if (!paragraph) {
+                paragraph = doc.createElement('p');
+                root.insertBefore(paragraph, child);
+            }
+            paragraph.appendChild(child);
+        }
+    },
+
+    // The content as sanitized HTML, or an empty string when there is no text, so an empty editor binds as empty.
+    getHtml: function (editor) {
+        if (!editor) return '';
+        if ((editor.textContent || '').trim() === '') return '';
+        return this.sanitize(editor.innerHTML);
+    },
+
+    // The content as plain text, with a line break between paragraphs, list items and line breaks.
+    getText: function (editor) {
+        if (!editor) return '';
+        const lines = [];
+        let line = '';
+        const self = this;
+        const walk = function (node) {
+            for (const child of Array.from(node.childNodes)) {
+                if (child.nodeType === 3) {
+                    line += child.nodeValue;
+                } else if (child.nodeType === 1) {
+                    if (child.tagName === 'BR') {
+                        lines.push(line);
+                        line = '';
+                        continue;
+                    }
+                    const block = self._blocks.has(child.tagName) || child.tagName === 'LI' || child.tagName === 'DIV';
+                    if (block && line !== '') {
+                        lines.push(line);
+                        line = '';
+                    }
+                    walk(child);
+                    if (block && line !== '') {
+                        lines.push(line);
+                        line = '';
+                    }
+                }
+            }
+        };
+        walk(editor);
+        if (line !== '') lines.push(line);
+        return lines.join('\n');
+    },
+
+    // The number of characters, not counting line breaks.
+    getLength: function (editor) {
+        return editor ? (editor.textContent || '').length : 0;
+    },
+
+    setHtml: function (editor, html) {
+        if (!editor) return '';
+        editor.innerHTML = this.sanitize(html);
+        this._updateEmpty(editor);
+        const state = editor.__twTextEditor;
+        const value = this.getHtml(editor);
+        if (state) {
+            state.lastHtml = value;
+            state.range = null;
+        }
+        return value;
+    },
+
+    // Marks the area as empty so its placeholder shows. A list, quote or heading with no text yet is not empty, so the
+    // placeholder never sits over a bullet.
+    _updateEmpty: function (editor) {
+        const empty = (editor.textContent || '') === '' && !editor.querySelector('li,blockquote,pre,h1,h2,h3');
+        editor.toggleAttribute('data-empty', empty);
+    },
+
+    // Whether the area can be edited: it is contenteditable and not read-only or disabled.
+    _editable: function (editor) {
+        if (typeof editor.isContentEditable === 'boolean') return editor.isContentEditable;
+        return editor.getAttribute('contenteditable') === 'true';
+    },
+
+    _inEditor: function (editor, node) {
+        return !!node && (node === editor || editor.contains(node));
+    },
+
+    // Puts focus back in the area with the selection it had, or the caret at the end when it never had one.
+    // The selection is read before focusing, since focusing an editable element can move the caret to its start.
+    _restore: function (editor) {
+        const state = editor.__twTextEditor;
+        const selection = document.getSelection();
+        let range = null;
+        if (selection && selection.rangeCount > 0 && this._inEditor(editor, selection.getRangeAt(0).commonAncestorContainer)) {
+            range = selection.getRangeAt(0).cloneRange();
+        } else if (state?.range && this._inEditor(editor, state.range.commonAncestorContainer)) {
+            range = state.range;
+        } else {
+            range = document.createRange();
+            range.selectNodeContents(editor);
+            range.collapse(false);
+        }
+
+        if (document.activeElement !== editor) editor.focus({ preventScroll: true });
+        if (!selection) return;
+        selection.removeAllRanges();
+        selection.addRange(range);
+    },
+
+    _exec: function (command, value) {
+        if (typeof document.execCommand !== 'function') return false;
+        try {
+            return document.execCommand(command, false, value);
+        } catch {
+            return false;
+        }
+    },
+
+    _queryState: function (command) {
+        if (typeof document.queryCommandState !== 'function') return null;
+        try {
+            return document.queryCommandState(command);
+        } catch {
+            return null;
+        }
+    },
+
+    // The innermost paragraph-level tag around `node`, or P when the text is not inside one.
+    _blockOf: function (editor, node) {
+        for (let n = node; n && n !== editor; n = n.parentNode) {
+            if (n.nodeType === 1 && ['P', 'H1', 'H2', 'H3', 'BLOCKQUOTE', 'PRE'].includes(n.tagName)) return n.tagName;
+        }
+        return 'P';
+    },
+
+    // The formats at the selection, by their TextEditorFormat names, with where the selection is, or null when the
+    // selection is outside the area.
+    getState: function (editor) {
+        const selection = document.getSelection();
+        if (!editor || !selection || selection.rangeCount === 0) return null;
+        const range = selection.getRangeAt(0);
+        if (!this._inEditor(editor, range.commonAncestorContainer)) return null;
+
+        const tags = new Set();
+        let link = null;
+        for (let n = range.startContainer; n && n !== editor; n = n.parentNode) {
+            if (n.nodeType !== 1) continue;
+            tags.add(n.tagName);
+            if (n.tagName === 'A' && link === null) link = n.getAttribute('href');
+        }
+
+        const formats = [];
+        const mark = (name, command, elements) => {
+            const queried = this._queryState(command);
+            if (queried === true || (queried === null && elements.some(t => tags.has(t)))) formats.push(name);
+        };
+        mark('Bold', 'bold', ['STRONG', 'B']);
+        mark('Italic', 'italic', ['EM', 'I']);
+        mark('Underline', 'underline', ['U']);
+        mark('Strikethrough', 'strikeThrough', ['S', 'STRIKE', 'DEL']);
+
+        const block = this._blockOf(editor, range.startContainer);
+        formats.push(Object.keys(this._blockTags).find(k => this._blockTags[k] === block));
+
+        for (let n = range.startContainer; n && n !== editor; n = n.parentNode) {
+            if (n.nodeType === 1 && (n.tagName === 'UL' || n.tagName === 'OL')) {
+                formats.push(n.tagName === 'UL' ? 'BulletList' : 'NumberedList');
+                break;
+            }
+        }
+        if (link !== null) formats.push('Link');
+
+        const before = document.createRange();
+        before.selectNodeContents(editor);
+        before.setEnd(range.startContainer, range.startOffset);
+
+        return { index: before.toString().length, length: range.toString().length, formats, link };
+    },
+
+    // Applies a TextEditorFormat or command by name to the selection. A quote or code block applied to one turns it back
+    // into a paragraph. Focus goes back to the toolbar control that ran the command, so keyboard users stay there.
+    format: function (editor, name) {
+        const state = editor?.__twTextEditor;
+        if (!state || !this._editable(editor)) return;
+        if (!this._marks[name] && !this._blockTags[name] && !this._commands[name]) return;
+
+        const previous = document.activeElement;
+        this._restore(editor);
+
+        // A picker that is still open, such as the text style list while it handles the choice, keeps focus inside its
+        // panel, and the browser only runs editing commands while the area has focus. Wait for the picker to close.
+        if (document.activeElement !== editor) {
+            this._whenFocused(editor, () => this._apply(editor, name, previous));
+            return;
+        }
+
+        this._apply(editor, name, previous);
+    },
+
+    // Runs `action` once the area can take focus, trying again on each animation frame for about a second.
+    _whenFocused: function (editor, action) {
+        const next = typeof requestAnimationFrame === 'function' ? requestAnimationFrame : (f => setTimeout(f, 16));
+        let tries = 0;
+        const attempt = () => {
+            if (!editor.isConnected || !editor.__twTextEditor) return;
+            this._restore(editor);
+            if (document.activeElement === editor) {
+                action();
+            } else if (++tries < 60) {
+                next(attempt);
+            }
+        };
+        next(attempt);
+    },
+
+    _apply: function (editor, name, previous) {
+        if (this._marks[name]) {
+            this._exec(this._marks[name]);
+        } else if (this._blockTags[name]) {
+            const selection = document.getSelection();
+            const current = selection && selection.rangeCount > 0 ? this._blockOf(editor, selection.getRangeAt(0).startContainer) : 'P';
+            const tag = this._blockTags[name];
+            const toggleOff = current === tag && (tag === 'BLOCKQUOTE' || tag === 'PRE');
+            this._exec('formatBlock', '<' + (toggleOff ? 'p' : tag.toLowerCase()) + '>');
+        } else {
+            this._exec(this._commands[name]);
+            if (name === 'ClearFormatting') this._exec('unlink');
+        }
+
+        this._changed(editor, true);
+        this._returnFocus(editor, previous);
+    },
+
+    _returnFocus: function (editor, previous) {
+        const toolbar = this._toolbar(editor);
+        if (toolbar && previous && previous !== editor && toolbar.contains(previous) && previous.isConnected) {
+            previous.focus({ preventScroll: true });
+        }
+    },
+
+    _toolbar: function (editor) {
+        const id = editor.__twTextEditor?.toolbarId;
+        return id ? document.getElementById(id) : null;
+    },
+
+    // Links the selection to `url`, changing the link the caret is in, or inserts the address as linked text when
+    // nothing is selected.
+    link: function (editor, url) {
+        const state = editor?.__twTextEditor;
+        const href = this.safeHref(url);
+        if (!state || !href || !this._editable(editor)) return;
+
+        this._restore(editor);
+        const selection = document.getSelection();
+        const range = selection.getRangeAt(0);
+        const anchor = this._closest(editor, range.startContainer, 'A');
+
+        if (anchor) {
+            anchor.setAttribute('href', href);
+        } else if (range.collapsed) {
+            const a = document.createElement('a');
+            a.setAttribute('href', href);
+            a.textContent = url.trim();
+            if (!this._exec('insertHTML', a.outerHTML)) {
+                range.insertNode(a);
+                range.setStartAfter(a);
+                range.collapse(true);
+                selection.removeAllRanges();
+                selection.addRange(range);
+            }
+        } else if (!this._exec('createLink', href)) {
+            const a = document.createElement('a');
+            a.setAttribute('href', href);
+            a.appendChild(range.extractContents());
+            range.insertNode(a);
+        }
+        this._changed(editor, true);
+    },
+
+    // Removes the link the caret is in, or the links in the selection.
+    unlink: function (editor) {
+        const state = editor?.__twTextEditor;
+        if (!state || !this._editable(editor)) return;
+
+        this._restore(editor);
+        const selection = document.getSelection();
+        const range = selection.getRangeAt(0);
+        const anchor = this._closest(editor, range.startContainer, 'A');
+        if (range.collapsed && anchor) {
+            const whole = document.createRange();
+            whole.selectNodeContents(anchor);
+            selection.removeAllRanges();
+            selection.addRange(whole);
+        }
+        if (!this._exec('unlink') && anchor) {
+            anchor.replaceWith(...anchor.childNodes);
+        }
+        this._changed(editor, true);
+    },
+
+    _closest: function (editor, node, tag) {
+        for (let n = node; n && n !== editor; n = n.parentNode) {
+            if (n.nodeType === 1 && n.tagName === tag) return n;
+        }
+        return null;
+    },
+
+    focus: function (editor) {
+        if (editor) this._restore(editor);
+    },
+
+    // Moves focus to the toolbar's control that holds its Tab stop, or its first control.
+    focusToolbar: function (editor) {
+        const toolbar = this._toolbar(editor);
+        if (!toolbar) return false;
+        const target = toolbar.querySelector('[tabindex="0"]:not([disabled])')
+            || toolbar.querySelector('button:not([disabled]):not([tabindex="-1"]), input:not([disabled]), select:not([disabled])');
+        if (!target) return false;
+        target.focus();
+        return true;
+    },
+
+    // Called after any change: refreshes the placeholder, and sends the content to .NET, at once when `flush` is set,
+    // otherwise once typing pauses for the debounce interval.
+    _changed: function (editor, flush) {
+        const state = editor.__twTextEditor;
+        if (!state) return;
+        this._updateEmpty(editor);
+        clearTimeout(state.timer);
+        if (flush || state.debounce <= 0) {
+            this._emit(editor);
+        } else {
+            state.timer = setTimeout(() => this._emit(editor), state.debounce);
+        }
+        this._emitState(editor);
+    },
+
+    _emit: function (editor) {
+        const state = editor.__twTextEditor;
+        if (!state) return;
+        clearTimeout(state.timer);
+        state.timer = null;
+        const html = this.getHtml(editor);
+        if (html === state.lastHtml) return;
+        state.lastHtml = html;
+        void globalThis.twPicker._invokeSafely(state.dotnetRef, 'NotifyInput', html, this.getText(editor), this.getLength(editor));
+    },
+
+    _emitState: function (editor) {
+        const state = editor.__twTextEditor;
+        const current = this.getState(editor);
+        if (!state || !current) return;
+        state.range = document.getSelection().getRangeAt(0).cloneRange();
+        const key = JSON.stringify(current);
+        if (key === state.lastState) return;
+        state.lastState = key;
+        void globalThis.twPicker._invokeSafely(state.dotnetRef, 'NotifyState', current);
+    },
+
+    // The format or command a shortcut runs, from the key pressed with Ctrl (or Cmd on a Mac), or null.
+    _shortcut: function (e) {
+        if (!(e.ctrlKey || e.metaKey)) return null;
+        if (e.altKey && !e.shiftKey) {
+            return { Digit0: 'Paragraph', Digit1: 'Heading1', Digit2: 'Heading2', Digit3: 'Heading3' }[e.code] ?? null;
+        }
+        if (e.shiftKey && !e.altKey) {
+            return { Digit7: 'NumberedList', Digit8: 'BulletList', Digit9: 'Blockquote', KeyX: 'Strikethrough' }[e.code] ?? null;
+        }
+        if (e.altKey) return null;
+        return { b: 'Bold', i: 'Italic', u: 'Underline', k: 'Link', '\\': 'ClearFormatting' }[(e.key || '').toLowerCase()] ?? null;
+    },
+
+    attach: function (editor, dotnetRef, options) {
+        if (!editor || editor.__twTextEditor) return;
+        const self = this;
+        const state = {
+            dotnetRef,
+            toolbarId: options?.toolbarId || null,
+            debounce: options?.debounce ?? 0,
+            lastHtml: this.getHtml(editor),
+            lastState: null,
+            range: null,
+            timer: null
+        };
+
+        const input = function () { self._changed(editor, false); };
+
+        const selectionchange = function () {
+            const selection = document.getSelection();
+            if (!selection || selection.rangeCount === 0) return;
+            if (!self._inEditor(editor, selection.getRangeAt(0).commonAncestorContainer)) return;
+            self._emitState(editor);
+        };
+
+        const keydown = function (e) {
+            if (e.isComposing || e.keyCode === 229) return;
+
+            if (e.altKey && e.key === 'F10') {
+                if (self.focusToolbar(editor)) e.preventDefault();
+                return;
+            }
+
+            if (!self._editable(editor)) return;
+            const name = self._shortcut(e);
+            if (!name) return;
+            e.preventDefault();
+            if (name === 'Link') {
+                const current = document.getSelection();
+                if (current && current.rangeCount > 0) state.range = current.getRangeAt(0).cloneRange();
+                void globalThis.twPicker._invokeSafely(dotnetRef, 'OpenLinkPanel');
+                return;
+            }
+            self.format(editor, name);
+        };
+
+        const paste = function (e) {
+            if (!self._editable(editor)) return;
+            e.preventDefault();
+            const html = e.clipboardData?.getData('text/html') ?? '';
+            const text = e.clipboardData?.getData('text/plain') ?? '';
+            const clean = html ? self.sanitize(html) : '';
+            if (!(clean !== '' && self._exec('insertHTML', clean)) && text) self._exec('insertText', text);
+            self._changed(editor, false);
+        };
+
+        // Dropped content is inserted as plain text at the drop point, so markup from another page never reaches the
+        // area unsanitized.
+        const drop = function (e) {
+            if (!self._editable(editor)) return;
+            e.preventDefault();
+            const text = e.dataTransfer?.getData('text/plain') ?? '';
+            if (!text) return;
+            let range = null;
+            if (typeof document.caretRangeFromPoint === 'function') {
+                range = document.caretRangeFromPoint(e.clientX, e.clientY);
+            } else if (typeof document.caretPositionFromPoint === 'function') {
+                const position = document.caretPositionFromPoint(e.clientX, e.clientY);
+                if (position) {
+                    range = document.createRange();
+                    range.setStart(position.offsetNode, position.offset);
+                }
+            }
+            editor.focus({ preventScroll: true });
+            if (range && self._inEditor(editor, range.startContainer)) {
+                const selection = document.getSelection();
+                selection.removeAllRanges();
+                selection.addRange(range);
+            }
+            self._exec('insertText', text);
+            self._changed(editor, false);
+        };
+
+        const focus = function () {
+            // New paragraphs are <p> rather than <div>, and formatting is written as tags rather than inline styles.
+            self._exec('defaultParagraphSeparator', 'p');
+            self._exec('styleWithCSS', false);
+            void globalThis.twPicker._invokeSafely(dotnetRef, 'NotifyFocus');
+        };
+
+        const blur = function () {
+            if (state.timer) self._emit(editor);
+            void globalThis.twPicker._invokeSafely(dotnetRef, 'NotifyBlur');
+        };
+
+        editor.__twTextEditor = Object.assign(state, { input, selectionchange, keydown, paste, drop, focus, blur });
+        editor.addEventListener('input', input);
+        editor.addEventListener('keydown', keydown);
+        editor.addEventListener('paste', paste);
+        editor.addEventListener('drop', drop);
+        editor.addEventListener('focus', focus);
+        editor.addEventListener('blur', blur);
+        document.addEventListener('selectionchange', selectionchange);
+        this._updateEmpty(editor);
+    },
+
+    update: function (editor, options) {
+        const state = editor?.__twTextEditor;
+        if (!state) return;
+        state.toolbarId = options?.toolbarId || null;
+        state.debounce = options?.debounce ?? 0;
+    },
+
+    // Sends any change still waiting for the debounce interval to .NET straight away.
+    flush: function (editor) {
+        if (editor?.__twTextEditor?.timer) this._emit(editor);
+    },
+
+    detach: function (editor) {
+        const state = editor?.__twTextEditor;
+        if (!state) return;
+        clearTimeout(state.timer);
+        editor.removeEventListener('input', state.input);
+        editor.removeEventListener('keydown', state.keydown);
+        editor.removeEventListener('paste', state.paste);
+        editor.removeEventListener('drop', state.drop);
+        editor.removeEventListener('focus', state.focus);
+        editor.removeEventListener('blur', state.blur);
+        document.removeEventListener('selectionchange', state.selectionchange);
+        delete editor.__twTextEditor;
+    },
+
+    // The link address field: Enter applies the link (without submitting a surrounding form) and Escape cancels. The
+    // field is focused with its text selected, so a link being changed can be retyped at once.
+    bindLinkInput: function (id, dotnetRef) {
+        const input = id ? document.getElementById(id) : null;
+        if (!input) return;
+        if (!input.__twTextEditorLink) {
+            input.__twTextEditorLink = true;
+            input.addEventListener('keydown', function (e) {
+                if (e.isComposing || e.keyCode === 229) return;
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    void globalThis.twPicker._invokeSafely(dotnetRef, 'ApplyLink', input.value);
+                } else if (e.key === 'Escape') {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    void globalThis.twPicker._invokeSafely(dotnetRef, 'CloseLinkPanel');
+                }
+            });
+        }
+        input.focus();
+        if (typeof input.select === 'function') input.select();
+    }
+};
+
 // Color picker: touch events. Blazor's TouchEventArgs only gives viewport-relative clientX/clientY
 // (unlike MouseEventArgs' element-relative offsetX/offsetY), so these helpers translate a touch
 // point the same way the mouse handlers already do via e.OffsetX/e.OffsetY.
@@ -3310,7 +3932,16 @@ globalThis.twDataTable = {
         globalThis.twDialog.releaseFocusTrap(panel);
     },
 
-    download: async function (fileName, contentType, streamReference) {
+    // Kept for callers of the data table's own name; every export now saves through twDownload.
+    download: function (fileName, contentType, streamReference) {
+        return globalThis.twDownload.save(fileName, contentType, streamReference);
+    }
+};
+
+// Download: saves a file a component exported (a data table's CSV or Excel file, a text editor's document). The bytes
+// arrive as a .NET stream reference, become a Blob, and are saved through a temporary link.
+globalThis.twDownload = {
+    save: async function (fileName, contentType, streamReference) {
         const buffer = await streamReference.arrayBuffer();
         const url = URL.createObjectURL(new Blob([buffer], { type: contentType }));
         const link = document.createElement('a');

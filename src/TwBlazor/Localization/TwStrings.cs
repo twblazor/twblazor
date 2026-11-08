@@ -1109,4 +1109,118 @@ public static class TwStrings
 
     /// <summary>The key for "A tag can be at most {0} characters long".</summary>
     public const string TagInput_TooLongOther = "TagInput_TooLongOther";
+
+    /// <summary>The key for "Text editor". Accessible name of a rich text editor that has no label.</summary>
+    public const string TextEditor_Label = "TextEditor_Label";
+
+    /// <summary>The key for "Formatting". Accessible name of a rich text editor's toolbar.</summary>
+    public const string TextEditor_Toolbar = "TextEditor_Toolbar";
+
+    /// <summary>The key for "Press Alt+F10 to move to the toolbar.". Read out with a rich text editor that has a toolbar.</summary>
+    public const string TextEditor_ToolbarHint = "TextEditor_ToolbarHint";
+
+    /// <summary>The key for "Text style". Accessible name of the list of paragraph and heading styles.</summary>
+    public const string TextEditor_TextStyle = "TextEditor_TextStyle";
+
+    /// <summary>The key for "Paragraph". A plain paragraph text style.</summary>
+    public const string TextEditor_Paragraph = "TextEditor_Paragraph";
+
+    /// <summary>The key for "Heading 1". A top level heading text style.</summary>
+    public const string TextEditor_Heading1 = "TextEditor_Heading1";
+
+    /// <summary>The key for "Heading 2". A second level heading text style.</summary>
+    public const string TextEditor_Heading2 = "TextEditor_Heading2";
+
+    /// <summary>The key for "Heading 3". A third level heading text style.</summary>
+    public const string TextEditor_Heading3 = "TextEditor_Heading3";
+
+    /// <summary>The key for "Text formatting". Accessible name of the group of bold, italic, underline and strikethrough buttons.</summary>
+    public const string TextEditor_TextFormatting = "TextEditor_TextFormatting";
+
+    /// <summary>The key for "Bold". Name of the bold button.</summary>
+    public const string TextEditor_Bold = "TextEditor_Bold";
+
+    /// <summary>The key for "Italic". Name of the italic button.</summary>
+    public const string TextEditor_Italic = "TextEditor_Italic";
+
+    /// <summary>The key for "Underline". Name of the underline button.</summary>
+    public const string TextEditor_Underline = "TextEditor_Underline";
+
+    /// <summary>The key for "Strikethrough". Name of the strikethrough button.</summary>
+    public const string TextEditor_Strikethrough = "TextEditor_Strikethrough";
+
+    /// <summary>The key for "Lists". Accessible name of the group of list buttons.</summary>
+    public const string TextEditor_Lists = "TextEditor_Lists";
+
+    /// <summary>The key for "Bulleted list". Name of the bulleted list button.</summary>
+    public const string TextEditor_BulletList = "TextEditor_BulletList";
+
+    /// <summary>The key for "Numbered list". Name of the numbered list button.</summary>
+    public const string TextEditor_NumberedList = "TextEditor_NumberedList";
+
+    /// <summary>The key for "Blocks". Accessible name of the group of quote and code block buttons.</summary>
+    public const string TextEditor_Blocks = "TextEditor_Blocks";
+
+    /// <summary>The key for "Quote". Name of the quote button.</summary>
+    public const string TextEditor_Blockquote = "TextEditor_Blockquote";
+
+    /// <summary>The key for "Code block". Name of the code block button.</summary>
+    public const string TextEditor_CodeBlock = "TextEditor_CodeBlock";
+
+    /// <summary>The key for "Link". Name of the link button and of the bar for adding a link.</summary>
+    public const string TextEditor_Link = "TextEditor_Link";
+
+    /// <summary>The key for "Link address". Accessible name of the field for a link's address.</summary>
+    public const string TextEditor_LinkUrl = "TextEditor_LinkUrl";
+
+    /// <summary>The key for "Apply". Button that adds or changes a link.</summary>
+    public const string TextEditor_LinkApply = "TextEditor_LinkApply";
+
+    /// <summary>The key for "Remove link". Button that removes a link.</summary>
+    public const string TextEditor_LinkRemove = "TextEditor_LinkRemove";
+
+    /// <summary>The key for "Enter a web or email address, such as https://example.com". Shown when a link address is not valid.</summary>
+    public const string TextEditor_LinkInvalid = "TextEditor_LinkInvalid";
+
+    /// <summary>The key for "History". Accessible name of the group of clear formatting, undo and redo buttons.</summary>
+    public const string TextEditor_History = "TextEditor_History";
+
+    /// <summary>The key for "Clear formatting". Name of the clear formatting button.</summary>
+    public const string TextEditor_ClearFormatting = "TextEditor_ClearFormatting";
+
+    /// <summary>The key for "Undo". Name of the undo button.</summary>
+    public const string TextEditor_Undo = "TextEditor_Undo";
+
+    /// <summary>The key for "Redo". Name of the redo button.</summary>
+    public const string TextEditor_Redo = "TextEditor_Redo";
+
+    /// <summary>The key for "HTML source". Name of the button that shows the HTML source, and of the source view.</summary>
+    public const string TextEditor_Source = "TextEditor_Source";
+
+    /// <summary>The key for "Select all". Context menu item that selects all of the text.</summary>
+    public const string TextEditor_SelectAll = "TextEditor_SelectAll";
+
+    /// <summary>The key for "Export". Accessible name of a rich text editor's export menu button.</summary>
+    public const string TextEditor_Export = "TextEditor_Export";
+
+    /// <summary>The key for "Markdown". Export menu item for a Markdown file.</summary>
+    public const string TextEditor_ExportMarkdown = "TextEditor_ExportMarkdown";
+
+    /// <summary>The key for "Word document". Export menu item for a Word (.docx) file.</summary>
+    public const string TextEditor_ExportDocx = "TextEditor_ExportDocx";
+
+    /// <summary>The key for "OpenDocument text". Export menu item for an OpenDocument (.odt) file.</summary>
+    public const string TextEditor_ExportOdt = "TextEditor_ExportOdt";
+
+    /// <summary>The key for "Web page". Export menu item for an HTML file.</summary>
+    public const string TextEditor_ExportHtml = "TextEditor_ExportHtml";
+
+    /// <summary>The key for "Plain text". Export menu item for a plain text file.</summary>
+    public const string TextEditor_ExportPlainText = "TextEditor_ExportPlainText";
+
+    /// <summary>The key for "Rich Text Format". Export menu item for an RTF file.</summary>
+    public const string TextEditor_ExportRtf = "TextEditor_ExportRtf";
+
+    /// <summary>The key for "Exported {0}". Announced after an export, where {0} is the file name.</summary>
+    public const string TextEditor_Exported = "TextEditor_Exported";
 }

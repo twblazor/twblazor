@@ -1065,4 +1065,118 @@
   <data name="TagInput_TooLongOther" xml:space="preserve">
     <value>टैग में अधिकतम {0} वर्ण हो सकते हैं</value>
   </data>
+  <data name="TextEditor_Label" xml:space="preserve">
+    <value>टेक्स्ट एडिटर</value>
+  </data>
+  <data name="TextEditor_Toolbar" xml:space="preserve">
+    <value>फ़ॉर्मेटिंग</value>
+  </data>
+  <data name="TextEditor_ToolbarHint" xml:space="preserve">
+    <value>टूलबार पर जाने के लिए Alt+F10 दबाएँ।</value>
+  </data>
+  <data name="TextEditor_TextStyle" xml:space="preserve">
+    <value>टेक्स्ट शैली</value>
+  </data>
+  <data name="TextEditor_Paragraph" xml:space="preserve">
+    <value>अनुच्छेद</value>
+  </data>
+  <data name="TextEditor_Heading1" xml:space="preserve">
+    <value>शीर्षक 1</value>
+  </data>
+  <data name="TextEditor_Heading2" xml:space="preserve">
+    <value>शीर्षक 2</value>
+  </data>
+  <data name="TextEditor_Heading3" xml:space="preserve">
+    <value>शीर्षक 3</value>
+  </data>
+  <data name="TextEditor_TextFormatting" xml:space="preserve">
+    <value>टेक्स्ट फ़ॉर्मेटिंग</value>
+  </data>
+  <data name="TextEditor_Bold" xml:space="preserve">
+    <value>बोल्ड</value>
+  </data>
+  <data name="TextEditor_Italic" xml:space="preserve">
+    <value>इटैलिक</value>
+  </data>
+  <data name="TextEditor_Underline" xml:space="preserve">
+    <value>रेखांकन</value>
+  </data>
+  <data name="TextEditor_Strikethrough" xml:space="preserve">
+    <value>काट</value>
+  </data>
+  <data name="TextEditor_Lists" xml:space="preserve">
+    <value>सूचियाँ</value>
+  </data>
+  <data name="TextEditor_BulletList" xml:space="preserve">
+    <value>बुलेट सूची</value>
+  </data>
+  <data name="TextEditor_NumberedList" xml:space="preserve">
+    <value>क्रमांकित सूची</value>
+  </data>
+  <data name="TextEditor_Blocks" xml:space="preserve">
+    <value>ब्लॉक</value>
+  </data>
+  <data name="TextEditor_Blockquote" xml:space="preserve">
+    <value>उद्धरण</value>
+  </data>
+  <data name="TextEditor_CodeBlock" xml:space="preserve">
+    <value>कोड ब्लॉक</value>
+  </data>
+  <data name="TextEditor_Link" xml:space="preserve">
+    <value>लिंक</value>
+  </data>
+  <data name="TextEditor_LinkUrl" xml:space="preserve">
+    <value>लिंक का पता</value>
+  </data>
+  <data name="TextEditor_LinkApply" xml:space="preserve">
+    <value>लागू करें</value>
+  </data>
+  <data name="TextEditor_LinkRemove" xml:space="preserve">
+    <value>लिंक हटाएँ</value>
+  </data>
+  <data name="TextEditor_LinkInvalid" xml:space="preserve">
+    <value>वेब या ईमेल पता दर्ज करें, जैसे https://example.com</value>
+  </data>
+  <data name="TextEditor_History" xml:space="preserve">
+    <value>इतिहास</value>
+  </data>
+  <data name="TextEditor_ClearFormatting" xml:space="preserve">
+    <value>फ़ॉर्मेटिंग हटाएँ</value>
+  </data>
+  <data name="TextEditor_Undo" xml:space="preserve">
+    <value>पूर्ववत करें</value>
+  </data>
+  <data name="TextEditor_Redo" xml:space="preserve">
+    <value>फिर से करें</value>
+  </data>
+  <data name="TextEditor_Source" xml:space="preserve">
+    <value>HTML स्रोत</value>
+  </data>
+  <data name="TextEditor_SelectAll" xml:space="preserve">
+    <value>सभी चुनें</value>
+  </data>
+  <data name="TextEditor_Export" xml:space="preserve">
+    <value>निर्यात करें</value>
+  </data>
+  <data name="TextEditor_ExportMarkdown" xml:space="preserve">
+    <value>Markdown</value>
+  </data>
+  <data name="TextEditor_ExportDocx" xml:space="preserve">
+    <value>Word दस्तावेज़</value>
+  </data>
+  <data name="TextEditor_ExportOdt" xml:space="preserve">
+    <value>OpenDocument टेक्स्ट</value>
+  </data>
+  <data name="TextEditor_ExportHtml" xml:space="preserve">
+    <value>वेब पेज</value>
+  </data>
+  <data name="TextEditor_ExportPlainText" xml:space="preserve">
+    <value>सादा टेक्स्ट</value>
+  </data>
+  <data name="TextEditor_ExportRtf" xml:space="preserve">
+    <value>रिच टेक्स्ट फ़ॉर्मेट</value>
+  </data>
+  <data name="TextEditor_Exported" xml:space="preserve">
+    <value>{0} निर्यात किया गया</value>
+  </data>
 </root>

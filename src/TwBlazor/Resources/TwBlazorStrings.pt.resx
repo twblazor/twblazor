@@ -1065,4 +1065,118 @@
   <data name="TagInput_TooLongOther" xml:space="preserve">
     <value>Uma tag pode ter no máximo {0} caracteres</value>
   </data>
+  <data name="TextEditor_Label" xml:space="preserve">
+    <value>Editor de texto</value>
+  </data>
+  <data name="TextEditor_Toolbar" xml:space="preserve">
+    <value>Formatação</value>
+  </data>
+  <data name="TextEditor_ToolbarHint" xml:space="preserve">
+    <value>Prima Alt+F10 para ir para a barra de ferramentas.</value>
+  </data>
+  <data name="TextEditor_TextStyle" xml:space="preserve">
+    <value>Estilo de texto</value>
+  </data>
+  <data name="TextEditor_Paragraph" xml:space="preserve">
+    <value>Parágrafo</value>
+  </data>
+  <data name="TextEditor_Heading1" xml:space="preserve">
+    <value>Título 1</value>
+  </data>
+  <data name="TextEditor_Heading2" xml:space="preserve">
+    <value>Título 2</value>
+  </data>
+  <data name="TextEditor_Heading3" xml:space="preserve">
+    <value>Título 3</value>
+  </data>
+  <data name="TextEditor_TextFormatting" xml:space="preserve">
+    <value>Formatação de texto</value>
+  </data>
+  <data name="TextEditor_Bold" xml:space="preserve">
+    <value>Negrito</value>
+  </data>
+  <data name="TextEditor_Italic" xml:space="preserve">
+    <value>Itálico</value>
+  </data>
+  <data name="TextEditor_Underline" xml:space="preserve">
+    <value>Sublinhado</value>
+  </data>
+  <data name="TextEditor_Strikethrough" xml:space="preserve">
+    <value>Rasurado</value>
+  </data>
+  <data name="TextEditor_Lists" xml:space="preserve">
+    <value>Listas</value>
+  </data>
+  <data name="TextEditor_BulletList" xml:space="preserve">
+    <value>Lista com marcadores</value>
+  </data>
+  <data name="TextEditor_NumberedList" xml:space="preserve">
+    <value>Lista numerada</value>
+  </data>
+  <data name="TextEditor_Blocks" xml:space="preserve">
+    <value>Blocos</value>
+  </data>
+  <data name="TextEditor_Blockquote" xml:space="preserve">
+    <value>Citação</value>
+  </data>
+  <data name="TextEditor_CodeBlock" xml:space="preserve">
+    <value>Bloco de código</value>
+  </data>
+  <data name="TextEditor_Link" xml:space="preserve">
+    <value>Ligação</value>
+  </data>
+  <data name="TextEditor_LinkUrl" xml:space="preserve">
+    <value>Endereço da ligação</value>
+  </data>
+  <data name="TextEditor_LinkApply" xml:space="preserve">
+    <value>Aplicar</value>
+  </data>
+  <data name="TextEditor_LinkRemove" xml:space="preserve">
+    <value>Remover ligação</value>
+  </data>
+  <data name="TextEditor_LinkInvalid" xml:space="preserve">
+    <value>Introduza um endereço web ou de email, como https://example.com</value>
+  </data>
+  <data name="TextEditor_History" xml:space="preserve">
+    <value>Histórico</value>
+  </data>
+  <data name="TextEditor_ClearFormatting" xml:space="preserve">
+    <value>Limpar formatação</value>
+  </data>
+  <data name="TextEditor_Undo" xml:space="preserve">
+    <value>Anular</value>
+  </data>
+  <data name="TextEditor_Redo" xml:space="preserve">
+    <value>Refazer</value>
+  </data>
+  <data name="TextEditor_Source" xml:space="preserve">
+    <value>Código HTML</value>
+  </data>
+  <data name="TextEditor_SelectAll" xml:space="preserve">
+    <value>Selecionar tudo</value>
+  </data>
+  <data name="TextEditor_Export" xml:space="preserve">
+    <value>Exportar</value>
+  </data>
+  <data name="TextEditor_ExportMarkdown" xml:space="preserve">
+    <value>Markdown</value>
+  </data>
+  <data name="TextEditor_ExportDocx" xml:space="preserve">
+    <value>Documento do Word</value>
+  </data>
+  <data name="TextEditor_ExportOdt" xml:space="preserve">
+    <value>Texto OpenDocument</value>
+  </data>
+  <data name="TextEditor_ExportHtml" xml:space="preserve">
+    <value>Página Web</value>
+  </data>
+  <data name="TextEditor_ExportPlainText" xml:space="preserve">
+    <value>Texto simples</value>
+  </data>
+  <data name="TextEditor_ExportRtf" xml:space="preserve">
+    <value>Formato RTF</value>
+  </data>
+  <data name="TextEditor_Exported" xml:space="preserve">
+    <value>{0} exportado</value>
+  </data>
 </root>

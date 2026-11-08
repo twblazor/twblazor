@@ -1,0 +1,253 @@
+@page "/text-editor"
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Components.Forms
+@using TwBlazor.Models
+
+<PageContainer Title="TwTextEditor" Path="/text-editor" Beta Description="TwTextEditor is a Blazor rich text editor that binds HTML. Add headings, bold text, lists, quotes and links from a toolbar or with keyboard shortcuts." ThemeType="typeof(TwTextEditorTheme)">
+    <PageCard Title="Basic usage">
+        <Description>Bind the content with <code>@@bind-Value</code> to a <code>string</code> of HTML. The default <code>Standard</code> toolbar has a text style list, bold, italic, underline, strikethrough, lists and links. The value only ever holds the tags the editor produces, and an empty editor binds as an empty string.</Description>
+
+        <CodeExample Name="TextEditorBasic" CSharpName="TextEditorBasicCode">
+            <TwTextEditor Label="Description" Placeholder="Write something..." @bind-Value="basicHtml" />
+            <p class="mt-3 text-sm text-gray-600 dark:text-gray-400">Value:</p>
+            <pre class="mt-1 overflow-x-auto rounded-md bg-black/5 p-3 text-xs dark:bg-white/10">@basicHtml</pre>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Toolbar presets">
+        <Description><code>Toolbar</code> chooses the controls, and each preset holds every control of the one before it. <code>Simple</code> has bold, italic, underline and lists. <code>Standard</code> adds the text style list, strikethrough and links. <code>Full</code> adds quotes, code blocks, clear formatting, undo, redo and an HTML source view.</Description>
+
+        <CodeExample Name="TextEditorPresets">
+            <div class="flex flex-col gap-6">
+                <TwTextEditor Label="Simple" Toolbar="TextEditorToolbar.Simple" MinHeight="80px" Value="@presetHtml" />
+                <TwTextEditor Label="Full" Toolbar="TextEditorToolbar.Full" MinHeight="80px" Value="@presetHtml" />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="No toolbar">
+        <Description>With <code>TextEditorToolbar.None</code> there is no toolbar, but the keyboard shortcuts still work: <code>Ctrl + B</code>, <code>Ctrl + I</code> and <code>Ctrl + U</code> for bold, italic and underline, and <code>Ctrl + Shift + 8</code> for a bulleted list. Use it for inline editing, or with your own controls calling the editor's methods.</Description>
+
+        <CodeExample Name="TextEditorNoToolbar" CSharpName="TextEditorNoToolbarCode">
+            <TwTextEditor Label="Note" Toolbar="TextEditorToolbar.None" MinHeight="80px" Placeholder="Try Ctrl + B" @bind-Value="noteHtml" />
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Custom toolbar">
+        <Description><code>ToolbarContent</code> adds controls to the end of the toolbar, or makes up the whole toolbar with <code>TextEditorToolbar.Custom</code>. Its context is the editor, so a control can call <code>FormatAsync</code> and show its state with <code>IsActive</code>. Here each control is a <code>TwToggle</code>.</Description>
+
+        <CodeExample Name="TextEditorCustomToolbar">
+            <TwTextEditor Label="Headline" Toolbar="TextEditorToolbar.Custom" MinHeight="80px">
+                <ToolbarContent>
+                    <TwToggle Icon="Icon.Type_H1" Size="Size.Sm" AriaLabel="Heading" Pressed="@context.IsActive(TextEditorFormat.Heading1)" PressedChanged="@(_ => context.FormatAsync(context.IsActive(TextEditorFormat.Heading1) ? TextEditorFormat.Paragraph : TextEditorFormat.Heading1))" />
+                    <TwToggle Icon="Icon.Type_Bold" Size="Size.Sm" AriaLabel="Bold" Pressed="@context.IsActive(TextEditorFormat.Bold)" PressedChanged="@(_ => context.FormatAsync(TextEditorFormat.Bold))" />
+                    <TwToggle Icon="Icon.Quote" Size="Size.Sm" AriaLabel="Quote" Pressed="@context.IsActive(TextEditorFormat.Blockquote)" PressedChanged="@(_ => context.FormatAsync(TextEditorFormat.Blockquote))" />
+                </ToolbarContent>
+            </TwTextEditor>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Height">
+        <Description><code>MinHeight</code> (150px by default) sets where the editing area starts. With <code>MaxHeight</code> it grows with its text up to that height and then scrolls, and <code>Height</code> fixes its size.</Description>
+
+        <CodeExample Name="TextEditorHeight">
+            <div class="grid gap-6 md:grid-cols-2">
+                <TwTextEditor Label="Grows up to 160px" Toolbar="TextEditorToolbar.Simple" MinHeight="80px" MaxHeight="160px" Value="@longHtml" />
+                <TwTextEditor Label="Fixed at 120px" Toolbar="TextEditorToolbar.Simple" Height="120px" Value="@longHtml" />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Links">
+        <Description>The link button, or <code>Ctrl + K</code>, opens a bar under the toolbar. Type an address and press <code>Enter</code> to link the selected text, or to insert the address as a link when nothing is selected. With the caret in a link, the bar changes or removes it. An address without a scheme gets <code>https://</code>, an email address gets <code>mailto:</code>, and an address such as <code>javascript:</code> is refused.</Description>
+
+        <CodeExample Name="TextEditorLinks" CSharpName="TextEditorLinksCode">
+            <TwTextEditor Label="Links" MinHeight="80px" @bind-Value="linkHtml" />
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Events and character count">
+        <Description><code>OnTextChange</code> receives the content as <code>Html</code>, plain <code>Text</code> and its <code>Length</code>, and <code>OnSelectionChange</code> the formats at the selection. <code>OnFocus</code> and <code>OnBlur</code> report focus. While the user types, changes are reported once typing pauses for <code>DebounceInterval</code> (250 milliseconds), and always when focus leaves the editor.</Description>
+
+        <CodeExample Name="TextEditorEvents" CSharpName="TextEditorEventsCode">
+            <TwTextEditor Label="Comment"
+                          Toolbar="TextEditorToolbar.Simple"
+                          MinHeight="80px"
+                          MaxHeight="200px"
+                          HelperText="@($"{commentLength} of {maxCommentLength} characters")"
+                          Invalid="@(commentLength > maxCommentLength)"
+                          ErrorMessage="@($"Keep your comment to {maxCommentLength} characters")"
+                          OnTextChange="@OnCommentChanged"
+                          OnSelectionChange="@OnCommentSelection"
+                          @bind-Value="commentHtml" />
+            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Formats at the caret: <strong>@commentFormats</strong></p>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Methods">
+        <Description>Use <code>@@ref</code> to call the editor from code: <code>SetHtmlAsync</code> and <code>GetHtmlAsync</code>, <code>GetTextAsync</code> and <code>GetLengthAsync</code>, <code>FormatAsync</code>, <code>InsertLinkAsync</code> and <code>RemoveLinkAsync</code>, <code>UndoAsync</code>, <code>RedoAsync</code>, <code>ClearFormattingAsync</code> and <code>FocusAsync</code>.</Description>
+
+        <CodeExample Name="TextEditorMethods" CSharpName="TextEditorMethodsCode">
+            <div class="flex flex-col gap-3">
+                <div class="flex flex-wrap gap-2">
+                    <TwButton Label="Load template" Variant="ButtonVariant.Outlined" OnClick="@LoadTemplateAsync" />
+                    <TwButton Label="Copy plain text" Variant="ButtonVariant.Outlined" OnClick="@ReadTextAsync" />
+                    <TwButton Label="Clear" Variant="ButtonVariant.Outlined" OnClick="@(() => methodsEditor!.SetHtmlAsync(null))" />
+                </div>
+                <TwTextEditor @ref="methodsEditor" Label="Letter" Toolbar="TextEditorToolbar.Simple" MinHeight="100px" />
+                <pre class="overflow-x-auto rounded-md bg-black/5 p-3 text-xs whitespace-pre-wrap dark:bg-white/10">@methodsText</pre>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Export">
+        <Description>Set <code>ExportFormats</code> to add an export menu to the end of the toolbar, offering the formats in the order you list them, and <code>ExportFileName</code> for the saved file's name and the document's title. The formats are Markdown, Word (<code>.docx</code>), OpenDocument (<code>.odt</code>), a web page, plain text and Rich Text Format. Headings, lists, links, quotes and code blocks keep their meaning in each one: a Word document gets real heading styles and numbered lists. The files are written in .NET with no other package, and saved by the browser. Call <code>ExportAsync</code> to export from your own button; it also returns the file.</Description>
+
+        <CodeExample Name="TextEditorExport" CSharpName="TextEditorExportCode">
+            <TwTextEditor Label="Meeting notes"
+                          Toolbar="TextEditorToolbar.Full"
+                          ExportFormats="@exportFormats"
+                          ExportFileName="Meeting notes"
+                          @bind-Value="exportHtml" />
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Converting on the server">
+        <Description><code>TwTextEditorExport</code> holds the same converters as static methods, so stored HTML can be turned into a file on the server, for example to email a document or to serve a download from an API: <code>ToMarkdown</code>, <code>ToPlainText</code>, <code>ToHtmlDocument</code>, <code>ToRtf</code>, <code>ToDocx</code> and <code>ToOdt</code>, or <code>Export</code>, which returns the bytes with a file name and media type. They read HTML with the editor's own rules, so HTML from anywhere converts safely.</Description>
+
+        <CodeExample Name="TextEditorServerExport" CSharpName="TextEditorServerExportCode">
+            <div class="flex flex-col gap-3">
+                <div class="flex flex-wrap gap-2">
+                    <TwButton Label="Show Markdown" Variant="ButtonVariant.Outlined" OnClick="@(() => convertedText = TwTextEditorExport.ToMarkdown(exportHtml))" />
+                    <TwButton Label="Show plain text" Variant="ButtonVariant.Outlined" OnClick="@(() => convertedText = TwTextEditorExport.ToPlainText(exportHtml))" />
+                </div>
+                <pre class="overflow-x-auto rounded-md bg-black/5 p-3 text-xs whitespace-pre-wrap dark:bg-white/10">@convertedText</pre>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Context menu">
+        <Description>Set <code>ShowContextMenu</code> to open a <code>TwContextMenu</code> of formatting actions on a right-click, or with <code>Shift + F10</code> from the keyboard. It is off by default, since the browser's own menu holds spelling suggestions and the clipboard actions.</Description>
+
+        <CodeExample Name="TextEditorContextMenu">
+            <TwTextEditor Label="Right-click the text" ShowContextMenu MinHeight="80px" Value="@presetHtml" />
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Validation">
+        <Description>Inside an <code>EditForm</code> or a <code>TwForm</code> the editor reports every change, so validation attributes on the bound property run for it and their message is shown under the editor. An empty editor binds as an empty string, so <code>[Required]</code> works as it does for a text field.</Description>
+
+        <CodeExample Name="TextEditorValidation" CSharpName="TextEditorValidationCode">
+            <EditForm Model="@article" class="flex flex-col gap-4">
+                <DataAnnotationsValidator />
+                <TwTextEditor Label="Article body" Required HelperText="Write at least a sentence." @bind-Value="article.Body" />
+                <div>
+                    <TwButton Type="submit" Variant="ButtonVariant.Filled" Color="Color.Primary" Label="Publish" />
+                </div>
+            </EditForm>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Variants">
+        <Description><code>Variant</code> works as it does on <code>TwTextfield</code>, so the editor lines up with the other inputs on a form.</Description>
+
+        <CodeExample Name="TextEditorVariants">
+            <div class="flex flex-col gap-6">
+                <TwTextEditor Label="Outlined" Variant="InputVariant.Outlined" Toolbar="TextEditorToolbar.Simple" MinHeight="60px" />
+                <TwTextEditor Label="Filled" Variant="InputVariant.Filled" Toolbar="TextEditorToolbar.Simple" MinHeight="60px" />
+                <TwTextEditor Label="Default" Variant="InputVariant.Default" Toolbar="TextEditorToolbar.Simple" MinHeight="60px" />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Disabled and readonly">
+        <Description><code>Disabled</code> dims the editor and its toolbar, and it cannot be focused. <code>ReadOnly</code> keeps the text readable, selectable and in the Tab order, but it cannot be changed.</Description>
+
+        <CodeExample Name="TextEditorDisabledReadonly">
+            <div class="grid gap-6 md:grid-cols-2">
+                <TwTextEditor Label="Disabled" Toolbar="TextEditorToolbar.Simple" MinHeight="80px" Value="@presetHtml" Disabled />
+                <TwTextEditor Label="Readonly" Toolbar="TextEditorToolbar.Simple" MinHeight="80px" Value="@presetHtml" ReadOnly />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Security">
+        <Description>
+            Everything that enters the editor, including a value set from code and pasted or dropped content, is rebuilt from the tags the editor supports, and a link keeps only an http, https, mailto, tel or relative address. Scripts, styles, images, event handlers and every other attribute are removed. This cleaning runs in the browser, so treat HTML posted to your server as untrusted and sanitize it again there, for example with a library such as HtmlSanitizer, before you store it or show it on another page.
+        </Description>
+    </PageCard>
+
+    <PageCard Title="Accessibility">
+        <Description>
+            The editing area is a multiline <code>textbox</code> named after the <code>Label</code>, with <code>HelperText</code>, any error message and a hint about the toolbar linked through <code>aria-describedby</code>. The toolbar is a <code>toolbar</code> named "Formatting": its toggle groups are each a single Tab stop with the arrow keys moving between their buttons, every button says whether its format is applied at the caret, and each one lists its shortcut in <code>aria-keyshortcuts</code> and its tooltip. <code>Alt + F10</code> moves from the text to the toolbar, and a format applied from the toolbar with the keyboard leaves focus on the toolbar, so several can be applied in a row. <code>Tab</code> always leaves the editor rather than typing a tab character, so keyboard users are never trapped. All of the editor's own text is translated into the app's language.
+        </Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample TextEditorBasicCode
+    private string? basicHtml = "<h2>Release notes</h2><p>This release adds a <strong>rich text editor</strong> with <em>headings</em>, lists and links.</p><ul><li>Bind the content as HTML</li><li>Use keyboard shortcuts</li></ul>";
+    #endregion
+
+    private const string presetHtml = "<p>Some <strong>bold</strong>, <em>italic</em> and <u>underlined</u> text.</p>";
+
+    private const string longHtml = "<p>The editing area grows with its text.</p><p>Each new paragraph makes it taller.</p><p>Until it reaches its height.</p><p>Then it scrolls.</p><p>Like this.</p><p>And this.</p>";
+
+    #region CodeExample TextEditorNoToolbarCode
+    private string? noteHtml;
+    #endregion
+
+    #region CodeExample TextEditorLinksCode
+    private string? linkHtml = "<p>Read the <a href=\"https://twblazor.com\">twblazor docs</a>, then select some text and press Ctrl + K.</p>";
+    #endregion
+
+    #region CodeExample TextEditorEventsCode
+    private const int maxCommentLength = 140;
+    private string? commentHtml;
+    private int commentLength;
+    private string commentFormats = "none";
+
+    private void OnCommentChanged(TextEditorChangeEventArgs change) => commentLength = change.Length;
+
+    private void OnCommentSelection(TextEditorSelectionEventArgs selection) =>
+        commentFormats = string.Join(", ", selection.Formats.Order());
+    #endregion
+
+    #region CodeExample TextEditorMethodsCode
+    private TwTextEditor? methodsEditor;
+    private string methodsText = "Plain text appears here.";
+
+    private Task LoadTemplateAsync() =>
+        methodsEditor!.SetHtmlAsync("<p>Dear customer,</p><p>Thank you for your <strong>order</strong>.</p><p>Kind regards</p>");
+
+    private async Task ReadTextAsync() => methodsText = await methodsEditor!.GetTextAsync();
+    #endregion
+
+    #region CodeExample TextEditorExportCode
+    private readonly TextEditorExportFormat[] exportFormats =
+    [
+        TextEditorExportFormat.Docx,
+        TextEditorExportFormat.Odt,
+        TextEditorExportFormat.Markdown,
+        TextEditorExportFormat.Html,
+        TextEditorExportFormat.Rtf,
+        TextEditorExportFormat.PlainText,
+    ];
+
+    private string? exportHtml = "<h1>Weekly sync</h1><p>Attendees: <strong>Ada</strong>, <strong>Grace</strong> and <em>Alan</em>.</p><h2>Actions</h2><ol><li>Ship the <a href=\"https://twblazor.com\">text editor</a></li><li>Write the release notes</li></ol><blockquote><p>Keep it simple.</p></blockquote>";
+    #endregion
+
+    #region CodeExample TextEditorServerExportCode
+    private string convertedText = "Choose a format above.";
+    #endregion
+
+    #region CodeExample TextEditorValidationCode
+    private readonly ArticleModel article = new();
+
+    private sealed class ArticleModel
+    {
+        [Required(ErrorMessage = "Write the article before publishing it")]
+        public string? Body { get; set; }
+    }
+    #endregion
+}
