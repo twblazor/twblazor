@@ -1105,4 +1105,28 @@
   <data name="Home_Plan_Release" xml:space="preserve">
     <value>విడుదల</value>
   </data>
+  <data name="Home_Release_Notes" xml:space="preserve">
+    <value>విడుదల గమనికలు</value>
+  </data>
+  <data name="Home_Release_NotesHelp" xml:space="preserve">
+    <value>ఫార్మాటింగ్ కోసం కుడి-క్లిక్ చేయండి, లేదా Word, OpenDocument, Markdown మరియు మరిన్నింటికి ఎగుమతి చేయండి.</value>
+  </data>
+  <data name="Home_Release_NotesHeading" xml:space="preserve">
+    <value>v2.4.0లో కొత్తవి</value>
+  </data>
+  <data name="Home_Release_NotesIntro" xml:space="preserve">
+    <value>వేగవంతమైన డిప్లాయ్‌లు, ముందస్తు స్టోరేజ్ హెచ్చరికలు మరియు అనేక సవరణలు.</value>
+  </data>
+  <data name="Home_Release_NotesFaster" xml:space="preserve">
+    <value>డిప్లాయ్‌లు 30% వేగంగా ఉన్నాయి</value>
+  </data>
+  <data name="Home_Release_NotesAlerts" xml:space="preserve">
+    <value>స్థలం అయిపోయే ముందే స్టోరేజ్ హెచ్చరికలు తెలియజేస్తాయి</value>
+  </data>
+  <data name="Home_Release_NotesFixes" xml:space="preserve">
+    <value>Gantt చార్ట్‌లో కీబోర్డ్ సవరణలు</value>
+  </data>
+  <data name="Home_Release_NotesQuote" xml:space="preserve">
+    <value>చిన్నగా, తరచుగా విడుదల చేయండి.</value>
+  </data>
 </root>

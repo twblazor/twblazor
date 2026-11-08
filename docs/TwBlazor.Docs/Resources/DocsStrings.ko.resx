@@ -1105,4 +1105,28 @@
   <data name="Home_Plan_Release" xml:space="preserve">
     <value>릴리스</value>
   </data>
+  <data name="Home_Release_Notes" xml:space="preserve">
+    <value>릴리스 노트</value>
+  </data>
+  <data name="Home_Release_NotesHelp" xml:space="preserve">
+    <value>마우스 오른쪽 단추를 클릭해 서식을 지정하거나 Word, OpenDocument, Markdown 등으로 내보내세요.</value>
+  </data>
+  <data name="Home_Release_NotesHeading" xml:space="preserve">
+    <value>v2.4.0의 새로운 기능</value>
+  </data>
+  <data name="Home_Release_NotesIntro" xml:space="preserve">
+    <value>더 빠른 배포, 더 이른 저장 공간 알림, 그리고 여러 수정 사항.</value>
+  </data>
+  <data name="Home_Release_NotesFaster" xml:space="preserve">
+    <value>배포가 30% 빨라졌습니다</value>
+  </data>
+  <data name="Home_Release_NotesAlerts" xml:space="preserve">
+    <value>저장 공간이 부족해지기 전에 알림을 보냅니다</value>
+  </data>
+  <data name="Home_Release_NotesFixes" xml:space="preserve">
+    <value>간트 차트의 키보드 문제 수정</value>
+  </data>
+  <data name="Home_Release_NotesQuote" xml:space="preserve">
+    <value>작게, 자주 배포하세요.</value>
+  </data>
 </root>

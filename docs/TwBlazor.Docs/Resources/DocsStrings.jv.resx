@@ -1105,4 +1105,28 @@
   <data name="Home_Plan_Release" xml:space="preserve">
     <value>Rilis</value>
   </data>
+  <data name="Home_Release_Notes" xml:space="preserve">
+    <value>Cathetan rilis</value>
+  </data>
+  <data name="Home_Release_NotesHelp" xml:space="preserve">
+    <value>Klik tengen kanggo format, utawa ekspor menyang Word, OpenDocument, Markdown, lan liyane.</value>
+  </data>
+  <data name="Home_Release_NotesHeading" xml:space="preserve">
+    <value>Sing anyar ing v2.4.0</value>
+  </data>
+  <data name="Home_Release_NotesIntro" xml:space="preserve">
+    <value>Deploy luwih cepet, peringatan panyimpenan luwih awal, lan sawetara pandandan.</value>
+  </data>
+  <data name="Home_Release_NotesFaster" xml:space="preserve">
+    <value>Deploy 30% luwih cepet</value>
+  </data>
+  <data name="Home_Release_NotesAlerts" xml:space="preserve">
+    <value>Peringatan panyimpenan ngabari sadurunge papan entek</value>
+  </data>
+  <data name="Home_Release_NotesFixes" xml:space="preserve">
+    <value>Pandandan keyboard ing diagram Gantt</value>
+  </data>
+  <data name="Home_Release_NotesQuote" xml:space="preserve">
+    <value>Rilis cilik, rilis kerep.</value>
+  </data>
 </root>

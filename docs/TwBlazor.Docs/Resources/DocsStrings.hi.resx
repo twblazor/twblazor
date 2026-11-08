@@ -1105,4 +1105,28 @@
   <data name="Home_Plan_Release" xml:space="preserve">
     <value>रिलीज़</value>
   </data>
+  <data name="Home_Release_Notes" xml:space="preserve">
+    <value>रिलीज़ नोट्स</value>
+  </data>
+  <data name="Home_Release_NotesHelp" xml:space="preserve">
+    <value>फ़ॉर्मेटिंग के लिए राइट-क्लिक करें, या Word, OpenDocument, Markdown और अन्य में निर्यात करें।</value>
+  </data>
+  <data name="Home_Release_NotesHeading" xml:space="preserve">
+    <value>v2.4.0 में नया क्या है</value>
+  </data>
+  <data name="Home_Release_NotesIntro" xml:space="preserve">
+    <value>तेज़ डिप्लॉय, जल्दी स्टोरेज अलर्ट और कई सुधार।</value>
+  </data>
+  <data name="Home_Release_NotesFaster" xml:space="preserve">
+    <value>डिप्लॉय 30% तेज़ हैं</value>
+  </data>
+  <data name="Home_Release_NotesAlerts" xml:space="preserve">
+    <value>स्टोरेज अलर्ट जगह खत्म होने से पहले चेतावनी देते हैं</value>
+  </data>
+  <data name="Home_Release_NotesFixes" xml:space="preserve">
+    <value>Gantt चार्ट में कीबोर्ड सुधार</value>
+  </data>
+  <data name="Home_Release_NotesQuote" xml:space="preserve">
+    <value>छोटा भेजें, बार-बार भेजें।</value>
+  </data>
 </root>

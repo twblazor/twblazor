@@ -1105,4 +1105,28 @@
   <data name="Home_Plan_Release" xml:space="preserve">
     <value>Релиз</value>
   </data>
+  <data name="Home_Release_Notes" xml:space="preserve">
+    <value>Заметки о выпуске</value>
+  </data>
+  <data name="Home_Release_NotesHelp" xml:space="preserve">
+    <value>Щёлкните правой кнопкой для форматирования или экспортируйте в Word, OpenDocument, Markdown и другие форматы.</value>
+  </data>
+  <data name="Home_Release_NotesHeading" xml:space="preserve">
+    <value>Что нового в v2.4.0</value>
+  </data>
+  <data name="Home_Release_NotesIntro" xml:space="preserve">
+    <value>Более быстрые развёртывания, ранние предупреждения о хранилище и ряд исправлений.</value>
+  </data>
+  <data name="Home_Release_NotesFaster" xml:space="preserve">
+    <value>Развёртывания на 30% быстрее</value>
+  </data>
+  <data name="Home_Release_NotesAlerts" xml:space="preserve">
+    <value>Предупреждения о хранилище приходят до того, как место закончится</value>
+  </data>
+  <data name="Home_Release_NotesFixes" xml:space="preserve">
+    <value>Исправления клавиатуры в диаграмме Ганта</value>
+  </data>
+  <data name="Home_Release_NotesQuote" xml:space="preserve">
+    <value>Выпускайте понемногу, но часто.</value>
+  </data>
 </root>

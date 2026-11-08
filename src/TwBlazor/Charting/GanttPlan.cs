@@ -60,7 +60,7 @@ internal sealed class GanttPlan
     /// When two tasks share a key, the first one is the one others refer to.
     /// </summary>
     public static GanttPlan Build(IReadOnlyList<ChartTask> tasks, IReadOnlySet<string> collapsed, bool rollUpSummaries) =>
-        tasks.Count == 0 ? Empty : new Builder(tasks, collapsed, rollUpSummaries).Build();
+        tasks.Count == 0 ? Empty : new Builder(tasks, collapsed, rollUpSummaries).CreatePlan();
 
     /// <summary>
     /// Gets the row on screen that stands for a task: its own, or that of the nearest summary above it that is
@@ -70,27 +70,6 @@ internal sealed class GanttPlan
 
     /// <summary>Gets the task with a key, or <see langword="null"/>.</summary>
     public GanttNode? Find(string key) => _byKey.TryGetValue(key, out var index) ? All[index] : null;
-
-    /// <summary>
-    /// Progress weighted by duration, so a long task counts for more than a short one. Tasks without progress
-    /// count as not started; if none has any, the summary has none either. Children with no length (all
-    /// milestones) count equally.
-    /// </summary>
-    private static double? WeightedProgress(List<int> children, DateTime[] starts, DateTime[] ends, double?[] progress)
-    {
-        if (children.All(child => progress[child] is null))
-        {
-            return null;
-        }
-
-        var total = children.Sum(child => (ends[child] - starts[child]).TotalHours);
-        if (total <= 0)
-        {
-            return children.Average(child => progress[child] ?? 0);
-        }
-
-        return children.Sum(child => (progress[child] ?? 0) * (ends[child] - starts[child]).TotalHours) / total;
-    }
 
     /// <summary>
     /// Holds the working arrays while a plan is built: the tree, then the rolled-up dates, then the rows.
@@ -123,7 +102,7 @@ internal sealed class GanttPlan
             _visibleRow = new List<int>(tasks.Count);
         }
 
-        public GanttPlan Build()
+        public GanttPlan CreatePlan()
         {
             var parent = FindParents();
             for (var i = 0; i < _tasks.Count; i++)
@@ -208,19 +187,44 @@ internal sealed class GanttPlan
                 Walk(child, depth + 1, node.Index, shown && isExpanded, nearestVisible);
             }
         }
-    }
 
-    private static void BreakLoops(int[] parent)
-    {
-        for (var i = 0; i < parent.Length; i++)
+        /// <summary>
+        /// Progress weighted by duration, so a long task counts for more than a short one. Tasks without progress
+        /// count as not started; if none has any, the summary has none either. Children with no length (all
+        /// milestones) count equally.
+        /// </summary>
+        private static double? WeightedProgress(List<int> children, DateTime[] starts, DateTime[] ends, double?[] progress)
         {
-            var steps = 0;
-            for (var current = parent[i]; current >= 0; current = parent[current])
+            if (children.All(child => progress[child] is null))
             {
-                if (current == i || ++steps > parent.Length)
+                return null;
+            }
+
+            var total = children.Sum(child => (ends[child] - starts[child]).TotalHours);
+            if (total <= 0)
+            {
+                return children.Average(child => progress[child] ?? 0);
+            }
+
+            return children.Sum(child => (progress[child] ?? 0) * (ends[child] - starts[child]).TotalHours) / total;
+        }
+
+        /// <summary>
+        /// Turns a task whose chain of parents leads back to itself into a top level task, so a loop of
+        /// <see cref="ChartTask.ParentId"/>s cannot hang the walk down the tree.
+        /// </summary>
+        private static void BreakLoops(int[] parent)
+        {
+            for (var i = 0; i < parent.Length; i++)
+            {
+                var steps = 0;
+                for (var current = parent[i]; current >= 0; current = parent[current])
                 {
-                    parent[i] = -1;
-                    break;
+                    if (current == i || ++steps > parent.Length)
+                    {
+                        parent[i] = -1;
+                        break;
+                    }
                 }
             }
         }

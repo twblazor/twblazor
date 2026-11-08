@@ -1068,4 +1068,118 @@
   <data name="TagInput_TooLongOther" xml:space="preserve">
     <value>Une étiquette peut comporter au maximum {0} caractères</value>
   </data>
+  <data name="TextEditor_Label" xml:space="preserve">
+    <value>Éditeur de texte</value>
+  </data>
+  <data name="TextEditor_Toolbar" xml:space="preserve">
+    <value>Mise en forme</value>
+  </data>
+  <data name="TextEditor_ToolbarHint" xml:space="preserve">
+    <value>Appuyez sur Alt+F10 pour atteindre la barre d’outils.</value>
+  </data>
+  <data name="TextEditor_TextStyle" xml:space="preserve">
+    <value>Style de texte</value>
+  </data>
+  <data name="TextEditor_Paragraph" xml:space="preserve">
+    <value>Paragraphe</value>
+  </data>
+  <data name="TextEditor_Heading1" xml:space="preserve">
+    <value>Titre 1</value>
+  </data>
+  <data name="TextEditor_Heading2" xml:space="preserve">
+    <value>Titre 2</value>
+  </data>
+  <data name="TextEditor_Heading3" xml:space="preserve">
+    <value>Titre 3</value>
+  </data>
+  <data name="TextEditor_TextFormatting" xml:space="preserve">
+    <value>Mise en forme du texte</value>
+  </data>
+  <data name="TextEditor_Bold" xml:space="preserve">
+    <value>Gras</value>
+  </data>
+  <data name="TextEditor_Italic" xml:space="preserve">
+    <value>Italique</value>
+  </data>
+  <data name="TextEditor_Underline" xml:space="preserve">
+    <value>Souligné</value>
+  </data>
+  <data name="TextEditor_Strikethrough" xml:space="preserve">
+    <value>Barré</value>
+  </data>
+  <data name="TextEditor_Lists" xml:space="preserve">
+    <value>Listes</value>
+  </data>
+  <data name="TextEditor_BulletList" xml:space="preserve">
+    <value>Liste à puces</value>
+  </data>
+  <data name="TextEditor_NumberedList" xml:space="preserve">
+    <value>Liste numérotée</value>
+  </data>
+  <data name="TextEditor_Blocks" xml:space="preserve">
+    <value>Blocs</value>
+  </data>
+  <data name="TextEditor_Blockquote" xml:space="preserve">
+    <value>Citation</value>
+  </data>
+  <data name="TextEditor_CodeBlock" xml:space="preserve">
+    <value>Bloc de code</value>
+  </data>
+  <data name="TextEditor_Link" xml:space="preserve">
+    <value>Lien</value>
+  </data>
+  <data name="TextEditor_LinkUrl" xml:space="preserve">
+    <value>Adresse du lien</value>
+  </data>
+  <data name="TextEditor_LinkApply" xml:space="preserve">
+    <value>Appliquer</value>
+  </data>
+  <data name="TextEditor_LinkRemove" xml:space="preserve">
+    <value>Supprimer le lien</value>
+  </data>
+  <data name="TextEditor_LinkInvalid" xml:space="preserve">
+    <value>Saisissez une adresse web ou e-mail, par exemple https://example.com</value>
+  </data>
+  <data name="TextEditor_History" xml:space="preserve">
+    <value>Historique</value>
+  </data>
+  <data name="TextEditor_ClearFormatting" xml:space="preserve">
+    <value>Effacer la mise en forme</value>
+  </data>
+  <data name="TextEditor_Undo" xml:space="preserve">
+    <value>Annuler</value>
+  </data>
+  <data name="TextEditor_Redo" xml:space="preserve">
+    <value>Rétablir</value>
+  </data>
+  <data name="TextEditor_Source" xml:space="preserve">
+    <value>Source HTML</value>
+  </data>
+  <data name="TextEditor_SelectAll" xml:space="preserve">
+    <value>Tout sélectionner</value>
+  </data>
+  <data name="TextEditor_Export" xml:space="preserve">
+    <value>Exporter</value>
+  </data>
+  <data name="TextEditor_ExportMarkdown" xml:space="preserve">
+    <value>Markdown</value>
+  </data>
+  <data name="TextEditor_ExportDocx" xml:space="preserve">
+    <value>Document Word</value>
+  </data>
+  <data name="TextEditor_ExportOdt" xml:space="preserve">
+    <value>Texte OpenDocument</value>
+  </data>
+  <data name="TextEditor_ExportHtml" xml:space="preserve">
+    <value>Page web</value>
+  </data>
+  <data name="TextEditor_ExportPlainText" xml:space="preserve">
+    <value>Texte brut</value>
+  </data>
+  <data name="TextEditor_ExportRtf" xml:space="preserve">
+    <value>Format RTF</value>
+  </data>
+  <data name="TextEditor_Exported" xml:space="preserve">
+    <value>{0} exporté</value>
+  </data>
 </root>

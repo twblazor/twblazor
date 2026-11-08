@@ -1068,4 +1068,118 @@
   <data name="TagInput_TooLongOther" xml:space="preserve">
     <value>태그는 최대 {0}자까지 입력할 수 있습니다</value>
   </data>
+  <data name="TextEditor_Label" xml:space="preserve">
+    <value>텍스트 편집기</value>
+  </data>
+  <data name="TextEditor_Toolbar" xml:space="preserve">
+    <value>서식</value>
+  </data>
+  <data name="TextEditor_ToolbarHint" xml:space="preserve">
+    <value>도구 모음으로 이동하려면 Alt+F10을 누르세요.</value>
+  </data>
+  <data name="TextEditor_TextStyle" xml:space="preserve">
+    <value>텍스트 스타일</value>
+  </data>
+  <data name="TextEditor_Paragraph" xml:space="preserve">
+    <value>단락</value>
+  </data>
+  <data name="TextEditor_Heading1" xml:space="preserve">
+    <value>제목 1</value>
+  </data>
+  <data name="TextEditor_Heading2" xml:space="preserve">
+    <value>제목 2</value>
+  </data>
+  <data name="TextEditor_Heading3" xml:space="preserve">
+    <value>제목 3</value>
+  </data>
+  <data name="TextEditor_TextFormatting" xml:space="preserve">
+    <value>텍스트 서식</value>
+  </data>
+  <data name="TextEditor_Bold" xml:space="preserve">
+    <value>굵게</value>
+  </data>
+  <data name="TextEditor_Italic" xml:space="preserve">
+    <value>기울임꼴</value>
+  </data>
+  <data name="TextEditor_Underline" xml:space="preserve">
+    <value>밑줄</value>
+  </data>
+  <data name="TextEditor_Strikethrough" xml:space="preserve">
+    <value>취소선</value>
+  </data>
+  <data name="TextEditor_Lists" xml:space="preserve">
+    <value>목록</value>
+  </data>
+  <data name="TextEditor_BulletList" xml:space="preserve">
+    <value>글머리 기호 목록</value>
+  </data>
+  <data name="TextEditor_NumberedList" xml:space="preserve">
+    <value>번호 매기기 목록</value>
+  </data>
+  <data name="TextEditor_Blocks" xml:space="preserve">
+    <value>블록</value>
+  </data>
+  <data name="TextEditor_Blockquote" xml:space="preserve">
+    <value>인용</value>
+  </data>
+  <data name="TextEditor_CodeBlock" xml:space="preserve">
+    <value>코드 블록</value>
+  </data>
+  <data name="TextEditor_Link" xml:space="preserve">
+    <value>링크</value>
+  </data>
+  <data name="TextEditor_LinkUrl" xml:space="preserve">
+    <value>링크 주소</value>
+  </data>
+  <data name="TextEditor_LinkApply" xml:space="preserve">
+    <value>적용</value>
+  </data>
+  <data name="TextEditor_LinkRemove" xml:space="preserve">
+    <value>링크 제거</value>
+  </data>
+  <data name="TextEditor_LinkInvalid" xml:space="preserve">
+    <value>웹 주소나 이메일 주소를 입력하세요(예: https://example.com)</value>
+  </data>
+  <data name="TextEditor_History" xml:space="preserve">
+    <value>기록</value>
+  </data>
+  <data name="TextEditor_ClearFormatting" xml:space="preserve">
+    <value>서식 지우기</value>
+  </data>
+  <data name="TextEditor_Undo" xml:space="preserve">
+    <value>실행 취소</value>
+  </data>
+  <data name="TextEditor_Redo" xml:space="preserve">
+    <value>다시 실행</value>
+  </data>
+  <data name="TextEditor_Source" xml:space="preserve">
+    <value>HTML 소스</value>
+  </data>
+  <data name="TextEditor_SelectAll" xml:space="preserve">
+    <value>모두 선택</value>
+  </data>
+  <data name="TextEditor_Export" xml:space="preserve">
+    <value>내보내기</value>
+  </data>
+  <data name="TextEditor_ExportMarkdown" xml:space="preserve">
+    <value>Markdown</value>
+  </data>
+  <data name="TextEditor_ExportDocx" xml:space="preserve">
+    <value>Word 문서</value>
+  </data>
+  <data name="TextEditor_ExportOdt" xml:space="preserve">
+    <value>OpenDocument 텍스트</value>
+  </data>
+  <data name="TextEditor_ExportHtml" xml:space="preserve">
+    <value>웹 페이지</value>
+  </data>
+  <data name="TextEditor_ExportPlainText" xml:space="preserve">
+    <value>일반 텍스트</value>
+  </data>
+  <data name="TextEditor_ExportRtf" xml:space="preserve">
+    <value>서식 있는 텍스트 형식</value>
+  </data>
+  <data name="TextEditor_Exported" xml:space="preserve">
+    <value>{0}을(를) 내보냈습니다</value>
+  </data>
 </root>

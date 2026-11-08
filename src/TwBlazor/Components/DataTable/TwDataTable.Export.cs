@@ -5,7 +5,9 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Text;
 using TwBlazor.Enums;
+using TwBlazor.Export;
 using TwBlazor.Localization;
+using TwBlazor.Models;
 
 namespace TwBlazor.Components;
 
@@ -107,18 +109,7 @@ public partial class TwDataTable<TItem>
 
     private async Task DownloadAsync(string fileName, string contentType, byte[] content, int rowCount)
     {
-        using var stream = new MemoryStream(content);
-        using var streamReference = new DotNetStreamReference(stream);
-
-        try
-        {
-            await jsRuntime.InvokeVoidAsync("twDataTable.download", fileName, contentType, streamReference);
-        }
-        catch (JSDisconnectedException)
-        {
-            return;
-        }
-        catch (InvalidOperationException)
+        if (!await ExportDownload.SaveAsync(jsRuntime, new ExportFile { FileName = fileName, ContentType = contentType, Content = content }))
         {
             return;
         }

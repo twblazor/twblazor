@@ -137,8 +137,8 @@ public class TwCalendarCallbackTests : TwBlazorTestBase
             .Add(x => x.Schedules, [evt])
             .Add(x => x.OnEventUpdated, EventCallback.Factory.Create<Schedule<string>>(this, e => updated = e)));
 
-        cut.Find("button[aria-label^='Design review']").DragStart(new DragEventArgs());
-        cut.Find("button[aria-label='Friday, 20 March 2026']").ParentElement!.Drop(new DragEventArgs());
+        await cut.InvokeAsync(() => cut.Find("button[aria-label^='Design review']").DragStart(new DragEventArgs()));
+        await cut.InvokeAsync(() => cut.Find("button[aria-label='Friday, 20 March 2026']").ParentElement!.Drop(new DragEventArgs()));
 
         await cut.WaitForAssertionAsync(() => Assert.NotNull(updated));
         Assert.Equal(new DateTimeOffset(_day.AddDays(2).AddHours(13)), updated!.DateTimeStart);

@@ -2,9 +2,9 @@
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using System.Globalization;
-using System.IO.Compression;
 using System.Text;
 using System.Xml;
+using TwBlazor.Export.Packaging;
 
 namespace TwBlazor.Components;
 
@@ -30,8 +30,7 @@ public static class TwDataTableExport
     public const string ExcelContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
     private const string spreadsheetNamespace = "http://schemas.openxmlformats.org/spreadsheetml/2006/main";
-    private const string relationshipsNamespace = "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
-    private const string packageRelationshipsNamespace = "http://schemas.openxmlformats.org/package/2006/relationships";
+    private const string relationshipsNamespace = OpenXmlParts.RelationshipsNamespace;
     private const string countAttribute = "count";
 
     // Indexes into the cellXfs list written by WriteStyles.
@@ -85,18 +84,20 @@ public static class TwDataTableExport
 
         var exported = ExportedColumns(columns);
 
-        using var output = new MemoryStream();
-        using (var package = new ZipArchive(output, ZipArchiveMode.Create, leaveOpen: true))
-        {
-            WriteEntry(package, "[Content_Types].xml", WriteContentTypes);
-            WriteEntry(package, "_rels/.rels", WritePackageRelationships);
-            WriteEntry(package, "xl/workbook.xml", writer => WriteWorkbook(writer, SanitizeSheetName(sheetName)));
-            WriteEntry(package, "xl/_rels/workbook.xml.rels", WriteWorkbookRelationships);
-            WriteEntry(package, "xl/styles.xml", WriteStyles);
-            WriteEntry(package, "xl/worksheets/sheet1.xml", writer => WriteWorksheet(writer, rows, exported));
-        }
+        using var package = new ZipPackage();
+        package.AddXml("[Content_Types].xml", writer => OpenXmlParts.WriteContentTypes(writer,
+            ("/xl/workbook.xml", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"),
+            ("/xl/worksheets/sheet1.xml", "application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"),
+            ("/xl/styles.xml", "application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml")));
+        package.AddXml("_rels/.rels", writer => OpenXmlParts.WriteRelationships(writer,
+            [new("rId1", OpenXmlParts.OfficeDocumentRelationship, "xl/workbook.xml")]));
+        package.AddXml("xl/workbook.xml", writer => WriteWorkbook(writer, SanitizeSheetName(sheetName)));
+        package.AddXml("xl/_rels/workbook.xml.rels", writer => OpenXmlParts.WriteRelationships(writer,
+            [new("rId1", OpenXmlParts.WorksheetRelationship, "worksheets/sheet1.xml"), new("rId2", OpenXmlParts.StylesRelationship, "styles.xml")]));
+        package.AddXml("xl/styles.xml", WriteStyles);
+        package.AddXml("xl/worksheets/sheet1.xml", writer => WriteWorksheet(writer, rows, exported));
 
-        return output.ToArray();
+        return package.ToArray();
     }
 
     private static List<TwDataTableColumn<TItem>> ExportedColumns<TItem>(IEnumerable<TwDataTableColumn<TItem>> columns) =>
@@ -152,68 +153,6 @@ public static class TwDataTableExport
 
     private static bool IsNumber(object value) => value is byte or sbyte or short or ushort or int or uint or long or ulong
         or float or double or decimal;
-
-    private static void WriteEntry(ZipArchive package, string path, Action<XmlWriter> write)
-    {
-        var entry = package.CreateEntry(path, CompressionLevel.Optimal);
-        using var stream = entry.Open();
-        using var writer = XmlWriter.Create(stream, new XmlWriterSettings { Encoding = new UTF8Encoding(false) });
-        writer.WriteStartDocument(true);
-        write(writer);
-        writer.WriteEndDocument();
-    }
-
-    private static void WriteContentTypes(XmlWriter writer)
-    {
-        const string ns = "http://schemas.openxmlformats.org/package/2006/content-types";
-        writer.WriteStartElement("Types", ns);
-        WriteDefault("rels", "application/vnd.openxmlformats-package.relationships+xml");
-        WriteDefault("xml", "application/xml");
-        WriteOverride("/xl/workbook.xml", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml");
-        WriteOverride("/xl/worksheets/sheet1.xml", "application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml");
-        WriteOverride("/xl/styles.xml", "application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml");
-        writer.WriteEndElement();
-
-        void WriteDefault(string extension, string contentType)
-        {
-            writer.WriteStartElement("Default", ns);
-            writer.WriteAttributeString("Extension", extension);
-            writer.WriteAttributeString("ContentType", contentType);
-            writer.WriteEndElement();
-        }
-
-        void WriteOverride(string part, string contentType)
-        {
-            writer.WriteStartElement("Override", ns);
-            writer.WriteAttributeString("PartName", part);
-            writer.WriteAttributeString("ContentType", contentType);
-            writer.WriteEndElement();
-        }
-    }
-
-    private static void WritePackageRelationships(XmlWriter writer)
-    {
-        writer.WriteStartElement("Relationships", packageRelationshipsNamespace);
-        WriteRelationship(writer, "rId1", "http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument", "xl/workbook.xml");
-        writer.WriteEndElement();
-    }
-
-    private static void WriteWorkbookRelationships(XmlWriter writer)
-    {
-        writer.WriteStartElement("Relationships", packageRelationshipsNamespace);
-        WriteRelationship(writer, "rId1", "http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet", "worksheets/sheet1.xml");
-        WriteRelationship(writer, "rId2", "http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles", "styles.xml");
-        writer.WriteEndElement();
-    }
-
-    private static void WriteRelationship(XmlWriter writer, string id, string type, string target)
-    {
-        writer.WriteStartElement("Relationship", packageRelationshipsNamespace);
-        writer.WriteAttributeString("Id", id);
-        writer.WriteAttributeString("Type", type);
-        writer.WriteAttributeString("Target", target);
-        writer.WriteEndElement();
-    }
 
     private static void WriteWorkbook(XmlWriter writer, string sheetName)
     {

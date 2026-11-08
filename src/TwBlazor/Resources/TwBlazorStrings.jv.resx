@@ -1065,4 +1065,118 @@
   <data name="TagInput_TooLongOther" xml:space="preserve">
     <value>Tag paling akèh {0} karakter</value>
   </data>
+  <data name="TextEditor_Label" xml:space="preserve">
+    <value>Editor teks</value>
+  </data>
+  <data name="TextEditor_Toolbar" xml:space="preserve">
+    <value>Format</value>
+  </data>
+  <data name="TextEditor_ToolbarHint" xml:space="preserve">
+    <value>Pencet Alt+F10 kanggo pindhah menyang bilah piranti.</value>
+  </data>
+  <data name="TextEditor_TextStyle" xml:space="preserve">
+    <value>Gaya teks</value>
+  </data>
+  <data name="TextEditor_Paragraph" xml:space="preserve">
+    <value>Paragraf</value>
+  </data>
+  <data name="TextEditor_Heading1" xml:space="preserve">
+    <value>Irah-irahan 1</value>
+  </data>
+  <data name="TextEditor_Heading2" xml:space="preserve">
+    <value>Irah-irahan 2</value>
+  </data>
+  <data name="TextEditor_Heading3" xml:space="preserve">
+    <value>Irah-irahan 3</value>
+  </data>
+  <data name="TextEditor_TextFormatting" xml:space="preserve">
+    <value>Format teks</value>
+  </data>
+  <data name="TextEditor_Bold" xml:space="preserve">
+    <value>Kandel</value>
+  </data>
+  <data name="TextEditor_Italic" xml:space="preserve">
+    <value>Miring</value>
+  </data>
+  <data name="TextEditor_Underline" xml:space="preserve">
+    <value>Garis ngisor</value>
+  </data>
+  <data name="TextEditor_Strikethrough" xml:space="preserve">
+    <value>Coret</value>
+  </data>
+  <data name="TextEditor_Lists" xml:space="preserve">
+    <value>Dhaptar</value>
+  </data>
+  <data name="TextEditor_BulletList" xml:space="preserve">
+    <value>Dhaptar titik</value>
+  </data>
+  <data name="TextEditor_NumberedList" xml:space="preserve">
+    <value>Dhaptar nomer</value>
+  </data>
+  <data name="TextEditor_Blocks" xml:space="preserve">
+    <value>Blok</value>
+  </data>
+  <data name="TextEditor_Blockquote" xml:space="preserve">
+    <value>Kutipan</value>
+  </data>
+  <data name="TextEditor_CodeBlock" xml:space="preserve">
+    <value>Blok kode</value>
+  </data>
+  <data name="TextEditor_Link" xml:space="preserve">
+    <value>Pranala</value>
+  </data>
+  <data name="TextEditor_LinkUrl" xml:space="preserve">
+    <value>Alamat pranala</value>
+  </data>
+  <data name="TextEditor_LinkApply" xml:space="preserve">
+    <value>Trapake</value>
+  </data>
+  <data name="TextEditor_LinkRemove" xml:space="preserve">
+    <value>Busak pranala</value>
+  </data>
+  <data name="TextEditor_LinkInvalid" xml:space="preserve">
+    <value>Lebokna alamat web utawa email, kayata https://example.com</value>
+  </data>
+  <data name="TextEditor_History" xml:space="preserve">
+    <value>Riwayat</value>
+  </data>
+  <data name="TextEditor_ClearFormatting" xml:space="preserve">
+    <value>Busak format</value>
+  </data>
+  <data name="TextEditor_Undo" xml:space="preserve">
+    <value>Wurungake</value>
+  </data>
+  <data name="TextEditor_Redo" xml:space="preserve">
+    <value>Baleni</value>
+  </data>
+  <data name="TextEditor_Source" xml:space="preserve">
+    <value>Sumber HTML</value>
+  </data>
+  <data name="TextEditor_SelectAll" xml:space="preserve">
+    <value>Pilih kabeh</value>
+  </data>
+  <data name="TextEditor_Export" xml:space="preserve">
+    <value>Ekspor</value>
+  </data>
+  <data name="TextEditor_ExportMarkdown" xml:space="preserve">
+    <value>Markdown</value>
+  </data>
+  <data name="TextEditor_ExportDocx" xml:space="preserve">
+    <value>Dokumen Word</value>
+  </data>
+  <data name="TextEditor_ExportOdt" xml:space="preserve">
+    <value>Teks OpenDocument</value>
+  </data>
+  <data name="TextEditor_ExportHtml" xml:space="preserve">
+    <value>Kaca web</value>
+  </data>
+  <data name="TextEditor_ExportPlainText" xml:space="preserve">
+    <value>Teks biasa</value>
+  </data>
+  <data name="TextEditor_ExportRtf" xml:space="preserve">
+    <value>Format Rich Text</value>
+  </data>
+  <data name="TextEditor_Exported" xml:space="preserve">
+    <value>{0} wis diekspor</value>
+  </data>
 </root>

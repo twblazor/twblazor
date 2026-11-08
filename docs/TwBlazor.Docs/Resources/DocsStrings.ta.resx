@@ -1105,4 +1105,28 @@
   <data name="Home_Plan_Release" xml:space="preserve">
     <value>வெளியீடு</value>
   </data>
+  <data name="Home_Release_Notes" xml:space="preserve">
+    <value>வெளியீட்டுக் குறிப்புகள்</value>
+  </data>
+  <data name="Home_Release_NotesHelp" xml:space="preserve">
+    <value>வடிவமைக்க வலது கிளிக் செய்யவும், அல்லது Word, OpenDocument, Markdown போன்றவற்றுக்கு ஏற்றுமதி செய்யவும்.</value>
+  </data>
+  <data name="Home_Release_NotesHeading" xml:space="preserve">
+    <value>v2.4.0 இல் புதியவை</value>
+  </data>
+  <data name="Home_Release_NotesIntro" xml:space="preserve">
+    <value>வேகமான வெளியீடுகள், முன்கூட்டிய சேமிப்பக எச்சரிக்கைகள் மற்றும் பல திருத்தங்கள்.</value>
+  </data>
+  <data name="Home_Release_NotesFaster" xml:space="preserve">
+    <value>வெளியீடுகள் 30% வேகமாக உள்ளன</value>
+  </data>
+  <data name="Home_Release_NotesAlerts" xml:space="preserve">
+    <value>இடம் தீரும் முன் சேமிப்பக எச்சரிக்கைகள் தெரிவிக்கின்றன</value>
+  </data>
+  <data name="Home_Release_NotesFixes" xml:space="preserve">
+    <value>Gantt விளக்கப்படத்தில் விசைப்பலகை திருத்தங்கள்</value>
+  </data>
+  <data name="Home_Release_NotesQuote" xml:space="preserve">
+    <value>சிறிதாக, அடிக்கடி வெளியிடுங்கள்.</value>
+  </data>
 </root>

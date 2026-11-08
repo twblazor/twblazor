@@ -1071,4 +1071,118 @@
   <data name="TagInput_TooLongOther" xml:space="preserve">
     <value>برچسب حداکثر می‌تواند {0} نویسه داشته باشد</value>
   </data>
+  <data name="TextEditor_Label" xml:space="preserve">
+    <value>ویرایشگر متن</value>
+  </data>
+  <data name="TextEditor_Toolbar" xml:space="preserve">
+    <value>قالب‌بندی</value>
+  </data>
+  <data name="TextEditor_ToolbarHint" xml:space="preserve">
+    <value>برای رفتن به نوار ابزار Alt+F10 را فشار دهید.</value>
+  </data>
+  <data name="TextEditor_TextStyle" xml:space="preserve">
+    <value>سبک متن</value>
+  </data>
+  <data name="TextEditor_Paragraph" xml:space="preserve">
+    <value>پاراگراف</value>
+  </data>
+  <data name="TextEditor_Heading1" xml:space="preserve">
+    <value>عنوان ۱</value>
+  </data>
+  <data name="TextEditor_Heading2" xml:space="preserve">
+    <value>عنوان ۲</value>
+  </data>
+  <data name="TextEditor_Heading3" xml:space="preserve">
+    <value>عنوان ۳</value>
+  </data>
+  <data name="TextEditor_TextFormatting" xml:space="preserve">
+    <value>قالب‌بندی متن</value>
+  </data>
+  <data name="TextEditor_Bold" xml:space="preserve">
+    <value>پررنگ</value>
+  </data>
+  <data name="TextEditor_Italic" xml:space="preserve">
+    <value>کج</value>
+  </data>
+  <data name="TextEditor_Underline" xml:space="preserve">
+    <value>زیرخط</value>
+  </data>
+  <data name="TextEditor_Strikethrough" xml:space="preserve">
+    <value>خط‌خورده</value>
+  </data>
+  <data name="TextEditor_Lists" xml:space="preserve">
+    <value>فهرست‌ها</value>
+  </data>
+  <data name="TextEditor_BulletList" xml:space="preserve">
+    <value>فهرست نشانه‌دار</value>
+  </data>
+  <data name="TextEditor_NumberedList" xml:space="preserve">
+    <value>فهرست شماره‌دار</value>
+  </data>
+  <data name="TextEditor_Blocks" xml:space="preserve">
+    <value>بلوک‌ها</value>
+  </data>
+  <data name="TextEditor_Blockquote" xml:space="preserve">
+    <value>نقل‌قول</value>
+  </data>
+  <data name="TextEditor_CodeBlock" xml:space="preserve">
+    <value>بلوک کد</value>
+  </data>
+  <data name="TextEditor_Link" xml:space="preserve">
+    <value>پیوند</value>
+  </data>
+  <data name="TextEditor_LinkUrl" xml:space="preserve">
+    <value>نشانی پیوند</value>
+  </data>
+  <data name="TextEditor_LinkApply" xml:space="preserve">
+    <value>اعمال</value>
+  </data>
+  <data name="TextEditor_LinkRemove" xml:space="preserve">
+    <value>حذف پیوند</value>
+  </data>
+  <data name="TextEditor_LinkInvalid" xml:space="preserve">
+    <value>یک نشانی وب یا ایمیل وارد کنید، مانند https://example.com</value>
+  </data>
+  <data name="TextEditor_History" xml:space="preserve">
+    <value>تاریخچه</value>
+  </data>
+  <data name="TextEditor_ClearFormatting" xml:space="preserve">
+    <value>پاک کردن قالب‌بندی</value>
+  </data>
+  <data name="TextEditor_Undo" xml:space="preserve">
+    <value>واگرد</value>
+  </data>
+  <data name="TextEditor_Redo" xml:space="preserve">
+    <value>انجام دوباره</value>
+  </data>
+  <data name="TextEditor_Source" xml:space="preserve">
+    <value>منبع HTML</value>
+  </data>
+  <data name="TextEditor_SelectAll" xml:space="preserve">
+    <value>انتخاب همه</value>
+  </data>
+  <data name="TextEditor_Export" xml:space="preserve">
+    <value>صدور</value>
+  </data>
+  <data name="TextEditor_ExportMarkdown" xml:space="preserve">
+    <value>Markdown</value>
+  </data>
+  <data name="TextEditor_ExportDocx" xml:space="preserve">
+    <value>سند Word</value>
+  </data>
+  <data name="TextEditor_ExportOdt" xml:space="preserve">
+    <value>متن OpenDocument</value>
+  </data>
+  <data name="TextEditor_ExportHtml" xml:space="preserve">
+    <value>صفحه وب</value>
+  </data>
+  <data name="TextEditor_ExportPlainText" xml:space="preserve">
+    <value>متن ساده</value>
+  </data>
+  <data name="TextEditor_ExportRtf" xml:space="preserve">
+    <value>قالب متن غنی</value>
+  </data>
+  <data name="TextEditor_Exported" xml:space="preserve">
+    <value>{0} صادر شد</value>
+  </data>
 </root>

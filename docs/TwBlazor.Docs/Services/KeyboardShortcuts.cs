@@ -291,6 +291,24 @@ internal static class KeyboardShortcuts
             Key("Opens the suggestions and highlights the first or last one, or moves through them.", down, up),
             Key("Closes the suggestions. Focus stays in the field.", escape)),
 
+        ["/text-editor"] = Guide(
+            "The text is a multiline text box, and the toolbar above it is one toolbar of groups: Tab moves from group to group, and the arrow keys move between the buttons in a group. Each button says whether its format is applied at the caret.",
+            Key("Moves focus into or out of the editor. Tab never types a tab character, so it always leaves the text.", tab, shiftTab),
+            Key("In the text: moves focus to the toolbar.", "Alt + F10"),
+            Key("Bold, italic or underline.", "Ctrl + B", "Ctrl + I", "Ctrl + U"),
+            Key("Strikethrough.", "Ctrl + Shift + X"),
+            Key("Numbered list, bulleted list or quote.", "Ctrl + Shift + 7", "Ctrl + Shift + 8", "Ctrl + Shift + 9"),
+            Key("Paragraph, or heading 1, 2 or 3.", "Ctrl + Alt + 0", "Ctrl + Alt + 1", "Ctrl + Alt + 2", "Ctrl + Alt + 3"),
+            Key("Opens the link bar with focus in the address field.", "Ctrl + K"),
+            Key("Clears bold, italic, underline, strikethrough and links from the selection.", "Ctrl + \\"),
+            Key("Undoes or redoes the last change.", "Ctrl + Z", "Ctrl + Y"),
+            Key("In a toolbar group: moves to the next or previous button. Reversed in a right to left layout.", left, right),
+            Key("On a toolbar button: applies or removes its format. Focus stays on the button.", enter, space),
+            Key("In the link address field: applies the link. Focus goes back to the text.", enter),
+            Key("In the link bar: closes it without changing anything, and returns focus to the text.", escape),
+            Key("In the text, with ShowContextMenu set: opens the formatting menu.", "Shift + F10", "Menu"),
+            Key("On the export button: opens the list of formats. The arrow keys move through it, and Enter saves the file in that format.", enter, space, down)),
+
         ["/menu"] = Guide(
             "The button tells screen readers that it opens a menu and whether the menu is open. The menu follows the ARIA menu pattern: one item has focus at a time, and the arrow keys move between them.",
             Key("Moves focus to the menu's button.", tab),

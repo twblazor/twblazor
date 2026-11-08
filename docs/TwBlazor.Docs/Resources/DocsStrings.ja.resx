@@ -1105,4 +1105,28 @@
   <data name="Home_Plan_Release" xml:space="preserve">
     <value>リリース</value>
   </data>
+  <data name="Home_Release_Notes" xml:space="preserve">
+    <value>リリース ノート</value>
+  </data>
+  <data name="Home_Release_NotesHelp" xml:space="preserve">
+    <value>右クリックで書式を設定したり、Word、OpenDocument、Markdown などにエクスポートしたりできます。</value>
+  </data>
+  <data name="Home_Release_NotesHeading" xml:space="preserve">
+    <value>v2.4.0 の新機能</value>
+  </data>
+  <data name="Home_Release_NotesIntro" xml:space="preserve">
+    <value>デプロイの高速化、早めのストレージ警告、多数の修正。</value>
+  </data>
+  <data name="Home_Release_NotesFaster" xml:space="preserve">
+    <value>デプロイが 30% 高速化</value>
+  </data>
+  <data name="Home_Release_NotesAlerts" xml:space="preserve">
+    <value>容量が尽きる前にストレージ警告でお知らせ</value>
+  </data>
+  <data name="Home_Release_NotesFixes" xml:space="preserve">
+    <value>ガント チャートのキーボード操作を修正</value>
+  </data>
+  <data name="Home_Release_NotesQuote" xml:space="preserve">
+    <value>小さく、頻繁にリリース。</value>
+  </data>
 </root>

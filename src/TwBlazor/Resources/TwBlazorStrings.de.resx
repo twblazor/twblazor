@@ -1071,4 +1071,118 @@
   <data name="TagInput_TooLongOther" xml:space="preserve">
     <value>Ein Tag darf höchstens {0} Zeichen lang sein</value>
   </data>
+  <data name="TextEditor_Label" xml:space="preserve">
+    <value>Texteditor</value>
+  </data>
+  <data name="TextEditor_Toolbar" xml:space="preserve">
+    <value>Formatierung</value>
+  </data>
+  <data name="TextEditor_ToolbarHint" xml:space="preserve">
+    <value>Drücken Sie Alt+F10, um zur Symbolleiste zu wechseln.</value>
+  </data>
+  <data name="TextEditor_TextStyle" xml:space="preserve">
+    <value>Textformat</value>
+  </data>
+  <data name="TextEditor_Paragraph" xml:space="preserve">
+    <value>Absatz</value>
+  </data>
+  <data name="TextEditor_Heading1" xml:space="preserve">
+    <value>Überschrift 1</value>
+  </data>
+  <data name="TextEditor_Heading2" xml:space="preserve">
+    <value>Überschrift 2</value>
+  </data>
+  <data name="TextEditor_Heading3" xml:space="preserve">
+    <value>Überschrift 3</value>
+  </data>
+  <data name="TextEditor_TextFormatting" xml:space="preserve">
+    <value>Textformatierung</value>
+  </data>
+  <data name="TextEditor_Bold" xml:space="preserve">
+    <value>Fett</value>
+  </data>
+  <data name="TextEditor_Italic" xml:space="preserve">
+    <value>Kursiv</value>
+  </data>
+  <data name="TextEditor_Underline" xml:space="preserve">
+    <value>Unterstrichen</value>
+  </data>
+  <data name="TextEditor_Strikethrough" xml:space="preserve">
+    <value>Durchgestrichen</value>
+  </data>
+  <data name="TextEditor_Lists" xml:space="preserve">
+    <value>Listen</value>
+  </data>
+  <data name="TextEditor_BulletList" xml:space="preserve">
+    <value>Aufzählung</value>
+  </data>
+  <data name="TextEditor_NumberedList" xml:space="preserve">
+    <value>Nummerierte Liste</value>
+  </data>
+  <data name="TextEditor_Blocks" xml:space="preserve">
+    <value>Blöcke</value>
+  </data>
+  <data name="TextEditor_Blockquote" xml:space="preserve">
+    <value>Zitat</value>
+  </data>
+  <data name="TextEditor_CodeBlock" xml:space="preserve">
+    <value>Codeblock</value>
+  </data>
+  <data name="TextEditor_Link" xml:space="preserve">
+    <value>Link</value>
+  </data>
+  <data name="TextEditor_LinkUrl" xml:space="preserve">
+    <value>Linkadresse</value>
+  </data>
+  <data name="TextEditor_LinkApply" xml:space="preserve">
+    <value>Übernehmen</value>
+  </data>
+  <data name="TextEditor_LinkRemove" xml:space="preserve">
+    <value>Link entfernen</value>
+  </data>
+  <data name="TextEditor_LinkInvalid" xml:space="preserve">
+    <value>Geben Sie eine Web- oder E-Mail-Adresse ein, z. B. https://example.com</value>
+  </data>
+  <data name="TextEditor_History" xml:space="preserve">
+    <value>Verlauf</value>
+  </data>
+  <data name="TextEditor_ClearFormatting" xml:space="preserve">
+    <value>Formatierung löschen</value>
+  </data>
+  <data name="TextEditor_Undo" xml:space="preserve">
+    <value>Rückgängig</value>
+  </data>
+  <data name="TextEditor_Redo" xml:space="preserve">
+    <value>Wiederholen</value>
+  </data>
+  <data name="TextEditor_Source" xml:space="preserve">
+    <value>HTML-Quelltext</value>
+  </data>
+  <data name="TextEditor_SelectAll" xml:space="preserve">
+    <value>Alles auswählen</value>
+  </data>
+  <data name="TextEditor_Export" xml:space="preserve">
+    <value>Exportieren</value>
+  </data>
+  <data name="TextEditor_ExportMarkdown" xml:space="preserve">
+    <value>Markdown</value>
+  </data>
+  <data name="TextEditor_ExportDocx" xml:space="preserve">
+    <value>Word-Dokument</value>
+  </data>
+  <data name="TextEditor_ExportOdt" xml:space="preserve">
+    <value>OpenDocument-Text</value>
+  </data>
+  <data name="TextEditor_ExportHtml" xml:space="preserve">
+    <value>Webseite</value>
+  </data>
+  <data name="TextEditor_ExportPlainText" xml:space="preserve">
+    <value>Nur-Text</value>
+  </data>
+  <data name="TextEditor_ExportRtf" xml:space="preserve">
+    <value>Rich Text Format</value>
+  </data>
+  <data name="TextEditor_Exported" xml:space="preserve">
+    <value>{0} exportiert</value>
+  </data>
 </root>

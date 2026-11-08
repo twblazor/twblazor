@@ -303,6 +303,14 @@
             "theme": "TwTagInputTheme"
           },
           {
+            "id": "text-editor-navitem",
+            "display": "Text Editor",
+            "name": "TwTextEditor",
+            "url": "/text-editor",
+            "isNew": true,
+            "theme": "TwTextEditorTheme"
+          },
+          {
             "id": "textfield-navitem",
             "display": "Textfield",
             "name": "TwTextfield",
