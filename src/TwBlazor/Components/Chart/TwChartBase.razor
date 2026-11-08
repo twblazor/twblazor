@@ -6,13 +6,14 @@
 <div id="@Id" class="@rootClasses" style="@Style" role="group" aria-label="@effectiveAriaLabel" aria-labelledby="@effectiveAriaLabelledBy" @attributes="Attributes">
     @if (scene.IsEmpty)
     {
-        <p class="@theme.Empty">@effectiveEmptyText</p>
+        <TwEmpty Icon="Icon.Bar_Chart" Title="@effectiveEmptyText" Size="Size.Sm" Class="@heightClass" />
     }
     else
     {
         @if (hasToolbar)
         {
             <div class="@theme.Toolbar">
+                @toolbarContent
                 @if (hasLegend)
                 {
                     <ul class="@theme.Legend" aria-label="@effectiveLegendLabel">
@@ -84,20 +85,57 @@
             <div class="@(scene.YAxis != null ? theme.FrameWithYAxis : theme.Frame)">
                 @if (scene.YAxis is { } yAxis)
                 {
-                    <div class="@theme.YAxis" aria-hidden="true">
-                        <div class="@theme.AxisSizer">
-                            @foreach (var tick in yAxis.Ticks)
+                    <div class="@yAxisClasses" style="@yAxisStyle" aria-hidden="@(hasCustomYTicks ? null : "true")">
+                        <div class="@theme.AxisSizer" aria-hidden="true">
+                            @for (var t = 0; t < yAxis.Ticks.Count; t++)
                             {
-                                <span class="@theme.Tick">@tick.Label</span>
+                                <span class="@theme.Tick">@RenderYTickContent(yAxis.Ticks[t], t)</span>
                             }
                         </div>
-                        @foreach (var tick in yAxis.Ticks)
+                        @for (var t = 0; t < yAxis.Ticks.Count; t++)
                         {
-                            <span class="@yTickClasses" style="@($"top:{Number(tick.Position)}%;transform:translateY(-50%)")">@tick.Label</span>
+                            var tick = yAxis.Ticks[t];
+                            <span class="@yTickClasses" style="@($"top:{Number(tick.Position)}%;transform:translateY(-50%)")">@RenderYTickContent(tick, t)</span>
                         }
                     </div>
                 }
-                <div class="@plotClasses" @ref="plotRef" @onkeydown="OnPlotKeyDown">
+                @if (plotMinWidth is { } minWidth)
+                {
+                    @* A plot wider than its container scrolls on its own, so the labels beside it stay in view. *@
+                    <div class="@plotScrollerClass" @ref="scrollRef">
+                        <div style="@($"min-width:{Number(minWidth)}px")">
+                            @RenderPlot()
+                            @if (scene.XAxis is { } scrollXAxis)
+                            {
+                                @RenderXAxis(scrollXAxis)
+                            }
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    @RenderPlot()
+                    @if (scene.XAxis is { } xAxis)
+                    {
+                        @if (scene.YAxis != null)
+                        {
+                            <div></div>
+                        }
+                        @RenderXAxis(xAxis)
+                    }
+                }
+            </div>
+            @if (scene.XAxis?.Title is { } xTitle)
+            {
+                <div class="@xAxisTitleClasses" aria-hidden="true">@xTitle</div>
+            }
+        }
+    }
+</div>
+
+@code {
+    private RenderFragment RenderPlot() => @<text>
+                <div class="@plotClasses" style="@plotStyle" @ref="plotRef" @onkeydown="OnPlotKeyDown">
                     <svg class="@theme.Canvas" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
                         @foreach (var mark in scene.Marks)
                         {
@@ -141,7 +179,7 @@
                     {
                         var index = i;
                         var datum = scene.Datums[index];
-                        <TwTooltip Class="@GetHitWrapperClasses(datum)" Style="@GetDatumStyle(datum)" TooltipStyle="@GetTooltipStyle(datum)" Focusable="false" Arrow="true">
+                        <TwTooltip Class="@GetHitWrapperClasses(datum)" Style="@GetDatumStyle(datum)" TooltipStyle="@GetTooltipStyle(datum)" Placement="@GetTooltipPlacement(datum)" Focusable="false" Arrow="true">
                             <TooltipContent>
                                 <span class="@theme.TooltipTitle">@datum.Title</span>
                                 @foreach (var row in datum.Rows)
@@ -157,7 +195,7 @@
                                 }
                             </TooltipContent>
                             <ChildContent>
-                                <div @ref="hitRefs[index]" class="@theme.Hit" role="img" aria-label="@datum.AriaLabel" tabindex="@(index == activeIndex ? 0 : -1)" data-chart-datum="@index" @onfocus="() => activeIndex = index">
+                                <div @ref="hitRefs[index]" class="@hitClasses" role="img" aria-label="@datum.AriaLabel" tabindex="@(index == activeIndex ? 0 : -1)" data-chart-datum="@index" @onfocus="() => activeIndex = index" @onclick="() => ActivateDatumAsync(index)">
                                     @if (datum.Clip != null)
                                     {
                                         <span class="@theme.HitShape" style="@($"clip-path:{datum.Clip}")"></span>
@@ -174,25 +212,16 @@
                             </ChildContent>
                         </TwTooltip>
                     }
+                    @plotOverlay
                 </div>
-                @if (scene.XAxis is { } xAxis)
-                {
-                    @if (scene.YAxis != null)
-                    {
-                        <div></div>
-                    }
-                    <div class="@theme.XAxis" aria-hidden="true">
-                        @foreach (var tick in xAxis.Ticks)
-                        {
-                            <span class="@xTickClasses" style="@GetXTickStyle(xAxis, tick)">@tick.Label</span>
-                        }
-                    </div>
-                }
-            </div>
-            @if (scene.XAxis?.Title is { } xTitle)
-            {
-                <div class="@xAxisTitleClasses" aria-hidden="true">@xTitle</div>
-            }
+    </text>;
+
+    private RenderFragment RenderXAxis(ChartAxis xAxis) => @<div class="@theme.XAxis" aria-hidden="true">
+        @foreach (var tick in xAxis.Ticks)
+        {
+            <span class="@xTickClasses" style="@GetXTickStyle(xAxis, tick)">@tick.Label</span>
         }
-    }
-</div>
+    </div>;
+
+    private RenderFragment RenderYTickContent(ChartTick tick, int index) => RenderYTick(tick, index) ?? (builder => builder.AddContent(0, tick.Label));
+}

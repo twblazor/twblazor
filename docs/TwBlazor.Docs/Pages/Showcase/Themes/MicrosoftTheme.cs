@@ -1489,7 +1489,6 @@ public static class MicrosoftTheme
                     TooltipKey = $"h-0.5 w-3 {rounded.Full} {flexbox.ShrinkNone}",
                     TooltipLabel = neutralText.Secondary,
                     TooltipValue = $"{spacing.PushEnd} {spacing.PaddingStart[3]} {typography.Weight.Semibold} tabular-nums",
-                    Empty = $"{spacing.PaddingY[8]} {typography.AlignCenter} {typography.Size.Sm} {neutralText.Muted}",
                     TableRowHeader = typography.Weight.Medium,
                     Series =
                     [
@@ -1510,6 +1509,33 @@ public static class MicrosoftTheme
                     Grid = new() { Background = "bg-[oklch(92%_0.003_67)] dark:bg-[oklch(32%_0.006_67)]", Fill = "fill-[oklch(92%_0.003_67)] dark:fill-[oklch(32%_0.006_67)]", Stroke = "stroke-[oklch(92%_0.003_67)] dark:stroke-[oklch(32%_0.006_67)]", Text = "text-[oklch(92%_0.003_67)] dark:text-[oklch(32%_0.006_67)]" },
                     Axis = new() { Background = "bg-[oklch(78%_0.004_67)] dark:bg-[oklch(48%_0.006_67)]", Fill = "fill-[oklch(78%_0.004_67)] dark:fill-[oklch(48%_0.006_67)]", Stroke = "stroke-[oklch(78%_0.004_67)] dark:stroke-[oklch(48%_0.006_67)]", Text = "text-[oklch(78%_0.004_67)] dark:text-[oklch(48%_0.006_67)]" },
                     Ink = new() { Background = "bg-[oklch(21%_0.006_67)] dark:bg-[oklch(97.807%_0.004_67)]", Fill = "fill-[oklch(21%_0.006_67)] dark:fill-[oklch(97.807%_0.004_67)]", Stroke = "stroke-[oklch(21%_0.006_67)] dark:stroke-[oklch(97.807%_0.004_67)]", Text = neutralText.Heading }
+                },
+                new TwGanttTheme
+                {
+                    Scroller = $"{sizing.MinWidthNone} overflow-x-auto overflow-y-hidden",
+                    YAxisScrolling = "self-start",
+                    YAxis = "max-w-64",
+                    Clickable = interaction.PointerCursor,
+                    Toolbar = $"{display.Flex} {flexbox.Wrap} {flexbox.Align.Center} {spacing.Gap[2]}",
+                    Tick = $"{display.InlineFlex} {flexbox.Align.Center} {spacing.Gap[1]} max-w-full",
+                    TickLabel = typography.Truncate,
+                    Toggle = $"{display.InlineFlex} {flexbox.ShrinkNone} {anchor.Center} size-4 {rounded.Sm} {neutralText.Muted} {tokens.HoverText} {interaction.PointerCursor} {interaction.FocusOutlineNone} {tokens.FocusRing} {transition.ColorsFast}",
+                    ToggleIcon = $"text-[10px] {transition.TransformFast} rtl:-scale-x-100",
+                    ToggleIconOpen = "rotate-90 rtl:scale-x-100",
+                    ToggleSpacer = $"{display.InlineBlock} {flexbox.ShrinkNone} size-4",
+                    Overlay = $"{positioning.Absolute} inset-0 z-20 {interaction.PointerEventsNone}",
+                    Bar = $"group {positioning.Absolute}",
+                    Handle = $"{positioning.Absolute} -inset-y-0.5 w-1.5 {rounded.Sm} bg-[oklch(21%_0.006_285.885)]/45 dark:bg-[oklch(97.807%_0.029_256.847)]/55 opacity-0 group-data-[gantt-active]:opacity-100",
+                    HandleStart = "left-0",
+                    HandleEnd = "right-0",
+                    ProgressGrip = $"{positioning.Absolute} top-full -translate-x-1/2 size-0 border-x-[5px] border-b-[6px] border-x-transparent border-b-[oklch(21%_0.006_285.885)] dark:border-b-[oklch(97.807%_0.029_256.847)] opacity-0 group-data-[gantt-active]:opacity-100",
+                    LinkDot = $"{positioning.Absolute} top-1/2 size-2.5 -translate-y-1/2 {rounded.Full} border-2 border-[oklch(21%_0.006_285.885)] dark:border-[oklch(97.807%_0.029_256.847)] {neutralSurface.Background} opacity-0 group-data-[gantt-active]:opacity-100",
+                    LinkDotStart = "-left-4",
+                    LinkDotEnd = "-right-4",
+                    Ghost = $"{positioning.Absolute} {rounded.Sm} border-2 border-dashed border-fluentblue-600 dark:border-fluentblue-400 bg-fluentblue-500/15 {interaction.PointerEventsNone}",
+                    LinkLine = $"{positioning.Fixed} z-50 h-0.5 origin-left bg-fluentblue-600 dark:bg-fluentblue-400 {interaction.PointerEventsNone}",
+                    Links = $"{positioning.Absolute} inset-0 {sizing.Full} overflow-visible",
+                    LinkHit = $"[pointer-events:stroke] {interaction.PointerCursor} fill-none stroke-transparent hover:stroke-[oklch(21%_0.006_285.885)]/20 dark:hover:stroke-[oklch(97.807%_0.029_256.847)]/25"
                 },
                 new TwChipTheme
                 {

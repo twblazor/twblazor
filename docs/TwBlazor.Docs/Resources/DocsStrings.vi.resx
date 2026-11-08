@@ -833,7 +833,7 @@
     <value>Cảnh báo, số liệu và biểu đồ, sẵn sàng cho bảng điều khiển.</value>
   </data>
   <data name="Home_Showcase_Charts_Desc" xml:space="preserve">
-    <value>Hơn {0} loại biểu đồ, một phong cách thống nhất. Dùng thử chín loại tại đây.</value>
+    <value>Hơn {0} loại biểu đồ, một phong cách thống nhất. Dùng thử mười loại tại đây.</value>
   </data>
   <data name="Home_Showcase_Purple" xml:space="preserve">
     <value>Tím</value>
@@ -1062,5 +1062,47 @@
   </data>
   <data name="Home_A11y_Tested_Body" xml:space="preserve">
     <value>Mọi trang tài liệu đều được quét lỗi trợ năng trong bộ kiểm thử.</value>
+  </data>
+  <data name="Home_Plan_Title" xml:space="preserve">
+    <value>Kế hoạch phát hành</value>
+  </data>
+  <data name="Home_Plan_Discovery" xml:space="preserve">
+    <value>Khám phá</value>
+  </data>
+  <data name="Home_Plan_Research" xml:space="preserve">
+    <value>Nghiên cứu</value>
+  </data>
+  <data name="Home_Plan_Interviews" xml:space="preserve">
+    <value>Phỏng vấn người dùng</value>
+  </data>
+  <data name="Home_Plan_Wireframes" xml:space="preserve">
+    <value>Wireframe</value>
+  </data>
+  <data name="Home_Plan_Visual" xml:space="preserve">
+    <value>Thiết kế hình ảnh</value>
+  </data>
+  <data name="Home_Plan_Build" xml:space="preserve">
+    <value>Xây dựng</value>
+  </data>
+  <data name="Home_Plan_Api" xml:space="preserve">
+    <value>API</value>
+  </data>
+  <data name="Home_Plan_Frontend" xml:space="preserve">
+    <value>Giao diện</value>
+  </data>
+  <data name="Home_Plan_Testing" xml:space="preserve">
+    <value>Kiểm thử</value>
+  </data>
+  <data name="Home_Plan_Launch" xml:space="preserve">
+    <value>Ra mắt</value>
+  </data>
+  <data name="Home_Plan_Beta" xml:space="preserve">
+    <value>Beta</value>
+  </data>
+  <data name="Home_Plan_Signoff" xml:space="preserve">
+    <value>Phê duyệt</value>
+  </data>
+  <data name="Home_Plan_Release" xml:space="preserve">
+    <value>Phát hành</value>
   </data>
 </root>

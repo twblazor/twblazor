@@ -371,11 +371,6 @@ public class TwChartTheme
     public required string TooltipValue { get; set; }
 
     /// <summary>
-    /// Gets or sets the classes for the message shown when a chart has no data.
-    /// </summary>
-    public required string Empty { get; set; }
-
-    /// <summary>
     /// Gets or sets the extra classes for a row header cell in the table view.
     /// </summary>
     public required string TableRowHeader { get; set; }

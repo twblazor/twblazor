@@ -303,6 +303,21 @@ public class HomePageTests : DocsTestBase
     }
 
     [Fact]
+    public void Showcase_ChartsTab_OpensOnTheGanttChart()
+    {
+        // Arrange
+        var page = TestContext.Render<Home>();
+
+        // Act
+        page.Find("#showcase-tab-charts").Click();
+
+        // Assert
+        Assert.Equal("true", page.Find("#showcase-chart-gantt").GetAttribute("aria-pressed"));
+        Assert.NotNull(page.Find("#showcase [role='tabpanel']").QuerySelector("[data-gantt-overlay]"));
+        Assert.Equal("/chart/gantt", page.Find("#showcase-docs").GetAttribute("href"));
+    }
+
+    [Fact]
     public void Showcase_ChartsTab_SwitchesChartType_AndLinksToThatChartsDocs()
     {
         // Arrange

@@ -306,6 +306,78 @@
   <data name="Chart_Destination" xml:space="preserve">
     <value>Tujuan</value>
   </data>
+  <data name="Chart_Done" xml:space="preserve">
+    <value>Selesai</value>
+  </data>
+  <data name="Chart_Date" xml:space="preserve">
+    <value>Tanggal</value>
+  </data>
+  <data name="Chart_Milestone" xml:space="preserve">
+    <value>Tonggak</value>
+  </data>
+  <data name="Chart_Summary" xml:space="preserve">
+    <value>Ringkasan</value>
+  </data>
+  <data name="Chart_Today" xml:space="preserve">
+    <value>Hari ini</value>
+  </data>
+  <data name="Chart_NonWorking" xml:space="preserve">
+    <value>Hari libur</value>
+  </data>
+  <data name="Chart_ExpandAll" xml:space="preserve">
+    <value>Bentangkan semua</value>
+  </data>
+  <data name="Chart_CollapseAll" xml:space="preserve">
+    <value>Ciutkan semua</value>
+  </data>
+  <data name="Chart_ExpandTask" xml:space="preserve">
+    <value>Tampilkan tugas di bawah {0}</value>
+  </data>
+  <data name="Chart_CollapseTask" xml:space="preserve">
+    <value>Sembunyikan tugas di bawah {0}</value>
+  </data>
+  <data name="Chart_Zoom" xml:space="preserve">
+    <value>Zoom</value>
+  </data>
+  <data name="Chart_ZoomAuto" xml:space="preserve">
+    <value>Paskan</value>
+  </data>
+  <data name="Chart_ZoomHour" xml:space="preserve">
+    <value>Jam</value>
+  </data>
+  <data name="Chart_ZoomDay" xml:space="preserve">
+    <value>Hari</value>
+  </data>
+  <data name="Chart_ZoomWeek" xml:space="preserve">
+    <value>Minggu</value>
+  </data>
+  <data name="Chart_ZoomMonth" xml:space="preserve">
+    <value>Bulan</value>
+  </data>
+  <data name="Chart_ZoomQuarter" xml:space="preserve">
+    <value>Kuartal</value>
+  </data>
+  <data name="Chart_ZoomYear" xml:space="preserve">
+    <value>Tahun</value>
+  </data>
+  <data name="Chart_WeekNumber" xml:space="preserve">
+    <value>M{0}</value>
+  </data>
+  <data name="Chart_QuarterNumber" xml:space="preserve">
+    <value>K{0}</value>
+  </data>
+  <data name="Chart_FinishToStart" xml:space="preserve">
+    <value>{1} dimulai setelah {0} selesai</value>
+  </data>
+  <data name="Chart_StartToStart" xml:space="preserve">
+    <value>{1} dimulai saat {0} dimulai</value>
+  </data>
+  <data name="Chart_FinishToFinish" xml:space="preserve">
+    <value>{1} selesai saat {0} selesai</value>
+  </data>
+  <data name="Chart_StartToFinish" xml:space="preserve">
+    <value>{1} selesai setelah {0} dimulai</value>
+  </data>
   <data name="Chip_Remove" xml:space="preserve">
     <value>Hapus {0}</value>
   </data>

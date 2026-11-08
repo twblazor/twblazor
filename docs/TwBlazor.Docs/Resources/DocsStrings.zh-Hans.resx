@@ -833,7 +833,7 @@
     <value>提示、数据和图表，可直接用于仪表板。</value>
   </data>
   <data name="Home_Showcase_Charts_Desc" xml:space="preserve">
-    <value>{0}+ 种图表类型，统一外观。在这里试用其中九种。</value>
+    <value>{0}+ 种图表类型，统一外观。在这里试用其中十种。</value>
   </data>
   <data name="Home_Showcase_Purple" xml:space="preserve">
     <value>紫色</value>
@@ -1062,5 +1062,47 @@
   </data>
   <data name="Home_A11y_Tested_Body" xml:space="preserve">
     <value>测试套件会扫描每个文档页面的无障碍问题。</value>
+  </data>
+  <data name="Home_Plan_Title" xml:space="preserve">
+    <value>发布计划</value>
+  </data>
+  <data name="Home_Plan_Discovery" xml:space="preserve">
+    <value>探索</value>
+  </data>
+  <data name="Home_Plan_Research" xml:space="preserve">
+    <value>调研</value>
+  </data>
+  <data name="Home_Plan_Interviews" xml:space="preserve">
+    <value>用户访谈</value>
+  </data>
+  <data name="Home_Plan_Wireframes" xml:space="preserve">
+    <value>线框图</value>
+  </data>
+  <data name="Home_Plan_Visual" xml:space="preserve">
+    <value>视觉设计</value>
+  </data>
+  <data name="Home_Plan_Build" xml:space="preserve">
+    <value>开发</value>
+  </data>
+  <data name="Home_Plan_Api" xml:space="preserve">
+    <value>API</value>
+  </data>
+  <data name="Home_Plan_Frontend" xml:space="preserve">
+    <value>前端</value>
+  </data>
+  <data name="Home_Plan_Testing" xml:space="preserve">
+    <value>测试</value>
+  </data>
+  <data name="Home_Plan_Launch" xml:space="preserve">
+    <value>上线</value>
+  </data>
+  <data name="Home_Plan_Beta" xml:space="preserve">
+    <value>测试版</value>
+  </data>
+  <data name="Home_Plan_Signoff" xml:space="preserve">
+    <value>签核</value>
+  </data>
+  <data name="Home_Plan_Release" xml:space="preserve">
+    <value>发布</value>
   </data>
 </root>

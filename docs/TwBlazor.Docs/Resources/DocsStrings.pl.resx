@@ -833,7 +833,7 @@
     <value>Alerty, liczby i wykresy gotowe do pulpitu.</value>
   </data>
   <data name="Home_Showcase_Charts_Desc" xml:space="preserve">
-    <value>Ponad {0} typów wykresów w spójnym stylu. Wypróbuj tu dziewięć z nich.</value>
+    <value>Ponad {0} typów wykresów w spójnym stylu. Wypróbuj tu dziesięć z nich.</value>
   </data>
   <data name="Home_Showcase_Purple" xml:space="preserve">
     <value>Fioletowy</value>
@@ -1062,5 +1062,47 @@
   </data>
   <data name="Home_A11y_Tested_Body" xml:space="preserve">
     <value>Każda strona dokumentacji jest sprawdzana w testach pod kątem problemów z dostępnością.</value>
+  </data>
+  <data name="Home_Plan_Title" xml:space="preserve">
+    <value>Plan wydania</value>
+  </data>
+  <data name="Home_Plan_Discovery" xml:space="preserve">
+    <value>Rozpoznanie</value>
+  </data>
+  <data name="Home_Plan_Research" xml:space="preserve">
+    <value>Badania</value>
+  </data>
+  <data name="Home_Plan_Interviews" xml:space="preserve">
+    <value>Wywiady z użytkownikami</value>
+  </data>
+  <data name="Home_Plan_Wireframes" xml:space="preserve">
+    <value>Makiety</value>
+  </data>
+  <data name="Home_Plan_Visual" xml:space="preserve">
+    <value>Projekt graficzny</value>
+  </data>
+  <data name="Home_Plan_Build" xml:space="preserve">
+    <value>Budowa</value>
+  </data>
+  <data name="Home_Plan_Api" xml:space="preserve">
+    <value>API</value>
+  </data>
+  <data name="Home_Plan_Frontend" xml:space="preserve">
+    <value>Front-end</value>
+  </data>
+  <data name="Home_Plan_Testing" xml:space="preserve">
+    <value>Testy</value>
+  </data>
+  <data name="Home_Plan_Launch" xml:space="preserve">
+    <value>Wdrożenie</value>
+  </data>
+  <data name="Home_Plan_Beta" xml:space="preserve">
+    <value>Beta</value>
+  </data>
+  <data name="Home_Plan_Signoff" xml:space="preserve">
+    <value>Akceptacja</value>
+  </data>
+  <data name="Home_Plan_Release" xml:space="preserve">
+    <value>Wydanie</value>
   </data>
 </root>

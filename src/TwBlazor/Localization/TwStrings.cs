@@ -334,6 +334,81 @@ public static class TwStrings
     /// <summary>The key for "Target", the node a link in a graph points to.</summary>
     public const string Chart_Destination = "Chart_Destination";
 
+    /// <summary>The key for "Done".</summary>
+    public const string Chart_Done = "Chart_Done";
+
+
+
+
+    /// <summary>The key for "Date".</summary>
+    public const string Chart_Date = "Chart_Date";
+
+    /// <summary>The key for "Milestone".</summary>
+    public const string Chart_Milestone = "Chart_Milestone";
+
+    /// <summary>The key for "Summary".</summary>
+    public const string Chart_Summary = "Chart_Summary";
+
+    /// <summary>The key for "Today".</summary>
+    public const string Chart_Today = "Chart_Today";
+
+    /// <summary>The key for "Non-working day".</summary>
+    public const string Chart_NonWorking = "Chart_NonWorking";
+
+    /// <summary>The key for "Expand all".</summary>
+    public const string Chart_ExpandAll = "Chart_ExpandAll";
+
+    /// <summary>The key for "Collapse all".</summary>
+    public const string Chart_CollapseAll = "Chart_CollapseAll";
+
+    /// <summary>The key for "Show the tasks under {0}".</summary>
+    public const string Chart_ExpandTask = "Chart_ExpandTask";
+
+    /// <summary>The key for "Hide the tasks under {0}".</summary>
+    public const string Chart_CollapseTask = "Chart_CollapseTask";
+
+    /// <summary>The key for "Zoom".</summary>
+    public const string Chart_Zoom = "Chart_Zoom";
+
+    /// <summary>The key for "Fit".</summary>
+    public const string Chart_ZoomAuto = "Chart_ZoomAuto";
+
+    /// <summary>The key for "Hour".</summary>
+    public const string Chart_ZoomHour = "Chart_ZoomHour";
+
+    /// <summary>The key for "Day".</summary>
+    public const string Chart_ZoomDay = "Chart_ZoomDay";
+
+    /// <summary>The key for "Week".</summary>
+    public const string Chart_ZoomWeek = "Chart_ZoomWeek";
+
+    /// <summary>The key for "Month".</summary>
+    public const string Chart_ZoomMonth = "Chart_ZoomMonth";
+
+    /// <summary>The key for "Quarter".</summary>
+    public const string Chart_ZoomQuarter = "Chart_ZoomQuarter";
+
+    /// <summary>The key for "Year".</summary>
+    public const string Chart_ZoomYear = "Chart_ZoomYear";
+
+    /// <summary>The key for "W{0}".</summary>
+    public const string Chart_WeekNumber = "Chart_WeekNumber";
+
+    /// <summary>The key for "Q{0}".</summary>
+    public const string Chart_QuarterNumber = "Chart_QuarterNumber";
+
+    /// <summary>The key for "{1} starts after {0} finishes".</summary>
+    public const string Chart_FinishToStart = "Chart_FinishToStart";
+
+    /// <summary>The key for "{1} starts when {0} starts".</summary>
+    public const string Chart_StartToStart = "Chart_StartToStart";
+
+    /// <summary>The key for "{1} finishes when {0} finishes".</summary>
+    public const string Chart_FinishToFinish = "Chart_FinishToFinish";
+
+    /// <summary>The key for "{1} finishes after {0} starts".</summary>
+    public const string Chart_StartToFinish = "Chart_StartToFinish";
+
     /// <summary>The key for "Remove {0}".</summary>
     public const string Chip_Remove = "Chip_Remove";
 

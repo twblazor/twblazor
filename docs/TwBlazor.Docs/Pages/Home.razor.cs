@@ -27,6 +27,67 @@ public partial class Home
         Loc.Text("Home_Env_Development", "Development")
     ];
 
+    // The plan starts on the Monday four weeks ago, so the today line always falls inside it.
+    private static readonly DateTime _planStart = DateTime.Today.AddDays(-28 - ((int)DateTime.Today.DayOfWeek + 6) % 7);
+
+    private List<ChartTask> planTasks =
+    [
+        new(Loc.Text("Home_Plan_Discovery", "Discovery"), PlanDay(0), PlanDay(0)) { Id = "discovery", ColorIndex = 0 },
+        new(Loc.Text("Home_Plan_Research", "Research"), PlanDay(0), PlanDay(9)) { Id = "research", ParentId = "discovery", Progress = 1, ColorIndex = 0 },
+        new(Loc.Text("Home_Plan_Interviews", "User interviews"), PlanDay(5), PlanDay(16)) { Id = "interviews", ParentId = "discovery", Progress = 1, ColorIndex = 0 },
+        new(Loc.Text("Home_Review_Tag_Design", "Design"), PlanDay(0), PlanDay(0)) { Id = "design", ColorIndex = 1 },
+        new(Loc.Text("Home_Plan_Wireframes", "Wireframes"), PlanDay(14), PlanDay(25)) { Id = "wireframes", ParentId = "design", Progress = 1, ColorIndex = 1 },
+        new(Loc.Text("Home_Plan_Visual", "Visual design"), PlanDay(21), PlanDay(39)) { Id = "visual", ParentId = "design", Progress = 0.6, ColorIndex = 1 },
+        new(Loc.Text("Home_Plan_Build", "Build"), PlanDay(0), PlanDay(0)) { Id = "build", ColorIndex = 2 },
+        new(Loc.Text("Home_Plan_Api", "API"), PlanDay(21), PlanDay(46)) { Id = "api", ParentId = "build", Progress = 0.45, ColorIndex = 2 },
+        new(Loc.Text("Home_Plan_Frontend", "Front end"), PlanDay(35), PlanDay(60)) { Id = "frontend", ParentId = "build", Progress = 0.1, ColorIndex = 2 },
+        new(Loc.Text("Home_Plan_Testing", "Testing"), PlanDay(49), PlanDay(67)) { Id = "testing", ParentId = "build", ColorIndex = 2 },
+        new(Loc.Text("Home_Plan_Launch", "Launch"), PlanDay(0), PlanDay(0)) { Id = "launch", ColorIndex = 3 },
+        new(Loc.Text("Home_Plan_Beta", "Beta"), PlanDay(67), PlanDay(81)) { Id = "beta", ParentId = "launch", ColorIndex = 3 },
+        new(Loc.Text("Home_Plan_Signoff", "Sign-off"), PlanDay(84), PlanDay(84)) { Id = "signoff", ParentId = "launch", ColorIndex = 3 },
+        new(Loc.Text("Home_Plan_Release", "Release"), PlanDay(88), PlanDay(88)) { Id = "release", ParentId = "launch", ColorIndex = 3 }
+    ];
+
+    private List<ChartTaskDependency> planDependencies =
+    [
+        new("research", "interviews", ChartDependencyType.StartToStart),
+        new("interviews", "wireframes"),
+        new("wireframes", "visual", ChartDependencyType.StartToStart),
+        new("visual", "frontend"),
+        new("api", "frontend", ChartDependencyType.FinishToFinish),
+        new("frontend", "testing"),
+        new("testing", "beta"),
+        new("beta", "signoff"),
+        new("signoff", "release")
+    ];
+
+    // Discovery is finished, so it starts folded away.
+    private IReadOnlySet<string> planCollapsed = new HashSet<string> { "discovery" };
+
+    private static DateTime PlanDay(int days) => _planStart.AddDays(days);
+
+    private void OnPlanTaskChange(ChartTaskChange change)
+    {
+        var index = planTasks.FindIndex(task => task.Key == change.Task.Key);
+        planTasks[index] = change.Task with { Start = change.Start, End = change.End, Progress = change.Progress };
+        planTasks = [.. planTasks];
+    }
+
+    private void OnPlanDependencyCreate(ChartDependencyRequest request)
+    {
+        if (planDependencies.Any(d => (d.FromId == request.Dependency.FromId && d.ToId == request.Dependency.ToId)
+            || (d.FromId == request.Dependency.ToId && d.ToId == request.Dependency.FromId)))
+        {
+            request.Cancel = true;
+            return;
+        }
+
+        planDependencies = [.. planDependencies, request.Dependency];
+    }
+
+    private void OnPlanDependencyClick(ChartTaskDependency dependency) =>
+        planDependencies = [.. planDependencies.Where(d => d != dependency)];
+
     private readonly List<Figure> _releaseFigures =
     [
         new(Loc.Text("Home_Release_Deploys", "Deploys"), "128"),
@@ -333,7 +394,7 @@ public partial class Home
         ComponentCatalog.LoadLeafEntries().Count(leaf => leaf.Category == "Charts" && leaf.Entry.Url != "/chart") / 10 * 10;
 
     private static readonly IReadOnlyList<string> _showcaseChartTypes =
-        ["Area", "Column", "Line", "Bar", "Pie", "Treemap", "Funnel", "Gauge", "Heatmap"];
+        ["Gantt", "Area", "Column", "Line", "Bar", "Pie", "Treemap", "Funnel", "Gauge", "Heatmap"];
 
     private readonly ChartSeries[] _environmentDeploys =
     [
@@ -353,7 +414,7 @@ public partial class Home
     private readonly ChartSeries[] _environmentWeek;
 
     private ShowcaseSwatch showcaseSwatch;
-    private string showcaseChartType = "Area";
+    private string showcaseChartType = "Gantt";
 
     // The showcase follows the site's mode until its own toggle is used. Before then this holds the site's mode,
     // read once the page is interactive, so the toggle's label names the mode it will switch to.
