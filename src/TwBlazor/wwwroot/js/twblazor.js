@@ -1931,7 +1931,7 @@ globalThis.twTextEditor = {
     },
 
     _exec: function (command, value) {
-        if (typeof document.execCommand !== 'function') return false;
+        if (!('execCommand' in document)) return false;
         try {
             // No standard API replaces execCommand for editable content yet, and every browser still supports it.
             return document.execCommand(command, false, value); // NOSONAR
@@ -1941,7 +1941,7 @@ globalThis.twTextEditor = {
     },
 
     _queryState: function (command) {
-        if (typeof document.queryCommandState !== 'function') return null;
+        if (!('queryCommandState' in document)) return null;
         try {
             // The browser's own state is the only way to know about formatting turned on at an empty caret.
             return document.queryCommandState(command); // NOSONAR
