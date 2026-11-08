@@ -1105,4 +1105,28 @@
   <data name="Home_Plan_Release" xml:space="preserve">
     <value>Sürüm</value>
   </data>
+  <data name="Home_Release_Notes" xml:space="preserve">
+    <value>Sürüm notları</value>
+  </data>
+  <data name="Home_Release_NotesHelp" xml:space="preserve">
+    <value>Biçimlendirme için sağ tıklayın ya da Word, OpenDocument, Markdown ve diğer biçimlerde dışa aktarın.</value>
+  </data>
+  <data name="Home_Release_NotesHeading" xml:space="preserve">
+    <value>v2.4.0 ile gelen yenilikler</value>
+  </data>
+  <data name="Home_Release_NotesIntro" xml:space="preserve">
+    <value>Daha hızlı dağıtımlar, daha erken depolama uyarıları ve bir dizi düzeltme.</value>
+  </data>
+  <data name="Home_Release_NotesFaster" xml:space="preserve">
+    <value>Dağıtımlar %30 daha hızlı</value>
+  </data>
+  <data name="Home_Release_NotesAlerts" xml:space="preserve">
+    <value>Depolama uyarıları alan bitmeden sizi uyarır</value>
+  </data>
+  <data name="Home_Release_NotesFixes" xml:space="preserve">
+    <value>Gantt şemasında klavye düzeltmeleri</value>
+  </data>
+  <data name="Home_Release_NotesQuote" xml:space="preserve">
+    <value>Az ama sık yayınlayın.</value>
+  </data>
 </root>

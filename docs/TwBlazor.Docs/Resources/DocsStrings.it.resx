@@ -1105,4 +1105,28 @@
   <data name="Home_Plan_Release" xml:space="preserve">
     <value>Rilascio</value>
   </data>
+  <data name="Home_Release_Notes" xml:space="preserve">
+    <value>Note di rilascio</value>
+  </data>
+  <data name="Home_Release_NotesHelp" xml:space="preserve">
+    <value>Fai clic con il tasto destro per formattare, oppure esporta in Word, OpenDocument, Markdown e altro.</value>
+  </data>
+  <data name="Home_Release_NotesHeading" xml:space="preserve">
+    <value>Novità della v2.4.0</value>
+  </data>
+  <data name="Home_Release_NotesIntro" xml:space="preserve">
+    <value>Rilasci più veloci, avvisi di archiviazione anticipati e una serie di correzioni.</value>
+  </data>
+  <data name="Home_Release_NotesFaster" xml:space="preserve">
+    <value>I rilasci sono più veloci del 30%</value>
+  </data>
+  <data name="Home_Release_NotesAlerts" xml:space="preserve">
+    <value>Gli avvisi di archiviazione ti avvisano prima che lo spazio finisca</value>
+  </data>
+  <data name="Home_Release_NotesFixes" xml:space="preserve">
+    <value>Correzioni della tastiera nel diagramma di Gantt</value>
+  </data>
+  <data name="Home_Release_NotesQuote" xml:space="preserve">
+    <value>Rilascia poco, rilascia spesso.</value>
+  </data>
 </root>

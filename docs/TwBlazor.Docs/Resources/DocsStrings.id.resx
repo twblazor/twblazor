@@ -1105,4 +1105,28 @@
   <data name="Home_Plan_Release" xml:space="preserve">
     <value>Rilis</value>
   </data>
+  <data name="Home_Release_Notes" xml:space="preserve">
+    <value>Catatan rilis</value>
+  </data>
+  <data name="Home_Release_NotesHelp" xml:space="preserve">
+    <value>Klik kanan untuk memformat, atau ekspor ke Word, OpenDocument, Markdown, dan lainnya.</value>
+  </data>
+  <data name="Home_Release_NotesHeading" xml:space="preserve">
+    <value>Yang baru di v2.4.0</value>
+  </data>
+  <data name="Home_Release_NotesIntro" xml:space="preserve">
+    <value>Deploy lebih cepat, peringatan penyimpanan lebih awal, dan sejumlah perbaikan.</value>
+  </data>
+  <data name="Home_Release_NotesFaster" xml:space="preserve">
+    <value>Deploy 30% lebih cepat</value>
+  </data>
+  <data name="Home_Release_NotesAlerts" xml:space="preserve">
+    <value>Peringatan penyimpanan memberi tahu sebelum ruang habis</value>
+  </data>
+  <data name="Home_Release_NotesFixes" xml:space="preserve">
+    <value>Perbaikan keyboard di diagram Gantt</value>
+  </data>
+  <data name="Home_Release_NotesQuote" xml:space="preserve">
+    <value>Rilis kecil, rilis sering.</value>
+  </data>
 </root>

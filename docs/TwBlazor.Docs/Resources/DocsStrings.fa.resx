@@ -1105,4 +1105,28 @@
   <data name="Home_Plan_Release" xml:space="preserve">
     <value>انتشار</value>
   </data>
+  <data name="Home_Release_Notes" xml:space="preserve">
+    <value>یادداشت‌های انتشار</value>
+  </data>
+  <data name="Home_Release_NotesHelp" xml:space="preserve">
+    <value>برای قالب‌بندی راست‌کلیک کنید، یا به Word، OpenDocument، Markdown و موارد دیگر صادر کنید.</value>
+  </data>
+  <data name="Home_Release_NotesHeading" xml:space="preserve">
+    <value>تازه‌های v2.4.0</value>
+  </data>
+  <data name="Home_Release_NotesIntro" xml:space="preserve">
+    <value>استقرار سریع‌تر، هشدارهای زودتر فضای ذخیره‌سازی و مجموعه‌ای از اصلاحات.</value>
+  </data>
+  <data name="Home_Release_NotesFaster" xml:space="preserve">
+    <value>استقرارها 30% سریع‌ترند</value>
+  </data>
+  <data name="Home_Release_NotesAlerts" xml:space="preserve">
+    <value>هشدارهای ذخیره‌سازی پیش از پر شدن فضا خبر می‌دهند</value>
+  </data>
+  <data name="Home_Release_NotesFixes" xml:space="preserve">
+    <value>اصلاحات صفحه‌کلید در نمودار Gantt</value>
+  </data>
+  <data name="Home_Release_NotesQuote" xml:space="preserve">
+    <value>کوچک منتشر کنید، زیاد منتشر کنید.</value>
+  </data>
 </root>

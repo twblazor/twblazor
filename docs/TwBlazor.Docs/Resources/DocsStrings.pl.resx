@@ -1105,4 +1105,28 @@
   <data name="Home_Plan_Release" xml:space="preserve">
     <value>Wydanie</value>
   </data>
+  <data name="Home_Release_Notes" xml:space="preserve">
+    <value>Informacje o wersji</value>
+  </data>
+  <data name="Home_Release_NotesHelp" xml:space="preserve">
+    <value>Kliknij prawym przyciskiem, aby formatować, lub eksportuj do Word, OpenDocument, Markdown i innych.</value>
+  </data>
+  <data name="Home_Release_NotesHeading" xml:space="preserve">
+    <value>Co nowego w v2.4.0</value>
+  </data>
+  <data name="Home_Release_NotesIntro" xml:space="preserve">
+    <value>Szybsze wdrożenia, wcześniejsze ostrzeżenia o miejscu i szereg poprawek.</value>
+  </data>
+  <data name="Home_Release_NotesFaster" xml:space="preserve">
+    <value>Wdrożenia są o 30% szybsze</value>
+  </data>
+  <data name="Home_Release_NotesAlerts" xml:space="preserve">
+    <value>Ostrzeżenia o miejscu informują, zanim go zabraknie</value>
+  </data>
+  <data name="Home_Release_NotesFixes" xml:space="preserve">
+    <value>Poprawki klawiatury w wykresie Gantta</value>
+  </data>
+  <data name="Home_Release_NotesQuote" xml:space="preserve">
+    <value>Wydawaj mało, wydawaj często.</value>
+  </data>
 </root>

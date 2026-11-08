@@ -130,6 +130,16 @@
                                             <TwColumnChart Categories="@_deployDays" Series="@_deploys" Stacking="ChartStacking.Stacked" CategoryHeader="@Loc.Text("Home_Chart_Day", "Day")" />
                                         </TwChart>
                                     </div>
+                                    <TwTextEditor Id="showcase-release-notes"
+                                                  Label="@Loc.Text("Home_Release_Notes", "Release notes")"
+                                                  HelperText="@Loc.Text("Home_Release_NotesHelp", "Right-click for formatting, or export as Word, OpenDocument, Markdown and more.")"
+                                                  Toolbar="TextEditorToolbar.Full"
+                                                  ShowContextMenu
+                                                  ExportFormats="@_releaseNotesFormats"
+                                                  ExportFileName="Atlas v2.4.0 release notes"
+                                                  MinHeight="10rem"
+                                                  MaxHeight="22rem"
+                                                  @bind-Value="releaseNotes" />
                                 </div>)
                         </TwTab>
 

@@ -1105,4 +1105,28 @@
   <data name="Home_Plan_Release" xml:space="preserve">
     <value>Publicação</value>
   </data>
+  <data name="Home_Release_Notes" xml:space="preserve">
+    <value>Notas de versão</value>
+  </data>
+  <data name="Home_Release_NotesHelp" xml:space="preserve">
+    <value>Clique com o botão direito para formatar ou exporte para Word, OpenDocument, Markdown e mais.</value>
+  </data>
+  <data name="Home_Release_NotesHeading" xml:space="preserve">
+    <value>Novidades da v2.4.0</value>
+  </data>
+  <data name="Home_Release_NotesIntro" xml:space="preserve">
+    <value>Implementações mais rápidas, alertas de armazenamento mais cedo e várias correções.</value>
+  </data>
+  <data name="Home_Release_NotesFaster" xml:space="preserve">
+    <value>As implementações estão 30% mais rápidas</value>
+  </data>
+  <data name="Home_Release_NotesAlerts" xml:space="preserve">
+    <value>Os alertas de armazenamento avisam antes de o espaço acabar</value>
+  </data>
+  <data name="Home_Release_NotesFixes" xml:space="preserve">
+    <value>Correções de teclado no gráfico de Gantt</value>
+  </data>
+  <data name="Home_Release_NotesQuote" xml:space="preserve">
+    <value>Lance pouco, lance muitas vezes.</value>
+  </data>
 </root>

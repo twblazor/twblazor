@@ -1105,4 +1105,28 @@
   <data name="Home_Plan_Release" xml:space="preserve">
     <value>發佈</value>
   </data>
+  <data name="Home_Release_Notes" xml:space="preserve">
+    <value>版本資訊</value>
+  </data>
+  <data name="Home_Release_NotesHelp" xml:space="preserve">
+    <value>按一下滑鼠右鍵可設定格式，也可匯出為 Word、OpenDocument、Markdown 等格式。</value>
+  </data>
+  <data name="Home_Release_NotesHeading" xml:space="preserve">
+    <value>v2.4.0 新功能</value>
+  </data>
+  <data name="Home_Release_NotesIntro" xml:space="preserve">
+    <value>部署更快、儲存空間提醒更早，並修正了一批問題。</value>
+  </data>
+  <data name="Home_Release_NotesFaster" xml:space="preserve">
+    <value>部署速度提升 30%</value>
+  </data>
+  <data name="Home_Release_NotesAlerts" xml:space="preserve">
+    <value>儲存空間提醒會在空間用盡前通知你</value>
+  </data>
+  <data name="Home_Release_NotesFixes" xml:space="preserve">
+    <value>甘特圖的鍵盤問題已修正</value>
+  </data>
+  <data name="Home_Release_NotesQuote" xml:space="preserve">
+    <value>小步快跑，頻繁發布。</value>
+  </data>
 </root>

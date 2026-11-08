@@ -1105,4 +1105,28 @@
   <data name="Home_Plan_Release" xml:space="preserve">
     <value>ریلیز</value>
   </data>
+  <data name="Home_Release_Notes" xml:space="preserve">
+    <value>ریلیز نوٹس</value>
+  </data>
+  <data name="Home_Release_NotesHelp" xml:space="preserve">
+    <value>فارمیٹنگ لئی سجا کلک کرو، یا Word، OpenDocument، Markdown تے ہور وچ برآمد کرو۔</value>
+  </data>
+  <data name="Home_Release_NotesHeading" xml:space="preserve">
+    <value>v2.4.0 وچ نواں کی اے</value>
+  </data>
+  <data name="Home_Release_NotesIntro" xml:space="preserve">
+    <value>تیز ڈیپلائے، چھیتی سٹوریج الرٹ تے کئی درستیاں۔</value>
+  </data>
+  <data name="Home_Release_NotesFaster" xml:space="preserve">
+    <value>ڈیپلائے 30% تیز نیں</value>
+  </data>
+  <data name="Home_Release_NotesAlerts" xml:space="preserve">
+    <value>سٹوریج الرٹ جگہ مُکن توں پہلاں دسدے نیں</value>
+  </data>
+  <data name="Home_Release_NotesFixes" xml:space="preserve">
+    <value>Gantt چارٹ وچ کی بورڈ درستیاں</value>
+  </data>
+  <data name="Home_Release_NotesQuote" xml:space="preserve">
+    <value>تھوڑا بھیجو، اکثر بھیجو۔</value>
+  </data>
 </root>

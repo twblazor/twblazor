@@ -111,6 +111,36 @@ public partial class Home
         new(Loc.Text("Home_Release_AvgTime", "Avg. time"), "4m")
     ];
 
+    // The dashboard's release notes: every export format, in the order a release manager is likeliest to want them.
+    private readonly TextEditorExportFormat[] _releaseNotesFormats =
+    [
+        TextEditorExportFormat.Docx,
+        TextEditorExportFormat.Odt,
+        TextEditorExportFormat.Markdown,
+        TextEditorExportFormat.Html,
+        TextEditorExportFormat.Rtf,
+        TextEditorExportFormat.PlainText,
+    ];
+
+    private string? releaseNotes = ReleaseNotesDraft();
+
+    /// <summary>
+    /// Builds the starting release notes from translated phrases, so the HTML stays out of the translations.
+    /// </summary>
+    private static string ReleaseNotesDraft()
+    {
+        static string H(string text) => System.Net.WebUtility.HtmlEncode(text);
+
+        var heading = Loc.Text("Home_Release_NotesHeading", "What's new in v2.4.0");
+        var intro = Loc.Text("Home_Release_NotesIntro", "Faster deploys, earlier storage alerts and a round of fixes.");
+        var faster = Loc.Text("Home_Release_NotesFaster", "Deploys are 30% faster");
+        var alerts = Loc.Text("Home_Release_NotesAlerts", "Storage alerts warn you before space runs out");
+        var fixes = Loc.Text("Home_Release_NotesFixes", "Keyboard fixes in the Gantt chart");
+        var quote = Loc.Text("Home_Release_NotesQuote", "Ship small, ship often.");
+
+        return $"<h2>{H(heading)}</h2><p>{H(intro)}</p><ul><li><strong>{H(faster)}</strong></li><li>{H(alerts)}</li><li>{H(fixes)}</li></ul><blockquote><p><em>{H(quote)}</em></p></blockquote>";
+    }
+
     private readonly ChartValue[] _storageFolders =
     [
         new(Loc.Text("Home_Folder_Videos", "Videos"), 2.5), new(Loc.Text("Home_Folder_Photos", "Photos"), 1.8),

@@ -1105,4 +1105,28 @@
   <data name="Home_Plan_Release" xml:space="preserve">
     <value>Phát hành</value>
   </data>
+  <data name="Home_Release_Notes" xml:space="preserve">
+    <value>Ghi chú phát hành</value>
+  </data>
+  <data name="Home_Release_NotesHelp" xml:space="preserve">
+    <value>Nhấp chuột phải để định dạng, hoặc xuất sang Word, OpenDocument, Markdown và nhiều định dạng khác.</value>
+  </data>
+  <data name="Home_Release_NotesHeading" xml:space="preserve">
+    <value>Có gì mới trong v2.4.0</value>
+  </data>
+  <data name="Home_Release_NotesIntro" xml:space="preserve">
+    <value>Triển khai nhanh hơn, cảnh báo dung lượng sớm hơn và nhiều bản sửa lỗi.</value>
+  </data>
+  <data name="Home_Release_NotesFaster" xml:space="preserve">
+    <value>Triển khai nhanh hơn 30%</value>
+  </data>
+  <data name="Home_Release_NotesAlerts" xml:space="preserve">
+    <value>Cảnh báo dung lượng báo trước khi hết chỗ</value>
+  </data>
+  <data name="Home_Release_NotesFixes" xml:space="preserve">
+    <value>Sửa lỗi bàn phím trong biểu đồ Gantt</value>
+  </data>
+  <data name="Home_Release_NotesQuote" xml:space="preserve">
+    <value>Phát hành nhỏ, phát hành thường xuyên.</value>
+  </data>
 </root>

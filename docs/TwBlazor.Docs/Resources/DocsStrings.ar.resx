@@ -1105,4 +1105,28 @@
   <data name="Home_Plan_Release" xml:space="preserve">
     <value>الإصدار</value>
   </data>
+  <data name="Home_Release_Notes" xml:space="preserve">
+    <value>ملاحظات الإصدار</value>
+  </data>
+  <data name="Home_Release_NotesHelp" xml:space="preserve">
+    <value>انقر بزر الماوس الأيمن للتنسيق، أو صدّر إلى Word وOpenDocument وMarkdown وغيرها.</value>
+  </data>
+  <data name="Home_Release_NotesHeading" xml:space="preserve">
+    <value>ما الجديد في v2.4.0</value>
+  </data>
+  <data name="Home_Release_NotesIntro" xml:space="preserve">
+    <value>عمليات نشر أسرع، وتنبيهات تخزين أبكر، ومجموعة من الإصلاحات.</value>
+  </data>
+  <data name="Home_Release_NotesFaster" xml:space="preserve">
+    <value>عمليات النشر أسرع بنسبة 30%</value>
+  </data>
+  <data name="Home_Release_NotesAlerts" xml:space="preserve">
+    <value>تنبّهك تنبيهات التخزين قبل نفاد المساحة</value>
+  </data>
+  <data name="Home_Release_NotesFixes" xml:space="preserve">
+    <value>إصلاحات لوحة المفاتيح في مخطط Gantt</value>
+  </data>
+  <data name="Home_Release_NotesQuote" xml:space="preserve">
+    <value>أصدِر قليلًا، وأصدِر كثيرًا.</value>
+  </data>
 </root>
