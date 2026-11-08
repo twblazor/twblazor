@@ -833,7 +833,7 @@
     <value>ڈیش بورڈ لئی تیار الرٹ، انکڑے تے چارٹ۔</value>
   </data>
   <data name="Home_Showcase_Charts_Desc" xml:space="preserve">
-    <value>{0}+ قسم دے چارٹ، اک جیہا انداز۔ ایتھے نو ورت کے ویکھو۔</value>
+    <value>{0}+ قسم دے چارٹ، اک جیہا انداز۔ ایتھے دس ورت کے ویکھو۔</value>
   </data>
   <data name="Home_Showcase_Purple" xml:space="preserve">
     <value>جامنی</value>
@@ -1062,5 +1062,71 @@
   </data>
   <data name="Home_A11y_Tested_Body" xml:space="preserve">
     <value>ہر دستاویزی صفحہ ٹیسٹاں وچ رسائی دے مسئلیاں لئی جانچیا جاندا اے۔</value>
+  </data>
+  <data name="Home_Plan_Title" xml:space="preserve">
+    <value>ریلیز منصوبہ</value>
+  </data>
+  <data name="Home_Plan_Discovery" xml:space="preserve">
+    <value>کھوج</value>
+  </data>
+  <data name="Home_Plan_Research" xml:space="preserve">
+    <value>تحقیق</value>
+  </data>
+  <data name="Home_Plan_Interviews" xml:space="preserve">
+    <value>ورتن والیاں نال گل بات</value>
+  </data>
+  <data name="Home_Plan_Wireframes" xml:space="preserve">
+    <value>وائر فریم</value>
+  </data>
+  <data name="Home_Plan_Visual" xml:space="preserve">
+    <value>ویکھن والا ڈیزائن</value>
+  </data>
+  <data name="Home_Plan_Build" xml:space="preserve">
+    <value>بناؤ</value>
+  </data>
+  <data name="Home_Plan_Api" xml:space="preserve">
+    <value>API</value>
+  </data>
+  <data name="Home_Plan_Frontend" xml:space="preserve">
+    <value>فرنٹ اینڈ</value>
+  </data>
+  <data name="Home_Plan_Testing" xml:space="preserve">
+    <value>جانچ</value>
+  </data>
+  <data name="Home_Plan_Launch" xml:space="preserve">
+    <value>لانچ</value>
+  </data>
+  <data name="Home_Plan_Beta" xml:space="preserve">
+    <value>بیٹا</value>
+  </data>
+  <data name="Home_Plan_Signoff" xml:space="preserve">
+    <value>منظوری</value>
+  </data>
+  <data name="Home_Plan_Release" xml:space="preserve">
+    <value>ریلیز</value>
+  </data>
+  <data name="Home_Release_Notes" xml:space="preserve">
+    <value>ریلیز نوٹس</value>
+  </data>
+  <data name="Home_Release_NotesHelp" xml:space="preserve">
+    <value>فارمیٹنگ لئی سجا کلک کرو، یا Word، OpenDocument، Markdown تے ہور وچ برآمد کرو۔</value>
+  </data>
+  <data name="Home_Release_NotesHeading" xml:space="preserve">
+    <value>v2.4.0 وچ نواں کی اے</value>
+  </data>
+  <data name="Home_Release_NotesIntro" xml:space="preserve">
+    <value>تیز ڈیپلائے، چھیتی سٹوریج الرٹ تے کئی درستیاں۔</value>
+  </data>
+  <data name="Home_Release_NotesFaster" xml:space="preserve">
+    <value>ڈیپلائے 30% تیز نیں</value>
+  </data>
+  <data name="Home_Release_NotesAlerts" xml:space="preserve">
+    <value>سٹوریج الرٹ جگہ مُکن توں پہلاں دسدے نیں</value>
+  </data>
+  <data name="Home_Release_NotesFixes" xml:space="preserve">
+    <value>Gantt چارٹ وچ کی بورڈ درستیاں</value>
+  </data>
+  <data name="Home_Release_NotesQuote" xml:space="preserve">
+    <value>تھوڑا بھیجو، اکثر بھیجو۔</value>
   </data>
 </root>

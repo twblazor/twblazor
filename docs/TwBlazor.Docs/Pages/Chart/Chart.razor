@@ -129,8 +129,9 @@
 
     <PageCard Title="Loading and empty states">
         <Description>
-            Set <code>Loading</code> on the container to show a placeholder of the right height while data is
-            fetched. A chart with no data shows its <code>EmptyText</code> instead of an empty set of axes.
+            Set <code>Loading</code> on the container to show a spinner with a "Loading chart" message while data is
+            fetched; screen readers announce it. A chart with no data shows an empty state with its
+            <code>EmptyText</code> instead of an empty set of axes. Both keep the chart's height.
         </Description>
 
         <CodeExample Name="ChartStates">

@@ -415,7 +415,7 @@ public class TwDataTableExportTests : TwBlazorTestBase
         cut.Find("#orders-export-csv").Click();
 
         // Assert
-        var download = Assert.Single(TestContext.JSInterop.Invocations, i => i.Identifier == "twDataTable.download");
+        var download = Assert.Single(TestContext.JSInterop.Invocations, i => i.Identifier == "twDownload.save");
         Assert.Equal("orders.csv", download.Arguments[0]);
         Assert.Equal(TwDataTableExport.CsvContentType, download.Arguments[1]);
         Assert.Equal("Exported 3 rows", cut.Find("[role='status']").TextContent.Trim());
@@ -431,7 +431,7 @@ public class TwDataTableExportTests : TwBlazorTestBase
         cut.Find("#orders-export-excel").Click();
 
         // Assert
-        var download = Assert.Single(TestContext.JSInterop.Invocations, i => i.Identifier == "twDataTable.download");
+        var download = Assert.Single(TestContext.JSInterop.Invocations, i => i.Identifier == "twDownload.save");
         Assert.Equal("orders.xlsx", download.Arguments[0]);
         Assert.Equal(TwDataTableExport.ExcelContentType, download.Arguments[1]);
         Assert.Equal("Exported 2 rows", cut.Find("[role='status']").TextContent.Trim());
@@ -443,7 +443,7 @@ public class TwDataTableExportTests : TwBlazorTestBase
         // Arrange
         byte[]? downloaded = null;
         var cut = Render();
-        TestContext.JSInterop.SetupVoid("twDataTable.download", invocation =>
+        TestContext.JSInterop.SetupVoid("twDownload.save", invocation =>
         {
             var reference = (Microsoft.JSInterop.DotNetStreamReference)invocation.Arguments[2]!;
             using var copy = new MemoryStream();

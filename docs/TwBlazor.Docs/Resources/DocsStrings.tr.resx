@@ -833,7 +833,7 @@
     <value>Panoya hazır uyarılar, rakamlar ve grafikler.</value>
   </data>
   <data name="Home_Showcase_Charts_Desc" xml:space="preserve">
-    <value>{0}+ grafik türü, tek tutarlı görünüm. Dokuzunu burada deneyin.</value>
+    <value>{0}+ grafik türü, tek tutarlı görünüm. Onunu burada deneyin.</value>
   </data>
   <data name="Home_Showcase_Purple" xml:space="preserve">
     <value>Mor</value>
@@ -1062,5 +1062,71 @@
   </data>
   <data name="Home_A11y_Tested_Body" xml:space="preserve">
     <value>Her belge sayfası test paketinde erişilebilirlik sorunlarına karşı taranır.</value>
+  </data>
+  <data name="Home_Plan_Title" xml:space="preserve">
+    <value>Sürüm planı</value>
+  </data>
+  <data name="Home_Plan_Discovery" xml:space="preserve">
+    <value>Keşif</value>
+  </data>
+  <data name="Home_Plan_Research" xml:space="preserve">
+    <value>Araştırma</value>
+  </data>
+  <data name="Home_Plan_Interviews" xml:space="preserve">
+    <value>Kullanıcı görüşmeleri</value>
+  </data>
+  <data name="Home_Plan_Wireframes" xml:space="preserve">
+    <value>Tel kafesler</value>
+  </data>
+  <data name="Home_Plan_Visual" xml:space="preserve">
+    <value>Görsel tasarım</value>
+  </data>
+  <data name="Home_Plan_Build" xml:space="preserve">
+    <value>Geliştirme</value>
+  </data>
+  <data name="Home_Plan_Api" xml:space="preserve">
+    <value>API</value>
+  </data>
+  <data name="Home_Plan_Frontend" xml:space="preserve">
+    <value>Ön yüz</value>
+  </data>
+  <data name="Home_Plan_Testing" xml:space="preserve">
+    <value>Test</value>
+  </data>
+  <data name="Home_Plan_Launch" xml:space="preserve">
+    <value>Lansman</value>
+  </data>
+  <data name="Home_Plan_Beta" xml:space="preserve">
+    <value>Beta</value>
+  </data>
+  <data name="Home_Plan_Signoff" xml:space="preserve">
+    <value>Onay</value>
+  </data>
+  <data name="Home_Plan_Release" xml:space="preserve">
+    <value>Sürüm</value>
+  </data>
+  <data name="Home_Release_Notes" xml:space="preserve">
+    <value>Sürüm notları</value>
+  </data>
+  <data name="Home_Release_NotesHelp" xml:space="preserve">
+    <value>Biçimlendirme için sağ tıklayın ya da Word, OpenDocument, Markdown ve diğer biçimlerde dışa aktarın.</value>
+  </data>
+  <data name="Home_Release_NotesHeading" xml:space="preserve">
+    <value>v2.4.0 ile gelen yenilikler</value>
+  </data>
+  <data name="Home_Release_NotesIntro" xml:space="preserve">
+    <value>Daha hızlı dağıtımlar, daha erken depolama uyarıları ve bir dizi düzeltme.</value>
+  </data>
+  <data name="Home_Release_NotesFaster" xml:space="preserve">
+    <value>Dağıtımlar %30 daha hızlı</value>
+  </data>
+  <data name="Home_Release_NotesAlerts" xml:space="preserve">
+    <value>Depolama uyarıları alan bitmeden sizi uyarır</value>
+  </data>
+  <data name="Home_Release_NotesFixes" xml:space="preserve">
+    <value>Gantt şemasında klavye düzeltmeleri</value>
+  </data>
+  <data name="Home_Release_NotesQuote" xml:space="preserve">
+    <value>Az ama sık yayınlayın.</value>
   </data>
 </root>

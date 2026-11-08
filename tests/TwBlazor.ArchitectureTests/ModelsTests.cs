@@ -39,6 +39,7 @@ public class ModelsTests
         TwBlazorArchitecture.TypeName(typeof(TwBlazor.Models.ChartSet)),
         TwBlazorArchitecture.TypeName(typeof(TwBlazor.Models.ChartSetIntersection)),
         TwBlazorArchitecture.TypeName(typeof(TwBlazor.Models.ChartTask)),
+        TwBlazorArchitecture.TypeName(typeof(TwBlazor.Models.ChartTaskDependency)),
         TwBlazorArchitecture.TypeName(typeof(TwBlazor.Models.ChartValue)),
     };
 

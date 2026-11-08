@@ -27,12 +27,119 @@ public partial class Home
         Loc.Text("Home_Env_Development", "Development")
     ];
 
+    // The plan starts on the Monday four weeks ago, so the today line always falls inside it.
+    private static readonly DateTime _planStart = DateTime.Today.AddDays(-28 - ((int)DateTime.Today.DayOfWeek + 6) % 7);
+
+    // The ids tie the plan's tasks, summaries and dependencies together.
+    private const string planDiscovery = "discovery";
+    private const string planResearch = "research";
+    private const string planInterviews = "interviews";
+    private const string planDesign = "design";
+    private const string planWireframes = "wireframes";
+    private const string planVisual = "visual";
+    private const string planBuild = "build";
+    private const string planApi = "api";
+    private const string planFrontEnd = "frontend";
+    private const string planTesting = "testing";
+    private const string planLaunch = "launch";
+    private const string planBeta = "beta";
+    private const string planSignOff = "signoff";
+    private const string planRelease = "release";
+
+    private List<ChartTask> planTasks =
+    [
+        new(Loc.Text("Home_Plan_Discovery", "Discovery"), PlanDay(0), PlanDay(0)) { Id = planDiscovery, ColorIndex = 0 },
+        new(Loc.Text("Home_Plan_Research", "Research"), PlanDay(0), PlanDay(9)) { Id = planResearch, ParentId = planDiscovery, Progress = 1, ColorIndex = 0 },
+        new(Loc.Text("Home_Plan_Interviews", "User interviews"), PlanDay(5), PlanDay(16)) { Id = planInterviews, ParentId = planDiscovery, Progress = 1, ColorIndex = 0 },
+        new(Loc.Text("Home_Review_Tag_Design", "Design"), PlanDay(0), PlanDay(0)) { Id = planDesign, ColorIndex = 1 },
+        new(Loc.Text("Home_Plan_Wireframes", "Wireframes"), PlanDay(14), PlanDay(25)) { Id = planWireframes, ParentId = planDesign, Progress = 1, ColorIndex = 1 },
+        new(Loc.Text("Home_Plan_Visual", "Visual design"), PlanDay(21), PlanDay(39)) { Id = planVisual, ParentId = planDesign, Progress = 0.6, ColorIndex = 1 },
+        new(Loc.Text("Home_Plan_Build", "Build"), PlanDay(0), PlanDay(0)) { Id = planBuild, ColorIndex = 2 },
+        new(Loc.Text("Home_Plan_Api", "API"), PlanDay(21), PlanDay(46)) { Id = planApi, ParentId = planBuild, Progress = 0.45, ColorIndex = 2 },
+        new(Loc.Text("Home_Plan_Frontend", "Front end"), PlanDay(35), PlanDay(60)) { Id = planFrontEnd, ParentId = planBuild, Progress = 0.1, ColorIndex = 2 },
+        new(Loc.Text("Home_Plan_Testing", "Testing"), PlanDay(49), PlanDay(67)) { Id = planTesting, ParentId = planBuild, ColorIndex = 2 },
+        new(Loc.Text("Home_Plan_Launch", "Launch"), PlanDay(0), PlanDay(0)) { Id = planLaunch, ColorIndex = 3 },
+        new(Loc.Text("Home_Plan_Beta", "Beta"), PlanDay(67), PlanDay(81)) { Id = planBeta, ParentId = planLaunch, ColorIndex = 3 },
+        new(Loc.Text("Home_Plan_Signoff", "Sign-off"), PlanDay(84), PlanDay(84)) { Id = planSignOff, ParentId = planLaunch, ColorIndex = 3 },
+        new(Loc.Text("Home_Plan_Release", "Release"), PlanDay(88), PlanDay(88)) { Id = planRelease, ParentId = planLaunch, ColorIndex = 3 }
+    ];
+
+    private List<ChartTaskDependency> planDependencies =
+    [
+        new(planResearch, planInterviews, ChartDependencyType.StartToStart),
+        new(planInterviews, planWireframes),
+        new(planWireframes, planVisual, ChartDependencyType.StartToStart),
+        new(planVisual, planFrontEnd),
+        new(planApi, planFrontEnd, ChartDependencyType.FinishToFinish),
+        new(planFrontEnd, planTesting),
+        new(planTesting, planBeta),
+        new(planBeta, planSignOff),
+        new(planSignOff, planRelease)
+    ];
+
+    // Discovery is finished, so it starts folded away.
+    private IReadOnlySet<string> planCollapsed = new HashSet<string> { planDiscovery };
+
+    private static DateTime PlanDay(int days) => _planStart.AddDays(days);
+
+    private void OnPlanTaskChange(ChartTaskChange change)
+    {
+        var index = planTasks.FindIndex(task => task.Key == change.Task.Key);
+        planTasks[index] = change.Task with { Start = change.Start, End = change.End, Progress = change.Progress };
+        planTasks = [.. planTasks];
+    }
+
+    private void OnPlanDependencyCreate(ChartDependencyRequest request)
+    {
+        if (planDependencies.Any(d => (d.FromId == request.Dependency.FromId && d.ToId == request.Dependency.ToId)
+            || (d.FromId == request.Dependency.ToId && d.ToId == request.Dependency.FromId)))
+        {
+            request.Cancel = true;
+            return;
+        }
+
+        planDependencies = [.. planDependencies, request.Dependency];
+    }
+
+    private void OnPlanDependencyClick(ChartTaskDependency dependency) =>
+        planDependencies = [.. planDependencies.Where(d => d != dependency)];
+
     private readonly List<Figure> _releaseFigures =
     [
         new(Loc.Text("Home_Release_Deploys", "Deploys"), "128"),
         new(Loc.Text("Home_Failed", "Failed"), "3"),
         new(Loc.Text("Home_Release_AvgTime", "Avg. time"), "4m")
     ];
+
+    // The dashboard's release notes: every export format, in the order a release manager is likeliest to want them.
+    private readonly TextEditorExportFormat[] _releaseNotesFormats =
+    [
+        TextEditorExportFormat.Docx,
+        TextEditorExportFormat.Odt,
+        TextEditorExportFormat.Markdown,
+        TextEditorExportFormat.Html,
+        TextEditorExportFormat.Rtf,
+        TextEditorExportFormat.PlainText,
+    ];
+
+    private string? releaseNotes = ReleaseNotesDraft();
+
+    /// <summary>
+    /// Builds the starting release notes from translated phrases, so the HTML stays out of the translations.
+    /// </summary>
+    private static string ReleaseNotesDraft()
+    {
+        static string H(string text) => System.Net.WebUtility.HtmlEncode(text);
+
+        var heading = Loc.Text("Home_Release_NotesHeading", "What's new in v2.4.0");
+        var intro = Loc.Text("Home_Release_NotesIntro", "Faster deploys, earlier storage alerts and a round of fixes.");
+        var faster = Loc.Text("Home_Release_NotesFaster", "Deploys are 30% faster");
+        var alerts = Loc.Text("Home_Release_NotesAlerts", "Storage alerts warn you before space runs out");
+        var fixes = Loc.Text("Home_Release_NotesFixes", "Keyboard fixes in the Gantt chart");
+        var quote = Loc.Text("Home_Release_NotesQuote", "Ship small, ship often.");
+
+        return $"<h2>{H(heading)}</h2><p>{H(intro)}</p><ul><li><strong>{H(faster)}</strong></li><li>{H(alerts)}</li><li>{H(fixes)}</li></ul><blockquote><p><em>{H(quote)}</em></p></blockquote>";
+    }
 
     private readonly ChartValue[] _storageFolders =
     [
@@ -333,7 +440,7 @@ public partial class Home
         ComponentCatalog.LoadLeafEntries().Count(leaf => leaf.Category == "Charts" && leaf.Entry.Url != "/chart") / 10 * 10;
 
     private static readonly IReadOnlyList<string> _showcaseChartTypes =
-        ["Area", "Column", "Line", "Bar", "Pie", "Treemap", "Funnel", "Gauge", "Heatmap"];
+        ["Gantt", "Area", "Column", "Line", "Bar", "Pie", "Treemap", "Funnel", "Gauge", "Heatmap"];
 
     private readonly ChartSeries[] _environmentDeploys =
     [
@@ -353,7 +460,7 @@ public partial class Home
     private readonly ChartSeries[] _environmentWeek;
 
     private ShowcaseSwatch showcaseSwatch;
-    private string showcaseChartType = "Area";
+    private string showcaseChartType = "Gantt";
 
     // The showcase follows the site's mode until its own toggle is used. Before then this holds the site's mode,
     // read once the page is interactive, so the toggle's label names the mode it will switch to.

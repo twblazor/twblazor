@@ -303,6 +303,14 @@
             "theme": "TwTagInputTheme"
           },
           {
+            "id": "text-editor-navitem",
+            "display": "Text Editor",
+            "name": "TwTextEditor",
+            "url": "/text-editor",
+            "isNew": true,
+            "theme": "TwTextEditorTheme"
+          },
+          {
             "id": "textfield-navitem",
             "display": "Textfield",
             "name": "TwTextfield",
@@ -597,7 +605,8 @@
             "id": "chart-gantt-navitem",
             "display": "Gantt",
             "name": "TwGanttChart",
-            "url": "/chart/gantt"
+            "url": "/chart/gantt",
+            "theme": "TwGanttTheme"
           },
           {
             "id": "chart-horizon-navitem",

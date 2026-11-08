@@ -1489,7 +1489,6 @@ public static class TescoTheme
                     TooltipKey = $"h-0.5 w-3 {rounded.Full} {flexbox.ShrinkNone}",
                     TooltipLabel = neutralText.Secondary,
                     TooltipValue = $"{spacing.PushEnd} {spacing.PaddingStart[3]} {typography.Weight.Semibold} tabular-nums",
-                    Empty = $"{spacing.PaddingY[8]} {typography.AlignCenter} {typography.Size.Sm} {neutralText.Muted}",
                     TableRowHeader = typography.Weight.Medium,
                     Series =
                     [
@@ -1510,6 +1509,33 @@ public static class TescoTheme
                     Grid = new() { Background = "bg-[oklch(92%_0.004_255)] dark:bg-[oklch(32%_0.03_255)]", Fill = "fill-[oklch(92%_0.004_255)] dark:fill-[oklch(32%_0.03_255)]", Stroke = "stroke-[oklch(92%_0.004_255)] dark:stroke-[oklch(32%_0.03_255)]", Text = "text-[oklch(92%_0.004_255)] dark:text-[oklch(32%_0.03_255)]" },
                     Axis = new() { Background = "bg-[oklch(78%_0.018_255)] dark:bg-[oklch(48%_0.03_255)]", Fill = "fill-[oklch(78%_0.018_255)] dark:fill-[oklch(48%_0.03_255)]", Stroke = "stroke-[oklch(78%_0.018_255)] dark:stroke-[oklch(48%_0.03_255)]", Text = "text-[oklch(78%_0.018_255)] dark:text-[oklch(48%_0.03_255)]" },
                     Ink = new() { Background = "bg-[oklch(21%_0.03_255)] dark:bg-[oklch(97.807%_0.018_255)]", Fill = "fill-[oklch(21%_0.03_255)] dark:fill-[oklch(97.807%_0.018_255)]", Stroke = "stroke-[oklch(21%_0.03_255)] dark:stroke-[oklch(97.807%_0.018_255)]", Text = neutralText.Heading }
+                },
+                new TwGanttTheme
+                {
+                    Scroller = $"{sizing.MinWidthNone} overflow-x-auto overflow-y-hidden",
+                    YAxisScrolling = "self-start",
+                    YAxis = "max-w-64",
+                    Clickable = interaction.PointerCursor,
+                    Toolbar = $"{display.Flex} {flexbox.Wrap} {flexbox.Align.Center} {spacing.Gap[2]}",
+                    Tick = $"{display.InlineFlex} {flexbox.Align.Center} {spacing.Gap[1]} max-w-full",
+                    TickLabel = typography.Truncate,
+                    Toggle = $"{display.InlineFlex} {flexbox.ShrinkNone} {anchor.Center} size-4 {rounded.Sm} {neutralText.Muted} {tokens.HoverText} {interaction.PointerCursor} {interaction.FocusOutlineNone} {tokens.FocusRing} {transition.ColorsFast}",
+                    ToggleIcon = $"text-[10px] {transition.TransformFast} rtl:-scale-x-100",
+                    ToggleIconOpen = "rotate-90 rtl:scale-x-100",
+                    ToggleSpacer = $"{display.InlineBlock} {flexbox.ShrinkNone} size-4",
+                    Overlay = $"{positioning.Absolute} inset-0 z-20 {interaction.PointerEventsNone}",
+                    Bar = $"group {positioning.Absolute}",
+                    Handle = $"{positioning.Absolute} -inset-y-0.5 w-1.5 {rounded.Sm} bg-[oklch(21%_0.006_285.885)]/45 dark:bg-[oklch(97.807%_0.029_256.847)]/55 opacity-0 group-data-[gantt-active]:opacity-100",
+                    HandleStart = "left-0",
+                    HandleEnd = "right-0",
+                    ProgressGrip = $"{positioning.Absolute} top-full -translate-x-1/2 size-0 border-x-[5px] border-b-[6px] border-x-transparent border-b-[oklch(21%_0.006_285.885)] dark:border-b-[oklch(97.807%_0.029_256.847)] opacity-0 group-data-[gantt-active]:opacity-100",
+                    LinkDot = $"{positioning.Absolute} top-1/2 size-2.5 -translate-y-1/2 {rounded.Full} border-2 border-[oklch(21%_0.006_285.885)] dark:border-[oklch(97.807%_0.029_256.847)] {neutralSurface.Background} opacity-0 group-data-[gantt-active]:opacity-100",
+                    LinkDotStart = "-left-4",
+                    LinkDotEnd = "-right-4",
+                    Ghost = $"{positioning.Absolute} {rounded.Sm} border-2 border-dashed border-grocerblue-600 dark:border-grocerblue-400 bg-grocerblue-500/15 {interaction.PointerEventsNone}",
+                    LinkLine = $"{positioning.Fixed} z-50 h-0.5 origin-left bg-grocerblue-600 dark:bg-grocerblue-400 {interaction.PointerEventsNone}",
+                    Links = $"{positioning.Absolute} inset-0 {sizing.Full} overflow-visible",
+                    LinkHit = $"[pointer-events:stroke] {interaction.PointerCursor} fill-none stroke-transparent hover:stroke-[oklch(21%_0.006_285.885)]/20 dark:hover:stroke-[oklch(97.807%_0.029_256.847)]/25"
                 },
                 new TwChipTheme
                 {
@@ -1806,6 +1832,24 @@ public static class TescoTheme
                     Input = $"{flexbox.Flex1} min-w-24 h-6 {spacing.PaddingX[1]} py-0 border-0 {tokens.Transparent} {neutralText.Heading} placeholder:text-[oklch(21%_0.03_255)]/65 dark:placeholder:text-[oklch(97.807%_0.018_255)]/65 {interaction.FocusOutlineNone} disabled:cursor-not-allowed",
                     EndContent = $"{positioning.Absolute} inset-y-0 end-0 {display.Flex} {flexbox.Align.Center} pe-1",
                     ClearButton = "h-8",
+                    HelperText = $"{spacing.MarginTop[2]} {spacing.MarginStart[1]} {typography.Size.Sm} leading-4 {neutralText.Secondary}"
+                },
+                new TwTextEditorTheme
+                {
+                    Root = $"{positioning.Relative} {display.Flex} {flexbox.Col} {sizing.FullWidth} {sizing.MinWidthNone} text-start {neutralText.Heading} {transition.ColorsFast}",
+                    Disabled = $"{interaction.DisabledOpacity} {interaction.DisabledCursor}",
+                    Toolbar = $"{display.Flex} {flexbox.Wrap} {flexbox.Align.Center} {spacing.Gap[1]} {spacing.Padding[1.5]} rounded-t-[inherit] border-b {neutralSurface.Border} {neutralSurface.BackgroundSubtle}",
+                    ToolbarGroup = "!gap-0.5 !border-0 !bg-transparent !p-0 !shadow-none",
+                    ToolbarSeparator = "mx-1 h-5",
+                    BlockSelect = $"w-36 {flexbox.ShrinkNone}",
+                    Content = $"{positioning.Relative} min-h-0 overflow-y-auto {spacing.PaddingX[4]} {spacing.PaddingY[3]} {typography.Size.Base} leading-relaxed {typography.WrapBreakWord} {interaction.FocusOutlineNone} data-[empty]:before:content-[attr(data-placeholder)] data-[empty]:before:absolute data-[empty]:before:pointer-events-none data-[empty]:before:text-[oklch(21%_0.03_255)]/65 dark:data-[empty]:before:text-[oklch(97.807%_0.018_255)]/65",
+                    ContentDefaultVariant = "px-0",
+                    Typography = "[&>:first-child]:mt-0 [&>:last-child]:mb-0 [&_p]:my-2 [&_h1]:mt-6 [&_h1]:mb-2 [&_h1]:text-2xl [&_h1]:leading-tight [&_h1]:font-bold [&_h1]:tracking-tight [&_h2]:mt-5 [&_h2]:mb-2 [&_h2]:text-xl [&_h2]:leading-snug [&_h2]:font-semibold [&_h2]:tracking-tight [&_h3]:mt-4 [&_h3]:mb-1.5 [&_h3]:text-lg [&_h3]:leading-snug [&_h3]:font-semibold [&_ul]:my-2 [&_ul]:list-disc [&_ul]:ps-6 [&_ol]:my-2 [&_ol]:list-decimal [&_ol]:ps-6 [&_li]:my-1 [&_li]:ps-1 [&_li]:marker:text-current/70 [&_blockquote]:my-4 [&_blockquote]:border-s-[3px] [&_blockquote]:border-current/30 [&_blockquote]:ps-4 [&_blockquote]:italic [&_pre]:my-4 [&_pre]:overflow-x-auto [&_pre]:rounded-lg [&_pre]:border [&_pre]:border-current/10 [&_pre]:bg-current/5 [&_pre]:px-4 [&_pre]:py-3 [&_pre]:font-mono [&_pre]:text-sm [&_pre]:leading-6 [&_a]:font-medium [&_a]:underline [&_a]:decoration-current/40 [&_a]:decoration-1 [&_a]:underline-offset-[3px] [&_a]:hover:decoration-current forced-colors:[&_a]:text-[LinkText]",
+                    LinkPanel = $"{display.Flex} {flexbox.Wrap} {flexbox.Align.Center} {spacing.Gap[2]} {spacing.Padding[2]} border-b {neutralSurface.Border} {neutralSurface.BackgroundSubtle}",
+                    LinkInput = $"{flexbox.Flex1} min-w-48",
+                    LinkInputField = "ps-9",
+                    Source = positioning.Relative,
+                    SourceInput = $"font-mono {typography.Size.Sm} leading-6 !rounded-none !border-0 !bg-transparent !px-4 !py-3 !shadow-none focus:!ring-0",
                     HelperText = $"{spacing.MarginTop[2]} {spacing.MarginStart[1]} {typography.Size.Sm} leading-4 {neutralText.Secondary}"
                 },
                 new TwMenuTheme

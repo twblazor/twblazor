@@ -1,9 +1,9 @@
 @page "/chart/gantt"
 @using TwBlazor.Models
 
-<PageContainer Title="TwGanttChart" Path="/chart/gantt" Description="TwGanttChart is a Blazor Gantt chart: a horizontal bar per task from its start date to its end date, showing a schedule and overlaps.">
+<PageContainer Title="TwGanttChart" Path="/chart/gantt" Description="TwGanttChart is a Blazor Gantt chart with summary tasks, progress, milestones, dependencies and zoom levels. Drag bars to move, resize or link them." ThemeType="typeof(TwGanttTheme)">
     <PageCard Title="Basic usage">
-        <Description><code>TwGanttChart</code> draws a bar per <code>ChartTask</code> from its start date to its end date, in the order given, so the schedule and any overlaps are visible.</Description>
+        <Description><code>TwGanttChart</code> draws a bar per <code>ChartTask</code> from its start date to its end date, in the order given, so the schedule and any overlaps are visible. At the default zoom the whole plan fits the chart's width.</Description>
 
         <CodeExample Name="GanttChartBasic" CSharpName="GanttChartData">
             <TwChart Title="Release plan">
@@ -12,43 +12,304 @@
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Date format">
-        <Description><code>DateFormat</code> takes any .NET date format string and applies to the axis, tooltips and table view.</Description>
+    <PageCard Title="Progress and milestones">
+        <Description>Set <code>Progress</code> on a task, from 0 to 1, to fill that share of its bar; the tooltip and table view give it as a percentage. A task that ends when it starts is a milestone, drawn as a diamond. <code>ShowTaskLabels</code> writes each task's name after its bar.</Description>
 
-        <CodeExample Name="GanttChartFormat">
-            <TwChart Title="Release plan">
-                <TwGanttChart Tasks="@_tasks" DateFormat="MMM yyyy" />
+        <CodeExample Name="GanttChartProgress" CSharpName="GanttChartProgressData">
+            <TwChart Title="Website relaunch">
+                <TwGanttChart Tasks="@_progressTasks" ShowTaskLabels />
             </TwChart>
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Labels">
-        <Description><code>StartLabel</code>, <code>EndLabel</code> and <code>LabelHeader</code> rename the values in tooltips and the table view.</Description>
+    <PageCard Title="Summary tasks">
+        <Description>Give a task a <code>ParentId</code> to list it under a summary task. A summary is drawn as a bracket that spans the tasks under it, and its progress is theirs weighted by length. The button beside its name shows or hides them, and the toolbar expands or collapses every summary. Bind <code>CollapsedIds</code> to keep which summaries are closed, or set <code>DefaultExpandAll="false"</code> to start with them all closed. <code>Id</code> defaults to the task's label, so it only needs setting when two tasks share a name.</Description>
+
+        <CodeExample Name="GanttChartTree" CSharpName="GanttChartTreeData">
+            <TwChart Title="Product launch">
+                <TwGanttChart Tasks="@_treeTasks" @bind-CollapsedIds="_collapsed" />
+            </TwChart>
+            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Collapsed: <strong>@(_collapsed.Count == 0 ? "none" : string.Join(", ", _collapsed))</strong></p>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Dependencies">
+        <Description>Pass <code>Dependencies</code> to draw an arrow from one task to another. A <code>ChartTaskDependency</code> names the two tasks by key and how they depend on each other: <code>FinishToStart</code> (the default), <code>StartToStart</code>, <code>FinishToFinish</code> or <code>StartToFinish</code>. Arrows turn at right angles and go round a task rather than through it. Hovering an arrow says what it means. An arrow into a collapsed summary points at the summary. Set <code>ShowDependencies="false"</code> to hide them.</Description>
+
+        <CodeExample Name="GanttChartDependencies" CSharpName="GanttChartDependenciesData">
+            <TwChart Title="Release plan">
+                <TwGanttChart Tasks="@_tasks" Dependencies="@_dependencies" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Zoom levels">
+        <Description><code>Zoom</code> sets how much time the chart shows. <code>GanttZoom.Auto</code>, the default, fits the whole plan. <code>Hour</code>, <code>Day</code>, <code>Week</code>, <code>Month</code>, <code>Quarter</code> and <code>Year</code> give each period a column of <code>SlotWidth</code> pixels. The plot then scrolls on its own, keeping the task names in view. The toolbar's zoom controls change it; bind it with <code>@@bind-Zoom</code> to follow them. <code>RowHeight</code> gives each row a fixed height, so the chart grows with the plan instead of fitting its <code>Height</code>.</Description>
+
+        <CodeExample Name="GanttChartZoom" CSharpName="GanttChartZoomData">
+            <TwChart Title="Product launch">
+                <TwGanttChart Tasks="@_treeTasks" @bind-Zoom="_zoom" RowHeight="36" />
+            </TwChart>
+            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Zoom: <strong>@_zoom</strong></p>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Today, working days and a fixed range">
+        <Description>A red line marks today when it falls in the chart's range. A zoomed-in chart first scrolls to it, and the toolbar's Today button scrolls back. Click Today in the legend to hide or show the line. Set <code>Today</code> to mark another moment, or <code>ShowToday="false"</code> to leave it out. At <code>Day</code> and <code>Hour</code> zoom, non-working days are shaded: Saturday and Sunday unless <code>NonWorkingDays</code> says otherwise. <code>RangeStart</code> and <code>RangeEnd</code> fix the dates shown instead of following the tasks. <code>ColorIndex</code> picks one of the theme's series colors for a bar.</Description>
+
+        <CodeExample Name="GanttChartWorkingDays" CSharpName="GanttChartWorkingDaysData">
+            <TwChart Title="Sprint 4">
+                <TwGanttChart Tasks="@_sprintTasks"
+                              Zoom="GanttZoom.Day"
+                              Today="@_sprintToday"
+                              NonWorkingDays="@_fourDayWeek"
+                              RangeStart="@(new DateTime(2026, 3, 2, 0, 0, 0, DateTimeKind.Local))"
+                              RangeEnd="@(new DateTime(2026, 3, 27, 0, 0, 0, DateTimeKind.Local))"
+                              SlotWidth="32"
+                              RowHeight="36" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Drag, resize and progress">
+        <Description><code>AllowDrag</code> lets a bar be dragged to new dates, keeping its length. <code>AllowResize</code> lets either end be dragged, and <code>AllowProgressDrag</code> adds a grip under the bar for its progress. Handles appear while the pointer is over a bar, and a dashed outline previews the change. Dates snap to the nearest column, or to midnight at <code>Auto</code> zoom, unless <code>SnapToSlot="false"</code>. The chart never changes a task itself. <code>OnTaskChange</code> gives the new values in a <code>ChartTaskChange</code>. Store them to move the bar, or set <code>Cancel</code> to leave it where it was. Here a task cannot start before the plan begins. Summaries whose dates are rolled up cannot be dragged.</Description>
+
+        <CodeExample Name="GanttChartEditing" CSharpName="GanttChartEditingCode">
+            <TwChart Title="Release plan">
+                <TwGanttChart Tasks="@_editableTasks"
+                              Zoom="GanttZoom.Week"
+                              AllowDrag
+                              AllowResize
+                              AllowProgressDrag
+                              OnTaskChange="@OnTaskChange" />
+            </TwChart>
+            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Last change: <strong>@_lastChange</strong></p>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Drawing and deleting dependencies">
+        <Description>With <code>AllowLinking</code>, a dot appears beside each end of a bar under the pointer. Drag from a dot to another bar to draw a dependency. The ends picked decide its type: from the end of one bar to the start of another is <code>FinishToStart</code>. <code>OnDependencyCreate</code> receives a <code>ChartDependencyRequest</code>. The arrow appears once the dependency is in <code>Dependencies</code>, or set <code>Cancel</code> to refuse it, for example to stop a loop. Clicking an arrow raises <code>OnDependencyClick</code>, which removes it here.</Description>
+
+        <CodeExample Name="GanttChartLinking" CSharpName="GanttChartLinkingCode">
+            <TwChart Title="Release plan">
+                <TwGanttChart Tasks="@_tasks"
+                              Dependencies="@_drawnDependencies"
+                              AllowLinking
+                              OnDependencyCreate="@OnDependencyCreate"
+                              OnDependencyClick="@OnDependencyClick" />
+            </TwChart>
+            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">@_drawnDependencies.Count dependencies. Click an arrow to remove it.</p>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Clicking a task">
+        <Description><code>OnTaskClick</code> is raised with the task when its row is clicked, or when Enter or Space is pressed on it, for example to open an edit form. Dragging is pointer only, so a form like this is how keyboard users change a task's dates.</Description>
+
+        <CodeExample Name="GanttChartClick" CSharpName="GanttChartClickCode">
+            <TwChart Title="Release plan">
+                <TwGanttChart Tasks="@_tasks" OnTaskClick="@(task => _selectedTask = task)" />
+            </TwChart>
+            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Selected: <strong>@(_selectedTask is null ? "none" : $"{_selectedTask.Label}, {_selectedTask.Start:d MMM} to {_selectedTask.End:d MMM}")</strong></p>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Driving the chart from outside">
+        <Description>Set <code>ShowToolbar="false"</code> to hide the built-in controls and use your own. Through a reference, <code>SetZoomAsync</code> changes the zoom, <code>ExpandAllAsync</code> and <code>CollapseAllAsync</code> open or close every summary, and <code>GoToTodayAsync</code> and <code>ScrollToAsync</code> scroll a zoomed-in chart. <code>ShowZoomControls="false"</code> keeps the toolbar without the zoom controls.</Description>
+
+        <CodeExample Name="GanttChartMethods" CSharpName="GanttChartMethodsCode">
+            <div class="mb-3 flex flex-wrap gap-2">
+                <TwButton Label="Month view" Variant="ButtonVariant.Outlined" Dense OnClick="@(() => _ganttRef!.SetZoomAsync(GanttZoom.Month))" />
+                <TwButton Label="Week view" Variant="ButtonVariant.Outlined" Dense OnClick="@(() => _ganttRef!.SetZoomAsync(GanttZoom.Week))" />
+                <TwButton Label="Fit" Variant="ButtonVariant.Outlined" Dense OnClick="@(() => _ganttRef!.SetZoomAsync(GanttZoom.Auto))" />
+                <TwButton Label="Collapse all" Variant="ButtonVariant.Outlined" Dense OnClick="@(() => _ganttRef!.CollapseAllAsync())" />
+                <TwButton Label="Expand all" Variant="ButtonVariant.Outlined" Dense OnClick="@(() => _ganttRef!.ExpandAllAsync())" />
+                <TwButton Label="Go to launch" Variant="ButtonVariant.Outlined" Dense OnClick="@(() => _ganttRef!.ScrollToAsync(Day(86)))" />
+            </div>
+            <TwChart Title="Product launch">
+                <TwGanttChart @ref="_ganttRef" Tasks="@_treeTasks" ShowToolbar="false" RowHeight="36" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Summaries with their own dates">
+        <Description>By default a summary's dates and progress are rolled up from the tasks under it. Set <code>RollUpSummaries="false"</code> when a summary keeps dates of its own, such as a baseline agreed separately from the work. The summary then shows its own dates even when the tasks under it run late.</Description>
+
+        <CodeExample Name="GanttChartBaseline" CSharpName="GanttChartBaselineData">
+            <TwChart Title="Phase 1 against its baseline">
+                <TwGanttChart Tasks="@_baselineTasks" RollUpSummaries="false" />
+            </TwChart>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Date format and labels">
+        <Description><code>DateFormat</code> takes any .NET date format string and applies to the axis at <code>Auto</code> zoom, tooltips and the table view; by default it also shows the time at <code>Hour</code> zoom. <code>StartLabel</code>, <code>EndLabel</code> and <code>LabelHeader</code> rename the values in tooltips and the table view.</Description>
 
         <CodeExample Name="GanttChartLabels">
             <TwChart Title="Release plan">
-                <TwGanttChart Tasks="@_tasks" StartLabel="Begins" EndLabel="Due" LabelHeader="Phase" Height="ChartHeight.Small" />
+                <TwGanttChart Tasks="@_tasks" DateFormat="ddd d MMM" StartLabel="Begins" EndLabel="Due" LabelHeader="Phase" Height="ChartHeight.Small" />
             </TwChart>
         </CodeExample>
     </PageCard>
 
-    <PageCard Title="Summary">
-        <Description>Tooltips and the table view give the start and end of each task.</Description>
+    <PageCard Title="Loading and empty states">
+        <Description>While the plan loads, set <code>Loading</code> on the surrounding <code>TwChart</code> to show a spinner with a "Loading chart" message, announced to screen readers. A chart with no tasks shows an empty state instead, whose message <code>EmptyText</code> changes. Both keep the chart's height, so the page does not jump when the tasks arrive.</Description>
+
+        <CodeExample Name="GanttChartStates">
+            <div class="grid gap-4 md:grid-cols-2">
+                <TwChart Title="Loading" Loading Height="ChartHeight.Small">
+                    <TwGanttChart Tasks="@_tasks" />
+                </TwChart>
+                <TwChart Title="Empty" Height="ChartHeight.Small">
+                    <TwGanttChart Tasks="@([])" EmptyText="Nothing scheduled yet" />
+                </TwChart>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Accessibility">
+        <Description>
+            Each row is a data point named after its task, with its dates and progress, for example "Code: Start 5 Jan, End 15 Jan, Done 25%". The plot is one Tab stop and the arrow keys move between rows. Each expand button is named after its summary ("Show the tasks under Build") and reports whether it is open. The zoom controls are a toggle group, and the toolbar buttons are ordinary buttons. The table view lists every task, including those under collapsed summaries. Moving, resizing, setting progress and drawing dependencies are pointer only, so offer another way to edit, such as a form opened from <code>OnTaskClick</code>. Text follows the app's language. The plot is drawn left to right in every language, as a calendar is, while the toolbar and task names follow the reading direction.
+        </Description>
     </PageCard>
 
     <PageCard Title="Shared features">
-        <Description>The legend, tooltips, keyboard navigation, table view, value formatting, height and empty state work the same on every chart. See <TwLink Href="/chart" Class="underline">TwChart</TwLink> for those options.</Description>
+        <Description>The legend, tooltips, keyboard navigation, table view, height and empty state work the same on every chart. See <TwLink Href="/chart" Class="underline">TwChart</TwLink> for those options. The bars, axes and legend are styled by <code>TwChartTheme</code>; the task tree, zoom controls and drag handles by <code>TwGanttTheme</code>.</Description>
     </PageCard>
 </PageContainer>
 
 @code {
     #region CodeExample GanttChartData
+    // The plan starts on the Monday six weeks ago, so today always falls inside it.
+    private static readonly DateTime _planStart = DateTime.Today.AddDays(-42 - ((int)DateTime.Today.DayOfWeek + 6) % 7);
+
+    private static DateTime Day(int days) => _planStart.AddDays(days);
+
     private readonly ChartTask[] _tasks =
     [
-        new("Research", new DateTime(2026, 1, 5, 0, 0, 0, DateTimeKind.Local), new DateTime(2026, 1, 23, 0, 0, 0, DateTimeKind.Local)),
-        new("Design", new DateTime(2026, 1, 19, 0, 0, 0, DateTimeKind.Local), new DateTime(2026, 2, 13, 0, 0, 0, DateTimeKind.Local)),
-        new("Build", new DateTime(2026, 2, 9, 0, 0, 0, DateTimeKind.Local), new DateTime(2026, 3, 20, 0, 0, 0, DateTimeKind.Local)),
-        new("Test", new DateTime(2026, 3, 9, 0, 0, 0, DateTimeKind.Local), new DateTime(2026, 3, 31, 0, 0, 0, DateTimeKind.Local))
+        new("Research", Day(0), Day(18)),
+        new("Design", Day(14), Day(39)),
+        new("Build", Day(35), Day(74)),
+        new("Test", Day(63), Day(85))
+    ];
+    #endregion
+
+    #region CodeExample GanttChartProgressData
+    private readonly ChartTask[] _progressTasks =
+    [
+        new("Content audit", Day(0), Day(11)) { Progress = 1 },
+        new("Wireframes", Day(7), Day(25)) { Progress = 0.8 },
+        new("Sign-off", Day(28), Day(28)),
+        new("Visual design", Day(28), Day(53)) { Progress = 0.35 },
+        new("Development", Day(42), Day(81)) { Progress = 0.1 },
+        new("Go live", Day(84), Day(84))
+    ];
+    #endregion
+
+    #region CodeExample GanttChartTreeData
+    private readonly ChartTask[] _treeTasks =
+    [
+        new("Discovery", Day(0), Day(0)) { Id = "discovery" },
+        new("Interviews", Day(0), Day(11)) { ParentId = "discovery", Progress = 1 },
+        new("Market review", Day(7), Day(18)) { ParentId = "discovery", Progress = 1 },
+        new("Delivery", Day(21), Day(21)) { Id = "delivery" },
+        new("Design", Day(21), Day(46)) { ParentId = "delivery", Progress = 0.7 },
+        new("Build", Day(42), Day(81)) { ParentId = "delivery", Progress = 0.3 },
+        new("Beta", Day(84), Day(102)) { ParentId = "delivery" },
+        new("Launch", Day(105), Day(105))
+    ];
+
+    private IReadOnlySet<string> _collapsed = new HashSet<string>();
+    #endregion
+
+    #region CodeExample GanttChartDependenciesData
+    private readonly ChartTaskDependency[] _dependencies =
+    [
+        new("Research", "Design"),
+        new("Design", "Build", ChartDependencyType.StartToStart),
+        new("Build", "Test", ChartDependencyType.FinishToFinish)
+    ];
+    #endregion
+
+    #region CodeExample GanttChartZoomData
+    private GanttZoom _zoom = GanttZoom.Week;
+    #endregion
+
+    #region CodeExample GanttChartWorkingDaysData
+    private readonly DateTime _sprintToday = new(2026, 3, 11, 14, 0, 0, DateTimeKind.Local);
+
+    private readonly DayOfWeek[] _fourDayWeek = [DayOfWeek.Friday, DayOfWeek.Saturday, DayOfWeek.Sunday];
+
+    private readonly ChartTask[] _sprintTasks =
+    [
+        new("Login page", new DateTime(2026, 3, 2, 0, 0, 0, DateTimeKind.Local), new DateTime(2026, 3, 6, 0, 0, 0, DateTimeKind.Local)) { Progress = 1 },
+        new("Password reset", new DateTime(2026, 3, 5, 0, 0, 0, DateTimeKind.Local), new DateTime(2026, 3, 13, 0, 0, 0, DateTimeKind.Local)) { Progress = 0.6, ColorIndex = 1 },
+        new("Audit log", new DateTime(2026, 3, 9, 0, 0, 0, DateTimeKind.Local), new DateTime(2026, 3, 20, 0, 0, 0, DateTimeKind.Local)) { Progress = 0.2, ColorIndex = 2 },
+        new("Release", new DateTime(2026, 3, 23, 0, 0, 0, DateTimeKind.Local), new DateTime(2026, 3, 23, 0, 0, 0, DateTimeKind.Local))
+    ];
+    #endregion
+
+    #region CodeExample GanttChartEditingCode
+    private List<ChartTask> _editableTasks =
+    [
+        new("Research", Day(0), Day(18)) { Progress = 0.9 },
+        new("Design", Day(14), Day(39)) { Progress = 0.5 },
+        new("Build", Day(35), Day(74)) { Progress = 0.1 },
+        new("Release", Day(77), Day(77))
+    ];
+
+    private string _lastChange = "none";
+
+    private void OnTaskChange(ChartTaskChange change)
+    {
+        if (change.Start < Day(0))
+        {
+            change.Cancel = true;
+            _lastChange = $"{change.Task.Label} cannot start before the plan begins";
+            return;
+        }
+
+        // Every gesture reports all three values, so one update covers them all.
+        var index = _editableTasks.FindIndex(task => task.Key == change.Task.Key);
+        _editableTasks[index] = change.Task with { Start = change.Start, End = change.End, Progress = change.Progress };
+        _editableTasks = [.. _editableTasks];
+        _lastChange = $"{change.Kind}: {change.Task.Label}, {change.Start:d MMM} to {change.End:d MMM}";
+    }
+    #endregion
+
+    #region CodeExample GanttChartLinkingCode
+    private List<ChartTaskDependency> _drawnDependencies = [new("Research", "Design")];
+
+    private void OnDependencyCreate(ChartDependencyRequest request)
+    {
+        // Refuse a dependency that is already there, or one running straight back the other way.
+        if (_drawnDependencies.Any(d => (d.FromId == request.Dependency.FromId && d.ToId == request.Dependency.ToId)
+            || (d.FromId == request.Dependency.ToId && d.ToId == request.Dependency.FromId)))
+        {
+            request.Cancel = true;
+            return;
+        }
+
+        _drawnDependencies = [.. _drawnDependencies, request.Dependency];
+    }
+
+    private void OnDependencyClick(ChartTaskDependency dependency) =>
+        _drawnDependencies = [.. _drawnDependencies.Where(d => d != dependency)];
+    #endregion
+
+    #region CodeExample GanttChartClickCode
+    private ChartTask? _selectedTask;
+    #endregion
+
+    #region CodeExample GanttChartMethodsCode
+    private TwGanttChart? _ganttRef;
+    #endregion
+
+    #region CodeExample GanttChartBaselineData
+    private readonly ChartTask[] _baselineTasks =
+    [
+        new("Phase 1 (baseline)", Day(0), Day(53)) { Id = "phase-1" },
+        new("Requirements", Day(0), Day(25)) { ParentId = "phase-1", Progress = 1 },
+        new("Prototype", Day(21), Day(67)) { ParentId = "phase-1", Progress = 0.6 }
     ];
     #endregion
 }

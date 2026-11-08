@@ -833,7 +833,7 @@
     <value>Avisos, cifras y gráficos, listos para un panel.</value>
   </data>
   <data name="Home_Showcase_Charts_Desc" xml:space="preserve">
-    <value>Más de {0} tipos de gráfico con un mismo estilo. Prueba nueve aquí.</value>
+    <value>Más de {0} tipos de gráfico con un mismo estilo. Prueba diez aquí.</value>
   </data>
   <data name="Home_Showcase_Purple" xml:space="preserve">
     <value>Morado</value>
@@ -1062,5 +1062,71 @@
   </data>
   <data name="Home_A11y_Tested_Body" xml:space="preserve">
     <value>Cada página de la documentación se analiza en busca de problemas de accesibilidad en las pruebas.</value>
+  </data>
+  <data name="Home_Plan_Title" xml:space="preserve">
+    <value>Plan de lanzamiento</value>
+  </data>
+  <data name="Home_Plan_Discovery" xml:space="preserve">
+    <value>Descubrimiento</value>
+  </data>
+  <data name="Home_Plan_Research" xml:space="preserve">
+    <value>Investigación</value>
+  </data>
+  <data name="Home_Plan_Interviews" xml:space="preserve">
+    <value>Entrevistas con usuarios</value>
+  </data>
+  <data name="Home_Plan_Wireframes" xml:space="preserve">
+    <value>Wireframes</value>
+  </data>
+  <data name="Home_Plan_Visual" xml:space="preserve">
+    <value>Diseño visual</value>
+  </data>
+  <data name="Home_Plan_Build" xml:space="preserve">
+    <value>Desarrollo</value>
+  </data>
+  <data name="Home_Plan_Api" xml:space="preserve">
+    <value>API</value>
+  </data>
+  <data name="Home_Plan_Frontend" xml:space="preserve">
+    <value>Front end</value>
+  </data>
+  <data name="Home_Plan_Testing" xml:space="preserve">
+    <value>Pruebas</value>
+  </data>
+  <data name="Home_Plan_Launch" xml:space="preserve">
+    <value>Lanzamiento</value>
+  </data>
+  <data name="Home_Plan_Beta" xml:space="preserve">
+    <value>Beta</value>
+  </data>
+  <data name="Home_Plan_Signoff" xml:space="preserve">
+    <value>Aprobación</value>
+  </data>
+  <data name="Home_Plan_Release" xml:space="preserve">
+    <value>Publicación</value>
+  </data>
+  <data name="Home_Release_Notes" xml:space="preserve">
+    <value>Notas de la versión</value>
+  </data>
+  <data name="Home_Release_NotesHelp" xml:space="preserve">
+    <value>Haz clic derecho para dar formato, o exporta a Word, OpenDocument, Markdown y más.</value>
+  </data>
+  <data name="Home_Release_NotesHeading" xml:space="preserve">
+    <value>Novedades de la v2.4.0</value>
+  </data>
+  <data name="Home_Release_NotesIntro" xml:space="preserve">
+    <value>Despliegues más rápidos, avisos de almacenamiento antes y varias correcciones.</value>
+  </data>
+  <data name="Home_Release_NotesFaster" xml:space="preserve">
+    <value>Los despliegues son un 30% más rápidos</value>
+  </data>
+  <data name="Home_Release_NotesAlerts" xml:space="preserve">
+    <value>Los avisos de almacenamiento te alertan antes de quedarte sin espacio</value>
+  </data>
+  <data name="Home_Release_NotesFixes" xml:space="preserve">
+    <value>Correcciones de teclado en el diagrama de Gantt</value>
+  </data>
+  <data name="Home_Release_NotesQuote" xml:space="preserve">
+    <value>Publica poco, publica a menudo.</value>
   </data>
 </root>

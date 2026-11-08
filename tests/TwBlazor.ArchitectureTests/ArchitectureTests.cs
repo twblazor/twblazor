@@ -89,6 +89,7 @@ public class ArchitectureTests
         TwBlazorArchitecture.TypeName(typeof(TwBlazor.Components.TwDataTableColumnFilter)),
         TwBlazorArchitecture.TypeName(typeof(TwBlazor.Components.TwDataTableColumnState)),
         TwBlazorArchitecture.TypeName(typeof(TwBlazor.Components.TwDataTableExport)),
+        TwBlazorArchitecture.TypeName(typeof(TwBlazor.Components.TwTextEditorExport)),
         TwBlazorArchitecture.TypeName(typeof(TwBlazor.Components.TwDataTableFilterCondition)),
         TwBlazorArchitecture.TypeName(typeof(TwBlazor.Components.TwDataTableFilterLogic)),
         TwBlazorArchitecture.TypeName(typeof(TwBlazor.Components.TwDataTableFilterOperator)),

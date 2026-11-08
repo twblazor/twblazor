@@ -833,7 +833,7 @@
     <value>ড্যাশবোর্ডের জন্য প্রস্তুত সতর্কতা, সংখ্যা ও চার্ট।</value>
   </data>
   <data name="Home_Showcase_Charts_Desc" xml:space="preserve">
-    <value>{0}+ ধরনের চার্ট, একই রকম চেহারা। এখানে নয়টি চেষ্টা করুন।</value>
+    <value>{0}+ ধরনের চার্ট, একই রকম চেহারা। এখানে দশটি চেষ্টা করুন।</value>
   </data>
   <data name="Home_Showcase_Purple" xml:space="preserve">
     <value>বেগুনি</value>
@@ -1062,5 +1062,71 @@
   </data>
   <data name="Home_A11y_Tested_Body" xml:space="preserve">
     <value>প্রতিটি ডক্স পাতা টেস্টে অ্যাক্সেসিবিলিটি সমস্যার জন্য স্ক্যান করা হয়।</value>
+  </data>
+  <data name="Home_Plan_Title" xml:space="preserve">
+    <value>রিলিজ পরিকল্পনা</value>
+  </data>
+  <data name="Home_Plan_Discovery" xml:space="preserve">
+    <value>অনুসন্ধান</value>
+  </data>
+  <data name="Home_Plan_Research" xml:space="preserve">
+    <value>গবেষণা</value>
+  </data>
+  <data name="Home_Plan_Interviews" xml:space="preserve">
+    <value>ব্যবহারকারী সাক্ষাৎকার</value>
+  </data>
+  <data name="Home_Plan_Wireframes" xml:space="preserve">
+    <value>ওয়্যারফ্রেম</value>
+  </data>
+  <data name="Home_Plan_Visual" xml:space="preserve">
+    <value>ভিজ্যুয়াল ডিজাইন</value>
+  </data>
+  <data name="Home_Plan_Build" xml:space="preserve">
+    <value>নির্মাণ</value>
+  </data>
+  <data name="Home_Plan_Api" xml:space="preserve">
+    <value>API</value>
+  </data>
+  <data name="Home_Plan_Frontend" xml:space="preserve">
+    <value>ফ্রন্ট এন্ড</value>
+  </data>
+  <data name="Home_Plan_Testing" xml:space="preserve">
+    <value>পরীক্ষা</value>
+  </data>
+  <data name="Home_Plan_Launch" xml:space="preserve">
+    <value>লঞ্চ</value>
+  </data>
+  <data name="Home_Plan_Beta" xml:space="preserve">
+    <value>বিটা</value>
+  </data>
+  <data name="Home_Plan_Signoff" xml:space="preserve">
+    <value>অনুমোদন</value>
+  </data>
+  <data name="Home_Plan_Release" xml:space="preserve">
+    <value>রিলিজ</value>
+  </data>
+  <data name="Home_Release_Notes" xml:space="preserve">
+    <value>রিলিজ নোট</value>
+  </data>
+  <data name="Home_Release_NotesHelp" xml:space="preserve">
+    <value>ফরম্যাট করতে রাইট-ক্লিক করুন, অথবা Word, OpenDocument, Markdown ও আরও ফরম্যাটে রপ্তানি করুন।</value>
+  </data>
+  <data name="Home_Release_NotesHeading" xml:space="preserve">
+    <value>v2.4.0-এ নতুন কী</value>
+  </data>
+  <data name="Home_Release_NotesIntro" xml:space="preserve">
+    <value>দ্রুত ডিপ্লয়, আগেভাগে স্টোরেজ সতর্কতা এবং বেশ কিছু সংশোধন।</value>
+  </data>
+  <data name="Home_Release_NotesFaster" xml:space="preserve">
+    <value>ডিপ্লয় 30% দ্রুত</value>
+  </data>
+  <data name="Home_Release_NotesAlerts" xml:space="preserve">
+    <value>জায়গা ফুরানোর আগেই স্টোরেজ সতর্কতা জানায়</value>
+  </data>
+  <data name="Home_Release_NotesFixes" xml:space="preserve">
+    <value>Gantt চার্টে কীবোর্ড সংশোধন</value>
+  </data>
+  <data name="Home_Release_NotesQuote" xml:space="preserve">
+    <value>ছোট করে, ঘন ঘন প্রকাশ করুন।</value>
   </data>
 </root>

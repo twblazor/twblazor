@@ -118,6 +118,9 @@ public sealed class ChartSceneBuilder
     public void Datum(double x, double y, double width, double height, string title, IReadOnlyList<ChartDatumRow> rows, ChartHover hover = ChartHover.Highlight) =>
         _datums.Add(new ChartDatum(x, y, width, height, title, rows, hover));
 
+    /// <summary>Adds an interactive data point built by the caller, such as one with a tooltip anchor.</summary>
+    public void Datum(ChartDatum datum) => _datums.Add(datum);
+
     /// <summary>
     /// Adds an interactive data point that covers a <see cref="ChartSector"/>, so the pointer triggers it
     /// anywhere on the segment. Use it on a <see cref="ChartShape.Square"/> plot.

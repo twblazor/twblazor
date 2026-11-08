@@ -833,7 +833,7 @@
     <value>டாஷ்போர்டுக்குத் தயாரான எச்சரிக்கைகள், எண்கள், விளக்கப்படங்கள்.</value>
   </data>
   <data name="Home_Showcase_Charts_Desc" xml:space="preserve">
-    <value>{0}+ விளக்கப்பட வகைகள், ஒரே தோற்றம். இங்கே ஒன்பதை முயன்று பாருங்கள்.</value>
+    <value>{0}+ விளக்கப்பட வகைகள், ஒரே தோற்றம். இங்கே பத்தை முயன்று பாருங்கள்.</value>
   </data>
   <data name="Home_Showcase_Purple" xml:space="preserve">
     <value>ஊதா</value>
@@ -1062,5 +1062,71 @@
   </data>
   <data name="Home_A11y_Tested_Body" xml:space="preserve">
     <value>ஒவ்வொரு ஆவணப் பக்கமும் சோதனைகளில் அணுகல் சிக்கல்களுக்காக ஆய்வு செய்யப்படுகிறது.</value>
+  </data>
+  <data name="Home_Plan_Title" xml:space="preserve">
+    <value>வெளியீட்டுத் திட்டம்</value>
+  </data>
+  <data name="Home_Plan_Discovery" xml:space="preserve">
+    <value>கண்டறிதல்</value>
+  </data>
+  <data name="Home_Plan_Research" xml:space="preserve">
+    <value>ஆய்வு</value>
+  </data>
+  <data name="Home_Plan_Interviews" xml:space="preserve">
+    <value>பயனர் நேர்காணல்கள்</value>
+  </data>
+  <data name="Home_Plan_Wireframes" xml:space="preserve">
+    <value>வயர்ஃப்ரேம்கள்</value>
+  </data>
+  <data name="Home_Plan_Visual" xml:space="preserve">
+    <value>காட்சி வடிவமைப்பு</value>
+  </data>
+  <data name="Home_Plan_Build" xml:space="preserve">
+    <value>உருவாக்கம்</value>
+  </data>
+  <data name="Home_Plan_Api" xml:space="preserve">
+    <value>API</value>
+  </data>
+  <data name="Home_Plan_Frontend" xml:space="preserve">
+    <value>முன்பக்கம்</value>
+  </data>
+  <data name="Home_Plan_Testing" xml:space="preserve">
+    <value>சோதனை</value>
+  </data>
+  <data name="Home_Plan_Launch" xml:space="preserve">
+    <value>அறிமுகம்</value>
+  </data>
+  <data name="Home_Plan_Beta" xml:space="preserve">
+    <value>பீட்டா</value>
+  </data>
+  <data name="Home_Plan_Signoff" xml:space="preserve">
+    <value>ஒப்புதல்</value>
+  </data>
+  <data name="Home_Plan_Release" xml:space="preserve">
+    <value>வெளியீடு</value>
+  </data>
+  <data name="Home_Release_Notes" xml:space="preserve">
+    <value>வெளியீட்டுக் குறிப்புகள்</value>
+  </data>
+  <data name="Home_Release_NotesHelp" xml:space="preserve">
+    <value>வடிவமைக்க வலது கிளிக் செய்யவும், அல்லது Word, OpenDocument, Markdown போன்றவற்றுக்கு ஏற்றுமதி செய்யவும்.</value>
+  </data>
+  <data name="Home_Release_NotesHeading" xml:space="preserve">
+    <value>v2.4.0 இல் புதியவை</value>
+  </data>
+  <data name="Home_Release_NotesIntro" xml:space="preserve">
+    <value>வேகமான வெளியீடுகள், முன்கூட்டிய சேமிப்பக எச்சரிக்கைகள் மற்றும் பல திருத்தங்கள்.</value>
+  </data>
+  <data name="Home_Release_NotesFaster" xml:space="preserve">
+    <value>வெளியீடுகள் 30% வேகமாக உள்ளன</value>
+  </data>
+  <data name="Home_Release_NotesAlerts" xml:space="preserve">
+    <value>இடம் தீரும் முன் சேமிப்பக எச்சரிக்கைகள் தெரிவிக்கின்றன</value>
+  </data>
+  <data name="Home_Release_NotesFixes" xml:space="preserve">
+    <value>Gantt விளக்கப்படத்தில் விசைப்பலகை திருத்தங்கள்</value>
+  </data>
+  <data name="Home_Release_NotesQuote" xml:space="preserve">
+    <value>சிறிதாக, அடிக்கடி வெளியிடுங்கள்.</value>
   </data>
 </root>

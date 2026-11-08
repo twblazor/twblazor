@@ -833,7 +833,7 @@
     <value>هشدارها، اعداد و نمودارها، آماده برای داشبورد.</value>
   </data>
   <data name="Home_Showcase_Charts_Desc" xml:space="preserve">
-    <value>بیش از {0} نوع نمودار با یک ظاهر یکسان. نُه نوع را اینجا امتحان کنید.</value>
+    <value>بیش از {0} نوع نمودار با یک ظاهر یکسان. ده نوع را اینجا امتحان کنید.</value>
   </data>
   <data name="Home_Showcase_Purple" xml:space="preserve">
     <value>بنفش</value>
@@ -1062,5 +1062,71 @@
   </data>
   <data name="Home_A11y_Tested_Body" xml:space="preserve">
     <value>هر صفحه مستندات در مجموعه آزمون‌ها برای مشکلات دسترس‌پذیری بررسی می‌شود.</value>
+  </data>
+  <data name="Home_Plan_Title" xml:space="preserve">
+    <value>برنامه انتشار</value>
+  </data>
+  <data name="Home_Plan_Discovery" xml:space="preserve">
+    <value>کاوش</value>
+  </data>
+  <data name="Home_Plan_Research" xml:space="preserve">
+    <value>پژوهش</value>
+  </data>
+  <data name="Home_Plan_Interviews" xml:space="preserve">
+    <value>مصاحبه با کاربران</value>
+  </data>
+  <data name="Home_Plan_Wireframes" xml:space="preserve">
+    <value>وایرفریم</value>
+  </data>
+  <data name="Home_Plan_Visual" xml:space="preserve">
+    <value>طراحی بصری</value>
+  </data>
+  <data name="Home_Plan_Build" xml:space="preserve">
+    <value>ساخت</value>
+  </data>
+  <data name="Home_Plan_Api" xml:space="preserve">
+    <value>API</value>
+  </data>
+  <data name="Home_Plan_Frontend" xml:space="preserve">
+    <value>فرانت‌اند</value>
+  </data>
+  <data name="Home_Plan_Testing" xml:space="preserve">
+    <value>آزمون</value>
+  </data>
+  <data name="Home_Plan_Launch" xml:space="preserve">
+    <value>راه‌اندازی</value>
+  </data>
+  <data name="Home_Plan_Beta" xml:space="preserve">
+    <value>بتا</value>
+  </data>
+  <data name="Home_Plan_Signoff" xml:space="preserve">
+    <value>تأیید</value>
+  </data>
+  <data name="Home_Plan_Release" xml:space="preserve">
+    <value>انتشار</value>
+  </data>
+  <data name="Home_Release_Notes" xml:space="preserve">
+    <value>یادداشت‌های انتشار</value>
+  </data>
+  <data name="Home_Release_NotesHelp" xml:space="preserve">
+    <value>برای قالب‌بندی راست‌کلیک کنید، یا به Word، OpenDocument، Markdown و موارد دیگر صادر کنید.</value>
+  </data>
+  <data name="Home_Release_NotesHeading" xml:space="preserve">
+    <value>تازه‌های v2.4.0</value>
+  </data>
+  <data name="Home_Release_NotesIntro" xml:space="preserve">
+    <value>استقرار سریع‌تر، هشدارهای زودتر فضای ذخیره‌سازی و مجموعه‌ای از اصلاحات.</value>
+  </data>
+  <data name="Home_Release_NotesFaster" xml:space="preserve">
+    <value>استقرارها 30% سریع‌ترند</value>
+  </data>
+  <data name="Home_Release_NotesAlerts" xml:space="preserve">
+    <value>هشدارهای ذخیره‌سازی پیش از پر شدن فضا خبر می‌دهند</value>
+  </data>
+  <data name="Home_Release_NotesFixes" xml:space="preserve">
+    <value>اصلاحات صفحه‌کلید در نمودار Gantt</value>
+  </data>
+  <data name="Home_Release_NotesQuote" xml:space="preserve">
+    <value>کوچک منتشر کنید، زیاد منتشر کنید.</value>
   </data>
 </root>

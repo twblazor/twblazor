@@ -309,6 +309,78 @@
   <data name="Chart_Destination" xml:space="preserve">
     <value>目標</value>
   </data>
+  <data name="Chart_Done" xml:space="preserve">
+    <value>已完成</value>
+  </data>
+  <data name="Chart_Date" xml:space="preserve">
+    <value>日期</value>
+  </data>
+  <data name="Chart_Milestone" xml:space="preserve">
+    <value>里程碑</value>
+  </data>
+  <data name="Chart_Summary" xml:space="preserve">
+    <value>摘要</value>
+  </data>
+  <data name="Chart_Today" xml:space="preserve">
+    <value>今天</value>
+  </data>
+  <data name="Chart_NonWorking" xml:space="preserve">
+    <value>非工作日</value>
+  </data>
+  <data name="Chart_ExpandAll" xml:space="preserve">
+    <value>全部展開</value>
+  </data>
+  <data name="Chart_CollapseAll" xml:space="preserve">
+    <value>全部摺疊</value>
+  </data>
+  <data name="Chart_ExpandTask" xml:space="preserve">
+    <value>顯示 {0} 下的工作</value>
+  </data>
+  <data name="Chart_CollapseTask" xml:space="preserve">
+    <value>隱藏 {0} 下的工作</value>
+  </data>
+  <data name="Chart_Zoom" xml:space="preserve">
+    <value>縮放</value>
+  </data>
+  <data name="Chart_ZoomAuto" xml:space="preserve">
+    <value>符合</value>
+  </data>
+  <data name="Chart_ZoomHour" xml:space="preserve">
+    <value>小時</value>
+  </data>
+  <data name="Chart_ZoomDay" xml:space="preserve">
+    <value>天</value>
+  </data>
+  <data name="Chart_ZoomWeek" xml:space="preserve">
+    <value>週</value>
+  </data>
+  <data name="Chart_ZoomMonth" xml:space="preserve">
+    <value>月</value>
+  </data>
+  <data name="Chart_ZoomQuarter" xml:space="preserve">
+    <value>季</value>
+  </data>
+  <data name="Chart_ZoomYear" xml:space="preserve">
+    <value>年</value>
+  </data>
+  <data name="Chart_WeekNumber" xml:space="preserve">
+    <value>第{0}週</value>
+  </data>
+  <data name="Chart_QuarterNumber" xml:space="preserve">
+    <value>第{0}季</value>
+  </data>
+  <data name="Chart_FinishToStart" xml:space="preserve">
+    <value>{1} 在 {0} 完成後開始</value>
+  </data>
+  <data name="Chart_StartToStart" xml:space="preserve">
+    <value>{1} 在 {0} 開始時開始</value>
+  </data>
+  <data name="Chart_FinishToFinish" xml:space="preserve">
+    <value>{1} 在 {0} 完成時完成</value>
+  </data>
+  <data name="Chart_StartToFinish" xml:space="preserve">
+    <value>{1} 在 {0} 開始後完成</value>
+  </data>
   <data name="Chip_Remove" xml:space="preserve">
     <value>移除 {0}</value>
   </data>
@@ -995,5 +1067,119 @@
   </data>
   <data name="TagInput_TooLongOther" xml:space="preserve">
     <value>標籤最多 {0} 個字元</value>
+  </data>
+  <data name="TextEditor_Label" xml:space="preserve">
+    <value>文字編輯器</value>
+  </data>
+  <data name="TextEditor_Toolbar" xml:space="preserve">
+    <value>格式</value>
+  </data>
+  <data name="TextEditor_ToolbarHint" xml:space="preserve">
+    <value>按 Alt+F10 移至工具列。</value>
+  </data>
+  <data name="TextEditor_TextStyle" xml:space="preserve">
+    <value>文字樣式</value>
+  </data>
+  <data name="TextEditor_Paragraph" xml:space="preserve">
+    <value>內文</value>
+  </data>
+  <data name="TextEditor_Heading1" xml:space="preserve">
+    <value>標題 1</value>
+  </data>
+  <data name="TextEditor_Heading2" xml:space="preserve">
+    <value>標題 2</value>
+  </data>
+  <data name="TextEditor_Heading3" xml:space="preserve">
+    <value>標題 3</value>
+  </data>
+  <data name="TextEditor_TextFormatting" xml:space="preserve">
+    <value>文字格式</value>
+  </data>
+  <data name="TextEditor_Bold" xml:space="preserve">
+    <value>粗體</value>
+  </data>
+  <data name="TextEditor_Italic" xml:space="preserve">
+    <value>斜體</value>
+  </data>
+  <data name="TextEditor_Underline" xml:space="preserve">
+    <value>底線</value>
+  </data>
+  <data name="TextEditor_Strikethrough" xml:space="preserve">
+    <value>刪除線</value>
+  </data>
+  <data name="TextEditor_Lists" xml:space="preserve">
+    <value>清單</value>
+  </data>
+  <data name="TextEditor_BulletList" xml:space="preserve">
+    <value>項目符號清單</value>
+  </data>
+  <data name="TextEditor_NumberedList" xml:space="preserve">
+    <value>編號清單</value>
+  </data>
+  <data name="TextEditor_Blocks" xml:space="preserve">
+    <value>區塊</value>
+  </data>
+  <data name="TextEditor_Blockquote" xml:space="preserve">
+    <value>引文</value>
+  </data>
+  <data name="TextEditor_CodeBlock" xml:space="preserve">
+    <value>程式碼區塊</value>
+  </data>
+  <data name="TextEditor_Link" xml:space="preserve">
+    <value>連結</value>
+  </data>
+  <data name="TextEditor_LinkUrl" xml:space="preserve">
+    <value>連結位址</value>
+  </data>
+  <data name="TextEditor_LinkApply" xml:space="preserve">
+    <value>套用</value>
+  </data>
+  <data name="TextEditor_LinkRemove" xml:space="preserve">
+    <value>移除連結</value>
+  </data>
+  <data name="TextEditor_LinkInvalid" xml:space="preserve">
+    <value>請輸入網址或電子郵件地址，例如 https://example.com</value>
+  </data>
+  <data name="TextEditor_History" xml:space="preserve">
+    <value>歷程記錄</value>
+  </data>
+  <data name="TextEditor_ClearFormatting" xml:space="preserve">
+    <value>清除格式</value>
+  </data>
+  <data name="TextEditor_Undo" xml:space="preserve">
+    <value>復原</value>
+  </data>
+  <data name="TextEditor_Redo" xml:space="preserve">
+    <value>重做</value>
+  </data>
+  <data name="TextEditor_Source" xml:space="preserve">
+    <value>HTML 原始碼</value>
+  </data>
+  <data name="TextEditor_SelectAll" xml:space="preserve">
+    <value>全選</value>
+  </data>
+  <data name="TextEditor_Export" xml:space="preserve">
+    <value>匯出</value>
+  </data>
+  <data name="TextEditor_ExportMarkdown" xml:space="preserve">
+    <value>Markdown</value>
+  </data>
+  <data name="TextEditor_ExportDocx" xml:space="preserve">
+    <value>Word 文件</value>
+  </data>
+  <data name="TextEditor_ExportOdt" xml:space="preserve">
+    <value>OpenDocument 文字</value>
+  </data>
+  <data name="TextEditor_ExportHtml" xml:space="preserve">
+    <value>網頁</value>
+  </data>
+  <data name="TextEditor_ExportPlainText" xml:space="preserve">
+    <value>純文字</value>
+  </data>
+  <data name="TextEditor_ExportRtf" xml:space="preserve">
+    <value>RTF 格式</value>
+  </data>
+  <data name="TextEditor_Exported" xml:space="preserve">
+    <value>已匯出 {0}</value>
   </data>
 </root>

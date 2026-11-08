@@ -833,7 +833,7 @@
     <value>डॅशबोर्डसाठी तयार सूचना, आकडे आणि चार्ट.</value>
   </data>
   <data name="Home_Showcase_Charts_Desc" xml:space="preserve">
-    <value>{0}+ प्रकारचे चार्ट, एकसारखे रूप. येथे नऊ वापरून पहा.</value>
+    <value>{0}+ प्रकारचे चार्ट, एकसारखे रूप. येथे दहा वापरून पहा.</value>
   </data>
   <data name="Home_Showcase_Purple" xml:space="preserve">
     <value>जांभळा</value>
@@ -1062,5 +1062,71 @@
   </data>
   <data name="Home_A11y_Tested_Body" xml:space="preserve">
     <value>प्रत्येक डॉक्स पान चाचण्यांमध्ये सुलभतेच्या समस्यांसाठी तपासले जाते.</value>
+  </data>
+  <data name="Home_Plan_Title" xml:space="preserve">
+    <value>रिलीज योजना</value>
+  </data>
+  <data name="Home_Plan_Discovery" xml:space="preserve">
+    <value>शोध</value>
+  </data>
+  <data name="Home_Plan_Research" xml:space="preserve">
+    <value>संशोधन</value>
+  </data>
+  <data name="Home_Plan_Interviews" xml:space="preserve">
+    <value>वापरकर्ता मुलाखती</value>
+  </data>
+  <data name="Home_Plan_Wireframes" xml:space="preserve">
+    <value>वायरफ्रेम</value>
+  </data>
+  <data name="Home_Plan_Visual" xml:space="preserve">
+    <value>दृश्य डिझाइन</value>
+  </data>
+  <data name="Home_Plan_Build" xml:space="preserve">
+    <value>निर्मिती</value>
+  </data>
+  <data name="Home_Plan_Api" xml:space="preserve">
+    <value>API</value>
+  </data>
+  <data name="Home_Plan_Frontend" xml:space="preserve">
+    <value>फ्रंट एंड</value>
+  </data>
+  <data name="Home_Plan_Testing" xml:space="preserve">
+    <value>चाचणी</value>
+  </data>
+  <data name="Home_Plan_Launch" xml:space="preserve">
+    <value>लॉन्च</value>
+  </data>
+  <data name="Home_Plan_Beta" xml:space="preserve">
+    <value>बीटा</value>
+  </data>
+  <data name="Home_Plan_Signoff" xml:space="preserve">
+    <value>मंजुरी</value>
+  </data>
+  <data name="Home_Plan_Release" xml:space="preserve">
+    <value>रिलीज</value>
+  </data>
+  <data name="Home_Release_Notes" xml:space="preserve">
+    <value>रिलीज नोट्स</value>
+  </data>
+  <data name="Home_Release_NotesHelp" xml:space="preserve">
+    <value>स्वरूपणासाठी उजवे-क्लिक करा, किंवा Word, OpenDocument, Markdown आणि इतर स्वरूपांत निर्यात करा.</value>
+  </data>
+  <data name="Home_Release_NotesHeading" xml:space="preserve">
+    <value>v2.4.0 मध्ये नवीन काय</value>
+  </data>
+  <data name="Home_Release_NotesIntro" xml:space="preserve">
+    <value>जलद डिप्लॉय, लवकर स्टोरेज सूचना आणि अनेक दुरुस्त्या.</value>
+  </data>
+  <data name="Home_Release_NotesFaster" xml:space="preserve">
+    <value>डिप्लॉय 30% जलद</value>
+  </data>
+  <data name="Home_Release_NotesAlerts" xml:space="preserve">
+    <value>जागा संपण्यापूर्वी स्टोरेज सूचना सावध करतात</value>
+  </data>
+  <data name="Home_Release_NotesFixes" xml:space="preserve">
+    <value>Gantt चार्टमध्ये कीबोर्ड दुरुस्त्या</value>
+  </data>
+  <data name="Home_Release_NotesQuote" xml:space="preserve">
+    <value>थोडे पाठवा, वारंवार पाठवा.</value>
   </data>
 </root>

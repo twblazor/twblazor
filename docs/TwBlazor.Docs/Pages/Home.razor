@@ -130,11 +130,21 @@
                                             <TwColumnChart Categories="@_deployDays" Series="@_deploys" Stacking="ChartStacking.Stacked" CategoryHeader="@Loc.Text("Home_Chart_Day", "Day")" />
                                         </TwChart>
                                     </div>
+                                    <TwTextEditor Id="showcase-release-notes"
+                                                  Label="@Loc.Text("Home_Release_Notes", "Release notes")"
+                                                  HelperText="@Loc.Text("Home_Release_NotesHelp", "Right-click for formatting, or export as Word, OpenDocument, Markdown and more.")"
+                                                  Toolbar="TextEditorToolbar.Full"
+                                                  ShowContextMenu
+                                                  ExportFormats="@_releaseNotesFormats"
+                                                  ExportFileName="Atlas v2.4.0 release notes"
+                                                  MinHeight="10rem"
+                                                  MaxHeight="22rem"
+                                                  @bind-Value="releaseNotes" />
                                 </div>)
                         </TwTab>
 
                         <TwTab Id="showcase-tab-charts" Label="@Loc.Text("Nav_Group_charts", "Charts")" Icon="IconEnum.Bar_Chart_Line">
-                            @ShowcasePane(Loc.Text("Nav_Group_charts", "Charts"), Loc.Format("Home_Showcase_Charts_Desc", "{0}+ chart types with one consistent look. Try nine of them here.", _chartTypeCount), $"/chart/{showcaseChartType.ToLowerInvariant()}",
+                            @ShowcasePane(Loc.Text("Nav_Group_charts", "Charts"), Loc.Format("Home_Showcase_Charts_Desc", "{0}+ chart types with one consistent look. Try ten of them here.", _chartTypeCount), $"/chart/{showcaseChartType.ToLowerInvariant()}",
                                 @<div>
                                     @* The chart types are component names, so they stay in English like the sidebar's. *@
                                     <div class="-mx-4 overflow-x-auto px-4 [scrollbar-width:none] sm:-mx-6 sm:px-6 [&::-webkit-scrollbar]:hidden">
@@ -152,6 +162,14 @@
                                     <div class="mt-5 min-w-0">
                                         @switch (showcaseChartType)
                                         {
+                                            case "Gantt":
+                                                <TwChart Title="@Loc.Text("Home_Plan_Title", "Release plan")" Class="min-w-0">
+                                                    <TwGanttChart Id="showcase-gantt" Tasks="@planTasks" Dependencies="@planDependencies" Zoom="GanttZoom.Week" RowHeight="30"
+                                                                  @bind-CollapsedIds="planCollapsed" ShowTaskLabels
+                                                                  AllowDrag AllowResize AllowProgressDrag AllowLinking
+                                                                  OnTaskChange="@OnPlanTaskChange" OnDependencyCreate="@OnPlanDependencyCreate" OnDependencyClick="@OnPlanDependencyClick" />
+                                                </TwChart>
+                                                break;
                                             case "Area":
                                                 <TwChart Title="@Loc.Text("Home_Chart_Response", "Response time")" Description="@Loc.Text("Home_Chart_ResponseDesc", "95th percentile, last 24 hours")" Class="min-w-0">
                                                     <TwAreaChart Categories="@_responseHours" Series="@_responseTimes" />
@@ -211,7 +229,7 @@
                 {
                     <li class="inline-flex items-center gap-2">
                         <TwIcon Icon="@stat.Icon" Plain Class="text-purple-600 dark:text-purple-300" />
-                        <span class="font-medium text-gray-950 dark:text-white">@stat.Text</span>
+                         <span class="font-medium text-gray-950 dark:text-white">@stat.Text</span>
                     </li>
                 }
             </ul>

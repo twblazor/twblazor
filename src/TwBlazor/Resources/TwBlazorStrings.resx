@@ -332,6 +332,78 @@
   <data name="Chart_Destination" xml:space="preserve">
     <value>Target</value>
   </data>
+  <data name="Chart_Done" xml:space="preserve">
+    <value>Done</value>
+  </data>
+  <data name="Chart_Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="Chart_Milestone" xml:space="preserve">
+    <value>Milestone</value>
+  </data>
+  <data name="Chart_Summary" xml:space="preserve">
+    <value>Summary</value>
+  </data>
+  <data name="Chart_Today" xml:space="preserve">
+    <value>Today</value>
+  </data>
+  <data name="Chart_NonWorking" xml:space="preserve">
+    <value>Non-working day</value>
+  </data>
+  <data name="Chart_ExpandAll" xml:space="preserve">
+    <value>Expand all</value>
+  </data>
+  <data name="Chart_CollapseAll" xml:space="preserve">
+    <value>Collapse all</value>
+  </data>
+  <data name="Chart_ExpandTask" xml:space="preserve">
+    <value>Show the tasks under {0}</value>
+  </data>
+  <data name="Chart_CollapseTask" xml:space="preserve">
+    <value>Hide the tasks under {0}</value>
+  </data>
+  <data name="Chart_Zoom" xml:space="preserve">
+    <value>Zoom</value>
+  </data>
+  <data name="Chart_ZoomAuto" xml:space="preserve">
+    <value>Fit</value>
+  </data>
+  <data name="Chart_ZoomHour" xml:space="preserve">
+    <value>Hour</value>
+  </data>
+  <data name="Chart_ZoomDay" xml:space="preserve">
+    <value>Day</value>
+  </data>
+  <data name="Chart_ZoomWeek" xml:space="preserve">
+    <value>Week</value>
+  </data>
+  <data name="Chart_ZoomMonth" xml:space="preserve">
+    <value>Month</value>
+  </data>
+  <data name="Chart_ZoomQuarter" xml:space="preserve">
+    <value>Quarter</value>
+  </data>
+  <data name="Chart_ZoomYear" xml:space="preserve">
+    <value>Year</value>
+  </data>
+  <data name="Chart_WeekNumber" xml:space="preserve">
+    <value>W{0}</value>
+  </data>
+  <data name="Chart_QuarterNumber" xml:space="preserve">
+    <value>Q{0}</value>
+  </data>
+  <data name="Chart_FinishToStart" xml:space="preserve">
+    <value>{1} starts after {0} finishes</value>
+  </data>
+  <data name="Chart_StartToStart" xml:space="preserve">
+    <value>{1} starts when {0} starts</value>
+  </data>
+  <data name="Chart_FinishToFinish" xml:space="preserve">
+    <value>{1} finishes when {0} finishes</value>
+  </data>
+  <data name="Chart_StartToFinish" xml:space="preserve">
+    <value>{1} finishes after {0} starts</value>
+  </data>
   <!-- Chip -->
   <data name="Chip_Remove" xml:space="preserve">
     <value>Remove {0}</value>
@@ -1250,5 +1322,157 @@
   <data name="TagInput_TooLongOther" xml:space="preserve">
     <value>A tag can be at most {0} characters long</value>
     <comment>{0} = the most characters allowed (plural form). Shown when a tag is too long.</comment>
+  </data>
+  <data name="TextEditor_Label" xml:space="preserve">
+    <value>Text editor</value>
+    <comment>Accessible name of a rich text editor that has no label.</comment>
+  </data>
+  <data name="TextEditor_Toolbar" xml:space="preserve">
+    <value>Formatting</value>
+    <comment>Accessible name of a rich text editor's toolbar.</comment>
+  </data>
+  <data name="TextEditor_ToolbarHint" xml:space="preserve">
+    <value>Press Alt+F10 to move to the toolbar.</value>
+    <comment>Read out with a rich text editor that has a toolbar.</comment>
+  </data>
+  <data name="TextEditor_TextStyle" xml:space="preserve">
+    <value>Text style</value>
+    <comment>Accessible name of the list of paragraph and heading styles.</comment>
+  </data>
+  <data name="TextEditor_Paragraph" xml:space="preserve">
+    <value>Paragraph</value>
+    <comment>A plain paragraph text style.</comment>
+  </data>
+  <data name="TextEditor_Heading1" xml:space="preserve">
+    <value>Heading 1</value>
+    <comment>A top level heading text style.</comment>
+  </data>
+  <data name="TextEditor_Heading2" xml:space="preserve">
+    <value>Heading 2</value>
+    <comment>A second level heading text style.</comment>
+  </data>
+  <data name="TextEditor_Heading3" xml:space="preserve">
+    <value>Heading 3</value>
+    <comment>A third level heading text style.</comment>
+  </data>
+  <data name="TextEditor_TextFormatting" xml:space="preserve">
+    <value>Text formatting</value>
+    <comment>Accessible name of the group of bold, italic, underline and strikethrough buttons.</comment>
+  </data>
+  <data name="TextEditor_Bold" xml:space="preserve">
+    <value>Bold</value>
+    <comment>Name of the bold button.</comment>
+  </data>
+  <data name="TextEditor_Italic" xml:space="preserve">
+    <value>Italic</value>
+    <comment>Name of the italic button.</comment>
+  </data>
+  <data name="TextEditor_Underline" xml:space="preserve">
+    <value>Underline</value>
+    <comment>Name of the underline button.</comment>
+  </data>
+  <data name="TextEditor_Strikethrough" xml:space="preserve">
+    <value>Strikethrough</value>
+    <comment>Name of the strikethrough button.</comment>
+  </data>
+  <data name="TextEditor_Lists" xml:space="preserve">
+    <value>Lists</value>
+    <comment>Accessible name of the group of list buttons.</comment>
+  </data>
+  <data name="TextEditor_BulletList" xml:space="preserve">
+    <value>Bulleted list</value>
+    <comment>Name of the bulleted list button.</comment>
+  </data>
+  <data name="TextEditor_NumberedList" xml:space="preserve">
+    <value>Numbered list</value>
+    <comment>Name of the numbered list button.</comment>
+  </data>
+  <data name="TextEditor_Blocks" xml:space="preserve">
+    <value>Blocks</value>
+    <comment>Accessible name of the group of quote and code block buttons.</comment>
+  </data>
+  <data name="TextEditor_Blockquote" xml:space="preserve">
+    <value>Quote</value>
+    <comment>Name of the quote button.</comment>
+  </data>
+  <data name="TextEditor_CodeBlock" xml:space="preserve">
+    <value>Code block</value>
+    <comment>Name of the code block button.</comment>
+  </data>
+  <data name="TextEditor_Link" xml:space="preserve">
+    <value>Link</value>
+    <comment>Name of the link button and of the bar for adding a link.</comment>
+  </data>
+  <data name="TextEditor_LinkUrl" xml:space="preserve">
+    <value>Link address</value>
+    <comment>Accessible name of the field for a link's address.</comment>
+  </data>
+  <data name="TextEditor_LinkApply" xml:space="preserve">
+    <value>Apply</value>
+    <comment>Button that adds or changes a link.</comment>
+  </data>
+  <data name="TextEditor_LinkRemove" xml:space="preserve">
+    <value>Remove link</value>
+    <comment>Button that removes a link.</comment>
+  </data>
+  <data name="TextEditor_LinkInvalid" xml:space="preserve">
+    <value>Enter a web or email address, such as https://example.com</value>
+    <comment>Shown when a link address is not valid.</comment>
+  </data>
+  <data name="TextEditor_History" xml:space="preserve">
+    <value>History</value>
+    <comment>Accessible name of the group of clear formatting, undo and redo buttons.</comment>
+  </data>
+  <data name="TextEditor_ClearFormatting" xml:space="preserve">
+    <value>Clear formatting</value>
+    <comment>Name of the clear formatting button.</comment>
+  </data>
+  <data name="TextEditor_Undo" xml:space="preserve">
+    <value>Undo</value>
+    <comment>Name of the undo button.</comment>
+  </data>
+  <data name="TextEditor_Redo" xml:space="preserve">
+    <value>Redo</value>
+    <comment>Name of the redo button.</comment>
+  </data>
+  <data name="TextEditor_Source" xml:space="preserve">
+    <value>HTML source</value>
+    <comment>Name of the button that shows the HTML source, and of the source view.</comment>
+  </data>
+  <data name="TextEditor_SelectAll" xml:space="preserve">
+    <value>Select all</value>
+    <comment>Context menu item that selects all of the text.</comment>
+  </data>
+  <data name="TextEditor_Export" xml:space="preserve">
+    <value>Export</value>
+    <comment>Accessible name of a rich text editor's export menu button.</comment>
+  </data>
+  <data name="TextEditor_ExportMarkdown" xml:space="preserve">
+    <value>Markdown</value>
+    <comment>Export menu item for a Markdown file.</comment>
+  </data>
+  <data name="TextEditor_ExportDocx" xml:space="preserve">
+    <value>Word document</value>
+    <comment>Export menu item for a Word (.docx) file.</comment>
+  </data>
+  <data name="TextEditor_ExportOdt" xml:space="preserve">
+    <value>OpenDocument text</value>
+    <comment>Export menu item for an OpenDocument (.odt) file.</comment>
+  </data>
+  <data name="TextEditor_ExportHtml" xml:space="preserve">
+    <value>Web page</value>
+    <comment>Export menu item for an HTML file.</comment>
+  </data>
+  <data name="TextEditor_ExportPlainText" xml:space="preserve">
+    <value>Plain text</value>
+    <comment>Export menu item for a plain text file.</comment>
+  </data>
+  <data name="TextEditor_ExportRtf" xml:space="preserve">
+    <value>Rich Text Format</value>
+    <comment>Export menu item for an RTF file.</comment>
+  </data>
+  <data name="TextEditor_Exported" xml:space="preserve">
+    <value>Exported {0}</value>
+    <comment>Announced after an export, where {0} is the file name.</comment>
   </data>
 </root>

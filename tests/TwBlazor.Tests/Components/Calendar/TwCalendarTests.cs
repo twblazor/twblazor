@@ -541,7 +541,7 @@ public class TwCalendarTests : TwBlazorTestBase
             .Add(x => x.SchedulesChanged, EventCallback.Factory.Create<List<Schedule<string>>>(this, list => updatedList = list)));
 
         await StartDragAsync(cut, "Design review");
-        cut.Find("button[aria-label='11:00']").Drop(new DragEventArgs());
+        await cut.InvokeAsync(() => cut.Find("button[aria-label='11:00']").Drop(new DragEventArgs()));
 
         await cut.WaitForAssertionAsync(() => Assert.NotNull(updatedList)); // the drop handler finishes asynchronously
         var moved = Assert.Single(Assert.IsType<List<Schedule<string>>>(updatedList));
@@ -566,8 +566,7 @@ public class TwCalendarTests : TwBlazorTestBase
         await StartDragAsync(cut, "Design review");
 
         // Columns render Monday(0)..Sunday(6); Wednesday is index 2, Thursday index 3.
-        var thursdayColumn = cut.FindComponents<TwCalendarDayColumn<string>>()[3];
-        thursdayColumn.Find("button[aria-label='09:00']").Drop(new DragEventArgs());
+        await cut.InvokeAsync(() => cut.FindComponents<TwCalendarDayColumn<string>>()[3].Find("button[aria-label='09:00']").Drop(new DragEventArgs()));
 
         await cut.WaitForAssertionAsync(() => Assert.NotNull(updatedList)); // the drop handler finishes asynchronously
         var moved = Assert.Single(Assert.IsType<List<Schedule<string>>>(updatedList));
@@ -588,12 +587,10 @@ public class TwCalendarTests : TwBlazorTestBase
             .Add(x => x.Schedules, [evt])
             .Add(x => x.SchedulesChanged, EventCallback.Factory.Create<List<Schedule<string>>>(this, list => updatedList = list)));
 
-        cut.Find("button[aria-label^='Design review']").DragStart(new DragEventArgs());
+        await cut.InvokeAsync(() => cut.Find("button[aria-label^='Design review']").DragStart(new DragEventArgs()));
 
-        var dayButton = cut.FindAll("button").First(b => b.TextContent.Trim() == "20");
-        var cell = dayButton.Closest("td");
-        Assert.NotNull(cell);
-        cell!.Drop(new DragEventArgs());
+        // Found and dropped in one dispatch, so the re-render the drag start causes cannot replace the cell in between.
+        await cut.InvokeAsync(() => cut.FindAll("button").First(b => b.TextContent.Trim() == "20").Closest("td")!.Drop(new DragEventArgs()));
 
         await cut.WaitForAssertionAsync(() => Assert.NotNull(updatedList)); // the drop handler finishes asynchronously
         var moved = Assert.Single(Assert.IsType<List<Schedule<string>>>(updatedList));

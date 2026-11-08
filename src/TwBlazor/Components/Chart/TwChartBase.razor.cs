@@ -37,6 +37,7 @@ public abstract partial class TwChartBase : TwBlazorComponentBase, IAsyncDisposa
 
     private ChartScene scene = ChartScene.Empty;
     private ElementReference plotRef;
+    private ElementReference scrollRef;
     private ElementReference[] hitRefs = [];
     private int activeIndex;
     private bool showTable;
@@ -151,7 +152,7 @@ public abstract partial class TwChartBase : TwBlazorComponentBase, IAsyncDisposa
 
     private bool hasTableToggle => ShowTableToggle && scene.Table != null;
 
-    private bool hasToolbar => hasLegend || hasTableToggle;
+    private bool hasToolbar => hasLegend || hasTableToggle || toolbarContent != null;
 
     private bool isTableVisible => showTable && hasTableToggle;
 
@@ -159,13 +160,15 @@ public abstract partial class TwChartBase : TwBlazorComponentBase, IAsyncDisposa
 
     private string rootClasses => new ClassBuilder(theme.Chart).AddClass(Class).Build();
 
+    private string heightClass => effectiveHeight switch
+    {
+        ChartHeight.Small => theme.Small,
+        ChartHeight.Large => theme.Large,
+        _ => theme.Medium
+    };
+
     private string plotClasses => new ClassBuilder(theme.Plot)
-        .AddClass(effectiveHeight switch
-        {
-            ChartHeight.Small => theme.Small,
-            ChartHeight.Large => theme.Large,
-            _ => theme.Medium
-        }, scene.Shape == ChartShape.Wide)
+        .AddClass(heightClass, scene.Shape == ChartShape.Wide)
         .AddClass(theme.Square, scene.Shape == ChartShape.Square)
         .AddClass(effectiveHeight switch
         {
@@ -174,6 +177,23 @@ public abstract partial class TwChartBase : TwBlazorComponentBase, IAsyncDisposa
             _ => theme.SquareMedium
         }, scene.Shape == ChartShape.Square)
         .Build();
+
+    private string plotStyle => plotHeight is { } height ? $"height:{Number(height)}px" : string.Empty;
+
+    private bool hasCustomYTicks => scene.YAxis is { } axis && axis.Ticks.Count > 0 && RenderYTick(axis.Ticks[0], 0) != null;
+
+    // A scrolling plot without a pixel height takes its height from a class, so the labels beside it take the same
+    // class; otherwise they would collapse to the top of their cell.
+    private string yAxisClasses => new ClassBuilder(theme.YAxis)
+        .AddClass(yAxisClass ?? string.Empty)
+        .AddClass(heightClass, plotMinWidth.HasValue && plotHeight is null && scene.Shape == ChartShape.Wide)
+        .Build();
+
+    // A scrolling plot sits in a taller cell (it holds the x axis and a scrollbar too), so the labels beside it
+    // take the plot's own height instead of stretching to the cell's.
+    private string? yAxisStyle => plotMinWidth.HasValue && plotHeight is { } height ? $"height:{Number(height)}px" : null;
+
+    private string hitClasses => new ClassBuilder(theme.Hit).AddClass(datumClass ?? string.Empty).Build();
 
     private string yTickClasses => $"{theme.Tick} {theme.YTick}";
 
@@ -202,6 +222,95 @@ public abstract partial class TwChartBase : TwBlazorComponentBase, IAsyncDisposa
     /// <param name="value">The value to format.</param>
     protected internal string FormatValue(double value) =>
         ValueFormatter?.Invoke(value) ?? value.ToString(ValueFormat ?? "#,0.##", localizer.Formats.Culture);
+
+    /// <summary>
+    /// Gets content shown at the start of the toolbar, before the legend, such as controls that change the view.
+    /// </summary>
+    protected virtual RenderFragment? toolbarContent => null;
+
+    /// <summary>
+    /// Gets content layered over the plot, above the data points. Positions inside it are percentages of the plot.
+    /// </summary>
+    protected virtual RenderFragment? plotOverlay => null;
+
+    /// <summary>
+    /// Gets the minimum width of the plot in pixels. When set, a plot wider than its container scrolls
+    /// horizontally while the labels on its left stay in view.
+    /// </summary>
+    protected virtual double? plotMinWidth => null;
+
+    /// <summary>
+    /// Gets the height of the plot in pixels, replacing the height set by <see cref="Height"/>.
+    /// </summary>
+    protected virtual double? plotHeight => null;
+
+    /// <summary>
+    /// Gets extra classes for the labels along the left of the plot, such as a different maximum width. A
+    /// scrolling plot (<see cref="plotMinWidth"/>) sits in a taller cell than the plot itself, so these classes
+    /// should then keep the labels to the top of it.
+    /// </summary>
+    protected virtual string? yAxisClass => null;
+
+    /// <summary>
+    /// Gets the classes for the element that scrolls the plot when <see cref="plotMinWidth"/> is set. It needs to
+    /// scroll horizontally, such as with <c>overflow-x-auto</c>.
+    /// </summary>
+    protected virtual string? plotScrollerClass => null;
+
+    /// <summary>
+    /// Gets extra classes for every data point, such as a pointer cursor when <see cref="datumsActivatable"/> is set.
+    /// </summary>
+    protected virtual string? datumClass => null;
+
+    /// <summary>
+    /// Gets content to show for a label along the left of the plot instead of its text. Return
+    /// <see langword="null"/> to show the text. Content that holds controls makes the labels readable by assistive
+    /// technology, so it should repeat the label's text.
+    /// </summary>
+    /// <param name="tick">The label.</param>
+    /// <param name="index">The zero-based position of the label.</param>
+    protected virtual RenderFragment? RenderYTick(ChartTick tick, int index) => null;
+
+    /// <summary>
+    /// Gets whether clicking a data point, or pressing Enter or Space on it, calls <see cref="OnDatumActivatedAsync"/>.
+    /// </summary>
+    protected virtual bool datumsActivatable => false;
+
+    /// <summary>
+    /// Called when a data point is clicked, or Enter or Space is pressed on it, while <see cref="datumsActivatable"/>
+    /// is <see langword="true"/>.
+    /// </summary>
+    /// <param name="index">The zero-based position of the data point.</param>
+    protected virtual Task OnDatumActivatedAsync(int index) => Task.CompletedTask;
+
+    /// <summary>
+    /// Gets the plot element, for script that works on it.
+    /// </summary>
+    protected ElementReference plotElement => plotRef;
+
+    /// <summary>
+    /// Gets the element that scrolls the plot when <see cref="plotMinWidth"/> is set.
+    /// </summary>
+    protected ElementReference scrollElement => scrollRef;
+
+    /// <summary>
+    /// Gets whether the plot is on screen: there is data and the table view is not showing.
+    /// </summary>
+    protected bool isPlotVisible => isPlotRendered;
+
+    /// <summary>
+    /// Rebuilds the scene and renders the chart again, after state the chart keeps itself has changed.
+    /// </summary>
+    protected void Refresh()
+    {
+        RebuildScene();
+        StateHasChanged();
+    }
+
+    /// <summary>
+    /// Releases what a chart type holds, such as references handed to script. Called by <see cref="DisposeAsync"/>.
+    /// </summary>
+    protected virtual ValueTask DisposeCoreAsync() => ValueTask.CompletedTask;
 
     /// <summary>
     /// Builds the chart's scene from its current parameters.
@@ -251,6 +360,8 @@ public abstract partial class TwChartBase : TwBlazorComponentBase, IAsyncDisposa
     /// </summary>
     public async ValueTask DisposeAsync()
     {
+        await DisposeCoreAsync();
+
         if (keydownGuardRegistered)
         {
             try
@@ -274,9 +385,11 @@ public abstract partial class TwChartBase : TwBlazorComponentBase, IAsyncDisposa
     {
         scene = CreateScene();
 
+        // Blazor captures an element reference only when the element is first rendered, so the references of
+        // data points that stay on screen must be kept when the count changes, such as when a Gantt summary opens.
         if (hitRefs.Length != scene.Datums.Count)
         {
-            hitRefs = new ElementReference[scene.Datums.Count];
+            Array.Resize(ref hitRefs, scene.Datums.Count);
         }
 
         activeIndex = Math.Clamp(activeIndex, 0, Math.Max(0, scene.Datums.Count - 1));
@@ -293,6 +406,8 @@ public abstract partial class TwChartBase : TwBlazorComponentBase, IAsyncDisposa
     }
 
     private void ToggleTable() => showTable = !showTable;
+
+    private Task ActivateDatumAsync(int index) => datumsActivatable ? OnDatumActivatedAsync(index) : Task.CompletedTask;
 
     private async Task OnPlotKeyDown(KeyboardEventArgs e)
     {
@@ -311,10 +426,20 @@ public abstract partial class TwChartBase : TwBlazorComponentBase, IAsyncDisposa
             _ => activeIndex
         };
 
+        if (e.Key is "Enter" or " " && datumsActivatable)
+        {
+            await OnDatumActivatedAsync(activeIndex);
+            return;
+        }
+
         if (next != activeIndex)
         {
             activeIndex = next;
-            await hitRefs[next].FocusAsync();
+            // A data point added since the last render has no reference yet; it takes focus from its tabindex instead.
+            if (hitRefs[next].Context is not null)
+            {
+                await hitRefs[next].FocusAsync();
+            }
         }
     }
 
@@ -416,7 +541,12 @@ public abstract partial class TwChartBase : TwBlazorComponentBase, IAsyncDisposa
     /// Places the tooltip of a datum with an anchor so it points at that position instead of sitting above the
     /// middle of the datum's box. Positions are percentages of the box, measured as the tooltip theme measures them.
     /// </summary>
-    private static string? GetTooltipStyle(ChartDatum datum)
+    // A scrolling plot clips anything outside it, so a tooltip in its top half opens downwards instead of being
+    // cut off above the plot.
+    private TooltipPlacement GetTooltipPlacement(ChartDatum datum) =>
+        plotMinWidth.HasValue && datum.Y < 50 ? TooltipPlacement.Bottom : TooltipPlacement.Top;
+
+    private string? GetTooltipStyle(ChartDatum datum)
     {
         if (datum.AnchorX is not { } anchorX || datum.AnchorY is not { } anchorY || datum.Width <= 0 || datum.Height <= 0)
         {
@@ -424,8 +554,10 @@ public abstract partial class TwChartBase : TwBlazorComponentBase, IAsyncDisposa
         }
 
         var left = (anchorX - (datum.X - datum.Width / 2)) / datum.Width * 100;
-        var bottom = 100 - (anchorY - (datum.Y - datum.Height / 2)) / datum.Height * 100;
-        return $"left:{Number(left)}%;bottom:{Number(bottom)}%";
+        var top = (anchorY - (datum.Y - datum.Height / 2)) / datum.Height * 100;
+        return GetTooltipPlacement(datum) == TooltipPlacement.Bottom
+            ? $"left:{Number(left)}%;top:{Number(top)}%"
+            : $"left:{Number(left)}%;bottom:{Number(100 - top)}%";
     }
 
     private static string GetXTickStyle(ChartAxis axis, ChartTick tick)

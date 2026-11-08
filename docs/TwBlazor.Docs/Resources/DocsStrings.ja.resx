@@ -833,7 +833,7 @@
     <value>ダッシュボード向けのアラート、数値、グラフ。</value>
   </data>
   <data name="Home_Showcase_Charts_Desc" xml:space="preserve">
-    <value>{0} 種類以上のグラフを統一された見た目で。ここで 9 種類を試せます。</value>
+    <value>{0} 種類以上のグラフを統一された見た目で。ここで 10 種類を試せます。</value>
   </data>
   <data name="Home_Showcase_Purple" xml:space="preserve">
     <value>紫</value>
@@ -1062,5 +1062,71 @@
   </data>
   <data name="Home_A11y_Tested_Body" xml:space="preserve">
     <value>すべてのドキュメントページをテストでアクセシビリティの問題がないか検査しています。</value>
+  </data>
+  <data name="Home_Plan_Title" xml:space="preserve">
+    <value>リリース計画</value>
+  </data>
+  <data name="Home_Plan_Discovery" xml:space="preserve">
+    <value>調査フェーズ</value>
+  </data>
+  <data name="Home_Plan_Research" xml:space="preserve">
+    <value>リサーチ</value>
+  </data>
+  <data name="Home_Plan_Interviews" xml:space="preserve">
+    <value>ユーザーインタビュー</value>
+  </data>
+  <data name="Home_Plan_Wireframes" xml:space="preserve">
+    <value>ワイヤーフレーム</value>
+  </data>
+  <data name="Home_Plan_Visual" xml:space="preserve">
+    <value>ビジュアルデザイン</value>
+  </data>
+  <data name="Home_Plan_Build" xml:space="preserve">
+    <value>開発</value>
+  </data>
+  <data name="Home_Plan_Api" xml:space="preserve">
+    <value>API</value>
+  </data>
+  <data name="Home_Plan_Frontend" xml:space="preserve">
+    <value>フロントエンド</value>
+  </data>
+  <data name="Home_Plan_Testing" xml:space="preserve">
+    <value>テスト</value>
+  </data>
+  <data name="Home_Plan_Launch" xml:space="preserve">
+    <value>ローンチ</value>
+  </data>
+  <data name="Home_Plan_Beta" xml:space="preserve">
+    <value>ベータ</value>
+  </data>
+  <data name="Home_Plan_Signoff" xml:space="preserve">
+    <value>承認</value>
+  </data>
+  <data name="Home_Plan_Release" xml:space="preserve">
+    <value>リリース</value>
+  </data>
+  <data name="Home_Release_Notes" xml:space="preserve">
+    <value>リリース ノート</value>
+  </data>
+  <data name="Home_Release_NotesHelp" xml:space="preserve">
+    <value>右クリックで書式を設定したり、Word、OpenDocument、Markdown などにエクスポートしたりできます。</value>
+  </data>
+  <data name="Home_Release_NotesHeading" xml:space="preserve">
+    <value>v2.4.0 の新機能</value>
+  </data>
+  <data name="Home_Release_NotesIntro" xml:space="preserve">
+    <value>デプロイの高速化、早めのストレージ警告、多数の修正。</value>
+  </data>
+  <data name="Home_Release_NotesFaster" xml:space="preserve">
+    <value>デプロイが 30% 高速化</value>
+  </data>
+  <data name="Home_Release_NotesAlerts" xml:space="preserve">
+    <value>容量が尽きる前にストレージ警告でお知らせ</value>
+  </data>
+  <data name="Home_Release_NotesFixes" xml:space="preserve">
+    <value>ガント チャートのキーボード操作を修正</value>
+  </data>
+  <data name="Home_Release_NotesQuote" xml:space="preserve">
+    <value>小さく、頻繁にリリース。</value>
   </data>
 </root>
