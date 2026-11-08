@@ -1,4 +1,5 @@
 using Bunit;
+using Microsoft.AspNetCore.Components.Web;
 using System.Globalization;
 using TwBlazor.Charting;
 using TwBlazor.Components;
@@ -399,6 +400,22 @@ public class TwGanttChartTests : TwBlazorTestBase
 
         await cut.InvokeAsync(cut.Instance.ExpandAllAsync);
         Assert.Equal(4, cut.Instance.CreateScene().Datums.Count);
+    }
+
+    [Fact]
+    public async Task ArrowKeys_AfterRowsAreHiddenAndShownAgain_MoveFocusWithoutError()
+    {
+        var cut = Render();
+        await cut.InvokeAsync(cut.Instance.CollapseAllAsync);
+        await cut.InvokeAsync(cut.Instance.ExpandAllAsync);
+
+        var plot = cut.Find("[data-chart-datum]").ParentElement!.ParentElement!;
+        for (var i = 0; i < 3; i++)
+        {
+            await plot.KeyDownAsync(new KeyboardEventArgs { Key = "ArrowDown" });
+        }
+
+        Assert.Equal("0", cut.Find("[data-chart-datum='3']").GetAttribute("tabindex"));
     }
 
     [Fact]
