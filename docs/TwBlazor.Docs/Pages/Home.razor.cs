@@ -30,39 +30,55 @@ public partial class Home
     // The plan starts on the Monday four weeks ago, so the today line always falls inside it.
     private static readonly DateTime _planStart = DateTime.Today.AddDays(-28 - ((int)DateTime.Today.DayOfWeek + 6) % 7);
 
+    // The ids tie the plan's tasks, summaries and dependencies together.
+    private const string planDiscovery = "discovery";
+    private const string planResearch = "research";
+    private const string planInterviews = "interviews";
+    private const string planDesign = "design";
+    private const string planWireframes = "wireframes";
+    private const string planVisual = "visual";
+    private const string planBuild = "build";
+    private const string planApi = "api";
+    private const string planFrontEnd = "frontend";
+    private const string planTesting = "testing";
+    private const string planLaunch = "launch";
+    private const string planBeta = "beta";
+    private const string planSignOff = "signoff";
+    private const string planRelease = "release";
+
     private List<ChartTask> planTasks =
     [
-        new(Loc.Text("Home_Plan_Discovery", "Discovery"), PlanDay(0), PlanDay(0)) { Id = "discovery", ColorIndex = 0 },
-        new(Loc.Text("Home_Plan_Research", "Research"), PlanDay(0), PlanDay(9)) { Id = "research", ParentId = "discovery", Progress = 1, ColorIndex = 0 },
-        new(Loc.Text("Home_Plan_Interviews", "User interviews"), PlanDay(5), PlanDay(16)) { Id = "interviews", ParentId = "discovery", Progress = 1, ColorIndex = 0 },
-        new(Loc.Text("Home_Review_Tag_Design", "Design"), PlanDay(0), PlanDay(0)) { Id = "design", ColorIndex = 1 },
-        new(Loc.Text("Home_Plan_Wireframes", "Wireframes"), PlanDay(14), PlanDay(25)) { Id = "wireframes", ParentId = "design", Progress = 1, ColorIndex = 1 },
-        new(Loc.Text("Home_Plan_Visual", "Visual design"), PlanDay(21), PlanDay(39)) { Id = "visual", ParentId = "design", Progress = 0.6, ColorIndex = 1 },
-        new(Loc.Text("Home_Plan_Build", "Build"), PlanDay(0), PlanDay(0)) { Id = "build", ColorIndex = 2 },
-        new(Loc.Text("Home_Plan_Api", "API"), PlanDay(21), PlanDay(46)) { Id = "api", ParentId = "build", Progress = 0.45, ColorIndex = 2 },
-        new(Loc.Text("Home_Plan_Frontend", "Front end"), PlanDay(35), PlanDay(60)) { Id = "frontend", ParentId = "build", Progress = 0.1, ColorIndex = 2 },
-        new(Loc.Text("Home_Plan_Testing", "Testing"), PlanDay(49), PlanDay(67)) { Id = "testing", ParentId = "build", ColorIndex = 2 },
-        new(Loc.Text("Home_Plan_Launch", "Launch"), PlanDay(0), PlanDay(0)) { Id = "launch", ColorIndex = 3 },
-        new(Loc.Text("Home_Plan_Beta", "Beta"), PlanDay(67), PlanDay(81)) { Id = "beta", ParentId = "launch", ColorIndex = 3 },
-        new(Loc.Text("Home_Plan_Signoff", "Sign-off"), PlanDay(84), PlanDay(84)) { Id = "signoff", ParentId = "launch", ColorIndex = 3 },
-        new(Loc.Text("Home_Plan_Release", "Release"), PlanDay(88), PlanDay(88)) { Id = "release", ParentId = "launch", ColorIndex = 3 }
+        new(Loc.Text("Home_Plan_Discovery", "Discovery"), PlanDay(0), PlanDay(0)) { Id = planDiscovery, ColorIndex = 0 },
+        new(Loc.Text("Home_Plan_Research", "Research"), PlanDay(0), PlanDay(9)) { Id = planResearch, ParentId = planDiscovery, Progress = 1, ColorIndex = 0 },
+        new(Loc.Text("Home_Plan_Interviews", "User interviews"), PlanDay(5), PlanDay(16)) { Id = planInterviews, ParentId = planDiscovery, Progress = 1, ColorIndex = 0 },
+        new(Loc.Text("Home_Review_Tag_Design", "Design"), PlanDay(0), PlanDay(0)) { Id = planDesign, ColorIndex = 1 },
+        new(Loc.Text("Home_Plan_Wireframes", "Wireframes"), PlanDay(14), PlanDay(25)) { Id = planWireframes, ParentId = planDesign, Progress = 1, ColorIndex = 1 },
+        new(Loc.Text("Home_Plan_Visual", "Visual design"), PlanDay(21), PlanDay(39)) { Id = planVisual, ParentId = planDesign, Progress = 0.6, ColorIndex = 1 },
+        new(Loc.Text("Home_Plan_Build", "Build"), PlanDay(0), PlanDay(0)) { Id = planBuild, ColorIndex = 2 },
+        new(Loc.Text("Home_Plan_Api", "API"), PlanDay(21), PlanDay(46)) { Id = planApi, ParentId = planBuild, Progress = 0.45, ColorIndex = 2 },
+        new(Loc.Text("Home_Plan_Frontend", "Front end"), PlanDay(35), PlanDay(60)) { Id = planFrontEnd, ParentId = planBuild, Progress = 0.1, ColorIndex = 2 },
+        new(Loc.Text("Home_Plan_Testing", "Testing"), PlanDay(49), PlanDay(67)) { Id = planTesting, ParentId = planBuild, ColorIndex = 2 },
+        new(Loc.Text("Home_Plan_Launch", "Launch"), PlanDay(0), PlanDay(0)) { Id = planLaunch, ColorIndex = 3 },
+        new(Loc.Text("Home_Plan_Beta", "Beta"), PlanDay(67), PlanDay(81)) { Id = planBeta, ParentId = planLaunch, ColorIndex = 3 },
+        new(Loc.Text("Home_Plan_Signoff", "Sign-off"), PlanDay(84), PlanDay(84)) { Id = planSignOff, ParentId = planLaunch, ColorIndex = 3 },
+        new(Loc.Text("Home_Plan_Release", "Release"), PlanDay(88), PlanDay(88)) { Id = planRelease, ParentId = planLaunch, ColorIndex = 3 }
     ];
 
     private List<ChartTaskDependency> planDependencies =
     [
-        new("research", "interviews", ChartDependencyType.StartToStart),
-        new("interviews", "wireframes"),
-        new("wireframes", "visual", ChartDependencyType.StartToStart),
-        new("visual", "frontend"),
-        new("api", "frontend", ChartDependencyType.FinishToFinish),
-        new("frontend", "testing"),
-        new("testing", "beta"),
-        new("beta", "signoff"),
-        new("signoff", "release")
+        new(planResearch, planInterviews, ChartDependencyType.StartToStart),
+        new(planInterviews, planWireframes),
+        new(planWireframes, planVisual, ChartDependencyType.StartToStart),
+        new(planVisual, planFrontEnd),
+        new(planApi, planFrontEnd, ChartDependencyType.FinishToFinish),
+        new(planFrontEnd, planTesting),
+        new(planTesting, planBeta),
+        new(planBeta, planSignOff),
+        new(planSignOff, planRelease)
     ];
 
     // Discovery is finished, so it starts folded away.
-    private IReadOnlySet<string> planCollapsed = new HashSet<string> { "discovery" };
+    private IReadOnlySet<string> planCollapsed = new HashSet<string> { planDiscovery };
 
     private static DateTime PlanDay(int days) => _planStart.AddDays(days);
 

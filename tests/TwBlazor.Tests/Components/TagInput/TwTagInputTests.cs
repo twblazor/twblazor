@@ -13,6 +13,8 @@ namespace TwBlazor.Tests.Components.TagInput;
 
 public class TwTagInputTests : TwBlazorTestBase
 {
+    private static readonly string[] _pastedTags = ["one", "two", "three", "four", "five"];
+
     private static readonly string[] _languages = ["C#", "F#", "Go", "Python", "Rust", "TypeScript"];
 
     private TwTagInputTheme theme => Theme.Components.Require<TwTagInputTheme>();
@@ -318,8 +320,8 @@ public class TwTagInputTests : TwBlazorTestBase
 
         await cut.InvokeAsync(() => cut.Instance.PasteTextAsync("one, two\nthree\r\nfour\tfive"));
 
-        Assert.Equal(["one", "two", "three", "four", "five"], changes.Single());
-        var expectedAnnouncement = string.Join(" ", new[] { "one", "two", "three", "four", "five" }.Select(tag => Localizer[TwStrings.TagInput_Added, tag]));
+        Assert.Equal(_pastedTags, changes.Single());
+        var expectedAnnouncement = string.Join(" ", _pastedTags.Select(tag => Localizer[TwStrings.TagInput_Added, tag]));
         Assert.Equal(expectedAnnouncement, cut.Find("[role='status']").TextContent);
     }
 

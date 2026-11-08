@@ -417,66 +417,35 @@ public partial class TwGanttChart : TwChartBase
 
     private void AddDependencies(ChartSceneBuilder builder, GanttTimeline axis, ChartBand band)
     {
-        var rows = plan.Visible;
         var gap = axis.SlotCount > 0 ? axis.SlotSize * 0.35 : 1.2;
-
         foreach (var dependency in Dependencies)
         {
-            var fromRow = plan.VisibleRowOf(dependency.FromId);
-            var toRow = plan.VisibleRowOf(dependency.ToId);
-
-            // A dependency inside one collapsed summary has nowhere to go.
-            if (fromRow < 0 || toRow < 0 || fromRow == toRow)
-            {
-                continue;
-            }
-
-            var from = rows[fromRow];
-            var to = rows[toRow];
-            var fromEnd = dependency.Type is ChartDependencyType.FinishToStart or ChartDependencyType.FinishToFinish;
-            var toStart = dependency.Type is ChartDependencyType.FinishToStart or ChartDependencyType.StartToStart;
-            var path = ArrowPath(
-                axis.Position(fromEnd ? from.End : from.Start), band.Center(fromRow),
-                axis.Position(toStart ? to.Start : to.End), band.Center(toRow),
-                fromEnd ? 1 : -1, toStart ? 1 : -1, gap, band.Step);
-
-            builder.Path(path, ChartColor.Axis, stroke: ChartStroke.Hairline, title: DescribeDependency(dependency));
-            builder.Glyph(axis.Position(toStart ? to.Start : to.End), band.Center(toRow), toStart ? Icon.Caret_Right_Fill : Icon.Caret_Left_Fill, ChartColor.Axis, 10);
-            arrows.Add((dependency, path));
+            AddDependency(builder, axis, band, dependency, gap);
         }
     }
 
-    /// <summary>
-    /// Routes an arrow with right angles: three segments when the ends face each other, otherwise five, turning
-    /// on the line between the two rows so the arrow goes round the task rather than through it.
-    /// </summary>
-    /// <param name="x1">Where the arrow starts across the plot.</param>
-    /// <param name="y1">Where the arrow starts down the plot.</param>
-    /// <param name="x2">Where the arrow ends across the plot.</param>
-    /// <param name="y2">Where the arrow ends down the plot.</param>
-    /// <param name="exit">+1 when the arrow leaves rightwards (from an end), -1 when it leaves leftwards (from a start).</param>
-    /// <param name="entry">+1 when the arrow arrives moving right (into a start), -1 when it arrives moving left (into an end).</param>
-    /// <param name="gap">How far the arrow runs straight out of and into a bar before turning.</param>
-    /// <param name="rowStep">The height of a row, so a five-segment arrow turns between rows.</param>
-    internal static string ArrowPath(double x1, double y1, double x2, double y2, int exit, int entry, double gap, double rowStep)
+    private void AddDependency(ChartSceneBuilder builder, GanttTimeline axis, ChartBand band, ChartTaskDependency dependency, double gap)
     {
-        var path = new ChartPathBuilder().MoveTo(x1, y1);
-        if (exit != entry)
+        var fromRow = plan.VisibleRowOf(dependency.FromId);
+        var toRow = plan.VisibleRowOf(dependency.ToId);
+
+        // A dependency inside one collapsed summary has nowhere to go.
+        if (fromRow < 0 || toRow < 0 || fromRow == toRow)
         {
-            var turn = exit > 0 ? Math.Max(x1, x2) + gap : Math.Min(x1, x2) - gap;
-            path.LineTo(turn, y1).LineTo(turn, y2);
-        }
-        else if ((x2 - x1) * exit >= 2 * gap)
-        {
-            path.LineTo(x1 + exit * gap, y1).LineTo(x1 + exit * gap, y2);
-        }
-        else
-        {
-            var between = y1 + Math.Sign(y2 - y1) * rowStep / 2;
-            path.LineTo(x1 + exit * gap, y1).LineTo(x1 + exit * gap, between).LineTo(x2 - entry * gap, between).LineTo(x2 - entry * gap, y2);
+            return;
         }
 
-        return path.LineTo(x2, y2).ToString();
+        var fromEnd = dependency.Type is ChartDependencyType.FinishToStart or ChartDependencyType.FinishToFinish;
+        var toStart = dependency.Type is ChartDependencyType.FinishToStart or ChartDependencyType.StartToStart;
+        var from = plan.Visible[fromRow];
+        var to = plan.Visible[toRow];
+        var exit = new GanttArrowEnd(axis.Position(fromEnd ? from.End : from.Start), band.Center(fromRow), fromEnd ? 1 : -1);
+        var entry = new GanttArrowEnd(axis.Position(toStart ? to.Start : to.End), band.Center(toRow), toStart ? 1 : -1);
+        var path = GanttArrow.Path(exit, entry, gap, band.Step);
+
+        builder.Path(path, ChartColor.Axis, stroke: ChartStroke.Hairline, title: DescribeDependency(dependency));
+        builder.Glyph(entry.X, entry.Y, toStart ? Icon.Caret_Right_Fill : Icon.Caret_Left_Fill, ChartColor.Axis, 10);
+        arrows.Add((dependency, path));
     }
 
     private void AddTask(ChartSceneBuilder builder, GanttTimeline axis, GanttNode node, double center, double thickness)

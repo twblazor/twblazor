@@ -152,7 +152,7 @@ public class TwGanttChartTests : TwBlazorTestBase
     [Fact]
     public void ArrowPath_EndsThatFaceEachOther_TakeThreeSegments()
     {
-        var path = TwGanttChart.ArrowPath(10, 10, 50, 30, 1, 1, 2, 20);
+        var path = GanttArrow.Path(new(10, 10, 1), new(50, 30, 1), 2, 20);
 
         Assert.Equal(4, path.Count(c => c is 'M' or 'L'));
     }
@@ -160,7 +160,7 @@ public class TwGanttChartTests : TwBlazorTestBase
     [Fact]
     public void ArrowPath_EndsThatOverlap_GoRoundTheTaskInFiveSegments()
     {
-        var path = TwGanttChart.ArrowPath(50, 10, 20, 30, 1, 1, 2, 20);
+        var path = GanttArrow.Path(new(50, 10, 1), new(20, 30, 1), 2, 20);
 
         Assert.Equal(6, path.Count(c => c is 'M' or 'L'));
     }

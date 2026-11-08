@@ -22,6 +22,8 @@ public partial class TwGanttChart
     private string? attachedPlotId;
     private bool scrollPending = true;
 
+    private const string classAttribute = "class";
+
     [Inject] private IJSRuntime ganttJs { get; set; } = null!;
 
     /// <inheritdoc />
@@ -275,7 +277,7 @@ public partial class TwGanttChart
     private void RenderToolbar(RenderTreeBuilder builder)
     {
         builder.OpenElement(0, "div");
-        builder.AddAttribute(1, "class", ganttTheme.Toolbar);
+        builder.AddAttribute(1, classAttribute, ganttTheme.Toolbar);
 
         if (ShowZoomControls)
         {
@@ -350,14 +352,14 @@ public partial class TwGanttChart
         return builder =>
         {
             builder.OpenElement(0, "span");
-            builder.AddAttribute(1, "class", ganttTheme.Tick);
+            builder.AddAttribute(1, classAttribute, ganttTheme.Tick);
             builder.AddAttribute(2, "style", $"padding-inline-start:{node.Depth * 12}px");
 
             if (node.IsSummary)
             {
                 builder.OpenElement(3, "button");
                 builder.AddAttribute(4, "type", "button");
-                builder.AddAttribute(5, "class", ganttTheme.Toggle);
+                builder.AddAttribute(5, classAttribute, ganttTheme.Toggle);
                 builder.AddAttribute(6, "aria-expanded", node.IsExpanded ? "true" : "false");
                 builder.AddAttribute(7, "aria-label", localizer[node.IsExpanded ? TwStrings.Chart_CollapseTask : TwStrings.Chart_ExpandTask, node.Task.Label]);
                 builder.AddAttribute(8, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, () => ToggleAsync(node.Key)));
@@ -370,13 +372,13 @@ public partial class TwGanttChart
             else
             {
                 builder.OpenElement(12, "span");
-                builder.AddAttribute(13, "class", ganttTheme.ToggleSpacer);
+                builder.AddAttribute(13, classAttribute, ganttTheme.ToggleSpacer);
                 builder.AddAttribute(14, "aria-hidden", "true");
                 builder.CloseElement();
             }
 
             builder.OpenElement(15, "span");
-            builder.AddAttribute(16, "class", ganttTheme.TickLabel);
+            builder.AddAttribute(16, classAttribute, ganttTheme.TickLabel);
             builder.AddContent(17, tick.Label);
             builder.CloseElement();
             builder.CloseElement();
@@ -394,93 +396,110 @@ public partial class TwGanttChart
 
     private void RenderOverlay(RenderTreeBuilder builder)
     {
-        var axis = timeline!;
         var rows = plan.Visible;
         var band = new ChartBand(rows.Count);
         var thickness = Math.Min(band.Step * 0.5, 8);
 
         builder.OpenElement(0, "div");
-        builder.AddAttribute(1, "class", ganttTheme.Overlay);
+        builder.AddAttribute(1, classAttribute, ganttTheme.Overlay);
         builder.AddAttribute(2, "data-gantt-overlay", true);
         builder.AddAttribute(3, "data-ghost-class", ganttTheme.Ghost);
         builder.AddAttribute(4, "data-line-class", ganttTheme.LinkLine);
 
         for (var i = 0; i < rows.Count; i++)
         {
-            var node = rows[i];
-            var fixedDates = node.IsSummary && RollUpSummaries;
-            var canMove = AllowDrag && !fixedDates;
-            var canResize = AllowResize && !fixedDates && !node.IsMilestone;
-            var canProgress = AllowProgressDrag && !fixedDates && !node.IsMilestone;
-            var flags = string.Join(' ', new[] { canMove ? "move" : null, canResize ? "resize" : null, canProgress ? "progress" : null, AllowLinking ? "link" : null }.OfType<string>());
-            if (flags.Length == 0)
-            {
-                continue;
-            }
-
-            var left = axis.Position(node.Start);
-            var width = axis.Position(node.End) - left;
-            var top = band.Center(i) - thickness / 2;
-
-            // A milestone has no length, so its handle area is the diamond's own size.
-            var box = node.IsMilestone
-                ? $"left:calc({Number(left)}% - 7px);width:14px;top:{Number(band.Center(i))}%;height:14px;transform:translateY(-50%)"
-                : $"left:{Number(left)}%;width:{Number(width)}%;top:{Number(top)}%;height:{Number(thickness)}%";
-
-            builder.OpenElement(10, "div");
-            builder.SetKey(node.Key);
-            builder.AddAttribute(11, "class", ganttTheme.Bar);
-            builder.AddAttribute(12, "style", box);
-            builder.AddAttribute(13, "data-gantt-bar", true);
-            builder.AddAttribute(14, "data-key", node.Key);
-            builder.AddAttribute(15, "data-flags", flags);
-            builder.AddAttribute(16, "data-left", Number(left));
-            builder.AddAttribute(17, "data-width", Number(node.IsMilestone ? 0 : width));
-            builder.AddAttribute(18, "data-progress", Number(node.Progress ?? 0));
-
-            if (canResize)
-            {
-                RenderPart(builder, 20, $"{ganttTheme.Handle} {ganttTheme.HandleStart}");
-                RenderPart(builder, 23, $"{ganttTheme.Handle} {ganttTheme.HandleEnd}");
-            }
-
-            if (canProgress)
-            {
-                RenderPart(builder, 26, ganttTheme.ProgressGrip, $"left:{Number((node.Progress ?? 0) * 100)}%");
-            }
-
-            if (AllowLinking)
-            {
-                RenderPart(builder, 29, $"{ganttTheme.LinkDot} {ganttTheme.LinkDotStart}");
-                RenderPart(builder, 32, $"{ganttTheme.LinkDot} {ganttTheme.LinkDotEnd}");
-            }
-
-            builder.CloseElement();
+            RenderBar(builder, rows[i], band.Center(i), thickness);
         }
 
         if (hasLinkTargets)
         {
-            builder.OpenElement(40, "svg");
-            builder.AddAttribute(41, "class", ganttTheme.Links);
-            builder.AddAttribute(42, "viewBox", "0 0 100 100");
-            builder.AddAttribute(43, "preserveAspectRatio", "none");
-            builder.AddAttribute(44, "aria-hidden", "true");
-            builder.AddAttribute(45, "focusable", "false");
-            foreach (var (dependency, path) in arrows)
-            {
-                builder.OpenElement(46, "path");
-                builder.AddAttribute(47, "d", path);
-                builder.AddAttribute(48, "class", ganttTheme.LinkHit);
-                builder.AddAttribute(49, "stroke-width", "10");
-                builder.AddAttribute(50, "vector-effect", "non-scaling-stroke");
-                builder.AddAttribute(51, "data-gantt-link", true);
-                builder.AddAttribute(52, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, () => OnDependencyClick.InvokeAsync(dependency)));
-                builder.OpenElement(53, "title");
-                builder.AddContent(54, DescribeDependency(dependency));
-                builder.CloseElement();
-                builder.CloseElement();
-            }
+            RenderLinkTargets(builder);
+        }
 
+        builder.CloseElement();
+    }
+
+    /// <summary>
+    /// Gets what a bar can do: the gestures it offers, as the space-separated flags the script reads.
+    /// </summary>
+    private (string Flags, bool CanResize, bool CanProgress) GetBarAbilities(GanttNode node)
+    {
+        var fixedDates = node.IsSummary && RollUpSummaries;
+        var canMove = AllowDrag && !fixedDates;
+        var canResize = AllowResize && !fixedDates && !node.IsMilestone;
+        var canProgress = AllowProgressDrag && !fixedDates && !node.IsMilestone;
+        string?[] flags = [canMove ? "move" : null, canResize ? "resize" : null, canProgress ? "progress" : null, AllowLinking ? "link" : null];
+        return (string.Join(' ', flags.OfType<string>()), canResize, canProgress);
+    }
+
+    private void RenderBar(RenderTreeBuilder builder, GanttNode node, double center, double thickness)
+    {
+        var (flags, canResize, canProgress) = GetBarAbilities(node);
+        if (flags.Length == 0)
+        {
+            return;
+        }
+
+        var axis = timeline!;
+        var left = axis.Position(node.Start);
+        var width = axis.Position(node.End) - left;
+
+        // A milestone has no length, so its handle area is the diamond's own size.
+        var box = node.IsMilestone
+            ? $"left:calc({Number(left)}% - 7px);width:14px;top:{Number(center)}%;height:14px;transform:translateY(-50%)"
+            : $"left:{Number(left)}%;width:{Number(width)}%;top:{Number(center - thickness / 2)}%;height:{Number(thickness)}%";
+
+        builder.OpenElement(10, "div");
+        builder.SetKey(node.Key);
+        builder.AddAttribute(11, classAttribute, ganttTheme.Bar);
+        builder.AddAttribute(12, "style", box);
+        builder.AddAttribute(13, "data-gantt-bar", true);
+        builder.AddAttribute(14, "data-key", node.Key);
+        builder.AddAttribute(15, "data-flags", flags);
+        builder.AddAttribute(16, "data-left", Number(left));
+        builder.AddAttribute(17, "data-width", Number(node.IsMilestone ? 0 : width));
+        builder.AddAttribute(18, "data-progress", Number(node.Progress ?? 0));
+
+        if (canResize)
+        {
+            RenderPart(builder, 20, $"{ganttTheme.Handle} {ganttTheme.HandleStart}");
+            RenderPart(builder, 23, $"{ganttTheme.Handle} {ganttTheme.HandleEnd}");
+        }
+
+        if (canProgress)
+        {
+            RenderPart(builder, 26, ganttTheme.ProgressGrip, $"left:{Number((node.Progress ?? 0) * 100)}%");
+        }
+
+        if (AllowLinking)
+        {
+            RenderPart(builder, 29, $"{ganttTheme.LinkDot} {ganttTheme.LinkDotStart}");
+            RenderPart(builder, 32, $"{ganttTheme.LinkDot} {ganttTheme.LinkDotEnd}");
+        }
+
+        builder.CloseElement();
+    }
+
+    private void RenderLinkTargets(RenderTreeBuilder builder)
+    {
+        builder.OpenElement(40, "svg");
+        builder.AddAttribute(41, classAttribute, ganttTheme.Links);
+        builder.AddAttribute(42, "viewBox", "0 0 100 100");
+        builder.AddAttribute(43, "preserveAspectRatio", "none");
+        builder.AddAttribute(44, "aria-hidden", "true");
+        builder.AddAttribute(45, "focusable", "false");
+        foreach (var (dependency, path) in arrows)
+        {
+            builder.OpenElement(46, "path");
+            builder.AddAttribute(47, "d", path);
+            builder.AddAttribute(48, classAttribute, ganttTheme.LinkHit);
+            builder.AddAttribute(49, "stroke-width", "10");
+            builder.AddAttribute(50, "vector-effect", "non-scaling-stroke");
+            builder.AddAttribute(51, "data-gantt-link", true);
+            builder.AddAttribute(52, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, () => OnDependencyClick.InvokeAsync(dependency)));
+            builder.OpenElement(53, "title");
+            builder.AddContent(54, DescribeDependency(dependency));
+            builder.CloseElement();
             builder.CloseElement();
         }
 
@@ -490,7 +509,7 @@ public partial class TwGanttChart
     private static void RenderPart(RenderTreeBuilder builder, int sequence, string classes, string? style = null)
     {
         builder.OpenElement(sequence, "span");
-        builder.AddAttribute(sequence + 1, "class", classes);
+        builder.AddAttribute(sequence + 1, classAttribute, classes);
         builder.AddAttribute(sequence + 2, "style", style);
         builder.CloseElement();
     }

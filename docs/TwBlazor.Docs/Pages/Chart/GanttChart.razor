@@ -63,8 +63,8 @@
                               Zoom="GanttZoom.Day"
                               Today="@_sprintToday"
                               NonWorkingDays="@_fourDayWeek"
-                              RangeStart="@(new DateTime(2026, 3, 2))"
-                              RangeEnd="@(new DateTime(2026, 3, 27))"
+                              RangeStart="@(new DateTime(2026, 3, 2, 0, 0, 0, DateTimeKind.Local))"
+                              RangeEnd="@(new DateTime(2026, 3, 27, 0, 0, 0, DateTimeKind.Local))"
                               SlotWidth="32"
                               RowHeight="36" />
             </TwChart>
@@ -235,16 +235,16 @@
     #endregion
 
     #region CodeExample GanttChartWorkingDaysData
-    private readonly DateTime _sprintToday = new(2026, 3, 11, 14, 0, 0);
+    private readonly DateTime _sprintToday = new(2026, 3, 11, 14, 0, 0, DateTimeKind.Local);
 
     private readonly DayOfWeek[] _fourDayWeek = [DayOfWeek.Friday, DayOfWeek.Saturday, DayOfWeek.Sunday];
 
     private readonly ChartTask[] _sprintTasks =
     [
-        new("Login page", new DateTime(2026, 3, 2), new DateTime(2026, 3, 6)) { Progress = 1 },
-        new("Password reset", new DateTime(2026, 3, 5), new DateTime(2026, 3, 13)) { Progress = 0.6, ColorIndex = 1 },
-        new("Audit log", new DateTime(2026, 3, 9), new DateTime(2026, 3, 20)) { Progress = 0.2, ColorIndex = 2 },
-        new("Release", new DateTime(2026, 3, 23), new DateTime(2026, 3, 23))
+        new("Login page", new DateTime(2026, 3, 2, 0, 0, 0, DateTimeKind.Local), new DateTime(2026, 3, 6, 0, 0, 0, DateTimeKind.Local)) { Progress = 1 },
+        new("Password reset", new DateTime(2026, 3, 5, 0, 0, 0, DateTimeKind.Local), new DateTime(2026, 3, 13, 0, 0, 0, DateTimeKind.Local)) { Progress = 0.6, ColorIndex = 1 },
+        new("Audit log", new DateTime(2026, 3, 9, 0, 0, 0, DateTimeKind.Local), new DateTime(2026, 3, 20, 0, 0, 0, DateTimeKind.Local)) { Progress = 0.2, ColorIndex = 2 },
+        new("Release", new DateTime(2026, 3, 23, 0, 0, 0, DateTimeKind.Local), new DateTime(2026, 3, 23, 0, 0, 0, DateTimeKind.Local))
     ];
     #endregion
 

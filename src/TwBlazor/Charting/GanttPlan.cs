@@ -59,104 +59,8 @@ internal sealed class GanttPlan
     /// Builds a plan. A parent that is missing, or that would make a loop, leaves its task at the top level.
     /// When two tasks share a key, the first one is the one others refer to.
     /// </summary>
-    public static GanttPlan Build(IReadOnlyList<ChartTask> tasks, IReadOnlySet<string> collapsed, bool rollUpSummaries)
-    {
-        if (tasks.Count == 0)
-        {
-            return Empty;
-        }
-
-        var firstByKey = new Dictionary<string, int>(StringComparer.Ordinal);
-        for (var i = 0; i < tasks.Count; i++)
-        {
-            firstByKey.TryAdd(tasks[i].Key, i);
-        }
-
-        var parent = new int[tasks.Count];
-        for (var i = 0; i < tasks.Count; i++)
-        {
-            parent[i] = tasks[i].ParentId is { } parentId && firstByKey.TryGetValue(parentId, out var p) && p != i ? p : -1;
-        }
-
-        BreakLoops(parent);
-
-        var children = new List<int>[tasks.Count];
-        var roots = new List<int>();
-        for (var i = 0; i < tasks.Count; i++)
-        {
-            children[i] = [];
-        }
-
-        for (var i = 0; i < tasks.Count; i++)
-        {
-            (parent[i] < 0 ? roots : children[parent[i]]).Add(i);
-        }
-
-        // Dates and progress, rolled up from the bottom of the tree.
-        var starts = new DateTime[tasks.Count];
-        var ends = new DateTime[tasks.Count];
-        var progress = new double?[tasks.Count];
-        foreach (var root in roots)
-        {
-            RollUp(root);
-        }
-
-        void RollUp(int i)
-        {
-            var task = tasks[i];
-            foreach (var child in children[i])
-            {
-                RollUp(child);
-            }
-
-            if (children[i].Count == 0 || !rollUpSummaries)
-            {
-                starts[i] = task.Start;
-                ends[i] = task.End < task.Start ? task.Start : task.End;
-                progress[i] = task.Progress is { } own ? Math.Clamp(own, 0, 1) : null;
-            }
-            else
-            {
-                starts[i] = children[i].Min(child => starts[child]);
-                ends[i] = children[i].Max(child => ends[child]);
-                progress[i] = task.Progress is { } own ? Math.Clamp(own, 0, 1) : WeightedProgress(children[i], starts, ends, progress);
-            }
-        }
-
-        // Tree order, with the rows that stay on screen.
-        var all = new List<GanttNode>(tasks.Count);
-        var visible = new List<GanttNode>();
-        var byKey = new Dictionary<string, int>(StringComparer.Ordinal);
-        var visibleRow = new List<int>(tasks.Count);
-        foreach (var root in roots)
-        {
-            Walk(root, 0, -1, true, -1);
-        }
-
-        void Walk(int i, int depth, int parentIndex, bool shown, int nearestVisible)
-        {
-            var task = tasks[i];
-            var isSummary = children[i].Count > 0;
-            var isExpanded = isSummary && !collapsed.Contains(task.Key);
-            var node = new GanttNode(task, all.Count, depth, parentIndex, starts[i], ends[i], progress[i], isSummary, !isSummary && ends[i] <= starts[i], isExpanded);
-            all.Add(node);
-            byKey.TryAdd(task.Key, node.Index);
-
-            if (shown)
-            {
-                nearestVisible = visible.Count;
-                visible.Add(node);
-            }
-
-            visibleRow.Add(nearestVisible);
-            foreach (var child in children[i])
-            {
-                Walk(child, depth + 1, node.Index, shown && isExpanded, nearestVisible);
-            }
-        }
-
-        return new GanttPlan(all, visible, byKey, [.. visibleRow]);
-    }
+    public static GanttPlan Build(IReadOnlyList<ChartTask> tasks, IReadOnlySet<string> collapsed, bool rollUpSummaries) =>
+        tasks.Count == 0 ? Empty : new Builder(tasks, collapsed, rollUpSummaries).Build();
 
     /// <summary>
     /// Gets the row on screen that stands for a task: its own, or that of the nearest summary above it that is
@@ -186,6 +90,124 @@ internal sealed class GanttPlan
         }
 
         return children.Sum(child => (progress[child] ?? 0) * (ends[child] - starts[child]).TotalHours) / total;
+    }
+
+    /// <summary>
+    /// Holds the working arrays while a plan is built: the tree, then the rolled-up dates, then the rows.
+    /// </summary>
+    private sealed class Builder
+    {
+        private readonly IReadOnlyList<ChartTask> _tasks;
+        private readonly IReadOnlySet<string> _collapsed;
+        private readonly bool _rollUpSummaries;
+        private readonly List<int>[] _children;
+        private readonly List<int> _roots = [];
+        private readonly DateTime[] _starts;
+        private readonly DateTime[] _ends;
+        private readonly double?[] _progress;
+        private readonly List<GanttNode> _all;
+        private readonly List<GanttNode> _visible = [];
+        private readonly Dictionary<string, int> _byKey = new(StringComparer.Ordinal);
+        private readonly List<int> _visibleRow;
+
+        public Builder(IReadOnlyList<ChartTask> tasks, IReadOnlySet<string> collapsed, bool rollUpSummaries)
+        {
+            _tasks = tasks;
+            _collapsed = collapsed;
+            _rollUpSummaries = rollUpSummaries;
+            _children = [.. tasks.Select(_ => new List<int>())];
+            _starts = new DateTime[tasks.Count];
+            _ends = new DateTime[tasks.Count];
+            _progress = new double?[tasks.Count];
+            _all = new List<GanttNode>(tasks.Count);
+            _visibleRow = new List<int>(tasks.Count);
+        }
+
+        public GanttPlan Build()
+        {
+            var parent = FindParents();
+            for (var i = 0; i < _tasks.Count; i++)
+            {
+                (parent[i] < 0 ? _roots : _children[parent[i]]).Add(i);
+            }
+
+            foreach (var root in _roots)
+            {
+                RollUp(root);
+            }
+
+            foreach (var root in _roots)
+            {
+                Walk(root, 0, -1, true, -1);
+            }
+
+            return new GanttPlan(_all, _visible, _byKey, [.. _visibleRow]);
+        }
+
+        private int[] FindParents()
+        {
+            var firstByKey = new Dictionary<string, int>(StringComparer.Ordinal);
+            for (var i = 0; i < _tasks.Count; i++)
+            {
+                firstByKey.TryAdd(_tasks[i].Key, i);
+            }
+
+            var parent = new int[_tasks.Count];
+            for (var i = 0; i < _tasks.Count; i++)
+            {
+                parent[i] = _tasks[i].ParentId is { } parentId && firstByKey.TryGetValue(parentId, out var p) && p != i ? p : -1;
+            }
+
+            BreakLoops(parent);
+            return parent;
+        }
+
+        // Dates and progress, rolled up from the bottom of the tree.
+        private void RollUp(int i)
+        {
+            var task = _tasks[i];
+            var children = _children[i];
+            foreach (var child in children)
+            {
+                RollUp(child);
+            }
+
+            var own = task.Progress is { } value ? Math.Clamp(value, 0, 1) : (double?)null;
+            if (children.Count == 0 || !_rollUpSummaries)
+            {
+                _starts[i] = task.Start;
+                _ends[i] = task.End < task.Start ? task.Start : task.End;
+                _progress[i] = own;
+                return;
+            }
+
+            _starts[i] = children.Min(child => _starts[child]);
+            _ends[i] = children.Max(child => _ends[child]);
+            _progress[i] = own ?? WeightedProgress(children, _starts, _ends, _progress);
+        }
+
+        // Tree order, with the rows that stay on screen.
+        private void Walk(int i, int depth, int parentIndex, bool shown, int nearestVisible)
+        {
+            var task = _tasks[i];
+            var isSummary = _children[i].Count > 0;
+            var isExpanded = isSummary && !_collapsed.Contains(task.Key);
+            var node = new GanttNode(task, _all.Count, depth, parentIndex, _starts[i], _ends[i], _progress[i], isSummary, !isSummary && _ends[i] <= _starts[i], isExpanded);
+            _all.Add(node);
+            _byKey.TryAdd(task.Key, node.Index);
+
+            if (shown)
+            {
+                nearestVisible = _visible.Count;
+                _visible.Add(node);
+            }
+
+            _visibleRow.Add(nearestVisible);
+            foreach (var child in _children[i])
+            {
+                Walk(child, depth + 1, node.Index, shown && isExpanded, nearestVisible);
+            }
+        }
     }
 
     private static void BreakLoops(int[] parent)

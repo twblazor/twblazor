@@ -3381,23 +3381,27 @@ globalThis.twGanttChart = {
     hit: function (plot, x, y) {
         const self = globalThis.twGanttChart;
         for (const bar of self._bars(plot)) {
-            const flags = (bar.dataset.flags || '').split(' ');
-            const has = function (flag) { return flags.includes(flag); };
+            const flags = new Set((bar.dataset.flags || '').split(' '));
             const r = bar.getBoundingClientRect();
-            const reach = has('link') ? self._linkReach : 0;
-            if (y < r.top - self._edge || y > r.bottom + self._edge) continue;
-            if (x < r.left - reach || x > r.right + reach) continue;
-
-            let zone = null;
-            if (has('link') && x < r.left - 2) zone = 'link-start';
-            else if (has('link') && x > r.right + 2) zone = 'link-end';
-            else if (has('resize') && x - r.left <= self._edge) zone = 'resize-start';
-            else if (has('resize') && r.right - x <= self._edge) zone = 'resize-end';
-            else if (has('progress') && y >= r.top + r.height / 2 && Math.abs(x - (r.left + r.width * Number(bar.dataset.progress || 0))) <= self._edge) zone = 'progress';
-            else if (has('move')) zone = 'move';
+            const reach = flags.has('link') ? self._linkReach : 0;
+            const inReach = y >= r.top - self._edge && y <= r.bottom + self._edge && x >= r.left - reach && x <= r.right + reach;
+            const zone = inReach ? self._zone(flags, bar, r, x, y) : null;
             if (zone) return { bar: bar, zone: zone, rect: r };
         }
         return null;
+    },
+
+    // What grabbing a bar at a point does, given the gestures the bar allows: its link dots sit outside it, its
+    // resize handles on its edges and its progress grip on its lower half.
+    _zone: function (flags, bar, r, x, y) {
+        const edge = globalThis.twGanttChart._edge;
+        if (flags.has('link') && x < r.left - 2) return 'link-start';
+        if (flags.has('link') && x > r.right + 2) return 'link-end';
+        if (flags.has('resize') && x - r.left <= edge) return 'resize-start';
+        if (flags.has('resize') && r.right - x <= edge) return 'resize-end';
+        const grip = r.left + r.width * Number(bar.dataset.progress || 0);
+        if (flags.has('progress') && y >= r.top + r.height / 2 && Math.abs(x - grip) <= edge) return 'progress';
+        return flags.has('move') ? 'move' : null;
     },
 
     // Any bar under a point, whatever it allows: a dependency can be drawn to a bar that cannot itself be dragged.
