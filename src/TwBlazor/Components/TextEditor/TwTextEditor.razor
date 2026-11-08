@@ -5,7 +5,7 @@
 <TwInputRoot RootId="@RootId" RootClass="@RootClass" RootAttributes="@RootAttributes" RootStyle="@Style" RootErrorMessage="@fieldErrorMessage" RootErrorId="@errorId">
     @if (!string.IsNullOrWhiteSpace(Label))
     {
-        <TwInputLabel Id="@labelId" Label="@Label" Class="@LabelClasses" @attributes="@labelAttributes" />
+        <TwInputLabel Id="@labelId" Label="@Label" Class="@LabelClasses" @attributes="@GetLabelAttributes()" />
     }
 
     <div class="@rootClasses" data-tw-text-editor>

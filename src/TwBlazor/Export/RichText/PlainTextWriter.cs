@@ -21,44 +21,17 @@ internal static class PlainTextWriter
     {
         var text = new StringBuilder();
         RichTextBlock? previous = null;
-        var topListId = 0;
+        RichTextBlock? topItem = null;
 
         foreach (var block in document.Blocks)
         {
-            if (block is { Kind: RichTextBlockKind.ListItem, ListLevel: 0 } && previous is not null && block.ListId != topListId)
-            {
-                // A new list starts after a blank line, like any other block.
-                previous = new RichTextBlock { Kind = RichTextBlockKind.Paragraph };
-            }
-
-            if (block is { Kind: RichTextBlockKind.ListItem, ListLevel: 0 })
-            {
-                topListId = block.ListId;
-            }
-
             if (previous is not null)
             {
-                var sameList = previous.Kind == RichTextBlockKind.ListItem && block.Kind == RichTextBlockKind.ListItem;
-                text.Append('\n');
-                if (!sameList)
-                {
-                    text.Append('\n');
-                }
+                text.Append(BlockSpacing.Between(previous, block, topItem) == BlockGap.LineBreak ? "\n" : "\n\n");
             }
 
-            var quote = string.Concat(Enumerable.Repeat("> ", block.QuoteDepth));
-            var (marker, continuation) = block.Kind == RichTextBlockKind.ListItem
-                ? ListMarker(block)
-                : (string.Empty, string.Empty);
-            var body = block.Kind == RichTextBlockKind.Code ? block.CodeText.ToString() : Inline(block.Runs);
-
-            var lines = body.Split('\n');
-            text.Append(quote).Append(marker).Append(lines[0]);
-            for (var i = 1; i < lines.Length; i++)
-            {
-                text.Append('\n').Append(quote).Append(continuation).Append(lines[i]);
-            }
-
+            topItem = BlockSpacing.TopItemAfter(block, topItem);
+            WriteBlock(text, block);
             previous = block;
         }
 
@@ -69,6 +42,25 @@ internal static class PlainTextWriter
 
         text.Append('\n');
         return newLine == "\n" ? text.ToString() : text.Replace("\n", newLine).ToString();
+    }
+
+    /// <summary>
+    /// Writes one block, with its quote markers and list marker, keeping later lines lined up under the first.
+    /// </summary>
+    private static void WriteBlock(StringBuilder text, RichTextBlock block)
+    {
+        var quote = string.Concat(Enumerable.Repeat("> ", block.QuoteDepth));
+        var (marker, continuation) = block.Kind == RichTextBlockKind.ListItem
+            ? ListMarker(block)
+            : (string.Empty, string.Empty);
+        var body = block.Kind == RichTextBlockKind.Code ? block.CodeText.ToString() : Inline(block.Runs);
+
+        var lines = body.Split('\n');
+        text.Append(quote).Append(marker).Append(lines[0]);
+        for (var i = 1; i < lines.Length; i++)
+        {
+            text.Append('\n').Append(quote).Append(continuation).Append(lines[i]);
+        }
     }
 
     private static (string Marker, string Continuation) ListMarker(RichTextBlock block)
@@ -84,35 +76,38 @@ internal static class PlainTextWriter
     internal static string Inline(List<RichTextRun> runs)
     {
         var text = new StringBuilder();
-        for (var i = 0; i < runs.Count; i++)
+        var i = 0;
+        while (i < runs.Count)
         {
-            var run = runs[i];
-            if (run.IsBreak)
+            // A link may be several runs, such as partly bold text, so its address follows the last of them.
+            var href = runs[i].Href;
+            var end = i + 1;
+            while (href is not null && end < runs.Count && runs[end].Href == href)
             {
-                text.Append('\n');
-                continue;
+                end++;
             }
 
-            text.Append(run.Text);
-
-            var linkEnds = run.Href is not null && (i + 1 == runs.Count || runs[i + 1].Href != run.Href);
-            if (linkEnds)
+            var span = string.Concat(runs.Skip(i).Take(end - i).Select(run => run.IsBreak ? "\n" : run.Text));
+            text.Append(span);
+            if (href is not null && !ShowsItsAddress(span, href))
             {
-                var start = i;
-                while (start > 0 && runs[start - 1].Href == run.Href)
-                {
-                    start--;
-                }
-
-                var linkText = string.Concat(runs.Skip(start).Take(i - start + 1).Select(r => r.Text));
-                var address = run.Href!.StartsWith("mailto:", StringComparison.OrdinalIgnoreCase) ? run.Href[7..] : run.Href;
-                if (!string.Equals(linkText.Trim(), address, StringComparison.OrdinalIgnoreCase) && !string.Equals(linkText.Trim(), run.Href, StringComparison.OrdinalIgnoreCase))
-                {
-                    text.Append(" (").Append(run.Href).Append(')');
-                }
+                text.Append(" (").Append(href).Append(')');
             }
+
+            i = end;
         }
 
         return text.ToString();
+    }
+
+    /// <summary>
+    /// Gets whether a link's text is already its address, such as an email address linked with <c>mailto:</c>.
+    /// </summary>
+    private static bool ShowsItsAddress(string linkText, string href)
+    {
+        var shown = linkText.Trim();
+        var address = href.StartsWith("mailto:", StringComparison.OrdinalIgnoreCase) ? href[7..] : href;
+        return string.Equals(shown, address, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(shown, href, StringComparison.OrdinalIgnoreCase);
     }
 }

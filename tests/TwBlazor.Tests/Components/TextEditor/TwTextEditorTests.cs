@@ -842,7 +842,7 @@ public class TwTextEditorTests : TwBlazorTestBase
         var menu = cut.FindComponent<TwContextMenu>();
         await cut.InvokeAsync(() => menu.Instance.OpenAtAsync(10, 10));
 
-        cut.FindAll("[role='menuitemcheckbox']").First().Click();
+        cut.FindAll("[role='menuitemcheckbox']")[0].Click();
 
         Assert.Equal(["Bold"], FormatCommands());
     }

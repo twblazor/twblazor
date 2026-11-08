@@ -17,6 +17,7 @@ internal static class DocxWriter
     private const string w = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
     private const string r = OpenXmlParts.RelationshipsNamespace;
     private const string val = "val";
+    private const string normalStyle = "Normal";
 
     private const int bulletNumberingId = 1;
     private const int bulletAbstractId = 0;
@@ -271,7 +272,7 @@ internal static class DocxWriter
         writer.WriteEndElement();
         writer.WriteEndElement();
 
-        WriteParagraphStyle(writer, "Normal", "Normal", isDefault: true);
+        WriteParagraphStyle(writer, normalStyle, normalStyle, isDefault: true);
         WriteHeadingStyle(writer, 1, size: 32, before: 360);
         WriteHeadingStyle(writer, 2, size: 28, before: 280);
         WriteHeadingStyle(writer, 3, size: 24, before: 240);
@@ -345,8 +346,8 @@ internal static class DocxWriter
         WriteValue(writer, "name", name);
         if (!isDefault)
         {
-            WriteValue(writer, "basedOn", "Normal");
-            WriteValue(writer, "next", "Normal");
+            WriteValue(writer, "basedOn", normalStyle);
+            WriteValue(writer, "next", normalStyle);
             writer.WriteElementString("qFormat", w, null);
         }
 

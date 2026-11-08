@@ -28,35 +28,39 @@ internal static partial class MarkdownWriter
 
         foreach (var block in document.Blocks)
         {
-            var isItem = block.Kind == RichTextBlockKind.ListItem;
             if (previous is not null)
             {
-                var quote = QuotePrefix(Math.Min(previous.QuoteDepth, block.QuoteDepth)).TrimEnd();
-                var bothItems = previous.Kind == RichTextBlockKind.ListItem && isItem && previous.QuoteDepth == block.QuoteDepth;
-                var sameList = bothItems && (block.ListLevel > 0 || block.ListId == topItem?.ListId);
-                markdown.Append('\n');
-                if (!sameList)
-                {
-                    markdown.Append(quote).Append('\n');
-
-                    // Markdown joins two lists of the same kind that follow each other, so a comment keeps them apart.
-                    if (bothItems && topItem?.Ordered == block.Ordered)
-                    {
-                        markdown.Append(QuotePrefix(block.QuoteDepth)).Append("<!-- -->\n").Append(quote).Append('\n');
-                    }
-                }
+                AppendGap(markdown, previous, block, BlockSpacing.Between(previous, block, topItem));
             }
 
-            if (isItem && block.ListLevel == 0)
-            {
-                topItem = block;
-            }
-
+            topItem = BlockSpacing.TopItemAfter(block, topItem);
             WriteBlock(markdown, block);
             previous = block;
         }
 
         return markdown.Length == 0 ? string.Empty : markdown.Append('\n').ToString();
+    }
+
+    /// <summary>
+    /// Writes the space between two blocks. A blank line inside a quote keeps the quote's marker, so the quote
+    /// continues across it.
+    /// </summary>
+    private static void AppendGap(StringBuilder markdown, RichTextBlock previous, RichTextBlock block, BlockGap gap)
+    {
+        markdown.Append('\n');
+        if (gap == BlockGap.LineBreak)
+        {
+            return;
+        }
+
+        var quote = QuotePrefix(Math.Min(previous.QuoteDepth, block.QuoteDepth)).TrimEnd();
+        markdown.Append(quote).Append('\n');
+
+        // Markdown joins two lists of the same kind that follow each other, so a comment keeps them apart.
+        if (gap == BlockGap.ListBreak)
+        {
+            markdown.Append(QuotePrefix(block.QuoteDepth)).Append("<!-- -->\n").Append(quote).Append('\n');
+        }
     }
 
     private static string QuotePrefix(int depth) => string.Concat(Enumerable.Repeat("> ", depth));

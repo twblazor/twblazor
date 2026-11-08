@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
 using System.Globalization;
+using System.Text.RegularExpressions;
 using System.Xml;
 using TwBlazor.Export.Packaging;
 
@@ -12,22 +13,36 @@ namespace TwBlazor.Export.RichText;
 /// </summary>
 /// <remarks>Headings use the standard Heading 1 to 3 styles with outline levels, so they appear in the navigator and
 /// a table of contents. Lists are real nested lists, each numbered list starting again from 1.</remarks>
-internal static class OdtWriter
+internal static partial class OdtWriter
 {
     /// <summary>The media type of an OpenDocument text document.</summary>
     public const string MediaType = "application/vnd.oasis.opendocument.text";
 
-    private const string office = "urn:oasis:names:tc:opendocument:xmlns:office:1.0";
-    private const string style = "urn:oasis:names:tc:opendocument:xmlns:style:1.0";
-    private const string text = "urn:oasis:names:tc:opendocument:xmlns:text:1.0";
-    private const string fo = "urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0";
-    private const string xlink = "http://www.w3.org/1999/xlink";
-    private const string dc = "http://purl.org/dc/elements/1.1/";
-    private const string manifest = "urn:oasis:names:tc:opendocument:xmlns:manifest:1.0";
-    private const string version = "1.3";
+    private const string officeNs = "urn:oasis:names:tc:opendocument:xmlns:office:1.0";
+    private const string styleNs = "urn:oasis:names:tc:opendocument:xmlns:style:1.0";
+    private const string textNs = "urn:oasis:names:tc:opendocument:xmlns:text:1.0";
+    private const string foNs = "urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0";
+    private const string xlinkNs = "http://www.w3.org/1999/xlink";
+    private const string dcNs = "http://purl.org/dc/elements/1.1/";
+    private const string manifestNs = "urn:oasis:names:tc:opendocument:xmlns:manifest:1.0";
+    private const string odfVersion = "1.3";
     private const string name = "name";
     private const string family = "family";
     private const string styleName = "style-name";
+
+    private const string officePrefix = "office";
+    private const string stylePrefix = "style";
+    private const string textPrefix = "text";
+    private const string manifestPrefix = "manifest";
+    private const string xmlnsPrefix = "xmlns";
+    private const string versionAttribute = "version";
+    private const string marginTop = "margin-top";
+    private const string marginBottom = "margin-bottom";
+    private const string fontSize = "font-size";
+    private const string fontWeight = "font-weight";
+    private const string standardStyle = "Standard";
+    private const string quotationsStyle = "Quotations";
+    private const string smallSpacing = "0.21cm";
 
     private const string bulletListStyle = "List_Bullet";
     private const string numberListStyle = "List_Number";
@@ -53,8 +68,8 @@ internal static class OdtWriter
 
     private static void WriteManifest(XmlWriter writer)
     {
-        writer.WriteStartElement("manifest", "manifest", manifest);
-        writer.WriteAttributeString("manifest", "version", manifest, version);
+        writer.WriteStartElement(manifestPrefix, manifestPrefix, manifestNs);
+        writer.WriteAttributeString(manifestPrefix, versionAttribute, manifestNs, odfVersion);
         WriteEntry("/", MediaType);
         WriteEntry("content.xml", "text/xml");
         WriteEntry("styles.xml", "text/xml");
@@ -63,27 +78,27 @@ internal static class OdtWriter
 
         void WriteEntry(string path, string mediaType)
         {
-            writer.WriteStartElement("manifest", "file-entry", manifest);
-            writer.WriteAttributeString("manifest", "full-path", manifest, path);
+            writer.WriteStartElement(manifestPrefix, "file-entry", manifestNs);
+            writer.WriteAttributeString(manifestPrefix, "full-path", manifestNs, path);
             if (path == "/")
             {
-                writer.WriteAttributeString("manifest", "version", manifest, version);
+                writer.WriteAttributeString(manifestPrefix, versionAttribute, manifestNs, odfVersion);
             }
 
-            writer.WriteAttributeString("manifest", "media-type", manifest, mediaType);
+            writer.WriteAttributeString(manifestPrefix, "media-type", manifestNs, mediaType);
             writer.WriteEndElement();
         }
     }
 
     private static void WriteMeta(XmlWriter writer, string? title)
     {
-        writer.WriteStartElement("office", "document-meta", office);
-        writer.WriteAttributeString("xmlns", "dc", null, dc);
-        writer.WriteAttributeString("office", "version", office, version);
-        writer.WriteStartElement("meta", office);
+        writer.WriteStartElement(officePrefix, "document-meta", officeNs);
+        writer.WriteAttributeString(xmlnsPrefix, "dc", null, dcNs);
+        writer.WriteAttributeString(officePrefix, versionAttribute, officeNs, odfVersion);
+        writer.WriteStartElement("meta", officeNs);
         if (!string.IsNullOrWhiteSpace(title))
         {
-            writer.WriteElementString("dc", "title", dc, XmlCharacters.Clean(title));
+            writer.WriteElementString("dc", "title", dcNs, XmlCharacters.Clean(title));
         }
 
         writer.WriteEndElement();
@@ -94,28 +109,28 @@ internal static class OdtWriter
 
     private static void WriteStyles(XmlWriter writer)
     {
-        writer.WriteStartElement("office", "document-styles", office);
+        writer.WriteStartElement(officePrefix, "document-styles", officeNs);
         WriteNamespaces(writer);
-        writer.WriteAttributeString("office", "version", office, version);
-        writer.WriteStartElement("styles", office);
+        writer.WriteAttributeString(officePrefix, versionAttribute, officeNs, odfVersion);
+        writer.WriteStartElement("styles", officeNs);
 
-        writer.WriteStartElement("style", "default-style", style);
-        writer.WriteAttributeString(family, style, "paragraph");
-        WriteParagraphProperties(writer, ("margin-top", "0cm"), ("margin-bottom", "0.28cm"), ("line-height", "115%"));
-        WriteTextProperties(writer, ("font-family", "Calibri"), ("font-size", "11pt"));
+        writer.WriteStartElement(stylePrefix, "default-style", styleNs);
+        writer.WriteAttributeString(family, styleNs, "paragraph");
+        WriteParagraphProperties(writer, (marginTop, "0cm"), (marginBottom, "0.28cm"), ("line-height", "115%"));
+        WriteTextProperties(writer, ("font-family", "Calibri"), (fontSize, "11pt"));
         writer.WriteEndElement();
 
-        WriteParagraphStyle(writer, "Standard", "Standard", null);
-        WriteParagraphStyle(writer, "Heading_20_1", "Heading 1", 1, ("margin-top", "0.64cm"), ("margin-bottom", "0.21cm"), ("font-size", "16pt"), ("font-weight", "bold"));
-        WriteParagraphStyle(writer, "Heading_20_2", "Heading 2", 2, ("margin-top", "0.49cm"), ("margin-bottom", "0.21cm"), ("font-size", "14pt"), ("font-weight", "bold"));
-        WriteParagraphStyle(writer, "Heading_20_3", "Heading 3", 3, ("margin-top", "0.42cm"), ("margin-bottom", "0.21cm"), ("font-size", "12pt"), ("font-weight", "bold"));
-        WriteParagraphStyle(writer, "Quotations", "Quotations", null, ("margin-left", "1.27cm"), ("font-style", "italic"), ("color", "#595959"));
-        WriteParagraphStyle(writer, "Preformatted_20_Text", "Preformatted Text", null, ("margin-top", "0.21cm"), ("margin-bottom", "0.21cm"), ("background-color", "#f2f2f2"), ("padding", "0.1cm"), ("font-family", "Consolas"), ("font-size", "10pt"));
+        WriteParagraphStyle(writer, standardStyle, standardStyle, null);
+        WriteParagraphStyle(writer, "Heading_20_1", "Heading 1", 1, (marginTop, "0.64cm"), (marginBottom, smallSpacing), (fontSize, "16pt"), (fontWeight, "bold"));
+        WriteParagraphStyle(writer, "Heading_20_2", "Heading 2", 2, (marginTop, "0.49cm"), (marginBottom, smallSpacing), (fontSize, "14pt"), (fontWeight, "bold"));
+        WriteParagraphStyle(writer, "Heading_20_3", "Heading 3", 3, (marginTop, "0.42cm"), (marginBottom, smallSpacing), (fontSize, "12pt"), (fontWeight, "bold"));
+        WriteParagraphStyle(writer, quotationsStyle, quotationsStyle, null, ("margin-left", "1.27cm"), ("font-style", "italic"), ("color", "#595959"));
+        WriteParagraphStyle(writer, "Preformatted_20_Text", "Preformatted Text", null, (marginTop, smallSpacing), (marginBottom, smallSpacing), ("background-color", "#f2f2f2"), ("padding", "0.1cm"), ("font-family", "Consolas"), (fontSize, "10pt"));
 
-        writer.WriteStartElement("style", "style", style);
-        writer.WriteAttributeString(name, style, "Internet_20_link");
-        writer.WriteAttributeString("display-name", style, "Internet Link");
-        writer.WriteAttributeString(family, style, "text");
+        writer.WriteStartElement(stylePrefix, stylePrefix, styleNs);
+        writer.WriteAttributeString(name, styleNs, "Internet_20_link");
+        writer.WriteAttributeString("display-name", styleNs, "Internet Link");
+        writer.WriteAttributeString(family, styleNs, textPrefix);
         WriteTextProperties(writer, ("color", "#0563c1"), ("text-underline-style", "solid"), ("text-underline-width", "auto"), ("text-underline-color", "font-color"));
         writer.WriteEndElement();
 
@@ -132,19 +147,19 @@ internal static class OdtWriter
     /// </summary>
     private static void WriteParagraphStyle(XmlWriter writer, string id, string displayName, int? outlineLevel, params (string Name, string Value)[] properties)
     {
-        writer.WriteStartElement("style", "style", style);
-        writer.WriteAttributeString(name, style, id);
-        writer.WriteAttributeString("display-name", style, displayName);
-        writer.WriteAttributeString(family, style, "paragraph");
-        if (id != "Standard")
+        writer.WriteStartElement(stylePrefix, stylePrefix, styleNs);
+        writer.WriteAttributeString(name, styleNs, id);
+        writer.WriteAttributeString("display-name", styleNs, displayName);
+        writer.WriteAttributeString(family, styleNs, "paragraph");
+        if (id != standardStyle)
         {
-            writer.WriteAttributeString("parent-style-name", style, "Standard");
-            writer.WriteAttributeString("next-style-name", style, "Standard");
+            writer.WriteAttributeString("parent-style-name", styleNs, standardStyle);
+            writer.WriteAttributeString("next-style-name", styleNs, standardStyle);
         }
 
         if (outlineLevel is int level)
         {
-            writer.WriteAttributeString("default-outline-level", style, level.ToString(CultureInfo.InvariantCulture));
+            writer.WriteAttributeString("default-outline-level", styleNs, level.ToString(CultureInfo.InvariantCulture));
         }
 
         var paragraph = properties.Where(p => p.Name.StartsWith("margin", StringComparison.Ordinal) || p.Name is "padding" or "line-height" or "background-color").ToArray();
@@ -167,15 +182,15 @@ internal static class OdtWriter
 
     private static void WriteParagraphProperties(XmlWriter writer, (string Name, string Value)[] properties, bool keepWithNext)
     {
-        writer.WriteStartElement("style", "paragraph-properties", style);
+        writer.WriteStartElement(stylePrefix, "paragraph-properties", styleNs);
         foreach (var (property, value) in properties)
         {
-            writer.WriteAttributeString(property, fo, value);
+            writer.WriteAttributeString(property, foNs, value);
         }
 
         if (keepWithNext)
         {
-            writer.WriteAttributeString("keep-with-next", fo, "always");
+            writer.WriteAttributeString("keep-with-next", foNs, "always");
         }
 
         writer.WriteEndElement();
@@ -183,10 +198,10 @@ internal static class OdtWriter
 
     private static void WriteTextProperties(XmlWriter writer, params (string Name, string Value)[] properties)
     {
-        writer.WriteStartElement("style", "text-properties", style);
+        writer.WriteStartElement(stylePrefix, "text-properties", styleNs);
         foreach (var (property, value) in properties)
         {
-            var ns = property.StartsWith("text-underline", StringComparison.Ordinal) || property == "text-line-through-style" ? style : fo;
+            var ns = property.StartsWith("text-underline", StringComparison.Ordinal) || property == "text-line-through-style" ? styleNs : foNs;
             writer.WriteAttributeString(property, ns, value);
         }
 
@@ -198,29 +213,29 @@ internal static class OdtWriter
         string[] bullets = ["•", "◦", "▪"];
         string[] formats = ["1", "a", "i"];
 
-        writer.WriteStartElement("text", "list-style", text);
-        writer.WriteAttributeString(name, style, id);
+        writer.WriteStartElement(textPrefix, "list-style", textNs);
+        writer.WriteAttributeString(name, styleNs, id);
         for (var level = 1; level <= 10; level++)
         {
-            writer.WriteStartElement("text", ordered ? "list-level-style-number" : "list-level-style-bullet", text);
-            writer.WriteAttributeString("level", text, level.ToString(CultureInfo.InvariantCulture));
+            writer.WriteStartElement(textPrefix, ordered ? "list-level-style-number" : "list-level-style-bullet", textNs);
+            writer.WriteAttributeString("level", textNs, level.ToString(CultureInfo.InvariantCulture));
             if (ordered)
             {
-                writer.WriteAttributeString("num-suffix", style, ".");
-                writer.WriteAttributeString("num-format", style, formats[(level - 1) % formats.Length]);
+                writer.WriteAttributeString("num-suffix", styleNs, ".");
+                writer.WriteAttributeString("num-format", styleNs, formats[(level - 1) % formats.Length]);
             }
             else
             {
-                writer.WriteAttributeString("bullet-char", text, bullets[(level - 1) % bullets.Length]);
+                writer.WriteAttributeString("bullet-char", textNs, bullets[(level - 1) % bullets.Length]);
             }
 
-            writer.WriteStartElement("style", "list-level-properties", style);
-            writer.WriteAttributeString("list-level-position-and-space-mode", text, "label-alignment");
-            writer.WriteStartElement("style", "list-level-label-alignment", style);
-            writer.WriteAttributeString("label-followed-by", text, "listtab");
-            writer.WriteAttributeString("list-tab-stop-position", text, Centimetres(level * 1.27));
-            writer.WriteAttributeString("text-indent", fo, "-0.635cm");
-            writer.WriteAttributeString("margin-left", fo, Centimetres(level * 1.27));
+            writer.WriteStartElement(stylePrefix, "list-level-properties", styleNs);
+            writer.WriteAttributeString("list-level-position-and-space-mode", textNs, "label-alignment");
+            writer.WriteStartElement(stylePrefix, "list-level-label-alignment", styleNs);
+            writer.WriteAttributeString("label-followed-by", textNs, "listtab");
+            writer.WriteAttributeString("list-tab-stop-position", textNs, Centimetres(level * 1.27));
+            writer.WriteAttributeString("text-indent", foNs, "-0.635cm");
+            writer.WriteAttributeString("margin-left", foNs, Centimetres(level * 1.27));
             writer.WriteEndElement();
             writer.WriteEndElement();
             writer.WriteEndElement();
@@ -262,6 +277,40 @@ internal static class OdtWriter
         }
     }
 
+    /// <summary>
+    /// Gets the text properties of an automatic span style for one combination of inline formats.
+    /// </summary>
+    private static (string Name, string Value)[] SpanProperties((bool Bold, bool Italic, bool Underline, bool Strike, bool Code) key)
+    {
+        var properties = new List<(string, string)>();
+        if (key.Bold)
+        {
+            properties.Add((fontWeight, "bold"));
+        }
+
+        if (key.Italic)
+        {
+            properties.Add(("font-style", "italic"));
+        }
+
+        if (key.Underline)
+        {
+            properties.AddRange([("text-underline-style", "solid"), ("text-underline-width", "auto"), ("text-underline-color", "font-color")]);
+        }
+
+        if (key.Strike)
+        {
+            properties.Add(("text-line-through-style", "solid"));
+        }
+
+        if (key.Code)
+        {
+            properties.AddRange([("font-family", "Consolas"), (fontSize, "10pt")]);
+        }
+
+        return [.. properties];
+    }
+
     private static void WriteContent(XmlWriter writer, RichTextDocument document, SpanStyles spanStyles)
     {
         // The automatic styles come before the body in the file, so the span styles are collected first.
@@ -272,64 +321,35 @@ internal static class OdtWriter
 
         var quoteDepths = document.Blocks.Select(b => b.QuoteDepth).Where(d => d > 1).Distinct().Order().ToList();
 
-        writer.WriteStartElement("office", "document-content", office);
+        writer.WriteStartElement(officePrefix, "document-content", officeNs);
         WriteNamespaces(writer);
-        writer.WriteAttributeString("office", "version", office, version);
+        writer.WriteAttributeString(officePrefix, versionAttribute, officeNs, odfVersion);
 
-        writer.WriteStartElement("automatic-styles", office);
+        writer.WriteStartElement("automatic-styles", officeNs);
         foreach (var (key, styleId) in spanStyles.Names)
         {
-            writer.WriteStartElement("style", "style", style);
-            writer.WriteAttributeString(name, style, styleId);
-            writer.WriteAttributeString(family, style, "text");
-            var properties = new List<(string, string)>();
-            if (key.Bold)
-            {
-                properties.Add(("font-weight", "bold"));
-            }
-
-            if (key.Italic)
-            {
-                properties.Add(("font-style", "italic"));
-            }
-
-            if (key.Underline)
-            {
-                properties.Add(("text-underline-style", "solid"));
-                properties.Add(("text-underline-width", "auto"));
-                properties.Add(("text-underline-color", "font-color"));
-            }
-
-            if (key.Strike)
-            {
-                properties.Add(("text-line-through-style", "solid"));
-            }
-
-            if (key.Code)
-            {
-                properties.Add(("font-family", "Consolas"));
-                properties.Add(("font-size", "10pt"));
-            }
-
-            WriteTextProperties(writer, [.. properties]);
+            writer.WriteStartElement(stylePrefix, stylePrefix, styleNs);
+            writer.WriteAttributeString(name, styleNs, styleId);
+            writer.WriteAttributeString(family, styleNs, textPrefix);
+            WriteTextProperties(writer, SpanProperties(key));
             writer.WriteEndElement();
         }
 
         // Quotes inside quotes are indented further.
         foreach (var depth in quoteDepths)
         {
-            writer.WriteStartElement("style", "style", style);
-            writer.WriteAttributeString(name, style, $"Quote{depth}");
-            writer.WriteAttributeString(family, style, "paragraph");
-            writer.WriteAttributeString("parent-style-name", style, "Quotations");
+            writer.WriteStartElement(stylePrefix, stylePrefix, styleNs);
+            writer.WriteAttributeString(name, styleNs, $"Quote{depth}");
+            writer.WriteAttributeString(family, styleNs, "paragraph");
+            writer.WriteAttributeString("parent-style-name", styleNs, quotationsStyle);
             WriteParagraphProperties(writer, ("margin-left", Centimetres(depth * 1.27)));
             writer.WriteEndElement();
         }
 
         writer.WriteEndElement();
 
-        writer.WriteStartElement("body", office);
-        writer.WriteStartElement("text", office);
+        writer.WriteStartElement("body", officeNs);
+        writer.WriteStartElement(textPrefix, officeNs);
         WriteBlocks(writer, document.Blocks, spanStyles);
         writer.WriteEndElement();
         writer.WriteEndElement();
@@ -338,10 +358,10 @@ internal static class OdtWriter
 
     private static void WriteNamespaces(XmlWriter writer)
     {
-        writer.WriteAttributeString("xmlns", "style", null, style);
-        writer.WriteAttributeString("xmlns", "text", null, text);
-        writer.WriteAttributeString("xmlns", "fo", null, fo);
-        writer.WriteAttributeString("xmlns", "xlink", null, xlink);
+        writer.WriteAttributeString(xmlnsPrefix, stylePrefix, null, styleNs);
+        writer.WriteAttributeString(xmlnsPrefix, textPrefix, null, textNs);
+        writer.WriteAttributeString(xmlnsPrefix, "fo", null, foNs);
+        writer.WriteAttributeString(xmlnsPrefix, "xlink", null, xlinkNs);
     }
 
     /// <summary>
@@ -385,14 +405,14 @@ internal static class OdtWriter
 
             while (open.Count < depth)
             {
-                writer.WriteStartElement("text", "list", text);
-                writer.WriteAttributeString(styleName, text, block.Ordered ? numberListStyle : bulletListStyle);
+                writer.WriteStartElement(textPrefix, "list", textNs);
+                writer.WriteAttributeString(styleName, textNs, block.Ordered ? numberListStyle : bulletListStyle);
                 open.Add((block.ListId, false));
 
                 if (open.Count < depth)
                 {
                     // A level with no item of its own, such as a list that starts nested: give it an empty item.
-                    writer.WriteStartElement("text", "list-item", text);
+                    writer.WriteStartElement(textPrefix, "list-item", textNs);
                     open[^1] = (open[^1].ListId, true);
                 }
             }
@@ -402,7 +422,7 @@ internal static class OdtWriter
                 writer.WriteEndElement();
             }
 
-            writer.WriteStartElement("text", "list-item", text);
+            writer.WriteStartElement(textPrefix, "list-item", textNs);
             open[^1] = (block.ListId, true);
             WriteParagraph(writer, block, spanStyles);
         }
@@ -419,16 +439,16 @@ internal static class OdtWriter
             RichTextBlockKind.Heading3 => "Heading_20_3",
             RichTextBlockKind.Code => "Preformatted_20_Text",
             _ when block.QuoteDepth > 1 => $"Quote{block.QuoteDepth}",
-            _ when block.QuoteDepth == 1 => "Quotations",
-            _ => "Standard",
+            _ when block.QuoteDepth == 1 => quotationsStyle,
+            _ => standardStyle,
         };
 
         var heading = block.Kind is RichTextBlockKind.Heading1 or RichTextBlockKind.Heading2 or RichTextBlockKind.Heading3;
-        writer.WriteStartElement("text", heading ? "h" : "p", text);
-        writer.WriteAttributeString(styleName, text, paragraphStyle);
+        writer.WriteStartElement(textPrefix, heading ? "h" : "p", textNs);
+        writer.WriteAttributeString(styleName, textNs, paragraphStyle);
         if (heading)
         {
-            writer.WriteAttributeString("outline-level", text, (block.Kind - RichTextBlockKind.Heading1 + 1).ToString(CultureInfo.InvariantCulture));
+            writer.WriteAttributeString("outline-level", textNs, (block.Kind - RichTextBlockKind.Heading1 + 1).ToString(CultureInfo.InvariantCulture));
         }
 
         var writerState = new TextState();
@@ -452,10 +472,10 @@ internal static class OdtWriter
             var href = runs[i].Href;
             if (href is not null)
             {
-                writer.WriteStartElement("text", "a", text);
-                writer.WriteAttributeString("xlink", "type", xlink, "simple");
-                writer.WriteAttributeString("xlink", "href", xlink, href);
-                writer.WriteAttributeString(styleName, text, "Internet_20_link");
+                writer.WriteStartElement(textPrefix, "a", textNs);
+                writer.WriteAttributeString("xlink", "type", xlinkNs, "simple");
+                writer.WriteAttributeString("xlink", "href", xlinkNs, href);
+                writer.WriteAttributeString(styleName, textNs, "Internet_20_link");
             }
 
             do
@@ -463,13 +483,13 @@ internal static class OdtWriter
                 var run = runs[i];
                 if (run.IsBreak)
                 {
-                    writer.WriteElementString("text", "line-break", text, null);
+                    writer.WriteElementString(textPrefix, "line-break", textNs, null);
                     state.AtLineStart = true;
                 }
                 else if (spanStyles.NameFor(run) is { } span)
                 {
-                    writer.WriteStartElement("text", "span", text);
-                    writer.WriteAttributeString(styleName, text, span);
+                    writer.WriteStartElement(textPrefix, "span", textNs);
+                    writer.WriteAttributeString(styleName, textNs, span);
                     WriteText(writer, run.Text, state);
                     writer.WriteEndElement();
                 }
@@ -500,78 +520,65 @@ internal static class OdtWriter
     /// </summary>
     private static void WriteText(XmlWriter writer, string value, TextState state)
     {
-        var clean = XmlCharacters.Clean(value);
-        var chunk = new System.Text.StringBuilder();
-
-        void Flush()
+        foreach (var token in WhiteSpaceRuns().Split(XmlCharacters.Clean(value)))
         {
-            if (chunk.Length > 0)
+            if (token.Length == 0)
             {
-                writer.WriteString(chunk.ToString());
-                chunk.Clear();
+                continue;
+            }
+
+            switch (token[0])
+            {
+                case '\n':
+                    writer.WriteElementString(textPrefix, "line-break", textNs, null);
+                    state.AtLineStart = true;
+                    break;
+                case '\t':
+                    writer.WriteElementString(textPrefix, "tab", textNs, null);
+                    state.AtLineStart = false;
+                    break;
+                case ' ':
+                    WriteSpaces(writer, token.Length, state);
+                    break;
+                default:
+                    writer.WriteString(token);
+                    state.AtLineStart = false;
+                    break;
             }
         }
-
-        var i = 0;
-        while (i < clean.Length)
-        {
-            var c = clean[i];
-            if (c == '\n')
-            {
-                Flush();
-                writer.WriteElementString("text", "line-break", text, null);
-                state.AtLineStart = true;
-                i++;
-                continue;
-            }
-
-            if (c == '\t')
-            {
-                Flush();
-                writer.WriteElementString("text", "tab", text, null);
-                state.AtLineStart = false;
-                i++;
-                continue;
-            }
-
-            if (c == ' ')
-            {
-                var count = 0;
-                while (i < clean.Length && clean[i] == ' ')
-                {
-                    count++;
-                    i++;
-                }
-
-                if (!state.AtLineStart)
-                {
-                    chunk.Append(' ');
-                    count--;
-                }
-
-                if (count > 0)
-                {
-                    Flush();
-                    writer.WriteStartElement("text", "s", text);
-                    if (count > 1)
-                    {
-                        writer.WriteAttributeString("c", text, count.ToString(CultureInfo.InvariantCulture));
-                    }
-
-                    writer.WriteEndElement();
-                }
-
-                state.AtLineStart = false;
-                continue;
-            }
-
-            chunk.Append(c);
-            state.AtLineStart = false;
-            i++;
-        }
-
-        Flush();
     }
+
+    /// <summary>
+    /// Writes a run of spaces: one plain space, unless the run starts a line, and a <c>text:s</c> element for the rest.
+    /// </summary>
+    private static void WriteSpaces(XmlWriter writer, int count, TextState state)
+    {
+        if (!state.AtLineStart)
+        {
+            writer.WriteString(" ");
+            count--;
+        }
+
+        state.AtLineStart = false;
+        if (count == 0)
+        {
+            return;
+        }
+
+        writer.WriteStartElement(textPrefix, "s", textNs);
+        if (count > 1)
+        {
+            writer.WriteAttributeString("c", textNs, count.ToString(CultureInfo.InvariantCulture));
+        }
+
+        writer.WriteEndElement();
+    }
+
+    /// <summary>
+    /// Splits text into runs of spaces, line breaks and tabs, keeping them, and the text between them.
+    /// </summary>
+    [GeneratedRegex("( +|\n|\t)")]
+    private static partial Regex WhiteSpaceRuns();
 
     #endregion
 }

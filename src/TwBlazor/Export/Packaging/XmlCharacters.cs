@@ -25,15 +25,22 @@ internal static class XmlCharacters
         }
 
         var clean = new StringBuilder(text.Length);
-        for (var i = 0; i < text.Length; i++)
+        var i = 0;
+        while (i < text.Length)
         {
             if (XmlConvert.IsXmlChar(text[i]))
             {
                 clean.Append(text[i]);
+                i++;
             }
             else if (i + 1 < text.Length && XmlConvert.IsXmlSurrogatePair(text[i + 1], text[i]))
             {
-                clean.Append(text[i]).Append(text[i + 1]);
+                // A character outside the Basic Multilingual Plane, such as an emoji, is two UTF-16 units.
+                clean.Append(text, i, 2);
+                i += 2;
+            }
+            else
+            {
                 i++;
             }
         }

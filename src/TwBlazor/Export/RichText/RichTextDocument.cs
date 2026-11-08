@@ -103,6 +103,9 @@ internal sealed class RichTextDocument
 
     private static readonly HashSet<string> _droppedTags = new(StringComparer.Ordinal) { "script", "style", "template", "noscript", "iframe", "object", "svg", "math", "head", "title", "textarea", "select", "button" };
 
+    private const string strongTag = "strong";
+    private const string emphasisTag = "em";
+
     private static readonly string[] _safeSchemes = ["http", "https", "mailto", "tel"];
 
     private readonly HtmlNode _root;
@@ -183,72 +186,101 @@ internal sealed class RichTextDocument
         public List<HtmlNode> Children { get; } = [];
     }
 
-    private static HtmlNode ParseTree(string html)
+    private static HtmlNode ParseTree(string html) => new HtmlReader(html).Read();
+
+    /// <summary>
+    /// Reads HTML into a tree of <see cref="HtmlNode"/>s, one token at a time: text, a comment, an end tag or a start
+    /// tag. It forgives what browsers forgive, such as a stray <c>&lt;</c> or an end tag with no start tag.
+    /// </summary>
+    private sealed class HtmlReader(string html)
     {
-        var root = new HtmlNode { Tag = "#root" };
-        var current = root;
-        var i = 0;
+        private readonly HtmlNode _root = new() { Tag = "#root" };
+        private HtmlNode current = null!;
+        private int position;
 
-        while (i < html.Length)
+        public HtmlNode Read()
         {
-            if (html[i] != '<')
+            current = _root;
+            while (position < html.Length)
             {
-                var end = html.IndexOf('<', i);
-                if (end < 0)
+                if (html[position] != '<')
                 {
-                    end = html.Length;
+                    ReadText();
                 }
-
-                AppendText(current, WebUtility.HtmlDecode(html[i..end]));
-                i = end;
-                continue;
-            }
-
-            if (string.CompareOrdinal(html, i, "<!--", 0, 4) == 0)
-            {
-                var close = html.IndexOf("-->", i + 4, StringComparison.Ordinal);
-                i = close < 0 ? html.Length : close + 3;
-                continue;
-            }
-
-            if (i + 1 < html.Length && html[i + 1] == '/')
-            {
-                var close = html.IndexOf('>', i);
-                var name = ReadName(html, i + 2);
-                i = close < 0 ? html.Length : close + 1;
-                for (var node = current; node is not null && node != root; node = node.Parent)
+                else if (string.CompareOrdinal(html, position, "<!--", 0, 4) == 0)
                 {
-                    if (node.Tag == name)
-                    {
-                        current = node.Parent!;
-                        break;
-                    }
+                    SkipComment();
                 }
-
-                continue;
+                else if (position + 1 < html.Length && html[position + 1] == '/')
+                {
+                    ReadEndTag();
+                }
+                else if (position + 1 < html.Length && char.IsAsciiLetter(html[position + 1]))
+                {
+                    ReadStartTag();
+                }
+                else
+                {
+                    AppendText(current, "<");
+                    position++;
+                }
             }
 
-            if (i + 1 >= html.Length || !char.IsAsciiLetter(html[i + 1]))
+            return _root;
+        }
+
+        private void ReadText()
+        {
+            var end = html.IndexOf('<', position);
+            if (end < 0)
             {
-                AppendText(current, "<");
-                i++;
-                continue;
+                end = html.Length;
             }
 
-            var tag = ReadName(html, i + 1);
-            var (tagEnd, selfClosing, href) = ReadAttributes(html, i + 1 + tag.Length);
-            i = tagEnd;
+            AppendText(current, WebUtility.HtmlDecode(html[position..end]));
+            position = end;
+        }
+
+        private void SkipComment()
+        {
+            var close = html.IndexOf("-->", position + 4, StringComparison.Ordinal);
+            position = close < 0 ? html.Length : close + 3;
+        }
+
+        /// <summary>
+        /// Closes the nearest open element with the end tag's name, and any left open inside it. An end tag with no
+        /// open element of that name is ignored.
+        /// </summary>
+        private void ReadEndTag()
+        {
+            var name = ReadName(position + 2);
+            var close = html.IndexOf('>', position);
+            position = close < 0 ? html.Length : close + 1;
+
+            for (var node = current; node is not null && node != _root; node = node.Parent)
+            {
+                if (node.Tag == name)
+                {
+                    current = node.Parent!;
+                    return;
+                }
+            }
+        }
+
+        private void ReadStartTag()
+        {
+            var tag = ReadName(position + 1);
+            position += 1 + tag.Length;
+            var (selfClosing, href) = ReadAttributes();
 
             if (_droppedTags.Contains(tag))
             {
                 if (!selfClosing)
                 {
-                    var close = html.IndexOf("</" + tag, i, StringComparison.OrdinalIgnoreCase);
-                    var closeEnd = close < 0 ? -1 : html.IndexOf('>', close);
-                    i = closeEnd < 0 ? html.Length : closeEnd + 1;
+                    SkipPast("</" + tag);
                 }
 
-                continue;
+                return;
             }
 
             var element = new HtmlNode { Tag = tag, Parent = current, Href = tag == "a" ? SafeHref(href) : null };
@@ -259,7 +291,117 @@ internal sealed class RichTextDocument
             }
         }
 
-        return root;
+        /// <summary>
+        /// Skips everything up to and including the end tag that starts with <paramref name="endTag"/>, such as a
+        /// script's body.
+        /// </summary>
+        private void SkipPast(string endTag)
+        {
+            var close = html.IndexOf(endTag, position, StringComparison.OrdinalIgnoreCase);
+            var closeEnd = close < 0 ? -1 : html.IndexOf('>', close);
+            position = closeEnd < 0 ? html.Length : closeEnd + 1;
+        }
+
+        private string ReadName(int start)
+        {
+            var end = start;
+            while (end < html.Length && (char.IsAsciiLetterOrDigit(html[end]) || html[end] is '-' or ':'))
+            {
+                end++;
+            }
+
+            return html[start..end].ToLowerInvariant();
+        }
+
+        /// <summary>
+        /// Reads a start tag's attributes up to its closing <c>&gt;</c>, keeping only <c>href</c>.
+        /// </summary>
+        private (bool SelfClosing, string? Href) ReadAttributes()
+        {
+            string? href = null;
+            while (position < html.Length)
+            {
+                var c = html[position];
+                if (c == '>')
+                {
+                    position++;
+                    return (false, href);
+                }
+
+                if (c == '/' && position + 1 < html.Length && html[position + 1] == '>')
+                {
+                    position += 2;
+                    return (true, href);
+                }
+
+                if (char.IsWhiteSpace(c) || c == '/')
+                {
+                    position++;
+                    continue;
+                }
+
+                var (name, value) = ReadAttribute();
+                if (name == "href" && value is not null)
+                {
+                    href = WebUtility.HtmlDecode(value);
+                }
+            }
+
+            return (false, href);
+        }
+
+        private (string Name, string? Value) ReadAttribute()
+        {
+            var nameStart = position;
+            while (position < html.Length && !char.IsWhiteSpace(html[position]) && html[position] is not '=' and not '>' and not '/')
+            {
+                position++;
+            }
+
+            var name = html[nameStart..position].ToLowerInvariant();
+            SkipWhiteSpace();
+            if (position >= html.Length || html[position] != '=')
+            {
+                return (name, null);
+            }
+
+            position++;
+            SkipWhiteSpace();
+            return (name, ReadAttributeValue());
+        }
+
+        private string ReadAttributeValue()
+        {
+            if (position < html.Length && html[position] is '"' or '\'')
+            {
+                var quote = html[position];
+                var close = html.IndexOf(quote, position + 1);
+                if (close < 0)
+                {
+                    close = html.Length;
+                }
+
+                var quoted = html[(position + 1)..close];
+                position = Math.Min(close + 1, html.Length);
+                return quoted;
+            }
+
+            var start = position;
+            while (position < html.Length && !char.IsWhiteSpace(html[position]) && html[position] != '>')
+            {
+                position++;
+            }
+
+            return html[start..position];
+        }
+
+        private void SkipWhiteSpace()
+        {
+            while (position < html.Length && char.IsWhiteSpace(html[position]))
+            {
+                position++;
+            }
+        }
     }
 
     private static void AppendText(HtmlNode parent, string text)
@@ -278,98 +420,6 @@ internal sealed class RichTextDocument
         parent.Children.Add(new HtmlNode { Text = text, Parent = parent });
     }
 
-    private static string ReadName(string html, int start)
-    {
-        var end = start;
-        while (end < html.Length && (char.IsAsciiLetterOrDigit(html[end]) || html[end] is '-' or ':'))
-        {
-            end++;
-        }
-
-        return html[start..end].ToLowerInvariant();
-    }
-
-    /// <summary>
-    /// Reads a start tag's attributes up to its closing <c>&gt;</c>, keeping only <c>href</c>.
-    /// </summary>
-    private static (int End, bool SelfClosing, string? Href) ReadAttributes(string html, int start)
-    {
-        string? href = null;
-        var i = start;
-
-        while (i < html.Length)
-        {
-            var c = html[i];
-            if (c == '>')
-            {
-                return (i + 1, false, href);
-            }
-
-            if (c == '/' && i + 1 < html.Length && html[i + 1] == '>')
-            {
-                return (i + 2, true, href);
-            }
-
-            if (char.IsWhiteSpace(c) || c == '/')
-            {
-                i++;
-                continue;
-            }
-
-            var nameStart = i;
-            while (i < html.Length && !char.IsWhiteSpace(html[i]) && html[i] is not '=' and not '>' and not '/')
-            {
-                i++;
-            }
-
-            var name = html[nameStart..i].ToLowerInvariant();
-            while (i < html.Length && char.IsWhiteSpace(html[i]))
-            {
-                i++;
-            }
-
-            string? value = null;
-            if (i < html.Length && html[i] == '=')
-            {
-                i++;
-                while (i < html.Length && char.IsWhiteSpace(html[i]))
-                {
-                    i++;
-                }
-
-                if (i < html.Length && html[i] is '"' or '\'')
-                {
-                    var quote = html[i];
-                    var close = html.IndexOf(quote, i + 1);
-                    if (close < 0)
-                    {
-                        close = html.Length;
-                    }
-
-                    value = html[(i + 1)..close];
-                    i = Math.Min(close + 1, html.Length);
-                }
-                else
-                {
-                    var valueStart = i;
-                    while (i < html.Length && !char.IsWhiteSpace(html[i]) && html[i] != '>')
-                    {
-                        i++;
-                    }
-
-                    value = html[valueStart..i];
-                }
-            }
-
-            if (name == "href" && value is not null)
-            {
-                href = WebUtility.HtmlDecode(value);
-            }
-        }
-
-        return (html.Length, false, href);
-    }
-
     #endregion
 
     #region Clean HTML
@@ -377,7 +427,7 @@ internal sealed class RichTextDocument
     private static readonly Dictionary<string, string> _cleanTags = new(StringComparer.Ordinal)
     {
         ["p"] = "p", ["div"] = "p", ["h1"] = "h1", ["h2"] = "h2", ["h3"] = "h3", ["h4"] = "h3", ["h5"] = "h3", ["h6"] = "h3",
-        ["strong"] = "strong", ["b"] = "strong", ["em"] = "em", ["i"] = "em", ["u"] = "u", ["s"] = "s", ["strike"] = "s",
+        [strongTag] = strongTag, ["b"] = strongTag, [emphasisTag] = emphasisTag, ["i"] = emphasisTag, ["u"] = "u", ["s"] = "s", ["strike"] = "s",
         ["del"] = "s", ["ul"] = "ul", ["ol"] = "ol", ["li"] = "li", ["blockquote"] = "blockquote", ["pre"] = "pre",
         ["code"] = "code", ["a"] = "a", ["br"] = "br",
     };
@@ -464,10 +514,10 @@ internal sealed class RichTextDocument
                 case "br":
                     EnsureBlock().Runs.Add(new RichTextRun { IsBreak = true });
                     break;
-                case "strong" or "b":
+                case strongTag or "b":
                     Walk(node, style with { Bold = true });
                     break;
-                case "em" or "i":
+                case emphasisTag or "i":
                     Walk(node, style with { Italic = true });
                     break;
                 case "u":
@@ -683,25 +733,28 @@ internal sealed class RichTextDocument
                 return;
             }
 
-            while (block.Runs.Count > 0 && block.Runs[^1] is { IsBreak: false } last && last.Text.TrimEnd(' ').Length == 0)
-            {
-                block.Runs.RemoveAt(block.Runs.Count - 1);
-            }
-
-            while (block.Runs.Count > 0 && block.Runs[^1].IsBreak)
-            {
-                block.Runs.RemoveAt(block.Runs.Count - 1);
-            }
-
-            if (block.Runs.Count > 0)
-            {
-                block.Runs[^1].Text = block.Runs[^1].Text.TrimEnd(' ');
-            }
+            TrimTrailingSpace(block.Runs);
 
             // An empty list item is kept so the numbering of the items after it does not change.
             if (block.Runs.Count > 0 || block.Kind == RichTextBlockKind.ListItem)
             {
                 Blocks.Add(block);
+            }
+        }
+
+        /// <summary>
+        /// Removes the white space and line breaks at the end of a block's runs, as a browser does when it shows them.
+        /// </summary>
+        private static void TrimTrailingSpace(List<RichTextRun> runs)
+        {
+            while (runs.Count > 0 && (runs[^1].IsBreak || runs[^1].Text.TrimEnd(' ').Length == 0))
+            {
+                runs.RemoveAt(runs.Count - 1);
+            }
+
+            if (runs.Count > 0)
+            {
+                runs[^1].Text = runs[^1].Text.TrimEnd(' ');
             }
         }
     }

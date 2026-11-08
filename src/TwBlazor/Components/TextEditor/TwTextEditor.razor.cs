@@ -264,9 +264,18 @@ public partial class TwTextEditor : TwBlazorTextInputComponentBase
     /// The editing area is named by <see cref="TwBlazorComponentBase.AriaLabelledBy"/>, then the visible label, then
     /// <see cref="TwBlazorComponentBase.AriaLabel"/>, then a generic "Text editor".
     /// </summary>
-    private string? contentLabelledBy => !string.IsNullOrEmpty(AriaLabelledBy)
-        ? AriaLabelledBy
-        : !string.IsNullOrWhiteSpace(Label) ? labelId : null;
+    private string? contentLabelledBy
+    {
+        get
+        {
+            if (!string.IsNullOrEmpty(AriaLabelledBy))
+            {
+                return AriaLabelledBy;
+            }
+
+            return string.IsNullOrWhiteSpace(Label) ? null : labelId;
+        }
+    }
 
     private string? contentAriaLabel => contentLabelledBy is not null
         ? null
@@ -297,9 +306,11 @@ public partial class TwTextEditor : TwBlazorTextInputComponentBase
     }
 
     /// <summary>
-    /// Clicking the label moves focus into the text, since a label's <c>for</c> only works with form controls.
+    /// Builds the label's attributes: the consumer's own, plus a click that moves focus into the text, since a
+    /// label's <c>for</c> only works with form controls.
     /// </summary>
-    private Dictionary<string, object> labelAttributes => new(LabelAttributes)
+    /// <returns>A new dictionary of attributes.</returns>
+    private Dictionary<string, object> GetLabelAttributes() => new(LabelAttributes)
     {
         ["onclick"] = EventCallback.Factory.Create<MouseEventArgs>(this, FocusAsync),
     };
@@ -686,22 +697,51 @@ public partial class TwTextEditor : TwBlazorTextInputComponentBase
             return null;
         }
 
-        if (value.StartsWith('#') || (value.StartsWith('/') && !value.StartsWith("//", StringComparison.Ordinal)) || value.StartsWith("./", StringComparison.Ordinal) || value.StartsWith("../", StringComparison.Ordinal))
+        if (IsRelativeAddress(value))
         {
             return value;
         }
 
-        var colon = value.IndexOf(':');
-        if (colon > 0 && value[..colon].All(c => char.IsAsciiLetterOrDigit(c) || c is '+' or '-' or '.') && char.IsAsciiLetter(value[0]))
+        if (SchemeOf(value) is { } scheme)
         {
-            var scheme = value[..colon];
-            var isHostWithPort = colon + 1 < value.Length && char.IsAsciiDigit(value[colon + 1]) && scheme.Contains('.');
-            if (!isHostWithPort)
-            {
-                return _linkSchemes.Contains(scheme, StringComparer.OrdinalIgnoreCase) && Uri.TryCreate(value, UriKind.Absolute, out _) ? value : null;
-            }
+            return _linkSchemes.Contains(scheme, StringComparer.OrdinalIgnoreCase) && Uri.TryCreate(value, UriKind.Absolute, out _) ? value : null;
         }
 
+        return WithAssumedScheme(value);
+    }
+
+    /// <summary>
+    /// Gets whether an address points within the current site: a fragment, or a path that is not protocol-relative.
+    /// </summary>
+    private static bool IsRelativeAddress(string value) =>
+        value.StartsWith('#')
+        || (value.StartsWith('/') && !value.StartsWith("//", StringComparison.Ordinal))
+        || value.StartsWith("./", StringComparison.Ordinal)
+        || value.StartsWith("../", StringComparison.Ordinal);
+
+    /// <summary>
+    /// Gets the scheme an address starts with, such as <c>https</c>, or <see langword="null"/> when it has none. A host
+    /// with a port, such as <c>example.com:8080</c>, has no scheme.
+    /// </summary>
+    private static string? SchemeOf(string value)
+    {
+        var colon = value.IndexOf(':');
+        if (colon <= 0 || !char.IsAsciiLetter(value[0]) || !value[..colon].All(c => char.IsAsciiLetterOrDigit(c) || c is '+' or '-' or '.'))
+        {
+            return null;
+        }
+
+        var scheme = value[..colon];
+        var isHostWithPort = colon + 1 < value.Length && char.IsAsciiDigit(value[colon + 1]) && scheme.Contains('.');
+        return isHostWithPort ? null : scheme;
+    }
+
+    /// <summary>
+    /// Adds the scheme an address with none most likely means: <c>mailto:</c> for an email address, otherwise
+    /// <c>https://</c>. Returns <see langword="null"/> when the result is not an address.
+    /// </summary>
+    private static string? WithAssumedScheme(string value)
+    {
         if (value.Any(char.IsWhiteSpace))
         {
             return null;
@@ -729,13 +769,10 @@ public partial class TwTextEditor : TwBlazorTextInputComponentBase
     private async Task OnGroupChangedAsync(IEnumerable<TextEditorFormat> values, TextEditorFormat[] group)
     {
         var pressed = values.ToHashSet();
-        foreach (var format in group)
+        var changed = group.Where(format => pressed.Contains(format) != activeFormats.Contains(format)).Take(1);
+        foreach (var format in changed)
         {
-            if (pressed.Contains(format) != activeFormats.Contains(format))
-            {
-                await FormatAsync(format);
-                return;
-            }
+            await FormatAsync(format);
         }
     }
 
@@ -992,5 +1029,6 @@ public partial class TwTextEditor : TwBlazorTextInputComponentBase
 
         dotNetRef?.Dispose();
         await base.DisposeAsync();
+        GC.SuppressFinalize(this);
     }
 }
