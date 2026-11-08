@@ -370,64 +370,90 @@ internal static partial class OdtWriter
     /// </summary>
     private static void WriteBlocks(XmlWriter writer, IReadOnlyList<RichTextBlock> blocks, SpanStyles spanStyles)
     {
-        // Each open list, with whether one of its items is still open.
-        var open = new List<(int ListId, bool ItemOpen)>();
-
-        void CloseTo(int depth)
+        var lists = new ListNesting(writer);
+        foreach (var block in blocks)
         {
-            while (open.Count > depth)
+            if (block.Kind == RichTextBlockKind.ListItem)
             {
-                if (open[^1].ItemOpen)
+                lists.OpenItem(block);
+            }
+            else
+            {
+                lists.CloseTo(0);
+            }
+
+            WriteParagraph(writer, block, spanStyles);
+        }
+
+        lists.CloseTo(0);
+    }
+
+    /// <summary>
+    /// Keeps track of the lists and list items left open while list items are written, so each item lands in the
+    /// right list at the right depth.
+    /// </summary>
+    private sealed class ListNesting(XmlWriter writer)
+    {
+        // Each open list, with whether one of its items is still open.
+        private readonly List<(int ListId, bool ItemOpen)> _open = [];
+
+        /// <summary>
+        /// Closes the open lists deeper than <paramref name="depth"/>, with their open items.
+        /// </summary>
+        public void CloseTo(int depth)
+        {
+            while (_open.Count > depth)
+            {
+                if (_open[^1].ItemOpen)
                 {
                     writer.WriteEndElement();
                 }
 
                 writer.WriteEndElement();
-                open.RemoveAt(open.Count - 1);
+                _open.RemoveAt(_open.Count - 1);
             }
         }
 
-        foreach (var block in blocks)
+        /// <summary>
+        /// Opens a list item for <paramref name="block"/>, opening the lists it needs and closing an item or a list of
+        /// another list at its depth. The item is left open, so a deeper list can go inside it.
+        /// </summary>
+        public void OpenItem(RichTextBlock block)
         {
-            if (block.Kind != RichTextBlockKind.ListItem)
-            {
-                CloseTo(0);
-                WriteParagraph(writer, block, spanStyles);
-                continue;
-            }
-
             var depth = block.ListLevel + 1;
             CloseTo(depth);
-            if (open.Count == depth && open[^1].ListId != block.ListId)
+            if (_open.Count == depth && _open[^1].ListId != block.ListId)
             {
                 CloseTo(depth - 1);
             }
 
-            while (open.Count < depth)
+            while (_open.Count < depth)
             {
-                writer.WriteStartElement(textPrefix, "list", textNs);
-                writer.WriteAttributeString(styleName, textNs, block.Ordered ? numberListStyle : bulletListStyle);
-                open.Add((block.ListId, false));
-
-                if (open.Count < depth)
-                {
-                    // A level with no item of its own, such as a list that starts nested: give it an empty item.
-                    writer.WriteStartElement(textPrefix, "list-item", textNs);
-                    open[^1] = (open[^1].ListId, true);
-                }
+                OpenList(block, needsItem: _open.Count + 1 < depth);
             }
 
-            if (open[^1].ItemOpen)
+            if (_open[^1].ItemOpen)
             {
                 writer.WriteEndElement();
             }
 
             writer.WriteStartElement(textPrefix, "list-item", textNs);
-            open[^1] = (block.ListId, true);
-            WriteParagraph(writer, block, spanStyles);
+            _open[^1] = (block.ListId, true);
         }
 
-        CloseTo(0);
+        /// <summary>
+        /// Opens a list. A level with no item of its own, such as a list that starts nested, gets an empty item.
+        /// </summary>
+        private void OpenList(RichTextBlock block, bool needsItem)
+        {
+            writer.WriteStartElement(textPrefix, "list", textNs);
+            writer.WriteAttributeString(styleName, textNs, block.Ordered ? numberListStyle : bulletListStyle);
+            _open.Add((block.ListId, needsItem));
+            if (needsItem)
+            {
+                writer.WriteStartElement(textPrefix, "list-item", textNs);
+            }
+        }
     }
 
     private static void WriteParagraph(XmlWriter writer, RichTextBlock block, SpanStyles spanStyles)

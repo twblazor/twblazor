@@ -402,22 +402,22 @@ internal sealed class RichTextDocument
                 position++;
             }
         }
-    }
 
-    private static void AppendText(HtmlNode parent, string text)
-    {
-        if (text.Length == 0)
+        private static void AppendText(HtmlNode parent, string text)
         {
-            return;
-        }
+            if (text.Length == 0)
+            {
+                return;
+            }
 
-        if (parent.Children.Count > 0 && parent.Children[^1].Tag is null)
-        {
-            parent.Children[^1].Text += text;
-            return;
-        }
+            if (parent.Children.Count > 0 && parent.Children[^1].Tag is null)
+            {
+                parent.Children[^1].Text += text;
+                return;
+            }
 
-        parent.Children.Add(new HtmlNode { Text = text, Parent = parent });
+            parent.Children.Add(new HtmlNode { Text = text, Parent = parent });
+        }
     }
 
     #endregion
@@ -673,19 +673,7 @@ internal sealed class RichTextDocument
         /// </summary>
         private void AddText(string text, InlineStyle style)
         {
-            var collapsed = new StringBuilder(text.Length);
-            foreach (var c in text)
-            {
-                var ch = c is '\r' or '\n' or '\t' or '\f' ? ' ' : c;
-                if (ch == ' ' && collapsed.Length > 0 && collapsed[^1] == ' ')
-                {
-                    continue;
-                }
-
-                collapsed.Append(ch);
-            }
-
-            var value = collapsed.ToString();
+            var value = CollapseWhiteSpace(text);
             if (value.Length == 0 || (value == " " && current is null))
             {
                 return;
@@ -712,6 +700,24 @@ internal sealed class RichTextDocument
             }
 
             block.Runs.Add(run);
+        }
+
+        /// <summary>
+        /// Turns line breaks and tabs into spaces and runs of spaces into one, as HTML shows them.
+        /// </summary>
+        private static string CollapseWhiteSpace(string text)
+        {
+            var collapsed = new StringBuilder(text.Length);
+            foreach (var c in text)
+            {
+                var ch = c is '\r' or '\n' or '\t' or '\f' ? ' ' : c;
+                if (ch != ' ' || collapsed.Length == 0 || collapsed[^1] != ' ')
+                {
+                    collapsed.Append(ch);
+                }
+            }
+
+            return collapsed.ToString();
         }
 
         /// <summary>
