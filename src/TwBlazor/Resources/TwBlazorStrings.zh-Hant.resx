@@ -309,6 +309,78 @@
   <data name="Chart_Destination" xml:space="preserve">
     <value>目標</value>
   </data>
+  <data name="Chart_Done" xml:space="preserve">
+    <value>已完成</value>
+  </data>
+  <data name="Chart_Date" xml:space="preserve">
+    <value>日期</value>
+  </data>
+  <data name="Chart_Milestone" xml:space="preserve">
+    <value>里程碑</value>
+  </data>
+  <data name="Chart_Summary" xml:space="preserve">
+    <value>摘要</value>
+  </data>
+  <data name="Chart_Today" xml:space="preserve">
+    <value>今天</value>
+  </data>
+  <data name="Chart_NonWorking" xml:space="preserve">
+    <value>非工作日</value>
+  </data>
+  <data name="Chart_ExpandAll" xml:space="preserve">
+    <value>全部展開</value>
+  </data>
+  <data name="Chart_CollapseAll" xml:space="preserve">
+    <value>全部摺疊</value>
+  </data>
+  <data name="Chart_ExpandTask" xml:space="preserve">
+    <value>顯示 {0} 下的工作</value>
+  </data>
+  <data name="Chart_CollapseTask" xml:space="preserve">
+    <value>隱藏 {0} 下的工作</value>
+  </data>
+  <data name="Chart_Zoom" xml:space="preserve">
+    <value>縮放</value>
+  </data>
+  <data name="Chart_ZoomAuto" xml:space="preserve">
+    <value>符合</value>
+  </data>
+  <data name="Chart_ZoomHour" xml:space="preserve">
+    <value>小時</value>
+  </data>
+  <data name="Chart_ZoomDay" xml:space="preserve">
+    <value>天</value>
+  </data>
+  <data name="Chart_ZoomWeek" xml:space="preserve">
+    <value>週</value>
+  </data>
+  <data name="Chart_ZoomMonth" xml:space="preserve">
+    <value>月</value>
+  </data>
+  <data name="Chart_ZoomQuarter" xml:space="preserve">
+    <value>季</value>
+  </data>
+  <data name="Chart_ZoomYear" xml:space="preserve">
+    <value>年</value>
+  </data>
+  <data name="Chart_WeekNumber" xml:space="preserve">
+    <value>第{0}週</value>
+  </data>
+  <data name="Chart_QuarterNumber" xml:space="preserve">
+    <value>第{0}季</value>
+  </data>
+  <data name="Chart_FinishToStart" xml:space="preserve">
+    <value>{1} 在 {0} 完成後開始</value>
+  </data>
+  <data name="Chart_StartToStart" xml:space="preserve">
+    <value>{1} 在 {0} 開始時開始</value>
+  </data>
+  <data name="Chart_FinishToFinish" xml:space="preserve">
+    <value>{1} 在 {0} 完成時完成</value>
+  </data>
+  <data name="Chart_StartToFinish" xml:space="preserve">
+    <value>{1} 在 {0} 開始後完成</value>
+  </data>
   <data name="Chip_Remove" xml:space="preserve">
     <value>移除 {0}</value>
   </data>

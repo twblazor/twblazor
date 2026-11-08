@@ -835,7 +835,7 @@
     <value>Alerts, figures and charts, ready for a dashboard.</value>
   </data>
   <data name="Home_Showcase_Charts_Desc" xml:space="preserve">
-    <value>{0}+ chart types with one consistent look. Try nine of them here.</value>
+    <value>{0}+ chart types with one consistent look. Try ten of them here.</value>
   </data>
   <data name="Home_Showcase_Purple" xml:space="preserve">
     <value>Purple</value>
@@ -1064,5 +1064,47 @@
   </data>
   <data name="Home_A11y_Tested_Body" xml:space="preserve">
     <value>Every docs page is scanned for accessibility issues in the test suite.</value>
+  </data>
+  <data name="Home_Plan_Title" xml:space="preserve">
+    <value>Release plan</value>
+  </data>
+  <data name="Home_Plan_Discovery" xml:space="preserve">
+    <value>Discovery</value>
+  </data>
+  <data name="Home_Plan_Research" xml:space="preserve">
+    <value>Research</value>
+  </data>
+  <data name="Home_Plan_Interviews" xml:space="preserve">
+    <value>User interviews</value>
+  </data>
+  <data name="Home_Plan_Wireframes" xml:space="preserve">
+    <value>Wireframes</value>
+  </data>
+  <data name="Home_Plan_Visual" xml:space="preserve">
+    <value>Visual design</value>
+  </data>
+  <data name="Home_Plan_Build" xml:space="preserve">
+    <value>Build</value>
+  </data>
+  <data name="Home_Plan_Api" xml:space="preserve">
+    <value>API</value>
+  </data>
+  <data name="Home_Plan_Frontend" xml:space="preserve">
+    <value>Front end</value>
+  </data>
+  <data name="Home_Plan_Testing" xml:space="preserve">
+    <value>Testing</value>
+  </data>
+  <data name="Home_Plan_Launch" xml:space="preserve">
+    <value>Launch</value>
+  </data>
+  <data name="Home_Plan_Beta" xml:space="preserve">
+    <value>Beta</value>
+  </data>
+  <data name="Home_Plan_Signoff" xml:space="preserve">
+    <value>Sign-off</value>
+  </data>
+  <data name="Home_Plan_Release" xml:space="preserve">
+    <value>Release</value>
   </data>
 </root>

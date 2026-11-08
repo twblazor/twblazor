@@ -23,7 +23,8 @@ namespace TwBlazor.Tests.Localization;
 public partial class RightToLeftTests
 {
     // Classes that are deliberately physical: a bubble centered on its control, the arrow under or over it,
-    // an indicator pinned to both sides at once, and charts, which are not mirrored.
+    // an indicator pinned to both sides at once, and charts, which are not mirrored. The Gantt chart's drag handles
+    // and the line drawn for a new dependency sit on its plot, which is drawn left to right like every chart.
     private static readonly HashSet<string> _physicalByDesign =
     [
         "TwTooltipTheme.Top",
@@ -32,7 +33,12 @@ public partial class RightToLeftTests
         "TwTooltipTheme.ArrowBottom",
         "TwTabTheme.ActiveIndicator",
         "TwTabTheme.InactiveIndicator",
-        "TwSidebarTheme.NavbarFixedInset"
+        "TwSidebarTheme.NavbarFixedInset",
+        "TwGanttTheme.HandleStart",
+        "TwGanttTheme.HandleEnd",
+        "TwGanttTheme.LinkDotStart",
+        "TwGanttTheme.LinkDotEnd",
+        "TwGanttTheme.LinkLine"
     ];
 
     private sealed class CultureOnlyLocalizer : ITwLocalizer

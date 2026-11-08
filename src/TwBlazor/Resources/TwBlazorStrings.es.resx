@@ -306,6 +306,78 @@
   <data name="Chart_Destination" xml:space="preserve">
     <value>Destino</value>
   </data>
+  <data name="Chart_Done" xml:space="preserve">
+    <value>Hecho</value>
+  </data>
+  <data name="Chart_Date" xml:space="preserve">
+    <value>Fecha</value>
+  </data>
+  <data name="Chart_Milestone" xml:space="preserve">
+    <value>Hito</value>
+  </data>
+  <data name="Chart_Summary" xml:space="preserve">
+    <value>Resumen</value>
+  </data>
+  <data name="Chart_Today" xml:space="preserve">
+    <value>Hoy</value>
+  </data>
+  <data name="Chart_NonWorking" xml:space="preserve">
+    <value>Día no laborable</value>
+  </data>
+  <data name="Chart_ExpandAll" xml:space="preserve">
+    <value>Expandir todo</value>
+  </data>
+  <data name="Chart_CollapseAll" xml:space="preserve">
+    <value>Contraer todo</value>
+  </data>
+  <data name="Chart_ExpandTask" xml:space="preserve">
+    <value>Mostrar las tareas de {0}</value>
+  </data>
+  <data name="Chart_CollapseTask" xml:space="preserve">
+    <value>Ocultar las tareas de {0}</value>
+  </data>
+  <data name="Chart_Zoom" xml:space="preserve">
+    <value>Zoom</value>
+  </data>
+  <data name="Chart_ZoomAuto" xml:space="preserve">
+    <value>Ajustar</value>
+  </data>
+  <data name="Chart_ZoomHour" xml:space="preserve">
+    <value>Hora</value>
+  </data>
+  <data name="Chart_ZoomDay" xml:space="preserve">
+    <value>Día</value>
+  </data>
+  <data name="Chart_ZoomWeek" xml:space="preserve">
+    <value>Semana</value>
+  </data>
+  <data name="Chart_ZoomMonth" xml:space="preserve">
+    <value>Mes</value>
+  </data>
+  <data name="Chart_ZoomQuarter" xml:space="preserve">
+    <value>Trimestre</value>
+  </data>
+  <data name="Chart_ZoomYear" xml:space="preserve">
+    <value>Año</value>
+  </data>
+  <data name="Chart_WeekNumber" xml:space="preserve">
+    <value>S{0}</value>
+  </data>
+  <data name="Chart_QuarterNumber" xml:space="preserve">
+    <value>T{0}</value>
+  </data>
+  <data name="Chart_FinishToStart" xml:space="preserve">
+    <value>{1} empieza cuando termina {0}</value>
+  </data>
+  <data name="Chart_StartToStart" xml:space="preserve">
+    <value>{1} empieza cuando empieza {0}</value>
+  </data>
+  <data name="Chart_FinishToFinish" xml:space="preserve">
+    <value>{1} termina cuando termina {0}</value>
+  </data>
+  <data name="Chart_StartToFinish" xml:space="preserve">
+    <value>{1} termina después de que empiece {0}</value>
+  </data>
   <data name="Chip_Remove" xml:space="preserve">
     <value>Quitar {0}</value>
   </data>

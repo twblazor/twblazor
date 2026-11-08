@@ -306,6 +306,78 @@
   <data name="Chart_Destination" xml:space="preserve">
     <value>গন্তব্য</value>
   </data>
+  <data name="Chart_Done" xml:space="preserve">
+    <value>সম্পন্ন</value>
+  </data>
+  <data name="Chart_Date" xml:space="preserve">
+    <value>তারিখ</value>
+  </data>
+  <data name="Chart_Milestone" xml:space="preserve">
+    <value>মাইলফলক</value>
+  </data>
+  <data name="Chart_Summary" xml:space="preserve">
+    <value>সারসংক্ষেপ</value>
+  </data>
+  <data name="Chart_Today" xml:space="preserve">
+    <value>আজ</value>
+  </data>
+  <data name="Chart_NonWorking" xml:space="preserve">
+    <value>ছুটির দিন</value>
+  </data>
+  <data name="Chart_ExpandAll" xml:space="preserve">
+    <value>সব খুলুন</value>
+  </data>
+  <data name="Chart_CollapseAll" xml:space="preserve">
+    <value>সব বন্ধ করুন</value>
+  </data>
+  <data name="Chart_ExpandTask" xml:space="preserve">
+    <value>{0}-এর অধীন কাজ দেখান</value>
+  </data>
+  <data name="Chart_CollapseTask" xml:space="preserve">
+    <value>{0}-এর অধীন কাজ লুকান</value>
+  </data>
+  <data name="Chart_Zoom" xml:space="preserve">
+    <value>জুম</value>
+  </data>
+  <data name="Chart_ZoomAuto" xml:space="preserve">
+    <value>মানানসই</value>
+  </data>
+  <data name="Chart_ZoomHour" xml:space="preserve">
+    <value>ঘণ্টা</value>
+  </data>
+  <data name="Chart_ZoomDay" xml:space="preserve">
+    <value>দিন</value>
+  </data>
+  <data name="Chart_ZoomWeek" xml:space="preserve">
+    <value>সপ্তাহ</value>
+  </data>
+  <data name="Chart_ZoomMonth" xml:space="preserve">
+    <value>মাস</value>
+  </data>
+  <data name="Chart_ZoomQuarter" xml:space="preserve">
+    <value>ত্রৈমাসিক</value>
+  </data>
+  <data name="Chart_ZoomYear" xml:space="preserve">
+    <value>বছর</value>
+  </data>
+  <data name="Chart_WeekNumber" xml:space="preserve">
+    <value>স{0}</value>
+  </data>
+  <data name="Chart_QuarterNumber" xml:space="preserve">
+    <value>ত্রৈ{0}</value>
+  </data>
+  <data name="Chart_FinishToStart" xml:space="preserve">
+    <value>{0} শেষ হওয়ার পরে {1} শুরু হয়</value>
+  </data>
+  <data name="Chart_StartToStart" xml:space="preserve">
+    <value>{0} শুরু হলে {1} শুরু হয়</value>
+  </data>
+  <data name="Chart_FinishToFinish" xml:space="preserve">
+    <value>{0} শেষ হলে {1} শেষ হয়</value>
+  </data>
+  <data name="Chart_StartToFinish" xml:space="preserve">
+    <value>{0} শুরু হওয়ার পরে {1} শেষ হয়</value>
+  </data>
   <data name="Chip_Remove" xml:space="preserve">
     <value>{0} সরান</value>
   </data>

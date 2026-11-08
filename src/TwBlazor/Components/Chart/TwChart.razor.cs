@@ -66,10 +66,10 @@ public partial class TwChart : TwBlazorComponentBase
 
     private string classes => new ClassBuilder(theme.Container).AddClass(Class).Build();
 
-    private string skeletonHeight => Height switch
+    private string heightClass => Height switch
     {
-        ChartHeight.Small => "10rem",
-        ChartHeight.Large => "24rem",
-        _ => "16rem"
+        ChartHeight.Small => theme.Small,
+        ChartHeight.Large => theme.Large,
+        _ => theme.Medium
     };
 }

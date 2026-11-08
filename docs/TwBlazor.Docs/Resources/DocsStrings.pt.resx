@@ -833,7 +833,7 @@
     <value>Alertas, números e gráficos, prontos para um painel.</value>
   </data>
   <data name="Home_Showcase_Charts_Desc" xml:space="preserve">
-    <value>Mais de {0} tipos de gráfico com um visual consistente. Experimente nove aqui.</value>
+    <value>Mais de {0} tipos de gráfico com um visual consistente. Experimente dez aqui.</value>
   </data>
   <data name="Home_Showcase_Purple" xml:space="preserve">
     <value>Roxo</value>
@@ -1062,5 +1062,47 @@
   </data>
   <data name="Home_A11y_Tested_Body" xml:space="preserve">
     <value>Cada página da documentação é verificada quanto a problemas de acessibilidade nos testes.</value>
+  </data>
+  <data name="Home_Plan_Title" xml:space="preserve">
+    <value>Plano de lançamento</value>
+  </data>
+  <data name="Home_Plan_Discovery" xml:space="preserve">
+    <value>Descoberta</value>
+  </data>
+  <data name="Home_Plan_Research" xml:space="preserve">
+    <value>Pesquisa</value>
+  </data>
+  <data name="Home_Plan_Interviews" xml:space="preserve">
+    <value>Entrevistas com utilizadores</value>
+  </data>
+  <data name="Home_Plan_Wireframes" xml:space="preserve">
+    <value>Wireframes</value>
+  </data>
+  <data name="Home_Plan_Visual" xml:space="preserve">
+    <value>Design visual</value>
+  </data>
+  <data name="Home_Plan_Build" xml:space="preserve">
+    <value>Desenvolvimento</value>
+  </data>
+  <data name="Home_Plan_Api" xml:space="preserve">
+    <value>API</value>
+  </data>
+  <data name="Home_Plan_Frontend" xml:space="preserve">
+    <value>Front-end</value>
+  </data>
+  <data name="Home_Plan_Testing" xml:space="preserve">
+    <value>Testes</value>
+  </data>
+  <data name="Home_Plan_Launch" xml:space="preserve">
+    <value>Lançamento</value>
+  </data>
+  <data name="Home_Plan_Beta" xml:space="preserve">
+    <value>Beta</value>
+  </data>
+  <data name="Home_Plan_Signoff" xml:space="preserve">
+    <value>Aprovação</value>
+  </data>
+  <data name="Home_Plan_Release" xml:space="preserve">
+    <value>Publicação</value>
   </data>
 </root>

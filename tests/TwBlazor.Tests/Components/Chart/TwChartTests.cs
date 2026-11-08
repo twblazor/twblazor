@@ -62,19 +62,29 @@ public class TwChartTests : TwBlazorTestBase
     }
 
     [Theory]
-    [InlineData(ChartHeight.Small, "10rem")]
-    [InlineData(ChartHeight.Medium, "16rem")]
-    [InlineData(ChartHeight.Large, "24rem")]
-    public void TwChart_Loading_ShowsPlaceholderInsteadOfContent(ChartHeight height, string expected)
+    [InlineData(ChartHeight.Small)]
+    [InlineData(ChartHeight.Medium)]
+    [InlineData(ChartHeight.Large)]
+    public void TwChart_Loading_ShowsALiveEmptyStateAtTheChartHeight(ChartHeight height)
     {
         var cut = TestContext.Render<TwChart>(p => p
             .Add(x => x.Loading, true)
             .Add(x => x.Height, height)
             .AddChildContent("<p id=\"content\">Chart</p>"));
 
+        var expected = height switch
+        {
+            ChartHeight.Small => theme.Small,
+            ChartHeight.Large => theme.Large,
+            _ => theme.Medium
+        };
+
         Assert.Empty(cut.FindAll("#content"));
         Assert.Equal("true", cut.Find("[aria-busy]").GetAttribute("aria-busy"));
-        Assert.Contains(expected, cut.Markup);
+        var status = cut.Find("[role='status']");
+        Assert.Contains(expected, status.GetAttribute("class"));
+        Assert.Equal("Loading chart", status.QuerySelector("h3")!.TextContent);
+        Assert.Equal("true", status.QuerySelector("output")!.GetAttribute("aria-hidden"));
     }
 
     [Fact]
@@ -124,7 +134,8 @@ public class TwChartTests : TwBlazorTestBase
     {
         var cut = TestContext.Render<TwColumnChart>(p => p.Add(x => x.EmptyText, "Nothing yet"));
 
-        Assert.Equal("Nothing yet", cut.Find("p").TextContent);
+        Assert.Equal("Nothing yet", cut.Find("h3").TextContent);
+        Assert.Contains(theme.Medium, cut.Find("h3").ParentElement!.ParentElement!.GetAttribute("class"));
         Assert.Empty(cut.FindAll("svg"));
         Assert.Empty(cut.FindAll("button"));
     }

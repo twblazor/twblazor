@@ -3353,3 +3353,261 @@ globalThis.twForm = {
         return true;
     }
 };
+
+// Gantt chart (TwGanttChart): moving and resizing bars, dragging their progress and drawing dependencies. The chart
+// draws an overlay with one [data-gantt-bar] outline per bar that can be dragged, positioned in percentages of the
+// plot, with the gestures it allows in data-flags. The outlines take no pointer events, so hovering a row still
+// shows its tooltip; this script hit-tests them from the plot's own pointer events instead.
+//
+// Nothing here changes a bar. A dashed outline previews the gesture, and at the end .NET is told what was dragged
+// where; it raises the chart's event, and the bar moves once the app passes the changed task back in.
+globalThis.twGanttChart = {
+    _edge: 6,
+    _threshold: 4,
+    _linkReach: 18,
+    _cursors: { move: 'grab', 'resize-start': 'ew-resize', 'resize-end': 'ew-resize', progress: 'col-resize', 'link-start': 'crosshair', 'link-end': 'crosshair' },
+
+    _overlay: function (plot) {
+        return plot?.querySelector(':scope > [data-gantt-overlay]') ?? null;
+    },
+
+    _bars: function (plot) {
+        const overlay = globalThis.twGanttChart._overlay(plot);
+        return overlay ? Array.from(overlay.querySelectorAll(':scope > [data-gantt-bar]')) : [];
+    },
+
+    // Finds the bar under a point and what grabbing it there does. Bars are thin, so each is grabbed a few pixels
+    // above and below its outline too.
+    hit: function (plot, x, y) {
+        const self = globalThis.twGanttChart;
+        for (const bar of self._bars(plot)) {
+            const flags = new Set((bar.dataset.flags || '').split(' '));
+            const r = bar.getBoundingClientRect();
+            const reach = flags.has('link') ? self._linkReach : 0;
+            const inReach = y >= r.top - self._edge && y <= r.bottom + self._edge && x >= r.left - reach && x <= r.right + reach;
+            const zone = inReach ? self._zone(flags, bar, r, x, y) : null;
+            if (zone) return { bar: bar, zone: zone, rect: r };
+        }
+        return null;
+    },
+
+    // What grabbing a bar at a point does, given the gestures the bar allows: its link dots sit outside it, its
+    // resize handles on its edges and its progress grip on its lower half.
+    _zone: function (flags, bar, r, x, y) {
+        const edge = globalThis.twGanttChart._edge;
+        if (flags.has('link') && x < r.left - 2) return 'link-start';
+        if (flags.has('link') && x > r.right + 2) return 'link-end';
+        if (flags.has('resize') && x - r.left <= edge) return 'resize-start';
+        if (flags.has('resize') && r.right - x <= edge) return 'resize-end';
+        const grip = r.left + r.width * Number(bar.dataset.progress || 0);
+        if (flags.has('progress') && y >= r.top + r.height / 2 && Math.abs(x - grip) <= edge) return 'progress';
+        return flags.has('move') ? 'move' : null;
+    },
+
+    // Any bar under a point, whatever it allows: a dependency can be drawn to a bar that cannot itself be dragged.
+    _anyBarAt: function (plot, x, y) {
+        for (const bar of globalThis.twGanttChart._bars(plot)) {
+            const r = bar.getBoundingClientRect();
+            if (x >= r.left && x <= r.right && y >= r.top - 6 && y <= r.bottom + 6) return { bar: bar, zone: 'move', rect: r };
+        }
+        return null;
+    },
+
+    _setActive: function (plot, bar) {
+        const state = plot.__twGantt;
+        if (state.active === bar) return;
+        if (state.active) delete state.active.dataset.ganttActive;
+        state.active = bar;
+        if (bar) bar.dataset.ganttActive = '';
+    },
+
+    _ghost: function (plot, bar, left, width) {
+        const state = plot.__twGantt;
+        if (!state.ghost) {
+            const overlay = globalThis.twGanttChart._overlay(plot);
+            state.ghost = document.createElement('div');
+            state.ghost.className = overlay?.dataset.ghostClass || '';
+            state.ghost.dataset.ganttGhost = '';
+            overlay?.appendChild(state.ghost);
+        }
+        state.ghost.style.top = bar.style.top;
+        state.ghost.style.height = bar.style.height;
+        state.ghost.style.transform = bar.style.transform;
+        state.ghost.style.left = left + '%';
+        state.ghost.style.width = Math.max(0, width) + '%';
+    },
+
+    _line: function (plot, x1, y1, x2, y2) {
+        const state = plot.__twGantt;
+        if (!state.line) {
+            state.line = document.createElement('div');
+            state.line.className = globalThis.twGanttChart._overlay(plot)?.dataset.lineClass || '';
+            state.line.dataset.ganttLine = '';
+            document.body.appendChild(state.line);
+        }
+        state.line.style.left = x1 + 'px';
+        state.line.style.top = y1 + 'px';
+        state.line.style.width = Math.hypot(x2 - x1, y2 - y1) + 'px';
+        state.line.style.transform = 'rotate(' + Math.atan2(y2 - y1, x2 - x1) + 'rad)';
+    },
+
+    _clearPreview: function (plot) {
+        const state = plot.__twGantt;
+        if (!state) return;
+        state.ghost?.remove();
+        state.line?.remove();
+        state.ghost = null;
+        state.line = null;
+    },
+
+    // The result of a drag from where it started to where the pointer is now, in plot percentages (or, for
+    // progress, a fraction of the bar).
+    result: function (hit, plotWidth, startX, x) {
+        const left = Number(hit.bar.dataset.left);
+        const width = Number(hit.bar.dataset.width);
+        const delta = (x - startX) / plotWidth * 100;
+        switch (hit.zone) {
+            case 'resize-start':
+                return { start: Math.min(left + delta, left + width), end: left + width };
+            case 'resize-end':
+                return { start: left, end: Math.max(left, left + width + delta) };
+            case 'progress':
+                return { progress: Math.min(1, Math.max(0, (x - hit.rect.left) / Math.max(1, hit.rect.width))) };
+            default:
+                return { start: left + delta, end: left + width + delta };
+        }
+    },
+
+    _anchorOf: function (target, x) {
+        if (target.zone === 'link-start' || target.zone === 'resize-start') return 'start';
+        if (target.zone === 'link-end' || target.zone === 'resize-end') return 'end';
+        return x < target.rect.left + target.rect.width / 2 ? 'start' : 'end';
+    },
+
+    _commit: async function (plot, hit, plotWidth, startX, ev) {
+        const self = globalThis.twGanttChart;
+        const dotnetRef = plot.__twGantt.dotnetRef;
+        const key = hit.bar.dataset.key;
+        if (hit.zone.startsWith('link')) {
+            const target = self.hit(plot, ev.clientX, ev.clientY) ?? self._anyBarAt(plot, ev.clientX, ev.clientY);
+            if (target && target.bar !== hit.bar) {
+                await globalThis.twPicker._invokeSafely(dotnetRef, 'CommitLink', key, hit.zone === 'link-start' ? 'start' : 'end', target.bar.dataset.key, self._anchorOf(target, ev.clientX));
+            }
+            return;
+        }
+        const result = self.result(hit, plotWidth, startX, ev.clientX);
+        if (result.progress !== undefined) {
+            await globalThis.twPicker._invokeSafely(dotnetRef, 'CommitProgressDrag', key, result.progress);
+        } else {
+            await globalThis.twPicker._invokeSafely(dotnetRef, 'CommitBarDrag', key, hit.zone, result.start, result.end);
+        }
+    },
+
+    attach: function (plot, dotnetRef) {
+        if (!plot || plot.__twGantt) return;
+        const self = globalThis.twGanttChart;
+        const state = { dotnetRef: dotnetRef, active: null, ghost: null, line: null, drag: null, suppressClick: false };
+        plot.__twGantt = state;
+
+        state.onHover = function (e) {
+            if (state.drag) return;
+            const hit = self.hit(plot, e.clientX, e.clientY);
+            self._setActive(plot, hit?.bar ?? null);
+            plot.style.cursor = hit ? self._cursors[hit.zone] : '';
+        };
+
+        state.onLeave = function () {
+            if (state.drag) return;
+            self._setActive(plot, null);
+            plot.style.cursor = '';
+        };
+
+        state.onDown = function (e) {
+            if (e.button !== 0) return;
+            const hit = self.hit(plot, e.clientX, e.clientY);
+            if (!hit) return;
+            const plotWidth = plot.getBoundingClientRect().width || 1;
+            const drag = { x: e.clientX, y: e.clientY, started: false, pointerId: e.pointerId };
+            state.drag = drag;
+
+            const onMove = function (ev) {
+                if (ev.pointerId !== drag.pointerId) return;
+                if (!drag.started && Math.hypot(ev.clientX - drag.x, ev.clientY - drag.y) < self._threshold) return;
+                drag.started = true;
+                ev.preventDefault();
+                if (hit.zone.startsWith('link')) {
+                    const anchorX = hit.zone === 'link-start' ? hit.rect.left : hit.rect.right;
+                    self._line(plot, anchorX, hit.rect.top + hit.rect.height / 2, ev.clientX, ev.clientY);
+                    return;
+                }
+                const result = self.result(hit, plotWidth, drag.x, ev.clientX);
+                if (result.progress !== undefined) {
+                    const left = Number(hit.bar.dataset.left);
+                    self._ghost(plot, hit.bar, left, Number(hit.bar.dataset.width) * result.progress);
+                } else {
+                    self._ghost(plot, hit.bar, result.start, result.end - result.start);
+                }
+            };
+
+            const onEnd = async function (ev) {
+                if (ev.pointerId !== undefined && ev.pointerId !== drag.pointerId) return;
+                document.removeEventListener('pointermove', onMove);
+                document.removeEventListener('pointerup', onEnd);
+                document.removeEventListener('pointercancel', onEnd);
+                state.drag = null;
+                if (!drag.started || ev.type === 'pointercancel') {
+                    self._clearPreview(plot);
+                    return;
+                }
+
+                // The pointer was dragged, so the click that follows is not a click on the row.
+                state.suppressClick = true;
+                state.line?.remove();
+                state.line = null;
+                try {
+                    await self._commit(plot, hit, plotWidth, drag.x, ev);
+                } finally {
+                    // Kept until .NET answers, so an accepted change does not flash back before the bar moves.
+                    self._clearPreview(plot);
+                }
+            };
+
+            document.addEventListener('pointermove', onMove);
+            document.addEventListener('pointerup', onEnd);
+            document.addEventListener('pointercancel', onEnd);
+        };
+
+        state.onClick = function (e) {
+            if (!state.suppressClick) return;
+            state.suppressClick = false;
+            e.stopPropagation();
+            e.preventDefault();
+        };
+
+        plot.addEventListener('pointermove', state.onHover);
+        plot.addEventListener('pointerleave', state.onLeave);
+        plot.addEventListener('pointerdown', state.onDown);
+        plot.addEventListener('click', state.onClick, true);
+    },
+
+    detach: function (plot) {
+        const state = plot?.__twGantt;
+        if (!state) return;
+        plot.removeEventListener('pointermove', state.onHover);
+        plot.removeEventListener('pointerleave', state.onLeave);
+        plot.removeEventListener('pointerdown', state.onDown);
+        plot.removeEventListener('click', state.onClick, true);
+        globalThis.twGanttChart._clearPreview(plot);
+        plot.style.cursor = '';
+        delete plot.__twGantt;
+    },
+
+    // Scrolls a zoomed-in plot so a point (0 to 1 across it) sits a little after the start of the view.
+    scrollTo: function (scroller, fraction) {
+        if (!scroller) return;
+        const max = Math.max(0, scroller.scrollWidth - scroller.clientWidth);
+        const target = Math.min(max, Math.max(0, fraction * scroller.scrollWidth - scroller.clientWidth * 0.15));
+        // The plot is drawn left to right either way, but a right to left scroller counts back from its right edge.
+        scroller.scrollLeft = globalThis.twDirection.isRtl(scroller) ? target - max : target;
+    }
+};

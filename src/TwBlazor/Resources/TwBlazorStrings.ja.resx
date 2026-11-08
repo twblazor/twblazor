@@ -312,6 +312,78 @@
   <data name="Chart_Destination" xml:space="preserve">
     <value>ターゲット</value>
   </data>
+  <data name="Chart_Done" xml:space="preserve">
+    <value>完了</value>
+  </data>
+  <data name="Chart_Date" xml:space="preserve">
+    <value>日付</value>
+  </data>
+  <data name="Chart_Milestone" xml:space="preserve">
+    <value>マイルストーン</value>
+  </data>
+  <data name="Chart_Summary" xml:space="preserve">
+    <value>概要</value>
+  </data>
+  <data name="Chart_Today" xml:space="preserve">
+    <value>今日</value>
+  </data>
+  <data name="Chart_NonWorking" xml:space="preserve">
+    <value>非稼働日</value>
+  </data>
+  <data name="Chart_ExpandAll" xml:space="preserve">
+    <value>すべて展開</value>
+  </data>
+  <data name="Chart_CollapseAll" xml:space="preserve">
+    <value>すべて折りたたむ</value>
+  </data>
+  <data name="Chart_ExpandTask" xml:space="preserve">
+    <value>{0} の下のタスクを表示</value>
+  </data>
+  <data name="Chart_CollapseTask" xml:space="preserve">
+    <value>{0} の下のタスクを非表示</value>
+  </data>
+  <data name="Chart_Zoom" xml:space="preserve">
+    <value>ズーム</value>
+  </data>
+  <data name="Chart_ZoomAuto" xml:space="preserve">
+    <value>全体</value>
+  </data>
+  <data name="Chart_ZoomHour" xml:space="preserve">
+    <value>時間</value>
+  </data>
+  <data name="Chart_ZoomDay" xml:space="preserve">
+    <value>日</value>
+  </data>
+  <data name="Chart_ZoomWeek" xml:space="preserve">
+    <value>週</value>
+  </data>
+  <data name="Chart_ZoomMonth" xml:space="preserve">
+    <value>月</value>
+  </data>
+  <data name="Chart_ZoomQuarter" xml:space="preserve">
+    <value>四半期</value>
+  </data>
+  <data name="Chart_ZoomYear" xml:space="preserve">
+    <value>年</value>
+  </data>
+  <data name="Chart_WeekNumber" xml:space="preserve">
+    <value>第{0}週</value>
+  </data>
+  <data name="Chart_QuarterNumber" xml:space="preserve">
+    <value>第{0}四半期</value>
+  </data>
+  <data name="Chart_FinishToStart" xml:space="preserve">
+    <value>{1} は {0} の終了後に開始</value>
+  </data>
+  <data name="Chart_StartToStart" xml:space="preserve">
+    <value>{1} は {0} の開始と同時に開始</value>
+  </data>
+  <data name="Chart_FinishToFinish" xml:space="preserve">
+    <value>{1} は {0} の終了と同時に終了</value>
+  </data>
+  <data name="Chart_StartToFinish" xml:space="preserve">
+    <value>{1} は {0} の開始後に終了</value>
+  </data>
   <data name="Chip_Remove" xml:space="preserve">
     <value>{0} を削除</value>
   </data>

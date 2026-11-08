@@ -46,7 +46,7 @@
                enterkeyhint="enter"
                role="@(hasSuggestions ? "combobox" : null)"
                aria-autocomplete="@(hasSuggestions ? "list" : null)"
-               aria-expanded="@(hasSuggestions ? (isListboxShown ? "true" : "false") : null)"
+               aria-expanded="@ariaExpanded"
                aria-controls="@(isListboxShown ? listboxId : null)"
                aria-required="@(Required ? "true" : null)"
                aria-invalid="@(shownInvalid ? "true" : null)"

@@ -309,6 +309,78 @@
   <data name="Chart_Destination" xml:space="preserve">
     <value>منزل</value>
   </data>
+  <data name="Chart_Done" xml:space="preserve">
+    <value>مکمل</value>
+  </data>
+  <data name="Chart_Date" xml:space="preserve">
+    <value>تاریخ</value>
+  </data>
+  <data name="Chart_Milestone" xml:space="preserve">
+    <value>سنگ میل</value>
+  </data>
+  <data name="Chart_Summary" xml:space="preserve">
+    <value>خلاصہ</value>
+  </data>
+  <data name="Chart_Today" xml:space="preserve">
+    <value>آج</value>
+  </data>
+  <data name="Chart_NonWorking" xml:space="preserve">
+    <value>چھٹی کا دن</value>
+  </data>
+  <data name="Chart_ExpandAll" xml:space="preserve">
+    <value>سب پھیلائیں</value>
+  </data>
+  <data name="Chart_CollapseAll" xml:space="preserve">
+    <value>سب سمیٹیں</value>
+  </data>
+  <data name="Chart_ExpandTask" xml:space="preserve">
+    <value>{0} کے تحت کام دکھائیں</value>
+  </data>
+  <data name="Chart_CollapseTask" xml:space="preserve">
+    <value>{0} کے تحت کام چھپائیں</value>
+  </data>
+  <data name="Chart_Zoom" xml:space="preserve">
+    <value>زوم</value>
+  </data>
+  <data name="Chart_ZoomAuto" xml:space="preserve">
+    <value>فٹ</value>
+  </data>
+  <data name="Chart_ZoomHour" xml:space="preserve">
+    <value>گھنٹہ</value>
+  </data>
+  <data name="Chart_ZoomDay" xml:space="preserve">
+    <value>دن</value>
+  </data>
+  <data name="Chart_ZoomWeek" xml:space="preserve">
+    <value>ہفتہ</value>
+  </data>
+  <data name="Chart_ZoomMonth" xml:space="preserve">
+    <value>مہینہ</value>
+  </data>
+  <data name="Chart_ZoomQuarter" xml:space="preserve">
+    <value>سہ ماہی</value>
+  </data>
+  <data name="Chart_ZoomYear" xml:space="preserve">
+    <value>سال</value>
+  </data>
+  <data name="Chart_WeekNumber" xml:space="preserve">
+    <value>ہ{0}</value>
+  </data>
+  <data name="Chart_QuarterNumber" xml:space="preserve">
+    <value>س{0}</value>
+  </data>
+  <data name="Chart_FinishToStart" xml:space="preserve">
+    <value>{1}، {0} ختم ہونے کے بعد شروع ہوتا ہے</value>
+  </data>
+  <data name="Chart_StartToStart" xml:space="preserve">
+    <value>{1}، {0} شروع ہونے پر شروع ہوتا ہے</value>
+  </data>
+  <data name="Chart_FinishToFinish" xml:space="preserve">
+    <value>{1}، {0} ختم ہونے پر ختم ہوتا ہے</value>
+  </data>
+  <data name="Chart_StartToFinish" xml:space="preserve">
+    <value>{1}، {0} شروع ہونے کے بعد ختم ہوتا ہے</value>
+  </data>
   <data name="Chip_Remove" xml:space="preserve">
     <value>{0} ہٹائیں</value>
   </data>

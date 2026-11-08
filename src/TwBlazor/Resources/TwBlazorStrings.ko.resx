@@ -309,6 +309,78 @@
   <data name="Chart_Destination" xml:space="preserve">
     <value>대상</value>
   </data>
+  <data name="Chart_Done" xml:space="preserve">
+    <value>완료</value>
+  </data>
+  <data name="Chart_Date" xml:space="preserve">
+    <value>날짜</value>
+  </data>
+  <data name="Chart_Milestone" xml:space="preserve">
+    <value>마일스톤</value>
+  </data>
+  <data name="Chart_Summary" xml:space="preserve">
+    <value>요약</value>
+  </data>
+  <data name="Chart_Today" xml:space="preserve">
+    <value>오늘</value>
+  </data>
+  <data name="Chart_NonWorking" xml:space="preserve">
+    <value>휴무일</value>
+  </data>
+  <data name="Chart_ExpandAll" xml:space="preserve">
+    <value>모두 펼치기</value>
+  </data>
+  <data name="Chart_CollapseAll" xml:space="preserve">
+    <value>모두 접기</value>
+  </data>
+  <data name="Chart_ExpandTask" xml:space="preserve">
+    <value>{0} 아래 작업 표시</value>
+  </data>
+  <data name="Chart_CollapseTask" xml:space="preserve">
+    <value>{0} 아래 작업 숨기기</value>
+  </data>
+  <data name="Chart_Zoom" xml:space="preserve">
+    <value>확대/축소</value>
+  </data>
+  <data name="Chart_ZoomAuto" xml:space="preserve">
+    <value>맞춤</value>
+  </data>
+  <data name="Chart_ZoomHour" xml:space="preserve">
+    <value>시간</value>
+  </data>
+  <data name="Chart_ZoomDay" xml:space="preserve">
+    <value>일</value>
+  </data>
+  <data name="Chart_ZoomWeek" xml:space="preserve">
+    <value>주</value>
+  </data>
+  <data name="Chart_ZoomMonth" xml:space="preserve">
+    <value>월</value>
+  </data>
+  <data name="Chart_ZoomQuarter" xml:space="preserve">
+    <value>분기</value>
+  </data>
+  <data name="Chart_ZoomYear" xml:space="preserve">
+    <value>연</value>
+  </data>
+  <data name="Chart_WeekNumber" xml:space="preserve">
+    <value>{0}주</value>
+  </data>
+  <data name="Chart_QuarterNumber" xml:space="preserve">
+    <value>{0}분기</value>
+  </data>
+  <data name="Chart_FinishToStart" xml:space="preserve">
+    <value>{1}은(는) {0}이(가) 끝난 후 시작</value>
+  </data>
+  <data name="Chart_StartToStart" xml:space="preserve">
+    <value>{1}은(는) {0}과(와) 함께 시작</value>
+  </data>
+  <data name="Chart_FinishToFinish" xml:space="preserve">
+    <value>{1}은(는) {0}과(와) 함께 종료</value>
+  </data>
+  <data name="Chart_StartToFinish" xml:space="preserve">
+    <value>{1}은(는) {0}이(가) 시작된 후 종료</value>
+  </data>
   <data name="Chip_Remove" xml:space="preserve">
     <value>{0} 제거</value>
   </data>

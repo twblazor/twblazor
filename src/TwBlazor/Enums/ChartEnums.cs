@@ -118,3 +118,96 @@ public enum CandlestickStyle
     /// </summary>
     Ohlc
 }
+
+/// <summary>
+/// Defines how much time a <see cref="TwBlazor.Components.TwGanttChart"/> shows, and how finely its axis is divided.
+/// </summary>
+public enum GanttZoom
+{
+    /// <summary>
+    /// The whole schedule fits the width of the chart, with a few evenly spaced dates on the axis - Default.
+    /// </summary>
+    Auto,
+
+    /// <summary>
+    /// One column per hour. The plot scrolls when it is wider than the chart.
+    /// </summary>
+    Hour,
+
+    /// <summary>
+    /// One column per day. The plot scrolls when it is wider than the chart.
+    /// </summary>
+    Day,
+
+    /// <summary>
+    /// One column per week. The plot scrolls when it is wider than the chart.
+    /// </summary>
+    Week,
+
+    /// <summary>
+    /// One column per month. The plot scrolls when it is wider than the chart.
+    /// </summary>
+    Month,
+
+    /// <summary>
+    /// One column per quarter. The plot scrolls when it is wider than the chart.
+    /// </summary>
+    Quarter,
+
+    /// <summary>
+    /// One column per year. The plot scrolls when it is wider than the chart.
+    /// </summary>
+    Year
+}
+
+/// <summary>
+/// Defines how two tasks in a <see cref="TwBlazor.Components.TwGanttChart"/> depend on each other.
+/// </summary>
+public enum ChartDependencyType
+{
+    /// <summary>
+    /// The second task starts once the first finishes - Default.
+    /// </summary>
+    FinishToStart,
+
+    /// <summary>
+    /// The second task starts once the first starts.
+    /// </summary>
+    StartToStart,
+
+    /// <summary>
+    /// The second task finishes once the first finishes.
+    /// </summary>
+    FinishToFinish,
+
+    /// <summary>
+    /// The second task finishes once the first starts.
+    /// </summary>
+    StartToFinish
+}
+
+/// <summary>
+/// Defines which gesture changed a task on a <see cref="TwBlazor.Components.TwGanttChart"/>.
+/// </summary>
+public enum ChartTaskChangeKind
+{
+    /// <summary>
+    /// The bar was dragged to new dates, keeping its length.
+    /// </summary>
+    Move,
+
+    /// <summary>
+    /// The start of the bar was dragged.
+    /// </summary>
+    ResizeStart,
+
+    /// <summary>
+    /// The end of the bar was dragged.
+    /// </summary>
+    ResizeEnd,
+
+    /// <summary>
+    /// The grip under the bar was dragged to set how far along the task is.
+    /// </summary>
+    Progress
+}

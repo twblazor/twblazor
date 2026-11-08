@@ -597,7 +597,8 @@
             "id": "chart-gantt-navitem",
             "display": "Gantt",
             "name": "TwGanttChart",
-            "url": "/chart/gantt"
+            "url": "/chart/gantt",
+            "theme": "TwGanttTheme"
           },
           {
             "id": "chart-horizon-navitem",

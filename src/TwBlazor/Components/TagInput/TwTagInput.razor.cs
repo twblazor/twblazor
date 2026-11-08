@@ -246,6 +246,20 @@ public partial class TwTagInput : TwPopoverPickerComponentBase
 
     private bool isListboxShown => isFocused && !isLoading && shownSuggestions.Count > 0;
 
+    // Only a combobox reports whether its list is open.
+    private string? ariaExpanded
+    {
+        get
+        {
+            if (!hasSuggestions)
+            {
+                return null;
+            }
+
+            return isListboxShown ? "true" : "false";
+        }
+    }
+
     private bool showClearButton => Clearable && canEdit;
 
     private string listboxId => $"{Id}-listbox";
@@ -663,7 +677,14 @@ public partial class TwTagInput : TwPopoverPickerComponentBase
             case "Backspace":
                 await RemoveAtAsync(index);
                 // Backspace works backwards, so focus goes to the tag before, or failing that the one now first.
-                pendingFocus = index > 0 ? index - 1 : (tags.Count > 0 ? 0 : focusInput);
+                if (index > 0)
+                {
+                    pendingFocus = index - 1;
+                }
+                else
+                {
+                    pendingFocus = tags.Count > 0 ? 0 : focusInput;
+                }
                 break;
 
             case "Delete":

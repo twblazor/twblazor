@@ -833,7 +833,7 @@
     <value>Pènget, angka lan bagan, siyap kanggo dasbor.</value>
   </data>
   <data name="Home_Showcase_Charts_Desc" xml:space="preserve">
-    <value>{0}+ jinis bagan kanthi tampilan sing padha. Jajal sanga ing kene.</value>
+    <value>{0}+ jinis bagan kanthi tampilan sing padha. Jajal sepuluh ing kene.</value>
   </data>
   <data name="Home_Showcase_Purple" xml:space="preserve">
     <value>Ungu</value>
@@ -1062,5 +1062,47 @@
   </data>
   <data name="Home_A11y_Tested_Body" xml:space="preserve">
     <value>Saben kaca dokumentasi dipindai kanggo masalah aksesibilitas ing tes.</value>
+  </data>
+  <data name="Home_Plan_Title" xml:space="preserve">
+    <value>Rencana rilis</value>
+  </data>
+  <data name="Home_Plan_Discovery" xml:space="preserve">
+    <value>Panemon</value>
+  </data>
+  <data name="Home_Plan_Research" xml:space="preserve">
+    <value>Riset</value>
+  </data>
+  <data name="Home_Plan_Interviews" xml:space="preserve">
+    <value>Wawancara pangguna</value>
+  </data>
+  <data name="Home_Plan_Wireframes" xml:space="preserve">
+    <value>Wireframe</value>
+  </data>
+  <data name="Home_Plan_Visual" xml:space="preserve">
+    <value>Desain visual</value>
+  </data>
+  <data name="Home_Plan_Build" xml:space="preserve">
+    <value>Pangembangan</value>
+  </data>
+  <data name="Home_Plan_Api" xml:space="preserve">
+    <value>API</value>
+  </data>
+  <data name="Home_Plan_Frontend" xml:space="preserve">
+    <value>Front end</value>
+  </data>
+  <data name="Home_Plan_Testing" xml:space="preserve">
+    <value>Pangujian</value>
+  </data>
+  <data name="Home_Plan_Launch" xml:space="preserve">
+    <value>Peluncuran</value>
+  </data>
+  <data name="Home_Plan_Beta" xml:space="preserve">
+    <value>Beta</value>
+  </data>
+  <data name="Home_Plan_Signoff" xml:space="preserve">
+    <value>Persetujuan</value>
+  </data>
+  <data name="Home_Plan_Release" xml:space="preserve">
+    <value>Rilis</value>
   </data>
 </root>
