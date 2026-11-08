@@ -240,8 +240,7 @@ public class TwCalendarAllDayTests : TwBlazorTestBase
             .Add(x => x.SchedulesChanged, EventCallback.Factory.Create<List<Schedule<string>>>(this, l => saved = l)));
 
         await StartDragAsync(cut, "Conference");
-        var thursday = cut.FindComponents<TwCalendarDayColumn<string>>()[3];
-        thursday.Find("button[aria-label='14:00']").Drop(new DragEventArgs());
+        await cut.InvokeAsync(() => cut.FindComponents<TwCalendarDayColumn<string>>()[3].Find("button[aria-label='14:00']").Drop(new DragEventArgs()));
 
         await cut.WaitForAssertionAsync(() => Assert.NotNull(saved));
         Assert.Equal(new DateTimeOffset(_wednesday.AddDays(1), TimeSpan.Zero), Assert.Single(saved!).DateTimeStart);
@@ -305,7 +304,7 @@ public class TwCalendarAllDayTests : TwBlazorTestBase
             .Add(x => x.SchedulesChanged, EventCallback.Factory.Create<List<Schedule<string>>>(this, l => saved = l)));
 
         await StartDragAsync(cut, "Standup");
-        Strip(cut)!.QuerySelectorAll("div[aria-hidden='true']")[0].Drop(new DragEventArgs());
+        await cut.InvokeAsync(() => Strip(cut)!.QuerySelectorAll("div[aria-hidden='true']")[0].Drop(new DragEventArgs()));
 
         Assert.Null(saved);
     }
