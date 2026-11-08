@@ -1131,4 +1131,52 @@
   <data name="Home_Release_NotesQuote" xml:space="preserve">
     <value>Ship small, ship often.</value>
   </data>
+  <data name="Home_Showcase_SpreadsheetTab" xml:space="preserve">
+    <value>Spreadsheets</value>
+  </data>
+  <data name="Home_Showcase_Spreadsheet_Title" xml:space="preserve">
+    <value>Team budget</value>
+  </data>
+  <data name="Home_Showcase_Spreadsheet_Desc" xml:space="preserve">
+    <value>Formulas across sheets, a table with filters, frozen panes, fills and export to Excel.</value>
+  </data>
+  <data name="Home_Sheet_Budget" xml:space="preserve">
+    <value>Budget</value>
+  </data>
+  <data name="Home_Sheet_Monthly" xml:space="preserve">
+    <value>By month</value>
+  </data>
+  <data name="Home_Sheet_Summary" xml:space="preserve">
+    <value>Summary</value>
+  </data>
+  <data name="Home_Sheet_Team" xml:space="preserve">
+    <value>Team</value>
+  </data>
+  <data name="Home_Sheet_Spent" xml:space="preserve">
+    <value>Spent</value>
+  </data>
+  <data name="Home_Sheet_Remaining" xml:space="preserve">
+    <value>Remaining</value>
+  </data>
+  <data name="Home_Sheet_Used" xml:space="preserve">
+    <value>Used</value>
+  </data>
+  <data name="Home_Sheet_Engineering" xml:space="preserve">
+    <value>Engineering</value>
+  </data>
+  <data name="Home_Sheet_Marketing" xml:space="preserve">
+    <value>Marketing</value>
+  </data>
+  <data name="Home_Sheet_Sales" xml:space="preserve">
+    <value>Sales</value>
+  </data>
+  <data name="Home_Sheet_TotalBudget" xml:space="preserve">
+    <value>Total budget</value>
+  </data>
+  <data name="Home_Sheet_TotalSpent" xml:space="preserve">
+    <value>Total spent</value>
+  </data>
+  <data name="Home_Sheet_OverBudget" xml:space="preserve">
+    <value>Teams over budget</value>
+  </data>
 </root>

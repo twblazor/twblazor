@@ -1129,4 +1129,52 @@
   <data name="Home_Release_NotesQuote" xml:space="preserve">
     <value>أصدِر قليلًا، وأصدِر كثيرًا.</value>
   </data>
+  <data name="Home_Showcase_SpreadsheetTab" xml:space="preserve">
+    <value>جداول البيانات</value>
+  </data>
+  <data name="Home_Showcase_Spreadsheet_Title" xml:space="preserve">
+    <value>ميزانية الفريق</value>
+  </data>
+  <data name="Home_Showcase_Spreadsheet_Desc" xml:space="preserve">
+    <value>صيغ عبر الأوراق، وجدول مع عوامل تصفية، وأجزاء مجمدة، وتعبئة بالألوان، وتصدير إلى Excel.</value>
+  </data>
+  <data name="Home_Sheet_Budget" xml:space="preserve">
+    <value>الميزانية</value>
+  </data>
+  <data name="Home_Sheet_Monthly" xml:space="preserve">
+    <value>حسب الشهر</value>
+  </data>
+  <data name="Home_Sheet_Summary" xml:space="preserve">
+    <value>الملخص</value>
+  </data>
+  <data name="Home_Sheet_Team" xml:space="preserve">
+    <value>الفريق</value>
+  </data>
+  <data name="Home_Sheet_Spent" xml:space="preserve">
+    <value>المصروف</value>
+  </data>
+  <data name="Home_Sheet_Remaining" xml:space="preserve">
+    <value>المتبقي</value>
+  </data>
+  <data name="Home_Sheet_Used" xml:space="preserve">
+    <value>المستخدم</value>
+  </data>
+  <data name="Home_Sheet_Engineering" xml:space="preserve">
+    <value>الهندسة</value>
+  </data>
+  <data name="Home_Sheet_Marketing" xml:space="preserve">
+    <value>التسويق</value>
+  </data>
+  <data name="Home_Sheet_Sales" xml:space="preserve">
+    <value>المبيعات</value>
+  </data>
+  <data name="Home_Sheet_TotalBudget" xml:space="preserve">
+    <value>إجمالي الميزانية</value>
+  </data>
+  <data name="Home_Sheet_TotalSpent" xml:space="preserve">
+    <value>إجمالي المصروف</value>
+  </data>
+  <data name="Home_Sheet_OverBudget" xml:space="preserve">
+    <value>فرق تجاوزت الميزانية</value>
+  </data>
 </root>

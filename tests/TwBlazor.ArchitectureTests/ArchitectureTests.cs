@@ -32,9 +32,6 @@ public class ArchitectureTests
         TwBlazorArchitecture.TypeName(typeof(TwBlazor.Components.TwCalendarDialogFieldKind)),
         TwBlazorArchitecture.TypeName(typeof(TwBlazor.Components.TwCalendarEventDialogAction)),
         TwBlazorArchitecture.TypeName(typeof(TwBlazor.Components.TwCalendarView)),
-        TwBlazorArchitecture.TypeName(typeof(TwBlazor.Components.TwDataTableFilterLogic)),
-        TwBlazorArchitecture.TypeName(typeof(TwBlazor.Components.TwDataTableFilterOperator)),
-        TwBlazorArchitecture.TypeName(typeof(TwBlazor.Components.TwDataTableFilterType)),
     };
 
     // Rule 3 baseline: the two sentinel-constant holders that live in TwBlazor.Enums because their constants stand
@@ -86,14 +83,10 @@ public class ArchitectureTests
         // Data table models, delegates and UI state.
         TwBlazorArchitecture.TypeName(typeof(TwBlazor.Components.TwDataTableCellEditContext<>)),
         TwBlazorArchitecture.TypeName(typeof(TwBlazor.Components.TwDataTableColumn<>)),
-        TwBlazorArchitecture.TypeName(typeof(TwBlazor.Components.TwDataTableColumnFilter)),
         TwBlazorArchitecture.TypeName(typeof(TwBlazor.Components.TwDataTableColumnState)),
         TwBlazorArchitecture.TypeName(typeof(TwBlazor.Components.TwDataTableExport)),
         TwBlazorArchitecture.TypeName(typeof(TwBlazor.Components.TwTextEditorExport)),
-        TwBlazorArchitecture.TypeName(typeof(TwBlazor.Components.TwDataTableFilterCondition)),
-        TwBlazorArchitecture.TypeName(typeof(TwBlazor.Components.TwDataTableFilterLogic)),
-        TwBlazorArchitecture.TypeName(typeof(TwBlazor.Components.TwDataTableFilterOperator)),
-        TwBlazorArchitecture.TypeName(typeof(TwBlazor.Components.TwDataTableFilterType)),
+        TwBlazorArchitecture.TypeName(typeof(TwBlazor.Components.TwSpreadsheetExport)),
         TwBlazorArchitecture.TypeName(typeof(TwBlazor.Components.TwDataTableGroup<>)),
         TwBlazorArchitecture.TypeName(typeof(TwBlazor.Components.TwDataTableItemsProvider<>)),
         TwBlazorArchitecture.TypeName(typeof(TwBlazor.Components.TwDataTableItemsRequest)),

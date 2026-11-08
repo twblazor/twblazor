@@ -1185,4 +1185,322 @@
   <data name="TextEditor_Exported" xml:space="preserve">
     <value>{0} صادر شد</value>
   </data>
+  <data name="Spreadsheet_Label" xml:space="preserve">
+    <value>صفحه‌گسترده</value>
+  </data>
+  <data name="Spreadsheet_Toolbar" xml:space="preserve">
+    <value>ابزارهای صفحه‌گسترده</value>
+  </data>
+  <data name="Spreadsheet_Alignment" xml:space="preserve">
+    <value>تراز</value>
+  </data>
+  <data name="Spreadsheet_AlignLeft" xml:space="preserve">
+    <value>تراز چپ</value>
+  </data>
+  <data name="Spreadsheet_AlignCenter" xml:space="preserve">
+    <value>وسط‌چین</value>
+  </data>
+  <data name="Spreadsheet_AlignRight" xml:space="preserve">
+    <value>تراز راست</value>
+  </data>
+  <data name="Spreadsheet_NumberFormat" xml:space="preserve">
+    <value>قالب عدد</value>
+  </data>
+  <data name="Spreadsheet_FormatGeneral" xml:space="preserve">
+    <value>عمومی</value>
+  </data>
+  <data name="Spreadsheet_FormatNumber" xml:space="preserve">
+    <value>عدد</value>
+  </data>
+  <data name="Spreadsheet_FormatCurrency" xml:space="preserve">
+    <value>واحد پول</value>
+  </data>
+  <data name="Spreadsheet_FormatPercent" xml:space="preserve">
+    <value>درصد</value>
+  </data>
+  <data name="Spreadsheet_NameBox" xml:space="preserve">
+    <value>نشانی خانه</value>
+  </data>
+  <data name="Spreadsheet_FormulaBar" xml:space="preserve">
+    <value>محتوای خانه</value>
+  </data>
+  <data name="Spreadsheet_SheetTabs" xml:space="preserve">
+    <value>برگه‌ها</value>
+  </data>
+  <data name="Spreadsheet_AddSheet" xml:space="preserve">
+    <value>افزودن برگه</value>
+  </data>
+  <data name="Spreadsheet_DefaultSheetName" xml:space="preserve">
+    <value>برگه{0}</value>
+  </data>
+  <data name="Spreadsheet_RenameSheet" xml:space="preserve">
+    <value>نام برگه</value>
+  </data>
+  <data name="Spreadsheet_GridHint" xml:space="preserve">
+    <value>برای جایگزینی یک خانه تایپ کنید، یا برای ویرایش آن Enter یا F2 را فشار دهید. فرمول‌ها با علامت مساوی شروع می‌شوند.</value>
+  </data>
+  <data name="Spreadsheet_EditCell" xml:space="preserve">
+    <value>ویرایش {0}</value>
+  </data>
+  <data name="Spreadsheet_Copied" xml:space="preserve">
+    <value>{0} کپی شد</value>
+  </data>
+  <data name="Spreadsheet_Pasted" xml:space="preserve">
+    <value>در {0} چسبانده شد</value>
+  </data>
+  <data name="Spreadsheet_Cleared" xml:space="preserve">
+    <value>{0} پاک شد</value>
+  </data>
+  <data name="Spreadsheet_ExportExcel" xml:space="preserve">
+    <value>کارپوشه Excel</value>
+  </data>
+  <data name="Spreadsheet_ExportCsv" xml:space="preserve">
+    <value>CSV این برگه</value>
+  </data>
+  <data name="Spreadsheet_RangeSelected" xml:space="preserve">
+    <value>{0} انتخاب شد</value>
+  </data>
+  <data name="Spreadsheet_Font" xml:space="preserve">
+    <value>قلم</value>
+  </data>
+  <data name="Spreadsheet_FontSize" xml:space="preserve">
+    <value>اندازه قلم</value>
+  </data>
+  <data name="Spreadsheet_DefaultFont" xml:space="preserve">
+    <value>پیش‌فرض</value>
+  </data>
+  <data name="Spreadsheet_TextColor" xml:space="preserve">
+    <value>رنگ متن</value>
+  </data>
+  <data name="Spreadsheet_FillColor" xml:space="preserve">
+    <value>رنگ پرکردن</value>
+  </data>
+  <data name="Spreadsheet_Automatic" xml:space="preserve">
+    <value>خودکار</value>
+  </data>
+  <data name="Spreadsheet_NoFill" xml:space="preserve">
+    <value>بدون پرکردن</value>
+  </data>
+  <data name="Spreadsheet_ColorRed" xml:space="preserve">
+    <value>قرمز</value>
+  </data>
+  <data name="Spreadsheet_ColorOrange" xml:space="preserve">
+    <value>نارنجی</value>
+  </data>
+  <data name="Spreadsheet_ColorYellow" xml:space="preserve">
+    <value>زرد</value>
+  </data>
+  <data name="Spreadsheet_ColorGreen" xml:space="preserve">
+    <value>سبز</value>
+  </data>
+  <data name="Spreadsheet_ColorTeal" xml:space="preserve">
+    <value>سبزآبی</value>
+  </data>
+  <data name="Spreadsheet_ColorBlue" xml:space="preserve">
+    <value>آبی</value>
+  </data>
+  <data name="Spreadsheet_ColorPurple" xml:space="preserve">
+    <value>بنفش</value>
+  </data>
+  <data name="Spreadsheet_ColorPink" xml:space="preserve">
+    <value>صورتی</value>
+  </data>
+  <data name="Spreadsheet_ColorGray" xml:space="preserve">
+    <value>خاکستری</value>
+  </data>
+  <data name="Spreadsheet_ColorBlack" xml:space="preserve">
+    <value>سیاه</value>
+  </data>
+  <data name="Spreadsheet_Freeze" xml:space="preserve">
+    <value>ثابت کردن</value>
+  </data>
+  <data name="Spreadsheet_FreezePanes" xml:space="preserve">
+    <value>ثابت کردن قاب‌ها</value>
+  </data>
+  <data name="Spreadsheet_FreezeTopRow" xml:space="preserve">
+    <value>ثابت کردن ردیف بالا</value>
+  </data>
+  <data name="Spreadsheet_FreezeFirstColumn" xml:space="preserve">
+    <value>ثابت کردن ستون اول</value>
+  </data>
+  <data name="Spreadsheet_Unfreeze" xml:space="preserve">
+    <value>آزاد کردن قاب‌ها</value>
+  </data>
+  <data name="Spreadsheet_FrozenStatus" xml:space="preserve">
+    <value>{0} ردیف و {1} ستون ثابت شد</value>
+  </data>
+  <data name="Spreadsheet_Zoom" xml:space="preserve">
+    <value>بزرگ‌نمایی</value>
+  </data>
+  <data name="Spreadsheet_ZoomIn" xml:space="preserve">
+    <value>بزرگ‌تر</value>
+  </data>
+  <data name="Spreadsheet_ZoomOut" xml:space="preserve">
+    <value>کوچک‌تر</value>
+  </data>
+  <data name="Spreadsheet_ZoomReset" xml:space="preserve">
+    <value>بزرگ‌نمایی {0}%. بازگشت به 100%</value>
+  </data>
+  <data name="Spreadsheet_ZoomChanged" xml:space="preserve">
+    <value>بزرگ‌نمایی {0}%</value>
+  </data>
+  <data name="Spreadsheet_StatusSum" xml:space="preserve">
+    <value>جمع: {0}</value>
+  </data>
+  <data name="Spreadsheet_StatusAverage" xml:space="preserve">
+    <value>میانگین: {0}</value>
+  </data>
+  <data name="Spreadsheet_StatusCount" xml:space="preserve">
+    <value>تعداد: {0}</value>
+  </data>
+  <data name="Spreadsheet_Cut" xml:space="preserve">
+    <value>برش</value>
+  </data>
+  <data name="Spreadsheet_Copy" xml:space="preserve">
+    <value>کپی</value>
+  </data>
+  <data name="Spreadsheet_Paste" xml:space="preserve">
+    <value>چسباندن</value>
+  </data>
+  <data name="Spreadsheet_InsertRowAbove" xml:space="preserve">
+    <value>درج ردیف در بالا</value>
+  </data>
+  <data name="Spreadsheet_InsertRowBelow" xml:space="preserve">
+    <value>درج ردیف در پایین</value>
+  </data>
+  <data name="Spreadsheet_InsertColumnBefore" xml:space="preserve">
+    <value>درج ستون قبل</value>
+  </data>
+  <data name="Spreadsheet_InsertColumnAfter" xml:space="preserve">
+    <value>درج ستون بعد</value>
+  </data>
+  <data name="Spreadsheet_DeleteRows" xml:space="preserve">
+    <value>حذف ردیف‌ها</value>
+  </data>
+  <data name="Spreadsheet_DeleteColumns" xml:space="preserve">
+    <value>حذف ستون‌ها</value>
+  </data>
+  <data name="Spreadsheet_SortAscending" xml:space="preserve">
+    <value>مرتب‌سازی از الف تا ی</value>
+  </data>
+  <data name="Spreadsheet_SortDescending" xml:space="preserve">
+    <value>مرتب‌سازی از ی تا الف</value>
+  </data>
+  <data name="Spreadsheet_ClearContents" xml:space="preserve">
+    <value>پاک کردن محتوا</value>
+  </data>
+  <data name="Spreadsheet_WidenColumn" xml:space="preserve">
+    <value>پهن کردن ستون</value>
+  </data>
+  <data name="Spreadsheet_NarrowColumn" xml:space="preserve">
+    <value>باریک کردن ستون</value>
+  </data>
+  <data name="Spreadsheet_FullScreen" xml:space="preserve">
+    <value>تمام‌صفحه</value>
+  </data>
+  <data name="Spreadsheet_MoreTools" xml:space="preserve">
+    <value>ابزارهای بیشتر</value>
+  </data>
+  <data name="Spreadsheet_FullScreenOn" xml:space="preserve">
+    <value>تمام‌صفحه. برای خروج Escape را فشار دهید.</value>
+  </data>
+  <data name="Spreadsheet_FullScreenOff" xml:space="preserve">
+    <value>تمام‌صفحه بسته شد</value>
+  </data>
+  <data name="Spreadsheet_SheetMenu" xml:space="preserve">
+    <value>گزینه‌های برگه</value>
+  </data>
+  <data name="Spreadsheet_RenameSheetAction" xml:space="preserve">
+    <value>تغییر نام</value>
+  </data>
+  <data name="Spreadsheet_MoveSheetLeft" xml:space="preserve">
+    <value>انتقال به چپ</value>
+  </data>
+  <data name="Spreadsheet_MoveSheetRight" xml:space="preserve">
+    <value>انتقال به راست</value>
+  </data>
+  <data name="Spreadsheet_DeleteSheet" xml:space="preserve">
+    <value>حذف برگه</value>
+  </data>
+  <data name="Spreadsheet_DeleteSheetTitle" xml:space="preserve">
+    <value>{0} حذف شود؟</value>
+  </data>
+  <data name="Spreadsheet_DeleteSheetMessage" xml:space="preserve">
+    <value>برگه و همه محتوای آن حذف می‌شود. فرمول‌هایی که از آن استفاده می‌کنند تا وقتی واگرد نکنید #REF! نشان می‌دهند.</value>
+  </data>
+  <data name="Spreadsheet_SheetDeleted" xml:space="preserve">
+    <value>{0} حذف شد. برای واگرد Ctrl+Z را فشار دهید.</value>
+  </data>
+  <data name="Spreadsheet_InsertTable" xml:space="preserve">
+    <value>درج جدول</value>
+  </data>
+  <data name="Spreadsheet_TableRange" xml:space="preserve">
+    <value>محدوده جدول</value>
+  </data>
+  <data name="Spreadsheet_TableHasHeaders" xml:space="preserve">
+    <value>جدول من سرستون دارد</value>
+  </data>
+  <data name="Spreadsheet_TableRangeInvalid" xml:space="preserve">
+    <value>محدوده‌ای مانند A1:D10 وارد کنید که با جدول دیگری هم‌پوشانی نداشته باشد.</value>
+  </data>
+  <data name="Spreadsheet_Create" xml:space="preserve">
+    <value>ایجاد</value>
+  </data>
+  <data name="Spreadsheet_TableCreated" xml:space="preserve">
+    <value>{0} ایجاد شد</value>
+  </data>
+  <data name="Spreadsheet_RemoveTable" xml:space="preserve">
+    <value>حذف جدول</value>
+  </data>
+  <data name="Spreadsheet_DefaultColumnName" xml:space="preserve">
+    <value>ستون{0}</value>
+  </data>
+  <data name="Spreadsheet_DefaultTableName" xml:space="preserve">
+    <value>جدول{0}</value>
+  </data>
+  <data name="Spreadsheet_FilterColumn" xml:space="preserve">
+    <value>فیلتر {0}</value>
+  </data>
+  <data name="Spreadsheet_FilterColumnActive" xml:space="preserve">
+    <value>فیلتر {0}، فیلترشده</value>
+  </data>
+  <data name="Spreadsheet_SelectAllValues" xml:space="preserve">
+    <value>انتخاب همه</value>
+  </data>
+  <data name="Spreadsheet_Blanks" xml:space="preserve">
+    <value>(خالی)</value>
+  </data>
+  <data name="Spreadsheet_ApplyFilter" xml:space="preserve">
+    <value>اعمال</value>
+  </data>
+  <data name="Spreadsheet_ClearFilter" xml:space="preserve">
+    <value>پاک کردن فیلتر</value>
+  </data>
+  <data name="Spreadsheet_RowsShown" xml:space="preserve">
+    <value>{0} از {1} ردیف نمایش داده شده</value>
+  </data>
+  <data name="Spreadsheet_IncreaseRowHeight" xml:space="preserve">
+    <value>افزایش ارتفاع ردیف</value>
+  </data>
+  <data name="Spreadsheet_DecreaseRowHeight" xml:space="preserve">
+    <value>کاهش ارتفاع ردیف</value>
+  </data>
+  <data name="Spreadsheet_FitColumn" xml:space="preserve">
+    <value>تطبیق ستون با محتوا</value>
+  </data>
+  <data name="Spreadsheet_FitRow" xml:space="preserve">
+    <value>تطبیق ردیف با محتوا</value>
+  </data>
+  <data name="Spreadsheet_SortHeading" xml:space="preserve">
+    <value>مرتب‌سازی</value>
+  </data>
+  <data name="Spreadsheet_FilterConditionHeading" xml:space="preserve">
+    <value>نمایش ردیف‌هایی که</value>
+  </data>
+  <data name="Spreadsheet_FilterValuesHeading" xml:space="preserve">
+    <value>مقدارها</value>
+  </data>
+  <data name="Spreadsheet_SearchValues" xml:space="preserve">
+    <value>جستجوی مقدارها</value>
+  </data>
 </root>

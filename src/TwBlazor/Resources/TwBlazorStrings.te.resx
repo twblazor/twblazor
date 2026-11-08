@@ -1179,4 +1179,322 @@
   <data name="TextEditor_Exported" xml:space="preserve">
     <value>{0} ఎగుమతి చేయబడింది</value>
   </data>
+  <data name="Spreadsheet_Label" xml:space="preserve">
+    <value>స్ప్రెడ్‌షీట్</value>
+  </data>
+  <data name="Spreadsheet_Toolbar" xml:space="preserve">
+    <value>స్ప్రెడ్‌షీట్ సాధనాలు</value>
+  </data>
+  <data name="Spreadsheet_Alignment" xml:space="preserve">
+    <value>అమరిక</value>
+  </data>
+  <data name="Spreadsheet_AlignLeft" xml:space="preserve">
+    <value>ఎడమకు అమర్చు</value>
+  </data>
+  <data name="Spreadsheet_AlignCenter" xml:space="preserve">
+    <value>మధ్యలో ఉంచు</value>
+  </data>
+  <data name="Spreadsheet_AlignRight" xml:space="preserve">
+    <value>కుడికి అమర్చు</value>
+  </data>
+  <data name="Spreadsheet_NumberFormat" xml:space="preserve">
+    <value>సంఖ్య ఆకృతి</value>
+  </data>
+  <data name="Spreadsheet_FormatGeneral" xml:space="preserve">
+    <value>సాధారణం</value>
+  </data>
+  <data name="Spreadsheet_FormatNumber" xml:space="preserve">
+    <value>సంఖ్య</value>
+  </data>
+  <data name="Spreadsheet_FormatCurrency" xml:space="preserve">
+    <value>కరెన్సీ</value>
+  </data>
+  <data name="Spreadsheet_FormatPercent" xml:space="preserve">
+    <value>శాతం</value>
+  </data>
+  <data name="Spreadsheet_NameBox" xml:space="preserve">
+    <value>సెల్ సూచన</value>
+  </data>
+  <data name="Spreadsheet_FormulaBar" xml:space="preserve">
+    <value>సెల్ విషయం</value>
+  </data>
+  <data name="Spreadsheet_SheetTabs" xml:space="preserve">
+    <value>షీట్‌లు</value>
+  </data>
+  <data name="Spreadsheet_AddSheet" xml:space="preserve">
+    <value>షీట్ జోడించు</value>
+  </data>
+  <data name="Spreadsheet_DefaultSheetName" xml:space="preserve">
+    <value>షీట్{0}</value>
+  </data>
+  <data name="Spreadsheet_RenameSheet" xml:space="preserve">
+    <value>షీట్ పేరు</value>
+  </data>
+  <data name="Spreadsheet_GridHint" xml:space="preserve">
+    <value>సెల్‌ను మార్చడానికి టైప్ చేయండి, లేదా సవరించడానికి Enter లేదా F2 నొక్కండి. సూత్రాలు సమాన గుర్తుతో మొదలవుతాయి.</value>
+  </data>
+  <data name="Spreadsheet_EditCell" xml:space="preserve">
+    <value>{0} సవరించు</value>
+  </data>
+  <data name="Spreadsheet_Copied" xml:space="preserve">
+    <value>{0} కాపీ చేయబడింది</value>
+  </data>
+  <data name="Spreadsheet_Pasted" xml:space="preserve">
+    <value>{0}లో అతికించబడింది</value>
+  </data>
+  <data name="Spreadsheet_Cleared" xml:space="preserve">
+    <value>{0} ఖాళీ చేయబడింది</value>
+  </data>
+  <data name="Spreadsheet_ExportExcel" xml:space="preserve">
+    <value>Excel వర్క్‌బుక్</value>
+  </data>
+  <data name="Spreadsheet_ExportCsv" xml:space="preserve">
+    <value>ఈ షీట్ CSV</value>
+  </data>
+  <data name="Spreadsheet_RangeSelected" xml:space="preserve">
+    <value>{0} ఎంచుకోబడింది</value>
+  </data>
+  <data name="Spreadsheet_Font" xml:space="preserve">
+    <value>ఫాంట్</value>
+  </data>
+  <data name="Spreadsheet_FontSize" xml:space="preserve">
+    <value>ఫాంట్ పరిమాణం</value>
+  </data>
+  <data name="Spreadsheet_DefaultFont" xml:space="preserve">
+    <value>డిఫాల్ట్</value>
+  </data>
+  <data name="Spreadsheet_TextColor" xml:space="preserve">
+    <value>వచనం రంగు</value>
+  </data>
+  <data name="Spreadsheet_FillColor" xml:space="preserve">
+    <value>నింపు రంగు</value>
+  </data>
+  <data name="Spreadsheet_Automatic" xml:space="preserve">
+    <value>ఆటోమేటిక్</value>
+  </data>
+  <data name="Spreadsheet_NoFill" xml:space="preserve">
+    <value>నింపు లేదు</value>
+  </data>
+  <data name="Spreadsheet_ColorRed" xml:space="preserve">
+    <value>ఎరుపు</value>
+  </data>
+  <data name="Spreadsheet_ColorOrange" xml:space="preserve">
+    <value>నారింజ</value>
+  </data>
+  <data name="Spreadsheet_ColorYellow" xml:space="preserve">
+    <value>పసుపు</value>
+  </data>
+  <data name="Spreadsheet_ColorGreen" xml:space="preserve">
+    <value>ఆకుపచ్చ</value>
+  </data>
+  <data name="Spreadsheet_ColorTeal" xml:space="preserve">
+    <value>నీలి ఆకుపచ్చ</value>
+  </data>
+  <data name="Spreadsheet_ColorBlue" xml:space="preserve">
+    <value>నీలం</value>
+  </data>
+  <data name="Spreadsheet_ColorPurple" xml:space="preserve">
+    <value>ఊదా</value>
+  </data>
+  <data name="Spreadsheet_ColorPink" xml:space="preserve">
+    <value>గులాబీ</value>
+  </data>
+  <data name="Spreadsheet_ColorGray" xml:space="preserve">
+    <value>బూడిద</value>
+  </data>
+  <data name="Spreadsheet_ColorBlack" xml:space="preserve">
+    <value>నలుపు</value>
+  </data>
+  <data name="Spreadsheet_Freeze" xml:space="preserve">
+    <value>స్థిరపరచు</value>
+  </data>
+  <data name="Spreadsheet_FreezePanes" xml:space="preserve">
+    <value>పేన్‌లను స్థిరపరచు</value>
+  </data>
+  <data name="Spreadsheet_FreezeTopRow" xml:space="preserve">
+    <value>పై వరుసను స్థిరపరచు</value>
+  </data>
+  <data name="Spreadsheet_FreezeFirstColumn" xml:space="preserve">
+    <value>మొదటి నిలువు వరుసను స్థిరపరచు</value>
+  </data>
+  <data name="Spreadsheet_Unfreeze" xml:space="preserve">
+    <value>పేన్‌లను విడుదల చేయి</value>
+  </data>
+  <data name="Spreadsheet_FrozenStatus" xml:space="preserve">
+    <value>{0} వరుసలు మరియు {1} నిలువు వరుసలు స్థిరపరచబడ్డాయి</value>
+  </data>
+  <data name="Spreadsheet_Zoom" xml:space="preserve">
+    <value>జూమ్</value>
+  </data>
+  <data name="Spreadsheet_ZoomIn" xml:space="preserve">
+    <value>జూమ్ ఇన్</value>
+  </data>
+  <data name="Spreadsheet_ZoomOut" xml:space="preserve">
+    <value>జూమ్ అవుట్</value>
+  </data>
+  <data name="Spreadsheet_ZoomReset" xml:space="preserve">
+    <value>జూమ్ {0}%. 100%కి రీసెట్ చేయి</value>
+  </data>
+  <data name="Spreadsheet_ZoomChanged" xml:space="preserve">
+    <value>జూమ్ {0}%</value>
+  </data>
+  <data name="Spreadsheet_StatusSum" xml:space="preserve">
+    <value>మొత్తం: {0}</value>
+  </data>
+  <data name="Spreadsheet_StatusAverage" xml:space="preserve">
+    <value>సగటు: {0}</value>
+  </data>
+  <data name="Spreadsheet_StatusCount" xml:space="preserve">
+    <value>లెక్క: {0}</value>
+  </data>
+  <data name="Spreadsheet_Cut" xml:space="preserve">
+    <value>కత్తిరించు</value>
+  </data>
+  <data name="Spreadsheet_Copy" xml:space="preserve">
+    <value>కాపీ చేయి</value>
+  </data>
+  <data name="Spreadsheet_Paste" xml:space="preserve">
+    <value>అతికించు</value>
+  </data>
+  <data name="Spreadsheet_InsertRowAbove" xml:space="preserve">
+    <value>పైన వరుసను చొప్పించు</value>
+  </data>
+  <data name="Spreadsheet_InsertRowBelow" xml:space="preserve">
+    <value>కింద వరుసను చొప్పించు</value>
+  </data>
+  <data name="Spreadsheet_InsertColumnBefore" xml:space="preserve">
+    <value>ముందు నిలువు వరుసను చొప్పించు</value>
+  </data>
+  <data name="Spreadsheet_InsertColumnAfter" xml:space="preserve">
+    <value>తర్వాత నిలువు వరుసను చొప్పించు</value>
+  </data>
+  <data name="Spreadsheet_DeleteRows" xml:space="preserve">
+    <value>వరుసలను తొలగించు</value>
+  </data>
+  <data name="Spreadsheet_DeleteColumns" xml:space="preserve">
+    <value>నిలువు వరుసలను తొలగించు</value>
+  </data>
+  <data name="Spreadsheet_SortAscending" xml:space="preserve">
+    <value>A నుండి Z క్రమబద్ధీకరించు</value>
+  </data>
+  <data name="Spreadsheet_SortDescending" xml:space="preserve">
+    <value>Z నుండి A క్రమబద్ధీకరించు</value>
+  </data>
+  <data name="Spreadsheet_ClearContents" xml:space="preserve">
+    <value>విషయాన్ని తొలగించు</value>
+  </data>
+  <data name="Spreadsheet_WidenColumn" xml:space="preserve">
+    <value>నిలువు వరుసను వెడల్పు చేయి</value>
+  </data>
+  <data name="Spreadsheet_NarrowColumn" xml:space="preserve">
+    <value>నిలువు వరుసను ఇరుకు చేయి</value>
+  </data>
+  <data name="Spreadsheet_FullScreen" xml:space="preserve">
+    <value>పూర్తి స్క్రీన్</value>
+  </data>
+  <data name="Spreadsheet_MoreTools" xml:space="preserve">
+    <value>మరిన్ని సాధనాలు</value>
+  </data>
+  <data name="Spreadsheet_FullScreenOn" xml:space="preserve">
+    <value>పూర్తి స్క్రీన్. నిష్క్రమించడానికి Escape నొక్కండి.</value>
+  </data>
+  <data name="Spreadsheet_FullScreenOff" xml:space="preserve">
+    <value>పూర్తి స్క్రీన్ మూసివేయబడింది</value>
+  </data>
+  <data name="Spreadsheet_SheetMenu" xml:space="preserve">
+    <value>షీట్ ఎంపికలు</value>
+  </data>
+  <data name="Spreadsheet_RenameSheetAction" xml:space="preserve">
+    <value>పేరు మార్చు</value>
+  </data>
+  <data name="Spreadsheet_MoveSheetLeft" xml:space="preserve">
+    <value>ఎడమకు జరుపు</value>
+  </data>
+  <data name="Spreadsheet_MoveSheetRight" xml:space="preserve">
+    <value>కుడికి జరుపు</value>
+  </data>
+  <data name="Spreadsheet_DeleteSheet" xml:space="preserve">
+    <value>షీట్‌ను తొలగించు</value>
+  </data>
+  <data name="Spreadsheet_DeleteSheetTitle" xml:space="preserve">
+    <value>{0}ని తొలగించాలా?</value>
+  </data>
+  <data name="Spreadsheet_DeleteSheetMessage" xml:space="preserve">
+    <value>షీట్ మరియు దానిలోని ప్రతిదీ తీసివేయబడుతుంది. దాన్ని ఉపయోగించే సూత్రాలు మీరు రద్దు చేసే వరకు #REF! చూపుతాయి.</value>
+  </data>
+  <data name="Spreadsheet_SheetDeleted" xml:space="preserve">
+    <value>{0} తొలగించబడింది. రద్దు చేయడానికి Ctrl+Z నొక్కండి.</value>
+  </data>
+  <data name="Spreadsheet_InsertTable" xml:space="preserve">
+    <value>పట్టికను చొప్పించు</value>
+  </data>
+  <data name="Spreadsheet_TableRange" xml:space="preserve">
+    <value>పట్టిక పరిధి</value>
+  </data>
+  <data name="Spreadsheet_TableHasHeaders" xml:space="preserve">
+    <value>నా పట్టికకు శీర్షికలు ఉన్నాయి</value>
+  </data>
+  <data name="Spreadsheet_TableRangeInvalid" xml:space="preserve">
+    <value>మరొక పట్టికతో అతివ్యాప్తి చెందని A1:D10 వంటి పరిధిని నమోదు చేయండి.</value>
+  </data>
+  <data name="Spreadsheet_Create" xml:space="preserve">
+    <value>సృష్టించు</value>
+  </data>
+  <data name="Spreadsheet_TableCreated" xml:space="preserve">
+    <value>{0} సృష్టించబడింది</value>
+  </data>
+  <data name="Spreadsheet_RemoveTable" xml:space="preserve">
+    <value>పట్టికను తీసివేయి</value>
+  </data>
+  <data name="Spreadsheet_DefaultColumnName" xml:space="preserve">
+    <value>నిలువు వరుస{0}</value>
+  </data>
+  <data name="Spreadsheet_DefaultTableName" xml:space="preserve">
+    <value>పట్టిక{0}</value>
+  </data>
+  <data name="Spreadsheet_FilterColumn" xml:space="preserve">
+    <value>{0}ని ఫిల్టర్ చేయి</value>
+  </data>
+  <data name="Spreadsheet_FilterColumnActive" xml:space="preserve">
+    <value>{0}ని ఫిల్టర్ చేయి, ఫిల్టర్ చేయబడింది</value>
+  </data>
+  <data name="Spreadsheet_SelectAllValues" xml:space="preserve">
+    <value>అన్నీ ఎంచుకో</value>
+  </data>
+  <data name="Spreadsheet_Blanks" xml:space="preserve">
+    <value>(ఖాళీలు)</value>
+  </data>
+  <data name="Spreadsheet_ApplyFilter" xml:space="preserve">
+    <value>వర్తింపజేయి</value>
+  </data>
+  <data name="Spreadsheet_ClearFilter" xml:space="preserve">
+    <value>ఫిల్టర్‌ను తొలగించు</value>
+  </data>
+  <data name="Spreadsheet_RowsShown" xml:space="preserve">
+    <value>{1}లో {0} వరుసలు చూపబడ్డాయి</value>
+  </data>
+  <data name="Spreadsheet_IncreaseRowHeight" xml:space="preserve">
+    <value>వరుస ఎత్తు పెంచు</value>
+  </data>
+  <data name="Spreadsheet_DecreaseRowHeight" xml:space="preserve">
+    <value>వరుస ఎత్తు తగ్గించు</value>
+  </data>
+  <data name="Spreadsheet_FitColumn" xml:space="preserve">
+    <value>విషయానికి తగినట్లు నిలువు వరుసను సరిపెట్టు</value>
+  </data>
+  <data name="Spreadsheet_FitRow" xml:space="preserve">
+    <value>విషయానికి తగినట్లు వరుసను సరిపెట్టు</value>
+  </data>
+  <data name="Spreadsheet_SortHeading" xml:space="preserve">
+    <value>క్రమబద్ధీకరించు</value>
+  </data>
+  <data name="Spreadsheet_FilterConditionHeading" xml:space="preserve">
+    <value>ఈ వరుసలను చూపు</value>
+  </data>
+  <data name="Spreadsheet_FilterValuesHeading" xml:space="preserve">
+    <value>విలువలు</value>
+  </data>
+  <data name="Spreadsheet_SearchValues" xml:space="preserve">
+    <value>విలువలను శోధించు</value>
+  </data>
 </root>

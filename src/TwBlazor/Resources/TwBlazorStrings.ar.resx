@@ -1185,4 +1185,322 @@
   <data name="TextEditor_Exported" xml:space="preserve">
     <value>تم تصدير {0}</value>
   </data>
+  <data name="Spreadsheet_Label" xml:space="preserve">
+    <value>جدول بيانات</value>
+  </data>
+  <data name="Spreadsheet_Toolbar" xml:space="preserve">
+    <value>أدوات جدول البيانات</value>
+  </data>
+  <data name="Spreadsheet_Alignment" xml:space="preserve">
+    <value>المحاذاة</value>
+  </data>
+  <data name="Spreadsheet_AlignLeft" xml:space="preserve">
+    <value>محاذاة لليسار</value>
+  </data>
+  <data name="Spreadsheet_AlignCenter" xml:space="preserve">
+    <value>توسيط</value>
+  </data>
+  <data name="Spreadsheet_AlignRight" xml:space="preserve">
+    <value>محاذاة لليمين</value>
+  </data>
+  <data name="Spreadsheet_NumberFormat" xml:space="preserve">
+    <value>تنسيق الأرقام</value>
+  </data>
+  <data name="Spreadsheet_FormatGeneral" xml:space="preserve">
+    <value>عام</value>
+  </data>
+  <data name="Spreadsheet_FormatNumber" xml:space="preserve">
+    <value>رقم</value>
+  </data>
+  <data name="Spreadsheet_FormatCurrency" xml:space="preserve">
+    <value>عملة</value>
+  </data>
+  <data name="Spreadsheet_FormatPercent" xml:space="preserve">
+    <value>نسبة مئوية</value>
+  </data>
+  <data name="Spreadsheet_NameBox" xml:space="preserve">
+    <value>مرجع الخلية</value>
+  </data>
+  <data name="Spreadsheet_FormulaBar" xml:space="preserve">
+    <value>محتوى الخلية</value>
+  </data>
+  <data name="Spreadsheet_SheetTabs" xml:space="preserve">
+    <value>الأوراق</value>
+  </data>
+  <data name="Spreadsheet_AddSheet" xml:space="preserve">
+    <value>إضافة ورقة</value>
+  </data>
+  <data name="Spreadsheet_DefaultSheetName" xml:space="preserve">
+    <value>ورقة{0}</value>
+  </data>
+  <data name="Spreadsheet_RenameSheet" xml:space="preserve">
+    <value>اسم الورقة</value>
+  </data>
+  <data name="Spreadsheet_GridHint" xml:space="preserve">
+    <value>اكتب لاستبدال خلية، أو اضغط Enter أو F2 لتحريرها. تبدأ الصيغ بعلامة يساوي.</value>
+  </data>
+  <data name="Spreadsheet_EditCell" xml:space="preserve">
+    <value>تحرير {0}</value>
+  </data>
+  <data name="Spreadsheet_Copied" xml:space="preserve">
+    <value>تم نسخ {0}</value>
+  </data>
+  <data name="Spreadsheet_Pasted" xml:space="preserve">
+    <value>تم اللصق في {0}</value>
+  </data>
+  <data name="Spreadsheet_Cleared" xml:space="preserve">
+    <value>تم مسح {0}</value>
+  </data>
+  <data name="Spreadsheet_ExportExcel" xml:space="preserve">
+    <value>مصنف Excel</value>
+  </data>
+  <data name="Spreadsheet_ExportCsv" xml:space="preserve">
+    <value>ملف CSV لهذه الورقة</value>
+  </data>
+  <data name="Spreadsheet_RangeSelected" xml:space="preserve">
+    <value>تم تحديد {0}</value>
+  </data>
+  <data name="Spreadsheet_Font" xml:space="preserve">
+    <value>الخط</value>
+  </data>
+  <data name="Spreadsheet_FontSize" xml:space="preserve">
+    <value>حجم الخط</value>
+  </data>
+  <data name="Spreadsheet_DefaultFont" xml:space="preserve">
+    <value>افتراضي</value>
+  </data>
+  <data name="Spreadsheet_TextColor" xml:space="preserve">
+    <value>لون النص</value>
+  </data>
+  <data name="Spreadsheet_FillColor" xml:space="preserve">
+    <value>لون التعبئة</value>
+  </data>
+  <data name="Spreadsheet_Automatic" xml:space="preserve">
+    <value>تلقائي</value>
+  </data>
+  <data name="Spreadsheet_NoFill" xml:space="preserve">
+    <value>بلا تعبئة</value>
+  </data>
+  <data name="Spreadsheet_ColorRed" xml:space="preserve">
+    <value>أحمر</value>
+  </data>
+  <data name="Spreadsheet_ColorOrange" xml:space="preserve">
+    <value>برتقالي</value>
+  </data>
+  <data name="Spreadsheet_ColorYellow" xml:space="preserve">
+    <value>أصفر</value>
+  </data>
+  <data name="Spreadsheet_ColorGreen" xml:space="preserve">
+    <value>أخضر</value>
+  </data>
+  <data name="Spreadsheet_ColorTeal" xml:space="preserve">
+    <value>أزرق مخضر</value>
+  </data>
+  <data name="Spreadsheet_ColorBlue" xml:space="preserve">
+    <value>أزرق</value>
+  </data>
+  <data name="Spreadsheet_ColorPurple" xml:space="preserve">
+    <value>أرجواني</value>
+  </data>
+  <data name="Spreadsheet_ColorPink" xml:space="preserve">
+    <value>وردي</value>
+  </data>
+  <data name="Spreadsheet_ColorGray" xml:space="preserve">
+    <value>رمادي</value>
+  </data>
+  <data name="Spreadsheet_ColorBlack" xml:space="preserve">
+    <value>أسود</value>
+  </data>
+  <data name="Spreadsheet_Freeze" xml:space="preserve">
+    <value>تثبيت</value>
+  </data>
+  <data name="Spreadsheet_FreezePanes" xml:space="preserve">
+    <value>تثبيت الأجزاء</value>
+  </data>
+  <data name="Spreadsheet_FreezeTopRow" xml:space="preserve">
+    <value>تثبيت الصف العلوي</value>
+  </data>
+  <data name="Spreadsheet_FreezeFirstColumn" xml:space="preserve">
+    <value>تثبيت العمود الأول</value>
+  </data>
+  <data name="Spreadsheet_Unfreeze" xml:space="preserve">
+    <value>إلغاء تثبيت الأجزاء</value>
+  </data>
+  <data name="Spreadsheet_FrozenStatus" xml:space="preserve">
+    <value>تم تثبيت {0} صفوف و{1} أعمدة</value>
+  </data>
+  <data name="Spreadsheet_Zoom" xml:space="preserve">
+    <value>التكبير</value>
+  </data>
+  <data name="Spreadsheet_ZoomIn" xml:space="preserve">
+    <value>تكبير</value>
+  </data>
+  <data name="Spreadsheet_ZoomOut" xml:space="preserve">
+    <value>تصغير</value>
+  </data>
+  <data name="Spreadsheet_ZoomReset" xml:space="preserve">
+    <value>التكبير {0}%. إعادة التعيين إلى 100%</value>
+  </data>
+  <data name="Spreadsheet_ZoomChanged" xml:space="preserve">
+    <value>التكبير {0}%</value>
+  </data>
+  <data name="Spreadsheet_StatusSum" xml:space="preserve">
+    <value>المجموع: {0}</value>
+  </data>
+  <data name="Spreadsheet_StatusAverage" xml:space="preserve">
+    <value>المتوسط: {0}</value>
+  </data>
+  <data name="Spreadsheet_StatusCount" xml:space="preserve">
+    <value>العدد: {0}</value>
+  </data>
+  <data name="Spreadsheet_Cut" xml:space="preserve">
+    <value>قص</value>
+  </data>
+  <data name="Spreadsheet_Copy" xml:space="preserve">
+    <value>نسخ</value>
+  </data>
+  <data name="Spreadsheet_Paste" xml:space="preserve">
+    <value>لصق</value>
+  </data>
+  <data name="Spreadsheet_InsertRowAbove" xml:space="preserve">
+    <value>إدراج صف أعلاه</value>
+  </data>
+  <data name="Spreadsheet_InsertRowBelow" xml:space="preserve">
+    <value>إدراج صف أدناه</value>
+  </data>
+  <data name="Spreadsheet_InsertColumnBefore" xml:space="preserve">
+    <value>إدراج عمود قبله</value>
+  </data>
+  <data name="Spreadsheet_InsertColumnAfter" xml:space="preserve">
+    <value>إدراج عمود بعده</value>
+  </data>
+  <data name="Spreadsheet_DeleteRows" xml:space="preserve">
+    <value>حذف الصفوف</value>
+  </data>
+  <data name="Spreadsheet_DeleteColumns" xml:space="preserve">
+    <value>حذف الأعمدة</value>
+  </data>
+  <data name="Spreadsheet_SortAscending" xml:space="preserve">
+    <value>فرز من أ إلى ي</value>
+  </data>
+  <data name="Spreadsheet_SortDescending" xml:space="preserve">
+    <value>فرز من ي إلى أ</value>
+  </data>
+  <data name="Spreadsheet_ClearContents" xml:space="preserve">
+    <value>مسح المحتويات</value>
+  </data>
+  <data name="Spreadsheet_WidenColumn" xml:space="preserve">
+    <value>توسيع العمود</value>
+  </data>
+  <data name="Spreadsheet_NarrowColumn" xml:space="preserve">
+    <value>تضييق العمود</value>
+  </data>
+  <data name="Spreadsheet_FullScreen" xml:space="preserve">
+    <value>ملء الشاشة</value>
+  </data>
+  <data name="Spreadsheet_MoreTools" xml:space="preserve">
+    <value>أدوات إضافية</value>
+  </data>
+  <data name="Spreadsheet_FullScreenOn" xml:space="preserve">
+    <value>ملء الشاشة. اضغط Escape للخروج.</value>
+  </data>
+  <data name="Spreadsheet_FullScreenOff" xml:space="preserve">
+    <value>تم إغلاق ملء الشاشة</value>
+  </data>
+  <data name="Spreadsheet_SheetMenu" xml:space="preserve">
+    <value>خيارات الورقة</value>
+  </data>
+  <data name="Spreadsheet_RenameSheetAction" xml:space="preserve">
+    <value>إعادة تسمية</value>
+  </data>
+  <data name="Spreadsheet_MoveSheetLeft" xml:space="preserve">
+    <value>نقل لليسار</value>
+  </data>
+  <data name="Spreadsheet_MoveSheetRight" xml:space="preserve">
+    <value>نقل لليمين</value>
+  </data>
+  <data name="Spreadsheet_DeleteSheet" xml:space="preserve">
+    <value>حذف الورقة</value>
+  </data>
+  <data name="Spreadsheet_DeleteSheetTitle" xml:space="preserve">
+    <value>حذف {0}؟</value>
+  </data>
+  <data name="Spreadsheet_DeleteSheetMessage" xml:space="preserve">
+    <value>ستتم إزالة الورقة وكل ما فيها. ستعرض الصيغ التي تستخدمها #REF! حتى تتراجع.</value>
+  </data>
+  <data name="Spreadsheet_SheetDeleted" xml:space="preserve">
+    <value>تم حذف {0}. اضغط Ctrl+Z للتراجع.</value>
+  </data>
+  <data name="Spreadsheet_InsertTable" xml:space="preserve">
+    <value>إدراج جدول</value>
+  </data>
+  <data name="Spreadsheet_TableRange" xml:space="preserve">
+    <value>نطاق الجدول</value>
+  </data>
+  <data name="Spreadsheet_TableHasHeaders" xml:space="preserve">
+    <value>يحتوي جدولي على رؤوس</value>
+  </data>
+  <data name="Spreadsheet_TableRangeInvalid" xml:space="preserve">
+    <value>أدخل نطاقًا مثل A1:D10 لا يتداخل مع جدول آخر.</value>
+  </data>
+  <data name="Spreadsheet_Create" xml:space="preserve">
+    <value>إنشاء</value>
+  </data>
+  <data name="Spreadsheet_TableCreated" xml:space="preserve">
+    <value>تم إنشاء {0}</value>
+  </data>
+  <data name="Spreadsheet_RemoveTable" xml:space="preserve">
+    <value>إزالة الجدول</value>
+  </data>
+  <data name="Spreadsheet_DefaultColumnName" xml:space="preserve">
+    <value>عمود{0}</value>
+  </data>
+  <data name="Spreadsheet_DefaultTableName" xml:space="preserve">
+    <value>جدول{0}</value>
+  </data>
+  <data name="Spreadsheet_FilterColumn" xml:space="preserve">
+    <value>تصفية {0}</value>
+  </data>
+  <data name="Spreadsheet_FilterColumnActive" xml:space="preserve">
+    <value>تصفية {0}، مُصفّى</value>
+  </data>
+  <data name="Spreadsheet_SelectAllValues" xml:space="preserve">
+    <value>تحديد الكل</value>
+  </data>
+  <data name="Spreadsheet_Blanks" xml:space="preserve">
+    <value>(فارغة)</value>
+  </data>
+  <data name="Spreadsheet_ApplyFilter" xml:space="preserve">
+    <value>تطبيق</value>
+  </data>
+  <data name="Spreadsheet_ClearFilter" xml:space="preserve">
+    <value>مسح عامل التصفية</value>
+  </data>
+  <data name="Spreadsheet_RowsShown" xml:space="preserve">
+    <value>عرض {0} من {1} صفوف</value>
+  </data>
+  <data name="Spreadsheet_IncreaseRowHeight" xml:space="preserve">
+    <value>زيادة ارتفاع الصف</value>
+  </data>
+  <data name="Spreadsheet_DecreaseRowHeight" xml:space="preserve">
+    <value>تقليل ارتفاع الصف</value>
+  </data>
+  <data name="Spreadsheet_FitColumn" xml:space="preserve">
+    <value>احتواء العمود على المحتوى</value>
+  </data>
+  <data name="Spreadsheet_FitRow" xml:space="preserve">
+    <value>احتواء الصف على المحتوى</value>
+  </data>
+  <data name="Spreadsheet_SortHeading" xml:space="preserve">
+    <value>فرز</value>
+  </data>
+  <data name="Spreadsheet_FilterConditionHeading" xml:space="preserve">
+    <value>إظهار الصفوف التي</value>
+  </data>
+  <data name="Spreadsheet_FilterValuesHeading" xml:space="preserve">
+    <value>القيم</value>
+  </data>
+  <data name="Spreadsheet_SearchValues" xml:space="preserve">
+    <value>البحث في القيم</value>
+  </data>
 </root>

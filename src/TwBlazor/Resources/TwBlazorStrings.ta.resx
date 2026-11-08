@@ -1179,4 +1179,322 @@
   <data name="TextEditor_Exported" xml:space="preserve">
     <value>{0} ஏற்றுமதி செய்யப்பட்டது</value>
   </data>
+  <data name="Spreadsheet_Label" xml:space="preserve">
+    <value>விரிதாள்</value>
+  </data>
+  <data name="Spreadsheet_Toolbar" xml:space="preserve">
+    <value>விரிதாள் கருவிகள்</value>
+  </data>
+  <data name="Spreadsheet_Alignment" xml:space="preserve">
+    <value>சீரமைப்பு</value>
+  </data>
+  <data name="Spreadsheet_AlignLeft" xml:space="preserve">
+    <value>இடப்புறம் சீரமை</value>
+  </data>
+  <data name="Spreadsheet_AlignCenter" xml:space="preserve">
+    <value>மையப்படுத்து</value>
+  </data>
+  <data name="Spreadsheet_AlignRight" xml:space="preserve">
+    <value>வலப்புறம் சீரமை</value>
+  </data>
+  <data name="Spreadsheet_NumberFormat" xml:space="preserve">
+    <value>எண் வடிவம்</value>
+  </data>
+  <data name="Spreadsheet_FormatGeneral" xml:space="preserve">
+    <value>பொது</value>
+  </data>
+  <data name="Spreadsheet_FormatNumber" xml:space="preserve">
+    <value>எண்</value>
+  </data>
+  <data name="Spreadsheet_FormatCurrency" xml:space="preserve">
+    <value>நாணயம்</value>
+  </data>
+  <data name="Spreadsheet_FormatPercent" xml:space="preserve">
+    <value>சதவீதம்</value>
+  </data>
+  <data name="Spreadsheet_NameBox" xml:space="preserve">
+    <value>கலக் குறிப்பு</value>
+  </data>
+  <data name="Spreadsheet_FormulaBar" xml:space="preserve">
+    <value>கல உள்ளடக்கம்</value>
+  </data>
+  <data name="Spreadsheet_SheetTabs" xml:space="preserve">
+    <value>தாள்கள்</value>
+  </data>
+  <data name="Spreadsheet_AddSheet" xml:space="preserve">
+    <value>தாளைச் சேர்</value>
+  </data>
+  <data name="Spreadsheet_DefaultSheetName" xml:space="preserve">
+    <value>தாள்{0}</value>
+  </data>
+  <data name="Spreadsheet_RenameSheet" xml:space="preserve">
+    <value>தாளின் பெயர்</value>
+  </data>
+  <data name="Spreadsheet_GridHint" xml:space="preserve">
+    <value>கலத்தை மாற்ற தட்டச்சு செய்யவும், அல்லது திருத்த Enter அல்லது F2 ஐ அழுத்தவும். சூத்திரங்கள் சம குறியுடன் தொடங்கும்.</value>
+  </data>
+  <data name="Spreadsheet_EditCell" xml:space="preserve">
+    <value>{0} ஐத் திருத்து</value>
+  </data>
+  <data name="Spreadsheet_Copied" xml:space="preserve">
+    <value>{0} நகலெடுக்கப்பட்டது</value>
+  </data>
+  <data name="Spreadsheet_Pasted" xml:space="preserve">
+    <value>{0} இல் ஒட்டப்பட்டது</value>
+  </data>
+  <data name="Spreadsheet_Cleared" xml:space="preserve">
+    <value>{0} அழிக்கப்பட்டது</value>
+  </data>
+  <data name="Spreadsheet_ExportExcel" xml:space="preserve">
+    <value>Excel பணிப்புத்தகம்</value>
+  </data>
+  <data name="Spreadsheet_ExportCsv" xml:space="preserve">
+    <value>இந்தத் தாளின் CSV</value>
+  </data>
+  <data name="Spreadsheet_RangeSelected" xml:space="preserve">
+    <value>{0} தேர்ந்தெடுக்கப்பட்டது</value>
+  </data>
+  <data name="Spreadsheet_Font" xml:space="preserve">
+    <value>எழுத்துரு</value>
+  </data>
+  <data name="Spreadsheet_FontSize" xml:space="preserve">
+    <value>எழுத்துரு அளவு</value>
+  </data>
+  <data name="Spreadsheet_DefaultFont" xml:space="preserve">
+    <value>இயல்புநிலை</value>
+  </data>
+  <data name="Spreadsheet_TextColor" xml:space="preserve">
+    <value>உரை நிறம்</value>
+  </data>
+  <data name="Spreadsheet_FillColor" xml:space="preserve">
+    <value>நிரப்பு நிறம்</value>
+  </data>
+  <data name="Spreadsheet_Automatic" xml:space="preserve">
+    <value>தானியங்கு</value>
+  </data>
+  <data name="Spreadsheet_NoFill" xml:space="preserve">
+    <value>நிரப்பு இல்லை</value>
+  </data>
+  <data name="Spreadsheet_ColorRed" xml:space="preserve">
+    <value>சிவப்பு</value>
+  </data>
+  <data name="Spreadsheet_ColorOrange" xml:space="preserve">
+    <value>ஆரஞ்சு</value>
+  </data>
+  <data name="Spreadsheet_ColorYellow" xml:space="preserve">
+    <value>மஞ்சள்</value>
+  </data>
+  <data name="Spreadsheet_ColorGreen" xml:space="preserve">
+    <value>பச்சை</value>
+  </data>
+  <data name="Spreadsheet_ColorTeal" xml:space="preserve">
+    <value>நீலப்பச்சை</value>
+  </data>
+  <data name="Spreadsheet_ColorBlue" xml:space="preserve">
+    <value>நீலம்</value>
+  </data>
+  <data name="Spreadsheet_ColorPurple" xml:space="preserve">
+    <value>ஊதா</value>
+  </data>
+  <data name="Spreadsheet_ColorPink" xml:space="preserve">
+    <value>இளஞ்சிவப்பு</value>
+  </data>
+  <data name="Spreadsheet_ColorGray" xml:space="preserve">
+    <value>சாம்பல்</value>
+  </data>
+  <data name="Spreadsheet_ColorBlack" xml:space="preserve">
+    <value>கருப்பு</value>
+  </data>
+  <data name="Spreadsheet_Freeze" xml:space="preserve">
+    <value>உறையவை</value>
+  </data>
+  <data name="Spreadsheet_FreezePanes" xml:space="preserve">
+    <value>பலகங்களை உறையவை</value>
+  </data>
+  <data name="Spreadsheet_FreezeTopRow" xml:space="preserve">
+    <value>மேல் வரிசையை உறையவை</value>
+  </data>
+  <data name="Spreadsheet_FreezeFirstColumn" xml:space="preserve">
+    <value>முதல் நெடுவரிசையை உறையவை</value>
+  </data>
+  <data name="Spreadsheet_Unfreeze" xml:space="preserve">
+    <value>பலகங்களை விடுவி</value>
+  </data>
+  <data name="Spreadsheet_FrozenStatus" xml:space="preserve">
+    <value>{0} வரிசைகளும் {1} நெடுவரிசைகளும் உறையவைக்கப்பட்டன</value>
+  </data>
+  <data name="Spreadsheet_Zoom" xml:space="preserve">
+    <value>பெரிதாக்கம்</value>
+  </data>
+  <data name="Spreadsheet_ZoomIn" xml:space="preserve">
+    <value>பெரிதாக்கு</value>
+  </data>
+  <data name="Spreadsheet_ZoomOut" xml:space="preserve">
+    <value>சிறிதாக்கு</value>
+  </data>
+  <data name="Spreadsheet_ZoomReset" xml:space="preserve">
+    <value>பெரிதாக்கம் {0}%. 100%க்கு மீட்டமை</value>
+  </data>
+  <data name="Spreadsheet_ZoomChanged" xml:space="preserve">
+    <value>பெரிதாக்கம் {0}%</value>
+  </data>
+  <data name="Spreadsheet_StatusSum" xml:space="preserve">
+    <value>கூட்டுத்தொகை: {0}</value>
+  </data>
+  <data name="Spreadsheet_StatusAverage" xml:space="preserve">
+    <value>சராசரி: {0}</value>
+  </data>
+  <data name="Spreadsheet_StatusCount" xml:space="preserve">
+    <value>எண்ணிக்கை: {0}</value>
+  </data>
+  <data name="Spreadsheet_Cut" xml:space="preserve">
+    <value>வெட்டு</value>
+  </data>
+  <data name="Spreadsheet_Copy" xml:space="preserve">
+    <value>நகலெடு</value>
+  </data>
+  <data name="Spreadsheet_Paste" xml:space="preserve">
+    <value>ஒட்டு</value>
+  </data>
+  <data name="Spreadsheet_InsertRowAbove" xml:space="preserve">
+    <value>மேலே வரிசையைச் செருகு</value>
+  </data>
+  <data name="Spreadsheet_InsertRowBelow" xml:space="preserve">
+    <value>கீழே வரிசையைச் செருகு</value>
+  </data>
+  <data name="Spreadsheet_InsertColumnBefore" xml:space="preserve">
+    <value>முன்னால் நெடுவரிசையைச் செருகு</value>
+  </data>
+  <data name="Spreadsheet_InsertColumnAfter" xml:space="preserve">
+    <value>பின்னால் நெடுவரிசையைச் செருகு</value>
+  </data>
+  <data name="Spreadsheet_DeleteRows" xml:space="preserve">
+    <value>வரிசைகளை நீக்கு</value>
+  </data>
+  <data name="Spreadsheet_DeleteColumns" xml:space="preserve">
+    <value>நெடுவரிசைகளை நீக்கு</value>
+  </data>
+  <data name="Spreadsheet_SortAscending" xml:space="preserve">
+    <value>A முதல் Z வரை வரிசைப்படுத்து</value>
+  </data>
+  <data name="Spreadsheet_SortDescending" xml:space="preserve">
+    <value>Z முதல் A வரை வரிசைப்படுத்து</value>
+  </data>
+  <data name="Spreadsheet_ClearContents" xml:space="preserve">
+    <value>உள்ளடக்கத்தை அழி</value>
+  </data>
+  <data name="Spreadsheet_WidenColumn" xml:space="preserve">
+    <value>நெடுவரிசையை அகலமாக்கு</value>
+  </data>
+  <data name="Spreadsheet_NarrowColumn" xml:space="preserve">
+    <value>நெடுவரிசையைக் குறுக்கு</value>
+  </data>
+  <data name="Spreadsheet_FullScreen" xml:space="preserve">
+    <value>முழுத்திரை</value>
+  </data>
+  <data name="Spreadsheet_MoreTools" xml:space="preserve">
+    <value>மேலும் கருவிகள்</value>
+  </data>
+  <data name="Spreadsheet_FullScreenOn" xml:space="preserve">
+    <value>முழுத்திரை. வெளியேற Escape ஐ அழுத்தவும்.</value>
+  </data>
+  <data name="Spreadsheet_FullScreenOff" xml:space="preserve">
+    <value>முழுத்திரை மூடப்பட்டது</value>
+  </data>
+  <data name="Spreadsheet_SheetMenu" xml:space="preserve">
+    <value>தாள் விருப்பங்கள்</value>
+  </data>
+  <data name="Spreadsheet_RenameSheetAction" xml:space="preserve">
+    <value>மறுபெயரிடு</value>
+  </data>
+  <data name="Spreadsheet_MoveSheetLeft" xml:space="preserve">
+    <value>இடப்புறம் நகர்த்து</value>
+  </data>
+  <data name="Spreadsheet_MoveSheetRight" xml:space="preserve">
+    <value>வலப்புறம் நகர்த்து</value>
+  </data>
+  <data name="Spreadsheet_DeleteSheet" xml:space="preserve">
+    <value>தாளை நீக்கு</value>
+  </data>
+  <data name="Spreadsheet_DeleteSheetTitle" xml:space="preserve">
+    <value>{0} ஐ நீக்கவா?</value>
+  </data>
+  <data name="Spreadsheet_DeleteSheetMessage" xml:space="preserve">
+    <value>தாளும் அதிலுள்ள அனைத்தும் அகற்றப்படும். அதைப் பயன்படுத்தும் சூத்திரங்கள் நீங்கள் செயல்தவிர்க்கும் வரை #REF! காட்டும்.</value>
+  </data>
+  <data name="Spreadsheet_SheetDeleted" xml:space="preserve">
+    <value>{0} நீக்கப்பட்டது. செயல்தவிர்க்க Ctrl+Z ஐ அழுத்தவும்.</value>
+  </data>
+  <data name="Spreadsheet_InsertTable" xml:space="preserve">
+    <value>அட்டவணையைச் செருகு</value>
+  </data>
+  <data name="Spreadsheet_TableRange" xml:space="preserve">
+    <value>அட்டவணை வரம்பு</value>
+  </data>
+  <data name="Spreadsheet_TableHasHeaders" xml:space="preserve">
+    <value>என் அட்டவணையில் தலைப்புகள் உள்ளன</value>
+  </data>
+  <data name="Spreadsheet_TableRangeInvalid" xml:space="preserve">
+    <value>வேறு அட்டவணையுடன் மேற்பொருந்தாத A1:D10 போன்ற வரம்பை உள்ளிடவும்.</value>
+  </data>
+  <data name="Spreadsheet_Create" xml:space="preserve">
+    <value>உருவாக்கு</value>
+  </data>
+  <data name="Spreadsheet_TableCreated" xml:space="preserve">
+    <value>{0} உருவாக்கப்பட்டது</value>
+  </data>
+  <data name="Spreadsheet_RemoveTable" xml:space="preserve">
+    <value>அட்டவணையை அகற்று</value>
+  </data>
+  <data name="Spreadsheet_DefaultColumnName" xml:space="preserve">
+    <value>நெடுவரிசை{0}</value>
+  </data>
+  <data name="Spreadsheet_DefaultTableName" xml:space="preserve">
+    <value>அட்டவணை{0}</value>
+  </data>
+  <data name="Spreadsheet_FilterColumn" xml:space="preserve">
+    <value>{0} ஐ வடிகட்டு</value>
+  </data>
+  <data name="Spreadsheet_FilterColumnActive" xml:space="preserve">
+    <value>{0} ஐ வடிகட்டு, வடிகட்டப்பட்டது</value>
+  </data>
+  <data name="Spreadsheet_SelectAllValues" xml:space="preserve">
+    <value>அனைத்தையும் தேர்ந்தெடு</value>
+  </data>
+  <data name="Spreadsheet_Blanks" xml:space="preserve">
+    <value>(வெற்று)</value>
+  </data>
+  <data name="Spreadsheet_ApplyFilter" xml:space="preserve">
+    <value>பயன்படுத்து</value>
+  </data>
+  <data name="Spreadsheet_ClearFilter" xml:space="preserve">
+    <value>வடிப்பானை அழி</value>
+  </data>
+  <data name="Spreadsheet_RowsShown" xml:space="preserve">
+    <value>{1} இல் {0} வரிசைகள் காட்டப்படுகின்றன</value>
+  </data>
+  <data name="Spreadsheet_IncreaseRowHeight" xml:space="preserve">
+    <value>வரிசை உயரத்தை அதிகரி</value>
+  </data>
+  <data name="Spreadsheet_DecreaseRowHeight" xml:space="preserve">
+    <value>வரிசை உயரத்தைக் குறை</value>
+  </data>
+  <data name="Spreadsheet_FitColumn" xml:space="preserve">
+    <value>உள்ளடக்கத்திற்கு ஏற்ப நெடுவரிசையைப் பொருத்து</value>
+  </data>
+  <data name="Spreadsheet_FitRow" xml:space="preserve">
+    <value>உள்ளடக்கத்திற்கு ஏற்ப வரிசையைப் பொருத்து</value>
+  </data>
+  <data name="Spreadsheet_SortHeading" xml:space="preserve">
+    <value>வரிசைப்படுத்து</value>
+  </data>
+  <data name="Spreadsheet_FilterConditionHeading" xml:space="preserve">
+    <value>இவ்வாறுள்ள வரிசைகளைக் காட்டு</value>
+  </data>
+  <data name="Spreadsheet_FilterValuesHeading" xml:space="preserve">
+    <value>மதிப்புகள்</value>
+  </data>
+  <data name="Spreadsheet_SearchValues" xml:space="preserve">
+    <value>மதிப்புகளைத் தேடு</value>
+  </data>
 </root>

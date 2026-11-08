@@ -1,6 +1,7 @@
 // Copyright (c) 2025 Jack Shuter @ TwBlazor - twblazor.com
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
+using TwBlazor.Enums;
 using Microsoft.AspNetCore.Components;
 
 namespace TwBlazor.Components;
@@ -84,17 +85,17 @@ public class TwDataTableColumn<TItem>
 
     /// <summary>
     /// Gets or sets the kind of values the column filters, which decides its conditions and value field. Defaults to
-    /// <see cref="TwDataTableFilterType.Auto"/>, which works it out from the <see cref="PropertySelector"/> values.
+    /// <see cref="FilterType.Auto"/>, which works it out from the <see cref="PropertySelector"/> values.
     /// Set it when the rows come from an <see cref="TwDataTable{TItem}.ItemsProvider"/>, which may not have loaded
     /// any yet.
     /// </summary>
-    public TwDataTableFilterType FilterType { get; set; }
+    public FilterType FilterType { get; set; }
 
     /// <summary>
     /// Gets or sets the conditions people can choose from, in order, or <c>null</c> for the ones that suit
     /// <see cref="FilterType"/>. The first is chosen when the filter opens.
     /// </summary>
-    public IReadOnlyList<TwDataTableFilterOperator>? FilterOperators { get; set; }
+    public IReadOnlyList<FilterOperator>? FilterOperators { get; set; }
 
     /// <summary>
     /// Gets or sets whether the column can be changed when a row is edited, with

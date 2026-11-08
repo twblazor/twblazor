@@ -1223,4 +1223,322 @@ public static class TwStrings
 
     /// <summary>The key for "Exported {0}". Announced after an export, where {0} is the file name.</summary>
     public const string TextEditor_Exported = "TextEditor_Exported";
+
+    /// <summary>The key for "Spreadsheet". Accessible name of a spreadsheet that has no label.</summary>
+    public const string Spreadsheet_Label = "Spreadsheet_Label";
+
+    /// <summary>The key for "Spreadsheet tools". Accessible name of a spreadsheet's toolbar.</summary>
+    public const string Spreadsheet_Toolbar = "Spreadsheet_Toolbar";
+
+    /// <summary>The key for "Alignment". Accessible name of the group of alignment buttons.</summary>
+    public const string Spreadsheet_Alignment = "Spreadsheet_Alignment";
+
+    /// <summary>The key for "Align left". Name of the button that lines cell content up on the left.</summary>
+    public const string Spreadsheet_AlignLeft = "Spreadsheet_AlignLeft";
+
+    /// <summary>The key for "Center". Name of the button that lines cell content up in the middle.</summary>
+    public const string Spreadsheet_AlignCenter = "Spreadsheet_AlignCenter";
+
+    /// <summary>The key for "Align right". Name of the button that lines cell content up on the right.</summary>
+    public const string Spreadsheet_AlignRight = "Spreadsheet_AlignRight";
+
+    /// <summary>The key for "Number format". Accessible name of the list of number formats.</summary>
+    public const string Spreadsheet_NumberFormat = "Spreadsheet_NumberFormat";
+
+    /// <summary>The key for "General". A number format that shows numbers as they are.</summary>
+    public const string Spreadsheet_FormatGeneral = "Spreadsheet_FormatGeneral";
+
+    /// <summary>The key for "Number". A number format with two decimal places.</summary>
+    public const string Spreadsheet_FormatNumber = "Spreadsheet_FormatNumber";
+
+    /// <summary>The key for "Currency". A number format for amounts of money.</summary>
+    public const string Spreadsheet_FormatCurrency = "Spreadsheet_FormatCurrency";
+
+    /// <summary>The key for "Percent". A number format that shows numbers as percentages.</summary>
+    public const string Spreadsheet_FormatPercent = "Spreadsheet_FormatPercent";
+
+    /// <summary>The key for "Cell reference". Accessible name of the box showing the active cell's address, such as B3.</summary>
+    public const string Spreadsheet_NameBox = "Spreadsheet_NameBox";
+
+    /// <summary>The key for "Cell contents". Accessible name of the field that shows and edits the active cell's contents or formula.</summary>
+    public const string Spreadsheet_FormulaBar = "Spreadsheet_FormulaBar";
+
+    /// <summary>The key for "Sheets". Accessible name of the row of sheet tabs.</summary>
+    public const string Spreadsheet_SheetTabs = "Spreadsheet_SheetTabs";
+
+    /// <summary>The key for "Add sheet". Name of the button that adds a sheet.</summary>
+    public const string Spreadsheet_AddSheet = "Spreadsheet_AddSheet";
+
+    /// <summary>The key for "Sheet{0}". Name given to a new sheet, where {0} is its number, such as Sheet2.</summary>
+    public const string Spreadsheet_DefaultSheetName = "Spreadsheet_DefaultSheetName";
+
+    /// <summary>The key for "Sheet name". Accessible name of the field for renaming a sheet.</summary>
+    public const string Spreadsheet_RenameSheet = "Spreadsheet_RenameSheet";
+
+    /// <summary>The key for "Type to replace a cell, or press Enter or F2 to edit it. Formulas start with an equals sign.". Read out with a spreadsheet's grid.</summary>
+    public const string Spreadsheet_GridHint = "Spreadsheet_GridHint";
+
+    /// <summary>The key for "Edit {0}". Accessible name of the field that edits a cell, where {0} is the cell's address.</summary>
+    public const string Spreadsheet_EditCell = "Spreadsheet_EditCell";
+
+    /// <summary>The key for "Copied {0}". Announced after copying, where {0} is the copied range, such as A1:B3.</summary>
+    public const string Spreadsheet_Copied = "Spreadsheet_Copied";
+
+    /// <summary>The key for "Pasted into {0}". Announced after pasting, where {0} is the range pasted into.</summary>
+    public const string Spreadsheet_Pasted = "Spreadsheet_Pasted";
+
+    /// <summary>The key for "Cleared {0}". Announced after clearing cells, where {0} is the cleared range.</summary>
+    public const string Spreadsheet_Cleared = "Spreadsheet_Cleared";
+
+    /// <summary>The key for "Excel workbook". Export menu item for an Excel (.xlsx) file.</summary>
+    public const string Spreadsheet_ExportExcel = "Spreadsheet_ExportExcel";
+
+    /// <summary>The key for "CSV of this sheet". Export menu item for a CSV file of the sheet being shown.</summary>
+    public const string Spreadsheet_ExportCsv = "Spreadsheet_ExportCsv";
+
+    /// <summary>The key for "{0} selected". Announced when a range of cells is selected, where {0} is the range, such as A1:C4.</summary>
+    public const string Spreadsheet_RangeSelected = "Spreadsheet_RangeSelected";
+
+    /// <summary>The key for "Font". Accessible name of the list of fonts.</summary>
+    public const string Spreadsheet_Font = "Spreadsheet_Font";
+
+    /// <summary>The key for "Font size". Accessible name of the list of text sizes.</summary>
+    public const string Spreadsheet_FontSize = "Spreadsheet_FontSize";
+
+    /// <summary>The key for "Default". The font option that uses the theme's own font.</summary>
+    public const string Spreadsheet_DefaultFont = "Spreadsheet_DefaultFont";
+
+    /// <summary>The key for "Text color". Name of the menu button that colors the text of the selected cells.</summary>
+    public const string Spreadsheet_TextColor = "Spreadsheet_TextColor";
+
+    /// <summary>The key for "Fill color". Name of the menu button that shades the selected cells.</summary>
+    public const string Spreadsheet_FillColor = "Spreadsheet_FillColor";
+
+    /// <summary>The key for "Automatic". Text color option that uses the theme's own text color.</summary>
+    public const string Spreadsheet_Automatic = "Spreadsheet_Automatic";
+
+    /// <summary>The key for "No fill". Fill color option that removes the shading.</summary>
+    public const string Spreadsheet_NoFill = "Spreadsheet_NoFill";
+
+    /// <summary>The key for "Red". A color name.</summary>
+    public const string Spreadsheet_ColorRed = "Spreadsheet_ColorRed";
+
+    /// <summary>The key for "Orange". A color name.</summary>
+    public const string Spreadsheet_ColorOrange = "Spreadsheet_ColorOrange";
+
+    /// <summary>The key for "Yellow". A color name.</summary>
+    public const string Spreadsheet_ColorYellow = "Spreadsheet_ColorYellow";
+
+    /// <summary>The key for "Green". A color name.</summary>
+    public const string Spreadsheet_ColorGreen = "Spreadsheet_ColorGreen";
+
+    /// <summary>The key for "Teal". A color name.</summary>
+    public const string Spreadsheet_ColorTeal = "Spreadsheet_ColorTeal";
+
+    /// <summary>The key for "Blue". A color name.</summary>
+    public const string Spreadsheet_ColorBlue = "Spreadsheet_ColorBlue";
+
+    /// <summary>The key for "Purple". A color name.</summary>
+    public const string Spreadsheet_ColorPurple = "Spreadsheet_ColorPurple";
+
+    /// <summary>The key for "Pink". A color name.</summary>
+    public const string Spreadsheet_ColorPink = "Spreadsheet_ColorPink";
+
+    /// <summary>The key for "Gray". A color name.</summary>
+    public const string Spreadsheet_ColorGray = "Spreadsheet_ColorGray";
+
+    /// <summary>The key for "Black". A color name.</summary>
+    public const string Spreadsheet_ColorBlack = "Spreadsheet_ColorBlack";
+
+    /// <summary>The key for "Freeze". Name of the menu button with the freeze panes options.</summary>
+    public const string Spreadsheet_Freeze = "Spreadsheet_Freeze";
+
+    /// <summary>The key for "Freeze panes". Menu item that keeps the rows above and the columns before the active cell in view.</summary>
+    public const string Spreadsheet_FreezePanes = "Spreadsheet_FreezePanes";
+
+    /// <summary>The key for "Freeze top row". Menu item that keeps the first row in view.</summary>
+    public const string Spreadsheet_FreezeTopRow = "Spreadsheet_FreezeTopRow";
+
+    /// <summary>The key for "Freeze first column". Menu item that keeps the first column in view.</summary>
+    public const string Spreadsheet_FreezeFirstColumn = "Spreadsheet_FreezeFirstColumn";
+
+    /// <summary>The key for "Unfreeze panes". Menu item that lets every row and column scroll again.</summary>
+    public const string Spreadsheet_Unfreeze = "Spreadsheet_Unfreeze";
+
+    /// <summary>The key for "{0} rows and {1} columns frozen". Announced after freezing panes, where {0} and {1} are numbers.</summary>
+    public const string Spreadsheet_FrozenStatus = "Spreadsheet_FrozenStatus";
+
+    /// <summary>The key for "Zoom". Accessible name of the group of zoom controls.</summary>
+    public const string Spreadsheet_Zoom = "Spreadsheet_Zoom";
+
+    /// <summary>The key for "Zoom in". Name of the button that makes the grid larger.</summary>
+    public const string Spreadsheet_ZoomIn = "Spreadsheet_ZoomIn";
+
+    /// <summary>The key for "Zoom out". Name of the button that makes the grid smaller.</summary>
+    public const string Spreadsheet_ZoomOut = "Spreadsheet_ZoomOut";
+
+    /// <summary>The key for "Zoom {0}%. Reset to 100%". Name of the button showing the zoom level, where {0} is the percentage; pressing it goes back to 100%.</summary>
+    public const string Spreadsheet_ZoomReset = "Spreadsheet_ZoomReset";
+
+    /// <summary>The key for "Zoom {0}%". Announced after the zoom changes, where {0} is the percentage.</summary>
+    public const string Spreadsheet_ZoomChanged = "Spreadsheet_ZoomChanged";
+
+    /// <summary>The key for "Sum: {0}". Shown under the grid for a selection of numbers, where {0} is their total.</summary>
+    public const string Spreadsheet_StatusSum = "Spreadsheet_StatusSum";
+
+    /// <summary>The key for "Average: {0}". Shown under the grid for a selection of numbers, where {0} is their average.</summary>
+    public const string Spreadsheet_StatusAverage = "Spreadsheet_StatusAverage";
+
+    /// <summary>The key for "Count: {0}". Shown under the grid for a selection, where {0} is how many cells hold something.</summary>
+    public const string Spreadsheet_StatusCount = "Spreadsheet_StatusCount";
+
+    /// <summary>The key for "Cut". Context menu item that cuts the selected cells.</summary>
+    public const string Spreadsheet_Cut = "Spreadsheet_Cut";
+
+    /// <summary>The key for "Copy". Context menu item that copies the selected cells.</summary>
+    public const string Spreadsheet_Copy = "Spreadsheet_Copy";
+
+    /// <summary>The key for "Paste". Context menu item that pastes from the clipboard.</summary>
+    public const string Spreadsheet_Paste = "Spreadsheet_Paste";
+
+    /// <summary>The key for "Insert row above". Context menu item that inserts a row above the selection.</summary>
+    public const string Spreadsheet_InsertRowAbove = "Spreadsheet_InsertRowAbove";
+
+    /// <summary>The key for "Insert row below". Context menu item that inserts a row below the selection.</summary>
+    public const string Spreadsheet_InsertRowBelow = "Spreadsheet_InsertRowBelow";
+
+    /// <summary>The key for "Insert column before". Context menu item that inserts a column before the selection.</summary>
+    public const string Spreadsheet_InsertColumnBefore = "Spreadsheet_InsertColumnBefore";
+
+    /// <summary>The key for "Insert column after". Context menu item that inserts a column after the selection.</summary>
+    public const string Spreadsheet_InsertColumnAfter = "Spreadsheet_InsertColumnAfter";
+
+    /// <summary>The key for "Delete rows". Context menu item that deletes the selected rows.</summary>
+    public const string Spreadsheet_DeleteRows = "Spreadsheet_DeleteRows";
+
+    /// <summary>The key for "Delete columns". Context menu item that deletes the selected columns.</summary>
+    public const string Spreadsheet_DeleteColumns = "Spreadsheet_DeleteColumns";
+
+    /// <summary>The key for "Sort A to Z". Context menu item that sorts the selected rows by the active column, smallest first.</summary>
+    public const string Spreadsheet_SortAscending = "Spreadsheet_SortAscending";
+
+    /// <summary>The key for "Sort Z to A". Context menu item that sorts the selected rows by the active column, largest first.</summary>
+    public const string Spreadsheet_SortDescending = "Spreadsheet_SortDescending";
+
+    /// <summary>The key for "Clear contents". Context menu item that empties the selected cells.</summary>
+    public const string Spreadsheet_ClearContents = "Spreadsheet_ClearContents";
+
+    /// <summary>The key for "Widen column". Context menu item that makes the active column wider.</summary>
+    public const string Spreadsheet_WidenColumn = "Spreadsheet_WidenColumn";
+
+    /// <summary>The key for "Narrow column". Context menu item that makes the active column narrower.</summary>
+    public const string Spreadsheet_NarrowColumn = "Spreadsheet_NarrowColumn";
+
+    /// <summary>The key for "Full screen". Name of the toggle button that makes the spreadsheet cover the window.</summary>
+    public const string Spreadsheet_FullScreen = "Spreadsheet_FullScreen";
+
+    /// <summary>The key for "More tools". Name of the button at the end of the spreadsheet toolbar that shows every control on several lines, or puts them back on one line.</summary>
+    public const string Spreadsheet_MoreTools = "Spreadsheet_MoreTools";
+
+    /// <summary>The key for "Full screen. Press Escape to exit.". Announced when the spreadsheet goes full screen.</summary>
+    public const string Spreadsheet_FullScreenOn = "Spreadsheet_FullScreenOn";
+
+    /// <summary>The key for "Full screen closed". Announced when the spreadsheet leaves full screen.</summary>
+    public const string Spreadsheet_FullScreenOff = "Spreadsheet_FullScreenOff";
+
+    /// <summary>The key for "Sheet options". Name of the button that opens the menu of actions for the sheet being shown.</summary>
+    public const string Spreadsheet_SheetMenu = "Spreadsheet_SheetMenu";
+
+    /// <summary>The key for "Rename". Sheet menu item that renames the sheet.</summary>
+    public const string Spreadsheet_RenameSheetAction = "Spreadsheet_RenameSheetAction";
+
+    /// <summary>The key for "Move left". Sheet menu item that moves the sheet one place to the left.</summary>
+    public const string Spreadsheet_MoveSheetLeft = "Spreadsheet_MoveSheetLeft";
+
+    /// <summary>The key for "Move right". Sheet menu item that moves the sheet one place to the right.</summary>
+    public const string Spreadsheet_MoveSheetRight = "Spreadsheet_MoveSheetRight";
+
+    /// <summary>The key for "Delete sheet". Sheet menu item that deletes the sheet.</summary>
+    public const string Spreadsheet_DeleteSheet = "Spreadsheet_DeleteSheet";
+
+    /// <summary>The key for "Delete {0}?". Title of the dialog that confirms deleting a sheet, where {0} is its name.</summary>
+    public const string Spreadsheet_DeleteSheetTitle = "Spreadsheet_DeleteSheetTitle";
+
+    /// <summary>The key for "The sheet and everything on it will be removed. Formulas that use it will show #REF! until you undo.". Message of the dialog that confirms deleting a sheet.</summary>
+    public const string Spreadsheet_DeleteSheetMessage = "Spreadsheet_DeleteSheetMessage";
+
+    /// <summary>The key for "{0} deleted. Press Ctrl+Z to undo.". Announced after a sheet is deleted, where {0} is its name.</summary>
+    public const string Spreadsheet_SheetDeleted = "Spreadsheet_SheetDeleted";
+
+    /// <summary>The key for "Insert table". Name of the toolbar button and the dialog that turn a range into a table.</summary>
+    public const string Spreadsheet_InsertTable = "Spreadsheet_InsertTable";
+
+    /// <summary>The key for "Table range". Label of the field for the cells a new table covers.</summary>
+    public const string Spreadsheet_TableRange = "Spreadsheet_TableRange";
+
+    /// <summary>The key for "My table has headers". Checkbox in the insert table dialog: the first row holds the column headings.</summary>
+    public const string Spreadsheet_TableHasHeaders = "Spreadsheet_TableHasHeaders";
+
+    /// <summary>The key for "Enter a range such as A1:D10 that does not overlap another table.". Shown when the range for a new table is not valid.</summary>
+    public const string Spreadsheet_TableRangeInvalid = "Spreadsheet_TableRangeInvalid";
+
+    /// <summary>The key for "Create". Button that creates the table in the insert table dialog.</summary>
+    public const string Spreadsheet_Create = "Spreadsheet_Create";
+
+    /// <summary>The key for "{0} created". Announced after a table is created, where {0} is its name.</summary>
+    public const string Spreadsheet_TableCreated = "Spreadsheet_TableCreated";
+
+    /// <summary>The key for "Remove table". Context menu item that turns a table back into plain cells, keeping their contents.</summary>
+    public const string Spreadsheet_RemoveTable = "Spreadsheet_RemoveTable";
+
+    /// <summary>The key for "Column{0}". Heading given to a table column when the table has no headings, where {0} is its number.</summary>
+    public const string Spreadsheet_DefaultColumnName = "Spreadsheet_DefaultColumnName";
+
+    /// <summary>The key for "Table{0}". Name given to a new table, where {0} is its number.</summary>
+    public const string Spreadsheet_DefaultTableName = "Spreadsheet_DefaultTableName";
+
+    /// <summary>The key for "Filter {0}". Name of the filter button of a table column, and title of its dialog, where {0} is the heading.</summary>
+    public const string Spreadsheet_FilterColumn = "Spreadsheet_FilterColumn";
+
+    /// <summary>The key for "Filter {0}, filtered". Name of the filter button of a table column that is filtered, where {0} is the heading.</summary>
+    public const string Spreadsheet_FilterColumnActive = "Spreadsheet_FilterColumnActive";
+
+    /// <summary>The key for "Select all". Checkbox that shows or hides every value in a column filter.</summary>
+    public const string Spreadsheet_SelectAllValues = "Spreadsheet_SelectAllValues";
+
+    /// <summary>The key for "(Blanks)". Column filter entry for empty cells.</summary>
+    public const string Spreadsheet_Blanks = "Spreadsheet_Blanks";
+
+    /// <summary>The key for "Apply". Button that applies a column filter.</summary>
+    public const string Spreadsheet_ApplyFilter = "Spreadsheet_ApplyFilter";
+
+    /// <summary>The key for "Clear filter". Button that removes a column filter.</summary>
+    public const string Spreadsheet_ClearFilter = "Spreadsheet_ClearFilter";
+
+    /// <summary>The key for "{0} of {1} rows shown". Announced after a table is filtered, where {0} and {1} are numbers.</summary>
+    public const string Spreadsheet_RowsShown = "Spreadsheet_RowsShown";
+
+    /// <summary>The key for "Increase row height". Context menu item that makes the active row taller.</summary>
+    public const string Spreadsheet_IncreaseRowHeight = "Spreadsheet_IncreaseRowHeight";
+
+    /// <summary>The key for "Decrease row height". Context menu item that makes the active row shorter.</summary>
+    public const string Spreadsheet_DecreaseRowHeight = "Spreadsheet_DecreaseRowHeight";
+
+    /// <summary>The key for "Fit column to contents". Context menu item that makes the selected columns as wide as their widest content.</summary>
+    public const string Spreadsheet_FitColumn = "Spreadsheet_FitColumn";
+
+    /// <summary>The key for "Fit row to contents". Context menu item that makes the selected rows as tall as their tallest text.</summary>
+    public const string Spreadsheet_FitRow = "Spreadsheet_FitRow";
+
+    /// <summary>The key for "Sort". Heading of the sort buttons in a table column filter.</summary>
+    public const string Spreadsheet_SortHeading = "Spreadsheet_SortHeading";
+
+    /// <summary>The key for "Show rows where". Heading of the conditions in a table column filter, such as "is greater than 100".</summary>
+    public const string Spreadsheet_FilterConditionHeading = "Spreadsheet_FilterConditionHeading";
+
+    /// <summary>The key for "Values". Heading of the list of column values in a table column filter.</summary>
+    public const string Spreadsheet_FilterValuesHeading = "Spreadsheet_FilterValuesHeading";
+
+    /// <summary>The key for "Search values". Label of the field that narrows the list of values in a table column filter.</summary>
+    public const string Spreadsheet_SearchValues = "Spreadsheet_SearchValues";
 }

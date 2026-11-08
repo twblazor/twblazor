@@ -1,0 +1,96 @@
+@namespace TwBlazor.Components
+@inherits TwBlazorComponentBase
+@using TwBlazor.Enums
+@using TwBlazor.Localization
+@using TwBlazor.Models
+
+<div id="@Id" class="@rootClasses">
+    @condition((Filter.First, "first"))
+    <div class="@rowClasses" role="group" aria-label="@localizer[TwStrings.DataTable_FilterLogic]">
+        <TwButton Rounded="@Rounded"
+                  Id="@($"{fieldPrefix}-and")"
+                  Label="@localizer[TwStrings.DataTable_FilterAnd]"
+                  Dense
+                  Variant="@(Filter.Logic == FilterLogic.And ? ButtonVariant.Filled : ButtonVariant.Outlined)"
+                  Attributes="@LogicAttributes(FilterLogic.And)"
+                  OnClick="@(() => SetLogicAsync(FilterLogic.And))" />
+        <TwButton Rounded="@Rounded"
+                  Id="@($"{fieldPrefix}-or")"
+                  Label="@localizer[TwStrings.DataTable_FilterOr]"
+                  Dense
+                  Variant="@(Filter.Logic == FilterLogic.Or ? ButtonVariant.Filled : ButtonVariant.Outlined)"
+                  Attributes="@LogicAttributes(FilterLogic.Or)"
+                  OnClick="@(() => SetLogicAsync(FilterLogic.Or))" />
+    </div>
+    @condition((Filter.Second!, "second"))
+</div>
+
+@code {
+    private RenderFragment<(FilterCondition Condition, string Part)> condition => context =>
+        @<div class="@stackClasses">
+            <TwSelect Rounded="@Rounded" T="OperatorOption"
+                      Id="@($"{fieldPrefix}-{context.Part}-operator")"
+                      Label="@(context.Part == "first" ? localizer[TwStrings.DataTable_FirstCondition] : localizer[TwStrings.DataTable_SecondCondition])"
+                      Values="@operatorOptions"
+                      PropertyName="Text"
+                      Required
+                      Dense
+                      SelectedValue="@(operatorOptions.FirstOrDefault(o => o.Operator == context.Condition.Operator) ?? operatorOptions[0])"
+                      SelectedValueChanged="@(option => SetOperatorAsync(context.Condition, option.Operator))" />
+            @if (TwBlazor.Filtering.ColumnFilterEvaluator.NeedsValue(context.Condition.Operator))
+            {
+                @valueField(context)
+            }
+        </div>;
+
+    private RenderFragment<(FilterCondition Condition, string Part)> valueField => context =>
+        @<text>
+            @{
+                var id = $"{fieldPrefix}-{context.Part}-value";
+                var label = context.Part == "first" ? localizer[TwStrings.DataTable_FirstValue] : localizer[TwStrings.DataTable_SecondValue];
+                var current = context.Condition;
+            }
+            @switch (Type)
+            {
+                case FilterType.Number:
+                    <TwNumeric T="decimal?"
+                               Id="@id"
+                               Label="@label"
+                               Dense
+                               BindEvent="oninput"
+                               Value="@(decimal.TryParse(current.Value, System.Globalization.NumberStyles.Number, System.Globalization.CultureInfo.InvariantCulture, out var number) ? number : null)"
+                               ValueChanged="@(value => SetValueAsync(current, value?.ToString(System.Globalization.CultureInfo.InvariantCulture)))" />
+                    break;
+                case FilterType.Date:
+                    <TwTextfield Rounded="@Rounded" T="string"
+                                 Id="@id"
+                                 Label="@label"
+                                 Dense
+                                 InputType="date"
+                                 BindEvent="oninput"
+                                 Value="@current.Value"
+                                 ValueChanged="@(value => SetValueAsync(current, value))" />
+                    break;
+                case FilterType.Boolean:
+                case FilterType.Enum:
+                    <TwSelect Rounded="@Rounded" T="ChoiceOption"
+                              Id="@id"
+                              Label="@label"
+                              Values="@choiceOptions"
+                              PropertyName="Text"
+                              Dense
+                              SelectedValue="@(choiceOptions.FirstOrDefault(c => c.Value == current.Value)!)"
+                              SelectedValueChanged="@(option => SetValueAsync(current, option?.Value))" />
+                    break;
+                default:
+                    <TwTextfield Rounded="@Rounded" T="string"
+                                 Id="@id"
+                                 Label="@label"
+                                 Dense
+                                 BindEvent="oninput"
+                                 Value="@current.Value"
+                                 ValueChanged="@(value => SetValueAsync(current, value))" />
+                    break;
+            }
+        </text>;
+}

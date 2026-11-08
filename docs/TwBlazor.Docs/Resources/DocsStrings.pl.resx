@@ -1129,4 +1129,52 @@
   <data name="Home_Release_NotesQuote" xml:space="preserve">
     <value>Wydawaj mało, wydawaj często.</value>
   </data>
+  <data name="Home_Showcase_SpreadsheetTab" xml:space="preserve">
+    <value>Arkusze kalkulacyjne</value>
+  </data>
+  <data name="Home_Showcase_Spreadsheet_Title" xml:space="preserve">
+    <value>Budżet zespołu</value>
+  </data>
+  <data name="Home_Showcase_Spreadsheet_Desc" xml:space="preserve">
+    <value>Formuły między arkuszami, tabela z filtrami, zablokowane okienka, wypełnienia i eksport do programu Excel.</value>
+  </data>
+  <data name="Home_Sheet_Budget" xml:space="preserve">
+    <value>Budżet</value>
+  </data>
+  <data name="Home_Sheet_Monthly" xml:space="preserve">
+    <value>Według miesięcy</value>
+  </data>
+  <data name="Home_Sheet_Summary" xml:space="preserve">
+    <value>Podsumowanie</value>
+  </data>
+  <data name="Home_Sheet_Team" xml:space="preserve">
+    <value>Zespół</value>
+  </data>
+  <data name="Home_Sheet_Spent" xml:space="preserve">
+    <value>Wydano</value>
+  </data>
+  <data name="Home_Sheet_Remaining" xml:space="preserve">
+    <value>Pozostało</value>
+  </data>
+  <data name="Home_Sheet_Used" xml:space="preserve">
+    <value>Wykorzystano</value>
+  </data>
+  <data name="Home_Sheet_Engineering" xml:space="preserve">
+    <value>Inżynieria</value>
+  </data>
+  <data name="Home_Sheet_Marketing" xml:space="preserve">
+    <value>Marketing</value>
+  </data>
+  <data name="Home_Sheet_Sales" xml:space="preserve">
+    <value>Sprzedaż</value>
+  </data>
+  <data name="Home_Sheet_TotalBudget" xml:space="preserve">
+    <value>Budżet łączny</value>
+  </data>
+  <data name="Home_Sheet_TotalSpent" xml:space="preserve">
+    <value>Wydano łącznie</value>
+  </data>
+  <data name="Home_Sheet_OverBudget" xml:space="preserve">
+    <value>Zespoły ponad budżet</value>
+  </data>
 </root>

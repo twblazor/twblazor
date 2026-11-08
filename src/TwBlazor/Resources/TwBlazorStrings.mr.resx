@@ -1179,4 +1179,322 @@
   <data name="TextEditor_Exported" xml:space="preserve">
     <value>{0} निर्यात केले</value>
   </data>
+  <data name="Spreadsheet_Label" xml:space="preserve">
+    <value>स्प्रेडशीट</value>
+  </data>
+  <data name="Spreadsheet_Toolbar" xml:space="preserve">
+    <value>स्प्रेडशीट साधने</value>
+  </data>
+  <data name="Spreadsheet_Alignment" xml:space="preserve">
+    <value>संरेखन</value>
+  </data>
+  <data name="Spreadsheet_AlignLeft" xml:space="preserve">
+    <value>डावीकडे संरेखित करा</value>
+  </data>
+  <data name="Spreadsheet_AlignCenter" xml:space="preserve">
+    <value>मध्यभागी करा</value>
+  </data>
+  <data name="Spreadsheet_AlignRight" xml:space="preserve">
+    <value>उजवीकडे संरेखित करा</value>
+  </data>
+  <data name="Spreadsheet_NumberFormat" xml:space="preserve">
+    <value>संख्या स्वरूप</value>
+  </data>
+  <data name="Spreadsheet_FormatGeneral" xml:space="preserve">
+    <value>सामान्य</value>
+  </data>
+  <data name="Spreadsheet_FormatNumber" xml:space="preserve">
+    <value>संख्या</value>
+  </data>
+  <data name="Spreadsheet_FormatCurrency" xml:space="preserve">
+    <value>चलन</value>
+  </data>
+  <data name="Spreadsheet_FormatPercent" xml:space="preserve">
+    <value>टक्के</value>
+  </data>
+  <data name="Spreadsheet_NameBox" xml:space="preserve">
+    <value>सेल संदर्भ</value>
+  </data>
+  <data name="Spreadsheet_FormulaBar" xml:space="preserve">
+    <value>सेलमधील मजकूर</value>
+  </data>
+  <data name="Spreadsheet_SheetTabs" xml:space="preserve">
+    <value>शीट</value>
+  </data>
+  <data name="Spreadsheet_AddSheet" xml:space="preserve">
+    <value>शीट जोडा</value>
+  </data>
+  <data name="Spreadsheet_DefaultSheetName" xml:space="preserve">
+    <value>शीट{0}</value>
+  </data>
+  <data name="Spreadsheet_RenameSheet" xml:space="preserve">
+    <value>शीटचे नाव</value>
+  </data>
+  <data name="Spreadsheet_GridHint" xml:space="preserve">
+    <value>सेल बदलण्यासाठी टाइप करा, किंवा संपादित करण्यासाठी Enter किंवा F2 दाबा. सूत्रे बरोबर चिन्हाने सुरू होतात.</value>
+  </data>
+  <data name="Spreadsheet_EditCell" xml:space="preserve">
+    <value>{0} संपादित करा</value>
+  </data>
+  <data name="Spreadsheet_Copied" xml:space="preserve">
+    <value>{0} कॉपी केले</value>
+  </data>
+  <data name="Spreadsheet_Pasted" xml:space="preserve">
+    <value>{0} मध्ये पेस्ट केले</value>
+  </data>
+  <data name="Spreadsheet_Cleared" xml:space="preserve">
+    <value>{0} रिकामे केले</value>
+  </data>
+  <data name="Spreadsheet_ExportExcel" xml:space="preserve">
+    <value>Excel वर्कबुक</value>
+  </data>
+  <data name="Spreadsheet_ExportCsv" xml:space="preserve">
+    <value>या शीटची CSV</value>
+  </data>
+  <data name="Spreadsheet_RangeSelected" xml:space="preserve">
+    <value>{0} निवडले</value>
+  </data>
+  <data name="Spreadsheet_Font" xml:space="preserve">
+    <value>फॉन्ट</value>
+  </data>
+  <data name="Spreadsheet_FontSize" xml:space="preserve">
+    <value>फॉन्ट आकार</value>
+  </data>
+  <data name="Spreadsheet_DefaultFont" xml:space="preserve">
+    <value>डीफॉल्ट</value>
+  </data>
+  <data name="Spreadsheet_TextColor" xml:space="preserve">
+    <value>मजकुराचा रंग</value>
+  </data>
+  <data name="Spreadsheet_FillColor" xml:space="preserve">
+    <value>भरणाचा रंग</value>
+  </data>
+  <data name="Spreadsheet_Automatic" xml:space="preserve">
+    <value>स्वयंचलित</value>
+  </data>
+  <data name="Spreadsheet_NoFill" xml:space="preserve">
+    <value>भरण नाही</value>
+  </data>
+  <data name="Spreadsheet_ColorRed" xml:space="preserve">
+    <value>लाल</value>
+  </data>
+  <data name="Spreadsheet_ColorOrange" xml:space="preserve">
+    <value>नारिंगी</value>
+  </data>
+  <data name="Spreadsheet_ColorYellow" xml:space="preserve">
+    <value>पिवळा</value>
+  </data>
+  <data name="Spreadsheet_ColorGreen" xml:space="preserve">
+    <value>हिरवा</value>
+  </data>
+  <data name="Spreadsheet_ColorTeal" xml:space="preserve">
+    <value>निळसर हिरवा</value>
+  </data>
+  <data name="Spreadsheet_ColorBlue" xml:space="preserve">
+    <value>निळा</value>
+  </data>
+  <data name="Spreadsheet_ColorPurple" xml:space="preserve">
+    <value>जांभळा</value>
+  </data>
+  <data name="Spreadsheet_ColorPink" xml:space="preserve">
+    <value>गुलाबी</value>
+  </data>
+  <data name="Spreadsheet_ColorGray" xml:space="preserve">
+    <value>करडा</value>
+  </data>
+  <data name="Spreadsheet_ColorBlack" xml:space="preserve">
+    <value>काळा</value>
+  </data>
+  <data name="Spreadsheet_Freeze" xml:space="preserve">
+    <value>गोठवा</value>
+  </data>
+  <data name="Spreadsheet_FreezePanes" xml:space="preserve">
+    <value>पेन गोठवा</value>
+  </data>
+  <data name="Spreadsheet_FreezeTopRow" xml:space="preserve">
+    <value>वरची पंक्ती गोठवा</value>
+  </data>
+  <data name="Spreadsheet_FreezeFirstColumn" xml:space="preserve">
+    <value>पहिला स्तंभ गोठवा</value>
+  </data>
+  <data name="Spreadsheet_Unfreeze" xml:space="preserve">
+    <value>पेन मोकळे करा</value>
+  </data>
+  <data name="Spreadsheet_FrozenStatus" xml:space="preserve">
+    <value>{0} पंक्ती आणि {1} स्तंभ गोठवले</value>
+  </data>
+  <data name="Spreadsheet_Zoom" xml:space="preserve">
+    <value>झूम</value>
+  </data>
+  <data name="Spreadsheet_ZoomIn" xml:space="preserve">
+    <value>झूम इन करा</value>
+  </data>
+  <data name="Spreadsheet_ZoomOut" xml:space="preserve">
+    <value>झूम आउट करा</value>
+  </data>
+  <data name="Spreadsheet_ZoomReset" xml:space="preserve">
+    <value>झूम {0}%. 100% वर रीसेट करा</value>
+  </data>
+  <data name="Spreadsheet_ZoomChanged" xml:space="preserve">
+    <value>झूम {0}%</value>
+  </data>
+  <data name="Spreadsheet_StatusSum" xml:space="preserve">
+    <value>बेरीज: {0}</value>
+  </data>
+  <data name="Spreadsheet_StatusAverage" xml:space="preserve">
+    <value>सरासरी: {0}</value>
+  </data>
+  <data name="Spreadsheet_StatusCount" xml:space="preserve">
+    <value>संख्या: {0}</value>
+  </data>
+  <data name="Spreadsheet_Cut" xml:space="preserve">
+    <value>कापा</value>
+  </data>
+  <data name="Spreadsheet_Copy" xml:space="preserve">
+    <value>कॉपी करा</value>
+  </data>
+  <data name="Spreadsheet_Paste" xml:space="preserve">
+    <value>पेस्ट करा</value>
+  </data>
+  <data name="Spreadsheet_InsertRowAbove" xml:space="preserve">
+    <value>वर पंक्ती घाला</value>
+  </data>
+  <data name="Spreadsheet_InsertRowBelow" xml:space="preserve">
+    <value>खाली पंक्ती घाला</value>
+  </data>
+  <data name="Spreadsheet_InsertColumnBefore" xml:space="preserve">
+    <value>आधी स्तंभ घाला</value>
+  </data>
+  <data name="Spreadsheet_InsertColumnAfter" xml:space="preserve">
+    <value>नंतर स्तंभ घाला</value>
+  </data>
+  <data name="Spreadsheet_DeleteRows" xml:space="preserve">
+    <value>पंक्ती हटवा</value>
+  </data>
+  <data name="Spreadsheet_DeleteColumns" xml:space="preserve">
+    <value>स्तंभ हटवा</value>
+  </data>
+  <data name="Spreadsheet_SortAscending" xml:space="preserve">
+    <value>A ते Z क्रमवारी लावा</value>
+  </data>
+  <data name="Spreadsheet_SortDescending" xml:space="preserve">
+    <value>Z ते A क्रमवारी लावा</value>
+  </data>
+  <data name="Spreadsheet_ClearContents" xml:space="preserve">
+    <value>मजकूर साफ करा</value>
+  </data>
+  <data name="Spreadsheet_WidenColumn" xml:space="preserve">
+    <value>स्तंभ रुंद करा</value>
+  </data>
+  <data name="Spreadsheet_NarrowColumn" xml:space="preserve">
+    <value>स्तंभ अरुंद करा</value>
+  </data>
+  <data name="Spreadsheet_FullScreen" xml:space="preserve">
+    <value>पूर्ण स्क्रीन</value>
+  </data>
+  <data name="Spreadsheet_MoreTools" xml:space="preserve">
+    <value>आणखी साधने</value>
+  </data>
+  <data name="Spreadsheet_FullScreenOn" xml:space="preserve">
+    <value>पूर्ण स्क्रीन. बाहेर पडण्यासाठी Escape दाबा.</value>
+  </data>
+  <data name="Spreadsheet_FullScreenOff" xml:space="preserve">
+    <value>पूर्ण स्क्रीन बंद झाली</value>
+  </data>
+  <data name="Spreadsheet_SheetMenu" xml:space="preserve">
+    <value>शीट पर्याय</value>
+  </data>
+  <data name="Spreadsheet_RenameSheetAction" xml:space="preserve">
+    <value>नाव बदला</value>
+  </data>
+  <data name="Spreadsheet_MoveSheetLeft" xml:space="preserve">
+    <value>डावीकडे हलवा</value>
+  </data>
+  <data name="Spreadsheet_MoveSheetRight" xml:space="preserve">
+    <value>उजवीकडे हलवा</value>
+  </data>
+  <data name="Spreadsheet_DeleteSheet" xml:space="preserve">
+    <value>शीट हटवा</value>
+  </data>
+  <data name="Spreadsheet_DeleteSheetTitle" xml:space="preserve">
+    <value>{0} हटवायचे?</value>
+  </data>
+  <data name="Spreadsheet_DeleteSheetMessage" xml:space="preserve">
+    <value>शीट आणि त्यातील सर्व मजकूर काढला जाईल. ती वापरणारी सूत्रे पूर्ववत करेपर्यंत #REF! दाखवतील.</value>
+  </data>
+  <data name="Spreadsheet_SheetDeleted" xml:space="preserve">
+    <value>{0} हटवली. पूर्ववत करण्यासाठी Ctrl+Z दाबा.</value>
+  </data>
+  <data name="Spreadsheet_InsertTable" xml:space="preserve">
+    <value>सारणी घाला</value>
+  </data>
+  <data name="Spreadsheet_TableRange" xml:space="preserve">
+    <value>सारणीची श्रेणी</value>
+  </data>
+  <data name="Spreadsheet_TableHasHeaders" xml:space="preserve">
+    <value>माझ्या सारणीत शीर्षके आहेत</value>
+  </data>
+  <data name="Spreadsheet_TableRangeInvalid" xml:space="preserve">
+    <value>दुसऱ्या सारणीवर न येणारी A1:D10 सारखी श्रेणी टाका.</value>
+  </data>
+  <data name="Spreadsheet_Create" xml:space="preserve">
+    <value>तयार करा</value>
+  </data>
+  <data name="Spreadsheet_TableCreated" xml:space="preserve">
+    <value>{0} तयार केली</value>
+  </data>
+  <data name="Spreadsheet_RemoveTable" xml:space="preserve">
+    <value>सारणी काढा</value>
+  </data>
+  <data name="Spreadsheet_DefaultColumnName" xml:space="preserve">
+    <value>स्तंभ{0}</value>
+  </data>
+  <data name="Spreadsheet_DefaultTableName" xml:space="preserve">
+    <value>सारणी{0}</value>
+  </data>
+  <data name="Spreadsheet_FilterColumn" xml:space="preserve">
+    <value>{0} फिल्टर करा</value>
+  </data>
+  <data name="Spreadsheet_FilterColumnActive" xml:space="preserve">
+    <value>{0} फिल्टर करा, फिल्टर लावले</value>
+  </data>
+  <data name="Spreadsheet_SelectAllValues" xml:space="preserve">
+    <value>सर्व निवडा</value>
+  </data>
+  <data name="Spreadsheet_Blanks" xml:space="preserve">
+    <value>(रिक्त)</value>
+  </data>
+  <data name="Spreadsheet_ApplyFilter" xml:space="preserve">
+    <value>लागू करा</value>
+  </data>
+  <data name="Spreadsheet_ClearFilter" xml:space="preserve">
+    <value>फिल्टर साफ करा</value>
+  </data>
+  <data name="Spreadsheet_RowsShown" xml:space="preserve">
+    <value>{1} पैकी {0} पंक्ती दाखवल्या</value>
+  </data>
+  <data name="Spreadsheet_IncreaseRowHeight" xml:space="preserve">
+    <value>पंक्तीची उंची वाढवा</value>
+  </data>
+  <data name="Spreadsheet_DecreaseRowHeight" xml:space="preserve">
+    <value>पंक्तीची उंची कमी करा</value>
+  </data>
+  <data name="Spreadsheet_FitColumn" xml:space="preserve">
+    <value>स्तंभ मजकुरानुसार जुळवा</value>
+  </data>
+  <data name="Spreadsheet_FitRow" xml:space="preserve">
+    <value>पंक्ती मजकुरानुसार जुळवा</value>
+  </data>
+  <data name="Spreadsheet_SortHeading" xml:space="preserve">
+    <value>क्रमवारी</value>
+  </data>
+  <data name="Spreadsheet_FilterConditionHeading" xml:space="preserve">
+    <value>अशा पंक्ती दाखवा जिथे</value>
+  </data>
+  <data name="Spreadsheet_FilterValuesHeading" xml:space="preserve">
+    <value>मूल्ये</value>
+  </data>
+  <data name="Spreadsheet_SearchValues" xml:space="preserve">
+    <value>मूल्ये शोधा</value>
+  </data>
 </root>
