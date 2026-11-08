@@ -605,6 +605,38 @@ describe('twTextEditor', () => {
         });
     });
 
+    describe('drop position', () => {
+        test('inserts dropped text at the point under the pointer', () => {
+            const { area, dotnetRef } = build({ html: '<p>hello</p>' });
+            editor.attach(area, dotnetRef, {});
+            const textNode = area.querySelector('p').firstChild;
+            document.caretPositionFromPoint = vi.fn(() => ({ offsetNode: textNode, offset: 2 }));
+            let offset = -1;
+            document.execCommand = vi.fn(() => {
+                offset = document.getSelection().getRangeAt(0).startOffset;
+                return true;
+            });
+
+            const event = new Event('drop', { bubbles: true, cancelable: true });
+            Object.defineProperty(event, 'dataTransfer', { value: { getData: () => 'x' } });
+            Object.defineProperty(event, 'clientX', { value: 10 });
+            Object.defineProperty(event, 'clientY', { value: 20 });
+            area.dispatchEvent(event);
+
+            expect(document.caretPositionFromPoint).toHaveBeenCalledWith(10, 20);
+            expect(offset).toBe(2);
+            delete document.caretPositionFromPoint;
+        });
+    });
+
+    describe('twKeyboard.isComposing', () => {
+        test('is true while an IME composes text, including Safari\'s composition-ending key', () => {
+            expect(globalThis.twKeyboard.isComposing({ isComposing: true, keyCode: 13 })).toBe(true);
+            expect(globalThis.twKeyboard.isComposing({ isComposing: false, keyCode: 229 })).toBe(true);
+            expect(globalThis.twKeyboard.isComposing({ isComposing: false, keyCode: 13 })).toBe(false);
+        });
+    });
+
     describe('bindLinkInput', () => {
         test('focuses the field and selects its text', () => {
             const { url, dotnetRef } = build();

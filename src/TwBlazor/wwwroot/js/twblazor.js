@@ -1648,6 +1648,15 @@ globalThis.twAutocomplete = {
     }
 };
 
+// Keyboard: shared checks for key handlers.
+globalThis.twKeyboard = {
+    // Whether a key press belongs to IME composition (such as typing Japanese), which the IME must handle. Safari
+    // reports the key that ends a composition with isComposing false, so keyCode 229, its only sign, is checked too.
+    isComposing: function (e) {
+        return e.isComposing || e.keyCode === 229; // NOSONAR
+    }
+};
+
 // Tag input: the keys and paste that turn typed text into tags. Enter and the separator keys are stopped here, so
 // Enter never submits the form and a comma is never typed into the field, and the field's text is handed to .NET to
 // become a tag. Enter on a highlighted suggestion is handled by twAutocomplete (attached first), which prevents its
@@ -1670,7 +1679,7 @@ globalThis.twTagInput = {
         const state = { separators: separators || '' };
 
         const keydown = function (e) {
-            if (e.isComposing || e.keyCode === 229 || e.ctrlKey || e.metaKey || e.altKey) return;
+            if (globalThis.twKeyboard.isComposing(e) || e.ctrlKey || e.metaKey || e.altKey) return;
             if (input.readOnly || input.disabled || e.defaultPrevented) return;
 
             const isSeparator = e.key.length === 1 && state.separators.includes(e.key);
@@ -1770,36 +1779,37 @@ globalThis.twTextEditor = {
         for (const child of Array.from(source.childNodes)) {
             if (child.nodeType === 3) {
                 target.appendChild(doc.createTextNode(child.nodeValue));
-                continue;
+            } else if (child.nodeType === 1) {
+                this._copyElement(child, target, doc, atRoot);
             }
-            if (child.nodeType !== 1) continue;
-
-            const name = child.tagName.toUpperCase();
-            if (this._dropped.has(name)) continue;
-
-            let tag = this._renamed[name] || name;
-            // A <div> is only a paragraph at the top level or in a quote; elsewhere, such as in a list item, it is
-            // unwrapped so paragraphs never nest.
-            if (name === 'DIV' && !(atRoot || target.tagName === 'BLOCKQUOTE')) tag = null;
-
-            if (!tag || !this._allowed.has(tag)) {
-                this._copyChildren(child, target, doc, atRoot);
-                continue;
-            }
-
-            const el = doc.createElement(tag.toLowerCase());
-            if (tag === 'A') {
-                const href = this.safeHref(child.getAttribute('href'));
-                if (!href) {
-                    this._copyChildren(child, target, doc, atRoot);
-                    continue;
-                }
-                el.setAttribute('href', href);
-            }
-
-            target.appendChild(el);
-            this._copyChildren(child, el, doc, false);
         }
+    },
+
+    // Copies one element: an allowed tag is rebuilt without its attributes (a link keeps a safe address), a dropped tag
+    // is skipped with what is inside it, and any other tag is unwrapped, keeping its text.
+    _copyElement: function (child, target, doc, atRoot) {
+        const name = child.tagName.toUpperCase();
+        if (this._dropped.has(name)) return;
+
+        const tag = this._tagFor(name, target, atRoot);
+        const href = tag === 'A' ? this.safeHref(child.getAttribute('href')) : null;
+        if (!tag || (tag === 'A' && !href)) {
+            this._copyChildren(child, target, doc, atRoot);
+            return;
+        }
+
+        const el = doc.createElement(tag.toLowerCase());
+        if (href) el.setAttribute('href', href);
+        target.appendChild(el);
+        this._copyChildren(child, el, doc, false);
+    },
+
+    // The tag an element is written out as, or null when it is unwrapped. A <div> is only a paragraph at the top level
+    // or in a quote; elsewhere, such as in a list item, it is unwrapped so paragraphs never nest.
+    _tagFor: function (name, target, atRoot) {
+        if (name === 'DIV' && !(atRoot || target.tagName === 'BLOCKQUOTE')) return null;
+        const tag = this._renamed[name] || name;
+        return this._allowed.has(tag) ? tag : null;
     },
 
     // Wraps each run of text and inline elements sitting directly in `root` in a paragraph.
@@ -1817,7 +1827,7 @@ globalThis.twTextEditor = {
             }
             if (!paragraph) {
                 paragraph = doc.createElement('p');
-                root.insertBefore(paragraph, child);
+                child.before(paragraph);
             }
             paragraph.appendChild(child);
         }
@@ -1833,35 +1843,34 @@ globalThis.twTextEditor = {
     // The content as plain text, with a line break between paragraphs, list items and line breaks.
     getText: function (editor) {
         if (!editor) return '';
-        const lines = [];
-        let line = '';
-        const self = this;
-        const walk = function (node) {
-            for (const child of Array.from(node.childNodes)) {
-                if (child.nodeType === 3) {
-                    line += child.nodeValue;
-                } else if (child.nodeType === 1) {
-                    if (child.tagName === 'BR') {
-                        lines.push(line);
-                        line = '';
-                        continue;
-                    }
-                    const block = self._blocks.has(child.tagName) || child.tagName === 'LI' || child.tagName === 'DIV';
-                    if (block && line !== '') {
-                        lines.push(line);
-                        line = '';
-                    }
-                    walk(child);
-                    if (block && line !== '') {
-                        lines.push(line);
-                        line = '';
-                    }
-                }
+        const state = { lines: [], line: '' };
+        this._collectText(editor, state);
+        if (state.line !== '') state.lines.push(state.line);
+        return state.lines.join('\n');
+    },
+
+    // Adds the text inside `node` to `state`, ending a line at each line break and around each block.
+    _collectText: function (node, state) {
+        const endLine = () => {
+            if (state.line !== '') {
+                state.lines.push(state.line);
+                state.line = '';
             }
         };
-        walk(editor);
-        if (line !== '') lines.push(line);
-        return lines.join('\n');
+
+        for (const child of Array.from(node.childNodes)) {
+            if (child.nodeType === 3) {
+                state.line += child.nodeValue;
+            } else if (child.nodeType === 1 && child.tagName === 'BR') {
+                state.lines.push(state.line);
+                state.line = '';
+            } else if (child.nodeType === 1) {
+                const isBlock = this._blocks.has(child.tagName) || child.tagName === 'LI' || child.tagName === 'DIV';
+                if (isBlock) endLine();
+                this._collectText(child, state);
+                if (isBlock) endLine();
+            }
+        }
     },
 
     // The number of characters, not counting line breaks.
@@ -1924,7 +1933,8 @@ globalThis.twTextEditor = {
     _exec: function (command, value) {
         if (typeof document.execCommand !== 'function') return false;
         try {
-            return document.execCommand(command, false, value);
+            // No standard API replaces execCommand for editable content yet, and every browser still supports it.
+            return document.execCommand(command, false, value); // NOSONAR
         } catch {
             return false;
         }
@@ -1933,7 +1943,8 @@ globalThis.twTextEditor = {
     _queryState: function (command) {
         if (typeof document.queryCommandState !== 'function') return null;
         try {
-            return document.queryCommandState(command);
+            // The browser's own state is the only way to know about formatting turned on at an empty caret.
+            return document.queryCommandState(command); // NOSONAR
         } catch {
             return null;
         }
@@ -1955,33 +1966,14 @@ globalThis.twTextEditor = {
         const range = selection.getRangeAt(0);
         if (!this._inEditor(editor, range.commonAncestorContainer)) return null;
 
-        const tags = new Set();
-        let link = null;
-        for (let n = range.startContainer; n && n !== editor; n = n.parentNode) {
-            if (n.nodeType !== 1) continue;
-            tags.add(n.tagName);
-            if (n.tagName === 'A' && link === null) link = n.getAttribute('href');
-        }
+        const ancestors = this._ancestors(editor, range.startContainer);
+        const link = ancestors.find(el => el.tagName === 'A')?.getAttribute('href') ?? null;
+        const list = ancestors.find(el => el.tagName === 'UL' || el.tagName === 'OL');
 
-        const formats = [];
-        const mark = (name, command, elements) => {
-            const queried = this._queryState(command);
-            if (queried === true || (queried === null && elements.some(t => tags.has(t)))) formats.push(name);
-        };
-        mark('Bold', 'bold', ['STRONG', 'B']);
-        mark('Italic', 'italic', ['EM', 'I']);
-        mark('Underline', 'underline', ['U']);
-        mark('Strikethrough', 'strikeThrough', ['S', 'STRIKE', 'DEL']);
-
+        const formats = this._marksAt(new Set(ancestors.map(el => el.tagName)));
         const block = this._blockOf(editor, range.startContainer);
         formats.push(Object.keys(this._blockTags).find(k => this._blockTags[k] === block));
-
-        for (let n = range.startContainer; n && n !== editor; n = n.parentNode) {
-            if (n.nodeType === 1 && (n.tagName === 'UL' || n.tagName === 'OL')) {
-                formats.push(n.tagName === 'UL' ? 'BulletList' : 'NumberedList');
-                break;
-            }
-        }
+        if (list) formats.push(list.tagName === 'UL' ? 'BulletList' : 'NumberedList');
         if (link !== null) formats.push('Link');
 
         const before = document.createRange();
@@ -1989,6 +1981,32 @@ globalThis.twTextEditor = {
         before.setEnd(range.startContainer, range.startOffset);
 
         return { index: before.toString().length, length: range.toString().length, formats, link };
+    },
+
+    // The elements from `node` up to the area, innermost first.
+    _ancestors: function (editor, node) {
+        const elements = [];
+        for (let n = node; n && n !== editor; n = n.parentNode) {
+            if (n.nodeType === 1) elements.push(n);
+        }
+        return elements;
+    },
+
+    // The marks at the selection. The browser's own state comes first, since it knows about bold turned on at an empty
+    // caret; the elements around the selection are the fallback where the browser has no state.
+    _marksAt: function (tags) {
+        const marks = [
+            ['Bold', 'bold', ['STRONG', 'B']],
+            ['Italic', 'italic', ['EM', 'I']],
+            ['Underline', 'underline', ['U']],
+            ['Strikethrough', 'strikeThrough', ['S', 'STRIKE', 'DEL']]
+        ];
+        return marks
+            .filter(([, command, elements]) => {
+                const queried = this._queryState(command);
+                return queried === true || (queried === null && elements.some(t => tags.has(t)));
+            })
+            .map(([name]) => name);
     },
 
     // Applies a TextEditorFormat or command by name to the selection. A quote or code block applied to one turns it back
@@ -2186,7 +2204,6 @@ globalThis.twTextEditor = {
 
     attach: function (editor, dotnetRef, options) {
         if (!editor || editor.__twTextEditor) return;
-        const self = this;
         const state = {
             dotnetRef,
             toolbarId: options?.toolbarId || null,
@@ -2197,25 +2214,25 @@ globalThis.twTextEditor = {
             timer: null
         };
 
-        const input = function () { self._changed(editor, false); };
+        const input = () => { this._changed(editor, false); };
 
-        const selectionchange = function () {
+        const selectionchange = () => {
             const selection = document.getSelection();
             if (!selection || selection.rangeCount === 0) return;
-            if (!self._inEditor(editor, selection.getRangeAt(0).commonAncestorContainer)) return;
-            self._emitState(editor);
+            if (!this._inEditor(editor, selection.getRangeAt(0).commonAncestorContainer)) return;
+            this._emitState(editor);
         };
 
-        const keydown = function (e) {
-            if (e.isComposing || e.keyCode === 229) return;
+        const keydown = (e) => {
+            if (globalThis.twKeyboard.isComposing(e)) return;
 
             if (e.altKey && e.key === 'F10') {
-                if (self.focusToolbar(editor)) e.preventDefault();
+                if (this.focusToolbar(editor)) e.preventDefault();
                 return;
             }
 
-            if (!self._editable(editor)) return;
-            const name = self._shortcut(e);
+            if (!this._editable(editor)) return;
+            const name = this._shortcut(e);
             if (!name) return;
             e.preventDefault();
             if (name === 'Link') {
@@ -2224,55 +2241,53 @@ globalThis.twTextEditor = {
                 void globalThis.twPicker._invokeSafely(dotnetRef, 'OpenLinkPanel');
                 return;
             }
-            self.format(editor, name);
+            this.format(editor, name);
         };
 
-        const paste = function (e) {
-            if (!self._editable(editor)) return;
+        const paste = (e) => {
+            if (!this._editable(editor)) return;
             e.preventDefault();
             const html = e.clipboardData?.getData('text/html') ?? '';
             const text = e.clipboardData?.getData('text/plain') ?? '';
-            const clean = html ? self.sanitize(html) : '';
-            if (!(clean !== '' && self._exec('insertHTML', clean)) && text) self._exec('insertText', text);
-            self._changed(editor, false);
+            const clean = html ? this.sanitize(html) : '';
+            if (!(clean !== '' && this._exec('insertHTML', clean)) && text) this._exec('insertText', text);
+            this._changed(editor, false);
         };
 
         // Dropped content is inserted as plain text at the drop point, so markup from another page never reaches the
         // area unsanitized.
-        const drop = function (e) {
-            if (!self._editable(editor)) return;
+        const drop = (e) => {
+            if (!this._editable(editor)) return;
             e.preventDefault();
             const text = e.dataTransfer?.getData('text/plain') ?? '';
             if (!text) return;
             let range = null;
-            if (typeof document.caretRangeFromPoint === 'function') {
-                range = document.caretRangeFromPoint(e.clientX, e.clientY);
-            } else if (typeof document.caretPositionFromPoint === 'function') {
-                const position = document.caretPositionFromPoint(e.clientX, e.clientY);
-                if (position) {
-                    range = document.createRange();
-                    range.setStart(position.offsetNode, position.offset);
-                }
+            const position = typeof document.caretPositionFromPoint === 'function'
+                ? document.caretPositionFromPoint(e.clientX, e.clientY)
+                : null;
+            if (position) {
+                range = document.createRange();
+                range.setStart(position.offsetNode, position.offset);
             }
             editor.focus({ preventScroll: true });
-            if (range && self._inEditor(editor, range.startContainer)) {
+            if (range && this._inEditor(editor, range.startContainer)) {
                 const selection = document.getSelection();
                 selection.removeAllRanges();
                 selection.addRange(range);
             }
-            self._exec('insertText', text);
-            self._changed(editor, false);
+            this._exec('insertText', text);
+            this._changed(editor, false);
         };
 
-        const focus = function () {
+        const focus = () => {
             // New paragraphs are <p> rather than <div>, and formatting is written as tags rather than inline styles.
-            self._exec('defaultParagraphSeparator', 'p');
-            self._exec('styleWithCSS', false);
+            this._exec('defaultParagraphSeparator', 'p');
+            this._exec('styleWithCSS', false);
             void globalThis.twPicker._invokeSafely(dotnetRef, 'NotifyFocus');
         };
 
-        const blur = function () {
-            if (state.timer) self._emit(editor);
+        const blur = () => {
+            if (state.timer) this._emit(editor);
             void globalThis.twPicker._invokeSafely(dotnetRef, 'NotifyBlur');
         };
 
@@ -2321,7 +2336,7 @@ globalThis.twTextEditor = {
         if (!input.__twTextEditorLink) {
             input.__twTextEditorLink = true;
             input.addEventListener('keydown', function (e) {
-                if (e.isComposing || e.keyCode === 229) return;
+                if (globalThis.twKeyboard.isComposing(e)) return;
                 if (e.key === 'Enter') {
                     e.preventDefault();
                     void globalThis.twPicker._invokeSafely(dotnetRef, 'ApplyLink', input.value);
