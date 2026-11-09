@@ -1129,4 +1129,52 @@
   <data name="Home_Release_NotesQuote" xml:space="preserve">
     <value>کوچک منتشر کنید، زیاد منتشر کنید.</value>
   </data>
+  <data name="Home_Showcase_SpreadsheetTab" xml:space="preserve">
+    <value>صفحه‌گسترده‌ها</value>
+  </data>
+  <data name="Home_Showcase_Spreadsheet_Title" xml:space="preserve">
+    <value>بودجه تیم</value>
+  </data>
+  <data name="Home_Showcase_Spreadsheet_Desc" xml:space="preserve">
+    <value>فرمول‌ها در چند برگه، جدول با فیلتر، قاب‌های ثابت، رنگ‌آمیزی و خروجی به Excel.</value>
+  </data>
+  <data name="Home_Sheet_Budget" xml:space="preserve">
+    <value>بودجه</value>
+  </data>
+  <data name="Home_Sheet_Monthly" xml:space="preserve">
+    <value>بر اساس ماه</value>
+  </data>
+  <data name="Home_Sheet_Summary" xml:space="preserve">
+    <value>خلاصه</value>
+  </data>
+  <data name="Home_Sheet_Team" xml:space="preserve">
+    <value>تیم</value>
+  </data>
+  <data name="Home_Sheet_Spent" xml:space="preserve">
+    <value>هزینه‌شده</value>
+  </data>
+  <data name="Home_Sheet_Remaining" xml:space="preserve">
+    <value>باقی‌مانده</value>
+  </data>
+  <data name="Home_Sheet_Used" xml:space="preserve">
+    <value>مصرف‌شده</value>
+  </data>
+  <data name="Home_Sheet_Engineering" xml:space="preserve">
+    <value>مهندسی</value>
+  </data>
+  <data name="Home_Sheet_Marketing" xml:space="preserve">
+    <value>بازاریابی</value>
+  </data>
+  <data name="Home_Sheet_Sales" xml:space="preserve">
+    <value>فروش</value>
+  </data>
+  <data name="Home_Sheet_TotalBudget" xml:space="preserve">
+    <value>کل بودجه</value>
+  </data>
+  <data name="Home_Sheet_TotalSpent" xml:space="preserve">
+    <value>کل هزینه</value>
+  </data>
+  <data name="Home_Sheet_OverBudget" xml:space="preserve">
+    <value>تیم‌های بیش از بودجه</value>
+  </data>
 </root>

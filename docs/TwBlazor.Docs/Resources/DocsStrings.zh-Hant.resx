@@ -1129,4 +1129,52 @@
   <data name="Home_Release_NotesQuote" xml:space="preserve">
     <value>小步快跑，頻繁發布。</value>
   </data>
+  <data name="Home_Showcase_SpreadsheetTab" xml:space="preserve">
+    <value>試算表</value>
+  </data>
+  <data name="Home_Showcase_Spreadsheet_Title" xml:space="preserve">
+    <value>團隊預算</value>
+  </data>
+  <data name="Home_Showcase_Spreadsheet_Desc" xml:space="preserve">
+    <value>跨工作表公式、附篩選的表格、凍結窗格、填滿色彩，以及匯出至 Excel。</value>
+  </data>
+  <data name="Home_Sheet_Budget" xml:space="preserve">
+    <value>預算</value>
+  </data>
+  <data name="Home_Sheet_Monthly" xml:space="preserve">
+    <value>按月</value>
+  </data>
+  <data name="Home_Sheet_Summary" xml:space="preserve">
+    <value>摘要</value>
+  </data>
+  <data name="Home_Sheet_Team" xml:space="preserve">
+    <value>團隊</value>
+  </data>
+  <data name="Home_Sheet_Spent" xml:space="preserve">
+    <value>已支出</value>
+  </data>
+  <data name="Home_Sheet_Remaining" xml:space="preserve">
+    <value>剩餘</value>
+  </data>
+  <data name="Home_Sheet_Used" xml:space="preserve">
+    <value>使用率</value>
+  </data>
+  <data name="Home_Sheet_Engineering" xml:space="preserve">
+    <value>工程</value>
+  </data>
+  <data name="Home_Sheet_Marketing" xml:space="preserve">
+    <value>行銷</value>
+  </data>
+  <data name="Home_Sheet_Sales" xml:space="preserve">
+    <value>業務</value>
+  </data>
+  <data name="Home_Sheet_TotalBudget" xml:space="preserve">
+    <value>總預算</value>
+  </data>
+  <data name="Home_Sheet_TotalSpent" xml:space="preserve">
+    <value>總支出</value>
+  </data>
+  <data name="Home_Sheet_OverBudget" xml:space="preserve">
+    <value>超出預算的團隊</value>
+  </data>
 </root>

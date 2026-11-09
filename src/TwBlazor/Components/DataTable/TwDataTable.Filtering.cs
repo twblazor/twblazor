@@ -1,6 +1,9 @@
 // Copyright (c) 2025 Jack Shuter @ TwBlazor - twblazor.com
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
+using TwBlazor.Models;
+using TwBlazor.Filtering;
+using TwBlazor.Enums;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Globalization;
@@ -12,7 +15,7 @@ namespace TwBlazor.Components;
 public partial class TwDataTable<TItem>
 {
     private string? filterColumn;
-    private TwDataTableColumnFilter filterDraft = new();
+    private ColumnFilter filterDraft = new();
     private bool filterPanelOpening;
     private bool filterScriptOpen;
     private ElementReference filterPanelRef;
@@ -32,7 +35,7 @@ public partial class TwDataTable<TItem>
     private string filterButtonsClasses => new ClassBuilder(options.Theme.Display.Flex)
         .AddClass(options.Theme.Spacing.Gap.Get(1)).Build();
 
-    private TwDataTableColumnFilter? FilterOf(string columnName) =>
+    private ColumnFilter? FilterOf(string columnName) =>
         columnStates.FirstOrDefault(s => s.Name == columnName)?.Filter;
 
     private bool IsFiltered(TwDataTableColumn<TItem> column) => FilterOf(column.Name)?.IsActive == true;
@@ -48,15 +51,10 @@ public partial class TwDataTable<TItem>
         ["aria-controls"] = filterPanelId
     };
 
-    private Dictionary<string, object> FilterLogicAttributes(TwDataTableFilterLogic logic) => new()
-    {
-        ["aria-pressed"] = filterDraft.Logic == logic ? "true" : "false"
-    };
-
     /// <summary>
     /// Gets every filtered column's filter, keyed by column name, for an <see cref="ItemsProvider"/>.
     /// </summary>
-    private Dictionary<string, TwDataTableColumnFilter> ActiveFilters() => columnStates
+    private Dictionary<string, ColumnFilter> ActiveFilters() => columnStates
         .Where(s => s.Filter?.IsActive == true && columnsByName.ContainsKey(s.Name))
         .ToDictionary(s => s.Name, s => s.Filter!.Clone());
 
@@ -64,9 +62,9 @@ public partial class TwDataTable<TItem>
     /// Works out the kind of values a column filters, from its <see cref="TwDataTableColumn{TItem}.FilterType"/> or
     /// else from the first value it has.
     /// </summary>
-    private TwDataTableFilterType ResolveFilterType(TwDataTableColumn<TItem> column)
+    private FilterType ResolveFilterType(TwDataTableColumn<TItem> column)
     {
-        if (column.FilterType != TwDataTableFilterType.Auto)
+        if (column.FilterType != FilterType.Auto)
         {
             return column.FilterType;
         }
@@ -74,12 +72,12 @@ public partial class TwDataTable<TItem>
         var type = SampleValueType(column);
         return type switch
         {
-            null => TwDataTableFilterType.Text,
-            _ when type == typeof(bool) => TwDataTableFilterType.Boolean,
-            _ when type == typeof(DateTime) || type == typeof(DateTimeOffset) || type == typeof(DateOnly) => TwDataTableFilterType.Date,
-            { IsEnum: true } => TwDataTableFilterType.Enum,
-            _ when IsNumberType(type) => TwDataTableFilterType.Number,
-            _ => TwDataTableFilterType.Text
+            null => FilterType.Text,
+            _ when type == typeof(bool) => FilterType.Boolean,
+            _ when type == typeof(DateTime) || type == typeof(DateTimeOffset) || type == typeof(DateOnly) => FilterType.Date,
+            { IsEnum: true } => FilterType.Enum,
+            _ when IsNumberType(type) => FilterType.Number,
+            _ => FilterType.Text
         };
     }
 
@@ -100,169 +98,30 @@ public partial class TwDataTable<TItem>
         || type == typeof(byte) || type == typeof(decimal) || type == typeof(double) || type == typeof(float)
         || type == typeof(uint) || type == typeof(ulong) || type == typeof(ushort) || type == typeof(sbyte);
 
-    private IReadOnlyList<TwDataTableFilterOperator> OperatorsFor(TwDataTableColumn<TItem> column)
+    private IReadOnlyList<FilterOperator> OperatorsFor(TwDataTableColumn<TItem> column)
     {
         if (column.FilterOperators is { Count: > 0 } chosen)
         {
             return chosen;
         }
 
-        return ResolveFilterType(column) switch
-        {
-            TwDataTableFilterType.Number or TwDataTableFilterType.Date => TwDataTableFilterOperatorSets.Range,
-            TwDataTableFilterType.Boolean or TwDataTableFilterType.Enum => TwDataTableFilterOperatorSets.Choice,
-            _ => TwDataTableFilterOperatorSets.Text
-        };
+        return ColumnFilterEvaluator.OperatorsFor(ResolveFilterType(column));
     }
 
-    private string OperatorText(TwDataTableFilterOperator op) => localizer[$"DataTable_Operator{op}"];
-
-    private List<FilterOperatorOption> OperatorOptions(TwDataTableColumn<TItem> column) =>
-        [.. OperatorsFor(column).Select(op => new FilterOperatorOption(op, OperatorText(op)))];
-
-    private List<FilterValueOption> ValueOptions(TwDataTableColumn<TItem> column)
-    {
-        if (ResolveFilterType(column) == TwDataTableFilterType.Boolean)
-        {
-            return [new("true", localizer[TwStrings.DataTable_Yes]), new("false", localizer[TwStrings.DataTable_No])];
-        }
-
-        return SampleValueType(column) is { IsEnum: true } enumType
-            ? [.. Enum.GetNames(enumType).Select(name => new FilterValueOption(name, name))]
-            : [];
-    }
-
-    private static bool NeedsValue(TwDataTableFilterOperator op) =>
-        op is not (TwDataTableFilterOperator.IsEmpty or TwDataTableFilterOperator.IsNotEmpty);
+    /// <summary>
+    /// The values an enum column's filter offers, by name, or <see langword="null"/> for other columns, whose values
+    /// the filter editor works out itself.
+    /// </summary>
+    private IReadOnlyList<KeyValuePair<string, string>>? ValueChoices(TwDataTableColumn<TItem> column) =>
+        ResolveFilterType(column) == FilterType.Enum && SampleValueType(column) is { IsEnum: true } enumType
+            ? [.. Enum.GetNames(enumType).Select(name => new KeyValuePair<string, string>(name, name))]
+            : null;
 
     /// <summary>
     /// Whether a row passes every column filter.
     /// </summary>
-    private static bool PassesFilters(TItem item, IReadOnlyList<(TwDataTableColumn<TItem> Column, TwDataTableColumnFilter Filter, TwDataTableFilterType Type)> filters) =>
-        filters.All(f => Matches(f.Column.PropertySelector!(item), f.Filter, f.Type));
-
-    private static bool Matches(object? value, TwDataTableColumnFilter filter, TwDataTableFilterType type)
-    {
-        var first = filter.First.IsActive;
-        var second = filter.Second?.IsActive == true;
-
-        if (first && second)
-        {
-            var a = Evaluate(value, filter.First, type);
-            var b = Evaluate(value, filter.Second!, type);
-            return filter.Logic == TwDataTableFilterLogic.And ? a && b : a || b;
-        }
-
-        if (first)
-        {
-            return Evaluate(value, filter.First, type);
-        }
-
-        return !second || Evaluate(value, filter.Second!, type);
-    }
-
-    private static bool IsEmptyValue(object? value) => value is null || (value is string s && string.IsNullOrEmpty(s));
-
-    /// <summary>
-    /// Compares a cell's value with one condition. A condition whose value cannot be read for the column's type
-    /// matches every row, so a half typed value never empties the table.
-    /// </summary>
-    private static bool Evaluate(object? value, TwDataTableFilterCondition condition, TwDataTableFilterType type)
-    {
-        switch (condition.Operator)
-        {
-            case TwDataTableFilterOperator.IsEmpty:
-                return IsEmptyValue(value);
-            case TwDataTableFilterOperator.IsNotEmpty:
-                return !IsEmptyValue(value);
-        }
-
-        var target = condition.Value!.Trim();
-        return type switch
-        {
-            TwDataTableFilterType.Number => CompareNumber(value, target, condition.Operator),
-            TwDataTableFilterType.Date => CompareDate(value, target, condition.Operator),
-            TwDataTableFilterType.Boolean or TwDataTableFilterType.Enum => CompareChoice(value, target, condition.Operator),
-            _ => CompareText(value, target, condition.Operator)
-        };
-    }
-
-    private static bool CompareText(object? value, string target, TwDataTableFilterOperator op)
-    {
-        var text = value?.ToString() ?? string.Empty;
-        const StringComparison comparison = StringComparison.CurrentCultureIgnoreCase;
-        return op switch
-        {
-            TwDataTableFilterOperator.Contains => text.Contains(target, comparison),
-            TwDataTableFilterOperator.DoesNotContain => !text.Contains(target, comparison),
-            TwDataTableFilterOperator.StartsWith => text.StartsWith(target, comparison),
-            TwDataTableFilterOperator.EndsWith => text.EndsWith(target, comparison),
-            TwDataTableFilterOperator.IsNotEqualTo => !string.Equals(text, target, comparison),
-            _ => string.Equals(text, target, comparison)
-        };
-    }
-
-    private static bool CompareNumber(object? value, string target, TwDataTableFilterOperator op)
-    {
-        if (!decimal.TryParse(target, NumberStyles.Number, CultureInfo.InvariantCulture, out var number))
-        {
-            return true;
-        }
-
-        // A cell with no number, or one decimal cannot hold, only passes a "not equal to" condition.
-        if (value is null || (value is double d && !double.IsFinite(d)) || (value is float f && !float.IsFinite(f)))
-        {
-            return op == TwDataTableFilterOperator.IsNotEqualTo;
-        }
-
-        decimal cell;
-        try
-        {
-            cell = Convert.ToDecimal(value, CultureInfo.InvariantCulture);
-        }
-        catch (Exception exception) when (exception is FormatException or InvalidCastException or OverflowException)
-        {
-            return op == TwDataTableFilterOperator.IsNotEqualTo;
-        }
-
-        return MatchesComparison(cell.CompareTo(number), op);
-    }
-
-    private static bool CompareDate(object? value, string target, TwDataTableFilterOperator op)
-    {
-        if (!DateOnly.TryParseExact(target, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var date))
-        {
-            return true;
-        }
-
-        DateOnly? cell = value switch
-        {
-            DateTime d => DateOnly.FromDateTime(d),
-            DateTimeOffset d => DateOnly.FromDateTime(d.DateTime),
-            DateOnly d => d,
-            _ => null
-        };
-
-        return cell is { } day ? MatchesComparison(day.CompareTo(date), op) : op == TwDataTableFilterOperator.IsNotEqualTo;
-    }
-
-    private static bool CompareChoice(object? value, string target, TwDataTableFilterOperator op)
-    {
-        var equal = value is bool b
-            ? bool.TryParse(target, out var expected) && b == expected
-            : string.Equals(value?.ToString(), target, StringComparison.Ordinal);
-        return op == TwDataTableFilterOperator.IsNotEqualTo ? !equal : equal;
-    }
-
-    private static bool MatchesComparison(int comparison, TwDataTableFilterOperator op) => op switch
-    {
-        TwDataTableFilterOperator.IsNotEqualTo => comparison != 0,
-        TwDataTableFilterOperator.IsGreaterThan => comparison > 0,
-        TwDataTableFilterOperator.IsGreaterThanOrEqualTo => comparison >= 0,
-        TwDataTableFilterOperator.IsLessThan => comparison < 0,
-        TwDataTableFilterOperator.IsLessThanOrEqualTo => comparison <= 0,
-        _ => comparison == 0
-    };
+    private static bool PassesFilters(TItem item, IReadOnlyList<(TwDataTableColumn<TItem> Column, ColumnFilter Filter, FilterType Type)> filters) =>
+        filters.All(f => ColumnFilterEvaluator.Matches(f.Column.PropertySelector!(item), f.Filter, f.Type));
 
     /// <summary>
     /// Opens a column's filter, starting from its current filter or the column's first condition.
@@ -281,8 +140,8 @@ public partial class TwDataTable<TItem>
         }
 
         var operators = OperatorsFor(column);
-        filterDraft = FilterOf(column.Name)?.Clone() ?? new TwDataTableColumnFilter { First = new() { Operator = operators[0] } };
-        filterDraft.Second ??= new TwDataTableFilterCondition { Operator = operators[0] };
+        filterDraft = FilterOf(column.Name)?.Clone() ?? new ColumnFilter { First = new() { Operator = operators[0] } };
+        filterDraft.Second ??= new FilterCondition { Operator = operators[0] };
         filterColumn = column.Name;
         filterPanelOpening = true;
     }
@@ -332,8 +191,6 @@ public partial class TwDataTable<TItem>
         await InvokeScriptAsync("twDataTable.closeFilter", filterPanelRef);
     }
 
-    private void SetFilterLogic(TwDataTableFilterLogic logic) => filterDraft.Logic = logic;
-
     private async Task ApplyFilterAsync()
     {
         if (openFilterColumn is not { } column)
@@ -358,7 +215,7 @@ public partial class TwDataTable<TItem>
         }
     }
 
-    private async Task SetColumnFilterAsync(TwDataTableColumn<TItem> column, TwDataTableColumnFilter? filter)
+    private async Task SetColumnFilterAsync(TwDataTableColumn<TItem> column, ColumnFilter? filter)
     {
         if (columnStates.FirstOrDefault(s => s.Name == column.Name) is { } state)
         {
@@ -376,14 +233,4 @@ public partial class TwDataTable<TItem>
     }
 
     private int MatchingCount() => usesProvider ? providerTotalCount : viewItems.Count;
-
-    /// <summary>
-    /// A condition the filter offers, with its localized name.
-    /// </summary>
-    private sealed record FilterOperatorOption(TwDataTableFilterOperator Operator, string Text);
-
-    /// <summary>
-    /// A value a true or false, or enum, filter offers.
-    /// </summary>
-    private sealed record FilterValueOption(string Value, string Text);
 }

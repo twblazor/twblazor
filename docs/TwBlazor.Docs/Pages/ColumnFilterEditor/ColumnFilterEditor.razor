@@ -1,0 +1,83 @@
+@page "/column-filter-editor"
+@using TwBlazor.Models
+
+<PageContainer Title="TwColumnFilterEditor" Path="/column-filter-editor" Description="TwColumnFilterEditor edits a column filter of one or two conditions, such as is greater than 100, the same filter TwDataTable and TwSpreadsheet use.">
+    <PageCard Title="Basic usage">
+        <Description>The editor changes a <code>ColumnFilter</code> in place: two conditions, each a comparison and a value, joined by And or Or. It is the filter <code>TwDataTable</code> and the table filters of <code>TwSpreadsheet</code> show, so you can build your own filter UI with the same conditions, for example in a side panel. <code>ColumnFilter.Matches</code> tests a value with the same rules those components use. A condition with no value is ignored, so a new filter lets everything through.</Description>
+
+        <CodeExample Name="ColumnFilterEditorBasic" CSharpName="ColumnFilterEditorBasicCode">
+            <div class="grid gap-6 md:grid-cols-2">
+                <TwColumnFilterEditor Filter="@nameFilter" OnChange="@StateHasChanged" />
+                <ul class="flex flex-col gap-1 text-sm">
+                    @foreach (var name in names.Where(n => nameFilter.Matches(n)))
+                    {
+                        <li>@name</li>
+                    }
+                </ul>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Numbers, dates and choices">
+        <Description><code>Type</code> picks the comparisons offered and the field the value is typed into: <code>FilterType.Number</code> offers comparisons such as "is greater than" with a number field, <code>FilterType.Date</code> a date field, and <code>FilterType.Boolean</code> Yes and No. For <code>FilterType.Enum</code>, pass the values to choose from as <code>Choices</code>. Values are kept in one format whatever the culture: numbers with a <code>.</code> and dates as <code>yyyy-MM-dd</code>.</Description>
+
+        <CodeExample Name="ColumnFilterEditorNumber" CSharpName="ColumnFilterEditorNumberCode">
+            <div class="grid gap-6 md:grid-cols-2">
+                <TwColumnFilterEditor Filter="@priceFilter" Type="FilterType.Number" OnChange="@StateHasChanged" />
+                <ul class="flex flex-col gap-1 text-sm">
+                    @foreach (var price in prices.Where(p => priceFilter.Matches(p, FilterType.Number)))
+                    {
+                        <li>@price.ToString("C", System.Globalization.CultureInfo.CurrentCulture)</li>
+                    }
+                </ul>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Choosing the comparisons">
+        <Description><code>Operators</code> lists the comparisons to offer, in order, in place of the ones that suit the type. The first one is where a new condition starts.</Description>
+
+        <CodeExample Name="ColumnFilterEditorOperators" CSharpName="ColumnFilterEditorOperatorsCode">
+            <TwColumnFilterEditor Filter="@statusFilter" Type="FilterType.Enum" Operators="@statusOperators" Choices="@statusChoices" OnChange="@StateHasChanged" />
+            <p class="mt-3 text-sm text-gray-600 dark:text-gray-400">Matches "Shipped": <strong>@statusFilter.Matches("Shipped", FilterType.Enum)</strong></p>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Accessibility">
+        <Description>
+            <ul class="list-disc ps-5 space-y-1">
+                <li>Every field has a visible label: first condition, first value, second condition and second value.</li>
+                <li>The And and Or buttons sit in a labelled group and say which one is chosen with <code>aria-pressed</code>.</li>
+                <li>The fields are the library's own select, numeric and text fields, so they work the same as anywhere else.</li>
+                <li>All of the editor's text is translated into the app's language.</li>
+            </ul>
+        </Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample ColumnFilterEditorBasicCode
+    private readonly ColumnFilter nameFilter = new();
+
+    private readonly string[] names = ["Ada Lovelace", "Alan Turing", "Grace Hopper", "Katherine Johnson", "Linus Torvalds", "Margaret Hamilton"];
+    #endregion
+
+    #region CodeExample ColumnFilterEditorNumberCode
+    private readonly ColumnFilter priceFilter = new() { First = new() { Operator = FilterOperator.IsGreaterThan, Value = "20" } };
+
+    private readonly decimal[] prices = [4.99m, 12.50m, 24m, 39.99m, 120m];
+    #endregion
+
+    #region CodeExample ColumnFilterEditorOperatorsCode
+    private readonly ColumnFilter statusFilter = new() { First = new() { Operator = FilterOperator.IsEqualTo, Value = "Shipped" } };
+
+    private readonly FilterOperator[] statusOperators = [FilterOperator.IsEqualTo, FilterOperator.IsNotEqualTo];
+
+    private readonly KeyValuePair<string, string>[] statusChoices =
+    [
+        new("Pending", "Pending"),
+        new("Shipped", "Shipped"),
+        new("Delivered", "Delivered"),
+    ];
+    #endregion
+}

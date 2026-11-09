@@ -105,6 +105,18 @@
                                 @<ShowcaseForms BrandColour="@showcaseSwatch.Hex" />)
                         </TwTab>
 
+                        <TwTab Id="showcase-tab-spreadsheet" Label="@Loc.Text("Home_Showcase_SpreadsheetTab", "Spreadsheets")" Icon="IconEnum.Table">
+                            @ShowcasePane(Loc.Text("Home_Showcase_Spreadsheet_Title", "Team budget"), Loc.Text("Home_Showcase_Spreadsheet_Desc", "Formulas across sheets, a table with filters, frozen panes, fills and export to Excel."), "/spreadsheet",
+                                @<TwSpreadsheet Id="showcase-spreadsheet"
+                                                Sheets="@_budgetBook"
+                                                ExportFormats="@_budgetExportFormats"
+                                                ExportFileName="@Loc.Text("Home_Showcase_Spreadsheet_Title", "Team budget")"
+                                                AriaLabel="@Loc.Text("Home_Showcase_Spreadsheet_Title", "Team budget")"
+                                                Rows="24"
+                                                Columns="14"
+                                                Height="20rem" />)
+                        </TwTab>
+
                         <TwTab Id="showcase-tab-dashboard" Label="@Loc.Text("Home_Showcase_DashboardTab", "Dashboard")" Icon="IconEnum.Speedometer2">
                             @ShowcasePane(Loc.Text("Home_Release_Title", "Release health"), Loc.Text("Home_Showcase_Dashboard_Desc", "Alerts, figures and charts, ready for a dashboard."), "/chart",
                                 @<div class="flex flex-col gap-5">

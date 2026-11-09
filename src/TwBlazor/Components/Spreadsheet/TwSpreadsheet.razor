@@ -1,0 +1,609 @@
+@namespace TwBlazor.Components
+@inherits TwBlazorComponentBase
+@using TwBlazor.Enums
+@using TwBlazor.Localization
+@using TwBlazor.Spreadsheet
+
+<div id="@($"{Id}-root")" class="@rootClasses" style="@Style" data-tw-spreadsheet data-fullscreen="@(FullScreen ? "true" : null)" @attributes="@Attributes">
+    @if (ShowToolbar)
+    {
+        <div class="@theme.Toolbar" role="toolbar" aria-label="@localizer[TwStrings.Spreadsheet_Toolbar]" aria-controls="@Id" data-tw-spreadsheet-toolbar data-expanded="@(toolbarExpanded ? "true" : null)">
+            <div id="@toolbarItemsId" class="@toolbarItemsClasses" data-tw-spreadsheet-toolbar-items>
+                <div role="group" class="contents" aria-label="@localizer[TwStrings.TextEditor_History]">
+                    @ToolbarButton(Icon.Arrow_Counterclockwise, TwStrings.TextEditor_Undo, "Ctrl+Z", "Control+Z", !canUndo, UndoAsync)
+                    @ToolbarButton(Icon.Arrow_Clockwise, TwStrings.TextEditor_Redo, "Ctrl+Y", "Control+Y", !canRedo, RedoAsync)
+                </div>
+
+                <TwSeparator Orientation="SeparatorOrientation.Vertical" Decorative Class="@theme.ToolbarSeparator" />
+
+                <TwSelect T="FontOption"
+                          Values="@fontOptions"
+                          SelectedValue="@selectedFont"
+                          SelectedValueChanged="@SetFontAsync"
+                          Placeholder="@localizer[TwStrings.Spreadsheet_DefaultFont]"
+                          Dense
+                          Variant="InputVariant.Outlined"
+                          Disabled="@ReadOnly"
+                          RootClass="@theme.FontSelect"
+                          AriaLabel="@localizer[TwStrings.Spreadsheet_Font]" />
+                <TwSelect T="FontSizeOption"
+                          Values="@fontSizeOptions"
+                          SelectedValue="@selectedFontSize"
+                          SelectedValueChanged="@SetFontSizeAsync"
+                          Placeholder="@localizer[TwStrings.Spreadsheet_DefaultFont]"
+                          Dense
+                          Variant="InputVariant.Outlined"
+                          Disabled="@ReadOnly"
+                          RootClass="@theme.FontSizeSelect"
+                          AriaLabel="@localizer[TwStrings.Spreadsheet_FontSize]" />
+
+                <TwSeparator Orientation="SeparatorOrientation.Vertical" Decorative Class="@theme.ToolbarSeparator" />
+
+                <div class="contents" @onmousedown:preventDefault="true">
+                    <TwToggleGroup T="string"
+                                   Multiple
+                                   Variant="ToggleVariant.Outlined"
+                                   Class="@theme.ToolbarGroup"
+                                   Size="Size.Sm"
+                                   Values="@activeFormats"
+                                   ValuesChanged="@OnFormatsChangedAsync"
+                                   Disabled="@ReadOnly"
+                                   AriaLabel="@localizer[TwStrings.TextEditor_TextFormatting]">
+                        <TwToggleGroupItem Value="@boldFormat" Icon="Icon.Type_Bold" AriaLabel="@localizer[TwStrings.TextEditor_Bold]" Tooltip="@WithShortcut(TwStrings.TextEditor_Bold, "Ctrl+B")" Attributes="@KeyShortcuts("Control+B")" />
+                        <TwToggleGroupItem Value="@italicFormat" Icon="Icon.Type_Italic" AriaLabel="@localizer[TwStrings.TextEditor_Italic]" Tooltip="@WithShortcut(TwStrings.TextEditor_Italic, "Ctrl+I")" Attributes="@KeyShortcuts("Control+I")" />
+                        <TwToggleGroupItem Value="@underlineFormat" Icon="Icon.Type_Underline" AriaLabel="@localizer[TwStrings.TextEditor_Underline]" Tooltip="@WithShortcut(TwStrings.TextEditor_Underline, "Ctrl+U")" Attributes="@KeyShortcuts("Control+U")" />
+                    </TwToggleGroup>
+                </div>
+
+                <TwMenu Icon="Icon.Fonts" IconOnly ButtonClass="@ToolbarButtonClasses(ReadOnly)" Disabled="@ReadOnly" AriaLabel="@localizer[TwStrings.Spreadsheet_TextColor]">
+                    <TwMenuItem Label="@localizer[TwStrings.Spreadsheet_Automatic]" OnClick="@(() => SetTextColorAsync(null))" />
+                    <TwMenuDivider />
+                    @foreach (var color in textColors)
+                    {
+                        <TwMenuItem OnClick="@(() => SetTextColorAsync(color.Value))">@ColorItem(color)</TwMenuItem>
+                    }
+                </TwMenu>
+                <TwMenu Icon="Icon.Paint_Bucket" IconOnly ButtonClass="@ToolbarButtonClasses(ReadOnly)" Disabled="@ReadOnly" AriaLabel="@localizer[TwStrings.Spreadsheet_FillColor]">
+                    <TwMenuItem Label="@localizer[TwStrings.Spreadsheet_NoFill]" OnClick="@(() => SetFillColorAsync(null))" />
+                    <TwMenuDivider />
+                    @foreach (var color in fillColors)
+                    {
+                        <TwMenuItem OnClick="@(() => SetFillColorAsync(color.Value))">@ColorItem(color)</TwMenuItem>
+                    }
+                </TwMenu>
+
+                <TwSeparator Orientation="SeparatorOrientation.Vertical" Decorative Class="@theme.ToolbarSeparator" />
+
+                <div class="contents" @onmousedown:preventDefault="true">
+                    <TwToggleGroup T="SheetCellAlignment"
+                                   Deselectable
+                                   Variant="ToggleVariant.Outlined"
+                                   Class="@theme.ToolbarGroup"
+                                   Size="Size.Sm"
+                                   Value="@activeAlignment"
+                                   ValueChanged="@SetAlignmentAsync"
+                                   Disabled="@ReadOnly"
+                                   AriaLabel="@localizer[TwStrings.Spreadsheet_Alignment]">
+                        <TwToggleGroupItem Value="SheetCellAlignment.Start" Icon="@(isRightToLeft ? Icon.Text_Right : Icon.Text_Left)" AriaLabel="@StartAlignmentLabel" Tooltip="@StartAlignmentLabel" />
+                        <TwToggleGroupItem Value="SheetCellAlignment.Center" Icon="Icon.Text_Center" AriaLabel="@localizer[TwStrings.Spreadsheet_AlignCenter]" Tooltip="@localizer[TwStrings.Spreadsheet_AlignCenter]" />
+                        <TwToggleGroupItem Value="SheetCellAlignment.End" Icon="@(isRightToLeft ? Icon.Text_Left : Icon.Text_Right)" AriaLabel="@EndAlignmentLabel" Tooltip="@EndAlignmentLabel" />
+                    </TwToggleGroup>
+                </div>
+
+                <TwSeparator Orientation="SeparatorOrientation.Vertical" Decorative Class="@theme.ToolbarSeparator" />
+
+                <TwSelect T="FormatOption"
+                          Values="@formatOptions"
+                          SelectedValue="@selectedFormat"
+                          SelectedValueChanged="@SetNumberFormatAsync"
+                          Placeholder="@localizer[TwStrings.Spreadsheet_FormatGeneral]"
+                          Dense
+                          Variant="InputVariant.Outlined"
+                          Disabled="@ReadOnly"
+                          RootClass="@theme.FormatSelect"
+                          AriaLabel="@localizer[TwStrings.Spreadsheet_NumberFormat]" />
+
+                <TwMenu Icon="Icon.Snow" IconOnly ButtonClass="@ToolbarButtonClasses(false)" AriaLabel="@localizer[TwStrings.Spreadsheet_Freeze]">
+                    <TwMenuItem Label="@localizer[TwStrings.Spreadsheet_FreezePanes]" OnClick="@FreezeAtActiveCell" />
+                    <TwMenuItem Label="@localizer[TwStrings.Spreadsheet_FreezeTopRow]" OnClick="@(() => FreezePanes(1, 0))" />
+                    <TwMenuItem Label="@localizer[TwStrings.Spreadsheet_FreezeFirstColumn]" OnClick="@(() => FreezePanes(0, 1))" />
+                    <TwMenuDivider />
+                    <TwMenuItem Label="@localizer[TwStrings.Spreadsheet_Unfreeze]" Disabled="@(frozenRows == 0 && frozenColumns == 0)" OnClick="@(() => FreezePanes(0, 0))" />
+                </TwMenu>
+                @ToolbarButton(Icon.Table, TwStrings.Spreadsheet_InsertTable, null, null, ReadOnly, OpenInsertTableAsync)
+
+                @if (ExportFormats.Count > 0)
+                {
+                    <TwSeparator Orientation="SeparatorOrientation.Vertical" Decorative Class="@theme.ToolbarSeparator" />
+                    <TwMenu Id="@exportMenuId"
+                            Icon="Icon.Download"
+                            IconOnly
+                            ButtonClass="@ToolbarButtonClasses(false)"
+                            AriaLabel="@localizer[TwStrings.TextEditor_Export]">
+                        @foreach (var format in ExportFormats.Distinct())
+                        {
+                            <TwMenuItem Label="@ExportLabel(format)" StartIcon="@ExportIcon(format)" OnClick="@(() => ExportAsync(format))" />
+                        }
+                    </TwMenu>
+                }
+            </div>
+
+            <span class="@theme.ToolbarMore">
+                <TwButton Plain
+                          Class="@toolbarMoreButtonClasses"
+                          AriaLabel="@localizer[TwStrings.Spreadsheet_MoreTools]"
+                          Tooltip="@localizer[TwStrings.Spreadsheet_MoreTools]"
+                          Attributes="@toolbarMoreAttributes"
+                          OnClick="@ToggleToolbar">
+                    <TwIcon Icon="Icon.Three_Dots" Class="@toggleTheme.IconSm" />
+                </TwButton>
+            </span>
+        </div>
+    }
+
+    @if (ShowFormulaBar)
+    {
+        <div class="@theme.FormulaBar">
+            <input class="@theme.NameBox"
+                   value="@(nameBoxText ?? ActiveCell)"
+                   aria-label="@localizer[TwStrings.Spreadsheet_NameBox]"
+                   autocomplete="off"
+                   spellcheck="false"
+                   @onfocus="@(() => nameBoxText = ActiveCell)"
+                   @oninput="@(e => nameBoxText = e.Value?.ToString() ?? string.Empty)"
+                   @onkeydown="@OnNameBoxKeyDownAsync"
+                   @onblur="@(() => nameBoxText = null)" />
+            <span class="@theme.FormulaMark" aria-hidden="true">fx</span>
+            <input id="@formulaInputId"
+                   class="@theme.FormulaInput"
+                   value="@formulaBarText"
+                   readonly="@ReadOnly"
+                   aria-label="@localizer[TwStrings.Spreadsheet_FormulaBar]"
+                   aria-controls="@Id"
+                   autocomplete="off"
+                   spellcheck="false"
+                   data-tw-spreadsheet-editor="bar"
+                   @onfocus="@OnFormulaBarFocus"
+                   @oninput="@OnFormulaBarInput"
+                   @onkeydown="@OnFormulaBarKeyDownAsync"
+                   @onblur="@OnFormulaBarBlurAsync" />
+        </div>
+    }
+
+    <TwContextMenu Id="@panelId" Class="@viewportClasses" Style="@viewportStyle" Attributes="@panelAttributes">
+        <ChildContent>
+            @{
+                var range = selection;
+            }
+            <table id="@Id"
+                   @ref="gridRef"
+                   class="@theme.Grid"
+                   style="@gridStyle"
+                   role="grid"
+                   tabindex="0"
+                   aria-label="@(AriaLabelledBy is null ? gridLabel : null)"
+                   aria-labelledby="@AriaLabelledBy"
+                   aria-describedby="@(canEdit ? hintId : null)"
+                   aria-multiselectable="true"
+                   aria-readonly="@(ReadOnly ? "true" : null)"
+                   aria-rowcount="@(Rows + 1)"
+                   aria-colcount="@(Columns + 1)"
+                   aria-activedescendant="@CellId(anchor)"
+                   data-tw-spreadsheet-grid
+                   data-zoom="@zoomFactor.ToString(System.Globalization.CultureInfo.InvariantCulture)"
+                   data-editing="@editingState"
+                   data-pointing="@(isPointing ? "true" : null)"
+                   data-readonly="@(ReadOnly ? "true" : null)"
+                   @onkeydown="@OnGridKeyDownAsync">
+                <colgroup>
+                    <col style="@rowHeaderColStyle" />
+                    @for (var c = 0; c < Columns; c++)
+                    {
+                        <col style="@ColumnColStyle(c)" />
+                    }
+                </colgroup>
+                <thead>
+                    <tr role="row">
+                        <th class="@theme.Corner" role="columnheader" data-tw-spreadsheet-corner>
+                            <span class="@options.Theme.Display.ScreenReaderOnly">@localizer[TwStrings.TextEditor_SelectAll]</span>
+                        </th>
+                        @for (var c = 0; c < Columns; c++)
+                        {
+                            <th class="@ColumnHeaderClasses(c, range)" style="@ColumnHeaderStyle(c)" role="columnheader" scope="col">
+                                @CellAddress.ColumnName(c)
+                                <span class="@theme.ResizeHandle" aria-hidden="true" data-tw-spreadsheet-resize></span>
+                            </th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (var r = 0; r < Rows; r++)
+                    {
+                        var row = r;
+                        <tr role="row" style="@RowStyle(row)" hidden="@IsHidden(row)">
+                            <th class="@RowHeaderClasses(row, range)" style="@RowHeaderStyle(row)" role="rowheader" scope="row">
+                                @(row + 1)
+                                <span class="@theme.RowResizeHandle" aria-hidden="true" data-tw-spreadsheet-row-resize></span>
+                            </th>
+                            @for (var c = 0; c < Columns; c++)
+                            {
+                                var address = new CellAddress(row, c);
+                                var view = ViewOf(address, range);
+                                <td id="@CellId(address)" class="@view.Classes" style="@view.Style" role="gridcell" aria-selected="@(view.Selected ? "true" : "false")">
+                                    @if (view.Active && editingCell)
+                                    {
+                                        <input id="@editorId"
+                                               class="@theme.CellEditor"
+                                               value="@editText"
+                                               aria-label="@localizer[TwStrings.Spreadsheet_EditCell, ActiveCell]"
+                                               autocomplete="off"
+                                               spellcheck="false"
+                                               data-tw-spreadsheet-editor="cell"
+                                               @oninput="@OnEditorInput"
+                                               @onblur="@OnEditorBlurAsync" />
+                                    }
+                                    else
+                                    {
+                                        @view.Text
+                                        @if (view.TableHeader && TableAt(address) is { } found && found.Table.ShowFilterButtons)
+                                        {
+                                            var filtered = IsColumnFiltered(found.Table, address.Column);
+                                            <button type="button"
+                                                    tabindex="-1"
+                                                    class="@(filtered ? $"{theme.FilterButton} {theme.FilterButtonActive}" : theme.FilterButton)"
+                                                    aria-label="@FilterButtonLabel(found.Table, address.Column, found.Range)"
+                                                    aria-haspopup="dialog"
+                                                    data-tw-spreadsheet-filter
+                                                    @onclick="@(() => OpenFilterAt(address))">
+                                                <TwIcon Icon="@(filtered ? Icon.Funnel_Fill : Icon.Funnel)" />
+                                            </button>
+                                        }
+                                    }
+                                </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </ChildContent>
+        <MenuContent>
+            <TwMenuItem Label="@localizer[TwStrings.Spreadsheet_Cut]" StartIcon="Icon.Scissors" Shortcut="Ctrl+X" Disabled="@ReadOnly" OnClick="@OnContextCutAsync" />
+            <TwMenuItem Label="@localizer[TwStrings.Spreadsheet_Copy]" StartIcon="Icon.Copy" Shortcut="Ctrl+C" OnClick="@OnContextCopyAsync" />
+            <TwMenuItem Label="@localizer[TwStrings.Spreadsheet_Paste]" StartIcon="Icon.Clipboard" Shortcut="Ctrl+V" Disabled="@ReadOnly" OnClick="@OnContextPasteAsync" />
+            @if (canEdit)
+            {
+                <TwMenuDivider />
+                <TwMenuItem Label="@localizer[TwStrings.Spreadsheet_InsertRowAbove]" OnClick="@InsertRowAboveAsync" />
+                <TwMenuItem Label="@localizer[TwStrings.Spreadsheet_InsertRowBelow]" OnClick="@InsertRowBelowAsync" />
+                <TwMenuItem Label="@localizer[TwStrings.Spreadsheet_InsertColumnBefore]" OnClick="@InsertColumnBeforeAsync" />
+                <TwMenuItem Label="@localizer[TwStrings.Spreadsheet_InsertColumnAfter]" OnClick="@InsertColumnAfterAsync" />
+                <TwMenuItem Label="@localizer[TwStrings.Spreadsheet_DeleteRows]" Destructive OnClick="@DeleteSelectedRowsAsync" />
+                <TwMenuItem Label="@localizer[TwStrings.Spreadsheet_DeleteColumns]" Destructive OnClick="@DeleteSelectedColumnsAsync" />
+                <TwMenuDivider />
+                <TwMenuItem Label="@localizer[TwStrings.Spreadsheet_SortAscending]" StartIcon="Icon.Sort_Alpha_Down" OnClick="@(() => SortAsync(false))" />
+                <TwMenuItem Label="@localizer[TwStrings.Spreadsheet_SortDescending]" StartIcon="Icon.Sort_Alpha_Down_Alt" OnClick="@(() => SortAsync(true))" />
+                <TwMenuItem Label="@localizer[TwStrings.Spreadsheet_ClearContents]" StartIcon="Icon.Eraser" Shortcut="Delete" OnClick="@OnContextClearAsync" />
+            }
+            <TwMenuDivider />
+            <TwMenuItem Label="@localizer[TwStrings.Spreadsheet_WidenColumn]" OnClick="@WidenColumnAsync" />
+            <TwMenuItem Label="@localizer[TwStrings.Spreadsheet_NarrowColumn]" OnClick="@NarrowColumnAsync" />
+            <TwMenuItem Label="@localizer[TwStrings.Spreadsheet_FitColumn]" OnClick="@FitColumnsAsync" />
+            <TwMenuItem Label="@localizer[TwStrings.Spreadsheet_IncreaseRowHeight]" OnClick="@IncreaseRowHeightAsync" />
+            <TwMenuItem Label="@localizer[TwStrings.Spreadsheet_DecreaseRowHeight]" OnClick="@DecreaseRowHeightAsync" />
+            <TwMenuItem Label="@localizer[TwStrings.Spreadsheet_FitRow]" OnClick="@FitRowsAsync" />
+            @if (canEdit)
+            {
+                <TwMenuDivider />
+                @if (TableAt(anchor) is not null)
+                {
+                    <TwMenuItem Label="@localizer[TwStrings.Spreadsheet_RemoveTable]" StartIcon="Icon.Table" OnClick="@RemoveActiveTable" />
+                }
+                else
+                {
+                    <TwMenuItem Label="@localizer[TwStrings.Spreadsheet_InsertTable]" StartIcon="Icon.Table" OnClick="@OpenInsertTableAsync" />
+                }
+            }
+        </MenuContent>
+    </TwContextMenu>
+
+    @if (ShowSheetTabs || ShowStatusBar || AllowFullScreen)
+    {
+        <div class="@theme.Footer">
+            @if (ShowSheetTabs)
+            {
+                <TwContextMenu Class="@theme.SheetTabs" Disabled="@(!canEdit || renamingSheet is not null)" Attributes="@tabListAttributes">
+                    <ChildContent>
+                    @for (var i = 0; i < Sheets.Count; i++)
+                    {
+                        var index = i;
+                        if (renamingSheet == index)
+                        {
+                            <input id="@renameInputId"
+                                   class="@theme.SheetTabInput"
+                                   value="@renameText"
+                                   aria-label="@localizer[TwStrings.Spreadsheet_RenameSheet]"
+                                   autocomplete="off"
+                                   data-tw-spreadsheet-editor="rename"
+                                   @oninput="@OnRenameInput"
+                                   @onkeydown="@OnRenameKeyDownAsync"
+                                   @onblur="@OnRenameBlurAsync" />
+                        }
+                        else if (renamingSheet is null)
+                        {
+                            <button id="@TabId(index)"
+                                    type="button"
+                                    class="@SheetTabClasses(index)"
+                                    role="tab"
+                                    aria-selected="@(index == activeSheet ? "true" : "false")"
+                                    aria-controls="@panelId"
+                                    tabindex="@(index == activeSheet ? "0" : "-1")"
+                                    @onclick="@(() => ActivateSheetAsync(index))"
+                                    @oncontextmenu="@(() => ActivateSheetAsync(index))"
+                                    @ondblclick="@(() => OnTabDoubleClickAsync(index))"
+                                    @onkeydown="@(e => OnTabKeyDownAsync(e, index))">@Sheets[index].Name</button>
+                        }
+                        else
+                        {
+                            <button id="@TabId(index)"
+                                    type="button"
+                                    class="@SheetTabClasses(index)"
+                                    aria-current="@(index == activeSheet ? "true" : null)"
+                                    @onclick="@(() => ActivateSheetAsync(index))">@Sheets[index].Name</button>
+                        }
+                    }
+                    </ChildContent>
+                    <MenuContent>@SheetMenuItems</MenuContent>
+                </TwContextMenu>
+                @if (AllowAddSheet && canEdit)
+                {
+                    <button type="button"
+                            class="@theme.AddSheetButton"
+                            aria-label="@localizer[TwStrings.Spreadsheet_AddSheet]"
+                            title="@localizer[TwStrings.Spreadsheet_AddSheet]"
+                            @onclick="@OnAddSheetClickAsync">
+                        <TwIcon Icon="Icon.Window_Plus" />
+                    </button>
+                }
+                @if (canEdit)
+                {
+                    <TwMenu Id="@sheetMenuId" Icon="Icon.Three_Dots" IconOnly ButtonClass="@theme.AddSheetButton" AriaLabel="@localizer[TwStrings.Spreadsheet_SheetMenu]">
+                        @SheetMenuItems
+                    </TwMenu>
+                }
+            }
+            else
+            {
+                <div class="@theme.SheetTabs"></div>
+            }
+
+            @if (ShowStatusBar)
+            {
+                @if (selectionSummary is { } summary)
+                {
+                    <div class="@theme.StatusText">
+                        @if (summary.Sum is not null)
+                        {
+                            <span>@summary.Sum</span>
+                            <span>@summary.Average</span>
+                        }
+                        <span>@summary.Count</span>
+                    </div>
+                }
+                <div class="@theme.ZoomControls" role="group" aria-label="@localizer[TwStrings.Spreadsheet_Zoom]">
+                    @ToolbarButton(Icon.Dash_Lg, TwStrings.Spreadsheet_ZoomOut, null, null, Zoom <= 25, ZoomOutAsync)
+                    <button type="button"
+                            class="@theme.ZoomLabel"
+                            aria-label="@localizer[TwStrings.Spreadsheet_ZoomReset, Zoom]"
+                            @onclick="@(() => SetZoomAsync(100))">@(Zoom)%</button>
+                    @ToolbarButton(Icon.Plus_Lg, TwStrings.Spreadsheet_ZoomIn, null, null, Zoom >= 400, ZoomInAsync)
+                </div>
+            }
+
+            @if (AllowFullScreen)
+            {
+                <TwToggle Pressed="@FullScreen"
+                          PressedChanged="@SetFullScreenAsync"
+                          Icon="@(FullScreen ? Icon.Fullscreen_Exit : Icon.Fullscreen)"
+                          Size="Size.Sm"
+                          AriaLabel="@localizer[TwStrings.Spreadsheet_FullScreen]"
+                          Tooltip="@localizer[TwStrings.Spreadsheet_FullScreen]" />
+            }
+        </div>
+    }
+
+    @if (dialog != DialogKind.None)
+    {
+        <div class="@theme.DialogBackdrop" @onclick="@CloseDialogAsync">
+            <div id="@dialogId"
+                 class="@(dialog == DialogKind.Filter ? $"{theme.Dialog} {theme.FilterDialog}" : theme.Dialog)"
+                 role="@(dialog == DialogKind.DeleteSheet ? "alertdialog" : "dialog")"
+                 aria-modal="true"
+                 aria-labelledby="@dialogTitleId"
+                 aria-describedby="@(dialog == DialogKind.DeleteSheet ? dialogTextId : null)"
+                 tabindex="-1"
+                 data-tw-popover
+                 @ref="dialogRef"
+                 @onclick:stopPropagation="true">
+                @switch (dialog)
+                {
+                    case DialogKind.DeleteSheet:
+                        <h2 id="@dialogTitleId" class="@theme.DialogTitle">@localizer[TwStrings.Spreadsheet_DeleteSheetTitle, deleteSheetIndex < Sheets.Count ? Sheets[deleteSheetIndex].Name : string.Empty]</h2>
+                        <p id="@dialogTextId" class="@theme.DialogText">@localizer[TwStrings.Spreadsheet_DeleteSheetMessage]</p>
+                        <div class="@theme.DialogActions">
+                            <TwButton Label="@localizer[TwStrings.Common_Cancel]" Variant="ButtonVariant.Outlined" Class="@theme.DialogButton" OnClick="@CloseDialogAsync" Attributes="@autofocus" />
+                            <TwButton Label="@localizer[TwStrings.Spreadsheet_DeleteSheet]" Variant="ButtonVariant.Filled" Color="Color.Danger" Class="@theme.DialogButton" OnClick="@ConfirmDeleteSheetAsync" />
+                        </div>
+                        break;
+                    case DialogKind.InsertTable:
+                        <h2 id="@dialogTitleId" class="@theme.DialogTitle">@localizer[TwStrings.Spreadsheet_InsertTable]</h2>
+                        <form class="@theme.DialogBody" @onsubmit="@CreateTableAsync">
+                            <div>
+                                <label for="@tableRangeId" class="@theme.FieldLabel">@localizer[TwStrings.Spreadsheet_TableRange]</label>
+                                <input id="@tableRangeId"
+                                       class="@theme.FieldInput"
+                                       value="@tableRangeText"
+                                       autocomplete="off"
+                                       spellcheck="false"
+                                       aria-invalid="@(tableRangeInvalid ? "true" : null)"
+                                       aria-describedby="@(tableRangeInvalid ? tableRangeErrorId : null)"
+                                       data-autofocus
+                                       @oninput="@OnTableRangeInput" />
+                                @if (tableRangeInvalid)
+                                {
+                                    <p id="@tableRangeErrorId" class="@theme.FieldError" role="alert">@localizer[TwStrings.Spreadsheet_TableRangeInvalid]</p>
+                                }
+                            </div>
+                            <TwCheckbox T="bool" Label="@localizer[TwStrings.Spreadsheet_TableHasHeaders]" @bind-Value="tableHasHeaders" />
+                            <div class="@theme.DialogActions">
+                                <TwButton Type="button" Label="@localizer[TwStrings.Common_Cancel]" Variant="ButtonVariant.Outlined" Class="@theme.DialogButton" OnClick="@CloseDialogAsync" />
+                                <TwButton Type="submit" Label="@localizer[TwStrings.Spreadsheet_Create]" Variant="ButtonVariant.Filled" Color="Color.Primary" StartIcon="Icon.Table" Class="@theme.DialogButton" />
+                            </div>
+                        </form>
+                        break;
+                    case DialogKind.Filter:
+                        <div class="@theme.DialogHeader">
+                            <h2 id="@dialogTitleId" class="@theme.DialogTitle">@localizer[TwStrings.Spreadsheet_FilterColumn, filterHeading]</h2>
+                            <button type="button" class="@theme.DialogClose" aria-label="@localizer[TwStrings.Common_Close]" @onclick="@CloseDialogAsync">
+                                <TwIcon Icon="Icon.X_Lg" />
+                            </button>
+                        </div>
+                        <div class="@theme.DialogBody">
+                            <section class="@theme.FilterSection" aria-labelledby="@($"{dialogId}-sort")">
+                                <h3 id="@($"{dialogId}-sort")" class="@theme.FilterSectionTitle">@localizer[TwStrings.Spreadsheet_SortHeading]</h3>
+                                <div class="@theme.FilterSort">
+                                    <TwButton Label="@localizer[TwStrings.Spreadsheet_SortAscending]" Variant="ButtonVariant.Outlined" Dense StartIcon="Icon.Sort_Alpha_Down" Class="@theme.DialogButton" OnClick="@(() => SortFilterColumnAsync(false))" Attributes="@autofocus" />
+                                    <TwButton Label="@localizer[TwStrings.Spreadsheet_SortDescending]" Variant="ButtonVariant.Outlined" Dense StartIcon="Icon.Sort_Alpha_Down_Alt" Class="@theme.DialogButton" OnClick="@(() => SortFilterColumnAsync(true))" />
+                                </div>
+                            </section>
+                            @if (ShowFilterConditions)
+                            {
+                                <section class="@theme.FilterSection" aria-labelledby="@($"{dialogId}-conditions-title")">
+                                    <h3 id="@($"{dialogId}-conditions-title")" class="@theme.FilterSectionTitle">@localizer[TwStrings.Spreadsheet_FilterConditionHeading]</h3>
+                                    <TwColumnFilterEditor Id="@($"{dialogId}-conditions")"
+                                                          Class="@theme.FilterConditions"
+                                                          Rounded="@Rounded"
+                                                          Filter="@filterConditionDraft"
+                                                          Type="@filterType"
+                                                          Operators="@FilterOperators" />
+                                </section>
+                            }
+                            @if (ShowFilterValues)
+                            {
+                                <section class="@theme.FilterSection">
+                                    <fieldset class="contents">
+                                        <legend class="@theme.FilterSectionTitle">@localizer[TwStrings.Spreadsheet_FilterValuesHeading]</legend>
+                                        @if (filterValues.Count > 6)
+                                        {
+                                            <label for="@filterSearchId" class="@options.Theme.Display.ScreenReaderOnly">@localizer[TwStrings.Spreadsheet_SearchValues]</label>
+                                            <input id="@filterSearchId"
+                                                   type="search"
+                                                   class="@theme.FilterSearch"
+                                                   placeholder="@localizer[TwStrings.Spreadsheet_SearchValues]"
+                                                   value="@filterSearch"
+                                                   autocomplete="off"
+                                                   @oninput="@OnFilterSearchInput" />
+                                        }
+                                        <div class="@theme.FilterList">
+                                            <TwCheckbox T="bool" RootClass="@theme.FilterItem" Label="@localizer[TwStrings.Spreadsheet_SelectAllValues]" Value="@allVisibleFilterValuesChecked" ValueChanged="@ToggleAllFilterValues" />
+                                            @foreach (var (value, label) in visibleFilterValues)
+                                            {
+                                                <TwCheckbox T="bool" RootClass="@theme.FilterItem" Label="@label" Value="@filterDraft.Contains(value)" ValueChanged="@(on => ToggleFilterValue(value, on))" />
+                                            }
+                                        </div>
+                                    </fieldset>
+                                </section>
+                            }
+                        </div>
+                        <div class="@theme.FilterFooter">
+                            <TwButton Label="@localizer[TwStrings.Spreadsheet_ClearFilter]" Variant="ButtonVariant.Text" Class="@($"{theme.DialogButton} {theme.FilterClear}")" OnClick="@ClearFilterAsync" />
+                            <TwButton Label="@localizer[TwStrings.Common_Cancel]" Variant="ButtonVariant.Outlined" Class="@theme.DialogButton" OnClick="@CloseDialogAsync" />
+                            <TwButton Label="@localizer[TwStrings.Spreadsheet_ApplyFilter]" Variant="ButtonVariant.Filled" Color="Color.Primary" StartIcon="Icon.Funnel" Class="@theme.DialogButton" OnClick="@ApplyFilterAsync" />
+                        </div>
+                        break;
+                }
+            </div>
+        </div>
+    }
+
+    @if (canEdit)
+    {
+        <span id="@hintId" class="@options.Theme.Display.ScreenReaderOnly">@localizer[TwStrings.Spreadsheet_GridHint]</span>
+    }
+
+    <div class="@options.Theme.Display.ScreenReaderOnly" role="status" aria-live="polite" aria-atomic="true">@statusMessage</div>
+</div>
+
+@code {
+    /// <summary>
+    /// How the active cell is being edited, for the grid's <c>data-editing</c> attribute: <c>enter</c> after typing,
+    /// <c>edit</c> after F2, or <see langword="null"/> while nothing is being edited.
+    /// </summary>
+    private string? editingState
+    {
+        get
+        {
+            if (!editingCell)
+            {
+                return null;
+            }
+
+            return editMode == EditMode.Enter ? "enter" : "edit";
+        }
+    }
+
+    private string StartAlignmentLabel => isRightToLeft ? localizer[TwStrings.Spreadsheet_AlignRight] : localizer[TwStrings.Spreadsheet_AlignLeft];
+
+    private string EndAlignmentLabel => isRightToLeft ? localizer[TwStrings.Spreadsheet_AlignLeft] : localizer[TwStrings.Spreadsheet_AlignRight];
+
+    private static readonly Dictionary<string, object> autofocus = new() { ["data-autofocus"] = "true" };
+
+    /// <summary>
+    /// The sheet tabs are a tab list, except while a sheet is being renamed and its name field sits among them.
+    /// </summary>
+    private Dictionary<string, object> tabListAttributes => new()
+    {
+        ["role"] = renamingSheet is null ? "tablist" : "group",
+        ["aria-label"] = localizer[TwStrings.Spreadsheet_SheetTabs],
+    };
+
+    /// <summary>
+    /// The actions for the sheet being shown, in the sheet menu and the context menu of the tabs.
+    /// </summary>
+    private RenderFragment SheetMenuItems => @<text>
+        <TwMenuItem Label="@localizer[TwStrings.Spreadsheet_RenameSheetAction]" StartIcon="Icon.Pencil" Shortcut="F2" OnClick="@StartRenameActive" />
+        <TwMenuItem Label="@localizer[TwStrings.Spreadsheet_MoveSheetLeft]" StartIcon="Icon.Arrow_Left" Disabled="@(!canMoveLeft)" OnClick="@(() => MoveActiveSheetAsync(-1))" />
+        <TwMenuItem Label="@localizer[TwStrings.Spreadsheet_MoveSheetRight]" StartIcon="Icon.Arrow_Right" Disabled="@(!canMoveRight)" OnClick="@(() => MoveActiveSheetAsync(1))" />
+        <TwMenuDivider />
+        <TwMenuItem Label="@localizer[TwStrings.Spreadsheet_DeleteSheet]" StartIcon="Icon.Trash3" Destructive Disabled="@(Sheets.Count < 2)" OnClick="@RequestDeleteSheet" />
+    </text>;
+
+    /// <summary>
+    /// The grid's scrolling area is the sheet tabs' tab panel while the tabs are shown.
+    /// </summary>
+    private Dictionary<string, object> panelAttributes => ShowSheetTabs && renamingSheet is null
+        ? new() { ["role"] = "tabpanel", ["aria-labelledby"] = TabId(activeSheet) }
+        : [];
+
+    /// <summary>
+    /// Renders a toolbar button for a command that has no on or off state, such as undo.
+    /// </summary>
+    private RenderFragment ToolbarButton(Icon icon, string labelKey, string? shortcut, string? ariaShortcut, bool disabled, Func<Task> onClick) =>
+        @<TwButton Plain
+                   Class="@ToolbarButtonClasses(disabled)"
+                   Disabled="@disabled"
+                   AriaLabel="@localizer[labelKey]"
+                   Tooltip="@(shortcut is null ? localizer[labelKey] : WithShortcut(labelKey, shortcut))"
+                   Attributes="@(ariaShortcut is null ? [] : KeyShortcuts(ariaShortcut))"
+                   OnClick="@onClick">
+            <TwIcon Icon="@icon" Class="@toggleTheme.IconSm" />
+        </TwButton>;
+
+    /// <summary>
+    /// Renders a colour in the text color and fill color menus: a swatch and the colour's name.
+    /// </summary>
+    private RenderFragment ColorItem(TwBlazor.Models.SpreadsheetColor color) =>
+        @<span class="@theme.ColorItem">
+            <span class="@theme.ColorSwatch" style="@($"background-color:{SheetFormatting.SafeColor(color.Value)}")" aria-hidden="true"></span>
+            @color.Name
+        </span>;
+}

@@ -1182,4 +1182,322 @@
   <data name="TextEditor_Exported" xml:space="preserve">
     <value>{0} برآمد ہو گیا</value>
   </data>
+  <data name="Spreadsheet_Label" xml:space="preserve">
+    <value>اسپریڈشیٹ</value>
+  </data>
+  <data name="Spreadsheet_Toolbar" xml:space="preserve">
+    <value>اسپریڈشیٹ کے اوزار</value>
+  </data>
+  <data name="Spreadsheet_Alignment" xml:space="preserve">
+    <value>سیدھ</value>
+  </data>
+  <data name="Spreadsheet_AlignLeft" xml:space="preserve">
+    <value>بائیں سیدھ کریں</value>
+  </data>
+  <data name="Spreadsheet_AlignCenter" xml:space="preserve">
+    <value>درمیان میں کریں</value>
+  </data>
+  <data name="Spreadsheet_AlignRight" xml:space="preserve">
+    <value>دائیں سیدھ کریں</value>
+  </data>
+  <data name="Spreadsheet_NumberFormat" xml:space="preserve">
+    <value>عدد کی فارمیٹ</value>
+  </data>
+  <data name="Spreadsheet_FormatGeneral" xml:space="preserve">
+    <value>عمومی</value>
+  </data>
+  <data name="Spreadsheet_FormatNumber" xml:space="preserve">
+    <value>عدد</value>
+  </data>
+  <data name="Spreadsheet_FormatCurrency" xml:space="preserve">
+    <value>کرنسی</value>
+  </data>
+  <data name="Spreadsheet_FormatPercent" xml:space="preserve">
+    <value>فیصد</value>
+  </data>
+  <data name="Spreadsheet_NameBox" xml:space="preserve">
+    <value>سیل کا حوالہ</value>
+  </data>
+  <data name="Spreadsheet_FormulaBar" xml:space="preserve">
+    <value>سیل کا مواد</value>
+  </data>
+  <data name="Spreadsheet_SheetTabs" xml:space="preserve">
+    <value>شیٹس</value>
+  </data>
+  <data name="Spreadsheet_AddSheet" xml:space="preserve">
+    <value>شیٹ شامل کریں</value>
+  </data>
+  <data name="Spreadsheet_DefaultSheetName" xml:space="preserve">
+    <value>شیٹ{0}</value>
+  </data>
+  <data name="Spreadsheet_RenameSheet" xml:space="preserve">
+    <value>شیٹ کا نام</value>
+  </data>
+  <data name="Spreadsheet_GridHint" xml:space="preserve">
+    <value>سیل بدلنے کے لیے ٹائپ کریں، یا اس میں ترمیم کے لیے Enter یا F2 دبائیں۔ فارمولے برابر کے نشان سے شروع ہوتے ہیں۔</value>
+  </data>
+  <data name="Spreadsheet_EditCell" xml:space="preserve">
+    <value>{0} میں ترمیم کریں</value>
+  </data>
+  <data name="Spreadsheet_Copied" xml:space="preserve">
+    <value>{0} کاپی ہو گیا</value>
+  </data>
+  <data name="Spreadsheet_Pasted" xml:space="preserve">
+    <value>{0} میں چسپاں کیا گیا</value>
+  </data>
+  <data name="Spreadsheet_Cleared" xml:space="preserve">
+    <value>{0} صاف کر دیا گیا</value>
+  </data>
+  <data name="Spreadsheet_ExportExcel" xml:space="preserve">
+    <value>Excel ورک بک</value>
+  </data>
+  <data name="Spreadsheet_ExportCsv" xml:space="preserve">
+    <value>اس شیٹ کی CSV</value>
+  </data>
+  <data name="Spreadsheet_RangeSelected" xml:space="preserve">
+    <value>{0} منتخب کیا گیا</value>
+  </data>
+  <data name="Spreadsheet_Font" xml:space="preserve">
+    <value>فونٹ</value>
+  </data>
+  <data name="Spreadsheet_FontSize" xml:space="preserve">
+    <value>فونٹ کا سائز</value>
+  </data>
+  <data name="Spreadsheet_DefaultFont" xml:space="preserve">
+    <value>ڈیفالٹ</value>
+  </data>
+  <data name="Spreadsheet_TextColor" xml:space="preserve">
+    <value>متن کا رنگ</value>
+  </data>
+  <data name="Spreadsheet_FillColor" xml:space="preserve">
+    <value>بھرائی کا رنگ</value>
+  </data>
+  <data name="Spreadsheet_Automatic" xml:space="preserve">
+    <value>خودکار</value>
+  </data>
+  <data name="Spreadsheet_NoFill" xml:space="preserve">
+    <value>کوئی بھرائی نہیں</value>
+  </data>
+  <data name="Spreadsheet_ColorRed" xml:space="preserve">
+    <value>سرخ</value>
+  </data>
+  <data name="Spreadsheet_ColorOrange" xml:space="preserve">
+    <value>نارنجی</value>
+  </data>
+  <data name="Spreadsheet_ColorYellow" xml:space="preserve">
+    <value>پیلا</value>
+  </data>
+  <data name="Spreadsheet_ColorGreen" xml:space="preserve">
+    <value>سبز</value>
+  </data>
+  <data name="Spreadsheet_ColorTeal" xml:space="preserve">
+    <value>نیلا سبز</value>
+  </data>
+  <data name="Spreadsheet_ColorBlue" xml:space="preserve">
+    <value>نیلا</value>
+  </data>
+  <data name="Spreadsheet_ColorPurple" xml:space="preserve">
+    <value>جامنی</value>
+  </data>
+  <data name="Spreadsheet_ColorPink" xml:space="preserve">
+    <value>گلابی</value>
+  </data>
+  <data name="Spreadsheet_ColorGray" xml:space="preserve">
+    <value>سرمئی</value>
+  </data>
+  <data name="Spreadsheet_ColorBlack" xml:space="preserve">
+    <value>سیاہ</value>
+  </data>
+  <data name="Spreadsheet_Freeze" xml:space="preserve">
+    <value>منجمد کریں</value>
+  </data>
+  <data name="Spreadsheet_FreezePanes" xml:space="preserve">
+    <value>پینز منجمد کریں</value>
+  </data>
+  <data name="Spreadsheet_FreezeTopRow" xml:space="preserve">
+    <value>اوپر کی قطار منجمد کریں</value>
+  </data>
+  <data name="Spreadsheet_FreezeFirstColumn" xml:space="preserve">
+    <value>پہلا کالم منجمد کریں</value>
+  </data>
+  <data name="Spreadsheet_Unfreeze" xml:space="preserve">
+    <value>پینز غیر منجمد کریں</value>
+  </data>
+  <data name="Spreadsheet_FrozenStatus" xml:space="preserve">
+    <value>{0} قطاریں اور {1} کالم منجمد کیے گئے</value>
+  </data>
+  <data name="Spreadsheet_Zoom" xml:space="preserve">
+    <value>زوم</value>
+  </data>
+  <data name="Spreadsheet_ZoomIn" xml:space="preserve">
+    <value>زوم ان کریں</value>
+  </data>
+  <data name="Spreadsheet_ZoomOut" xml:space="preserve">
+    <value>زوم آؤٹ کریں</value>
+  </data>
+  <data name="Spreadsheet_ZoomReset" xml:space="preserve">
+    <value>زوم {0}%۔ 100% پر واپس کریں</value>
+  </data>
+  <data name="Spreadsheet_ZoomChanged" xml:space="preserve">
+    <value>زوم {0}%</value>
+  </data>
+  <data name="Spreadsheet_StatusSum" xml:space="preserve">
+    <value>مجموعہ: {0}</value>
+  </data>
+  <data name="Spreadsheet_StatusAverage" xml:space="preserve">
+    <value>اوسط: {0}</value>
+  </data>
+  <data name="Spreadsheet_StatusCount" xml:space="preserve">
+    <value>گنتی: {0}</value>
+  </data>
+  <data name="Spreadsheet_Cut" xml:space="preserve">
+    <value>کاٹیں</value>
+  </data>
+  <data name="Spreadsheet_Copy" xml:space="preserve">
+    <value>کاپی کریں</value>
+  </data>
+  <data name="Spreadsheet_Paste" xml:space="preserve">
+    <value>چسپاں کریں</value>
+  </data>
+  <data name="Spreadsheet_InsertRowAbove" xml:space="preserve">
+    <value>اوپر قطار داخل کریں</value>
+  </data>
+  <data name="Spreadsheet_InsertRowBelow" xml:space="preserve">
+    <value>نیچے قطار داخل کریں</value>
+  </data>
+  <data name="Spreadsheet_InsertColumnBefore" xml:space="preserve">
+    <value>پہلے کالم داخل کریں</value>
+  </data>
+  <data name="Spreadsheet_InsertColumnAfter" xml:space="preserve">
+    <value>بعد میں کالم داخل کریں</value>
+  </data>
+  <data name="Spreadsheet_DeleteRows" xml:space="preserve">
+    <value>قطاریں حذف کریں</value>
+  </data>
+  <data name="Spreadsheet_DeleteColumns" xml:space="preserve">
+    <value>کالم حذف کریں</value>
+  </data>
+  <data name="Spreadsheet_SortAscending" xml:space="preserve">
+    <value>A سے Z ترتیب دیں</value>
+  </data>
+  <data name="Spreadsheet_SortDescending" xml:space="preserve">
+    <value>Z سے A ترتیب دیں</value>
+  </data>
+  <data name="Spreadsheet_ClearContents" xml:space="preserve">
+    <value>مواد صاف کریں</value>
+  </data>
+  <data name="Spreadsheet_WidenColumn" xml:space="preserve">
+    <value>کالم چوڑا کریں</value>
+  </data>
+  <data name="Spreadsheet_NarrowColumn" xml:space="preserve">
+    <value>کالم تنگ کریں</value>
+  </data>
+  <data name="Spreadsheet_FullScreen" xml:space="preserve">
+    <value>پوری اسکرین</value>
+  </data>
+  <data name="Spreadsheet_MoreTools" xml:space="preserve">
+    <value>مزید ٹولز</value>
+  </data>
+  <data name="Spreadsheet_FullScreenOn" xml:space="preserve">
+    <value>پوری اسکرین۔ باہر نکلنے کے لیے Escape دبائیں۔</value>
+  </data>
+  <data name="Spreadsheet_FullScreenOff" xml:space="preserve">
+    <value>پوری اسکرین بند ہو گئی</value>
+  </data>
+  <data name="Spreadsheet_SheetMenu" xml:space="preserve">
+    <value>شیٹ کے اختیارات</value>
+  </data>
+  <data name="Spreadsheet_RenameSheetAction" xml:space="preserve">
+    <value>نام بدلیں</value>
+  </data>
+  <data name="Spreadsheet_MoveSheetLeft" xml:space="preserve">
+    <value>بائیں منتقل کریں</value>
+  </data>
+  <data name="Spreadsheet_MoveSheetRight" xml:space="preserve">
+    <value>دائیں منتقل کریں</value>
+  </data>
+  <data name="Spreadsheet_DeleteSheet" xml:space="preserve">
+    <value>شیٹ حذف کریں</value>
+  </data>
+  <data name="Spreadsheet_DeleteSheetTitle" xml:space="preserve">
+    <value>{0} حذف کریں؟</value>
+  </data>
+  <data name="Spreadsheet_DeleteSheetMessage" xml:space="preserve">
+    <value>شیٹ اور اس کا سارا مواد ہٹا دیا جائے گا۔ اسے استعمال کرنے والے فارمولے کالعدم کرنے تک #REF! دکھائیں گے۔</value>
+  </data>
+  <data name="Spreadsheet_SheetDeleted" xml:space="preserve">
+    <value>{0} حذف ہو گئی۔ کالعدم کرنے کے لیے Ctrl+Z دبائیں۔</value>
+  </data>
+  <data name="Spreadsheet_InsertTable" xml:space="preserve">
+    <value>ٹیبل داخل کریں</value>
+  </data>
+  <data name="Spreadsheet_TableRange" xml:space="preserve">
+    <value>ٹیبل کی رینج</value>
+  </data>
+  <data name="Spreadsheet_TableHasHeaders" xml:space="preserve">
+    <value>میرے ٹیبل میں ہیڈر ہیں</value>
+  </data>
+  <data name="Spreadsheet_TableRangeInvalid" xml:space="preserve">
+    <value>A1:D10 جیسی رینج درج کریں جو کسی دوسرے ٹیبل سے نہ ملے۔</value>
+  </data>
+  <data name="Spreadsheet_Create" xml:space="preserve">
+    <value>بنائیں</value>
+  </data>
+  <data name="Spreadsheet_TableCreated" xml:space="preserve">
+    <value>{0} بن گیا</value>
+  </data>
+  <data name="Spreadsheet_RemoveTable" xml:space="preserve">
+    <value>ٹیبل ہٹائیں</value>
+  </data>
+  <data name="Spreadsheet_DefaultColumnName" xml:space="preserve">
+    <value>کالم{0}</value>
+  </data>
+  <data name="Spreadsheet_DefaultTableName" xml:space="preserve">
+    <value>ٹیبل{0}</value>
+  </data>
+  <data name="Spreadsheet_FilterColumn" xml:space="preserve">
+    <value>{0} فلٹر کریں</value>
+  </data>
+  <data name="Spreadsheet_FilterColumnActive" xml:space="preserve">
+    <value>{0} فلٹر کریں، فلٹر لگا ہے</value>
+  </data>
+  <data name="Spreadsheet_SelectAllValues" xml:space="preserve">
+    <value>سب منتخب کریں</value>
+  </data>
+  <data name="Spreadsheet_Blanks" xml:space="preserve">
+    <value>(خالی)</value>
+  </data>
+  <data name="Spreadsheet_ApplyFilter" xml:space="preserve">
+    <value>لاگو کریں</value>
+  </data>
+  <data name="Spreadsheet_ClearFilter" xml:space="preserve">
+    <value>فلٹر صاف کریں</value>
+  </data>
+  <data name="Spreadsheet_RowsShown" xml:space="preserve">
+    <value>{1} میں سے {0} قطاریں دکھائی گئیں</value>
+  </data>
+  <data name="Spreadsheet_IncreaseRowHeight" xml:space="preserve">
+    <value>قطار کی اونچائی بڑھائیں</value>
+  </data>
+  <data name="Spreadsheet_DecreaseRowHeight" xml:space="preserve">
+    <value>قطار کی اونچائی کم کریں</value>
+  </data>
+  <data name="Spreadsheet_FitColumn" xml:space="preserve">
+    <value>کالم کو مواد کے مطابق کریں</value>
+  </data>
+  <data name="Spreadsheet_FitRow" xml:space="preserve">
+    <value>قطار کو مواد کے مطابق کریں</value>
+  </data>
+  <data name="Spreadsheet_SortHeading" xml:space="preserve">
+    <value>ترتیب</value>
+  </data>
+  <data name="Spreadsheet_FilterConditionHeading" xml:space="preserve">
+    <value>وہ قطاریں دکھائیں جن میں</value>
+  </data>
+  <data name="Spreadsheet_FilterValuesHeading" xml:space="preserve">
+    <value>قدریں</value>
+  </data>
+  <data name="Spreadsheet_SearchValues" xml:space="preserve">
+    <value>قدریں تلاش کریں</value>
+  </data>
 </root>

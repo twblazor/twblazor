@@ -1129,4 +1129,52 @@
   <data name="Home_Release_NotesQuote" xml:space="preserve">
     <value>Rilis cilik, rilis kerep.</value>
   </data>
+  <data name="Home_Showcase_SpreadsheetTab" xml:space="preserve">
+    <value>Spreadsheet</value>
+  </data>
+  <data name="Home_Showcase_Spreadsheet_Title" xml:space="preserve">
+    <value>Anggaran tim</value>
+  </data>
+  <data name="Home_Showcase_Spreadsheet_Desc" xml:space="preserve">
+    <value>Rumus antar lembar, tabel kanthi saringan, panel beku, werna isen, lan ekspor menyang Excel.</value>
+  </data>
+  <data name="Home_Sheet_Budget" xml:space="preserve">
+    <value>Anggaran</value>
+  </data>
+  <data name="Home_Sheet_Monthly" xml:space="preserve">
+    <value>Saben sasi</value>
+  </data>
+  <data name="Home_Sheet_Summary" xml:space="preserve">
+    <value>Ringkesan</value>
+  </data>
+  <data name="Home_Sheet_Team" xml:space="preserve">
+    <value>Tim</value>
+  </data>
+  <data name="Home_Sheet_Spent" xml:space="preserve">
+    <value>Wis dienggo</value>
+  </data>
+  <data name="Home_Sheet_Remaining" xml:space="preserve">
+    <value>Kari</value>
+  </data>
+  <data name="Home_Sheet_Used" xml:space="preserve">
+    <value>Kapakai</value>
+  </data>
+  <data name="Home_Sheet_Engineering" xml:space="preserve">
+    <value>Teknik</value>
+  </data>
+  <data name="Home_Sheet_Marketing" xml:space="preserve">
+    <value>Pemasaran</value>
+  </data>
+  <data name="Home_Sheet_Sales" xml:space="preserve">
+    <value>Dodolan</value>
+  </data>
+  <data name="Home_Sheet_TotalBudget" xml:space="preserve">
+    <value>Total anggaran</value>
+  </data>
+  <data name="Home_Sheet_TotalSpent" xml:space="preserve">
+    <value>Total wis dienggo</value>
+  </data>
+  <data name="Home_Sheet_OverBudget" xml:space="preserve">
+    <value>Tim ngluwihi anggaran</value>
+  </data>
 </root>

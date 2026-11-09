@@ -198,22 +198,13 @@
                 <span>@localizer[TwStrings.DataTable_FilterColumn, filterColumnDefinition.Title]</span>
             </div>
             <form class="@filterFormClasses" @onsubmit="@ApplyFilterAsync">
-                @filterCondition((filterColumnDefinition, filterDraft.First, "first"))
-                <div class="@filterButtonsClasses" role="group" aria-label="@localizer[TwStrings.DataTable_FilterLogic]">
-                    <TwButton Rounded="@Rounded" Id="@($"{filterPanelId}-and")"
-                              Label="@localizer[TwStrings.DataTable_FilterAnd]"
-                              Dense
-                              Variant="@(filterDraft.Logic == TwDataTableFilterLogic.And ? ButtonVariant.Filled : ButtonVariant.Outlined)"
-                              Attributes="@FilterLogicAttributes(TwDataTableFilterLogic.And)"
-                              OnClick="@(() => SetFilterLogic(TwDataTableFilterLogic.And))" />
-                    <TwButton Rounded="@Rounded" Id="@($"{filterPanelId}-or")"
-                              Label="@localizer[TwStrings.DataTable_FilterOr]"
-                              Dense
-                              Variant="@(filterDraft.Logic == TwDataTableFilterLogic.Or ? ButtonVariant.Filled : ButtonVariant.Outlined)"
-                              Attributes="@FilterLogicAttributes(TwDataTableFilterLogic.Or)"
-                              OnClick="@(() => SetFilterLogic(TwDataTableFilterLogic.Or))" />
-                </div>
-                @filterCondition((filterColumnDefinition, filterDraft.Second!, "second"))
+                <TwColumnFilterEditor Id="@($"{filterPanelId}-conditions")"
+                                      FieldIdPrefix="@filterPanelId"
+                                      Rounded="@Rounded"
+                                      Filter="@filterDraft"
+                                      Type="@ResolveFilterType(filterColumnDefinition)"
+                                      Operators="@OperatorsFor(filterColumnDefinition)"
+                                      Choices="@ValueChoices(filterColumnDefinition)" />
                 <div class="@filterButtonsClasses">
                     <TwButton Rounded="@Rounded" Id="@($"{filterPanelId}-apply")"
                               Type="submit"
@@ -292,75 +283,6 @@
                                     CheckedChanged="@(visible => SetColumnVisibleAsync(name, visible))" />
             }
         </TwMenuGroup>;
-
-    private RenderFragment<(TwDataTableColumn<TItem> Column, TwDataTableFilterCondition Condition, string Part)> filterCondition => context =>
-        @<div class="@filterFormClasses">
-            <TwSelect Rounded="@Rounded" T="FilterOperatorOption"
-                      Id="@($"{filterPanelId}-{context.Part}-operator")"
-                      Label="@(context.Part == "first" ? localizer[TwStrings.DataTable_FirstCondition] : localizer[TwStrings.DataTable_SecondCondition])"
-                      Values="@OperatorOptions(context.Column)"
-                      PropertyName="Text"
-                      Required
-                      Dense
-                      SelectedValue="@(OperatorOptions(context.Column).FirstOrDefault(o => o.Operator == context.Condition.Operator) ?? OperatorOptions(context.Column)[0])"
-                      SelectedValueChanged="@(option => context.Condition.Operator = option.Operator)" />
-            @if (NeedsValue(context.Condition.Operator))
-            {
-                @filterValue(context)
-            }
-        </div>;
-
-    private RenderFragment<(TwDataTableColumn<TItem> Column, TwDataTableFilterCondition Condition, string Part)> filterValue => context =>
-        @<text>
-            @{
-                var id = $"{filterPanelId}-{context.Part}-value";
-                var label = context.Part == "first" ? localizer[TwStrings.DataTable_FirstValue] : localizer[TwStrings.DataTable_SecondValue];
-                var condition = context.Condition;
-            }
-            @switch (ResolveFilterType(context.Column))
-            {
-                case TwDataTableFilterType.Number:
-                    <TwNumeric T="decimal?"
-                               Id="@id"
-                               Label="@label"
-                               Dense
-                               BindEvent="oninput"
-                               Value="@(decimal.TryParse(condition.Value, System.Globalization.NumberStyles.Number, System.Globalization.CultureInfo.InvariantCulture, out var number) ? number : null)"
-                               ValueChanged="@(value => condition.Value = value?.ToString(System.Globalization.CultureInfo.InvariantCulture))" />
-                    break;
-                case TwDataTableFilterType.Date:
-                    <TwTextfield Rounded="@Rounded" T="string"
-                                 Id="@id"
-                                 Label="@label"
-                                 Dense
-                                 InputType="date"
-                                 BindEvent="oninput"
-                                 Value="@condition.Value"
-                                 ValueChanged="@(value => condition.Value = value)" />
-                    break;
-                case TwDataTableFilterType.Boolean:
-                case TwDataTableFilterType.Enum:
-                    var choices = ValueOptions(context.Column);
-                    <TwSelect Rounded="@Rounded" T="FilterValueOption"
-                              Id="@id"
-                              Label="@label"
-                              Values="@choices"
-                              PropertyName="Text"
-                              Dense
-                              SelectedValue="@(choices.FirstOrDefault(c => c.Value == condition.Value)!)"
-                              SelectedValueChanged="@(option => condition.Value = option?.Value)" />
-                    break;
-                default:
-                    <TwTextfield Rounded="@Rounded" T="string"
-                                 Id="@id"
-                                 Label="@label"
-                                 Dense
-                                 BindEvent="oninput"
-                                 Value="@condition.Value"
-                                 ValueChanged="@(value => condition.Value = value)" />
-                    break;
-            }
-        </text>;
 
     private RenderFragment<TItem> manualRow => row =>
         @<text>

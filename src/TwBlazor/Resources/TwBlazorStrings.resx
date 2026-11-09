@@ -1475,4 +1475,428 @@
     <value>Exported {0}</value>
     <comment>Announced after an export, where {0} is the file name.</comment>
   </data>
+  <data name="Spreadsheet_Label" xml:space="preserve">
+    <value>Spreadsheet</value>
+    <comment>Accessible name of a spreadsheet that has no label.</comment>
+  </data>
+  <data name="Spreadsheet_Toolbar" xml:space="preserve">
+    <value>Spreadsheet tools</value>
+    <comment>Accessible name of a spreadsheet's toolbar.</comment>
+  </data>
+  <data name="Spreadsheet_Alignment" xml:space="preserve">
+    <value>Alignment</value>
+    <comment>Accessible name of the group of alignment buttons.</comment>
+  </data>
+  <data name="Spreadsheet_AlignLeft" xml:space="preserve">
+    <value>Align left</value>
+    <comment>Name of the button that lines cell content up on the left.</comment>
+  </data>
+  <data name="Spreadsheet_AlignCenter" xml:space="preserve">
+    <value>Center</value>
+    <comment>Name of the button that lines cell content up in the middle.</comment>
+  </data>
+  <data name="Spreadsheet_AlignRight" xml:space="preserve">
+    <value>Align right</value>
+    <comment>Name of the button that lines cell content up on the right.</comment>
+  </data>
+  <data name="Spreadsheet_NumberFormat" xml:space="preserve">
+    <value>Number format</value>
+    <comment>Accessible name of the list of number formats.</comment>
+  </data>
+  <data name="Spreadsheet_FormatGeneral" xml:space="preserve">
+    <value>General</value>
+    <comment>A number format that shows numbers as they are.</comment>
+  </data>
+  <data name="Spreadsheet_FormatNumber" xml:space="preserve">
+    <value>Number</value>
+    <comment>A number format with two decimal places.</comment>
+  </data>
+  <data name="Spreadsheet_FormatCurrency" xml:space="preserve">
+    <value>Currency</value>
+    <comment>A number format for amounts of money.</comment>
+  </data>
+  <data name="Spreadsheet_FormatPercent" xml:space="preserve">
+    <value>Percent</value>
+    <comment>A number format that shows numbers as percentages.</comment>
+  </data>
+  <data name="Spreadsheet_NameBox" xml:space="preserve">
+    <value>Cell reference</value>
+    <comment>Accessible name of the box showing the active cell's address, such as B3.</comment>
+  </data>
+  <data name="Spreadsheet_FormulaBar" xml:space="preserve">
+    <value>Cell contents</value>
+    <comment>Accessible name of the field that shows and edits the active cell's contents or formula.</comment>
+  </data>
+  <data name="Spreadsheet_SheetTabs" xml:space="preserve">
+    <value>Sheets</value>
+    <comment>Accessible name of the row of sheet tabs.</comment>
+  </data>
+  <data name="Spreadsheet_AddSheet" xml:space="preserve">
+    <value>Add sheet</value>
+    <comment>Name of the button that adds a sheet.</comment>
+  </data>
+  <data name="Spreadsheet_DefaultSheetName" xml:space="preserve">
+    <value>Sheet{0}</value>
+    <comment>Name given to a new sheet, where {0} is its number, such as Sheet2.</comment>
+  </data>
+  <data name="Spreadsheet_RenameSheet" xml:space="preserve">
+    <value>Sheet name</value>
+    <comment>Accessible name of the field for renaming a sheet.</comment>
+  </data>
+  <data name="Spreadsheet_GridHint" xml:space="preserve">
+    <value>Type to replace a cell, or press Enter or F2 to edit it. Formulas start with an equals sign.</value>
+    <comment>Read out with a spreadsheet's grid.</comment>
+  </data>
+  <data name="Spreadsheet_EditCell" xml:space="preserve">
+    <value>Edit {0}</value>
+    <comment>Accessible name of the field that edits a cell, where {0} is the cell's address.</comment>
+  </data>
+  <data name="Spreadsheet_Copied" xml:space="preserve">
+    <value>Copied {0}</value>
+    <comment>Announced after copying, where {0} is the copied range, such as A1:B3.</comment>
+  </data>
+  <data name="Spreadsheet_Pasted" xml:space="preserve">
+    <value>Pasted into {0}</value>
+    <comment>Announced after pasting, where {0} is the range pasted into.</comment>
+  </data>
+  <data name="Spreadsheet_Cleared" xml:space="preserve">
+    <value>Cleared {0}</value>
+    <comment>Announced after clearing cells, where {0} is the cleared range.</comment>
+  </data>
+  <data name="Spreadsheet_ExportExcel" xml:space="preserve">
+    <value>Excel workbook</value>
+    <comment>Export menu item for an Excel (.xlsx) file.</comment>
+  </data>
+  <data name="Spreadsheet_ExportCsv" xml:space="preserve">
+    <value>CSV of this sheet</value>
+    <comment>Export menu item for a CSV file of the sheet being shown.</comment>
+  </data>
+  <data name="Spreadsheet_RangeSelected" xml:space="preserve">
+    <value>{0} selected</value>
+    <comment>Announced when a range of cells is selected, where {0} is the range, such as A1:C4.</comment>
+  </data>
+  <data name="Spreadsheet_Font" xml:space="preserve">
+    <value>Font</value>
+    <comment>Accessible name of the list of fonts.</comment>
+  </data>
+  <data name="Spreadsheet_FontSize" xml:space="preserve">
+    <value>Font size</value>
+    <comment>Accessible name of the list of text sizes.</comment>
+  </data>
+  <data name="Spreadsheet_DefaultFont" xml:space="preserve">
+    <value>Default</value>
+    <comment>The font option that uses the theme's own font.</comment>
+  </data>
+  <data name="Spreadsheet_TextColor" xml:space="preserve">
+    <value>Text color</value>
+    <comment>Name of the menu button that colors the text of the selected cells.</comment>
+  </data>
+  <data name="Spreadsheet_FillColor" xml:space="preserve">
+    <value>Fill color</value>
+    <comment>Name of the menu button that shades the selected cells.</comment>
+  </data>
+  <data name="Spreadsheet_Automatic" xml:space="preserve">
+    <value>Automatic</value>
+    <comment>Text color option that uses the theme's own text color.</comment>
+  </data>
+  <data name="Spreadsheet_NoFill" xml:space="preserve">
+    <value>No fill</value>
+    <comment>Fill color option that removes the shading.</comment>
+  </data>
+  <data name="Spreadsheet_ColorRed" xml:space="preserve">
+    <value>Red</value>
+    <comment>A color name.</comment>
+  </data>
+  <data name="Spreadsheet_ColorOrange" xml:space="preserve">
+    <value>Orange</value>
+    <comment>A color name.</comment>
+  </data>
+  <data name="Spreadsheet_ColorYellow" xml:space="preserve">
+    <value>Yellow</value>
+    <comment>A color name.</comment>
+  </data>
+  <data name="Spreadsheet_ColorGreen" xml:space="preserve">
+    <value>Green</value>
+    <comment>A color name.</comment>
+  </data>
+  <data name="Spreadsheet_ColorTeal" xml:space="preserve">
+    <value>Teal</value>
+    <comment>A color name.</comment>
+  </data>
+  <data name="Spreadsheet_ColorBlue" xml:space="preserve">
+    <value>Blue</value>
+    <comment>A color name.</comment>
+  </data>
+  <data name="Spreadsheet_ColorPurple" xml:space="preserve">
+    <value>Purple</value>
+    <comment>A color name.</comment>
+  </data>
+  <data name="Spreadsheet_ColorPink" xml:space="preserve">
+    <value>Pink</value>
+    <comment>A color name.</comment>
+  </data>
+  <data name="Spreadsheet_ColorGray" xml:space="preserve">
+    <value>Gray</value>
+    <comment>A color name.</comment>
+  </data>
+  <data name="Spreadsheet_ColorBlack" xml:space="preserve">
+    <value>Black</value>
+    <comment>A color name.</comment>
+  </data>
+  <data name="Spreadsheet_Freeze" xml:space="preserve">
+    <value>Freeze</value>
+    <comment>Name of the menu button with the freeze panes options.</comment>
+  </data>
+  <data name="Spreadsheet_FreezePanes" xml:space="preserve">
+    <value>Freeze panes</value>
+    <comment>Menu item that keeps the rows above and the columns before the active cell in view.</comment>
+  </data>
+  <data name="Spreadsheet_FreezeTopRow" xml:space="preserve">
+    <value>Freeze top row</value>
+    <comment>Menu item that keeps the first row in view.</comment>
+  </data>
+  <data name="Spreadsheet_FreezeFirstColumn" xml:space="preserve">
+    <value>Freeze first column</value>
+    <comment>Menu item that keeps the first column in view.</comment>
+  </data>
+  <data name="Spreadsheet_Unfreeze" xml:space="preserve">
+    <value>Unfreeze panes</value>
+    <comment>Menu item that lets every row and column scroll again.</comment>
+  </data>
+  <data name="Spreadsheet_FrozenStatus" xml:space="preserve">
+    <value>{0} rows and {1} columns frozen</value>
+    <comment>Announced after freezing panes, where {0} and {1} are numbers.</comment>
+  </data>
+  <data name="Spreadsheet_Zoom" xml:space="preserve">
+    <value>Zoom</value>
+    <comment>Accessible name of the group of zoom controls.</comment>
+  </data>
+  <data name="Spreadsheet_ZoomIn" xml:space="preserve">
+    <value>Zoom in</value>
+    <comment>Name of the button that makes the grid larger.</comment>
+  </data>
+  <data name="Spreadsheet_ZoomOut" xml:space="preserve">
+    <value>Zoom out</value>
+    <comment>Name of the button that makes the grid smaller.</comment>
+  </data>
+  <data name="Spreadsheet_ZoomReset" xml:space="preserve">
+    <value>Zoom {0}%. Reset to 100%</value>
+    <comment>Name of the button showing the zoom level, where {0} is the percentage; pressing it goes back to 100%.</comment>
+  </data>
+  <data name="Spreadsheet_ZoomChanged" xml:space="preserve">
+    <value>Zoom {0}%</value>
+    <comment>Announced after the zoom changes, where {0} is the percentage.</comment>
+  </data>
+  <data name="Spreadsheet_StatusSum" xml:space="preserve">
+    <value>Sum: {0}</value>
+    <comment>Shown under the grid for a selection of numbers, where {0} is their total.</comment>
+  </data>
+  <data name="Spreadsheet_StatusAverage" xml:space="preserve">
+    <value>Average: {0}</value>
+    <comment>Shown under the grid for a selection of numbers, where {0} is their average.</comment>
+  </data>
+  <data name="Spreadsheet_StatusCount" xml:space="preserve">
+    <value>Count: {0}</value>
+    <comment>Shown under the grid for a selection, where {0} is how many cells hold something.</comment>
+  </data>
+  <data name="Spreadsheet_Cut" xml:space="preserve">
+    <value>Cut</value>
+    <comment>Context menu item that cuts the selected cells.</comment>
+  </data>
+  <data name="Spreadsheet_Copy" xml:space="preserve">
+    <value>Copy</value>
+    <comment>Context menu item that copies the selected cells.</comment>
+  </data>
+  <data name="Spreadsheet_Paste" xml:space="preserve">
+    <value>Paste</value>
+    <comment>Context menu item that pastes from the clipboard.</comment>
+  </data>
+  <data name="Spreadsheet_InsertRowAbove" xml:space="preserve">
+    <value>Insert row above</value>
+    <comment>Context menu item that inserts a row above the selection.</comment>
+  </data>
+  <data name="Spreadsheet_InsertRowBelow" xml:space="preserve">
+    <value>Insert row below</value>
+    <comment>Context menu item that inserts a row below the selection.</comment>
+  </data>
+  <data name="Spreadsheet_InsertColumnBefore" xml:space="preserve">
+    <value>Insert column before</value>
+    <comment>Context menu item that inserts a column before the selection.</comment>
+  </data>
+  <data name="Spreadsheet_InsertColumnAfter" xml:space="preserve">
+    <value>Insert column after</value>
+    <comment>Context menu item that inserts a column after the selection.</comment>
+  </data>
+  <data name="Spreadsheet_DeleteRows" xml:space="preserve">
+    <value>Delete rows</value>
+    <comment>Context menu item that deletes the selected rows.</comment>
+  </data>
+  <data name="Spreadsheet_DeleteColumns" xml:space="preserve">
+    <value>Delete columns</value>
+    <comment>Context menu item that deletes the selected columns.</comment>
+  </data>
+  <data name="Spreadsheet_SortAscending" xml:space="preserve">
+    <value>Sort A to Z</value>
+    <comment>Context menu item that sorts the selected rows by the active column, smallest first.</comment>
+  </data>
+  <data name="Spreadsheet_SortDescending" xml:space="preserve">
+    <value>Sort Z to A</value>
+    <comment>Context menu item that sorts the selected rows by the active column, largest first.</comment>
+  </data>
+  <data name="Spreadsheet_ClearContents" xml:space="preserve">
+    <value>Clear contents</value>
+    <comment>Context menu item that empties the selected cells.</comment>
+  </data>
+  <data name="Spreadsheet_WidenColumn" xml:space="preserve">
+    <value>Widen column</value>
+    <comment>Context menu item that makes the active column wider.</comment>
+  </data>
+  <data name="Spreadsheet_NarrowColumn" xml:space="preserve">
+    <value>Narrow column</value>
+    <comment>Context menu item that makes the active column narrower.</comment>
+  </data>
+  <data name="Spreadsheet_FullScreen" xml:space="preserve">
+    <value>Full screen</value>
+    <comment>Name of the toggle button that makes the spreadsheet cover the window.</comment>
+  </data>
+  <data name="Spreadsheet_MoreTools" xml:space="preserve">
+    <value>More tools</value>
+    <comment>Name of the button at the end of the spreadsheet toolbar that shows every control on several lines, or puts them back on one line.</comment>
+  </data>
+  <data name="Spreadsheet_FullScreenOn" xml:space="preserve">
+    <value>Full screen. Press Escape to exit.</value>
+    <comment>Announced when the spreadsheet goes full screen.</comment>
+  </data>
+  <data name="Spreadsheet_FullScreenOff" xml:space="preserve">
+    <value>Full screen closed</value>
+    <comment>Announced when the spreadsheet leaves full screen.</comment>
+  </data>
+  <data name="Spreadsheet_SheetMenu" xml:space="preserve">
+    <value>Sheet options</value>
+    <comment>Name of the button that opens the menu of actions for the sheet being shown.</comment>
+  </data>
+  <data name="Spreadsheet_RenameSheetAction" xml:space="preserve">
+    <value>Rename</value>
+    <comment>Sheet menu item that renames the sheet.</comment>
+  </data>
+  <data name="Spreadsheet_MoveSheetLeft" xml:space="preserve">
+    <value>Move left</value>
+    <comment>Sheet menu item that moves the sheet one place to the left.</comment>
+  </data>
+  <data name="Spreadsheet_MoveSheetRight" xml:space="preserve">
+    <value>Move right</value>
+    <comment>Sheet menu item that moves the sheet one place to the right.</comment>
+  </data>
+  <data name="Spreadsheet_DeleteSheet" xml:space="preserve">
+    <value>Delete sheet</value>
+    <comment>Sheet menu item that deletes the sheet.</comment>
+  </data>
+  <data name="Spreadsheet_DeleteSheetTitle" xml:space="preserve">
+    <value>Delete {0}?</value>
+    <comment>Title of the dialog that confirms deleting a sheet, where {0} is its name.</comment>
+  </data>
+  <data name="Spreadsheet_DeleteSheetMessage" xml:space="preserve">
+    <value>The sheet and everything on it will be removed. Formulas that use it will show #REF! until you undo.</value>
+    <comment>Message of the dialog that confirms deleting a sheet.</comment>
+  </data>
+  <data name="Spreadsheet_SheetDeleted" xml:space="preserve">
+    <value>{0} deleted. Press Ctrl+Z to undo.</value>
+    <comment>Announced after a sheet is deleted, where {0} is its name.</comment>
+  </data>
+  <data name="Spreadsheet_InsertTable" xml:space="preserve">
+    <value>Insert table</value>
+    <comment>Name of the toolbar button and the dialog that turn a range into a table.</comment>
+  </data>
+  <data name="Spreadsheet_TableRange" xml:space="preserve">
+    <value>Table range</value>
+    <comment>Label of the field for the cells a new table covers.</comment>
+  </data>
+  <data name="Spreadsheet_TableHasHeaders" xml:space="preserve">
+    <value>My table has headers</value>
+    <comment>Checkbox in the insert table dialog: the first row holds the column headings.</comment>
+  </data>
+  <data name="Spreadsheet_TableRangeInvalid" xml:space="preserve">
+    <value>Enter a range such as A1:D10 that does not overlap another table.</value>
+    <comment>Shown when the range for a new table is not valid.</comment>
+  </data>
+  <data name="Spreadsheet_Create" xml:space="preserve">
+    <value>Create</value>
+    <comment>Button that creates the table in the insert table dialog.</comment>
+  </data>
+  <data name="Spreadsheet_TableCreated" xml:space="preserve">
+    <value>{0} created</value>
+    <comment>Announced after a table is created, where {0} is its name.</comment>
+  </data>
+  <data name="Spreadsheet_RemoveTable" xml:space="preserve">
+    <value>Remove table</value>
+    <comment>Context menu item that turns a table back into plain cells, keeping their contents.</comment>
+  </data>
+  <data name="Spreadsheet_DefaultColumnName" xml:space="preserve">
+    <value>Column{0}</value>
+    <comment>Heading given to a table column when the table has no headings, where {0} is its number.</comment>
+  </data>
+  <data name="Spreadsheet_DefaultTableName" xml:space="preserve">
+    <value>Table{0}</value>
+    <comment>Name given to a new table, where {0} is its number.</comment>
+  </data>
+  <data name="Spreadsheet_FilterColumn" xml:space="preserve">
+    <value>Filter {0}</value>
+    <comment>Name of the filter button of a table column, and title of its dialog, where {0} is the heading.</comment>
+  </data>
+  <data name="Spreadsheet_FilterColumnActive" xml:space="preserve">
+    <value>Filter {0}, filtered</value>
+    <comment>Name of the filter button of a table column that is filtered, where {0} is the heading.</comment>
+  </data>
+  <data name="Spreadsheet_SelectAllValues" xml:space="preserve">
+    <value>Select all</value>
+    <comment>Checkbox that shows or hides every value in a column filter.</comment>
+  </data>
+  <data name="Spreadsheet_Blanks" xml:space="preserve">
+    <value>(Blanks)</value>
+    <comment>Column filter entry for empty cells.</comment>
+  </data>
+  <data name="Spreadsheet_ApplyFilter" xml:space="preserve">
+    <value>Apply</value>
+    <comment>Button that applies a column filter.</comment>
+  </data>
+  <data name="Spreadsheet_ClearFilter" xml:space="preserve">
+    <value>Clear filter</value>
+    <comment>Button that removes a column filter.</comment>
+  </data>
+  <data name="Spreadsheet_RowsShown" xml:space="preserve">
+    <value>{0} of {1} rows shown</value>
+    <comment>Announced after a table is filtered, where {0} and {1} are numbers.</comment>
+  </data>
+  <data name="Spreadsheet_IncreaseRowHeight" xml:space="preserve">
+    <value>Increase row height</value>
+    <comment>Context menu item that makes the active row taller.</comment>
+  </data>
+  <data name="Spreadsheet_DecreaseRowHeight" xml:space="preserve">
+    <value>Decrease row height</value>
+    <comment>Context menu item that makes the active row shorter.</comment>
+  </data>
+  <data name="Spreadsheet_FitColumn" xml:space="preserve">
+    <value>Fit column to contents</value>
+    <comment>Context menu item that makes the selected columns as wide as their widest content.</comment>
+  </data>
+  <data name="Spreadsheet_FitRow" xml:space="preserve">
+    <value>Fit row to contents</value>
+    <comment>Context menu item that makes the selected rows as tall as their tallest text.</comment>
+  </data>
+  <data name="Spreadsheet_SortHeading" xml:space="preserve">
+    <value>Sort</value>
+    <comment>Heading of the sort buttons in a table column filter.</comment>
+  </data>
+  <data name="Spreadsheet_FilterConditionHeading" xml:space="preserve">
+    <value>Show rows where</value>
+    <comment>Heading of the conditions in a table column filter, such as "is greater than 100".</comment>
+  </data>
+  <data name="Spreadsheet_FilterValuesHeading" xml:space="preserve">
+    <value>Values</value>
+    <comment>Heading of the list of column values in a table column filter.</comment>
+  </data>
+  <data name="Spreadsheet_SearchValues" xml:space="preserve">
+    <value>Search values</value>
+    <comment>Label of the field that narrows the list of values in a table column filter.</comment>
+  </data>
 </root>

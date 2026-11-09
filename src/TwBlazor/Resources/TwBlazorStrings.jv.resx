@@ -1179,4 +1179,322 @@
   <data name="TextEditor_Exported" xml:space="preserve">
     <value>{0} wis diekspor</value>
   </data>
+  <data name="Spreadsheet_Label" xml:space="preserve">
+    <value>Lembar kerja</value>
+  </data>
+  <data name="Spreadsheet_Toolbar" xml:space="preserve">
+    <value>Piranti lembar kerja</value>
+  </data>
+  <data name="Spreadsheet_Alignment" xml:space="preserve">
+    <value>Perataan</value>
+  </data>
+  <data name="Spreadsheet_AlignLeft" xml:space="preserve">
+    <value>Rata kiwa</value>
+  </data>
+  <data name="Spreadsheet_AlignCenter" xml:space="preserve">
+    <value>Rata tengah</value>
+  </data>
+  <data name="Spreadsheet_AlignRight" xml:space="preserve">
+    <value>Rata tengen</value>
+  </data>
+  <data name="Spreadsheet_NumberFormat" xml:space="preserve">
+    <value>Format angka</value>
+  </data>
+  <data name="Spreadsheet_FormatGeneral" xml:space="preserve">
+    <value>Umum</value>
+  </data>
+  <data name="Spreadsheet_FormatNumber" xml:space="preserve">
+    <value>Angka</value>
+  </data>
+  <data name="Spreadsheet_FormatCurrency" xml:space="preserve">
+    <value>Mata uang</value>
+  </data>
+  <data name="Spreadsheet_FormatPercent" xml:space="preserve">
+    <value>Persen</value>
+  </data>
+  <data name="Spreadsheet_NameBox" xml:space="preserve">
+    <value>Referensi sel</value>
+  </data>
+  <data name="Spreadsheet_FormulaBar" xml:space="preserve">
+    <value>Isi sel</value>
+  </data>
+  <data name="Spreadsheet_SheetTabs" xml:space="preserve">
+    <value>Lembar</value>
+  </data>
+  <data name="Spreadsheet_AddSheet" xml:space="preserve">
+    <value>Tambah lembar</value>
+  </data>
+  <data name="Spreadsheet_DefaultSheetName" xml:space="preserve">
+    <value>Lembar{0}</value>
+  </data>
+  <data name="Spreadsheet_RenameSheet" xml:space="preserve">
+    <value>Jeneng lembar</value>
+  </data>
+  <data name="Spreadsheet_GridHint" xml:space="preserve">
+    <value>Ketik kanggo ngganti sel, utawa pencet Enter utawa F2 kanggo nyunting. Rumus diwiwiti nganggo tandha padha karo.</value>
+  </data>
+  <data name="Spreadsheet_EditCell" xml:space="preserve">
+    <value>Sunting {0}</value>
+  </data>
+  <data name="Spreadsheet_Copied" xml:space="preserve">
+    <value>{0} disalin</value>
+  </data>
+  <data name="Spreadsheet_Pasted" xml:space="preserve">
+    <value>Ditempel menyang {0}</value>
+  </data>
+  <data name="Spreadsheet_Cleared" xml:space="preserve">
+    <value>{0} dikosongake</value>
+  </data>
+  <data name="Spreadsheet_ExportExcel" xml:space="preserve">
+    <value>Buku kerja Excel</value>
+  </data>
+  <data name="Spreadsheet_ExportCsv" xml:space="preserve">
+    <value>CSV lembar iki</value>
+  </data>
+  <data name="Spreadsheet_RangeSelected" xml:space="preserve">
+    <value>{0} dipilih</value>
+  </data>
+  <data name="Spreadsheet_Font" xml:space="preserve">
+    <value>Font</value>
+  </data>
+  <data name="Spreadsheet_FontSize" xml:space="preserve">
+    <value>Ukuran font</value>
+  </data>
+  <data name="Spreadsheet_DefaultFont" xml:space="preserve">
+    <value>Gawan</value>
+  </data>
+  <data name="Spreadsheet_TextColor" xml:space="preserve">
+    <value>Werna teks</value>
+  </data>
+  <data name="Spreadsheet_FillColor" xml:space="preserve">
+    <value>Werna isen</value>
+  </data>
+  <data name="Spreadsheet_Automatic" xml:space="preserve">
+    <value>Otomatis</value>
+  </data>
+  <data name="Spreadsheet_NoFill" xml:space="preserve">
+    <value>Tanpa isen</value>
+  </data>
+  <data name="Spreadsheet_ColorRed" xml:space="preserve">
+    <value>Abang</value>
+  </data>
+  <data name="Spreadsheet_ColorOrange" xml:space="preserve">
+    <value>Oranye</value>
+  </data>
+  <data name="Spreadsheet_ColorYellow" xml:space="preserve">
+    <value>Kuning</value>
+  </data>
+  <data name="Spreadsheet_ColorGreen" xml:space="preserve">
+    <value>Ijo</value>
+  </data>
+  <data name="Spreadsheet_ColorTeal" xml:space="preserve">
+    <value>Ijo kebiruan</value>
+  </data>
+  <data name="Spreadsheet_ColorBlue" xml:space="preserve">
+    <value>Biru</value>
+  </data>
+  <data name="Spreadsheet_ColorPurple" xml:space="preserve">
+    <value>Ungu</value>
+  </data>
+  <data name="Spreadsheet_ColorPink" xml:space="preserve">
+    <value>Jambon</value>
+  </data>
+  <data name="Spreadsheet_ColorGray" xml:space="preserve">
+    <value>Abu-abu</value>
+  </data>
+  <data name="Spreadsheet_ColorBlack" xml:space="preserve">
+    <value>Ireng</value>
+  </data>
+  <data name="Spreadsheet_Freeze" xml:space="preserve">
+    <value>Bekokake</value>
+  </data>
+  <data name="Spreadsheet_FreezePanes" xml:space="preserve">
+    <value>Bekokake panel</value>
+  </data>
+  <data name="Spreadsheet_FreezeTopRow" xml:space="preserve">
+    <value>Bekokake larik ndhuwur</value>
+  </data>
+  <data name="Spreadsheet_FreezeFirstColumn" xml:space="preserve">
+    <value>Bekokake kolom kapisan</value>
+  </data>
+  <data name="Spreadsheet_Unfreeze" xml:space="preserve">
+    <value>Cairake panel</value>
+  </data>
+  <data name="Spreadsheet_FrozenStatus" xml:space="preserve">
+    <value>{0} larik lan {1} kolom dibekokake</value>
+  </data>
+  <data name="Spreadsheet_Zoom" xml:space="preserve">
+    <value>Zoom</value>
+  </data>
+  <data name="Spreadsheet_ZoomIn" xml:space="preserve">
+    <value>Gedhekake</value>
+  </data>
+  <data name="Spreadsheet_ZoomOut" xml:space="preserve">
+    <value>Cilikake</value>
+  </data>
+  <data name="Spreadsheet_ZoomReset" xml:space="preserve">
+    <value>Zoom {0}%. Balekake menyang 100%</value>
+  </data>
+  <data name="Spreadsheet_ZoomChanged" xml:space="preserve">
+    <value>Zoom {0}%</value>
+  </data>
+  <data name="Spreadsheet_StatusSum" xml:space="preserve">
+    <value>Gunggung: {0}</value>
+  </data>
+  <data name="Spreadsheet_StatusAverage" xml:space="preserve">
+    <value>Rata-rata: {0}</value>
+  </data>
+  <data name="Spreadsheet_StatusCount" xml:space="preserve">
+    <value>Cacah: {0}</value>
+  </data>
+  <data name="Spreadsheet_Cut" xml:space="preserve">
+    <value>Potong</value>
+  </data>
+  <data name="Spreadsheet_Copy" xml:space="preserve">
+    <value>Salin</value>
+  </data>
+  <data name="Spreadsheet_Paste" xml:space="preserve">
+    <value>Tempel</value>
+  </data>
+  <data name="Spreadsheet_InsertRowAbove" xml:space="preserve">
+    <value>Lebokake larik ing ndhuwur</value>
+  </data>
+  <data name="Spreadsheet_InsertRowBelow" xml:space="preserve">
+    <value>Lebokake larik ing ngisor</value>
+  </data>
+  <data name="Spreadsheet_InsertColumnBefore" xml:space="preserve">
+    <value>Lebokake kolom sadurunge</value>
+  </data>
+  <data name="Spreadsheet_InsertColumnAfter" xml:space="preserve">
+    <value>Lebokake kolom sawise</value>
+  </data>
+  <data name="Spreadsheet_DeleteRows" xml:space="preserve">
+    <value>Busak larik</value>
+  </data>
+  <data name="Spreadsheet_DeleteColumns" xml:space="preserve">
+    <value>Busak kolom</value>
+  </data>
+  <data name="Spreadsheet_SortAscending" xml:space="preserve">
+    <value>Urutake A nganti Z</value>
+  </data>
+  <data name="Spreadsheet_SortDescending" xml:space="preserve">
+    <value>Urutake Z nganti A</value>
+  </data>
+  <data name="Spreadsheet_ClearContents" xml:space="preserve">
+    <value>Kosongake isi</value>
+  </data>
+  <data name="Spreadsheet_WidenColumn" xml:space="preserve">
+    <value>Ambakake kolom</value>
+  </data>
+  <data name="Spreadsheet_NarrowColumn" xml:space="preserve">
+    <value>Ciutake kolom</value>
+  </data>
+  <data name="Spreadsheet_FullScreen" xml:space="preserve">
+    <value>Layar kebak</value>
+  </data>
+  <data name="Spreadsheet_MoreTools" xml:space="preserve">
+    <value>Piranti liyane</value>
+  </data>
+  <data name="Spreadsheet_FullScreenOn" xml:space="preserve">
+    <value>Layar kebak. Pencet Escape kanggo metu.</value>
+  </data>
+  <data name="Spreadsheet_FullScreenOff" xml:space="preserve">
+    <value>Layar kebak ditutup</value>
+  </data>
+  <data name="Spreadsheet_SheetMenu" xml:space="preserve">
+    <value>Opsi lembar</value>
+  </data>
+  <data name="Spreadsheet_RenameSheetAction" xml:space="preserve">
+    <value>Ganti jeneng</value>
+  </data>
+  <data name="Spreadsheet_MoveSheetLeft" xml:space="preserve">
+    <value>Pindhah ngiwa</value>
+  </data>
+  <data name="Spreadsheet_MoveSheetRight" xml:space="preserve">
+    <value>Pindhah nengen</value>
+  </data>
+  <data name="Spreadsheet_DeleteSheet" xml:space="preserve">
+    <value>Busak lembar</value>
+  </data>
+  <data name="Spreadsheet_DeleteSheetTitle" xml:space="preserve">
+    <value>Busak {0}?</value>
+  </data>
+  <data name="Spreadsheet_DeleteSheetMessage" xml:space="preserve">
+    <value>Lembar lan kabeh isine bakal dibusak. Rumus sing nganggo bakal nuduhake #REF! nganti sampeyan mbatalake.</value>
+  </data>
+  <data name="Spreadsheet_SheetDeleted" xml:space="preserve">
+    <value>{0} dibusak. Pencet Ctrl+Z kanggo mbatalake.</value>
+  </data>
+  <data name="Spreadsheet_InsertTable" xml:space="preserve">
+    <value>Lebokake tabel</value>
+  </data>
+  <data name="Spreadsheet_TableRange" xml:space="preserve">
+    <value>Jangkoan tabel</value>
+  </data>
+  <data name="Spreadsheet_TableHasHeaders" xml:space="preserve">
+    <value>Tabelku duwe irah-irahan</value>
+  </data>
+  <data name="Spreadsheet_TableRangeInvalid" xml:space="preserve">
+    <value>Lebokake jangkoan kaya A1:D10 sing ora tumpang tindih karo tabel liya.</value>
+  </data>
+  <data name="Spreadsheet_Create" xml:space="preserve">
+    <value>Gawe</value>
+  </data>
+  <data name="Spreadsheet_TableCreated" xml:space="preserve">
+    <value>{0} digawe</value>
+  </data>
+  <data name="Spreadsheet_RemoveTable" xml:space="preserve">
+    <value>Busak tabel</value>
+  </data>
+  <data name="Spreadsheet_DefaultColumnName" xml:space="preserve">
+    <value>Kolom{0}</value>
+  </data>
+  <data name="Spreadsheet_DefaultTableName" xml:space="preserve">
+    <value>Tabel{0}</value>
+  </data>
+  <data name="Spreadsheet_FilterColumn" xml:space="preserve">
+    <value>Saring {0}</value>
+  </data>
+  <data name="Spreadsheet_FilterColumnActive" xml:space="preserve">
+    <value>Saring {0}, disaring</value>
+  </data>
+  <data name="Spreadsheet_SelectAllValues" xml:space="preserve">
+    <value>Pilih kabeh</value>
+  </data>
+  <data name="Spreadsheet_Blanks" xml:space="preserve">
+    <value>(Kosong)</value>
+  </data>
+  <data name="Spreadsheet_ApplyFilter" xml:space="preserve">
+    <value>Trapake</value>
+  </data>
+  <data name="Spreadsheet_ClearFilter" xml:space="preserve">
+    <value>Busak saringan</value>
+  </data>
+  <data name="Spreadsheet_RowsShown" xml:space="preserve">
+    <value>{0} saka {1} larik ditampilake</value>
+  </data>
+  <data name="Spreadsheet_IncreaseRowHeight" xml:space="preserve">
+    <value>Dhuwurake larik</value>
+  </data>
+  <data name="Spreadsheet_DecreaseRowHeight" xml:space="preserve">
+    <value>Endhekake larik</value>
+  </data>
+  <data name="Spreadsheet_FitColumn" xml:space="preserve">
+    <value>Pasake kolom karo isine</value>
+  </data>
+  <data name="Spreadsheet_FitRow" xml:space="preserve">
+    <value>Pasake larik karo isine</value>
+  </data>
+  <data name="Spreadsheet_SortHeading" xml:space="preserve">
+    <value>Urutake</value>
+  </data>
+  <data name="Spreadsheet_FilterConditionHeading" xml:space="preserve">
+    <value>Tampilake larik sing</value>
+  </data>
+  <data name="Spreadsheet_FilterValuesHeading" xml:space="preserve">
+    <value>Nilai</value>
+  </data>
+  <data name="Spreadsheet_SearchValues" xml:space="preserve">
+    <value>Golek nilai</value>
+  </data>
 </root>

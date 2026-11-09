@@ -1182,4 +1182,322 @@
   <data name="TextEditor_Exported" xml:space="preserve">
     <value>已导出 {0}</value>
   </data>
+  <data name="Spreadsheet_Label" xml:space="preserve">
+    <value>电子表格</value>
+  </data>
+  <data name="Spreadsheet_Toolbar" xml:space="preserve">
+    <value>电子表格工具</value>
+  </data>
+  <data name="Spreadsheet_Alignment" xml:space="preserve">
+    <value>对齐方式</value>
+  </data>
+  <data name="Spreadsheet_AlignLeft" xml:space="preserve">
+    <value>左对齐</value>
+  </data>
+  <data name="Spreadsheet_AlignCenter" xml:space="preserve">
+    <value>居中</value>
+  </data>
+  <data name="Spreadsheet_AlignRight" xml:space="preserve">
+    <value>右对齐</value>
+  </data>
+  <data name="Spreadsheet_NumberFormat" xml:space="preserve">
+    <value>数字格式</value>
+  </data>
+  <data name="Spreadsheet_FormatGeneral" xml:space="preserve">
+    <value>常规</value>
+  </data>
+  <data name="Spreadsheet_FormatNumber" xml:space="preserve">
+    <value>数值</value>
+  </data>
+  <data name="Spreadsheet_FormatCurrency" xml:space="preserve">
+    <value>货币</value>
+  </data>
+  <data name="Spreadsheet_FormatPercent" xml:space="preserve">
+    <value>百分比</value>
+  </data>
+  <data name="Spreadsheet_NameBox" xml:space="preserve">
+    <value>单元格引用</value>
+  </data>
+  <data name="Spreadsheet_FormulaBar" xml:space="preserve">
+    <value>单元格内容</value>
+  </data>
+  <data name="Spreadsheet_SheetTabs" xml:space="preserve">
+    <value>工作表</value>
+  </data>
+  <data name="Spreadsheet_AddSheet" xml:space="preserve">
+    <value>添加工作表</value>
+  </data>
+  <data name="Spreadsheet_DefaultSheetName" xml:space="preserve">
+    <value>Sheet{0}</value>
+  </data>
+  <data name="Spreadsheet_RenameSheet" xml:space="preserve">
+    <value>工作表名称</value>
+  </data>
+  <data name="Spreadsheet_GridHint" xml:space="preserve">
+    <value>输入内容可替换单元格，按 Enter 或 F2 可编辑单元格。公式以等号开头。</value>
+  </data>
+  <data name="Spreadsheet_EditCell" xml:space="preserve">
+    <value>编辑 {0}</value>
+  </data>
+  <data name="Spreadsheet_Copied" xml:space="preserve">
+    <value>已复制 {0}</value>
+  </data>
+  <data name="Spreadsheet_Pasted" xml:space="preserve">
+    <value>已粘贴到 {0}</value>
+  </data>
+  <data name="Spreadsheet_Cleared" xml:space="preserve">
+    <value>已清除 {0}</value>
+  </data>
+  <data name="Spreadsheet_ExportExcel" xml:space="preserve">
+    <value>Excel 工作簿</value>
+  </data>
+  <data name="Spreadsheet_ExportCsv" xml:space="preserve">
+    <value>此工作表的 CSV</value>
+  </data>
+  <data name="Spreadsheet_RangeSelected" xml:space="preserve">
+    <value>已选择 {0}</value>
+  </data>
+  <data name="Spreadsheet_Font" xml:space="preserve">
+    <value>字体</value>
+  </data>
+  <data name="Spreadsheet_FontSize" xml:space="preserve">
+    <value>字号</value>
+  </data>
+  <data name="Spreadsheet_DefaultFont" xml:space="preserve">
+    <value>默认</value>
+  </data>
+  <data name="Spreadsheet_TextColor" xml:space="preserve">
+    <value>文字颜色</value>
+  </data>
+  <data name="Spreadsheet_FillColor" xml:space="preserve">
+    <value>填充颜色</value>
+  </data>
+  <data name="Spreadsheet_Automatic" xml:space="preserve">
+    <value>自动</value>
+  </data>
+  <data name="Spreadsheet_NoFill" xml:space="preserve">
+    <value>无填充</value>
+  </data>
+  <data name="Spreadsheet_ColorRed" xml:space="preserve">
+    <value>红色</value>
+  </data>
+  <data name="Spreadsheet_ColorOrange" xml:space="preserve">
+    <value>橙色</value>
+  </data>
+  <data name="Spreadsheet_ColorYellow" xml:space="preserve">
+    <value>黄色</value>
+  </data>
+  <data name="Spreadsheet_ColorGreen" xml:space="preserve">
+    <value>绿色</value>
+  </data>
+  <data name="Spreadsheet_ColorTeal" xml:space="preserve">
+    <value>青色</value>
+  </data>
+  <data name="Spreadsheet_ColorBlue" xml:space="preserve">
+    <value>蓝色</value>
+  </data>
+  <data name="Spreadsheet_ColorPurple" xml:space="preserve">
+    <value>紫色</value>
+  </data>
+  <data name="Spreadsheet_ColorPink" xml:space="preserve">
+    <value>粉色</value>
+  </data>
+  <data name="Spreadsheet_ColorGray" xml:space="preserve">
+    <value>灰色</value>
+  </data>
+  <data name="Spreadsheet_ColorBlack" xml:space="preserve">
+    <value>黑色</value>
+  </data>
+  <data name="Spreadsheet_Freeze" xml:space="preserve">
+    <value>冻结</value>
+  </data>
+  <data name="Spreadsheet_FreezePanes" xml:space="preserve">
+    <value>冻结窗格</value>
+  </data>
+  <data name="Spreadsheet_FreezeTopRow" xml:space="preserve">
+    <value>冻结首行</value>
+  </data>
+  <data name="Spreadsheet_FreezeFirstColumn" xml:space="preserve">
+    <value>冻结首列</value>
+  </data>
+  <data name="Spreadsheet_Unfreeze" xml:space="preserve">
+    <value>取消冻结窗格</value>
+  </data>
+  <data name="Spreadsheet_FrozenStatus" xml:space="preserve">
+    <value>已冻结 {0} 行和 {1} 列</value>
+  </data>
+  <data name="Spreadsheet_Zoom" xml:space="preserve">
+    <value>缩放</value>
+  </data>
+  <data name="Spreadsheet_ZoomIn" xml:space="preserve">
+    <value>放大</value>
+  </data>
+  <data name="Spreadsheet_ZoomOut" xml:space="preserve">
+    <value>缩小</value>
+  </data>
+  <data name="Spreadsheet_ZoomReset" xml:space="preserve">
+    <value>缩放 {0}%。重置为 100%</value>
+  </data>
+  <data name="Spreadsheet_ZoomChanged" xml:space="preserve">
+    <value>缩放 {0}%</value>
+  </data>
+  <data name="Spreadsheet_StatusSum" xml:space="preserve">
+    <value>求和：{0}</value>
+  </data>
+  <data name="Spreadsheet_StatusAverage" xml:space="preserve">
+    <value>平均值：{0}</value>
+  </data>
+  <data name="Spreadsheet_StatusCount" xml:space="preserve">
+    <value>计数：{0}</value>
+  </data>
+  <data name="Spreadsheet_Cut" xml:space="preserve">
+    <value>剪切</value>
+  </data>
+  <data name="Spreadsheet_Copy" xml:space="preserve">
+    <value>复制</value>
+  </data>
+  <data name="Spreadsheet_Paste" xml:space="preserve">
+    <value>粘贴</value>
+  </data>
+  <data name="Spreadsheet_InsertRowAbove" xml:space="preserve">
+    <value>在上方插入行</value>
+  </data>
+  <data name="Spreadsheet_InsertRowBelow" xml:space="preserve">
+    <value>在下方插入行</value>
+  </data>
+  <data name="Spreadsheet_InsertColumnBefore" xml:space="preserve">
+    <value>在前面插入列</value>
+  </data>
+  <data name="Spreadsheet_InsertColumnAfter" xml:space="preserve">
+    <value>在后面插入列</value>
+  </data>
+  <data name="Spreadsheet_DeleteRows" xml:space="preserve">
+    <value>删除行</value>
+  </data>
+  <data name="Spreadsheet_DeleteColumns" xml:space="preserve">
+    <value>删除列</value>
+  </data>
+  <data name="Spreadsheet_SortAscending" xml:space="preserve">
+    <value>按 A 到 Z 排序</value>
+  </data>
+  <data name="Spreadsheet_SortDescending" xml:space="preserve">
+    <value>按 Z 到 A 排序</value>
+  </data>
+  <data name="Spreadsheet_ClearContents" xml:space="preserve">
+    <value>清除内容</value>
+  </data>
+  <data name="Spreadsheet_WidenColumn" xml:space="preserve">
+    <value>加宽列</value>
+  </data>
+  <data name="Spreadsheet_NarrowColumn" xml:space="preserve">
+    <value>缩窄列</value>
+  </data>
+  <data name="Spreadsheet_FullScreen" xml:space="preserve">
+    <value>全屏</value>
+  </data>
+  <data name="Spreadsheet_MoreTools" xml:space="preserve">
+    <value>更多工具</value>
+  </data>
+  <data name="Spreadsheet_FullScreenOn" xml:space="preserve">
+    <value>全屏。按 Esc 键退出。</value>
+  </data>
+  <data name="Spreadsheet_FullScreenOff" xml:space="preserve">
+    <value>已退出全屏</value>
+  </data>
+  <data name="Spreadsheet_SheetMenu" xml:space="preserve">
+    <value>工作表选项</value>
+  </data>
+  <data name="Spreadsheet_RenameSheetAction" xml:space="preserve">
+    <value>重命名</value>
+  </data>
+  <data name="Spreadsheet_MoveSheetLeft" xml:space="preserve">
+    <value>左移</value>
+  </data>
+  <data name="Spreadsheet_MoveSheetRight" xml:space="preserve">
+    <value>右移</value>
+  </data>
+  <data name="Spreadsheet_DeleteSheet" xml:space="preserve">
+    <value>删除工作表</value>
+  </data>
+  <data name="Spreadsheet_DeleteSheetTitle" xml:space="preserve">
+    <value>删除 {0}？</value>
+  </data>
+  <data name="Spreadsheet_DeleteSheetMessage" xml:space="preserve">
+    <value>将删除该工作表及其所有内容。使用它的公式将显示 #REF!，直到你撤消。</value>
+  </data>
+  <data name="Spreadsheet_SheetDeleted" xml:space="preserve">
+    <value>已删除 {0}。按 Ctrl+Z 撤消。</value>
+  </data>
+  <data name="Spreadsheet_InsertTable" xml:space="preserve">
+    <value>插入表格</value>
+  </data>
+  <data name="Spreadsheet_TableRange" xml:space="preserve">
+    <value>表格区域</value>
+  </data>
+  <data name="Spreadsheet_TableHasHeaders" xml:space="preserve">
+    <value>表格包含标题</value>
+  </data>
+  <data name="Spreadsheet_TableRangeInvalid" xml:space="preserve">
+    <value>请输入一个不与其他表格重叠的区域，例如 A1:D10。</value>
+  </data>
+  <data name="Spreadsheet_Create" xml:space="preserve">
+    <value>创建</value>
+  </data>
+  <data name="Spreadsheet_TableCreated" xml:space="preserve">
+    <value>已创建 {0}</value>
+  </data>
+  <data name="Spreadsheet_RemoveTable" xml:space="preserve">
+    <value>删除表格</value>
+  </data>
+  <data name="Spreadsheet_DefaultColumnName" xml:space="preserve">
+    <value>列{0}</value>
+  </data>
+  <data name="Spreadsheet_DefaultTableName" xml:space="preserve">
+    <value>表{0}</value>
+  </data>
+  <data name="Spreadsheet_FilterColumn" xml:space="preserve">
+    <value>筛选 {0}</value>
+  </data>
+  <data name="Spreadsheet_FilterColumnActive" xml:space="preserve">
+    <value>筛选 {0}，已筛选</value>
+  </data>
+  <data name="Spreadsheet_SelectAllValues" xml:space="preserve">
+    <value>全选</value>
+  </data>
+  <data name="Spreadsheet_Blanks" xml:space="preserve">
+    <value>(空白)</value>
+  </data>
+  <data name="Spreadsheet_ApplyFilter" xml:space="preserve">
+    <value>应用</value>
+  </data>
+  <data name="Spreadsheet_ClearFilter" xml:space="preserve">
+    <value>清除筛选</value>
+  </data>
+  <data name="Spreadsheet_RowsShown" xml:space="preserve">
+    <value>显示 {0} 行，共 {1} 行</value>
+  </data>
+  <data name="Spreadsheet_IncreaseRowHeight" xml:space="preserve">
+    <value>增加行高</value>
+  </data>
+  <data name="Spreadsheet_DecreaseRowHeight" xml:space="preserve">
+    <value>减小行高</value>
+  </data>
+  <data name="Spreadsheet_FitColumn" xml:space="preserve">
+    <value>根据内容调整列宽</value>
+  </data>
+  <data name="Spreadsheet_FitRow" xml:space="preserve">
+    <value>根据内容调整行高</value>
+  </data>
+  <data name="Spreadsheet_SortHeading" xml:space="preserve">
+    <value>排序</value>
+  </data>
+  <data name="Spreadsheet_FilterConditionHeading" xml:space="preserve">
+    <value>显示符合以下条件的行</value>
+  </data>
+  <data name="Spreadsheet_FilterValuesHeading" xml:space="preserve">
+    <value>值</value>
+  </data>
+  <data name="Spreadsheet_SearchValues" xml:space="preserve">
+    <value>搜索值</value>
+  </data>
 </root>

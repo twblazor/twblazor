@@ -1179,4 +1179,322 @@
   <data name="TextEditor_Exported" xml:space="preserve">
     <value>Đã xuất {0}</value>
   </data>
+  <data name="Spreadsheet_Label" xml:space="preserve">
+    <value>Bảng tính</value>
+  </data>
+  <data name="Spreadsheet_Toolbar" xml:space="preserve">
+    <value>Công cụ bảng tính</value>
+  </data>
+  <data name="Spreadsheet_Alignment" xml:space="preserve">
+    <value>Căn chỉnh</value>
+  </data>
+  <data name="Spreadsheet_AlignLeft" xml:space="preserve">
+    <value>Căn trái</value>
+  </data>
+  <data name="Spreadsheet_AlignCenter" xml:space="preserve">
+    <value>Căn giữa</value>
+  </data>
+  <data name="Spreadsheet_AlignRight" xml:space="preserve">
+    <value>Căn phải</value>
+  </data>
+  <data name="Spreadsheet_NumberFormat" xml:space="preserve">
+    <value>Định dạng số</value>
+  </data>
+  <data name="Spreadsheet_FormatGeneral" xml:space="preserve">
+    <value>Chung</value>
+  </data>
+  <data name="Spreadsheet_FormatNumber" xml:space="preserve">
+    <value>Số</value>
+  </data>
+  <data name="Spreadsheet_FormatCurrency" xml:space="preserve">
+    <value>Tiền tệ</value>
+  </data>
+  <data name="Spreadsheet_FormatPercent" xml:space="preserve">
+    <value>Phần trăm</value>
+  </data>
+  <data name="Spreadsheet_NameBox" xml:space="preserve">
+    <value>Tham chiếu ô</value>
+  </data>
+  <data name="Spreadsheet_FormulaBar" xml:space="preserve">
+    <value>Nội dung ô</value>
+  </data>
+  <data name="Spreadsheet_SheetTabs" xml:space="preserve">
+    <value>Trang tính</value>
+  </data>
+  <data name="Spreadsheet_AddSheet" xml:space="preserve">
+    <value>Thêm trang tính</value>
+  </data>
+  <data name="Spreadsheet_DefaultSheetName" xml:space="preserve">
+    <value>Trang{0}</value>
+  </data>
+  <data name="Spreadsheet_RenameSheet" xml:space="preserve">
+    <value>Tên trang tính</value>
+  </data>
+  <data name="Spreadsheet_GridHint" xml:space="preserve">
+    <value>Gõ để thay thế một ô, hoặc nhấn Enter hay F2 để sửa ô. Công thức bắt đầu bằng dấu bằng.</value>
+  </data>
+  <data name="Spreadsheet_EditCell" xml:space="preserve">
+    <value>Sửa {0}</value>
+  </data>
+  <data name="Spreadsheet_Copied" xml:space="preserve">
+    <value>Đã sao chép {0}</value>
+  </data>
+  <data name="Spreadsheet_Pasted" xml:space="preserve">
+    <value>Đã dán vào {0}</value>
+  </data>
+  <data name="Spreadsheet_Cleared" xml:space="preserve">
+    <value>Đã xóa {0}</value>
+  </data>
+  <data name="Spreadsheet_ExportExcel" xml:space="preserve">
+    <value>Sổ làm việc Excel</value>
+  </data>
+  <data name="Spreadsheet_ExportCsv" xml:space="preserve">
+    <value>CSV của trang tính này</value>
+  </data>
+  <data name="Spreadsheet_RangeSelected" xml:space="preserve">
+    <value>Đã chọn {0}</value>
+  </data>
+  <data name="Spreadsheet_Font" xml:space="preserve">
+    <value>Phông chữ</value>
+  </data>
+  <data name="Spreadsheet_FontSize" xml:space="preserve">
+    <value>Cỡ chữ</value>
+  </data>
+  <data name="Spreadsheet_DefaultFont" xml:space="preserve">
+    <value>Mặc định</value>
+  </data>
+  <data name="Spreadsheet_TextColor" xml:space="preserve">
+    <value>Màu chữ</value>
+  </data>
+  <data name="Spreadsheet_FillColor" xml:space="preserve">
+    <value>Màu tô</value>
+  </data>
+  <data name="Spreadsheet_Automatic" xml:space="preserve">
+    <value>Tự động</value>
+  </data>
+  <data name="Spreadsheet_NoFill" xml:space="preserve">
+    <value>Không tô</value>
+  </data>
+  <data name="Spreadsheet_ColorRed" xml:space="preserve">
+    <value>Đỏ</value>
+  </data>
+  <data name="Spreadsheet_ColorOrange" xml:space="preserve">
+    <value>Cam</value>
+  </data>
+  <data name="Spreadsheet_ColorYellow" xml:space="preserve">
+    <value>Vàng</value>
+  </data>
+  <data name="Spreadsheet_ColorGreen" xml:space="preserve">
+    <value>Xanh lá</value>
+  </data>
+  <data name="Spreadsheet_ColorTeal" xml:space="preserve">
+    <value>Xanh mòng két</value>
+  </data>
+  <data name="Spreadsheet_ColorBlue" xml:space="preserve">
+    <value>Xanh dương</value>
+  </data>
+  <data name="Spreadsheet_ColorPurple" xml:space="preserve">
+    <value>Tím</value>
+  </data>
+  <data name="Spreadsheet_ColorPink" xml:space="preserve">
+    <value>Hồng</value>
+  </data>
+  <data name="Spreadsheet_ColorGray" xml:space="preserve">
+    <value>Xám</value>
+  </data>
+  <data name="Spreadsheet_ColorBlack" xml:space="preserve">
+    <value>Đen</value>
+  </data>
+  <data name="Spreadsheet_Freeze" xml:space="preserve">
+    <value>Cố định</value>
+  </data>
+  <data name="Spreadsheet_FreezePanes" xml:space="preserve">
+    <value>Cố định ngăn</value>
+  </data>
+  <data name="Spreadsheet_FreezeTopRow" xml:space="preserve">
+    <value>Cố định hàng trên cùng</value>
+  </data>
+  <data name="Spreadsheet_FreezeFirstColumn" xml:space="preserve">
+    <value>Cố định cột đầu tiên</value>
+  </data>
+  <data name="Spreadsheet_Unfreeze" xml:space="preserve">
+    <value>Bỏ cố định ngăn</value>
+  </data>
+  <data name="Spreadsheet_FrozenStatus" xml:space="preserve">
+    <value>Đã cố định {0} hàng và {1} cột</value>
+  </data>
+  <data name="Spreadsheet_Zoom" xml:space="preserve">
+    <value>Thu phóng</value>
+  </data>
+  <data name="Spreadsheet_ZoomIn" xml:space="preserve">
+    <value>Phóng to</value>
+  </data>
+  <data name="Spreadsheet_ZoomOut" xml:space="preserve">
+    <value>Thu nhỏ</value>
+  </data>
+  <data name="Spreadsheet_ZoomReset" xml:space="preserve">
+    <value>Thu phóng {0}%. Đặt lại 100%</value>
+  </data>
+  <data name="Spreadsheet_ZoomChanged" xml:space="preserve">
+    <value>Thu phóng {0}%</value>
+  </data>
+  <data name="Spreadsheet_StatusSum" xml:space="preserve">
+    <value>Tổng: {0}</value>
+  </data>
+  <data name="Spreadsheet_StatusAverage" xml:space="preserve">
+    <value>Trung bình: {0}</value>
+  </data>
+  <data name="Spreadsheet_StatusCount" xml:space="preserve">
+    <value>Số lượng: {0}</value>
+  </data>
+  <data name="Spreadsheet_Cut" xml:space="preserve">
+    <value>Cắt</value>
+  </data>
+  <data name="Spreadsheet_Copy" xml:space="preserve">
+    <value>Sao chép</value>
+  </data>
+  <data name="Spreadsheet_Paste" xml:space="preserve">
+    <value>Dán</value>
+  </data>
+  <data name="Spreadsheet_InsertRowAbove" xml:space="preserve">
+    <value>Chèn hàng phía trên</value>
+  </data>
+  <data name="Spreadsheet_InsertRowBelow" xml:space="preserve">
+    <value>Chèn hàng phía dưới</value>
+  </data>
+  <data name="Spreadsheet_InsertColumnBefore" xml:space="preserve">
+    <value>Chèn cột phía trước</value>
+  </data>
+  <data name="Spreadsheet_InsertColumnAfter" xml:space="preserve">
+    <value>Chèn cột phía sau</value>
+  </data>
+  <data name="Spreadsheet_DeleteRows" xml:space="preserve">
+    <value>Xóa hàng</value>
+  </data>
+  <data name="Spreadsheet_DeleteColumns" xml:space="preserve">
+    <value>Xóa cột</value>
+  </data>
+  <data name="Spreadsheet_SortAscending" xml:space="preserve">
+    <value>Sắp xếp từ A đến Z</value>
+  </data>
+  <data name="Spreadsheet_SortDescending" xml:space="preserve">
+    <value>Sắp xếp từ Z đến A</value>
+  </data>
+  <data name="Spreadsheet_ClearContents" xml:space="preserve">
+    <value>Xóa nội dung</value>
+  </data>
+  <data name="Spreadsheet_WidenColumn" xml:space="preserve">
+    <value>Mở rộng cột</value>
+  </data>
+  <data name="Spreadsheet_NarrowColumn" xml:space="preserve">
+    <value>Thu hẹp cột</value>
+  </data>
+  <data name="Spreadsheet_FullScreen" xml:space="preserve">
+    <value>Toàn màn hình</value>
+  </data>
+  <data name="Spreadsheet_MoreTools" xml:space="preserve">
+    <value>Thêm công cụ</value>
+  </data>
+  <data name="Spreadsheet_FullScreenOn" xml:space="preserve">
+    <value>Toàn màn hình. Nhấn Escape để thoát.</value>
+  </data>
+  <data name="Spreadsheet_FullScreenOff" xml:space="preserve">
+    <value>Đã thoát toàn màn hình</value>
+  </data>
+  <data name="Spreadsheet_SheetMenu" xml:space="preserve">
+    <value>Tùy chọn trang tính</value>
+  </data>
+  <data name="Spreadsheet_RenameSheetAction" xml:space="preserve">
+    <value>Đổi tên</value>
+  </data>
+  <data name="Spreadsheet_MoveSheetLeft" xml:space="preserve">
+    <value>Di chuyển sang trái</value>
+  </data>
+  <data name="Spreadsheet_MoveSheetRight" xml:space="preserve">
+    <value>Di chuyển sang phải</value>
+  </data>
+  <data name="Spreadsheet_DeleteSheet" xml:space="preserve">
+    <value>Xóa trang tính</value>
+  </data>
+  <data name="Spreadsheet_DeleteSheetTitle" xml:space="preserve">
+    <value>Xóa {0}?</value>
+  </data>
+  <data name="Spreadsheet_DeleteSheetMessage" xml:space="preserve">
+    <value>Trang tính và mọi nội dung trong đó sẽ bị xóa. Các công thức dùng nó sẽ hiển thị #REF! cho đến khi bạn hoàn tác.</value>
+  </data>
+  <data name="Spreadsheet_SheetDeleted" xml:space="preserve">
+    <value>Đã xóa {0}. Nhấn Ctrl+Z để hoàn tác.</value>
+  </data>
+  <data name="Spreadsheet_InsertTable" xml:space="preserve">
+    <value>Chèn bảng</value>
+  </data>
+  <data name="Spreadsheet_TableRange" xml:space="preserve">
+    <value>Phạm vi bảng</value>
+  </data>
+  <data name="Spreadsheet_TableHasHeaders" xml:space="preserve">
+    <value>Bảng của tôi có tiêu đề</value>
+  </data>
+  <data name="Spreadsheet_TableRangeInvalid" xml:space="preserve">
+    <value>Nhập một phạm vi như A1:D10 không chồng lên bảng khác.</value>
+  </data>
+  <data name="Spreadsheet_Create" xml:space="preserve">
+    <value>Tạo</value>
+  </data>
+  <data name="Spreadsheet_TableCreated" xml:space="preserve">
+    <value>Đã tạo {0}</value>
+  </data>
+  <data name="Spreadsheet_RemoveTable" xml:space="preserve">
+    <value>Gỡ bảng</value>
+  </data>
+  <data name="Spreadsheet_DefaultColumnName" xml:space="preserve">
+    <value>Cột{0}</value>
+  </data>
+  <data name="Spreadsheet_DefaultTableName" xml:space="preserve">
+    <value>Bảng{0}</value>
+  </data>
+  <data name="Spreadsheet_FilterColumn" xml:space="preserve">
+    <value>Lọc {0}</value>
+  </data>
+  <data name="Spreadsheet_FilterColumnActive" xml:space="preserve">
+    <value>Lọc {0}, đã lọc</value>
+  </data>
+  <data name="Spreadsheet_SelectAllValues" xml:space="preserve">
+    <value>Chọn tất cả</value>
+  </data>
+  <data name="Spreadsheet_Blanks" xml:space="preserve">
+    <value>(Trống)</value>
+  </data>
+  <data name="Spreadsheet_ApplyFilter" xml:space="preserve">
+    <value>Áp dụng</value>
+  </data>
+  <data name="Spreadsheet_ClearFilter" xml:space="preserve">
+    <value>Xóa bộ lọc</value>
+  </data>
+  <data name="Spreadsheet_RowsShown" xml:space="preserve">
+    <value>Hiển thị {0} trên {1} hàng</value>
+  </data>
+  <data name="Spreadsheet_IncreaseRowHeight" xml:space="preserve">
+    <value>Tăng chiều cao hàng</value>
+  </data>
+  <data name="Spreadsheet_DecreaseRowHeight" xml:space="preserve">
+    <value>Giảm chiều cao hàng</value>
+  </data>
+  <data name="Spreadsheet_FitColumn" xml:space="preserve">
+    <value>Vừa cột với nội dung</value>
+  </data>
+  <data name="Spreadsheet_FitRow" xml:space="preserve">
+    <value>Vừa hàng với nội dung</value>
+  </data>
+  <data name="Spreadsheet_SortHeading" xml:space="preserve">
+    <value>Sắp xếp</value>
+  </data>
+  <data name="Spreadsheet_FilterConditionHeading" xml:space="preserve">
+    <value>Hiển thị các hàng có</value>
+  </data>
+  <data name="Spreadsheet_FilterValuesHeading" xml:space="preserve">
+    <value>Giá trị</value>
+  </data>
+  <data name="Spreadsheet_SearchValues" xml:space="preserve">
+    <value>Tìm giá trị</value>
+  </data>
 </root>

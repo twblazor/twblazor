@@ -1,5 +1,6 @@
 using Bunit;
 using Microsoft.AspNetCore.Components.Web;
+using TwBlazor.Docs.Compiler;
 using TwBlazor.Docs.Pages;
 using TwBlazor.Docs.Services;
 
@@ -266,14 +267,14 @@ public class HomePageTests : DocsTestBase
     }
 
     [Fact]
-    public void Showcase_HasFormsDashboardAndChartsTabs_InAScrollableTabBar()
+    public void Showcase_HasFormsSpreadsheetDashboardAndChartsTabs_InAScrollableTabBar()
     {
         // Arrange & Act
         var page = TestContext.Render<Home>();
 
         // Assert
         var tabs = page.FindAll("#showcase [role='tab']");
-        Assert.Equal(["showcase-tab-forms", "showcase-tab-dashboard", "showcase-tab-charts"], tabs.Select(tab => tab.Id));
+        Assert.Equal(["showcase-tab-forms", "showcase-tab-spreadsheet", "showcase-tab-dashboard", "showcase-tab-charts"], tabs.Select(tab => tab.Id));
         Assert.Equal("true", tabs[0].GetAttribute("aria-selected"));
         Assert.Equal(2, page.FindAll("#showcase [data-tw-tabs-scroll]").Count);
         Assert.Equal("/form", page.Find("#showcase-docs").GetAttribute("href"));
@@ -300,6 +301,41 @@ public class HomePageTests : DocsTestBase
         Assert.NotNull(panel.QuerySelector("#showcase-review-rating"));
         Assert.NotNull(panel.QuerySelector("#showcase-review-tags"));
         Assert.Equal("/form", page.Find("#showcase-docs").GetAttribute("href"));
+    }
+
+    [Fact]
+    public void Showcase_SpreadsheetTab_ShowsAWorkbook_WithATableFrozenPanesAndExport()
+    {
+        // Arrange
+        var page = TestContext.Render<Home>();
+
+        // Act
+        page.Find("#showcase-tab-spreadsheet").Click();
+
+        // Assert
+        var panel = page.Find("#showcase [role='tabpanel']");
+        Assert.Contains("Team budget", panel.QuerySelector("h3")!.TextContent);
+        Assert.Equal(["Budget", "By month", "Summary"], page.FindAll("#showcase-spreadsheet-root [role='tab']").Select(tab => tab.TextContent));
+        Assert.Equal("Team budget", page.Find("#showcase-spreadsheet").GetAttribute("aria-label"));
+        Assert.NotNull(page.Find("#showcase-spreadsheet-B1").QuerySelector("[data-tw-spreadsheet-filter]"));
+        Assert.NotNull(page.Find("#showcase-spreadsheet-export"));
+        Assert.Equal("/spreadsheet", page.Find("#showcase-docs").GetAttribute("href"));
+    }
+
+    [Fact]
+    public void Showcase_SpreadsheetTab_WorksOutFormulasAcrossItsSheets()
+    {
+        // Arrange
+        var page = TestContext.Render<Home>();
+        page.Find("#showcase-tab-spreadsheet").Click();
+
+        // Act
+        page.Find("#showcase-spreadsheet-tab-2").Click();
+
+        // Assert
+        Assert.Equal("1", page.Find("#showcase-spreadsheet-B5").TextContent.Trim());
+        Assert.DoesNotContain("#", page.Find("#showcase-spreadsheet-B1").TextContent);
+        Assert.DoesNotContain("#", page.Find("#showcase-spreadsheet-B4").TextContent);
     }
 
     [Fact]
@@ -348,6 +384,25 @@ public class HomePageTests : DocsTestBase
         Assert.Contains("showcase-blue", frame.ClassList);
         Assert.Contains("dark", frame.ClassList);
         Assert.DoesNotContain("overflow-hidden", frame.ClassList);
+    }
+
+    [Fact]
+    public void Showcase_EveryExampleColour_HasAClass_SoItsChartsTakeAMatchingPalette()
+    {
+        // Arrange
+        var page = TestContext.Render<Home>();
+        var inputs = page.FindAll("#showcase input[name='showcase-colour']").Count;
+        var css = File.ReadAllText(Path.Combine(Paths.DocsProjectPath, "wwwroot", "css", "input.css"));
+
+        for (var i = 0; i < inputs; i++)
+        {
+            // Act
+            page.FindAll("#showcase input[name='showcase-colour']")[i].Change(true);
+
+            // Assert
+            var themeClass = Assert.Single(page.Find("#showcase").ClassList, name => name.StartsWith("showcase-", StringComparison.Ordinal));
+            Assert.Contains($".{themeClass} figure {{", css);
+        }
     }
 
     [Fact]

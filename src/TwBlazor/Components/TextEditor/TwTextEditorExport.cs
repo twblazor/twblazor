@@ -138,7 +138,7 @@ public static class TwTextEditorExport
     /// <summary>
     /// Replaces the characters no common file system allows in a file name.
     /// </summary>
-    private static string SafeFileName(string name)
+    internal static string SafeFileName(string name)
     {
         var safe = new StringBuilder(name.Length);
         foreach (var c in name)

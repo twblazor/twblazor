@@ -1,6 +1,7 @@
 // Copyright (c) 2025 Jack Shuter @ TwBlazor - twblazor.com
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
+using TwBlazor.Models;
 using TwBlazor.Enums;
 
 namespace TwBlazor.Components;
@@ -50,7 +51,7 @@ public sealed class TwDataTableItemsRequest
     /// Gets each filtered column's filter, keyed by <see cref="TwDataTableColumn{TItem}.Name"/>. Empty when no column
     /// is filtered.
     /// </summary>
-    public IReadOnlyDictionary<string, TwDataTableColumnFilter> Filters { get; init; } = new Dictionary<string, TwDataTableColumnFilter>();
+    public IReadOnlyDictionary<string, ColumnFilter> Filters { get; init; } = new Dictionary<string, ColumnFilter>();
 
     /// <summary>
     /// Gets a token that is cancelled when the table no longer needs the rows, for example because the person sorted
