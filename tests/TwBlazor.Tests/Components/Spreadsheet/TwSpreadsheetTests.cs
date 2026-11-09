@@ -55,7 +55,7 @@ public class TwSpreadsheetTests : TwBlazorTestBase
 
     private static string Status(IRenderedComponent<TwSpreadsheet> cut) => cut.Find("[role='status']").TextContent;
 
-    private async Task TypeIntoCellAsync(IRenderedComponent<TwSpreadsheet> cut, string text)
+    private static async Task TypeIntoCellAsync(IRenderedComponent<TwSpreadsheet> cut, string text)
     {
         await cut.InvokeAsync(() => cut.Instance.BeginTypingAsync());
         await cut.InvokeAsync(() => cut.Find("#sh-editor").Input(text));
@@ -134,8 +134,8 @@ public class TwSpreadsheetTests : TwBlazorTestBase
         var sheets = new List<Sheet>();
         var cut = Render(sheets);
 
-        Assert.Single(sheets);
-        Assert.Equal(Localizer[TwStrings.Spreadsheet_DefaultSheetName, 1], sheets[0].Name);
+        var only = Assert.Single(sheets);
+        Assert.Equal(Localizer[TwStrings.Spreadsheet_DefaultSheetName, 1], only.Name);
         Assert.Single(cut.FindAll("[role='tab']"));
     }
 
@@ -308,7 +308,7 @@ public class TwSpreadsheetTests : TwBlazorTestBase
 
         var focus = TestContext.JSInterop.Invocations.Last(i => i.Identifier == "twSpreadsheet.focusEditor");
         Assert.Equal("sh-editor", focus.Arguments[1]);
-        Assert.Equal(true, focus.Arguments[2]);
+        Assert.True(focus.Arguments[2] is true);
         Assert.Equal("enter", Grid(cut).GetAttribute("data-editing"));
         Assert.Equal(Localizer[TwStrings.Spreadsheet_EditCell, "A1"], cut.Find("#sh-editor").GetAttribute("aria-label"));
         Assert.Equal("Total", cut.Find("#sh-formula").GetAttribute("value"));
@@ -674,7 +674,8 @@ public class TwSpreadsheetTests : TwBlazorTestBase
 
         await cut.InvokeAsync(() => cut.Instance.PasteTextAsync("7"));
 
-        Assert.All(new[] { "C1", "C2", "C3" }, a => Assert.Equal("7", sheets[0].Cells[a].Value));
+        string[] pasted = ["C1", "C2", "C3"];
+        Assert.All(pasted, a => Assert.Equal("7", sheets[0].Cells[a].Value));
     }
 
     [Fact]
@@ -763,7 +764,7 @@ public class TwSpreadsheetTests : TwBlazorTestBase
         Assert.Contains(theme.ToolbarItems.Split(' ')[0], items.ClassList);
         Assert.Contains("[scrollbar-width:none]", items.ClassList);
         Assert.Null(more.Closest("#sh-toolbar-items"));
-        var moreBox = toolbar.Children.Last();
+        var moreBox = toolbar.Children[toolbar.Children.Length - 1];
         Assert.Contains(theme.ToolbarMore.Split(' ')[0], moreBox.ClassList);
         Assert.Contains(more, moreBox.QuerySelectorAll("button"));
         Assert.Equal("false", more.GetAttribute("aria-expanded"));
@@ -1373,7 +1374,8 @@ public class TwSpreadsheetTests : TwBlazorTestBase
         await cut.InvokeAsync(() => cut.Instance.SortAsync());
 
         Assert.Equal("Name", sheets[0].Cells["A1"].Value);
-        Assert.Equal(["Bo", "Cy", "Al"], new[] { "A2", "A3", "A4" }.Select(a => sheets[0].Cells[a].Value));
+        string[] names = ["A2", "A3", "A4"];
+        Assert.Equal(["Bo", "Cy", "Al"], names.Select(a => sheets[0].Cells[a].Value));
         Assert.Equal("=5*2", sheets[0].Cells["B2"].Value);
 
         await cut.InvokeAsync(() => cut.Instance.SortAsync(descending: true));
@@ -1794,7 +1796,8 @@ public class TwSpreadsheetTests : TwBlazorTestBase
         await cut.InvokeAsync(() => cut.FindAll("#sh-dialog button").Single(b => b.TextContent.Trim() == Localizer[TwStrings.Spreadsheet_SortDescending]).Click());
 
         Assert.Equal("Name", sheets[0].Cells["A1"].Value);
-        Assert.Equal(["Di", "Cy", "Bo", "Ada"], new[] { "A2", "A3", "A4", "A5" }.Select(a => sheets[0].Cells[a].Value));
+        string[] names = ["A2", "A3", "A4", "A5"];
+        Assert.Equal(["Di", "Cy", "Bo", "Ada"], names.Select(a => sheets[0].Cells[a].Value));
         Assert.Empty(cut.FindAll("#sh-dialog"));
     }
 

@@ -39,6 +39,18 @@ public class TwColumnFilterEditorTests : TwBlazorTestBase
     }
 
     [Fact]
+    public void Root_RendersTheStyleAndExtraAttributes()
+    {
+        var cut = Render(new ColumnFilter(), p => p
+            .Add(x => x.Style, "color: red;")
+            .Add(x => x.Attributes, new Dictionary<string, object> { ["data-testid"] = "editor" }));
+
+        var root = cut.Find("#f");
+        Assert.Equal("color: red;", root.GetAttribute("style"));
+        Assert.Equal("editor", root.GetAttribute("data-testid"));
+    }
+
+    [Fact]
     public void Editing_ChangesTheFilter_AndReportsIt()
     {
         var changes = 0;

@@ -92,11 +92,22 @@ public partial class TwColumnFilterEditor : TwBlazorComponentBase
         operatorOptions = [.. operators.Select(op => new OperatorOption(op, localizer[$"DataTable_Operator{op}"]))];
         Filter.Second ??= new FilterCondition { Operator = operators[0] };
 
-        choiceOptions = Choices is not null
-            ? [.. Choices.Select(c => new ChoiceOption(c.Key, c.Value))]
-            : Type == FilterType.Boolean
-                ? [new("true", localizer[TwStrings.DataTable_Yes]), new("false", localizer[TwStrings.DataTable_No])]
-                : [];
+        choiceOptions = BuildChoiceOptions();
+    }
+
+    /// <summary>
+    /// The values a Boolean or Enum value list offers: <see cref="Choices"/> when set, or Yes and No for a Boolean.
+    /// </summary>
+    private List<ChoiceOption> BuildChoiceOptions()
+    {
+        if (Choices is not null)
+        {
+            return [.. Choices.Select(c => new ChoiceOption(c.Key, c.Value))];
+        }
+
+        return Type == FilterType.Boolean
+            ? [new("true", localizer[TwStrings.DataTable_Yes]), new("false", localizer[TwStrings.DataTable_No])]
+            : [];
     }
 
     private Dictionary<string, object> LogicAttributes(FilterLogic logic) => new()

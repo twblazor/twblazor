@@ -6,56 +6,56 @@ using System.Globalization;
 namespace TwBlazor.Spreadsheet;
 
 /// <summary>A part of a parsed formula.</summary>
-internal abstract record FormulaNode;
+internal interface IFormulaNode;
 
 /// <summary>A number.</summary>
 /// <param name="Value">The number.</param>
-internal sealed record NumberNode(double Value) : FormulaNode;
+internal sealed record NumberNode(double Value) : IFormulaNode;
 
 /// <summary>Text in quotes.</summary>
 /// <param name="Value">The text.</param>
-internal sealed record TextNode(string Value) : FormulaNode;
+internal sealed record TextNode(string Value) : IFormulaNode;
 
 /// <summary><c>TRUE</c> or <c>FALSE</c>.</summary>
 /// <param name="Value">The value.</param>
-internal sealed record BooleanNode(bool Value) : FormulaNode;
+internal sealed record BooleanNode(bool Value) : IFormulaNode;
 
 /// <summary>An error literal, such as <c>#N/A</c>.</summary>
 /// <param name="Code">The error code.</param>
-internal sealed record ErrorNode(string Code) : FormulaNode;
+internal sealed record ErrorNode(string Code) : IFormulaNode;
 
 /// <summary>A reference to one cell.</summary>
 /// <param name="Sheet">The sheet named before the reference, or <see langword="null"/> for the formula's own sheet.</param>
 /// <param name="Address">The cell.</param>
-internal sealed record ReferenceNode(string? Sheet, CellAddress Address) : FormulaNode;
+internal sealed record ReferenceNode(string? Sheet, CellAddress Address) : IFormulaNode;
 
 /// <summary>A reference to a range of cells.</summary>
 /// <param name="Sheet">The sheet named before the range, or <see langword="null"/> for the formula's own sheet.</param>
 /// <param name="Range">The cells.</param>
-internal sealed record RangeNode(string? Sheet, CellRange Range) : FormulaNode;
+internal sealed record RangeNode(string? Sheet, CellRange Range) : IFormulaNode;
 
 /// <summary>A minus or plus sign in front of a value.</summary>
 /// <param name="Operator">The sign.</param>
 /// <param name="Operand">The value.</param>
-internal sealed record UnaryNode(string Operator, FormulaNode Operand) : FormulaNode;
+internal sealed record UnaryNode(string Operator, IFormulaNode Operand) : IFormulaNode;
 
 /// <summary>A percent sign after a value, which divides it by 100.</summary>
 /// <param name="Operand">The value.</param>
-internal sealed record PercentNode(FormulaNode Operand) : FormulaNode;
+internal sealed record PercentNode(IFormulaNode Operand) : IFormulaNode;
 
 /// <summary>An operator between two values.</summary>
 /// <param name="Operator">The operator.</param>
 /// <param name="Left">The value before it.</param>
 /// <param name="Right">The value after it.</param>
-internal sealed record BinaryNode(string Operator, FormulaNode Left, FormulaNode Right) : FormulaNode;
+internal sealed record BinaryNode(string Operator, IFormulaNode Left, IFormulaNode Right) : IFormulaNode;
 
 /// <summary>A function call.</summary>
 /// <param name="Name">The function's name in upper case.</param>
 /// <param name="Arguments">The arguments.</param>
-internal sealed record CallNode(string Name, IReadOnlyList<FormulaNode> Arguments) : FormulaNode;
+internal sealed record CallNode(string Name, IReadOnlyList<IFormulaNode> Arguments) : IFormulaNode;
 
 /// <summary>
-/// Reads a formula into a tree of <see cref="FormulaNode"/>, with the operator precedence of a spreadsheet: comparison,
+/// Reads a formula into a tree of <see cref="IFormulaNode"/>, with the operator precedence of a spreadsheet: comparison,
 /// then <c>&amp;</c>, then <c>+</c> and <c>-</c>, then <c>*</c> and <c>/</c>, then <c>^</c>, then a leading sign,
 /// then <c>%</c>.
 /// </summary>
@@ -75,7 +75,7 @@ internal sealed class FormulaParser
     /// <param name="formula">The formula, without its leading <c>=</c>.</param>
     /// <returns>The formula's tree.</returns>
     /// <exception cref="FormulaSyntaxException">The formula cannot be read.</exception>
-    public static FormulaNode Parse(string formula)
+    public static IFormulaNode Parse(string formula)
     {
         var parser = new FormulaParser(FormulaLexer.Tokenize(formula));
         if (parser.current.Kind == FormulaTokenKind.End)
@@ -97,7 +97,7 @@ internal sealed class FormulaParser
     private bool IsOperator(params string[] operators) =>
         current.Kind == FormulaTokenKind.Operator && operators.Contains(current.Text, StringComparer.Ordinal);
 
-    private FormulaNode ParseComparison()
+    private IFormulaNode ParseComparison()
     {
         var left = ParseConcatenation();
         while (IsOperator("=", "<>", "<", ">", "<=", ">="))
@@ -109,7 +109,7 @@ internal sealed class FormulaParser
         return left;
     }
 
-    private FormulaNode ParseConcatenation()
+    private IFormulaNode ParseConcatenation()
     {
         var left = ParseAdditive();
         while (IsOperator("&"))
@@ -121,7 +121,7 @@ internal sealed class FormulaParser
         return left;
     }
 
-    private FormulaNode ParseAdditive()
+    private IFormulaNode ParseAdditive()
     {
         var left = ParseMultiplicative();
         while (IsOperator("+", "-"))
@@ -133,7 +133,7 @@ internal sealed class FormulaParser
         return left;
     }
 
-    private FormulaNode ParseMultiplicative()
+    private IFormulaNode ParseMultiplicative()
     {
         var left = ParsePower();
         while (IsOperator("*", "/"))
@@ -145,7 +145,7 @@ internal sealed class FormulaParser
         return left;
     }
 
-    private FormulaNode ParsePower()
+    private IFormulaNode ParsePower()
     {
         var left = ParseUnary();
         while (IsOperator("^"))
@@ -157,7 +157,7 @@ internal sealed class FormulaParser
         return left;
     }
 
-    private FormulaNode ParseUnary()
+    private IFormulaNode ParseUnary()
     {
         if (IsOperator("-", "+"))
         {
@@ -168,7 +168,7 @@ internal sealed class FormulaParser
         return ParsePercent();
     }
 
-    private FormulaNode ParsePercent()
+    private IFormulaNode ParsePercent()
     {
         var node = ParsePrimary();
         while (IsOperator("%"))
@@ -180,7 +180,7 @@ internal sealed class FormulaParser
         return node;
     }
 
-    private FormulaNode ParsePrimary()
+    private IFormulaNode ParsePrimary()
     {
         var token = Advance();
         switch (token.Kind)
@@ -211,7 +211,7 @@ internal sealed class FormulaParser
         }
     }
 
-    private FormulaNode ParseReference(string? sheet, FormulaToken token)
+    private IFormulaNode ParseReference(string? sheet, FormulaToken token)
     {
         var start = CellAddress.Parse(token.Text);
         if (current.Kind != FormulaTokenKind.Colon)
@@ -229,7 +229,7 @@ internal sealed class FormulaParser
         return new RangeNode(sheet, new CellRange(start, CellAddress.Parse(end.Text)));
     }
 
-    private FormulaNode ParseName(FormulaToken token)
+    private IFormulaNode ParseName(FormulaToken token)
     {
         var name = token.Text.ToUpperInvariant();
         if (current.Kind != FormulaTokenKind.OpenParen)
@@ -243,7 +243,7 @@ internal sealed class FormulaParser
         }
 
         Advance();
-        var arguments = new List<FormulaNode>();
+        var arguments = new List<IFormulaNode>();
         if (current.Kind != FormulaTokenKind.CloseParen)
         {
             arguments.Add(ParseComparison());

@@ -12,7 +12,7 @@ namespace TwBlazor.Spreadsheet;
 /// </summary>
 internal static class FormulaFunctions
 {
-    private delegate SheetValue Function(IReadOnlyList<FormulaNode> arguments, IFormulaContext context);
+    private delegate SheetValue Function(IReadOnlyList<IFormulaNode> arguments, IFormulaContext context);
 
     private static readonly Dictionary<string, (int Min, int Max, Function Run)> _functions = new(StringComparer.Ordinal)
     {
@@ -82,7 +82,7 @@ internal static class FormulaFunctions
     /// Collects the numbers of the arguments: numbers in cells (text and empty cells are skipped), and values typed
     /// into the formula, which must read as numbers.
     /// </summary>
-    private static bool TryCollectNumbers(IReadOnlyList<FormulaNode> arguments, IFormulaContext context, List<double> numbers, out SheetValue error)
+    private static bool TryCollectNumbers(IReadOnlyList<IFormulaNode> arguments, IFormulaContext context, List<double> numbers, out SheetValue error)
     {
         error = default;
         foreach (var argument in arguments)
@@ -117,7 +117,7 @@ internal static class FormulaFunctions
         return true;
     }
 
-    private static SheetValue Aggregate(IReadOnlyList<FormulaNode> arguments, IFormulaContext context, Func<List<double>, double> aggregate, string emptyError = SheetValue.NumberError)
+    private static SheetValue Aggregate(IReadOnlyList<IFormulaNode> arguments, IFormulaContext context, Func<List<double>, double> aggregate, string emptyError = SheetValue.NumberError)
     {
         var numbers = new List<double>();
         if (!TryCollectNumbers(arguments, context, numbers, out var error))
@@ -129,14 +129,14 @@ internal static class FormulaFunctions
         return double.IsNaN(result) ? SheetValue.Error(emptyError) : SheetValue.FromNumber(result);
     }
 
-    private static SheetValue Count(IReadOnlyList<FormulaNode> arguments, IFormulaContext context) =>
+    private static SheetValue Count(IReadOnlyList<IFormulaNode> arguments, IFormulaContext context) =>
         SheetValue.FromNumber(arguments.SelectMany(a => FormulaEvaluator.Expand(a, context)).Count(v =>
             v.Value.Kind == SheetValueKind.Number || (!v.FromCell && v.Value.TryGetNumber(out _, out _) && v.Value.Kind != SheetValueKind.Empty)));
 
-    private static SheetValue CountNonEmpty(IReadOnlyList<FormulaNode> arguments, IFormulaContext context) =>
+    private static SheetValue CountNonEmpty(IReadOnlyList<IFormulaNode> arguments, IFormulaContext context) =>
         SheetValue.FromNumber(arguments.SelectMany(a => FormulaEvaluator.Expand(a, context)).Count(v => v.Value.Kind != SheetValueKind.Empty));
 
-    private static SheetValue CountIf(IReadOnlyList<FormulaNode> arguments, IFormulaContext context)
+    private static SheetValue CountIf(IReadOnlyList<IFormulaNode> arguments, IFormulaContext context)
     {
         var criterion = FormulaEvaluator.Evaluate(arguments[1], context);
         if (criterion.IsError)
@@ -148,7 +148,7 @@ internal static class FormulaFunctions
         return SheetValue.FromNumber(matches);
     }
 
-    private static SheetValue SumIf(IReadOnlyList<FormulaNode> arguments, IFormulaContext context)
+    private static SheetValue SumIf(IReadOnlyList<IFormulaNode> arguments, IFormulaContext context)
     {
         var criterion = FormulaEvaluator.Evaluate(arguments[1], context);
         if (criterion.IsError)
@@ -180,7 +180,7 @@ internal static class FormulaFunctions
         return SheetValue.FromNumber(total);
     }
 
-    private static SheetValue If(IReadOnlyList<FormulaNode> arguments, IFormulaContext context)
+    private static SheetValue If(IReadOnlyList<IFormulaNode> arguments, IFormulaContext context)
     {
         if (!FormulaEvaluator.Evaluate(arguments[0], context).TryGetBoolean(out var condition, out var error))
         {
@@ -195,13 +195,13 @@ internal static class FormulaFunctions
         return arguments.Count == 3 ? FormulaEvaluator.Evaluate(arguments[2], context) : SheetValue.FromBoolean(false);
     }
 
-    private static SheetValue IfError(IReadOnlyList<FormulaNode> arguments, IFormulaContext context)
+    private static SheetValue IfError(IReadOnlyList<IFormulaNode> arguments, IFormulaContext context)
     {
         var value = FormulaEvaluator.Evaluate(arguments[0], context);
         return value.IsError ? FormulaEvaluator.Evaluate(arguments[1], context) : value;
     }
 
-    private static SheetValue Logical(IReadOnlyList<FormulaNode> arguments, IFormulaContext context, bool all)
+    private static SheetValue Logical(IReadOnlyList<IFormulaNode> arguments, IFormulaContext context, bool all)
     {
         var seen = false;
         var result = all;
@@ -229,13 +229,13 @@ internal static class FormulaFunctions
         return seen ? SheetValue.FromBoolean(result) : SheetValue.Error(SheetValue.ValueError);
     }
 
-    private static SheetValue Not(IReadOnlyList<FormulaNode> arguments, IFormulaContext context) =>
+    private static SheetValue Not(IReadOnlyList<IFormulaNode> arguments, IFormulaContext context) =>
         FormulaEvaluator.Evaluate(arguments[0], context).TryGetBoolean(out var flag, out var error) ? SheetValue.FromBoolean(!flag) : error;
 
-    private static SheetValue Numeric(IReadOnlyList<FormulaNode> arguments, IFormulaContext context, Func<double, double> function) =>
+    private static SheetValue Numeric(IReadOnlyList<IFormulaNode> arguments, IFormulaContext context, Func<double, double> function) =>
         FormulaEvaluator.Evaluate(arguments[0], context).TryGetNumber(out var number, out var error) ? SheetValue.FromNumber(function(number)) : error;
 
-    private static SheetValue Round(IReadOnlyList<FormulaNode> arguments, IFormulaContext context, MidpointRounding mode, bool away = false)
+    private static SheetValue Round(IReadOnlyList<IFormulaNode> arguments, IFormulaContext context, MidpointRounding mode, bool away = false)
     {
         if (!FormulaEvaluator.Evaluate(arguments[0], context).TryGetNumber(out var number, out var error))
         {
@@ -257,7 +257,7 @@ internal static class FormulaFunctions
         return SheetValue.FromNumber(rounded / scale);
     }
 
-    private static SheetValue Mod(IReadOnlyList<FormulaNode> arguments, IFormulaContext context)
+    private static SheetValue Mod(IReadOnlyList<IFormulaNode> arguments, IFormulaContext context)
     {
         if (!FormulaEvaluator.Evaluate(arguments[0], context).TryGetNumber(out var number, out var error)
             || !FormulaEvaluator.Evaluate(arguments[1], context).TryGetNumber(out var divisor, out error))
@@ -269,13 +269,13 @@ internal static class FormulaFunctions
         return divisor == 0 ? SheetValue.Error(SheetValue.DivideByZero) : SheetValue.FromNumber(number - (divisor * Math.Floor(number / divisor)));
     }
 
-    private static SheetValue Text(IReadOnlyList<FormulaNode> arguments, IFormulaContext context, Func<string, SheetValue> function)
+    private static SheetValue Text(IReadOnlyList<IFormulaNode> arguments, IFormulaContext context, Func<string, SheetValue> function)
     {
         var value = FormulaEvaluator.Evaluate(arguments[0], context);
         return value.IsError ? value : function(value.AsText());
     }
 
-    private static SheetValue Concat(IReadOnlyList<FormulaNode> arguments, IFormulaContext context)
+    private static SheetValue Concat(IReadOnlyList<IFormulaNode> arguments, IFormulaContext context)
     {
         var text = new StringBuilder();
         foreach (var (value, _) in arguments.SelectMany(a => FormulaEvaluator.Expand(a, context)))
@@ -291,7 +291,7 @@ internal static class FormulaFunctions
         return SheetValue.FromText(text.ToString());
     }
 
-    private static SheetValue Substring(IReadOnlyList<FormulaNode> arguments, IFormulaContext context, bool fromEnd)
+    private static SheetValue Substring(IReadOnlyList<IFormulaNode> arguments, IFormulaContext context, bool fromEnd)
     {
         var value = FormulaEvaluator.Evaluate(arguments[0], context);
         if (value.IsError)
@@ -315,7 +315,7 @@ internal static class FormulaFunctions
         return SheetValue.FromText(fromEnd ? text[^length..] : text[..length]);
     }
 
-    private static SheetValue Mid(IReadOnlyList<FormulaNode> arguments, IFormulaContext context)
+    private static SheetValue Mid(IReadOnlyList<IFormulaNode> arguments, IFormulaContext context)
     {
         var value = FormulaEvaluator.Evaluate(arguments[0], context);
         if (value.IsError)

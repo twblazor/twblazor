@@ -216,7 +216,7 @@ public partial class TwSpreadsheet : TwBlazorComponentBase, IAsyncDisposable
 
     private string gridLabel => AriaLabel ?? localizer[TwStrings.Spreadsheet_Label];
 
-    private string rowHeaderColStyle => string.Create(CultureInfo.InvariantCulture, $"width:{rowHeaderWidth}px");
+    private static string rowHeaderColStyle => string.Create(CultureInfo.InvariantCulture, $"width:{rowHeaderWidth}px");
 
 
     private string rootClasses => new ClassBuilder(theme.Root)
@@ -388,14 +388,14 @@ public partial class TwSpreadsheet : TwBlazorComponentBase, IAsyncDisposable
     /// <returns>The text, or an empty string for an empty cell or an address that is not valid.</returns>
     public string GetDisplayText(string address, int? sheetIndex = null)
     {
-        var sheet = sheetIndex ?? activeSheet;
-        if (!CellAddress.TryParse(address, out var cell) || sheet < 0 || sheet >= Sheets.Count || calculator is null)
+        var index = sheetIndex ?? activeSheet;
+        if (!CellAddress.TryParse(address, out var cell) || index < 0 || index >= Sheets.Count || calculator is null)
         {
             return string.Empty;
         }
 
-        var format = CellAt(sheet, cell)?.Format ?? SheetNumberFormat.General;
-        return SheetFormatting.Display(calculator.GetValue(sheet, cell), format, culture);
+        var format = CellAt(index, cell)?.Format ?? SheetNumberFormat.General;
+        return SheetFormatting.Display(calculator.GetValue(index, cell), format, culture);
     }
 
     /// <summary>
@@ -409,13 +409,13 @@ public partial class TwSpreadsheet : TwBlazorComponentBase, IAsyncDisposable
     /// <returns><see langword="true"/> when the address and sheet were valid.</returns>
     public async Task<bool> SetCellAsync(string address, string? value, int? sheetIndex = null)
     {
-        var sheet = sheetIndex ?? activeSheet;
-        if (!CellAddress.TryParse(address, out var cell) || sheet < 0 || sheet >= Sheets.Count)
+        var index = sheetIndex ?? activeSheet;
+        if (!CellAddress.TryParse(address, out var cell) || index < 0 || index >= Sheets.Count)
         {
             return false;
         }
 
-        await ApplyAsync(sheet, [Change(sheet, cell, c => c.Value = value)]);
+        await ApplyAsync(index, [Change(index, cell, c => c.Value = value)]);
         return true;
     }
 

@@ -213,14 +213,16 @@ public partial class TwSpreadsheet
     private string UniqueTableName()
     {
         var names = Sheets.SelectMany(s => s.Tables).Select(t => t.Name).ToHashSet(StringComparer.OrdinalIgnoreCase);
-        for (var n = 1; ; n++)
+        var n = 1;
+        string name;
+        do
         {
-            var name = localizer[TwStrings.Spreadsheet_DefaultTableName, n];
-            if (!names.Contains(name))
-            {
-                return name;
-            }
+            name = localizer[TwStrings.Spreadsheet_DefaultTableName, n];
+            n++;
         }
+        while (names.Contains(name));
+
+        return name;
     }
 
     /// <summary>
@@ -237,47 +239,70 @@ public partial class TwSpreadsheet
 
         foreach (var table in Sheets[sheetIndex].Tables.Where(t => t.Filters.Count > 0 || t.Conditions.Count > 0))
         {
-            if (ParseRange(table.Range) is not { } range)
+            if (ParseRange(table.Range) is { } range)
             {
-                continue;
-            }
-
-            foreach (var (letters, condition) in table.Conditions.Where(c => c.Value?.IsActive == true))
-            {
-                if (!CellAddress.TryParse($"{letters}1", out var column) || column.Column < range.Start.Column || column.Column > range.End.Column)
-                {
-                    continue;
-                }
-
-                var type = ColumnType(sheetIndex, range, column.Column);
-                for (var row = range.Start.Row + 1; row <= range.End.Row; row++)
-                {
-                    if (!ColumnFilterEvaluator.Matches(FilterValue(sheetIndex, new CellAddress(row, column.Column)), condition, type))
-                    {
-                        hidden.Add(row);
-                    }
-                }
-            }
-
-            foreach (var (letters, kept) in table.Filters)
-            {
-                if (!CellAddress.TryParse($"{letters}1", out var column) || column.Column < range.Start.Column || column.Column > range.End.Column)
-                {
-                    continue;
-                }
-
-                var allowed = kept.ToHashSet(StringComparer.Ordinal);
-                for (var row = range.Start.Row + 1; row <= range.End.Row; row++)
-                {
-                    if (!allowed.Contains(GetDisplayText(new CellAddress(row, column.Column).ToString(), sheetIndex)))
-                    {
-                        hidden.Add(row);
-                    }
-                }
+                HideRowsFailingConditions(hidden, sheetIndex, table, range);
+                HideRowsWithoutKeptValues(hidden, sheetIndex, table, range);
             }
         }
 
         return hidden;
+    }
+
+    /// <summary>
+    /// Adds the body rows of a table that fail one of its condition filters.
+    /// </summary>
+    private void HideRowsFailingConditions(HashSet<int> hidden, int sheetIndex, SheetTable table, CellRange range)
+    {
+        foreach (var (letters, condition) in table.Conditions.Where(c => c.Value?.IsActive == true))
+        {
+            if (TableColumn(letters, range) is not { } column)
+            {
+                continue;
+            }
+
+            var type = ColumnType(sheetIndex, range, column);
+            HideBodyRows(hidden, range, row => ColumnFilterEvaluator.Matches(FilterValue(sheetIndex, new CellAddress(row, column)), condition, type));
+        }
+    }
+
+    /// <summary>
+    /// Adds the body rows of a table whose value in a column filtered by value is not one the filter keeps.
+    /// </summary>
+    private void HideRowsWithoutKeptValues(HashSet<int> hidden, int sheetIndex, SheetTable table, CellRange range)
+    {
+        foreach (var (letters, kept) in table.Filters)
+        {
+            if (TableColumn(letters, range) is not { } column)
+            {
+                continue;
+            }
+
+            var allowed = kept.ToHashSet(StringComparer.Ordinal);
+            HideBodyRows(hidden, range, row => allowed.Contains(GetDisplayText(new CellAddress(row, column).ToString(), sheetIndex)));
+        }
+    }
+
+    /// <summary>
+    /// Gets the index of a table column from its letters, or <see langword="null"/> when it is outside the table.
+    /// </summary>
+    private static int? TableColumn(string letters, CellRange range) =>
+        CellAddress.TryParse($"{letters}1", out var address) && address.Column >= range.Start.Column && address.Column <= range.End.Column
+            ? address.Column
+            : null;
+
+    /// <summary>
+    /// Adds every body row of a table, the rows under its heading, that does not pass <paramref name="keep"/>.
+    /// </summary>
+    private static void HideBodyRows(HashSet<int> hidden, CellRange range, Func<int, bool> keep)
+    {
+        for (var row = range.Start.Row + 1; row <= range.End.Row; row++)
+        {
+            if (!keep(row))
+            {
+                hidden.Add(row);
+            }
+        }
     }
 
     /// <summary>

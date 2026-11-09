@@ -191,7 +191,7 @@
                    aria-activedescendant="@CellId(anchor)"
                    data-tw-spreadsheet-grid
                    data-zoom="@zoomFactor.ToString(System.Globalization.CultureInfo.InvariantCulture)"
-                   data-editing="@(editingCell ? (editMode == EditMode.Enter ? "enter" : "edit") : null)"
+                   data-editing="@editingState"
                    data-pointing="@(isPointing ? "true" : null)"
                    data-readonly="@(ReadOnly ? "true" : null)"
                    @onkeydown="@OnGridKeyDownAsync">
@@ -534,6 +534,23 @@
 </div>
 
 @code {
+    /// <summary>
+    /// How the active cell is being edited, for the grid's <c>data-editing</c> attribute: <c>enter</c> after typing,
+    /// <c>edit</c> after F2, or <see langword="null"/> while nothing is being edited.
+    /// </summary>
+    private string? editingState
+    {
+        get
+        {
+            if (!editingCell)
+            {
+                return null;
+            }
+
+            return editMode == EditMode.Enter ? "enter" : "edit";
+        }
+    }
+
     private string StartAlignmentLabel => isRightToLeft ? localizer[TwStrings.Spreadsheet_AlignRight] : localizer[TwStrings.Spreadsheet_AlignLeft];
 
     private string EndAlignmentLabel => isRightToLeft ? localizer[TwStrings.Spreadsheet_AlignLeft] : localizer[TwStrings.Spreadsheet_AlignRight];

@@ -40,7 +40,7 @@ internal static class FormulaEvaluator
     /// <param name="node">The formula's tree.</param>
     /// <param name="context">Where to read cells from.</param>
     /// <returns>The value.</returns>
-    public static SheetValue Evaluate(FormulaNode node, IFormulaContext context) => node switch
+    public static SheetValue Evaluate(IFormulaNode node, IFormulaContext context) => node switch
     {
         NumberNode number => SheetValue.FromNumber(number.Value),
         TextNode text => SheetValue.FromText(text.Value),
@@ -63,7 +63,7 @@ internal static class FormulaEvaluator
     /// <param name="node">The argument.</param>
     /// <param name="context">Where to read cells from.</param>
     /// <returns>The values, each with whether it came from a cell.</returns>
-    public static IEnumerable<(SheetValue Value, bool FromCell)> Expand(FormulaNode node, IFormulaContext context)
+    public static IEnumerable<(SheetValue Value, bool FromCell)> Expand(IFormulaNode node, IFormulaContext context)
     {
         switch (node)
         {

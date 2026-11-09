@@ -758,7 +758,7 @@ public partial class TwSpreadsheet
             && string.Equals(first.Background, second.Background, StringComparison.OrdinalIgnoreCase)
             && string.Equals(first.Color, second.Color, StringComparison.OrdinalIgnoreCase)
             && string.Equals(first.FontFamily, second.FontFamily, StringComparison.Ordinal)
-            && first.FontSize == second.FontSize;
+            && SheetFormatting.SameFontSize(first.FontSize, second.FontSize);
     }
 
     #endregion

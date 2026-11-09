@@ -111,10 +111,12 @@ internal static class XlsxWorkbookWriter
         {
             var name = TwDataTableExport.SanitizeSheetName(string.IsNullOrWhiteSpace(sheets[i].Name) ? $"Sheet{i + 1}" : sheets[i].Name);
             var candidate = name;
-            for (var n = 2; !used.Add(candidate); n++)
+            var n = 2;
+            while (!used.Add(candidate))
             {
                 var suffix = $" ({n})";
                 candidate = (name.Length + suffix.Length > 31 ? name[..(31 - suffix.Length)] : name) + suffix;
+                n++;
             }
 
             names.Add(candidate);

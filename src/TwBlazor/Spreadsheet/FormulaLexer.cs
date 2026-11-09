@@ -58,9 +58,10 @@ internal enum FormulaTokenKind
 internal readonly record struct FormulaToken(FormulaTokenKind Kind, string Text, int Start, int Length);
 
 /// <summary>
-/// The exception thrown when a formula cannot be read.
+/// The exception thrown when a formula cannot be read. The spreadsheet catches it and shows the cell as an error.
 /// </summary>
-internal sealed class FormulaSyntaxException(string message) : Exception(message);
+/// <param name="message">What could not be read.</param>
+public sealed class FormulaSyntaxException(string message) : Exception(message);
 
 /// <summary>
 /// Splits a formula, without its leading <c>=</c>, into tokens.
@@ -173,15 +174,9 @@ internal static class FormulaLexer
 
     private static FormulaToken ReadError(string formula, int start)
     {
-        foreach (var literal in _errorLiterals)
-        {
-            if (string.Compare(formula, start, literal, 0, literal.Length, StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                return new FormulaToken(FormulaTokenKind.Error, literal, start, literal.Length);
-            }
-        }
-
-        throw new FormulaSyntaxException("Unknown error value.");
+        var literal = _errorLiterals.FirstOrDefault(l => string.Compare(formula, start, l, 0, l.Length, StringComparison.OrdinalIgnoreCase) == 0)
+            ?? throw new FormulaSyntaxException("Unknown error value.");
+        return new FormulaToken(FormulaTokenKind.Error, literal, start, literal.Length);
     }
 
     private static FormulaToken ReadComparison(string formula, int start)
@@ -200,30 +195,8 @@ internal static class FormulaLexer
 
     private static FormulaToken ReadNumber(string formula, int start)
     {
-        var i = start;
-        while (i < formula.Length && (char.IsAsciiDigit(formula[i]) || formula[i] == '.'))
-        {
-            i++;
-        }
-
-        if (i < formula.Length && formula[i] is 'e' or 'E')
-        {
-            var exponent = i + 1;
-            if (exponent < formula.Length && formula[exponent] is '+' or '-')
-            {
-                exponent++;
-            }
-
-            if (exponent < formula.Length && char.IsAsciiDigit(formula[exponent]))
-            {
-                i = exponent;
-                while (i < formula.Length && char.IsAsciiDigit(formula[i]))
-                {
-                    i++;
-                }
-            }
-        }
-
+        var i = SkipWhile(formula, start, c => char.IsAsciiDigit(c) || c == '.');
+        i = SkipExponent(formula, i);
         var text = formula[start..i];
         if (!double.TryParse(text, NumberStyles.Float, CultureInfo.InvariantCulture, out _))
         {
@@ -231,6 +204,41 @@ internal static class FormulaLexer
         }
 
         return new FormulaToken(FormulaTokenKind.Number, text, start, i - start);
+    }
+
+    /// <summary>
+    /// Gets the index of the first character from <paramref name="start"/> on that does not match.
+    /// </summary>
+    private static int SkipWhile(string formula, int start, Func<char, bool> match)
+    {
+        var i = start;
+        while (i < formula.Length && match(formula[i]))
+        {
+            i++;
+        }
+
+        return i;
+    }
+
+    /// <summary>
+    /// Gets the index after a number's exponent, such as <c>e-3</c>, or <paramref name="start"/> when there is none.
+    /// </summary>
+    private static int SkipExponent(string formula, int start)
+    {
+        if (start >= formula.Length || formula[start] is not ('e' or 'E'))
+        {
+            return start;
+        }
+
+        var exponent = start + 1;
+        if (exponent < formula.Length && formula[exponent] is '+' or '-')
+        {
+            exponent++;
+        }
+
+        return exponent < formula.Length && char.IsAsciiDigit(formula[exponent])
+            ? SkipWhile(formula, exponent, char.IsAsciiDigit)
+            : start;
     }
 
     private static FormulaToken ReadWord(string formula, int start)

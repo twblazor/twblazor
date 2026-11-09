@@ -92,7 +92,7 @@ public partial class TwSpreadsheet
 
     private FontOption? selectedFont => fontOptions.FirstOrDefault(o => string.Equals(o.Family, activeCell?.FontFamily, StringComparison.OrdinalIgnoreCase));
 
-    private FontSizeOption? selectedFontSize => fontSizeOptions.FirstOrDefault(o => o.Size == activeCell?.FontSize);
+    private FontSizeOption? selectedFontSize => fontSizeOptions.FirstOrDefault(o => SheetFormatting.SameFontSize(o.Size, activeCell?.FontSize));
 
     private void BuildFormattingOptions()
     {
@@ -358,10 +358,11 @@ public partial class TwSpreadsheet
             .Select(row => (Row: row, Value: calculator!.GetValue(activeSheet, new CellAddress(row, key))))
             .ToList();
 
+        var direction = descending ? -1 : 1;
         var sorted = order
             .OrderBy(r => r.Value.Kind == SheetValueKind.Empty ? 1 : 0)
             .ThenBy(r => r.Value, Comparer<SheetValue>.Create((a, b) =>
-                a.Kind == SheetValueKind.Empty || b.Kind == SheetValueKind.Empty ? 0 : (descending ? -1 : 1) * FormulaEvaluator.CompareValues(a, b)))
+                a.Kind == SheetValueKind.Empty || b.Kind == SheetValueKind.Empty ? 0 : direction * FormulaEvaluator.CompareValues(a, b)))
             .ToList();
 
         var snapshot = range.Cells().ToDictionary(a => a, a => Clone(CellAt(activeSheet, a)));

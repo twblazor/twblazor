@@ -64,18 +64,13 @@ internal static class SheetFormatting
             return raw;
         }
 
-        List<FormulaToken> tokens;
-        try
-        {
-            tokens = FormulaLexer.Tokenize(raw![1..]);
-        }
-        catch (FormulaSyntaxException)
+        var formula = raw[1..];
+        if (!TryTokenize(formula, out var tokens))
         {
             return raw;
         }
 
         var result = new StringBuilder("=");
-        var formula = raw![1..];
         var position = 0;
         foreach (var token in tokens.Where(t => t.Kind == FormulaTokenKind.Reference))
         {
@@ -103,17 +98,12 @@ internal static class SheetFormatting
             return raw;
         }
 
-        List<FormulaToken> tokens;
-        try
-        {
-            tokens = FormulaLexer.Tokenize(raw![1..]);
-        }
-        catch (FormulaSyntaxException)
+        var formula = raw[1..];
+        if (!TryTokenize(formula, out var tokens))
         {
             return raw;
         }
 
-        var formula = raw![1..];
         var matches = tokens.Where(t => t.Kind == FormulaTokenKind.SheetPrefix && string.Equals(t.Text, oldName, StringComparison.OrdinalIgnoreCase)).ToList();
         if (matches.Count == 0)
         {
@@ -168,46 +158,73 @@ internal static class SheetFormatting
             return raw;
         }
 
-        List<FormulaToken> tokens;
-        try
-        {
-            tokens = FormulaLexer.Tokenize(raw![1..]);
-        }
-        catch (FormulaSyntaxException)
+        var formula = raw[1..];
+        if (!TryTokenize(formula, out var tokens))
         {
             return raw;
         }
 
-        var formula = raw![1..];
         var result = new StringBuilder("=");
         var position = 0;
-        for (var i = 0; i < tokens.Count; i++)
+        var i = 0;
+        while (i < tokens.Count)
         {
             if (tokens[i].Kind != FormulaTokenKind.Reference)
             {
+                i++;
                 continue;
             }
 
-            var prefix = i > 0 && tokens[i - 1].Kind == FormulaTokenKind.SheetPrefix ? tokens[i - 1].Text : null;
-            var affected = prefix is null ? onChangedSheet : string.Equals(prefix, sheetName, StringComparison.OrdinalIgnoreCase);
-            var isRange = i + 2 < tokens.Count && tokens[i + 1].Kind == FormulaTokenKind.Colon && tokens[i + 2].Kind == FormulaTokenKind.Reference;
+            var isRange = IsRangeAt(tokens, i);
             var last = isRange ? tokens[i + 2] : tokens[i];
-            if (!affected)
+            if (PointsAtSheet(tokens, i, onChangedSheet, sheetName))
             {
-                i = isRange ? i + 2 : i;
-                continue;
+                result.Append(formula, position, tokens[i].Start - position);
+                result.Append(isRange
+                    ? AdjustRange(tokens[i].Text, last.Text, rows, index, count)
+                    : AdjustSingle(tokens[i].Text, rows, index, count));
+                position = last.Start + last.Length;
             }
 
-            result.Append(formula, position, tokens[i].Start - position);
-            result.Append(isRange
-                ? AdjustRange(tokens[i].Text, last.Text, rows, index, count)
-                : AdjustSingle(tokens[i].Text, rows, index, count));
-            position = last.Start + last.Length;
-            i = isRange ? i + 2 : i;
+            i += isRange ? 3 : 1;
         }
 
         result.Append(formula, position, formula.Length - position);
         return result.ToString();
+    }
+
+    /// <summary>
+    /// Splits a formula, without its leading <c>=</c>, into tokens.
+    /// </summary>
+    /// <returns><see langword="false"/> when the formula cannot be read.</returns>
+    private static bool TryTokenize(string formula, out List<FormulaToken> tokens)
+    {
+        try
+        {
+            tokens = FormulaLexer.Tokenize(formula);
+            return true;
+        }
+        catch (FormulaSyntaxException)
+        {
+            tokens = [];
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Whether the reference at <paramref name="i"/> starts a range, such as <c>A1:B4</c>.
+    /// </summary>
+    private static bool IsRangeAt(List<FormulaToken> tokens, int i) =>
+        i + 2 < tokens.Count && tokens[i + 1].Kind == FormulaTokenKind.Colon && tokens[i + 2].Kind == FormulaTokenKind.Reference;
+
+    /// <summary>
+    /// Whether the reference at <paramref name="i"/> points at the sheet that changed: through its sheet name, or
+    /// without one when the formula is on that sheet.
+    /// </summary>
+    private static bool PointsAtSheet(List<FormulaToken> tokens, int i, bool onChangedSheet, string sheetName)
+    {
+        var prefix = i > 0 && tokens[i - 1].Kind == FormulaTokenKind.SheetPrefix ? tokens[i - 1].Text : null;
+        return prefix is null ? onChangedSheet : string.Equals(prefix, sheetName, StringComparison.OrdinalIgnoreCase);
     }
 
     private static string AdjustSingle(string reference, bool rows, int index, int count)
@@ -325,6 +342,15 @@ internal static class SheetFormatting
     /// <returns>The size, or <see langword="null"/> when none was given or it is not a number.</returns>
     public static double? SafeFontSize(double? size) =>
         size is { } s && double.IsFinite(s) ? Math.Clamp(s, 6, 72) : null;
+
+    /// <summary>
+    /// Whether two font sizes are the same, allowing for rounding, so 10.5 typed in and 10.5 from a list match.
+    /// </summary>
+    /// <param name="first">A size in points, or <see langword="null"/> for the default.</param>
+    /// <param name="second">The other size.</param>
+    /// <returns><see langword="true"/> when both are the default, or both sizes are within 0.001 points.</returns>
+    public static bool SameFontSize(double? first, double? second) =>
+        first is { } a ? second is { } b && Math.Abs(a - b) < 0.001 : second is null;
 
     private static string ShiftReference(string reference, int rows, int columns)
     {

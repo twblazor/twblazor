@@ -4,7 +4,7 @@
 @using TwBlazor.Localization
 @using TwBlazor.Models
 
-<div id="@Id" class="@rootClasses">
+<div id="@Id" class="@rootClasses" style="@Style" @attributes="@Attributes">
     @condition((Filter.First, "first"))
     <div class="@rowClasses" role="group" aria-label="@localizer[TwStrings.DataTable_FilterLogic]">
         <TwButton Rounded="@Rounded"

@@ -18,7 +18,7 @@ internal sealed class SheetCalculator
 
     private readonly HashSet<(int Sheet, CellAddress Address)> _inProgress = [];
 
-    private readonly Dictionary<string, FormulaNode?> _parsed = new(StringComparer.Ordinal);
+    private readonly Dictionary<string, IFormulaNode?> _parsed = new(StringComparer.Ordinal);
 
     /// <summary>
     /// Creates a calculator over a workbook.
@@ -81,7 +81,7 @@ internal sealed class SheetCalculator
     /// </summary>
     /// <param name="raw">The typed text.</param>
     /// <returns><see langword="true"/> for a formula.</returns>
-    public static bool IsFormula(string? raw) => raw is { Length: > 1 } && raw[0] == '=';
+    public static bool IsFormula([System.Diagnostics.CodeAnalysis.NotNullWhen(true)] string? raw) => raw is { Length: > 1 } && raw[0] == '=';
 
     /// <summary>
     /// Reads text typed into a cell that is not a formula: a number (with an optional percent sign or thousands
@@ -133,7 +133,7 @@ internal sealed class SheetCalculator
             return ParseLiteral(raw);
         }
 
-        var formula = raw![1..];
+        var formula = raw[1..];
         if (!_parsed.TryGetValue(formula, out var node))
         {
             try
@@ -176,14 +176,14 @@ internal sealed class SheetCalculator
     /// <summary>
     /// Reads cells for a formula on one sheet.
     /// </summary>
-    private readonly struct Context(SheetCalculator calculator, int sheet) : IFormulaContext
+    private readonly struct Context(SheetCalculator calculator, int sheetIndex) : IFormulaContext
     {
-        public SheetValue GetCell(string? sheetName, CellAddress address)
+        public SheetValue GetCell(string? sheet, CellAddress address)
         {
-            var index = sheetName is null ? sheet : calculator.FindSheet(sheetName);
+            var index = sheet is null ? sheetIndex : calculator.FindSheet(sheet);
             return index < 0 ? SheetValue.Error(SheetValue.ReferenceError) : calculator.GetValue(index, address);
         }
 
-        public bool HasSheet(string? sheetName) => sheetName is null || calculator.FindSheet(sheetName) >= 0;
+        public bool HasSheet(string? sheet) => sheet is null || calculator.FindSheet(sheet) >= 0;
     }
 }

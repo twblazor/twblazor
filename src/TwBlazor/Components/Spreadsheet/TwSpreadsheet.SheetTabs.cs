@@ -31,11 +31,11 @@ public partial class TwSpreadsheet
     public async Task<Sheet> AddSheetAsync(string? name = null)
     {
         await CommitEditAsync();
-        var sheet = new Sheet { Name = UniqueName(string.IsNullOrWhiteSpace(name) ? null : name.Trim(), null) };
-        Sheets.Add(sheet);
+        var added = new Sheet { Name = UniqueName(string.IsNullOrWhiteSpace(name) ? null : name.Trim(), null) };
+        Sheets.Add(added);
         Recalculate();
         await ActivateSheetAsync(Sheets.Count - 1);
-        return sheet;
+        return added;
     }
 
     /// <summary>
@@ -124,14 +124,16 @@ public partial class TwSpreadsheet
             return wanted;
         }
 
-        for (var n = wanted is null ? Sheets.Count + 1 : 2; ; n++)
+        var n = wanted is null ? Sheets.Count + 1 : 2;
+        string candidate;
+        do
         {
-            var candidate = wanted is null ? localizer[TwStrings.Spreadsheet_DefaultSheetName, n] : $"{wanted} ({n})";
-            if (!Taken(candidate))
-            {
-                return candidate;
-            }
+            candidate = wanted is null ? localizer[TwStrings.Spreadsheet_DefaultSheetName, n] : $"{wanted} ({n})";
+            n++;
         }
+        while (Taken(candidate));
+
+        return candidate;
     }
 
     private async Task OnAddSheetClickAsync()
