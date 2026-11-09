@@ -1,6 +1,7 @@
 // Copyright (c) 2025 Jack Shuter @ TwBlazor - twblazor.com
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
+using TwBlazor.Models;
 using System.Text.Json;
 using TwBlazor.Enums;
 
@@ -114,7 +115,7 @@ public sealed class TwDataTableColumnState
     /// <summary>
     /// Gets or sets the column's filter, or <c>null</c> when it is not filtered.
     /// </summary>
-    public TwDataTableColumnFilter? Filter { get; set; }
+    public ColumnFilter? Filter { get; set; }
 
     /// <summary>
     /// Creates a copy of these settings.

@@ -1,0 +1,484 @@
+@page "/spreadsheet"
+@using TwBlazor.Models
+
+<PageContainer Title="TwSpreadsheet" Path="/spreadsheet" Beta Description="TwSpreadsheet is a Blazor spreadsheet in the manner of Excel, with formulas, formatting, frozen panes, zoom, several sheets and export to Excel or CSV." ThemeType="typeof(TwSpreadsheetTheme)">
+    <PageCard Title="Basic usage">
+        <Description>Pass the workbook as <code>Sheets</code>: a list of <code>Sheet</code>, each holding its cells by address, such as <code>A1</code>. The grid shows columns <code>A</code> to <code>Z</code> and rows 1 to 100 unless you set <code>Columns</code> and <code>Rows</code>. Click a cell or move with the arrow keys, then type to replace it, or press <code>Enter</code> or <code>F2</code> to edit it. A value starting with <code>=</code> is a formula. The spreadsheet edits the cells in place and reports each change through <code>OnCellsChange</code>, so the workbook can be saved as it changes.</Description>
+
+        <CodeExample Name="SpreadsheetBasic" CSharpName="SpreadsheetBasicCode">
+            <TwSpreadsheet Sheets="@budget" Height="20rem" OnCellsChange="@OnBudgetChanged" />
+            <p class="mt-3 text-sm text-gray-600 dark:text-gray-400">Last change: <strong>@budgetChange</strong></p>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Formulas">
+        <Description>Formulas use the operators <code>+ - * / ^ &amp; %</code> and the comparisons <code>= &lt;&gt; &lt; &gt; &lt;= &gt;=</code>, refer to cells as <code>B3</code> and ranges as <code>B3:B8</code>, and fix a reference with <code>$</code> as in <code>$B$1</code>. The functions are <code>SUM</code>, <code>AVERAGE</code>, <code>MIN</code>, <code>MAX</code>, <code>COUNT</code>, <code>COUNTA</code>, <code>COUNTIF</code>, <code>SUMIF</code>, <code>PRODUCT</code>, <code>IF</code>, <code>IFERROR</code>, <code>AND</code>, <code>OR</code>, <code>NOT</code>, <code>ROUND</code>, <code>ROUNDUP</code>, <code>ROUNDDOWN</code>, <code>ABS</code>, <code>INT</code>, <code>SQRT</code>, <code>POWER</code>, <code>MOD</code>, <code>PI</code>, <code>LEN</code>, <code>UPPER</code>, <code>LOWER</code>, <code>TRIM</code>, <code>LEFT</code>, <code>RIGHT</code>, <code>MID</code>, <code>CONCAT</code> and <code>NA</code>. While typing a formula, click a cell, or drag across a range, to put its reference in. A problem shows as an error code, such as <code>#DIV/0!</code>, or <code>#CIRC!</code> for a formula that depends on itself.</Description>
+
+        <CodeExample Name="SpreadsheetFormulas" CSharpName="SpreadsheetFormulasCode">
+            <TwSpreadsheet Sheets="@grades" Rows="14" Columns="6" Height="18rem" ShowSheetTabs="false" />
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Several sheets">
+        <Description>Each <code>Sheet</code> gets a tab under the grid. The <code>+</code> button adds a sheet, double-clicking a tab or pressing <code>F2</code> on it renames it, and the arrow keys move between tabs. A formula refers to another sheet by name, as in <code>=Q1!B5</code>, or with quotes around a name with spaces, as in <code>='Q1 sales'!B5</code>. Renaming a sheet changes the formulas that refer to it. The <code>⋯</code> button after the tabs, or a right-click (a long press on a touch screen) on a tab, opens the sheet menu: rename, move left or right, and delete. Deleting asks first, and can be undone with <code>Ctrl + Z</code>. Bind <code>ActiveSheetIndex</code> to know or set which sheet is shown, and set <code>AllowAddSheet</code> to <code>false</code> to hide the button.</Description>
+
+        <CodeExample Name="SpreadsheetMultiple" CSharpName="SpreadsheetMultipleCode">
+            <TwSpreadsheet Sheets="@quarters" @bind-ActiveSheetIndex="quarterIndex" Rows="12" Columns="5" Height="16rem" />
+            <p class="mt-3 text-sm text-gray-600 dark:text-gray-400">Showing sheet <strong>@(quarterIndex + 1)</strong> of @quarters.Count: <strong>@quarters[quarterIndex].Name</strong></p>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Formatting">
+        <Description>The toolbar makes the selected cells bold, italic or underlined, lines them up, and picks a number format: <code>General</code>, <code>Number</code> with two decimal places, <code>Currency</code> or <code>Percent</code>. Numbers are shown in the app's culture. Set the same from code with <code>SheetCell</code>'s <code>Bold</code>, <code>Italic</code>, <code>Underline</code>, <code>Alignment</code> and <code>Format</code>. Undo and redo cover formatting as well as values.</Description>
+
+        <CodeExample Name="SpreadsheetFormatting" CSharpName="SpreadsheetFormattingCode">
+            <TwSpreadsheet Sheets="@invoice" Rows="12" Columns="5" ColumnWidth="128" Height="16rem" ShowSheetTabs="false" />
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Fonts and colors">
+        <Description>The toolbar sets the font and the text size of the selected cells, colors their text and shades them. <code>Fonts</code> lists the fonts to offer (Arial, Calibri, Cambria, Courier New, Georgia, Segoe UI, Times New Roman and Verdana by default), <code>FontSizes</code> the sizes in points, and <code>TextColors</code> and <code>FillColors</code> the colors, each a <code>SpreadsheetColor</code> with the name the menu shows and screen readers read out. A filled cell without its own text color gets black or white text, whichever reads better on the fill. From code, set the <code>FontFamily</code>, <code>FontSize</code>, <code>Color</code> and <code>Background</code> of a <code>SheetCell</code>; colors are hex, such as <code>#FEF3C7</code>.</Description>
+
+        <CodeExample Name="SpreadsheetFontsColors" CSharpName="SpreadsheetFontsColorsCode">
+            <TwSpreadsheet Sheets="@schedule" Fonts="@brandFonts" FillColors="@brandFills" Rows="10" Columns="6" Height="15rem" ShowSheetTabs="false" />
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Freeze panes, column widths and row heights">
+        <Description>The snowflake menu freezes the rows above and the columns before the active cell, or just the top row or first column, so headings stay in view as the sheet scrolls. Set <code>FrozenRows</code> and <code>FrozenColumns</code> on a <code>Sheet</code>, or call <code>FreezePanes</code>. Drag the edge of a column heading or the bottom edge of a row number to resize it, or double-click the edge to fit it to its contents, or use Widen column, Narrow column, Increase row height, Decrease row height and the two Fit to contents items from the context menu with the keyboard. A row also grows when its cells get a larger text size. Sizes are kept per sheet in <code>ColumnWidths</code>, keyed by the column letters, and <code>RowHeights</code>, keyed by the row number, or set with <code>SetColumnWidth</code> and <code>SetRowHeight</code>. Frozen panes, widths and heights are kept in the Excel export.</Description>
+
+        <CodeExample Name="SpreadsheetFreeze" CSharpName="SpreadsheetFreezeCode">
+            <TwSpreadsheet Sheets="@sales" Rows="40" Columns="14" Height="16rem" ShowSheetTabs="false" />
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Tables and filters">
+        <Description>Select a range and press the table button on the toolbar, or pick Insert table from the context menu. The dialog shows the range and a <strong>My table has headers</strong> checkbox; without headers, a row named <code>Column1</code>, <code>Column2</code> and so on is inserted above the data. A table has a heading row, banded rows and a filter button on each heading, also opened with <code>Alt + Arrow Down</code> on a heading. The filter sorts the column, offers the same conditions as a <code>TwDataTable</code> column filter, such as <em>is greater than 100</em> or <em>contains</em>, and lists the column values with a checkbox each. Filtered columns show a filled funnel, and the number of rows shown is announced. <code>FilterOperators</code> chooses the comparisons offered, and <code>ShowFilterConditions</code> and <code>ShowFilterValues</code> turn either part off. From code, add a <code>SheetTable</code> to <code>Sheet.Tables</code>, with <code>Conditions</code> holding a <code>ColumnFilter</code> per column and <code>Filters</code> listing the values to keep, or call <code>AddTableAsync</code> and <code>RemoveTable</code>. The conditions editor is also its own component, <code>TwColumnFilterEditor</code>. In the Excel export, a table is saved as its cells.</Description>
+
+        <CodeExample Name="SpreadsheetTables" CSharpName="SpreadsheetTablesCode">
+            <TwSpreadsheet Sheets="@orders" Rows="14" Columns="6" Height="18rem" ShowSheetTabs="false" />
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Zoom and the status bar">
+        <Description>The status bar under the grid shows the sum, average and count of the selected cells, and holds the zoom controls: the minus and plus buttons step between 50% and 200%, and the percentage resets to 100%. Bind <code>Zoom</code> to set or save the level (25% to 400%), or set <code>ShowStatusBar</code> to <code>false</code> to hide the bar.</Description>
+
+        <CodeExample Name="SpreadsheetZoom" CSharpName="SpreadsheetZoomCode">
+            <TwSpreadsheet Sheets="@grades" @bind-Zoom="zoom" Rows="14" Columns="6" Height="16rem" ShowSheetTabs="false" />
+            <p class="mt-3 text-sm text-gray-600 dark:text-gray-400">Zoom: <strong>@zoom%</strong>. Select B2:C5 to see their sum and average.</p>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Full screen">
+        <Description>The button at the end of the bottom bar makes the spreadsheet cover the window, which helps on small screens; press it again or <code>Escape</code> to go back. The page behind stops scrolling meanwhile. Bind <code>FullScreen</code> to open it from your own button or know when it changes, or set <code>AllowFullScreen</code> to <code>false</code> to hide the button. The toolbar stays on one line. When its controls do not fit, it scrolls sideways without a scrollbar and a More tools button (<code>⋯</code>) appears at its end, which shows every control on as many lines as they need.</Description>
+
+        <CodeExample Name="SpreadsheetFullScreen" CSharpName="SpreadsheetFullScreenCode">
+            <div class="flex flex-col gap-3">
+                <div>
+                    <TwButton Label="Open full screen" Variant="ButtonVariant.Outlined" StartIcon="Icon.Fullscreen" OnClick="@(() => fullScreen = true)" />
+                </div>
+                <TwSpreadsheet Sheets="@team" @bind-FullScreen="fullScreen" Rows="12" Columns="5" Height="12rem" ShowSheetTabs="false" />
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Rows, columns and sorting">
+        <Description>Right-click the grid, or press <code>Shift + F10</code>, for a context menu that cuts, copies and pastes, inserts rows above or below and columns before or after the selection, deletes the selected rows or columns, sorts, and clears contents. Formulas on every sheet follow the cells they refer to, and a formula that loses its cell shows <code>#REF!</code>. Sorting orders the selected rows by the column of the active cell; with a single cell selected, it sorts the block of data from <code>A1</code>, keeping a first row of headings in place. All of it can be undone, and is available from code as <code>InsertRowsAsync</code>, <code>DeleteRowsAsync</code>, <code>InsertColumnsAsync</code>, <code>DeleteColumnsAsync</code> and <code>SortAsync</code>.</Description>
+
+        <CodeExample Name="SpreadsheetStructure" CSharpName="SpreadsheetStructureCode">
+            <TwSpreadsheet Sheets="@team" Rows="12" Columns="5" Height="15rem" ShowSheetTabs="false" />
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Export">
+        <Description>Set <code>ExportFormats</code> to add an export menu to the toolbar, and <code>ExportFileName</code> for the saved file's name. An Excel workbook (<code>.xlsx</code>) holds every sheet with its formulas, their results and the cell formatting, and opens in Excel, Google Sheets, Numbers and LibreOffice. CSV holds the results of the sheet being shown. The files are written in .NET with no other package. Call <code>ExportAsync</code> to export from your own button; it also returns the file.</Description>
+
+        <CodeExample Name="SpreadsheetExport" CSharpName="SpreadsheetExportCode">
+            <TwSpreadsheet Sheets="@exportBook" ExportFormats="@exportFormats" ExportFileName="Team budget" Rows="12" Columns="5" Height="16rem" />
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Exporting on the server">
+        <Description><code>TwSpreadsheetExport</code> holds the same writers as static methods, so stored sheets can be turned into a file on the server, for example to email a report: <code>ToExcel</code>, <code>ToCsv</code>, or <code>Export</code>, which returns the bytes with a file name and media type. Formulas are worked out with the same engine as the component.</Description>
+
+        <CodeExample Name="SpreadsheetServerExport" CSharpName="SpreadsheetServerExportCode">
+            <div class="flex flex-col gap-3">
+                <div>
+                    <TwButton Label="Show the budget as CSV" Variant="ButtonVariant.Outlined" OnClick="@(() => csvText = TwSpreadsheetExport.ToCsv(budget))" />
+                </div>
+                <pre class="rounded-md bg-black/5 p-3 text-xs whitespace-pre-wrap wrap-anywhere dark:bg-white/10">@csvText</pre>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Methods">
+        <Description>Use <code>@@ref</code> to work with the spreadsheet from code: <code>SetCellAsync</code> sets a cell as if it were typed, so it can be undone, <code>GetDisplayText</code> reads what a cell shows, <code>SelectAsync</code> selects a cell or range, and <code>UndoAsync</code>, <code>RedoAsync</code>, <code>AddSheetAsync</code>, <code>RemoveSheetAsync</code>, <code>RenameSheetAsync</code> and <code>FocusAsync</code> do what their names say. After changing <code>Sheets</code> directly, call <code>Refresh</code> so the formulas are worked out again.</Description>
+
+        <CodeExample Name="SpreadsheetMethods" CSharpName="SpreadsheetMethodsCode">
+            <div class="flex flex-col gap-3">
+                <div class="flex flex-wrap gap-2">
+                    <TwButton Label="Double the rate" Variant="ButtonVariant.Outlined" OnClick="@DoubleRateAsync" />
+                    <TwButton Label="Select the totals" Variant="ButtonVariant.Outlined" OnClick="@(() => methodsSheets!.SelectAsync("C2:C4"))" />
+                    <TwButton Label="Undo" Variant="ButtonVariant.Outlined" OnClick="@(() => methodsSheets!.UndoAsync())" />
+                </div>
+                <TwSpreadsheet @ref="methodsSheets" Sheets="@hours" Rows="8" Columns="4" Height="13rem" ShowToolbar="false" ShowSheetTabs="false" OnCellsChange="@ReadTotal" />
+                <p class="text-sm text-gray-600 dark:text-gray-400">Grand total: <strong>@grandTotal</strong></p>
+            </div>
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Size and parts">
+        <Description><code>Rows</code> and <code>Columns</code> set how many are shown (100 and 26 by default), <code>ColumnWidth</code> the width of every column in pixels, and <code>Height</code> the height of the scrolling area. <code>ShowToolbar</code>, <code>ShowFormulaBar</code>, <code>ShowSheetTabs</code> and <code>ShowStatusBar</code> hide each part; the keyboard shortcuts still work without the toolbar.</Description>
+
+        <CodeExample Name="SpreadsheetCompact">
+            <TwSpreadsheet Rows="6" Columns="4" ColumnWidth="88" Height="12rem" ShowToolbar="false" ShowFormulaBar="false" ShowSheetTabs="false" ShowStatusBar="false" AriaLabel="Scratch pad" />
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Read only">
+        <Description><code>ReadOnly</code> keeps the cells readable, selectable and copyable, with the grid in the Tab order, but nothing can be changed and sheets cannot be added or renamed. Export still works.</Description>
+
+        <CodeExample Name="SpreadsheetReadOnly">
+            <TwSpreadsheet Sheets="@grades" ReadOnly Rows="14" Columns="6" Height="14rem" ShowSheetTabs="false" />
+        </CodeExample>
+    </PageCard>
+
+    <PageCard Title="Accessibility">
+        <Description>
+            <p>The grid follows the ARIA grid pattern, and everything you can do with a mouse you can also do with the keyboard. Every key is listed in this page's keyboard guide.</p>
+
+            <h3 class="mt-4 mb-1 text-sm font-semibold">Screen readers</h3>
+            <ul class="list-disc ps-5 space-y-1">
+                <li>The grid is one Tab stop, named by <code>AriaLabel</code> ("Spreadsheet" by default).</li>
+                <li>Each cell is read out as the arrow keys move, through <code>aria-activedescendant</code>.</li>
+                <li>Selected cells carry <code>aria-selected</code>, and a selected range is announced.</li>
+                <li>Copying, pasting, clearing, filtering, zooming, deleting a sheet and exporting are announced too.</li>
+                <li>A hint about how to edit a cell is linked to the grid with <code>aria-describedby</code>.</li>
+            </ul>
+
+            <h3 class="mt-4 mb-1 text-sm font-semibold">Keyboard</h3>
+            <ul class="list-disc ps-5 space-y-1">
+                <li><code>Tab</code> leaves the grid unless a cell is being edited, so focus is never trapped.</li>
+                <li>The context menu opens with <code>Shift + F10</code>. It resizes and fits columns and rows, which you can otherwise only do by dragging.</li>
+                <li>A table filter opens with <code>Alt + Arrow Down</code> on its heading.</li>
+                <li>Dialogs keep focus inside them, start on the safe choice and close with <code>Escape</code>.</li>
+            </ul>
+
+            <h3 class="mt-4 mb-1 text-sm font-semibold">Seeing where you are</h3>
+            <ul class="list-disc ps-5 space-y-1">
+                <li>The active cell has a thick outline, which turns to the accent colour while the grid has focus.</li>
+                <li>The selected range is tinted, and its row and column headings are highlighted.</li>
+                <li>Headings and frozen panes stay in view as the grid scrolls, and never cover the active cell.</li>
+                <li>A filtered column shows a filled funnel and says "filtered" in its name.</li>
+                <li>The default fills get black or white text, whichever reads better, in light and dark themes.</li>
+            </ul>
+
+            <h3 class="mt-4 mb-1 text-sm font-semibold">Controls and language</h3>
+            <ul class="list-disc ps-5 space-y-1">
+                <li>The toolbar is a <code>toolbar</code>. Its buttons say whether their format is on and list their shortcuts.</li>
+                <li>The More tools button says whether the toolbar is expanded with <code>aria-expanded</code>, and names the controls it shows with <code>aria-controls</code>.</li>
+                <li>The cell reference box and the formula bar are labelled fields.</li>
+                <li>The sheet tabs are a <code>tablist</code> that controls the grid.</li>
+                <li>All of the spreadsheet's own text is translated into the app's language.</li>
+            </ul>
+        </Description>
+    </PageCard>
+</PageContainer>
+
+@code {
+    #region CodeExample SpreadsheetBasicCode
+    private readonly List<Sheet> budget =
+    [
+        new Sheet
+        {
+            Name = "Budget",
+            Cells =
+            {
+                ["A1"] = new() { Value = "Item", Bold = true },
+                ["B1"] = new() { Value = "Monthly", Bold = true, Alignment = SheetCellAlignment.End },
+                ["C1"] = new() { Value = "Yearly", Bold = true, Alignment = SheetCellAlignment.End },
+                ["A2"] = new() { Value = "Rent" },
+                ["B2"] = new() { Value = "1200", Format = SheetNumberFormat.Currency },
+                ["C2"] = new() { Value = "=B2*12", Format = SheetNumberFormat.Currency },
+                ["A3"] = new() { Value = "Groceries" },
+                ["B3"] = new() { Value = "350", Format = SheetNumberFormat.Currency },
+                ["C3"] = new() { Value = "=B3*12", Format = SheetNumberFormat.Currency },
+                ["A4"] = new() { Value = "Transport" },
+                ["B4"] = new() { Value = "120", Format = SheetNumberFormat.Currency },
+                ["C4"] = new() { Value = "=B4*12", Format = SheetNumberFormat.Currency },
+                ["A5"] = new() { Value = "Total", Bold = true },
+                ["B5"] = new() { Value = "=SUM(B2:B4)", Bold = true, Format = SheetNumberFormat.Currency },
+                ["C5"] = new() { Value = "=SUM(C2:C4)", Bold = true, Format = SheetNumberFormat.Currency },
+            },
+        },
+    ];
+
+    private string budgetChange = "none yet";
+
+    private void OnBudgetChanged(SheetChangeEventArgs change) =>
+        budgetChange = $"{string.Join(", ", change.Addresses)} on {change.Sheet.Name}";
+    #endregion
+
+    #region CodeExample SpreadsheetFormulasCode
+    private readonly List<Sheet> grades =
+    [
+        new Sheet
+        {
+            Name = "Grades",
+            Cells =
+            {
+                ["A1"] = new() { Value = "Student", Bold = true },
+                ["B1"] = new() { Value = "Test 1", Bold = true },
+                ["C1"] = new() { Value = "Test 2", Bold = true },
+                ["D1"] = new() { Value = "Average", Bold = true },
+                ["E1"] = new() { Value = "Result", Bold = true },
+                ["A2"] = new() { Value = "Ada" }, ["B2"] = new() { Value = "92" }, ["C2"] = new() { Value = "88" },
+                ["A3"] = new() { Value = "Grace" }, ["B3"] = new() { Value = "79" }, ["C3"] = new() { Value = "95" },
+                ["A4"] = new() { Value = "Alan" }, ["B4"] = new() { Value = "54" }, ["C4"] = new() { Value = "61" },
+                ["A5"] = new() { Value = "Linus" }, ["B5"] = new() { Value = "47" }, ["C5"] = new() { Value = "52" },
+                ["D2"] = new() { Value = "=ROUND(AVERAGE(B2:C2), 1)" },
+                ["D3"] = new() { Value = "=ROUND(AVERAGE(B3:C3), 1)" },
+                ["D4"] = new() { Value = "=ROUND(AVERAGE(B4:C4), 1)" },
+                ["D5"] = new() { Value = "=ROUND(AVERAGE(B5:C5), 1)" },
+                ["E2"] = new() { Value = "=IF(D2>=$B$8, \"Pass\", \"Retake\")" },
+                ["E3"] = new() { Value = "=IF(D3>=$B$8, \"Pass\", \"Retake\")" },
+                ["E4"] = new() { Value = "=IF(D4>=$B$8, \"Pass\", \"Retake\")" },
+                ["E5"] = new() { Value = "=IF(D5>=$B$8, \"Pass\", \"Retake\")" },
+                ["A7"] = new() { Value = "Class average", Italic = true },
+                ["B7"] = new() { Value = "=AVERAGE(D2:D5)", Format = SheetNumberFormat.Number },
+                ["A8"] = new() { Value = "Pass mark", Italic = true },
+                ["B8"] = new() { Value = "60" },
+                ["A9"] = new() { Value = "Passed", Italic = true },
+                ["B9"] = new() { Value = "=COUNTIF(E2:E5, \"Pass\")" },
+                ["A10"] = new() { Value = "Top student", Italic = true },
+                ["B10"] = new() { Value = "=IF(D2=MAX(D2:D5), A2, IF(D3=MAX(D2:D5), A3, IF(D4=MAX(D2:D5), A4, A5)))" },
+            },
+        },
+    ];
+    #endregion
+
+    #region CodeExample SpreadsheetMultipleCode
+    private int quarterIndex;
+
+    private readonly List<Sheet> quarters =
+    [
+        new Sheet
+        {
+            Name = "Q1",
+            Cells =
+            {
+                ["A1"] = new() { Value = "Region", Bold = true }, ["B1"] = new() { Value = "Sales", Bold = true },
+                ["A2"] = new() { Value = "North" }, ["B2"] = new() { Value = "12400" },
+                ["A3"] = new() { Value = "South" }, ["B3"] = new() { Value = "9800" },
+                ["A4"] = new() { Value = "West" }, ["B4"] = new() { Value = "15100" },
+                ["A5"] = new() { Value = "Total", Bold = true }, ["B5"] = new() { Value = "=SUM(B2:B4)", Bold = true },
+            },
+        },
+        new Sheet
+        {
+            Name = "Q2",
+            Cells =
+            {
+                ["A1"] = new() { Value = "Region", Bold = true }, ["B1"] = new() { Value = "Sales", Bold = true },
+                ["A2"] = new() { Value = "North" }, ["B2"] = new() { Value = "13900" },
+                ["A3"] = new() { Value = "South" }, ["B3"] = new() { Value = "10350" },
+                ["A4"] = new() { Value = "West" }, ["B4"] = new() { Value = "14200" },
+                ["A5"] = new() { Value = "Total", Bold = true }, ["B5"] = new() { Value = "=SUM(B2:B4)", Bold = true },
+            },
+        },
+        new Sheet
+        {
+            Name = "Summary",
+            Cells =
+            {
+                ["A1"] = new() { Value = "Quarter", Bold = true }, ["B1"] = new() { Value = "Total", Bold = true }, ["C1"] = new() { Value = "Growth", Bold = true },
+                ["A2"] = new() { Value = "Q1" }, ["B2"] = new() { Value = "=Q1!B5" },
+                ["A3"] = new() { Value = "Q2" }, ["B3"] = new() { Value = "=Q2!B5" }, ["C3"] = new() { Value = "=B3/B2-1", Format = SheetNumberFormat.Percent },
+            },
+        },
+    ];
+    #endregion
+
+    #region CodeExample SpreadsheetFormattingCode
+    private readonly List<Sheet> invoice =
+    [
+        new Sheet
+        {
+            Name = "Invoice",
+            Cells =
+            {
+                ["A1"] = new() { Value = "Invoice 1042", Bold = true, Underline = true },
+                ["A3"] = new() { Value = "Item", Bold = true },
+                ["B3"] = new() { Value = "Quantity", Bold = true, Alignment = SheetCellAlignment.Center },
+                ["C3"] = new() { Value = "Price", Bold = true, Alignment = SheetCellAlignment.End },
+                ["D3"] = new() { Value = "Amount", Bold = true, Alignment = SheetCellAlignment.End },
+                ["A4"] = new() { Value = "Design" }, ["B4"] = new() { Value = "12", Alignment = SheetCellAlignment.Center }, ["C4"] = new() { Value = "85", Format = SheetNumberFormat.Currency }, ["D4"] = new() { Value = "=B4*C4", Format = SheetNumberFormat.Currency },
+                ["A5"] = new() { Value = "Development" }, ["B5"] = new() { Value = "30", Alignment = SheetCellAlignment.Center }, ["C5"] = new() { Value = "95", Format = SheetNumberFormat.Currency }, ["D5"] = new() { Value = "=B5*C5", Format = SheetNumberFormat.Currency },
+                ["A6"] = new() { Value = "Hosting" }, ["B6"] = new() { Value = "1", Alignment = SheetCellAlignment.Center }, ["C6"] = new() { Value = "240", Format = SheetNumberFormat.Currency }, ["D6"] = new() { Value = "=B6*C6", Format = SheetNumberFormat.Currency },
+                ["C8"] = new() { Value = "Subtotal", Italic = true, Alignment = SheetCellAlignment.End }, ["D8"] = new() { Value = "=SUM(D4:D6)", Format = SheetNumberFormat.Currency },
+                ["C9"] = new() { Value = "VAT", Italic = true, Alignment = SheetCellAlignment.End }, ["D9"] = new() { Value = "20%", Format = SheetNumberFormat.Percent },
+                ["C10"] = new() { Value = "Total", Bold = true, Alignment = SheetCellAlignment.End }, ["D10"] = new() { Value = "=D8*(1+D9)", Bold = true, Format = SheetNumberFormat.Currency },
+            },
+        },
+    ];
+    #endregion
+
+    #region CodeExample SpreadsheetFontsColorsCode
+    private readonly string[] brandFonts = ["Inter", "Georgia", "Courier New"];
+
+    private readonly SpreadsheetColor[] brandFills =
+    [
+        new() { Name = "Mint", Value = "#D1FAE5" },
+        new() { Name = "Sky", Value = "#E0F2FE" },
+        new() { Name = "Sand", Value = "#FEF3C7" },
+        new() { Name = "Slate", Value = "#334155" },
+    ];
+
+    private readonly List<Sheet> schedule =
+    [
+        new Sheet
+        {
+            Cells =
+            {
+                ["A1"] = new() { Value = "Team schedule", Bold = true, FontSize = 14, FontFamily = "Georgia" },
+                ["A3"] = new() { Value = "Day", Bold = true, Background = "#334155" },
+                ["B3"] = new() { Value = "Owner", Bold = true, Background = "#334155" },
+                ["C3"] = new() { Value = "Status", Bold = true, Background = "#334155" },
+                ["A4"] = new() { Value = "Monday" }, ["B4"] = new() { Value = "Ada" }, ["C4"] = new() { Value = "Done", Background = "#D1FAE5" },
+                ["A5"] = new() { Value = "Tuesday" }, ["B5"] = new() { Value = "Grace" }, ["C5"] = new() { Value = "Late", Background = "#FEE2E2", Color = "#991B1B" },
+                ["A6"] = new() { Value = "Wednesday" }, ["B6"] = new() { Value = "Alan" }, ["C6"] = new() { Value = "Planned", Background = "#E0F2FE" },
+                ["A8"] = new() { Value = "Code names use Courier New", FontFamily = "Courier New", Italic = true },
+            },
+        },
+    ];
+    #endregion
+
+    #region CodeExample SpreadsheetFreezeCode
+    private readonly List<Sheet> sales = [SalesSheet()];
+
+    private static Sheet SalesSheet()
+    {
+        string[] months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        var sheet = new Sheet { Name = "Sales", FrozenRows = 1, FrozenColumns = 1, ColumnWidths = { ["A"] = 140 } };
+        sheet.Cells["A1"] = new() { Value = "Store", Bold = true };
+        for (var m = 0; m < months.Length; m++)
+        {
+            sheet.Cells[$"{(char)('B' + m)}1"] = new() { Value = months[m], Bold = true, Alignment = SheetCellAlignment.End };
+        }
+
+        for (var store = 1; store <= 30; store++)
+        {
+            sheet.Cells[$"A{store + 1}"] = new() { Value = $"Store {store:00}" };
+            for (var m = 0; m < months.Length; m++)
+            {
+                var amount = ((store * 37) + (m * 53)) % 900 + 100;
+                sheet.Cells[$"{(char)('B' + m)}{store + 1}"] = new() { Value = amount.ToString(System.Globalization.CultureInfo.InvariantCulture) };
+            }
+        }
+
+        return sheet;
+    }
+    #endregion
+
+    #region CodeExample SpreadsheetTablesCode
+    private readonly List<Sheet> orders =
+    [
+        new Sheet
+        {
+            Tables = { new SheetTable { Name = "Orders", Range = "A1:D9", Filters = { ["C"] = ["Shipped", "Delivered"] } } },
+            Cells =
+            {
+                ["A1"] = new() { Value = "Order" }, ["B1"] = new() { Value = "Customer" }, ["C1"] = new() { Value = "Status" }, ["D1"] = new() { Value = "Total" },
+                ["A2"] = new() { Value = "1001" }, ["B2"] = new() { Value = "Ada" }, ["C2"] = new() { Value = "Shipped" }, ["D2"] = new() { Value = "120", Format = SheetNumberFormat.Currency },
+                ["A3"] = new() { Value = "1002" }, ["B3"] = new() { Value = "Grace" }, ["C3"] = new() { Value = "Pending" }, ["D3"] = new() { Value = "80", Format = SheetNumberFormat.Currency },
+                ["A4"] = new() { Value = "1003" }, ["B4"] = new() { Value = "Alan" }, ["C4"] = new() { Value = "Delivered" }, ["D4"] = new() { Value = "45", Format = SheetNumberFormat.Currency },
+                ["A5"] = new() { Value = "1004" }, ["B5"] = new() { Value = "Linus" }, ["C5"] = new() { Value = "Cancelled" }, ["D5"] = new() { Value = "60", Format = SheetNumberFormat.Currency },
+                ["A6"] = new() { Value = "1005" }, ["B6"] = new() { Value = "Ada" }, ["C6"] = new() { Value = "Delivered" }, ["D6"] = new() { Value = "210", Format = SheetNumberFormat.Currency },
+                ["A7"] = new() { Value = "1006" }, ["B7"] = new() { Value = "Margaret" }, ["C7"] = new() { Value = "Shipped" }, ["D7"] = new() { Value = "95", Format = SheetNumberFormat.Currency },
+                ["A8"] = new() { Value = "1007" }, ["B8"] = new() { Value = "Grace" }, ["C8"] = new() { Value = "Pending" }, ["D8"] = new() { Value = "150", Format = SheetNumberFormat.Currency },
+                ["A9"] = new() { Value = "1008" }, ["B9"] = new() { Value = "Alan" }, ["C9"] = new() { Value = "Shipped" }, ["D9"] = new() { Value = "30", Format = SheetNumberFormat.Currency },
+                ["C11"] = new() { Value = "Total", Bold = true }, ["D11"] = new() { Value = "=SUM(D2:D9)", Bold = true, Format = SheetNumberFormat.Currency },
+            },
+        },
+    ];
+    #endregion
+
+    #region CodeExample SpreadsheetZoomCode
+    private int zoom = 100;
+    #endregion
+
+    #region CodeExample SpreadsheetFullScreenCode
+    private bool fullScreen;
+    #endregion
+
+    #region CodeExample SpreadsheetStructureCode
+    private readonly List<Sheet> team =
+    [
+        new Sheet
+        {
+            Cells =
+            {
+                ["A1"] = new() { Value = "Name", Bold = true }, ["B1"] = new() { Value = "Team", Bold = true }, ["C1"] = new() { Value = "Points", Bold = true },
+                ["A2"] = new() { Value = "Linus" }, ["B2"] = new() { Value = "Core" }, ["C2"] = new() { Value = "41" },
+                ["A3"] = new() { Value = "Ada" }, ["B3"] = new() { Value = "Docs" }, ["C3"] = new() { Value = "78" },
+                ["A4"] = new() { Value = "Grace" }, ["B4"] = new() { Value = "Core" }, ["C4"] = new() { Value = "65" },
+                ["A5"] = new() { Value = "Alan" }, ["B5"] = new() { Value = "Tools" }, ["C5"] = new() { Value = "52" },
+                ["A7"] = new() { Value = "Total", Bold = true }, ["C7"] = new() { Value = "=SUM(C2:C5)", Bold = true },
+            },
+        },
+    ];
+    #endregion
+
+    #region CodeExample SpreadsheetExportCode
+    private readonly SpreadsheetExportFormat[] exportFormats = [SpreadsheetExportFormat.Excel, SpreadsheetExportFormat.Csv];
+
+    private readonly List<Sheet> exportBook =
+    [
+        new Sheet
+        {
+            Name = "Spend",
+            Cells =
+            {
+                ["A1"] = new() { Value = "Team", Bold = true }, ["B1"] = new() { Value = "Budget", Bold = true }, ["C1"] = new() { Value = "Spent", Bold = true }, ["D1"] = new() { Value = "Used", Bold = true },
+                ["A2"] = new() { Value = "Design" }, ["B2"] = new() { Value = "8000", Format = SheetNumberFormat.Currency }, ["C2"] = new() { Value = "6150", Format = SheetNumberFormat.Currency }, ["D2"] = new() { Value = "=C2/B2", Format = SheetNumberFormat.Percent },
+                ["A3"] = new() { Value = "Engineering" }, ["B3"] = new() { Value = "24000", Format = SheetNumberFormat.Currency }, ["C3"] = new() { Value = "25300", Format = SheetNumberFormat.Currency }, ["D3"] = new() { Value = "=C3/B3", Format = SheetNumberFormat.Percent },
+                ["A4"] = new() { Value = "Marketing" }, ["B4"] = new() { Value = "12000", Format = SheetNumberFormat.Currency }, ["C4"] = new() { Value = "7400", Format = SheetNumberFormat.Currency }, ["D4"] = new() { Value = "=C4/B4", Format = SheetNumberFormat.Percent },
+            },
+        },
+        new Sheet { Name = "Notes", Cells = { ["A1"] = new() { Value = "Engineering is over budget.", Italic = true } } },
+    ];
+    #endregion
+
+    #region CodeExample SpreadsheetServerExportCode
+    private string csvText = "Press the button.";
+    #endregion
+
+    #region CodeExample SpreadsheetMethodsCode
+    private TwSpreadsheet? methodsSheets;
+    private string grandTotal = "975";
+
+    private readonly List<Sheet> hours =
+    [
+        new Sheet
+        {
+            Cells =
+            {
+                ["A1"] = new() { Value = "Task", Bold = true }, ["B1"] = new() { Value = "Hours", Bold = true }, ["C1"] = new() { Value = "Total", Bold = true },
+                ["A2"] = new() { Value = "Research" }, ["B2"] = new() { Value = "6" }, ["C2"] = new() { Value = "=B2*$B$6" },
+                ["A3"] = new() { Value = "Build" }, ["B3"] = new() { Value = "14" }, ["C3"] = new() { Value = "=B3*$B$6" },
+                ["A4"] = new() { Value = "Review" }, ["B4"] = new() { Value = "6" }, ["C4"] = new() { Value = "=B4*$B$6" },
+                ["A6"] = new() { Value = "Rate" }, ["B6"] = new() { Value = "37.5" },
+                ["A7"] = new() { Value = "Total", Bold = true }, ["C7"] = new() { Value = "=SUM(C2:C4)", Bold = true },
+            },
+        },
+    ];
+
+    private async Task DoubleRateAsync()
+    {
+        var rate = double.Parse(methodsSheets!.GetDisplayText("B6"), System.Globalization.CultureInfo.CurrentCulture);
+        await methodsSheets.SetCellAsync("B6", (rate * 2).ToString(System.Globalization.CultureInfo.InvariantCulture));
+    }
+
+    private void ReadTotal(SheetChangeEventArgs change) => grandTotal = methodsSheets!.GetDisplayText("C7");
+    #endregion
+}

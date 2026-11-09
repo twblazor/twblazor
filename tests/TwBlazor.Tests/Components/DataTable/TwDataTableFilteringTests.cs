@@ -1,5 +1,7 @@
 using Bunit;
 using TwBlazor.Components;
+using TwBlazor.Enums;
+using TwBlazor.Models;
 
 namespace TwBlazor.Tests.Components.DataTable;
 
@@ -317,7 +319,7 @@ public class TwDataTableFilteringTests : TwBlazorTestBase
         // Arrange - the price filter's number field rejects text, so a filter saved with bad text is used instead.
         var cut = Render(p => p.Add(x => x.State, new TwDataTableState
         {
-            Columns = [new() { Name = "price", Filter = new() { First = new() { Operator = TwDataTableFilterOperator.IsGreaterThan, Value = "lots" } } }]
+            Columns = [new() { Name = "price", Filter = new() { First = new() { Operator = FilterOperator.IsGreaterThan, Value = "lots" } } }]
         }));
 
         // Assert
@@ -329,7 +331,7 @@ public class TwDataTableFilteringTests : TwBlazorTestBase
     {
         // Arrange
         var columns = Columns();
-        columns[0].FilterOperators = [TwDataTableFilterOperator.StartsWith, TwDataTableFilterOperator.EndsWith];
+        columns[0].FilterOperators = [FilterOperator.StartsWith, FilterOperator.EndsWith];
         var cut = Render(columns: columns);
 
         // Act
@@ -344,7 +346,7 @@ public class TwDataTableFilteringTests : TwBlazorTestBase
     {
         // Arrange
         var columns = Columns();
-        columns[2].FilterType = TwDataTableFilterType.Text;
+        columns[2].FilterType = FilterType.Text;
         var cut = Render(columns: columns);
 
         // Act
@@ -366,7 +368,7 @@ public class TwDataTableFilteringTests : TwBlazorTestBase
 
         // Assert
         var filter = raised?.Columns.Single(c => c.Name == "name").Filter;
-        Assert.Equal(TwDataTableFilterOperator.Contains, filter?.First.Operator);
+        Assert.Equal(FilterOperator.Contains, filter?.First.Operator);
         Assert.Equal("e", filter?.First.Value);
         Assert.Null(filter?.Second);
 
@@ -383,7 +385,7 @@ public class TwDataTableFilteringTests : TwBlazorTestBase
         // Act
         var cut = Render(p => p.Add(x => x.State, new TwDataTableState
         {
-            Columns = [new() { Name = "room", Visible = false, Filter = new() { First = new() { Operator = TwDataTableFilterOperator.IsEqualTo, Value = "Office" } } }]
+            Columns = [new() { Name = "room", Visible = false, Filter = new() { First = new() { Operator = FilterOperator.IsEqualTo, Value = "Office" } } }]
         }));
 
         // Assert
@@ -396,7 +398,7 @@ public class TwDataTableFilteringTests : TwBlazorTestBase
         // Act
         var cut = Render(p => p.Add(x => x.State, new TwDataTableState
         {
-            Columns = [new() { Name = "notes", Filter = new() { First = new() { Operator = TwDataTableFilterOperator.IsEmpty } } }]
+            Columns = [new() { Name = "notes", Filter = new() { First = new() { Operator = FilterOperator.IsEmpty } } }]
         }));
 
         // Assert
@@ -410,7 +412,7 @@ public class TwDataTableFilteringTests : TwBlazorTestBase
         // Arrange
         var cut = Render(p => p.Add(x => x.State, new TwDataTableState
         {
-            Columns = [new() { Name = "room", Filter = new() { First = new() { Operator = TwDataTableFilterOperator.IsEqualTo, Value = "Office" } } }]
+            Columns = [new() { Name = "room", Filter = new() { First = new() { Operator = FilterOperator.IsEqualTo, Value = "Office" } } }]
         }));
 
         // Act
@@ -464,11 +466,11 @@ public class TwDataTableFilteringTests : TwBlazorTestBase
     public void Filters_AreCopies_InTheProviderRequest()
     {
         // Arrange
-        var filter = new TwDataTableColumnFilter
+        var filter = new ColumnFilter
         {
-            First = new() { Operator = TwDataTableFilterOperator.IsGreaterThan, Value = "10" },
-            Logic = TwDataTableFilterLogic.Or,
-            Second = new() { Operator = TwDataTableFilterOperator.IsEmpty }
+            First = new() { Operator = FilterOperator.IsGreaterThan, Value = "10" },
+            Logic = FilterLogic.Or,
+            Second = new() { Operator = FilterOperator.IsEmpty }
         };
 
         // Act
@@ -477,8 +479,8 @@ public class TwDataTableFilteringTests : TwBlazorTestBase
 
         // Assert
         Assert.Equal("10", filter.First.Value);
-        Assert.Equal(TwDataTableFilterLogic.Or, copy.Logic);
+        Assert.Equal(FilterLogic.Or, copy.Logic);
         Assert.True(copy.Second!.IsActive);
-        Assert.False(new TwDataTableFilterCondition { Operator = TwDataTableFilterOperator.Contains }.IsActive);
+        Assert.False(new FilterCondition { Operator = FilterOperator.Contains }.IsActive);
     }
 }

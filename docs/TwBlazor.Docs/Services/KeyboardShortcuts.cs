@@ -38,6 +38,8 @@ internal static class KeyboardShortcuts
     private const string right = "Arrow Right";
     private const string home = "Home";
     private const string end = "End";
+    private const string backspace = "Backspace";
+    private const string shiftF10 = "Shift + F10";
     private const string pageUp = "Pg.Up";
     private const string pageDown = "Pg.Down";
 
@@ -284,12 +286,48 @@ internal static class KeyboardShortcuts
             "Each tag is a chip in a list before the text field. The arrow keys move between the tags, so Tab stops only on the text field, and the remove buttons are not Tab stops. Additions and removals are announced to screen readers.",
             Key("Moves focus into or out of the field.", tab, shiftTab),
             Key("Adds the typed text as a tag. With a suggestion highlighted, adds the suggestion instead.", enter, ","),
-            Key("In the empty text field: removes the last tag.", "Backspace"),
+            Key("In the empty text field: removes the last tag.", backspace),
             Key("In the empty text field: moves to the last tag. On a tag: moves to the previous or next tag, or back to the text field after the last. Reversed in a right to left layout.", left, right),
             Key("On a tag: moves to the first tag, or to the text field.", home, end),
-            Key("On a tag: removes it and moves to the tag beside it.", "Delete", "Backspace"),
+            Key("On a tag: removes it and moves to the tag beside it.", "Delete", backspace),
             Key("Opens the suggestions and highlights the first or last one, or moves through them.", down, up),
             Key("Closes the suggestions. Focus stays in the field.", escape)),
+
+        ["/column-filter-editor"] = Guide(
+            "The editor is a set of ordinary fields: each comparison is a list, each value a text, number or date field, and And and Or are two buttons in a labelled group.",
+            Key("Moves between the fields and buttons.", tab, shiftTab),
+            Key("On a comparison list: opens it and moves through the comparisons.", enter, space, down),
+            Key("On the And or Or button: chooses how the two conditions combine.", enter, space)),
+
+        ["/spreadsheet"] = Guide(
+            "The grid is a single Tab stop that follows the ARIA grid pattern: screen readers read the active cell as it moves, and a selected range is announced. The toolbar, the cell reference box, the formula bar and the sheet tabs are each reached with Tab.",
+            Key("Moves focus into or out of the grid. Tab never moves between cells unless a cell is being edited, so it always leaves the grid.", tab, shiftTab),
+            Key("Moves the active cell. Reversed in a right to left layout.", up, down, left, right),
+            Key("Extends the selection by one cell.", "Shift + Arrow"),
+            Key("Jumps to the edge of the block of filled cells, or to the next filled cell.", "Ctrl + Arrow"),
+            Key("Moves to the first column of the row, or to the last filled column.", home, end),
+            Key("Moves to A1, or to the last filled cell.", "Ctrl + Home", "Ctrl + End"),
+            Key("Moves up or down ten rows.", pageUp, pageDown),
+            Key("Selects the whole row or the whole column, or every cell.", "Shift + Space", "Ctrl + Space", "Ctrl + A"),
+            Key("Typing a character replaces the active cell with it. Formulas start with =.", "Any character"),
+            Key("Edits the active cell, with the caret after its contents.", enter, "F2"),
+            Key("While editing: keeps the change and moves down, up, right or left.", enter, "Shift + Enter", tab, shiftTab),
+            Key("While editing a cell started by typing: keeps the change and moves. After F2, the arrow keys move the caret instead.", up, down, left, right),
+            Key("While editing: throws the change away.", escape),
+            Key("Empties the selected cells, keeping their formatting.", "Delete", backspace),
+            Key("Copies, cuts or pastes. Cells copied from the sheet keep their formulas, moved to where they are pasted.", "Ctrl + C", "Ctrl + X", "Ctrl + V"),
+            Key("Undoes or redoes the last change.", "Ctrl + Z", "Ctrl + Y"),
+            Key("Bold, italic or underline for the selected cells.", "Ctrl + B", "Ctrl + I", "Ctrl + U"),
+            Key("Opens the context menu: cut, copy, paste, insert and delete rows and columns, sort, clear, and widen or narrow the column.", shiftF10, "Menu"),
+            Key("In full screen mode, with nothing being edited or selected beyond one cell: leaves full screen.", escape),
+            Key("On the More tools button (⋯) at the end of the toolbar, shown when the controls do not fit: shows every control on several lines, or puts them back on one line.", enter, space),
+            Key("On a table heading: opens its filter, which sorts the column and chooses which values stay in view.", "Alt + Arrow Down"),
+            Key("In a dialog, such as the confirmation before a sheet is deleted: moves between its controls, and closes it without doing anything.", tab, escape),
+            Key("On the sheet tabs: opens the sheet menu to rename, move or delete the sheet. The ⋯ button after the tabs opens it too.", shiftF10, "Menu"),
+            Key("In the cell reference box: selects the cell or range typed, such as B3 or A1:C4, and returns to the grid.", enter),
+            Key("In the formula bar: keeps the change and returns to the grid, or throws it away.", enter, escape),
+            Key("On the sheet tabs: shows the next or previous sheet, or the first or last.", left, right, home, end),
+            Key("On a sheet tab: renames the sheet. Enter keeps the name and Escape throws it away.", "F2")),
 
         ["/text-editor"] = Guide(
             "The text is a multiline text box, and the toolbar above it is one toolbar of groups: Tab moves from group to group, and the arrow keys move between the buttons in a group. Each button says whether its format is applied at the caret.",
@@ -306,7 +344,7 @@ internal static class KeyboardShortcuts
             Key("On a toolbar button: applies or removes its format. Focus stays on the button.", enter, space),
             Key("In the link address field: applies the link. Focus goes back to the text.", enter),
             Key("In the link bar: closes it without changing anything, and returns focus to the text.", escape),
-            Key("In the text, with ShowContextMenu set: opens the formatting menu.", "Shift + F10", "Menu"),
+            Key("In the text, with ShowContextMenu set: opens the formatting menu.", shiftF10, "Menu"),
             Key("On the export button: opens the list of formats. The arrow keys move through it, and Enter saves the file in that format.", enter, space, down)),
 
         ["/menu"] = Guide(
@@ -324,7 +362,7 @@ internal static class KeyboardShortcuts
         ["/context-menu"] = Guide(
             "Right-click the area to open the menu at the pointer. When the area can take focus, Shift+F10 or the Menu key opens it too, with focus on its first item. The menu follows the ARIA menu pattern: one item has focus at a time, and the arrow keys move between them.",
             Key("Moves focus to the area, when the area is a Tab stop.", tab),
-            Key("On the focusable area: opens the menu with focus on its first item.", "Shift + F10", "Menu"),
+            Key("On the focusable area: opens the menu with focus on its first item.", shiftF10, "Menu"),
             Key("In the menu: moves to the next or previous item, wrapping round at either end. Disabled items are skipped.", down, up),
             Key("In the menu: moves to the first or last item.", home, end),
             Key("In the menu: moves to the next item that starts with the typed letter.", "A to Z"),
@@ -422,7 +460,7 @@ internal static class KeyboardShortcuts
             Key("Moves to the next option starting with the typed letters.", "A to Z"),
             Key("Selects the focused option and closes the list. In a multiple select, adds or removes the option and keeps the list open.", enter, space),
             Key("Closes the list without changing the value and returns focus to the field.", escape, tab),
-            Key("On a clearable select with the list closed: clears the selection.", "Delete", "Backspace"),
+            Key("On a clearable select with the list closed: clears the selection.", "Delete", backspace),
             Key("On a selected item's remove button in a multiple select: removes that item and returns focus to the field.", enter, space)),
 
         ["/separator"] = _notInteractive,

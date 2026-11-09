@@ -1129,4 +1129,52 @@
   <data name="Home_Release_NotesQuote" xml:space="preserve">
     <value>சிறிதாக, அடிக்கடி வெளியிடுங்கள்.</value>
   </data>
+  <data name="Home_Showcase_SpreadsheetTab" xml:space="preserve">
+    <value>விரிதாள்கள்</value>
+  </data>
+  <data name="Home_Showcase_Spreadsheet_Title" xml:space="preserve">
+    <value>குழு வரவுசெலவு</value>
+  </data>
+  <data name="Home_Showcase_Spreadsheet_Desc" xml:space="preserve">
+    <value>தாள்களுக்கு இடையிலான சூத்திரங்கள், வடிப்பான்களுடன் அட்டவணை, உறைந்த பலகங்கள், நிரப்பு வண்ணங்கள் மற்றும் Excel-க்கு ஏற்றுமதி.</value>
+  </data>
+  <data name="Home_Sheet_Budget" xml:space="preserve">
+    <value>வரவுசெலவு</value>
+  </data>
+  <data name="Home_Sheet_Monthly" xml:space="preserve">
+    <value>மாதவாரியாக</value>
+  </data>
+  <data name="Home_Sheet_Summary" xml:space="preserve">
+    <value>சுருக்கம்</value>
+  </data>
+  <data name="Home_Sheet_Team" xml:space="preserve">
+    <value>குழு</value>
+  </data>
+  <data name="Home_Sheet_Spent" xml:space="preserve">
+    <value>செலவு</value>
+  </data>
+  <data name="Home_Sheet_Remaining" xml:space="preserve">
+    <value>மீதம்</value>
+  </data>
+  <data name="Home_Sheet_Used" xml:space="preserve">
+    <value>பயன்பாடு</value>
+  </data>
+  <data name="Home_Sheet_Engineering" xml:space="preserve">
+    <value>பொறியியல்</value>
+  </data>
+  <data name="Home_Sheet_Marketing" xml:space="preserve">
+    <value>சந்தைப்படுத்தல்</value>
+  </data>
+  <data name="Home_Sheet_Sales" xml:space="preserve">
+    <value>விற்பனை</value>
+  </data>
+  <data name="Home_Sheet_TotalBudget" xml:space="preserve">
+    <value>மொத்த வரவுசெலவு</value>
+  </data>
+  <data name="Home_Sheet_TotalSpent" xml:space="preserve">
+    <value>மொத்த செலவு</value>
+  </data>
+  <data name="Home_Sheet_OverBudget" xml:space="preserve">
+    <value>வரவுசெலவை மீறிய குழுக்கள்</value>
+  </data>
 </root>

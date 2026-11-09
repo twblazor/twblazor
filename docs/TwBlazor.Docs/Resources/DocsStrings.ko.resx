@@ -1129,4 +1129,52 @@
   <data name="Home_Release_NotesQuote" xml:space="preserve">
     <value>작게, 자주 배포하세요.</value>
   </data>
+  <data name="Home_Showcase_SpreadsheetTab" xml:space="preserve">
+    <value>스프레드시트</value>
+  </data>
+  <data name="Home_Showcase_Spreadsheet_Title" xml:space="preserve">
+    <value>팀 예산</value>
+  </data>
+  <data name="Home_Showcase_Spreadsheet_Desc" xml:space="preserve">
+    <value>시트 간 수식, 필터가 있는 표, 틀 고정, 채우기 색, Excel로 내보내기.</value>
+  </data>
+  <data name="Home_Sheet_Budget" xml:space="preserve">
+    <value>예산</value>
+  </data>
+  <data name="Home_Sheet_Monthly" xml:space="preserve">
+    <value>월별</value>
+  </data>
+  <data name="Home_Sheet_Summary" xml:space="preserve">
+    <value>요약</value>
+  </data>
+  <data name="Home_Sheet_Team" xml:space="preserve">
+    <value>팀</value>
+  </data>
+  <data name="Home_Sheet_Spent" xml:space="preserve">
+    <value>지출</value>
+  </data>
+  <data name="Home_Sheet_Remaining" xml:space="preserve">
+    <value>남은 금액</value>
+  </data>
+  <data name="Home_Sheet_Used" xml:space="preserve">
+    <value>사용률</value>
+  </data>
+  <data name="Home_Sheet_Engineering" xml:space="preserve">
+    <value>엔지니어링</value>
+  </data>
+  <data name="Home_Sheet_Marketing" xml:space="preserve">
+    <value>마케팅</value>
+  </data>
+  <data name="Home_Sheet_Sales" xml:space="preserve">
+    <value>영업</value>
+  </data>
+  <data name="Home_Sheet_TotalBudget" xml:space="preserve">
+    <value>총예산</value>
+  </data>
+  <data name="Home_Sheet_TotalSpent" xml:space="preserve">
+    <value>총지출</value>
+  </data>
+  <data name="Home_Sheet_OverBudget" xml:space="preserve">
+    <value>예산 초과 팀</value>
+  </data>
 </root>

@@ -4257,3 +4257,392 @@ globalThis.twGanttChart = {
         scroller.scrollLeft = globalThis.twDirection.isRtl(scroller) ? target - max : target;
     }
 };
+
+// Sheets (TwSpreadsheet): the parts of the spreadsheet that must happen in the browser at once. The grid keeps focus and
+// points at the active cell with aria-activedescendant, while .NET decides what each key does; this module stops the
+// browser's own handling of those keys (scrolling the page), turns pointer presses and drags into cell coordinates,
+// and collects the characters typed into the grid until the cell's field is ready, so fast typing is never lost on
+// Blazor Server. Pasting reads the clipboard here and hands the text to .NET.
+globalThis.twSpreadsheet = {
+    // Keys .NET handles in the grid, whose default the browser must not run. Tab is left alone, so it leaves the grid.
+    _gridKeys: new Set(['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Home', 'End', 'PageUp', 'PageDown', 'Enter', 'F2', 'Delete', 'Backspace', 'Escape']),
+
+    // Keys handled with Ctrl or Cmd in the grid. V is left alone, since the paste event carries the text.
+    _shortcutKeys: new Set(['a', 'b', 'i', 'u', 'z', 'y', 'c', 'x', ' ']),
+
+    _state: function (grid) {
+        return grid?.__twSpreadsheet ?? null;
+    },
+
+    // The cell, column heading, row heading or corner an element is in, as a zero based row and column, with -1
+    // standing for a heading. Returns null for anything else.
+    _target: function (grid, element) {
+        const cell = element?.closest?.('td, th');
+        if (!cell || !grid.contains(cell)) return null;
+        const row = cell.parentElement;
+        const inBody = row.parentElement?.tagName === 'TBODY';
+        return { row: inBody ? row.sectionRowIndex : -1, column: cell.cellIndex - 1 };
+    },
+
+    _onGridKeyDown: function (grid, state, e) {
+        if (globalThis.twKeyboard.isComposing(e)) return;
+        if (e.ctrlKey || e.metaKey) {
+            if (globalThis.twSpreadsheet._shortcutKeys.has(e.key.toLowerCase())) e.preventDefault();
+            return;
+        }
+
+        if (globalThis.twSpreadsheet._gridKeys.has(e.key) || (e.key === ' ' && e.shiftKey)) {
+            e.preventDefault();
+            return;
+        }
+
+        // A printable character starts editing the cell. It is kept until the cell's field is ready.
+        if (e.key.length === 1 && !e.altKey && grid.dataset.readonly !== 'true') {
+            e.preventDefault();
+            state.buffer += e.key;
+            if (!state.pending) {
+                state.pending = true;
+                void globalThis.twPicker._invokeSafely(state.dotnetRef, 'BeginTyping');
+            }
+        }
+    },
+
+    _onEditorKeyDown: function (grid, e) {
+        if (globalThis.twKeyboard.isComposing(e)) return;
+        const kind = e.target.dataset.twSpreadsheetEditor;
+        if (e.key === 'Enter' || e.key === 'Escape' || e.key === 'F2' || (e.key === 'Tab' && kind !== 'rename')) {
+            e.preventDefault();
+            return;
+        }
+
+        // In a cell started by typing, the arrow keys finish the edit and move, instead of moving the caret.
+        if (kind === 'cell' && grid.dataset.editing === 'enter' && e.key.startsWith('Arrow')) e.preventDefault();
+    },
+
+    // Resizes a column while its heading's edge is dragged, then hands the width to .NET. The <col> and the table are
+    // resized here at once, so the drag follows the pointer without waiting on a round trip. The table's zoom scales
+    // the pointer's movement, and the edge moves the other way in a right to left layout.
+    _startResize: function (grid, dotnetRef, e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const heading = e.target.closest('th');
+        const col = grid.querySelectorAll(':scope > colgroup > col')[heading.cellIndex];
+        if (!col) return;
+        const column = heading.cellIndex - 1;
+        const startX = e.clientX;
+        const startWidth = Number.parseFloat(col.style.width) || col.getBoundingClientRect().width;
+        const startTable = Number.parseFloat(grid.style.width) || grid.getBoundingClientRect().width;
+        const zoom = Number.parseFloat(grid.dataset.zoom) || 1;
+        const direction = globalThis.twDirection.isRtl(grid) ? -1 : 1;
+        let width = startWidth;
+
+        const onMove = function (ev) {
+            width = Math.min(1000, Math.max(24, Math.round(startWidth + ((ev.clientX - startX) / zoom) * direction)));
+            col.style.width = width + 'px';
+            grid.style.width = (startTable + width - startWidth) + 'px';
+        };
+        const onUp = function () {
+            document.removeEventListener('mousemove', onMove);
+            document.removeEventListener('mouseup', onUp);
+            document.documentElement.style.cursor = '';
+            if (width !== startWidth) void globalThis.twPicker._invokeSafely(dotnetRef, 'ResizeColumn', column, width);
+        };
+
+        document.documentElement.style.cursor = 'col-resize';
+        document.addEventListener('mousemove', onMove);
+        document.addEventListener('mouseup', onUp);
+    },
+
+    // Resizes a row while its heading's bottom edge is dragged, then hands the height to .NET, the same way columns
+    // are resized.
+    _startRowResize: function (grid, dotnetRef, e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const row = e.target.closest('tr');
+        if (!row) return;
+        const index = row.sectionRowIndex;
+        const startY = e.clientY;
+        const startHeight = Number.parseFloat(row.style.height) || row.getBoundingClientRect().height;
+        const zoom = Number.parseFloat(grid.dataset.zoom) || 1;
+        let height = startHeight;
+
+        const onMove = function (ev) {
+            height = Math.min(400, Math.max(16, Math.round(startHeight + (ev.clientY - startY) / zoom)));
+            row.style.height = height + 'px';
+        };
+        const onUp = function () {
+            document.removeEventListener('mousemove', onMove);
+            document.removeEventListener('mouseup', onUp);
+            document.documentElement.style.cursor = '';
+            if (height !== startHeight) void globalThis.twPicker._invokeSafely(dotnetRef, 'ResizeRow', index, height);
+        };
+
+        document.documentElement.style.cursor = 'row-resize';
+        document.addEventListener('mousemove', onMove);
+        document.addEventListener('mouseup', onUp);
+    },
+
+    // Dialog (delete a sheet, insert a table, filter a column): keeps Tab inside it, closes it on Escape through the
+    // shared Escape stack, and moves focus to the element marked data-autofocus, or else the first one in it.
+    openDialog: function (panel, dotnetRef) {
+        if (!panel || panel.__twSpreadsheetDialog) return;
+        panel.__twSpreadsheetDialog = true;
+        globalThis.twDialog._pushEscape({ surface: panel, dotnetRef: dotnetRef, method: 'CloseDialog' });
+        globalThis.twDialog.trapFocus(panel);
+        const target = panel.querySelector('[data-autofocus]') ?? globalThis.twDialog.getFocusableElements(panel)[0] ?? panel;
+        target.focus();
+    },
+
+    closeDialog: function (panel) {
+        if (!panel?.__twSpreadsheetDialog) return;
+        delete panel.__twSpreadsheetDialog;
+        globalThis.twDialog.unregisterEscape(panel);
+        globalThis.twDialog.releaseFocusTrap(panel);
+    },
+
+    attach: function (grid, dotnetRef) {
+        if (!grid || grid.__twSpreadsheet) return;
+        const root = grid.closest('[data-tw-spreadsheet]') ?? grid;
+        const state = { dotnetRef: dotnetRef, root: root, buffer: '', pending: false, dragging: false, last: null };
+
+        const onKeyDown = function (e) {
+            if (e.target === grid) {
+                globalThis.twSpreadsheet._onGridKeyDown(grid, state, e);
+            } else if (e.target?.dataset?.twSpreadsheetEditor) {
+                globalThis.twSpreadsheet._onEditorKeyDown(grid, e);
+            } else if (e.key === 'Escape' && root.dataset.fullscreen === 'true' && !e.defaultPrevented
+                && !e.target?.closest?.('[role="menu"], [data-tw-popover]')) {
+                // Escape on the toolbar or the footer leaves full screen; the grid handles its own Escape in .NET,
+                // and an open menu or list closes first.
+                void globalThis.twPicker._invokeSafely(dotnetRef, 'ExitFullScreen');
+            }
+        };
+
+        const onMouseDown = function (e) {
+            if (e.target?.dataset?.twSpreadsheetEditor) return;
+            if (e.button === 0 && e.target?.dataset?.twSpreadsheetResize !== undefined) {
+                globalThis.twSpreadsheet._startResize(grid, dotnetRef, e);
+                return;
+            }
+
+            if (e.button === 0 && e.target?.dataset?.twSpreadsheetRowResize !== undefined) {
+                globalThis.twSpreadsheet._startRowResize(grid, dotnetRef, e);
+                return;
+            }
+
+            // A table heading's filter button opens its filter on click, without moving the selection.
+            if (e.target?.closest?.('[data-tw-spreadsheet-filter]')) return;
+
+            const target = globalThis.twSpreadsheet._target(grid, e.target);
+            if (!target) return;
+
+            // A right-click selects the cell under the pointer first, unless it is already selected, so the context
+            // menu acts on what was clicked.
+            if (e.button === 2) {
+                void globalThis.twPicker._invokeSafely(dotnetRef, 'PointerContext', target.row, target.column);
+                return;
+            }
+
+            if (e.button !== 0) return;
+            // Stops text selection, and keeps focus in a formula being typed so the click can add a reference to it.
+            e.preventDefault();
+            if (grid.dataset.pointing !== 'true') grid.focus({ preventScroll: true });
+            state.dragging = true;
+            state.last = target.row + ':' + target.column;
+            void globalThis.twPicker._invokeSafely(dotnetRef, 'PointerDown', target.row, target.column, e.shiftKey);
+        };
+
+        const onMouseMove = function (e) {
+            if (!state.dragging) return;
+            if ((e.buttons & 1) === 0) {
+                state.dragging = false;
+                return;
+            }
+            const target = globalThis.twSpreadsheet._target(grid, document.elementFromPoint(e.clientX, e.clientY));
+            if (!target) return;
+            const key = target.row + ':' + target.column;
+            if (key === state.last) return;
+            state.last = key;
+            void globalThis.twPicker._invokeSafely(dotnetRef, 'PointerExtend', target.row, target.column);
+        };
+
+        const onMouseUp = function () { state.dragging = false; };
+
+        const onDoubleClick = function (e) {
+            if (e.target?.dataset?.twSpreadsheetEditor) return;
+
+            // A double-click on a column or row edge fits it to its contents, as in a spreadsheet.
+            if (e.target?.dataset?.twSpreadsheetResize !== undefined) {
+                const column = e.target.closest('th').cellIndex - 1;
+                const width = globalThis.twSpreadsheet.fitColumn(grid, column);
+                if (width > 0) void globalThis.twPicker._invokeSafely(dotnetRef, 'ResizeColumn', column, width);
+                return;
+            }
+
+            if (e.target?.dataset?.twSpreadsheetRowResize !== undefined) {
+                const row = e.target.closest('tr').sectionRowIndex;
+                const height = globalThis.twSpreadsheet.fitRow(grid, row);
+                if (height > 0) void globalThis.twPicker._invokeSafely(dotnetRef, 'ResizeRow', row, height);
+                return;
+            }
+
+            const target = globalThis.twSpreadsheet._target(grid, e.target);
+            if (target && target.row >= 0 && target.column >= 0) {
+                void globalThis.twPicker._invokeSafely(dotnetRef, 'PointerDoubleClick', target.row, target.column);
+            }
+        };
+
+        const onPaste = function (e) {
+            if (e.target !== grid) return;
+            e.preventDefault();
+            const text = e.clipboardData?.getData('text/plain') ?? '';
+            if (text) void globalThis.twPicker._invokeSafely(dotnetRef, 'PasteText', text);
+        };
+
+        root.addEventListener('keydown', onKeyDown);
+        grid.addEventListener('mousedown', onMouseDown);
+        grid.addEventListener('dblclick', onDoubleClick);
+        grid.addEventListener('paste', onPaste);
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mouseup', onMouseUp);
+        state.handlers = { onKeyDown: onKeyDown, onMouseDown: onMouseDown, onDoubleClick: onDoubleClick, onPaste: onPaste, onMouseMove: onMouseMove, onMouseUp: onMouseUp };
+        grid.__twSpreadsheet = state;
+    },
+
+    // Focuses a cell's or the formula bar's field, with the caret at the end. When the edit was started by typing, the
+    // characters collected since are put in first, through an input event so .NET receives them in order.
+    focusEditor: function (grid, id, takeTyped) {
+        const input = document.getElementById(id);
+        const state = globalThis.twSpreadsheet._state(grid);
+        if (!input) {
+            if (state) {
+                state.buffer = '';
+                state.pending = false;
+            }
+            return;
+        }
+
+        if (takeTyped && state) {
+            input.value = state.buffer;
+            state.buffer = '';
+            state.pending = false;
+            input.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+
+        input.focus({ preventScroll: true });
+        const end = input.value.length;
+        try {
+            input.setSelectionRange(end, end);
+        } catch {
+            // Some input types cannot place the caret; focus alone is enough.
+        }
+    },
+
+    focus: function (grid) {
+        if (grid && typeof grid.focus === 'function') grid.focus({ preventScroll: true });
+    },
+
+    // Marks the toolbar with data-overflowing while its controls do not fit on one line, so the theme can show the
+    // More tools button only when it is needed. While the toolbar is expanded the mark is left as it is, since the
+    // wrapped controls always fit.
+    observeToolbar: function (grid) {
+        const state = globalThis.twSpreadsheet._state(grid);
+        if (!state) return;
+        const items = state.root.querySelector('[data-tw-spreadsheet-toolbar-items]');
+        if (state.toolbarItems === items) return;
+        state.toolbarObserver?.disconnect();
+        state.toolbarObserver = null;
+        state.toolbarItems = items;
+        if (!items) return;
+
+        const toolbar = items.closest('[data-tw-spreadsheet-toolbar]') ?? items.parentElement;
+        const measure = function () {
+            if (toolbar.dataset.expanded === 'true') return;
+            toolbar.toggleAttribute('data-overflowing', items.scrollWidth > items.clientWidth + 1);
+        };
+
+        if (typeof ResizeObserver === 'function') {
+            state.toolbarObserver = new ResizeObserver(measure);
+            state.toolbarObserver.observe(items);
+        }
+
+        measure();
+    },
+
+    // Full screen: stops the page behind from scrolling while the spreadsheet covers the window, and restores the
+    // page's own overflow afterwards.
+    setFullScreen: function (grid, on) {
+        const state = globalThis.twSpreadsheet._state(grid);
+        const html = document.documentElement;
+        if (on) {
+            if (state && state.previousOverflow === undefined) state.previousOverflow = html.style.overflow;
+            html.style.overflow = 'hidden';
+        } else {
+            html.style.overflow = state?.previousOverflow ?? '';
+            if (state) delete state.previousOverflow;
+        }
+    },
+
+    // Scrolls a cell into view. The scrolling area's scroll padding keeps it clear of the sticky headings.
+    scrollToCell: function (id) {
+        const cell = id ? document.getElementById(id) : null;
+        if (cell && typeof cell.scrollIntoView === 'function') cell.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+    },
+
+    // The width a column needs for its widest content, heading included: each cell clips its text, so its scroll
+    // width is the width of the text plus its padding. Returns 0 when the column is not there.
+    fitColumn: function (grid, column) {
+        const rows = Array.from(grid?.querySelectorAll(':scope > thead > tr, :scope > tbody > tr') ?? []);
+        if (rows.length === 0 || column < 0) return 0;
+        let widest = 0;
+        rows.forEach(function (row) {
+            const cell = row.cells[column + 1];
+            if (cell && !row.hidden) widest = Math.max(widest, cell.scrollWidth);
+        });
+        return widest > 0 ? Math.min(1000, Math.max(24, Math.ceil(widest) + 4)) : 0;
+    },
+
+    // The height a row needs for its tallest text, found by letting the row size itself for a moment. Never less than
+    // the standard 32 pixels, so plain text goes back to the standard height. Returns 0 when the row is not there.
+    fitRow: function (grid, row) {
+        const tr = grid?.tBodies?.[0]?.rows?.[row];
+        if (!tr) return 0;
+        const zoom = Number.parseFloat(grid.dataset.zoom) || 1;
+        const previous = tr.style.height;
+        tr.style.height = 'auto';
+        const natural = tr.getBoundingClientRect().height / zoom;
+        tr.style.height = previous;
+        return Math.min(400, Math.max(32, Math.ceil(natural) + 8));
+    },
+
+    // Reads the clipboard for the context menu's Paste. Returns null when the browser refuses.
+    readText: async function () {
+        try {
+            return await navigator.clipboard?.readText() ?? null;
+        } catch {
+            return null;
+        }
+    },
+
+    copyText: async function (text) {
+        try {
+            await navigator.clipboard?.writeText(text);
+        } catch {
+            // Clipboard access was refused (an insecure page or no permission); copying within the sheet still works.
+        }
+    },
+
+    detach: function (grid) {
+        const state = globalThis.twSpreadsheet._state(grid);
+        if (!state) return;
+        const h = state.handlers;
+        state.root.removeEventListener('keydown', h.onKeyDown);
+        grid.removeEventListener('mousedown', h.onMouseDown);
+        grid.removeEventListener('dblclick', h.onDoubleClick);
+        grid.removeEventListener('paste', h.onPaste);
+        document.removeEventListener('mousemove', h.onMouseMove);
+        document.removeEventListener('mouseup', h.onMouseUp);
+        state.toolbarObserver?.disconnect();
+        delete grid.__twSpreadsheet;
+    }
+};

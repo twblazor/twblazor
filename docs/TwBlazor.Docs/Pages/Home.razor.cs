@@ -141,6 +141,109 @@ public partial class Home
         return $"<h2>{H(heading)}</h2><p>{H(intro)}</p><ul><li><strong>{H(faster)}</strong></li><li>{H(alerts)}</li><li>{H(fixes)}</li></ul><blockquote><p><em>{H(quote)}</em></p></blockquote>";
     }
 
+    // The Spreadsheets tab's workbook: a budget table that reads its spending from a month by month sheet, and a
+    // summary that reads the table, so editing one sheet updates the others.
+    private readonly List<Sheet> _budgetBook = BudgetBook();
+
+    private readonly SpreadsheetExportFormat[] _budgetExportFormats = [SpreadsheetExportFormat.Excel, SpreadsheetExportFormat.Csv];
+
+    /// <summary>
+    /// Builds the Spreadsheets tab's workbook from translated labels. The month names come from the page's culture.
+    /// </summary>
+    /// <returns>The budget, month by month and summary sheets.</returns>
+    private static List<Sheet> BudgetBook()
+    {
+        var budgetName = Loc.Text("Home_Sheet_Budget", "Budget");
+        var monthlyName = Loc.Text("Home_Sheet_Monthly", "By month");
+        var total = Loc.Text("Home_Pay_Total", "Total");
+        string[] teams =
+        [
+            Loc.Text("Home_Review_Tag_Design", "Design"),
+            Loc.Text("Home_Sheet_Engineering", "Engineering"),
+            Loc.Text("Home_Sheet_Marketing", "Marketing"),
+            Loc.Text("Home_Sheet_Sales", "Sales"),
+            Loc.Text("Home_Review_Tag_Support", "Support"),
+        ];
+        int[] budgets = [8000, 24000, 12000, 15000, 6000];
+        int[] monthlyBase = [510, 2110, 620, 1150, 410];
+
+        static string Quoted(string name) => $"'{name.Replace("'", "''", StringComparison.Ordinal)}'!";
+        static string Number(int value) => value.ToString(CultureInfo.InvariantCulture);
+
+        var monthly = new Sheet { Name = monthlyName, FrozenRows = 1, FrozenColumns = 1, ColumnWidths = { ["A"] = 132 } };
+        monthly.Cells["A1"] = new() { Value = Loc.Text("Home_Sheet_Team", "Team"), Bold = true };
+        monthly.Cells["N1"] = new() { Value = total, Bold = true, Alignment = SheetCellAlignment.End };
+        for (var m = 0; m < 12; m++)
+        {
+            monthly.Cells[$"{(char)('B' + m)}1"] = new() { Value = Loc.Culture.DateTimeFormat.AbbreviatedMonthNames[m], Bold = true, Alignment = SheetCellAlignment.End };
+        }
+
+        var budget = new Sheet
+        {
+            Name = budgetName,
+            FrozenRows = 1,
+            ColumnWidths = { ["A"] = 132 },
+            Tables = { new SheetTable { Name = "TeamBudget", Range = "A1:E6" } },
+        };
+        budget.Cells["A1"] = new() { Value = Loc.Text("Home_Sheet_Team", "Team") };
+        budget.Cells["B1"] = new() { Value = budgetName };
+        budget.Cells["C1"] = new() { Value = Loc.Text("Home_Sheet_Spent", "Spent") };
+        budget.Cells["D1"] = new() { Value = Loc.Text("Home_Sheet_Remaining", "Remaining") };
+        budget.Cells["E1"] = new() { Value = Loc.Text("Home_Sheet_Used", "Used") };
+
+        for (var t = 0; t < teams.Length; t++)
+        {
+            var row = t + 2;
+            monthly.Cells[$"A{row}"] = new() { Value = teams[t] };
+            for (var m = 0; m < 12; m++)
+            {
+                // A steady pattern of ups and downs around each team's usual month, so the data looks lived in.
+                var amount = monthlyBase[t] + ((t * 37 + m * 53) % 9 - 4) * monthlyBase[t] / 40;
+                monthly.Cells[$"{(char)('B' + m)}{row}"] = new() { Value = Number(amount), Format = SheetNumberFormat.Currency };
+            }
+
+            monthly.Cells[$"N{row}"] = new() { Value = $"=SUM(B{row}:M{row})", Bold = true, Format = SheetNumberFormat.Currency };
+
+            budget.Cells[$"A{row}"] = new() { Value = teams[t] };
+            budget.Cells[$"B{row}"] = new() { Value = Number(budgets[t]), Format = SheetNumberFormat.Currency };
+            budget.Cells[$"C{row}"] = new() { Value = $"={Quoted(monthlyName)}N{row}", Format = SheetNumberFormat.Currency };
+            budget.Cells[$"D{row}"] = new() { Value = $"=B{row}-C{row}", Format = SheetNumberFormat.Currency };
+            budget.Cells[$"E{row}"] = new() { Value = $"=C{row}/B{row}", Format = SheetNumberFormat.Percent };
+        }
+
+        // Engineering is the team over budget, so its share is filled red to stand out.
+        budget.Cells["E3"].Background = "#FEE2E2";
+        budget.Cells["E3"].Color = "#991B1B";
+
+        budget.Cells["A8"] = new() { Value = total, Bold = true };
+        budget.Cells["B8"] = new() { Value = "=SUM(B2:B6)", Bold = true, Format = SheetNumberFormat.Currency };
+        budget.Cells["C8"] = new() { Value = "=SUM(C2:C6)", Bold = true, Format = SheetNumberFormat.Currency };
+        budget.Cells["D8"] = new() { Value = "=B8-C8", Bold = true, Format = SheetNumberFormat.Currency };
+        budget.Cells["E8"] = new() { Value = "=C8/B8", Bold = true, Format = SheetNumberFormat.Percent };
+
+        var budgetRef = Quoted(budgetName);
+        var summary = new Sheet
+        {
+            Name = Loc.Text("Home_Sheet_Summary", "Summary"),
+            ColumnWidths = { ["A"] = 168 },
+            Cells =
+            {
+                ["A1"] = new() { Value = Loc.Text("Home_Sheet_TotalBudget", "Total budget") },
+                ["B1"] = new() { Value = $"={budgetRef}B8", Format = SheetNumberFormat.Currency },
+                ["A2"] = new() { Value = Loc.Text("Home_Sheet_TotalSpent", "Total spent") },
+                ["B2"] = new() { Value = $"={budgetRef}C8", Format = SheetNumberFormat.Currency },
+                ["A3"] = new() { Value = Loc.Text("Home_Sheet_Remaining", "Remaining") },
+                ["B3"] = new() { Value = "=B1-B2", Format = SheetNumberFormat.Currency },
+                ["A4"] = new() { Value = Loc.Text("Home_Sheet_Used", "Used") },
+                ["B4"] = new() { Value = "=B2/B1", Format = SheetNumberFormat.Percent },
+                ["A5"] = new() { Value = Loc.Text("Home_Sheet_OverBudget", "Teams over budget"), Bold = true },
+                ["B5"] = new() { Value = $"=COUNTIF({budgetRef}D2:D6, \"<0\")", Bold = true },
+            },
+        };
+
+        return [budget, monthly, summary];
+    }
+
     private readonly ChartValue[] _storageFolders =
     [
         new(Loc.Text("Home_Folder_Videos", "Videos"), 2.5), new(Loc.Text("Home_Folder_Photos", "Photos"), 1.8),
@@ -422,11 +525,12 @@ public partial class Home
 
     /// <summary>
     /// The colours the showcase can take. Each swatch is drawn with fixed colours, because the showcase remaps the
-    /// purple and fuchsia it sits inside. <see cref="ShowcaseSwatch.ThemeClass"/> is defined in input.css.
+    /// purple and fuchsia it sits inside. <see cref="ShowcaseSwatch.ThemeClass"/> is defined in input.css, and also gives
+    /// the showcase's charts a palette of shades that go with the colour.
     /// </summary>
     private readonly IReadOnlyList<ShowcaseSwatch> _showcaseSwatches =
     [
-        new("purple", Loc.Text("Home_Showcase_Purple", "Purple"), "bg-[oklch(55.8%_0.288_302.321)]", string.Empty, "#9333ea"),
+        new("purple", Loc.Text("Home_Showcase_Purple", "Purple"), "bg-[oklch(55.8%_0.288_302.321)]", "showcase-purple", "#9333ea"),
         new("blue", Loc.Text("Home_Showcase_Blue", "Blue"), "bg-[oklch(54.6%_0.245_262.881)]", "showcase-blue", "#2563eb"),
         new("green", Loc.Text("Home_Showcase_Green", "Green"), "bg-[oklch(59.6%_0.145_163.225)]", "showcase-green", "#059669"),
         new("orange", Loc.Text("Home_Showcase_Orange", "Orange"), "bg-[oklch(64.6%_0.222_41.116)]", "showcase-orange", "#ea580c"),

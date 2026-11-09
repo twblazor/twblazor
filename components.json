@@ -34,15 +34,13 @@
         "id": "context-menu-navitem",
         "display": "Context Menu",
         "name": "TwContextMenu",
-        "url": "/context-menu",
-        "isNew": true
+        "url": "/context-menu"
       },
       {
         "id": "drawer-navitem",
         "display": "Drawer",
         "name": "TwDrawer",
         "url": "/drawer",
-        "isNew": true,
         "theme": "TwDrawerTheme"
       },
       {
@@ -57,7 +55,6 @@
         "display": "Menu",
         "name": "TwMenu",
         "url": "/menu",
-        "isNew": true,
         "theme": "TwMenuTheme"
       },
       {
@@ -78,7 +75,6 @@
         "display": "Separator",
         "name": "TwSeparator",
         "url": "/separator",
-        "isNew": true,
         "theme": "TwSeparatorTheme"
       },
       {
@@ -337,15 +333,13 @@
         "display": "Toggle",
         "name": "TwToggle",
         "url": "/toggle",
-        "isNew": true,
         "theme": "TwToggleTheme"
       },
       {
         "id": "toggle-group-navitem",
         "display": "Toggle Group",
         "name": "TwToggleGroup",
-        "url": "/toggle-group",
-        "isNew": true
+        "url": "/toggle-group"
       }
     ]
   },
@@ -371,7 +365,6 @@
         "display": "Badge",
         "name": "TwBadge",
         "url": "/badge",
-        "isNew": true,
         "theme": "TwBadgeTheme"
       },
       {
@@ -386,7 +379,6 @@
         "display": "Empty",
         "name": "TwEmpty",
         "url": "/empty",
-        "isNew": true,
         "theme": "TwEmptyTheme"
       },
       {
@@ -400,7 +392,6 @@
         "display": "Popover",
         "name": "TwPopover",
         "url": "/popover",
-        "isNew": true,
         "theme": "TwPopoverTheme"
       },
       {
@@ -443,6 +434,20 @@
         "url": "/data-table"
       },
       {
+        "id": "spreadsheet-navitem",
+        "display": "Spreadsheet",
+        "name": "TwSpreadsheet",
+        "url": "/spreadsheet",
+        "isNew": true,
+        "theme": "TwSpreadsheetTheme"
+      },
+      {
+        "id": "column-filter-editor-navitem",
+        "display": "Column Filter Editor",
+        "name": "TwColumnFilterEditor",
+        "url": "/column-filter-editor"
+      },
+      {
         "id": "pagination-navitem",
         "display": "Pagination",
         "name": "TwPagination",
@@ -461,7 +466,6 @@
         "display": "Barcode",
         "name": "TwBarcode",
         "url": "/barcode",
-        "isNew": true,
         "theme": "TwBarcodeTheme"
       },
       {
@@ -469,7 +473,6 @@
         "display": "QR Code",
         "name": "TwQrCode",
         "url": "/qr-code",
-        "isNew": true,
         "theme": "TwQrCodeTheme"
       },
       {
@@ -477,7 +480,6 @@
         "display": "Calendar",
         "name": "TwCalendar",
         "url": "/calendar",
-        "isNew": true,
         "theme": "TwCalendarTheme"
       },
       {
@@ -492,7 +494,6 @@
         "display": "Attachment",
         "name": "TwAttachment",
         "url": "/attachment",
-        "isNew": true,
         "theme": "TwAttachmentTheme"
       }
     ]

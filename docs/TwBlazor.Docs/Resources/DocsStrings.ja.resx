@@ -1129,4 +1129,52 @@
   <data name="Home_Release_NotesQuote" xml:space="preserve">
     <value>小さく、頻繁にリリース。</value>
   </data>
+  <data name="Home_Showcase_SpreadsheetTab" xml:space="preserve">
+    <value>スプレッドシート</value>
+  </data>
+  <data name="Home_Showcase_Spreadsheet_Title" xml:space="preserve">
+    <value>チーム予算</value>
+  </data>
+  <data name="Home_Showcase_Spreadsheet_Desc" xml:space="preserve">
+    <value>シートをまたぐ数式、フィルター付きテーブル、ウィンドウ枠の固定、塗りつぶし、Excel への書き出し。</value>
+  </data>
+  <data name="Home_Sheet_Budget" xml:space="preserve">
+    <value>予算</value>
+  </data>
+  <data name="Home_Sheet_Monthly" xml:space="preserve">
+    <value>月別</value>
+  </data>
+  <data name="Home_Sheet_Summary" xml:space="preserve">
+    <value>概要</value>
+  </data>
+  <data name="Home_Sheet_Team" xml:space="preserve">
+    <value>チーム</value>
+  </data>
+  <data name="Home_Sheet_Spent" xml:space="preserve">
+    <value>支出</value>
+  </data>
+  <data name="Home_Sheet_Remaining" xml:space="preserve">
+    <value>残り</value>
+  </data>
+  <data name="Home_Sheet_Used" xml:space="preserve">
+    <value>使用率</value>
+  </data>
+  <data name="Home_Sheet_Engineering" xml:space="preserve">
+    <value>エンジニアリング</value>
+  </data>
+  <data name="Home_Sheet_Marketing" xml:space="preserve">
+    <value>マーケティング</value>
+  </data>
+  <data name="Home_Sheet_Sales" xml:space="preserve">
+    <value>営業</value>
+  </data>
+  <data name="Home_Sheet_TotalBudget" xml:space="preserve">
+    <value>予算合計</value>
+  </data>
+  <data name="Home_Sheet_TotalSpent" xml:space="preserve">
+    <value>支出合計</value>
+  </data>
+  <data name="Home_Sheet_OverBudget" xml:space="preserve">
+    <value>予算超過のチーム</value>
+  </data>
 </root>

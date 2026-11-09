@@ -32,7 +32,8 @@ public class TwTextEditorTheme
     public required string Disabled { get; set; }
 
     /// <summary>
-    /// Gets or sets the classes for the toolbar: a wrapping row of controls above the text.
+    /// Gets or sets the classes for the toolbar: a row of controls above the text. By default it stays on one line
+    /// and scrolls sideways when the controls do not fit.
     /// </summary>
     public required string Toolbar { get; set; }
 

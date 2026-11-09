@@ -1129,4 +1129,52 @@
   <data name="Home_Release_NotesQuote" xml:space="preserve">
     <value>थोडे पाठवा, वारंवार पाठवा.</value>
   </data>
+  <data name="Home_Showcase_SpreadsheetTab" xml:space="preserve">
+    <value>स्प्रेडशीट</value>
+  </data>
+  <data name="Home_Showcase_Spreadsheet_Title" xml:space="preserve">
+    <value>संघाचे बजेट</value>
+  </data>
+  <data name="Home_Showcase_Spreadsheet_Desc" xml:space="preserve">
+    <value>अनेक शीटमधील सूत्रे, फिल्टर असलेली सारणी, गोठवलेले पॅन, रंग भरणे आणि Excel मध्ये निर्यात.</value>
+  </data>
+  <data name="Home_Sheet_Budget" xml:space="preserve">
+    <value>बजेट</value>
+  </data>
+  <data name="Home_Sheet_Monthly" xml:space="preserve">
+    <value>महिन्यानुसार</value>
+  </data>
+  <data name="Home_Sheet_Summary" xml:space="preserve">
+    <value>सारांश</value>
+  </data>
+  <data name="Home_Sheet_Team" xml:space="preserve">
+    <value>संघ</value>
+  </data>
+  <data name="Home_Sheet_Spent" xml:space="preserve">
+    <value>खर्च</value>
+  </data>
+  <data name="Home_Sheet_Remaining" xml:space="preserve">
+    <value>उरलेले</value>
+  </data>
+  <data name="Home_Sheet_Used" xml:space="preserve">
+    <value>वापरलेले</value>
+  </data>
+  <data name="Home_Sheet_Engineering" xml:space="preserve">
+    <value>अभियांत्रिकी</value>
+  </data>
+  <data name="Home_Sheet_Marketing" xml:space="preserve">
+    <value>विपणन</value>
+  </data>
+  <data name="Home_Sheet_Sales" xml:space="preserve">
+    <value>विक्री</value>
+  </data>
+  <data name="Home_Sheet_TotalBudget" xml:space="preserve">
+    <value>एकूण बजेट</value>
+  </data>
+  <data name="Home_Sheet_TotalSpent" xml:space="preserve">
+    <value>एकूण खर्च</value>
+  </data>
+  <data name="Home_Sheet_OverBudget" xml:space="preserve">
+    <value>बजेटपेक्षा जास्त संघ</value>
+  </data>
 </root>

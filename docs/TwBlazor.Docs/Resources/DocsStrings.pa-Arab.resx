@@ -1129,4 +1129,52 @@
   <data name="Home_Release_NotesQuote" xml:space="preserve">
     <value>تھوڑا بھیجو، اکثر بھیجو۔</value>
   </data>
+  <data name="Home_Showcase_SpreadsheetTab" xml:space="preserve">
+    <value>سپریڈشیٹاں</value>
+  </data>
+  <data name="Home_Showcase_Spreadsheet_Title" xml:space="preserve">
+    <value>ٹیم دا بجٹ</value>
+  </data>
+  <data name="Home_Showcase_Spreadsheet_Desc" xml:space="preserve">
+    <value>شیٹاں وچ فارمولے، فلٹراں والا ٹیبل، جمے ہوئے پین، رنگ بھرنا تے Excel وچ برآمد۔</value>
+  </data>
+  <data name="Home_Sheet_Budget" xml:space="preserve">
+    <value>بجٹ</value>
+  </data>
+  <data name="Home_Sheet_Monthly" xml:space="preserve">
+    <value>مہینے موجب</value>
+  </data>
+  <data name="Home_Sheet_Summary" xml:space="preserve">
+    <value>خلاصہ</value>
+  </data>
+  <data name="Home_Sheet_Team" xml:space="preserve">
+    <value>ٹیم</value>
+  </data>
+  <data name="Home_Sheet_Spent" xml:space="preserve">
+    <value>خرچ</value>
+  </data>
+  <data name="Home_Sheet_Remaining" xml:space="preserve">
+    <value>باقی</value>
+  </data>
+  <data name="Home_Sheet_Used" xml:space="preserve">
+    <value>ورتیا</value>
+  </data>
+  <data name="Home_Sheet_Engineering" xml:space="preserve">
+    <value>انجینئرنگ</value>
+  </data>
+  <data name="Home_Sheet_Marketing" xml:space="preserve">
+    <value>مارکیٹنگ</value>
+  </data>
+  <data name="Home_Sheet_Sales" xml:space="preserve">
+    <value>وکری</value>
+  </data>
+  <data name="Home_Sheet_TotalBudget" xml:space="preserve">
+    <value>کل بجٹ</value>
+  </data>
+  <data name="Home_Sheet_TotalSpent" xml:space="preserve">
+    <value>کل خرچ</value>
+  </data>
+  <data name="Home_Sheet_OverBudget" xml:space="preserve">
+    <value>بجٹ توں ودھ ٹیماں</value>
+  </data>
 </root>

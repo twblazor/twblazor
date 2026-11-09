@@ -1129,4 +1129,52 @@
   <data name="Home_Release_NotesQuote" xml:space="preserve">
     <value>చిన్నగా, తరచుగా విడుదల చేయండి.</value>
   </data>
+  <data name="Home_Showcase_SpreadsheetTab" xml:space="preserve">
+    <value>స్ప్రెడ్‌షీట్‌లు</value>
+  </data>
+  <data name="Home_Showcase_Spreadsheet_Title" xml:space="preserve">
+    <value>బృంద బడ్జెట్</value>
+  </data>
+  <data name="Home_Showcase_Spreadsheet_Desc" xml:space="preserve">
+    <value>షీట్‌ల మధ్య సూత్రాలు, ఫిల్టర్‌లతో పట్టిక, స్తంభింపజేసిన పేన్‌లు, రంగు నింపడం మరియు Excel కు ఎగుమతి.</value>
+  </data>
+  <data name="Home_Sheet_Budget" xml:space="preserve">
+    <value>బడ్జెట్</value>
+  </data>
+  <data name="Home_Sheet_Monthly" xml:space="preserve">
+    <value>నెలవారీగా</value>
+  </data>
+  <data name="Home_Sheet_Summary" xml:space="preserve">
+    <value>సారాంశం</value>
+  </data>
+  <data name="Home_Sheet_Team" xml:space="preserve">
+    <value>బృందం</value>
+  </data>
+  <data name="Home_Sheet_Spent" xml:space="preserve">
+    <value>ఖర్చు</value>
+  </data>
+  <data name="Home_Sheet_Remaining" xml:space="preserve">
+    <value>మిగిలినది</value>
+  </data>
+  <data name="Home_Sheet_Used" xml:space="preserve">
+    <value>వినియోగం</value>
+  </data>
+  <data name="Home_Sheet_Engineering" xml:space="preserve">
+    <value>ఇంజనీరింగ్</value>
+  </data>
+  <data name="Home_Sheet_Marketing" xml:space="preserve">
+    <value>మార్కెటింగ్</value>
+  </data>
+  <data name="Home_Sheet_Sales" xml:space="preserve">
+    <value>అమ్మకాలు</value>
+  </data>
+  <data name="Home_Sheet_TotalBudget" xml:space="preserve">
+    <value>మొత్తం బడ్జెట్</value>
+  </data>
+  <data name="Home_Sheet_TotalSpent" xml:space="preserve">
+    <value>మొత్తం ఖర్చు</value>
+  </data>
+  <data name="Home_Sheet_OverBudget" xml:space="preserve">
+    <value>బడ్జెట్ మించిన బృందాలు</value>
+  </data>
 </root>
