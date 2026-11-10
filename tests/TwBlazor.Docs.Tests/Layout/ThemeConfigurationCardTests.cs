@@ -6,13 +6,17 @@ namespace TwBlazor.Docs.Tests.Layout;
 
 public class ThemeConfigurationCardTests : DocsTestBase
 {
+    // The card reads TwBlazor.xml before it shows anything, which can take longer than bUnit's one second default
+    // on a cold or busy machine.
+    private static readonly TimeSpan _loadTimeout = TimeSpan.FromSeconds(15);
+
     [Fact]
     public async Task FriendlyTypeName_CoversPrimitivesNullablesEnumsAndGlobalTokenTypes()
     {
         // Arrange & Act
         var cut = TestContext.Render<ThemeConfigurationCard>(parameters => parameters
             .Add(p => p.ThemeType, typeof(ThemeConfigurationCardTestTheme)));
-        await cut.WaitForStateAsync(() => cut.Markup.Contains("StringValue"));
+        await cut.WaitForStateAsync(() => cut.Markup.Contains("StringValue"), _loadTimeout);
 
         // Assert
         Assert.Equal("string", TypeDisplayFor(cut, "StringValue"));
@@ -34,7 +38,7 @@ public class ThemeConfigurationCardTests : DocsTestBase
         // Arrange & Act
         var cut = TestContext.Render<ThemeConfigurationCard>(parameters => parameters
             .Add(p => p.ThemeType, typeof(ThemeConfigurationCardTestTheme)));
-        await cut.WaitForStateAsync(() => cut.Markup.Contains("StringValue"));
+        await cut.WaitForStateAsync(() => cut.Markup.Contains("StringValue"), _loadTimeout);
 
         // Assert - a long name must not break mid-word inside its code chip
         var nameCells = cut.FindAll("tbody tr > td:first-child");
@@ -49,7 +53,7 @@ public class ThemeConfigurationCardTests : DocsTestBase
         var cut = TestContext.Render<ThemeConfigurationCard>(parameters => parameters
             .Add(p => p.ThemeType, typeof(TwButtonTheme))
             .Add(p => p.ComponentTitle, "TwButton"));
-        await cut.WaitForStateAsync(() => cut.Markup.Contains("ButtonUppercase"));
+        await cut.WaitForStateAsync(() => cut.Markup.Contains("ButtonUppercase"), _loadTimeout);
 
         // Assert
         Assert.DoesNotContain("Inherited from", cut.Markup);
@@ -63,7 +67,7 @@ public class ThemeConfigurationCardTests : DocsTestBase
         var cut = TestContext.Render<ThemeConfigurationCard>(parameters => parameters
             .Add(p => p.ThemeType, typeof(TwButtonTheme))
             .Add(p => p.ComponentTitle, "TwSelect"));
-        await cut.WaitForStateAsync(() => cut.Markup.Contains("Inherited from"));
+        await cut.WaitForStateAsync(() => cut.Markup.Contains("Inherited from"), _loadTimeout);
 
         // Assert
         var link = cut.Find("a[href='/button']");
