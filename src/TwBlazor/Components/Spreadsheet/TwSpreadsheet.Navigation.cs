@@ -334,7 +334,9 @@ public partial class TwSpreadsheet
             return;
         }
 
-        await SetSelectionAsync(rangeStart, PointerCell(row, column), active: anchor);
+        // The cell under the pointer is already in view. Scrolling the active cell back into view would pull the grid
+        // away from a drag that scrolls it to reach cells further out.
+        await SetSelectionAsync(rangeStart, PointerCell(row, column), scroll: false, active: anchor);
     }
 
     /// <summary>

@@ -17,7 +17,7 @@
     }
 
     /* Landing hero entrance. Pair with motion-reduce:animate-none so nothing starts hidden for those users. */
-    --animate-fade-up: fade-up 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+    --animate-fade-up: fade-up 0.9s cubic-bezier(0.16, 1, 0.3, 1) backwards;
 
     @keyframes fade-up {
         from { opacity: 0; transform: translate3d(0, 1.5rem, 0); filter: blur(6px); }

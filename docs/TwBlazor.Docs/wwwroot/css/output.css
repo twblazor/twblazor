@@ -200,7 +200,7 @@
     --default-mono-font-family: var(--font-mono);
     --animate-glow-drift: glow-drift 14s ease-in-out infinite alternate;
     --animate-glow-drift-alt: glow-drift-alt 18s ease-in-out infinite alternate;
-    --animate-fade-up: fade-up 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+    --animate-fade-up: fade-up 0.9s cubic-bezier(0.16, 1, 0.3, 1) backwards;
     --animate-word-rise: word-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
     --animate-beam: beam 3s linear 3;
     --animate-gradient-pan: gradient-pan 8s ease-in-out infinite alternate;
@@ -11360,6 +11360,14 @@
     }
     .forced-colors\:aria-\[current\=location\]\:border-\[Highlight\][aria-current="location"] {
       border-color: Highlight;
+    }
+  }
+  @media (pointer: coarse) {
+    .pointer-coarse\:h-4 {
+      height: calc(var(--spacing) * 4);
+    }
+    .pointer-coarse\:w-4 {
+      width: calc(var(--spacing) * 4);
     }
   }
   .\[\&_a\]\:font-medium a {
