@@ -11,6 +11,7 @@ using TwBlazor.Configuration.Components;
 using TwBlazor.Enums;
 using TwBlazor.Localization;
 using TwBlazor.Utilities;
+using TwBlazor.Extensions;
 
 namespace TwBlazor.Components;
 
@@ -366,7 +367,7 @@ public partial class TwSelect<T> : TwPopoverPickerComponentBase
 
                 listboxDotNetRef ??= DotNetObjectReference.Create(this);
                 var initialOptionId = OptionId(Multiple ? orderedSelectedValueIds.FirstOrDefault() : selectedValueId);
-                await JSRuntime.InvokeVoidAsync("twSelect.attachListbox", listboxRef, listboxDotNetRef, initialOptionId, Multiple ? "ToggleOption" : "SelectOption");
+                await JSRuntime.TryInvokeVoidAsync("twSelect.attachListbox", listboxRef, listboxDotNetRef, initialOptionId, Multiple ? "ToggleOption" : "SelectOption");
             }
         }
     }
@@ -413,7 +414,7 @@ public partial class TwSelect<T> : TwPopoverPickerComponentBase
             if (UseNativePicker)
             {
                 // The browser keeps an option the user picked selected even once its selected attribute is removed.
-                await JSRuntime.InvokeVoidAsync("twSelect.deselectAll", nativeMultipleRef);
+                await JSRuntime.TryInvokeVoidAsync("twSelect.deselectAll", nativeMultipleRef);
             }
 
             if (SelectedValuesChanged.HasDelegate)
@@ -593,7 +594,7 @@ public partial class TwSelect<T> : TwPopoverPickerComponentBase
             return;
         }
 
-        FocusReturnToken = await JSRuntime.InvokeAsync<string?>("twDialog.captureFocus");
+        FocusReturnToken = await JSRuntime.TryInvokeAsync<string?>("twDialog.captureFocus", null);
         isFocused = true;
         PendingOpenFocus = true;
         await RegisterOutsideClickAsync();

@@ -1,4 +1,5 @@
 using Bunit;
+using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 using TwBlazor.Components;
 using TwBlazor.Docs.Pages.Configuration;
@@ -26,10 +27,12 @@ public partial class ThemePageTests : DocsTestBase
         return cut;
     }
 
-    // The theme is only generated on request, so reading it means asking for it with the current settings.
-    private static string Code(IRenderedComponent<ThemePage> cut)
+    // The theme is only generated on request, so reading it means asking for it with the current settings. The click
+    // is awaited because bUnit renders off the test thread: awaiting it waits for this render and for any event the
+    // test fired before it, so the code is never read before it is generated.
+    private static async Task<string> CodeAsync(IRenderedComponent<ThemePage> cut)
     {
-        cut.Find("#theme-generate-panel").Click();
+        await cut.Find("#theme-generate-panel").ClickAsync(new());
         return cut.Find("pre code").TextContent;
     }
 
@@ -40,6 +43,12 @@ public partial class ThemePageTests : DocsTestBase
     {
         var cut = await RenderAsync();
         OpenTab(cut, label);
+        // The tab switches on a render that can finish after Click returns (it did under Sonar's coverage run),
+        // so wait for the tab to be selected before a test reads the panel it shows.
+        await cut.WaitForAssertionAsync(
+            () => Assert.Equal("true", cut.Find($"#theme-settings [role=tab]:contains('{label}')").GetAttribute("aria-selected")),
+            TimeSpan.FromSeconds(15));
+        await cut.InvokeAsync(() => { });
         return cut;
     }
 
@@ -51,8 +60,8 @@ public partial class ThemePageTests : DocsTestBase
         var boxes = cut.FindAll("input[id^='theme-component-']");
         Assert.NotEmpty(boxes);
         Assert.All(boxes, box => Assert.True(box.HasAttribute("checked")));
-        Assert.Contains("public static class Theme", Code(cut));
-        Assert.Contains("new TwButtonTheme", Code(cut));
+        Assert.Contains("public static class Theme", await CodeAsync(cut));
+        Assert.Contains("new TwButtonTheme", await CodeAsync(cut));
     }
 
     [Fact]
@@ -63,7 +72,7 @@ public partial class ThemePageTests : DocsTestBase
         cut.FindAll("input[id^='theme-group-']").ToList().ForEach(g => { if (g.HasAttribute("checked")) g.Change(false); });
         cut.Find("#theme-component-twslider").Change(true);
 
-        var code = Code(cut);
+        var code = await CodeAsync(cut);
         Assert.Contains("new TwSliderTheme", code);
         Assert.DoesNotContain("new TwCalendarTheme", code);
     }
@@ -73,13 +82,13 @@ public partial class ThemePageTests : DocsTestBase
     {
         var cut = await RenderOnTabAsync("Components");
         cut.Find("button:contains('Clear all')").Click();
-        Assert.DoesNotContain("new TwSliderTheme", Code(cut));
+        Assert.DoesNotContain("new TwSliderTheme", await CodeAsync(cut));
 
-        cut.Find("#theme-group-forms").Change(true);
+        await cut.Find("#theme-group-forms").ChangeAsync(new ChangeEventArgs { Value = true });
 
         Assert.True(cut.Find("#theme-component-twslider").HasAttribute("checked"));
-        Assert.Contains("new TwSliderTheme", Code(cut));
-        Assert.DoesNotContain("new TwCalendarTheme", Code(cut));
+        Assert.Contains("new TwSliderTheme", await CodeAsync(cut));
+        Assert.DoesNotContain("new TwCalendarTheme", await CodeAsync(cut));
     }
 
     [Fact]
@@ -87,7 +96,7 @@ public partial class ThemePageTests : DocsTestBase
     {
         var cut = await RenderOnTabAsync("Components");
 
-        cut.Find("#theme-group-feedback").Change(false);
+        await cut.Find("#theme-group-feedback").ChangeAsync(new ChangeEventArgs { Value = false });
 
         Assert.False(cut.Find("#theme-component-twchip").HasAttribute("checked"));
         Assert.True(cut.Find("#theme-component-twslider").HasAttribute("checked"));
@@ -112,7 +121,7 @@ public partial class ThemePageTests : DocsTestBase
 
         cut.Find("button:contains('Clear all')").Click();
 
-        Assert.DoesNotContain("new TwButtonTheme", Code(cut));
+        Assert.DoesNotContain("new TwButtonTheme", await CodeAsync(cut));
         Assert.Contains("0 of", cut.Markup);
     }
 
@@ -124,7 +133,7 @@ public partial class ThemePageTests : DocsTestBase
 
         cut.Find("button:contains('Select all')").Click();
 
-        Assert.Contains("new TwButtonTheme", Code(cut));
+        Assert.Contains("new TwButtonTheme", await CodeAsync(cut));
     }
 
     [Fact]
@@ -134,8 +143,8 @@ public partial class ThemePageTests : DocsTestBase
 
         cut.Find("button:contains('Reset colors')").Click();
 
-        Assert.Contains("purple-600", Code(cut));
-        Assert.DoesNotContain("oklch(", Code(cut).Split("neutralSurface")[0]);
+        Assert.Contains("purple-600", await CodeAsync(cut));
+        Assert.DoesNotContain("oklch(", (await CodeAsync(cut)).Split("neutralSurface")[0]);
     }
 
     [Fact]
@@ -151,10 +160,10 @@ public partial class ThemePageTests : DocsTestBase
     {
         var cut = await RenderAsync();
 
-        Assert.Contains("DefaultRounded = Rounded.Lg", Code(cut));
-        Assert.Contains("DefaultShadow = Shadow.Sm", Code(cut));
-        Assert.Contains("DefaultInputVariant = InputVariant.Outlined", Code(cut));
-        Assert.DoesNotContain("DefaultVariant = ButtonVariant", Code(cut));
+        Assert.Contains("DefaultRounded = Rounded.Lg", await CodeAsync(cut));
+        Assert.Contains("DefaultShadow = Shadow.Sm", await CodeAsync(cut));
+        Assert.Contains("DefaultInputVariant = InputVariant.Outlined", await CodeAsync(cut));
+        Assert.DoesNotContain("DefaultVariant = ButtonVariant", await CodeAsync(cut));
     }
 
     [Fact]
@@ -164,7 +173,7 @@ public partial class ThemePageTests : DocsTestBase
 
         await cut.InvokeAsync(() => cut.FindComponent<TwSelect<ButtonVariant>>().Instance.SelectedValueChanged.InvokeAsync(ButtonVariant.Outlined));
 
-        Assert.Contains("DefaultVariant = ButtonVariant.Outlined", Code(cut));
+        Assert.Contains("DefaultVariant = ButtonVariant.Outlined", await CodeAsync(cut));
     }
 
     [Fact]
@@ -172,11 +181,11 @@ public partial class ThemePageTests : DocsTestBase
     {
         var cut = await RenderOnTabAsync("Style");
         await cut.InvokeAsync(() => cut.FindComponent<TwSelect<Rounded>>().Instance.SelectedValueChanged.InvokeAsync(Rounded.Full));
-        Assert.Contains("DefaultRounded = Rounded.Full", Code(cut));
+        Assert.Contains("DefaultRounded = Rounded.Full", await CodeAsync(cut));
 
         cut.Find("button:contains('Reset defaults')").Click();
 
-        Assert.Contains("DefaultRounded = Rounded.Lg", Code(cut));
+        Assert.Contains("DefaultRounded = Rounded.Lg", await CodeAsync(cut));
     }
 
     private static Task PickAsync(IRenderedComponent<ThemePage> cut, int index, string hex) =>
@@ -190,7 +199,7 @@ public partial class ThemePageTests : DocsTestBase
         await PickAsync(cut, 1, "#ffffff");
 
         Assert.Contains("Dark text on filled", cut.Find("[data-testid='theme-contrast-accent']").TextContent);
-        Assert.Contains("text-gray-950", Code(cut));
+        Assert.Contains("text-gray-950", await CodeAsync(cut));
         Assert.Contains("hard to see", cut.Markup);
         Assert.Contains("color: #030712;", cut.Find("[data-testid='theme-preview']").InnerHtml);
     }
@@ -278,7 +287,7 @@ public partial class ThemePageTests : DocsTestBase
         var last = ThemePreset.All[^1];
         await GoToPresetPageAsync(cut, cut.FindComponent<TwPagination>().Instance.TotalPages);
 
-        cut.Find($"#theme-preset-{last.Name.ToLowerInvariant()}").Click();
+        await cut.Find($"#theme-preset-{last.Name.ToLowerInvariant()}").ClickAsync(new());
 
         Assert.Equal("true", cut.Find($"#theme-preset-{last.Name.ToLowerInvariant()}").GetAttribute("aria-pressed"));
         Assert.Equal(last.Colors["Primary"], cut.FindComponents<TwColorPicker>()[0].Instance.Value);
@@ -290,14 +299,14 @@ public partial class ThemePageTests : DocsTestBase
         var cut = await RenderAsync();
         var ocean = ThemePreset.All.Single(p => p.Name == "Ocean");
 
-        cut.Find("#theme-preset-ocean").Click();
+        await cut.Find("#theme-preset-ocean").ClickAsync(new());
 
         Assert.Equal("true", cut.Find("#theme-preset-ocean").GetAttribute("aria-pressed"));
         Assert.Equal("false", cut.Find("#theme-preset-purple").GetAttribute("aria-pressed"));
-        Assert.Contains("DefaultRounded = Rounded.Lg", Code(cut));
-        Assert.Contains("DefaultShadow = Shadow.Md", Code(cut));
+        Assert.Contains("DefaultRounded = Rounded.Lg", await CodeAsync(cut));
+        Assert.Contains("DefaultShadow = Shadow.Md", await CodeAsync(cut));
         Assert.Equal(ocean.Colors["Primary"], cut.FindComponents<TwColorPicker>()[0].Instance.Value);
-        Assert.DoesNotContain("purple", Code(cut).Split("neutralSurface")[0]);
+        Assert.DoesNotContain("purple", (await CodeAsync(cut)).Split("neutralSurface")[0]);
     }
 
     [Fact]
@@ -306,12 +315,12 @@ public partial class ThemePageTests : DocsTestBase
         var cut = await RenderAsync();
         var ocean = ThemePreset.All.Single(p => p.Name == "Ocean");
 
-        cut.Find("#theme-preset-ocean").Click();
+        await cut.Find("#theme-preset-ocean").ClickAsync(new());
 
         Assert.Equal(ocean.Surfaces.Light, cut.FindComponents<TwColorPicker>().Single(p => p.Instance.Id == "theme-surface-light").Instance.Value);
         Assert.Equal(ocean.Surfaces.Dark, cut.FindComponents<TwColorPicker>().Single(p => p.Instance.Id == "theme-surface-dark").Instance.Value);
         Assert.NotEmpty(cut.FindAll("#theme-builder-surfaces"));
-        Assert.DoesNotContain("oklch(100%_0_0)", Code(cut));
+        Assert.DoesNotContain("oklch(100%_0_0)", await CodeAsync(cut));
     }
 
     [Fact]
@@ -372,7 +381,7 @@ public partial class ThemePageTests : DocsTestBase
         var cut = await RenderAsync();
         cut.Find("#theme-tone-neutral").Click();
 
-        cut.Find("#theme-tone-all").Click();
+        await cut.Find("#theme-tone-all").ClickAsync(new());
 
         Assert.Equal(8, cut.FindAll("button[id^='theme-preset-']").Count);
         Assert.Equal($"Showing all {ThemePreset.All.Count} example themes", cut.Find("#theme-controls p[role=status]").TextContent);
@@ -393,12 +402,12 @@ public partial class ThemePageTests : DocsTestBase
     public async Task ChoosingPurpleAgain_RestoresTheDefaultTheme()
     {
         var cut = await RenderAsync();
-        var original = Code(cut);
+        var original = await CodeAsync(cut);
         cut.Find("#theme-preset-ocean").Click();
 
         cut.Find("#theme-preset-purple").Click();
 
-        Assert.Equal(original, Code(cut));
+        Assert.Equal(original, await CodeAsync(cut));
     }
 
     [Fact]
@@ -427,7 +436,7 @@ public partial class ThemePageTests : DocsTestBase
     {
         var cut = await RenderOnTabAsync("Components");
 
-        cut.Find("button:contains('Clear all')").Click();
+        await cut.Find("button:contains('Clear all')").ClickAsync(new());
 
         Assert.Equal("true", cut.Find("#theme-settings [role=tab]:contains('Components')").GetAttribute("aria-selected"));
     }
@@ -438,7 +447,7 @@ public partial class ThemePageTests : DocsTestBase
         var cut = await RenderOnTabAsync("Components");
         Assert.Matches(@"(\d+) of \1 selected", cut.Find("#theme-components-summary").TextContent);
 
-        cut.Find("button:contains('Clear all')").Click();
+        await cut.Find("button:contains('Clear all')").ClickAsync(new());
 
         Assert.Matches(@"^0 of \d+ selected$", cut.Find("#theme-components-summary").TextContent);
         Assert.Equal("polite", cut.Find("#theme-components-summary").GetAttribute("aria-live"));
@@ -478,7 +487,7 @@ public partial class ThemePageTests : DocsTestBase
         Assert.Matches(SelectedCountRegex(), header);
         var total = int.Parse(SelectedCountRegex().Match(header).Groups[1].Value);
 
-        cut.Find("#theme-component-twchip").Change(false);
+        await cut.Find("#theme-component-twchip").ChangeAsync(new ChangeEventArgs { Value = false });
 
         Assert.Contains($"{total - 1} / {total}", cut.Find("fieldset[aria-label='Feedback components']").TextContent);
     }
@@ -634,8 +643,8 @@ public partial class ThemePageTests : DocsTestBase
 
         Assert.Empty(cut.FindAll("#preview-barcode, #preview-qr-code"));
         Assert.DoesNotContain("Encoding", cut.Find("[data-testid='theme-preview-cards']").TextContent);
-        Assert.Contains("new TwBarcodeTheme", Code(cut));
-        Assert.Contains("new TwQrCodeTheme", Code(cut));
+        Assert.Contains("new TwBarcodeTheme", await CodeAsync(cut));
+        Assert.Contains("new TwQrCodeTheme", await CodeAsync(cut));
     }
 
     [Fact]
@@ -745,7 +754,7 @@ public partial class ThemePageTests : DocsTestBase
         Assert.Empty(cut.FindAll("pre code"));
         Assert.NotNull(cut.Find("#theme-code-empty #theme-generate-code"));
 
-        cut.Find("#theme-generate-code").Click();
+        await cut.Find("#theme-generate-code").ClickAsync(new());
 
         Assert.Contains("public static class Theme", cut.Find("pre code").TextContent);
         Assert.Empty(cut.FindAll("#theme-code-empty"));
@@ -770,16 +779,16 @@ public partial class ThemePageTests : DocsTestBase
     public async Task ChangingASetting_AfterGenerating_MarksTheThemeOutOfDate_UntilItIsGeneratedAgain()
     {
         var cut = await RenderAsync();
-        cut.Find("#theme-generate-panel").Click();
+        await cut.Find("#theme-generate-panel").ClickAsync(new());
         Assert.Empty(cut.FindAll("#theme-code-stale"));
         var before = cut.Find("pre code").TextContent;
 
-        cut.Find("#theme-preset-ocean").Click();
+        await cut.Find("#theme-preset-ocean").ClickAsync(new());
 
         Assert.Contains("changed since this was generated", cut.Find("#theme-code-stale").TextContent);
         Assert.Equal(before, cut.Find("pre code").TextContent);
 
-        cut.Find("#theme-generate-code").Click();
+        await cut.Find("#theme-generate-code").ClickAsync(new());
 
         Assert.Empty(cut.FindAll("#theme-code-stale"));
         Assert.NotEqual(before, cut.Find("pre code").TextContent);
@@ -837,7 +846,7 @@ public partial class ThemePageTests : DocsTestBase
         Assert.Equal("Switch to dark theme", cut.Find("#theme-toggle").GetAttribute("aria-label"));
         Assert.Empty(cut.FindAll("[id^='theme-mode-']"));
 
-        cut.Find("#theme-toggle").Click();
+        await cut.Find("#theme-toggle").ClickAsync(new());
 
         Assert.Equal("Switch to light theme", cut.Find("#theme-toggle").GetAttribute("aria-label"));
         Assert.Equal("Dark theme on", cut.Find("#theme-toggle ~ [role=status]").TextContent);
@@ -861,7 +870,7 @@ public partial class ThemePageTests : DocsTestBase
         Assert.DoesNotContain(preview.FindAll("h3"), heading => heading.TextContent == "Sliders");
         Assert.NotEmpty(preview.FindComponents<TwSwitch<bool>>());
 
-        cut.Find("#theme-component-twslider").Change(true);
+        await cut.Find("#theme-component-twslider").ChangeAsync(new ChangeEventArgs { Value = true });
 
         Assert.NotEmpty(cut.FindComponent<ThemeBuilderPreview>().FindComponents<TwSlider<int>>());
     }
@@ -884,7 +893,7 @@ public partial class ThemePageTests : DocsTestBase
     {
         var cut = await RenderOnTabAsync("Components");
 
-        cut.Find("button:contains('Clear all')").Click();
+        await cut.Find("button:contains('Clear all')").ClickAsync(new());
 
         Assert.Empty(cut.FindComponent<ThemeBuilderPreview>().FindComponents<TwCard>());
         Assert.Equal("status", cut.Find("[data-testid='theme-preview-empty']").GetAttribute("role"));
@@ -912,7 +921,7 @@ public partial class ThemePageTests : DocsTestBase
         var cut = await RenderAsync();
 
         Assert.Empty(cut.FindAll("#theme-builder-surfaces"));
-        Assert.Contains("bg-[oklch(100%_0_0)] dark:bg-[oklch(28%_0.016_252.42)]", Code(cut));
+        Assert.Contains("bg-[oklch(100%_0_0)] dark:bg-[oklch(28%_0.016_252.42)]", await CodeAsync(cut));
         Assert.Contains("AAA", cut.Find("[data-testid='theme-surface-contrast-light']").TextContent);
         Assert.Contains("AAA", cut.Find("[data-testid='theme-surface-contrast-dark']").TextContent);
     }
@@ -924,7 +933,7 @@ public partial class ThemePageTests : DocsTestBase
 
         await PickSurfaceAsync(cut, dark: false, "#fdf6e3");
 
-        var code = Code(cut);
+        var code = await CodeAsync(cut);
         Assert.DoesNotContain("oklch(100%_0_0)", code);
         Assert.DoesNotContain("oklch(92%_0_0)", code);
         Assert.Contains("dark:bg-[oklch(28%_0.016_252.42)]", code);
@@ -963,15 +972,15 @@ public partial class ThemePageTests : DocsTestBase
     public async Task PickingAPageColor_WritesItIntoTheBodyToken_AndDeselectsTheExample()
     {
         var cut = await RenderAsync();
-        var before = Code(cut);
+        var before = await CodeAsync(cut);
 
         await cut.InvokeAsync(() => cut.FindComponents<TwColorPicker>().Single(p => p.Instance.Id == "theme-body-dark").Instance.ValueChanged.InvokeAsync("#0b1020"));
 
         Assert.True(OklchColor.TryParseHex("#0b1020", out var body));
-        Assert.Contains($"dark:bg-{body.ToTailwindValue()}", Code(cut));
-        Assert.DoesNotContain("oklch(20%_0.015_253)", Code(cut));
-        Assert.Contains("oklch(28%_0.016_252.42)", Code(cut));
-        Assert.NotEqual(before, Code(cut));
+        Assert.Contains($"dark:bg-{body.ToTailwindValue()}", await CodeAsync(cut));
+        Assert.DoesNotContain("oklch(20%_0.015_253)", await CodeAsync(cut));
+        Assert.Contains("oklch(28%_0.016_252.42)", await CodeAsync(cut));
+        Assert.NotEqual(before, await CodeAsync(cut));
         Assert.Equal("false", cut.Find("#theme-preset-purple").GetAttribute("aria-pressed"));
         Assert.NotEmpty(cut.FindAll("#theme-builder-surfaces"));
     }
@@ -992,12 +1001,12 @@ public partial class ThemePageTests : DocsTestBase
     public async Task ResetSurfaces_AlsoPutsThePageBack()
     {
         var cut = await RenderAsync();
-        var original = Code(cut);
+        var original = await CodeAsync(cut);
         await cut.InvokeAsync(() => cut.FindComponents<TwColorPicker>().Single(p => p.Instance.Id == "theme-body-light").Instance.ValueChanged.InvokeAsync("#eeeeee"));
 
         cut.Find("button:contains('Reset surfaces')").Click();
 
-        Assert.Equal(original, Code(cut));
+        Assert.Equal(original, await CodeAsync(cut));
     }
 
     [Fact]
@@ -1022,16 +1031,16 @@ public partial class ThemePageTests : DocsTestBase
     public async Task ResetSurfaces_AndChoosingAnExample_BothPutTheDefaultSurfacesBack()
     {
         var cut = await RenderAsync();
-        var original = Code(cut);
+        var original = await CodeAsync(cut);
 
         await PickSurfaceAsync(cut, dark: false, "#fdf6e3");
         cut.Find("button:contains('Reset surfaces')").Click();
-        Assert.Equal(original, Code(cut));
+        Assert.Equal(original, await CodeAsync(cut));
         Assert.Empty(cut.FindAll("#theme-builder-surfaces"));
 
         await PickSurfaceAsync(cut, dark: true, "#101820");
         cut.Find("#theme-preset-purple").Click();
-        Assert.Equal(original, Code(cut));
+        Assert.Equal(original, await CodeAsync(cut));
     }
 
     #endregion

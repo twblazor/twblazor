@@ -12,6 +12,7 @@ using TwBlazor.Export;
 using TwBlazor.Localization;
 using TwBlazor.Models;
 using TwBlazor.Utilities;
+using TwBlazor.Extensions;
 
 namespace TwBlazor.Components;
 
@@ -508,6 +509,9 @@ public partial class TwTextEditor : TwBlazorTextInputComponentBase
         }
     }
 
+    // The content calls below are left unguarded on purpose: an empty fallback would be reported through
+    // ValueChanged, or handed to a caller saving the content, as if the user had cleared the editor.
+#pragma warning disable BL0016
     private async Task SetContentAsync(string html)
     {
         pendingHtml = null;
@@ -528,7 +532,7 @@ public partial class TwTextEditor : TwBlazorTextInputComponentBase
             return;
         }
 
-        await jsRuntime.InvokeVoidAsync("twTextEditor.focus", contentRef);
+        await jsRuntime.TryInvokeVoidAsync("twTextEditor.focus", contentRef);
     }
 
     /// <summary>
@@ -561,6 +565,7 @@ public partial class TwTextEditor : TwBlazorTextInputComponentBase
     /// </summary>
     /// <returns>The number of characters.</returns>
     public async Task<int> GetLengthAsync() => await jsRuntime.InvokeAsync<int>("twTextEditor.getLength", contentRef);
+#pragma warning restore BL0016
 
     /// <summary>
     /// Applies a format to the selection, or removes it when it is already applied. A text style such as
@@ -596,7 +601,7 @@ public partial class TwTextEditor : TwBlazorTextInputComponentBase
             return false;
         }
 
-        await jsRuntime.InvokeVoidAsync("twTextEditor.link", contentRef, href);
+        await jsRuntime.TryInvokeVoidAsync("twTextEditor.link", contentRef, href);
         return true;
     }
 
@@ -611,7 +616,7 @@ public partial class TwTextEditor : TwBlazorTextInputComponentBase
             return;
         }
 
-        await jsRuntime.InvokeVoidAsync("twTextEditor.unlink", contentRef);
+        await jsRuntime.TryInvokeVoidAsync("twTextEditor.unlink", contentRef);
         await CloseLinkPanelAsync();
     }
 
@@ -763,7 +768,7 @@ public partial class TwTextEditor : TwBlazorTextInputComponentBase
             return;
         }
 
-        await jsRuntime.InvokeVoidAsync("twTextEditor.format", contentRef, command);
+        await jsRuntime.TryInvokeVoidAsync("twTextEditor.format", contentRef, command);
     }
 
     private async Task OnGroupChangedAsync(IEnumerable<TextEditorFormat> values, TextEditorFormat[] group)
@@ -816,7 +821,10 @@ public partial class TwTextEditor : TwBlazorTextInputComponentBase
         linkInvalid = false;
         linkUrl = linkAtSelection ?? string.Empty;
         focusLinkInput = true;
+        // Also called from script for Ctrl + K, where nothing renders for us.
+#pragma warning disable BL0012
         StateHasChanged();
+#pragma warning restore BL0012
         return Task.CompletedTask;
     }
 
@@ -857,7 +865,10 @@ public partial class TwTextEditor : TwBlazorTextInputComponentBase
 
         linkPanelOpen = false;
         linkInvalid = false;
+        // Also called from script for Escape in the address field, where nothing renders for us.
+#pragma warning disable BL0012
         StateHasChanged();
+#pragma warning restore BL0012
         await FocusAsync();
     }
 

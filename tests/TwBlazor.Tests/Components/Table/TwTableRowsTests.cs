@@ -360,6 +360,22 @@ public class TwTableRowsTests : TwBlazorTestBase
         }
     }
 
+#if NET11_0_OR_GREATER
+    [Fact]
+    public void ItemsProvider_WithVirtualization_MatchesRowsByItem()
+    {
+        // Arrange
+        var server = new Server();
+
+        // Act
+        var cut = Render(Rows(provider: server.Provide), p => p.Add(x => x.EnableVirtualization, true));
+
+        // Assert
+        var virtualize = cut.FindComponent<Microsoft.AspNetCore.Components.Web.Virtualization.Virtualize<TwTableRow<string>>>();
+        Assert.Same(TwTableRowItemComparer<string>.Instance, virtualize.Instance.ItemComparer);
+    }
+#endif
+
     [Fact]
     public void ItemsProvider_LoadsOnePageAtATime()
     {

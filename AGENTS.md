@@ -5,8 +5,9 @@ add only guidance an agent would plausibly miss.
 
 ## Project
 
-- TwBlazor: open-source (MIT) Tailwind CSS component library for Blazor (Server + WebAssembly), all projects
-  targeting `net10.0`. Solution file is `TwBlazor.slnx` (XML solution, not `.sln`).
+- TwBlazor: open-source (MIT) Tailwind CSS component library for Blazor (Server + WebAssembly), the library
+  projects (`TwBlazor`, `TwBlazor.Theme`) and their unit tests target `net10.0;net11.0`, everything else targets
+  `net11.0`. Guard .NET 11-only APIs with `#if NET11_0_OR_GREATER` so the `net10.0` build still compiles. Solution file is `TwBlazor.slnx` (XML solution, not `.sln`).
 - Versions come from Git tags via MinVer (tag prefix `v`, e.g. `v1.1.0` → `1.1.0`; commits after a tag →
   `1.1.1-preview.N`). Never bump versions by hand; packages are always built in Release.
 

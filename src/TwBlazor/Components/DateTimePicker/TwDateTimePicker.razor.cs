@@ -179,6 +179,5 @@ public partial class TwDateTimePicker : TwBlazorTextInputComponentBase
             await ValueChanged.InvokeAsync(value);
 
         datePicker?.NotifyBoundFieldChanged();
-        StateHasChanged();
     }
 }

@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
+    <TargetFramework>net11.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
@@ -12,12 +12,11 @@
          intentionally uses a typeparamref with no matching generic parameter - it's markup being fed
          to XmlDocSummary, not a real doc comment on a generic member. -->
     <NoWarn>$(NoWarn);1591;1735</NoWarn>
-    <RunSettingsFilePath>C:\Users\Jack\source\repos\twblazor2\twblazor\tests\TwBlazor.Docs.Tests\bin\Debug\net10.0\fine-code-coverage\coverage-tool-output\TwBlazor.Docs.Tests-fcc-mscodecoverage-generated.runsettings</RunSettingsFilePath>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AngleSharp" Version="1.9.1" />
-    <PackageReference Include="bunit" Version="2.13.3" />
+    <PackageReference Include="AngleSharp" Version="1.10.0" />
+    <PackageReference Include="bunit" Version="2.14.0" />
     <PackageReference Include="coverlet.MTP" Version="10.1.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.11.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="4.0.1">

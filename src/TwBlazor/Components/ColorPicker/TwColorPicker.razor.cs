@@ -10,6 +10,7 @@ using TwBlazor.Configuration.Components;
 using TwBlazor.Enums;
 using TwBlazor.Localization;
 using TwBlazor.Utilities;
+using TwBlazor.Extensions;
 
 namespace TwBlazor.Components;
 
@@ -134,7 +135,7 @@ public partial class TwColorPicker : TwPopoverPickerComponentBase
             if (PendingOpenFocus)
             {
                 PendingOpenFocus = false;
-                await JSRuntime.InvokeVoidAsync("twDialog.focusSurface", PanelRef);
+                await JSRuntime.TryInvokeVoidAsync("twDialog.focusSurface", PanelRef);
             }
         }
     }
@@ -232,7 +233,7 @@ public partial class TwColorPicker : TwPopoverPickerComponentBase
         {
             // Capture whatever currently has focus (almost always the swatch, since clicking or
             // activating it is what triggers this) so it can be restored once the dialog closes.
-            FocusReturnToken = await JSRuntime.InvokeAsync<string?>("twDialog.captureFocus");
+            FocusReturnToken = await JSRuntime.TryInvokeAsync<string?>("twDialog.captureFocus", null);
             isFocused = true;
             PendingOpenFocus = true;
             await RegisterOutsideClickAsync();
@@ -285,7 +286,6 @@ public partial class TwColorPicker : TwPopoverPickerComponentBase
             await ValueChanged.InvokeAsync(Value);
             NotifyFieldChanged();
         }
-        StateHasChanged();
     }
 
     private async Task OnDialogClose(bool confirmed)
@@ -294,7 +294,6 @@ public partial class TwColorPicker : TwPopoverPickerComponentBase
         isFocused = false;
         await UnregisterOutsideClickAsync();
         await RestoreFocusAsync();
-        StateHasChanged();
     }
 
     /// <inheritdoc />

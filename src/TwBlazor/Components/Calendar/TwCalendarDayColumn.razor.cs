@@ -336,7 +336,6 @@ public partial class TwCalendarDayColumn<T> : TwBlazorComponentBase, IAsyncDispo
         }
 
         focusedSlot = clamped;
-        StateHasChanged();
 
         if (_slotRefs.TryGetValue(focusedSlot, out var slotRef))
         {

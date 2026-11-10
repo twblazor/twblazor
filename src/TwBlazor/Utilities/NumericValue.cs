@@ -288,17 +288,32 @@ internal abstract class NumericValue<T>
 
         private static bool TryDecimal(TNumber start, TNumber size, int steps, out TNumber result)
         {
+            result = default;
+
+            if (!TryToDecimal(start, out var from) || !TryToDecimal(size, out var step))
+            {
+                return false;
+            }
+
             try
             {
-                var sum = decimal.CreateChecked(start) + (decimal.CreateChecked(size) * steps);
-                result = TNumber.CreateChecked(sum);
+                result = TNumber.CreateChecked(from + (step * steps));
                 return true;
             }
             catch (OverflowException)
             {
-                result = default;
                 return false;
             }
+        }
+
+        // Converts through the shortest round-trip text: since .NET 11 a direct conversion keeps the exact binary
+        // value, so 0.1 becomes 0.1000000000000000055511151231 and the sum would no longer land on 0.3.
+        private static bool TryToDecimal(TNumber number, out decimal value)
+        {
+            value = default;
+
+            return TNumber.IsFinite(number) &&
+                decimal.TryParse(number.ToString("R", CultureInfo.InvariantCulture), NumberStyles.Float, CultureInfo.InvariantCulture, out value);
         }
 
         private static T Wrap(TNumber number) => (T)(object)number;

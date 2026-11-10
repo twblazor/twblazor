@@ -45,5 +45,12 @@ static async Task ApplySavedCultureAsync(IJSRuntime js)
     CultureInfo.DefaultThreadCurrentCulture = culture;
     CultureInfo.DefaultThreadCurrentUICulture = culture;
 
-    await js.InvokeVoidAsync("docsLocale.applyToDocument", culture.Name, culture.TextInfo.IsRightToLeft ? "rtl" : "ltr");
+    try
+    {
+        await js.InvokeVoidAsync("docsLocale.applyToDocument", culture.Name, culture.TextInfo.IsRightToLeft ? "rtl" : "ltr");
+    }
+    catch (JSException)
+    {
+        // The page keeps its default lang and dir rather than failing to start.
+    }
 }

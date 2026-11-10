@@ -80,6 +80,8 @@
 </PageContainer>
 
 @code {
+    // Each pass of the upload loop needs its own render to show the progress, which BL0012 does not account for.
+#pragma warning disable BL0012
     #region CodeExample AttachmentStatesCode
     private AttachmentStatus _status = AttachmentStatus.Ready;
     private double? _progress;
@@ -107,6 +109,7 @@
         _progress = null;
     }
     #endregion
+#pragma warning restore BL0012
 
     #region CodeExample AttachmentRemovableCode
     private readonly List<string> _files = ["brief.pdf", "moodboard.png", "copy-deck.docx"];

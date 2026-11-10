@@ -434,7 +434,16 @@ public partial class Theme
     /// </summary>
     private async Task ToggleThemeAsync()
     {
-        var isDark = await JS.InvokeAsync<bool>("themeToggle.toggle");
+        bool isDark;
+        try
+        {
+            isDark = await JS.InvokeAsync<bool>("themeToggle.toggle");
+        }
+        catch (JSDisconnectedException)
+        {
+            return;
+        }
+
         themeIcon = isDark ? IconEnum.Sun : IconEnum.Moon;
         themeStatusMessage = isDark ? "Dark theme on" : "Light theme on";
     }

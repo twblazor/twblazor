@@ -143,6 +143,14 @@ public class NumericValueTests
     }
 
     [Fact]
+    public void Add_SteppingBinaryFloatingPoint_ManyTimes_LandsOnTheDecimalValue()
+    {
+        Assert.Equal(0.7, NumericValue<double>.Instance.Add(0, 0.1, 7, double.MinValue, double.MaxValue));
+        Assert.Equal(1.1, NumericValue<double>.Instance.Add(0.8, 0.1, 3, double.MinValue, double.MaxValue));
+        Assert.Equal(0.9f, NumericValue<float>.Instance.Add(0.3f, 0.2f, 3, float.MinValue, float.MaxValue));
+    }
+
+    [Fact]
     public void Add_SteppingBinaryFloatingPoint_AvoidsRoundingErrors()
     {
         Assert.Equal(0.3, NumericValue<double>.Instance.Add(0.1, 0.2, 1, double.MinValue, double.MaxValue));

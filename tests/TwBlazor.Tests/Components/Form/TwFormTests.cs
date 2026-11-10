@@ -335,6 +335,33 @@ public class TwFormTests : TwBlazorTestBase
         Assert.True(cut.Instance.HasValidated);
     }
 
+#if NET11_0_OR_GREATER
+    [Fact]
+    public async Task TwForm_ValidateAsync_AwaitsAsyncValidators()
+    {
+        var person = new Person { Name = "Jo" };
+        var context = new EditContext(person);
+        var messages = new ValidationMessageStore(context);
+        var ran = false;
+        context.OnValidationRequested += (_, args) => args.AddAsyncValidator(async _ =>
+        {
+            await Task.Yield();
+            ran = true;
+            messages.Add(context.Field(nameof(Person.Name)), "That name is taken");
+        });
+        var cut = TestContext.Render<TwForm>(p => p
+            .Add(x => x.Id, "form")
+            .Add(x => x.EditContext, context)
+            .Add(x => x.ChildContent, NameField(person)));
+
+        var valid = await cut.InvokeAsync(() => cut.Instance.ValidateAsync());
+
+        Assert.True(ran);
+        Assert.False(valid);
+        Assert.False(cut.Instance.IsValid);
+    }
+#endif
+
     [Fact]
     public async Task TwForm_IsModified_TracksFieldChanges()
     {

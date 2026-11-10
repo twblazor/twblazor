@@ -29,7 +29,10 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5
         with:
-          dotnet-version: '10.0.x'
+          # The library targets .NET 10 and .NET 11, so both are installed.
+          dotnet-version: |
+            10.0.x
+            11.0.x
 
       - name: Cache NuGet packages
         uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5
@@ -98,7 +101,7 @@ jobs:
           )
           & "${{ runner.temp }}/scanner/dotnet-sonarscanner" begin @scannerArgs
           dotnet build --configuration Release
-          dotnet test tests/TwBlazor.Tests/TwBlazor.Tests.csproj --no-build --configuration Release --results-directory "${{ github.workspace }}/coverage" -- --coverlet --coverlet-output-format opencover
-          dotnet test tests/TwBlazor.ArchitectureTests/TwBlazor.ArchitectureTests.csproj --no-build --configuration Release --results-directory "${{ github.workspace }}/coverage/arch-tests" -- --coverlet --coverlet-output-format opencover
+          dotnet test tests/TwBlazor.Tests/TwBlazor.Tests.csproj --no-build --configuration Release --framework net11.0 --results-directory "${{ github.workspace }}/coverage" -- --coverlet --coverlet-output-format opencover
+          dotnet test tests/TwBlazor.ArchitectureTests/TwBlazor.ArchitectureTests.csproj --no-build --configuration Release --framework net11.0 --results-directory "${{ github.workspace }}/coverage/arch-tests" -- --coverlet --coverlet-output-format opencover
           dotnet test tests/TwBlazor.Docs.Tests/TwBlazor.Docs.Tests.csproj --no-build --configuration Release --results-directory "${{ github.workspace }}/coverage/docs-tests" -- --coverlet --coverlet-output-format opencover
           ${{ runner.temp }}/scanner/dotnet-sonarscanner end /d:sonar.token="$env:SONAR_TOKEN"

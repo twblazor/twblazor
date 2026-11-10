@@ -158,7 +158,6 @@ public partial class TwCodeBlock : TwBlazorComponentBase, IAsyncDisposable
             await Task.Delay(1000, cancellationTokenSource.Token);
 
             copied = false;
-            StateHasChanged();
         }
         catch (TaskCanceledException)
         {

@@ -11,6 +11,7 @@ using TwBlazor.Localization;
 using TwBlazor.Models;
 using TwBlazor.Spreadsheet;
 using TwBlazor.Utilities;
+using TwBlazor.Extensions;
 
 namespace TwBlazor.Components;
 
@@ -316,25 +317,25 @@ public partial class TwSpreadsheet : TwBlazorComponentBase, IAsyncDisposable
         if (focusEditor)
         {
             focusEditor = false;
-            await jsRuntime.InvokeVoidAsync("twSpreadsheet.focusEditor", gridRef, editorTarget, takeTyped);
+            await jsRuntime.TryInvokeVoidAsync("twSpreadsheet.focusEditor", gridRef, editorTarget, takeTyped);
             takeTyped = false;
         }
         else if (focusGrid)
         {
             focusGrid = false;
-            await jsRuntime.InvokeVoidAsync("twSpreadsheet.focus", gridRef);
+            await jsRuntime.TryInvokeVoidAsync("twSpreadsheet.focus", gridRef);
         }
         else if (focusElementId is not null)
         {
             var id = focusElementId;
             focusElementId = null;
-            await jsRuntime.InvokeVoidAsync("twFocus.focusById", id);
+            await jsRuntime.TryInvokeVoidAsync("twFocus.focusById", id);
         }
 
         if (scrollToActive)
         {
             scrollToActive = false;
-            await jsRuntime.InvokeVoidAsync("twSpreadsheet.scrollToCell", CellId(anchor));
+            await jsRuntime.TryInvokeVoidAsync("twSpreadsheet.scrollToCell", CellId(anchor));
         }
     }
 
@@ -344,7 +345,7 @@ public partial class TwSpreadsheet : TwBlazorComponentBase, IAsyncDisposable
     /// Moves focus to the grid, on the active cell.
     /// </summary>
     /// <returns>A task that completes once focus has moved.</returns>
-    public async Task FocusAsync() => await jsRuntime.InvokeVoidAsync("twSpreadsheet.focus", gridRef);
+    public async Task FocusAsync() => await jsRuntime.TryInvokeVoidAsync("twSpreadsheet.focus", gridRef);
 
     /// <summary>
     /// Works the formulas out again and redraws the grid, after the cells or the sheets were changed from code.

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using TwBlazor.Components;
+using TwBlazor.Extensions;
 
 namespace TwBlazor;
 
@@ -146,9 +147,9 @@ public abstract class TwPopoverPickerComponentBase : TwBlazorTextInputComponentB
     /// </summary>
     protected async Task ReleasePanelTrapAsync()
     {
-        await JSRuntime.InvokeVoidAsync("twPicker.unregisterScrollReposition", PanelRef);
-        await JSRuntime.InvokeVoidAsync("twDialog.releaseFocusTrap", PanelRef);
-        await JSRuntime.InvokeVoidAsync("twDialog.clearBackgroundInert", inertOwner);
+        await JSRuntime.TryInvokeVoidAsync("twPicker.unregisterScrollReposition", PanelRef);
+        await JSRuntime.TryInvokeVoidAsync("twDialog.releaseFocusTrap", PanelRef);
+        await JSRuntime.TryInvokeVoidAsync("twDialog.clearBackgroundInert", inertOwner);
     }
 
     /// <summary>
@@ -166,8 +167,8 @@ public abstract class TwPopoverPickerComponentBase : TwBlazorTextInputComponentB
     protected async Task ApplyPanelTrapAsync(ElementReference panel)
     {
         panelTrapApplied = true;
-        await JSRuntime.InvokeVoidAsync("twDialog.trapFocus", panel);
-        await JSRuntime.InvokeVoidAsync("twDialog.setBackgroundInert", InputRoot?.RootRef, inertOwner);
+        await JSRuntime.TryInvokeVoidAsync("twDialog.trapFocus", panel);
+        await JSRuntime.TryInvokeVoidAsync("twDialog.setBackgroundInert", InputRoot?.RootRef, inertOwner);
     }
 
     /// <summary>
@@ -188,7 +189,7 @@ public abstract class TwPopoverPickerComponentBase : TwBlazorTextInputComponentB
         if (!isFocused && panelTrapApplied)
         {
             panelTrapApplied = false;
-            await JSRuntime.InvokeVoidAsync("twDialog.clearBackgroundInert", inertOwner);
+            await JSRuntime.TryInvokeVoidAsync("twDialog.clearBackgroundInert", inertOwner);
         }
 
         if (isFocused && PendingPanelFocus && PanelRef.Context != null)
@@ -199,7 +200,7 @@ public abstract class TwPopoverPickerComponentBase : TwBlazorTextInputComponentB
             // but that runs after this and is several JS calls later, so a Tab pressed straight after the
             // panel opened could land in between and carry focus out of the panel. Arming is idempotent.
             await ApplyPanelTrapAsync(PanelRef);
-            await JSRuntime.InvokeVoidAsync("twDialog.focusPanel", PanelRef);
+            await JSRuntime.TryInvokeVoidAsync("twDialog.focusPanel", PanelRef);
         }
     }
 
@@ -220,7 +221,7 @@ public abstract class TwPopoverPickerComponentBase : TwBlazorTextInputComponentB
     protected async Task RegisterPanelScrollBehaviorAsync(ElementReference panel, bool matchAnchorWidth = false)
     {
         dotNetRef ??= DotNetObjectReference.Create(this);
-        await JSRuntime.InvokeVoidAsync("twPicker.registerScrollReposition", InputRoot?.RootRef, panel, matchAnchorWidth, dotNetRef);
+        await JSRuntime.TryInvokeVoidAsync("twPicker.registerScrollReposition", InputRoot?.RootRef, panel, matchAnchorWidth, dotNetRef);
     }
 
     /// <summary>
@@ -266,7 +267,7 @@ public abstract class TwPopoverPickerComponentBase : TwBlazorTextInputComponentB
         if (UseNativePicker || ReadOnly)
         {
             object surface = triggerInputRef is { } inputRef ? inputRef : InputRoot?.RootRef ?? default;
-            await JSRuntime.InvokeVoidAsync("twDialog.focusSurface", surface);
+            await JSRuntime.TryInvokeVoidAsync("twDialog.focusSurface", surface);
             return;
         }
 
@@ -350,7 +351,7 @@ public abstract class TwPopoverPickerComponentBase : TwBlazorTextInputComponentB
 
         // Capture whatever currently has focus (the trigger textfield or its icon button) so it can
         // be restored once the panel closes.
-        FocusReturnToken = await JSRuntime.InvokeAsync<string?>("twDialog.captureFocus");
+        FocusReturnToken = await JSRuntime.TryInvokeAsync<string?>("twDialog.captureFocus", null);
         isFocused = true;
         PendingOpenFocus = true;
         await RegisterOutsideClickAsync();
@@ -428,7 +429,7 @@ public abstract class TwPopoverPickerComponentBase : TwBlazorTextInputComponentB
 
         var token = FocusReturnToken;
         FocusReturnToken = null;
-        await JSRuntime.InvokeVoidAsync("twDialog.restoreFocus", token);
+        await JSRuntime.TryInvokeVoidAsync("twDialog.restoreFocus", token);
     }
 
     /// <summary>
@@ -442,7 +443,7 @@ public abstract class TwPopoverPickerComponentBase : TwBlazorTextInputComponentB
     {
         if (registeredOutsideHandler) return;
         dotNetRef ??= DotNetObjectReference.Create(this);
-        await JSRuntime.InvokeVoidAsync("twPicker.registerOutsideClick", InputRoot?.RootRef, dotNetRef, inertOwner);
+        await JSRuntime.TryInvokeVoidAsync("twPicker.registerOutsideClick", InputRoot?.RootRef, dotNetRef, inertOwner);
         registeredOutsideHandler = true;
     }
 
@@ -455,7 +456,7 @@ public abstract class TwPopoverPickerComponentBase : TwBlazorTextInputComponentB
     protected async Task UnregisterOutsideClickAsync()
     {
         if (!registeredOutsideHandler) return;
-        await JSRuntime.InvokeVoidAsync("twPicker.unregisterOutsideClick", InputRoot?.RootRef, inertOwner);
+        await JSRuntime.TryInvokeVoidAsync("twPicker.unregisterOutsideClick", InputRoot?.RootRef, inertOwner);
         ReleaseOutsideClickHandle();
     }
 
@@ -524,6 +525,11 @@ public abstract class TwPopoverPickerComponentBase : TwBlazorTextInputComponentB
         catch (InvalidOperationException)
         {
             // JS interop is unavailable during teardown (e.g. prerendering).
+            ReleaseOutsideClickHandle();
+        }
+        catch (OperationCanceledException)
+        {
+            // The circuit is being torn down, so the call was cancelled before it reached the client.
             ReleaseOutsideClickHandle();
         }
 
