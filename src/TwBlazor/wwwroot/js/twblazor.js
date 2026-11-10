@@ -4261,7 +4261,7 @@ globalThis.twGanttChart = {
 // Sheets (TwSpreadsheet): the parts of the spreadsheet that must happen in the browser at once. The grid keeps focus and
 // points at the active cell with aria-activedescendant, while .NET decides what each key does; this module stops the
 // browser's own handling of those keys (scrolling the page), turns pointer presses and drags into cell coordinates,
-// and collects the characters typed into the grid until the cell's field is ready, so fast typing is never lost on
+// by mouse or by finger, and collects the characters typed into the grid until the cell's field is ready, so fast typing is never lost on
 // Blazor Server. Pasting reads the clipboard here and hands the text to .NET.
 globalThis.twSpreadsheet = {
     // Keys .NET handles in the grid, whose default the browser must not run. Tab is left alone, so it leaves the grid.
@@ -4322,64 +4322,156 @@ globalThis.twSpreadsheet = {
     // Resizes a column while its heading's edge is dragged, then hands the width to .NET. The <col> and the table are
     // resized here at once, so the drag follows the pointer without waiting on a round trip. The table's zoom scales
     // the pointer's movement, and the edge moves the other way in a right to left layout.
-    _startResize: function (grid, dotnetRef, e) {
+    _startResize: function (grid, dotnetRef, e, touch) {
         e.preventDefault();
         e.stopPropagation();
         const heading = e.target.closest('th');
         const col = grid.querySelectorAll(':scope > colgroup > col')[heading.cellIndex];
         if (!col) return;
         const column = heading.cellIndex - 1;
-        const startX = e.clientX;
+        const startX = (touch ? e.touches[0] : e).clientX;
         const startWidth = Number.parseFloat(col.style.width) || col.getBoundingClientRect().width;
         const startTable = Number.parseFloat(grid.style.width) || grid.getBoundingClientRect().width;
         const zoom = Number.parseFloat(grid.dataset.zoom) || 1;
         const direction = globalThis.twDirection.isRtl(grid) ? -1 : 1;
         let width = startWidth;
 
-        const onMove = function (ev) {
-            width = Math.min(1000, Math.max(24, Math.round(startWidth + ((ev.clientX - startX) / zoom) * direction)));
+        document.documentElement.style.cursor = 'col-resize';
+        globalThis.twSpreadsheet._follow(touch, function (point) {
+            width = Math.min(1000, Math.max(24, Math.round(startWidth + ((point.clientX - startX) / zoom) * direction)));
             col.style.width = width + 'px';
             grid.style.width = (startTable + width - startWidth) + 'px';
-        };
-        const onUp = function () {
-            document.removeEventListener('mousemove', onMove);
-            document.removeEventListener('mouseup', onUp);
+        }, function () {
             document.documentElement.style.cursor = '';
             if (width !== startWidth) void globalThis.twPicker._invokeSafely(dotnetRef, 'ResizeColumn', column, width);
-        };
-
-        document.documentElement.style.cursor = 'col-resize';
-        document.addEventListener('mousemove', onMove);
-        document.addEventListener('mouseup', onUp);
+        });
     },
 
     // Resizes a row while its heading's bottom edge is dragged, then hands the height to .NET, the same way columns
     // are resized.
-    _startRowResize: function (grid, dotnetRef, e) {
+    _startRowResize: function (grid, dotnetRef, e, touch) {
         e.preventDefault();
         e.stopPropagation();
         const row = e.target.closest('tr');
         if (!row) return;
         const index = row.sectionRowIndex;
-        const startY = e.clientY;
+        const startY = (touch ? e.touches[0] : e).clientY;
         const startHeight = Number.parseFloat(row.style.height) || row.getBoundingClientRect().height;
         const zoom = Number.parseFloat(grid.dataset.zoom) || 1;
         let height = startHeight;
 
-        const onMove = function (ev) {
-            height = Math.min(400, Math.max(16, Math.round(startHeight + (ev.clientY - startY) / zoom)));
+        document.documentElement.style.cursor = 'row-resize';
+        globalThis.twSpreadsheet._follow(touch, function (point) {
+            height = Math.min(400, Math.max(16, Math.round(startHeight + (point.clientY - startY) / zoom)));
             row.style.height = height + 'px';
-        };
-        const onUp = function () {
-            document.removeEventListener('mousemove', onMove);
-            document.removeEventListener('mouseup', onUp);
+        }, function () {
             document.documentElement.style.cursor = '';
             if (height !== startHeight) void globalThis.twPicker._invokeSafely(dotnetRef, 'ResizeRow', index, height);
+        });
+    },
+
+    // Follows a drag on the document until the mouse button or the finger is lifted, handing each new point to move and
+    // calling end once. A finger's moves are kept from scrolling the page while it drags.
+    _follow: function (touch, move, end) {
+        const moveType = touch ? 'touchmove' : 'mousemove';
+        const endTypes = touch ? ['touchend', 'touchcancel'] : ['mouseup'];
+        const onMove = function (ev) {
+            const point = touch ? ev.touches[0] : ev;
+            if (!point) return;
+            if (touch && ev.cancelable) ev.preventDefault();
+            move(point);
+        };
+        const onEnd = function () {
+            document.removeEventListener(moveType, onMove);
+            endTypes.forEach(function (type) { document.removeEventListener(type, onEnd); });
+            end();
         };
 
-        document.documentElement.style.cursor = 'row-resize';
-        document.addEventListener('mousemove', onMove);
-        document.addEventListener('mouseup', onUp);
+        document.addEventListener(moveType, onMove, { passive: false });
+        endTypes.forEach(function (type) { document.addEventListener(type, onEnd); });
+    },
+
+    // The nearest element around the grid that scrolls, or null.
+    _scroller: function (grid) {
+        for (let element = grid.parentElement; element && element !== document.body; element = element.parentElement) {
+            if (/(auto|scroll)/.test(getComputedStyle(element).overflow)) return element;
+        }
+        return null;
+    },
+
+    // The part of the scrolling area that shows cells, in viewport coordinates: inside its borders and scrollbars, and
+    // past the sticky column and row headings.
+    _cellArea: function (grid, scroller) {
+        const rect = scroller.getBoundingClientRect();
+        const area = { left: rect.left + scroller.clientLeft, top: rect.top + scroller.clientTop };
+        area.right = area.left + (scroller.clientWidth || rect.right - rect.left);
+        area.bottom = area.top + (scroller.clientHeight || rect.bottom - rect.top);
+        const corner = grid.tHead?.rows[0]?.cells[0]?.getBoundingClientRect();
+        if (corner && corner.width > 0) {
+            if (globalThis.twDirection.isRtl(grid)) area.right = Math.min(area.right, corner.left);
+            else area.left = Math.max(area.left, corner.right);
+            area.top = Math.max(area.top, corner.bottom);
+        }
+        return area;
+    },
+
+    // How far to scroll along one axis in one frame for a finger at position, given where the cells start and end on
+    // that axis: nothing outside the 32 pixel band at each edge, and faster the further into or past an edge it is.
+    // Negative scrolls towards the start.
+    _edgeStep: function (position, start, end) {
+        const edge = 32;
+        const speed = function (depth) { return Math.round(Math.min(24, 4 + depth / 2)); };
+        if (position < start + edge) return -speed(start + edge - position);
+        if (position > end - edge) return speed(position - end + edge);
+        return 0;
+    },
+
+    // Scrolls by the given amounts and returns whether the scrolling area moved, which it does not at its ends.
+    _scrollBy: function (scroller, x, y) {
+        if ((x === 0 && y === 0) || typeof scroller.scrollBy !== 'function') return false;
+        const left = scroller.scrollLeft;
+        const top = scroller.scrollTop;
+        scroller.scrollBy(x, y);
+        return scroller.scrollLeft !== left || scroller.scrollTop !== top;
+    },
+
+    // Extends a finger's selection to the cell at a point, once per new cell. A heading is ignored.
+    _extendTo: function (grid, dotnetRef, touch, x, y) {
+        const target = globalThis.twSpreadsheet._target(grid, document.elementFromPoint(x, y));
+        if (!target || target.row < 0 || target.column < 0) return;
+        const key = target.row + ':' + target.column;
+        if (key === touch.last) return;
+        touch.last = key;
+        void globalThis.twPicker._invokeSafely(dotnetRef, 'PointerExtend', target.row, target.column);
+    },
+
+    // Moves a finger's selection to the cell under it. Close to or past an edge of the cells, the grid scrolls that
+    // way and the selection goes to the last cell in view, so it can reach cells out of view. Returns whether the grid
+    // scrolled, so the caller keeps scrolling while the finger rests there.
+    _dragTo: function (grid, dotnetRef, touch) {
+        const sheets = globalThis.twSpreadsheet;
+        let x = touch.point.clientX;
+        let y = touch.point.clientY;
+        let scrolled = false;
+        const scroller = sheets._scroller(grid);
+        if (scroller) {
+            const area = sheets._cellArea(grid, scroller);
+            scrolled = sheets._scrollBy(scroller, sheets._edgeStep(x, area.left, area.right), sheets._edgeStep(y, area.top, area.bottom));
+
+            // A point past the cells, or over a heading, is moved onto the nearest cell in view.
+            x = Math.min(Math.max(x, area.left + 1), area.right - 1);
+            y = Math.min(Math.max(y, area.top + 1), area.bottom - 1);
+        }
+
+        sheets._extendTo(grid, dotnetRef, touch, x, y);
+        return scrolled;
+    },
+
+    // Ends a finger's selection drag, and any scrolling it started.
+    _stopTouch: function (state) {
+        const frame = state.touch?.frame;
+        if (frame) (globalThis.cancelAnimationFrame ?? clearTimeout)(frame);
+        state.touch = null;
     },
 
     // Dialog (delete a sheet, insert a table, filter a column): keeps Tab inside it, closes it on Escape through the
@@ -4403,7 +4495,7 @@ globalThis.twSpreadsheet = {
     attach: function (grid, dotnetRef) {
         if (!grid || grid.__twSpreadsheet) return;
         const root = grid.closest('[data-tw-spreadsheet]') ?? grid;
-        const state = { dotnetRef: dotnetRef, root: root, buffer: '', pending: false, dragging: false, last: null };
+        const state = { dotnetRef: dotnetRef, root: root, buffer: '', pending: false, dragging: false, last: null, touch: null };
 
         const onKeyDown = function (e) {
             if (e.target === grid) {
@@ -4421,12 +4513,12 @@ globalThis.twSpreadsheet = {
         const onMouseDown = function (e) {
             if (e.target?.dataset?.twSpreadsheetEditor) return;
             if (e.button === 0 && e.target?.dataset?.twSpreadsheetResize !== undefined) {
-                globalThis.twSpreadsheet._startResize(grid, dotnetRef, e);
+                globalThis.twSpreadsheet._startResize(grid, dotnetRef, e, false);
                 return;
             }
 
             if (e.button === 0 && e.target?.dataset?.twSpreadsheetRowResize !== undefined) {
-                globalThis.twSpreadsheet._startRowResize(grid, dotnetRef, e);
+                globalThis.twSpreadsheet._startRowResize(grid, dotnetRef, e, false);
                 return;
             }
 
@@ -4468,6 +4560,59 @@ globalThis.twSpreadsheet = {
 
         const onMouseUp = function () { state.dragging = false; };
 
+        // Touch: a tap selects a cell through the mouse events the browser sends after it. A finger dragged from the
+        // active cell or the selected range extends the selection instead of scrolling, and a heading's edge resizes
+        // its column or row. A drag anywhere else scrolls the grid as usual.
+        const onTouchStart = function (e) {
+            globalThis.twSpreadsheet._stopTouch(state);
+            if (e.touches.length !== 1 || e.target?.dataset?.twSpreadsheetEditor) return;
+            if (e.target?.dataset?.twSpreadsheetResize !== undefined) {
+                globalThis.twSpreadsheet._startResize(grid, dotnetRef, e, true);
+                return;
+            }
+
+            if (e.target?.dataset?.twSpreadsheetRowResize !== undefined) {
+                globalThis.twSpreadsheet._startRowResize(grid, dotnetRef, e, true);
+                return;
+            }
+
+            if (grid.dataset.pointing === 'true' || e.target?.closest?.('[data-tw-spreadsheet-filter]')) return;
+            const cell = e.target?.closest?.('td');
+            const target = globalThis.twSpreadsheet._target(grid, e.target);
+            if (!cell || !target) return;
+            if (cell.getAttribute('aria-selected') !== 'true' && cell.id !== grid.getAttribute('aria-activedescendant')) return;
+            state.touch = { last: target.row + ':' + target.column, moved: false, point: null, frame: 0 };
+        };
+
+        const onTouchMove = function (e) {
+            if (!state.touch) return;
+            if (e.touches.length !== 1) {
+                globalThis.twSpreadsheet._stopTouch(state);
+                return;
+            }
+
+            if (e.cancelable) e.preventDefault();
+            const touch = state.touch;
+            touch.moved = true;
+            touch.point = { clientX: e.touches[0].clientX, clientY: e.touches[0].clientY };
+
+            // While the grid is scrolling under a finger resting at an edge, each frame picks up the new point.
+            if (touch.frame) return;
+            const schedule = globalThis.requestAnimationFrame ?? function (fn) { return setTimeout(fn, 16); };
+            const run = function () {
+                touch.frame = 0;
+                if (state.touch !== touch) return;
+                if (globalThis.twSpreadsheet._dragTo(grid, dotnetRef, touch)) touch.frame = schedule(run);
+            };
+            if (globalThis.twSpreadsheet._dragTo(grid, dotnetRef, touch)) touch.frame = schedule(run);
+        };
+
+        // A finished drag is not a tap, so the browser must not follow it with a click that selects one cell.
+        const onTouchEnd = function (e) {
+            if (state.touch?.moved && e.cancelable) e.preventDefault();
+            globalThis.twSpreadsheet._stopTouch(state);
+        };
+
         const onDoubleClick = function (e) {
             if (e.target?.dataset?.twSpreadsheetEditor) return;
 
@@ -4505,7 +4650,14 @@ globalThis.twSpreadsheet = {
         grid.addEventListener('paste', onPaste);
         document.addEventListener('mousemove', onMouseMove);
         document.addEventListener('mouseup', onMouseUp);
-        state.handlers = { onKeyDown: onKeyDown, onMouseDown: onMouseDown, onDoubleClick: onDoubleClick, onPaste: onPaste, onMouseMove: onMouseMove, onMouseUp: onMouseUp };
+        grid.addEventListener('touchstart', onTouchStart, { passive: false });
+        grid.addEventListener('touchmove', onTouchMove, { passive: false });
+        grid.addEventListener('touchend', onTouchEnd);
+        grid.addEventListener('touchcancel', onTouchEnd);
+        state.handlers = {
+            onKeyDown: onKeyDown, onMouseDown: onMouseDown, onDoubleClick: onDoubleClick, onPaste: onPaste, onMouseMove: onMouseMove, onMouseUp: onMouseUp,
+            onTouchStart: onTouchStart, onTouchMove: onTouchMove, onTouchEnd: onTouchEnd
+        };
         grid.__twSpreadsheet = state;
     },
 
@@ -4642,6 +4794,11 @@ globalThis.twSpreadsheet = {
         grid.removeEventListener('paste', h.onPaste);
         document.removeEventListener('mousemove', h.onMouseMove);
         document.removeEventListener('mouseup', h.onMouseUp);
+        grid.removeEventListener('touchstart', h.onTouchStart);
+        grid.removeEventListener('touchmove', h.onTouchMove);
+        grid.removeEventListener('touchend', h.onTouchEnd);
+        grid.removeEventListener('touchcancel', h.onTouchEnd);
+        globalThis.twSpreadsheet._stopTouch(state);
         state.toolbarObserver?.disconnect();
         delete grid.__twSpreadsheet;
     }

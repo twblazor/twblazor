@@ -45,7 +45,7 @@
     </PageCard>
 
     <PageCard Title="Freeze panes, column widths and row heights">
-        <Description>The snowflake menu freezes the rows above and the columns before the active cell, or just the top row or first column, so headings stay in view as the sheet scrolls. Set <code>FrozenRows</code> and <code>FrozenColumns</code> on a <code>Sheet</code>, or call <code>FreezePanes</code>. Drag the edge of a column heading or the bottom edge of a row number to resize it, or double-click the edge to fit it to its contents, or use Widen column, Narrow column, Increase row height, Decrease row height and the two Fit to contents items from the context menu with the keyboard. A row also grows when its cells get a larger text size. Sizes are kept per sheet in <code>ColumnWidths</code>, keyed by the column letters, and <code>RowHeights</code>, keyed by the row number, or set with <code>SetColumnWidth</code> and <code>SetRowHeight</code>. Frozen panes, widths and heights are kept in the Excel export.</Description>
+        <Description>The snowflake menu freezes the rows above and the columns before the active cell, or just the top row or first column, so headings stay in view as the sheet scrolls. Set <code>FrozenRows</code> and <code>FrozenColumns</code> on a <code>Sheet</code>, or call <code>FreezePanes</code>. Drag the edge of a column heading or the bottom edge of a row number to resize it, by mouse or by finger, or double-click the edge to fit it to its contents, or use Widen column, Narrow column, Increase row height, Decrease row height and the two Fit to contents items from the context menu with the keyboard. A row also grows when its cells get a larger text size. Sizes are kept per sheet in <code>ColumnWidths</code>, keyed by the column letters, and <code>RowHeights</code>, keyed by the row number, or set with <code>SetColumnWidth</code> and <code>SetRowHeight</code>. Frozen panes, widths and heights are kept in the Excel export.</Description>
 
         <CodeExample Name="SpreadsheetFreeze" CSharpName="SpreadsheetFreezeCode">
             <TwSpreadsheet Sheets="@sales" Rows="40" Columns="14" Height="16rem" ShowSheetTabs="false" />
@@ -162,6 +162,14 @@
                 <li>The context menu opens with <code>Shift + F10</code>. It resizes and fits columns and rows, which you can otherwise only do by dragging.</li>
                 <li>A table filter opens with <code>Alt + Arrow Down</code> on its heading.</li>
                 <li>Dialogs keep focus inside them, start on the safe choice and close with <code>Escape</code>.</li>
+            </ul>
+
+            <h3 class="mt-4 mb-1 text-sm font-semibold">Touch</h3>
+            <ul class="list-disc ps-5 space-y-1">
+                <li>Tap a cell to select it, and edit it in the formula bar.</li>
+                <li>Drag a finger from the active cell, or from inside the selected range, to select a range. Hold the finger near an edge of the grid, or past it, to scroll that way and keep selecting.</li>
+                <li>A drag that starts anywhere else scrolls the grid, so the sheet can always be moved around.</li>
+                <li>Drag the edge of a column heading or row number to resize it. The edges are wider on a touch screen, so they are easier to catch.</li>
             </ul>
 
             <h3 class="mt-4 mb-1 text-sm font-semibold">Seeing where you are</h3>
