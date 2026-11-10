@@ -79,7 +79,7 @@ twblazor new MyApp -i auto -t sidebar -f net11.0
 `-f` needs twblazor.templates 3.6.0 or later. `twblazor new` is the only command you need after the tool is installed. If you are adding twblazor to an existing app instead, install the [twblazor NuGet package](https://www.nuget.org/packages/twblazor) and follow the [Get Started guide](https://twblazor.com/get-started) for stylesheets, imports, providers, theming and dependency injection:
 
 ```pwsh
-dotnet add package twblazor --version 3.5.1
+dotnet add package twblazor --version 3.7.0
 ```
 
 ## Class merging
