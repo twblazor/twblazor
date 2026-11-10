@@ -53,33 +53,30 @@ Using twblazor in your own project? Share it [here](https://github.com/TwBlazor/
 
 ## Setup
 
-The fastest way to start is the project template. Install the [twblazor.templates](https://www.nuget.org/packages/twblazor.templates) .NET tool once:
+The fastest way to start is the project template. Install the [twblazor.templates](https://www.nuget.org/packages/twblazor.templates) .NET tool once (update it later with `dotnet tool update -g twblazor.templates`):
 
 ```pwsh
 dotnet tool install -g twblazor.templates
 ```
 
-Then create a complete app with the sidebar layout. The command creates the solution, pages, layout, theme, Tailwind build and restores the packages:
-
-**WebAssembly**
+Then create a complete app. The command creates the solution, pages, layout, theme and Tailwind build, restores the packages and prints how to run it. Every option is optional:
 
 ```pwsh
-twblazor new MyApp -i wasm -t sidebar
+twblazor new MyApp -i auto -t sidebar -f net11.0
 ```
 
-**Auto**
+| Option | Values | Default |
+| --- | --- | --- |
+| `-i`, `--interactivity` | `server`, `wasm`, `auto` | `server` |
+| `-t`, `--template` | `dashboard`, `sidebar`, `navbar`, `blank` | `dashboard` |
+| `-f`, `--framework` | `net11.0`, `net10.0` | `net11.0` |
+| `-o`, `--output` | Folder to create the app in | `./MyApp` |
+| `--tailwind` | `cli` (through `npx`) or `npm` | Asks, or `cli` when not interactive |
+| `--no-restore` | Skip `dotnet restore` | |
+| `--no-npm` | Skip the Tailwind CSS build | |
+| `--force` | Write into a folder that is not empty | |
 
-```pwsh
-twblazor new MyApp -i auto -t sidebar
-```
-
-**Server**
-
-```pwsh
-twblazor new MyApp -i server -t sidebar
-```
-
-`twblazor new` is the only command you need after the tool is installed. If you are adding twblazor to an existing app instead, install the [twblazor NuGet package](https://www.nuget.org/packages/twblazor) and follow the [Get Started guide](https://twblazor.com/get-started) for stylesheets, imports, providers, theming and dependency injection:
+`-f` needs twblazor.templates 3.6.0 or later. `twblazor new` is the only command you need after the tool is installed. If you are adding twblazor to an existing app instead, install the [twblazor NuGet package](https://www.nuget.org/packages/twblazor) and follow the [Get Started guide](https://twblazor.com/get-started) for stylesheets, imports, providers, theming and dependency injection:
 
 ```pwsh
 dotnet add package twblazor --version 3.5.1
@@ -101,10 +98,10 @@ Using Claude Code or another AI coding agent? twblazor publishes skills that tea
 
 | twblazor          | .NET 11 | .NET 10 |
 | ----------------- | ------- | ------- |
-| 3.6.0 and later   | ✅      | ✅     |
-| 3.5.x and earlier | ➖      | ✅     |
+| 3.7.0 and later   | ✅      | ✅     |
+| 3.6.x and earlier | ➖      | ✅     |
 
-From 3.6.0 the package is built for both .NET 11 and .NET 10, so it installs into either without any extra setup. Upgrade to 3.6.0 or later before moving an app to .NET 11. See [SECURITY.md](SECURITY.md) for which release lines receive security fixes.
+From 3.7.0 the package is built for both .NET 11 and .NET 10, so it installs into either without any extra setup. Upgrade to 3.7.0 or later before moving an app to .NET 11. See [SECURITY.md](SECURITY.md) for which release lines receive security fixes.
 
 ## Dependencies 
 

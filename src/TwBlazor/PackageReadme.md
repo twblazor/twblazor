@@ -51,10 +51,10 @@ Using an AI coding assistant? Point it at [twblazor.com/llms.txt](https://twblaz
 
 | twblazor          | .NET 11 | .NET 10 |
 | ----------------- | ------- | ------- |
-| 3.6.0 and later   | ✅      | ✅      |
-| 3.5.x and earlier | ➖      | ✅      |
+| 3.7.0 and later   | ✅      | ✅      |
+| 3.6.x and earlier | ➖      | ✅      |
 
-Upgrade to 3.6.0 or later before moving an app to .NET 11.
+Upgrade to 3.7.0 or later before moving an app to .NET 11.
 
 ## Dependencies
 

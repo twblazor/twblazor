@@ -6,12 +6,12 @@ Security fixes are provided for the three most recent minor release lines of twb
 
 | Version           | Supported | .NET             |
 | ----------------- | --------- | ---------------- |
-| 3.6.0 and later   | ✅        | .NET 11, .NET 10 |
-| 3.0.0 to 3.5.x    | ✅        | .NET 10 only     |
+| 3.7.0 and later   | ✅        | .NET 11, .NET 10 |
+| 3.0.0 to 3.6.x    | ✅        | .NET 10 only     |
 | 2.x.x             | ✅        | .NET 10 only     |
 | 1.x.x             | ✅        | .NET 10 only     |
 
-twblazor 3.6.0 and later targets .NET 11 (`net11.0`) and .NET 10 (`net10.0`). Versions 3.5.x and earlier target .NET 10 only, so running them on .NET 11 is not supported: upgrade to 3.6.0 or later first. Other .NET versions are not supported, and issues that only occur on an unsupported .NET version will not receive a security fix.
+twblazor 3.7.0 and later targets .NET 11 (`net11.0`) and .NET 10 (`net10.0`). Versions 3.6.x and earlier target .NET 10 only, so running them on .NET 11 is not supported: upgrade to 3.7.0 or later first. Other .NET versions are not supported, and issues that only occur on an unsupported .NET version will not receive a security fix.
 
 ## Reporting a Vulnerability
 
