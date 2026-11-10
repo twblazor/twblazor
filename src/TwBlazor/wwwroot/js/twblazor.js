@@ -4415,47 +4415,55 @@ globalThis.twSpreadsheet = {
         return area;
     },
 
-    // How far to scroll in one frame for a finger the given number of pixels into an edge, or past it: faster the
-    // further in it is.
-    _edgeSpeed: function (depth) {
-        return Math.round(Math.min(24, 4 + depth / 2));
+    // How far to scroll along one axis in one frame for a finger at position, given where the cells start and end on
+    // that axis: nothing outside the 32 pixel band at each edge, and faster the further into or past an edge it is.
+    // Negative scrolls towards the start.
+    _edgeStep: function (position, start, end) {
+        const edge = 32;
+        const speed = function (depth) { return Math.round(Math.min(24, 4 + depth / 2)); };
+        if (position < start + edge) return -speed(start + edge - position);
+        if (position > end - edge) return speed(position - end + edge);
+        return 0;
+    },
+
+    // Scrolls by the given amounts and returns whether the scrolling area moved, which it does not at its ends.
+    _scrollBy: function (scroller, x, y) {
+        if ((x === 0 && y === 0) || typeof scroller.scrollBy !== 'function') return false;
+        const left = scroller.scrollLeft;
+        const top = scroller.scrollTop;
+        scroller.scrollBy(x, y);
+        return scroller.scrollLeft !== left || scroller.scrollTop !== top;
+    },
+
+    // Extends a finger's selection to the cell at a point, once per new cell. A heading is ignored.
+    _extendTo: function (grid, dotnetRef, touch, x, y) {
+        const target = globalThis.twSpreadsheet._target(grid, document.elementFromPoint(x, y));
+        if (!target || target.row < 0 || target.column < 0) return;
+        const key = target.row + ':' + target.column;
+        if (key === touch.last) return;
+        touch.last = key;
+        void globalThis.twPicker._invokeSafely(dotnetRef, 'PointerExtend', target.row, target.column);
     },
 
     // Moves a finger's selection to the cell under it. Close to or past an edge of the cells, the grid scrolls that
     // way and the selection goes to the last cell in view, so it can reach cells out of view. Returns whether the grid
     // scrolled, so the caller keeps scrolling while the finger rests there.
     _dragTo: function (grid, dotnetRef, touch) {
+        const sheets = globalThis.twSpreadsheet;
         let x = touch.point.clientX;
         let y = touch.point.clientY;
         let scrolled = false;
-        const scroller = globalThis.twSpreadsheet._scroller(grid);
+        const scroller = sheets._scroller(grid);
         if (scroller) {
-            const area = globalThis.twSpreadsheet._cellArea(grid, scroller);
-            const edge = 32;
-            const speed = globalThis.twSpreadsheet._edgeSpeed;
-            const dx = x < area.left + edge ? -speed(area.left + edge - x) : x > area.right - edge ? speed(x - area.right + edge) : 0;
-            const dy = y < area.top + edge ? -speed(area.top + edge - y) : y > area.bottom - edge ? speed(y - area.bottom + edge) : 0;
-            if ((dx !== 0 || dy !== 0) && typeof scroller.scrollBy === 'function') {
-                const left = scroller.scrollLeft;
-                const top = scroller.scrollTop;
-                scroller.scrollBy(dx, dy);
-                scrolled = scroller.scrollLeft !== left || scroller.scrollTop !== top;
-            }
+            const area = sheets._cellArea(grid, scroller);
+            scrolled = sheets._scrollBy(scroller, sheets._edgeStep(x, area.left, area.right), sheets._edgeStep(y, area.top, area.bottom));
 
             // A point past the cells, or over a heading, is moved onto the nearest cell in view.
             x = Math.min(Math.max(x, area.left + 1), area.right - 1);
             y = Math.min(Math.max(y, area.top + 1), area.bottom - 1);
         }
 
-        const target = globalThis.twSpreadsheet._target(grid, document.elementFromPoint(x, y));
-        if (target && target.row >= 0 && target.column >= 0) {
-            const key = target.row + ':' + target.column;
-            if (key !== touch.last) {
-                touch.last = key;
-                void globalThis.twPicker._invokeSafely(dotnetRef, 'PointerExtend', target.row, target.column);
-            }
-        }
-
+        sheets._extendTo(grid, dotnetRef, touch, x, y);
         return scrolled;
     },
 

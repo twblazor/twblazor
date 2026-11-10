@@ -524,6 +524,11 @@ describe('twSpreadsheet touch', () => {
         grid.setAttribute('aria-activedescendant', id);
     }
 
+    afterEach(() => {
+        delete globalThis.requestAnimationFrame;
+        delete globalThis.cancelAnimationFrame;
+    });
+
     test('a finger dragged from the active cell extends the selection instead of scrolling', () => {
         const { root, grid, dotnetRef } = build();
         withActive(grid);
@@ -633,11 +638,6 @@ describe('twSpreadsheet touch', () => {
         const runFrame = () => frames.shift()?.();
         return { scroller, frames, runFrame };
     }
-
-    afterEach(() => {
-        delete globalThis.requestAnimationFrame;
-        delete globalThis.cancelAnimationFrame;
-    });
 
     test('a finger near an edge of the cells scrolls the grid, faster the further in it is, and keeps going while it rests there', () => {
         const { root, grid } = build();
