@@ -50,7 +50,10 @@ public partial class TwSpreadsheet
 
     private List<(string Value, string Label)> filterValues = [];
 
+    // The suggested [with(StringComparer.Ordinal)] form needs C# 15, which the net10.0 build does not have.
+#pragma warning disable IDE0028
     private HashSet<string> filterDraft = new(StringComparer.Ordinal);
+#pragma warning restore IDE0028
 
     private ColumnFilter filterConditionDraft = new();
 

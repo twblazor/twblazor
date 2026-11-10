@@ -19,12 +19,12 @@ public partial class TwTableRows<TItem> : ComponentBase, ITwTableRows, IAsyncDis
 {
 #if NET11_0_OR_GREATER
     // Virtualize only has ItemComparer from .NET 11, so it is passed by name to keep the .NET 10 build compiling.
-    private static readonly Dictionary<string, object> _providerVirtualizeParameters = new()
+    private readonly Dictionary<string, object> _providerVirtualizeParameters = new()
     {
         [nameof(Virtualize<TwTableRow<TItem>>.ItemComparer)] = TwTableRowItemComparer<TItem>.Instance
     };
 #else
-    private static readonly Dictionary<string, object> _providerVirtualizeParameters = [];
+    private readonly Dictionary<string, object> _providerVirtualizeParameters = [];
 #endif
 
     private List<TwTableRow<TItem>> allRows = [];
