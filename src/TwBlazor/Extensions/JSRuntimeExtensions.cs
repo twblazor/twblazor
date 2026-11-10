@@ -6,9 +6,9 @@ using Microsoft.JSInterop;
 namespace TwBlazor.Extensions;
 
 /// <summary>
-/// JS interop calls that skip quietly when the script cannot run: the circuit has disconnected, or the component is
-/// prerendering and JS interop is not available yet. A <see cref="JSException"/> thrown by the script itself still
-/// reaches the caller.
+/// JS interop calls that skip quietly when the script cannot run: the circuit has disconnected or is being torn down, or
+/// the component is prerendering and JS interop is not available yet. A <see cref="JSException"/> thrown by the script
+/// itself still reaches the caller.
 /// </summary>
 internal static class JSRuntimeExtensions
 {
@@ -28,6 +28,11 @@ internal static class JSRuntimeExtensions
         }
         catch (JSDisconnectedException)
         {
+            return false;
+        }
+        catch (OperationCanceledException)
+        {
+            // The circuit is being torn down, so the call was cancelled before it ran.
             return false;
         }
         catch (InvalidOperationException)
@@ -55,6 +60,11 @@ internal static class JSRuntimeExtensions
         }
         catch (JSDisconnectedException)
         {
+            return fallback;
+        }
+        catch (OperationCanceledException)
+        {
+            // The circuit is being torn down, so the call was cancelled before it ran.
             return fallback;
         }
         catch (InvalidOperationException)

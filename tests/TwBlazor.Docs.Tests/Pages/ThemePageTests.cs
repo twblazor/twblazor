@@ -40,6 +40,12 @@ public partial class ThemePageTests : DocsTestBase
     {
         var cut = await RenderAsync();
         OpenTab(cut, label);
+        // The tab switches on a render that can finish after Click returns (it did under Sonar's coverage run),
+        // so wait for the tab to be selected before a test reads the panel it shows.
+        await cut.WaitForAssertionAsync(
+            () => Assert.Equal("true", cut.Find($"#theme-settings [role=tab]:contains('{label}')").GetAttribute("aria-selected")),
+            TimeSpan.FromSeconds(15));
+        await cut.InvokeAsync(() => { });
         return cut;
     }
 

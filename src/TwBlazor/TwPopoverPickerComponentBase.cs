@@ -527,6 +527,11 @@ public abstract class TwPopoverPickerComponentBase : TwBlazorTextInputComponentB
             // JS interop is unavailable during teardown (e.g. prerendering).
             ReleaseOutsideClickHandle();
         }
+        catch (OperationCanceledException)
+        {
+            // The circuit is being torn down, so the call was cancelled before it reached the client.
+            ReleaseOutsideClickHandle();
+        }
 
         GC.SuppressFinalize(this);
     }

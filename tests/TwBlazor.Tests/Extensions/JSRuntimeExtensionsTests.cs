@@ -62,6 +62,14 @@ public class JSRuntimeExtensionsTests
     }
 
     [Fact]
+    public async Task TryInvokeVoidAsync_SkipsQuietly_WhenTheCircuitIsTornDown()
+    {
+        var js = new FakeJSRuntime { Failure = new TaskCanceledException() };
+
+        Assert.False(await js.TryInvokeVoidAsync("twPicker.unregisterOutsideClick"));
+    }
+
+    [Fact]
     public async Task TryInvokeVoidAsync_LetsScriptErrorsThrough()
     {
         var js = new FakeJSRuntime { Failure = new JSException("twDialog is not defined") };
@@ -96,6 +104,14 @@ public class JSRuntimeExtensionsTests
         var size = await js.TryInvokeAsync("twColorPicker.getSize", fallback);
 
         Assert.Same(fallback, size);
+    }
+
+    [Fact]
+    public async Task TryInvokeAsync_ReturnsTheFallback_WhenTheCircuitIsTornDown()
+    {
+        var js = new FakeJSRuntime { Failure = new TaskCanceledException() };
+
+        Assert.False(await js.TryInvokeAsync("twSidebar.isMobileViewport", false));
     }
 
     [Fact]
