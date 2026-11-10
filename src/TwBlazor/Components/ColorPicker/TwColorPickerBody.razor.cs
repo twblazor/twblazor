@@ -7,6 +7,7 @@ using Microsoft.JSInterop;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Enums;
 using TwBlazor.Utilities;
+using TwBlazor.Extensions;
 
 namespace TwBlazor.Components.ColorPicker;
 
@@ -221,18 +222,18 @@ public partial class TwColorPickerBody : TwBlazorComponentBase
         {
             await MeasureSlidersAsync();
 
-            eyeDropperSupported = await JSRuntime.InvokeAsync<bool>("twColorPicker.supportsEyeDropper");
+            eyeDropperSupported = await JSRuntime.TryInvokeAsync<bool>("twColorPicker.supportsEyeDropper", false);
             if (eyeDropperSupported)
             {
                 StateHasChanged();
             }
         }
 
-        await JSRuntime.InvokeVoidAsync("twSlider.preventScrollKeys", selectorRef);
-        await JSRuntime.InvokeVoidAsync("twSlider.preventScrollKeys", hueRef);
+        await JSRuntime.TryInvokeVoidAsync("twSlider.preventScrollKeys", selectorRef);
+        await JSRuntime.TryInvokeVoidAsync("twSlider.preventScrollKeys", hueRef);
         if (ShowAlpha)
         {
-            await JSRuntime.InvokeVoidAsync("twSlider.preventScrollKeys", alphaRef);
+            await JSRuntime.TryInvokeVoidAsync("twSlider.preventScrollKeys", alphaRef);
         }
     }
 
@@ -244,14 +245,14 @@ public partial class TwColorPickerBody : TwBlazorComponentBase
     /// </summary>
     private async Task MeasureSlidersAsync()
     {
-        var selectorSize = await JSRuntime.InvokeAsync<double[]>("twColorPicker.getSize", selectorRef);
+        var selectorSize = await JSRuntime.TryInvokeAsync<double[]>("twColorPicker.getSize", [], selectorRef);
         if (selectorSize is [> 0, > 0])
         {
             selectorWidth = selectorSize[0];
             selectorHeight = selectorSize[1];
         }
 
-        var hueSize = await JSRuntime.InvokeAsync<double[]>("twColorPicker.getSize", hueRef);
+        var hueSize = await JSRuntime.TryInvokeAsync<double[]>("twColorPicker.getSize", [], hueRef);
         if (hueSize is [> 0, ..])
         {
             hueSliderWidth = hueSize[0];
@@ -259,7 +260,7 @@ public partial class TwColorPickerBody : TwBlazorComponentBase
 
         if (ShowAlpha)
         {
-            var alphaSize = await JSRuntime.InvokeAsync<double[]>("twColorPicker.getSize", alphaRef);
+            var alphaSize = await JSRuntime.TryInvokeAsync<double[]>("twColorPicker.getSize", [], alphaRef);
             if (alphaSize is [> 0, ..])
             {
                 alphaSliderWidth = alphaSize[0];
@@ -404,7 +405,7 @@ public partial class TwColorPickerBody : TwBlazorComponentBase
         }
 
         var touch = e.Touches[0];
-        var position = await JSRuntime.InvokeAsync<double[]>("twColorPicker.relativePosition", el, touch.ClientX, touch.ClientY);
+        var position = await JSRuntime.TryInvokeAsync<double[]>("twColorPicker.relativePosition", [0, 0], el, touch.ClientX, touch.ClientY);
         return (position[0], position[1]);
     }
 
@@ -703,7 +704,7 @@ public partial class TwColorPickerBody : TwBlazorComponentBase
     /// </summary>
     private async Task PickColorFromScreenAsync()
     {
-        var picked = await JSRuntime.InvokeAsync<string?>("twColorPicker.openEyeDropper");
+        var picked = await JSRuntime.TryInvokeAsync<string?>("twColorPicker.openEyeDropper", null);
         if (string.IsNullOrWhiteSpace(picked)) return;
 
         var hex = picked.TrimStart('#');

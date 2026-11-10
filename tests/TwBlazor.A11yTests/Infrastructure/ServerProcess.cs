@@ -102,7 +102,7 @@ public sealed class ServerProcess : IAsyncDisposable
             throw new InvalidOperationException($"Could not locate the repo root (TwBlazor.slnx) above '{AppContext.BaseDirectory}'.");
         }
 
-        var serverDll = Path.Combine(dir.FullName, "docs", "TwBlazor.Server", "bin", configuration, "net10.0", "TwBlazor.Server.dll");
+        var serverDll = Path.Combine(dir.FullName, "docs", "TwBlazor.Server", "bin", configuration, "net11.0", "TwBlazor.Server.dll");
         if (!File.Exists(serverDll))
         {
             throw new FileNotFoundException($"TwBlazor.Server.dll not found at '{serverDll}'. Build TwBlazor.Server before running these tests.", serverDll);

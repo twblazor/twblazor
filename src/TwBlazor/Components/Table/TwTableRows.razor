@@ -4,8 +4,10 @@
 
 @if (isVirtualized && usesProvider)
 {
+#pragma warning disable BL0011 // ItemComparer is passed through @attributes on .NET 11, which the analyzer cannot see.
     <Virtualize @ref="virtualizeRef"
                 TItem="TwTableRow<TItem>"
+                @attributes="_providerVirtualizeParameters"
                 ItemsProvider="@ProvideVirtualRowsAsync"
                 ItemSize="@table!.ItemSize"
                 OverscanCount="@table.OverscanCount"

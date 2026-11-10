@@ -27,7 +27,10 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5
         with:
-          dotnet-version: '10.0.x'
+          # The library targets .NET 10 and .NET 11, so both are installed.
+          dotnet-version: |
+            10.0.x
+            11.0.x
 
       - name: Cache NuGet packages
         uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5
@@ -49,8 +52,11 @@ jobs:
         env:
           BUILD_CONFIGURATION: ${{ inputs.configuration }}
         run: |
-          dotnet test tests/TwBlazor.Tests/TwBlazor.Tests.csproj --configuration "$BUILD_CONFIGURATION" --no-build --verbosity normal --results-directory ./test-results -- --report-xunit-trx --report-xunit-trx-filename unit-tests.trx
-          dotnet test tests/TwBlazor.ArchitectureTests/TwBlazor.ArchitectureTests.csproj --configuration "$BUILD_CONFIGURATION" --no-build --verbosity normal --results-directory ./test-results -- --report-xunit-trx --report-xunit-trx-filename architecture-tests.trx
+          # Each framework runs on its own so its results file is not overwritten by the other's.
+          for framework in net10.0 net11.0; do
+            dotnet test tests/TwBlazor.Tests/TwBlazor.Tests.csproj --configuration "$BUILD_CONFIGURATION" --framework "$framework" --no-build --verbosity normal --results-directory ./test-results -- --report-xunit-trx --report-xunit-trx-filename "unit-tests-$framework.trx"
+            dotnet test tests/TwBlazor.ArchitectureTests/TwBlazor.ArchitectureTests.csproj --configuration "$BUILD_CONFIGURATION" --framework "$framework" --no-build --verbosity normal --results-directory ./test-results -- --report-xunit-trx --report-xunit-trx-filename "architecture-tests-$framework.trx"
+          done
           dotnet test tests/TwBlazor.Docs.Tests/TwBlazor.Docs.Tests.csproj --configuration "$BUILD_CONFIGURATION" --no-build --verbosity normal --results-directory ./test-results -- --report-xunit-trx --report-xunit-trx-filename docs-tests.trx
 
       # The accessibility tests start the docs site and scan every page in a real browser, so they are slower
@@ -60,7 +66,7 @@ jobs:
         shell: pwsh
         env:
           BUILD_CONFIGURATION: ${{ inputs.configuration }}
-        run: pwsh tests/TwBlazor.A11yTests/bin/$env:BUILD_CONFIGURATION/net10.0/playwright.ps1 install --with-deps chromium
+        run: pwsh tests/TwBlazor.A11yTests/bin/$env:BUILD_CONFIGURATION/net11.0/playwright.ps1 install --with-deps chromium
 
       - name: Accessibility tests
         if: ${{ inputs.run-accessibility-tests }}

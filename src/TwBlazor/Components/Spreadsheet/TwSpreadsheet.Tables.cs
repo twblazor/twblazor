@@ -8,6 +8,7 @@ using TwBlazor.Filtering;
 using TwBlazor.Localization;
 using TwBlazor.Models;
 using TwBlazor.Spreadsheet;
+using TwBlazor.Extensions;
 
 namespace TwBlazor.Components;
 
@@ -423,7 +424,10 @@ public partial class TwSpreadsheet
             focusElementId = returnFocusId;
         }
 
+        // Also called from script (Escape in the dialog), where nothing renders for us.
+#pragma warning disable BL0012
         StateHasChanged();
+#pragma warning restore BL0012
     }
 
     private async Task OpenPendingDialogAsync()
@@ -431,7 +435,7 @@ public partial class TwSpreadsheet
         if (dialog != DialogKind.None && !dialogOpened)
         {
             dialogOpened = true;
-            await jsRuntime.InvokeVoidAsync("twSpreadsheet.openDialog", dialogRef, dotNetRef);
+            await jsRuntime.TryInvokeVoidAsync("twSpreadsheet.openDialog", dialogRef, dotNetRef);
         }
     }
 
@@ -522,7 +526,6 @@ public partial class TwSpreadsheet
         if (ParseRange(text) is not { } range || sheet.Tables.Any(t => ParseRange(t.Range) is { } other && Overlaps(other, range)))
         {
             tableRangeInvalid = true;
-            StateHasChanged();
             return;
         }
 

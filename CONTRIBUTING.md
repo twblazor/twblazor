@@ -38,7 +38,7 @@ Be respectful and constructive. See `CODE_OF_CONDUCT.md`.
 ---
 
 ## ⚙️ Prerequisites
-- Latest stable .NET SDK (.NET 10)
+- .NET 11 SDK (pinned in `global.json`), plus the .NET 10 runtime to run the tests against both target frameworks
 
 ---
 
@@ -148,7 +148,7 @@ attributes, its keyboard handling or its colors.
 
 ```
 dotnet build tests/TwBlazor.A11yTests
-pwsh tests/TwBlazor.A11yTests/bin/Debug/net10.0/playwright.ps1 install chromium
+pwsh tests/TwBlazor.A11yTests/bin/Debug/net11.0/playwright.ps1 install chromium
 dotnet test tests/TwBlazor.A11yTests
 ```
 

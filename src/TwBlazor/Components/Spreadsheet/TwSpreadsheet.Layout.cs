@@ -9,6 +9,7 @@ using TwBlazor.Localization;
 using TwBlazor.Models;
 using TwBlazor.Spreadsheet;
 using TwBlazor.Utilities;
+using TwBlazor.Extensions;
 
 namespace TwBlazor.Components;
 
@@ -122,7 +123,7 @@ public partial class TwSpreadsheet
         }
 
         toolbarObserved = true;
-        await jsRuntime.InvokeVoidAsync("twSpreadsheet.observeToolbar", gridRef);
+        await jsRuntime.TryInvokeVoidAsync("twSpreadsheet.observeToolbar", gridRef);
     }
 
     /// <summary>
@@ -140,7 +141,10 @@ public partial class TwSpreadsheet
         FullScreen = on;
         statusMessage = localizer[on ? TwStrings.Spreadsheet_FullScreenOn : TwStrings.Spreadsheet_FullScreenOff];
         scrollToActive = true;
+        // Also reached from script through ExitFullScreenAsync and from app code, where nothing renders for us.
+#pragma warning disable BL0012
         StateHasChanged();
+#pragma warning restore BL0012
         await FullScreenChanged.InvokeAsync(on);
     }
 
@@ -164,7 +168,7 @@ public partial class TwSpreadsheet
         }
 
         appliedFullScreen = FullScreen;
-        await jsRuntime.InvokeVoidAsync("twSpreadsheet.setFullScreen", gridRef, FullScreen);
+        await jsRuntime.TryInvokeVoidAsync("twSpreadsheet.setFullScreen", gridRef, FullScreen);
     }
 
     private Sheet sheet => Sheets[activeSheet];
@@ -357,14 +361,12 @@ public partial class TwSpreadsheet
     {
         for (var column = selection.Start.Column; column <= selection.End.Column; column++)
         {
-            var width = await jsRuntime.InvokeAsync<int>("twSpreadsheet.fitColumn", gridRef, column);
+            var width = await jsRuntime.TryInvokeAsync<int>("twSpreadsheet.fitColumn", 0, gridRef, column);
             if (width > 0)
             {
                 WriteWidth(column, width);
             }
         }
-
-        StateHasChanged();
     }
 
     /// <summary>
@@ -375,14 +377,12 @@ public partial class TwSpreadsheet
     {
         for (var row = selection.Start.Row; row <= selection.End.Row; row++)
         {
-            var height = await jsRuntime.InvokeAsync<int>("twSpreadsheet.fitRow", gridRef, row);
+            var height = await jsRuntime.TryInvokeAsync<int>("twSpreadsheet.fitRow", 0, gridRef, row);
             if (height > 0)
             {
                 WriteHeight(row, height);
             }
         }
-
-        StateHasChanged();
     }
 
     private Task IncreaseRowHeightAsync() => ResizeRowsBy(heightStep);

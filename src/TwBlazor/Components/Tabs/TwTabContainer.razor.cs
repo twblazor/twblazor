@@ -335,7 +335,6 @@ public partial class TwTabContainer : TwBlazorComponentBase, IAsyncDisposable
         }
 
         ActiveTab = target;
-        StateHasChanged();
 
         if (target.buttonRef != null)
         {

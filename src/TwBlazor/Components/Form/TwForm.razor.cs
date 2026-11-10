@@ -179,7 +179,12 @@ public partial class TwForm : TwBlazorComponentBase
     /// <returns><see langword="true"/> when every field is valid.</returns>
     public async Task<bool> ValidateAsync()
     {
+#if NET11_0_OR_GREATER
+        // Awaits any async validators registered on the edit context, which Validate() rejects on .NET 11.
+        var valid = await editContext.ValidateAsync();
+#else
         var valid = editContext.Validate();
+#endif
 
         // Every field runs, even after one fails, so all of their messages show at once.
         foreach (var field in _fields.ToList())
@@ -275,7 +280,6 @@ public partial class TwForm : TwBlazorComponentBase
         {
             // Focus moves once the fields have rendered as invalid.
             focusPending = true;
-            StateHasChanged();
         }
     }
 
