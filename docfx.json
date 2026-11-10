@@ -4,7 +4,7 @@
     {
       "src": [
         {
-          "src": "src/TwBlazor/bin/Release/net10.0",
+          "src": "src/TwBlazor/bin/Release/net11.0",
           "files": [
             "TwBlazor.dll"
           ]

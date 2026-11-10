@@ -180,14 +180,33 @@ public partial class Navigation : IDisposable
 
     private async Task ToggleTheme()
     {
-        var isDark = await JS.InvokeAsync<bool>("themeToggle.toggle", _cts.Token);
+        bool isDark;
+        try
+        {
+            isDark = await JS.InvokeAsync<bool>("themeToggle.toggle", _cts.Token);
+        }
+        catch (Exception ex) when (ex is JSDisconnectedException or OperationCanceledException)
+        {
+            return;
+        }
+
         themeIcon = isDark ? Icon.Sun : Icon.Moon;
         themeStatusMessage = isDark ? "Dark theme on" : "Light theme on";
     }
 
     private async Task SearchDialog() => await dialogService.ShowAsync<SearchDisplay>("Search documentation", new TwDialogOptions { NoHeader = true });
 
-    private async Task OpenGitHub() => await JS.InvokeVoidAsync("open", SiteMetadata.GitHubUrl, "_blank", "noopener,noreferrer");
+    private async Task OpenGitHub()
+    {
+        try
+        {
+            await JS.InvokeVoidAsync("open", SiteMetadata.GitHubUrl, "_blank", "noopener,noreferrer");
+        }
+        catch (JSDisconnectedException)
+        {
+            // The circuit is gone, so there is no browser left to open the tab in.
+        }
+    }
 
     public void Dispose()
     {

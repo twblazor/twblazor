@@ -13,6 +13,7 @@ using TwBlazor.Enums;
 using TwBlazor.Localization;
 using TwBlazor.Models;
 using TwBlazor.Utilities;
+using TwBlazor.Extensions;
 
 namespace TwBlazor.Components;
 
@@ -370,14 +371,14 @@ public partial class TwTagInput : TwPopoverPickerComponentBase
 
             // The suggestion keys are attached first, so Enter on a highlighted suggestion is handled (and its
             // default prevented) before the tag input's own Enter handler sees it.
-            await JSRuntime.InvokeVoidAsync("twAutocomplete.attach", inputRef, tagInputDotNetRef);
+            await JSRuntime.TryInvokeVoidAsync("twAutocomplete.attach", inputRef, tagInputDotNetRef);
             attachedSeparators = separatorText;
-            await JSRuntime.InvokeVoidAsync("twTagInput.attach", inputRef, tagInputDotNetRef, attachedSeparators);
+            await JSRuntime.TryInvokeVoidAsync("twTagInput.attach", inputRef, tagInputDotNetRef, attachedSeparators);
         }
         else if (attachedSeparators != separatorText)
         {
             attachedSeparators = separatorText;
-            await JSRuntime.InvokeVoidAsync("twTagInput.update", inputRef, attachedSeparators);
+            await JSRuntime.TryInvokeVoidAsync("twTagInput.update", inputRef, attachedSeparators);
         }
 
         if (isListboxShown && PanelRef.Context != null)
@@ -391,7 +392,7 @@ public partial class TwTagInput : TwPopoverPickerComponentBase
             activeDescendantSet = isListboxShown;
             var highlight = pendingHighlight;
             pendingHighlight = null;
-            await JSRuntime.InvokeVoidAsync("twAutocomplete.refresh", inputRef, highlight);
+            await JSRuntime.TryInvokeVoidAsync("twAutocomplete.refresh", inputRef, highlight);
         }
 
         if (pendingFocus is int target)

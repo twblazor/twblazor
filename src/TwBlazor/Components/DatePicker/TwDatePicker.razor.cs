@@ -10,6 +10,7 @@ using TwBlazor.Components.DatePicker;
 using TwBlazor.Configuration.Components;
 using TwBlazor.Localization;
 using TwBlazor.Utilities;
+using TwBlazor.Extensions;
 
 namespace TwBlazor.Components;
 
@@ -282,7 +283,7 @@ public partial class TwDatePicker : TwPopoverPickerComponentBase
             if (pendingViewFocus)
             {
                 pendingViewFocus = false;
-                await JSRuntime.InvokeVoidAsync("twDialog.focusPanel", PanelRef);
+                await JSRuntime.TryInvokeVoidAsync("twDialog.focusPanel", PanelRef);
             }
         }
     }

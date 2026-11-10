@@ -100,7 +100,5 @@ public partial class TwCollapse : TwBlazorComponentBase
 
         if (OnToggle.HasDelegate)
             await OnToggle.InvokeAsync(IsOpen);
-
-        StateHasChanged();
     }
 }

@@ -11,6 +11,7 @@ using TwBlazor.Configuration.Components;
 using TwBlazor.Enums;
 using TwBlazor.Localization;
 using TwBlazor.Utilities;
+using TwBlazor.Extensions;
 
 namespace TwBlazor.Components;
 
@@ -275,7 +276,7 @@ public partial class TwAutocomplete<T> : TwPopoverPickerComponentBase
         if (firstRender)
         {
             autocompleteDotNetRef = DotNetObjectReference.Create(this);
-            await JSRuntime.InvokeVoidAsync("twAutocomplete.attach", inputRef, autocompleteDotNetRef);
+            await JSRuntime.TryInvokeVoidAsync("twAutocomplete.attach", inputRef, autocompleteDotNetRef);
         }
 
         if (isFocused && PanelRef.Context != null)
@@ -289,7 +290,7 @@ public partial class TwAutocomplete<T> : TwPopoverPickerComponentBase
             activeDescendantSet = isFocused;
             var highlight = pendingHighlight;
             pendingHighlight = null;
-            await JSRuntime.InvokeVoidAsync("twAutocomplete.refresh", inputRef, highlight);
+            await JSRuntime.TryInvokeVoidAsync("twAutocomplete.refresh", inputRef, highlight);
         }
     }
 

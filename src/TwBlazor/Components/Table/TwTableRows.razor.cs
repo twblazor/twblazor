@@ -17,6 +17,16 @@ namespace TwBlazor.Components;
 /// <typeparam name="TItem">The type of the rows.</typeparam>
 public partial class TwTableRows<TItem> : ComponentBase, ITwTableRows, IAsyncDisposable
 {
+#if NET11_0_OR_GREATER
+    // Virtualize only has ItemComparer from .NET 11, so it is passed by name to keep the .NET 10 build compiling.
+    private readonly Dictionary<string, object> _providerVirtualizeParameters = new()
+    {
+        [nameof(Virtualize<TwTableRow<TItem>>.ItemComparer)] = TwTableRowItemComparer<TItem>.Instance
+    };
+#else
+    private readonly Dictionary<string, object> _providerVirtualizeParameters = [];
+#endif
+
     private List<TwTableRow<TItem>> allRows = [];
     private List<TwTableRow<TItem>> viewRows = [];
     private Virtualize<TwTableRow<TItem>>? virtualizeRef;

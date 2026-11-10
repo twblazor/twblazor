@@ -174,7 +174,5 @@ public partial class TwAlert : TwBlazorComponentBase
         {
             await OnDismiss.InvokeAsync();
         }
-
-        StateHasChanged();
     }
 }

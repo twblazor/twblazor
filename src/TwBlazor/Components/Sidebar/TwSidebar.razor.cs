@@ -8,6 +8,7 @@ using TwBlazor.Configuration.Components;
 using TwBlazor.Localization;
 using TwBlazor.Models;
 using TwBlazor.Utilities;
+using TwBlazor.Extensions;
 
 namespace TwBlazor.Components;
 
@@ -222,7 +223,7 @@ public partial class TwSidebar : TwBlazorComponentBase, IDisposable
         ApplyFilter();
     }
 
-    private async Task FocusMainContentAsync() => await jsRuntime.InvokeVoidAsync("twSidebar.focusMain", mainContentRef);
+    private async Task FocusMainContentAsync() => await jsRuntime.TryInvokeVoidAsync("twSidebar.focusMain", mainContentRef);
 
     private ElementReference contentRootRef;
 
@@ -334,10 +335,10 @@ public partial class TwSidebar : TwBlazorComponentBase, IDisposable
     {
         if (!hasFragment)
         {
-            await jsRuntime.InvokeVoidAsync("twSidebar.scrollToTop", mainContentRef);
+            await jsRuntime.TryInvokeVoidAsync("twSidebar.scrollToTop", mainContentRef);
         }
 
-        if (IsSidebarOpen && await jsRuntime.InvokeAsync<bool>("twSidebar.isMobileViewport"))
+        if (IsSidebarOpen && await jsRuntime.TryInvokeAsync<bool>("twSidebar.isMobileViewport", false))
         {
             IsSidebarOpen = false;
 

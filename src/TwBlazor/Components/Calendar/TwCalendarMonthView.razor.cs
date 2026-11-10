@@ -328,7 +328,6 @@ public partial class TwCalendarMonthView<T> : TwBlazorComponentBase, IAsyncDispo
         }
 
         focusedIndex = clamped;
-        StateHasChanged();
 
         if (_dayCellRefs.TryGetValue(focusedIndex, out var cellRef))
         {

@@ -205,7 +205,6 @@ public partial class TwTimePicker : TwPopoverPickerComponentBase
         }
 
         NotifyFieldChanged();
-        StateHasChanged();
     }
 
     /// <summary>

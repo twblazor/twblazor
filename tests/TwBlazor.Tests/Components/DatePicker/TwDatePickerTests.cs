@@ -20,6 +20,22 @@ public class TwDatePickerTests : TwBlazorTestBase
     }
 
     [Fact]
+    public async Task DisposeAsync_WithThePanelOpen_SwallowsCallsCancelledByCircuitTeardown()
+    {
+        // Arrange
+        var cut = TestContext.Render<TwDatePicker>(p => p.Add(x => x.SelectedDate, new DateTime(2025, 11, 1)));
+        cut.Find("input").Click();
+        TestContext.JSInterop.SetupVoid("twDialog.clearBackgroundInert", _ => true).SetException(new TaskCanceledException());
+        TestContext.JSInterop.SetupVoid("twPicker.unregisterOutsideClick", _ => true).SetException(new TaskCanceledException());
+
+        // Act
+        var exception = await Record.ExceptionAsync(async () => await cut.Instance.DisposeAsync());
+
+        // Assert
+        Assert.Null(exception);
+    }
+
+    [Fact]
     public void ShouldRender_Input_WithPlaceholderAndIcon()
     {
         // Arrange

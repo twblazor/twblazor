@@ -7,6 +7,7 @@ using TwBlazor.Configuration.Components;
 using TwBlazor.Localization;
 using TwBlazor.Models;
 using TwBlazor.Utilities;
+using TwBlazor.Extensions;
 
 namespace TwBlazor.Components;
 
@@ -139,7 +140,7 @@ public partial class TwOnThisPage : TwBlazorComponentBase, IAsyncDisposable
         }
 
         observing = false;
-        await jSRuntime.InvokeVoidAsync("twOnThisPage.dispose", Id);
+        await jSRuntime.TryInvokeVoidAsync("twOnThisPage.dispose", Id);
     }
 
     /// <summary>

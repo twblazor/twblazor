@@ -47,6 +47,15 @@ dotnet add package twblazor --version 3.5.1
 
 Using an AI coding assistant? Point it at [twblazor.com/llms.txt](https://twblazor.com/llms.txt) so it uses the real components, setup steps and Theme builder instead of guessing.
 
+## Supported .NET versions
+
+| twblazor          | .NET 11 | .NET 10 |
+| ----------------- | ------- | ------- |
+| 3.7.0 and later   | ✅      | ✅      |
+| 3.6.x and earlier | ➖      | ✅      |
+
+Upgrade to 3.7.0 or later before moving an app to .NET 11.
+
 ## Dependencies
 
 - [Tailwind CSS](https://tailwindcss.com/) - A utility-first CSS framework for styling components.

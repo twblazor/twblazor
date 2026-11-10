@@ -8,6 +8,7 @@ using TwBlazor.Filtering;
 using TwBlazor.Localization;
 using TwBlazor.Models;
 using TwBlazor.Spreadsheet;
+using TwBlazor.Extensions;
 
 namespace TwBlazor.Components;
 
@@ -49,7 +50,10 @@ public partial class TwSpreadsheet
 
     private List<(string Value, string Label)> filterValues = [];
 
+    // The suggested [with(StringComparer.Ordinal)] form needs C# 15, which the net10.0 build does not have.
+#pragma warning disable IDE0028
     private HashSet<string> filterDraft = new(StringComparer.Ordinal);
+#pragma warning restore IDE0028
 
     private ColumnFilter filterConditionDraft = new();
 
@@ -423,7 +427,10 @@ public partial class TwSpreadsheet
             focusElementId = returnFocusId;
         }
 
+        // Also called from script (Escape in the dialog), where nothing renders for us.
+#pragma warning disable BL0012
         StateHasChanged();
+#pragma warning restore BL0012
     }
 
     private async Task OpenPendingDialogAsync()
@@ -431,7 +438,7 @@ public partial class TwSpreadsheet
         if (dialog != DialogKind.None && !dialogOpened)
         {
             dialogOpened = true;
-            await jsRuntime.InvokeVoidAsync("twSpreadsheet.openDialog", dialogRef, dotNetRef);
+            await jsRuntime.TryInvokeVoidAsync("twSpreadsheet.openDialog", dialogRef, dotNetRef);
         }
     }
 
@@ -522,7 +529,6 @@ public partial class TwSpreadsheet
         if (ParseRange(text) is not { } range || sheet.Tables.Any(t => ParseRange(t.Range) is { } other && Overlaps(other, range)))
         {
             tableRangeInvalid = true;
-            StateHasChanged();
             return;
         }
 

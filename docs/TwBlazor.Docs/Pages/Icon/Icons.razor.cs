@@ -24,7 +24,17 @@ public partial class Icons
     {
         copiedIcon = icon;
         var copiedIconSnapshot = icon;
-        await jSRuntime.InvokeVoidAsync("navigator.clipboard.writeText", icon.ToString());
+        try
+        {
+            await jSRuntime.InvokeVoidAsync("navigator.clipboard.writeText", icon.ToString());
+        }
+        catch (Exception ex) when (ex is JSException or JSDisconnectedException)
+        {
+            // The browser refused clipboard access (or the circuit is gone), so nothing was copied.
+            copiedIcon = null;
+            return;
+        }
+
         await Task.Delay(1000);
         if (copiedIcon == copiedIconSnapshot)
         {
