@@ -510,6 +510,258 @@ describe('twSpreadsheet fitting, row resizing, filters and dialogs', () => {
     });
 });
 
+describe('twSpreadsheet touch', () => {
+    // A touch event with the given fingers, each a { clientX, clientY } point.
+    function touch(target, type, points = [{ clientX: 0, clientY: 0 }]) {
+        const event = new Event(type, { bubbles: true, cancelable: true });
+        Object.defineProperty(event, 'touches', { value: type === 'touchend' || type === 'touchcancel' ? [] : points });
+        target.dispatchEvent(event);
+        return event;
+    }
+
+    // Marks A1 as the active cell, the way TwSpreadsheet points the grid at it.
+    function withActive(grid, id = 'sh-A1') {
+        grid.setAttribute('aria-activedescendant', id);
+    }
+
+    test('a finger dragged from the active cell extends the selection instead of scrolling', () => {
+        const { root, grid, dotnetRef } = build();
+        withActive(grid);
+        document.elementFromPoint = vi.fn(() => root.querySelector('#sh-B1'));
+
+        expect(touch(root.querySelector('#sh-A1'), 'touchstart').defaultPrevented).toBe(false);
+        expect(touch(root.querySelector('#sh-A1'), 'touchmove').defaultPrevented).toBe(true);
+        touch(root.querySelector('#sh-A1'), 'touchmove');
+        document.elementFromPoint = vi.fn(() => root.querySelector('#sh-B2'));
+        touch(root.querySelector('#sh-A1'), 'touchmove');
+
+        expect(calls(dotnetRef, 'PointerExtend')).toEqual([[0, 1], [1, 1]]);
+        expect(calls(dotnetRef, 'PointerDown')).toHaveLength(0);
+        expect(touch(root.querySelector('#sh-A1'), 'touchend').defaultPrevented).toBe(true);
+    });
+
+    test('a finger dragged from a selected cell extends the selection', () => {
+        const { root, grid, dotnetRef } = build();
+        withActive(grid);
+        root.querySelector('#sh-B1').setAttribute('aria-selected', 'true');
+        document.elementFromPoint = vi.fn(() => root.querySelector('#sh-B2'));
+
+        touch(root.querySelector('#sh-B1'), 'touchstart');
+        touch(root.querySelector('#sh-B1'), 'touchmove');
+
+        expect(calls(dotnetRef, 'PointerExtend')).toEqual([[1, 1]]);
+    });
+
+    test('a finger dragged from a cell outside the selection scrolls as usual', () => {
+        const { root, grid, dotnetRef } = build();
+        withActive(grid);
+        root.querySelector('#sh-B2').setAttribute('aria-selected', 'false');
+        document.elementFromPoint = vi.fn(() => root.querySelector('#sh-A1'));
+
+        touch(root.querySelector('#sh-B2'), 'touchstart');
+        const move = touch(root.querySelector('#sh-B2'), 'touchmove');
+
+        expect(move.defaultPrevented).toBe(false);
+        expect(calls(dotnetRef, 'PointerExtend')).toHaveLength(0);
+        expect(touch(root.querySelector('#sh-B2'), 'touchend').defaultPrevented).toBe(false);
+    });
+
+    test('a tap on the active cell is left to the browser, so its click still selects the cell', () => {
+        const { root, grid } = build();
+        withActive(grid);
+
+        touch(root.querySelector('#sh-A1'), 'touchstart');
+
+        expect(touch(root.querySelector('#sh-A1'), 'touchend').defaultPrevented).toBe(false);
+    });
+
+    test('a second finger hands the gesture back to the browser, such as to pinch zoom', () => {
+        const { root, grid, dotnetRef } = build();
+        withActive(grid);
+        const cell = root.querySelector('#sh-A1');
+        document.elementFromPoint = vi.fn(() => root.querySelector('#sh-B1'));
+
+        touch(cell, 'touchstart', [{ clientX: 0, clientY: 0 }, { clientX: 10, clientY: 10 }]);
+        expect(touch(cell, 'touchmove').defaultPrevented).toBe(false);
+
+        touch(cell, 'touchstart');
+        expect(touch(cell, 'touchmove', [{ clientX: 0, clientY: 0 }, { clientX: 10, clientY: 10 }]).defaultPrevented).toBe(false);
+        expect(touch(cell, 'touchmove').defaultPrevented).toBe(false);
+        expect(calls(dotnetRef, 'PointerExtend')).toHaveLength(0);
+    });
+
+    test('ignores touches in a cell editor, on a filter button, and while a formula is pointing at cells', () => {
+        const { root, grid, dotnetRef } = build();
+        withActive(grid, 'sh-B2');
+        const button = document.createElement('button');
+        button.dataset.twSpreadsheetFilter = '';
+        root.querySelector('#sh-B2').appendChild(button);
+        document.elementFromPoint = vi.fn(() => root.querySelector('#sh-A1'));
+
+        touch(root.querySelector('#editor'), 'touchstart');
+        expect(touch(root.querySelector('#editor'), 'touchmove').defaultPrevented).toBe(false);
+        touch(button, 'touchstart');
+        expect(touch(button, 'touchmove').defaultPrevented).toBe(false);
+
+        grid.dataset.pointing = 'true';
+        touch(root.querySelector('#sh-B2'), 'touchstart');
+        expect(touch(root.querySelector('#sh-B2'), 'touchmove').defaultPrevented).toBe(false);
+        expect(calls(dotnetRef, 'PointerExtend')).toHaveLength(0);
+    });
+
+    // Wraps the grid in a scrolling area 300 by 200 pixels at the top left of the viewport, which scrolls up to max
+    // pixels each way, with headings 40 pixels wide and 30 tall. Frames run only when the test runs them.
+    function withScroller(root, grid, max = 1000) {
+        const scroller = document.createElement('div');
+        scroller.style.overflow = 'auto';
+        grid.parentElement.insertBefore(scroller, grid);
+        scroller.appendChild(grid);
+        scroller.getBoundingClientRect = () => ({ left: 0, top: 0, right: 300, bottom: 200, width: 300, height: 200 });
+        let left = 0;
+        let top = 0;
+        Object.defineProperty(scroller, 'scrollLeft', { get: () => left });
+        Object.defineProperty(scroller, 'scrollTop', { get: () => top });
+        scroller.scrollBy = vi.fn((x, y) => {
+            left = Math.min(max, Math.max(0, left + x));
+            top = Math.min(max, Math.max(0, top + y));
+        });
+        root.querySelector('#corner').getBoundingClientRect = () => ({ left: 0, top: 0, right: 40, bottom: 30, width: 40, height: 30 });
+
+        const frames = [];
+        globalThis.requestAnimationFrame = vi.fn(fn => frames.push(fn));
+        globalThis.cancelAnimationFrame = vi.fn();
+        const runFrame = () => frames.shift()?.();
+        return { scroller, frames, runFrame };
+    }
+
+    afterEach(() => {
+        delete globalThis.requestAnimationFrame;
+        delete globalThis.cancelAnimationFrame;
+    });
+
+    test('a finger near an edge of the cells scrolls the grid, faster the further in it is, and keeps going while it rests there', () => {
+        const { root, grid } = build();
+        withActive(grid);
+        const { scroller, frames, runFrame } = withScroller(root, grid);
+        document.elementFromPoint = vi.fn(() => null);
+        const cell = root.querySelector('#sh-A1');
+
+        touch(cell, 'touchstart');
+        touch(cell, 'touchmove', [{ clientX: 150, clientY: 100 }]);
+        expect(scroller.scrollBy).not.toHaveBeenCalled();
+        expect(frames).toHaveLength(0);
+
+        // 22 pixels into the right edge's 32 pixel band.
+        touch(cell, 'touchmove', [{ clientX: 290, clientY: 100 }]);
+        expect(scroller.scrollBy.mock.calls).toEqual([[15, 0]]);
+        runFrame();
+        expect(scroller.scrollBy.mock.calls).toEqual([[15, 0], [15, 0]]);
+
+        // Moving further out while a frame is waiting only updates where the finger is; past the edge is the fastest.
+        touch(cell, 'touchmove', [{ clientX: 400, clientY: 50 }]);
+        expect(scroller.scrollBy).toHaveBeenCalledTimes(2);
+        runFrame();
+        expect(scroller.scrollBy.mock.calls[2]).toEqual([24, -10]);
+
+        touch(cell, 'touchend');
+        expect(globalThis.cancelAnimationFrame).toHaveBeenCalled();
+        runFrame();
+        expect(scroller.scrollBy).toHaveBeenCalledTimes(3);
+    });
+
+    test('stops scrolling once the grid can scroll no further', () => {
+        const { root, grid } = build();
+        withActive(grid);
+        const { scroller, frames, runFrame } = withScroller(root, grid, 20);
+        document.elementFromPoint = vi.fn(() => null);
+        const cell = root.querySelector('#sh-A1');
+
+        touch(cell, 'touchstart');
+        touch(cell, 'touchmove', [{ clientX: 400, clientY: 100 }]);
+        runFrame();
+        expect(frames).toHaveLength(0);
+        expect(scroller.scrollBy).toHaveBeenCalledTimes(2);
+    });
+
+    test('past the cells, or over a heading, the selection goes to the nearest cell in view', () => {
+        const { root, grid, dotnetRef } = build();
+        withActive(grid);
+        withScroller(root, grid, 0);
+        document.elementFromPoint = vi.fn(() => root.querySelector('#sh-B2'));
+        const cell = root.querySelector('#sh-A1');
+
+        touch(cell, 'touchstart');
+        touch(cell, 'touchmove', [{ clientX: 500, clientY: 10 }]);
+        expect(document.elementFromPoint).toHaveBeenLastCalledWith(299, 31);
+        touch(cell, 'touchmove', [{ clientX: -20, clientY: 900 }]);
+        expect(document.elementFromPoint).toHaveBeenLastCalledWith(41, 199);
+        expect(calls(dotnetRef, 'PointerExtend')).toEqual([[1, 1]]);
+    });
+
+    test('never extends the selection to a heading', () => {
+        const { root, grid, dotnetRef } = build();
+        withActive(grid);
+        document.elementFromPoint = vi.fn(() => root.querySelector('#colB'));
+        const cell = root.querySelector('#sh-A1');
+
+        touch(cell, 'touchstart');
+        touch(cell, 'touchmove');
+
+        expect(calls(dotnetRef, 'PointerExtend')).toHaveLength(0);
+    });
+
+    test('a finger dragging a heading edge resizes the column and reports the width', () => {
+        const { root, grid, dotnetRef } = build();
+        const colgroup = document.createElement('colgroup');
+        colgroup.innerHTML = '<col style="width:48px"><col style="width:100px"><col style="width:100px">';
+        grid.prepend(colgroup);
+        grid.style.width = '248px';
+        const handle = document.createElement('span');
+        handle.dataset.twSpreadsheetResize = '';
+        root.querySelector('#colA').appendChild(handle);
+
+        expect(touch(handle, 'touchstart', [{ clientX: 100, clientY: 0 }]).defaultPrevented).toBe(true);
+        expect(touch(document, 'touchmove', [{ clientX: 130, clientY: 0 }]).defaultPrevented).toBe(true);
+        expect(colgroup.children[1].style.width).toBe('130px');
+        expect(grid.style.width).toBe('278px');
+
+        touch(document, 'touchend');
+        expect(calls(dotnetRef, 'ResizeColumn')).toEqual([[0, 130]]);
+
+        touch(document, 'touchmove', [{ clientX: 400, clientY: 0 }]);
+        expect(colgroup.children[1].style.width).toBe('130px');
+    });
+
+    test('a finger dragging a row edge resizes the row, and a cancelled touch still reports it', () => {
+        const { root, grid, dotnetRef } = build();
+        const handle = document.createElement('span');
+        handle.dataset.twSpreadsheetRowResize = '';
+        root.querySelector('#row1').appendChild(handle);
+        const row = grid.tBodies[0].rows[0];
+        row.style.height = '32px';
+
+        touch(handle, 'touchstart', [{ clientX: 0, clientY: 100 }]);
+        touch(document, 'touchmove', [{ clientX: 0, clientY: 120 }]);
+        touch(document, 'touchcancel');
+
+        expect(row.style.height).toBe('52px');
+        expect(calls(dotnetRef, 'ResizeRow')).toEqual([[0, 52]]);
+        expect(calls(dotnetRef, 'PointerDown')).toHaveLength(0);
+    });
+
+    test('detach removes the touch listeners', () => {
+        const { root, grid, dotnetRef } = build();
+        withActive(grid);
+        document.elementFromPoint = vi.fn(() => root.querySelector('#sh-B1'));
+        sheets.detach(grid);
+
+        touch(root.querySelector('#sh-A1'), 'touchstart');
+
+        expect(touch(root.querySelector('#sh-A1'), 'touchmove').defaultPrevented).toBe(false);
+        expect(calls(dotnetRef, 'PointerExtend')).toHaveLength(0);
+    });
+});
+
 describe('twSpreadsheet toolbar overflow', () => {
     // Adds the toolbar TwSpreadsheet renders, with its controls box reporting the given widths.
     function withToolbar(root, scrollWidth, clientWidth) {

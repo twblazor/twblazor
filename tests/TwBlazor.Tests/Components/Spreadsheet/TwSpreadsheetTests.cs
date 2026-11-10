@@ -536,6 +536,19 @@ public class TwSpreadsheetTests : TwBlazorTestBase
     }
 
     [Fact]
+    public async Task PointerExtend_DoesNotScrollTheActiveCellBackIntoView()
+    {
+        var cut = Render();
+        await cut.InvokeAsync(() => cut.Instance.PointerDownAsync(1, 1, false));
+        var scrolls = TestContext.JSInterop.Invocations.Count(i => i.Identifier == "twSpreadsheet.scrollToCell");
+
+        await cut.InvokeAsync(() => cut.Instance.PointerExtendAsync(3, 4));
+
+        Assert.Equal("B2:E4", cut.Instance.SelectedRange);
+        Assert.Equal(scrolls, TestContext.JSInterop.Invocations.Count(i => i.Identifier == "twSpreadsheet.scrollToCell"));
+    }
+
+    [Fact]
     public async Task PointerDown_OnHeadings_SelectsColumnsRowsOrEverything()
     {
         var cut = Render();
