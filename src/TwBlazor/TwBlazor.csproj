@@ -61,17 +61,10 @@
 	</AssemblyAttribute>
   </ItemGroup>
 
-  <!-- Each target framework builds against its own ASP.NET Core release, so .NET 10 apps never pull in .NET 11 packages. -->
-  <ItemGroup Condition="'$(TargetFramework)' == 'net10.0'">
-	<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.15" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'net11.0'">
-	<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="11.0.0" />
-  </ItemGroup>
-
+  <!-- The version per target framework comes from Directory.Packages.props, so .NET 10 apps never pull in .NET 11 packages. -->
   <ItemGroup>
-	<PackageReference Include="MinVer" Version="8.0.0">
+	<PackageReference Include="Microsoft.AspNetCore.Components.Web" />
+	<PackageReference Include="MinVer">
 	  <PrivateAssets>all</PrivateAssets>
 	  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	</PackageReference>
