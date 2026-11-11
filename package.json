@@ -1,6 +1,7 @@
 {
   "name": "twblazor",
   "version": "1.0.0",
+  "private": true,
   "description": "<p align=\"center\">\r   <img src=\"./images/banner.svg\" height=300>",
   "main": "index.js",
   "directories": {
