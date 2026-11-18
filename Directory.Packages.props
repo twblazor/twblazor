@@ -29,7 +29,7 @@
   <ItemGroup>
     <PackageVersion Include="AngleSharp" Version="1.10.1" />
     <PackageVersion Include="bunit" Version="2.15.2" />
-    <PackageVersion Include="coverlet.MTP" Version="10.1.0" />
+    <PackageVersion Include="coverlet.MTP" Version="10.1.1" />
     <PackageVersion Include="Deque.AxeCore.Commons" Version="4.14.0" />
     <PackageVersion Include="Deque.AxeCore.Playwright" Version="4.14.0" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.12.0" />
